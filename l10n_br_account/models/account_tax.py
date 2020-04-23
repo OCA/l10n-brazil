@@ -25,6 +25,7 @@ class AccountTax(models.Model):
         fiscal_taxes=None,
         operation_line=False,
         ncm=None,
+        nbm=None,
         cest=None,
         discount_value=None,
         insurance_value=None,
@@ -44,7 +45,6 @@ class AccountTax(models.Model):
         RETURN: {
             'total_excluded': 0.0,    # Total without taxes
             'total_included': 0.0,    # Total with taxes
-            'total_tax_discount': 0.0 # Total tax out of price
             'taxes': [{               # One dict for each tax in self
                                       # and their children
                 'id': int,
@@ -75,6 +75,7 @@ class AccountTax(models.Model):
             fiscal_quantity=fiscal_quantity,
             uot_id=uot or product.uot_id,
             ncm=ncm or product.ncm_id,
+            nbm=nbm or product.nbm_id,
             cest=cest or product.cest_id,
             discount_value=discount_value,
             insurance_value=insurance_value,
@@ -98,15 +99,11 @@ class AccountTax(models.Model):
                     taxes_results['total_included'] += fiscal_tax.get(
                         'tax_value')
 
-                account_tax.append({
-                    'id': account_tax.id,
-                    'name': account_tax.name,
+                account_tax.update({
+                    'id': account_tax.get('id'),
+                    'name': fiscal_tax.get('name'),
                     'amount': fiscal_tax.get('tax_value'),
                     'base': fiscal_tax.get('base'),
-                    'sequence': account_tax.sequence,
-                    'account_id': account_tax.account_id.id,
-                    'refund_account_id': account_tax.refund_account_id.id,
-                    'analytic': account_tax.analytic,
                     'tax_include': fiscal_tax.get('tax_include')
                 })
 

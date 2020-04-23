@@ -8,17 +8,32 @@ class FiscalTax(models.Model):
     _inherit = 'l10n_br_fiscal.tax'
 
     @api.multi
+    def account_taxes(self, user_type='sale'):
+        account_taxes = self.env['account.tax']
+        for fiscal_tax in self:
+            taxes = fiscal_tax._account_taxes()
+            account_taxes |= taxes.filtered(
+                lambda t: t.type_tax_use == user_type)
+        return account_taxes
+
+    @api.multi
+    def account_tax_group(self):
+        self.ensure_one()
+        return self.env['account.tax.group'].search(
+            [('fiscal_tax_group_id', '=', self.tax_group_id.id)], limit=1)
+
+    @api.multi
+    def _account_taxes(self):
+        self.ensure_one()
+        account_tax_group = self.account_tax_group()
+        return self.env['account.tax'].search(
+            [('tax_group_id', '=', account_tax_group.id)])
+
+    @api.multi
     def _create_account_tax(self):
         for fiscal_tax in self:
-            account_tax_group_id = self.env['account.tax.group'].search(
-                [('fiscal_tax_group_id', '=', fiscal_tax.tax_group_id.id)],
-                limit=1)
-
-            account_taxes = self.env['account.tax'].search(
-                [('tax_group_id', '=', account_tax_group_id.id)])
-
+            account_taxes = fiscal_tax._account_taxes()
             if not account_taxes:
-
                 tax_users = {'sale': 'out', 'purchase': 'in'}
 
                 for tax_use in tax_users.keys():
@@ -26,7 +41,7 @@ class FiscalTax(models.Model):
                         'name': fiscal_tax.name + ' ' + tax_users.get(tax_use),
                         'type_tax_use': tax_use,
                         'fiscal_tax_ids': [(4, fiscal_tax.id)],
-                        'tax_group_id': account_tax_group_id.id,
+                        'tax_group_id': fiscal_tax.account_tax_group().id,
                         'amount': 0.00
                     }
 
@@ -46,15 +61,8 @@ class FiscalTax(models.Model):
     @api.multi
     def unlink(self):
         for fiscal_tax in self:
-            account_tax_group_id = self.env['account.tax.group'].search(
-                [('fiscal_tax_group_id', '=', fiscal_tax.tax_group_id.id)],
-                limit=1)
-
-            account_taxes = self.env['account.tax'].search(
-                [('tax_group_id', '=', account_tax_group_id.id)])
-
+            account_taxes = fiscal_tax._account_taxes()
             for account_tax in account_taxes:
-
                 account_tax.fiscal_tax_ids -= fiscal_tax
 
                 if not account_tax.fiscal_tax_ids:

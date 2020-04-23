@@ -255,6 +255,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Service Type LC 166",
         domain="[('internal_type', '=', 'normal')]")
 
+    partner_order = fields.Char(
+        string='Partner Order (xPed)',
+        size=15)
+
+    partner_order_line = fields.Char(
+        string='Partner Order Line (nItemPed)',
+        size=6)
+
     # ISSQN Fields
     issqn_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
@@ -977,8 +985,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     @api.multi
     def _update_fiscal_tax_ids(self, taxes):
         for l in self:
+            taxes_groups = l.fiscal_tax_ids.mapped('tax_domain')
             fiscal_taxes = l.fiscal_tax_ids.filtered(
-                lambda ft: ft not in taxes)
+                lambda ft: ft.tax_domain not in taxes_groups)
 
             l.fiscal_tax_ids = fiscal_taxes + taxes
 
@@ -1523,6 +1532,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         if self.uom_id != self.uot_id:
             self.fiscal_price = self.price_unit / self.product_id.uot_factor
             self.fiscal_quantity = self.quantity * self.product_id.uot_factor
+
+        self._onchange_fiscal_taxes()
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):

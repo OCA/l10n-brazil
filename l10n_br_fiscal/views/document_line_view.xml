@@ -52,7 +52,7 @@
                 <field name="operation_type" invisible="1" readonly="1"/>
                 <field name="operation_id" required="1"/>
                 <field name="operation_line_id" required="1"/>
-                <field name="cfop_id"/>
+                <field name="cfop_id" attrs="{'invisible': ['fiscal_type', '=', '00']}"/>
                 <field name="cfop_destination" invisible="1"/>
               </group>
             </group>
@@ -103,7 +103,6 @@
                         <field name="icmssn_reduction" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
                         <field name="icms_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                         <field name="icms_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)], 'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
-                        <field name="icms_base_type"/>
                       </group>
                       <group>
                         <field name="icmssn_percent" force_save="1" attrs="{'readonly': [('icmssn_tax_id', '!=', False)], 'invisible': [('tax_framework', '=', '3')]}"/>
@@ -377,6 +376,10 @@
             </group>
           </page>
           <page name="extra_info" string="Extra Info">
+            <group>
+                <field name="partner_order"/>
+                <field name="partner_order_line"/>
+            </group>
             <group>
                 <field name="comment_ids" widget="many2many_tags" domain="[('object','=','l10n_br_fiscal.document.line')]"/>
                 <field name="additional_data"/>
