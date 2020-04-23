@@ -390,4 +390,38 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
+    <!-- NFe Test - Subsequent Operation - Simples Faturamento -->
+    <record id="demo_nfe_so_simples_faturamento" model="l10n_br_fiscal.document">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">1</field>
+        <field name="document_section">nfe</field>
+        <field name="key">NFe35200497231608000169550010000000371161029083</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="partner_legal_name">Cliente 1 SP</field>
+        <field name="partner_name">Cliente 1 SP Contribuinte</field>
+        <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
+        <field name="partner_inscr_est">454.504.604.553</field>
+        <field name="partner_tax_framework">3</field>
+        <field name="operation_type">out</field>
+    </record>
+
+    <record id="demo_nfe_line_so_simples_faturamento_7-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfe_so_simples_faturamento"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">out</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_simples_faturamento_simples_faturamento"/>
+        <field name="icms_tax_id" ref="l10n_br_fiscal.tax_icms_0"/>
+        <field name="pis_tax_id" ref="l10n_br_fiscal.tax_pis_0_65"/>
+        <field name="cofins_tax_id" ref="l10n_br_fiscal.tax_cofins_3"/>
+        <field name="cfop_id" ref="l10n_br_fiscal.cfop_5922"/>
+    </record>
+
 </odoo>
