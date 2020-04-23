@@ -211,6 +211,53 @@
         <field name="company_id" ref="base.main_company"/>
     </record>
 
+    <record id="fo_simples_faturamento" model="l10n_br_fiscal.operation">
+        <field name="code">Simples Faturamento</field>
+        <field name="name">Simples Faturamento</field>
+        <field name="operation_type">out</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">sale_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_simples_faturamento_simples_faturamento" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
+        <field name="name">Simples Faturamento</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5922"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6922"/>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_simples_faturamento_55_serie_1" model="l10n_br_fiscal.operation.document.type">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="fo_entrega_futura" model="l10n_br_fiscal.operation">
+        <field name="code">Venda - Entrega Futura</field>
+        <field name="name">Venda - Entrega Futura</field>
+        <field name="operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field name="default_price_unit">sale_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_entrega_futura_entrega_futura" model="l10n_br_fiscal.operation.line">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_entrega_futura"/>
+        <field name="name">Venda - Entrega Futura</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5116"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6116"/>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_sentrega_futura_55_serie_1" model="l10n_br_fiscal.operation.document.type">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_entrega_futura"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
 
     <!-- l10n_br_fiscal.operation relations -->
     <record id="fo_venda" model="l10n_br_fiscal.operation">
