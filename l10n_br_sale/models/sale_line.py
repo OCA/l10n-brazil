@@ -81,7 +81,6 @@ class SaleOrderLine(models.Model):
                 t.get('amount', 0.0)
                 for t in taxes.get('taxes', []) if not t.get('tax_include'))
 
-            import pudb; pudb.set_trace()
             line.update({
                 'amount_tax_not_included': tax_not_included,
                 'price_tax': tax_not_included,
