@@ -14,99 +14,73 @@ class SaleOrder(models.Model):
     _name = 'sale.order'
     _inherit = ['sale.order', 'l10n_br_fiscal.document.mixin']
 
-    @api.multi
+    @api.depends('order_line.price_total')
     def _amount_all(self):
-        """
-        This override is specific for Brazil. Idealy, starting from
-        v12 we should just call super when the sale is not for Brazil.
-        """
+        """Compute the total amounts of the SO."""
         for order in self:
-            order.amount_untaxed = sum(line.price_subtotal for line in order.order_line)
-            order.amount_tax = sum(line.price_tax for line in order.order_line)
-            order.amount_total = sum(line.price_total for line in order.order_line)
-            order.amount_extra = 0.0
-            order.amount_discount = 0.0
-            order.amount_gross = 0.0
+            order.amount_gross = sum(
+                line.price_gross for line in order.order_line)
 
-            amount_tax = (
-                amount_untaxed
-            ) = amount_discount = amount_gross = amount_extra = 0.0
-            for line in order.order_line:
-                amount_tax = line.amount_tax_not_included
-                amount_extra += (
-                    line.insurance_value + line.freight_value + line.other_costs_value
-                )
-                amount_untaxed += line.price_subtotal
-                amount_discount += line.discount_value
-                amount_gross += line.price_gross
+            order.amount_discount = sum(
+                line.discount_value for line in order.order_line)
 
-            order.amount_tax = order.pricelist_id.currency_id.round(amount_tax)
-            order.amount_untaxed = order.pricelist_id.currency_id.round(amount_untaxed)
-            order.amount_extra = order.pricelist_id.currency_id.round(amount_extra)
-            order.amount_total = (
-                order.amount_untaxed + order.amount_tax + order.amount_extra
-            )
-            order.amount_discount = order.pricelist_id.currency_id.round(
-                amount_discount
-            )
-            order.amount_gross = order.pricelist_id.currency_id.round(amount_gross)
+            order.amount_untaxed = sum(
+                line.price_subtotal for line in order.order_line)
+
+            order.amount_tax = sum(
+                line.price_tax for line in order.order_line)
+
+            order.amount_total = sum(
+                line.price_total for line in order.order_line)
+
+            order.amount_freight = sum(
+                line.freight_value for line in order.order_line)
+
+            order.amount_costs = sum(
+                line.other_costs_value for line in order.order_line)
+
+            order.amount_insurance = sum(
+                line.insurance_value for line in order.order_line)
 
     @api.multi
-    def _compute_costs_value(self):
-        """Compute the l10n_br specific functional fields."""
-        for record in self:
-            record.amount_freight = sum(
-                line.freight_value for line in self.order_line)
-            record.amount_costs = sum(
-                line.other_costs_value for line in self.order_line)
-            record.amount_insurance = sum(
-                line.insurance_value for line in self.order_line)
-
-    @api.one
     def _inverse_amount_freight(self):
         for line in self.order_line:
             if not self.amount_gross:
                 break
-            line.write(
-                {
-                    'freight_value': misc.calc_price_ratio(
-                        line.price_gross,
-                        self.amount_freight,
-                        line.order_id.amount_gross,
-                    )
-                }
+            line.write({
+                'freight_value': misc.calc_price_ratio(
+                    line.price_gross,
+                    self.amount_freight,
+                    line.order_id.amount_gross,
+                )}
             )
-        return True
 
-    @api.one
+    @api.multi
     def _inverse_amount_insurance(self):
         for line in self.order_line:
             if not self.amount_gross:
                 break
-            line.write(
-                {
-                    'insurance_value': misc.calc_price_ratio(
-                        line.price_gross,
-                        self.amount_insurance,
-                        line.order_id.amount_gross,
-                    )
-                }
+            line.write({
+                'insurance_value': misc.calc_price_ratio(
+                    line.price_gross,
+                    self.amount_insurance,
+                    line.order_id.amount_gross
+                )}
             )
-        return True
 
-    @api.one
+    @api.multi
     def _inverse_amount_costs(self):
+        # TODO FIX MULTI
         for line in self.order_line:
             if not self.amount_gross:
                 break
-            line.write(
-                {
-                    'other_costs_value': misc.calc_price_ratio(
-                        line.price_gross, self.amount_costs, line.order_id.amount_gross
-                    )
-                }
+            line.write({
+                'other_costs_value': misc.calc_price_ratio(
+                    line.price_gross,
+                    self.amount_costs,
+                    line.order_id.amount_gross
+                )}
             )
-        return True
 
     @api.model
     def _default_operation(self):
@@ -152,62 +126,30 @@ class SaleOrder(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]})
 
-    amount_gross = fields.Float(
+    amount_gross = fields.Monetary(
         compute='_amount_all',
-        string="Gross Price",
-        digits=dp.get_precision("Account"),
+        string="Amount Gross",
         store=True,
+        readonly=True,
         help="Amount without discount.")
 
-    amount_discount = fields.Float(
-        compute="_amount_all",
-        string="Discount (-)",
-        digits=dp.get_precision("Account"),
+    amount_discount = fields.Monetary(
+        compute='_amount_all',
+        string='Discount (-)',
         store=True,
         help="The discount amount.")
 
-    amount_untaxed = fields.Float(
-        compute="_amount_all",
-        string="Untaxed Amount",
-        digits=dp.get_precision("Account"),
-        store=True,
-        help="The amount without tax.",
-        track_visibility="always")
-
-    amount_tax = fields.Float(
-        compute="_amount_all",
-        string="Taxes",
-        store=True,
-        digits=dp.get_precision("Account"),
-        help="The tax amount.")
-
-    amount_extra = fields.Float(
-        compute="_amount_all",
-        string="Extra",
-        digits=dp.get_precision("Account"),
-        store=True,
-        help="The total amount.")
-
     amount_freight = fields.Float(
-        compute="_compute_costs_value",
-        inverse="_inverse_amount_freight",
-        string="Freight",
-        default=0.00,
-        digits=dp.get_precision("Account"),
-        readonly=True,
-        states={"draft": [("readonly", False)]})
-
-    amount_costs = fields.Float(
-        compute="_compute_costs_value",
-        inverse="_inverse_amount_costs",
-        string="Other Costs",
+        compute='_amount_all',
+        inverse='_inverse_amount_freight',
+        string='Freight',
         default=0.00,
         digits=dp.get_precision("Account"),
         readonly=True,
         states={"draft": [("readonly", False)]})
 
     amount_insurance = fields.Float(
-        compute="_compute_costs_value",
+        compute="_amount_all",
         inverse="_inverse_amount_insurance",
         string="Insurance",
         default=0.00,
@@ -215,12 +157,14 @@ class SaleOrder(models.Model):
         readonly=True,
         states={"draft": [("readonly", False)]})
 
-    amount_total = fields.Float(
+    amount_costs = fields.Float(
         compute="_amount_all",
-        string="Total",
-        store=True,
+        inverse="_inverse_amount_costs",
+        string="Other Costs",
+        default=0.00,
         digits=dp.get_precision("Account"),
-        help="The total amount.")
+        readonly=True,
+        states={"draft": [("readonly", False)]})
 
     @api.onchange('discount_rate')
     def onchange_discount_rate(self):
