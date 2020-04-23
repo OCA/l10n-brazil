@@ -985,8 +985,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     @api.multi
     def _update_fiscal_tax_ids(self, taxes):
         for l in self:
+            taxes_groups = l.fiscal_tax_ids.mapped('tax_domain')
             fiscal_taxes = l.fiscal_tax_ids.filtered(
-                lambda ft: ft not in taxes)
+                lambda ft: ft.tax_domain not in taxes_groups)
 
             l.fiscal_tax_ids = fiscal_taxes + taxes
 
@@ -1532,7 +1533,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
             self.fiscal_price = self.price_unit / self.product_id.uot_factor
             self.fiscal_quantity = self.quantity * self.product_id.uot_factor
 
-        self._update_taxes()
+        self._onchange_fiscal_taxes()
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
