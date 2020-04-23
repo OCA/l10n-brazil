@@ -271,7 +271,7 @@ class DocumentWorkflow(models.AbstractModel):
     @api.multi
     def action_document_cancel(self):
         result = self.env["ir.actions.act_window"].for_xml_id(
-            "l10n_br_fiscal", "wizard_document_cancel_action"
+            "l10n_br_fiscal", "document_cancel_wizard_action"
         )
         return result
 
@@ -290,6 +290,6 @@ class DocumentWorkflow(models.AbstractModel):
     @api.multi
     def action_document_correction(self):
         result = self.env["ir.actions.act_window"].for_xml_id(
-            "l10n_br_fiscal", "wizard_document_correction_action"
+            "l10n_br_fiscal", "document_correction_wizard_action"
         )
         return result
