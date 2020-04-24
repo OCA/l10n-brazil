@@ -78,4 +78,3 @@ class TestSubsequentOperation(TransactionCase):
                     product.cofins_tax_id.id,
                     self.cofins_tax_0.id,
                     "COFINS tax value is not 0%")
-
