@@ -10,6 +10,7 @@ from openerp.exceptions import ValidationError
 from pybrasil.inscricao.cnpj_cpf import limpa_formatacao
 from pybrasil.valor import formata_valor
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 import pysped
 
 
@@ -224,12 +225,10 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
             else:
                 folhas_ordenadas.append(payslip)
 
+        data_pagamento = ''
         for payslip in folhas_ordenadas or self.payslip_autonomo_ids:
 
             info_pgto = pysped.esocial.leiaute.S1210_InfoPgto_2()
-
-            info_pgto.dtPgto.valor = payslip.data_pagamento_competencia or \
-                                     fields.Date.today().split(' ')[0]
 
             # Identifica o tpPgto dependendo do campo tipo_de_folha e tp_reg_prev
             # 1 - Pagamento de remuneração, conforme apurado em {dmDev} do S-1200;
@@ -253,6 +252,22 @@ class SpedEsocialPagamento(models.Model, SpedRegistroIntermediario):
                 tipo = '7'
             info_pgto.tpPgto.valor = tipo
             info_pgto.indResBr.valor = 'S'
+
+            # Esocial recusa 2 pagamentos no mesmo dia do mesmo tipo
+            # mas multiplos vinculos na mesma empresa se enquadra nesse cenario
+            if not data_pagamento:
+                data_pagamento = payslip.data_pagamento_competencia or \
+                                 fields.Date.today().split(' ')[0]
+
+            elif data_pagamento and tipo == '1':
+                data_pagamento = str(
+                    (
+                            fields.Datetime.from_string(data_pagamento) +
+                            relativedelta(days=-1)
+                    ).date()
+                )
+
+            info_pgto.dtPgto.valor = data_pagamento
 
             # Se nao for férias
             if tipo != '7':
