@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -153,13 +152,12 @@ class StockInvoiceOnshipping(models.TransientModel):
             # TODO - Are better way to make it ?
             move = fields.first(pickings.move_lines)
             document_type_id = move.operation_line_id.get_document_type(
-                             move.picking_id.company_id).id
+                move.picking_id.company_id).id
 
             for moves_list in parts:
                 invoice, invoice_values = self.with_context(
-                    document_type_id=document_type_id)._build_invoice_values_from_pickings(
-                    pickings
-                )
+                    document_type_id=document_type_id
+                )._build_invoice_values_from_pickings(pickings)
                 lines = [(5, 0, {})]
                 for moves in moves_list:
                     line_values = self._get_invoice_line_values(
