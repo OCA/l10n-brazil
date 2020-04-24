@@ -836,14 +836,14 @@ class Document(models.Model):
 
     def _prepare_referenced_subsequent(self):
         vals = {
-                'fiscal_document_id': self.id,
-                'partner_id': self.partner_id.id,
-                'document_type_id': self.document_type,
-                'serie': self.document_serie,
-                'number': self.number,
-                'date': self.date,
-                'document_key': self.key,
-            }
+            'fiscal_document_id': self.id,
+            'partner_id': self.partner_id.id,
+            'document_type_id': self.document_type,
+            'serie': self.document_serie,
+            'number': self.number,
+            'date': self.date,
+            'document_key': self.key,
+        }
         reference_id = self.env['l10n_br_fiscal.document.related'].create(vals)
         return reference_id
 
