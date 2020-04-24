@@ -63,6 +63,9 @@
                         <field name="has_move_lines" invisible="1"/>
                         <field name="is_locked" invisible="1"/>
                         <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}"/>
+                        <field name="invoice_state"/>
+                        <field name="operation_id"/>
+                        <field name="operation_line_id"/>
                         <field name="is_initial_demand_editable" invisible="1"/>
                         <field name="is_quantity_done_editable" invisible="1"/>
                         <field name="product_uom_qty" string="Initial Demand" attrs="{'column_invisible': ['&amp;',('parent.immediate_transfer', '=', True), ('parent.is_locked', '=', True)], 'readonly': [('is_initial_demand_editable', '=', False)]}"/>
@@ -90,7 +93,7 @@
     </record>
 
     <!-- We need to create a new FORM view to put Fiscal Data and Taxes,
-     with inherit the view messed up -->
+     with inherit the view messed up. Are it a problem ? -->
     <record id="l10n_br_stock_account-view_move_picking_form" model="ir.ui.view">
         <field name="name">l10n_br_stock_account-stock.move.form</field>
         <field name="model">stock.move</field>
