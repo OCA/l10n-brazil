@@ -48,5 +48,5 @@ class OperationDocumentType(models.Model):
             if not document_serie:
                 document_serie = "Series not defined"
             if record.document_type_id:
-                record.name = record.document_type_id.name + ' - ' + \
-                                        document_serie
+                record.name = record.document_type_id.name + ' - ' \
+                    + document_serie
