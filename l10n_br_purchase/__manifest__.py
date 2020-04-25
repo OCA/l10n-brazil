@@ -12,13 +12,17 @@
     "data": [
         # Security
         "security/ir.model.access.csv",
+
         # Data
-        # "data/l10n_br_purchase_data.xml",
+        "data/l10n_br_purchase_data.xml",
+
         # View
         "views/purchase_view.xml",
         "views/res_company_view.xml",
     ],
-    "demo": ["demo/l10n_br_purchase_demo.xml"],
+    "demo": [
+        "demo/l10n_br_purchase_demo.xml"
+    ],
     "installable": True,
     "auto_install": False,
 }
