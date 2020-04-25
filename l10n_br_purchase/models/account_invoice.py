@@ -41,7 +41,7 @@ class AccountInvoice(models.Model):
                         line[2]['purchase_line_id'])
                     document_type_id = \
                         purchase_line.operation_line_id.get_document_type(
-                        purchase_line.order_id.company_id).id
+                            purchase_line.order_id.company_id).id
                     # TODO - Fields below should be filled by method
                     #  _prepare_invoice_line_from_po_line() above, but
                     #  the dict line[2] don't bring the fields, it's seems
