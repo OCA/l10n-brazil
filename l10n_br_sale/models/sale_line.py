@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields, models
-from odoo.addons import decimal_precision as dp
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 
@@ -127,5 +126,7 @@ class SaleOrderLine(models.Model):
                     abs(((self.price_subtotal / self.price_gross) * 100) - 1))
         else:
             if self.discount:
-                self.discount_value = (self.product_uom_qty *
-                    (self.price_unit * ((self.discount or 0.0) / 100.0)))
+                self.discount_value = (
+                    self.product_uom_qty *
+                    (self.price_unit * ((self.discount or 0.0) / 100.0))
+                )
