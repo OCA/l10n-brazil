@@ -18,21 +18,23 @@ class AccountInvoice(models.Model):
         return data
 
     @api.model
-    def create(self, vals):
+    def create(self, values):
 
-        vals['purchase_id'] = vals['invoice_line_ids'][0][2].get('purchase_id')
+        values['purchase_id'] = values[
+            'invoice_line_ids'][0][2].get('purchase_id')
+
         # TODO - Are we need to identify when should create fiscal document ?
-        vals['fiscal_document_id'] = False
+        values['fiscal_document_id'] = False
 
         # TODO - Is there a better way to make it ? Should exist
-        if vals['invoice_line_ids'][0][2].get('purchase_id'):
+        if values['invoice_line_ids'][0][2].get('purchase_id'):
             purchase = self.env['purchase.order'].browse(
-                vals['invoice_line_ids'][0][2].get('purchase_id'))
+                values['invoice_line_ids'][0][2].get('purchase_id'))
 
-            vals['operation_id'] = purchase.operation_id.id
-            vals['operation_type'] = purchase.operation_type
+            values['operation_id'] = purchase.operation_id.id
+            values['operation_type'] = purchase.operation_type
 
-            for line in vals['invoice_line_ids']:
+            for line in values['invoice_line_ids']:
                 if line[2]['purchase_line_id']:
                     purchase_line = self.env[
                         'purchase.order.line'].browse(
@@ -47,8 +49,8 @@ class AccountInvoice(models.Model):
                     line[2]['operation_id'] = purchase_line.operation_id.id
                     line[2]['operation_line_id'] = purchase_line.operation_line_id.id
 
-            vals['document_type_id'] = document_type_id
+            values['document_type_id'] = document_type_id
 
-        invoice = super(AccountInvoice, self).create(vals)
+        invoice = super(AccountInvoice, self).create(values)
 
         return invoice
