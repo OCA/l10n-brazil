@@ -5103,6 +5103,31 @@ msgid "Lista Positiva (valor)"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/hooks.py:71
+#, python-format
+msgid "Loading l10n_br_fiscal demo files."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/hooks.py:30
+#, python-format
+msgid "Loading l10n_br_fiscal fiscal files. It may take a minute..."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/hooks.py:124
+#, python-format
+msgid "Loading l10n_br_fiscal post init files. It may take a minute..."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/hooks.py:101
+#, python-format
+msgid ""
+"Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.cest,segment:0
 msgid "Lâmpadas, reatores e “starter”"
 msgstr ""
