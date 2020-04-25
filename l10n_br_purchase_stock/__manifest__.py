@@ -9,8 +9,8 @@
     'website': 'http://odoo-brasil.org',
     'version': '12.0.1.0.0',
     'depends': [
-        'purchase_stock',
         'l10n_br_purchase',
+        'l10n_br_stock_account',
     ],
     'installable': True,
     'auto_install': False,
