@@ -30,11 +30,12 @@ class PurchaseOrder(models.Model):
 
     cnpj_cpf = fields.Char(
         string='CNPJ/CPF',
-        related='partner_id.cnpj_cpf'),
+        related='partner_id.cnpj_cpf',
+    )
 
     legal_name = fields.Char(
         string='Legal Name',
-        related='artner_id.legal_name',
+        related='partner_id.legal_name',
     )
 
     ie = fields.Char(
