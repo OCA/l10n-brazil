@@ -43,15 +43,15 @@ def post_init_hook(cr, registry):
 
     if not tools.config["without_demo"]:
         demofiles = [
+            "demo/l10n_br_fiscal.ncm-demo.csv",
+            "demo/l10n_br_fiscal.nbm-demo.csv",
+            "demo/l10n_br_fiscal.nbs-demo.csv",
+            "demo/l10n_br_fiscal.cest-demo.csv",
             "demo/company_demo.xml",
             "demo/product_demo.xml",
             "demo/partner_demo.xml",
             "demo/fiscal_document_demo.xml",
-            "demo/fiscal_operation_demo.xml",
-            "demo/l10n_br_fiscal.ncm-demo.csv",
-            "demo/l10n_br_fiscal.nbm-demo.csv",
-            "demo/l10n_br_fiscal.nbs-demo.csv",
-            "demo/l10n_br_fiscal.cest-demo.csv"
+            "demo/fiscal_operation_demo.xml"
         ]
 
         # Load only demo CSV files with few lines instead of thousands
@@ -111,6 +111,27 @@ def post_init_hook(cr, registry):
                 None,
                 mode="init",
                 noupdate=False,
-                kind="demo",
+                kind="init",
                 report=None,
             )
+
+    # Load post files
+    posloadfiles = [
+        "data/l10n_br_fiscal_icms_tax_definition_data.xml",
+    ]
+
+    _logger.info(
+        _("Loading l10n_br_fiscal post init files. It may take a minute...")
+    )
+
+    for file in posloadfiles:
+        tools.convert_file(
+            cr,
+            "l10n_br_fiscal",
+            file,
+            None,
+            mode="init",
+            noupdate=True,
+            kind="init",
+            report=None,
+        )
