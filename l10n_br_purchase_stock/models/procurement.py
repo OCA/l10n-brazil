@@ -7,17 +7,8 @@ from odoo import models
 class ProcurementGroup(models.Model):
     _inherit = "procurement.group"
 
-    def _get_stock_move_values(
-        self,
-        product_id,
-        product_qty,
-        product_uom,
-        location_id,
-        name,
-        origin,
-        values,
-        group_id,
-    ):
+    def _get_stock_move_values(self, product_id, product_qty, product_uom,
+                               location_id, name, origin, values, group_id):
         """
          Returns a dictionary of values that will be used to create
           a stock move from a procurement.
@@ -39,11 +30,10 @@ class ProcurementGroup(models.Model):
         )
 
         if self.purchase_line_id:
-            values.update(
-                {
-                    "opeation_id": self.purchase_line_id.operation_id.id,
-                    "operation_line_id": self.purchase_line_id.operation_line_id.id,
-                }
-            )
+            values.update({
+                'opeation_id': self.purchase_line_id.operation_id.id,
+                'operation_line_id': (
+                    self.purchase_line_id.operation_line_id.id),
+            })
 
-        return vals
+        return values
