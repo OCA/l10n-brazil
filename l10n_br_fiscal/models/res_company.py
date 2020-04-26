@@ -267,22 +267,13 @@ class ResCompany(models.Model):
             "custom_tax": True,
             "tax_id": tax.id,
             "cst_id": tax.cst_out_id.id,
+            "company_id": self._origin.id,
         }
-
-        tax_def_ids = self.tax_definition_ids.ids
-        if not (self.env.context.get('params') and
-                self.env.context['params'].get('id')):
-            return
-        tax_def_id = self.tax_definition_ids.search([
-            ('company_id', '=', self.env.context['params']['id']),
-            ('tax_group_id', '=', tax.tax_group_id.id),
-            ('tax_id', '=', tax.id)]).id or \
-            self.tax_definition_ids.create(tax_def_values).id
 
         if tax_def:
             tax_def.update(tax_def_values)
         else:
-            self.tax_definition_ids = [(6, 0, tax_def_ids + [tax_def_id])]
+            self.tax_definition_ids.create(tax_def_values)
 
     @api.onchange("cnae_main_id")
     def _onchange_cnae_main_id(self):
