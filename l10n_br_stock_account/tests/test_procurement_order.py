@@ -3,73 +3,94 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 
-class ProcurementOrderTest(TransactionCase):
-    """Test invoicing picking"""
+class StockRuleTest(TransactionCase):
+    """Test Stock Rule"""
 
     def setUp(self):
-        super(ProcurementOrderTest, self).setUp()
-        self.product_1 = self.env.ref('stock.product_icecream')
-        self.uom_unit = self.env.ref('product.product_uom_unit')
-        # Warehouses
-        self.warehouse_1 = self.env['stock.warehouse'].create({
-            'name': 'Base Warehouse',
-            'reception_steps': 'one_step',
-            'delivery_steps': 'ship_only',
-            'code': 'BWH'})
-        # Locations
-        self.location_1 = self.env['stock.location'].create({
-            'name': 'TestLocation1',
-            'posx': 3,
-            'location_id': self.warehouse_1.lot_stock_id.id,
-        })
-        self.warehouse_2 = self.env['stock.warehouse'].create({
-            'name': 'Small Warehouse',
-            'code': 'SWH',
-            'default_resupply_wh_id': self.warehouse_1.id,
-            'resupply_wh_ids': [(6, 0, [self.warehouse_1.id])]
+        super(StockRuleTest, self).setUp()
+
+        # Create a product route containing a stock rule that will
+        # generate a move from Stock for every procurement created in Output
+        self.product_route = self.env['stock.location.route'].create({
+            'name': 'Stock -> output route',
+            'product_selectable': True,
+            'rule_ids': [(0, 0, {
+                'name': 'Stock -> output rule',
+                'action': 'pull',
+                'picking_type_id': self.ref('stock.picking_type_internal'),
+                'location_src_id': self.ref('stock.stock_location_stock'),
+                'location_id': self.ref('stock.stock_location_output'),
+                'invoice_state': '2binvoiced',
+                'operation_id': self.ref('l10n_br_fiscal.fo_venda'),
+                'operation_line_id': self.ref('l10n_br_fiscal.fo_venda_venda'),
+            })],
         })
 
-        # minimum stock rule for test product on this warehouse
-        self.env['stock.warehouse.orderpoint'].create({
-            'warehouse_id': self.warehouse_2.id,
-            'location_id': self.warehouse_2.lot_stock_id.id,
-            'product_id': self.product_1.id,
-            'product_min_qty': 10,
-            'product_max_qty': 100,
-            'product_uom': self.uom_unit.id,
-        })
+        # Set this route on `product.product_product_3`
+        self.env.ref('product.product_product_3').write({
+            'route_ids': [(4, self.product_route.id)]})
 
     def test_procument_order(self):
-        """Test Procurement Order"""
+        """Test Stock Rule create stock.move with Fiscal fields."""
 
-        # Inform Partner and Fiscal Category in Procurement Rule just
-        # for test
-        self.procurement_rule = self.env['procurement.rule'].search([(
-            'name', '=', 'SWH: YourCompany: Transit Location -> Stock'
-        )])
-        self.procurement_rule.partner_address_id = self.env.ref(
-            'l10n_br_base.res_partner_amd').id
-        self.procurement_rule.fiscal_category_id = self.env.ref(
-            'l10n_br_account_product.fc_86d8c770fc2fb9d9fa242a3bdddd507a').id
+        # Set this route on `product.product_product_3`
+        self.env.ref('product.product_product_3').write({
+            'route_ids': [(4, self.product_route.id)]})
 
-        OrderScheduler = self.env['procurement.order']
-        OrderScheduler.run_scheduler()
-        # we generated 2 procurements for product A:
-        # one on small wh and the other one on the transit location
-        procs = OrderScheduler.search([('product_id', '=', self.product_1.id)])
-        self.assertEqual(len(procs), 2)
+        # Create Delivery Order of 10 `product.product_product_3` from Output -> Customer
+        product = self.env.ref('product.product_product_3')
+        vals = {
+            'name': 'Delivery order for procurement',
+            'partner_id': self.ref('base.res_partner_2'),
+            'picking_type_id': self.ref('stock.picking_type_out'),
+            'location_id': self.ref('stock.stock_location_output'),
+            'location_dest_id': self.ref('stock.stock_location_customers'),
+            'move_lines': [(0, 0, {
+                'name': '/',
+                'product_id': product.id,
+                'product_uom': product.uom_id.id,
+                'product_uom_qty': 10.00,
+                'procure_method': 'make_to_order',
+            })],
+        }
+        pick_output = self.env['stock.picking'].create(vals)
+        pick_output.move_lines.onchange_product_id()
 
-        proc1 = procs.filtered(
-            lambda order: order.warehouse_id == self.warehouse_2)
-        self.assertEqual(proc1.state, 'running')
+        # Confirm delivery order.
+        pick_output.action_confirm()
 
-        proc2 = procs.filtered(
-            lambda order: order.warehouse_id == self.warehouse_1)
-        self.assertEqual(proc2.location_id.usage, 'transit')
-        self.assertNotEqual(proc2.state, 'exception')
+        # I run the scheduler.
+        # Note: If purchase if already installed, the method _run_buy
+        # will be called due to the purchase demo data. As we update the
+        # stock module to run this test, the method won't be an attribute
+        # of stock.procurement at this moment. For that reason we mute the
+        # logger when running the scheduler.
+        with mute_logger('odoo.addons.stock.models.procurement'):
+            self.env['procurement.group'].run_scheduler()
 
-        proc2.run()
-        self.assertEqual(proc2.state, 'running')
-        self.assertTrue(proc2.rule_id)
+        # Check that a picking was created from stock to output.
+        moves = self.env['stock.move'].search([
+            ('product_id', '=', self.ref('product.product_product_3')),
+            ('location_id', '=', self.ref('stock.stock_location_stock')),
+            ('location_dest_id', '=', self.ref('stock.stock_location_output')),
+            ('move_dest_ids', 'in', [pick_output.move_lines[0].id])
+        ])
+        self.assertEqual(
+            len(moves.ids), 1,
+            "It should have created a picking from Stock to Output with the"
+            " original picking as destination")
+
+        # Check if the fields included in l10n_br_stock_account was copied to move
+        for move in moves:
+            self.assertEqual(
+                move.invoice_state, '2binvoiced',
+                "The stock.move created has not invoice_state field 2binvoiced")
+            self.assertEqual(
+                move.operation_id.name, 'Venda',
+                "The stock.move created has not operation_id field Venda")
+            self.assertEqual(
+                move.operation_line_id.name, 'Venda',
+                "The stock.move created has not operation_line_id field Venda")
