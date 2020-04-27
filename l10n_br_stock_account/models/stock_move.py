@@ -1,27 +1,16 @@
 # Copyright (C) 2014  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 from ...l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK,
 )
 
 
-class StockPicking(models.Model):
-    _name = "stock.picking"
-    _inherit = [
-        _name,
-        "l10n_br_fiscal.document.mixin",
-    ]
-
-
 class StockMove(models.Model):
-    _name = "stock.move"
-    _inherit = [
-        _name,
-        "l10n_br_fiscal.document.line.mixin",
-    ]
+    _name = 'stock.move'
+    _inherit = [_name, 'l10n_br_fiscal.document.line.mixin']
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax',
