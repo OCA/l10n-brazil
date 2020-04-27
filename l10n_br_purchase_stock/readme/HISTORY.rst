@@ -1,4 +1,4 @@
-10.0.1.0.0 (2019-09-20)
+12.0.1.0.0 (2020-04-27)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-* Module migration.
+* Split l10n_br_purchase module in two l10n_br_purchase and l10n_br_purchase_stock.
