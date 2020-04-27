@@ -1,4 +1,4 @@
 This module depends on:
 
-* purchase_stock
 * l10n_br_purchase
+* l10n_br_stock_account
