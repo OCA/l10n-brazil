@@ -9,18 +9,20 @@ class ResCompany(models.Model):
 
     stock_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        string='Operação Fiscal Padrão de Estoque')
+        string='Operação Padrão de Estoque',
+        domain="[('state', '=', 'approved')]"
+    )
+
     stock_in_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        string=u'Categoria Fiscal Padrão de Entrada',
-        # TODO - domain
-        # domain="[('journal_type', 'in', ('sale_refund', 'purchase')), "
-        # "('fiscal_type', '=', 'product'), ('type', '=', 'input')]"
+        string='Operação Padrão de Entrada',
+        domain="[('state', '=', 'approved'), "
+               "('operation_type', 'in', ('in', 'all'))]",
     )
+
     stock_out_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        string=u'Categoria Fiscal Padrão Saída',
-        # TODO - domain
-        # domain="[('journal_type', 'in', ('purchase_refund', 'sale')), "
-        # "('fiscal_type', '=', 'product'), ('type', '=', 'output')]"
+        string='Operação Padrão Saída',
+        domain="[('state', '=', 'approved'), "
+               "('operation_type', 'in', ('out', 'all'))]",
     )
