@@ -40,7 +40,8 @@ class StockRuleTest(TransactionCase):
         self.env.ref('product.product_product_3').write({
             'route_ids': [(4, self.product_route.id)]})
 
-        # Create Delivery Order of 10 `product.product_product_3` from Output -> Customer
+        # Create Delivery Order of 10 `product.product_product_3`
+        # from Output -> Customer
         product = self.env.ref('product.product_product_3')
         vals = {
             'name': 'Delivery order for procurement',
