@@ -1,2 +1,2 @@
 from . import test_invoicing_picking
-# from . import test_procurement_order
+from . import test_procurement_order
