@@ -108,3 +108,5 @@
 "l10n_br_fiscal_payment_line_user","Payment Line for User","model_l10n_br_fiscal_payment_line","l10n_br_fiscal.group_user",1,1,1,1
 "l10n_br_fiscal_payment_term_user","Payment Term for User","model_l10n_br_fiscal_payment_term","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_payment_term_manager","Payment Term for Manager","model_l10n_br_fiscal_payment_term","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_payment_term_line_user","Payment Term Line for User","model_l10n_br_fiscal_payment_term_line","l10n_br_fiscal.group_user",1,0,0,0
+"l10n_br_fiscal_payment_term_line_manager","Payment Term Line for Manager","model_l10n_br_fiscal_payment_term_line","l10n_br_fiscal.group_manager",1,1,1,1
