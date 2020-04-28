@@ -273,7 +273,7 @@ class ResCompany(models.Model):
         if tax_def:
             tax_def.update(tax_def_values)
         else:
-            self.tax_definition_ids.create(tax_def_values)
+            self.tax_definition_ids |= self.tax_definition_ids.create(tax_def_values)
 
     @api.onchange("cnae_main_id")
     def _onchange_cnae_main_id(self):
