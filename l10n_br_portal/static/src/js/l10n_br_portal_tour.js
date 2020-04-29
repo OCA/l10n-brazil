@@ -2,22 +2,24 @@ odoo.define('l10n_br_portal.tour', function (require) {
     'use strict';
 
     var tour = require('web_tour.tour');
+    var base = require("web_editor.base");
 
     tour.register('l10n_br_portal_tour', {
         test: true,
         url: '/my/account',
+        wait_for: base.ready()
     }, [{
         content: "Complete name",
         trigger: "input[name=name]",
-        run: "text KMEE",
+        run: "text Joe Doe Inc",
     }, {
         content: "Complete Legal Name",
         trigger: "input[name=legal_name]",
-        run: "text KMEE INFORMATICA LTDA",
+        run: "text JOE DOE LTDA",
     }, {
         content: "Complete CNPJ",
         trigger: "input[name=cnpj_cpf]",
-        run: "text 23130935000198",
+        run: "text 89604455095",
     }, {
         content: "Complete IE",
         trigger: "input[name=inscr_est]",
