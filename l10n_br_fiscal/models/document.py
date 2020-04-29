@@ -976,3 +976,11 @@ class Document(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
+    @api.onchange("fiscal_payment_ids", "payment_term_id")
+    def _onchange_fiscal_payment_ids(self):
+        financial_ids = []
+        for payment in self.fiscal_payment_ids:
+            for line in payment.line_ids:
+                financial_ids.append(line.id)
+        self.financial_ids = [(6, 0, financial_ids)]
