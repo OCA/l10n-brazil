@@ -984,3 +984,15 @@ class Document(models.Model):
             for line in payment.line_ids:
                 financial_ids.append(line.id)
         self.financial_ids = [(6, 0, financial_ids)]
+
+    @api.onchange("payment_term_id")
+    def _onchange_payment_term_id(self):
+        if self.payment_term_id:
+            self.fiscal_payment_ids = [(0, False, {
+                'amount': self.amount_total,
+                'payment_term_id': self.payment_term_id,
+                'line_ids': [payment.id for payment in self.payment_term_id.line_ids],
+            })]
+
+        for payment in self.fiscal_payment_ids:
+            payment._onchange_payment_term_id()
