@@ -172,7 +172,7 @@
             </page>
               <page name="financeiro" string="Financeiro">
                   <group>
-                      <field name="payment_term_id"/>
+                      <field name="payment_term_id" attrs="{'readonly': [('fiscal_payment_ids', '!=', [])]}"/>
                       <newline/>
                   </group>
                   <separator name="pagamentos" string="Pagamentos" colspan="4"/>
