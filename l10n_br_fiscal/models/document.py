@@ -116,6 +116,22 @@ class Document(models.Model):
             record.amount_total = sum(
                 line.amount_total for line in record.line_ids)
 
+    @api.depends("fiscal_payment_ids")
+    def _compute_payment_change_value(self):
+        payment_value = 0
+        for payment in self.fiscal_payment_ids:
+            for line in payment.line_ids:
+                payment_value += line.amount
+
+        self.amount_payment_value = payment_value
+
+        change_value = payment_value - self.amount_total
+        self.amount_change_value = change_value if change_value >= 0 else 0
+
+        missing_payment = self.amount_total - payment_value
+        self.amount_missing_payment_value = missing_payment \
+            if missing_payment >= 0 else 0
+
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
     active = fields.Boolean(
@@ -480,6 +496,24 @@ class Document(models.Model):
         compute='_compute_amount',
     )
 
+    amount_change_value = fields.Monetary(
+        string="Change Value",
+        default=0.00,
+        compute="_compute_payment_change_value"
+    )
+
+    amount_payment_value = fields.Monetary(
+        string="Payment Value",
+        default=0.00,
+        compute="_compute_payment_change_value"
+    )
+
+    amount_missing_payment_value = fields.Monetary(
+        string="Missing Payment Value",
+        default=0.00,
+        compute="_compute_payment_change_value"
+    )
+
     line_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.document.line',
         inverse_name='document_id',
@@ -495,12 +529,14 @@ class Document(models.Model):
         string='Condição de pagamento',
         ondelete='restrict',
     )
+
     financial_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.payment.line',
         inverse_name='document_id',
         string='Duplicatas',
         copy=True,
     )
+
     fiscal_payment_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.payment',
         inverse_name='document_id',

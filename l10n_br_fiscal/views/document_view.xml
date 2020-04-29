@@ -176,13 +176,16 @@
                       <newline/>
                   </group>
                   <separator name="pagamentos" string="Pagamentos" colspan="4"/>
+                  <field name="amount_missing_payment_value" invisible="1"/>
                   <field name="fiscal_payment_ids" context="{
-                        'default_amount': amount_total,
+                        'default_amount': amount_missing_payment_value,
                         'default_date': date,
                         'default_currency_id': currency_id,
                         'default_company_id': company_id,
                         'default_document_id': active_id,
                         }" nolabel="1"/>
+                  <label for="" string="Troco"/>
+                  <field name="amount_change_value"/>
                   <separator name="financial" string="Financeiro" colspan="4"/>
                   <field name="financial_ids" nolabel="1" context="{
                             'default_document_id': active_id,
