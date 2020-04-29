@@ -209,7 +209,7 @@
                             'default_document_id': active_id,
                             'default_currency_id': currency_id,
                             'default_company_id': company_id,
-                            }">
+                            }" readonly="1">
                       <tree string="Duplicatas" editable="bottom">
                           <field name="document_id" invisible="1"/>
                           <field name="currency_id" invisible="1"/>
