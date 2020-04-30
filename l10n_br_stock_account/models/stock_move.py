@@ -63,3 +63,29 @@ class StockMove(models.Model):
         result = super(StockMove, self)._get_new_picking_values()
         result.update({'operation_id': self.operation_id.id})
         return result
+
+    @api.model
+    def _prepare_merge_moves_distinct_fields(self):
+        distinct_fields = super(
+            StockMove, self)._prepare_merge_moves_distinct_fields()
+        distinct_fields += ['operation_id', 'operation_line_id', ]
+        return distinct_fields
+
+    @api.model
+    def _prepare_merge_move_sort_method(self, move):
+        move.ensure_one()
+        keys_sorted = super(StockMove, self)._prepare_merge_move_sort_method(move)
+        keys_sorted += [move.operation_id.id, move.operation_line_id.id]
+        return keys_sorted
+
+    def _prepare_extra_move_vals(self, qty):
+        vals = super(StockMove, self)._prepare_extra_move_vals(qty)
+        vals['operation_id'] = self.operation_id.id
+        vals['operation_line_id'] = self.operation_line_id.id
+        return vals
+
+    def _prepare_move_split_vals(self, uom_qty):
+        vals = super(StockMove, self)._prepare_move_split_vals(uom_qty)
+        vals['operation_id'] = self.operation_id.id
+        vals['operation_line_id'] = self.operation_line_id.id
+        return vals
