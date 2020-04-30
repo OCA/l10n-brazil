@@ -13,6 +13,9 @@
         'portal',
         'l10n_br_zip',
     ],
+    'demo': [
+        'demo/res_users_demo.xml',
+    ],
     'data': [
         'views/assets.xml',
         'views/portal_templates.xml',
