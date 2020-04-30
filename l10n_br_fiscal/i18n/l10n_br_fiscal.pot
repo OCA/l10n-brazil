@@ -1655,7 +1655,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/closing.py:251
-#: code:addons/l10n_br_fiscal/models/closing.py:274
+#: code:addons/l10n_br_fiscal/models/closing.py:275
 #, python-format
 msgid "Check write permissions and folder path"
 msgstr ""
@@ -2615,7 +2615,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/closing.py:250
-#: code:addons/l10n_br_fiscal/models/closing.py:273
+#: code:addons/l10n_br_fiscal/models/closing.py:274
 #, python-format
 msgid "Error!"
 msgstr ""
@@ -6869,7 +6869,7 @@ msgid "Related Produts"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/closing.py:319
+#: code:addons/l10n_br_fiscal/models/closing.py:320
 #, python-format
 msgid "Replication failed: document attachments [id =% s] is not present in the database."
 msgstr ""
