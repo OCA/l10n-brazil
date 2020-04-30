@@ -11,11 +11,11 @@ odoo.define('l10n_br_portal.tour', function (require) {
     }, [{
         content: "Complete name",
         trigger: "input[name=name]",
-        run: "text Joe Doe Inc",
+        run: "text Luis Felipe Mileo2",
     }, {
         content: "Complete Legal Name",
         trigger: "input[name=legal_name]",
-        run: "text JOE DOE LTDA",
+        run: "text Luis Felipe Mileo LTDA2",
     }, {
         content: "Complete CNPJ",
         trigger: "input[name=cnpj_cpf]",
