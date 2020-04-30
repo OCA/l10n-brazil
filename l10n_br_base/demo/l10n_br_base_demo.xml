@@ -465,4 +465,25 @@
         <field name="active" eval="1"/>
     </record>
 
+    <record id="res_partner_kmee" model="res.partner">
+        <field name="title" ref="res_partner_title_pvt_ltd"/>
+        <field name="cnpj_cpf">23.130.935/0001-98</field>
+        <field eval="0" name="employee"/>
+        <field eval="1" name="customer"/>
+        <field eval="1" name="supplier"/>
+        <field name="is_company" eval="1"/>
+        <field eval="1" name="active"/>
+        <field name="legal_name">KMEE INFORMATICA LTDA</field>
+        <field name="name">KMEE</field>
+        <field name="district">Centro</field>
+        <field name="zip">37500-015</field>
+        <field name="country_id" ref="base.br"/>
+        <field name="street_number">07</field>
+        <field name="phone">(11) 3090 9303</field>
+        <field name="street">R Coronel Renno</field>
+        <field name="city_id" ref="l10n_br_base.city_3132404"/>
+        <field name="state_id" ref="base.state_br_mg"/>
+        <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_kmee.png"/>
+    </record>
+
 </odoo>
