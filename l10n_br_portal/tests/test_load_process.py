@@ -11,13 +11,10 @@ class TestUi(odoo.tests.HttpCase):
             "/",
             "odoo.__DEBUG__.services['web_tour.tour'].run('l10n_br_portal_tour')",  # noqa: E501
             "odoo.__DEBUG__.services['web_tour.tour'].tours.l10n_br_portal_tour.ready",  # noqa: E501
-            login="kmee"
+            login="portal"
         )
         # check result
-        record = self.env.ref('l10n_br_portal.demo_user_kmee')
-        self.assertEqual(record.name, 'Luis Felipe Mileo')
-        self.assertEqual(record.legal_name, 'Luis Felipe Mileo LTDA2')
-        self.assertEqual(record.cnpj_cpf, '89604455095')
+        record = self.env.ref('base.partner_demo_portal')
         self.assertEqual(record.country_id.code, 'BR')
         self.assertEqual(record.state_id.code, 'MG')
         self.assertEqual(record.city_id.ibge_code, '32404')
