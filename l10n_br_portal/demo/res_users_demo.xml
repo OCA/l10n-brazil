@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Portal : partner and user -->
+        <record id="demo_user_kmee" model="res.users" context="{'no_reset_password': True}">
+            <field name="partner_id" ref="l10n_br_base.res_partner_kmee"/>
+            <field name="login">kmee</field>
+            <field name="password">kmee</field>
+            <field name="signature"><![CDATA[<span>-- <br/>KMEE Demo Portal</span>]]></field>
+            <field name="groups_id" eval="[(5,)]"/><!-- Avoid auto-including this user in any default group -->
+        </record>
+
+        <record id="base.group_portal" model="res.groups"><!-- Add the demo user to the portal (and therefore to the portal member group) -->
+            <field name="users" eval="[(4,ref('demo_user_kmee'))]"/>
+        </record>
+    </data>
+</odoo>
