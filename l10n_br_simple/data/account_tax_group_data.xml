@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<odoo noupdate="1">
 
-    <data noupdate="1">
 
         <!-- Account Tax Group -->
         <record id="tax_group_ipi" model="account.tax.group">
@@ -96,6 +95,5 @@
             <field name="name">Outros</field>
         </record>
 
-    </data>
 
 </odoo>
