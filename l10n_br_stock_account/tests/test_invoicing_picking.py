@@ -84,3 +84,27 @@ class InvoicingPickingTest(TransactionCase):
 
         result = self.return_wizard.create_returns()
         self.assertTrue(result, 'Create returns wizard fail.')
+
+    def test_invoicing_picking_overprocessed(self):
+        """Test Invoicing Picking overprocessed EXTRA Fields"""
+        for line in self.stock_picking_sp.move_lines:
+            line.onchange_product_id()
+
+        self.stock_picking_sp.action_confirm()
+        self.stock_picking_sp.action_assign()
+
+        # Force product availability
+        for move in self.stock_picking_sp.move_ids_without_package:
+            # Overprocessed
+            move.quantity_done = move.product_uom_qty + 1
+
+        res_overprocessed_transfer = self.stock_picking_sp.button_validate()
+        stock_overprocessed_transfer = self.env[
+            'stock.overprocessed.transfer'].browse(
+            res_overprocessed_transfer.get('res_id'))
+        stock_overprocessed_transfer.action_confirm()
+
+        self.assertEquals(
+            self.stock_picking_sp.state, 'done',
+            'Change state fail.'
+        )
