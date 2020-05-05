@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class AccountPaymentTermLine(models.Model):
@@ -49,14 +50,15 @@ class AccountPaymentTermLine(models.Model):
     @api.constrains('value', 'value_amount')
     def _check_percent(self):
         if self.value == 'percent' and (
-            self.value_amount < 0.0 or self.value_amount > 100.0):
+                self.value_amount < 0.0 or self.value_amount > 100.0):
             raise ValidationError(
                 _('Percentages on the Payment Terms lines must be between 0 and 100.'))
 
     @api.one
     @api.constrains('days')
     def _check_days(self):
-        if self.option in ('day_following_month', 'day_current_month') and self.days <= 0:
+        if self.option in (
+                'day_following_month', 'day_current_month') and self.days <= 0:
             raise ValidationError(
                 _("The day of the month used for this term must be stricly positive."))
         elif self.days < 0:
