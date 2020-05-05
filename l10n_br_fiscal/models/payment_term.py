@@ -3,14 +3,7 @@
 
 from odoo import api, fields, models, _
 from dateutil.relativedelta import relativedelta
-
-from ..constants.payment import (
-    BANDEIRA_CARTAO,
-    FORMA_PAGAMENTO,
-    INTEGRACAO_CARTAO,
-    INTEGRACAO_CARTAO_NAO_INTEGRADO,
-    FORMA_PAGAMENTO_OUTROS,
-)
+from odoo.exceptions import UserError, ValidationError
 
 
 class FiscalPaymentTerm(models.Model):
@@ -85,9 +78,8 @@ class FiscalPaymentTerm(models.Model):
                 if line.option == 'day_after_invoice_date':
                     next_date += relativedelta(days=line.days)
                     if line.day_of_the_month > 0:
-                        months_delta = (
-                                           line.day_of_the_month < next_date.day
-                                       ) and 1 or 0
+                        months_delta = \
+                            (line.day_of_the_month < next_date.day) and 1 or 0
                         next_date += relativedelta(
                             day=line.day_of_the_month, months=months_delta)
                 elif line.option == 'after_invoice_month':
@@ -110,12 +102,12 @@ class FiscalPaymentTerm(models.Model):
     @api.multi
     def unlink(self):
         if self.env['l10n_br_fiscal.document'].search(
-            [('payment_term_id', 'in', self.ids)]):
+                [('payment_term_id', 'in', self.ids)]):
             raise UserError(_(
                 'You can not delete payment terms as other '
                 'records still reference it. However, you can archive it.'))
         if self.env['l10n_br_fiscal.payment.line'].search(
-            [('payment_term_id', 'in', self.ids)]):
+                [('payment_term_id', 'in', self.ids)]):
             raise UserError(_(
                 'You can not delete payment terms as other'
                 ' records still reference it. However, you can archive it.'))
