@@ -51,6 +51,29 @@ class SaleOrderLine(models.Model):
     def _calc_line_quantity(self):
         return self.product_uom_qty
 
+    def invoice_line_create_vals(self, invoice_id, qty):
+        res = super(SaleOrderLine, self).invoice_line_create_vals(
+            invoice_id, qty)
+        for d in res:
+            line_id = self.env['l10n_br_fiscal.document.line'].create({
+                'product_id': self.product_id.id,
+                'name': self.product_id.name,
+                'quantity': self.product_uom_qty,
+                'operation_id': self.operation_id.id,
+                'company_id': self.company_id.id,
+                'partner_id': self.order_id.partner_id.id,
+                'document_id': self.env['account.invoice'].browse(
+                    invoice_id).fiscal_document_id.id
+            })
+            line_id._onchange_product_id()
+            line_id._onchange_commercial_quantity()
+            line_id._onchange_operation_id()
+            line_id._onchange_operation_line_id()
+            line_id._onchange_fiscal_taxes()
+            d.update({'fiscal_document_line_id': line_id.id})
+
+        return res
+
     @api.depends('product_uom_qty', 'discount', 'price_unit')
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
