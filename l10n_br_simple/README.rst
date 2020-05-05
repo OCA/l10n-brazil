@@ -25,6 +25,10 @@ Brazilian - Simple Accounting
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
+Cadastros básicos para Plano de Contas Brasileiro.
+
+Alguns módulos dependem de configurações básicas de contabilização,
+como contas contábeis padrões para determinads configurações.
 
 **Table of contents**
 
