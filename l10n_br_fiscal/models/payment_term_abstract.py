@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 
 from ..constants.payment import (
     BANDEIRA_CARTAO,
@@ -12,8 +12,9 @@ from ..constants.payment import (
 )
 
 
-class FiscalPaymentTermAbstract(models.Model):
+class FiscalPaymentTermAbstract(models.AbstractModel):
     _name = 'l10n_br_fiscal.payment.term.abstract'
+    _description = 'Campos dos Pagamentos Brasileiros'
 
     forma_pagamento = fields.Selection(
         selection=FORMA_PAGAMENTO,
