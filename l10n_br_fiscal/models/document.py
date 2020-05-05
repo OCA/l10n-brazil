@@ -1026,8 +1026,9 @@ class Document(models.Model):
         if self.payment_term_id:
             self.fiscal_payment_ids = [(0, False, {
                 'amount': self.amount_total,
-                'payment_term_id': self.payment_term_id,
-                'line_ids': [payment.id for payment in self.payment_term_id.line_ids],
+                'payment_term_id': self.payment_term_id.od,
+                'company_id': self.company_id.id,
+                'currency_id': self.currency_id.id,
             })]
 
         for payment in self.fiscal_payment_ids:
