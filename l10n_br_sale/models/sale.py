@@ -275,7 +275,17 @@ class SaleOrder(models.Model):
                     inv_data = order.with_context(
                         document_type_id=line.operation_line_id.get_document_type(
                             line.order_id.company_id).id)._prepare_invoice()
+                    inv_data.update({
+                        'document_serie_id':
+                            self.company_id.nfe_default_serie_id.id,
+                        'document_serie':
+                            self.company_id.nfe_default_serie_id.code})
                     invoice = inv_obj.create(inv_data)
+                    invoice.fiscal_document_id.write({
+                        'partner_id': self.partner_id.id})
+                    invoice.fiscal_document_id._onchange_company_id()
+                    invoice.fiscal_document_id._onchange_partner_id()
+                    invoice.fiscal_document_id._onchange_operation_id()
                     references[invoice] = order
                     invoices[group_key] = invoice
                     invoices_origin[group_key] = [invoice.origin]
