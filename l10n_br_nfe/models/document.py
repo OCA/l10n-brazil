@@ -218,6 +218,9 @@ class NFe(spec_models.StackedModel):
             self.partner_city_id = self.partner_id.city_id
             self.partner_zip = self.partner_id.zip
             self.partner_phone = self.partner_id.phone
+            self.partner_ind_ie_dest = self.partner_id.ind_ie_dest
+            self.partner_is_company = \
+                self.partner_id.company_type == 'company'
             self.env.cr.execute('select street_number from res_partner '
                                 'where id=%s' % self.partner_id.id)
             [(self.partner_number,)] = self.env.cr.fetchall()
@@ -507,15 +510,18 @@ class NFe(spec_models.StackedModel):
         if xsd_field == 'nfe40_CNPJ':
             if class_obj._name == 'nfe.40.emit':
                 if self.company_cnpj_cpf:
-                    return self.company_cnpj_cpf
+                    return self.company_cnpj_cpf.replace(
+                        '.', '').replace('/', '').replace('-', '')
             elif class_obj._name == 'nfe.40.dest' and self.partner_is_company:
                 if self.partner_cnpj_cpf:
-                    return self.partner_cnpj_cpf
+                    return self.partner_cnpj_cpf.replace(
+                        '.', '').replace('/', '').replace('-', '')
         if xsd_field == 'nfe40_CPF':
             if class_obj._name == 'nfe.40.dest' and \
                     not self.partner_is_company:
                 if self.partner_cnpj_cpf:
-                    return self.partner_cnpj_cpf
+                    return self.partner_cnpj_cpf.replace(
+                        '.', '').replace('/', '').replace('-', '')
         if xsd_field == 'nfe40_xNome':
             if class_obj._name == 'nfe.40.emit':
                 if self.company_legal_name:
