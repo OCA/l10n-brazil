@@ -125,7 +125,9 @@ class FiscalPayment(models.Model):
             communication = 1
             for date_maturity, amount in payment_term_list:
                 line_ids.append((
-                    0, False, self._prepare_line_id(communication, date_maturity, amount)
+                    0,
+                    False,
+                    self._prepare_line_id(communication, date_maturity, amount)
                 ))
                 communication += 1
 
