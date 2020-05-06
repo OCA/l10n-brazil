@@ -20,7 +20,6 @@ class FiscalPaymentLine(models.Model):
         comodel_name='l10n_br_fiscal.payment',
         string='Pagamento',
         ondelete='cascade',
-        required=True,
     )
     communication = fields.Char(
         string='Número',
