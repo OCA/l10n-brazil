@@ -98,7 +98,8 @@ class FiscalPayment(models.Model):
             return self.document_id.date
 
     def _prepare_line_id(
-        self, communication, date_maturity, amount, company_id, currency_id):
+            self, communication, date_maturity, amount, company_id, currency_id):
+
         vals = dict()
         vals['communication'] = communication
         vals['date_maturity'] = date_maturity
@@ -125,13 +126,13 @@ class FiscalPayment(models.Model):
         self.update(vals)
 
     def _compute_payment_vals(
-        self, payment_term_id, currency_id, company_id, amount, date):
+            self, payment_term_id, currency_id, company_id, amount, date):
 
         payment_term_list = payment_term_id.with_context(
             currency_id=currency_id.id
         ).compute(value=amount or 0, date_ref=date)[0]
 
-        line_ids = [(6,0, {})]
+        line_ids = [(6, 0, {})]
 
         if payment_term_list:
             communication = 1
@@ -146,7 +147,7 @@ class FiscalPayment(models.Model):
             'bandeira_cartao': payment_term_id.bandeira_cartao,
             'integracao_cartao': payment_term_id.integracao_cartao,
             'partner_id': payment_term_id.partner_id.id,
-            'cnpj_cpf':  payment_term_id.partner_id and
-                         payment_term_id.partner_id.cnpj_cpf or False,
+            'cnpj_cpf': payment_term_id.partner_id and
+                        payment_term_id.partner_id.cnpj_cpf or False,
             'line_ids': line_ids
         }
