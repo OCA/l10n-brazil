@@ -1013,6 +1013,32 @@ class Document(models.Model):
             'context': ctx,
         }
 
+    def generate_financial(self):
+        for record in self:
+            if record.payment_term_id and self.company_id and self.currency_id:
+                record.financial_ids.unlink()
+                record.fiscal_payment_ids.unlink()
+
+                vals = {
+                    'payment_term_id': self.payment_term_id.id,
+                    'amount': self.amount_missing_payment_value,
+                    'currency_id': self.currency_id.id,
+                    'company_id': self.company_id.id,
+                }
+                vals.update(self.fiscal_payment_ids._compute_payment_vals(
+                    payment_term_id=self.payment_term_id,
+                    currency_id=self.currency_id,
+                    company_id=self.company_id,
+                    amount=self.amount_missing_payment_value, date=self.date)
+                )
+                self.fiscal_payment_ids = self.fiscal_payment_ids.new(vals)
+                for line in self.fiscal_payment_ids.mapped('line_ids'):
+                    line.document_id = self
+
+            elif record.fiscal_payment_ids:
+                record.financial_ids.unlink()
+                record.fiscal_payment_ids.unlink()
+
     @api.onchange("fiscal_payment_ids", "payment_term_id")
     def _onchange_fiscal_payment_ids(self):
         financial_ids = []

@@ -193,11 +193,15 @@
             </page>
               <page name="financeiro" string="Financeiro">
                   <group>
-                      <field name="payment_term_id" force_save="1"/>
-                      <newline/>
+                      <field name="amount_missing_payment_value" invisible="1"/>
+                      <group>
+                          <field name="payment_term_id" force_save="1"/>
+                      </group>
+                      <group>
+                          <button name="generate_financial" string="Gerar Parcelas" type="object"/>
+                      </group>
                   </group>
                   <separator name="pagamentos" string="Pagamentos" colspan="4"/>
-                  <field name="amount_missing_payment_value" />
                   <field name="fiscal_payment_ids" context="{
                         'default_amount': amount_missing_payment_value,
                         'default_date': date,
@@ -214,9 +218,10 @@
                             'default_company_id': company_id,
                             }" readonly="1" force_save="1">
                       <tree string="Duplicatas" editable="bottom">
-                          <field name="document_id" />
-                          <field name="currency_id" />
-                          <field name="company_id" />
+                          <field name="document_id" invisible="1"/>
+                          <field name="currency_id" invisible="1"/>
+                          <field name="company_id" invisible="1"/>
+                          <field name="payment_id" invisible="1"/>
                           <field name="communication"/>
                           <field name="date_maturity"/>
                           <field name="amount" sum="amount"/>
