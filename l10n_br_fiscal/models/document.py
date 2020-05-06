@@ -852,8 +852,9 @@ class Document(models.Model):
                 company_id=self.company_id,
                 amount=self.amount_missing_payment_value, date=self.date)
             )
-            self.fiscal_payment_ids = self.fiscal_payment_ids.new(vals)
-            #
+            self.fiscal_payment_ids |= self.fiscal_payment_ids.new(vals)
+            for line in self.fiscal_payment_ids.mapped('line_ids'):
+                line.document_id = self            #
             #
             # self.update({
             #     'fiscal_payment_ids': [
