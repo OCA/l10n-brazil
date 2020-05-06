@@ -312,6 +312,7 @@ class DocumentWorkflow(models.AbstractModel):
         to_confirm = self.filtered(lambda inv: inv.state_edoc != SITUACAO_EDOC_A_ENVIAR)
         if to_confirm:
             to_confirm._document_confirm()
+            to_confirm.generate_financial()
 
     def _no_eletronic_document_send(self):
         self._change_state(SITUACAO_EDOC_AUTORIZADA)
