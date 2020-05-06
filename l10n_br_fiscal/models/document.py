@@ -832,20 +832,40 @@ class Document(models.Model):
     @api.onchange("payment_term_id", "company_id", "currency_id",
                   "amount_missing_payment_value", "date")
     def _onchange_payment_term_id(self):
-        if (self.payment_term_id and
-                self.company_id and
-                self.currency_id and
-                self.amount_missing_payment_value and self.date):
+        if self.payment_term_id and self.company_id and self.currency_id and not self.fiscal_payment_ids:
+            # vfiscal_payment_id = self.fiscal_payment_ids.new()
+            # vfiscal_payment_id._onchange_payment_term_id()
 
-            self.fiscal_payment_ids.unlink()
-            self.fiscal_payment_ids = self.fiscal_payment_ids.create({
+            # fiscal_payment_vals = vfiscal_payment_id._convert_to_cache(
+            #     vfiscal_payment_id._cache)
+            # fiscal_payment_vals.update(vfiscal_payment_id._compute_payment_vals())
+
+            vals = {
                 'payment_term_id': self.payment_term_id.id,
                 'amount': self.amount_missing_payment_value,
-                'date': self.date,
                 'currency_id': self.currency_id.id,
                 'company_id': self.company_id.id,
-                'document_id': self._origin.id,
-            })
+                'document_id': self.id,
+             }
+            vals.update(self.fiscal_payment_ids._compute_payment_vals(
+                payment_term_id=self.payment_term_id, currency_id=self.currency_id,
+                company_id=self.company_id,
+                amount=self.amount_missing_payment_value, date=self.date)
+            )
+            self.fiscal_payment_ids = self.fiscal_payment_ids.new(vals)
+            #
+            #
+            # self.update({
+            #     'fiscal_payment_ids': [
+            #         (6, 0, {}),
+            #         (0, 0,vals)
+            #     ]
+            # })
 
-        for payment in self.fiscal_payment_ids:
-            payment._onchange_payment_term_id()
+    # @api.onchange("fiscal_payment_ids", "payment_term_id")
+    # def _onchange_fiscal_payment_ids(self):
+    #     financial_ids = []
+    #     for payment in self.fiscal_payment_ids:
+    #         for line in payment.line_ids:
+    #             financial_ids.append(line.id)
+    #     self.financial_ids = [(6, 0, financial_ids)]
