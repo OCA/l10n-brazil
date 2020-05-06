@@ -147,7 +147,8 @@ class FiscalPayment(models.Model):
             'bandeira_cartao': payment_term_id.bandeira_cartao,
             'integracao_cartao': payment_term_id.integracao_cartao,
             'partner_id': payment_term_id.partner_id.id,
-            'cnpj_cpf': payment_term_id.partner_id and
-                        payment_term_id.partner_id.cnpj_cpf or False,
+            'cnpj_cpf':
+                payment_term_id.partner_id and
+                payment_term_id.partner_id.cnpj_cpf or False,
             'line_ids': line_ids
         }
