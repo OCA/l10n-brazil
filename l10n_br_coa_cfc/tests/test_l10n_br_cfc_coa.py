@@ -9,7 +9,7 @@ class L10nBrCfcCOA(TransactionCase):
         super(L10nBrCfcCOA, self).setUp()
 
         self.l10n_br_cfc_coa = self.env.ref(
-            'l10n_br_cfc.l10n_br_cfc_chart_template')
+            'l10n_br_coa_cfc.l10n_br_cfc_chart_template')
         self.l10n_br_company = self.env['res.company'].create({
             'name': 'Empresa Teste do Plano de Contas CFC'
         })
