@@ -10,9 +10,9 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
-                    <field name="document_id" invisible="1"/>
-                    <field name="company_id" invisible="1"/>
-                    <field name="currency_id" invisible="1"/>
+                    <field name="document_id" />
+                    <field name="company_id" />
+                    <field name="currency_id" />
                     <group>
                         <group>
                             <field name="amount" required="1"/>
@@ -25,16 +25,25 @@
                             'default_document_id': document_id,
                             'default_currency_id': currency_id,
                             'default_company_id': company_id,
+                            'default_payment_id': id,
                             }" >
                             <tree string="Duplicatas" editable="bottom">
-                                <field name="document_id" invisible="1"/>
-                                <field name="currency_id" invisible="1"/>
-                                <field name="company_id" invisible="1"/>
+                                <field name="document_id" />
+                                <field name="currency_id" />
+                                <field name="company_id" />
+                                <field name="payment_id" />
                                 <field name="communication" />
                                 <field name="date_maturity"/>
                                 <field name="amount" sum="amount"/>
                             </tree>
                         </field>
+                        <group>
+                            <field name="forma_pagamento"/>
+                            <field name="bandeira_cartao"/>
+                            <field name="integracao_cartao"/>
+                            <field name="partner_id"/>
+                            <field name="cnpj_cpf"/>
+                        </group>
                     </group>
                 </sheet>
                 <div class="oe_chatter"></div>
@@ -50,6 +59,15 @@
                 <field name="sequence" widget="handle"/>
                 <field name="payment_term_id"/>
                 <field name="amount" sum="amount"/>
+                <field name="document_id" />
+                <field name="company_id" />
+                <field name="currency_id" />
+                <field name="forma_pagamento"/>
+                <field name="bandeira_cartao"/>
+                <field name="integracao_cartao"/>
+                <field name="partner_id"/>
+                <field name="cnpj_cpf"/>
+                <field name="line_ids"/>
             </tree>
         </field>
     </record>
