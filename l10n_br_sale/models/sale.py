@@ -305,7 +305,9 @@ class SaleOrder(models.Model):
                             self.company_id.nfe_default_serie_id.code})
                     invoice = inv_obj.create(inv_data)
                     invoice.fiscal_document_id.write({
-                        'partner_id': self.partner_id.id})
+                        'partner_id': self.partner_id.id,
+                        'payment_term_id': invoice.payment_term_id.id
+                    })
                     invoice.fiscal_document_id._onchange_company_id()
                     invoice.fiscal_document_id._onchange_partner_id()
                     invoice.fiscal_document_id._onchange_operation_id()
@@ -343,6 +345,7 @@ class SaleOrder(models.Model):
                     references[invoices[group_key]] |= order
 
             self.env['account.invoice.line'].create(line_vals_list)
+            invoice.fiscal_document_id._onchange_payment_term_id()
 
         for group_key in invoices:
             invoices[group_key].write({'name': ', '.join(invoices_name[group_key]),
