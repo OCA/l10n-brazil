@@ -39,7 +39,7 @@ def post_init_hook(cr, registry):
     """Relate fiscal taxes to account taxes."""
     env = api.Environment(cr, SUPERUSER_ID, {})
     l10n_br_simple_chart = env.ref(
-        "l10n_br_simple.l10n_br_simple_chart_template")
+        "l10n_br_simple_coa.l10n_br_simple_chart_template")
     companies = env["res.company"].search(
         [("chart_template_id", "=", l10n_br_simple_chart.id)]
     )
