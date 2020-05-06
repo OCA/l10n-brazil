@@ -16,6 +16,7 @@
                 </data>
             </field>
         </record>
+        <field name="priority">90</field>
 
         <record id="l10n_br_hr_contract_view_form" model="ir.ui.view">
             <field name="model">hr.contract</field>
