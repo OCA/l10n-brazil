@@ -28,7 +28,7 @@ Brazilian - Simple Accounting
 Cadastros básicos para Plano de Contas Brasileiro.
 
 Alguns módulos dependem de configurações básicas de contabilização,
-como contas contábeis padrões para determinads configurações.
+como contas contábeis padrões para determinadas configurações.
 
 **Table of contents**
 
