@@ -38,7 +38,11 @@ class L10nBrAccountMoveTemplateLine(models.Model):
     )
 
     @api.multi
-    def move_line_template_create(self, obj, move_lines, computed_fields=list()):
+    def move_line_template_create(self, obj, move_lines, computed_fields=None):
+
+        if not computed_fields:
+            computed_fields = list()
+
         for template_line in self:
             for obj_line in obj:
 
