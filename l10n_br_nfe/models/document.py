@@ -132,6 +132,7 @@ class NFe(spec_models.StackedModel):
         inverse='_inverse_nfe40_tpNF',
     )
     nfe40_tpImp = fields.Selection(default='1')
+    nfe40_modFrete = fields.Selection(default='9')
     nfe40_tpEmis = fields.Selection(default='1')
     nfe40_procEmi = fields.Selection(default='0')
     nfe40_verProc = fields.Char(default='Odoo Brasil v12.0')
