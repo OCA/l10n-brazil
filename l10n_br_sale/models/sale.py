@@ -345,7 +345,7 @@ class SaleOrder(models.Model):
                     references[invoices[group_key]] |= order
 
             self.env['account.invoice.line'].create(line_vals_list)
-            invoice.fiscal_document_id._onchange_payment_term_id()
+            invoice.fiscal_document_id.generate_financial()
 
         for group_key in invoices:
             invoices[group_key].write({'name': ', '.join(invoices_name[group_key]),
