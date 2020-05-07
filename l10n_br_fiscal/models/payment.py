@@ -122,7 +122,6 @@ class FiscalPayment(models.Model):
             amount=self.amount,
             date=self._get_date(),
         )
-        print(vals)
         self.update(vals)
 
     def _compute_payment_vals(
