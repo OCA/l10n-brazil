@@ -5,7 +5,7 @@
 from ast import literal_eval
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 from ..constants.fiscal import (
     TAX_FRAMEWORK,
@@ -1012,6 +1012,19 @@ class Document(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
+    def check_financial(self):
+        for record in self:
+            if not record.env.context.get('action_document_confirm'):
+                continue
+            elif record.amount_missing_payment_value > 0:
+                if not record.payment_term_id:
+                    raise UserError(
+                        _("O Valor dos lançamentos financeiros é "
+                          "menor que o valor da nota."),
+                    )
+                else:
+                    record.generate_financial()
 
     def generate_financial(self):
         for record in self:
