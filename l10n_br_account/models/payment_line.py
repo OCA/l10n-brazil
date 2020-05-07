@@ -1,23 +1,25 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import models
 
 
 class FiscalPaymentLine(models.Model):
-
     _inherit = 'l10n_br_fiscal.payment.line'
 
     def generate_move(self, move_lines):
-        for record in self:
-            if record.amount:
+        for r in self:
+            if r.amount:
                 data = {
                     'name': '/',
-                    'debit': record.amount,
+                    'debit': r.amount,
                     'currency_id':
-                        record.currency_id and record.currency_id.id or False,
-                    'partner_id': record.document_id.partner_id and record.document_id.partner_id.id or False,
-                    'account_id': record.document_id.partner_id.property_account_receivable_id.id,
-                    'date_maturity': record.date_maturity,
+                        r.currency_id and r.currency_id.id or False,
+                    'partner_id':
+                        r.document_id.partner_id and
+                        r.document_id.partner_id.id or False,
+                    'account_id':
+                        r.document_id.partner_id.property_account_receivable_id.id,
+                    'date_maturity': r.date_maturity,
                 }
                 move_lines.append((0, 0, data))
