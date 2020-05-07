@@ -69,6 +69,11 @@
                                    options='{"terminology": "archive"}'/>
                         </button>
                     </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" readonly="1"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
                             <field name="name"/>
@@ -106,7 +111,7 @@
                         <div t-attf-class="oe_kanban_global_click">
                             <div>
                                 <strong class="o_kanban_record_title">
-                                    <t t-esc="record.name.value"/>
+                                    <t t-esc="record.display_name.value"/>
                                 </strong>
                             </div>
                             <div t-if="record.note.value">
@@ -139,7 +144,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="sequence" widget="handle"/>
-                <field name="name"/>
+                <field name="display_name" string="Name"/>
                 <field name="forma_pagamento"/>
             </tree>
         </field>
