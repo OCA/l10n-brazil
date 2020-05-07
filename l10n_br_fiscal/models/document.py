@@ -1015,6 +1015,15 @@ class Document(models.Model):
 
     def generate_financial(self):
         for record in self:
+            if self.env.context.get('action_document_confirm'):
+                if (record.amount_missing_payment_value > 0 and
+                        not record.payment_term_id):
+                    raise UserError(
+                        _("O Valor dos lançamentos financeiros é "
+                          "menor que o valor da nota."),
+                    )
+                continue
+
             if record.payment_term_id and self.company_id and self.currency_id:
                 record.financial_ids.unlink()
                 record.fiscal_payment_ids.unlink()

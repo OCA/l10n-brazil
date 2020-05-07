@@ -37,6 +37,7 @@
         "data/l10n_br_fiscal_server_action.xml",
         "data/ir_cron.xml",
         "data/l10n_br_fiscal_comment_data.xml",
+        "data/payment_term_data.xml",
 
         # Wizards
         "wizards/wizard_document_cancel_view.xml",
