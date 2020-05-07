@@ -177,7 +177,7 @@
                           <field name="payment_term_id" force_save="1"/>
                       </group>
                       <group>
-                          <button name="generate_financial" string="Gerar Parcelas" type="object"/>
+                          <button name="generate_financial" string="Gerar Parcelas" type="object" attrs="{'invisible': ['|', ('payment_term_id', '=', False), ('financial_ids', '=', False)]}"/>
                       </group>
                   </group>
                   <separator name="pagamentos" string="Pagamentos" colspan="4"/>
@@ -195,13 +195,13 @@
                             'default_document_id': id,
                             'default_currency_id': currency_id,
                             'default_company_id': company_id,
-                            }" readonly="1" force_save="1">
+                            }" force_save="1">
                       <tree string="Duplicatas" editable="bottom">
                           <field name="document_id" invisible="1"/>
                           <field name="currency_id" invisible="1"/>
                           <field name="company_id" invisible="1"/>
                           <field name="payment_id" invisible="1"/>
-                          <field name="communication"/>
+                          <field name="communication" readonly="1"/>
                           <field name="date_maturity"/>
                           <field name="amount" sum="amount"/>
                       </tree>

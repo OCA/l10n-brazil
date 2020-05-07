@@ -204,6 +204,7 @@
         <field name="partner_cnpj_cpf">26.355.289/0001-55</field>
         <field name="partner_tax_framework">3</field>
         <field name="operation_type">out</field>
+        <field name="payment_term_id" ref="l10n_br_fiscal.cartao_5"/>
     </record>
 
     <record id="demo_nfe_nao_contribuinte_pf_1-2" model="l10n_br_fiscal.document.line">
@@ -431,4 +432,116 @@
         <field name="cfop_id" ref="l10n_br_fiscal.cfop_5922"/>
     </record>
 
+    <!-- NFe Test - Com onchanges -->
+    <record id="demo_nfe_same_state2" model="l10n_br_fiscal.document">
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie">1</field>
+        <field name="document_section">nfe</field>
+        <field name="key">11</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="partner_legal_name">Cliente 1 SP</field>
+        <field name="partner_name">Cliente 1 SP Contribuinte</field>
+        <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
+        <field name="partner_inscr_est">454.504.604.553</field>
+        <field name="partner_tax_framework">3</field>
+        <field name="operation_type">out</field>
+<!--        <field name="file_xml_autorizacao_id" ref="dummy_file_1"/> FIXME: Este é um campo related!!!!-->
+    </record>
+
+    <function model="l10n_br_fiscal.document" name="_onchange_document_serie_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_same_state2')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document" name="_onchange_partner_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_same_state2')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document" name="_onchange_operation_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_same_state2')]"/>
+    </function>
+
+    <record id="demo_nfe_line_same_state_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfe_same_state2"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">out</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+    </record>
+
+    <record id="demo_nfe_line_same_state_1-2" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfe_same_state2"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="operation_type">out</field>
+        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_ncm_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_operation_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_operation_line_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_ncm_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_operation_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_operation_line_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+
+    <record id="demo_nfe_same_state2_payment_1" model="l10n_br_fiscal.payment">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="currency_id" ref="base.BRL"/>
+        <field name="document_id" ref="demo_nfe_same_state2"/>
+        <field name="amount">2000</field>
+        <field name="payment_term_id" ref="l10n_br_fiscal.a_vista_dinheiro"/>
+    </record>
+    <record id="demo_nfe_same_state2_payment_2" model="l10n_br_fiscal.payment">
+        <field name="company_id" ref="base.main_company"/>
+        <field name="currency_id" ref="base.BRL"/>
+        <field name="document_id" ref="demo_nfe_same_state2"/>
+        <field name="amount">2147.25</field>
+        <field name="payment_term_id" ref="l10n_br_fiscal.boleto_15"/>
+    </record>
+
+    <function model="l10n_br_fiscal.payment" name="_onchange_payment_term_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_same_state2_payment_1')]"/>
+    </function>
+    <function model="l10n_br_fiscal.payment" name="_onchange_payment_term_id">
+        <value eval="[ref('l10n_br_fiscal.demo_nfe_same_state2_payment_2')]"/>
+    </function>
 </odoo>

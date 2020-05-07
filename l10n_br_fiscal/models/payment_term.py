@@ -113,7 +113,8 @@ class FiscalPaymentTerm(models.Model):
                 ' records still reference it. However, you can archive it.'))
         property_recs = self.env['ir.property'].search(
             [('value_reference', 'in', [
-                'account.payment.term,%s' % payment_term.id for payment_term in self])
+                'l10n_br_fiscal.payment.term,%s' % payment_term.id
+                for payment_term in self])
              ])
         property_recs.unlink()
         return super(FiscalPaymentTerm, self).unlink()
