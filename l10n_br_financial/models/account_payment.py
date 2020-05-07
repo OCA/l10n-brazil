@@ -59,6 +59,12 @@ class AccountPayment(models.Model):
     date_refund = fields.Date(
         string='Refund date',
     )
+    debit = fields.Monetary()
+    credit = fields.Monetary()
+    date = fields.Date()
+    account_id = fields.Many2one(
+        comodel_name='account.account',
+    )
 
     #
     # Relations
