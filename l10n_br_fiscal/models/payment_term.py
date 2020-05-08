@@ -106,7 +106,7 @@ class FiscalPaymentTerm(models.Model):
             raise UserError(_(
                 'You can not delete payment terms as other '
                 'records still reference it. However, you can archive it.'))
-        if self.env['l10n_br_fiscal.payment.line'].search(
+        if self.env['l10n_br_fiscal.payment'].search(
                 [('payment_term_id', 'in', self.ids)]):
             raise UserError(_(
                 'You can not delete payment terms as other'
