@@ -284,6 +284,14 @@ NFE_IND_PRES = [
 
 NFE_IND_PRES_DEFAULT = '0'
 
+NFE_IND_FINAL = [
+    ('0', 'Não'),
+    ('1', 'Sim')
+]
+
+
+NFE_IND_FINAL_DEFAULT = '1'
+
 
 CFOP_TYPE_MOVE = [
     ("purchase_industry", "Purchase Industry"),
