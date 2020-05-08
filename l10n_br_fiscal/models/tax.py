@@ -11,6 +11,8 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
     TAX_DOMAIN,
+    TAX_DOMAIN_ICMS,
+    NFE_IND_FINAL_DEFAULT,
     NFE_IND_IE_DEST_1,
     NFE_IND_IE_DEST_2,
     NFE_IND_IE_DEST_9
@@ -306,7 +308,9 @@ class Tax(models.Model):
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
 
-        if partner.ind_ie_dest in (NFE_IND_IE_DEST_2, NFE_IND_IE_DEST_9):
+        if partner.ind_ie_dest in (NFE_IND_IE_DEST_2, NFE_IND_IE_DEST_9) or \
+                (operation_line.fiscal_operation_id.ind_final ==
+                 NFE_IND_FINAL_DEFAULT):
             # Add IPI in ICMS Base
             add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
 
@@ -565,7 +569,7 @@ class Tax(models.Model):
             icmssn_range
         """
         taxes = {}
-        for tax in self:
+        for tax in self.sorted(lambda t: t.tax_domain == TAX_DOMAIN_ICMS):
             tax_dict = TAX_DICT_VALUES.copy()
             taxes[tax.tax_domain] = tax_dict
             try:
