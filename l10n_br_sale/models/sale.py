@@ -345,6 +345,15 @@ class SaleOrder(models.Model):
                     references[invoices[group_key]] |= order
 
             self.env['account.invoice.line'].create(line_vals_list)
+            for line in invoice.invoice_line_ids:
+                line.fiscal_document_line_id.write({
+                    'product_id': line.product_id.id,
+                    'name': line.product_id.name,
+                    'quantity': line.sale_line_ids.product_uom_qty
+                })
+                line.fiscal_document_line_id._onchange_operation_line_id()
+                line.fiscal_document_line_id._onchange_product_id()
+                line.fiscal_document_line_id._onchange_commercial_quantity()
             invoice.fiscal_document_id.generate_financial()
 
         for group_key in invoices:
