@@ -8,6 +8,8 @@ from ..constants.fiscal import (
     OPERATION_FISCAL_TYPE,
     OPERATION_FISCAL_TYPE_DEFAULT,
     FISCAL_IN_OUT_ALL,
+    NFE_IND_FINAL,
+    NFE_IND_FINAL_DEFAULT,
     OPERATION_STATE_DEFAULT,
     OPERATION_STATE,
     FISCAL_COMMENT_DOCUMENT,
@@ -37,6 +39,12 @@ class Operation(models.Model):
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]})
+
+    ind_final = fields.Selection(
+        selection=NFE_IND_FINAL,
+        string='Final Consumption Operation',
+        default=NFE_IND_FINAL_DEFAULT,
+    )
 
     default_price_unit = fields.Selection(
         selection=[
