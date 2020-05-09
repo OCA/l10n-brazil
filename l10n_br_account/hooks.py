@@ -38,8 +38,13 @@ def pre_init_hook(cr):
 def post_init_hook(cr, registry):
     """Relate fiscal taxes to account taxes."""
     env = api.Environment(cr, SUPERUSER_ID, {})
+<<<<<<< HEAD
     l10n_br_coa_simple_chart = env.ref(
         "l10n_br_coa_simple.l10n_br_coa_simple_chart_template")
+=======
+    l10n_br_simple_chart = env.ref(
+        "l10n_br_coa_simple.l10n_br_simple_chart_template")
+>>>>>>> [12.0][FIX] Change l10n_br_simple_coa to l10n_br_coa_simple
     companies = env["res.company"].search(
         [("chart_template_id", "=", l10n_br_coa_simple_chart.id)]
     )
