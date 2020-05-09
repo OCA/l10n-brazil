@@ -8,17 +8,17 @@ class L10nBrSimpleCOA(TransactionCase):
     def setUp(self):
         super(L10nBrSimpleCOA, self).setUp()
 
-        self.l10n_br_simple_coa = self.env.ref(
-            'l10n_br_simple_coa.l10n_br_simple_chart_template')
+        self.l10n_br_coa_simple = self.env.ref(
+            'l10n_br_coa_simple.l10n_br_coa_simple_chart_template')
         self.l10n_br_company = self.env['res.company'].create({
             'name': 'Empresa Teste do Plano de Contas Simplificado'
         })
 
-    def test_l10n_br_simple_coa(self):
+    def test_l10n_br_coa_simple(self):
         """Test to install the chart of accounts template in a new company"""
         self.env.user.company_ids += self.l10n_br_company
         self.env.user.company_id = self.l10n_br_company
-        self.l10n_br_simple_coa.try_loading_for_current_company()
+        self.l10n_br_coa_simple.try_loading_for_current_company()
 
         self.assertEquals(
-            self.l10n_br_simple_coa, self.l10n_br_company.chart_template_id)
+            self.l10n_br_coa_simple, self.l10n_br_company.chart_template_id)

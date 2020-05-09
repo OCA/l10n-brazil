@@ -18,7 +18,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_hr_contract',
         'odoo12-addon-l10n_br_portal',
         'odoo12-addon-l10n_br_resource',
-        'odoo12-addon-l10n_br_simple',
+        'odoo12-addon-l10n_br_coa_simple',
         'odoo12-addon-l10n_br_stock',
         'odoo12-addon-l10n_br_zip',
     ],
