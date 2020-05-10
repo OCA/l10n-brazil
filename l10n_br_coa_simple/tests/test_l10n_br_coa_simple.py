@@ -9,11 +9,7 @@ class L10nBrSimpleCOA(TransactionCase):
         super(L10nBrSimpleCOA, self).setUp()
 
         self.l10n_br_coa_simple = self.env.ref(
-<<<<<<< HEAD:l10n_br_coa_simple/tests/test_l10n_br_coa_simple.py
             'l10n_br_coa_simple.l10n_br_coa_simple_chart_template')
-=======
-            'l10n_br_coa_simple.l10n_br_simple_chart_template')
->>>>>>> [12.0][FIX] Change l10n_br_simple_coa to l10n_br_coa_simple:l10n_br_coa_simple/tests/test_l10n_br_coa_simple.py
         self.l10n_br_company = self.env['res.company'].create({
             'name': 'Empresa Teste do Plano de Contas Simplificado'
         })
