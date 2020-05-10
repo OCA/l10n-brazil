@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "author": "Akretion, " "Odoo Community Association (OCA)",
     "website": "http://odoo-brasil.org",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.0.1",
     "depends": ["base", "base_setup", "base_address_city", "base_address_extended"],
     "data": [
         "security/ir.model.access.csv",
