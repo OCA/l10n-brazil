@@ -603,11 +603,7 @@
 
     <data noupdate="1">
         <function model="account.chart.template" name="try_loading_for_current_company">
-<<<<<<< HEAD:l10n_br_coa_simple/data/account_tax_template_data.xml
             <value eval="[ref('l10n_br_coa_simple.l10n_br_coa_simple_chart_template')]"/>
-=======
-            <value eval="[ref('l10n_br_coa_simple.l10n_br_simple_chart_template')]"/>
->>>>>>> [12.0][FIX] Change l10n_br_simple_coa to l10n_br_coa_simple:l10n_br_coa_simple/data/account_tax_template_data.xml
         </function>
     </data>
 
