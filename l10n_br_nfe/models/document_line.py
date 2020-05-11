@@ -276,14 +276,18 @@ class NFeLine(spec_models.StackedModel):
             elif class_obj._name.startswith('nfe.40.cofins'):
                 return self.cofins_cst_id.code
         elif xsd_field == 'nfe40_vBC':
+            field_name = 'nfe40_vBC'
             if class_obj._name.startswith('nfe.40.icms'):
-                return str(self.icms_base)
+                field_name = 'icms_base'
             elif class_obj._name.startswith('nfe.40.ipi'):
-                return str(self.ipi_base)
+                field_name = 'ipi_base'
             elif class_obj._name.startswith('nfe.40.pis'):
-                return str(self.pis_base)
+                field_name = 'pis_base'
             elif class_obj._name.startswith('nfe.40.cofins'):
-                return str(self.cofins_base)
+                field_name = 'cofins_base'
+            return self._export_float_monetary(
+                field_name, member_spec, class_obj,
+                class_obj._fields[xsd_field]._attrs.get('xsd_required'))
         else:
             return super(NFeLine, self)._export_field(
                 xsd_field, class_obj, member_spec)
