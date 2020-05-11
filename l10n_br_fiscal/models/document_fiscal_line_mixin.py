@@ -70,13 +70,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         return stax_range_id
 
     @api.model
-    def _get_default_ncm_id(self):
-        fiscal_type = self.env.context.get("default_fiscal_type")
-        if fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
-            ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
-            return ncm_id
-
-    @api.model
     def _operation_domain(self):
         domain = [('state', '=', 'approved')]
         return domain
@@ -116,7 +109,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ncm_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.ncm",
         index=True,
-        default=_get_default_ncm_id,
         string="NCM")
 
     nbm_id = fields.Many2one(
