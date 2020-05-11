@@ -58,6 +58,16 @@ class NFeLine(spec_models.StackedModel):
         store=True,
     )
 
+    nfe40_choice13 = fields.Selection(
+        compute='_compute_nfe40_choice13',
+        store=True,
+    )
+
+    nfe40_choice16 = fields.Selection(
+        compute='_compute_nfe40_choice16',
+        store=True,
+    )
+
     nfe40_orig = fields.Selection(
         related='icms_origin'
     )
@@ -154,6 +164,22 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_choice20 = 'nfe40_vUnid'
 
+    @api.depends('ipi_base_type')
+    def _compute_nfe40_choice13(self):
+        for record in self:
+            if record.pis_base_type == 'percent':
+                record.nfe40_choice13 = 'nfe40_pPIS'
+            else:
+                record.nfe40_choice13 = 'nfe40_vAliqProd'
+
+    @api.depends('ipi_base_type')
+    def _compute_nfe40_choice16(self):
+        for record in self:
+            if record.pis_base_type == 'percent':
+                record.nfe40_choice16 = 'nfe40_pCOFINS'
+            else:
+                record.nfe40_choice16 = 'nfe40_vAliqProd'
+
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
             xsd_fields = [self.nfe40_choice11]
@@ -173,6 +199,22 @@ class NFeLine(spec_models.StackedModel):
             else:
                 xsd_fields.remove('nfe40_vBC')
                 xsd_fields.remove('nfe40_pIPI')
+        elif class_obj._name == 'nfe.40.pisoutr':
+            xsd_fields = [i for i in xsd_fields]
+            if self.nfe40_choice13 == 'nfe40_pPIS':
+                xsd_fields.remove('nfe40_qBCProd')
+                xsd_fields.remove('nfe40_vAliqProd')
+            else:
+                xsd_fields.remove('nfe40_vBC')
+                xsd_fields.remove('nfe40_pPIS')
+        elif class_obj._name == 'nfe.40.cofinsoutr':
+            xsd_fields = [i for i in xsd_fields]
+            if self.nfe40_choice16 == 'nfe40_pCOFINS':
+                xsd_fields.remove('nfe40_qBCProd')
+                xsd_fields.remove('nfe40_vAliqProd')
+            else:
+                xsd_fields.remove('nfe40_vBC')
+                xsd_fields.remove('nfe40_pCOFINS')
 
         self.nfe40_NCM = self.ncm_id.code.replace('.', '')
         self.nfe40_CEST = self.cest_id and \
@@ -233,6 +275,15 @@ class NFeLine(spec_models.StackedModel):
                 return self.pis_cst_id.code
             elif class_obj._name.startswith('nfe.40.cofins'):
                 return self.cofins_cst_id.code
+        elif xsd_field == 'nfe40_vBC':
+            if class_obj._name.startswith('nfe.40.icms'):
+                return str(self.icms_base)
+            elif class_obj._name.startswith('nfe.40.ipi'):
+                return str(self.ipi_base)
+            elif class_obj._name.startswith('nfe.40.pis'):
+                return str(self.pis_base)
+            elif class_obj._name.startswith('nfe.40.cofins'):
+                return str(self.cofins_base)
         else:
             return super(NFeLine, self)._export_field(
                 xsd_field, class_obj, member_spec)
