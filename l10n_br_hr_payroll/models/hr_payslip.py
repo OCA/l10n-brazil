@@ -3092,6 +3092,22 @@ class HrPayslip(models.Model):
         medias_obj = self.env['l10n_br.hr.medias']
 
         if self.tipo_de_folha in ['ferias', 'aviso_previo', 'provisao_ferias']:
+            if not self.periodo_aquisitivo:
+
+                msg = u'Período Aquisitivo não encontrado. ' \
+                      u'\nSe estiver processando provisão:' \
+                      u'\n\n - Holerite avulso: Clicar em editar e ' \
+                      u'selecionar o período aquisitivo correto.' \
+                      u'\n\n - Provisão por Lote de Holerites:' \
+                      u'\n1. Acessar GEPES > Provisão > Provisão férias' \
+                      u'\n2. Identificar holerite com problemas' \
+                      u'\n3. Excluir holerite ' \
+                      u'\n4. Voltar ao Lote de provisões ' \
+                      u'\n5. Clicar em \"Buscar Contratos\" ' \
+                      u'e em seguida \"Gerar Holerites\"' \
+
+                raise exceptions.Warning(msg)
+
             periodo_aquisitivo = self.periodo_aquisitivo
             data_de_inicio = \
                 fields.Date.from_string(periodo_aquisitivo.inicio_aquisitivo)
