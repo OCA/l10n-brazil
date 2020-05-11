@@ -12,7 +12,7 @@ from odoo.tools import float_is_zero
 
 class SaleOrder(models.Model):
     _name = 'sale.order'
-    _inherit = ['sale.order', 'l10n_br_fiscal.document.mixin']
+    _inherit = [_name, 'l10n_br_fiscal.document.mixin']
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
@@ -96,6 +96,7 @@ class SaleOrder(models.Model):
         return self.env.user.company_id.copy_note
 
     operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
         readonly=True,
         states={'draft': [('readonly', False)]},
         default=_default_operation,
@@ -103,7 +104,7 @@ class SaleOrder(models.Model):
 
     ind_pres = fields.Selection(
         readonly=True,
-        states={"draft": [("readonly", False)]})
+        states={'draft': [('readonly', False)]})
 
     copy_note = fields.Boolean(
         string='Copiar Observação no documentos fiscal',
@@ -149,30 +150,31 @@ class SaleOrder(models.Model):
         states={"draft": [("readonly", False)]})
 
     amount_insurance = fields.Float(
-        compute="_amount_all",
-        inverse="_inverse_amount_insurance",
-        string="Insurance",
+        compute='_amount_all',
+        inverse='_inverse_amount_insurance',
+        string='Insurance',
         default=0.00,
-        digits=dp.get_precision("Account"),
+        digits=dp.get_precision('Account'),
         readonly=True,
-        states={"draft": [("readonly", False)]})
+        states={'draft': [('readonly', False)]})
 
     amount_costs = fields.Float(
-        compute="_amount_all",
-        inverse="_inverse_amount_costs",
+        compute='_amount_all',
+        inverse='_inverse_amount_costs',
         string="Other Costs",
         default=0.00,
-        digits=dp.get_precision("Account"),
+        digits=dp.get_precision('Account'),
         readonly=True,
-        states={"draft": [("readonly", False)]})
+        states={'draft': [('readonly', False)]})
 
     document_count = fields.Integer(related='invoice_count', readonly=True)
 
     @api.onchange('discount_rate')
     def onchange_discount_rate(self):
-        for sale_order in self:
-            for sale_line in sale_order.order_line:
-                sale_line.discount = sale_order.discount_rate
+        for order in self:
+            for line in order.order_line:
+                line.discount = order.discount_rate
+                line._onchange_discount()
 
     @api.onchange("operation_id")
     def _onchange_operation_id(self):
@@ -221,8 +223,8 @@ class SaleOrder(models.Model):
         result = super(SaleOrder, self)._prepare_invoice()
 
         if self.operation_id:
-            result['operation_id'] = self.operation_id.id
             result['fiscal_document_id'] = False
+            result['operation_id'] = self.operation_id.id
             result['operation_type'] = self.operation_id.operation_type
             result['partner_shipping_id'] = self.partner_shipping_id.id
 
