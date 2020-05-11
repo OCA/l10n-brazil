@@ -305,6 +305,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_product_id_fiscal(self):
         if self.product_id:
             self.name = self.product_id.display_name
+            self.fiscal_type = self.product_id.fiscal_type
             self.uom_id = self.product_id.uom_id
             self.ncm_id = self.product_id.ncm_id
             self.nbm_id = self.product_id.nbm_id
@@ -315,6 +316,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.uot_id = self.product_id.uot_id or self.product_id.uom_id
         else:
             self.name = False
+            self.fiscal_type = False
             self.uom_id = False
             self.ncm_id = False
             self.nbm_id = False
@@ -706,7 +708,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "freight_value")
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
-        self._update_taxes()
 
     @api.onchange("uot_id", "uom_id", "price_unit", "quantity")
     def _onchange_commercial_quantity(self):
@@ -720,8 +721,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self.uom_id != self.uot_id:
             self.fiscal_price = self.price_unit / self.product_id.uot_factor
             self.fiscal_quantity = self.quantity * self.product_id.uot_factor
-
-        self._onchange_fiscal_taxes()
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
