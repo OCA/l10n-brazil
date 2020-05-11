@@ -58,7 +58,7 @@
             <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="replace"/>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                 <field name="discount" groups="sale.group_discount_per_so_line"/>
-                <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
+                <field name="discount_value" groups="sale.group_discount_per_so_line,l10n_br_sale.group_discount_per_value"/>
                 <field name="fiscal_tax_ids" widget="many2many_tags"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
@@ -71,13 +71,13 @@
             <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="after">
                 <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
                 <field name="operation_type" invisible="1" readonly="1"/>
-                <field name="fiscal_type" invisible="1" readonly="1"/>
+                <field name="fiscal_type" force_save="1" invisible="1"  readonly="1"/>
                 <field name="operation_id" required="1"/>
                 <field name="fiscal_price" force_save="1" invisible="1"/>
                 <field name="fiscal_quantity" force_save="1" invisible="1"/>
                 <field name="operation_line_id" required="1"/>
-                <field name="cfop_id" attrs="{'invisible': ['fiscal_type', '=', '00']}"/>
-                <field name="service_type_id" attrs="{'invisible': ['fiscal_type', '!=', '00']}"/>
+                <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"/>
+                <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"/>
                 <field name="cfop_destination" invisible="1"/>
                 <field name="fiscal_genre_code" invisible="1"/>
                 <field name="tax_framework" invisible="1"/>
@@ -394,15 +394,16 @@
                       </page>
                       <page name="outros" string="Outros Custos">
                           <group>
+                            <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+                              <field name="freight_value"/>
                               <field name="insurance_value"/>
                               <field name="other_costs_value"/>
-                              <field name="freight_value"/>
                           </group>
                       </page>
                 </notebook>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
-                <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
+                <field name="discount_value" groups="sale.group_discount_per_so_line,l10n_br_sale.group_discount_per_value"/>
             </xpath>
             <xpath expr="//group[@name='sale_total']" position="after">
                 <group style="width: 65%%"
