@@ -247,13 +247,18 @@ class Tax(models.Model):
         # fiscal_price = kwargs.get("fiscal_price", 0.00)
         # fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
         # uot_id = kwargs.get("uot_id")
-        # discount_value = kwargs.get("discount_value", 0.00)
+        discount_value = kwargs.get("discount_value", 0.00)
         # insurance_value = kwargs.get("insurance_value", 0.00)
         # other_costs_value = kwargs.get("other_costs_value", 0.00)
         # freight_value = kwargs.get("freight_value", 0.00)
         # ncm = kwargs.get("ncm")
         # cest = kwargs.get("cest")
         operation_line = kwargs.get("operation_line")
+        remove_from_base = [discount_value]
+
+        kwargs.update({
+            'remove_from_base': sum(remove_from_base),
+        })
 
         tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
 
