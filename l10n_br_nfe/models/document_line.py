@@ -2,6 +2,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
+from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_ST_CST_CODES
+
+ICMS_ST_CST_CODES = ['60',]
 
 
 class NFeLine(spec_models.StackedModel):
@@ -288,6 +291,11 @@ class NFeLine(spec_models.StackedModel):
             return self._export_float_monetary(
                 field_name, member_spec, class_obj,
                 class_obj._fields[xsd_field]._attrs.get('xsd_required'))
+        elif xsd_field in ('nfe40_vBCSTRet', 'nfe40_pST',
+                           'nfe40_vICMSSubstituto', 'nfe40_vICMSSTRet'):
+            if self.icms_cst_id.code in ICMS_ST_CST_CODES:
+                return self._export_float_monetary(
+                    xsd_field, member_spec, class_obj, True)
         else:
             return super(NFeLine, self)._export_field(
                 xsd_field, class_obj, member_spec)
