@@ -8,12 +8,26 @@ from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 class SaleOrderLine(models.Model):
     _name = 'sale.order.line'
-    _inherit = ['sale.order.line', 'l10n_br_fiscal.document.line.mixin']
+    _inherit = [_name, 'l10n_br_fiscal.document.line.mixin']
 
     def _get_protected_fields(self):
         protected_fields = super(SaleOrderLine, self)._get_protected_fields()
         return protected_fields + [
             'fiscal_tax_ids', 'operation_id', 'operation_line_id']
+
+    @api.model
+    def _default_operation(self):
+        return self.env.user.company_id.sale_fiscal_operation_id
+
+    @api.model
+    def _operation_domain(self):
+        domain = [('state', '=', 'approved')]
+        return domain
+
+    operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
+        default=_default_operation,
+        domain=lambda self: self._operation_domain())
 
     # Adapt Mixin's fields
     fiscal_tax_ids = fields.Many2many(
@@ -24,10 +38,12 @@ class SaleOrderLine(models.Model):
         string='Fiscal Taxes')
 
     quantity = fields.Float(
-        related='product_uom_qty')
+        related='product_uom_qty',
+        depends=['product_uom_qty'])
 
     uom_id = fields.Many2one(
-        related='product_uom')
+        related='product_uom',
+        depends=['product_uom'])
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
@@ -51,41 +67,28 @@ class SaleOrderLine(models.Model):
     def _calc_line_quantity(self):
         return self.product_uom_qty
 
-    @api.depends('product_uom_qty', 'discount', 'price_unit')
+    @api.depends(
+        'product_uom_qty',
+        'price_unit',
+        'discount',
+        'fiscal_price',
+        'fiscal_quantity',
+        'discount_value',
+        'insurance_value',
+        'other_costs_value',
+        'freight_value',
+        'tax_id')
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
+        super(SaleOrderLine, self)._compute_amount()
         for line in self:
-            line.tax_id |= line.fiscal_tax_ids.account_taxes()
-            taxes = line.tax_id.compute_all(
-                price_unit=line._calc_line_base_price(),
-                currency=line.order_id.currency_id,
-                quantity=line._calc_line_quantity(),
-                product=line.product_id,
-                partner=line.order_id.partner_id,
-                fiscal_taxes=line.fiscal_tax_ids,
-                operation_line=line.operation_line_id,
-                ncm=line.ncm_id,
-                nbm=line.nbm_id,
-                cest=line.cest_id,
-                discount_value=line.discount_value,
-                insurance_value=line.insurance_value,
-                other_costs_value=line.other_costs_value,
-                freight_value=line.freight_value,
-                fiscal_price=line.fiscal_price,
-                fiscal_quantity=line.fiscal_quantity,
-                uot=line.uot_id,
-                icmssn_range=line.icmssn_range_id)
-
-            tax_not_included = sum(
-                t.get('amount', 0.0)
-                for t in taxes.get('taxes', []) if not t.get('tax_include'))
-
+            line._update_taxes()
+            price_tax = line.price_tax + line.amount_tax_not_included
             line.update({
-                'amount_tax_not_included': tax_not_included,
-                'price_tax': tax_not_included,
-                'price_gross': taxes['total_excluded'] + line.discount_value,
-                'price_total': taxes['total_included'],
-                'price_subtotal': taxes['total_excluded'],
+                'price_tax': price_tax,
+                'price_gross': line.price_subtotal + line.discount_value,
+                'price_subtotal': line.price_subtotal,
+                'price_total': line.price_subtotal + price_tax,
             })
 
     @api.multi
@@ -98,6 +101,7 @@ class SaleOrderLine(models.Model):
             self.order_id.invoice_ids.id).fiscal_document_id.id
 
         if fiscal_operation:
+            result['fiscal_document_line_id'] = False
             result['operation_id'] = fiscal_operation.id
             result['operation_line_id'] = self.operation_line_id.id
             result["insurance_value"] = self.insurance_value
@@ -113,23 +117,31 @@ class SaleOrderLine(models.Model):
                         result["cfop_id"] = cfop.id
         return result
 
-    @api.onchange('product_uom', 'product_uom_qty', 'price_unit')
+    @api.onchange('product_uom', 'product_uom_qty')
     def _onchange_product_uom(self):
         """To call the method in the mixin to update
         the price and fiscal quantity."""
-        super(SaleOrderLine, self).product_uom_change()
         self._onchange_commercial_quantity()
 
-    @api.onchange('discount_value', 'discount')
-    def _onchange_discount_value(self):
-        """Update discount percent"""
+    @api.onchange('discount')
+    def _onchange_discount(self):
+        """Update discount value"""
         if self.env.user.has_group('l10n_br_sale.group_discount_per_value'):
-            if self.discount_value:
-                self.discount = (
-                    abs(((self.price_subtotal / self.price_gross) * 100) - 1))
-        else:
             if self.discount:
                 self.discount_value = (
-                    self.product_uom_qty *
-                    (self.price_unit * ((self.discount or 0.0) / 100.0))
-                )
+                    self.price_gross * (self.discount / 100))
+
+    @api.onchange('discount')
+    def _onchange_discount(self):
+        """Update discount percent"""
+
+        # else:
+        #     if self.discount:
+        #         self.discount_value = (
+        #             self.product_uom_qty *
+        #             (self.price_unit * ((self.discount or 0.0) / 100.0))
+        #         )
+
+    @api.onchange('fiscal_tax_ids')
+    def _onchange_fiscal_tax_ids(self):
+        self.tax_id |= self.fiscal_tax_ids.account_taxes()
