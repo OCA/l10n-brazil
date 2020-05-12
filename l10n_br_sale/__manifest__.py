@@ -10,7 +10,7 @@
         'Odoo Community Association (OCA)',
     "website": "http://odoo-brasil.org",
     "version": "12.0.1.0.0",
-    "depends": ["sale", "l10n_br_account"],
+    "depends": ["sale_management", "l10n_br_account"],
     "data": [
         # Data
         "data/company_data.xml",
