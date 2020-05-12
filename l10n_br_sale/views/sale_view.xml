@@ -23,7 +23,7 @@
         <field name="arch" type="xml">
             <button name="action_view_invoice" position="after">
                 <button name="action_view_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}">
-                    <field name="document_count" widget="statinfo" string="Documents" modifiers="{'readonly':true}"/>
+                    <field name="fiscal_document_count" widget="statinfo" string="Fiscal Documents" modifiers="{'readonly':true}"/>
                 </button>
             </button>
             <field name="amount_untaxed" position="before">
@@ -31,7 +31,7 @@
                 <field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
             </field>
             <field name="amount_untaxed" position="after">
-                <field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                <field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                 <field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
                 <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
             </field>
