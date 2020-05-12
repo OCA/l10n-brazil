@@ -42,46 +42,6 @@ class SaleOrder(models.Model):
             order.amount_insurance = sum(
                 line.insurance_value for line in order.order_line)
 
-    @api.multi
-    def _inverse_amount_freight(self):
-        for line in self.order_line:
-            if not self.amount_gross:
-                break
-            line.write({
-                'freight_value': misc.calc_price_ratio(
-                    line.price_gross,
-                    self.amount_freight,
-                    line.order_id.amount_gross,
-                )}
-            )
-
-    @api.multi
-    def _inverse_amount_insurance(self):
-        for line in self.order_line:
-            if not self.amount_gross:
-                break
-            line.write({
-                'insurance_value': misc.calc_price_ratio(
-                    line.price_gross,
-                    self.amount_insurance,
-                    line.order_id.amount_gross
-                )}
-            )
-
-    @api.multi
-    def _inverse_amount_costs(self):
-        # TODO FIX MULTI
-        for line in self.order_line:
-            if not self.amount_gross:
-                break
-            line.write({
-                'other_costs_value': misc.calc_price_ratio(
-                    line.price_gross,
-                    self.amount_costs,
-                    line.order_id.amount_gross
-                )}
-            )
-
     @api.model
     def _default_operation(self):
         return self.env.user.company_id.sale_fiscal_operation_id
@@ -136,14 +96,16 @@ class SaleOrder(models.Model):
 
     amount_discount = fields.Monetary(
         compute='_amount_all',
-        string='Discount (-)',
         store=True,
+        string='Discount (-)',
+        readonly=True,
         help="The discount amount.")
 
     amount_freight = fields.Float(
         compute='_amount_all',
-        inverse='_inverse_amount_freight',
+        store=True,
         string='Freight',
+        readonly=True,
         default=0.00,
         digits=dp.get_precision("Account"),
         readonly=True,
@@ -151,23 +113,23 @@ class SaleOrder(models.Model):
 
     amount_insurance = fields.Float(
         compute='_amount_all',
-        inverse='_inverse_amount_insurance',
+        store=True,
         string='Insurance',
-        default=0.00,
-        digits=dp.get_precision('Account'),
         readonly=True,
-        states={'draft': [('readonly', False)]})
+        default=0.00,
+        digits=dp.get_precision('Account'))
 
     amount_costs = fields.Float(
         compute='_amount_all',
-        inverse='_inverse_amount_costs',
+        store=True,
         string="Other Costs",
-        default=0.00,
-        digits=dp.get_precision('Account'),
         readonly=True,
-        states={'draft': [('readonly', False)]})
+        default=0.00,
+        digits=dp.get_precision('Account'))
 
-    document_count = fields.Integer(related='invoice_count', readonly=True)
+    fiscal_document_count = fields.Integer(
+        related='invoice_count',
+        readonly=True)
 
     @api.onchange('discount_rate')
     def onchange_discount_rate(self):
@@ -176,7 +138,7 @@ class SaleOrder(models.Model):
                 line.discount = order.discount_rate
                 line._onchange_discount()
 
-    @api.onchange("operation_id")
+    @api.onchange('operation_id')
     def _onchange_operation_id(self):
         self.fiscal_position_id = self.operation_id.fiscal_position_id
 
@@ -224,12 +186,16 @@ class SaleOrder(models.Model):
 
         if self.operation_id:
             result['fiscal_document_id'] = False
+            result['fiscal_doc_partner_id'] = self.partner_id.id
+            result['fiscal_doc_currency_id'] = self.company_id.currency_id.id
+            result['fiscal_doc_company_id'] = self.company_id.id
             result['operation_id'] = self.operation_id.id
             result['operation_type'] = self.operation_id.operation_type
             result['partner_shipping_id'] = self.partner_shipping_id.id
 
             # TODO Defini document_type_id in other method in line
             result['document_type_id'] = self._context.get('document_type_id')
+            result['document_serie_id'] = 1 # TODO
 
             if self.operation_id.journal_id:
                 result['journal_id'] = self.operation_id.journal_id.id
@@ -300,19 +266,7 @@ class SaleOrder(models.Model):
                     inv_data = order.with_context(
                         document_type_id=line.operation_line_id.get_document_type(
                             line.order_id.company_id).id)._prepare_invoice()
-                    inv_data.update({
-                        'document_serie_id':
-                            self.company_id.nfe_default_serie_id.id,
-                        'document_serie':
-                            self.company_id.nfe_default_serie_id.code})
                     invoice = inv_obj.create(inv_data)
-                    invoice.fiscal_document_id.write({
-                        'partner_id': self.partner_id.id,
-                        'payment_term_id': invoice.payment_term_id.id
-                    })
-                    invoice.fiscal_document_id._onchange_company_id()
-                    invoice.fiscal_document_id._onchange_partner_id()
-                    invoice.fiscal_document_id._onchange_operation_id()
                     references[invoice] = order
                     invoices[group_key] = invoice
                     invoices_origin[group_key] = [invoice.origin]
@@ -347,16 +301,6 @@ class SaleOrder(models.Model):
                     references[invoices[group_key]] |= order
 
             self.env['account.invoice.line'].create(line_vals_list)
-            for line in invoice.invoice_line_ids:
-                line.fiscal_document_line_id.write({
-                    'product_id': line.product_id.id,
-                    'name': line.product_id.name,
-                    'quantity': line.sale_line_ids.product_uom_qty
-                })
-                line.fiscal_document_line_id._onchange_operation_line_id()
-                line.fiscal_document_line_id._onchange_product_id()
-                line.fiscal_document_line_id._onchange_commercial_quantity()
-            invoice.fiscal_document_id.generate_financial()
 
         for group_key in invoices:
             invoices[group_key].write({'name': ', '.join(invoices_name[group_key]),
