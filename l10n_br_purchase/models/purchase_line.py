@@ -2,7 +2,7 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models, fields
+from odoo import api, fields, models
 
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
@@ -11,7 +11,26 @@ class PurchaseOrderLine(models.Model):
     _name = 'purchase.order.line'
     _inherit = ['purchase.order.line', 'l10n_br_fiscal.document.line.mixin']
 
+    @api.model
+    def _default_operation(self):
+        return self.env.user.company_id.purchase_fiscal_operation_id
+
+    @api.model
+    def _operation_domain(self):
+        domain = [
+            ('state', '=', 'approved'),
+            ('fiscal_type', 'in', ('purchase', 'other', 'purchase_refund'))]
+        return domain
+
     # Adapt Mixin's fields
+    operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=_default_operation,
+        domain=lambda self: self._operation_domain(),
+    )
+
     fiscal_tax_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax',
         relation='fiscal_purchase_line_tax_rel',
@@ -37,36 +56,21 @@ class PurchaseOrderLine(models.Model):
         related='order_id.partner_id',
         string='Partner')
 
-    @api.depends('product_qty', 'price_unit',  'taxes_id', 'fiscal_tax_ids')
+    @api.depends('product_qty', 'price_unit',  'taxes_id')
     def _compute_amount(self):
-        """Compute the amounts of the SO line."""
+        """Compute the amounts of the PO line."""
+        super(PurchaseOrderLine, self)._compute_amount()
         for line in self:
-            line.taxes_id |= line.fiscal_tax_ids.account_taxes()
-            price = line.price_unit
-            taxes = line.taxes_id.compute_all(
-                price_unit=price,
-                currency=line.order_id.currency_id,
-                quantity=line.product_uom_qty,
-                product=line.product_id,
-                partner=line.order_id.partner_id,
-                fiscal_taxes=line.fiscal_tax_ids,
-                operation_line=line.operation_line_id,
-                ncm=line.ncm_id,
-                nbm=line.nbm_id,
-                cest=line.cest_id,
-                discount_value=line.discount_value,
-                insurance_value=line.insurance_value,
-                other_costs_value=line.other_costs_value,
-                freight_value=line.freight_value,
-                fiscal_price=line.fiscal_price,
-                fiscal_quantity=line.fiscal_quantity,
-                uot=line.uot_id,
-                icmssn_range=line.icmssn_range_id)
+            line._update_taxes()
+            price_tax = line.price_tax + line.amount_tax_not_included
+            price_subtotal = (
+                line.price_subtotal + line.freight_value +
+                line.insurance_value + line.other_costs_value)
+
             line.update({
-                'price_tax': sum(
-                    t.get('amount', 0.0) for t in taxes.get('taxes', [])),
-                'price_total': taxes['total_included'],
-                'price_subtotal': taxes['total_excluded'],
+                'price_tax': price_tax,
+                'price_subtotal': price_subtotal,
+                'price_total': price_subtotal + price_tax,
             })
 
     @api.onchange('product_qty', 'product_uom')
@@ -75,3 +79,7 @@ class PurchaseOrderLine(models.Model):
         the price and fiscal quantity."""
         super(PurchaseOrderLine, self)._onchange_quantity()
         self._onchange_commercial_quantity()
+
+    @api.onchange('fiscal_tax_ids')
+    def _onchange_fiscal_tax_ids(self):
+        self.taxes_id |= self.fiscal_tax_ids.account_taxes()

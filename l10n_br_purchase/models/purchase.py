@@ -21,6 +21,7 @@ class PurchaseOrder(models.Model):
         return domain
 
     operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
         readonly=True,
         states={'draft': [('readonly', False)]},
         default=_default_operation,
@@ -41,6 +42,20 @@ class PurchaseOrder(models.Model):
         string='State Tax Number/RG',
         related='partner_id.inscr_est',
     )
+
+    @api.multi
+    def action_view_invoice(self):
+        result = super(PurchaseOrder, self).action_view_invoice()
+        result['context'].update({
+            'default_fiscal_document_id': False,
+            'default_operation_id': self.operation_id.id,
+            'default_document_type_id': self.company_id.document_type_id.id,
+            'default_issuer': 'partner',
+            'default_operation_type': self.operation_id.operation_type,
+            'default_fiscal_doc_partner_id': self.partner_id.id,
+            'default_fiscal_doc_company_id': self.company_id.id,
+        })
+        return result
 
     @api.onchange('operation_id')
     def _onchange_operation_id(self):
