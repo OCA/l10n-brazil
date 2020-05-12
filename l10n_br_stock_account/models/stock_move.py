@@ -24,6 +24,7 @@ class StockMove(models.Model):
         return domain
 
     operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
         readonly=True,
         states={'draft': [('readonly', False)]},
         default=_default_operation,
@@ -68,7 +69,7 @@ class StockMove(models.Model):
     def _prepare_merge_moves_distinct_fields(self):
         distinct_fields = super(
             StockMove, self)._prepare_merge_moves_distinct_fields()
-        distinct_fields += ['operation_id', 'operation_line_id', ]
+        distinct_fields += ['operation_id', 'operation_line_id']
         return distinct_fields
 
     @api.model
