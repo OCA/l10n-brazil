@@ -61,12 +61,6 @@ class SaleOrderLine(models.Model):
         string='Gross Amount',
         default=0.00)
 
-    def _calc_line_base_price(self):
-        return self.price_unit * (1 - (self.discount or 0.0) / 100.0)
-
-    def _calc_line_quantity(self):
-        return self.product_uom_qty
-
     @api.depends(
         'product_uom_qty',
         'price_unit',
@@ -74,9 +68,9 @@ class SaleOrderLine(models.Model):
         'fiscal_price',
         'fiscal_quantity',
         'discount_value',
+        'freight_value',
         'insurance_value',
         'other_costs_value',
-        'freight_value',
         'tax_id')
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
@@ -84,11 +78,15 @@ class SaleOrderLine(models.Model):
         for line in self:
             line._update_taxes()
             price_tax = line.price_tax + line.amount_tax_not_included
+            price_subtotal = (
+                line.price_subtotal + line.freight_value +
+                line.insurance_value + line.other_costs_value)
+
             line.update({
                 'price_tax': price_tax,
-                'price_gross': line.price_subtotal + line.discount_value,
-                'price_subtotal': line.price_subtotal,
-                'price_total': line.price_subtotal + price_tax,
+                'price_gross': price_subtotal + line.discount_value,
+                'price_subtotal': price_subtotal,
+                'price_total': price_subtotal + price_tax,
             })
 
     @api.multi
@@ -96,25 +94,31 @@ class SaleOrderLine(models.Model):
         self.ensure_one()
         result = super(SaleOrderLine, self)._prepare_invoice_line(qty)
         fiscal_operation = self.operation_id or self.order_id.operation_id
-        result['fiscal_document_line_id'] = False
-        result['document_id'] = self.env['account.invoice'].browse(
-            self.order_id.invoice_ids.id).fiscal_document_id.id
 
         if fiscal_operation:
+            # To create a new fiscal document line
             result['fiscal_document_line_id'] = False
+
+            # fiscal document line Related fields
+            result['fiscal_doc_line_name'] = self.name
+            result['fiscal_doc_line_partner_id'] = self.partner_id.id
+            result['fiscal_doc_line_company_id'] = self.company_id.id
+            result['fiscal_doc_line_product_id'] = self.product_id.id
+            result['fiscal_doc_line_uom_id'] = self.product_uom.id
+            result['fiscal_doc_line_quantity'] = self.product_uom_qty
+            result['fiscal_doc_line_price_unit'] = self.price_unit
+            result['fiscal_doc_line_discount'] = self.discount_value
+
+            # fiscal document line fields
             result['operation_id'] = fiscal_operation.id
             result['operation_line_id'] = self.operation_line_id.id
+            result["freight_value"] = self.freight_value
             result["insurance_value"] = self.insurance_value
             result["other_costs_value"] = self.other_costs_value
-            result["freight_value"] = self.freight_value
             result["partner_order"] = self.partner_order
             result["partner_order_line"] = self.partner_order_line
-
-            if self.product_id.fiscal_type == "product":
-                if self.operation_line_id:
-                    cfop = self.operation_line_id.cfop_id
-                    if cfop:
-                        result["cfop_id"] = cfop.id
+            result['amount_tax_not_included'] = self.amount_tax_not_included
+            result['amount_tax_withholding'] = self.amount_tax_withholding
         return result
 
     @api.onchange('product_uom', 'product_uom_qty')
