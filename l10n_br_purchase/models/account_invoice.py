@@ -1,56 +1,29 @@
 # Copyright (C) 2020  Magno Costa - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, api
+from odoo import api, models
 
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     def _prepare_invoice_line_from_po_line(self, line):
-        data = super(
+        result = super(
             AccountInvoice, self
         )._prepare_invoice_line_from_po_line(line)
 
-        data['operation_id'] = line.operation_id.id
-        data['operation_line_id'] = line.operation_line_id.id
+        # To create a new fiscal document line
+        result['fiscal_document_line_id'] = False
 
-        return data
+        # fiscal document line fields
+        result['operation_id'] = line.operation_id.id
+        result['operation_line_id'] = line.operation_line_id.id
+        result["freight_value"] = line.freight_value
+        result["insurance_value"] = line.insurance_value
+        result["other_costs_value"] = line.other_costs_value
+        result["partner_order"] = line.partner_order
+        result["partner_order_line"] = line.partner_order_line
+        result['amount_tax_not_included'] = line.amount_tax_not_included
+        result['amount_tax_withholding'] = line.amount_tax_withholding
 
-    @api.model
-    def create(self, values):
-
-        values['purchase_id'] = values[
-            'invoice_line_ids'][0][2].get('purchase_id')
-
-        # TODO - Are we need to identify when should create fiscal document ?
-        values['fiscal_document_id'] = False
-
-        # TODO - Is there a better way to make it ? Should exist
-        if values['invoice_line_ids'][0][2].get('purchase_id'):
-            purchase = self.env['purchase.order'].browse(
-                values['invoice_line_ids'][0][2].get('purchase_id'))
-
-            values['operation_id'] = purchase.operation_id.id
-            values['operation_type'] = purchase.operation_type
-
-            for line in values['invoice_line_ids']:
-                if line[2]['purchase_line_id']:
-                    purchase_line = self.env[
-                        'purchase.order.line'].browse(
-                        line[2]['purchase_line_id'])
-                    document_type_id = \
-                        purchase_line.operation_line_id.get_document_type(
-                            purchase_line.order_id.company_id).id
-                    # TODO - Fields below should be filled by method
-                    #  _prepare_invoice_line_from_po_line() above, but
-                    #  the dict line[2] don't bring the fields, it's seems
-                    #  there is another method removing the fields
-                    line[2]['operation_id'] = purchase_line.operation_id.id
-                    line[2]['operation_line_id'] = purchase_line.operation_line_id.id
-
-            values['document_type_id'] = document_type_id
-
-        invoice = super(AccountInvoice, self).create(values)
-
-        return invoice
+        return result
