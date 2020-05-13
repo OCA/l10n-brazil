@@ -62,7 +62,7 @@ class Partner(models.Model):
     cnpj_cpf = fields.Char(string="CNPJ/CPF", size=18)
     vat = fields.Char(related="cnpj_cpf")
 
-    inscr_est = fields.Char(string="State Tax Number/RG", size=16)
+    inscr_est = fields.Char(string="State Tax Number/RG", size=17)
 
     state_tax_number_ids = fields.One2many(
         string="Others State Tax Number",
