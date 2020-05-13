@@ -59,5 +59,6 @@ class AccountInvoice(models.Model):
         string="Fiscal Document",
         required=True,
         ondelete="restrict",  # or cascade?
-        default=lambda self: self.env.ref(
-            "l10n_br_fiscal.fiscal_document_dummy"))
+        default=False)  # TODO hack for PR demo
+    #       lambda self: self.env.ref(
+    #       "l10n_br_fiscal.fiscal_document_dummy"))
