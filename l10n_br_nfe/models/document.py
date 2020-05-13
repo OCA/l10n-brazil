@@ -1,10 +1,12 @@
 # Copyright 2019 Akretion
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+import base64
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.edoc import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
+from erpbrasil.edoc.pdf import base
 from nfelib.v4_00 import leiauteNFe
 from odoo import api, fields, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -398,8 +400,20 @@ class NFe(spec_models.StackedModel):
                     processo = p
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ['100']:
-                for protocolo in processo.resposta.protNFe:
+                protocolos = processo.resposta.protNFe
+                if type(protocolos) != list:
+                    protocolos = [protocolos]
+                for protocolo in protocolos:
+                    nfe_proc = leiauteNFe.TNfeProc(
+                        NFe=edoc,
+                        protNFe=protocolo,
+                    )
+                    nfe_proc.original_tagname_ = 'nfeProc'
+                    xml_file = \
+                        procesador._generateds_to_string_etree(nfe_proc)[0]
+                    record.autorizacao_event_id.set_done(xml_file)
                     record.atualiza_status_nfe(protocolo.infProt)
+                    record.gera_pdf()
             elif processo.resposta.cStat == '225':
                 state = SITUACAO_EDOC_REJEITADA
 
@@ -773,3 +787,35 @@ class NFe(spec_models.StackedModel):
         else:
             super(NFe, self)._build_many2one(comodel, vals, new_value,
                                              key, create_m2o)
+
+    def gera_pdf(self):
+        file_pdf = self.file_pdf_id
+        self.file_pdf_id = False
+        file_pdf.unlink()
+        output = self.autorizacao_event_id.monta_caminho(
+            ambiente=self.nfe40_tpAmb,
+            company_id=self.company_id,
+            chave=self.key,
+        )
+        arquivo = output + self.file_xml_autorizacao_id.datas_fname
+        base.ImprimirXml.imprimir(caminho_xml=arquivo, output_dir=output)
+        file_name = 'danfe.pdf'
+        with open(output + file_name, 'rb') as f:
+            arquivo_data = f.read()
+
+        self.file_pdf_id = self.env['ir.attachment'].create(
+            {
+                "name": file_name,
+                "datas_fname": file_name,
+                "res_model": self._name,
+                "res_id": self.id,
+                "datas": base64.b64encode(arquivo_data),
+                "mimetype": "application/pdf",
+                "type": "binary",
+            }
+        )
+
+    def view_pdf(self):
+        if not self.file_pdf_id:
+            self.gera_pdf()
+        return super(NFe, self).view_pdf()
