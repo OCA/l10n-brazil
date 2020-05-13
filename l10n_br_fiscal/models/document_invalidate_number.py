@@ -4,8 +4,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_fiscal.constants.fiscal import \
-    SITUACAO_EDOC_INUTILIZADA
+from ..constants.fiscal import SITUACAO_EDOC_INUTILIZADA
 
 
 class DocumentInvalidateNumber(models.Model):
