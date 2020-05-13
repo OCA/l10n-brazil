@@ -52,7 +52,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_same_state._onchange_operation_id()
 
         for line in self.nfe_same_state.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_operation_id()
@@ -147,7 +147,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_other_state._onchange_operation_id()
 
         for line in self.nfe_other_state.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_operation_id()
@@ -242,7 +242,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_not_taxpayer._onchange_operation_id()
 
         for line in self.nfe_not_taxpayer.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_operation_id()
@@ -326,7 +326,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_not_taxpayer_pf._onchange_operation_id()
 
         for line in self.nfe_not_taxpayer_pf.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_operation_id()
@@ -410,7 +410,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_export._onchange_operation_id()
 
         for line in self.nfe_export.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_operation_id()
@@ -494,7 +494,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_sn_same_state._onchange_operation_id()
 
         for line in self.nfe_sn_same_state.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_operation_id()
@@ -568,7 +568,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_sn_other_state._onchange_operation_id()
 
         for line in self.nfe_sn_other_state.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_operation_id()
@@ -642,7 +642,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_sn_not_taxpayer._onchange_operation_id()
 
         for line in self.nfe_sn_not_taxpayer.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_operation_id()
@@ -716,7 +716,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
         self.nfe_sn_export._onchange_operation_id()
 
         for line in self.nfe_sn_export.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
             line._onchange_operation_id()
