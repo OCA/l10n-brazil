@@ -107,7 +107,7 @@ class Partner(models.Model):
             if not record.cnpj_cpf:
                 return
 
-            allow_cnpj_multi_ie = record.env["ir.config_parameter"].get_param(
+            allow_cnpj_multi_ie = record.env["ir.config_parameter"].sudo().get_param(
                 "l10n_br_base_allow_cnpj_multi_ie", default=True
             )
 
