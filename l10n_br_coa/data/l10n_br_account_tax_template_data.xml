@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="tax_tag_ipi" model="account.account.tag">
+        <field name="name">IPI</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_ii" model="account.account.tag">
+        <field name="name">II</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_icms" model="account.account.tag">
+        <field name="name">ICMS</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_icmssn" model="account.account.tag">
+        <field name="name">ICMS SN</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_icmsst" model="account.account.tag">
+        <field name="name">ICMS ST</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_icmsfcp" model="account.account.tag">
+        <field name="name">ICMS FCP</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_pis" model="account.account.tag">
+        <field name="name">PIS</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_pisst" model="account.account.tag">
+        <field name="name">PIS ST</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_pis_wh" model="account.account.tag">
+        <field name="name">PIS WH</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_cofins" model="account.account.tag">
+        <field name="name">COFINS</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_cofinsst" model="account.account.tag">
+        <field name="name">COFINS ST</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_cofins_wh" model="account.account.tag">
+        <field name="name">COFINS WH</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_issqn" model="account.account.tag">
+        <field name="name">ISSQN</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_issqn_wh" model="account.account.tag">
+        <field name="name">ISSQN WH</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_csll" model="account.account.tag">
+        <field name="name">CSLL</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_csll_wh" model="account.account.tag">
+        <field name="name">CSLL WH</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_ir" model="account.account.tag">
+        <field name="name">IR</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_irpj" model="account.account.tag">
+        <field name="name">IRPJ</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_irpj_wh" model="account.account.tag">
+        <field name="name">IRPJ WH</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_inss" model="account.account.tag">
+        <field name="name">INSS</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_inss_wh" model="account.account.tag">
+        <field name="name">INSS</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_simples" model="account.account.tag">
+        <field name="name">Simples Nacional</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_tag_others" model="account.account.tag">
+        <field name="name">Others</field>
+        <field name="applicability">taxes</field>
+    </record>
+
+    <record id="tax_template_out_ipi" model="l10n_br_account.tax.template">
+        <field name="description">IPI</field>
+        <field name="name">IPI Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_ipi"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+    </record>
+
+    <record id="tax_template_in_ipi" model="l10n_br_account.tax.template">
+        <field name="description">IPI</field>
+        <field name="name">IPI Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_ipi"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+    </record>
+
+    <record id="tax_template_out_ii" model="l10n_br_account.tax.template">
+        <field name="description">II</field>
+        <field name="name">II Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_ii"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+    </record>
+
+    <record id="tax_template_in_ii" model="l10n_br_account.tax.template">
+        <field name="description">II</field>
+        <field name="name">II Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_ii"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+    </record>
+
+    <record id="tax_template_out_icms" model="l10n_br_account.tax.template">
+        <field name="description">ICMS</field>
+        <field name="name">ICMS Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_icms"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+    </record>
+
+    <record id="tax_template_in_icms" model="l10n_br_account.tax.template">
+        <field name="description">ICMS</field>
+        <field name="name">ICMS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_icms"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+    </record>
+
+    <record id="tax_template_out_icmssn" model="l10n_br_account.tax.template">
+        <field name="description">ICMS SN</field>
+        <field name="name">ICMS SN Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_icmssn"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmssn')])]"/>
+    </record>
+
+    <record id="tax_template_in_icmssn" model="l10n_br_account.tax.template">
+        <field name="description">ICMS SN</field>
+        <field name="name">ICMS SN Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_icmssn"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmssn')])]"/>
+    </record>
+
+    <record id="tax_template_out_icms_subist" model="l10n_br_account.tax.template">
+        <field name="description">ICMS Subist</field>
+        <field name="name">ICMS Saida Subist</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_icmsst"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
+    </record>
+
+    <record id="tax_template_in_icms_subist" model="l10n_br_account.tax.template">
+        <field name="description">ICMS Subist</field>
+        <field name="name">ICMS Entrada Subist</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_icmsst"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
+    </record>
+
+    <record id="tax_template_out_icmsfcp" model="l10n_br_account.tax.template">
+        <field name="description">ICMS FCP</field>
+        <field name="name">ICMS Saida FCP</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_icmsfcp"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsfcp')])]"/>
+    </record>
+
+    <record id="tax_template_in_icmsfcp" model="l10n_br_account.tax.template">
+        <field name="description">ICMS FCP</field>
+        <field name="name">ICMS Entrada FCP</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_icmsfcp"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsfcp')])]"/>
+    </record>
+
+    <record id="tax_template_out_pis" model="l10n_br_account.tax.template">
+        <field name="description">PIS</field>
+        <field name="name">PIS Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_pis"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
+     </record>
+
+    <record id="tax_template_out_pisst" model="l10n_br_account.tax.template">
+        <field name="description">PIS ST</field>
+        <field name="name">PIS ST Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_pisst"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pisst')])]"/>
+    </record>
+
+    <record id="tax_template_out_pis_wh" model="l10n_br_account.tax.template">
+        <field name="description">PIS WH</field>
+        <field name="name">PIS WH Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_pis_wh"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis_wh')])]"/>
+    </record>
+
+    <record id="tax_template_in_pis" model="l10n_br_account.tax.template">
+        <field name="description">PIS</field>
+        <field name="name">PIS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_pis"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
+    </record>
+
+    <record id="tax_template_in_pisst" model="l10n_br_account.tax.template">
+        <field name="description">PIS ST</field>
+        <field name="name">PIS ST Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_pisst"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pisst')])]"/>
+    </record>
+
+    <record id="tax_template_in_pis_wh" model="l10n_br_account.tax.template">
+        <field name="description">PIS WH</field>
+        <field name="name">PIS WH Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_pis_wh"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis_wh')])]"/>
+    </record>
+
+    <record id="tax_template_out_cofins" model="l10n_br_account.tax.template">
+        <field name="description">COFINS</field>
+        <field name="name">COFINS Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_cofins"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
+    </record>
+
+    <record id="tax_template_out_cofinsst" model="l10n_br_account.tax.template">
+        <field name="description">COFINS ST</field>
+        <field name="name">COFINS ST Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_cofinsst"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofinsst')])]"/>
+    </record>
+
+    <record id="tax_template_out_cofins_wh" model="l10n_br_account.tax.template">
+        <field name="description">COFINS WH</field>
+        <field name="name">COFINS WH Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_cofinsst"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofinsst')])]"/>
+    </record>
+
+    <record id="tax_template_in_cofins" model="l10n_br_account.tax.template">
+        <field name="description">COFINS</field>
+        <field name="name">COFINS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_cofins"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
+    </record>
+
+   <record id="tax_template_in_cofinsst" model="l10n_br_account.tax.template">
+       <field name="description">COFINS ST</field>
+       <field name="name">COFINS ST Entrada</field>
+       <field name="amount">0.00</field>
+       <field name="type_tax_use">purchase</field>
+       <field eval="0" name="price_include"/>
+       <field name="tax_group_id" ref="tax_group_cofinsst"/>
+       <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofinsst')])]"/>
+    </record>
+
+    <record id="tax_template_in_cofins_wh" model="l10n_br_account.tax.template">
+        <field name="description">COFINS WH</field>
+        <field name="name">COFINS WH Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_cofins_wh"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins_wh')])]"/>
+     </record>
+
+     <record id="tax_template_out_issqn" model="l10n_br_account.tax.template">
+         <field name="description">ISSQN</field>
+         <field name="name">ISSQN Saida</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">none</field>
+         <field eval="0" name="price_include"/>
+         <field name="tax_group_id" ref="tax_group_issqn"/>
+         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
+     </record>
+
+     <record id="tax_template_out_issqn_wh" model="l10n_br_account.tax.template">
+         <field name="description">ISSQN WH</field>
+         <field name="name">ISSQN WH Saida</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">none</field>
+         <field eval="0" name="price_include"/>
+         <field name="tax_group_id" ref="tax_group_issqn_wh"/>
+         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn_wh')])]"/>
+     </record>
+
+     <record id="tax_template_in_issqn" model="l10n_br_account.tax.template">
+         <field name="description">ISSQN</field>
+         <field name="name">ISSQN Entrada</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">none</field>
+         <field eval="0" name="price_include"/>
+         <field name="tax_group_id" ref="tax_group_issqn"/>
+         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
+     </record>
+
+     <record id="tax_template_in_issqn_wh" model="l10n_br_account.tax.template">
+         <field name="description">ISSQN WH</field>
+         <field name="name">ISSQN WH Entrada</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">none</field>
+         <field eval="0" name="price_include"/>
+         <field name="tax_group_id" ref="tax_group_issqn_wh"/>
+         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn_wh')])]"/>
+     </record>
+
+    <record id="tax_template_irpj" model="l10n_br_account.tax.template">
+        <field name="description">IRPJ</field>
+        <field name="name">IRPJ</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_irpj"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj')])]"/>
+    </record>
+
+    <record id="tax_template_irpj_wh" model="l10n_br_account.tax.template">
+        <field name="description">IRPJ WH</field>
+        <field name="name">IRPJ WH</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_irpj_wh"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj_wh')])]"/>
+    </record>
+
+    <record id="tax_template_csll" model="l10n_br_account.tax.template">
+        <field name="description">CSLL</field>
+        <field name="name">CSLL</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_csll"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll')])]"/>
+    </record>
+
+    <record id="tax_template_csll_wh" model="l10n_br_account.tax.template">
+        <field name="description">CSLL WH</field>
+        <field name="name">CSLL WH</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_csll_wh"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll_wh')])]"/>
+    </record>
+
+    <record id="tax_template_out_inss" model="l10n_br_account.tax.template">
+        <field name="description">INSS</field>
+        <field name="name">INSS Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_inss"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
+    </record>
+
+    <record id="tax_template_out_inss_wh" model="l10n_br_account.tax.template">
+        <field name="description">INSS WH</field>
+        <field name="name">INSS WH Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_inss"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
+    </record>
+
+    <record id="tax_template_in_inss" model="l10n_br_account.tax.template">
+        <field name="description">INSS</field>
+        <field name="name">INSS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_inss"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
+    </record>
+
+    <record id="tax_template_in_inss_wh" model="l10n_br_account.tax.template">
+        <field name="description">INSS WH</field>
+        <field name="name">INSS WH Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_inss_wh"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss_wh')])]"/>
+    </record>
+
+    <record id="tax_template_simples" model="l10n_br_account.tax.template">
+        <field name="description">Simples Nacional</field>
+        <field name="name">Simples Nacional</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_simples"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_simples')])]"/>
+    </record>
+
+    <record id="tax_template_others" model="l10n_br_account.tax.template">
+        <field name="description">Others</field>
+        <field name="name">Others</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field name="tax_group_id" ref="tax_group_others"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_others')])]"/>
+    </record>
+
+</odoo>
