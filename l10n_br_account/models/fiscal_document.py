@@ -3,7 +3,7 @@
 # Copyright (C) 2020 - TODAY Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class FiscalDocument(models.Model):
@@ -42,6 +42,12 @@ class FiscalDocument(models.Model):
     payment_term_id = fields.Many2one(
         comodel_name='account.payment.term',
     )
+
+    @api.onchange("fiscal_operation_id")
+    def _onchange_fiscal_operation_id(self):
+        super(FiscalDocument, self)._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id.journal_id:
+            self.journal_id = self.fiscal_operation_id.journal_id
 
     def _generate_financial_account_moves(self, move_lines):
         self.financial_ids.generate_move(move_lines)
