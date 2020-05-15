@@ -37,6 +37,12 @@ class FiscalDocument(models.Model):
         copy=False,
         help="Link to the automatically generated Journal Items.")
 
+    @api.onchange("fiscal_operation_id")
+    def _onchange_fiscal_operation_id(self):
+        super(FiscalDocument, self)._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id.journal_id:
+            self.journal_id = self.fiscal_operation_id.journal_id
+
     def _generate_financial_account_moves(self, move_lines):
         self.financial_ids.generate_move(move_lines)
 
