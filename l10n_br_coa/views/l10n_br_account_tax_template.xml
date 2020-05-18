@@ -3,41 +3,87 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <odoo>
-<data>
 
-<!--    <record model="ir.ui.view" id="l10n_br_account_tax_template_form_view">-->
-<!--        <field name="name">l10n_br_account.tax.template.form (in l10n_br_coa)</field>-->
-<!--        <field name="model">l10n_br_account.tax.template</field>-->
-<!--        <field name="inherit_id" ref="TODO othermodule.form_view"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            &lt;!&ndash; TODO &ndash;&gt;-->
-<!--        </field>-->
-<!--    </record>-->
+    <record id="view_l10n_br_account_tax_template_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.tax.template.form</field>
+        <field name="model">l10n_br_account.tax.template</field>
+        <field name="arch" type="xml">
+            <form string="Account Tax Template">
+                <group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                    <group>
+                        <field name="type_tax_use"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Definition">
+                        <group>
+                            <field name="amount_type" />
+                            <label for="amount" attrs="{'invisible':[('amount_type','=', 'group')]}"/>
+                            <div attrs="{'invisible':[('amount_type','=', 'group')]}">
+                                <field name="amount" class="oe_inline" />
+                                <span class="o_form_label oe_inline" attrs="{'invisible':[('amount_type','=','fixed')]}">%</span>
+                            </div>
+                        </group>
+                    </page>
+                    <page string="Advanced Options">
+                        <group>
+                            <group>
+                                <field name="description" attrs="{'invisible':[('amount_type','=', 'group')]}"/>
+                                <field name="analytic" attrs="{'invisible':[('amount_type','=', 'group')]}" groups="analytic.group_analytic_accounting" />
+                            </group>
+                            <group>
+                                <field name="price_include" attrs="{'invisible':[('amount_type','=', 'group')]}" />
+                                <field name="include_base_amount" attrs="{'invisible':[('amount_type','=', 'group')]}" />
+                            </group>
+                            <group>
+                                <field name="tag_ids" domain="[('applicability', '!=', 'accounts')]" widget="many2many_tags" context="{'default_applicability': 'taxes'}"/>
+                                <field name="active" groups="base.group_no_one"/>
+                                <field name="tax_exigibility" widget="radio" attrs="{'invisible':[('amount_type','=', 'group')]}"/>
+                                <field name="cash_basis_account_id" attrs="{'invisible': [('tax_exigibility', '=', 'on_invoice')], 'required': [('tax_exigibility', '=', 'on_payment')]}"/>
+                                <field name="tax_group_id"/>
+                            </group>
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+    <record id="view_l10n_br_account_tax_template_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.tax.template.tree</field>
+        <field name="model">l10n_br_account.tax.template</field>
+        <field name="arch" type="xml">
+            <tree string="Account Tax Template">
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_l10n_br_account_tax_template_search" model="ir.ui.view">
+        <field name="name">l10n_br_account.tax.template.search</field>
+        <field name="model">l10n_br_account.tax.template</field>
+        <field name="arch" type="xml">
+            <search string="Search Tax Templates">
+                <field name="name" filter_domain="['|', ('name','ilike',self), ('description','ilike',self)]" string="Tax Template"/>
+                <filter string="Sale" name="sale" domain="[('type_tax_use','=','sale')]" help="Taxes used in Sales"/>
+                <filter string="Purchase" name="purchase" domain="[('type_tax_use','=','purchase')]" help="Taxes used in Purchases"/>
+                <field name="chart_template_id"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_l10n_br_account_tax_template_form" model="ir.actions.act_window">
+        <field name="name">Tax Templates</field>
+        <field name="res_model">l10n_br_account.tax.template</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_l10n_br_account_tax_template_search"/>
+    </record>
 
+    <menuitem id="menu_l10n_br_account_tax_template"
+        action="account.action_l10n_br_account_tax_template_form"
+        parent="account.menu_finance_configuration"
+        sequence="30"/>
 
-<!--    <record model="ir.ui.view" id="l10n_br_account_tax_template_tree_view">-->
-<!--        <field name="name">l10n_br_account.tax.template.tree (in l10n_br_coa)</field>-->
-<!--        <field name="model">l10n_br_account.tax.template</field>-->
-<!--        <field name="inherit_id" ref="TODO othermodule.tree_view"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            &lt;!&ndash; TODO &ndash;&gt;-->
-<!--        </field>-->
-<!--    </record>-->
-
-<!--    <record model="ir.actions.act_window" id="l10n_br_account_tax_template_act_window">-->
-<!--        <field name="name">L10n_br_account Tax Template</field> &lt;!&ndash; TODO &ndash;&gt;-->
-<!--        <field name="res_model">l10n_br_account.tax.template</field>-->
-<!--        <field name="view_mode">tree,form</field>-->
-<!--        <field name="domain">[]</field>-->
-<!--        <field name="context">{}</field>-->
-<!--    </record>-->
-
-<!--    <record model="ir.ui.menu" id="l10n_br_account_tax_template_menu">-->
-<!--        <field name="name">L10n_br_account Tax Template</field>-->
-<!--        <field name="parent_id" ref="xmlid of parent menu"/> &lt;!&ndash; TODO &ndash;&gt;-->
-<!--        <field name="action" ref="l10n_br_account_tax_template_act_window"/>-->
-<!--        <field name="sequence" eval="16"/> &lt;!&ndash; TODO &ndash;&gt;-->
-<!--    </record>-->
-
-</data>
 </odoo>
