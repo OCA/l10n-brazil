@@ -185,9 +185,6 @@ class SaleOrder(models.Model):
 
         if self.operation_id:
             result['fiscal_document_id'] = False
-            result['fiscal_doc_partner_id'] = self.partner_id.id
-            result['fiscal_doc_currency_id'] = self.company_id.currency_id.id
-            result['fiscal_doc_company_id'] = self.company_id.id
             result['operation_id'] = self.operation_id.id
             result['operation_type'] = self.operation_id.operation_type
             result['partner_shipping_id'] = self.partner_shipping_id.id
