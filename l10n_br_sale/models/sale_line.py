@@ -99,16 +99,6 @@ class SaleOrderLine(models.Model):
             # To create a new fiscal document line
             result['fiscal_document_line_id'] = False
 
-            # fiscal document line Related fields
-            result['fiscal_doc_line_name'] = self.name
-            result['fiscal_doc_line_partner_id'] = self.partner_id.id
-            result['fiscal_doc_line_company_id'] = self.company_id.id
-            result['fiscal_doc_line_product_id'] = self.product_id.id
-            result['fiscal_doc_line_uom_id'] = self.product_uom.id
-            result['fiscal_doc_line_quantity'] = self.product_uom_qty
-            result['fiscal_doc_line_price_unit'] = self.price_unit
-            result['fiscal_doc_line_discount'] = self.discount_value
-
             # fiscal document line fields
             result['operation_id'] = fiscal_operation.id
             result['operation_line_id'] = self.operation_line_id.id
@@ -119,6 +109,8 @@ class SaleOrderLine(models.Model):
             result["partner_order_line"] = self.partner_order_line
             result['amount_tax_not_included'] = self.amount_tax_not_included
             result['amount_tax_withholding'] = self.amount_tax_withholding
+            result['fiscal_tax_ids'] = [(6, 0, self.fiscal_tax_ids.ids)]
+
         return result
 
     @api.onchange('product_uom', 'product_uom_qty')
