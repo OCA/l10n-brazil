@@ -108,7 +108,6 @@ class SaleOrder(models.Model):
         readonly=True,
         default=0.00,
         digits=dp.get_precision("Account"),
-        readonly=True,
         states={"draft": [("readonly", False)]})
 
     amount_insurance = fields.Float(
