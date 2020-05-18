@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="l10n_br_coa_simple.tax_template_out_ipi" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_ipi" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_ipi_simples_nacional'), ref('l10n_br_fiscal.tax_ipi_0'),
             ref('l10n_br_fiscal.tax_ipi_isento'), ref('l10n_br_fiscal.tax_ipi_nt'),
@@ -22,7 +22,7 @@
          ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_ipi" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_ipi" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_ipi_simples_nacional'), ref('l10n_br_fiscal.tax_ipi_0'),
             ref('l10n_br_fiscal.tax_ipi_isento'), ref('l10n_br_fiscal.tax_ipi_nt'),
@@ -43,7 +43,7 @@
          ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_ii" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_ii" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_ii_0'), ref('l10n_br_fiscal.tax_ii_2'),
             ref('l10n_br_fiscal.tax_ii_6'), ref('l10n_br_fiscal.tax_ii_8'),
@@ -55,7 +55,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_ii" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_ii" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_ii_0'), ref('l10n_br_fiscal.tax_ii_2'),
             ref('l10n_br_fiscal.tax_ii_6'), ref('l10n_br_fiscal.tax_ii_8'),
@@ -67,7 +67,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_icms" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_icms" model="l10n_br_account.tax.template">
       <field name="fiscal_tax_ids" eval="[(6, False, [
           ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_nt'),
           ref('l10n_br_fiscal.tax_icms_suspensao'), ref('l10n_br_fiscal.tax_icms_diferimento'), ref('l10n_br_fiscal.tax_icms_antst'),
@@ -82,7 +82,7 @@
           ref('l10n_br_fiscal.tax_icms_12_red_41_67'), ref('l10n_br_fiscal.tax_icms_12_red_53_33'), ref('l10n_br_fiscal.tax_icms_18_red_68_89')])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_icms" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_icms" model="l10n_br_account.tax.template">
       <field name="fiscal_tax_ids" eval="[(6, False, [
           ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_nt'),
           ref('l10n_br_fiscal.tax_icms_suspensao'), ref('l10n_br_fiscal.tax_icms_diferimento'), ref('l10n_br_fiscal.tax_icms_antst'),
@@ -97,7 +97,7 @@
           ref('l10n_br_fiscal.tax_icms_12_red_41_67'), ref('l10n_br_fiscal.tax_icms_12_red_53_33'), ref('l10n_br_fiscal.tax_icms_18_red_68_89')])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_icmssn" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_icmssn" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_icms_sn_com_credito'), ref('l10n_br_fiscal.tax_icms_sn_sem_credito'),
             ref('l10n_br_fiscal.tax_icms_sn_isento_faixa_bruta'), ref('l10n_br_fiscal.tax_icms_sn_com_credito_st'),
@@ -107,7 +107,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_icmssn" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_icmssn" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_icms_sn_com_credito'), ref('l10n_br_fiscal.tax_icms_sn_sem_credito'),
             ref('l10n_br_fiscal.tax_icms_sn_isento_faixa_bruta'), ref('l10n_br_fiscal.tax_icms_sn_com_credito_st'),
@@ -118,16 +118,16 @@
     </record>
 
 
-    <record id="l10n_br_coa_simple.tax_template_out_icms_subist" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_icms_subist" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[ref('l10n_br_fiscal.tax_icmsst_29_43'), ref('l10n_br_fiscal.tax_icmsst_40'), ref('l10n_br_fiscal.tax_icmsst_42_73'), ref('l10n_br_fiscal.tax_icmsst_47'), ref('l10n_br_fiscal.tax_icmsst_57'), ref('l10n_br_fiscal.tax_icmsst_71_48'), ref('l10n_br_fiscal.tax_icmsst_146'), ref('l10n_br_fiscal.tax_icmsst_148')])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_icms_subist" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_icms_subist" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[ref('l10n_br_fiscal.tax_icmsst_29_43'), ref('l10n_br_fiscal.tax_icmsst_40'), ref('l10n_br_fiscal.tax_icmsst_42_73'), ref('l10n_br_fiscal.tax_icmsst_47'), ref('l10n_br_fiscal.tax_icmsst_57'), ref('l10n_br_fiscal.tax_icmsst_71_48'), ref('l10n_br_fiscal.tax_icmsst_146'), ref('l10n_br_fiscal.tax_icmsst_148')])]"/>
     </record>
 
 
-    <record id="l10n_br_coa_simple.tax_template_out_icmsfcp" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_icmsfcp" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_icmsfcp_nt'), ref('l10n_br_fiscal.tax_icmsfcp_1'),
             ref('l10n_br_fiscal.tax_icmsfcp_16'), ref('l10n_br_fiscal.tax_icmsfcp_19'),
@@ -135,7 +135,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_icmsfcp" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_icmsfcp" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_icmsfcp_nt'), ref('l10n_br_fiscal.tax_icmsfcp_1'),
             ref('l10n_br_fiscal.tax_icmsfcp_16'), ref('l10n_br_fiscal.tax_icmsfcp_19'),
@@ -143,7 +143,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_pis" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_pis" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_pis_value_0_0122'), ref('l10n_br_fiscal.tax_pis_value_0_0125'),
             ref('l10n_br_fiscal.tax_pis_value_0_0174'), ref('l10n_br_fiscal.tax_pis_value_0_0177'),
@@ -201,7 +201,7 @@
           ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_pisst" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_pisst" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_pis_st_0_65'),
             ref('l10n_br_fiscal.tax_pis_st_8_57'),
@@ -209,7 +209,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_pis_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_pis_wh" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_pis_wh_0'),
             ref('l10n_br_fiscal.tax_pis_wh_0_65'),
@@ -217,7 +217,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_pis" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_pis" model="l10n_br_account.tax.template">
       <field name="fiscal_tax_ids" eval="[(6, False,[
           ref('l10n_br_fiscal.tax_pis_value_0_0122'), ref('l10n_br_fiscal.tax_pis_value_0_0125'),
           ref('l10n_br_fiscal.tax_pis_value_0_0174'), ref('l10n_br_fiscal.tax_pis_value_0_0177'),
@@ -275,7 +275,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_pisst" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_pisst" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_pis_st_0_65'),
             ref('l10n_br_fiscal.tax_pis_st_8_57'),
@@ -283,7 +283,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_pis_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_pis_wh" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_pis_wh_0'),
             ref('l10n_br_fiscal.tax_pis_wh_0_65'),
@@ -291,7 +291,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_cofins" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_cofins" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_cofins_value_0_0563'), ref('l10n_br_fiscal.tax_cofins_value_0_0578'),
             ref('l10n_br_fiscal.tax_cofins_value_0_0801'), ref('l10n_br_fiscal.tax_cofins_value_0_0815'),
@@ -349,7 +349,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_cofinsst" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_cofinsst" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_cofins_st_3'),
             ref('l10n_br_fiscal.tax_cofins_st_39_43'),
@@ -357,7 +357,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_cofins_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_cofins_wh" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_cofins_wh_0'),
             ref('l10n_br_fiscal.tax_cofins_wh_3'),
@@ -365,7 +365,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_cofins" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_cofins" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_cofins_value_0_0563'), ref('l10n_br_fiscal.tax_cofins_value_0_0578'),
             ref('l10n_br_fiscal.tax_cofins_value_0_0801'), ref('l10n_br_fiscal.tax_cofins_value_0_0815'),
@@ -423,7 +423,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_cofinsst" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_cofinsst" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_cofins_st_3'),
             ref('l10n_br_fiscal.tax_cofins_st_39_43'),
@@ -431,7 +431,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_cofins_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_cofins_wh" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False,[
             ref('l10n_br_fiscal.tax_cofins_wh_0'),
             ref('l10n_br_fiscal.tax_cofins_wh_3'),
@@ -439,7 +439,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_issqn" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_issqn" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_issqn_nt'), ref('l10n_br_fiscal.tax_issqn_1'),
             ref('l10n_br_fiscal.tax_issqn_2'), ref('l10n_br_fiscal.tax_issqn_3'),
@@ -447,7 +447,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_issqn_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_issqn_wh" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_issqn_wh_nt'), ref('l10n_br_fiscal.tax_issqn_wh_1'),
             ref('l10n_br_fiscal.tax_issqn_wh_2'), ref('l10n_br_fiscal.tax_issqn_wh_3'),
@@ -455,7 +455,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_issqn" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_issqn" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_issqn_nt'), ref('l10n_br_fiscal.tax_issqn_1'),
             ref('l10n_br_fiscal.tax_issqn_2'), ref('l10n_br_fiscal.tax_issqn_3'),
@@ -463,7 +463,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_issqn_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_issqn_wh" model="l10n_br_account.tax.template">
       <field name="fiscal_tax_ids" eval="[(6, False, [
           ref('l10n_br_fiscal.tax_issqn_wh_nt'), ref('l10n_br_fiscal.tax_issqn_wh_1'),
           ref('l10n_br_fiscal.tax_issqn_wh_2'), ref('l10n_br_fiscal.tax_issqn_wh_3'),
@@ -471,7 +471,7 @@
       ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_irpj" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_irpj" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_irpj_nt'),
             ref('l10n_br_fiscal.tax_irpj_1'),
@@ -479,7 +479,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_irpj_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_irpj_wh" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_irpj_wh_nt'),
             ref('l10n_br_fiscal.tax_irpj_wh_1'),
@@ -487,7 +487,7 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_csll" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_csll" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_csll_nt'),
             ref('l10n_br_fiscal.tax_csll_1'),
@@ -495,42 +495,42 @@
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_csll_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_csll_wh" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_csll_wh_1'),
             ref('l10n_br_fiscal.tax_csll_wh_2_8'),
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_inss" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_inss" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_inss_nt'),
             ref('l10n_br_fiscal.tax_inss_11'),
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_out_inss_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_inss_wh" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_inss_wh_nt'),
             ref('l10n_br_fiscal.tax_inss_wh_11'),
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_inss" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_inss" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_inss_nt'),
             ref('l10n_br_fiscal.tax_inss_11'),
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_in_inss_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_inss_wh" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_inss_wh_nt'),
             ref('l10n_br_fiscal.tax_inss_wh_11'),
         ])]"/>
     </record>
 
-    <record id="l10n_br_coa_simple.tax_template_simples" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_simples" model="l10n_br_account.tax.template">
         <field name="fiscal_tax_ids" eval="[(6, False, [
             ref('l10n_br_fiscal.tax_simples')
         ])]"/>
