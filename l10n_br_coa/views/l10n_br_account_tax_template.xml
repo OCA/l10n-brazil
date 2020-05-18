@@ -82,8 +82,8 @@
     </record>
 
     <menuitem id="menu_l10n_br_account_tax_template"
-        action="account.action_l10n_br_account_tax_template_form"
+        action="action_l10n_br_account_tax_template_form"
         parent="account.menu_finance_configuration"
-        sequence="30"/>
+        sequence="31"/>
 
 </odoo>
