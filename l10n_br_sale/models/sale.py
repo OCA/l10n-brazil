@@ -183,19 +183,6 @@ class SaleOrder(models.Model):
         self.ensure_one()
         result = super(SaleOrder, self)._prepare_invoice()
 
-        if self.operation_id:
-            result['fiscal_document_id'] = False
-            result['operation_id'] = self.operation_id.id
-            result['operation_type'] = self.operation_id.operation_type
-            result['partner_shipping_id'] = self.partner_shipping_id.id
-
-            # TODO Defini document_type_id in other method in line
-            result['document_type_id'] = self._context.get('document_type_id')
-            result['document_serie_id'] = 1 # TODO
-
-            if self.operation_id.journal_id:
-                result['journal_id'] = self.operation_id.journal_id.id
-
         comment = []
         if self.note and self.copy_note:
             comment.append(self.note)
@@ -204,6 +191,17 @@ class SaleOrder(models.Model):
         # result['fiscal_comment'] = " - ".join(fiscal_comment)
         # fiscal_comment = self._fiscal_comment(self)
         result['comment'] = " - ".join(comment)
+
+        result.update(self._prepare_br_fiscal_dict())
+
+        if self.operation_id:
+            # TODO Defini document_type_id in other method in line
+            result['document_type_id'] = self._context.get('document_type_id')
+            result['document_serie_id'] = 1 # TODO
+
+            if self.operation_id.journal_id:
+                result['journal_id'] = self.operation_id.journal_id.id
+
         return result
 
     @api.multi
