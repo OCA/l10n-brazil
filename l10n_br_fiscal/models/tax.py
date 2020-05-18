@@ -333,6 +333,9 @@ class Tax(models.Model):
         taxes_dict[tax.tax_domain].update(self._compute_tax(
             tax, taxes_dict, **kwargs))
 
+        taxes_dict[tax.tax_domain].update({
+            'icms_base_type': tax.icms_base_type})
+
         # DIFAL
         if (company.state_id != partner.state_id
                 and operation_line.fiscal_operation_type == FISCAL_OUT
