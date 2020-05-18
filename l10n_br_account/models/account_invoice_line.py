@@ -11,7 +11,8 @@ from odoo import api, fields, models
 # methods would fail to do what we expect from them in the Odoo objects
 # where they are injected.
 SHADOWED_FIELDS = ['name', 'partner_id', 'company_id', 'currency_id',
-                   'product_id', 'uom_id', 'quantity', 'price_unit', 'discount']
+                   'product_id', 'uom_id', 'quantity', 'price_unit',
+                   'discount_value']
 
 
 class AccountInvoiceLine(models.Model):
