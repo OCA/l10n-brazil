@@ -46,6 +46,13 @@ class FiscalDocument(models.Model):
     def _generate_financial_account_moves(self, move_lines):
         self.financial_ids.generate_move(move_lines)
 
+    def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
+        super(FiscalDocument, self)._exec_after_SITUACAO_EDOC_AUTORIZADA(
+            old_state, new_state
+        )
+        if self.journal_id.generate_moves:
+            self.action_move_create()
+
     @api.multi
     def action_move_create(self):
         for record in self:

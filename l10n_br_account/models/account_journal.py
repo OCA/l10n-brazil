@@ -8,3 +8,4 @@ class AccountJournal(models.Model):
     _inherit = "account.journal"
 
     revenue_expense = fields.Boolean(string=u"Gera Financeiro")
+    generate_moves = fields.Boolean(string="Generate Moves Automatically")
