@@ -2,7 +2,7 @@
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 INVOICE_TO_OPERATION = {
     'out_invoice': 'out',
@@ -22,6 +22,8 @@ FISCAL_TYPE_REFUND = {
     'out': ['purchase_return', 'in_return'],
     'in': ['sale_return', 'out_return'],
 }
+
+SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id']
 
 
 class AccountInvoice(models.Model):
@@ -59,6 +61,33 @@ class AccountInvoice(models.Model):
         string="Fiscal Document",
         required=True,
         ondelete="restrict",  # or cascade?
-        default=False)  # TODO hack for PR demo
-    #       lambda self: self.env.ref(
-    #       "l10n_br_fiscal.fiscal_document_dummy"))
+        default=lambda self: self.env.ref(
+            "l10n_br_fiscal.fiscal_document_dummy"),
+    )
+
+    @api.multi
+    def _prepare_shadowed_fields_dict(self, default=False):
+        self.ensure_one()
+        vals = self._convert_to_write(self.read(SHADOWED_FIELDS)[0])
+        if default:  # in case you want to use new rather than write later
+            return {"default_%s" % (k,): vals[k] for k in vals.keys()}
+        return vals
+
+    @api.model
+    def create(self, values):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        invoice = super(AccountInvoice, self).create(values)
+        if invoice.fiscal_document_id != dummy_doc:
+            shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
+            invoice.fiscal_document_id.write(shadowed_fiscal_vals)
+        return invoice
+
+    @api.multi
+    def write(self, values):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        result = super(AccountInvoice, self).write(values)
+        for invoice in self:
+            if invoice.fiscal_document_id != dummy_doc:
+                shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
+                invoice.fiscal_document_id.write(shadowed_fiscal_vals)
+        return result
