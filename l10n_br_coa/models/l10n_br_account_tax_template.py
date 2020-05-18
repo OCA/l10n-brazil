@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -6,7 +5,6 @@ from odoo import fields, models
 
 
 class L10nBrAccountTaxTemplate(models.Model):
-
     _name = 'l10n_br_account.tax.template'
     _inherit = 'account.tax.template'
 
