@@ -72,3 +72,18 @@ class FiscalDocumentMixin(models.AbstractModel):
         #             return model_view
         #
         # return model_view
+
+    @api.multi
+    def _prepare_br_fiscal_dict(self, default=False):
+        self.ensure_one()
+        fields = self.env["l10n_br_fiscal.document.mixin"]._fields.keys()
+
+        # we now read the record fiscal fields except the m2m tax:
+        vals = self._convert_to_write(self.read(fields)[0])
+
+        # this will force to create a new fiscal document line:
+        vals['fiscal_document_id'] = False
+
+        if default:  # in case you want to use new rather than write later
+            return {"default_%s" % (k,): vals[k] for k in vals.keys()}
+        return vals
