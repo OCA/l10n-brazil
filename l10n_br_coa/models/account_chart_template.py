@@ -8,7 +8,9 @@ class AccountChartTemplate(models.Model):
     _inherit = 'account.chart.template'
 
     def try_loading_for_current_company(self):
-        for template in self.env['l10n_br_account.tax.template'].search([]):
-            template.create_account_tax_templates(self.id)
+        if self.currency_id == self.env.ref('base.BRL'):
+            for template in \
+                    self.env['l10n_br_account.tax.template'].search([]):
+                template.create_account_tax_templates(self.id)
         return super(AccountChartTemplate, self
                      ).try_loading_for_current_company()
