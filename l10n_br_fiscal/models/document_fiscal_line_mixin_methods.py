@@ -66,15 +66,16 @@ FISCAL_CST_ID_FIELDS = [
 ]
 
 
-class FiscalDocumentLineMixin(models.AbstractModel):
+class FiscalDocumentLineMixinMethods(models.AbstractModel):
     _name = "l10n_br_fiscal.document.line.mixin.methods"
     _description = "Document Fiscal Mixin Methods"
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
                         toolbar=False, submenu=False):
-        model_view = super(FiscalDocumentLineMixin, self).fields_view_get(
-            view_id, view_type, toolbar, submenu)
+        model_view = super(
+            FiscalDocumentLineMixinMethods, self).fields_view_get(
+                view_id, view_type, toolbar, submenu)
 
         return model_view  # FIXME: Fields view get of fiscal line
 
