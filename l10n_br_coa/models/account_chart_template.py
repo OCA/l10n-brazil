@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -6,7 +5,6 @@ from odoo import models
 
 
 class AccountChartTemplate(models.Model):
-
     _inherit = 'account.chart.template'
 
     def try_loading_for_current_company(self):
