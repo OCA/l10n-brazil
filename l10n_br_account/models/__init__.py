@@ -21,3 +21,4 @@ from . import payment_line
 from . import payment_term
 from . import fiscal_document
 from . import fiscal_document_line
+from . import account_journal
