@@ -93,24 +93,7 @@ class SaleOrderLine(models.Model):
     def _prepare_invoice_line(self, qty):
         self.ensure_one()
         result = super(SaleOrderLine, self)._prepare_invoice_line(qty)
-        fiscal_operation = self.operation_id or self.order_id.operation_id
-
-        if fiscal_operation:
-            # To create a new fiscal document line
-            result['fiscal_document_line_id'] = False
-
-            # fiscal document line fields
-            result['operation_id'] = fiscal_operation.id
-            result['operation_line_id'] = self.operation_line_id.id
-            result["freight_value"] = self.freight_value
-            result["insurance_value"] = self.insurance_value
-            result["other_costs_value"] = self.other_costs_value
-            result["partner_order"] = self.partner_order
-            result["partner_order_line"] = self.partner_order_line
-            result['amount_tax_not_included'] = self.amount_tax_not_included
-            result['amount_tax_withholding'] = self.amount_tax_withholding
-            result['fiscal_tax_ids'] = [(6, 0, self.fiscal_tax_ids.ids)]
-
+        result.update(self._prepare_br_fiscal_dict())
         return result
 
     @api.onchange('product_uom', 'product_uom_qty')
