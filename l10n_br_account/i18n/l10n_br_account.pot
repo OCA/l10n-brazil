@@ -71,85 +71,11 @@ msgid "Document without Operation !"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_doc_line_discount
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_doc_line_discount
-msgid "Fiscal Doc  Discount Value"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_doc_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_doc_line_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_doc_company_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_doc_line_company_id
-msgid "Fiscal Doc Company"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_doc_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_doc_line_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_doc_currency_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_doc_line_currency_id
-msgid "Fiscal Doc Currency"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_doc_date
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_doc_date
-msgid "Fiscal Doc Date"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_doc_line_name
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_doc_line_name
-msgid "Fiscal Doc Name"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_doc_partner_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_doc_line_partner_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_doc_partner_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_doc_line_partner_id
-msgid "Fiscal Doc Partner"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_doc_line_price_unit
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_doc_line_price_unit
-msgid "Fiscal Doc Price Unit"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_doc_line_product_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_doc_line_product_id
-msgid "Fiscal Doc Product"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_doc_line_quantity
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_doc_line_quantity
-msgid "Fiscal Doc Quantity"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_doc_state
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document__fiscal_doc_state
-msgid "Fiscal Doc State"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_doc_line_uom_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_doc_line_uom_id
-msgid "Fiscal Doc UOM"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_document_id
 msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_line
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_document_line_id
 msgid "Fiscal Document Line"
 msgstr ""
