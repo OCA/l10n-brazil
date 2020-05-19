@@ -12,8 +12,11 @@ class L10nBrAccountTaxTemplate(models.Model):
 
     def create_account_tax_templates(self, chart_template_id):
         self.ensure_one()
-        account_tax_template_data = {'chart_template_id': chart_template_id}
-        account_tax_template_data.update({
-            field: self[field]
-            for field in self._fields if self[field] is not False})
-        self.env['account.tax.template'].create(account_tax_template_data)
+        chart = self.env['account.chart.template'].browse(chart_template_id)
+        module = chart.get_external_id()[chart_template_id].split('.')[0]
+        xmlid = '.'.join(
+            [module, self.get_external_id()[self.id].split('.')[1]])
+        tax_template_data = self.copy_data()[0]
+        tax_template_data.update({'chart_template_id': chart_template_id})
+        data = dict(xml_id=xmlid, values=tax_template_data, noupdate=True)
+        self.env['account.tax.template']._load_records([data])
