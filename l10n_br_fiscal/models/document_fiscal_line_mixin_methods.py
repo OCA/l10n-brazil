@@ -1,8 +1,11 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-# from lxml import etree
+from lxml import etree
+
 from odoo import api, models
+from odoo.osv.orm import setup_modifiers
+
 from .tax import TAX_DICT_VALUES
 
 from ..constants.fiscal import (
@@ -73,30 +76,37 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
                         toolbar=False, submenu=False):
-        model_view = super(
-            FiscalDocumentLineMixinMethods, self).fields_view_get(
-                view_id, view_type, toolbar, submenu)
+        model_view = super(FiscalDocumentLineMixin, self).fields_view_get(
+            view_id, view_type, toolbar, submenu)
 
-        return model_view  # FIXME: Fields view get of fiscal line
+        if view_type == 'form':
+            try:
+                fiscal_view = self.env.ref(
+                    "l10n_br_fiscal.document_fiscal_line_mixin_form")
 
-        # if view_type == "form":
-        #     fiscal_view = self.env.ref(
-        #       "l10n_br_fiscal.document_fiscal_line_mixin_form")
-        #
-        #     doc = etree.fromstring(model_view.get("arch"))
-        #
-        #     for fiscal_node in doc.xpath("//group[@name='l10n_br_fiscal']"):
-        #         sub_view_node = etree.fromstring(fiscal_view["arch"])
-        #
-        #         try:
-        #             fiscal_node.getparent().replace(
-        #                 fiscal_node, sub_view_node)
-        #             model_view["arch"] = etree.tostring(
-        #                 doc, encoding="unicode")
-        #         except ValueError:
-        #             return model_view
-        #
-        # return model_view
+                # Get template tags
+                fsc_doc = etree.fromstring(fiscal_view["arch"])
+                group_node = fsc_doc.xpath("//group[@name='fiscal_fields']")[0]
+                page_node = fsc_doc.xpath("//page[@name='fiscal_taxes']")[0]
+
+                doc = etree.fromstring(model_view.get('arch'))
+
+                # Replace group
+                doc_group_node = doc.xpath("//group[@name='fiscal_fields']")[0]
+                setup_modifiers(group_node)
+                doc_group_node.getparent().replace(doc_group_node, group_node)
+
+                # Replace page
+                doc_page_node = doc.xpath("//page[@name='fiscal_taxes']")[0]
+                for n in page_node.getiterator():
+                    setup_modifiers(n)
+                doc_page_node.getparent().replace(doc_page_node, page_node)
+
+                model_view["arch"] = etree.tostring(doc, encoding='unicode')
+            except Exception:
+                return model_view
+
+        return model_view
 
     def _compute_taxes(self, taxes, cst=None):
         return taxes.compute_taxes(
