@@ -6,8 +6,6 @@ from . import data_ncm_nbs_abstract
 from . import document_workflow
 from . import document_fiscal_mixin
 from . import document_fiscal_line_mixin
-from . import document_abstract
-from . import document_line_abstract
 from . import document_event_abstract
 from . import document_cancel
 from . import document_correction
