@@ -2324,6 +2324,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_electronic__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin_methods__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__display_name
@@ -2373,6 +2374,13 @@ msgstr "Documento"
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line_mixin
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_mixin
 msgid "Document Fiscal Mixin"
+msgstr "Mixin para Documento Fiscal"
+
+#. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line_mixin_methods
+#, fuzzy
+#| msgid "Document Fiscal Mixin"
+msgid "Document Fiscal Mixin Methods"
 msgstr "Mixin para Documento Fiscal"
 
 #. module: l10n_br_fiscal
@@ -3993,6 +4001,7 @@ msgstr "Desoneração de ICMS"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_invalidate_number__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin_methods__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__id
@@ -4711,6 +4720,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_invalidate_number____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin____last_update
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin_methods____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie____last_update
@@ -5560,7 +5570,7 @@ msgid "Não se aplica"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_invalidate_number.py:74
+#: code:addons/l10n_br_fiscal/models/document_invalidate_number.py:73
 #, python-format
 msgid "Não é permitido faixas sobrepostas!"
 msgstr ""
@@ -7777,7 +7787,7 @@ msgid "Visualizar XML"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_invalidate_number.py:89
+#: code:addons/l10n_br_fiscal/models/document_invalidate_number.py:88
 #, python-format
 msgid "Você não pode excluir uma sequência concluída."
 msgstr ""
