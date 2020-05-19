@@ -77,7 +77,7 @@ def post_init_hook(cr, registry):
                 f,
                 None,
                 mode="init",
-                noupdate=False,
+                noupdate=True,
                 kind="demo",
                 report=None,
             )
@@ -110,7 +110,7 @@ def post_init_hook(cr, registry):
                 f,
                 None,
                 mode="init",
-                noupdate=False,
+                noupdate=True,
                 kind="init",
                 report=None,
             )
