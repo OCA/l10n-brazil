@@ -10,7 +10,7 @@
     "author": "KMEE, " "Odoo Community Association (OCA)",
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.0",
-    "depends": ["l10n_br_simple"],
+    "depends": ["l10n_br_coa"],
     "data": [
         "data/l10n_br_chart_data.xml",
         "data/account_group_data.xml",
