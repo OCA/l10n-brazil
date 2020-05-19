@@ -1,7 +1,6 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-# from lxml import etree
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
