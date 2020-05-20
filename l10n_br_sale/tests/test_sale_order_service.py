@@ -19,7 +19,7 @@ class TestSaleOrderService(common.TransactionCase):
         self.sale_order_service.onchange_partner_shipping_id()
 
         for line in self.sale_order_service.order_line:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_operation_id()
             line._onchange_operation_line_id()
             line._onchange_fiscal_taxes()
