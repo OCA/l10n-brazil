@@ -16,4 +16,5 @@
         "data/account.account.template.csv",
         "data/account_tax_template_data.xml",
     ],
+    "post_init_hook": "post_init_hook",
 }
