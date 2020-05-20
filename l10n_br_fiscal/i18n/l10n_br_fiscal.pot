@@ -1105,8 +1105,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__file_cofins
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 msgid "COFINS"
 msgstr ""
@@ -1190,7 +1190,7 @@ msgid "COFINS Ret Value"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 msgid "COFINS ST"
 msgstr ""
@@ -1266,8 +1266,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__file_csll
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 msgid "CSLL"
@@ -3142,8 +3142,8 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__file_icms
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_icms_config_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 #: selection:l10n_br_fiscal.document.type,type:0
 msgid "ICMS"
@@ -3198,7 +3198,7 @@ msgid "ICMS CST Code"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 msgid "ICMS DIFAL"
 msgstr ""
 
@@ -3712,7 +3712,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__file_icms_st
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 msgid "ICMS ST"
 msgstr ""
 
@@ -3988,7 +3988,7 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_search
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 msgid "II"
@@ -4013,8 +4013,8 @@ msgid "II Value"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 msgid "INSS"
@@ -4094,8 +4094,8 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__file_ipi
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_ipi_config_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.ncm_search
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
@@ -4189,8 +4189,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__file_irpj
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 msgid "IRPJ"
@@ -4273,8 +4273,8 @@ msgid "ISS %"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 msgid "ISSQN"
@@ -5605,7 +5605,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__operation_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__operation_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.operation_menu
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 msgid "Operation"
 msgstr ""
@@ -5806,8 +5805,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__file_pis
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 msgid "PIS"
 msgstr ""
@@ -5907,7 +5906,7 @@ msgid "PIS Ret Value"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 msgid "PIS ST"
 msgstr ""
@@ -6592,7 +6591,7 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 msgid "Retenções"
 msgstr ""
 
@@ -7382,6 +7381,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__tax_ids
 #: model:ir.ui.menu,name:l10n_br_fiscal.taxes_config_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_form
