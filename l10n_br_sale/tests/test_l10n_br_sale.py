@@ -34,7 +34,7 @@ class TestL10nBRSale(common.TransactionCase):
             "after change fiscal category.",
         )
         for line in self.sale_order_1.order_line:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_operation_id()
             line._onchange_operation_line_id()
             line._onchange_fiscal_taxes()
@@ -194,7 +194,7 @@ class TestL10nBRSale(common.TransactionCase):
             u"Error to apply discount on sale order.",
         )
         for line in self.sale_discount.order_line:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_operation_id()
             line._onchange_operation_line_id()
             line._onchange_fiscal_taxes()
