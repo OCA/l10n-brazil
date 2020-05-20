@@ -11,16 +11,20 @@ from odoo import api, SUPERUSER_ID
 _auto_install_l10n_original = account._auto_install_l10n
 
 
-def _auto_install_l10n_br_coa_simple(cr, registry):
+def _auto_install_l10n_br_coa_module(cr, registry):
     env = api.Environment(cr, SUPERUSER_ID, {})
     country_code = env.user.company_id.country_id.code
     if country_code and country_code.upper() == "BR":
+        if env.user.company_id.tax_framework == '3':
+            module_name_domain = [("name", "=", "l10n_br_coa_cfc")]
+        else:
+            module_name_domain = [("name", "=", "l10n_br_coa_simple")]
         module_ids = env["ir.module.module"].search(
-            [("name", "in", ("l10n_br_coa_simple",)), ("state", "=", "uninstalled")]
+            module_name_domain + [("state", "=", "uninstalled")]
         )
         module_ids.sudo().button_install()
     else:
         _auto_install_l10n_original(cr, registry)
 
 
-account._auto_install_l10n = _auto_install_l10n_br_coa_simple
+account._auto_install_l10n = _auto_install_l10n_br_coa_module
