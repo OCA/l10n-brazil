@@ -16,6 +16,7 @@
         "data/account.account.template.csv",
         "data/account_tax_group.xml",
         "data/l10n_br_coa_simple_template_post.xml",
+        "data/account_chart_template_accounts.xml",
     ],
     "post_init_hook": "post_init_hook",
 }
