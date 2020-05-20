@@ -35,10 +35,34 @@ def pre_init_hook(cr):
     )
 
 
+def set_accounts(env, l10n_br_coa_chart):
+    module = 'l10n_br_account'
+    mapping = {
+        'line_receita_icms': 'icms_sale',
+        'line_receita_icms_st': 'icms_st_sale',
+        'line_receita_ipi': 'ipi_sale',
+        'line_receita_pis': 'pis_sale',
+        'line_receita_cofins': 'cofins_sale',
+        'line_receita_venda': 'sale_revenue',
+        'line_receita_revenda': 'resale_revenue',
+        'line_receita_venda_st': 'sale_st_revenue',
+        'line_receita_revenda_st': 'resale_st_revenue',
+        'line_devolucao_venda': 'sale_return',
+        'line_devolucao_compra': 'purchase_return',
+    }
+    for line_ref, field in mapping.items():
+        line = env.ref(module + '.' + line_ref)
+        line.account_credit_id = l10n_br_coa_chart[field + '_credit_id']
+        line.account_debit_id = l10n_br_coa_chart[field + '_debit_id']
+
+
 def load_fiscal_taxes(env, l10n_br_coa_chart):
     companies = env["res.company"].search(
         [("chart_template_id", "=", l10n_br_coa_chart.id)]
     )
+
+    if companies:
+        set_accounts(env, l10n_br_coa_chart)
 
     for company in companies:
         taxes = env["account.tax"].search([("company_id", "=", company.id)])
