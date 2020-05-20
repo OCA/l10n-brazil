@@ -2,8 +2,6 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from erpbrasil.base import misc
-
 from odoo import _, api, fields, models
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import UserError
@@ -197,7 +195,8 @@ class SaleOrder(models.Model):
         if self.operation_id:
             # TODO Defini document_type_id in other method in line
             result['document_type_id'] = self._context.get('document_type_id')
-            result['document_serie_id'] = 1 # TODO
+            # TODO
+            result['document_serie_id'] = 1
 
             if self.operation_id.journal_id:
                 result['journal_id'] = self.operation_id.journal_id.id
