@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="view_account_chart_template_form" model="ir.ui.view">
+        <field name="name">account.chart.template.form (in l10n_br_coa)</field>
+        <field name="model">account.chart.template</field>
+        <field name="inherit_id" ref="account.view_account_chart_template_form"/>
+        <field name="arch" type="xml">
+            <field name="property_account_income_id" position="after">
+                <field name="icms_sale_credit_id"/>
+                <field name="icms_sale_debit_id"/>
+                <field name="icms_st_sale_credit_id"/>
+                <field name="icms_st_sale_debit_id"/>
+                <field name="ipi_sale_credit_id"/>
+                <field name="ipi_sale_debit_id"/>
+                <field name="pis_sale_credit_id"/>
+                <field name="pis_sale_debit_id"/>
+                <field name="cofins_sale_credit_id"/>
+                <field name="cofins_sale_debit_id"/>
+                <field name="sale_revenue_credit_id"/>
+                <field name="sale_revenue_debit_id"/>
+                <field name="resale_revenue_credit_id"/>
+                <field name="resale_revenue_debit_id"/>
+                <field name="sale_st_revenue_credit_id"/>
+                <field name="sale_st_revenue_debit_id"/>
+                <field name="resale_st_revenue_credit_id"/>
+                <field name="resale_st_revenue_debit_id"/>
+                <field name="sale_return_credit_id"/>
+                <field name="sale_return_debit_id"/>
+                <field name="purchase_return_credit_id"/>
+                <field name="purchase_return_debit_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>
