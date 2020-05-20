@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_br_coa_generic_template" model="account.chart.template">
+        <field name="icms_sale_credit_id" search="[('code','=','2.1.1.3.03')]"/>
+        <field name="icms_sale_debit_id" search="[('code','=','6.1.1.2.03')]"/>
+        <field name="icms_st_sale_credit_id" search="[('code','=','2.1.1.3.11')]"/>
+        <field name="icms_st_sale_debit_id" search="[('code','=','6.1.1.2.03')]"/>
+        <field name="ipi_sale_credit_id" search="[('code','=','2.1.1.3.02')]"/>
+        <field name="ipi_sale_debit_id" search="[('code','=','')]"/>
+        <field name="pis_sale_credit_id" search="[('code','=','2.1.1.3.05')]"/>
+        <field name="pis_sale_debit_id" search="[('code','=','6.1.1.2.06')]"/>
+        <field name="cofins_sale_credit_id" search="[('code','=','2.1.1.3.04')]"/>
+        <field name="cofins_sale_debit_id" search="[('code','=','6.1.1.2.05')]"/>
+        <field name="sale_revenue_credit_id" search="[('code','=','6.1.1.1.10')]"/>
+        <field name="sale_revenue_debit_id" search="[('code','=','')]"/>
+        <field name="resale_revenue_credit_id" search="[('code','=','6.1.1.1.01')]"/>
+        <field name="resale_revenue_debit_id" search="[('code','=','')]"/>
+        <field name="sale_st_revenue_credit_id" search="[('code','=','6.1.1.1.11')]"/>
+        <field name="sale_st_revenue_debit_id" search="[('code','=','')]"/>
+        <field name="resale_st_revenue_credit_id" search="[('code','=','6.1.1.1.02')]"/>
+        <field name="resale_st_revenue_debit_id" search="[('code','=','')]"/>
+        <field name="sale_return_credit_id" search="[('code','=','1.1.2.1.01')]"/>
+        <field name="sale_return_debit_id" search="[('code','=','6.1.1.2.09')]"/>
+        <field name="purchase_return_credit_id" search="[('code','=','1.1.3.1.10')]"/>
+        <field name="purchase_return_debit_id" search="[('code','=','2.1.1.4.01')]"/>
+    </record>
+</odoo>
