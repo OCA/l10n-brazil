@@ -41,10 +41,10 @@ class StockRule(models.Model):
 
     # TODO - The method don't work because in _get_stock_move_values
     #  at "if field in values:" the parameter values don't has the fields
-    def _get_custom_move_fields(self):
-        fields = super(StockRule, self)._get_custom_move_fields()
-        fields += ['invoice_state', 'operation_id', 'operation_line_id']
-        return fields
+    # def _get_custom_move_fields(self):
+    #     fields = super(StockRule, self)._get_custom_move_fields()
+    #     fields += ['invoice_state', 'operation_id', 'operation_line_id']
+    #     return fields
 
     def _get_stock_move_values(
         self, product_id, product_qty, product_uom, location_id, name, origin,
