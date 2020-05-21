@@ -126,7 +126,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             ncm=self.ncm_id,
             nbm=self.nbm_id,
             cest=self.cest_id,
-            operation_line=self.operation_line_id,
+            operation_line=self.fiscal_operation_line_id,
             icmssn_range=self.icmssn_range_id)
 
     @api.multi
@@ -272,30 +272,30 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     l.inss_wh_tax_id = tax
                     self._set_fields_inss_wh(computed_tax)
 
-    @api.onchange("operation_id")
-    def _onchange_operation_id(self):
-        if self.operation_id:
+    @api.onchange("fiscal_operation_id")
+    def _onchange_fiscal_operation_id(self):
+        if self.fiscal_operation_id:
             price = {
                 "sale_price": self.product_id.list_price,
                 "cost_price": self.product_id.standard_price,
             }
 
-            self.price_unit = price.get(self.operation_id.default_price_unit,
+            self.price_unit = price.get(self.fiscal_operation_id.default_price_unit,
                                         0.00)
 
-            self.operation_line_id = self.operation_id.line_definition(
+            self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
                 partner=self.partner_id,
                 product=self.product_id)
 
-    @api.onchange("operation_line_id")
-    def _onchange_operation_line_id(self):
+    @api.onchange("fiscal_operation_line_id")
+    def _onchange_fiscal_operation_line_id(self):
 
         # Reset Taxes
         self._remove_all_fiscal_tax_ids()
-        if self.operation_line_id:
+        if self.fiscal_operation_line_id:
 
-            mapping_result = self.operation_line_id.map_fiscal_taxes(
+            mapping_result = self.fiscal_operation_line_id.map_fiscal_taxes(
                 company=self.company_id,
                 partner=self.partner_id,
                 product=self.product_id,
@@ -311,7 +311,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.fiscal_tax_ids = taxes
             self._update_taxes()
 
-        if not self.operation_line_id:
+        if not self.fiscal_operation_line_id:
             self.cfop_id = False
 
     @api.onchange("product_id")
@@ -339,7 +339,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.service_type_id = False
             self.uot_id = False
 
-        self._onchange_operation_id()
+        self._onchange_fiscal_operation_id()
 
     def _set_fields_issqn(self, tax_dict):
         if tax_dict:
@@ -737,4 +737,4 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
-        self._onchange_operation_id()
+        self._onchange_fiscal_operation_id()
