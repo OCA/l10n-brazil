@@ -6,6 +6,8 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 from ..constants.fiscal import (
     FISCAL_IN_OUT,
+    NFE_IND_FINAL,
+    NFE_IND_FINAL_DEFAULT,
     NFE_IND_PRES,
     NFE_IND_PRES_DEFAULT,
     FISCAL_COMMENT_DOCUMENT,
@@ -74,4 +76,10 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     additional_data = fields.Text(
         string='Additional Data',
+    )
+
+    ind_final = fields.Selection(
+        selection=NFE_IND_FINAL,
+        string='Final Consumption Operation',
+        default=NFE_IND_FINAL_DEFAULT,
     )
