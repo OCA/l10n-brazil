@@ -29,7 +29,7 @@ class FiscalDocumentMixin(models.AbstractModel):
                   ('company_id', '=', False)]
         return domain
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Operation',
         domain=lambda self: self._operation_domain(),
@@ -37,7 +37,7 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
-        related='operation_id.operation_type',
+        related='fiscal_operation_id.operation_type',
         string='Operation Type',
         readonly=True)
 
