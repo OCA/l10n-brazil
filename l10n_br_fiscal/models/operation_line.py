@@ -24,7 +24,7 @@ class OperationLine(models.Model):
     _description = 'Fiscal Operation Line'
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Operation',
         ondelete='cascade',
@@ -60,14 +60,14 @@ class OperationLine(models.Model):
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
-        related='operation_id.operation_type',
+        related='fiscal_operation_id.operation_type',
         string='Operation Type',
         store=True,
         readonly=True)
 
     fiscal_type = fields.Selection(
         selection=OPERATION_FISCAL_TYPE,
-        related='operation_id.fiscal_type',
+        related='fiscal_operation_id.fiscal_type',
         string='Fiscal Type',
         store=True,
         readonly=True)
@@ -112,13 +112,13 @@ class OperationLine(models.Model):
 
     tax_definition_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax.definition',
-        inverse_name='operation_line_id',
+        inverse_name='fiscal_operation_line_id',
         string='Tax Definition')
 
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
         relation='l10n_br_fiscal_operation_line_comment_rel',
-        column1='operation_id',
+        column1='fiscal_operation_line_id',
         column2='comment_id',
         string='Comment')
 
@@ -139,7 +139,7 @@ class OperationLine(models.Model):
 
     _sql_constraints = [(
         "fiscal_operation_name_uniq",
-        "unique (name, operation_id)",
+        "unique (name, fiscal_operation_id)",
         _("Fiscal Operation Line already exists with this name !"))]
 
     def get_document_type(self, company):
@@ -241,9 +241,9 @@ class OperationLine(models.Model):
         return super(OperationLine, self).unlink()
 
     @api.multi
-    @api.onchange('operation_id')
-    def _onchange_operation_id(self):
-        if not self.operation_id.operation_type:
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        if not self.fiscal_operation_id.operation_type:
             warning = {
                 "title": _("Warning!"),
                 "message": _("You must first select a operation type."),
