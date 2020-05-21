@@ -14,10 +14,10 @@ Plano de Contas - Conselho Federal de Contabilidade
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
-    :target: https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_cfc
+    :target: https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_coa_cfc
     :alt: OCA/l10n-brazil
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/l10n-brazil-12-0/l10n-brazil-12-0-l10n_br_cfc
+    :target: https://translation.odoo-community.org/projects/l10n-brazil-12-0/l10n-brazil-12-0-l10n_br_coa_cfc
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
     :target: https://runbot.odoo-community.org/runbot/124/12.0
@@ -25,6 +25,43 @@ Plano de Contas - Conselho Federal de Contabilidade
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
+Plano de Contas do Conselho Federal de Contabilidade
+====================================================
+
+O modelo de plano de contas apresentado neste módulo adere às características de “simplificação”
+preconizadas no Estatuto Nacional da Microempresa e Empresa de Pequeno Porte, foi elaborada com
+base na legislação societária prevista nas Leis no 6.404/76 e 11.638/07,e visa tão-somente
+apresentar uma base para orientar a elaboração do Plano de cada empresa, respeitando suas
+características e especificidades.
+
+O modelo proposto aplica-se a empresas que exercem atividades mistas – comércio, indústria e
+serviços – realizadas conjuntamente.
+
+Caso não sejam realizadas as três atividades, pode ser realizada a utilização do modelo completo
+excluindo as contas que não são utilizadas, mantendo as demais e conservando a codificação geral
+para facilitar o uso, principalmente para organizações contábeis que trabalham para empresas de
+vários ramos.
+
+Atende também a utilização de Plano de Eventos (Modelos de Partidas Dobradas), caso seja adotado.
+A finalidade do Plano de Eventos é a gravação dos vários elementos comuns nas “partidas” que se
+repetem e formam eventos contábeis. Por exemplo: cada compra a prazo constitui uma transação ou
+fato contábil; o conjunto das compras a prazo constitui o evento contábil “compras a prazo”. Sua
+contabilização será:
+
+Data: dd/mm/aaaa
+Conta e subconta devedoras: ESTOQUE/Compras
+Conta e subconta credoras: FORNECEDORES/Fornecedor A
+Histórico: Compra conforme NF XXXX
+Valor: R$ 1.111,11
+
+Os elementos variáveis desse evento são apenas: a data, o nome do fornecedor, o número do documento
+fiscal e o valor da operação.
+
+A utilização desse procedimento minimiza erros de classificação contábil e agiliza a escrituração,
+principalmente quando o volume de transações é numeroso e, principalmente, se a escrituração contábil
+é importada de outros aplicativos, tais como: compras, produção, fiscal, pessoal, etc.
+
+`Livro_Escrituracao_contabil.pdf <https://github.com/OCA/l10n-brazil/files/4589337/Livro_Escrituracao_contabil.pdf>`_
 
 **Table of contents**
 
@@ -37,7 +74,7 @@ Bug Tracker
 Bugs are tracked on `GitHub Issues <https://github.com/OCA/l10n-brazil/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_cfc%0Aversion:%2012.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/l10n-brazil/issues/new?body=module:%20l10n_br_coa_cfc%0Aversion:%2012.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -53,6 +90,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Luis Felipe Mileo <mileo@kmee.com.br>
+* Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 
 Maintainers
 ~~~~~~~~~~~
@@ -67,6 +105,6 @@ OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
 
-This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_cfc>`_ project on GitHub.
+This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_coa_cfc>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
