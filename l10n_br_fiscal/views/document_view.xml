@@ -24,7 +24,7 @@
         <field name="document_type_id"/>
         <field name="number"/>
         <field name="date"/>
-        <field name="operation_id"/>
+        <field name="fiscal_operation_id"/>
         <field name="partner_id"/>
         <field name="amount_untaxed"/>
         <field name="amount_tax"/>
@@ -68,7 +68,7 @@
             </h1>
           </div>
           <group name="l10n_br_fiscal" colspan="4">
-            <field name="operation_id"/> <!-- USE MIXIN VIEW -->
+            <field name="fiscal_operation_id"/> <!-- USE MIXIN VIEW -->
             <field name="edoc_purpose"/>
             <field name="ind_final"/>
             <field name="ind_pres"/>
@@ -146,7 +146,7 @@
               </group>
             </page>
             <page name="products" string="Products and Services">
-              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_operation_type': operation_type, 'default_operation_id': operation_id}">
+              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_operation_type': operation_type, 'default_fiscal_operation_id': fiscal_operation_id}">
                 <tree>
                   <field name="product_id"/>
                   <field name="uom_id"/>
