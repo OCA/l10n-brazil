@@ -14,8 +14,7 @@ class StockMove(models.Model):
 
     @api.model
     def _default_operation(self):
-        # TODO Check in context to define in or out move default.
-        return self.env.user.company_id.stock_fiscal_operation_id
+        return False
 
     @api.model
     def _operation_domain(self):
