@@ -11,6 +11,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_account',
         'odoo12-addon-l10n_br_account_payment_order',
         'odoo12-addon-l10n_br_base',
+        'odoo12-addon-l10n_br_coa',
         'odoo12-addon-l10n_br_coa_simple',
         'odoo12-addon-l10n_br_crm',
         'odoo12-addon-l10n_br_currency_rate_update',
