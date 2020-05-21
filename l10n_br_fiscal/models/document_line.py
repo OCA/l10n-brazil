@@ -68,7 +68,7 @@ class DocumentLine(models.Model):
         domain = [('state', '=', 'approved')]
         return domain
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         domain=lambda self: self._operation_domain(),
     )
 
@@ -197,8 +197,8 @@ class DocumentLine(models.Model):
             record.additional_data += record.comment_ids.compute_message(
                 record._document_comment_vals())
 
-    @api.onchange('operation_line_id')
-    def _onchange_operation_line_id(self):
-        super(DocumentLine, self)._onchange_operation_line_id()
-        for comment_id in self.operation_line_id.comment_ids:
+    @api.onchange('fiscal_operation_line_id')
+    def _onchange_fiscal_operation_line_id(self):
+        super(DocumentLine, self)._onchange_fiscal_operation_line_id()
+        for comment_id in self.fiscal_operation_line_id.comment_ids:
             self.comment_ids += comment_id
