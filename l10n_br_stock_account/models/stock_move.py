@@ -27,25 +27,30 @@ class StockMove(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]},
         default=_default_operation,
-        domain=lambda self: self._operation_domain())
+        domain=lambda self: self._operation_domain(),
+    )
 
     quantity = fields.Float(
-        related='product_uom_qty')
+        related='product_uom_qty',
+    )
 
     uom_id = fields.Many2one(
-        related='product_uom')
+        related='product_uom',
+    )
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax',
         relation='fiscal_move_line_tax_rel',
         column1='document_id',
         column2='fiscal_tax_id',
-        string="Fiscal Taxes")
+        string="Fiscal Taxes",
+    )
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        related="picking_id.company_id.tax_framework",
-        string="Tax Framework")
+        related='picking_id.company_id.tax_framework',
+        string='Tax Framework',
+    )
 
     @api.onchange(
         'product_id',
