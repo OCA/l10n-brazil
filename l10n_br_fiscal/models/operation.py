@@ -53,7 +53,7 @@ class Operation(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]})
 
-    return_operation_id = fields.Many2one(
+    return_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Return Operation',
         readonly=True,
@@ -63,7 +63,7 @@ class Operation(models.Model):
                "['purchase_refund'], 'other': ['return_in', 'return_out']}.get("
                "fiscal_type, []))]")
 
-    inverse_operation_id = fields.Many2one(
+    inverse_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Inverse Operation',
         domain="[('operation_type', '!=', operation_type), "
@@ -88,14 +88,14 @@ class Operation(models.Model):
 
     document_type_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.operation.document.type',
-        inverse_name='operation_id',
+        inverse_name='fiscal_operation_id',
         string='Operation Document Types',
         readonly=True,
         states={'draft': [('readonly', False)]})
 
     line_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.operation.line',
-        inverse_name='operation_id',
+        inverse_name='fiscal_operation_id',
         string='Operation Line',
         readonly=True,
         states={'draft': [('readonly', False)]})
@@ -103,7 +103,7 @@ class Operation(models.Model):
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
         relation='l10n_br_fiscal_operation_comment_rel',
-        column1='operation_id',
+        column1='fiscal_operation_id',
         column2='comment_id',
         string='Comment')
 
@@ -141,7 +141,7 @@ class Operation(models.Model):
         serie = self.env['l10n_br_fiscal.document.serie']
         document_type_serie = self.env[
             'l10n_br_fiscal.operation.document.type'].search([
-                ('operation_id', '=', self.id),
+                ('fiscal_operation_id', '=', self.id),
                 ('company_id', '=', company.id),
                 ('document_type_id', '=', document_type.id)],
                 limit=1)
@@ -154,7 +154,7 @@ class Operation(models.Model):
     def _line_domain(self, company, partner, product):
 
         domain = [
-            ('operation_id', '=', self.id),
+            ('fiscal_operation_id', '=', self.id),
             ('operation_type', '=', self.operation_type),
             ('state', '=', 'approved'),
         ]

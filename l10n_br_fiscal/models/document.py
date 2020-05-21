@@ -123,7 +123,7 @@ class Document(models.Model):
         default=True,
     )
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         domain="[('state', '=', 'approved'), "
                "'|', ('operation_type', '=', operation_type),"
                " ('operation_type', '=', 'all')]",
@@ -718,18 +718,19 @@ class Document(models.Model):
     def _create_return(self):
         return_ids = self.env[self._name]
         for record in self:
-            if record.operation_id.return_operation_id:
+            if record.fiscal_operation_id.return_fiscal_operation_id:
                 new = record.copy()
-                new.operation_id = record.operation_id.return_operation_id
+                new.fiscal_operation_id = (
+                    record.fiscal_operation_id.return_fiscal_operation_id)
                 if record.operation_type == 'out':
                     new.operation_type = 'in'
                 else:
                     new.operation_type = 'out'
-                new._onchange_operation_id()
-                new.line_ids.write({'operation_id': new.operation_id.id})
+                new._onchange_fiscal_operation_id()
+                new.line_ids.write({'fiscal_operation_id': new.fiscal_operation_id.id})
 
                 for item in new.line_ids:
-                    item._onchange_operation_id()
+                    item._onchange_fiscal_operation_id()
 
                 return_ids |= new
         return return_ids
@@ -793,12 +794,12 @@ class Document(models.Model):
             self.partner_cnae_main_id = self.partner_id.cnae_main_id
             self.partner_tax_framework = self.partner_id.tax_framework
 
-    @api.onchange('operation_id')
-    def _onchange_operation_id(self):
-        if self.operation_id:
-            self.operation_name = self.operation_id.name
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        if self.fiscal_operation_id:
+            self.operation_name = self.fiscal_operation_id.name
 
-        for comment_id in self.operation_id.comment_ids:
+        for comment_id in self.fiscal_operation_id.comment_ids:
             self.comment_ids += comment_id
 
     @api.onchange('document_serie_id')

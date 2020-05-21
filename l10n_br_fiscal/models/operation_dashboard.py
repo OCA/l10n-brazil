@@ -70,22 +70,22 @@ class Operation(models.Model):
 
     def _get_number_2confirm_documents(self):
         return self.env['l10n_br_fiscal.document'].search_count([
-            ('operation_id.fiscal_type', '=', self.fiscal_type),
-            ('operation_id', '=', self.id),
+            ('fiscal_operation_id.fiscal_type', '=', self.fiscal_type),
+            ('fiscal_operation_id', '=', self.id),
             ('state_edoc', 'in', EDOC_2_CONFIRM)
         ])
 
     def _get_authorized_documents(self):
         return self.env['l10n_br_fiscal.document'].search_count([
-            ('operation_id.fiscal_type', '=', self.fiscal_type),
-            ('operation_id', '=', self.id),
+            ('fiscal_operation_id.fiscal_type', '=', self.fiscal_type),
+            ('fiscal_operation_id', '=', self.id),
             ('state_edoc', '=', SITUACAO_EDOC_AUTORIZADA)
         ])
 
     def _get_cancelled_documents(self):
         return self.env['l10n_br_fiscal.document'].search_count([
-            ('operation_id.fiscal_type', '=', self.fiscal_type),
-            ('operation_id', '=', self.id),
+            ('fiscal_operation_id.fiscal_type', '=', self.fiscal_type),
+            ('fiscal_operation_id', '=', self.id),
             ('state_edoc', 'in', EDOC_CANCELED)
         ])
 
@@ -95,10 +95,10 @@ class Operation(models.Model):
         model = 'l10n_br_fiscal.document'
         if self.fiscal_type == 'sale':
             ctx.update({'default_operation_type': 'out',
-                        'default_operation_id': self.id})
+                        'default_fiscal_operation_id': self.id})
         elif self.fiscal_type == 'purchase':
             ctx.update({'default_operation_type': 'in',
-                        'default_operation_id': self.id})
+                        'default_fiscal_operation_id': self.id})
         return {
             'name': _('Create invoice/bill'),
             'type': 'ir.actions.act_window',
@@ -140,8 +140,8 @@ class Operation(models.Model):
         action['context'] = ctx
         action['domain'] = self._context.get('use_domain', [])
         action['domain'] += [
-            ('operation_id.fiscal_type', '=', self.fiscal_type),
-            ('operation_id', '=', self.id)
+            ('fiscal_operation_id.fiscal_type', '=', self.fiscal_type),
+            ('fiscal_operation_id', '=', self.id)
         ]
         if ctx.get('search_default_cancel'):
             action['domain'] += [('state_edoc', 'in', EDOC_CANCELED)]

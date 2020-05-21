@@ -9,7 +9,7 @@
 
     <!-- NFe Test - Empresa Contribuinte - Mesmo Estado -->
     <record id="demo_nfe_same_state" model="l10n_br_fiscal.document">
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">1</field>
@@ -35,8 +35,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_same_state_1-2" model="l10n_br_fiscal.document.line">
@@ -47,13 +47,13 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- NFe Test - Empresa Contribuinte - Outro Estado -->
     <record id="demo_nfe_other_state" model="l10n_br_fiscal.document">
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">1</field>
@@ -77,8 +77,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_same_state_2-3" model="l10n_br_fiscal.document.line">
@@ -89,8 +89,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_same_state_3-3" model="l10n_br_fiscal.document.line">
@@ -101,13 +101,13 @@
         <field name="price_unit">2400</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- NFe Test - Empresa Contribuinte - Exterior -->
     <record id="demo_nfe_export" model="l10n_br_fiscal.document">
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">13</field>
@@ -126,8 +126,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_export_3-2" model="l10n_br_fiscal.document.line">
@@ -138,13 +138,13 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- NFe Test - Empresa Contribuinte - Nao Contribuinte PJ -->
     <record id="demo_nfe_nao_contribuinte" model="l10n_br_fiscal.document">
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">14</field>
@@ -167,8 +167,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_nao_contribuinte_4-2" model="l10n_br_fiscal.document.line">
@@ -179,13 +179,13 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- NFe Test - Empresa Contribuinte - Nao Contribuinte PF -->
     <record id="demo_nfe_nao_contribuinte_pf" model="l10n_br_fiscal.document">
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">15</field>
@@ -208,8 +208,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_nao_contribuinte_pf_2-2" model="l10n_br_fiscal.document.line">
@@ -220,14 +220,14 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- NFe Test - Empresa Simples Nacional - Mesmo Estado -->
     <record id="demo_nfe_sn_same_state" model="l10n_br_fiscal.document">
         <field name="company_id" ref="empresa_simples_nacional"/>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">16</field>
@@ -251,8 +251,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_sn_same_state_5-2" model="l10n_br_fiscal.document.line">
@@ -263,14 +263,14 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
     <record id="demo_nfe_sn_other_state" model="l10n_br_fiscal.document">
         <field name="company_id" ref="empresa_simples_nacional"/>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">17</field>
@@ -294,8 +294,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_sn_other_state_6-2" model="l10n_br_fiscal.document.line">
@@ -306,14 +306,14 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- NFe Test - Empresa Simples Nacional - Exterior -->
     <record id="demo_nfe_sn_export" model="l10n_br_fiscal.document">
         <field name="company_id" ref="empresa_simples_nacional"/>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">18</field>
@@ -332,8 +332,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_sn_export_7-2" model="l10n_br_fiscal.document.line">
@@ -344,14 +344,14 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
     <record id="demo_nfe_sn_nao_contribuinte" model="l10n_br_fiscal.document">
         <field name="company_id" ref="empresa_simples_nacional"/>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">19</field>
@@ -374,8 +374,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="demo_nfe_line_sn_nao_contribuinte_7-2" model="l10n_br_fiscal.document.line">
@@ -386,8 +386,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
 </odoo>
