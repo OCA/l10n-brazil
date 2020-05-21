@@ -120,6 +120,7 @@ msgstr "Grupos de impostos"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__fiscal_tax_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_tax_template__fiscal_tax_ids
 msgid "Fiscal Taxes"
 msgstr "Impostos"
 
@@ -183,6 +184,11 @@ msgstr "Modelos para Impostos"
 #: model:ir.model.fields,help:l10n_br_account.field_account_invoice__legal_name
 msgid "Used in fiscal documents"
 msgstr "Usado nos documentos fiscais"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_tax_template
+msgid "l10n_br_account.tax.template"
+msgstr ""
 
 #~ msgid "Fiscal Doc  Discount Value"
 #~ msgstr "Valor do desconto do documento fiscal"
