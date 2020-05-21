@@ -10,8 +10,13 @@ class StockPicking(models.Model):
 
     @api.model
     def _default_operation(self):
-        # TODO Check in context to define in or out move default.
-        return self.env.user.company_id.stock_fiscal_operation_id
+        fiscal_operation = self.env['l10n_br_fiscal.operation']
+        picking_type_id = self.env.context.get('default_picking_type_id')
+        if picking_type_id:
+            picking_type = self.env['stock.picking.type'].browse(
+                picking_type_id)
+        fiscal_operation = picking_type.fiscal_operation_id
+        return fiscal_operation
 
     @api.model
     def _operation_domain(self):
@@ -20,6 +25,7 @@ class StockPicking(models.Model):
         return domain
 
     operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
         readonly=True,
         states={'draft': [('readonly', False)]},
         default=_default_operation,
