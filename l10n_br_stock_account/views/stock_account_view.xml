@@ -8,7 +8,7 @@
         <field name="priority">32</field>
         <field name="arch" type="xml">
             <field name="move_type" position="before">
-                <field name="operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
+                <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
             </field>
 
             <!-- TODO check if there is a better way to make it, we need to remove editable="bottom"
@@ -64,8 +64,8 @@
                         <field name="is_locked" invisible="1"/>
                         <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('has_move_lines', '=', True)]}"/>
                         <field name="invoice_state"/>
-                        <field name="operation_id"/>
-                        <field name="operation_line_id"/>
+                        <field name="fiscal_operation_id"/>
+                        <field name="fiscal_operation_line_id"/>
                         <field name="is_initial_demand_editable" invisible="1"/>
                         <field name="is_quantity_done_editable" invisible="1"/>
                         <field name="product_uom_qty" string="Initial Demand" attrs="{'column_invisible': ['&amp;',('parent.immediate_transfer', '=', True), ('parent.is_locked', '=', True)], 'readonly': [('is_initial_demand_editable', '=', False)]}"/>
@@ -86,8 +86,8 @@
         <field eval="1" name="priority"/>
         <field name="arch" type="xml">
             <field name="invoice_state" position="after">
-                <field name="operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
-                <field name="operation_line_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
+                <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
+                <field name="fiscal_operation_line_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
             </field>
         </field>
     </record>
@@ -142,8 +142,8 @@
                          'readonly': [('invoice_state', '=', 'invoiced')]}">
                     <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
                     <field name="operation_type" invisible="1" readonly="1"/>
-                    <field name="operation_id" required="1"/>
-                    <field name="operation_line_id" required="1"/>
+                    <field name="fiscal_operation_id" required="1"/>
+                    <field name="fiscal_operation_line_id" required="1"/>
                     <field name="cfop_id"/>
                     <field name="cfop_destination" invisible="1"/>
                     <field name="fiscal_genre_code" invisible="1"/>
