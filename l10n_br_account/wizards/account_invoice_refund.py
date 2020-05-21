@@ -88,7 +88,7 @@ class AccountInvoiceRefund(models.TransientModel):
 
                     line_values = {
                         "operation_id": line.operation_id.id,
-                        "operation_line_id": line.operation_line_id.id,
+                        "fiscal_operation_line_id": line.fiscal_operation_line_id.id,
                     }
                     line.write(line_values)
                 invoice.write(invoice_values)
