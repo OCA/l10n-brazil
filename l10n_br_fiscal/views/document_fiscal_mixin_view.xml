@@ -7,7 +7,7 @@
     <field name="arch" type="xml">
       <form>
         <group name="l10n_br_fiscal">
-            <field name="operation_id" required="1"/>
+            <field name="fiscal_operation_id" required="1"/>
         </group>
       </form>
     </field>
