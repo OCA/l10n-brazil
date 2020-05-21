@@ -57,8 +57,6 @@ class StockRule(models.Model):
         :param procurement: browse record
         :rtype: dictionary
         """
-        import pudb; pudb.set_trace()
-
         date_expected = fields.Datetime.to_string(
             fields.Datetime.from_string(
                 values['date_planned']) - relativedelta(days=self.delay or 0)
