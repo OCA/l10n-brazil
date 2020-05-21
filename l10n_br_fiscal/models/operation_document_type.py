@@ -8,7 +8,7 @@ class OperationDocumentType(models.Model):
     _name = "l10n_br_fiscal.operation.document.type"
     _description = "Fiscal Operation Document Type"
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Operation",
         ondelete="cascade",
