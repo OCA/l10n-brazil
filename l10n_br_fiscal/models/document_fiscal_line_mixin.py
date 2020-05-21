@@ -125,7 +125,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         index=True,
         string="NBS")
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Operation",
         domain=lambda self: self._operation_domain(),
@@ -133,14 +133,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
-        related="operation_id.operation_type",
-        string="Operation Type",
+        related="fiscal_operation_id.operation_type",
+        string="Fiscal Operation Type",
         readonly=True)
 
-    operation_line_id = fields.Many2one(
+    fiscal_operation_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
         string="Operation Line",
-        domain="[('operation_id', '=', operation_id), "
+        domain="[('fiscal_operation_id', '=', fiscal_operation_id), "
                "('state', '=', 'approved')]")
 
     cfop_id = fields.Many2one(
