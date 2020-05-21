@@ -5,16 +5,39 @@
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import models, fields
+from odoo import _, api, fields, models
 
 
 class StockRule(models.Model):
-    _name = "stock.rule"
-    _inherit = [
-        _name,
-        "stock.invoice.state.mixin",
-        "l10n_br_fiscal.document.line.mixin"
-    ]
+    _inherit = 'stock.rule'
+
+    @api.model
+    def _default_operation(self):
+        return False
+
+    @api.model
+    def _operation_domain(self):
+        domain = [('state', '=', 'approved')]
+        return domain
+
+    operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
+        string='Fiscal Operation',
+        domain=lambda self: self._operation_domain(),
+        default=_default_operation,
+    )
+
+    invoice_state = fields.Selection(
+        selection=[
+            ("2binvoiced", _("To Be Invoiced")),
+            ("none", _("Not Applicable"))],
+        string='Invoice Status',
+        default='none',
+        copy=False,
+        help="Invoiced: an invoice already exists\n"
+             "To Be Invoiced: need to be invoiced\n"
+             "Not Applicable: no invoice to create",
+    )
 
     # TODO - The method don't work because in _get_stock_move_values
     #  at "if field in values:" the parameter values don't has the fields
@@ -34,6 +57,8 @@ class StockRule(models.Model):
         :param procurement: browse record
         :rtype: dictionary
         """
+        import pudb; pudb.set_trace()
+
         date_expected = fields.Datetime.to_string(
             fields.Datetime.from_string(
                 values['date_planned']) - relativedelta(days=self.delay or 0)
@@ -78,6 +103,7 @@ class StockRule(models.Model):
             'operation_id': self.operation_id.id,
             'operation_line_id': self.operation_line_id.id,
         }
+
         for field in self._get_custom_move_fields():
             # TODO - The fields don't appear in parameter
             #  values, check from where come this
