@@ -41,11 +41,11 @@ class SaleOrder(models.Model):
                 line.insurance_value for line in order.order_line)
 
     @api.model
-    def _default_operation(self):
+    def _default_fiscal_operation(self):
         return self.env.user.company_id.sale_fiscal_operation_id
 
     @api.model
-    def _operation_domain(self):
+    def _fiscal_operation_domain(self):
         domain = [('state', '=', 'approved')]
         return domain
 
@@ -53,12 +53,12 @@ class SaleOrder(models.Model):
     def _default_copy_note(self):
         return self.env.user.company_id.copy_note
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_operation,
-        domain=lambda self: self._operation_domain())
+        default=_default_fiscal_operation,
+        domain=lambda self: self._fiscal_operation_domain())
 
     ind_pres = fields.Selection(
         readonly=True,
@@ -135,9 +135,9 @@ class SaleOrder(models.Model):
                 line.discount = order.discount_rate
                 line._onchange_discount()
 
-    @api.onchange('operation_id')
-    def _onchange_operation_id(self):
-        self.fiscal_position_id = self.operation_id.fiscal_position_id
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
 
     # TODO FIscal Comment
     # @api.model
@@ -146,12 +146,12 @@ class SaleOrder(models.Model):
     #     fp_ids = []
     #
     #     for line in order.order_line:
-    #         if line.operation_line_id and \
-    #                 line.operation_line_id.inv_copy_note and \
-    #                 line.operation_line_id.note:
-    #             if line.operation_line_id.id not in fp_ids:
-    #                 fp_comment.append(line.operation_line_id.note)
-    #                 fp_ids.append(line.operation_line_id.id)
+    #         if line.fiscal_operation_line_id and \
+    #                 line.fiscal_operation_line_id.inv_copy_note and \
+    #                 line.fiscal_operation_line_id.note:
+    #             if line.fiscal_operation_line_id.id not in fp_ids:
+    #                 fp_comment.append(line.fiscal_operation_line_id.note)
+    #                 fp_ids.append(line.fiscal_operation_line_id.id)
     #
     #      return fp_comment
 
@@ -192,14 +192,14 @@ class SaleOrder(models.Model):
 
         result.update(self._prepare_br_fiscal_dict())
 
-        if self.operation_id:
+        if self.fiscal_operation_id:
             # TODO Defini document_type_id in other method in line
             result['document_type_id'] = self._context.get('document_type_id')
             # TODO
             result['document_serie_id'] = 1
 
-            if self.operation_id.journal_id:
-                result['journal_id'] = self.operation_id.journal_id.id
+            if self.fiscal_operation_id.journal_id:
+                result['journal_id'] = self.fiscal_operation_id.journal_id.id
 
         return result
 
@@ -245,10 +245,10 @@ class SaleOrder(models.Model):
 
                 # Here we made the change for brazilian localization
                 group_key = (
-                    order.id, line.operation_line_id.document_type_id.id
+                    order.id, line.fiscal_operation_line_id.document_type_id.id
                 ) if grouped else (
                     order.partner_invoice_id.id, order.currency_id.id,
-                    line.operation_line_id.document_type_id.id)
+                    line.fiscal_operation_line_id.document_type_id.id)
 
                 if line.display_type == 'line_section':
                     pending_section = line
@@ -257,7 +257,7 @@ class SaleOrder(models.Model):
                     continue
                 if group_key not in invoices:
                     inv_data = order.with_context(
-                        document_type_id=line.operation_line_id.get_document_type(
+                        document_type_id=line.fiscal_operation_line_id.get_document_type(
                             line.order_id.company_id).id)._prepare_invoice()
                     invoice = inv_obj.create(inv_data)
                     references[invoice] = order
