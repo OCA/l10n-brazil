@@ -2933,6 +2933,14 @@ msgid "Fiscal Operation Line already exists with this name !"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__operation_type
+#, fuzzy
+#| msgid "Fiscal Operation"
+msgid "Fiscal Operation Type"
+msgstr "Operação Fiscal"
+
+#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/operation.py:113
 #: sql_constraint:l10n_br_fiscal.operation:0
 #, python-format
@@ -5704,8 +5712,6 @@ msgstr "Nome da Operação Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__operation_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__operation_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__operation_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_search
@@ -7188,7 +7194,7 @@ msgid "Tax Definition already exists for this ICMS and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition_operation_line.py:28
+#: code:addons/l10n_br_fiscal/models/tax_definition_operation_line.py:29
 #, python-format
 msgid "Tax Definition already exists for this Operation Line and Tax Group !"
 msgstr ""
