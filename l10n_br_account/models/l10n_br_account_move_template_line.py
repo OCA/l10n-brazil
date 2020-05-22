@@ -26,15 +26,18 @@ class L10nBrAccountMoveTemplateLine(models.Model):
     account_debit_id = fields.Many2one(
         comodel_name='account.account',
         string='Débito',
+        company_dependent=True,
     )
     account_credit_id = fields.Many2one(
         comodel_name='account.account',
         string='Crédito',
+        company_dependent=True,
     )
     history_id = fields.Many2one(
         comodel_name='l10n_br_account.move.history',
         string='Histórico',
         required=True,
+        company_dependent=True,
     )
 
     @api.multi
