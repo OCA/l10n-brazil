@@ -8,6 +8,28 @@
         <field name="property_account_income_categ_id" ref="account_template_31101"/>
         <field name="income_currency_exchange_account_id" ref="account_template_32302"/>
         <field name="expense_currency_exchange_account_id" ref="account_template_32302"/>
+        <field name="icms_sale_credit_id" ref="account_template_21302"/>
+        <field name="icms_sale_debit_id" ref="account_template_31104"/>
+        <field name="icms_st_sale_credit_id" ref="account_template_21301"/>
+        <field name="icms_st_sale_debit_id" ref="account_template_31104"/>
+        <field name="ipi_sale_credit_id" ref="account_template_21301"/>
+<!--        <field name="ipi_sale_debit_id" ref="account_template_"/>-->
+        <field name="pis_sale_credit_id" ref="account_template_21301"/>
+        <field name="pis_sale_debit_id" ref="account_template_31104"/>
+        <field name="cofins_sale_credit_id" ref="account_template_21301"/>
+        <field name="cofins_sale_debit_id" ref="account_template_31104"/>
+        <field name="sale_revenue_credit_id" ref="account_template_31101"/>
+<!--        <field name="sale_revenue_debit_id" ref="account_template_"/>-->
+        <field name="resale_revenue_credit_id" ref="account_template_31101"/>
+<!--        <field name="resale_revenue_debit_id" ref="account_template_"/>-->
+        <field name="sale_st_revenue_credit_id" ref="account_template_31101"/>
+<!--        <field name="sale_st_revenue_debit_id" ref="account_template_"/>-->
+        <field name="resale_st_revenue_credit_id" ref="account_template_31101"/>
+<!--        <field name="resale_st_revenue_debit_id" ref="account_template_"/>-->
+        <field name="sale_return_credit_id" ref="account_template_11201"/>
+        <field name="sale_return_debit_id" ref="account_template_31104"/>
+        <field name="purchase_return_credit_id" ref="account_template_11403"/>
+        <field name="purchase_return_debit_id" ref="account_template_21101"/>
     </record>
 
     <data noupdate="1">

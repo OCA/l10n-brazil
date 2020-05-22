@@ -37,6 +37,7 @@ def pre_init_hook(cr):
 
 def set_accounts(env, l10n_br_coa_chart):
     module = 'l10n_br_account'
+    company_id = env.user.company_id.id
     mapping = {
         'line_receita_icms': 'icms_sale',
         'line_receita_icms_st': 'icms_st_sale',
@@ -52,8 +53,18 @@ def set_accounts(env, l10n_br_coa_chart):
     }
     for line_ref, field in mapping.items():
         line = env.ref(module + '.' + line_ref)
-        line.account_credit_id = l10n_br_coa_chart[field + '_credit_id']
-        line.account_debit_id = l10n_br_coa_chart[field + '_debit_id']
+        acc = l10n_br_coa_chart[field + '_credit_id']
+        acc_ref = acc.get_external_id().get(acc.id)
+        if acc_ref:
+            ref_module, ref_name = acc_ref.split('.')
+            line.account_credit_id = env.ref('%s.%s_%s' % (
+                ref_module, company_id, ref_name))
+        acc = l10n_br_coa_chart[field + '_debit_id']
+        acc_ref = acc.get_external_id().get(acc.id)
+        if acc_ref:
+            ref_module, ref_name = acc_ref.split('.')
+            line.account_debit_id = env.ref('%s.%s_%s' % (
+                ref_module, company_id, ref_name))
 
 
 def load_fiscal_taxes(env, l10n_br_coa_chart):
