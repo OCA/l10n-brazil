@@ -4,6 +4,28 @@
     <record id="l10n_br_coa_generic_template" model="account.chart.template">
         <field name="property_account_receivable_id" ref="coa_generic_112101"/>
         <field name="property_account_payable_id" ref="coa_generic_211401"/>
+        <field name="icms_sale_credit_id" ref="coa_generic_211303"/>
+        <field name="icms_sale_debit_id" ref="coa_generic_611203"/>
+        <field name="icms_st_sale_credit_id" ref="coa_generic_211311"/>
+        <field name="icms_st_sale_debit_id" ref="coa_generic_611203"/>
+        <field name="ipi_sale_credit_id" ref="coa_generic_211302"/>
+<!--        <field name="ipi_sale_debit_id" ref="coa_generic_"/>-->
+        <field name="pis_sale_credit_id" ref="coa_generic_211305"/>
+        <field name="pis_sale_debit_id" ref="coa_generic_611206"/>
+        <field name="cofins_sale_credit_id" ref="coa_generic_211304"/>
+        <field name="cofins_sale_debit_id" ref="coa_generic_611205"/>
+        <field name="sale_revenue_credit_id" ref="coa_generic_611110"/>
+<!--        <field name="sale_revenue_debit_id" ref="coa_generic_"/>-->
+        <field name="resale_revenue_credit_id" ref="coa_generic_611101"/>
+<!--        <field name="resale_revenue_debit_id" ref="coa_generic_"/>-->
+        <field name="sale_st_revenue_credit_id" ref="coa_generic_611111"/>
+<!--        <field name="sale_st_revenue_debit_id" ref="coa_generic_"/>-->
+        <field name="resale_st_revenue_credit_id" ref="coa_generic_611102"/>
+<!--        <field name="resale_st_revenue_debit_id" ref="coa_generic_"/>-->
+        <field name="sale_return_credit_id" ref="coa_generic_112101"/>
+        <field name="sale_return_debit_id" ref="coa_generic_611209"/>
+        <field name="purchase_return_credit_id" ref="coa_generic_113110"/>
+        <field name="purchase_return_debit_id" ref="coa_generic_211401"/>
     </record>
 
     <data noupdate="1">
