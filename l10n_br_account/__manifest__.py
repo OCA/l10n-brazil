@@ -9,11 +9,11 @@
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.1",
     "depends": [
-	"account_cancel",
-	"account_export_csv",
-	"l10n_br_coa",
-	"l10n_br_fiscal",
-	],
+        "account_cancel",
+        "account_export_csv",
+        "l10n_br_coa",
+        "l10n_br_fiscal",
+    ],
     "data": [
         # security
         'security/ir.model.access.csv',
