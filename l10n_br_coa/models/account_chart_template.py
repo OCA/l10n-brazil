@@ -102,9 +102,3 @@ class AccountChartTemplate(models.Model):
                     self.env['l10n_br_account.tax.template'].search([]):
                 template.create_account_tax_templates(self.id)
         super(AccountChartTemplate, self).try_loading_for_current_company()
-        if self.env['ir.module.module'].search_count([
-            ('name', '=', 'l10n_br_account'),
-            ('state', '=', 'installed'),
-        ]):
-            from odoo.addons.l10n_br_account.hooks import set_accounts
-            set_accounts(self.env, self)

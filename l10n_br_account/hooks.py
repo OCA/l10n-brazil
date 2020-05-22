@@ -61,11 +61,13 @@ def load_fiscal_taxes(env, l10n_br_coa_chart):
         [("chart_template_id", "=", l10n_br_coa_chart.id)]
     )
 
-    if companies:
-        set_accounts(env, l10n_br_coa_chart)
+    original_company = env.user.company_id
 
     for company in companies:
         taxes = env["account.tax"].search([("company_id", "=", company.id)])
+
+        env.user.company_id = company
+        set_accounts(env, l10n_br_coa_chart)
 
         for tax in taxes:
             if tax.get_external_id():
@@ -78,6 +80,8 @@ def load_fiscal_taxes(env, l10n_br_coa_chart):
                 tax_template = env.ref(tax_source_ref)
                 tax.fiscal_tax_ids = tax_template.fiscal_tax_ids = \
                     template_source.fiscal_tax_ids
+
+    env.user.company_id = original_company
 
 
 def post_init_hook(cr, registry):
