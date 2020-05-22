@@ -1,4 +1,5 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
+# Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # Copyright (C) 2020 - TODAY Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -8,7 +9,7 @@ from odoo import fields, models
 class FiscalDocument(models.Model):
     _inherit = 'l10n_br_fiscal.document'
 
- @api.depends('line_ids')
+    @api.depends('line_ids')
     def _compute_move_template_ids(self):
         for record in self:
             record.move_template_ids = record.line_ids.mapped('move_template_id')
