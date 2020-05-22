@@ -15,7 +15,7 @@ class StockPicking(models.Model):
         if picking_type_id:
             picking_type = self.env['stock.picking.type'].browse(
                 picking_type_id)
-        fiscal_operation = picking_type.fiscal_operation_id
+            fiscal_operation = picking_type.fiscal_operation_id
         return fiscal_operation
 
     @api.model
