@@ -15,6 +15,32 @@ class StockInvoiceOnshipping(models.TransientModel):
         default=True,
     )
 
+    group = fields.Selection(
+        selection_add=[('fiscal_operation', 'Fiscal Operation')],
+    )
+
+    @api.multi
+    def _get_journal(self):
+        """
+        Get the journal depending on the journal_type
+        :return: account.journal recordset
+        """
+        self.ensure_one()
+        journal = self.env['account.journal']
+        if self.fiscal_operation_journal:
+            pickings = self._load_pickings()
+            picking = fields.first(pickings)
+            journal = picking.fiscal_operation_id.journal_id
+            if not journal:
+                raise UserError(
+                    _('Invalid Journal! There is not journal defined'
+                      ' for this company: %s in fiscal operation: %s !') %
+                    (picking.company_id.name,
+                     picking.operation_id.name))
+        else:
+            journal = super(StockInvoiceOnshipping, self)._get_journal()
+        return journal
+
     @api.multi
     def open_invoice(self):
         context = dict(self.env.context)
@@ -34,15 +60,6 @@ class StockInvoiceOnshipping(models.TransientModel):
     @api.multi
     def _build_invoice_values_from_pickings(self, pickings):
         picking = fields.first(pickings)
-        journal_id = picking.operation_id.journal_id
-
-        if not journal_id:
-            raise UserError(
-                _('Invalid Journal! There is not journal defined'
-                  ' for this company: %s in fiscal operation: %s !') %
-                (picking.company_id.name,
-                 picking.operation_id.name))
-
         comment = ''
         # TODO - Comments
         # if picking.fiscal_position_id.inv_copy_note:
@@ -50,7 +67,6 @@ class StockInvoiceOnshipping(models.TransientModel):
         # if picking.note:
         #     comment += ' - ' + picking.note
         # result['comment'] = comment
-
         values = super(StockInvoiceOnshipping, self
                        )._build_invoice_values_from_pickings(pickings)
 
