@@ -49,17 +49,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.nfe_same_state._onchange_document_serie_id()
         self.nfe_same_state._onchange_partner_id()
-        self.nfe_same_state._onchange_operation_id()
+        self.nfe_same_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_same_state.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.cfop_id.code, '5102',
                     "Error to mappping CFOP 5102"
@@ -98,7 +98,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -144,17 +144,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.nfe_other_state._onchange_document_serie_id()
         self.nfe_other_state._onchange_partner_id()
-        self.nfe_other_state._onchange_operation_id()
+        self.nfe_other_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_other_state.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.cfop_id.code, '6102',
                     "Error to mapping CFOP 6102"
@@ -193,7 +193,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -239,17 +239,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.nfe_not_taxpayer._onchange_document_serie_id()
         self.nfe_not_taxpayer._onchange_partner_id()
-        self.nfe_not_taxpayer._onchange_operation_id()
+        self.nfe_not_taxpayer._onchange_fiscal_operation_id()
 
         for line in self.nfe_not_taxpayer.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.cfop_id.code, '6102',
                     "Error to mapping CFOP 6102"
@@ -277,7 +277,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -323,17 +323,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.nfe_not_taxpayer_pf._onchange_document_serie_id()
         self.nfe_not_taxpayer_pf._onchange_partner_id()
-        self.nfe_not_taxpayer_pf._onchange_operation_id()
+        self.nfe_not_taxpayer_pf._onchange_fiscal_operation_id()
 
         for line in self.nfe_not_taxpayer_pf.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.cfop_id.code, '6102',
                     "Error to mapping CFOP 6102"
@@ -361,7 +361,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
                 " para Venda de Contribuinte p/ Não Contribuinte.")
 
             # IPI
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -407,17 +407,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.nfe_export._onchange_document_serie_id()
         self.nfe_export._onchange_partner_id()
-        self.nfe_export._onchange_operation_id()
+        self.nfe_export._onchange_fiscal_operation_id()
 
         for line in self.nfe_export.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.cfop_id.code, '7102',
                     "Error to mapping CFOP 7102"
@@ -445,7 +445,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             #    " para Venda de Contribuinte p/ o Exterior.")
 
             # IPI
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -491,17 +491,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.nfe_sn_same_state._onchange_document_serie_id()
         self.nfe_sn_same_state._onchange_partner_id()
-        self.nfe_sn_same_state._onchange_operation_id()
+        self.nfe_sn_same_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_sn_same_state.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.cfop_id.code, '5102',
                     "Error to mappping CFOP 5102"
@@ -565,17 +565,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.nfe_sn_other_state._onchange_document_serie_id()
         self.nfe_sn_other_state._onchange_partner_id()
-        self.nfe_sn_other_state._onchange_operation_id()
+        self.nfe_sn_other_state._onchange_fiscal_operation_id()
 
         for line in self.nfe_sn_other_state.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.cfop_id.code, '6102',
                     "Error to mappping CFOP 6102"
@@ -639,17 +639,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.nfe_sn_not_taxpayer._onchange_document_serie_id()
         self.nfe_sn_not_taxpayer._onchange_partner_id()
-        self.nfe_sn_not_taxpayer._onchange_operation_id()
+        self.nfe_sn_not_taxpayer._onchange_fiscal_operation_id()
 
         for line in self.nfe_sn_not_taxpayer.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.cfop_id.code, '5102',
                     "Error to mappping CFOP 5102"
@@ -713,17 +713,17 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
         self.nfe_sn_export._onchange_document_serie_id()
         self.nfe_sn_export._onchange_partner_id()
-        self.nfe_sn_export._onchange_operation_id()
+        self.nfe_sn_export._onchange_fiscal_operation_id()
 
         for line in self.nfe_sn_export.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.operation_line_id.name == 'Revenda':
+            if line.fiscal_operation_line_id.name == 'Revenda':
                 self.assertEquals(
                     line.cfop_id.code, '7102',
                     "Error to mapping CFOP 7102"
@@ -790,7 +790,7 @@ class TestFiscalDocumentGeneric(TransactionCase):
             [i[2] for i in action['domain'] if i[0] == 'id'])
 
         self.assertEquals(
-            return_id.operation_id.id,
-            self.nfe_same_state.operation_id.return_operation_id.id,
+            return_id.fiscal_operation_id.id,
+            self.nfe_same_state.fiscal_operation_id.return_fiscal_operation_id.id,
             "Error on creation return"
         )
