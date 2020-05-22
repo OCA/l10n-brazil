@@ -13,21 +13,21 @@ class SaleOrderLine(models.Model):
     def _get_protected_fields(self):
         protected_fields = super(SaleOrderLine, self)._get_protected_fields()
         return protected_fields + [
-            'fiscal_tax_ids', 'operation_id', 'operation_line_id']
+            'fiscal_tax_ids', 'fiscal_operation_id', 'fiscal_operation_line_id']
 
     @api.model
-    def _default_operation(self):
+    def _default_fiscal_operation(self):
         return self.env.user.company_id.sale_fiscal_operation_id
 
     @api.model
-    def _operation_domain(self):
+    def _fiscal_operation_domain(self):
         domain = [('state', '=', 'approved')]
         return domain
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        default=_default_operation,
-        domain=lambda self: self._operation_domain())
+        default=_default_fiscal_operation,
+        domain=lambda self: self._fiscal_operation_domain())
 
     # Adapt Mixin's fields
     fiscal_tax_ids = fields.Many2many(

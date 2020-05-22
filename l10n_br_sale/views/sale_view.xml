@@ -36,7 +36,7 @@
                 <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
             </field>
             <field name="validity_date" position="after">
-                <field name="operation_id" required="True"/>
+                <field name="fiscal_operation_id" required="True"/>
                 <field name="ind_pres"  required="True"/>
             </field>
             <field name="note" position="before">
@@ -48,7 +48,7 @@
                 </group>
             </field>
             <xpath expr="//field[@name='order_line']" position="attributes">
-                <attribute name="context">{'default_operation_id': operation_id}</attribute>
+                <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id}</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree" position="attributes">
                 <attribute name="editable"/>
@@ -72,10 +72,10 @@
                 <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
                 <field name="operation_type" invisible="1" readonly="1"/>
                 <field name="fiscal_type" force_save="1" invisible="1"  readonly="1"/>
-                <field name="operation_id" required="1"/>
+                <field name="fiscal_operation_id" required="1"/>
                 <field name="fiscal_price" force_save="1" invisible="1"/>
                 <field name="fiscal_quantity" force_save="1" invisible="1"/>
-                <field name="operation_line_id" required="1"/>
+                <field name="fiscal_operation_line_id" required="1"/>
                 <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"/>
                 <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"/>
                 <field name="cfop_destination" invisible="1"/>
