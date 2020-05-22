@@ -21,10 +21,10 @@
           <field name="priority">36</field>
           <field name="arch" type="xml">
               <xpath expr="//field[@name='company_id']" position="after">
-                  <field name="operation_id" required="1"/>
+                  <field name="fiscal_operation_id" required="1"/>
               </xpath>
               <xpath expr="//field[@name='order_line']" position="attributes">
-                  <attribute name="context">{'default_operation_id': operation_id, 'default_company_id': company_id}</attribute>
+                  <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id}</attribute>
               </xpath>
               <!-- Edit order_line Tree view -->
               <xpath expr="//field[@name='order_line']/tree" position="attributes">
@@ -39,8 +39,8 @@
               </xpath>
               <!-- Edit order_line Form view -->
               <xpath expr="//field[@name='order_line']/form//field[@name='taxes_id']" position="replace">
-                  <field name="operation_id" required="1"/>
-                  <field name="operation_line_id" required="1"/>
+                  <field name="fiscal_operation_id" required="1"/>
+                  <field name="fiscal_operation_line_id" required="1"/>
               </xpath>
               <xpath expr="//field[@name='order_line']/form//notebook/page[1]" position="before">
                   <page name="taxes" string="Taxes">
