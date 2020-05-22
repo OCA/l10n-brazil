@@ -5,7 +5,7 @@
 from ast import literal_eval
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import UserError, ValidationError
 
 from ..constants.fiscal import (
     TAX_FRAMEWORK,
@@ -117,21 +117,22 @@ class Document(models.Model):
             record.amount_total = sum(
                 line.amount_total for line in record.line_ids)
 
-    @api.depends("fiscal_payment_ids")
+    @api.depends("amount_total", "fiscal_payment_ids")
     def _compute_payment_change_value(self):
-        payment_value = 0
-        for payment in self.fiscal_payment_ids:
-            for line in payment.line_ids:
-                payment_value += line.amount
+        for record in self:
+            payment_value = 0
+            for payment in record.fiscal_payment_ids:
+                for line in payment.line_ids:
+                    payment_value += line.amount
 
-        self.amount_payment_value = payment_value
+            record.amount_payment_value = payment_value
 
-        change_value = payment_value - self.amount_total
-        self.amount_change_value = change_value if change_value >= 0 else 0
+            change_value = payment_value - record.amount_total
+            record.amount_change_value = change_value if change_value >= 0 else 0
 
-        missing_payment = self.amount_total - payment_value
-        self.amount_missing_payment_value = missing_payment \
-            if missing_payment >= 0 else 0
+            missing_payment = record.amount_total - payment_value
+            record.amount_missing_payment_value = missing_payment \
+                if missing_payment >= 0 else 0
 
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
