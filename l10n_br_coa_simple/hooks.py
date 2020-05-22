@@ -11,7 +11,7 @@ def post_init_hook(cr, registry):
         'l10n_br_coa_simple.l10n_br_coa_simple_chart_template')
     original_company_id = env.user.company_id
     for company_id in env["res.company"].search([]):
-        country_code =company_id.country_id.code
+        country_code = company_id.country_id.code
         if country_code and country_code.upper() == "BR" and \
                 company_id.tax_framework != '3':
             if company_id.chart_template_id != chart_template_id:
