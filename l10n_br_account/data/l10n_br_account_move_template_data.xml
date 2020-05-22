@@ -6,7 +6,7 @@
     <record id="template_receita_all" model="l10n_br_account.move.template">
         <field name="code">100</field>
         <field name="name">Clientes – Venda Geral</field>
-        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document_line"/>
     </record>
 
     <record id="line_receita_icms" model="l10n_br_account.move.template.line">
@@ -45,7 +45,7 @@
         <field name="code">101</field>
         <field name="name">Clientes – Venda de Mercadorias Fabricadas</field>
         <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
-        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document_line"/>
     </record>
 
     <record id="line_receita_venda" model="l10n_br_account.move.template.line">
@@ -60,7 +60,7 @@
         <field name="code">102</field>
         <field name="name">Clientes – Revenda de Mercadoria</field>
         <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
-        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document_line"/>
     </record>
 
     <record id="line_receita_revenda" model="l10n_br_account.move.template.line">
@@ -75,7 +75,7 @@
         <field name="code">201</field>
         <field name="name">Clientes – Venda de Mercadorias Fabricadas c/ ST</field>
         <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
-        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document_line"/>
     </record>
 
     <record id="line_receita_venda_st" model="l10n_br_account.move.template.line">
@@ -90,7 +90,7 @@
         <field name="code">202</field>
         <field name="name">Clientes – Revenda de Mercadoria com ST</field>
         <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
-        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document_line"/>
     </record>
 
     <record id="line_receita_revenda_st" model="l10n_br_account.move.template.line">
@@ -105,7 +105,7 @@
         <field name="code">301</field>
         <field name="name">Clientes – Serviços Prestados</field>
         <field name="parent_id" ref="l10n_br_account.template_receita_all"/>
-        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document_line"/>
     </record>
 
     <record id="line_receita_iss_retido" model="l10n_br_account.move.template.line">
@@ -137,7 +137,7 @@
     <record id="template_devolucao_compra" model="l10n_br_account.move.template">
         <field name="code">501</field>
         <field name="name">Devolução de compra</field>
-        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document_line"/>
     </record>
 
     <record id="line_devolucao_compra" model="l10n_br_account.move.template.line">
@@ -149,7 +149,7 @@
     <record id="template_devolucao_venda" model="l10n_br_account.move.template">
         <field name="code">601</field>
         <field name="name">Devolução de venda</field>
-        <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
+        <field name="model_id" ref="l10n_br_fiscal.model_l10n_br_fiscal_document_line"/>
     </record>
 
     <record id="line_devolucao_venda" model="l10n_br_account.move.template.line">
