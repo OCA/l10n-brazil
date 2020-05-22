@@ -12,23 +12,23 @@ class PurchaseOrderLine(models.Model):
     _inherit = ['purchase.order.line', 'l10n_br_fiscal.document.line.mixin']
 
     @api.model
-    def _default_operation(self):
+    def _default_fiscal_operation(self):
         return self.env.user.company_id.purchase_fiscal_operation_id
 
     @api.model
-    def _operation_domain(self):
+    def _fiscal_operation_domain(self):
         domain = [
             ('state', '=', 'approved'),
             ('fiscal_type', 'in', ('purchase', 'other', 'purchase_refund'))]
         return domain
 
     # Adapt Mixin's fields
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_operation,
-        domain=lambda self: self._operation_domain(),
+        default=_default_fiscal_operation,
+        domain=lambda self: self._fiscal_operation_domain(),
     )
 
     fiscal_tax_ids = fields.Many2many(
