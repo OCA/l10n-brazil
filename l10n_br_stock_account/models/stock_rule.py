@@ -98,8 +98,8 @@ class StockRule(models.Model):
             # TODO - Fields below should be in the method
             #  _get_custom_move_fields
             'invoice_state': self.invoice_state,
-            'operation_id': self.operation_id.id,
-            'operation_line_id': self.operation_line_id.id,
+            'fiscal_operation_id': self.operation_id.id,
+            'fiscal_operation_line_id': self.fiscal_operation_line_id.id,
         }
 
         for field in self._get_custom_move_fields():
