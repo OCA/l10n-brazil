@@ -6,7 +6,7 @@
         <field name="model">l10n_br_fiscal.document.line</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_line_form"/>
         <field name="arch" type="xml">
-            <field name="operation_line_id" position="after">
+            <field name="fiscal_operation_line_id" position="after">
                 <field name="move_template_id"/>
             </field>
         </field>
