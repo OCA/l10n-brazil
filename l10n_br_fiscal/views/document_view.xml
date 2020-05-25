@@ -106,7 +106,7 @@
                 </group>
               </group>
               <group name="company_info" string="Company">
-                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="company_id" required="1" groups="base.group_multi_company"/>
               </group>
               <group>
                 <group name="company_left">
