@@ -5,7 +5,7 @@
 <odoo>
 
     <record model="ir.ui.menu" id="l10n_br_financial_main_menu">
-        <field name="name">Financial</field>
+        <field name="name">Treasury</field>
         <field name="sequence" eval="39"/>
     </record>
 
@@ -35,5 +35,14 @@
         <field name="name">Configuration</field>
         <field name="sequence" eval="999"/>
     </record>
+
+    <record model="ir.ui.menu" id="account.menu_action_account_payments_receivable">
+        <field name="parent_id" ref="l10n_br_financial_receivable_menu"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account.menu_action_account_payments_payable">
+        <field name="parent_id" ref="l10n_br_financial_payable_menu"/>
+    </record>
+
 
 </odoo>
