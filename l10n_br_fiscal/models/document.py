@@ -780,6 +780,8 @@ class Document(models.Model):
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
         super()._onchange_fiscal_operation_id()
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self.document_type_id = self.company_id.document_type_id
 
         subsequent_documents = [(6, 0, {})]
         for subsequent_id in self.fiscal_operation_id.mapped(
@@ -791,6 +793,12 @@ class Document(models.Model):
                     subsequent_id.subsequent_operation_id.id,
             }))
         self.document_subsequent_ids = subsequent_documents
+
+    @api.onchange('document_type_id')
+    def _onchange_document_type_id(self):
+        if self.document_type_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self.document_serie_id = self.document_type_id.get_document_serie(
+                self.company_id, self.fiscal_operation_id)
 
     @api.onchange('document_serie_id')
     def _onchange_document_serie_id(self):
