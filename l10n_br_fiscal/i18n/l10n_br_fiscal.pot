@@ -7435,7 +7435,7 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:648
+#: code:addons/l10n_br_fiscal/models/document.py:647
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
