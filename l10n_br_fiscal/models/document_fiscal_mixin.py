@@ -35,18 +35,21 @@ class FiscalDocumentMixin(models.AbstractModel):
         comodel_name='l10n_br_fiscal.operation',
         string='Operation',
         domain=lambda self: self._operation_domain(),
-        default=_default_operation)
+        default=_default_operation,
+    )
 
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
         related='fiscal_operation_id.operation_type',
         string='Operation Type',
-        readonly=True)
+        readonly=True,
+    )
 
     ind_pres = fields.Selection(
         selection=NFE_IND_PRES,
         string='Buyer Presence',
-        default=NFE_IND_PRES_DEFAULT)
+        default=NFE_IND_PRES_DEFAULT,
+    )
 
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
