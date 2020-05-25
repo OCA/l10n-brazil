@@ -15,7 +15,10 @@
                         </group>
                         <group>
                             <field name="move_id"/>
-                            <button type="object" name="action_move_create" string="Gerar Lançamento"/>
+                            <button type="object" name="action_move_create" string="Gerar Lançamento"
+                                    attr="{'invisible': [('state_edoc', '!=', 'autorizada'),
+                                                          '|', ('journal_id.generate_moves', '=', False),
+                                                               ('move_id', '=', False)]}"/>
                         </group>
                     </group>
                 </page>
