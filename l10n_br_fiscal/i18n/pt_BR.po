@@ -1456,6 +1456,7 @@ msgid "CSTs"
 msgstr "CSTs"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_cte
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_cte_in_menu
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_cte_out_menu
 #: selection:l10n_br_fiscal.document,document_section:0
@@ -1930,6 +1931,26 @@ msgstr "Grupo de Países"
 #: model:ir.model,name:l10n_br_fiscal.model_res_country_state
 msgid "Country state"
 msgstr "Estado do país"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "Create Brazilian eletronic invoice NF-e manifest."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "Create Brazilian eletronic invoice NF-e."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "Create Brazilian eletronic invoice for freight NFS-e."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "Create Brazilian eletronic invoice for services NFS-e."
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__create_date
@@ -2883,6 +2904,7 @@ msgid "Fiscal Document Workflow"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 msgid "Fiscal Documents"
 msgstr "Documentos Fiscais"
@@ -3134,6 +3156,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
 msgid "General"
+msgstr "Geral"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+#, fuzzy
+#| msgid "General"
+msgid "Geral"
 msgstr "Geral"
 
 #. module: l10n_br_fiscal
@@ -4924,6 +4953,11 @@ msgid "Lâmpadas, reatores e “starter”"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_mdfe
+msgid "MDF-e"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_MWH
 msgid "MEGAWATT HORA"
 msgstr ""
@@ -5242,6 +5276,11 @@ msgid "NF-e/CT-e"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_nfe
+msgid "NF-e/NFC-e"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_nfce_cfe_out_action
 msgid "NFC-e and CF-e Emission"
 msgstr ""
@@ -5266,6 +5305,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__document_nfce_ids
 msgid "NFCe Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_nfse
+msgid "NFS-e"
 msgstr ""
 
 #. module: l10n_br_fiscal
