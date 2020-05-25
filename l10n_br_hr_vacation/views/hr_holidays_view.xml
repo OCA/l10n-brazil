@@ -8,42 +8,57 @@
             <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
             <field name="arch" type="xml">
                 <field name="holiday_status_id" position="replace">
+                    <field name="saldo_periodo_referencia" invisible="1" />
+
                     <field name="holiday_status_id"
                            attrs="{'invisible': [('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"
                            context="{'employee_id':employee_id}"/>
+
+                    <!--<label for="parent_id" string="Período Aquisitivo" attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)], 'required':  [('date_from','!=',False),('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"/>-->
+                    <!--<label for="parent_id" string="Referência" attrs="{'invisible': ['|',('type','=','add'),('tipo', '!=', 'compensacao')], 'required':  [('date_from','!=',False),('tipo', '=', 'compensacao')]}"/>-->
+
                     <field name="parent_id" string="Período Aquisitivo"
                            options="{'no_create': true, 'create_edit': false}"
-                           attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)], 'required':  [('date_from','!=',False),('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"
-                           domain="[('type', '=', 'add'), ('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d), ('contrato_id', '=' , contrato_id)]}"/>
+                           attrs="{'invisible': ['|',('type','=','add'),('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)],
+                                   'required': [('date_from','!=',False),('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)],
+                                   'readonly': [('state','in',['validate','validate1','refuse'])]}"
+                           domain="[('type', '=', 'add'), ('saldo_periodo_referencia','>',0),('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d), ('contrato_id', '=' , contrato_id)]}" />
                 </field>
-                <label string="-" position="replace">
-                    <label string="-" class="oe_inline" attrs="{'invisible': [('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"/>
+
+                <!--<label string="-" position="replace">-->
+                    <!--<label string="-" class="oe_inline" attrs="{'invisible': [('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"/>-->
+                <!--</label>-->
+
+                <label string="Duration" position="replace">
+                    <label for="date_from" string="Período" attrs="{'invisible': [('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"/>
+                    <label for="date_from" string="Alocação (dias)" attrs="{'invisible': [('holiday_status_id', '=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}"/>
                 </label>
-                <label string="Duration"
-                       position="replace">
-                    <label for="date_from" string="Período"/>
-                </label>
+
                 <field name="date_from" position="replace">
                     <field name="date_from" nolabel="1"
                            on_change="onchange_date_from(date_to, date_from, sold_vacations_days)"
                            attrs="{'required':[('type', '=', 'remove')], 'invisible': 1}"
                            class="oe_inline"/>
                     <field name="data_inicio" nolabel="1"
-                           attrs="{'required':[('type', '=', 'remove')], 'invisible': 0}"/>
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': 0, 'readonly':[('state','in',['validate','validate1','refuse'])]}"/>
                 </field>
+
                 <field name="date_to" position="replace">
                     <field name="data_fim" nolabel="1"
-                           attrs="{'required':[('type', '=', 'remove')], 'invisible': 0}"/>
+                           attrs="{'required':[('type', '=', 'remove')], 'invisible': 0, 'readonly':[('state','in',['validate','validate1','refuse'])]}"/>
                     <field name="date_to" nolabel="1"
                            on_change="onchange_date_to(date_to, date_from, sold_vacations_days)"
                            attrs="{'required':[('type', '=', 'remove')], 'invisible': 1}"
                            class="oe_inline"/>
                 </field>
+
                 <field name="number_of_days_temp" position="replace">
                     <group attrs="{'invisible':[('type', '=', 'remove'),('holiday_status_id', '!=', %(l10n_br_hr_holiday.holiday_status_vacation)d)]}">
                         <field name="vacations_days" class="oe_inline" nolabel="1"
+                               attrs="{'readonly':[('state','in',['validate','validate1','refuse'])]}"
                                string='Dias de férias'/>
                     </group>
+                    <!--<div  class="oe_inline">dias</div>-->
                 </field>
 
                 <field name="notes" position="before">
@@ -51,7 +66,8 @@
                         <field name="controle_ferias"  invisible="1"/>
                         <field name="sell_vacation"/>
                         <field name="sold_vacations_days"
-                               attrs="{'invisible': [('sell_vacation', '=', False)]}"/>
+                               attrs="{'invisible': [('sell_vacation', '=', False)],
+                                       'readonly': [('state','in',['validate','validate1','refuse'])]}"/>
                         <field name="advance_13_salary"/>
                         <field name="advance_current_salary"/>
                     </group>

@@ -18,6 +18,7 @@
         'data/hr_holidays_data.xml',
         'security/ir.model.access.csv',
         'views/hr_holidays_view.xml',
+        'views/hr_holidays_status.xml',
         'views/hr_vacation_control_view.xml',
         'views/hr_vacation_resume.xml',
         'views/menuitem_hr_holidays_vacation.xml',

@@ -9,35 +9,32 @@
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Work Permit']" position="after">
                     <page string="Controle de Férias">
+                        <group>
+                            <field name="forca_inicio_periodo_aquisitivo" groups="base.group_no_one"/>
+                        </group>
                         <field name="vacation_control_ids">
-                            <tree string="Férias">
+                            <tree string="Férias" decoration-muted="inicio_gozo == False">
                                 <field name="inicio_aquisitivo" widget="date"/>
                                 <field name="fim_aquisitivo" widget="date"/>
-                                <field name="inicio_concessivo" widget="date"/>
-                                <field name="fim_concessivo" widget="date"/>
+                                <field name="inicio_concessivo" widget="date" invisible="1"/>
+                                <field name="fim_concessivo" widget="date" invisible="1"/>
                                 <field name="inicio_gozo" widget="date"/>
                                 <field name="fim_gozo" widget="date"/>
-                                <field name="data_aviso" widget="date"/>
-                                <field name="limite_gozo" widget="date"/>
-                                <field name="limite_aviso" widget="date"/>
-                                <field name="faltas"/>
-                                <field name="afastamentos"/>
-                                <field name="dias"/>
-                                <field name="saldo"/>
-                                <field name="dias_gozados"/>
-                                <field name="avos"/>
-                                <field name="proporcional"/>
-                                <field name="vencida"/>
-                                <field name="pagamento_dobro"/>
-                                <field name="dias_pagamento_dobro"/>
-                                <field name="perdido_afastamento"/>
-                                <field name="have_holidays" invisible="1" />
-                                <button name="action_create_periodo_aquisitivo"
-                                        string="Criar Período Aquisitivo"
-                                        help="Criar holiday desse período aquisitivo"
-                                        type="object" icon="gtk-add"
-                                        attrs="{'invisible': [('have_holidays','=',True)]}"
-                                />
+                                <field name="data_aviso" widget="date" invisible="1"/>
+                                <field name="limite_gozo" widget="date" />
+                                <field name="limite_aviso" widget="date" invisible="1"/>
+                                <field name="faltas" invisible="1"/>
+                                <field name="afastamentos" invisible="1"/>
+                                <field name="avos" invisible="1"/>
+                                <field name="dias" />
+                                <field name="dias_gozados" />
+                                <field name="saldo" />
+                                <field name="avos_pendentes" />
+                                <field name="proporcional" invisible="1"/>
+                                <field name="vencida" invisible="1"/>
+                                <field name="pagamento_dobro" invisible="1"/>
+                                <field name="dias_pagamento_dobro" invisible="1"/>
+                                <field name="perdido_afastamento" invisible="1"/>
                             </tree>
                         </field>
                         <button name="action_button_update_controle_ferias"
@@ -81,6 +78,7 @@
                             <field name="saldo"/>
                             <field name="dias_gozados"/>
                             <field name="avos"/>
+                            <field name="avo_manual" groups='base.group_no_one' />
                         </group>
                         <group>
                             <field name="proporcional"/>
@@ -89,15 +87,11 @@
                             <field name="dias_pagamento_dobro"/>
                             <field name="perdido_afastamento"/>
                         </group>
-                        <field name="have_holidays" invisible="1" />
                     </group>
-                    <field name="hr_holiday_ids" widget="one2many_list"/>
-                    <button name="action_create_periodo_aquisitivo"
-                            string="Criar Período Aquisitivo"
-                            help="Criar holiday desse período aquisitivo"
-                            type="object" icon="gtk-add"
-                            attrs="{'invisible': [('have_holidays','=',True)]}"
-                    />
+                    <group groups="base.group_no_one">
+                        <field name="hr_holiday_add_id"/>
+                        <field name="hr_holiday_remove_id"/>
+                    </group>
                 </form>
             </field>
         </record>

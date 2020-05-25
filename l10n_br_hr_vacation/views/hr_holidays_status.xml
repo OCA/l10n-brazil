@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <!-- campo para indicar desconto em férias -->
+        <record model="ir.ui.view" id="l10n_br_hr_vacation_edit_holiday_status_form">
+            <field name="name">hr.holidays.status.form (in l10n_br_hr_vacation)</field>
+            <field name="model">hr.holidays.status</field>
+            <field name="inherit_id" ref="l10n_br_hr_holiday.hr_holidays_status_form_view"/>
+            <field name="arch" type="xml">
+                <field name="payroll_discount" position="after">
+                    <field name="descontar_ferias"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>
