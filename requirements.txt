@@ -3,3 +3,4 @@ pycep-correios
 erpbrasil.base==1.1.1
 workalendar==7.1.1
 erpbrasil.assinatura==0.4.2
+-e git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
