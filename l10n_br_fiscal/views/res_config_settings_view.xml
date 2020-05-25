@@ -9,7 +9,7 @@
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('settings')]" position="inside">
                 <div id="l10n_br_fiscal" class="app_settings_block" data-string="l10n_br_fiscal" string="Fiscal" data-key="l10n_br_fiscal" groups="l10n_br_fiscal.group_manager">
-                    <h2>Fiscal</h2>
+                    <h2>Geral</h2>
                     <div class="row mt16 o_settings_container">
                         <div class="col-12 col-lg-6 o_setting_box">
                             <div class="o_setting_left_pane">
@@ -50,6 +50,53 @@
                                     <div class="content-group mt16">
                                         <field name="cert_expired_alert"/> Days Before
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Fiscal Documents</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="module_l10n_br_nfe"/>
+                            </div>
+                            <div class="o_setting_right_pane" id="module_l10n_br_nfe_settings">
+                                <label for="module_l10n_br_nfe"/>
+                                <div class="text-muted">
+                                    Create Brazilian eletronic invoice NF-e.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="module_l10n_br_mdfe"/>
+                            </div>
+                            <div class="o_setting_right_pane" id="module_l10n_br_mdfe_settings">
+                                <label for="module_l10n_br_mdfe"/>
+                                <div class="text-muted">
+                                    Create Brazilian eletronic invoice NF-e manifest.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="module_l10n_br_nfse"/>
+                            </div>
+                            <div class="o_setting_right_pane" id="module_l10n_br_nfse_settings">
+                                <label for="module_l10n_br_nfse"/>
+                                <div class="text-muted">
+                                    Create Brazilian eletronic invoice for services NFS-e.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="module_l10n_br_cte"/>
+                            </div>
+                            <div class="o_setting_right_pane" id="module_l10n_br_cte_settings">
+                                <label for="module_l10n_br_cte"/>
+                                <div class="text-muted">
+                                    Create Brazilian eletronic invoice for freight NFS-e.
                                 </div>
                             </div>
                         </div>
