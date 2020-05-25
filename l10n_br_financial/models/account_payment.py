@@ -5,7 +5,8 @@ from odoo import api, fields, models, _
 
 from .contants import (
     FINANCIAL_DEBT,
-    FINANCIAL_IN_OUT
+    FINANCIAL_IN_OUT,
+    SIGN_POSITIVE
 )
 
 
@@ -33,8 +34,25 @@ class AccountPayment(models.Model):
             else:
                 payment.debt_ids = False
 
+    @api.depends('payment_type')
+    def _compute_sign(self):
+        for move in self:
+            if move.payment_type in SIGN_POSITIVE:
+                move.sign = 1
+            else:
+                move.sign = -1
+
+    journal_id = fields.Many2one(
+        domain=None,
+    )
+
     payment_type = fields.Selection(
         selection_add=FINANCIAL_DEBT,
+    )
+    sign = fields.Integer(
+        string='Sign',
+        compute='_compute_sign',
+        store=True,
     )
     date_maturity = fields.Date(
         string='Maturity date',
@@ -89,7 +107,7 @@ class AccountPayment(models.Model):
     )
 
     document_id = fields.Many2one(
-        comodel_name='l10n_br_document.fiscal'
+        comodel_name='l10n_br_fiscal.document'
     )
 
     def generate_move(self, move_lines):
