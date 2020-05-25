@@ -942,6 +942,11 @@ msgid "Block period"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.module.category,name:l10n_br_fiscal.module_category_l10n_br_fiscal_management
+msgid "Brazilian Fiscal"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__ind_pres
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__ind_pres
 msgid "Buyer Presence"
@@ -2688,6 +2693,13 @@ msgstr "UoM de Exportação"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uoe_factor
 msgid "Export UoM Factor"
 msgstr "Fator de UoM de Exportação"
+
+#. module: l10n_br_fiscal
+#: model:ir.module.category,description:l10n_br_fiscal.module_category_l10n_br_fiscal_management
+msgid ""
+"Extends Odoo to helps you manage your brazilian fiscal documents, taxes and "
+"etc..."
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
