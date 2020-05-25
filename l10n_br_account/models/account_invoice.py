@@ -103,4 +103,7 @@ class AccountInvoice(models.Model):
         return result
 
     def action_move_create(self):
-        return True
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        if self.fiscal_document_id != dummy_doc:
+            return True
+        return super(AccountInvoice, self).action_move_create()
