@@ -17,4 +17,8 @@ FINANCIAL_SEND_MONEY = 'outbound'
 
 FINANCIAL_TRANSFER = [
     ('transfer', 'Internal Transfer')
-    ]
+]
+
+SIGN_POSITIVE = [
+    FINANCIAL_DEBT_2RECEIVE, FINANCIAL_RECEIVE_MONEY, # TODO: transfer money in!
+]
