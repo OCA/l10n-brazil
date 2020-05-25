@@ -472,6 +472,16 @@ msgstr ""
 "Inscrições Estaduais"
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
+msgid "Select to disable CPF and CNPJ validation"
+msgstr "Selecione para desabilitar a validação de CPF e CNPJ"
+
+#. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
+msgid "Select to disable IE validation"
+msgstr "Selecione para desabilitar a validação de IE (Inscrição Estadual)"
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2900900
 msgid "Almadina"
 msgstr ""
@@ -15694,6 +15704,18 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
 msgid "Multiple partners with the same CNPJ"
 msgstr "Múltiplos parceiros com mesmo CNPJ"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__disable_cpf_cnpj_validation
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
+msgid "Disable CPF and CNPJ validation"
+msgstr "Desabilitar validação de CPF e CNPJ"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__disable_ie_validation
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
+msgid "Disable IE validation"
+msgstr "Desabilitar validação de IE"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2309102
