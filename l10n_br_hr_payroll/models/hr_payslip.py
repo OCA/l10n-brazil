@@ -282,6 +282,7 @@ class HrPayslip(models.Model):
                      relativedelta(days=1)).date()))
             holerite.data_pagamento = str(
                 self.compute_payment_day(holerite.date_from))
+
             # TO DO Verificar datas de feriados.
             # A biblioteca aceita os parametros de feriados, mas a utilizacao
             # dos feriados é diferente do odoo.
@@ -2661,12 +2662,6 @@ class HrPayslip(models.Model):
                 )
 
             references[rule.id].append(ref)
-                        if rule.compoe_base_INSS:
-                            localdict['BASE_INSS'] += tot_rule
-                        if rule.compoe_base_IR:
-                            localdict['BASE_IR'] += tot_rule
-                        if rule.compoe_base_FGTS:
-                            localdict['BASE_FGTS'] += tot_rule
 
             # check if there is already a rule computed
             # with that code

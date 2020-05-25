@@ -11,6 +11,8 @@ from .profiling import (
     profile
 )
 
+from openerp import api, fields, models, _
+from openerp.exceptions import Warning as UserError
 _logger = logging.getLogger(__name__)
 
 MES_DO_ANO = [
