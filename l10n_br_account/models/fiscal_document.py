@@ -88,7 +88,8 @@ class FiscalDocument(models.Model):
 
             move = self.env['account.move'].with_context(
                 ctx_nolang).create(vals)
-            move.post()
+            if record.journal_id.post_account_moves:
+                move.post()
             vals = {
                 'move_id': move.id,
                 # 'date': record.date or inv.date_invoice,

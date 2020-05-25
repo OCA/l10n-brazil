@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <field name="post_at_bank_rec" position="after">
                 <field name="generate_moves"/>
+                <field name="post_account_moves"/>
             </field>
         </field>
     </record>
