@@ -11,6 +11,7 @@
     'website': 'https://www.kmee.com.br',
     'depends': [
         'l10n_br_account',
+        'account_payment_mode',
     ],
     'data': [
         # 'security/account_payment.xml',
