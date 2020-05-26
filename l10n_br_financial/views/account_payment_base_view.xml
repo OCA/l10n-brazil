@@ -44,48 +44,70 @@
                     </div>
                     <group>
                         <group>
-                            <field name="partner_id" required="1"/>
-                        </group>
-                        <group>
-                            <field name="payment_date" readonly="1"/>
-                            <field name="date_maturity"/>
-                            <field name="date_business_maturity"/>
-                            <label for="amount"/>
-                            <div name="amount_div" class="o_row">
-                                <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                                <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            </div>
+                            <field name="company_id" required="1"/>
                             <field name="journal_id" widget="selection" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="destination_journal_id" widget="selection"
-                                   attrs="{'required': [('payment_type', '=', 'transfer')], 'invisible': [('payment_type', '!=', 'transfer')], 'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="partner_id" required="1"/>
+                            <field name="communication"/>
+                            <field name="doc_source_id"/>
+                            <field name="payment_date"/>
+                            <field name="account_id"/>
+                            <field name="document_type_id" required="1"/>
+                            <field name="date_maturity" required="1"/>
+                            <field name="date_business_maturity"/>
+                            <field name="debt_status" modifiers="{'readonly':true}"/>
+                            <field name="date_payment" attrs="{'invisible': [('state', '=', 'draft')]}" readonly="1" modifiers="{'invisible':[['state','=','draft']],'readonly':true}"/>
+                            <field name="date_credit_debit" attrs="{'invisible': [('state', '=', 'draft')]}" readonly="1" modifiers="{'invisible':[['state','=','draft']],'readonly':true}"/>
+                            <field name="reconciled" attrs="{'invisible': [('state', '=', 'draft')]}" readonly="1" modifiers="{'invisible':[['state','=','draft']],'readonly':true}"/>
+                            <field name="payment_mode_id" widget="selection" can_create="true" can_write="true" />
+                        </group>
+                        <group name="document_amounts">
+                            <separator string="Values"/>
+=                            <group name="amounts" colspan="2" class="oe_center" >
+                                <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
 
-                            <field name="hide_payment_method" invisible="1"/>
-                            <field name="payment_method_id" string=" " widget="radio" attrs="{'invisible': [('hide_payment_method', '=', True)], 'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="partner_bank_account_id"
-                                   attrs="{'invisible': [('show_partner_bank_account', '!=', True)], 'required': [('show_partner_bank_account', '=', True), ('state', '=', 'draft')], 'readonly': [('state', '!=', 'draft')]}"
-                                   context="{'default_partner_id': partner_id}"/>
-                            <field name="show_partner_bank_account" invisible="1"/>
-                            <field name="payment_method_code" invisible="1"/>
+                                <field name="destination_journal_id" widget="selection"
+                                       attrs="{'required': [('payment_type', '=', 'transfer')], 'invisible': [('payment_type', '!=', 'transfer')], 'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="hide_payment_method" invisible="1"/>
+                                <field name="payment_method_id" string=" " widget="radio" attrs="{'invisible': [('hide_payment_method', '=', True)], 'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="partner_bank_account_id"
+                                       attrs="{'invisible': [('show_partner_bank_account', '!=', True)], 'required': [('show_partner_bank_account', '=', True), ('state', '=', 'draft')], 'readonly': [('state', '!=', 'draft')]}"
+                                       context="{'default_partner_id': partner_id}"/>
+                                <field name="show_partner_bank_account" invisible="1"/>
+                                <field name="payment_method_code" invisible="1"/>
+
+                                <!--                                <field name="amount_document" string="Amount" required="1" on_change="1" modifiers="{'required':true}"/>-->
+                                <!--                                <field name="amount_paid_document" string="(-) Paid" readonly="1" on_change="1" modifiers="{'readonly':true}"/>-->
+                                <!--                                <field name="amount_residual" string="(=) Residual" class="oe_subtotal_footer_separator" readonly="1" on_change="1" modifiers="{'readonly':true}"/>-->
+                            </group>
+
                             <!--                            <field name="payment_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>-->
                             <!--                            <field name="communication" attrs="{'invisible': [('state', '!=', 'draft'), ('communication', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>-->
+                            <newline/>
+                            <separator string="Paid Values"/>
+                            <group name="paid_amounts" colspan="2" class="oe_subtotal_footer oe_center">
+
+                                <!--                                <field name="amount_paid_interest" string="(+) Interest" modifiers="{'readonly':true}"/>-->
+                                <!--                                <field name="amount_paid_penalty" string="(+) Penaly" modifiers="{'readonly':true}"/>-->
+                                <!--                                <field name="amount_paid_other_credits" string="(+) Other credits" modifiers="{'readonly':true}"/>-->
+                                <!--                                <field name="amount_paid_discount" string="(-) Discount" modifiers="{'readonly':true}"/>-->
+                                <!--                                <field name="amount_paid_other_debits" string="(-) Other debits" modifiers="{'readonly':true}"/>-->
+                                <!--                                <field name="amount_paid_bank_fees" string="(-) Bank fees" modifiers="{'readonly':true}"/>-->
+                                <!--                                <field name="amount_paid_total" string="(=) Total paid" class="oe_subtotal_footer_separator" readonly="1" modifiers="{'readonly':true}"/>-->
+                            </group>
                         </group>
                     </group>
                     <notebook>
-                        <page name="details" string="Detalhes">
-                            <group>
-                                <field name="payment_reference"/>
-                                <field name="communication"/>
-                            </group>
-                        </page>
                         <page string="Payments" name="payments">
                             <field name="payment_ids" context="{
                             'form_view_ref': 'account.view_account_payment_form',
                             'tree_view_ref': 'account.view_account_payment_tree',
                             'search_view_id': 'account.view_account_payment_search',
                             'kanban_view_id': 'account.view_account_payment_kanban'
-                        }" />
+                        }"/>
                         </page>
                     </notebook>
+                    <field name="communication" attrs="{'invisible': [('state', '!=', 'draft'), ('communication', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
@@ -106,27 +128,27 @@
     <!--        </field>-->
     <!--    </record>-->
 
-        <record model="ir.ui.view" id="account_payment_tree_view">
-            <field name="name">account.payment.tree (in l10n_br_financial)</field>
-            <field name="model">account.payment</field>
-            <field name="priority">999</field>
-            <field name="mode">primary</field>
-            <field name="inherit_id" ref="account.view_account_payment_tree"/>
-            <field name="arch" type="xml">
-                <tree decoration-info="state == 'draft'" decoration-muted="state in ['reconciled', 'cancelled']" edit="false">
-                    <field name="payment_date"/>
-                    <field name="name"/>
-                    <field name="journal_id"/>
-                    <field name="payment_method_id"/>
-                    <field name="partner_id" string="Vendor"/>
-                    <field name="amount" sum="Amount"/>
-                    <field name="company_id" groups="base.group_multi_company"/>
-                    <field name="state"/>
-                    <field name="currency_id" invisible="1"/>
-                    <field name="partner_type" invisible="1"/>
-                </tree>
-            </field>
-        </record>
+    <record model="ir.ui.view" id="account_payment_tree_view">
+        <field name="name">account.payment.tree (in l10n_br_financial)</field>
+        <field name="model">account.payment</field>
+        <field name="priority">999</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-muted="state in ['reconciled', 'cancelled']" edit="false">
+                <field name="payment_date"/>
+                <field name="name"/>
+                <field name="journal_id"/>
+                <field name="payment_method_id"/>
+                <field name="partner_id" string="Vendor"/>
+                <field name="amount" sum="Amount"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="state"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="partner_type" invisible="1"/>
+            </tree>
+        </field>
+    </record>
 
     <!--    <record model="ir.ui.view" id="view_account_payment_kanban">-->
     <!--        <field name="name">account.payment.kanban (in l10n_br_financial)</field>-->
