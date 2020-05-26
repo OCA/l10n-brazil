@@ -88,11 +88,6 @@ class DocumentLine(models.Model):
         string='Name',
     )
 
-    document_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.document',
-        string='Document',
-    )
-
     company_id = fields.Many2one(
         comodel_name='res.company',
         related='document_id.company_id',
