@@ -228,7 +228,7 @@ class NFe(spec_models.StackedModel):
                                 'where id=%s' % self.partner_id.id)
             [(self.partner_number,)] = self.env.cr.fetchall()
 
-    @api.depends('operation_type')
+    @api.depends('fiscal_operation_type')
     @api.multi
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
@@ -237,7 +237,7 @@ class NFe(spec_models.StackedModel):
                 'out': '1',
                 'in': '0',
             }
-            rec.nfe40_tpNF = operation_2_tpNF[rec.operation_type]
+            rec.nfe40_tpNF = operation_2_tpNF[rec.fiscal_operation_type]
 
     def _inverse_nfe40_tpNF(self):
         for rec in self:
@@ -246,7 +246,7 @@ class NFe(spec_models.StackedModel):
                     '1': 'out',
                     '0': 'in',
                 }
-                rec.operation_type = tpNF_2_operation[rec.nfe40_tpNF]
+                rec.fiscal_operation_type = tpNF_2_operation[rec.nfe40_tpNF]
 
     def _generate_key(self):
         key = super()._generate_key()
