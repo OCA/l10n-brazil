@@ -21,7 +21,7 @@
       <tree string="NF-e">
         <field name="number"/>
         <field name="date"/>
-        <field name="operation_id"/>
+        <field name="fiscal_operation_id"/>
         <field name="partner_id"/>
         <field name="amount_untaxed"/>
         <field name="amount_tax"/>
@@ -168,7 +168,7 @@
             </h1>
           </div>
           <group>
-            <field name="operation_id"/>
+            <field name="fiscal_operation_id"/>
             <field name="issuer"/>
             <field name="document_type_id"/>
             <label for="key" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"/>
