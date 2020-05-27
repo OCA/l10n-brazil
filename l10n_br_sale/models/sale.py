@@ -194,7 +194,9 @@ class SaleOrder(models.Model):
 
         if self.fiscal_operation_id:
             # TODO Defini document_type_id in other method in line
-            result['document_type_id'] = self._context.get('document_type_id')
+            if self._context.get('document_type_id'):
+                result['document_type_id'] = \
+                    self._context.get('document_type_id')
             # TODO
             result['document_serie_id'] = 1
 
@@ -205,108 +207,76 @@ class SaleOrder(models.Model):
 
     @api.multi
     def action_invoice_create(self, grouped=False, final=False):
-        """
-        Create the invoice associated to the SO.
-        :param grouped: if True, invoices are grouped by SO id.
-         If False, invoices are grouped by
-                        (partner_invoice_id, currency)
-        :param final: if True, refunds will be generated if necessary
-        :returns: list of created invoices
-        """
-        inv_obj = self.env['account.invoice']
-        precision = self.env['decimal.precision'].precision_get(
-            'Product Unit of Measure')
-        invoices = {}
-        references = {}
-        invoices_origin = {}
-        invoices_name = {}
 
-        # Keep track of the sequences of the lines
-        # To keep lines under their section
-        inv_line_sequence = 0
-        for order in self:
+        inv_ids = super().action_invoice_create(grouped=grouped, final=final)
 
-            # In brazilian localization we need to overwrite this method
-            # to changing the code below, because when there is a sale
-            # order has line with Fiscal Type service and another
-            # product, the method should be create two invoices separated.
+        # In brazilian localization we need to overwrite this method
+        # because when there are a sale order line with different Document
+        # Fiscal Type the method should be create invoices separated.
 
-            # group_key = order.id if grouped else (
-            # order.partner_invoice_id.id, order.currency_id.id)
+        document_type_list = []
 
-            # We only want to create sections that have at least
-            # one invoiceable line
-            pending_section = None
+        for invoice_id in inv_ids:
+            invoice_created_by_super = self.env[
+                'account.invoice'].browse(invoice_id)
 
-            # Create lines in batch to avoid performance problems
-            line_vals_list = []
-            # sequence is the natural order of order_lines
-            for line in order.order_line:
+            # Identify how many Document Types exist
+            for inv_line in invoice_created_by_super.invoice_line_ids:
 
-                # Here we made the change for brazilian localization
-                group_key = (
-                    order.id, line.fiscal_operation_line_id.document_type_id.id
-                ) if grouped else (
-                    order.partner_invoice_id.id, order.currency_id.id,
-                    line.fiscal_operation_line_id.document_type_id.id)
+                fiscal_document_type = \
+                    inv_line.fiscal_operation_line_id.get_document_type(
+                        inv_line.invoice_id.company_id)
 
-                if line.display_type == 'line_section':
-                    pending_section = line
-                    continue
-                if float_is_zero(line.qty_to_invoice, precision_digits=precision):
-                    continue
-                if group_key not in invoices:
-                    inv_data = order.with_context(
-                        document_type_id=line.fiscal_operation_line_id.get_document_type(
-                            line.order_id.company_id).id)._prepare_invoice()
-                    invoice = inv_obj.create(inv_data)
-                    references[invoice] = order
-                    invoices[group_key] = invoice
-                    invoices_origin[group_key] = [invoice.origin]
-                    invoices_name[group_key] = [invoice.name]
-                elif group_key in invoices:
-                    if order.name not in invoices_origin[group_key]:
-                        invoices_origin[group_key].append(order.name)
-                    if (order.client_order_ref and order.client_order_ref
-                            not in invoices_name[group_key]):
-                        invoices_name[group_key].append(order.client_order_ref)
+                if fiscal_document_type.id not in document_type_list:
+                    document_type_list.append(fiscal_document_type.id)
 
-                if line.qty_to_invoice > 0 or (line.qty_to_invoice < 0 and final):
-                    if pending_section:
-                        section_invoice = pending_section.invoice_line_create_vals(
-                            invoices[group_key].id,
-                            pending_section.qty_to_invoice
-                        )
-                        inv_line_sequence += 1
-                        section_invoice[0]['sequence'] = inv_line_sequence
-                        line_vals_list.extend(section_invoice)
-                        pending_section = None
+            # Check if there more than one Document Type
+            if len(document_type_list) > 1:
 
-                    inv_line_sequence += 1
-                    inv_line = line.invoice_line_create_vals(
-                        invoices[group_key].id, line.qty_to_invoice
-                    )
-                    inv_line[0]['sequence'] = inv_line_sequence
-                    line_vals_list.extend(inv_line)
+                # Remove the First Document Type,
+                # already has Invoice created
+                invoice_created_by_super.document_type_id =\
+                    document_type_list.pop(0)
 
-            if references.get(invoices.get(group_key)):
-                if order not in references[invoices[group_key]]:
-                    references[invoices[group_key]] |= order
+                for document_type in document_type_list:
+                    document_type = self.env[
+                        'l10n_br_fiscal.document.type'].browse(document_type)
 
-            self.env['account.invoice.line'].create(line_vals_list)
+                    inv_obj = self.env['account.invoice']
+                    invoices = {}
+                    references = {}
+                    invoices_origin = {}
+                    invoices_name = {}
 
-        for group_key in invoices:
-            invoices[group_key].write({'name': ', '.join(invoices_name[group_key]),
-                                       'origin': ', '.join(invoices_origin[group_key])})
-            sale_orders = references[invoices[group_key]]
-            if len(sale_orders) == 1:
-                invoices[group_key].reference = sale_orders.reference
+                    for order in self:
+                        group_key = order.id if grouped else (
+                            order.partner_invoice_id.id, order.currency_id.id)
 
-        if not invoices:
-            raise UserError(_(
-                'There is no invoiceable line. If a product has a Delivered'
-                ' quantities invoicing policy, please make sure that'
-                ' a quantity has been delivered.'))
+                        if group_key not in invoices:
+                            inv_data = order.with_context(
+                                document_type_id=document_type.id
+                            )._prepare_invoice()
+                            invoice = inv_obj.create(inv_data)
+                            references[invoice] = order
+                            invoices[group_key] = invoice
+                            invoices_origin[group_key] = [invoice.origin]
+                            invoices_name[group_key] = [invoice.name]
+                            inv_ids.append(invoice.id)
+                        elif group_key in invoices:
+                            if order.name not in invoices_origin[group_key]:
+                                invoices_origin[group_key].append(order.name)
+                            if (order.client_order_ref and
+                                order.client_order_ref not in
+                                invoices_name[group_key]):
+                                invoices_name[group_key].append(
+                                    order.client_order_ref)
 
-        self._finalize_invoices(invoices, references)
-        return [inv.id for inv in invoices.values()]
+                    # Update Invoice Line
+                    for inv_line in invoice_created_by_super.invoice_line_ids:
+                        fiscal_document_type = \
+                            inv_line.fiscal_operation_line_id.get_document_type(
+                                inv_line.invoice_id.company_id)
+                        if fiscal_document_type.id == document_type.id:
+                            inv_line.invoice_id = invoice.id
+
+        return inv_ids
