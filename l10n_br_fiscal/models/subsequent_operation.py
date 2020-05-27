@@ -26,7 +26,7 @@ class SubsequentOperation(models.Model):
 
     _name = 'l10n_br_fiscal.subsequent.operation'
     _description = 'Subsequent Operation'
-    _rec_name = 'operation_id'
+    _rec_name = 'fiscal_operation_id'
     _order = 'sequence'
 
     sequence = fields.Integer(
@@ -34,7 +34,7 @@ class SubsequentOperation(models.Model):
         default=10,
         help="Gives the sequence order when displaying a list"
     )
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Origin operation',
         required=True,
