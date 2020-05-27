@@ -2,10 +2,8 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
-from odoo.exceptions import UserError
-from odoo.tools import float_is_zero
 
 
 class SaleOrder(models.Model):
@@ -266,8 +264,8 @@ class SaleOrder(models.Model):
                             if order.name not in invoices_origin[group_key]:
                                 invoices_origin[group_key].append(order.name)
                             if (order.client_order_ref and
-                                order.client_order_ref not in
-                                invoices_name[group_key]):
+                               order.client_order_ref not in
+                               invoices_name[group_key]):
                                 invoices_name[group_key].append(
                                     order.client_order_ref)
 
