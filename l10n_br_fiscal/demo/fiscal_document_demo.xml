@@ -392,7 +392,7 @@
 
     <!-- NFe Test - Subsequent Operation - Simples Faturamento -->
     <record id="demo_nfe_so_simples_faturamento" model="l10n_br_fiscal.document">
-        <field name="operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">1</field>
@@ -416,8 +416,8 @@
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_simples_faturamento_simples_faturamento"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_faturamento_simples_faturamento"/>
         <field name="icms_tax_id" ref="l10n_br_fiscal.tax_icms_0"/>
         <field name="pis_tax_id" ref="l10n_br_fiscal.tax_pis_0_65"/>
         <field name="cofins_tax_id" ref="l10n_br_fiscal.tax_cofins_3"/>
