@@ -32,7 +32,7 @@ class TestSubsequentOperation(TransactionCase):
     def test_subsequent_operation_simple_faturamento(self):
         """ Test Fiscal Subsequent Operation Simples Faturamento"""
 
-        self.nfe_simples_faturamento._onchange_operation_id()
+        self.nfe_simples_faturamento._onchange_fiscal_operation_id()
         self.nfe_simples_faturamento._onchange_company_id()
         self.nfe_simples_faturamento._onchange_partner_id()
         self.nfe_simples_faturamento._onchange_document_serie_id()
