@@ -36,7 +36,7 @@ class SubsequentDocument(models.Model):
         required=True,
     )
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         string='Related operation',
         comodel_name='l10n_br_fiscal.operation',
         required=True,
@@ -65,7 +65,7 @@ class SubsequentDocument(models.Model):
     #             self.source_document_id.condicao_pagamento_id)
 
     def _subsequent_company(self):
-        return (self.operation_id.company_id or
+        return (self.fiscal_operation_id.company_id or
                 self.source_document_id.company_id)
 
     def _subsequent_participant(self):
@@ -91,7 +91,7 @@ class SubsequentDocument(models.Model):
 
         new_doc.partner_id = self._subsequent_participant()
         new_doc.company_id = self._subsequent_company()
-        new_doc.operation_id = self.operation_id
+        new_doc.fiscal_operation_id = self.fiscal_operation_id
         new_doc.document_type_id = self.subsequent_operation_id.\
             document_type_id.document_type_id
         new_doc.document_serie_id = self.subsequent_operation_id.\
@@ -106,12 +106,12 @@ class SubsequentDocument(models.Model):
         reference_ids = self._subsequent_referenced()
         new_doc._document_reference(reference_ids)
 
-        new_doc._onchange_operation_id()
-        new_doc.line_ids.write({'operation_id': new_doc.operation_id.id})
+        new_doc._onchange_fiscal_operation_id()
+        new_doc.line_ids.write({'fiscal_operation_id': new_doc.fiscal_operation_id.id})
 
         for item in new_doc.line_ids:
-            item._onchange_operation_id()
-            item._onchange_operation_line_id()
+            item._onchange_fiscal_operation_id()
+            item._onchange_fiscal_operation_line_id()
             item._onchange_fiscal_taxes()
 
         document = new_doc

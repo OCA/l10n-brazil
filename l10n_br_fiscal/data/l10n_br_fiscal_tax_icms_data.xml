@@ -4111,7 +4111,7 @@
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_0"/>
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms"/>
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_90"/>
-    <field name="operation_line_id" ref="l10n_br_fiscal.fo_simples_faturamento_simples_faturamento"/>
+    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_faturamento_simples_faturamento"/>
     <field name="state">approved</field>
   </record>
 
@@ -4123,7 +4123,7 @@
     <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0"/>
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis"/>
     <field name="cst_id" ref="l10n_br_fiscal.cst_pis_06"/>
-    <field name="operation_line_id" ref="l10n_br_fiscal.fo_entrega_futura_entrega_futura"/>
+    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_entrega_futura_entrega_futura"/>
     <field name="state">approved</field>
   </record>
 
@@ -4135,7 +4135,7 @@
     <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_0"/>
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins"/>
     <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_06"/>
-    <field name="operation_line_id" ref="l10n_br_fiscal.fo_entrega_futura_entrega_futura"/>
+    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_entrega_futura_entrega_futura"/>
     <field name="state">approved</field>
   </record>
 
@@ -4147,7 +4147,7 @@
     <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_0"/>
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi"/>
     <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_51"/>
-    <field name="operation_line_id" ref="l10n_br_fiscal.fo_entrega_futura_entrega_futura"/>
+    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_entrega_futura_entrega_futura"/>
     <field name="state">approved</field>
   </record>
 
