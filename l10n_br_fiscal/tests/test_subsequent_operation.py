@@ -54,7 +54,7 @@ class TestSubsequentOperation(TransactionCase):
 
             # Subsequent Document operation
             self.assertEquals(
-                document.subsequent_document_id.operation_id.id,
+                document.subsequent_document_id.fiscal_operation_id.id,
                 self.so_simples_faturamento.subsequent_operation_id.id,
                 "Operation of the generated document is incorrect")
 

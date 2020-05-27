@@ -162,7 +162,7 @@
               <field name="document_subsequent_ids">
                   <tree string="City" editable="bottom">
                     <field name="subsequent_document_id"/>
-                    <field name="operation_id"/>
+                    <field name="fiscal_operation_id"/>
                     <field name="operation_performed"/>
                     <field name="subsequent_operation_id"/>
                     <button name="show_subsequent_document" type="object" string="Show Document"
