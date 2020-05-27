@@ -817,6 +817,17 @@ class Document(models.Model):
         for comment_id in self.fiscal_operation_id.comment_ids:
             self.comment_ids += comment_id
 
+        subsequent_documents = [(6, 0, {})]
+        for subsequent_id in self.fiscal_operation_id.mapped(
+                'operation_subsequent_ids'):
+            subsequent_documents.append((0, 0, {
+                'source_document_id': self.id,
+                'subsequent_operation_id': subsequent_id.id,
+                'fiscal_operation_id':
+                    subsequent_id.subsequent_operation_id.id,
+            }))
+        self.document_subsequent_ids = subsequent_documents
+
     @api.onchange('document_serie_id')
     def _onchange_document_serie_id(self):
         if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
@@ -828,11 +839,6 @@ class Document(models.Model):
         )
         self._generates_subsequent_operations()
 
-    @api.onchange("fiscal_operation_id")
-    def _onchange_fiscal_operation_id(self):
-        super(Document, self)._fiscal_onchange_operation_id()
-        for comment_id in self.fiscal_operation_id.comment_ids:
-            self.comment_ids += comment_id
 
     def _prepare_referenced_subsequent(self):
         vals = {
@@ -851,20 +857,6 @@ class Document(models.Model):
         for referenced_item in reference_ids:
             referenced_item.fiscal_document_related_ids = self.id
             self.fiscal_document_related_ids |= referenced_item
-
-    @api.onchange('fiscal_operation_id')
-    def _onchange_fiscal_operation_id(self):
-        super(Document, self)._fiscal_onchange_operation_id()
-        subsequent_documents = [(6, 0, {})]
-        for subsequent_id in self.fiscal_operation_id.mapped(
-                'operation_subsequent_ids'):
-            subsequent_documents.append((0, 0, {
-                'source_document_id': self.id,
-                'subsequent_operation_id': subsequent_id.id,
-                'fiscal_operation_id':
-                    subsequent_id.subsequent_operation_id.id,
-            }))
-        self.document_subsequent_ids = subsequent_documents
 
     @api.depends('document_subsequent_ids.subsequent_document_id')
     def _compute_document_subsequent_generated(self):
