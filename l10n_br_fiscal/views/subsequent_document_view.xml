@@ -11,7 +11,7 @@
             <tree create="false" edit="false" delete="false">
                 <field name="subsequent_document_id"/>
                 <field name="subsequent_operation_id"/>
-                <field name="operation_id" invisible="True"/>
+                <field name="fiscal_operation_id" invisible="True"/>
                 <field name="operation_performed"/>
                 <button name="show_subsequent_document" type="object" string="Show Document"
                         attrs="{'invisible': [('subsequent_document_id', '=', False)]}"/>
@@ -25,7 +25,7 @@
             <tree create="false" edit="false" delete="false">
                 <field name="source_document_id"/>
                 <field name="subsequent_operation_id" string="Source Operation"/>
-                <field name="operation_id" invisible="True"/>
+                <field name="fiscal_operation_id" invisible="True"/>
                 <field name="operation_performed"/>
                 <button name="show_source_document" type="object" string="Show Document"
                         attrs="{'invisible': [('source_document_id', '=', False)]}"/>
