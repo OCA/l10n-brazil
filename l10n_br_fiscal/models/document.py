@@ -784,7 +784,6 @@ class Document(models.Model):
         )
         self.document_comment()
 
-
     @api.onchange('company_id')
     def _onchange_company_id(self):
         if self.company_id:
@@ -838,7 +837,6 @@ class Document(models.Model):
             old_state, new_state
         )
         self._generates_subsequent_operations()
-
 
     def _prepare_referenced_subsequent(self):
         vals = {
