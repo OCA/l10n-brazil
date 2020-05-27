@@ -20,16 +20,16 @@ class TestSaleOrderService(common.TransactionCase):
 
         for line in self.sale_order_service.order_line:
             line._onchange_product_id_fiscal()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
             line.price_unit = 100
             self.assertTrue(
-                line.operation_id,
+                line.fiscal_operation_id,
                 "Error to mapping Operation on Sale Order Line.",
             )
             self.assertTrue(
-                line.operation_line_id,
+                line.fiscal_operation_line_id,
                 "Error to mapping Operation Line on Sale Order Line.",
             )
 
