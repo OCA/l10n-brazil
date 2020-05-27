@@ -26,7 +26,7 @@
         <field name="pricelist_id" ref="product.list0"/>
         <field name="team_id" ref="sales_team.crm_team_1"/>
         <field name="state">draft</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="note">TESTE</field>
     </record>
 
@@ -38,8 +38,8 @@
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">500</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="sale_order_line_teste_1-2" model="sale.order.line">
@@ -50,8 +50,8 @@
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">500</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- Sale Order Teste - 2 -->
@@ -64,7 +64,7 @@
         <field name="pricelist_id" ref="product.list0"/>
         <field name="team_id" ref="sales_team.crm_team_1"/>
         <field name="state">draft</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="note">TESTE</field>
     </record>
 
@@ -76,8 +76,8 @@
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">500</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="sale_order_line_teste_2-2" model="sale.order.line">
@@ -88,8 +88,8 @@
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">500</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <!-- Confirmar Ordem de Venda -->
@@ -105,7 +105,7 @@
         <field name="pricelist_id" ref="product.list0"/>
         <field name="team_id" ref="sales_team.crm_team_1"/>
         <field name="state">draft</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
     </record>
 
@@ -117,8 +117,8 @@
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">500</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
     <record id="sale_order_service-2-2" model="sale.order.line">
@@ -129,8 +129,8 @@
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">1000</field>
         <field name="operation_type">out</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
 </odoo>
