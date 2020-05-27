@@ -19,13 +19,13 @@ class TestL10nBRSaleProduct(common.TransactionCase):
         self.sale_stock.onchange_partner_shipping_id()
         for line in self.sale_stock.order_line:
             line._onchange_product_id_fiscal()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
             line.price_unit = 250
 
             self.assertTrue(
-                line.operation_line_id,
+                line.fiscal_operation_line_id,
                 "Operation Line is missing in Sale Order Line.")
 
         self.assertEquals(
