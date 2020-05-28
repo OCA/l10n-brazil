@@ -89,13 +89,13 @@ class SubsequentDocument(models.Model):
 
         new_doc = self.source_document_id.copy()
 
-        new_doc.partner_id = self._subsequent_participant()
+        new_doc.partner_id = self._subsequent_partner()
         new_doc.company_id = self._subsequent_company()
         new_doc.fiscal_operation_id = self.fiscal_operation_id
         new_doc.document_type_id = self.subsequent_operation_id.\
-            document_type_id.document_type_id
+            operation_document_type_id.document_type_id
         new_doc.document_serie_id = self.subsequent_operation_id.\
-            document_type_id.document_serie_id
+            operation_document_type_id.document_serie_id
         # new_doc.condicao_pagamento_id = \
         #     self._subsequent_payment_condition()
         # new_doc.tipo_pagamento = self._subsequent_payment_type()
