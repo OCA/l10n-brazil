@@ -13,21 +13,21 @@ class StockMove(models.Model):
     _inherit = [_name, 'l10n_br_fiscal.document.line.mixin']
 
     @api.model
-    def _default_operation(self):
+    def _default_fiscal_operation(self):
         return False
 
     @api.model
-    def _operation_domain(self):
+    def _fiscal_operation_domain(self):
         # TODO Check in context to define in or out move default.
         domain = [('state', '=', 'approved')]
         return domain
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        default=_default_operation,
-        domain=lambda self: self._operation_domain(),
+        default=_default_fiscal_operation,
+        domain=lambda self: self._fiscal_operation_domain(),
     )
 
     quantity = fields.Float(
@@ -66,31 +66,31 @@ class StockMove(models.Model):
         """ Prepares a new picking for this move as it could not be assigned to
         another picking. This method is designed to be inherited. """
         result = super(StockMove, self)._get_new_picking_values()
-        result.update({'operation_id': self.operation_id.id})
+        result.update({'fiscal_operation_id': self.fiscal_operation_id.id})
         return result
 
     @api.model
     def _prepare_merge_moves_distinct_fields(self):
         distinct_fields = super(
             StockMove, self)._prepare_merge_moves_distinct_fields()
-        distinct_fields += ['operation_id', 'operation_line_id']
+        distinct_fields += ['fiscal_operation_id', 'fiscal_operation_line_id']
         return distinct_fields
 
     @api.model
     def _prepare_merge_move_sort_method(self, move):
         move.ensure_one()
-        keys_sorted = super(StockMove, self)._prepare_merge_move_sort_method(move)
-        keys_sorted += [move.operation_id.id, move.operation_line_id.id]
+        keys_sorted = super(StockMove, self)._prepare_merge_move_sort_method(
+            move)
+        keys_sorted += [
+            move.fiscal_operation_id.id, move.fiscal_operation_line_id.id]
         return keys_sorted
 
     def _prepare_extra_move_vals(self, qty):
-        vals = super(StockMove, self)._prepare_extra_move_vals(qty)
-        vals['operation_id'] = self.operation_id.id
-        vals['operation_line_id'] = self.operation_line_id.id
-        return vals
+        values = super(StockMove, self)._prepare_extra_move_vals(qty)
+        values.update(self._prepare_br_fiscal_dict())
+        return values
 
     def _prepare_move_split_vals(self, uom_qty):
-        vals = super(StockMove, self)._prepare_move_split_vals(uom_qty)
-        vals['operation_id'] = self.operation_id.id
-        vals['operation_line_id'] = self.operation_line_id.id
-        return vals
+        values = super(StockMove, self)._prepare_move_split_vals(uom_qty)
+        values.update(self._prepare_br_fiscal_dict())
+        return values

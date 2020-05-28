@@ -26,7 +26,7 @@ class StockReturnPicking(models.TransientModel):
         origin_picking = self.env['stock.picking'].browse(
             self.env.context['active_id'])
         refund_fiscal_operation = (
-            origin_picking.operation_id.return_operation_id)
+            origin_picking.fiscal_operation_id.return_operation_id)
 
         if not refund_fiscal_operation:
             raise UserError(
@@ -42,22 +42,22 @@ class StockReturnPicking(models.TransientModel):
         if self.invoice_state == '2binvoiced':
 
             values = {
-                'operation_id': refund_fiscal_operation.id,
+                'fiscal_operation_id': refund_fiscal_operation.id,
             }
 
             picking.write(values)
             for move in picking.move_lines:
                 fiscal_operation = (
                     move.origin_returned_move_id.
-                    operation_id.return_operation_id)
+                    fiscal_operation_id.return_operation_id)
                 fiscal_line_operation = (
                     move.origin_returned_move_id.
-                    operation_line_id.line_refund_id)
+                    fiscal_operation_line_id.line_refund_id)
 
                 line_values = {
                     'invoice_state': self.invoice_state,
-                    'operation_id': fiscal_operation.id,
-                    'operation_line_id': fiscal_line_operation.id,
+                    'fiscal_operation_id': fiscal_operation.id,
+                    'fiscal_operation_line_id': fiscal_line_operation.id,
                 }
                 write_move = move_obj.browse(move.id)
                 write_move.write(line_values)

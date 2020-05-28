@@ -68,7 +68,7 @@ class InvoicingPickingTest(TransactionCase):
             invoice.tax_line_ids, 'Total of Taxes in Invoice are missing.'
         )
         self.assertTrue(
-            invoice.operation_id,
+            invoice.fiscal_operation_id,
             'Mapping fiscal operation on wizard to create invoice fail.'
         )
         self.assertTrue(
