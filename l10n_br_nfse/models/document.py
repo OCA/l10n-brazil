@@ -111,7 +111,7 @@ class Document(models.Model):
             self, fields.Datetime.from_string(self.date)
         )
 
-        numero_rps = 1237
+        numero_rps = self.number
         numero_lote = 14
 
         lista_rps = []
