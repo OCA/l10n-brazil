@@ -46,6 +46,14 @@ class FiscalDocumentMixin(models.AbstractModel):
         string='Buyer Presence',
         default=NFE_IND_PRES_DEFAULT)
 
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='l10n_br_fiscal_document_mixin_comment_rel',
+        column1='document_mixin_id',
+        column2='comment_id',
+        string='Comments',
+    )
+
     @api.model
     def fields_view_get(
             self, view_id=None, view_type="form", toolbar=False, submenu=False):
