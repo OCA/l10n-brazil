@@ -270,64 +270,62 @@ class Document(models.Model):
         for record in self.filtered(fiter_processador_edoc_nfse):
             processador = record._processador_erpbrasil_nfse()
 
-            protocolo = ''
+            protocolo = record.protocolo_autorizacao
             vals = dict()
 
-            for edoc in record.serialize():
-                processo = None
-                for p in processador.processar_documento(edoc):
-                    processo = p
+            if not protocolo:
+                for edoc in record.serialize():
+                    processo = None
+                    for p in processador.processar_documento(edoc):
+                        processo = p
 
-                    if processo.webservice == 'RecepcionarLoteRpsV3':
-                        if not hasattr(processo.resposta, 'Protocolo'):
-                            return
-                        protocolo = processo.resposta.Protocolo
+                        if processo.webservice == 'RecepcionarLoteRpsV3':
+                            if not hasattr(processo.resposta, 'Protocolo'):
+                                return
+                            protocolo = processo.resposta.Protocolo
 
-                    elif processo.webservice == 'ConsultarSituacaoLoteRpsV3':
-                        mensagem = ''
-                        if processo.resposta.Situacao == 1:
-                            mensagem = _('Não Recebido')
+                    if processo.webservice == 'ConsultarSituacaoLoteRpsV3':
+                        vals['codigo_situacao'] = processo.resposta.Situacao
+            else:
+                vals['codigo_situacao'] = 4
 
-                        elif processo.resposta.Situacao == 2:
-                            mensagem = _('Lote ainda não processado')
+            if vals.get('codigo_situacao') == 1:
+                vals['motivo_situacao'] = _('Não Recebido')
 
-                        elif processo.resposta.Situacao == 3:
-                            mensagem = _('Procesado com Erro')
+            elif vals.get('codigo_situacao') == 2:
+                vals['motivo_situacao'] = _('Lote ainda não processado')
 
-                        elif processo.resposta.Situacao == 4:
-                            mensagem = _('Procesado com Sucesso')
+            elif vals.get('codigo_situacao') == 3:
+                vals['motivo_situacao'] = _('Procesado com Erro')
 
-                        vals = {
-                            'codigo_situacao': processo.resposta.Situacao,
-                            'motivo_situacao': mensagem,
-                            'protocolo_autorizacao': protocolo,
-                        }
+            elif vals.get('codigo_situacao') == 4:
+                vals['motivo_situacao'] = _('Procesado com Sucesso')
+                vals['protocolo_autorizacao'] = protocolo
 
-                        if processo.resposta.Situacao in (3, 4):
-                            processo = \
-                                processador.consultar_lote_rps(protocolo)
+            if vals.get('codigo_situacao') in (3, 4):
+                processo = processador.consultar_lote_rps(protocolo)
 
-                if processo.resposta and \
-                        processo.resposta.ListaMensagemRetorno:
+                if processo.resposta:
                     mensagem_completa = ''
-                    lista_msgs = processo.resposta.ListaMensagemRetorno
-                    for mr in lista_msgs.MensagemRetorno:
+                    if processo.resposta.ListaMensagemRetorno:
+                        lista_msgs = processo.resposta.ListaMensagemRetorno
+                        for mr in lista_msgs.MensagemRetorno:
 
-                        correcao = ''
-                        if mr.Correcao:
-                            correcao = mr.Correcao
+                            correcao = ''
+                            if mr.Correcao:
+                                correcao = mr.Correcao
 
-                        mensagem_completa += (
-                            mr.Codigo + ' - ' +
-                            mr.Mensagem +
-                            ' - Correção: ' +
-                            correcao + '\n'
-                        )
+                            mensagem_completa += (
+                                mr.Codigo + ' - ' +
+                                mr.Mensagem +
+                                ' - Correção: ' +
+                                correcao + '\n'
+                            )
                     vals['edoc_error_message'] = mensagem_completa
 
-                    # if processo.resposta.ListaNfse:
-                    #     for nfse in processo.resposta.ListaNfse:
-                    #         print('Foi porra!')
+                # if processo.resposta.ListaNfse:
+                #     for nfse in processo.resposta.ListaNfse:
+                #         print('Foi porra!')
 
             record.write(vals)
         return
