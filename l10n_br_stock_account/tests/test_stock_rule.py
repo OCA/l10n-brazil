@@ -24,8 +24,7 @@ class StockRuleTest(TransactionCase):
                 'location_src_id': self.ref('stock.stock_location_stock'),
                 'location_id': self.ref('stock.stock_location_output'),
                 'invoice_state': '2binvoiced',
-                'operation_id': self.ref('l10n_br_fiscal.fo_venda'),
-                'operation_line_id': self.ref('l10n_br_fiscal.fo_venda_venda'),
+                'fiscal_operation_id': self.ref('l10n_br_fiscal.fo_venda'),
             })],
         })
 
@@ -90,8 +89,8 @@ class StockRuleTest(TransactionCase):
                 move.invoice_state, '2binvoiced',
                 "The stock.move created has not invoice_state field 2binvoiced")
             self.assertEqual(
-                move.operation_id.name, 'Venda',
+                move.fiscal_operation_id.name, 'Venda',
                 "The stock.move created has not operation_id field Venda")
             self.assertEqual(
-                move.operation_line_id.name, 'Venda',
+                move.fiscal_operation_line_id.name, 'Venda',
                 "The stock.move created has not operation_line_id field Venda")
