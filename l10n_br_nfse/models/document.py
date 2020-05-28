@@ -283,50 +283,51 @@ class Document(models.Model):
                             return
                         protocolo = processo.resposta.Protocolo
 
-                if processo.webservice == 'ConsultarSituacaoLoteRpsV3':
-                    mensagem = ''
-                    # if processo.resposta.Situacao == 1:
-                    #     mensagem = _('Não Recebido')
-                    #
-                    # elif processo.resposta.Situacao == 2:
-                    #     mensagem = _('Lote ainda não processado')
-                    #
-                    # elif processo.resposta.Situacao == 3:
-                    #     mensagem = _('Procesado com Erro')
-                    #
-                    # elif processo.resposta.Situacao == 4:
-                    #     mensagem = _('Procesado com Sucesso')
+                    elif processo.webservice == 'ConsultarSituacaoLoteRpsV3':
+                        mensagem = ''
+                        if processo.resposta.Situacao == 1:
+                            mensagem = _('Não Recebido')
 
-                    vals = {
-                        'codigo_situacao': processo.resposta.Situacao,
-                        'motivo_situacao': mensagem,
-                        'protocolo_autorizacao': protocolo,
-                    }
+                        elif processo.resposta.Situacao == 2:
+                            mensagem = _('Lote ainda não processado')
 
-                # if processo.resposta.Situacao in (3, 4):
-                #     processo = processador.consultar_lote_rps(protocolo)
+                        elif processo.resposta.Situacao == 3:
+                            mensagem = _('Procesado com Erro')
 
-                if processo.resposta:
+                        elif processo.resposta.Situacao == 4:
+                            mensagem = _('Procesado com Sucesso')
 
-                    if processo.resposta.ListaMensagemRetorno:
-                        mensagem_completa = ''
-                        for mr in processo.resposta.ListaMensagemRetorno.MensagemRetorno:
+                        vals = {
+                            'codigo_situacao': processo.resposta.Situacao,
+                            'motivo_situacao': mensagem,
+                            'protocolo_autorizacao': protocolo,
+                        }
 
-                            correcao = ''
-                            if mr.Correcao:
-                                correcao = mr.Correcao
+                        if processo.resposta.Situacao in (3, 4):
+                            processo = \
+                                processador.consultar_lote_rps(protocolo)
 
-                            mensagem_completa += (
-                                mr.Codigo + ' - ' +
-                                mr.Mensagem +
-                                ' - Correção: ' +
-                                correcao + '\n'
-                            )
-                            vals['edoc_error_message'] = mensagem_completa
+                if processo.resposta and \
+                        processo.resposta.ListaMensagemRetorno:
+                    mensagem_completa = ''
+                    lista_msgs = processo.resposta.ListaMensagemRetorno
+                    for mr in lista_msgs.MensagemRetorno:
+
+                        correcao = ''
+                        if mr.Correcao:
+                            correcao = mr.Correcao
+
+                        mensagem_completa += (
+                            mr.Codigo + ' - ' +
+                            mr.Mensagem +
+                            ' - Correção: ' +
+                            correcao + '\n'
+                        )
+                    vals['edoc_error_message'] = mensagem_completa
 
                     # if processo.resposta.ListaNfse:
                     #     for nfse in processo.resposta.ListaNfse:
                     #         print('Foi porra!')
 
-                record.write(vals)
+            record.write(vals)
         return
