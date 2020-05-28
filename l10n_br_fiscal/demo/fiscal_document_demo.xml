@@ -10,8 +10,9 @@
     <!-- NFe Test - Empresa Contribuinte - Mesmo Estado -->
     <record id="demo_nfe_same_state" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.fo_venda_55_serie_1"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
+        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
         <field name="document_serie">1</field>
         <field name="document_section">nfe</field>
         <field name="key">11</field>
@@ -54,8 +55,9 @@
     <!-- NFe Test - Empresa Contribuinte - Outro Estado -->
     <record id="demo_nfe_other_state" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.fo_venda_55_serie_1"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
+        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
         <field name="document_serie">1</field>
         <field name="document_section">nfe</field>
         <field name="key">12</field>
@@ -145,8 +147,9 @@
     <!-- NFe Test - Empresa Contribuinte - Nao Contribuinte PJ -->
     <record id="demo_nfe_nao_contribuinte" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.fo_venda_55_serie_1"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
+        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
         <field name="document_serie">14</field>
         <field name="document_section">nfe</field>
         <field name="key">1</field>
@@ -186,8 +189,9 @@
     <!-- NFe Test - Empresa Contribuinte - Nao Contribuinte PF -->
     <record id="demo_nfe_nao_contribuinte_pf" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.fo_venda_55_serie_1"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
+        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
         <field name="document_serie">15</field>
         <field name="document_section">nfe</field>
         <field name="key">1</field>
