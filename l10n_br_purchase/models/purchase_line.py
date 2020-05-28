@@ -36,25 +36,30 @@ class PurchaseOrderLine(models.Model):
         relation='fiscal_purchase_line_tax_rel',
         column1='document_id',
         column2='fiscal_tax_id',
-        string='Fiscal Taxes')
+        string='Fiscal Taxes',
+    )
 
     quantity = fields.Float(
         string='Mixin Quantity',
-        related='product_uom_qty')
+        related='product_uom_qty',
+    )
 
     uom_id = fields.Many2one(
         string='Mixin UOM',
-        related='product_uom')
+        related='product_uom',
+    )
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         related="order_id.company_id.tax_framework",
-        string="Tax Framework")
+        string="Tax Framework",
+    )
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         related='order_id.partner_id',
-        string='Partner')
+        string='Partner',
+    )
 
     @api.depends('product_qty', 'price_unit',  'taxes_id')
     def _compute_amount(self):
