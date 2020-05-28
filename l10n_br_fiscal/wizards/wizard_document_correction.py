@@ -45,7 +45,7 @@ class DocumentCorrectionWizard(models.TransientModel):
                     'justificative': wizard.justificative,
                     'sequencia': sequencia,
                 })
-            event_id = self.env['l10n_br_fiscal.document_event'].create({
+            event_id = self.env['l10n_br_fiscal.document.event'].create({
                 'type': '14',
                 'response': 'Correção da NFe %s' % document_id.key,
                 'company_id': document_id.company_id.id,
