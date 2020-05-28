@@ -47,7 +47,7 @@ class SubsequentOperation(models.Model):
     )
     partner_id = fields.Many2one(
         comodel_name='res.partner',
-        string='Participant'
+        string='Partner'
     )
     generation_situation = fields.Selection(
         string="Generation Situation",
