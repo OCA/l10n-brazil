@@ -17,6 +17,7 @@ class TestL10nBRSaleProduct(common.TransactionCase):
 
         self.sale_stock.onchange_partner_id()
         self.sale_stock.onchange_partner_shipping_id()
+        self.sale_stock._onchange_fiscal_operation_id()
         for line in self.sale_stock.order_line:
             line._onchange_product_id_fiscal()
             line._onchange_fiscal_operation_id()
