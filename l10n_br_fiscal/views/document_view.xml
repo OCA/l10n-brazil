@@ -160,7 +160,7 @@
               <field name="fiscal_document_related_ids"/>
               <separator colspan="4" string="Subsequents Documents"/>
               <field name="document_subsequent_ids">
-                  <tree string="City" editable="bottom">
+                  <tree editable="bottom">
                     <field name="subsequent_document_id"/>
                     <field name="fiscal_operation_id"/>
                     <field name="operation_performed"/>
