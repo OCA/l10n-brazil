@@ -68,7 +68,7 @@ class SubsequentDocument(models.Model):
         return (self.fiscal_operation_id.company_id or
                 self.source_document_id.company_id)
 
-    def _subsequent_participant(self):
+    def _subsequent_partner(self):
         return (self.subsequent_operation_id.partner_id or
                 self.source_document_id.partner_id)
 
