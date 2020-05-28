@@ -46,14 +46,9 @@ class PurchaseOrder(models.Model):
     @api.multi
     def action_view_invoice(self):
         result = super(PurchaseOrder, self).action_view_invoice()
-        result['context'].update({
-            'default_fiscal_document_id': False,
-            'default_fiscal_operation_id': self.fiscal_operation_id.id,
-            'default_document_type_id': self.company_id.document_type_id.id,
-            'default_issuer': 'partner',
-        })
+        result['context'].update(self._prepare_br_fiscal_dict(default=True))
         return result
 
-    @api.onchange('operation_id')
-    def _onchange_operation_id(self):
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
