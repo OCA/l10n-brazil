@@ -59,7 +59,7 @@ class SubsequentOperation(models.Model):
         string="Referencing source document",
     )
 
-    document_type_id = fields.Many2one(
+    operation_document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.document.type",
         string="Document Type",
     )
