@@ -12,19 +12,19 @@ class StockRule(models.Model):
     _inherit = 'stock.rule'
 
     @api.model
-    def _default_operation(self):
+    def _default_fiscal_operation(self):
         return False
 
     @api.model
-    def _operation_domain(self):
+    def _fiscal_operation_domain(self):
         domain = [('state', '=', 'approved')]
         return domain
 
-    operation_id = fields.Many2one(
+    fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Fiscal Operation',
-        domain=lambda self: self._operation_domain(),
-        default=_default_operation,
+        domain=lambda self: self._fiscal_operation_domain(),
+        default=_default_fiscal_operation,
     )
 
     invoice_state = fields.Selection(
@@ -46,9 +46,8 @@ class StockRule(models.Model):
     #     fields += ['invoice_state', 'operation_id', 'operation_line_id']
     #     return fields
 
-    def _get_stock_move_values(
-        self, product_id, product_qty, product_uom, location_id, name, origin,
-            values, group_id):
+    def _get_stock_move_values(self, product_id, product_qty, product_uom,
+                               location_id, name, origin, values, group_id):
         """
         Returns a dictionary of values that will be used to create a stock
          move from a procurement. This function assumes that the given procurement
@@ -98,7 +97,7 @@ class StockRule(models.Model):
             # TODO - Fields below should be in the method
             #  _get_custom_move_fields
             'invoice_state': self.invoice_state,
-            'fiscal_operation_id': self.operation_id.id,
+            'fiscal_operation_id': self.fiscal_operation_id.id,
             'fiscal_operation_line_id': self.fiscal_operation_line_id.id,
         }
 
