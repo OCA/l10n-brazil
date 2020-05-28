@@ -36,7 +36,7 @@ class StockInvoiceOnshipping(models.TransientModel):
                     _('Invalid Journal! There is not journal defined'
                       ' for this company: %s in fiscal operation: %s !') %
                     (picking.company_id.name,
-                     picking.operation_id.name))
+                     picking.fiscal_operation_id.name))
         else:
             journal = super(StockInvoiceOnshipping, self)._get_journal()
         return journal
