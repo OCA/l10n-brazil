@@ -96,6 +96,16 @@ class AccountChartTemplate(models.Model):
         string='Purchase Return Debit Account',
     )
 
+    simple_national_credit_id = fields.Many2one(
+        comodel_name='account.account.template',
+        string='Simple National Credit Account',
+    )
+
+    simple_national_debit_id = fields.Many2one(
+        comodel_name='account.account.template',
+        string='Simple National Debit Account',
+    )
+
     def load_for_current_company(self, sale_tax_rate, purchase_tax_rate):
         super().load_for_current_company(sale_tax_rate, purchase_tax_rate)
         # Remove Company default taxes configuration
