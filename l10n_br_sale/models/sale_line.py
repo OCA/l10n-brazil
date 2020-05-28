@@ -61,6 +61,14 @@ class SaleOrderLine(models.Model):
         string='Gross Amount',
         default=0.00)
 
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='sale_order_line_comment_rel',
+        column1='sale_line_id',
+        column2='comment_id',
+        string='Comments',
+    )
+
     @api.depends(
         'product_uom_qty',
         'price_unit',
