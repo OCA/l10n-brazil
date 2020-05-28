@@ -485,6 +485,7 @@ class Document(models.Model):
         comodel_name='l10n_br_fiscal.document.line',
         inverse_name='document_id',
         string='Document Lines',
+        copy=True,
     )
 
     comment_ids = fields.Many2many(
