@@ -20,6 +20,7 @@ class TestL10nBRSale(common.TransactionCase):
         """ Test brazilian fiscal mapping. """
         self.sale_order_1.onchange_partner_id()
         self.sale_order_1.onchange_partner_shipping_id()
+        self.sale_order_1._onchange_fiscal_operation_id()
         self.assertTrue(
             self.sale_order_1.fiscal_operation_id,
             "Error to mapping Operation on Sale Order.",
@@ -185,6 +186,7 @@ class TestL10nBRSale(common.TransactionCase):
         )
         self.sale_discount.onchange_partner_id()
         self.sale_discount.onchange_partner_shipping_id()
+        self.sale_discount._onchange_fiscal_operation_id()
         self.sale_discount.discount_rate = 10.0
         self.sale_discount.onchange_discount_rate()
         # Test Discount
