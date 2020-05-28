@@ -10,7 +10,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
         <field name="arch" type="xml">
             <field name="codigo_motivo_situacao" position="after">
-                <field name="edoc_error_message"/>
+                <field name="edoc_error_message" attrs="{'invisible': [('document_section', '!=', 'nfse_recibos')]}"/>
             </field>
         </field>
     </record>
