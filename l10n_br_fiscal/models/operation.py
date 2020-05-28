@@ -107,6 +107,11 @@ class Operation(models.Model):
         column2='comment_id',
         string='Comment')
 
+    operation_subsequent_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.subsequent.operation',
+        inverse_name='fiscal_operation_id',
+        string='Subsequent Operation')
+
     _sql_constraints = [(
         "fiscal_operation_code_uniq",
         "unique (code)",
@@ -198,3 +203,8 @@ class Operation(models.Model):
             self._line_domain(company, partner, product), limit=1)
 
         return line
+
+    @api.onchange('operation_subsequent_ids')
+    def _onchange_operation_subsequent_ids(self):
+        for sub_operation in self.operation_subsequent_ids:
+            sub_operation.fiscal_operation_id = self.id

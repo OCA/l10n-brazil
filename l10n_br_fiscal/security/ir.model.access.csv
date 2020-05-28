@@ -60,6 +60,8 @@
 "l10n_br_fiscal_tax_ipi_guideline_class_maintenance","IPI Guideline Class for Maintenance","model_l10n_br_fiscal_tax_ipi_guideline_class","l10n_br_fiscal.group_data_maintenance",1,1,1,1
 "l10n_br_fiscal_operation_user","Fiscal Operation for User","model_l10n_br_fiscal_operation","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_operation_manager","Fiscal Operation for Manager","model_l10n_br_fiscal_operation","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_subsequent_operation","Fiscal Subsequent Operation for Manager","model_l10n_br_fiscal_subsequent_operation","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_subsequent_document","Fiscal Subsequent Document for Manager","model_l10n_br_fiscal_subsequent_document","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_operation_line_user","Fiscal Operation Line for User","model_l10n_br_fiscal_operation_line","l10n_br_fiscal.group_user",1,0,0,0
 "l10n_br_fiscal_operation_line_manager","Fiscal Operation Line for Manager","model_l10n_br_fiscal_operation_line","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_operation_document_type_user","Fiscal Operation Document Type for User","model_l10n_br_fiscal_operation_document_type","l10n_br_fiscal.group_user",1,0,0,0

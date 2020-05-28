@@ -13,6 +13,7 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    SITUACAO_EDOC_AUTORIZADA,
 )
 
 
@@ -484,6 +485,7 @@ class Document(models.Model):
         comodel_name='l10n_br_fiscal.document.line',
         inverse_name='document_id',
         string='Document Lines',
+        copy=True,
     )
 
     comment_ids = fields.Many2many(
@@ -575,6 +577,18 @@ class Document(models.Model):
             return self._create_serie_number(document_serie_id, document_date)
         return number
 
+    document_subsequent_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.subsequent.document',
+        inverse_name='source_document_id',
+        copy=True,
+    )
+
+    document_subsequent_generated = fields.Boolean(
+        string='Subsequent documents generated?',
+        compute='_compute_document_subsequent_generated',
+        default=False,
+    )
+
     @api.multi
     def name_get(self):
         return [(r.id, '{0} - Série: {1} - Número: {2}'.format(
@@ -629,6 +643,8 @@ class Document(models.Model):
     @api.constrains('number')
     def _check_number(self):
         for record in self:
+            if not record.number:
+                return
             domain = [
                 ('id', '!=', record.id),
                 ('active', '=', True),
@@ -801,7 +817,68 @@ class Document(models.Model):
         for comment_id in self.fiscal_operation_id.comment_ids:
             self.comment_ids += comment_id
 
+        subsequent_documents = [(6, 0, {})]
+        for subsequent_id in self.fiscal_operation_id.mapped(
+                'operation_subsequent_ids'):
+            subsequent_documents.append((0, 0, {
+                'source_document_id': self.id,
+                'subsequent_operation_id': subsequent_id.id,
+                'fiscal_operation_id':
+                    subsequent_id.subsequent_operation_id.id,
+            }))
+        self.document_subsequent_ids = subsequent_documents
+
     @api.onchange('document_serie_id')
     def _onchange_document_serie_id(self):
         if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
             self.document_serie = self.document_serie_id.code
+
+    def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
+        super(Document, self)._exec_after_SITUACAO_EDOC_AUTORIZADA(
+            old_state, new_state
+        )
+        self._generates_subsequent_operations()
+
+    def _prepare_referenced_subsequent(self):
+        vals = {
+            'fiscal_document_id': self.id,
+            'partner_id': self.partner_id.id,
+            'document_type_id': self.document_type,
+            'serie': self.document_serie,
+            'number': self.number,
+            'date': self.date,
+            'document_key': self.key,
+        }
+        reference_id = self.env['l10n_br_fiscal.document.related'].create(vals)
+        return reference_id
+
+    def _document_reference(self, reference_ids):
+        for referenced_item in reference_ids:
+            referenced_item.fiscal_document_related_ids = self.id
+            self.fiscal_document_related_ids |= referenced_item
+
+    @api.depends('document_subsequent_ids.subsequent_document_id')
+    def _compute_document_subsequent_generated(self):
+        for document in self:
+            if not document.document_subsequent_ids:
+                continue
+            document.document_subsequent_generated = all(
+                subsequent_id.operation_performed
+                for subsequent_id in document.document_subsequent_ids
+            )
+
+    def _generates_subsequent_operations(self):
+        for record in self.filtered(lambda doc:
+                                    not doc.document_subsequent_generated):
+            for subsequent_id in record.document_subsequent_ids.filtered(
+                    lambda doc_sub: doc_sub._confirms_document_generation()):
+                subsequent_id.generate_subsequent_document()
+
+    def cancel_edoc(self):
+        self.ensure_one()
+        if any(doc.state_edoc == SITUACAO_EDOC_AUTORIZADA
+               for doc in self.document_subsequent_ids.mapped(
+                'document_subsequent_ids')):
+            message = _("Canceling the document is not allowed: one or more "
+                        "associated documents have already been authorized.")
+            raise UserWarning(message)
