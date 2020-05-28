@@ -20,7 +20,7 @@
         <field name="name">Demo l10n_br_purchase - 1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="state">draft</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_compras"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
         <field name="user_id" ref="base.user_demo"/>
     </record>
 
@@ -31,8 +31,8 @@
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">3645.00</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_compras"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_compras_compras"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_compras_compras"/>
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')"/>
     </record>
 
@@ -43,8 +43,8 @@
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">12.50</field>
-        <field name="operation_id" ref="l10n_br_fiscal.fo_compras"/>
-        <field name="operation_line_id" ref="l10n_br_fiscal.fo_compras_compras"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_compras_compras"/>
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')"/>
     </record>
 
