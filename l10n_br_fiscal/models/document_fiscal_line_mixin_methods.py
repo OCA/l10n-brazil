@@ -518,6 +518,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.icmssn_percent = tax_dict.get("percent_amount")
         self.icmssn_reduction = tax_dict.get("percent_reduction")
         self.icmssn_credit_value = tax_dict.get("tax_value")
+        self.simple_value = self.icmssn_base * self.icmssn_range_id.total_tax_percent
+        self.simple_without_icms_value = self.simple_value - self.icmssn_credit_value
 
     @api.onchange(
         "icmssn_base",
