@@ -96,6 +96,16 @@ class AccountChartTemplate(models.Model):
         string='Purchase Return Debit Account',
     )
 
+    simple_national_credit_id = fields.Many2one(
+        comodel_name='account.account.template',
+        string='Simple National Credit Account',
+    )
+
+    simple_national_debit_id = fields.Many2one(
+        comodel_name='account.account.template',
+        string='Simple National Debit Account',
+    )
+
     def try_loading_for_current_company(self):
         if self.currency_id == self.env.ref('base.BRL'):
             for template in \
