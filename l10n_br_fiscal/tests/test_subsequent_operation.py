@@ -38,7 +38,7 @@ class TestSubsequentOperation(TransactionCase):
         self.nfe_simples_faturamento._onchange_document_serie_id()
 
         for line in self.nfe_simples_faturamento.line_ids:
-            line._onchange_product_id()
+            line._onchange_product_id_fiscal()
             line._onchange_fiscal_taxes()
 
         self.nfe_simples_faturamento.action_document_confirm()
