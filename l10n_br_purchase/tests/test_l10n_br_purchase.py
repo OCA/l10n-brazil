@@ -21,18 +21,19 @@ class TestL10nBRPurchase(common.TransactionCase):
         self.purchase_order_1.onchange_partner_id()
 
         self.assertTrue(
-            self.purchase_order_1.operation_id,
-            "Error to inform Operation in Purchase Order.",
+            self.purchase_order_1.fiscal_operation_id,
+            "Error to inform fiscal Operation in Purchase Order.",
         )
 
         for line in self.purchase_order_1.order_line:
             line._onchange_product_id()
-            line._onchange_operation_id()
-            line._onchange_operation_line_id()
+            line._onchange_fiscal_operation_id()
+            line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
             self.assertTrue(
-                line.operation_line_id,
-                "Error to mapping Operation Line in Purchase Order Line.",
+                line.fiscal_operation_line_id,
+                "Error to mapping fiscal Operation Line in "
+                "Purchase Order Line.",
             )
 
         self.purchase_order_1.button_confirm()
@@ -60,8 +61,8 @@ class TestL10nBRPurchase(common.TransactionCase):
             "Purchase Order: no invoice created."
         )
         self.assertTrue(
-            invoice.operation_id,
-            "Invoice: created without field Operation."
+            invoice.fiscal_operation_id,
+            "Invoice: created without field fiscal Operation."
         )
         self.assertTrue(
             invoice.purchase_id,
@@ -69,6 +70,6 @@ class TestL10nBRPurchase(common.TransactionCase):
         )
         for line in invoice.invoice_line_ids:
             self.assertTrue(
-                line.operation_line_id,
-                "Invoice Line: created without field Operation Line."
+                line.fiscal_operation_line_id,
+                "Invoice Line: created without field fiscal Operation Line."
             )
