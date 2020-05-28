@@ -158,4 +158,10 @@
         <field name="history_id" ref="l10n_br_account.history_provisao_venda"/>
     </record>
 
+    <record id="line_receita_simples_nacional" model="l10n_br_account.move.template.line">
+        <field name="template_id" ref="l10n_br_account.template_receita_all"/>
+        <field name="field_id" ref="l10n_br_fiscal.field_l10n_br_fiscal_document_line__simple_value"/>
+        <field name="history_id" ref="l10n_br_account.history_simples_nacional_recolher"/>
+    </record>
+
 </odoo>
