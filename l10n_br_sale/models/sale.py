@@ -126,6 +126,14 @@ class SaleOrder(models.Model):
         related='invoice_count',
         readonly=True)
 
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='sale_order_comment_rel',
+        column1='sale_id',
+        column2='comment_id',
+        string='Comments',
+    )
+
     @api.onchange('discount_rate')
     def onchange_discount_rate(self):
         for order in self:
@@ -137,21 +145,13 @@ class SaleOrder(models.Model):
     def _onchange_fiscal_operation_id(self):
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
 
-    # TODO FIscal Comment
-    # @api.model
-    # def _fiscal_comment(self, order):
-    #     fp_comment = []
-    #     fp_ids = []
-    #
-    #     for line in order.order_line:
-    #         if line.fiscal_operation_line_id and \
-    #                 line.fiscal_operation_line_id.inv_copy_note and \
-    #                 line.fiscal_operation_line_id.note:
-    #             if line.fiscal_operation_line_id.id not in fp_ids:
-    #                 fp_comment.append(line.fiscal_operation_line_id.note)
-    #                 fp_ids.append(line.fiscal_operation_line_id.id)
-    #
-    #      return fp_comment
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        if self.fiscal_operation_id:
+            self.operation_name = self.fiscal_operation_id.name
+
+        for comment_id in self.fiscal_operation_id.comment_ids:
+            self.comment_ids += comment_id
 
     @api.multi
     def action_view_document(self):
@@ -183,9 +183,6 @@ class SaleOrder(models.Model):
         if self.note and self.copy_note:
             comment.append(self.note)
 
-        # TODO FISCAL Commnet
-        # result['fiscal_comment'] = " - ".join(fiscal_comment)
-        # fiscal_comment = self._fiscal_comment(self)
         result['comment'] = " - ".join(comment)
 
         result.update(self._prepare_br_fiscal_dict())
