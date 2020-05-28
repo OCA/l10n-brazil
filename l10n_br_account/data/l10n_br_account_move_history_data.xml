@@ -223,4 +223,10 @@
             <field name="comment">Transf. recebida de Conta Corrente de Origem</field>
         </record>
 
+        <record id="history_simples_nacional_recolher" model="l10n_br_account.move.history">
+            <field name="code">122</field>
+            <field name="name">Provisão do SIMPLES NACIONAL a Recolher</field>
+            <field name="comment">Prov. SIMPLES NACIONAL a recolher ${doc.name or ' '} ${doc.partner_legal_name or ' '}</field>
+        </record>
+
 </odoo>
