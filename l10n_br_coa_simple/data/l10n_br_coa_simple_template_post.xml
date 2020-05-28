@@ -30,6 +30,8 @@
         <field name="sale_return_debit_id" ref="account_template_31104"/>
         <field name="purchase_return_credit_id" ref="account_template_11403"/>
         <field name="purchase_return_debit_id" ref="account_template_21101"/>
+        <field name="simple_national_credit_id" ref="account_template_21301"/>
+        <field name="simple_national_debit_id" ref="account_template_31104"/>
     </record>
 
     <data noupdate="1">
