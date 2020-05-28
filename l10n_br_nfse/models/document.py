@@ -34,6 +34,7 @@ from odoo import api, fields, models, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_AUTORIZADA,
 )
 
 from .res_company import PROCESSADOR
@@ -323,9 +324,13 @@ class Document(models.Model):
                             )
                     vals['edoc_error_message'] = mensagem_completa
 
-                # if processo.resposta.ListaNfse:
-                #     for nfse in processo.resposta.ListaNfse:
-                #         print('Foi porra!')
+                if processo.resposta.ListaNfse:
+                    xml_file = processador._generateds_to_string_etree(processo.resposta)[0]
+                    record.autorizacao_event_id.set_done(xml_file)
+                    for comp in processo.resposta.ListaNfse.CompNfse:
+                        vals['data_hora_autorizacao'] = \
+                            comp.Nfse.InfNfse.DataEmissao
+                    record._change_state(SITUACAO_EDOC_AUTORIZADA)
 
             record.write(vals)
         return
