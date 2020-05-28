@@ -50,6 +50,7 @@ def set_accounts(env, l10n_br_coa_chart):
         'line_receita_revenda_st': 'resale_st_revenue',
         'line_devolucao_venda': 'sale_return',
         'line_devolucao_compra': 'purchase_return',
+        'line_receita_simples_nacional': 'simple_national',
     }
     for line_ref, field in mapping.items():
         line = env.ref(module + '.' + line_ref)
