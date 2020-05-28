@@ -92,7 +92,7 @@ class DocumentInvalidateNumber(models.Model):
     @api.multi
     def action_invalidate(self):
         for record in self:
-            event_id = self.env['l10n_br_fiscal.document_event'].create({
+            event_id = self.env['l10n_br_fiscal.document.event'].create({
                 'type': '3',
                 'response': 'Inutilização do número %s ao número %s' % (
                     record.number_start, record.number_end),
