@@ -851,6 +851,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="INSS RET Value",
         default=0.00)
 
+    simple_value = fields.Monetary(
+        string="National Simple Taxes",
+        default=0.00)
+
+    simple_without_icms_value = fields.Monetary(
+        string="National Simple Taxes without ICMS",
+        default=0.00)
+
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
         relation='l10n_br_fiscal_document_line_mixin_comment_rel',
