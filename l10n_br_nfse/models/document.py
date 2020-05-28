@@ -110,7 +110,7 @@ class Document(models.Model):
             self, fields.Datetime.from_string(self.date)
         )
 
-        numero_rps = 1236
+        numero_rps = 1237
         numero_lote = 14
 
         lista_rps = []
@@ -154,7 +154,7 @@ class Document(models.Model):
                         Serie=self.document_serie_id.code or '',
                         Tipo='1',
                     ),
-                    DataEmissao='2020-04-17T09:29:54',
+                    DataEmissao='2020-05-27T09:29:54',
                     NaturezaOperacao='1',
                     RegimeEspecialTributacao='1',
                     OptanteSimplesNacional='1',
@@ -174,9 +174,9 @@ class Document(models.Model):
                             ValorIss=0.0,
                             ValorIssRetido=0.0,
                             OutrasRetencoes=0.0,
-                            BaseCalculo=0.0,
-                            Aliquota=0.0,
-                            ValorLiquidoNfse=0.0,
+                            BaseCalculo=float(self.amount_total),
+                            Aliquota=0.02,
+                            ValorLiquidoNfse=float(self.amount_total),
                             # ValorDeducoes=None,
                             # ValorPis=None,
                             # ValorCofins=None,
@@ -193,9 +193,9 @@ class Document(models.Model):
                             # DescontoCondicionado=None,
                             # DescontoIncondicionado=None,
                         ),
-                        ItemListaServico='107',
+                        ItemListaServico='105',
                         CodigoCnae=None,
-                        CodigoTributacaoMunicipio='107/6209100',
+                        CodigoTributacaoMunicipio='6202300',
                         Discriminacao=str(
                             self.line_ids[0].name[:120] or ''),
                         # Discriminacao=normalize('NFKD', str(
