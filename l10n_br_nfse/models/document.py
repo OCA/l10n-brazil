@@ -109,7 +109,7 @@ class Document(models.Model):
     def _serialize_dados_servico(self):
         return tcDadosServico(
             Valores=tcValores(
-                ValorServicos=float(self.amount_total),
+                ValorServicos=float(self.line_ids[0].fiscal_price),
                 ValorDeducoes=0.0,
                 ValorPis=0.0,
                 ValorCofins=0.0,
@@ -117,12 +117,12 @@ class Document(models.Model):
                 ValorIr=0.0,
                 ValorCsll=0.0,
                 IssRetido='2',
-                ValorIss=0.0,
+                ValorIss=float(self.line_ids[0].issqn_value),
                 ValorIssRetido=0.0,
                 OutrasRetencoes=0.0,
-                BaseCalculo=float(self.amount_total),
-                Aliquota=0.02,
-                ValorLiquidoNfse=float(self.amount_total),
+                BaseCalculo=float(self.line_ids[0].issqn_base),
+                Aliquota=float(self.line_ids[0].issqn_percent / 100),
+                ValorLiquidoNfse=float(self.line_ids[0].amount_total),
                 # ValorDeducoes=None,
                 # ValorPis=None,
                 # ValorCofins=None,
@@ -217,7 +217,7 @@ class Document(models.Model):
 
         dh_emi = fields.Datetime.context_timestamp(
             self, fields.Datetime.from_string(self.date)
-        )
+        ).strftime('%Y-%m-%dT%H:%M:%S')
 
         return tcRps(
             InfRps=tcInfRps(
@@ -227,7 +227,7 @@ class Document(models.Model):
                     Serie=self.document_serie_id.code or '',
                     Tipo='1',
                 ),
-                DataEmissao='2020-05-27T09:29:54' or dh_emi,  # TODO: testar
+                DataEmissao=dh_emi,
                 NaturezaOperacao='1',
                 RegimeEspecialTributacao='1',
                 OptanteSimplesNacional='1',
