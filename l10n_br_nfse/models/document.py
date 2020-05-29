@@ -1,7 +1,6 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from unicodedata import normalize
 from requests import Session
 
 from nfselib.ginfes.v3_01.tipos_v03 import (
@@ -18,22 +17,17 @@ from nfselib.ginfes.v3_01.tipos_v03 import (
     tcRps,
     tcValores,
 )
-from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import EnviarLoteRpsEnvio
+from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import \
+    EnviarLoteRpsEnvio
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
 from erpbrasil.base import misc
 from erpbrasil.edoc import NFSeFactory
 
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
-    SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
 )
 
@@ -166,14 +160,14 @@ class Document(models.Model):
 
         if self.partner_id.country_id.id != self.company_id.country_id.id:
             address_invoice_state_code = 'EX'
-            address_invoice_city = 'Exterior'
+            # address_invoice_city = 'Exterior'
             address_invoice_city_code = int('9999999')
         else:
             address_invoice_state_code = self.partner_id.state_id.code
-            address_invoice_city = (normalize(
-                'NFKD', str(
-                    self.partner_id.city_id.name or '')).encode(
-                'ASCII', 'ignore'))
+            # address_invoice_city = (normalize(
+            #     'NFKD', str(
+            #         self.partner_id.city_id.name or '')).encode(
+            #     'ASCII', 'ignore'))
             address_invoice_city_code = int('%s%s' % (
                 self.partner_id.state_id.ibge_code,
                 self.partner_id.city_id.ibge_code))
@@ -328,7 +322,8 @@ class Document(models.Model):
                     vals['edoc_error_message'] = mensagem_completa
 
                 if processo.resposta.ListaNfse:
-                    xml_file = processador._generateds_to_string_etree(processo.resposta)[0]
+                    xml_file = processador._generateds_to_string_etree(
+                        processo.resposta)[0]
                     record.autorizacao_event_id.set_done(xml_file)
                     for comp in processo.resposta.ListaNfse.CompNfse:
                         vals['data_hora_autorizacao'] = \
