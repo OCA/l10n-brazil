@@ -4,3 +4,4 @@
 from . import purchase
 from . import procurement
 from . import purchase_line
+from . import stock_rule
