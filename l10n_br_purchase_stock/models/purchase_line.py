@@ -10,15 +10,10 @@ class PurchaseOrderLine(models.Model):
 
     @api.multi
     def _prepare_stock_moves(self, picking):
-        """
-        Prepare the stock moves data for one order line.
-         This function returns a list of
+        """Prepare the stock moves data for one order line.
+        This function returns a list of
         dictionary ready to be used in stock.move's create()
         """
-        values = super(PurchaseOrderLine, self)._prepare_stock_moves(picking)
-        values[0].update({
-            'operation_id': self.operation_id.id,
-            'operation_line_id': self.operation_line_id.id,
-            'cfop_id': self.cfop_id.id,
-        })
+        values = super()._prepare_stock_moves(picking)
+        values.update(self._prepare_br_fiscal_dict())
         return values
