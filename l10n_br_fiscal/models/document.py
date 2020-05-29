@@ -777,37 +777,9 @@ class Document(models.Model):
         )
         self.document_comment()
 
-    @api.onchange('company_id')
-    def _onchange_company_id(self):
-        if self.company_id:
-            self.company_legal_name = self.company_id.legal_name
-            self.company_name = self.company_id.name
-            self.company_cnpj_cpf = self.company_id.cnpj_cpf
-            self.company_inscr_est = self.company_id.inscr_est
-            self.company_inscr_mun = self.company_id.inscr_mun
-            self.company_suframa = self.company_id.suframa
-            self.company_cnae_main_id = self.company_id.cnae_main_id
-            self.company_tax_framework = self.company_id.tax_framework
-
-    @api.onchange('partner_id')
-    def _onchange_partner_id(self):
-        if self.partner_id:
-            self.partner_legal_name = self.partner_id.legal_name
-            self.partner_name = self.partner_id.name
-            self.partner_cnpj_cpf = self.partner_id.cnpj_cpf
-            self.partner_inscr_est = self.partner_id.inscr_est
-            self.partner_inscr_mun = self.partner_id.inscr_mun
-            self.partner_suframa = self.partner_id.suframa
-            self.partner_cnae_main_id = self.partner_id.cnae_main_id
-            self.partner_tax_framework = self.partner_id.tax_framework
-
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
-        if self.fiscal_operation_id:
-            self.operation_name = self.fiscal_operation_id.name
-
-        for comment_id in self.fiscal_operation_id.comment_ids:
-            self.comment_ids += comment_id
+        super()._onchange_fiscal_operation_id()
 
         subsequent_documents = [(6, 0, {})]
         for subsequent_id in self.fiscal_operation_id.mapped(
