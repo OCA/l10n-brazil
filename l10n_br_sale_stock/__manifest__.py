@@ -6,8 +6,8 @@
     'name': 'Brazilian Localization Sales and Warehouse',
     'category': 'Localisation',
     'license': 'AGPL-3',
-    'author': 'Akretion, ,Odoo Community Association (OCA)',
-    'website': 'http://odoo-brasil.org',
+    'author': 'Akretion, Odoo Community Association (OCA)',
+    'website': 'http://github.com/OCA/l10n-brazil',
     'version': '12.0.1.0.0',
     'depends': [
         'sale_stock',
@@ -19,9 +19,6 @@
     ],
     'demo': [
         # 'demo/l10n_br_sale_stock_demo.xml'
-    ],
-    'test': [
-        # 'test/sale_order_demo.yml'
     ],
     'installable': True,
     'auto_install': True,
