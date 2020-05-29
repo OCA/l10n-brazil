@@ -10,8 +10,6 @@ class PurchaseOrder(models.Model):
 
     @api.model
     def _prepare_picking(self):
-        values = super(PurchaseOrder, self)._prepare_picking()
-        values.update({
-            'operation_id': self.operation_id.id,
-        })
+        values = super()._prepare_picking()
+        values.update(self._prepare_br_fiscal_dict())
         return values
