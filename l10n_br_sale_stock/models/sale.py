@@ -5,11 +5,11 @@
 from odoo import api, models
 
 
-class SaleOrder(models.Model):
-    _inherit = 'sale.order'
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
 
     @api.multi
     def _prepare_procurement_values(self, group_id=False):
         values = super()._prepare_procurement_values(group_id)
-        # TODO copy fiscal operation
+        values.update(self._prepare_br_fiscal_dict())
         return values
