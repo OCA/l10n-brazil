@@ -39,71 +39,14 @@ class StockRule(models.Model):
              "Not Applicable: no invoice to create",
     )
 
-    # TODO - The method don't work because in _get_stock_move_values
-    #  at "if field in values:" the parameter values don't has the fields
-    # def _get_custom_move_fields(self):
-    #     fields = super(StockRule, self)._get_custom_move_fields()
-    #     fields += ['invoice_state', 'operation_id', 'operation_line_id']
-    #     return fields
-
-    def _get_stock_move_values(self, product_id, product_qty, product_uom,
-                               location_id, name, origin, values, group_id):
+    def _get_custom_move_fields(self):
+        """ The purpose of this method is to be override in order to
+        easily add fields from procurement 'values' argument to move data.
         """
-        Returns a dictionary of values that will be used to create a stock
-         move from a procurement. This function assumes that the given procurement
-          has a rule (action == 'pull' or 'pull_push') set on it.
-
-        :param procurement: browse record
-        :rtype: dictionary
-        """
-        date_expected = fields.Datetime.to_string(
-            fields.Datetime.from_string(
-                values['date_planned']) - relativedelta(days=self.delay or 0)
-        )
-        # it is possible that we've already got some move done, so check for the
-        # done qty and create
-        # a new move with the correct qty
-        qty_left = product_qty
-        move_values = {
-            'name': name[:2000],
-            'company_id':
-                self.company_id.id or self.location_src_id.company_id.id or
-                self.location_id.company_id.id or values['company_id'].id,
-            'product_id': product_id.id,
-            'product_uom': product_uom.id,
-            'product_uom_qty': qty_left,
-            'partner_id':
-                self.partner_address_id.id or (
-                    values.get('group_id', False) and
-                    values['group_id'].partner_id.id) or False,
-            'location_id': self.location_src_id.id,
-            'location_dest_id': location_id.id,
-            'move_dest_ids':
-                values.get('move_dest_ids', False) and [
-                    (4, x.id) for x in values['move_dest_ids']] or [],
-            'rule_id': self.id,
-            'procure_method': self.procure_method,
-            'origin': origin,
-            'picking_type_id': self.picking_type_id.id,
-            'group_id': group_id,
-            'route_ids':
-                [(4, route.id) for route in values.get('route_ids', [])],
-            'warehouse_id':
-                self.propagate_warehouse_id.id or self.warehouse_id.id,
-            'date': date_expected,
-            'date_expected': date_expected,
-            'propagate': self.propagate,
-            'priority': values.get('priority', "1"),
-            # TODO - Fields below should be in the method
-            #  _get_custom_move_fields
-            'invoice_state': self.invoice_state,
-            'fiscal_operation_id': self.fiscal_operation_id.id,
-            'fiscal_operation_line_id': self.fiscal_operation_line_id.id,
-        }
-
-        for field in self._get_custom_move_fields():
-            # TODO - The fields don't appear in parameter
-            #  values, check from where come this
-            if field in values:
-                move_values[field] = values.get(field)
-        return move_values
+        custom_move_fields = super()._get_custom_move_fields()
+        custom_move_fields += [
+            'invoice_state',
+            'fiscal_operation_id',
+            'fiscal_operation_line_id',
+        ]
+        return custom_move_fields
