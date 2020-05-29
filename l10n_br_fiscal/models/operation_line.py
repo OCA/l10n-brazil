@@ -16,7 +16,12 @@ from ..constants.fiscal import (
     OPERATION_FISCAL_TYPE,
     CFOP_DESTINATION_EXPORT,
     FISCAL_COMMENT_LINE,
+    PRODUCT_FISCAL_TYPE_SERVICE,
+    NCM_FOR_SERVICE,
+    TAX_DOMAIN_ISSQN,
+    TAX_DOMAIN_ICMS,
 )
+
 from ..constants.icms import ICMS_ORIGIN
 
 
@@ -227,6 +232,12 @@ class OperationLine(models.Model):
             # 6 From Partner Profile
             for tax in partner.fiscal_profile_id.tax_definition_ids.mapped('tax_id'):
                 mapping_result['taxes'][tax.tax_domain] = tax
+
+        if (product.fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE and
+                ncm.code == NCM_FOR_SERVICE):
+            mapping_result['taxes'].pop(TAX_DOMAIN_ICMS, None)
+        else:
+            mapping_result['taxes'].pop(TAX_DOMAIN_ISSQN, None)
 
         return mapping_result
 
