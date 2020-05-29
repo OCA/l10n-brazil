@@ -106,16 +106,54 @@ class Document(models.Model):
             edocs.append(record.serialize_nfse())
         return edocs
 
-    def serialize_nfse(self):
-        dh_emi = fields.Datetime.context_timestamp(
-            self, fields.Datetime.from_string(self.date)
+    def _serialize_dados_servico(self):
+        return tcDadosServico(
+            Valores=tcValores(
+                ValorServicos=float(self.amount_total),
+                ValorDeducoes=0.0,
+                ValorPis=0.0,
+                ValorCofins=0.0,
+                ValorInss=0.0,
+                ValorIr=0.0,
+                ValorCsll=0.0,
+                IssRetido='2',
+                ValorIss=0.0,
+                ValorIssRetido=0.0,
+                OutrasRetencoes=0.0,
+                BaseCalculo=float(self.amount_total),
+                Aliquota=0.02,
+                ValorLiquidoNfse=float(self.amount_total),
+                # ValorDeducoes=None,
+                # ValorPis=None,
+                # ValorCofins=None,
+                # ValorInss=None,
+                # ValorIr=None,
+                # ValorCsll=None,
+                # IssRetido='2',
+                # ValorIss=None,
+                # ValorIssRetido=None,
+                # OutrasRetencoes=None,
+                # BaseCalculo=None,
+                # Aliquota=None,
+                # ValorLiquidoNfse=None,
+                # DescontoCondicionado=None,
+                # DescontoIncondicionado=None,
+            ),
+            ItemListaServico='105',
+            CodigoCnae=None,
+            CodigoTributacaoMunicipio='6202300',
+            Discriminacao=str(
+                self.line_ids[0].name[:120] or ''),
+            # Discriminacao=normalize('NFKD', str(
+            #     self.line_ids[0].name[:120] or '')
+            # ).encode('ASCII', 'ignore'),
+            CodigoMunicipio=int('%s%s' % (
+                self.company_id.partner_id.state_id.ibge_code,
+                self.company_id.partner_id.city_id.ibge_code
+            )) or None,
         )
 
-        numero_rps = self.number
-        numero_lote = 14
-
-        lista_rps = []
-
+    def _serialize_dados_tomador(self):
         if self.partner_id.is_company:
             tomador_cnpj = misc.punctuation_rm(
                 self.partner_id.cnpj_cpf or '')
@@ -124,144 +162,109 @@ class Document(models.Model):
             tomador_cnpj = None
             tomador_cpf = misc.punctuation_rm(
                 self.partner_id.cnpj_cpf or '')
-
         partner_cep = misc.punctuation_rm(self.partner_id.zip)
 
         if self.partner_id.country_id.id != self.company_id.country_id.id:
             address_invoice_state_code = 'EX'
             address_invoice_city = 'Exterior'
-            address_invoice_city_code = '9999999'
+            address_invoice_city_code = int('9999999')
         else:
             address_invoice_state_code = self.partner_id.state_id.code
             address_invoice_city = (normalize(
                 'NFKD', str(
                     self.partner_id.city_id.name or '')).encode(
                 'ASCII', 'ignore'))
-            address_invoice_city_code = ('%s%s') % (
+            address_invoice_city_code = int('%s%s' % (
                 self.partner_id.state_id.ibge_code,
-                self.partner_id.city_id.ibge_code)
+                self.partner_id.city_id.ibge_code))
+
+        return tcDadosTomador(
+            IdentificacaoTomador=tcIdentificacaoTomador(
+                CpfCnpj=tcCpfCnpj(
+                    Cnpj=tomador_cnpj,
+                    Cpf=tomador_cpf,
+                ),
+                InscricaoMunicipal=misc.punctuation_rm(
+                    self.partner_id.inscr_mun or ''
+                ) or None
+            ),
+            RazaoSocial=str(
+                    self.partner_id.legal_name[:60] or ''),
+            # RazaoSocial=normalize('NFKD', str(
+            #         self.partner_id.legal_name[:60] or ''
+            #     )).encode('ASCII', 'ignore'),
+            Endereco=tcEndereco(
+                Endereco=str(self.partner_id.street or ''),
+                # Endereco=normalize(
+                #     'NFKD',
+                #     str(self.partner_id.street or '')
+                # ).encode('ASCII', 'ignore'),
+                Numero=self.partner_id.street_number or '',
+                Complemento=self.partner_shipping_id.street2 or None,
+                Bairro=str(
+                    self.partner_id.district or 'Sem Bairro'),
+                # Bairro=normalize('NFKD', str(
+                #     self.partner_id.district or 'Sem Bairro')
+                #   ).encode('ASCII', 'ignore'),
+                CodigoMunicipio=address_invoice_city_code,
+                Uf=address_invoice_state_code,
+                Cep=int(partner_cep),
+            ) or None,
+        )
+
+    def _serialize_rps(self, prestador_cnpj, prestador_im):
+        num_rps = self.number
+
+        dh_emi = fields.Datetime.context_timestamp(
+            self, fields.Datetime.from_string(self.date)
+        )
+
+        return tcRps(
+            InfRps=tcInfRps(
+                Id='rps' + str(num_rps),
+                IdentificacaoRps=tcIdentificacaoRps(
+                    Numero=num_rps,
+                    Serie=self.document_serie_id.code or '',
+                    Tipo='1',
+                ),
+                DataEmissao='2020-05-27T09:29:54' or dh_emi,  # TODO: testar
+                NaturezaOperacao='1',
+                RegimeEspecialTributacao='1',
+                OptanteSimplesNacional='1',
+                IncentivadorCultural='2',
+                Status='1',
+                RpsSubstituido=None,
+                Servico=self._serialize_dados_servico(),
+                Prestador=tcIdentificacaoPrestador(
+                    Cnpj=prestador_cnpj,
+                    InscricaoMunicipal=prestador_im or None,
+                ),
+                Tomador=self._serialize_dados_tomador(),
+                IntermediarioServico=None,
+                ConstrucaoCivil=None,
+            )
+        )
+
+    def _serialize_lote_rps(self):
 
         prestador_cnpj = misc.punctuation_rm(
             self.company_id.partner_id.cnpj_cpf)
         prestador_im = misc.punctuation_rm(
             self.company_id.partner_id.inscr_mun or '')
 
-        lista_rps.append(
-            tcRps(
-                InfRps=tcInfRps(
-                    Id='rps' + str(numero_rps),
-                    IdentificacaoRps=tcIdentificacaoRps(
-                        Numero=numero_rps,
-                        Serie=self.document_serie_id.code or '',
-                        Tipo='1',
-                    ),
-                    DataEmissao='2020-05-27T09:29:54',
-                    NaturezaOperacao='1',
-                    RegimeEspecialTributacao='1',
-                    OptanteSimplesNacional='1',
-                    IncentivadorCultural='2',
-                    Status='1',
-                    RpsSubstituido=None,
-                    Servico=tcDadosServico(
-                        Valores=tcValores(
-                            ValorServicos=float(self.amount_total),
-                            ValorDeducoes=0.0,
-                            ValorPis=0.0,
-                            ValorCofins=0.0,
-                            ValorInss=0.0,
-                            ValorIr=0.0,
-                            ValorCsll=0.0,
-                            IssRetido='2',
-                            ValorIss=0.0,
-                            ValorIssRetido=0.0,
-                            OutrasRetencoes=0.0,
-                            BaseCalculo=float(self.amount_total),
-                            Aliquota=0.02,
-                            ValorLiquidoNfse=float(self.amount_total),
-                            # ValorDeducoes=None,
-                            # ValorPis=None,
-                            # ValorCofins=None,
-                            # ValorInss=None,
-                            # ValorIr=None,
-                            # ValorCsll=None,
-                            # IssRetido='2',
-                            # ValorIss=None,
-                            # ValorIssRetido=None,
-                            # OutrasRetencoes=None,
-                            # BaseCalculo=None,
-                            # Aliquota=None,
-                            # ValorLiquidoNfse=None,
-                            # DescontoCondicionado=None,
-                            # DescontoIncondicionado=None,
-                        ),
-                        ItemListaServico='105',
-                        CodigoCnae=None,
-                        CodigoTributacaoMunicipio='6202300',
-                        Discriminacao=str(
-                            self.line_ids[0].name[:120] or ''),
-                        # Discriminacao=normalize('NFKD', str(
-                        #     self.line_ids[0].name[:120] or '')
-                        # ).encode('ASCII', 'ignore'),
-                        CodigoMunicipio=int('%s%s' % (
-                            self.company_id.partner_id.state_id.ibge_code,
-                            self.company_id.partner_id.city_id.ibge_code
-                        )) or None,
-                    ),
-                    Prestador=tcIdentificacaoPrestador(
-                        Cnpj=prestador_cnpj,
-                        InscricaoMunicipal=prestador_im or None,
-                    ),
-                    Tomador=tcDadosTomador(
-                        IdentificacaoTomador=tcIdentificacaoTomador(
-                            CpfCnpj=tcCpfCnpj(
-                                Cnpj=tomador_cnpj,
-                                Cpf=tomador_cpf,
-                            ),
-                            InscricaoMunicipal=misc.punctuation_rm(
-                                self.partner_id.inscr_mun or ''
-                            ) or None
-                        ),
-                        RazaoSocial=str(
-                                self.partner_id.legal_name[:60] or ''),
-                        # RazaoSocial=normalize('NFKD', str(
-                        #         self.partner_id.legal_name[:60] or ''
-                        #     )).encode('ASCII', 'ignore'),
-                        Endereco=tcEndereco(
-                            Endereco=str(self.partner_id.street or ''),
-                            # Endereco=normalize(
-                            #     'NFKD',
-                            #     str(self.partner_id.street or '')
-                            # ).encode('ASCII', 'ignore'),
-                            Numero=self.partner_id.street_number or '',
-                            Complemento=self.partner_shipping_id.street2 or None,
-                            Bairro=str(
-                                self.partner_id.district or 'Sem Bairro'),
-                            # Bairro=normalize('NFKD', str(
-                            #     self.partner_id.district or 'Sem Bairro')
-                            #   ).encode('ASCII', 'ignore'),
-                            CodigoMunicipio=int('%s%s' % (
-                                    self.partner_id.state_id.ibge_code,
-                                    self.partner_id.city_id.ibge_code)),
-                            Uf=address_invoice_state_code,
-                            Cep=int(partner_cep),
-                        ) or None,
-                    ),
-                    IntermediarioServico=None,
-                    ConstrucaoCivil=None,
-                )
-            )
-        )
-        lote = tcLoteRps(
-            # Id=prestador_cnpj + prestador_im + '32'.zfill(15),
-            # Id='lote' + '32',
-            # NumeroLote='32',
+        return tcLoteRps(
             Cnpj=prestador_cnpj,
             InscricaoMunicipal=prestador_im or None,
             QuantidadeRps='1',
-            ListaRps=ListaRpsType(Rps=lista_rps)
+            ListaRps=ListaRpsType(
+                Rps=[self._serialize_rps(prestador_cnpj, prestador_im)]
+            )
         )
+
+    def serialize_nfse(self):
+        # numero_lote = 14
         lote_rps = EnviarLoteRpsEnvio(
-            LoteRps=lote
+            LoteRps=self._serialize_lote_rps()
         )
         return lote_rps
 
