@@ -12,6 +12,6 @@
         'l10n_br_purchase',
         'l10n_br_stock_account',
     ],
-    'installable': False,
-    'auto_install': False,
+    'installable': True,
+    'auto_install': True,
 }
