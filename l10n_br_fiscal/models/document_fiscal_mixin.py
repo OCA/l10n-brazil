@@ -14,6 +14,7 @@ from ..constants.fiscal import (
 
 class FiscalDocumentMixin(models.AbstractModel):
     _name = 'l10n_br_fiscal.document.mixin'
+    _inherit = 'l10n_br_fiscal.document.mixin.methods'
     _description = 'Document Fiscal Mixin'
 
     def _date_server_format(self):
@@ -55,45 +56,3 @@ class FiscalDocumentMixin(models.AbstractModel):
         string='Comments',
         domain=[('object', '=', FISCAL_COMMENT_DOCUMENT)],
     )
-
-    @api.model
-    def fields_view_get(
-            self, view_id=None, view_type="form", toolbar=False, submenu=False):
-
-        model_view = super(FiscalDocumentMixin, self).fields_view_get(
-            view_id, view_type, toolbar, submenu
-        )
-        return model_view  # TO REMOVE
-
-        # if view_type == "form":
-        #     fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_mixin_form")
-        #
-        #     doc = etree.fromstring(model_view.get("arch"))
-        #
-        #     for fiscal_node in doc.xpath("//group[@name='l10n_br_fiscal']"):
-        #         sub_view_node = etree.fromstring(fiscal_view["arch"])
-        #
-        #         from odoo.osv.orm import setup_modifiers
-        #         setup_modifiers(fiscal_node)
-        #         try:
-        #             fiscal_node.getparent().replace(fiscal_node, sub_view_node)
-        #             model_view["arch"] = etree.tostring(doc, encoding="unicode")
-        #         except ValueError:
-        #             return model_view
-        #
-        # return model_view
-
-    @api.multi
-    def _prepare_br_fiscal_dict(self, default=False):
-        self.ensure_one()
-        fields = self.env["l10n_br_fiscal.document.mixin"]._fields.keys()
-
-        # we now read the record fiscal fields except the m2m tax:
-        vals = self._convert_to_write(self.read(fields)[0])
-
-        # this will force to create a new fiscal document line:
-        vals['fiscal_document_id'] = False
-
-        if default:  # in case you want to use new rather than write later
-            return {"default_%s" % (k,): vals[k] for k in vals.keys()}
-        return vals
