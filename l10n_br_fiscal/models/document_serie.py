@@ -2,7 +2,7 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 from ..constants.fiscal import FISCAL_IN_OUT, FISCAL_IN_OUT_DEFAULT
 
@@ -53,7 +53,7 @@ class DocumentSerie(models.Model):
         """ Create new no_gap entry sequence for every
         new document serie """
         sequence = {
-            'name': values['name'],
+            'name': values.get('name', _('Document Serie Sequence')),
             'implementation': 'no_gap',
             'padding': 1,
             'number_increment': 1,
@@ -73,3 +73,28 @@ class DocumentSerie(models.Model):
     @api.multi
     def name_get(self):
         return [(r.id, '{}'.format(r.name)) for r in self]
+
+    @api.multi
+    def _is_invalid_number(self, number):
+        self.ensure_one()
+        is_invalid_number = True
+        # TODO Improve this implementation!
+        invalids = self.env[
+            'l10n_br_fiscal.document.invalidate.number'].search([
+                ('state', '=', 'done'),
+                ('document_serie_id', '=', self.id)])
+        invalid_numbers = []
+        for invalid in invalids:
+            invalid_numbers += range(
+                invalid.number_start, invalid.number_end + 1)
+        if int(number) not in invalid_numbers:
+            is_invalid_number = False
+        return is_invalid_number
+
+    @api.multi
+    def next_seq_number(self):
+        self.ensure_one()
+        number = self.internal_sequence_id._next()
+        if self._is_invalid_number(number):
+            self.next_seq_number()
+        return number
