@@ -551,24 +551,6 @@ class Document(models.Model):
         string='State'
     )
 
-    @api.model
-    def _create_serie_number(self, document_serie_id, document_date):
-        document_serie = self.env['l10n_br_fiscal.document.serie'].browse(
-            document_serie_id)
-        number = document_serie.internal_sequence_id.with_context(
-            ir_sequence_date=document_date)._next()
-        invalids = \
-            self.env['l10n_br_fiscal.document.invalidate.number'].search([
-                ('state', '=', 'done'),
-                ('document_serie_id', '=', document_serie_id)])
-        invalid_numbers = []
-        for invalid in invalids:
-            invalid_numbers += range(
-                invalid.number_start, invalid.number_end + 1)
-        if int(number) in invalid_numbers:
-            return self._create_serie_number(document_serie_id, document_date)
-        return number
-
     document_subsequent_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.subsequent.document',
         inverse_name='source_document_id',
@@ -587,17 +569,6 @@ class Document(models.Model):
             r.document_type_id.name,
             r.document_serie,
             r.number)) for r in self]
-
-    @api.model
-    def create(self, values):
-        if not values.get('date'):
-            values['date'] = self._date_server_format()
-
-        if values.get('document_serie_id') and not values.get('number'):
-            values['number'] = self._create_serie_number(
-                values.get('document_serie_id'), values['date'])
-
-        return super(Document, self).create(values)
 
     @api.multi
     @api.onchange('document_section')
