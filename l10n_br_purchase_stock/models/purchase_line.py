@@ -15,5 +15,6 @@ class PurchaseOrderLine(models.Model):
         dictionary ready to be used in stock.move's create()
         """
         values = super()._prepare_stock_moves(picking)
-        values.update(self._prepare_br_fiscal_dict())
+        for v in values:
+            v.update(self._prepare_br_fiscal_dict())
         return values
