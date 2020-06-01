@@ -100,54 +100,59 @@ class Document(models.Model):
             edocs.append(record.serialize_nfse())
         return edocs
 
-    def _serialize_dados_servico(self):
-        return tcDadosServico(
-            Valores=tcValores(
-                ValorServicos=float(self.line_ids[0].fiscal_price),
-                ValorDeducoes=0.0,
-                ValorPis=0.0,
-                ValorCofins=0.0,
-                ValorInss=0.0,
-                ValorIr=0.0,
-                ValorCsll=0.0,
-                IssRetido='2',
-                ValorIss=float(self.line_ids[0].issqn_value),
-                ValorIssRetido=0.0,
-                OutrasRetencoes=0.0,
-                BaseCalculo=float(self.line_ids[0].issqn_base),
-                Aliquota=float(self.line_ids[0].issqn_percent / 100),
-                ValorLiquidoNfse=float(self.line_ids[0].amount_total),
-                # ValorDeducoes=None,
-                # ValorPis=None,
-                # ValorCofins=None,
-                # ValorInss=None,
-                # ValorIr=None,
-                # ValorCsll=None,
-                # IssRetido='2',
-                # ValorIss=None,
-                # ValorIssRetido=None,
-                # OutrasRetencoes=None,
-                # BaseCalculo=None,
-                # Aliquota=None,
-                # ValorLiquidoNfse=None,
-                # DescontoCondicionado=None,
-                # DescontoIncondicionado=None,
-            ),
-            ItemListaServico='105',
-            CodigoCnae=None,
-            CodigoTributacaoMunicipio='6202300',
-            Discriminacao=str(
-                self.line_ids[0].name[:120] or ''),
-            # Discriminacao=normalize('NFKD', str(
-            #     self.line_ids[0].name[:120] or '')
-            # ).encode('ASCII', 'ignore'),
-            CodigoMunicipio=int('%s%s' % (
+    def _prepare_dados_servico(self):
+        return {
+            'valor_servicos': float(self.line_ids[0].fiscal_price),
+            'valor_deducoes': 0.0,
+            'valor_pis': 0.0,
+            'valor_cofins': 0.0,
+            'valor_inss': 0.0,
+            'valor_ir': 0.0,
+            'valor_csll': 0.0,
+            'iss_retido': '2',
+            'valor_iss': float(self.line_ids[0].issqn_value),
+            'valor_iss_retido': 0.0,
+            'outras_retencoes': 0.0,
+            'base_calculo': float(self.line_ids[0].issqn_base),
+            'aliquota': float(self.line_ids[0].issqn_percent / 100),
+            'valor_liquido_nfse': float(self.line_ids[0].amount_total),
+            'item_lista_servico': '105',
+            'codigo_cnae': None,
+            'codigo_tributacao_municipio': '6202300',
+            'discriminacao': str(self.line_ids[0].name[:120] or ''),
+            'codigo_municipio': int('%s%s' % (
                 self.company_id.partner_id.state_id.ibge_code,
                 self.company_id.partner_id.city_id.ibge_code
             )) or None,
+        }
+
+    def _serialize_dados_servico(self):
+        dados = self._prepare_dados_servico()
+        return tcDadosServico(
+            Valores=tcValores(
+                ValorServicos=dados['valor_servicos'],
+                ValorDeducoes=dados['valor_deducoes'],
+                ValorPis=dados['valor_pis'],
+                ValorCofins=dados['valor_cofins'],
+                ValorInss=dados['valor_inss'],
+                ValorIr=dados['valor_ir'],
+                ValorCsll=dados['valor_csll'],
+                IssRetido=dados['iss_retido'],
+                ValorIss=dados['valor_iss'],
+                ValorIssRetido=dados['valor_iss_retido'],
+                OutrasRetencoes=dados['outras_retencoes'],
+                BaseCalculo=dados['base_calculo'],
+                Aliquota=dados['aliquota'],
+                ValorLiquidoNfse=dados['valor_liquido_nfse'],
+            ),
+            ItemListaServico=dados['item_lista_servico'],
+            CodigoCnae=dados['codigo_cnae'],
+            CodigoTributacaoMunicipio=dados['codigo_tributacao_municipio'],
+            Discriminacao=dados['discriminacao'],
+            CodigoMunicipio=dados['codigo_municipio'],
         )
 
-    def _serialize_dados_tomador(self):
+    def _prepare_dados_tomador(self):
         if self.partner_id.is_company:
             tomador_cnpj = misc.punctuation_rm(
                 self.partner_id.cnpj_cpf or '')
@@ -160,98 +165,111 @@ class Document(models.Model):
 
         if self.partner_id.country_id.id != self.company_id.country_id.id:
             address_invoice_state_code = 'EX'
-            # address_invoice_city = 'Exterior'
             address_invoice_city_code = int('9999999')
         else:
             address_invoice_state_code = self.partner_id.state_id.code
-            # address_invoice_city = (normalize(
-            #     'NFKD', str(
-            #         self.partner_id.city_id.name or '')).encode(
-            #     'ASCII', 'ignore'))
             address_invoice_city_code = int('%s%s' % (
                 self.partner_id.state_id.ibge_code,
                 self.partner_id.city_id.ibge_code))
 
+        return {
+            'cnpj': tomador_cnpj,
+            'cpf': tomador_cpf,
+            'inscricao_municipal': misc.punctuation_rm(
+                self.partner_id.inscr_mun or '') or None,
+            'razao_social': str(self.partner_id.legal_name[:60] or ''),
+            'endereco': str(self.partner_id.street or ''),
+            'numero': self.partner_id.street_number or '',
+            'complemento': self.partner_shipping_id.street2 or None,
+            'bairro': str(self.partner_id.district or 'Sem Bairro'),
+            'codigo_municipio': address_invoice_city_code,
+            'uf': address_invoice_state_code,
+            'cep': int(partner_cep),
+        }
+
+    def _serialize_dados_tomador(self):
+        dados = self._prepare_dados_tomador()
         return tcDadosTomador(
             IdentificacaoTomador=tcIdentificacaoTomador(
                 CpfCnpj=tcCpfCnpj(
-                    Cnpj=tomador_cnpj,
-                    Cpf=tomador_cpf,
+                    Cnpj=dados['cnpj'],
+                    Cpf=dados['cpf'],
                 ),
-                InscricaoMunicipal=misc.punctuation_rm(
-                    self.partner_id.inscr_mun or ''
-                ) or None
+                InscricaoMunicipal=dados['inscricao_municipal']
             ),
-            RazaoSocial=str(
-                    self.partner_id.legal_name[:60] or ''),
-            # RazaoSocial=normalize('NFKD', str(
-            #         self.partner_id.legal_name[:60] or ''
-            #     )).encode('ASCII', 'ignore'),
+            RazaoSocial=dados['razao_social'],
             Endereco=tcEndereco(
-                Endereco=str(self.partner_id.street or ''),
-                # Endereco=normalize(
-                #     'NFKD',
-                #     str(self.partner_id.street or '')
-                # ).encode('ASCII', 'ignore'),
-                Numero=self.partner_id.street_number or '',
-                Complemento=self.partner_shipping_id.street2 or None,
-                Bairro=str(
-                    self.partner_id.district or 'Sem Bairro'),
-                # Bairro=normalize('NFKD', str(
-                #     self.partner_id.district or 'Sem Bairro')
-                #   ).encode('ASCII', 'ignore'),
-                CodigoMunicipio=address_invoice_city_code,
-                Uf=address_invoice_state_code,
-                Cep=int(partner_cep),
+                Endereco=dados['endereco'],
+                Numero=dados['numero'],
+                Complemento=dados['complemento'],
+                Bairro=dados['bairro'],
+                CodigoMunicipio=dados['codigo_municipio'],
+                Uf=dados['uf'],
+                Cep=dados['cep'],
             ) or None,
         )
 
-    def _serialize_rps(self, prestador_cnpj, prestador_im):
+    def _prepare_lote_rps(self):
         num_rps = self.number
 
         dh_emi = fields.Datetime.context_timestamp(
             self, fields.Datetime.from_string(self.date)
         ).strftime('%Y-%m-%dT%H:%M:%S')
+        return {
+            'cnpj': misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf),
+            'inscricao_municipal': misc.punctuation_rm(
+                self.company_id.partner_id.inscr_mun or '') or None,
+            'id': 'rps' + str(num_rps),
+            'numero': num_rps,
+            'serie': self.document_serie_id.code or '',
+            'tipo': '1',
+            'data_emissao': dh_emi,
+            'natureza_operacao': '1',
+            'regime_especial_tributacao': '1',
+            'optante_simples_nacional': '1',
+            'incentivador_cultural': '2',
+            'status': '1',
+            'rps_substitiuido': None,
+            'intermediario_servico': None,
+            'construcao_civil': None,
+        }
+
+    def _serialize_rps(self, dados):
 
         return tcRps(
             InfRps=tcInfRps(
-                Id='rps' + str(num_rps),
+                Id=dados['id'],
                 IdentificacaoRps=tcIdentificacaoRps(
-                    Numero=num_rps,
-                    Serie=self.document_serie_id.code or '',
-                    Tipo='1',
+                    Numero=dados['numero'],
+                    Serie=dados['serie'],
+                    Tipo=dados['tipo'],
                 ),
-                DataEmissao=dh_emi,
-                NaturezaOperacao='1',
-                RegimeEspecialTributacao='1',
-                OptanteSimplesNacional='1',
-                IncentivadorCultural='2',
-                Status='1',
-                RpsSubstituido=None,
+                DataEmissao=dados['data_emissao'],
+                NaturezaOperacao=dados['natureza_operacao'],
+                RegimeEspecialTributacao=dados['regime_especial_tributacao'],
+                OptanteSimplesNacional=dados['optante_simples_nacional'],
+                IncentivadorCultural=dados['incentivador_cultural'],
+                Status=dados['status'],
+                RpsSubstituido=dados['rps_substitiuido'],
                 Servico=self._serialize_dados_servico(),
                 Prestador=tcIdentificacaoPrestador(
-                    Cnpj=prestador_cnpj,
-                    InscricaoMunicipal=prestador_im or None,
+                    Cnpj=dados['cnpj'],
+                    InscricaoMunicipal=dados['inscricao_municipal'],
                 ),
                 Tomador=self._serialize_dados_tomador(),
-                IntermediarioServico=None,
-                ConstrucaoCivil=None,
+                IntermediarioServico=dados['intermediario_servico'],
+                ConstrucaoCivil=dados['construcao_civil'],
             )
         )
 
     def _serialize_lote_rps(self):
-
-        prestador_cnpj = misc.punctuation_rm(
-            self.company_id.partner_id.cnpj_cpf)
-        prestador_im = misc.punctuation_rm(
-            self.company_id.partner_id.inscr_mun or '')
-
+        dados = self._prepare_lote_rps()
         return tcLoteRps(
-            Cnpj=prestador_cnpj,
-            InscricaoMunicipal=prestador_im or None,
+            Cnpj=dados['cnpj'],
+            InscricaoMunicipal=dados['inscricao_municipal'],
             QuantidadeRps='1',
             ListaRps=ListaRpsType(
-                Rps=[self._serialize_rps(prestador_cnpj, prestador_im)]
+                Rps=[self._serialize_rps(dados)]
             )
         )
 
