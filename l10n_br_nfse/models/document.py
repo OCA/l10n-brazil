@@ -102,7 +102,7 @@ class Document(models.Model):
 
     def _prepare_dados_servico(self):
         return {
-            'valor_servicos': float(self.line_ids[0].fiscal_price),
+            'valor_servicos': float(self.line_ids.fiscal_price),
             'valor_deducoes': 0.0,
             'valor_pis': 0.0,
             'valor_cofins': 0.0,
@@ -110,16 +110,16 @@ class Document(models.Model):
             'valor_ir': 0.0,
             'valor_csll': 0.0,
             'iss_retido': '2',
-            'valor_iss': float(self.line_ids[0].issqn_value),
+            'valor_iss': float(self.line_ids.issqn_value),
             'valor_iss_retido': 0.0,
             'outras_retencoes': 0.0,
-            'base_calculo': float(self.line_ids[0].issqn_base),
-            'aliquota': float(self.line_ids[0].issqn_percent / 100),
-            'valor_liquido_nfse': float(self.line_ids[0].amount_total),
+            'base_calculo': float(self.line_ids.issqn_base),
+            'aliquota': float(self.line_ids.issqn_percent / 100),
+            'valor_liquido_nfse': float(self.line_ids.amount_total),
             'item_lista_servico': '105',
             'codigo_cnae': None,
             'codigo_tributacao_municipio': '6202300',
-            'discriminacao': str(self.line_ids[0].name[:120] or ''),
+            'discriminacao': str(self.line_ids.name[:120] or ''),
             'codigo_municipio': int('%s%s' % (
                 self.company_id.partner_id.state_id.ibge_code,
                 self.company_id.partner_id.city_id.ibge_code
@@ -127,6 +127,7 @@ class Document(models.Model):
         }
 
     def _serialize_dados_servico(self):
+        self.line_ids.ensure_one()
         dados = self._prepare_dados_servico()
         return tcDadosServico(
             Valores=tcValores(
