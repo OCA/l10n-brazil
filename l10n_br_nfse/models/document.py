@@ -57,6 +57,28 @@ class Document(models.Model):
         readonly=True,
     )
 
+    rps_number = fields.Char(
+        string='RPS Number',
+        copy=False,
+        index=True,
+    )
+
+    @api.model
+    def create(self, values):
+        if not values.get('date'):
+            values['date'] = self._date_server_format()
+
+        if values.get('company_id'):
+            company_obj = self.env['res.company']
+            company = company_obj.browse(values['company_id'])
+            if company.provedor_nfse == 'ginfes':
+                if values.get('document_serie_id') and \
+                        not values.get('rps_number'):
+                    values['rps_number'] = self._create_serie_number(
+                        values.get('document_serie_id'), values['date'])
+                values['number'] = 'SN'
+        return super(Document, self).create(values)
+
     def _generate_key(self):
         remaining = self - self.filtered(fiter_processador_edoc_nfse)
         if remaining:
@@ -211,7 +233,7 @@ class Document(models.Model):
         )
 
     def _prepare_lote_rps(self):
-        num_rps = self.number
+        num_rps = self.rps_number
 
         dh_emi = fields.Datetime.context_timestamp(
             self, fields.Datetime.from_string(self.date)
@@ -345,6 +367,7 @@ class Document(models.Model):
                         processo.resposta)[0]
                     record.autorizacao_event_id.set_done(xml_file)
                     for comp in processo.resposta.ListaNfse.CompNfse:
+                        vals['number'] = comp.Nfse.InfNfse.Numero
                         vals['data_hora_autorizacao'] = \
                             comp.Nfse.InfNfse.DataEmissao
                     record._change_state(SITUACAO_EDOC_AUTORIZADA)
