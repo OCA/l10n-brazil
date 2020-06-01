@@ -7,7 +7,8 @@ from dateutil.relativedelta import relativedelta
 from odoo.osv import expression
 from datetime import datetime
 
-from ..constants.fiscal import COMMENT_TYPE, COMMENT_TYPE_DEFAULT
+from ..constants.fiscal import COMMENT_TYPE,\
+    COMMENT_TYPE_DEFAULT, FISCAL_COMMENT_OBJECTS
 
 
 class Comment(models.Model):
@@ -35,9 +36,7 @@ class Comment(models.Model):
         required=True)
 
     object = fields.Selection(
-        selection=[
-            ("l10n_br_fiscal.document", "Fiscal Document"),
-            ("l10n_br_fiscal.document.line", "Fiscal Document Line")],
+        selection=FISCAL_COMMENT_OBJECTS,
         string="Object",
         required=True)
 

@@ -439,3 +439,11 @@ PROCESSADOR_NENHUM = 'nenhum'
 PROCESSADOR = [(
     PROCESSADOR_NENHUM, 'Nenhum'
 )]
+
+FISCAL_COMMENT_OBJECTS = [
+    ("l10n_br_fiscal.document.mixin", "Fiscal Document"),
+    ("l10n_br_fiscal.document.line.mixin", "Fiscal Document Line")]
+
+FISCAL_COMMENT_DOCUMENT = [('object', '=', 'l10n_br_fiscal.document.mixin')]
+
+FISCAL_COMMENT_LINE = [('object', '=', 'l10n_br_fiscal.document.line.mixin')]
