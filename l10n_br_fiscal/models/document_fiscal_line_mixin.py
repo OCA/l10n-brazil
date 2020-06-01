@@ -31,6 +31,7 @@ from ..constants.fiscal import (
     TAX_DOMAIN_PIS_WH,
     TAX_DOMAIN_PIS_ST,
     TAX_FRAMEWORK_SIMPLES_ALL,
+    FISCAL_COMMENT_LINE
 )
 
 from ..constants.icms import (
@@ -856,4 +857,5 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         column1='document_line_mixin_id',
         column2='comment_id',
         string='Comments',
+        domain=FISCAL_COMMENT_LINE,
     )
