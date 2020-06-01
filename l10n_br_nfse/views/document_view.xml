@@ -12,6 +12,9 @@
             <field name="codigo_motivo_situacao" position="after">
                 <field name="edoc_error_message" attrs="{'invisible': [('document_section', '!=', 'nfse_recibos')]}"/>
             </field>
+            <field name="state_fiscal" position="before">
+                <field name="rps_number" force_save="1" readonly="1"/>
+            </field>
         </field>
     </record>
 
