@@ -50,3 +50,15 @@ class StockRule(models.Model):
             'fiscal_operation_line_id',
         ]
         return custom_move_fields
+
+    @api.model
+    def run(self, product_id, product_qty, product_uom,
+            location_id, name, origin, values):
+        import pudb; pudb.set_trace()
+        result = super().run(
+            product_id, product_qty, product_uom,
+            location_id, name, origin, values)
+
+        print(values)
+
+        return result

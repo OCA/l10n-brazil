@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <field name="procure_method" position="after">
                 <field name="invoice_state"/>
-                <field name="operation_id"/>
+                <field name="fiscal_operation_id"/>
             </field>
         </field>
     </record>
