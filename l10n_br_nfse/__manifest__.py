@@ -21,6 +21,7 @@
         'l10n_br_fiscal',
     ],
     'data': [
+        'data/operation_data.xml',
         'views/document_view.xml',
     ],
 }
