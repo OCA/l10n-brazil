@@ -226,10 +226,7 @@ class DocumentWorkflow(models.AbstractModel):
 
     def document_number(self):
         if not self.number and self.document_serie_id and self.date:
-            self.number = self._create_serie_number(
-                self.document_serie_id.id,
-                self.date
-            )
+            self.number = self.document_serie_id.next_seq_number()
 
     def document_check(self):
         return True
