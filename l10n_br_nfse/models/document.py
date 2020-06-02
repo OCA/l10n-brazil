@@ -135,7 +135,7 @@ class Document(models.Model):
             'iss_retido': '2',
             'valor_iss': float(self.line_ids.issqn_value),
             'valor_iss_retido': float(self.line_ids.issqn_wh_value),
-            'outras_retencoes': 0.0,
+            'outras_retencoes': float(self.line_ids.other_retentions_value),
             'base_calculo': float(self.line_ids.issqn_base),
             'aliquota': float(self.line_ids.issqn_percent / 100),
             'valor_liquido_nfse': float(self.line_ids.amount_total),
