@@ -10,3 +10,6 @@ class ProductTemplate(models.Model):
         string='Fiscal Deductions',
         default=0.00,
     )
+    city_taxation_code = fields.Char(
+        string='City Taxation Code',
+    )
