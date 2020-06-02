@@ -29,6 +29,7 @@ from odoo import api, fields, models, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
+    TAX_FRAMEWORK_SIMPLES_ALL,
 )
 
 from .res_company import PROCESSADOR
@@ -126,19 +127,20 @@ class Document(models.Model):
         return {
             'valor_servicos': float(self.line_ids.fiscal_price),
             'valor_deducoes': 0.0,
-            'valor_pis': 0.0,
-            'valor_cofins': 0.0,
-            'valor_inss': 0.0,
-            'valor_ir': 0.0,
-            'valor_csll': 0.0,
+            'valor_pis': float(self.line_ids.pis_value),
+            'valor_cofins': float(self.line_ids.cofins_value),
+            'valor_inss': float(self.line_ids.inss_value),
+            'valor_ir': float(self.line_ids.irpj_value),
+            'valor_csll': float(self.line_ids.csll_value),
             'iss_retido': '2',
             'valor_iss': float(self.line_ids.issqn_value),
-            'valor_iss_retido': 0.0,
+            'valor_iss_retido': float(self.line_ids.issqn_wh_value),
             'outras_retencoes': 0.0,
             'base_calculo': float(self.line_ids.issqn_base),
             'aliquota': float(self.line_ids.issqn_percent / 100),
             'valor_liquido_nfse': float(self.line_ids.amount_total),
-            'item_lista_servico': '105',
+            'item_lista_servico': self.line_ids.service_type_id.code and
+            self.line_ids.service_type_id.code.replace('.', ''),
             'codigo_cnae': None,
             'codigo_tributacao_municipio': '6202300',
             'discriminacao': str(self.line_ids.name[:120] or ''),
@@ -249,7 +251,9 @@ class Document(models.Model):
             'data_emissao': dh_emi,
             'natureza_operacao': '1',
             'regime_especial_tributacao': '1',
-            'optante_simples_nacional': '1',
+            'optante_simples_nacional': '1'
+            if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
+            else '2',
             'incentivador_cultural': '2',
             'status': '1',
             'rps_substitiuido': None,
