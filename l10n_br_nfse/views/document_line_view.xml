@@ -12,6 +12,9 @@
         <field name="fiscal_price" position="after">
             <field name="fiscal_deductions_value"/>
         </field>
+        <field name="service_type_id" position="after">
+            <field name="city_taxation_code"/>
+        </field>
     </field>
   </record>
 

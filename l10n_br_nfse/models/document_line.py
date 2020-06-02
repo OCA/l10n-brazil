@@ -16,6 +16,9 @@ class Document(models.Model):
         string='Other Retentions',
         default=0.00,
     )
+    city_taxation_code = fields.Char(
+        string='City Taxation Code',
+    )
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
@@ -23,6 +26,8 @@ class Document(models.Model):
         if self.product_id and self.product_id.fiscal_deductions_value:
             self.fiscal_deductions_value = \
                 self.product_id.fiscal_deductions_value
+        if self.product_id and self.product_id.city_taxation_code:
+            self.city_taxation_code = self.product_id.city_taxation_code
 
     def _compute_taxes(self, taxes, cst=None):
         discount_value = self.discount_value
