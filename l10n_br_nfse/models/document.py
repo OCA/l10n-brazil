@@ -126,7 +126,7 @@ class Document(models.Model):
     def _prepare_dados_servico(self):
         return {
             'valor_servicos': float(self.line_ids.fiscal_price),
-            'valor_deducoes': 0.0,
+            'valor_deducoes': float(self.line_ids.fiscal_deductions_value),
             'valor_pis': float(self.line_ids.pis_value),
             'valor_cofins': float(self.line_ids.cofins_value),
             'valor_inss': float(self.line_ids.inss_value),
