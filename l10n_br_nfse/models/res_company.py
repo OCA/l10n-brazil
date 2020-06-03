@@ -19,3 +19,7 @@ class ResCompany(models.Model):
         ],
         default='ginfes',
     )
+    cultural_encourager = fields.Boolean(
+        string='Cultural Encourager',
+        default=False,
+    )
