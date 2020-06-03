@@ -165,7 +165,7 @@ class Document(models.Model):
             'valor_inss': float(self.line_ids.inss_value),
             'valor_ir': float(self.line_ids.irpj_value),
             'valor_csll': float(self.line_ids.csll_value),
-            'iss_retido': '2',
+            'iss_retido': '1' if self.line_ids.issqn_wh_value else '2',
             'valor_iss': float(self.line_ids.issqn_value),
             'valor_iss_retido': float(self.line_ids.issqn_wh_value),
             'outras_retencoes': float(self.line_ids.other_retentions_value),
