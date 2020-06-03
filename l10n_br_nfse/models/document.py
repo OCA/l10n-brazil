@@ -63,6 +63,15 @@ class Document(models.Model):
         copy=False,
         index=True,
     )
+    rps_type = fields.Selection(
+        string='RPS Type',
+        selection=[
+            ('1', 'Recibo provisório de Serviços'),
+            ('2', 'RPS Nota Fiscal Conjugada (Mista)'),
+            ('3', 'Cupom'),
+        ],
+        default='1',
+    )
 
     @api.model
     def create(self, values):
@@ -247,7 +256,7 @@ class Document(models.Model):
             'id': 'rps' + str(num_rps),
             'numero': num_rps,
             'serie': self.document_serie_id.code or '',
-            'tipo': '1',
+            'tipo': self.rps_type,
             'data_emissao': dh_emi,
             'natureza_operacao': '1',
             'regime_especial_tributacao': '1',
