@@ -84,6 +84,18 @@ class Document(models.Model):
         ],
         default='1',
     )
+    taxation_special_regime = fields.Selection(
+        string='Taxation Special Regime',
+        selection=[
+            ('1', 'Microempresa Municipal'),
+            ('2', 'Estimativa'),
+            ('3', 'Sociedade de Profissionais'),
+            ('4', 'Cooperativa'),
+            ('5', 'Microempresario Individual(MEI)'),
+            ('6', 'Microempresario e Empresa de Pequeno Porte(ME EPP)'),
+        ],
+        default='1',
+    )
 
     @api.model
     def create(self, values):
@@ -271,7 +283,7 @@ class Document(models.Model):
             'tipo': self.rps_type,
             'data_emissao': dh_emi,
             'natureza_operacao': self.operation_nature,
-            'regime_especial_tributacao': '1',
+            'regime_especial_tributacao': self.taxation_special_regime,
             'optante_simples_nacional': '1'
             if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
             else '2',
