@@ -287,7 +287,8 @@ class Document(models.Model):
             'optante_simples_nacional': '1'
             if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
             else '2',
-            'incentivador_cultural': '2',
+            'incentivador_cultural': '1'
+            if self.company_id.cultural_encourager else '2',
             'status': '1',
             'rps_substitiuido': None,
             'intermediario_servico': None,
