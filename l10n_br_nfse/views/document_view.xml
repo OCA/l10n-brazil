@@ -15,6 +15,7 @@
             <field name="state_fiscal" position="before">
                 <field name="rps_number" force_save="1" readonly="1"/>
                 <field name="rps_type"/>
+                <field name="operation_nature"/>
             </field>
         </field>
     </record>
