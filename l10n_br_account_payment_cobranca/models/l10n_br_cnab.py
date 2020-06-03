@@ -429,9 +429,9 @@ class L10nBrHrCnab(models.Model):
                                     "name": str(evento.nosso_numero) + " - Tarifa",
                                     "credit": 0,
                                     "debit": float(evento.tarifa_cobranca),
-                                    "account_id": invoice.payment_mode_id.\
-                                                  default_tax_account_id.id
-                                                  or invoice.account_id.id,
+                                    "account_id":
+                                        invoice.payment_mode_id.default_tax_account_id.id
+                                        or invoice.account_id.id,
                                 }
                             )
                             line_values.append((0, 0, line_dict_tarifa))
