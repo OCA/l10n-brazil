@@ -16,6 +16,7 @@
                 <field name="rps_number" force_save="1" readonly="1"/>
                 <field name="rps_type"/>
                 <field name="operation_nature"/>
+                <field name="taxation_special_regime"/>
             </field>
         </field>
     </record>
