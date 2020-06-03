@@ -72,6 +72,18 @@ class Document(models.Model):
         ],
         default='1',
     )
+    operation_nature = fields.Selection(
+        string='Operation Nature',
+        selection=[
+            ('1', 'Tributação no município'),
+            ('2', 'Tributação fora do município'),
+            ('3', 'Isenção'),
+            ('4', 'Imune'),
+            ('5', 'Exigibilidade suspensa por decisão judicial'),
+            ('6', 'Exigibilidade suspensa por procedimento administrativo'),
+        ],
+        default='1',
+    )
 
     @api.model
     def create(self, values):
@@ -258,7 +270,7 @@ class Document(models.Model):
             'serie': self.document_serie_id.code or '',
             'tipo': self.rps_type,
             'data_emissao': dh_emi,
-            'natureza_operacao': '1',
+            'natureza_operacao': self.operation_nature,
             'regime_especial_tributacao': '1',
             'optante_simples_nacional': '1'
             if self.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL
