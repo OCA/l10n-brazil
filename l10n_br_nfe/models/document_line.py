@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
-from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_ST_CST_CODES
 
 ICMS_ST_CST_CODES = ['60',]
 
