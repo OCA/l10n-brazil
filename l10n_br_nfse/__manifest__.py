@@ -27,4 +27,8 @@
         'views/document_line_view.xml',
         'views/res_company_view.xml'
     ],
+    'demo': [
+        'demo/product_demo.xml',
+        'demo/fiscal_document_demo.xml',
+    ],
 }
