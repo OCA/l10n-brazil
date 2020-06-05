@@ -18,6 +18,9 @@
                 <field name="operation_nature"/>
                 <field name="taxation_special_regime"/>
             </field>
+            <field name="protocolo_autorizacao" position="after">
+                <field name="verify_code"/>
+            </field>
         </field>
     </record>
 
