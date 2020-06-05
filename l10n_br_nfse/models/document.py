@@ -96,6 +96,10 @@ class Document(models.Model):
         ],
         default='1',
     )
+    verify_code = fields.Char(
+        string='Verify Code',
+        readonly=True,
+    )
 
     @api.model
     def create(self, values):
@@ -408,6 +412,8 @@ class Document(models.Model):
                         vals['number'] = comp.Nfse.InfNfse.Numero
                         vals['data_hora_autorizacao'] = \
                             comp.Nfse.InfNfse.DataEmissao
+                        vals['verify_code'] = \
+                            comp.Nfse.InfNfse.CodigoVerificacao
                     record._change_state(SITUACAO_EDOC_AUTORIZADA)
 
             record.write(vals)
