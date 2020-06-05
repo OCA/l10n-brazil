@@ -132,7 +132,7 @@ class Document(models.Model):
         transmissao = TransmissaoSOAP(certificado, session)
         return NFSeFactory(
             transmissao=transmissao,
-            ambiente=2,
+            ambiente=1,
             cidade_ibge=int('%s%s' % (
                 self.company_id.partner_id.state_id.ibge_code,
                 self.company_id.partner_id.city_id.ibge_code
