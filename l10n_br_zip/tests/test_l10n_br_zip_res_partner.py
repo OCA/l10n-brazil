@@ -158,7 +158,7 @@ class L10nBRZipTest(TransactionCase):
         )
 
     def test_error_pycep_correios(self):
-        """Test error with PyCEP CORREIOS ."""
+        """Test error with PyCEP CORREIOS in partner."""
 
         self.res_partner.zip = "00000000"
         try:
