@@ -87,14 +87,6 @@ class HrContract(models.Model):
 
     resignation_code = fields.Char(related="resignation_cause_id.code", invisible=True)
 
-    @api.multi
-    @api.constrains("union_cnpj")
-    def _validate_union_cnpj(self):
-        for record in self:
-            if record.union_cnpj:
-                if not cnpj_cpf.validar(record.union_cnpj):
-                    raise ValidationError(_("Invalid union CNPJ!"))
-
     @api.onchange("job_id")
     def set_job_in_employee(self):
         """
