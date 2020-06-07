@@ -253,8 +253,8 @@ class FiscalClosing(models.Model):
 
     def _date_range(self):
         date_range = calendar.monthrange(int(self.year), int(self.month))
-        date_min = '-'.join((self.year, self.month, str(date_range[0])))
-        date_min = datetime.strptime(date_min, '%Y-%m-%d').replace(day=1)
+        date_min = '-'.join((self.year, self.month, '01'))
+        date_min = datetime.strptime(date_min, '%Y-%m-%d')
 
         date_max = '-'.join((self.year, self.month, str(date_range[1])))
         date_max = datetime.strptime(date_max, '%Y-%m-%d')
