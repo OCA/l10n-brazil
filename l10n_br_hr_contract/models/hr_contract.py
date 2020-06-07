@@ -1,9 +1,7 @@
 # Copyright (C) 2016  Daniel Sadamo - KMEE Informática
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from erpbrasil.base.fiscal import cnpj_cpf
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 
 class HrContract(models.Model):
@@ -11,7 +9,8 @@ class HrContract(models.Model):
     _order = "employee_id"
 
     admission_type_id = fields.Many2one(
-        string="Admission type", comodel_name="hr.contract.admission.type"
+        string="Admission type",
+        comodel_name="hr.contract.admission.type"
     )
 
     labor_bond_type_id = fields.Many2one(
@@ -47,7 +46,7 @@ class HrContract(models.Model):
         comodel_name="res.partner",
         domain=[("union_entity_code", "!=", False)],
         help="Sindicato é um partner que tem código de sindicato "
-        "(union_entity_code) definido.",
+             "(union_entity_code) definido.",
     )
 
     union_name = fields.Char(
@@ -55,7 +54,9 @@ class HrContract(models.Model):
     )
 
     union_cnpj = fields.Char(
-        string="Union CNPJ", related="partner_union.cnpj_cpf", readonly=True
+        string="Union CNPJ",
+        related="partner_union.cnpj_cpf",
+        readonly=True
     )
 
     union_entity_code = fields.Char(
@@ -71,7 +72,8 @@ class HrContract(models.Model):
     resignation_date = fields.Date(string="Resignation date")
 
     resignation_cause_id = fields.Many2one(
-        comodel_name="hr.contract.resignation.cause", string="Resignation cause"
+        comodel_name="hr.contract.resignation.cause",
+        string="Resignation cause"
     )
 
     notice_of_termination_id = fields.Many2one(
@@ -79,13 +81,19 @@ class HrContract(models.Model):
         comodel_name="hr.contract.notice.termination",
     )
 
-    notice_of_termination_date = fields.Date(string="Notice of termination date")
-
-    by_death = fields.Char(
-        string="By death", help="Death certificate/Process/Beneficiary"
+    notice_of_termination_date = fields.Date(
+        string="Notice of termination date",
     )
 
-    resignation_code = fields.Char(related="resignation_cause_id.code", invisible=True)
+    by_death = fields.Char(
+        string="By death",
+        help="Death certificate/Process/Beneficiary"
+    )
+
+    resignation_code = fields.Char(
+        related="resignation_cause_id.code",
+        invisible=True,
+    )
 
     @api.onchange("job_id")
     def set_job_in_employee(self):
@@ -95,10 +103,12 @@ class HrContract(models.Model):
         no employee. Caso tenha uma alteração contratual, popular o campo
         """
         for record in self:
-            if record.employee_id and not record.job_id == record.employee_id.job_id:
-                record.employee_id.with_context(alteracaocontratual=True).write(
-                    {"job_id": record.job_id.id}
-                )
+            if record.employee_id:
+                if not record.job_id == record.employee_id.job_id:
+                    record.employee_id.with_context(
+                        alteracaocontratual=True).write(
+                        {"job_id": record.job_id.id}
+                    )
 
     @api.model
     def create(self, vals):
