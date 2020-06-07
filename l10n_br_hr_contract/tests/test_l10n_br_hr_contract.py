@@ -13,10 +13,9 @@ class TestL10nBrContract(TransactionCase):
                 "wage": 2000,
                 "advantages": "Demo advantages",
                 "notes": "Demo notes",
-                "trial_date_start": "2016-01-01",
                 "trial_date_end": "2016-03-01",
                 "date_start": "2016-03-02",
-                "working_hours": self.env["resource.calendar"].search([])[0].id,
+                # "working_hours": self.env["resource.calendar"].search([])[0].id,
                 "admission_type_id": self.env["hr.contract.admission.type"]
                 .search([])[0]
                 .code,
@@ -27,7 +26,6 @@ class TestL10nBrContract(TransactionCase):
                 .search([])[0]
                 .code,
                 "salary_unit": self.env["hr.contract.salary.unit"].search([])[0].code,
-                "union": "Demo union",
                 "union_cnpj": "00.874.955/0001-78",
                 "union_entity_code": "DU",
                 "discount_union_contribution": True,
