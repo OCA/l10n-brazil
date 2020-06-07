@@ -124,7 +124,7 @@ class L10nBrZip(models.Model):
             raise UserError(_("Erro no PyCEP-Correios : ") + str(e))
 
         values = {}
-        if cep:
+        if cep and any(cep.values()):
             # Search Brazil id
             country = self.env["res.country"].search(
                 [("code", "=", "BR")], limit=1)
