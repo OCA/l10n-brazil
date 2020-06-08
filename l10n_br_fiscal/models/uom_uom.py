@@ -26,7 +26,7 @@ class Uom(models.Model):
         )
         domain = [
             ("id", "in", alternative.ids)
-            if x[0] == "code" and x[2] == code_value
+            if x[0] == "code" and x[2] == code_value and alternative.ids
             else x
             for x in domain
         ]
