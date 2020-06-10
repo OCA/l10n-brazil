@@ -105,12 +105,6 @@ msgid "ID"
 msgstr "EU IRIA"
 
 #. module: l10n_br_hr_contract
-#: code:addons/l10n_br_hr_contract/models/hr_contract.py:111
-#, python-format
-msgid "Invalid union CNPJ!"
-msgstr ""
-
-#. module: l10n_br_hr_contract
 #: model:ir.actions.act_window,name:l10n_br_hr_contract.action_hr_contract_labor_bond_type
 #: model:ir.ui.menu,name:l10n_br_hr_contract.menu_hr_contract_labor_bond_type
 msgid "Labor Bond Type"
@@ -303,7 +297,11 @@ msgstr "Tipo de regime trabalhista"
 
 #. module: l10n_br_hr_contract
 #: model:ir.model,name:l10n_br_hr_contract.model_hr_contract_salary_unit
-msgid "Unidade de pagamento da parte fixa da remuneração"
+#, fuzzy
+#| msgid "Unidade de pagamento da parte fixa da remuneração"
+msgid ""
+"Unidade de pagamento da parte fixa da remuneração e-Social - S-2200 "
+"undSalFixo"
 msgstr "Unidade de pagamento da parte fixa da remuneração"
 
 #. module: l10n_br_hr_contract
@@ -334,9 +332,17 @@ msgid "Welfare policy"
 msgstr "Regime previdenciário"
 
 #. module: l10n_br_hr_contract
-#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__labor_regime_id
 #: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__welfare_policy
-msgid "e-Social: S2300 - tpRegPrev"
+#, fuzzy
+#| msgid "e-Social: S2300 - tpRegPrev"
+msgid "e-Social: S2200/S2300 - tpRegPrev"
+msgstr "e-Social: S2300 - tpRegPrev"
+
+#. module: l10n_br_hr_contract
+#: model:ir.model.fields,help:l10n_br_hr_contract.field_hr_contract__labor_regime_id
+#, fuzzy
+#| msgid "e-Social: S2300 - tpRegPrev"
+msgid "e-Social: S2200/S2300 - tpRegTrab"
 msgstr "e-Social: S2300 - tpRegPrev"
 
 #~ msgid "Advantages..."
