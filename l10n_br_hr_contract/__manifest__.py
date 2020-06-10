@@ -11,8 +11,14 @@
     "depends": ["hr_contract", "l10n_br_hr"],
     "data": [
         "views/hr_contract_view.xml",
-        "data/l10n_br_hr_contract_data.xml",
-        "data/l10n_br_hr_contract_resignation_data.xml",
+
+        "data/hr_contract_admission_type_data.xml",
+        "data/hr_contract_labor_bond_type_data.xml",
+        "data/hr_contract_labor_regime_data.xml",
+        "data/hr_contract_notice_termination_data.xml",
+        "data/hr_contract_resignation_cause_data.xml",
+        "data/hr_contract_salary_unit_data.xml",
+
         "security/ir.model.access.csv",
     ],
     "test": [],

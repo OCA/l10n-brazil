@@ -1,46 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-        <!-- ADMISSION TYPE -->
-        <record id="admission_type_1" model="hr.contract.admission.type">
-            <field name="name">Admissão</field>
-            <field name="code">1</field>
-        </record>
-        <record id="admission_type_2" model="hr.contract.admission.type">
-            <field name="name">Transferência de empresa do mesmo grupo econômico</field>
-            <field name="code">2</field>
-        </record>
-        <record id="admission_type_3" model="hr.contract.admission.type">
-            <field name="name">Transferência de empresa consorciada ou de consórcio</field>
-            <field name="code">3</field>
-        </record>
-        <record id="admission_type_4" model="hr.contract.admission.type">
-            <field name="name">Transferência por motivo de sucessão, incorporação, cisão ou fusão</field>
-            <field name="code">4</field>
-        </record>
-
-        <!-- LABOR REGIME -->
-        <record id="labor_regime_clt" model="hr.contract.labor.regime">
-            <field name="name">Consolidação das Leis de Trabalho</field>
-            <field name="short_name">CLT</field>
-            <field name="code">1</field>
-        </record>
-        <record id="labor_regime_est" model="hr.contract.labor.regime">
-            <field name="name">Estatutário</field>
-            <field name="short_name">EST</field>
-            <field name="code">2</field>
-        </record>
-        <record id="labor_regime_rju" model="hr.contract.labor.regime">
-            <field name="name">Regime Jurídico Único</field>
-            <field name="short_name">RJU</field>
-            <field name="code">9</field>
-        </record>
-        <record id="labor_regime_rjp" model="hr.contract.labor.regime">
-            <field name="name">Regime Jurídico Próprio</field>
-            <field name="short_name">RJP</field>
-            <field name="code">9</field>
-        </record>
-
         <!-- LABOR BOND TYPE -->
         <record id="labor_bond_type_10" model="hr.contract.labor.bond.type">
             <field name="name">Trabalhador urbano vinculado a empregador pessoa jurídica por contrato de trabalho regido pela CLT, por prazo indeterminado</field>
@@ -117,51 +77,6 @@
         <record id="labor_bond_type_97" model="hr.contract.labor.bond.type">
             <field name="name">Contrato de Trabalho por Prazo Determinado, regido por Lei Municipal</field>
             <field name="code">97</field>
-        </record>
-
-        <!-- SALARY UNIT -->
-        <record id="salary_unit_5" model="hr.contract.salary.unit">
-            <field name="name">Hourly</field>
-            <field name="code">1</field>
-        </record>
-        <record id="salary_unit_4" model="hr.contract.salary.unit">
-            <field name="name">Daily</field>
-            <field name="code">2</field>
-        </record>
-        <record id="salary_unit_3" model="hr.contract.salary.unit">
-            <field name="name">Weekly</field>
-            <field name="code">3</field>
-        </record>
-        <record id="salary_unit_2" model="hr.contract.salary.unit">
-            <field name="name">Biweekly</field>
-            <field name="code">4</field>
-        </record>
-        <record id="salary_unit_1" model="hr.contract.salary.unit">
-            <field name="name">Monthly</field>
-            <field name="code">5</field>
-        </record>
-        <record id="salary_unit_6" model="hr.contract.salary.unit">
-            <field name="name">Task</field>
-            <field name="code">6</field>
-        </record>
-        <record id="salary_unit_7" model="hr.contract.salary.unit">
-            <field name="name">Não aplicável - salário exclusivamente variável</field>
-            <field name="code">7</field>
-        </record>
-
-        <!-- NOTICE OF TERMINATION TYPE -->
-
-        <record id="notice_of_termination_1" model="hr.contract.notice.termination">
-            <field name="name">Trabalhado</field>
-        </record>
-        <record id="notice_of_termination_2" model="hr.contract.notice.termination">
-            <field name="name">Indenizado</field>
-        </record>
-        <record id="notice_of_termination_3" model="hr.contract.notice.termination">
-            <field name="name">Com justa causa</field>
-        </record>
-        <record id="notice_of_termination_4" model="hr.contract.notice.termination">
-            <field name="name">Sem justa causa</field>
         </record>
 
 </odoo>
