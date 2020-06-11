@@ -39,6 +39,13 @@ repositório OCA/currency e adiciona o provedor BCB:
 .. contents::
    :local:
 
+Installation
+============
+
+To install this module, you need to:
+
+* do this ...
+
 Configuration
 =============
 

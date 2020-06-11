@@ -53,7 +53,8 @@ Authors
 Contributors
 ~~~~~~~~~~~~
 
-* Hendrix Costa
+Hendrix Costa <hendrix.costa@kmee.com.br>
+
 
 Maintainers
 ~~~~~~~~~~~
