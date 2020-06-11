@@ -106,8 +106,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
                         toolbar=False, submenu=False):
-        model_view = super(FiscalDocumentLineMixinMethods,
-            self).fields_view_get(view_id, view_type, toolbar, submenu)
+        model_view = super().fields_view_get(
+            view_id, view_type, toolbar, submenu)
 
         if view_type == 'form':
             model_view["arch"] = self.fiscal_form_view(model_view["arch"])
