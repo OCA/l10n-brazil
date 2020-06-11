@@ -38,12 +38,13 @@ class DocumentType(models.Model):
 
     def _get_default_document_serie(self, company):
         """Overwrite this method in a custom fiscal document
-        like l10n_br_nfe, l10n_br_nfse and etc, to return a
-        especific fiscal document serie"""
+        modules like l10n_br_nfe, l10n_br_nfse and etc, to
+        return a especific fiscal document serie"""
         document_serie = self.env['l10n_br_fiscal.document.serie']
         return document_serie.search([
             ('active', '=', True),
-            ('company_id', '=', company.id)])
+            ('company_id', '=', company.id),
+            ('document_type_id', '=', self.id)], limit=1)
 
     @api.multi
     def get_document_serie(self, company, fiscal_operation):
@@ -52,7 +53,7 @@ class DocumentType(models.Model):
         if fiscal_operation:
             # Get document serie from fiscal operation
             serie = fiscal_operation.get_document_serie(
-                company, fiscal_operation)
+                company, self)
 
         if not serie:
             # Get try defini default serie
