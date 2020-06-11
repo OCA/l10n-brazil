@@ -3,7 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from ast import literal_eval
-from erpbrasil.base import misc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -625,6 +624,12 @@ class Document(models.Model):
                     "There is already a fiscal document with this "
                     "Serie: {0}, Number: {1} !".format(
                         record.document_serie, record.number)))
+
+    @api.model
+    def create(self, values):
+        if not values.get('date'):
+            values['date'] = self._date_server_format()
+        return super().create(values)
 
     def _create_return(self):
         return_ids = self.env[self._name]
