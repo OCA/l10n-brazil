@@ -1,6 +1,8 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from erpbrasil.base import misc
+
 from odoo import models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import MODELO_FISCAL_NFE
@@ -19,7 +21,7 @@ class NFe(models.Model):
         for nfe in self:
             if (nfe.issuer == 'company' and nfe.document_electronic
                     and not nfe.key
-                    and nfe.document_type_id.code == MODELO_FISCAL_NFE:
+                    and nfe.document_type_id.code == MODELO_FISCAL_NFE):
                 nfe._generate_key()
 
     # TODO - este método deveria estar no l10n_br_nfe e o calculo da chave
