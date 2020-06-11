@@ -14,7 +14,8 @@ from ..constants.fiscal import (
     TAX_FRAMEWORK,
     TAX_FRAMEWORK_NORMAL,
     OPERATION_FISCAL_TYPE,
-    CFOP_DESTINATION_EXPORT
+    CFOP_DESTINATION_EXPORT,
+    FISCAL_COMMENT_LINE,
 )
 from ..constants.icms import ICMS_ORIGIN
 
@@ -120,6 +121,7 @@ class OperationLine(models.Model):
         relation='l10n_br_fiscal_operation_line_comment_rel',
         column1='fiscal_operation_line_id',
         column2='comment_id',
+        domain=[('object', '=', FISCAL_COMMENT_LINE)],
         string='Comment')
 
     state = fields.Selection(
