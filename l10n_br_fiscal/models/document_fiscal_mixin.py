@@ -8,7 +8,7 @@ from ..constants.fiscal import (
     FISCAL_IN_OUT,
     NFE_IND_PRES,
     NFE_IND_PRES_DEFAULT,
-    FISCAL_COMMENT_DOCUMENT
+    FISCAL_COMMENT_DOCUMENT,
 )
 
 
@@ -53,7 +53,7 @@ class FiscalDocumentMixin(models.AbstractModel):
         column1='document_mixin_id',
         column2='comment_id',
         string='Comments',
-        domain=FISCAL_COMMENT_DOCUMENT,
+        domain=[('object', '=', FISCAL_COMMENT_DOCUMENT)],
     )
 
     @api.model
