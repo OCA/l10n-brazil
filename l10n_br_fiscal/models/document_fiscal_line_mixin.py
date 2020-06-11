@@ -857,5 +857,5 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         column1='document_line_mixin_id',
         column2='comment_id',
         string='Comments',
-        domain=FISCAL_COMMENT_LINE,
+        domain=[('object', '=', FISCAL_COMMENT_LINE)],
     )
