@@ -9,7 +9,9 @@ from ..constants.fiscal import (
     OPERATION_FISCAL_TYPE_DEFAULT,
     FISCAL_IN_OUT_ALL,
     OPERATION_STATE_DEFAULT,
-    OPERATION_STATE)
+    OPERATION_STATE,
+    FISCAL_COMMENT_DOCUMENT,
+)
 
 
 class Operation(models.Model):
@@ -105,6 +107,7 @@ class Operation(models.Model):
         relation='l10n_br_fiscal_operation_comment_rel',
         column1='fiscal_operation_id',
         column2='comment_id',
+        domain=[('object', '=', FISCAL_COMMENT_DOCUMENT)],
         string='Comment')
 
     operation_subsequent_ids = fields.One2many(
