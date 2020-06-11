@@ -1514,7 +1514,7 @@ msgid "Cancelar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:882
+#: code:addons/l10n_br_fiscal/models/document.py:874
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -1684,7 +1684,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.comment_action
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_comment
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_comment__comment
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__comment_ids
@@ -1703,6 +1702,8 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__comment_ids
 msgid "Comments"
 msgstr ""
 
@@ -1882,7 +1883,7 @@ msgid "Correction Reason"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:42
+#: code:addons/l10n_br_fiscal/models/operation.py:44
 #: selection:l10n_br_fiscal.operation,default_price_unit:0
 #, python-format
 msgid "Cost Price"
@@ -2783,6 +2784,11 @@ msgid "Fiscal Closing Period"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_comment
+msgid "Fiscal Comment"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_data_abstract
 msgid "Fiscal Data Abstract"
 msgstr ""
@@ -2816,6 +2822,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_invalidate_number_tree
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 #: selection:l10n_br_fiscal.comment,object:0
+#: selection:l10n_br_fiscal.comment,object_id:0
 msgid "Fiscal Document"
 msgstr ""
 
@@ -2859,6 +2866,7 @@ msgstr ""
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_line_form
 #: selection:l10n_br_fiscal.comment,object:0
+#: selection:l10n_br_fiscal.comment,object_id:0
 msgid "Fiscal Document Line"
 msgstr ""
 
@@ -2941,7 +2949,7 @@ msgid "Fiscal Operation Line"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:143
+#: code:addons/l10n_br_fiscal/models/operation_line.py:145
 #: sql_constraint:l10n_br_fiscal.operation.line:0
 #, python-format
 msgid "Fiscal Operation Line already exists with this name !"
@@ -2954,7 +2962,7 @@ msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:118
+#: code:addons/l10n_br_fiscal/models/operation.py:121
 #: sql_constraint:l10n_br_fiscal.operation:0
 #, python-format
 msgid "Fiscal Operation already exists with this code !"
@@ -6820,7 +6828,7 @@ msgid "Sale Own Use"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:41
+#: code:addons/l10n_br_fiscal/models/operation.py:43
 #: selection:l10n_br_fiscal.operation,default_price_unit:0
 #, python-format
 msgid "Sale Price"
@@ -7633,7 +7641,7 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:663
+#: code:addons/l10n_br_fiscal/models/document.py:655
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
@@ -7924,7 +7932,7 @@ msgid "Volume"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:248
+#: code:addons/l10n_br_fiscal/models/operation_line.py:250
 #, python-format
 msgid "Warning!"
 msgstr ""
@@ -8013,13 +8021,13 @@ msgid "You can note repeat the alternative name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:240
+#: code:addons/l10n_br_fiscal/models/operation_line.py:242
 #, python-format
 msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:140
+#: code:addons/l10n_br_fiscal/models/operation.py:143
 #, python-format
 msgid "You cannot delete an Operation which is not draft !"
 msgstr ""
@@ -8031,13 +8039,13 @@ msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:249
+#: code:addons/l10n_br_fiscal/models/operation_line.py:251
 #, python-format
 msgid "You must first select a operation type."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:152
+#: code:addons/l10n_br_fiscal/models/operation_line.py:154
 #, python-format
 msgid "You need set a default fiscal document in your company !"
 msgstr ""
