@@ -1,61 +1,82 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+
 import copy
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, tools
-from dateutil.relativedelta import relativedelta
 from odoo.osv import expression
-from datetime import datetime
 
-from ..constants.fiscal import COMMENT_TYPE,\
-    COMMENT_TYPE_DEFAULT, FISCAL_COMMENT_OBJECTS
+from ..constants.fiscal import (
+    COMMENT_TYPE,
+    COMMENT_TYPE_DEFAULT,
+    FISCAL_COMMENT_OBJECTS,
+)
 
 
 class Comment(models.Model):
-    _name = "l10n_br_fiscal.comment"
-    _description = "Comment"
-    _order = "sequence"
-    _rec_name = "comment"
+    _name = 'l10n_br_fiscal.comment'
+    _description = 'Fiscal Comment'
+    _order = 'sequence'
+    _rec_name = 'comment'
 
-    sequence = fields.Integer(string="Sequence", default=10)
+    sequence = fields.Integer(
+        string='Sequence',
+        default=10,
+    )
 
     name = fields.Char(
-        string="Name",
-        required=True)
+        string='Name',
+        required=True,
+    )
 
     comment = fields.Text(
-        string="Comment",
-        required=True)
+        string='Comment',
+        required=True,
+    )
 
-    test_comment = fields.Text(string="Test Comment")
+    test_comment = fields.Text(
+        string='Test Comment',
+    )
 
     comment_type = fields.Selection(
         selection=COMMENT_TYPE,
-        string="Comment Type",
+        string='Comment Type',
         default=COMMENT_TYPE_DEFAULT,
-        required=True)
+        required=True,
+    )
 
     object = fields.Selection(
         selection=FISCAL_COMMENT_OBJECTS,
-        string="Object",
-        required=True)
+        string='Object',
+        required=True,
+    )
 
     date_begin = fields.Date(
-        string="Initial Date")
+        string='Initial Date',
+    )
 
     date_end = fields.Date(
-        string="Final Date")
+        string='Final Date',
+    )
+
+    object_id = fields.Reference(
+        string='Reference',
+        selection=FISCAL_COMMENT_OBJECTS,
+        ondelete='set null',
+    )
 
     @api.model
-    def _name_search(self, name, args=None, operator="ilike",
+    def _name_search(self, name, args=None, operator='ilike',
                      limit=100, name_get_uid=None):
         args = args or []
         domain = []
         if name:
             domain = [
-                "|",
-                ("name", operator, name),
-                ("comment", "ilike", "%" + name + "%"),
+                '|',
+                ('name', operator, name),
+                ('comment', 'ilike', '%' + name + '%'),
             ]
         recs = self._search(expression.AND([domain, args]),
                             limit=limit,
@@ -72,20 +93,9 @@ class Comment(models.Model):
 
         return [(r.id, "{}".format(truncate_name(r.name))) for r in self]
 
-    @api.multi
-    def object_selection_values(self):
-        return [('l10n_br_fiscal.document', "Fiscal Document"),
-                ('l10n_br_fiscal.document.line', "Fiscal Document Line")]
-
-    object_id = fields.Reference(
-        string='Reference',
-        selection=lambda self: self.object_selection_values(),
-        ondelete="set null"
-    )
-
     # format_amount function for fiscal observation
-    # This way we can format numbers in currency template on fiscal observation msg
-    # We'll call this function when setting the variables env below
+    # This way we can format numbers in currency template on fiscal observation
+    # msg We'll call this function when setting the variables env below
     def format_amount(self, env, amount, currency):
         fmt = "%.{0}f".format(currency.decimal_places)
         lang = env['res.lang']._lang_get('pt_BR')
