@@ -7,7 +7,8 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from ..constants.fiscal import (
     FISCAL_IN_OUT,
     NFE_IND_PRES,
-    NFE_IND_PRES_DEFAULT
+    NFE_IND_PRES_DEFAULT,
+    FISCAL_COMMENT_DOCUMENT,
 )
 
 
@@ -45,6 +46,15 @@ class FiscalDocumentMixin(models.AbstractModel):
         selection=NFE_IND_PRES,
         string='Buyer Presence',
         default=NFE_IND_PRES_DEFAULT)
+
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='l10n_br_fiscal_document_mixin_comment_rel',
+        column1='document_mixin_id',
+        column2='comment_id',
+        string='Comments',
+        domain=[('object', '=', FISCAL_COMMENT_DOCUMENT)],
+    )
 
     @api.model
     def fields_view_get(

@@ -31,6 +31,7 @@ from ..constants.fiscal import (
     TAX_DOMAIN_PIS_WH,
     TAX_DOMAIN_PIS_ST,
     TAX_FRAMEWORK_SIMPLES_ALL,
+    FISCAL_COMMENT_LINE
 )
 
 from ..constants.icms import (
@@ -849,3 +850,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     inss_wh_value = fields.Monetary(
         string="INSS RET Value",
         default=0.00)
+
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='l10n_br_fiscal_document_line_mixin_comment_rel',
+        column1='document_line_mixin_id',
+        column2='comment_id',
+        string='Comments',
+        domain=[('object', '=', FISCAL_COMMENT_LINE)],
+    )
