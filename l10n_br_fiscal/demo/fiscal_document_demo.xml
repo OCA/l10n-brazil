@@ -116,7 +116,8 @@
         <field name="document_serie">13</field>
         <field name="document_section">nfe</field>
         <field name="user_id" ref="base.user_demo"/>
-        <field name="key">1</field>
+        <field name="key">26180812984794000154550010000016871192213339</field>
+        <field name="number">19221333</field>
         <field name="partner_id" ref="base.res_partner_2"/>
         <field name="operation_type">out</field>
     </record>
