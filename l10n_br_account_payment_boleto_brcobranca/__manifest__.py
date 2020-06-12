@@ -15,6 +15,7 @@
         'l10n_br_account_payment_cobranca',
     ],
     'data': [
+        'views/account_invoice_view.xml',
     ],
     'demo': [
     ],

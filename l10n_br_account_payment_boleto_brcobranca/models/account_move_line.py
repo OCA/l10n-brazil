@@ -60,18 +60,18 @@ class AccountMoveLine(models.Model):
     @api.multi
     def send_payment(self):
 
-        super(AccountMoveLine, self).send_payment()
+        # super(AccountMoveLine, self).send_payment()
         wrapped_boleto_list = []
 
         for move_line in self:
-            if move_line.payment_mode_id.bank_id.bank.bic in \
+            if move_line.payment_mode_id.bank_account_id.bank_id.code_bc in \
                     dict_brcobranca_bank:
                 bank_name_brcobranca = dict_brcobranca_bank[
-                               move_line.payment_mode_id.bank_id.bank.bic],
+                               move_line.payment_mode_id.bank_account_id.bank_id.code_bc],
             else:
                 raise UserError(
                     _('The Bank %s is not implemented in BRCobranca.') %
-                    move_line.payment_mode_id.bank_id.bank.name)
+                    move_line.payment_mode_id.bank_account_id.bank_id.name)
 
             precision = self.env['decimal.precision']
             precision_account = precision.precision_get('Account')
@@ -138,53 +138,51 @@ class AccountMoveLine(models.Model):
                   'cedente': move_line.company_id.partner_id.legal_name,
                   'cedente_endereco':
                       move_line.company_id.partner_id.street + ', ' +
-                      move_line.company_id.partner_id.number + ' - ' +
+                      move_line.company_id.partner_id.street_number + ' - ' +
                       move_line.company_id.partner_id.district + ' - ' +
-                      move_line.company_id.partner_id.l10n_br_city_id.name
+                      move_line.company_id.partner_id.city_id.name
                       + ' - ' + 'CEP:' + move_line.company_id.partner_id.zip
                       + ' - ' + move_line.company_id.partner_id.state_id.code,
                   'documento_cedente': move_line.company_id.cnpj_cpf,
                   'sacado': move_line.partner_id.legal_name,
                   'sacado_documento': move_line.partner_id.cnpj_cpf,
-                  'agencia': move_line.payment_mode_id.bank_id.bra_number,
+                  'agencia':
+                      move_line.payment_mode_id.bank_account_id.bra_number,
                   'conta_corrente':
-                      move_line.payment_mode_id.bank_id.acc_number,
+                      move_line.payment_mode_id.bank_account_id.acc_number,
                   'convenio': move_line.payment_mode_id.boleto_convenio,
                   'carteira': str(move_line.payment_mode_id.boleto_carteira),
                   'nosso_numero': int(''.join(
-                      i for i in move_line.boleto_own_number if i.isdigit())),
-                  'documento_numero': str(move_line.name).encode('utf-8'),
-                  'data_vencimento': datetime.strptime(
-                      move_line.date_maturity,
-                      '%Y-%m-%d').strftime('%Y/%m/%d'),
-                  'data_documento': datetime.strptime(
-                      move_line.invoice.date_invoice, '%Y-%m-%d').strftime(
-                      '%Y/%m/%d'),
+                      i for i in move_line.nosso_numero if i.isdigit())),
+                  'documento_numero': move_line.name,
+                  'data_vencimento':
+                      move_line.date_maturity.strftime('%Y/%m/%d'),
+                  'data_documento':
+                      move_line.invoice_id.date_invoice.strftime('%Y/%m/%d'),
                   'especie': move_line.payment_mode_id.boleto_especie,
                   'moeda': dict_brcobranca_currency['R$'],
                   'aceite': move_line.payment_mode_id.boleto_aceite,
                   'sacado_endereco':
                       move_line.partner_id.street + ', ' +
-                      move_line.partner_id.number + ' ' +
-                      move_line.partner_id.l10n_br_city_id.name + ' - ' +
+                      move_line.partner_id.street_number + ' ' +
+                      move_line.partner_id.city_id.name + ' - ' +
                       move_line.partner_id.state_id.name,
-                  'data_processamento': datetime.strptime(
-                      move_line.invoice.date_invoice, '%Y-%m-%d').strftime(
-                      '%Y/%m/%d'),
+                  'data_processamento':
+                      move_line.invoice_id.date_invoice.strftime('%Y/%m/%d'),
                   'instrucao1': move_line.payment_mode_id.instrucoes or '',
                   'instrucao3': instrucao_juros,
                   'instrucao4': instrucao_multa,
                   'instrucao5': instrucao_desconto_vencimento,
             }
 
-            if move_line.payment_mode_id.bank_id.bank.bic in ('021', '004'):
+            if move_line.payment_mode_id.bank_account_id.bank_id.bic in ('021', '004'):
                 boleto_cnab_api_data.update({
                     'digito_conta_corrente':
                         move_line.payment_mode_id.bank_id.acc_number_dig
                 })
 
             # TODO - Create or use a field to have byte_idt information
-            if move_line.payment_mode_id.bank_id.bank.bic == '748':
+            if move_line.payment_mode_id.bank_account_id.bank_id.bic == '748':
                 boleto_cnab_api_data.update({
                     'byte_idt': '2',
                 })
