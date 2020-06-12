@@ -7,15 +7,14 @@
     'name': 'L10n Br Account Payment Boleto Brcobranca',
     'description': """
         Imprime boletos usando a Gem brcobranca do Boletosimples""",
-    'version': '10.0.1.0.0',
+    'version': '12.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'Akretion',
     'website': 'www.akretion.com',
     'depends': [
-        'l10n_br_account_payment_boleto',
+        'l10n_br_account_payment_cobranca',
     ],
     'data': [
-        'reports/report_print_button_view.xml',
     ],
     'demo': [
     ],
