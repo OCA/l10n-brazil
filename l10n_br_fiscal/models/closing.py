@@ -264,6 +264,8 @@ class FiscalClosing(models.Model):
 
     def _save_temp_file(self, document_path, anexo, temp_dir):
         document_path = document_path + '/' + anexo.datas_fname
+        if document_path[0] == '/':
+            document_path = document_path[1:]
         filename = os.path.join(temp_dir.name, document_path)
 
         if not os.path.exists(os.path.dirname(filename)):
