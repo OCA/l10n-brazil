@@ -2,7 +2,7 @@
 #   @author Fernando Marcato <fernando.marcato@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import ValidationError
 
@@ -143,6 +143,27 @@ class PaymentMode(models.Model):
              ' empresa ',
     )
 
+    boleto_perc_mora = fields.Float(
+        string='Percentual de Juros de Mora',
+        digits=dp.get_precision('Account')
+    )
+    instrucao_boleto_perc_mora = fields.Text(
+        'Instrução Juros Mora',
+        help='Juros de mora - é o percentual ao'
+             ' mês sobre o valor principal.',
+        default='Após vencimento cobrar juros de mora de'
+    )
+    boleto_perc_multa = fields.Float(
+        string='Percentual de Multa',
+        digits=dp.get_precision('Account')
+    )
+    instrucao_boleto_perc_multa = fields.Text(
+        'Instrução Multa por Atraso',
+        help=' Multa por atraso - é o valor percentual acrescido uma única'
+             ' vez sobre o valor do principal. ',
+        default='Após vencimento cobrar multa de'
+    )
+
     @api.onchange("product_tax_id")
     def _onchange_product_tax_id(self):
         if not self.product_tax_id:
@@ -169,3 +190,10 @@ class PaymentMode(models.Model):
     def get_own_number_sequence(self):
         self.ensure_one()
         return self.own_number_sequence.next_by_id()
+
+    @api.constrains('boleto_perc_mora')
+    def _check_boleto_perc_mora(self):
+        for record in self:
+            if record.boleto_perc_mora > 2 or record.boleto_perc_mora < 0:
+                raise ValidationError(
+                    _('O percentual de Mora deve ser um valor entre 0 a 2.'))
