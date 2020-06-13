@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2019-09-03 15:23+0000\n"
-"Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
+"PO-Revision-Date: 2020-06-13 17:19+0000\n"
+"Last-Translator: Maurício Liell <mauricio@liell.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.8\n"
+"X-Generator: Weblate 3.10\n"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city__anp_code
@@ -7610,13 +7610,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__disable_cpf_cnpj_validation
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
 msgid "Disable CPF and CNPJ validation"
-msgstr ""
+msgstr "Desabilitar validação de CPF e CNPJ"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__disable_ie_validation
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
 msgid "Disable IE validation"
-msgstr ""
+msgstr "Desabilitar validação de IE (Inscrição Estadual)"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__display_name
@@ -22440,12 +22440,12 @@ msgstr ""
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
 msgid "Select to disable CPF and CNPJ validation"
-msgstr ""
+msgstr "Selecione para desabilitar a validação de CPF e CNPJ"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
 msgid "Select to disable IE validation"
-msgstr ""
+msgstr "Selecione para desabilitar a validação de IE (Inscrição Estadual)"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5007802
