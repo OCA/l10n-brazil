@@ -33,6 +33,7 @@ from ..constants.pis_cofins import (
 )
 
 TAX_DICT_VALUES = {
+    "name": False,
     "fiscal_tax_id": False,
     "tax_include": False,
     "tax_withholding": False,
@@ -192,6 +193,7 @@ class Tax(models.Model):
         remove_from_base = kwargs.get("remove_from_base", 0.00)
         compute_reduction = kwargs.get("compute_reduction", True)
 
+        tax_dict["name"] = tax.name
         tax_dict["base_type"] = tax.tax_base_type
         tax_dict["tax_include"] = tax.tax_group_id.tax_include
         tax_dict["tax_withholding"] = tax.tax_group_id.tax_withholding
