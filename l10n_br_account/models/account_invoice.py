@@ -60,7 +60,7 @@ class AccountInvoice(models.Model):
         comodel_name="l10n_br_fiscal.document",
         string="Fiscal Document",
         required=True,
-        ondelete="restrict",  # or cascade?
+        ondelete="cascade",
         default=lambda self: self.env.ref(
             "l10n_br_fiscal.fiscal_document_dummy"),
     )
