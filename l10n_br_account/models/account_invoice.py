@@ -74,20 +74,6 @@ class AccountInvoice(models.Model):
             "l10n_br_fiscal.fiscal_document_dummy"),
     )
 
-    financial_ids = fields.One2many(
-        comodel_name='l10n_br_fiscal.payment.line',
-        inverse_name=_payment_inverse_name,
-        string='Duplicatas',
-        copy=True,
-    )
-
-    fiscal_payment_ids = fields.One2many(
-        comodel_name='l10n_br_fiscal.payment',
-        inverse_name=_payment_inverse_name,
-        string='Pagamentos',
-        copy=True,
-    )
-
     @api.model
     def _shadowed_fields(self):
         """Returns the list of shadowed fields that are synced
@@ -120,6 +106,51 @@ class AccountInvoice(models.Model):
                 shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return result
+
+    @api.multi
+    def get_taxes_values(self):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        if self.fiscal_document_id == dummy_doc:
+            return super().get_taxes_values()
+
+        tax_grouped = {}
+        round_curr = self.currency_id.round
+        for line in self.invoice_line_ids:
+            if not line.account_id or line.display_type:
+                continue
+
+            taxes = line.invoice_line_tax_ids.compute_all(
+                price_unit=line.price_unit,
+                currency=line.invoice_id.currency_id,
+                quantity=line.quantity,
+                product=line.product_id,
+                partner=line.invoice_id.partner_id,
+                fiscal_taxes=line.fiscal_tax_ids,
+                operation_line=line.fiscal_operation_line_id,
+                ncm=line.ncm_id,
+                nbm=line.nbm_id,
+                cest=line.cest_id,
+                discount_value=line.discount_value,
+                insurance_value=line.insurance_value,
+                other_costs_value=line.other_costs_value,
+                freight_value=line.freight_value,
+                fiscal_price=line.fiscal_price,
+                fiscal_quantity=line.fiscal_quantity,
+                uot=line.uot_id,
+                icmssn_range=line.icmssn_range_id)['taxes']
+
+            for tax in taxes:
+                val = self._prepare_tax_line_vals(line, tax)
+                key = self.env['account.tax'].browse(
+                    tax['id']).get_grouping_key(val)
+
+                if key not in tax_grouped:
+                    tax_grouped[key] = val
+                    tax_grouped[key]['base'] = round_curr(val['base'])
+                else:
+                    tax_grouped[key]['amount'] += val['amount']
+                    tax_grouped[key]['base'] += round_curr(val['base'])
+        return tax_grouped
 
     def action_invoice_open(self):
         for record in self:
