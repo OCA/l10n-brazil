@@ -6,9 +6,11 @@ from odoo import fields, models
 
 
 class AccountJournal(models.Model):
-    _inherit = "account.journal"
+    _inherit = 'account.journal'
 
-    revenue_expense = fields.Boolean(string=u"Gera Financeiro")
+    revenue_expense = fields.Boolean(
+        string='Gera Financeiro',
+    )
     auto_generate_moves = fields.Boolean(
         string='Generate Moves Automatically',
         groups='l10n_br_account.group_roteiros_contabeis',
