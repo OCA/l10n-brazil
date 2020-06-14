@@ -12,4 +12,5 @@ class L10nBrAccountTaxTemplate(models.Model):
         relation='l10n_br_fiscal_l10n_br_account_template_tax_rel',
         colunm1='l10n_br_account_tax_id',
         colunm2='fiscal_tax_id',
-        string='Fiscal Taxes')
+        string='Fiscal Taxes',
+    )
