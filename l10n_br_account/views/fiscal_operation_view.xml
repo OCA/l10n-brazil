@@ -32,8 +32,8 @@
                 <page name="account" string="Account">
                     <group name="account_main">
                         <group>
-                            <field name="journal_id"/>
-                            <field name="fiscal_position_id"/>
+                            <field name="journal_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="fiscal_position_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                         </group>
                     </group>
                 </page>
