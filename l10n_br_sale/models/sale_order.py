@@ -12,116 +12,6 @@ class SaleOrder(models.Model):
     _name = 'sale.order'
     _inherit = [_name, 'l10n_br_fiscal.document.mixin']
 
-    @api.model
-    def _default_fiscal_operation(self):
-        return self.env.user.company_id.sale_fiscal_operation_id
-
-    @api.model
-    def _default_copy_note(self):
-        return self.env.user.company_id.copy_note
-
-    @api.model
-    def _fiscal_operation_domain(self):
-        domain = [('state', '=', 'approved')]
-        return domain
-
-    fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        default=_default_fiscal_operation,
-        domain=lambda self: self._fiscal_operation_domain(),
-    )
-
-    ind_pres = fields.Selection(
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-    )
-
-    copy_note = fields.Boolean(
-        string='Copiar Observação no documentos fiscal',
-        default=_default_copy_note,
-    )
-
-    cnpj_cpf = fields.Char(
-        string='CNPJ/CPF',
-        related='partner_id.cnpj_cpf',
-    )
-
-    legal_name = fields.Char(
-        string='Legal Name',
-        related='partner_id.legal_name',
-    )
-
-    ie = fields.Char(
-        string='State Tax Number/RG',
-        related='partner_id.inscr_est',
-    )
-
-    discount_rate = fields.Float(
-        string='Discount',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-    )
-
-    amount_gross = fields.Monetary(
-        compute='_amount_all',
-        string='Amount Gross',
-        store=True,
-        readonly=True,
-        help="Amount without discount.",
-    )
-
-    amount_discount = fields.Monetary(
-        compute='_amount_all',
-        store=True,
-        string='Discount (-)',
-        readonly=True,
-        help="The discount amount.",
-    )
-
-    amount_freight = fields.Float(
-        compute='_amount_all',
-        store=True,
-        string='Freight',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-        states={'draft': [('readonly', False)]},
-    )
-
-    amount_insurance = fields.Float(
-        compute='_amount_all',
-        store=True,
-        string='Insurance',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-    )
-
-    amount_costs = fields.Float(
-        compute='_amount_all',
-        store=True,
-        string='Other Costs',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-    )
-
-    fiscal_document_count = fields.Integer(
-        string='Fiscal Document Count',
-        related='invoice_count',
-        readonly=True,
-    )
-
-    comment_ids = fields.Many2many(
-        comodel_name='l10n_br_fiscal.comment',
-        relation='sale_order_comment_rel',
-        column1='sale_id',
-        column2='comment_id',
-        string='Comments',
-    )
-
     @api.depends('order_line.price_total')
     def _amount_all(self):
         """Compute the total amounts of the SO."""
@@ -149,6 +39,102 @@ class SaleOrder(models.Model):
 
             order.amount_insurance = sum(
                 line.insurance_value for line in order.order_line)
+
+    @api.model
+    def _default_fiscal_operation(self):
+        return self.env.user.company_id.sale_fiscal_operation_id
+
+    @api.model
+    def _fiscal_operation_domain(self):
+        domain = [('state', '=', 'approved')]
+        return domain
+
+    @api.model
+    def _default_copy_note(self):
+        return self.env.user.company_id.copy_note
+
+    fiscal_operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_operation,
+        domain=lambda self: self._fiscal_operation_domain())
+
+    ind_pres = fields.Selection(
+        readonly=True,
+        states={'draft': [('readonly', False)]})
+
+    copy_note = fields.Boolean(
+        string='Copiar Observação no documentos fiscal',
+        default=_default_copy_note)
+
+    cnpj_cpf = fields.Char(
+        string='CNPJ/CPF',
+        related='partner_id.cnpj_cpf')
+
+    legal_name = fields.Char(
+        string='Legal Name',
+        related='partner_id.legal_name')
+
+    ie = fields.Char(
+        string='State Tax Number/RG',
+        related='partner_id.inscr_est')
+
+    discount_rate = fields.Float(
+        string='Discount',
+        readonly=True,
+        states={'draft': [('readonly', False)]})
+
+    amount_gross = fields.Monetary(
+        compute='_amount_all',
+        string="Amount Gross",
+        store=True,
+        readonly=True,
+        help="Amount without discount.")
+
+    amount_discount = fields.Monetary(
+        compute='_amount_all',
+        store=True,
+        string='Discount (-)',
+        readonly=True,
+        help="The discount amount.")
+
+    amount_freight = fields.Float(
+        compute='_amount_all',
+        store=True,
+        string='Freight',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision("Account"),
+        states={"draft": [("readonly", False)]})
+
+    amount_insurance = fields.Float(
+        compute='_amount_all',
+        store=True,
+        string='Insurance',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'))
+
+    amount_costs = fields.Float(
+        compute='_amount_all',
+        store=True,
+        string="Other Costs",
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'))
+
+    fiscal_document_count = fields.Integer(
+        related='invoice_count',
+        readonly=True)
+
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='sale_order_comment_rel',
+        column1='sale_id',
+        column2='comment_id',
+        string='Comments',
+    )
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
@@ -184,25 +170,30 @@ class SaleOrder(models.Model):
         for order in self:
             for line in order.order_line:
                 line.discount = order.discount_rate
-                line._onchange_discount_percent()
+                line._onchange_discount()
 
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
-        super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
+
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        if self.fiscal_operation_id:
+            self.operation_name = self.fiscal_operation_id.name
+
+        for comment_id in self.fiscal_operation_id.comment_ids:
+            self.comment_ids += comment_id
 
     @api.multi
     def action_view_document(self):
         invoices = self.mapped('invoice_ids')
         action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
         if len(invoices) > 1:
-            action['domain'] = [
-                ('id', 'in', invoices.mapped('fiscal_document_id').ids),
-            ]
+            action['domain'] = \
+                [('id', 'in', invoices.mapped('fiscal_document_id').ids)]
         elif len(invoices) == 1:
-            form_view = [
-                (self.env.ref('l10n_br_fiscal.document_form').id, 'form'),
-            ]
+            form_view = \
+                [(self.env.ref('l10n_br_fiscal.document_form').id, 'form')]
             if 'views' in action:
                 action['views'] = form_view + [(state, view) for state, view
                                                in action['views'] if
@@ -217,26 +208,24 @@ class SaleOrder(models.Model):
     @api.multi
     def _prepare_invoice(self):
         self.ensure_one()
-        result = super()._prepare_invoice()
+        result = super(SaleOrder, self)._prepare_invoice()
+
+        comment = []
+        if self.note and self.copy_note:
+            comment.append(self.note)
+
+        result['comment'] = " - ".join(comment)
+
         result.update(self._prepare_br_fiscal_dict())
 
-        document_type_id = self._context.get('document_type_id')
-
-        if document_type_id:
-            document_type = self.env['l10n_br_fiscal.document.type'].browse(
-                document_type_id)
-        else:
-            document_type = self.company_id.document_type_id
-            document_type_id = self.company_id.document_type_id.id
-
-        if document_type:
-            result['document_type_id'] = document_type_id
-            document_serie = document_type.get_document_serie(
-                self.company_id, self.fiscal_operation_id)
-            if document_serie:
-                result['document_serie_id'] = document_serie.id
-
         if self.fiscal_operation_id:
+            # TODO Defini document_type_id in other method in line
+            if self._context.get('document_type_id'):
+                result['document_type_id'] = \
+                    self._context.get('document_type_id')
+            # TODO
+            result['document_serie_id'] = 1
+
             if self.fiscal_operation_id.journal_id:
                 result['journal_id'] = self.fiscal_operation_id.journal_id.id
 
@@ -250,6 +239,7 @@ class SaleOrder(models.Model):
         # In brazilian localization we need to overwrite this method
         # because when there are a sale order line with different Document
         # Fiscal Type the method should be create invoices separated.
+
         document_type_list = []
 
         for invoice_id in inv_ids:
