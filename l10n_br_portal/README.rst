@@ -25,9 +25,7 @@ L10n Br Portal
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-[ This file must be max 2-3 paragraphs, and is required. ]
-
-Campos Brasileiros no Portal
+Localização do módulo portal
 
 **Table of contents**
 
@@ -37,22 +35,15 @@ Campos Brasileiros no Portal
 Installation
 ============
 
-[ This file must only be present if there are very specific
-  installation instructions, such as installing non-python
-  dependencies. The audience is systems administrators. ]
-
 To install this module, you need to do nothing
+
+Configuration
+=============
+
+To configure this module, you need to do nothing
 
 Usage
 =====
-
-[ This file must be present and contains the usage instructions
-  for end-users. As all other rst files included in the README,
-  it MUST NOT contain reStructuredText sections
-  only body text (paragraphs, lists, tables, etc). Should you need
-  a more elaborate structure to explain the addon, please create a
-  Sphinx documentation (which may include this file as a "quick start"
-  section). ]
 
 To use this module, you need go to portal and edit your contact info:
 
@@ -63,24 +54,10 @@ To use this module, you need go to portal and edit your contact info:
 Known issues / Roadmap
 ======================
 
-[ Enumerate known caveats and future potential improvements.
-  It is mostly intended for end-users, and can also help
-  potential new contributors discovering new features to implement. ]
 
-* Define a roadmap
 
 Changelog
 =========
-
-[ The change log. The goal of this file is to help readers
-  understand changes between version. The primary audience is
-  end users and integrators. Purely technical changes such as
-  code refactoring must not be mentioned here.
-
-  This file may contain ONE level of section titles, underlined
-  with the ~ (tilde) character. Other section markers are
-  forbidden and will likely break the structure of the README.rst
-  or other documents where this fragment is included. ]
 
 12.0.1.0.0 (2019-01-27)
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -110,16 +87,6 @@ Contributors
 
 * Luis Felipe Mileo <mileo@kmee.com.br> (https://www.kmee.com.br)
 
-
-Other credits
-~~~~~~~~~~~~~
-
-[ This file is optional and contains additional credits, other than
-  authors, contributors, and maintainers. ]
-
-The development of this module has been financially supported by:
-
-* KMEE INFORMATICA LTDA
 
 Maintainers
 ~~~~~~~~~~~
