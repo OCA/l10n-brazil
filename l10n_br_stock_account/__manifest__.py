@@ -21,14 +21,14 @@
         # Data
         'data/l10n_br_stock_account_data.xml',
 
-        # View
+        # Views
         'views/stock_account_view.xml',
         'views/stock_rule_view.xml',
         'views/stock_picking_type_view.xml',
 
-        # Wizard
-        'wizard/stock_invoice_onshipping_view.xml',
-        'wizard/stock_return_picking_view.xml',
+        # Wizards
+        'wizards/stock_invoice_onshipping_view.xml',
+        'wizards/stock_return_picking_view.xml',
     ],
     'demo': [
         # Demo
