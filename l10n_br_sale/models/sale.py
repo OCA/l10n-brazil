@@ -2,6 +2,8 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from lxml import etree
+
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
@@ -133,6 +135,35 @@ class SaleOrder(models.Model):
         column2='comment_id',
         string='Comments',
     )
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type="form",
+                        toolbar=False, submenu=False):
+
+        order_view = super().fields_view_get(
+            view_id, view_type, toolbar, submenu
+        )
+
+        if view_type == 'form':
+            sub_form_view = order_view.get(
+                'fields', {}).get('order_line', {}).get(
+                'views', {}).get('form', {}).get('arch', {})
+
+            view = self.env['ir.ui.view']
+
+            sub_form_node = etree.fromstring(
+                self.env['sale.order.line'].fiscal_form_view(sub_form_view))
+
+            sub_arch, sub_fields = view.postprocess_and_fields(
+                'sale.order.line', sub_form_node, None)
+
+            order_view['fields']['order_line']['views']['form'][
+                'fields'] = sub_fields
+
+            order_view['fields']['order_line']['views']['form'][
+                'arch'] = sub_arch
+
+        return order_view
 
     @api.onchange('discount_rate')
     def onchange_discount_rate(self):
