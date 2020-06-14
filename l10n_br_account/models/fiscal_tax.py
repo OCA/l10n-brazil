@@ -17,15 +17,9 @@ class FiscalTax(models.Model):
         return account_taxes
 
     @api.multi
-    def account_tax_group(self):
-        self.ensure_one()
-        return self.env['account.tax.group'].search(
-            [('fiscal_tax_group_id', '=', self.tax_group_id.id)], limit=1)
-
-    @api.multi
     def _account_taxes(self):
         self.ensure_one()
-        account_tax_group = self.account_tax_group()
+        account_tax_group = self.tax_group_id.account_tax_group()
         return self.env['account.tax'].search(
             [('tax_group_id', '=', account_tax_group.id)])
 
