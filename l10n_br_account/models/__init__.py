@@ -9,6 +9,7 @@ from . import fiscal_operation
 from . import fiscal_operation_line
 from . import account_invoice
 from . import account_invoice_line
+from . import fiscal_document
 from . import account_move_line
 from . import l10n_br_account_tax_template
 from . import l10n_br_account_move_template
