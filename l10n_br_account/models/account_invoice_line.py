@@ -41,10 +41,16 @@ class AccountInvoiceLine(models.Model):
         default=lambda self: self.env.ref(
             'l10n_br_fiscal.fiscal_document_line_dummy'))
 
+    @api.model
+    def _shadowed_fields(self):
+        """Returns the list of shadowed fields that are synced
+        from the parent."""
+        return SHADOWED_FIELDS
+
     @api.multi
     def _prepare_shadowed_fields_dict(self, default=False):
         self.ensure_one()
-        vals = self._convert_to_write(self.read(SHADOWED_FIELDS)[0])
+        vals = self._convert_to_write(self.read(self._shadowed_fields())[0])
         if default:  # in case you want to use new rather than write later
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
