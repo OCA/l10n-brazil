@@ -27,7 +27,8 @@ class AccountInvoiceLine(models.Model):
     # in the invoice.line table.
     active = fields.Boolean(
         string='Active',
-        default=True)
+        default=True,
+    )
 
     # this default should be overwritten to False in a module pretending to
     # create fiscal documents from the invoices. But this default here
@@ -39,7 +40,8 @@ class AccountInvoiceLine(models.Model):
         required=True,
         ondelete='cascade',
         default=lambda self: self.env.ref(
-            'l10n_br_fiscal.fiscal_document_line_dummy'))
+            'l10n_br_fiscal.fiscal_document_line_dummy'),
+    )
 
     @api.model
     def _shadowed_fields(self):

@@ -12,7 +12,8 @@ class AccountTax(models.Model):
         relation='l10n_br_fiscal_account_tax_rel',
         colunm1='account_tax_id',
         colunm2='fiscal_tax_id',
-        string='Fiscal Taxes')
+        string='Fiscal Taxes',
+    )
 
     @api.multi
     def compute_all(

@@ -38,19 +38,23 @@ class AccountInvoice(models.Model):
     # in the invoice table.
     active = fields.Boolean(
         string='Active',
-        default=True)
+        default=True,
+    )
 
     cnpj_cpf = fields.Char(
         string='CNPJ/CPF',
-        related='partner_id.cnpj_cpf')
+        related='partner_id.cnpj_cpf',
+    )
 
     legal_name = fields.Char(
         string='Adapted Legal Name',
-        related='partner_id.legal_name')
+        related='partner_id.legal_name',
+    )
 
     ie = fields.Char(
         string='Adapted State Tax Number',
-        related='partner_id.inscr_est')
+        related='partner_id.inscr_est',
+    )
 
     # this default should be overwritten to False in a module pretending to
     # create fiscal documents from the invoices. But this default here
