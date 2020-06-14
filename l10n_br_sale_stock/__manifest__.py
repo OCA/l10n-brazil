@@ -14,12 +14,8 @@
         'l10n_br_sale',
         'l10n_br_stock_account',
     ],
-    'data': [
-        # 'views/sale_stock_view.xml',
-    ],
-    'demo': [
-        # 'demo/l10n_br_sale_stock_demo.xml'
-    ],
+    'data': [],
+    'demo': [],
     'installable': True,
     'auto_install': True,
 }
