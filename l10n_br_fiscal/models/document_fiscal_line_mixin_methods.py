@@ -70,41 +70,47 @@ FISCAL_CST_ID_FIELDS = [
 
 
 class FiscalDocumentLineMixinMethods(models.AbstractModel):
-    _name = "l10n_br_fiscal.document.line.mixin.methods"
-    _description = "Document Fiscal Mixin Methods"
+    _name = 'l10n_br_fiscal.document.line.mixin.methods'
+    _description = 'Document Fiscal Mixin Methods'
+
+    @api.model
+    def fiscal_form_view(self, form_view_arch):
+        try:
+            fiscal_view = self.env.ref(
+                "l10n_br_fiscal.document_fiscal_line_mixin_form")
+
+            # Get template tags
+            fsc_doc = etree.fromstring(fiscal_view["arch"])
+            group_node = fsc_doc.xpath("//group[@name='fiscal_fields']")[0]
+            page_node = fsc_doc.xpath("//page[@name='fiscal_taxes']")[0]
+
+            doc = etree.fromstring(form_view_arch)
+
+            # Replace group
+            doc_group_node = doc.xpath("//group[@name='fiscal_fields']")[0]
+            setup_modifiers(group_node)
+            doc_group_node.getparent().replace(doc_group_node, group_node)
+
+            # Replace page
+            doc_page_node = doc.xpath("//page[@name='fiscal_taxes']")[0]
+            for n in page_node.getiterator():
+                setup_modifiers(n)
+            doc_page_node.getparent().replace(doc_page_node, page_node)
+
+            form_view_arch = etree.tostring(doc, encoding='unicode')
+        except Exception:
+            return form_view_arch
+
+        return form_view_arch
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
                         toolbar=False, submenu=False):
-        model_view = super(FiscalDocumentLineMixinMethods, self).fields_view_get(
+        model_view = super().fields_view_get(
             view_id, view_type, toolbar, submenu)
 
         if view_type == 'form':
-            try:
-                fiscal_view = self.env.ref(
-                    "l10n_br_fiscal.document_fiscal_line_mixin_form")
-
-                # Get template tags
-                fsc_doc = etree.fromstring(fiscal_view["arch"])
-                group_node = fsc_doc.xpath("//group[@name='fiscal_fields']")[0]
-                page_node = fsc_doc.xpath("//page[@name='fiscal_taxes']")[0]
-
-                doc = etree.fromstring(model_view.get('arch'))
-
-                # Replace group
-                doc_group_node = doc.xpath("//group[@name='fiscal_fields']")[0]
-                setup_modifiers(group_node)
-                doc_group_node.getparent().replace(doc_group_node, group_node)
-
-                # Replace page
-                doc_page_node = doc.xpath("//page[@name='fiscal_taxes']")[0]
-                for n in page_node.getiterator():
-                    setup_modifiers(n)
-                doc_page_node.getparent().replace(doc_page_node, page_node)
-
-                model_view["arch"] = etree.tostring(doc, encoding='unicode')
-            except Exception:
-                return model_view
+            model_view["arch"] = self.fiscal_form_view(model_view["arch"])
 
         return model_view
 
