@@ -174,15 +174,8 @@ class SaleOrder(models.Model):
 
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
+        super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
-
-    @api.onchange('fiscal_operation_id')
-    def _onchange_fiscal_operation_id(self):
-        if self.fiscal_operation_id:
-            self.operation_name = self.fiscal_operation_id.name
-
-        for comment_id in self.fiscal_operation_id.comment_ids:
-            self.comment_ids += comment_id
 
     @api.multi
     def action_view_document(self):
@@ -209,23 +202,22 @@ class SaleOrder(models.Model):
     def _prepare_invoice(self):
         self.ensure_one()
         result = super(SaleOrder, self)._prepare_invoice()
-
-        comment = []
-        if self.note and self.copy_note:
-            comment.append(self.note)
-
-        result['comment'] = " - ".join(comment)
-
         result.update(self._prepare_br_fiscal_dict())
 
-        if self.fiscal_operation_id:
-            # TODO Defini document_type_id in other method in line
-            if self._context.get('document_type_id'):
-                result['document_type_id'] = \
-                    self._context.get('document_type_id')
-            # TODO
-            result['document_serie_id'] = 1
+        document_type_id = self._context.get('document_type_id')
 
+        if document_type_id:
+            document_type = self.env['l10n_br_fiscal.document.type'].browse(
+                document_type_id)
+        else:
+            document_type = self.company_id.document_type_id
+            document_type_id = self.company_id.document_type_id.id
+
+        result['document_type_id'] = document_type_id
+        result['document_serie_id'] = document_type.get_document_serie(
+            self.company_id, self.fiscal_operation_id)
+
+        if self.fiscal_operation_id:
             if self.fiscal_operation_id.journal_id:
                 result['journal_id'] = self.fiscal_operation_id.journal_id.id
 
