@@ -43,6 +43,36 @@ class PurchaseOrder(models.Model):
         related='partner_id.inscr_est',
     )
 
+    @api.model
+    def fields_view_get(self, view_id=None, view_type="form",
+                        toolbar=False, submenu=False):
+
+        order_view = super().fields_view_get(
+            view_id, view_type, toolbar, submenu
+        )
+
+        if view_type == 'form':
+            sub_form_view = order_view.get(
+                'fields', {}).get('order_line', {}).get(
+                'views', {}).get('form', {}).get('arch', {})
+
+            view = self.env['ir.ui.view']
+
+            sub_form_node = etree.fromstring(
+                self.env['purchase.order.line'].fiscal_form_view(
+                    sub_form_view))
+
+            sub_arch, sub_fields = view.postprocess_and_fields(
+                'purchase.order.line', sub_form_node, None)
+
+            order_view['fields']['order_line']['views']['form'][
+                'fields'] = sub_fields
+
+            order_view['fields']['order_line']['views']['form'][
+                'arch'] = sub_arch
+
+        return order_view
+
     @api.multi
     def action_view_invoice(self):
         result = super(PurchaseOrder, self).action_view_invoice()
