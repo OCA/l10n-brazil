@@ -12,14 +12,16 @@ class FiscalTaxGroup(models.Model):
         domain=[('deprecated', '=', False)],
         string='Tax Account',
         company_dependent=True,
-        ondelete='restrict')
+        ondelete='restrict',
+    )
 
     recover_account_id = fields.Many2one(
         comodel_name='account.account',
         domain=[('deprecated', '=', False)],
         string='Tax Account on Credit Notes',
         company_dependent=True,
-        ondelete='restrict')
+        ondelete='restrict',
+    )
 
     @api.multi
     def account_tax_group(self):
