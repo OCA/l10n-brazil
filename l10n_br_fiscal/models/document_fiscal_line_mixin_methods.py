@@ -316,8 +316,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 taxes |= tax
             self.fiscal_tax_ids = taxes
             self._update_taxes()
-            self.comment_ids = [
-                (6, 0, self.fiscal_operation_line_id.comment_ids.ids)]
+            self.comment_ids |= self.fiscal_operation_line_id.comment_ids
 
         if not self.fiscal_operation_line_id:
             self.cfop_id = False
