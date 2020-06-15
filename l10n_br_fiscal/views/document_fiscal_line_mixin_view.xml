@@ -7,15 +7,26 @@
     <field name="arch" type="xml">
       <form>
         <group name="fiscal_fields" invisible="1">
-          <field name="currency_id" invisible="1"/>
-          <field name="operation_type" invisible="1"/>
-          <field name="company_id" invisible="1"/>
-          <field name="partner_id" invisible="1"/>
-          <field name="partner_company_type" invisible="1"/>
-          <field name="tax_framework" invisible="1"/>
-          <field name="fiscal_genre_code" invisible="1"/>
-          <field name="amount_tax_not_included" invisible="1"/>
-          <field name="cfop_destination" invisible="1"/>
+          <field name="currency_id" force_save="1" invisible="1"/>
+          <field name="operation_type" force_save="1" invisible="1"/>
+          <field name="company_id" force_save="1" invisible="1"/>
+          <field name="partner_id" force_save="1" invisible="1"/>
+          <field name="fiscal_type" force_save="1" invisible="1"/>
+          <field name="partner_company_type" force_save="1" invisible="1"/>
+          <field name="tax_framework" force_save="1" invisible="1"/>
+          <field name="amount_tax_not_included" force_save="1" invisible="1"/>
+          <field name="cfop_destination" force_save="1" invisible="1"/>
+          <field name="fiscal_genre_id" force_save="1" invisible="1"/>
+          <field name="fiscal_genre_code" force_save="1" invisible="1"/>
+          <field name="ncm_id" force_save="1" invisible="1"/>
+          <field name="nbm_id" force_save="1" invisible="1"/>
+          <field name="cest_id" force_save="1" invisible="1"/>
+          <field name="nbs_id" force_save="1" invisible="1"/>
+          <field name="service_type_id" force_save="1" invisible="1"/>
+          <field name="uot_id" force_save="1" invisible="1"/>
+          <field name="fiscal_price" force_save="1" invisible="1"/>
+          <field name="fiscal_quantity" force_save="1" invisible="1"/>
+          <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
         </group>
         <notebook>
           <page name="fiscal_taxes" string="Taxes">
