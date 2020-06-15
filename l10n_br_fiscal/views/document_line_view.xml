@@ -11,7 +11,9 @@
             <field name="operation_type" invisible="1"/>
             <field name="company_id" invisible="1"/>
             <field name="tax_framework" invisible="1"/>
+            <field name="fiscal_genre_id" invisible="1"/>
             <field name="fiscal_genre_code" invisible="1"/>
+            <field name="fiscal_type" invisible="1"/>
         </group>
         <group>
           <field name="product_id" context="{'tree_view_ref': 'product_template_tree', 'form_view_ref': 'product.product_template_only_form_view'}"/>
@@ -44,14 +46,13 @@
                 <field name="nbm_id"/>
                 <field name="cest_id"/>
                 <field name="nbs_id"/>
-                <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"/>
+                <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"/>
               </group>
               <group name="l10n_br_fiscal" string="Operation">
-                <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
                 <field name="operation_type" invisible="1" readonly="1"/>
                 <field name="fiscal_operation_id" required="1"/>
                 <field name="fiscal_operation_line_id" required="1"/>
-                <field name="cfop_id" attrs="{'invisible': ['fiscal_type', '=', '00']}"/>
+                <field name="cfop_id" attrs="{'invisible': [('fiscal_type', '=', '00'), ('cfop_id', '=', False)]}"/>
               </group>
             </group>
           </page>
