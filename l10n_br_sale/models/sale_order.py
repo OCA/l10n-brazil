@@ -214,8 +214,10 @@ class SaleOrder(models.Model):
             document_type_id = self.company_id.document_type_id.id
 
         result['document_type_id'] = document_type_id
-        result['document_serie_id'] = document_type.get_document_serie(
+        document_serie = document_type.get_document_serie(
             self.company_id, self.fiscal_operation_id)
+        if document_serie:
+            result['document_serie_id'] = document_serie.id
 
         if self.fiscal_operation_id:
             if self.fiscal_operation_id.journal_id:
