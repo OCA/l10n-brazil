@@ -135,14 +135,15 @@ class AccountInvoice(models.Model):
                 icmssn_range=line.icmssn_range_id)['taxes']
 
             for tax in taxes:
-                val = self._prepare_tax_line_vals(line, tax)
-                key = self.env['account.tax'].browse(
-                    tax['id']).get_grouping_key(val)
+                if val['amount']:
+                    val = self._prepare_tax_line_vals(line, tax)
+                    key = self.env['account.tax'].browse(
+                        tax['id']).get_grouping_key(val)
 
-                if key not in tax_grouped:
-                    tax_grouped[key] = val
-                    tax_grouped[key]['base'] = round_curr(val['base'])
-                else:
-                    tax_grouped[key]['amount'] += val['amount']
-                    tax_grouped[key]['base'] += round_curr(val['base'])
+                    if key not in tax_grouped:
+                        tax_grouped[key] = val
+                        tax_grouped[key]['base'] = round_curr(val['base'])
+                    else:
+                        tax_grouped[key]['amount'] += val['amount']
+                        tax_grouped[key]['base'] += round_curr(val['base'])
         return tax_grouped
