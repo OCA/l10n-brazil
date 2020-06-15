@@ -37,7 +37,7 @@
             </field>
             <field name="validity_date" position="after">
                 <field name="fiscal_operation_id" required="True"/>
-                <field name="ind_pres"  required="True"/>
+                <field name="ind_pres" required="True"/>
             </field>
             <field name="note" position="before">
                 <group>
@@ -48,7 +48,7 @@
                 </group>
             </field>
             <xpath expr="//field[@name='order_line']" position="attributes">
-                <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id}</attribute>
+                <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree" position="attributes">
                 <attribute name="editable"/>
@@ -64,29 +64,25 @@
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
                 <field name="price_total" invisible="1"/>
             </xpath>
-            <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace"/>
-            <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="after">
+            <xpath expr="//field[@name='order_line']/form//field[@name='sequence']" position="after">
                 <group name="fiscal_fields" invisible="1">
                     <field name="operation_type" invisible="1" readonly="1"/>
                     <field name="fiscal_genre_code" invisible="1"/>
                     <field name="tax_framework" invisible="1"/>
                 </group>
-                <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//label[@for='customer_lead']" position="before">
                 <field name="fiscal_type" force_save="1" invisible="1"  readonly="1"/>
                 <field name="fiscal_operation_id" required="1"/>
-                <field name="fiscal_price" force_save="1" invisible="1"/>
-                <field name="fiscal_quantity" force_save="1" invisible="1"/>
                 <field name="fiscal_operation_line_id" required="1"/>
-                <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"/>
-                <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"/>
+                <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '=', '00'), ('cfop_id', '!=', False)]}"/>
+                <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '=', False)]}"/>
                 <field name="cfop_destination" invisible="1"/>
-                <field name="partner_company_type" invisible="1"/>
                 <field name="price_total" invisible="1"/>
                 <field name="price_subtotal" invisible="1"/>
             </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="replace"/>
+            <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace"/>
             <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
                 <notebook>
                   <page name="fiscal_taxes" string="Taxes"/>
