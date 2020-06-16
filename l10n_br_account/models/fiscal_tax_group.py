@@ -28,4 +28,3 @@ class FiscalTaxGroup(models.Model):
         self.ensure_one()
         return self.env['account.tax.group'].search(
             [('fiscal_tax_group_id', 'in', self.ids)], limit=1)
-
