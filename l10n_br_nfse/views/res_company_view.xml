@@ -11,6 +11,7 @@
         <field name="arch" type="xml">
             <field name="tax_framework" position="after">
                 <field name="cultural_encourager"/>
+                <field name="nfse_environment"/>
             </field>
         </field>
     </record>
