@@ -31,6 +31,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     TAX_FRAMEWORK_SIMPLES_ALL,
 )
+from ..constants.nfse import (NFSE_ENVIRONMENTS)
 
 from .res_company import PROCESSADOR
 
@@ -100,6 +101,11 @@ class Document(models.Model):
         string='Verify Code',
         readonly=True,
     )
+    nfse_environment = fields.Selection(
+        selection=NFSE_ENVIRONMENTS,
+        string="NFSe Environment",
+        default=lambda self: self.env.user.company_id.nfse_environment,
+    )
 
     @api.model
     def create(self, values):
@@ -132,7 +138,7 @@ class Document(models.Model):
         transmissao = TransmissaoSOAP(certificado, session)
         return NFSeFactory(
             transmissao=transmissao,
-            ambiente=1,
+            ambiente=self.nfse_environment,
             cidade_ibge=int('%s%s' % (
                 self.company_id.partner_id.state_id.ibge_code,
                 self.company_id.partner_id.city_id.ibge_code
