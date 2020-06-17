@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id='cfc_1' model='account.group'>
+        <field name='code_prefix'>1</field>
+        <field name='name'>ATIVO</field>
+    </record>
+    <record id='cfc_11' model='account.group'>
+        <field name='code_prefix'>1.1</field>
+        <field name='name'>ATIVO CIRCULANTE</field>
+        <field name='parent_id' ref='cfc_1'/>
+    </record>
+    <record id='cfc_111' model='account.group'>
+        <field name='code_prefix'>1.1.1</field>
+        <field name='name'>DISPONÍVEL</field>
+        <field name='parent_id' ref='cfc_11'/>
+    </record>
+    <record id='cfc_1111' model='account.group'>
+        <field name='code_prefix'>1.1.1.1</field>
+        <field name='name'>CAIXA</field>
+        <field name='parent_id' ref='cfc_111'/>
+    </record>
+    <record id='cfc_1112' model='account.group'>
+        <field name='code_prefix'>1.1.1.2</field>
+        <field name='name'>BANCOS CONTA MOVIMENTO</field>
+        <field name='parent_id' ref='cfc_111'/>
+    </record>
+    <record id='cfc_1113' model='account.group'>
+        <field name='code_prefix'>1.1.1.3</field>
+        <field name='name'>APLICAÇÕES FINANCEIRAS</field>
+        <field name='parent_id' ref='cfc_111'/>
+    </record>
+    <record id='cfc_112' model='account.group'>
+        <field name='code_prefix'>1.1.2</field>
+        <field name='name'>CONTAS A RECEBER</field>
+        <field name='parent_id' ref='cfc_11'/>
+    </record>
+    <record id='cfc_1121' model='account.group'>
+        <field name='code_prefix'>1.1.2.1</field>
+        <field name='name'>CLIENTES</field>
+        <field name='parent_id' ref='cfc_112'/>
+    </record>
+    <record id='cfc_1122' model='account.group'>
+        <field name='code_prefix'>1.1.2.2</field>
+        <field name='name'>(-) DUPLICATAS DESCONTADAS</field>
+        <field name='parent_id' ref='cfc_112'/>
+    </record>
+    <record id='cfc_1129' model='account.group'>
+        <field name='code_prefix'>1.1.2.9</field>
+        <field name='name'>OUTRAS CONTAS A RECEBER</field>
+        <field name='parent_id' ref='cfc_112'/>
+    </record>
+    <record id='cfc_113' model='account.group'>
+        <field name='code_prefix'>1.1.3</field>
+        <field name='name'>ESTOQUES</field>
+        <field name='parent_id' ref='cfc_11'/>
+    </record>
+    <record id='cfc_1131' model='account.group'>
+        <field name='code_prefix'>1.1.3.1</field>
+        <field name='name'>MERCADORIAS PARA REVENDA</field>
+        <field name='parent_id' ref='cfc_113'/>
+    </record>
+    <record id='cfc_1132' model='account.group'>
+        <field name='code_prefix'>1.1.3.2</field>
+        <field name='name'>PRODUTOS ACABADOS</field>
+        <field name='parent_id' ref='cfc_113'/>
+    </record>
+    <record id='cfc_1133' model='account.group'>
+        <field name='code_prefix'>1.1.3.3</field>
+        <field name='name'>MATÉRIAS-PRIMAS</field>
+        <field name='parent_id' ref='cfc_113'/>
+    </record>
+    <record id='cfc_1134' model='account.group'>
+        <field name='code_prefix'>1.1.3.4</field>
+        <field name='name'>MATERIAIS DE EMBALAGEM</field>
+        <field name='parent_id' ref='cfc_113'/>
+    </record>
+    <record id='cfc_1139' model='account.group'>
+        <field name='code_prefix'>1.1.3.9</field>
+        <field name='name'>MATERIAIS DE CONSUMO</field>
+        <field name='parent_id' ref='cfc_113'/>
+    </record>
+    <record id='cfc_114' model='account.group'>
+        <field name='code_prefix'>1.1.4</field>
+        <field name='name'>OUTROS CRÉDITOS</field>
+        <field name='parent_id' ref='cfc_11'/>
+    </record>
+    <record id='cfc_1141' model='account.group'>
+        <field name='code_prefix'>1.1.4.1</field>
+        <field name='name'>IMPOSTOS A RECUPERAR</field>
+        <field name='parent_id' ref='cfc_114'/>
+    </record>
+    <record id='cfc_119' model='account.group'>
+        <field name='code_prefix'>1.1.9</field>
+        <field name='name'>DESPESAS DO EXERCÍCIO SEGUINTE</field>
+        <field name='parent_id' ref='cfc_11'/>
+    </record>
+    <record id='cfc_1191' model='account.group'>
+        <field name='code_prefix'>1.1.9.1</field>
+        <field name='name'>DESPESAS ANTECIPADAS</field>
+        <field name='parent_id' ref='cfc_119'/>
+    </record>
+    <record id='cfc_12' model='account.group'>
+        <field name='code_prefix'>1.2</field>
+        <field name='name'>ATIVO REALIZÁVEL A LONGO PRAZO</field>
+        <field name='parent_id' ref='cfc_1'/>
+    </record>
+    <record id='cfc_121' model='account.group'>
+        <field name='code_prefix'>1.2.1</field>
+        <field name='name'>APLICAÇÕES FINANCEIRAS DE LONGO PRAZO</field>
+        <field name='parent_id' ref='cfc_12'/>
+    </record>
+    <record id='cfc_1211' model='account.group'>
+        <field name='code_prefix'>1.2.1.1</field>
+        <field name='name'>APLICAÇÕES FINANCEIRAS</field>
+        <field name='parent_id' ref='cfc_121'/>
+    </record>
+    <record id='cfc_122' model='account.group'>
+        <field name='code_prefix'>1.2.2</field>
+        <field name='name'>CONTAS A RECEBER</field>
+        <field name='parent_id' ref='cfc_12'/>
+    </record>
+    <record id='cfc_1221' model='account.group'>
+        <field name='code_prefix'>1.2.2.1</field>
+        <field name='name'>CLIENTES</field>
+        <field name='parent_id' ref='cfc_122'/>
+    </record>
+    <record id='cfc_13' model='account.group'>
+        <field name='code_prefix'>1.3</field>
+        <field name='name'>ATIVO PERMANENTE</field>
+        <field name='parent_id' ref='cfc_1'/>
+    </record>
+    <record id='cfc_131' model='account.group'>
+        <field name='code_prefix'>1.3.1</field>
+        <field name='name'>INVESTIMENTOS</field>
+        <field name='parent_id' ref='cfc_13'/>
+    </record>
+    <record id='cfc_1311' model='account.group'>
+        <field name='code_prefix'>1.3.1.1</field>
+        <field name='name'>PARTICIPAÇÕES SOCIETÁRIAS</field>
+        <field name='parent_id' ref='cfc_131'/>
+    </record>
+    <record id='cfc_132' model='account.group'>
+        <field name='code_prefix'>1.3.2</field>
+        <field name='name'>IMOBILIZADO</field>
+        <field name='parent_id' ref='cfc_13'/>
+    </record>
+    <record id='cfc_1321' model='account.group'>
+        <field name='code_prefix'>1.3.2.1</field>
+        <field name='name'>BENS EM OPERAÇÃO</field>
+        <field name='parent_id' ref='cfc_132'/>
+    </record>
+    <record id='cfc_1329' model='account.group'>
+        <field name='code_prefix'>1.3.2.9</field>
+        <field name='name'>(-) DEPRECIAÇÕES ACUMULADAS</field>
+        <field name='parent_id' ref='cfc_132'/>
+    </record>
+    <record id='cfc_133' model='account.group'>
+        <field name='code_prefix'>1.3.3</field>
+        <field name='name'>INTANGÍVEL</field>
+        <field name='parent_id' ref='cfc_13'/>
+    </record>
+    <record id='cfc_1331' model='account.group'>
+        <field name='code_prefix'>1.3.3.1</field>
+        <field name='name'>BENS INCORPÓREOS</field>
+        <field name='parent_id' ref='cfc_133'/>
+    </record>
+    <record id='cfc_1339' model='account.group'>
+        <field name='code_prefix'>1.3.3.9</field>
+        <field name='name'>(-) AMORTIZAÇÕES ACUMULADAS</field>
+        <field name='parent_id' ref='cfc_133'/>
+    </record>
+    <record id='cfc_134' model='account.group'>
+        <field name='code_prefix'>1.3.4</field>
+        <field name='name'>DIFERIDO</field>
+        <field name='parent_id' ref='cfc_13'/>
+    </record>
+    <record id='cfc_1341' model='account.group'>
+        <field name='code_prefix'>1.3.4.1</field>
+        <field name='name'>GASTOS PRÉ-OPERACIONAIS</field>
+        <field name='parent_id' ref='cfc_134'/>
+    </record>
+    <record id='cfc_1349' model='account.group'>
+        <field name='code_prefix'>1.3.4.9</field>
+        <field name='name'>(-) AMORTIZAÇÕES ACUMULADAS</field>
+        <field name='parent_id' ref='cfc_134'/>
+    </record>
+    <record id='cfc_2' model='account.group'>
+        <field name='code_prefix'>2</field>
+        <field name='name'>PASSIVO</field>
+    </record>
+    <record id='cfc_21' model='account.group'>
+        <field name='code_prefix'>2.1</field>
+        <field name='name'>CIRCULANTE</field>
+        <field name='parent_id' ref='cfc_2'/>
+    </record>
+    <record id='cfc_211' model='account.group'>
+        <field name='code_prefix'>2.1.1</field>
+        <field name='name'>CONTAS A PAGAR</field>
+        <field name='parent_id' ref='cfc_21'/>
+    </record>
+    <record id='cfc_2111' model='account.group'>
+        <field name='code_prefix'>2.1.1.1</field>
+        <field name='name'>SALÁRIOS A PAGAR</field>
+        <field name='parent_id' ref='cfc_211'/>
+    </record>
+    <record id='cfc_2112' model='account.group'>
+        <field name='code_prefix'>2.1.1.2</field>
+        <field name='name'>OBRIGAÇÕES TRABALHISTAS</field>
+        <field name='parent_id' ref='cfc_211'/>
+    </record>
+    <record id='cfc_2113' model='account.group'>
+        <field name='code_prefix'>2.1.1.3</field>
+        <field name='name'>OBRIGAÇÕES TRIBUTÁRIAS</field>
+        <field name='parent_id' ref='cfc_211'/>
+    </record>
+    <record id='cfc_2114' model='account.group'>
+        <field name='code_prefix'>2.1.1.4</field>
+        <field name='name'>FORNECEDORES</field>
+        <field name='parent_id' ref='cfc_211'/>
+    </record>
+    <record id='cfc_2115' model='account.group'>
+        <field name='code_prefix'>2.1.1.5</field>
+        <field name='name'>EMPRÉSTIMOS BANCÁRIOS</field>
+        <field name='parent_id' ref='cfc_211'/>
+    </record>
+    <record id='cfc_2116' model='account.group'>
+        <field name='code_prefix'>2.1.1.6</field>
+        <field name='name'>(-) ENCARGOS FINANCEIROS A TRANSCORRER</field>
+        <field name='parent_id' ref='cfc_211'/>
+    </record>
+    <record id='cfc_2119' model='account.group'>
+        <field name='code_prefix'>2.1.1.9</field>
+        <field name='name'>OUTRAS CONTAS A PAGAR</field>
+        <field name='parent_id' ref='cfc_211'/>
+    </record>
+    <record id='cfc_22' model='account.group'>
+        <field name='code_prefix'>2.2</field>
+        <field name='name'>EXIGÍVEL A LONGO PRAZO</field>
+        <field name='parent_id' ref='cfc_2'/>
+    </record>
+    <record id='cfc_221' model='account.group'>
+        <field name='code_prefix'>2.2.1</field>
+        <field name='name'>CONTAS A PAGAR</field>
+        <field name='parent_id' ref='cfc_22'/>
+    </record>
+    <record id='cfc_2211' model='account.group'>
+        <field name='code_prefix'>2.2.1.1</field>
+        <field name='name'>FINANCIAMENTOS BANCÁRIOS</field>
+        <field name='parent_id' ref='cfc_221'/>
+    </record>
+    <record id='cfc_23' model='account.group'>
+        <field name='code_prefix'>2.3</field>
+        <field name='name'>RESULTADOS DE EXERCÍCIOS FUTUROS</field>
+        <field name='parent_id' ref='cfc_2'/>
+    </record>
+    <record id='cfc_231' model='account.group'>
+        <field name='code_prefix'>2.3.1</field>
+        <field name='name'>RESULTADOS DIFERIDOS</field>
+        <field name='parent_id' ref='cfc_23'/>
+    </record>
+    <record id='cfc_2311' model='account.group'>
+        <field name='code_prefix'>2.3.1.1</field>
+        <field name='name'>RECEITAS DIFERIDAS</field>
+        <field name='parent_id' ref='cfc_231'/>
+    </record>
+    <record id='cfc_2312' model='account.group'>
+        <field name='code_prefix'>2.3.1.2</field>
+        <field name='name'>(-) CUSTOS DIFERIDOS</field>
+        <field name='parent_id' ref='cfc_231'/>
+    </record>
+    <record id='cfc_2313' model='account.group'>
+        <field name='code_prefix'>2.3.1.3</field>
+        <field name='name'>(-) DESPESAS DIFERIDAS</field>
+        <field name='parent_id' ref='cfc_231'/>
+    </record>
+    <record id='cfc_24' model='account.group'>
+        <field name='code_prefix'>2.4</field>
+        <field name='name'>PATRIMÔNIO LÍQUIDO</field>
+        <field name='parent_id' ref='cfc_2'/>
+    </record>
+    <record id='cfc_241' model='account.group'>
+        <field name='code_prefix'>2.4.1</field>
+        <field name='name'>CAPITAL SOCIAL REALIZADO</field>
+        <field name='parent_id' ref='cfc_24'/>
+    </record>
+    <record id='cfc_2411' model='account.group'>
+        <field name='code_prefix'>2.4.1.1</field>
+        <field name='name'>CAPITAL SOCIAL SUBSCRITO</field>
+        <field name='parent_id' ref='cfc_241'/>
+    </record>
+    <record id='cfc_2412' model='account.group'>
+        <field name='code_prefix'>2.4.1.2</field>
+        <field name='name'>(-) CAPITAL SOCIAL A REALIZAR</field>
+        <field name='parent_id' ref='cfc_241'/>
+    </record>
+    <record id='cfc_242' model='account.group'>
+        <field name='code_prefix'>2.4.2</field>
+        <field name='name'>RESERVAS</field>
+        <field name='parent_id' ref='cfc_24'/>
+    </record>
+    <record id='cfc_2421' model='account.group'>
+        <field name='code_prefix'>2.4.2.1</field>
+        <field name='name'>RESERVAS DE CAPITAL</field>
+        <field name='parent_id' ref='cfc_242'/>
+    </record>
+    <record id='cfc_2422' model='account.group'>
+        <field name='code_prefix'>2.4.2.2</field>
+        <field name='name'>AJUSTES DE AVALIAÇÃO PATRIMONIAL</field>
+        <field name='parent_id' ref='cfc_242'/>
+    </record>
+    <record id='cfc_2423' model='account.group'>
+        <field name='code_prefix'>2.4.2.3</field>
+        <field name='name'>RESERVAS DE LUCROS</field>
+        <field name='parent_id' ref='cfc_242'/>
+    </record>
+    <record id='cfc_243' model='account.group'>
+        <field name='code_prefix'>2.4.3</field>
+        <field name='name'>QUOTAS EM TESOURARIA</field>
+        <field name='parent_id' ref='cfc_24'/>
+    </record>
+    <record id='cfc_2431' model='account.group'>
+        <field name='code_prefix'>2.4.3.1</field>
+        <field name='name'>QUOTAS EM TESOURARIA</field>
+        <field name='parent_id' ref='cfc_243'/>
+    </record>
+    <record id='cfc_244' model='account.group'>
+        <field name='code_prefix'>2.4.4</field>
+        <field name='name'>LUCROS OU PREJUIZOS ACUMULADOS</field>
+        <field name='parent_id' ref='cfc_24'/>
+    </record>
+    <record id='cfc_2441' model='account.group'>
+        <field name='code_prefix'>2.4.4.1</field>
+        <field name='name'>LUCROS OU PREJUIZOS ACUMULADOS</field>
+        <field name='parent_id' ref='cfc_244'/>
+    </record>
+    <record id='cfc_3' model='account.group'>
+        <field name='code_prefix'>3</field>
+        <field name='name'>CUSTOS</field>
+    </record>
+    <record id='cfc_31' model='account.group'>
+        <field name='code_prefix'>3.1</field>
+        <field name='name'>CUSTOS DE PRODUÇÃO</field>
+        <field name='parent_id' ref='cfc_3'/>
+    </record>
+    <record id='cfc_311' model='account.group'>
+        <field name='code_prefix'>3.1.1</field>
+        <field name='name'>CUSTOS INDUSTRIAIS</field>
+        <field name='parent_id' ref='cfc_31'/>
+    </record>
+    <record id='cfc_3111' model='account.group'>
+        <field name='code_prefix'>3.1.1.1</field>
+        <field name='name'>INSUMOS</field>
+        <field name='parent_id' ref='cfc_311'/>
+    </record>
+    <record id='cfc_3112' model='account.group'>
+        <field name='code_prefix'>3.1.1.2</field>
+        <field name='name'>MÃO-DE-OBRA DIRETA</field>
+        <field name='parent_id' ref='cfc_311'/>
+    </record>
+    <record id='cfc_3113' model='account.group'>
+        <field name='code_prefix'>3.1.1.3</field>
+        <field name='name'>OUTROS CUSTOS DIRETOS</field>
+        <field name='parent_id' ref='cfc_311'/>
+    </record>
+    <record id='cfc_3119' model='account.group'>
+        <field name='code_prefix'>3.1.1.9</field>
+        <field name='name'>CUSTOS INDIRETOS DE FABRICAÇÃO</field>
+        <field name='parent_id' ref='cfc_311'/>
+    </record>
+    <record id='cfc_312' model='account.group'>
+        <field name='code_prefix'>3.1.2</field>
+        <field name='name'>CUSTOS DE PRESTAÇÃO DE SERVIÇOS</field>
+        <field name='parent_id' ref='cfc_31'/>
+    </record>
+    <record id='cfc_3121' model='account.group'>
+        <field name='code_prefix'>3.1.2.1</field>
+        <field name='name'>CONSUMO DE MATERIAIS</field>
+        <field name='parent_id' ref='cfc_312'/>
+    </record>
+    <record id='cfc_3122' model='account.group'>
+        <field name='code_prefix'>3.1.2.2</field>
+        <field name='name'>MÃO-DE-OBRA DIRETA</field>
+        <field name='parent_id' ref='cfc_312'/>
+    </record>
+    <record id='cfc_3123' model='account.group'>
+        <field name='code_prefix'>3.1.2.3</field>
+        <field name='name'>OUTROS CUSTOS DIRETOS</field>
+        <field name='parent_id' ref='cfc_312'/>
+    </record>
+    <record id='cfc_3129' model='account.group'>
+        <field name='code_prefix'>3.1.2.9</field>
+        <field name='name'>CUSTOS INDIRETOS DE PRESTAÇÃO DE SERVIÇOS</field>
+        <field name='parent_id' ref='cfc_312'/>
+    </record>
+    <record id='cfc_4' model='account.group'>
+        <field name='code_prefix'>4</field>
+        <field name='name'>PRODUÇÃO</field>
+    </record>
+    <record id='cfc_41' model='account.group'>
+        <field name='code_prefix'>4.1</field>
+        <field name='name'>PRODUÇÃO</field>
+        <field name='parent_id' ref='cfc_4'/>
+    </record>
+    <record id='cfc_411' model='account.group'>
+        <field name='code_prefix'>4.1.1</field>
+        <field name='name'>PRODUÇÃO</field>
+        <field name='parent_id' ref='cfc_41'/>
+    </record>
+    <record id='cfc_4111' model='account.group'>
+        <field name='code_prefix'>4.1.1.1</field>
+        <field name='name'>PRODUÇÃO</field>
+        <field name='parent_id' ref='cfc_411'/>
+    </record>
+    <record id='cfc_5' model='account.group'>
+        <field name='code_prefix'>5</field>
+        <field name='name'>DESPESAS</field>
+    </record>
+    <record id='cfc_51' model='account.group'>
+        <field name='code_prefix'>5.1</field>
+        <field name='name'>DESPESAS DIVERSAS</field>
+        <field name='parent_id' ref='cfc_5'/>
+    </record>
+    <record id='cfc_511' model='account.group'>
+        <field name='code_prefix'>5.1.1</field>
+        <field name='name'>DESPESAS OPERACIONAIS</field>
+        <field name='parent_id' ref='cfc_51'/>
+    </record>
+    <record id='cfc_5111' model='account.group'>
+        <field name='code_prefix'>5.1.1.1</field>
+        <field name='name'>CUSTO DAS VENDAS</field>
+        <field name='parent_id' ref='cfc_511'/>
+    </record>
+    <record id='cfc_5112' model='account.group'>
+        <field name='code_prefix'>5.1.1.2</field>
+        <field name='name'>DESPESAS COM PESSOAL</field>
+        <field name='parent_id' ref='cfc_511'/>
+    </record>
+    <record id='cfc_5113' model='account.group'>
+        <field name='code_prefix'>5.1.1.3</field>
+        <field name='name'>DESPESAS ADMINISTRATIVAS</field>
+        <field name='parent_id' ref='cfc_511'/>
+    </record>
+    <record id='cfc_5114' model='account.group'>
+        <field name='code_prefix'>5.1.1.4</field>
+        <field name='name'>DESPESAS DE COMERCIALIZAÇÃO</field>
+        <field name='parent_id' ref='cfc_511'/>
+    </record>
+    <record id='cfc_5115' model='account.group'>
+        <field name='code_prefix'>5.1.1.5</field>
+        <field name='name'>DESPESAS TRIBUTÁRIAS</field>
+        <field name='parent_id' ref='cfc_511'/>
+    </record>
+    <record id='cfc_5116' model='account.group'>
+        <field name='code_prefix'>5.1.1.6</field>
+        <field name='name'>DESPESAS FINANCEIRAS</field>
+        <field name='parent_id' ref='cfc_511'/>
+    </record>
+    <record id='cfc_5117' model='account.group'>
+        <field name='code_prefix'>5.1.1.7</field>
+        <field name='name'>DEPRECIAÇÃO E AMORTIZAÇÃO</field>
+        <field name='parent_id' ref='cfc_511'/>
+    </record>
+    <record id='cfc_5118' model='account.group'>
+        <field name='code_prefix'>5.1.1.8</field>
+        <field name='name'>PERDAS DIVERSAS</field>
+        <field name='parent_id' ref='cfc_511'/>
+    </record>
+    <record id='cfc_512' model='account.group'>
+        <field name='code_prefix'>5.1.2</field>
+        <field name='name'>DESPESAS NÃO OPERACIONAIS</field>
+        <field name='parent_id' ref='cfc_51'/>
+    </record>
+    <record id='cfc_5121' model='account.group'>
+        <field name='code_prefix'>5.1.2.1</field>
+        <field name='name'>DESPESAS DIVERSAS</field>
+        <field name='parent_id' ref='cfc_512'/>
+    </record>
+    <record id='cfc_6' model='account.group'>
+        <field name='code_prefix'>6</field>
+        <field name='name'>RECEITAS</field>
+    </record>
+    <record id='cfc_61' model='account.group'>
+        <field name='code_prefix'>6.1</field>
+        <field name='name'>RECEITAS DIVERSAS</field>
+        <field name='parent_id' ref='cfc_6'/>
+    </record>
+    <record id='cfc_611' model='account.group'>
+        <field name='code_prefix'>6.1.1</field>
+        <field name='name'>RECEITAS OPERACIONAIS</field>
+        <field name='parent_id' ref='cfc_61'/>
+    </record>
+    <record id='cfc_6111' model='account.group'>
+        <field name='code_prefix'>6.1.1.1</field>
+        <field name='name'>RECEITA BRUTA DE VENDAS</field>
+        <field name='parent_id' ref='cfc_611'/>
+    </record>
+    <record id='cfc_6112' model='account.group'>
+        <field name='code_prefix'>6.1.1.2</field>
+        <field name='name'>(-) DEDUÇÕES DA RECEITA BRUTA</field>
+        <field name='parent_id' ref='cfc_611'/>
+    </record>
+    <record id='cfc_6113' model='account.group'>
+        <field name='code_prefix'>6.1.1.3</field>
+        <field name='name'>RECEITAS FINANCEIRAS</field>
+        <field name='parent_id' ref='cfc_611'/>
+    </record>
+    <record id='cfc_6114' model='account.group'>
+        <field name='code_prefix'>6.1.1.4</field>
+        <field name='name'>RECEITAS DIVERSAS</field>
+        <field name='parent_id' ref='cfc_611'/>
+    </record>
+    <record id='cfc_612' model='account.group'>
+        <field name='code_prefix'>6.1.2</field>
+        <field name='name'>RECEITAS NÃO OPERACIONAIS</field>
+        <field name='parent_id' ref='cfc_61'/>
+    </record>
+    <record id='cfc_6121' model='account.group'>
+        <field name='code_prefix'>6.1.2.1</field>
+        <field name='name'>RECEITAS DIVERSAS</field>
+        <field name='parent_id' ref='cfc_612'/>
+    </record>
+    <record id='cfc_7' model='account.group'>
+        <field name='code_prefix'>7</field>
+        <field name='name'>CONTAS DE APURAÇÃO</field>
+    </record>
+    <record id='cfc_71' model='account.group'>
+        <field name='code_prefix'>7.1</field>
+        <field name='name'>CONTAS DIVERSAS</field>
+        <field name='parent_id' ref='cfc_7'/>
+    </record>
+    <record id='cfc_711' model='account.group'>
+        <field name='code_prefix'>7.1.1</field>
+        <field name='name'>BALANÇO</field>
+        <field name='parent_id' ref='cfc_71'/>
+    </record>
+    <record id='cfc_7111' model='account.group'>
+        <field name='code_prefix'>7.1.1.1</field>
+        <field name='name'>BALANÇO DE ABERTURA</field>
+        <field name='parent_id' ref='cfc_711'/>
+    </record>
+    <record id='cfc_7112' model='account.group'>
+        <field name='code_prefix'>7.1.1.2</field>
+        <field name='name'>BALANÇO DE ENCERRAMENTO</field>
+        <field name='parent_id' ref='cfc_711'/>
+    </record>
+    <record id='cfc_712' model='account.group'>
+        <field name='code_prefix'>7.1.2</field>
+        <field name='name'>RESULTADO</field>
+        <field name='parent_id' ref='cfc_71'/>
+    </record>
+    <record id='cfc_7121' model='account.group'>
+        <field name='code_prefix'>7.1.2.1</field>
+        <field name='name'>RESULTADO DO EXERCÍCIO</field>
+        <field name='parent_id' ref='cfc_712'/>
+    </record>
+
+</odoo>
