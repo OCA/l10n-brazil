@@ -31,7 +31,6 @@ class AccountInvoice(models.Model):
         receivable_ids = self.mapped('move_line_receivable_ids')
 
         boleto_list = receivable_ids.send_payment()
-        print('BOLETO LIST', boleto_list)
         if not boleto_list:
             raise UserError(
                 'Error !', ('Não é possível gerar os boletos\n'

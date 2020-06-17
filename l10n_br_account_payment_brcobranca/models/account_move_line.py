@@ -28,6 +28,8 @@ class BoletoWrapper(object):
         # proxy to the wrapped object
         return getattr(self._wrapped_obj, attr)
 
+# TODO Sicredi e Unicred possuem o mesmo codigo 748,
+#  isso estaria certo ? Como diferenciar
 
 dict_brcobranca_bank = {
     '001': 'banco_brasil',
@@ -37,7 +39,7 @@ dict_brcobranca_bank = {
     '399': 'hsbc',
     '341': 'itau',
     '033': 'santander',
-    '748': 'sicredi',
+    '748': 'unicred',
     '004': 'banco_nordeste',
     '021': 'banestes',
     '756': 'sicoob',
@@ -64,14 +66,15 @@ class AccountMoveLine(models.Model):
         wrapped_boleto_list = []
 
         for move_line in self:
-            if move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.code_bc in \
-                    dict_brcobranca_bank:
+            bank_account = \
+                move_line.payment_mode_id.fixed_journal_id.bank_account_id
+            if bank_account.bank_id.code_bc in dict_brcobranca_bank:
                 bank_name_brcobranca = dict_brcobranca_bank[
-                               move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.code_bc],
+                                           bank_account.bank_id.code_bc],
             else:
                 raise UserError(
                     _('The Bank %s is not implemented in BRCobranca.') %
-                    move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.name)
+                    bank_account.bank_id.name)
 
             precision = self.env['decimal.precision']
             precision_account = precision.precision_get('Account')
@@ -87,7 +90,7 @@ class AccountMoveLine(models.Model):
                     ((move_line.payment_mode_id.boleto_perc_mora / 100)
                      / 30), precision_account)
                 instrucao_juros = (
-                    instrucao_juros_tmp.encode('UTF-8') +
+                    instrucao_juros_tmp +
                     " DE %s %% AO MÊS ( R$ %s AO DIA )"
                     % (('%.2f' %
                         move_line.payment_mode_id.boleto_perc_mora
@@ -104,7 +107,7 @@ class AccountMoveLine(models.Model):
                     (move_line.payment_mode_id.boleto_perc_multa / 100)
                 ), precision_account)
                 instrucao_multa = (
-                    instrucao_multa_tmp.encode('UTF-8') +
+                    instrucao_multa_tmp +
                     " DE %s %% ( R$ %s )" %
                     (('%.2f' % move_line.payment_mode_id.boleto_perc_multa
                       ).replace('.', ','),
@@ -122,7 +125,7 @@ class AccountMoveLine(models.Model):
                         move_line.payment_term_id.discount_perc / 100),
                     precision_account)
                 instrucao_desconto_vencimento = (
-                    instrucao_desconto_vencimento_tmp.encode('UTF-8') + ' %s %% '
+                    instrucao_desconto_vencimento_tmp + ' %s %% '
                     'ATÉ O VENCIMENTO EM %s ( R$ %s )'
                     % (('%.2f' % move_line.payment_term_id.discount_perc
                         ).replace('.', ','),
@@ -146,10 +149,8 @@ class AccountMoveLine(models.Model):
                   'documento_cedente': move_line.company_id.cnpj_cpf,
                   'sacado': move_line.partner_id.legal_name,
                   'sacado_documento': move_line.partner_id.cnpj_cpf,
-                  'agencia':
-                      move_line.payment_mode_id.fixed_journal_id.bank_account_id.bra_number,
-                  'conta_corrente':
-                      move_line.payment_mode_id.fixed_journal_id.bank_account_id.acc_number,
+                  'agencia': bank_account.bra_number,
+                  'conta_corrente': bank_account.acc_number,
                   'convenio': move_line.payment_mode_id.boleto_convenio,
                   'carteira': str(move_line.payment_mode_id.boleto_carteira),
                   'nosso_numero': int(''.join(
@@ -175,16 +176,18 @@ class AccountMoveLine(models.Model):
                   'instrucao5': instrucao_desconto_vencimento,
             }
 
-            if move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.bic in ('021', '004'):
+            if bank_account.bank_id.code_bc in ('021', '004'):
                 boleto_cnab_api_data.update({
                     'digito_conta_corrente':
-                        move_line.payment_mode_id.bank_id.acc_number_dig
+                        move_line.payment_mode_id.bank_id.acc_number_dig,
                 })
 
-            # TODO - Create or use a field to have byte_idt information
-            if move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.bic == '748':
+            # TODO - Create or use a field to have
+            #  byte_idt and posto information
+            if bank_account.bank_id.code_bc == '748':
                 boleto_cnab_api_data.update({
                     'byte_idt': '2',
+                    'posto': '01',
                 })
 
             wrapped_boleto_list.append(BoletoWrapper(boleto_cnab_api_data))
