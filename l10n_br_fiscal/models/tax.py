@@ -27,10 +27,6 @@ from ..constants.icms import (
     ICMS_DIFAL_DOUBLE_BASE
 )
 
-from ..constants.pis_cofins import (
-    CST_COFINS_NO_TAXED,
-    CST_PIS_NO_TAXED
-)
 
 TAX_DICT_VALUES = {
     "name": False,
@@ -524,19 +520,13 @@ class Tax(models.Model):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_pis(self, tax, taxes_dict, **kwargs):
-        cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
-        if cst.code not in CST_PIS_NO_TAXED:
-            taxes_dict = self._compute_generic(tax, taxes_dict, **kwargs)
-        return taxes_dict
+        return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_pis_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_cofins(self, tax, taxes_dict, **kwargs):
-        cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
-        if cst.code not in CST_COFINS_NO_TAXED:
-            taxes_dict = self._compute_generic(tax, taxes_dict, **kwargs)
-        return taxes_dict
+        return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_cofins_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
