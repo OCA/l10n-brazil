@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_cfc_chart_template" model="account.chart.template">
+        <field name="name">Plano de contas para micro e pequenas empresas - CFC</field>
+        <field name="code_digits">2</field>
+        <field name="cash_account_code_prefix">1.1.1.1.</field>
+        <field name="bank_account_code_prefix">1.1.1.2.</field>
+        <field name="transfer_account_code_prefix">1.1.1.2.0</field>
+        <field name="currency_id" ref="base.BRL"/>
+    </record>
+
+</odoo>
