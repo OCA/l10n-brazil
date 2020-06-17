@@ -64,14 +64,14 @@ class AccountMoveLine(models.Model):
         wrapped_boleto_list = []
 
         for move_line in self:
-            if move_line.payment_mode_id.bank_account_id.bank_id.code_bc in \
+            if move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.code_bc in \
                     dict_brcobranca_bank:
                 bank_name_brcobranca = dict_brcobranca_bank[
-                               move_line.payment_mode_id.bank_account_id.bank_id.code_bc],
+                               move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.code_bc],
             else:
                 raise UserError(
                     _('The Bank %s is not implemented in BRCobranca.') %
-                    move_line.payment_mode_id.bank_account_id.bank_id.name)
+                    move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.name)
 
             precision = self.env['decimal.precision']
             precision_account = precision.precision_get('Account')
@@ -147,9 +147,9 @@ class AccountMoveLine(models.Model):
                   'sacado': move_line.partner_id.legal_name,
                   'sacado_documento': move_line.partner_id.cnpj_cpf,
                   'agencia':
-                      move_line.payment_mode_id.bank_account_id.bra_number,
+                      move_line.payment_mode_id.fixed_journal_id.bank_account_id.bra_number,
                   'conta_corrente':
-                      move_line.payment_mode_id.bank_account_id.acc_number,
+                      move_line.payment_mode_id.fixed_journal_id.bank_account_id.acc_number,
                   'convenio': move_line.payment_mode_id.boleto_convenio,
                   'carteira': str(move_line.payment_mode_id.boleto_carteira),
                   'nosso_numero': int(''.join(
@@ -175,14 +175,14 @@ class AccountMoveLine(models.Model):
                   'instrucao5': instrucao_desconto_vencimento,
             }
 
-            if move_line.payment_mode_id.bank_account_id.bank_id.bic in ('021', '004'):
+            if move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.bic in ('021', '004'):
                 boleto_cnab_api_data.update({
                     'digito_conta_corrente':
                         move_line.payment_mode_id.bank_id.acc_number_dig
                 })
 
             # TODO - Create or use a field to have byte_idt information
-            if move_line.payment_mode_id.bank_account_id.bank_id.bic == '748':
+            if move_line.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.bic == '748':
                 boleto_cnab_api_data.update({
                     'byte_idt': '2',
                 })
