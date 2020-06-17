@@ -37,7 +37,7 @@ dict_brcobranca_bank = {
     '399': 'hsbc',
     '341': 'itau',
     '033': 'santander',
-    '748': 'sicredi',
+    '748': 'unicred',
     '004': 'banco_nordeste',
     '021': 'banestes',
     '756': 'sicoob',
@@ -63,24 +63,23 @@ class PaymentOrder(models.Model):
         # https://github.com/kivanio/brcobranca/tree/master/lib/brcobranca/remessa/cnab400
         # and a test here:
         # https://github.com/kivanio/brcobranca/blob/master/spec/brcobranca/remessa/cnab400/itau_spec.rb
+        bank_account = \
+            self.payment_mode_id.fixed_journal_id.bank_account_id
 
-        if self.payment_mode_id.fixed_journal_id.\
-                bank_account_id.bank_id.code_bc in \
+        if bank_account.bank_id.code_bc in \
                 dict_brcobranca_bank:
             bank_name_brcobranca = \
-                dict_brcobranca_bank[
-                    self.payment_mode_id.fixed_journal_id
-                        .bank_account_id.bank_id.code_bc],
+                dict_brcobranca_bank[bank_account.bank_id.code_bc],
         else:
             raise UserError(
                 _('The Bank %s is not implemented in BRCobranca.')
-                % self.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.name)
+                % bank_account.bank_id.name)
 
-        if (bank_name_brcobranca[0] not in ('bradesco', 'itau')
+        if (bank_name_brcobranca[0] not in ('bradesco', 'itau', 'unicred')
                 or self.payment_mode_id.payment_method_id.code != '400'):
             raise UserError(
                 _('The Bank %s and CNAB %s are not implemented.')
-                % (self.payment_mode_id.fixed_journal_id.bank_account_id.bank_id.name,
+                % (bank_account.bank_id.name,
                    self.payment_mode_id.payment_method_id.code))
 
         pagamentos = []
@@ -127,14 +126,13 @@ class PaymentOrder(models.Model):
 
         remessa_values = {
             'carteira': str(self.payment_mode_id.boleto_carteira),
-            'agencia': int(self.payment_mode_id.fixed_journal_id.bank_account_id.bra_number),
+            'agencia': int(bank_account.bra_number),
             # 'digito_agencia': order.mode.bank_id.bra_number_dig,
-            'conta_corrente': int(misc.punctuation_rm(self.payment_mode_id.fixed_journal_id.bank_account_id.acc_number)),
-            'digito_conta': self.payment_mode_id.fixed_journal_id.bank_account_id.acc_number_dig[0],
-            'empresa_mae':
-                self.payment_mode_id.fixed_journal_id.bank_account_id.partner_id.legal_name[:30],
+            'conta_corrente': int(misc.punctuation_rm(bank_account.acc_number)),
+            'digito_conta': bank_account.acc_number_dig[0],
+            'empresa_mae': bank_account.partner_id.legal_name[:30],
             'documento_cedente': misc.punctuation_rm(
-                self.payment_mode_id.fixed_journal_id.bank_account_id.partner_id.cnpj_cpf),
+                bank_account.partner_id.cnpj_cpf),
             'pagamentos': pagamentos,
             'sequencial_remessa': self.payment_mode_id.cnab_sequence_id.next_by_id(),
         }
