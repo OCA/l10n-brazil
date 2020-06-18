@@ -16,8 +16,9 @@ class DocumentLine(models.Model):
         string='Other Retentions',
         default=0.00,
     )
-    city_taxation_code = fields.Char(
+    city_taxation_code_id = fields.Many2one(
         string='City Taxation Code',
+        comodel_name='city_taxation_code'
     )
 
     @api.onchange("product_id")
@@ -26,8 +27,8 @@ class DocumentLine(models.Model):
         if self.product_id and self.product_id.fiscal_deductions_value:
             self.fiscal_deductions_value = \
                 self.product_id.fiscal_deductions_value
-        if self.product_id and self.product_id.city_taxation_code:
-            self.city_taxation_code = self.product_id.city_taxation_code
+        if self.product_id and self.product_id.city_taxation_code_id:
+            self.city_taxation_code_id = self.product_id.city_taxation_code_id
 
     def _compute_taxes(self, taxes, cst=None):
         discount_value = self.discount_value
