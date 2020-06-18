@@ -765,11 +765,11 @@ class NFe(spec_models.StackedModel):
             if comodel_name == 'nfe.40.enderEmit':
                 vals['company_country_id'] = \
                     self.env['res.country'].search([
-                        ('ibge_code', '=', value)], limit=1)
+                        ('ibge_code', '=', value)], limit=1).id
             if comodel_name == 'nfe.40.enderDest':
                 vals['partner_country_id'] = \
                     self.env['res.country'].search([
-                        ('ibge_code', '=', value)], limit=1)
+                        ('ibge_code', '=', value)], limit=1).id
         if key == 'nfe40_fone':
             if comodel_name == 'nfe.40.enderEmit':
                 vals['company_phone'] = value
