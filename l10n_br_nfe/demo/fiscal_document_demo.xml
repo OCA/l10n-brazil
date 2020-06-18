@@ -5,9 +5,7 @@
     <record id="demo_nfe_same_state" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
-        <field name="company_number">3</field>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">1</field>
         <field name="document_section">nfe</field>
         <field name="processador_edoc">erpbrasil_edoc</field>
@@ -18,7 +16,7 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
-        <field name="fiscal_operation_type">out</field>
+        <field name="operation_type">out</field>
     </record>
 
     <function model="l10n_br_fiscal.document" name="_onchange_company_id">
@@ -41,7 +39,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="fiscal_operation_type">out</field>
+        <field name="operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -77,7 +75,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="fiscal_operation_type">out</field>
+        <field name="operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
