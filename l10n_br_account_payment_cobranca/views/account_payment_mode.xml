@@ -19,6 +19,7 @@
             <group name="l10n_br_account_payment_order-geral" position="inside">
                 <field name="condicao_emissao_papeleta"/>
                 <field name="cnab_percent_interest"/>
+                <field name="cnab_sequence_id"/>
                 <field name="comunicacao_2"/>
             </group>
             <notebook name="l10n_br_account_payment_order" position="inside">
