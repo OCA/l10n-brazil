@@ -13,7 +13,7 @@
                 <field name="fiscal_deductions_value"/>
             </field>
             <field name="service_type_id" position="after">
-                <field name="city_taxation_code"/>
+                <field name="city_taxation_code_id"/>
             </field>
         </field>
     </record>

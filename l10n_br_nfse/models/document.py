@@ -185,7 +185,7 @@ class Document(models.Model):
             'item_lista_servico': self.line_ids.service_type_id.code and
             self.line_ids.service_type_id.code.replace('.', ''),
             'codigo_cnae': None,
-            'codigo_tributacao_municipio': self.line_ids.city_taxation_code,
+            'codigo_tributacao_municipio': self.line_ids.city_taxation_code_id,
             'discriminacao': str(self.line_ids.name[:120] or ''),
             'codigo_municipio': int('%s%s' % (
                 self.company_id.partner_id.state_id.ibge_code,
