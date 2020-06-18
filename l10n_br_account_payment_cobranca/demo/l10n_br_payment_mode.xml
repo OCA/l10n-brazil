@@ -1,90 +1,332 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
 
-    <!-- payment.mode cobrança Bradesco240 -->
-    <record id="payment_mode_cobranca_bradesco240" model="account.payment.mode">
-        <field name="name">Cobrança Bradesco240</field>
-        <field name="journal" ref="l10n_br_account_payment_order.l10n_br_account_payment_order-account_journal"/>
-        <field name="bank_id"
-               ref="l10n_br_account_payment_order.main_company_bank_bradesco"/>
+    <!-- Diarios -->
+
+    <!-- Diario Bradesco -->
+    <record id="bradesco_journal" model="account.journal">
+        <field name="name">Banco Bradesco</field>
+        <field name="type">bank</field>
+        <field name="code">BNC2</field>
+        <field name="inbound_payment_method_ids"
+               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
+               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_bradesco"/>
+    </record>
+
+    <!-- Diario Unicred -->
+    <record id="unicred_journal" model="account.journal">
+        <field name="name">Banco Unicred</field>
+        <field name="type">bank</field>
+        <field name="code">BN3</field>
+        <field name="inbound_payment_method_ids"
+               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
+               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_sicredi"/>
+    </record>
+
+    <!-- Diario Itau -->
+    <record id="itau_journal" model="account.journal">
+        <field name="name">Banco Itau</field>
+        <field name="type">bank</field>
+        <field name="code">BNC3</field>
+        <field name="inbound_payment_method_ids"
+               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
+               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_itau"/>
+    </record>
+
+    <!-- Diario Banco do Brasil -->
+    <record id="bb_journal" model="account.journal">
+        <field name="name">Banco do Brasil</field>
+        <field name="type">bank</field>
+        <field name="code">BNC3</field>
+        <field name="inbound_payment_method_ids"
+               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
+               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_bb"/>
+    </record>
+
+    <!-- Diario Banco Caixa Economica Federal -->
+    <record id="cef_journal" model="account.journal">
+        <field name="name">Banco Caixa Economica Federal</field>
+        <field name="type">bank</field>
+        <field name="code">BNC3</field>
+        <field name="inbound_payment_method_ids"
+               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
+               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_cef"/>
+    </record>
+
+    <!-- Modo de Pagamentos -->
+
+    <!-- Modo de Pagamentos Cobrança Bradesco400 -->
+    <record id="payment_mode_cobranca_bradesco400" model="account.payment.mode">
+        <field name="name">Cobrança Bradesco400</field>
         <field name="company_id" ref="base.main_company"/>
-        <field name="type"
-               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
-        <field name="type_payment">00</field>
         <field name="instrucoes">Pagavel em qualquer banco ate o
             vencimento
         </field>
-<!--        <field name="boleto_type">3</field>-->
-        <field name="bank_account_link">variable</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="bradesco_journal"/>
         <field name="payment_order_ok">True</field>
-        <field name="payment_method_id" ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
+        <field name="payment_method_id"
+               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
         <field name="operation_type">3</field>
         <field name="boleto_convenio">06</field>
         <field name="boleto_carteira">03</field>
         <field name="boleto_modalidade">DM</field>
         <field name="boleto_variacao">19</field>
-        <field name="aceite">S</field>
+        <field name="boleto_aceite">S</field>
+        <field name="cnab_sequence_id"
+               ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
     </record>
 
-    <!-- payment.mode cobrança Itau240 -->
+    <!-- Payment Mode Cobrança Unicred 400 -->
+    <record id="payment_mode_cobranca_unicred400" model="account.payment.mode">
+        <field name="name">Cobrança Unicred400</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="instrucoes">Pagavel em qualquer banco ate o
+            vencimento
+        </field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="unicred_journal"/>
+        <field name="payment_order_ok">True</field>
+        <field name="payment_method_id"
+               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
+        <field name="operation_type">3</field>
+        <field name="boleto_convenio">06</field>
+        <field name="boleto_carteira">3</field>
+        <field name="boleto_modalidade">DM</field>
+        <field name="boleto_variacao">19</field>
+        <field name="boleto_aceite">S</field>
+        <field name="cnab_sequence_id"
+               ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+    </record>
+
+    <!-- Payment Mode Cobrança Unicred 240 -->
+    <record id="payment_mode_cobranca_unicred240" model="account.payment.mode">
+        <field name="name">Cobrança Unicred240</field>
+        <field name="journal" ref="unicred_journal"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="type_payment">00</field>
+        <field name="instrucoes">Pagavel em qualquer banco ate o
+            vencimento
+        </field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="unicred_journal"/>
+        <field name="payment_order_ok">True</field>
+        <field name="payment_method_id"
+               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
+        <field name="operation_type">3</field>
+        <field name="boleto_convenio">06</field>
+        <field name="boleto_carteira">3</field>
+        <field name="boleto_modalidade">DM</field>
+        <field name="boleto_variacao">19</field>
+        <field name="boleto_aceite">S</field>
+        <field name="cnab_sequence_id"
+               ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+    </record>
+
+    <!-- Modo de Pagamento cobrança Itau 240 -->
     <record id="payment_mode_cobranca_itau240" model="account.payment.mode">
         <field name="name">Cobrança Itau240</field>
-        <field name="journal" ref="l10n_br_account_payment_order.l10n_br_account_payment_order-account_journal"/>
-        <field name="bank_id"
-               ref="l10n_br_account_payment_order.main_company_bank_itau"/>
         <field name="company_id" ref="base.main_company"/>
-        <field name="type"
-               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
         <field name="type_payment">00</field>
         <field name="instrucoes">Pagavel em qualquer banco ate o
             vencimento
         </field>
-<!--        <field name="boleto_type">6</field>-->
-        <field name="bank_account_link">variable</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="itau_journal"/>
         <field name="payment_order_ok">True</field>
-        <field name="payment_method_id" ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
+        <field name="payment_method_id"
+               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
         <field name="operation_type">3</field>
         <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">03</field>
+        <field name="boleto_carteira">3</field>
         <field name="boleto_modalidade">DM</field>
         <field name="boleto_variacao">19</field>
-        <field name="aceite">S</field>
+        <field name="boleto_aceite">S</field>
+        <field name="cnab_sequence_id"
+               ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
     </record>
 
-    <!-- payment.mode cobrança Cef240 -->
+    <!-- Modo de Pagamento cobrança Caixa Economica Federal 240 -->
     <record id="payment_mode_cobranca_cef240" model="account.payment.mode">
-        <field name="name">Cobrança Cef240</field>
-        <field name="journal" ref="l10n_br_account_payment_order.l10n_br_account_payment_order-account_journal"/>
-        <field name="bank_id"
-               ref="l10n_br_account_payment_order.main_company_bank_cef"/>
+        <field name="name">Cobrança Caixa Economica Federal 240</field>
         <field name="company_id" ref="base.main_company"/>
-        <field name="type"
-               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
-        <field name="sale_ok" eval="True"/>
-        <field name="purchase_ok" eval="True"/>
-        <field name="type_payment">00</field>
         <field name="instrucoes">Pagavel em qualquer banco ate o
             vencimento
         </field>
-<!--        <field name="boleto_type">11</field>-->
-        <field name="bank_account_link">variable</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="cef_journal"/>
         <field name="payment_order_ok">True</field>
-        <field name="payment_method_id" ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
+        <field name="payment_method_id"
+               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
         <field name="operation_type">3</field>
         <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">03</field>
+        <field name="boleto_carteira">3</field>
         <field name="boleto_modalidade">DM</field>
         <field name="boleto_variacao">19</field>
-        <field name="aceite">S</field>
+        <field name="boleto_aceite">S</field>
+        <field name="cnab_sequence_id"
+               ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
     </record>
 
-    <!-- account invoice -->
+    <!-- Modo de Pagamento cobrança Itau 400 -->
+    <record id="payment_mode_cobranca_itau400" model="account.payment.mode">
+        <field name="name">Cobrança Itau400</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="instrucoes">Pagavel em qualquer banco ate o
+            vencimento
+        </field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="itau_journal"/>
+        <field name="payment_order_ok">True</field>
+        <field name="payment_method_id"
+               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
+        <field name="operation_type">3</field>
+        <field name="boleto_convenio">06</field>
+        <field name="boleto_carteira">3</field>
+        <field name="boleto_modalidade">DM</field>
+        <field name="boleto_variacao">19</field>
+        <field name="boleto_aceite">S</field>
+        <field name="cnab_sequence_id"
+               ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+    </record>
+
+    <!-- Payment Mode Cobrança Banco do Brasil 400 -->
+    <record id="payment_mode_cobranca_bb400" model="account.payment.mode">
+        <field name="name">Cobrança Banco do Brasil 400</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="instrucoes">Pagavel em qualquer banco ate o
+            vencimento
+        </field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="bb_journal"/>
+        <field name="payment_order_ok">True</field>
+        <field name="payment_method_id"
+               ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
+        <field name="operation_type">3</field>
+        <field name="boleto_convenio">06</field>
+        <field name="boleto_carteira">3</field>
+        <field name="boleto_modalidade">DM</field>
+        <field name="boleto_variacao">19</field>
+        <field name="boleto_aceite">S</field>
+        <field name="cnab_sequence_id"
+               ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+    </record>
+
+    <!-- Faturas/Invoices de Teste -->
+
+    <!-- Fatura/Invoice Bradesco 400 -->
     <record model="account.invoice" id="l10n_br_account_payment_order.demo_invoice_payment_order">
-        <field name="payment_mode_id" ref="l10n_br_account_payment_cobranca.payment_mode_cobranca_bradesco240"/>
+        <field name="payment_mode_id" ref="l10n_br_account_payment_cobranca.payment_mode_cobranca_bradesco400"/>
+    </record>
+
+    <!-- Invoice Itau 240 -->
+    <record model="account.invoice" id="demo_invoice_payment_order_itau_cnab240">
+        <field name="name">Teste Itau CNAB240</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="payment_mode_id" ref="payment_mode_cobranca_itau240"/>
+    </record>
+
+    <record model="account.invoice.line" id="demo_invoice_payment_order_itau_line_cnab240">
+        <field name="invoice_id" ref="demo_invoice_payment_order_itau_cnab240"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="account_id"
+               ref="l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error_2"/>
+    </record>
+
+    <!-- Invoice Itau 400 -->
+    <record model="account.invoice" id="demo_invoice_payment_order_itau_cnab400">
+        <field name="name">Teste Itau CNAB400</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="payment_mode_id" ref="payment_mode_cobranca_itau400"/>
+    </record>
+
+    <record model="account.invoice.line" id="demo_invoice_payment_order_itau_line_cnab400">
+        <field name="invoice_id" ref="demo_invoice_payment_order_itau_cnab400"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="account_id"
+               ref="l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error_2"/>
+    </record>
+
+    <!-- Invoice Unicred 400 -->
+    <record model="account.invoice" id="demo_invoice_payment_order_unicred_cnab400">
+        <field name="name">Teste Unicred CNAB400</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="payment_mode_id" ref="payment_mode_cobranca_unicred400"/>
+    </record>
+
+    <record model="account.invoice.line" id="demo_invoice_payment_order_unicred_line_cnab400">
+        <field name="invoice_id" ref="demo_invoice_payment_order_unicred_cnab400"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="account_id"
+               ref="l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error_2"/>
+    </record>
+
+    <!-- Invoice Caixa Economica Federal 240 -->
+    <record model="account.invoice" id="demo_invoice_payment_order_cef_cnab240">
+        <field name="name">Teste Caixa Economica Federal CNAB240</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="payment_mode_id" ref="payment_mode_cobranca_cef240"/>
+    </record>
+
+    <record model="account.invoice.line" id="demo_invoice_payment_order_cef_line_cnab240">
+        <field name="invoice_id" ref="demo_invoice_payment_order_cef_cnab240"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="account_id"
+               ref="l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error_2"/>
+    </record>
+
+    <!-- Invoice Banco do Brasil 400 -->
+    <record model="account.invoice" id="demo_invoice_payment_order_bb_cnab400">
+        <field name="name">Teste Banco do Brasil CNAB400</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="payment_mode_id" ref="payment_mode_cobranca_bb400"/>
+    </record>
+
+    <record model="account.invoice.line" id="demo_invoice_payment_order_bb_line_cnab400">
+        <field name="invoice_id" ref="demo_invoice_payment_order_bb_cnab400"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="account_id"
+               ref="l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error_2"/>
     </record>
 
 </odoo>
