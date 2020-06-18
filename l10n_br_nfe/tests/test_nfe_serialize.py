@@ -5,11 +5,9 @@
 from OpenSSL import crypto
 from base64 import b64encode
 from datetime import timedelta, datetime
-from xmldiff import main
 
 from odoo import fields
 from odoo.tools.misc import format_date
-from odoo.tools import config
 import base64
 import os
 import logging
@@ -24,20 +22,8 @@ class TestNFeExport(TransactionCase):
     def setUp(self):
         super(TestNFeExport, self).setUp()
         self.nfe = self.env.ref('l10n_br_nfe.demo_nfe_same_state')
-        self.nfe.write({'document_type_id': self.env.ref('l10n_br_fiscal.document_55').id,
-                        'company_id': self.env.ref('l10n_br_fiscal.empresa_lucro_presumido').id,
-                        'company_number': 3,
-                        'processador_edoc': 'erpbrasil_edoc',
-                        })
         self.nfe.company_id.country_id.name = 'Brasil'
-        self.nfe.company_id.processador_edoc = 'erpbrasil_edoc'
-        if self.nfe.state != 'em_digitacao': # 2nd test run
-            self.nfe.action_document_back2draft()
-
-        for line in self.nfe.line_ids:
-            line._onchange_product_id_fiscal()
-            line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_operation_line_id()
+        self.nfe.action_document_back2draft()
 
         self.cert_country = "BR"
         self.cert_issuer_a = "EMISSOR A TESTE"
@@ -108,17 +94,19 @@ class TestNFeExport(TransactionCase):
         xml_path = os.path.join(
             l10n_br_nfe.__path__[0], 'tests', 'nfe', 'v4_00', 'leiauteNFe',
             'NFe35200697231608000169550010000000111855451724-nf-e.xml')
+        with open(xml_path) as f:
+            xml_string = f.read().replace('\n', '')
+        self.nfe.nfe40_detPag = [(5, 0, 0), (0, 0, {
+            'nfe40_indPag': '0',
+            'nfe40_tPag': '99',
+            'nfe40_vPag': self.nfe.amount_total,
+        })]
+        self.nfe.nfe40_detPag.__class__._field_prefix = 'nfe40_'
         self.nfe.action_document_confirm()
         self.nfe.date = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
         self.nfe.date_in_out = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
         self.nfe._document_export()
-        output = os.path.join(config['data_dir'], 'filestore',
-                              self.cr.dbname, self.nfe.file_xml_id.store_fname)
-        _logger.info("XML file saved at %s" % (output,))
-        self.nfe.company_id.country_id.name = 'Brazil' # clean mess
-        # FIXME
-        diff = main.diff_files(xml_path, output)
-        _logger.info("Diff with expected XML (if any): %s" % (diff,))
-        assert len(diff) == 0
+        nfe_xml = base64.b64decode(self.nfe.file_xml_id.datas).decode('utf-8')
+        self.assertEqual(nfe_xml, xml_string, "Erro na serialização!")
