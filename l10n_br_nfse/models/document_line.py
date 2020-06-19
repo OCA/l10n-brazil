@@ -18,7 +18,7 @@ class DocumentLine(models.Model):
     )
     city_taxation_code_id = fields.Many2one(
         string='City Taxation Code',
-        comodel_name='city_taxation_code'
+        comodel_name='city.taxation.code'
     )
 
     @api.onchange("product_id")
