@@ -24,8 +24,8 @@ class CityTaxationCode(models.Model):
     )
 
     state_id = fields.Many2one(
-        comodelname='res.country.state',
         string="State"
+        comodel_name='res.country.state',
     )
 
     city_id = fields.Many2one(
