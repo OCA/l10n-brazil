@@ -182,12 +182,11 @@ class AccountMoveLine(models.Model):
                         move_line.payment_mode_id.bank_id.acc_number_dig,
                 })
 
-            # TODO - Create or use a field to have
-            #  byte_idt and posto information
+            # Fields used in Sicredi/Unicred and Sicoob Banks
             if bank_account.bank_id.code_bc == '748':
                 boleto_cnab_api_data.update({
-                    'byte_idt': '2',
-                    'posto': '01',
+                    'byte_idt': move_line.payment_mode_id.boleto_byte_idt,
+                    'posto': move_line.payment_mode_id.boleto_posto,
                 })
 
             wrapped_boleto_list.append(BoletoWrapper(boleto_cnab_api_data))
