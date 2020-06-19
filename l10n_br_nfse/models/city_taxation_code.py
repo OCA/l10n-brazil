@@ -33,7 +33,6 @@ class CityTaxationCode(models.Model):
         string="City",
         comodel_name="res.city",
         domain="[('state_id', '=', state_id)]",
-        inverse="_inverse_city_id",
     )
 
     @api.multi
