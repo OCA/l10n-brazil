@@ -3,8 +3,10 @@
 
     <!-- Sua Empresa -->
     <record id="base.main_company" model="res.company">
-        <field name="cnpj_cpf" eval="False"/>
-        <field name="inscr_est" eval="False"/>
+        <field name="cnpj_cpf">97.231.608/0001-69</field>
+        <field name='country_id' ref='base.br'/>
+        <field name='state_id' ref='base.state_br_sp'/>
+        <field name="inscr_est">454.504.604.553</field>
     </record>
 
     <!-- Empresa Lucro Presumido -->
