@@ -34,21 +34,3 @@ class CityTaxationCode(models.Model):
         comodel_name="res.city",
         domain="[('state_id', '=', state_id)]",
     )
-
-    @api.multi
-    def _compute_l10n_br_data(self):
-        """ Read the l10n_br specific functional fields. """
-
-        for c in self:
-            c.legal_name = c.partner_id.legal_name
-            c.cnpj_cpf = c.partner_id.cnpj_cpf
-            c.street_number = c.partner_id.street_number
-            c.district = c.partner_id.district
-            c.city_id = c.partner_id.city_id
-            c.inscr_est = c.partner_id.inscr_est
-            c.inscr_mun = c.partner_id.inscr_mun
-            c.suframa = c.partner_id.suframa
-            state_tax_number_ids = self.env["state.tax.numbers"]
-            for state_tax_number in c.partner_id.state_tax_number_ids:
-                state_tax_number_ids |= state_tax_number
-            c.state_tax_number_ids = state_tax_number_ids
