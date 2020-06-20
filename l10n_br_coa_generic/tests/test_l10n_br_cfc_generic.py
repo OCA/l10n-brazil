@@ -9,7 +9,7 @@ class L10nBrCoaGeneric(TransactionCase):
         super().setUp()
 
         self.l10n_br_cfc_generic = self.env.ref(
-            'l10n_br_coa_generic.l10n_br_cfc_chart_template')
+            'l10n_br_coa_generic.l10n_br_coa_generic_template')
         self.l10n_br_company = self.env['res.company'].create({
             'name': 'Empresa Teste do Plano de Contas CFC'
         })
