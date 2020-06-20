@@ -13,4 +13,4 @@ def post_init_hook(cr, registry):
     ]):
         from odoo.addons.l10n_br_account.hooks import load_fiscal_taxes
         load_fiscal_taxes(env, env.ref(
-            'l10n_br_coa_generic.l10n_br_cfc_chart_template'))
+            'l10n_br_coa_generic.l10n_br_coa_generic_template'))
