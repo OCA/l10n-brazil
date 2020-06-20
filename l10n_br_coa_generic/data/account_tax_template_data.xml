@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="l10n_br_coa_generic_template" model="account.chart.template">
-        <field name="property_account_receivable_id" ref="cfc_112101"/>
-        <field name="property_account_payable_id" ref="cfc_211401"/>
+        <field name="property_account_receivable_id" ref="coa_generic_112101"/>
+        <field name="property_account_payable_id" ref="coa_generic_211401"/>
     </record>
 
     <data noupdate="1">
