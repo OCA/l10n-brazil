@@ -2,9 +2,9 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 {
-    "name": "Plano de Contas - Conselho Federal de Contabilidade",
-    "summary": """Plano de Contas do Conselho Federal de Contabilidade
-    para micro e pequenas empresas""",
+    "name": "Plano de Contas para empresas do Regime normal",
+    "summary": """Plano de Contas para empresas do Regime normal
+        (Micro e pequenas empresas)""",
     "category": "Localization",
     "license": "AGPL-3",
     "author": "KMEE, " "Odoo Community Association (OCA)",
