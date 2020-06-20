@@ -4,9 +4,9 @@
 from odoo.tests.common import TransactionCase
 
 
-class L10nBrCfcGeneric(TransactionCase):
+class L10nBrCoaGeneric(TransactionCase):
     def setUp(self):
-        super(L10nBrCfcGeneric, self).setUp()
+        super().setUp()
 
         self.l10n_br_cfc_generic = self.env.ref(
             'l10n_br_coa_generic.l10n_br_cfc_chart_template')
