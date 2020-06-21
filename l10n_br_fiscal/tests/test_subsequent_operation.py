@@ -41,6 +41,9 @@ class TestSubsequentOperation(TransactionCase):
             line._onchange_product_id_fiscal()
             line._onchange_fiscal_taxes()
 
+        self.nfe_simples_faturamento.payment_term_id = self.env.ref(
+            'l10n_br_fiscal.a_vista_dinheiro'
+        )
         self.nfe_simples_faturamento.action_document_confirm()
         self.nfe_simples_faturamento.action_document_send()
 
