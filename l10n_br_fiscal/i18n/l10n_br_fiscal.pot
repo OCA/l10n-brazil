@@ -2163,6 +2163,7 @@ msgid "Days Before"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:res.company,overdue_msg:l10n_br_fiscal.empresa_lucro_presumido
 #: model:res.company,overdue_msg:l10n_br_fiscal.empresa_simples_nacional
 msgid "Dear Sir/Madam,\n"
 "\n"
@@ -4953,7 +4954,7 @@ msgid "Lista Positiva (valor)"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:72
+#: code:addons/l10n_br_fiscal/hooks.py:73
 #, python-format
 msgid "Loading l10n_br_fiscal demo files."
 msgstr ""
@@ -4965,13 +4966,13 @@ msgid "Loading l10n_br_fiscal fiscal files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:125
+#: code:addons/l10n_br_fiscal/hooks.py:126
 #, python-format
 msgid "Loading l10n_br_fiscal post init files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:102
+#: code:addons/l10n_br_fiscal/hooks.py:103
 #, python-format
 msgid "Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
 msgstr ""
