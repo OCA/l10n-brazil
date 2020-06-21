@@ -9,5 +9,5 @@ def post_init_hook(cr, registry):
     """Relate fiscal taxes to account taxes."""
     env = api.Environment(cr, SUPERUSER_ID, {})
     chart_template_id = env.ref(
-        'l10n_br_coa_cfc.l10n_br_cfc_chart_template')
+        'l10n_br_coa_generic.l10n_br_coa_generic_template')
     install_chart_template(env, chart_template_id, ['3'])
