@@ -7,6 +7,24 @@
         <field name='country_id' ref='base.br'/>
         <field name='state_id' ref='base.state_br_sp'/>
         <field name="inscr_est">454.504.604.553</field>
+    </record>
+
+    <!-- Empresa Lucro Presumido -->
+    <record id="empresa_lucro_presumido" model="res.company">
+        <field name="name">Empresa Lucro Presumido</field>
+        <field name="legal_name">Empresa Lucro Presumido Ltda</field>
+        <field name="street">Avenida Paulista</field>
+        <field name="street_number">1</field>
+        <field name="district">Bela Vista</field>
+        <field name="state_id" ref="base.state_br_sp"/>
+        <field name="city_id" ref="l10n_br_base.city_3550308"/>
+        <field name="country_id" ref="base.br"/>
+        <field name="zip">01311-000</field>
+        <field name="website">www.suaempresa.com.br</field>
+        <field name="phone">+55 11 9999-9999</field>
+        <field name="email">info@suaempresa.com.br</field>
+        <field name="cnpj_cpf">81.583.054/0001-29</field>
+        <field name="inscr_est">078.016.350.838</field>
         <field name="currency_id" ref="base.BRL"/>
         <field name="cnae_main_id" ref="l10n_br_fiscal.cnae_3101200"/>
         <field name="tax_framework">3</field>
@@ -19,7 +37,7 @@
     </record>
 
     <record id="cofins_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
-        <field name="company_id" ref="base.main_company"/>
+        <field name="company_id" ref="empresa_lucro_presumido"/>
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins"/>
         <field name="is_taxed">True</field>
         <field name="is_debit_credit">True</field>
@@ -30,7 +48,7 @@
     </record>
 
     <record id="pis_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
-        <field name="company_id" ref="base.main_company"/>
+        <field name="company_id" ref="empresa_lucro_presumido"/>
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis"/>
         <field name="is_taxed">True</field>
         <field name="is_debit_credit">True</field>
@@ -38,6 +56,14 @@
         <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0_65"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_pis_01"/>
         <field name="state">draft</field>
+    </record>
+
+    <record id="empresa_lc_document_55_serie_1" model="l10n_br_fiscal.document.serie">
+        <field name="code">1</field>
+        <field name="name">Série 1</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="company_id" ref="empresa_lucro_presumido"/>
+        <field name="active">True</field>
     </record>
 
     <!-- Empresa Simples Nacional -->
@@ -127,12 +153,14 @@
     <!-- Configure Users -->
     <record id="base.user_admin" model="res.users">
         <field name="in_group_4">1</field>
-        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('empresa_simples_nacional')])]"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('empresa_simples_nacional'), ref('empresa_lucro_presumido')])]"/>
+        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
     </record>
 
     <record id="base.user_demo" model="res.users">
         <field name="in_group_4">1</field>
-        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('empresa_simples_nacional')])]"/>
+        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('empresa_simples_nacional'), ref('empresa_lucro_presumido')])]"/>
+        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
     </record>
 
 </odoo>
