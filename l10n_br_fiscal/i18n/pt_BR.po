@@ -5496,6 +5496,22 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__simple_value
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__simple_value
+#, fuzzy
+#| msgid "National Simplified Tax"
+msgid "National Simple Taxes"
+msgstr "Simples Nacional"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__simple_without_icms_value
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__simple_without_icms_value
+#, fuzzy
+#| msgid "National Simplified Tax"
+msgid "National Simple Taxes without ICMS"
+msgstr "Simples Nacional"
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_simplified_tax
 msgid "National Simplified Tax"
 msgstr "Simples Nacional"
