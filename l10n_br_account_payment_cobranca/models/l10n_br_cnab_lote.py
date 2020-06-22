@@ -6,7 +6,7 @@ import logging
 
 from odoo import fields, models
 
-from .l10n_br_cnab import STATE
+from ..constantes import STATE_CNAB
 
 _logger = logging.getLogger(__name__)
 
@@ -30,7 +30,7 @@ class L10nBrCnabLote(models.Model):
     qtd_registros = fields.Integer(string="Quantidade de Registros")
     servico_operacao = fields.Char(string="Tipo de Operação")
     state = fields.Selection(
-        string="State", related="cnab_id.state", selection=STATE, default="draft"
+        string="State", related="cnab_id.state", selection=STATE_CNAB, default="draft"
     )
     tipo_servico = fields.Char(string="Tipo do Serviço")
     total_valores = fields.Float(string="Valor Total")

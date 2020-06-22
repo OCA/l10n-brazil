@@ -6,29 +6,9 @@ import logging
 
 from odoo import api, fields, models
 
+from ..constantes import ESTADOS_CNAB, SITUACAO_PAGAMENTO
+
 _logger = logging.getLogger(__name__)
-
-
-ESTADOS_CNAB = [
-    ("draft", "Inicial"),
-    ("added", "Adicionada à ordem de pagamento"),
-    ("added_paid", "Adicionada para Baixa"),
-    ("exported", "Exportada"),
-    ("exporting_error", "Erro ao exportar"),
-    ("accepted", "Aceita"),
-    ("accepted_hml", "Aceita em Homologação"),
-    ("not_accepted", "Não aceita pelo banco"),
-    ("done", "Concluído"),
-]
-
-SITUACAO_PAGAMENTO = [
-    ("inicial", "Inicial"),
-    ("aberta", "Aberta"),
-    ("paga", "Paga"),
-    ("liquidada", "Liquidada"),
-    ("baixa", "Baixa Simples"),
-    ("baixa_liquidacao", "Baixa por Liquidação em Dinheiro"),
-]
 
 
 class AccountMoveLine(models.Model):

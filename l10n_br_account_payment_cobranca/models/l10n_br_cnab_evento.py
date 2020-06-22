@@ -6,7 +6,7 @@ import logging
 
 from odoo import fields, models
 
-from .l10n_br_cnab import STATE
+from ..constantes import STATE_CNAB
 
 _logger = logging.getLogger(__name__)
 
@@ -38,7 +38,7 @@ class L10nBrCnabEvento(models.Model):
     segmento = fields.Char(string="Segmento")
     seu_numero = fields.Char(string="Seu Número")
     state = fields.Selection(
-        string="State", related="lote_id.state", selection=STATE, default="draft"
+        string="State", related="lote_id.state", selection=STATE_CNAB, default="draft"
     )
     str_motiv_a = fields.Char("Motivo da ocorrência 01")
     str_motiv_b = fields.Char("Motivo de ocorrência 02")

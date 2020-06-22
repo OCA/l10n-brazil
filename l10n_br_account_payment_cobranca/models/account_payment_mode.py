@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError
 
 from ..constantes import (AVISO_FAVORECIDO, CODIGO_FINALIDADE_TED,
                           COMPLEMENTO_TIPO_SERVICO, FORMA_LANCAMENTO,
-                          TIPO_SERVICO)
+                          TIPO_SERVICO, BOLETO_ESPECIE)
 
 
 class PaymentMode(models.Model):
@@ -66,22 +66,7 @@ class PaymentMode(models.Model):
     )
     boleto_type = fields.Selection(selection=[], string="Boleto")
     boleto_especie = fields.Selection(
-        [
-            ("01", "DUPLICATA MERCANTIL"),
-            ("02", "NOTA PROMISSÓRIA"),
-            ("03", "NOTA DE SEGURO"),
-            ("04", "MENSALIDADE ESCOLAR"),
-            ("05", "RECIBO"),
-            ("06", "CONTRATO"),
-            ("07", "COSSEGUROS"),
-            ("08", "DUPLICATA DE SERVIÇO"),
-            ("09", "LETRA DE CÂMBIO"),
-            ("13", "NOTA DE DÉBITOS"),
-            ("15", "DOCUMENTO DE DÍVIDA"),
-            ("16", "ENCARGOS CONDOMINIAIS"),
-            ("17", "CONTA DE PRESTAÇÃO DE SERVIÇOS"),
-            ("99", "DIVERSOS"),
-        ],
+        selection=BOLETO_ESPECIE,
         string="Espécie do Título",
         default="01",
     )

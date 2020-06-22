@@ -4,6 +4,8 @@
 
 from odoo import fields, models
 
+from ..constantes import TIPO_DE_CONTA
+
 
 class ResPartnerBank(models.Model):
     """ Adiciona campos necessários para o cadastramentos de contas
@@ -19,14 +21,7 @@ class ResPartnerBank(models.Model):
     )
 
     tipo_de_conta = fields.Selection(
-        selection=[
-            ("01", "Conta corrente individual"),
-            ("02", "Conta poupança individual"),
-            ("03", "Conta depósito judicial/Depósito em consignação " "individual"),
-            ("11", "Conta corrente conjunta"),
-            ("12", "Conta poupança conjunta"),
-            ("13", "Conta depósito judicial/Depósito em consignação " "conjunta"),
-        ],
+        selection=TIPO_DE_CONTA,
         string="Tipo de Conta",
         default="01",
     )
