@@ -102,6 +102,8 @@
         <field name="boleto_aceite">S</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+        <field name="boleto_byte_idt">2</field>
+        <field name="boleto_posto">01</field>
     </record>
 
     <!-- Payment Mode Cobrança Unicred 240 -->
@@ -124,6 +126,8 @@
         <field name="boleto_aceite">S</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+        <field name="boleto_byte_idt">2</field>
+        <field name="boleto_posto">01</field>
     </record>
 
     <!-- Modo de Pagamento cobrança Itau 240 -->

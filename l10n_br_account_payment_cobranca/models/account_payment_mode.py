@@ -126,7 +126,17 @@ class PaymentMode(models.Model):
     cnab_sequence_id = fields.Many2one(
         comodel_name='ir.sequence',
         string=u'Sequencia do CNAB')
-
+    boleto_byte_idt = fields.Char(
+        string='Byte IDT', size=1,
+        help='Byte de identificação do cedente do bloqueto'
+             ' utilizado para compor o nosso número,'
+             ' usado pelos bancos Sicred/Unicred e Sicoob'
+    )
+    boleto_posto = fields.Char(
+        string='Posto da Cooperativa de Crédito', size=2,
+        help='Código do Posto da Cooperativa de Crédito,'
+             ' usado pelos bancos Sicred/Unicred e Sicoob.'
+    )
 
     @api.onchange("product_tax_id")
     def _onchange_product_tax_id(self):

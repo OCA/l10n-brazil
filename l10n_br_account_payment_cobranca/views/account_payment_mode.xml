@@ -36,6 +36,8 @@
                         <field name="boleto_especie"/>
                         <field name="boleto_protesto"/>
                         <field name="boleto_protesto_prazo"/>
+                        <field name="boleto_byte_idt"/>
+                        <field name="boleto_posto"/>
                     </group>
                 </page>
                 <page string="Pagamento">
