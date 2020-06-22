@@ -1,21 +1,18 @@
 # Copyright (C) 2020  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from requests import Session
-
-from erpbrasil.assinatura import certificado as cert
-from erpbrasil.edoc.nfe import NFe as edoc_nfe
-from erpbrasil.transmissao import TransmissaoSOAP
-
-from odoo import _, api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    SITUACAO_EDOC_INUTILIZADA,
-)
+from odoo.addons.l10n_br_fiscal.constants.fiscal import \
+    SITUACAO_EDOC_INUTILIZADA
+from erpbrasil.assinatura import certificado as cert
+from erpbrasil.edoc import NFe as edoc_nfe
+from erpbrasil.transmissao import TransmissaoSOAP
+from requests import Session
 
 
 class DocumentInvalidateNumber(models.Model):
-    _inherit = 'l10n_br_fiscal.document.invalidate.number'
+    _inherit = "l10n_br_fiscal.document.invalidate.number"
 
     def _processador(self):
         if not self.company_id.certificate_nfe_id:
@@ -39,8 +36,7 @@ class DocumentInvalidateNumber(models.Model):
             processador = record._processador()
 
             evento = processador.inutilizacao(
-                cnpj=record.company_id.cnpj_cpf.replace('.', '').replace(
-                    '/', '').replace('-', ''),
+                cnpj=record.company_id.cnpj_cpf,
                 mod=record.document_serie_id.document_type_id.code,
                 serie=record.document_serie_id.code,
                 num_ini=record.number_start,
