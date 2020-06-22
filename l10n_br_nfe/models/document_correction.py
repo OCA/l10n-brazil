@@ -6,7 +6,7 @@ from odoo.exceptions import UserError
 
 
 class DocumentCorrection(models.Model):
-    _inherit = 'l10n_br_fiscal.document.correction'
+    _inherit = "l10n_br_fiscal.document.correction"
 
     @api.multi
     def correction(self, event_id):
