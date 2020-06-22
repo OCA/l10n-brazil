@@ -247,7 +247,8 @@ class Document(models.Model):
             'inscricao_municipal': misc.punctuation_rm(
                 self.partner_id.inscr_mun or '') or None,
             'razao_social': str(self.partner_id.legal_name[:60] or ''),
-            'endereco': str(self.partner_id.street or ''),
+            'endereco': str(self.partner_id.street or
+                            self.partner_id.street_name or ''),
             'numero': self.partner_id.street_number or '',
             'complemento': self.partner_shipping_id.street2 or None,
             'bairro': str(self.partner_id.district or 'Sem Bairro'),
