@@ -2,12 +2,43 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class ContractContract(models.Model):
 
     _inherit = 'contract.contract'
+    document_count = fields.Integer(compute="_compute_document_count")
+
+    @api.multi
+    def _compute_document_count(self):
+        for rec in self:
+            rec.document_count = len(rec._get_related_invoices().mapped(
+                'fiscal_document_id'))
+
+    @api.multi
+    def action_show_documents(self):
+        self.ensure_one()
+        tree_view_ref = (
+            'l10n_br_fiscal.document_tree'
+        )
+        form_view_ref = (
+            'l10n_br_fiscal.document_form'
+        )
+        tree_view = self.env.ref(tree_view_ref, raise_if_not_found=False)
+        form_view = self.env.ref(form_view_ref, raise_if_not_found=False)
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': 'Documents',
+            'res_model': 'l10n_br_fiscal.document',
+            'view_type': 'form',
+            'view_mode': 'tree,kanban,form,calendar,pivot,graph,activity',
+            'domain': [('id', 'in', self._get_related_invoices().mapped(
+                'fiscal_document_id').ids)],
+        }
+        if tree_view and form_view:
+            action['views'] = [(tree_view.id, 'tree'), (form_view.id, 'form')]
+        return action
 
     @api.multi
     def _prepare_invoice(self, date_invoice, journal=None):
