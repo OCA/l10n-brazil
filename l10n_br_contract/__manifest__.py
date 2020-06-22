@@ -14,6 +14,7 @@
         'l10n_br_account', 'l10n_br_fiscal', 'contract'
     ],
     'data': [
+        'views/contract_view.xml',
     ],
     'demo': [
     ],
