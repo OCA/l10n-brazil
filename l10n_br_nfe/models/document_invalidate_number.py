@@ -36,7 +36,8 @@ class DocumentInvalidateNumber(models.Model):
             processador = record._processador()
 
             evento = processador.inutilizacao(
-                cnpj=record.company_id.cnpj_cpf,
+                cnpj=record.company_id.cnpj_cpf.replace('.', '').replace(
+                    '/', '').replace('-', ''),
                 mod=record.document_serie_id.document_type_id.code,
                 serie=record.document_serie_id.code,
                 num_ini=record.number_start,
