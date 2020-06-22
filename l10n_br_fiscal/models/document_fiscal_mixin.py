@@ -1,3 +1,4 @@
+# Copyright (C) 2020  Luis Felipe Mileo - KMEE
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -75,6 +76,25 @@ class FiscalDocumentMixin(models.AbstractModel):
         domain=[('object', '=', FISCAL_COMMENT_DOCUMENT)],
     )
 
-    additional_data = fields.Text(
-        string='Additional Data',
+    #
+    # Duplicatas e pagamentos
+    #
+    payment_term_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.payment.term',
+        string='Condição de pagamento',
+        ondelete='restrict',
+    )
+
+    financial_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment.line',
+        inverse_name='document_id',
+        string='Duplicatas',
+        copy=True,
+    )
+
+    fiscal_payment_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment',
+        inverse_name='document_id',
+        string='Pagamentos',
+        copy=True,
     )
