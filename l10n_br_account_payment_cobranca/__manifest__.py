@@ -40,7 +40,11 @@
         'security/ir.model.access.csv',
         'data/cnab_data.xml',
     ],
-    'demo': ['demo/l10n_br_payment_mode.xml'],
+    'demo': [
+        'demo/account_journal_demo.xml',
+        'demo/l10n_br_payment_mode.xml',
+        'demo/account_invoice_demo.xml',
+    ],
     'test': [
         # 'tests/invoice_create.yml'
     ],
