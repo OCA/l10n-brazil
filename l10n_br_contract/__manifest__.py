@@ -11,7 +11,7 @@
     'author': 'KMEE INFORMATICA LTDA,Odoo Community Association (OCA)',
     'website': 'https://github.com/oca/l10n-brazil.git',
     'depends': [
-        'l10n_br_account', 'contract'
+        'l10n_br_account', 'l10n_br_fiscal', 'contract'
     ],
     'data': [
     ],
