@@ -107,9 +107,7 @@
     <!-- Payment Mode Cobrança Unicred 240 -->
     <record id="payment_mode_cobranca_unicred240" model="account.payment.mode">
         <field name="name">Cobrança Unicred240</field>
-        <field name="journal" ref="unicred_journal"/>
         <field name="company_id" ref="base.main_company"/>
-        <field name="type_payment">00</field>
         <field name="instrucoes">Pagavel em qualquer banco ate o
             vencimento
         </field>
@@ -132,7 +130,6 @@
     <record id="payment_mode_cobranca_itau240" model="account.payment.mode">
         <field name="name">Cobrança Itau240</field>
         <field name="company_id" ref="base.main_company"/>
-        <field name="type_payment">00</field>
         <field name="instrucoes">Pagavel em qualquer banco ate o
             vencimento
         </field>
