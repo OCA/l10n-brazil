@@ -9,3 +9,4 @@ from . import res_config_settings
 from . import cfop
 from . import document_cancel
 from . import document_correction
+from . import document_invalidate_number
