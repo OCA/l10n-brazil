@@ -340,7 +340,7 @@ class NFe(spec_models.StackedModel):
 
         return edocs
 
-    def _procesador(self):
+    def _processador(self):
         if not self.company_id.certificate_nfe_id:
             raise UserError(_("Certificado não encontrado"))
 
@@ -361,7 +361,7 @@ class NFe(spec_models.StackedModel):
         super(NFe, self)._document_export()
         for record in self.filtered(fiter_processador_edoc_nfe):
             edoc = record.serialize()[0]
-            procesador = record._procesador()
+            procesador = record._processador()
             xml_file = procesador._generateds_to_string_etree(edoc)[0]
             event_id = self._gerar_evento(xml_file, event_type="0")
             record.autorizacao_event_id = event_id
@@ -393,7 +393,7 @@ class NFe(spec_models.StackedModel):
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
         for record in self.filtered(fiter_processador_edoc_nfe):
-            procesador = record._procesador()
+            procesador = record._processador()
             for edoc in record.serialize():
                 processo = None
                 for p in procesador.processar_documento(edoc):
@@ -430,7 +430,7 @@ class NFe(spec_models.StackedModel):
         super(NFe, self).cancel_invoice_online(justificative)
         for record in self.filtered(fiter_processador_edoc_nfe):
             if record.state in ('open', 'paid'):
-                processador = record._procesador()
+                processador = record._processador()
 
                 evento = processador.cancela_documento(
                     chave=record.edoc_access_key,
@@ -464,7 +464,7 @@ class NFe(spec_models.StackedModel):
     #     super(NFe, self).cce_invoice_online(justificative)
     #     for record in self.filtered(fiter_processador_edoc_nfe):
     #         if record.state in ('open', 'paid'):
-    #             processador = record._procesador()
+    #             processador = record._processador()
     #
     #             evento = processador.carta_correcao(
     #                 chave=record.edoc_access_key,
