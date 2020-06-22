@@ -42,7 +42,7 @@
     ],
     'demo': [
         'demo/account_journal_demo.xml',
-        'demo/l10n_br_payment_mode.xml',
+        'demo/account_payment_mode_demo.xml',
         'demo/account_invoice_demo.xml',
     ],
     'test': [
