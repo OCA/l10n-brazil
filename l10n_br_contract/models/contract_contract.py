@@ -13,6 +13,7 @@ class ContractContract(models.Model):
     def _prepare_invoice(self, date_invoice, journal=None):
         invoice_vals = super()._prepare_invoice(date_invoice, journal)
         invoice_vals['fiscal_document_id'] = False
+        invoice_vals['company_id'] = self.company_id.id
         invoice_vals['operation_type'] = 'out'
         invoice_vals['document_type_id'] = self.company_id.document_type_id.id
         invoice_vals['fiscal_operation_id'] = \
@@ -32,6 +33,10 @@ class ContractContract(models.Model):
             invoice.fiscal_document_id._onchange_company_id()
             invoice.fiscal_document_id._onchange_partner_id()
             invoice.fiscal_document_id._onchange_fiscal_operation_id()
+            if hasattr(invoice.fiscal_document_id, 'rps_number'):
+                invoice.fiscal_document_id.rps_number = \
+                    invoice.fiscal_document_id.number
+                invoice.fiscal_document_id.number = 'SN'
             for line in invoice.fiscal_document_id.line_ids:
                 line._onchange_product_id_fiscal()
                 line._onchange_commercial_quantity()
