@@ -63,7 +63,8 @@ class AbstractSpecMixin(models.AbstractModel):
         child_path = '%s.%s' % (path, key)
 
         if attr.get_child_attrs().get('type') is None\
-                or attr.get_child_attrs().get('type') == 'xs:string':
+                or attr.get_child_attrs().get('type') in ('xs:string',
+                                                          'xs:base64Binary'):
             # SimpleType
             if fields[key]['type'] == 'datetime':
                 if 'T' in value:
