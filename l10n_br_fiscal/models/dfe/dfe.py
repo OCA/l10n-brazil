@@ -149,11 +149,12 @@ class DFe(models.Model):
             if (result.resposta.cStat in ['137', '138']):
 
                 nfe_list = []
-                for doc in result.resposta.loteDistDFeInt.docZip:
-                    nfe_list.append({
-                        'xml': doc.valueOf_, 'NSU': doc.NSU,
-                        'schema': doc.schema
-                    })
+                if result.resposta.loteDistDFeInt:
+                    for doc in result.resposta.loteDistDFeInt.docZip:
+                        nfe_list.append({
+                            'xml': doc.valueOf_, 'NSU': doc.NSU,
+                            'schema': doc.schema
+                        })
 
                 return {
                     'result': result,
