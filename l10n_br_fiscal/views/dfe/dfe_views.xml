@@ -102,7 +102,7 @@
             <tree position="attributes">
                 <attribute name="limit">5</attribute>
             </tree>
-            <field name="operation_id" position="attributes">
+            <field name="fiscal_operation_id" position="attributes">
                 <attribute name="invisible">True</attribute>
             </field>
             <field name="number" position="attributes">
