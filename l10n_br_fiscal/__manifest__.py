@@ -88,9 +88,7 @@
         "views/subsequent_document_view.xml",
         "views/l10n_br_fiscal_action.xml",
         "views/uom_uom.xml",
-        "views/operation_dashboard_view.xml",
         "views/closing.xml",
-        "views/document_event_view.xml",
         "views/document_invalidate_number.xml",
         "views/document_cancel.xml",
         "views/document_correction.xml",
@@ -99,6 +97,8 @@
 
 
         "views/l10n_br_fiscal_menu.xml",
+        "views/operation_dashboard_view.xml",
+        "views/document_event_view.xml",
         # 'data/l10n_br_account_product_sequence.xml',
         # 'data/l10n_br_account_data.xml',
         # 'data/l10n_br_account_product_data.xml',
