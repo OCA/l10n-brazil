@@ -1555,7 +1555,7 @@ msgid "Cancelar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:846
+#: code:addons/l10n_br_fiscal/models/document.py:763
 #, python-format
 msgid ""
 "Canceling the document is not allowed: one or more associated documents have "
@@ -2478,6 +2478,13 @@ msgstr "Série"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_serie_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__document_serie_id
 msgid "Document Serie"
+msgstr "Série"
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document_serie.py:56
+#, fuzzy, python-format
+#| msgid "Document Serie"
+msgid "Document Serie Sequence"
 msgstr "Série"
 
 #. module: l10n_br_fiscal
@@ -5747,7 +5754,7 @@ msgid "Não é permitido faixas sobrepostas!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:186
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:187
 #, python-format
 msgid ""
 "Não é possível realizar esta operação,\n"
@@ -5759,7 +5766,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:112
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:113
 #, python-format
 msgid ""
 "Não é possível retornar o documento para em \n"
@@ -7777,7 +7784,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:655
+#: code:addons/l10n_br_fiscal/models/document.py:625
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
