@@ -587,7 +587,7 @@ class DFe(models.Model):
 
         result = p.consultar_distribuicao(
             cnpj_cpf=cnpj_partner,
-            chave_nfe=list_nfe)
+            chave=list_nfe)
 
         if result.retorno.status_code == 200:  # Webservice ok
             if result.resposta.cStat == '138':
