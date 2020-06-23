@@ -17,7 +17,8 @@ from ..constants.fiscal import (SITUACAO_EDOC,
                                 WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
                                 WORKFLOW_EDOC,
                                 PROCESSADOR_NENHUM,
-                                PROCESSADOR
+                                PROCESSADOR,
+                                DOCUMENT_ISSUER_COMPANY,
                                 )
 
 import logging
@@ -224,12 +225,18 @@ class DocumentWorkflow(models.AbstractModel):
         if not self.date:
             self.date = self._date_server_format()
 
+    def _generate_key(self):
+        pass
+
     def document_number(self):
-        if not self.number and self.document_serie_id and self.date:
-            self.number = self._create_serie_number(
-                self.document_serie_id.id,
-                self.date
-            )
+        for nfe in self:
+            if not nfe.number and nfe.document_serie_id and nfe.date:
+                nfe.number = nfe.document_serie_id.next_seq_number()
+
+            if (nfe.issuer == DOCUMENT_ISSUER_COMPANY
+                    and nfe.document_electronic
+                    and not nfe.key):
+                nfe.key = nfe._generate_key()
 
     def document_check(self):
         return True

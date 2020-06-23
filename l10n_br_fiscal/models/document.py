@@ -3,7 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from ast import literal_eval
-from erpbrasil.base import misc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -551,24 +550,6 @@ class Document(models.Model):
         string='State'
     )
 
-    @api.model
-    def _create_serie_number(self, document_serie_id, document_date):
-        document_serie = self.env['l10n_br_fiscal.document.serie'].browse(
-            document_serie_id)
-        number = document_serie.internal_sequence_id.with_context(
-            ir_sequence_date=document_date)._next()
-        invalids = \
-            self.env['l10n_br_fiscal.document.invalidate.number'].search([
-                ('state', '=', 'done'),
-                ('document_serie_id', '=', document_serie_id)])
-        invalid_numbers = []
-        for invalid in invalids:
-            invalid_numbers += range(
-                invalid.number_start, invalid.number_end + 1)
-        if int(number) in invalid_numbers:
-            return self._create_serie_number(document_serie_id, document_date)
-        return number
-
     document_subsequent_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.subsequent.document',
         inverse_name='source_document_id',
@@ -587,17 +568,6 @@ class Document(models.Model):
             r.document_type_id.name,
             r.document_serie,
             r.number)) for r in self]
-
-    @api.model
-    def create(self, values):
-        if not values.get('date'):
-            values['date'] = self._date_server_format()
-
-        if values.get('document_serie_id') and not values.get('number'):
-            values['number'] = self._create_serie_number(
-                values.get('document_serie_id'), values['date'])
-
-        return super(Document, self).create(values)
 
     @api.multi
     @api.onchange('document_section')
@@ -655,72 +625,11 @@ class Document(models.Model):
                     "Serie: {0}, Number: {1} !".format(
                         record.document_serie, record.number)))
 
-    # TODO Este método deveria estar no fiscal document abstract
-    def document_number(self):
-        super(Document, self).document_number()
-        for record in self:
-            if record.issuer == "company" and record.document_electronic and \
-                    not record.key:
-                record._generate_key()
-
-    # TODO - este método deveria estar no l10n_br_nfe e o calculo da chave
-    # Deveria estar no erpbrasil.base.fiscal
-    def _generate_key(self):
-        company = self.company_id.partner_id
-        chave = str(company.state_id and
-                    company.state_id.ibge_code or "").zfill(2)
-
-        chave += self.date.strftime("%y%m").zfill(4)
-
-        chave += str(misc.punctuation_rm(
-            self.company_id.partner_id.cnpj_cpf)).zfill(14)
-        chave += str(self.document_type_id.code or "").zfill(2)
-        chave += str(self.document_serie or "").zfill(3)
-        chave += str(self.number or "").zfill(9)
-
-        #
-        # A inclusão do tipo de emissão na chave já torna a chave válida também
-        # para a versão 2.00 da NF-e
-        #
-        chave += str(1).zfill(1)
-
-        #
-        # O código numério é um número aleatório
-        #
-        # chave += str(random.randint(0, 99999999)).strip().rjust(8, '0')
-
-        #
-        # Mas, por segurança, é preferível que esse número não seja
-        # aleatório de todo
-        #
-        soma = 0
-        for c in chave:
-            soma += int(c) ** 3 ** 2
-
-        codigo = str(soma)
-        if len(codigo) > 8:
-            codigo = codigo[-8:]
-        else:
-            codigo = codigo.rjust(8, "0")
-
-        chave += codigo
-
-        soma = 0
-        m = 2
-        for i in range(len(chave) - 1, -1, -1):
-            c = chave[i]
-            soma += int(c) * m
-            m += 1
-            if m > 9:
-                m = 2
-
-        digito = 11 - (soma % 11)
-        if digito > 9:
-            digito = 0
-
-        chave += str(digito)
-        # FIXME: Fazer sufixo depender do modelo
-        self.key = 'NFe' + chave
+    @api.model
+    def create(self, values):
+        if not values.get('date'):
+            values['date'] = self._date_server_format()
+        return super().create(values)
 
     def _create_return(self):
         return_ids = self.env[self._name]
@@ -780,6 +689,8 @@ class Document(models.Model):
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
         super()._onchange_fiscal_operation_id()
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self.document_type_id = self.company_id.document_type_id
 
         subsequent_documents = [(6, 0, {})]
         for subsequent_id in self.fiscal_operation_id.mapped(
@@ -791,6 +702,12 @@ class Document(models.Model):
                     subsequent_id.subsequent_operation_id.id,
             }))
         self.document_subsequent_ids = subsequent_documents
+
+    @api.onchange('document_type_id')
+    def _onchange_document_type_id(self):
+        if self.document_type_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self.document_serie_id = self.document_type_id.get_document_serie(
+                self.company_id, self.fiscal_operation_id)
 
     @api.onchange('document_serie_id')
     def _onchange_document_serie_id(self):
