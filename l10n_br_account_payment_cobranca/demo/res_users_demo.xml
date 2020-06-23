@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Configure Users CNAB access -->
+    <record id="base.user_admin" model="res.users">
+        <field name="in_group_29">1</field>
+    </record>
+
+    <record id="base.user_demo" model="res.users">
+        <field name="in_group_29">1</field>
+    </record>
+
+</odoo>

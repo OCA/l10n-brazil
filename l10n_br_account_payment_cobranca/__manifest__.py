@@ -41,6 +41,7 @@
         'data/cnab_data.xml',
     ],
     'demo': [
+        'demo/res_users_demo.xml',
         'demo/account_journal_demo.xml',
         'demo/account_payment_mode_demo.xml',
         'demo/account_invoice_demo.xml',
