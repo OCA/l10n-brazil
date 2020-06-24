@@ -57,8 +57,8 @@
             <xpath expr="//field[@name='order_line']/tree/field[@name='discount']" position="replace"/>
             <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="replace"/>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
-                <field name="discount" groups="sale.group_discount_per_so_line"/>
-                <field name="discount_value" groups="sale.group_discount_per_so_line,l10n_br_sale.group_discount_per_value"/>
+                <field name="discount" groups="!l10n_br_sale.group_discount_per_value"/>
+                <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
                 <field name="fiscal_tax_ids" widget="many2many_tags"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
@@ -102,8 +102,17 @@
                   </page>
                 </notebook>
             </xpath>
-            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
-                <field name="discount_value" groups="sale.group_discount_per_so_line,l10n_br_sale.group_discount_per_value"/>
+            <xpath expr="//field[@name='order_line']/form//div[@name='discount']" position="attributes">
+                <attribute name="groups">!l10n_br_sale.group_discount_per_value</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//label[@for='discount']" position="attributes">
+                <attribute name="groups">!l10n_br_sale.group_discount_per_value</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//div[@name='discount']" position="after">
+              <label for="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
+              <div name="discount_value" groups="l10n_br_sale.group_discount_per_value">
+                  <field name="discount_value" class="oe_inline"/>
+              </div>
             </xpath>
             <xpath expr="//group[@name='sale_total']" position="after">
                 <group style="width: 65%%"
