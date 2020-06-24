@@ -83,17 +83,17 @@ class SaleOrderLine(models.Model):
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
         super(SaleOrderLine, self)._compute_amount()
-        for line in self:
-            price_tax = line.price_tax + line.amount_tax_not_included
-            price_subtotal = (
-                line.price_subtotal + line.freight_value +
-                line.insurance_value + line.other_costs_value)
+        for l in self:
+            l._update_taxes()
+            price_tax = l.price_tax + l.amount_tax_not_included
+            price_total = (
+                l.price_subtotal + l.freight_value +
+                l.insurance_value + l.other_costs_value)
 
-            line.update({
+            l.update({
                 'price_tax': price_tax,
-                'price_gross': price_subtotal + line.discount_value,
-                'price_subtotal': price_subtotal,
-                'price_total': price_subtotal + price_tax,
+                'price_gross': l.price_subtotal + l.discount_value,
+                'price_total': price_total + price_tax,
             })
 
     @api.multi
@@ -110,17 +110,18 @@ class SaleOrderLine(models.Model):
         self._onchange_commercial_quantity()
 
     @api.onchange('discount')
-    def _onchange_discount(self):
+    def _onchange_discount_percent(self):
         """Update discount value"""
-        if self.env.user.has_group('l10n_br_sale.group_discount_per_value'):
+        if not self.env.user.has_group('l10n_br_sale.group_discount_per_value'):
             if self.discount:
                 self.discount_value = (
-                    self.price_gross * (self.discount / 100))
+                    (self.product_uom_qty * self.price_unit) * (
+                    self.discount / 100))
 
     @api.onchange('discount_value')
     def _onchange_discount_value(self):
         """Update discount percent"""
-        if self.env.user.has_group('l10n_br_sale.group_total_discount'):
+        if self.env.user.has_group('l10n_br_sale.group_discount_per_value'):
             if self.discount_value:
                 self.discount = ((self.discount_value * 100) /
                                  (self.product_uom_qty * self.price_unit))
