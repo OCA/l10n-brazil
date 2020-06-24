@@ -180,6 +180,9 @@ class DocumentEletronic(models.AbstractModel):
 
     def view_xml(self):
         xml_file = self.file_xml_autorizacao_id or self.file_xml_id
+        if not xml_file:
+            self._document_export()
+            xml_file = self.file_xml_autorizacao_id or self.file_xml_id
         return self._target_new_tab(xml_file)
 
     def view_pdf(self):
