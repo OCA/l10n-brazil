@@ -6,7 +6,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import \
     SITUACAO_EDOC_INUTILIZADA
 from erpbrasil.assinatura import certificado as cert
-from erpbrasil.edoc import NFe as edoc_nfe
+from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
 from requests import Session
 
