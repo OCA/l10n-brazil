@@ -174,7 +174,9 @@ class L10nBrHrCnab(models.Model):
         states={'draft': [('readonly', False)]}
     )
     bank = fields.Selection(
-        [('bradesco', u'Bradesco'), ('itau', u'Itaú')],
+        [('bradesco', 'Bradesco'),
+         ('itau', 'Itaú'),
+         ('unicred', 'Unicred')],
         string='Bank', states={'draft': [('readonly', False)]}
     )
 
@@ -183,7 +185,7 @@ class L10nBrHrCnab(models.Model):
 
         files = {'data': base64.b64decode(self.arquivo_retorno)}
         res = requests.post(
-            "http://boleto_cnab_api:9292/api/retorno",
+            "http://brcobranca:9292/api/retorno",
             data={
                 'type': self.cnab_type,
                 'bank': self.bank,
