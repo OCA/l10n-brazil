@@ -91,7 +91,8 @@ class PaymentOrder(models.Model):
         result = super()._prepare_bank_payment_line(paylines)
         result["nosso_numero"] = paylines[0].nosso_numero
         result["numero_documento"] = paylines[0].numero_documento
-        result["identificacao_titulo_empresa"] = paylines[0].identificacao_titulo_empresa
+        result["identificacao_titulo_empresa"] =\
+            paylines[0].identificacao_titulo_empresa
         result["ultimo_estado_cnab"] = paylines[0].move_line_id.state_cnab
         return result
 

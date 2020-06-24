@@ -515,7 +515,11 @@ TIPO_DE_CONTA = [
     ("13", "Conta depósito judicial/Depósito em consignação " "conjunta"),
 ]
 
-STATE_CNAB = [("draft", "Novo"), ("done", "Processado"), ("error", "Erro no Processamento")]
+STATE_CNAB = [
+    ("draft", "Novo"),
+    ("done", "Processado"),
+    ("error", "Erro no Processamento")
+]
 
 TIPO_OPERACAO_CNAB = {
     "C": "Lançamento a Crédito",
