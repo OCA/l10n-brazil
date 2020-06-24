@@ -142,6 +142,13 @@ class PaymentOrder(models.Model):
             remessa_values[
                 'codigo_empresa'] = int(self.payment_mode_id.codigo_convenio)
 
+        # Field used in Sicredi/Unicred and Sicoob Banks
+        if bank_account.bank_id.code_bc == '748':
+            # TODO - Verificar no manual de onde vem o campo e tirar o hardcode
+            remessa_values.update({
+                'codigo_transmissao': '01234567890123456789',
+            })
+
         content = json.dumps(remessa_values)
         f = open(tempfile.mktemp(), 'w')
         f.write(content)
@@ -151,7 +158,6 @@ class PaymentOrder(models.Model):
         # TODO - Name of service should be a parameter ?
         #  For docky users check the name of service
         #  defined in dev.docker-compose.yml
-
         res = requests.post(
             "http://brcobranca:9292/api/remessa",
             data={
@@ -159,20 +165,20 @@ class PaymentOrder(models.Model):
                     self.payment_mode_id.payment_method_id.code],
                 'bank': bank_name_brcobranca[0],
             }, files=files)
-        # print "AAAAAAAA", res.status_code, str(res.status_code)[0]
-        #print('RES.CONTENT', res.content[0])
+        # print("AAAAAAAA", res.status_code, str(res.status_code)[0])
+        # print('RES.CONTENT', res.content[0], type(res.content[0]))
 
-        # TODO - Check If will be necessary keep code
-        #  Test made in CNAB 400 Bradesco
-        #if res.content[0] == '0':
-        #    remessa = res.content
-        #else:
-        #    raise UserError(res.text)
+        # TODO - Verificar a melhor forma de validação res.status_code ou
+        #   res.content[0], na versão 8 foi feito esse if para o banco bradesco
+        # if bank_name_brcobranca[0] == 'bradesco' and res.content[0] == '0':
+        #     remessa = res.content
+        if res.status_code == 201:
+            remessa = res.content
+        else:
+            raise UserError(res.text)
 
-        remessa = res.content
-
-        #self.state = 'done'
-        #self.cnab_file = base64.b64encode(remessa)
+        # self.state = 'done'
+        # self.cnab_file = base64.b64encode(remessa)
 
         # Criando instancia do CNAB a partir do código do banco
         #            cnab = Cnab.get_cnab(
@@ -180,7 +186,6 @@ class PaymentOrder(models.Model):
 
         #                remessa = cnab.remessa(order)
 
-        file_name = ''
         if self.payment_mode_id.payment_method_id.code == '240':
             file_name = 'CB%s%s.REM' % (
                 time.strftime('%d%m'), str(self.file_number))
