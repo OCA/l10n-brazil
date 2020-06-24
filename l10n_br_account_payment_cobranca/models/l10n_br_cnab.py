@@ -82,7 +82,8 @@ class L10nBrHrCnab(models.Model):
     bank_account_id = fields.Many2one(
         string="Conta cedente", comodel_name="res.partner.bank"
     )
-    data = fields.Date(string="Data CNAB", required=True, default=datetime.now())
+    data = fields.Date(
+        string="Data CNAB", required=True, default=datetime.now().date())
     data_arquivo = fields.Date(string="Data Criação no Banco")
     sequencial_arquivo = fields.Char(string="Sequencial do Arquivo")
     motivo_erro = fields.Char(string="Motivo do Erro")
