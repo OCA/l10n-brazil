@@ -143,7 +143,7 @@ class TestL10nBRSale(common.TransactionCase):
                 " dictionary from Sale Order.",
             )
             self.assertTrue(
-                invoice.operation_type,
+                invoice.fiscal_operation_type,
                 "Error to included Operation Type on invoice"
                 " dictionary from Sale Order.",
             )
