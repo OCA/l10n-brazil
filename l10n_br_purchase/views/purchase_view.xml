@@ -42,7 +42,7 @@
                   <field name="fiscal_operation_id" required="1"/>
                   <field name="fiscal_operation_line_id" required="1"/>
                   <group name="fiscal_fields" invisible="1">
-                      <field name="operation_type" invisible="1" readonly="1"/>
+                      <field name="fiscal_operation_type" invisible="1" readonly="1"/>
                       <field name="fiscal_genre_code" invisible="1"/>
                       <field name="tax_framework" invisible="1"/>
                   </group>
