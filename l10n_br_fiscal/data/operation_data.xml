@@ -16,7 +16,7 @@
         <field name="partner_id" ref="base.main_partner"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="company_id" eval="False"/>
     </record>
 
@@ -29,7 +29,7 @@
     <record id="fo_venda" model="l10n_br_fiscal.operation">
         <field name="code">Venda</field>
         <field name="name">Venda</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">sale</field>
         <field name="default_price_unit">sale_price</field>
         <field name="state">approved</field>
@@ -82,7 +82,7 @@
     <record id="fo_bonificacao" model="l10n_br_fiscal.operation">
         <field name="code">Bonificação</field>
         <field name="name">Bonificação</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">other</field>
         <field name="default_price_unit">sale_price</field>
         <field name="state">approved</field>
@@ -105,7 +105,7 @@
     <record id="fo_devolucao_venda" model="l10n_br_fiscal.operation">
         <field name="code">Devolução de Venda</field>
         <field name="name">Devolução de Venda</field>
-        <field name="operation_type">in</field>
+        <field name="fiscal_operation_type">in</field>
         <field name="fiscal_type">sale_refund</field>
         <field name="default_price_unit">cost_price</field>
         <field name="state">approved</field>
@@ -139,7 +139,7 @@
     <record id="fo_compras" model="l10n_br_fiscal.operation">
         <field name="code">Compras</field>
         <field name="name">Compras</field>
-        <field name="operation_type">in</field>
+        <field name="fiscal_operation_type">in</field>
         <field name="fiscal_type">purchase</field>
         <field name="default_price_unit">cost_price</field>
         <field name="state">approved</field>
@@ -157,7 +157,7 @@
     <record id="fo_devolucao_compras" model="l10n_br_fiscal.operation">
         <field name="code">Devolução de Compras</field>
         <field name="name">Devolução de Compras</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">purchase_refund</field>
         <field name="default_price_unit">cost_price</field>
         <field name="state">approved</field>
@@ -182,7 +182,7 @@
     <record id="fo_entrada_remessa" model="l10n_br_fiscal.operation">
         <field name="code">Entrada de Remessa</field>
         <field name="name">Entrada de Remessa</field>
-        <field name="operation_type">in</field>
+        <field name="fiscal_operation_type">in</field>
         <field name="fiscal_type">other</field>
         <field name="default_price_unit">cost_price</field>
         <field name="state">approved</field>
@@ -198,7 +198,7 @@
     <record id="fo_simples_remessa" model="l10n_br_fiscal.operation">
         <field name="code">Simples Remessa</field>
         <field name="name">Simples Remessa</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">other</field>
         <field name="default_price_unit">sale_price</field>
         <field name="state">approved</field>
@@ -214,7 +214,7 @@
     <record id="fo_simples_faturamento" model="l10n_br_fiscal.operation">
         <field name="code">Simples Faturamento</field>
         <field name="name">Simples Faturamento</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">other</field>
         <field name="default_price_unit">sale_price</field>
         <field name="state">approved</field>
@@ -238,7 +238,7 @@
     <record id="fo_entrega_futura" model="l10n_br_fiscal.operation">
         <field name="code">Venda - Entrega Futura</field>
         <field name="name">Venda - Entrega Futura</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">sale</field>
         <field name="default_price_unit">sale_price</field>
         <field name="state">approved</field>

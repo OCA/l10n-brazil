@@ -158,9 +158,9 @@ class Tax(models.Model):
         "Tax already exists with this name !")]
 
     @api.multi
-    def get_account_tax(self, operation_type=FISCAL_OUT):
+    def get_account_tax(self, fiscal_operation_type=FISCAL_OUT):
         account_tax_type = {'out': 'sale', 'in': 'purchase'}
-        type_tax_use = account_tax_type.get(operation_type, 'sale')
+        type_tax_use = account_tax_type.get(fiscal_operation_type, 'sale')
 
         account_taxes = self.env["account.tax"].search([
             ("fiscal_tax_id", "=", self.ids),
@@ -169,13 +169,13 @@ class Tax(models.Model):
 
         return account_taxes
 
-    def cst_from_tax(self, operation_type=FISCAL_OUT):
+    def cst_from_tax(self, fiscal_operation_type=FISCAL_OUT):
         self.ensure_one()
         cst = self.env["l10n_br_fiscal.cst"]
-        if operation_type == FISCAL_IN:
+        if fiscal_operation_type == FISCAL_IN:
             cst = self.cst_in_id
 
-        if operation_type == FISCAL_OUT:
+        if fiscal_operation_type == FISCAL_OUT:
             cst = self.cst_out_id
         return cst
 
@@ -260,8 +260,9 @@ class Tax(models.Model):
 
         tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
 
-        operation_type = operation_line.operation_type or FISCAL_OUT
-        tax_dict['cst_id'] = tax.cst_from_tax(operation_type)
+        fiscal_operation_type = (operation_line.fiscal_operation_type
+                                 or FISCAL_OUT)
+        tax_dict['cst_id'] = tax.cst_from_tax(fiscal_operation_type)
 
         base_amount = tax_dict.get("base", 0.00)
 
@@ -325,7 +326,7 @@ class Tax(models.Model):
 
         # DIFAL
         if (company.state_id != partner.state_id
-                and operation_line.operation_type == FISCAL_OUT
+                and operation_line.fiscal_operation_type == FISCAL_OUT
                 and not partner.is_company):
             tax_icms_difal = company.icms_regulation_id.map_tax_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line)
@@ -567,8 +568,9 @@ class Tax(models.Model):
             try:
                 # Define CST FROM TAX
                 operation_line = kwargs.get("operation_line")
-                operation_type = operation_line.operation_type or FISCAL_OUT
-                kwargs.update({"cst": tax.cst_from_tax(operation_type)})
+                fiscal_operation_type = (operation_line.fiscal_operation_type
+                                         or FISCAL_OUT)
+                kwargs.update({"cst": tax.cst_from_tax(fiscal_operation_type)})
 
                 compute_method = getattr(self, "_compute_%s" % tax.tax_domain)
                 taxes[tax.tax_domain].update(
