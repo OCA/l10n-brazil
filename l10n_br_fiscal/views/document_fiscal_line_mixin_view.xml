@@ -8,7 +8,7 @@
       <form>
         <group name="fiscal_fields" invisible="1">
           <field name="currency_id" force_save="1" invisible="1"/>
-          <field name="operation_type" force_save="1" invisible="1"/>
+          <field name="fiscal_operation_type" force_save="1" invisible="1"/>
           <field name="company_id" force_save="1" invisible="1"/>
           <field name="partner_id" force_save="1" invisible="1"/>
           <field name="fiscal_type" force_save="1" invisible="1"/>
@@ -149,11 +149,11 @@
                     <field name="pis_tax_id"/>
                     <field name="pis_cst_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
                     <field name="pis_cst_code" readonly="1" invisible="1"/>
-                    <field name="pis_credit_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                    <field name="pis_credit_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                   </group>
                   <group>
                     <group>
-                      <field name="pis_base_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                      <field name="pis_base_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                       <field name="pis_base_type" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
                       <field name="pis_percent" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
                       <field name="pis_reduction" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
@@ -198,11 +198,11 @@
                   <field name="cofins_tax_id"/>
                   <field name="cofins_cst_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
                   <field name="cofins_cst_code" readonly="1" invisible="1"/>
-                  <field name="cofins_credit_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                  <field name="cofins_credit_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                 </group>
                 <group>
                   <group>
-                    <field name="cofins_base_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                    <field name="cofins_base_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                     <field name="cofins_base_type" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
                     <field name="cofins_percent" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
                     <field name="cofins_reduction" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>

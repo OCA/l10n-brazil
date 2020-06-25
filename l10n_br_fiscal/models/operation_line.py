@@ -46,27 +46,27 @@ class OperationLine(models.Model):
     cfop_internal_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cfop',
         string='CFOP Internal',
-        domain="[('type_in_out', '=', operation_type), "
+        domain="[('type_in_out', '=', fiscal_operation_type), "
                "('destination', '=', '1'),"
                "('type_move', '=ilike', fiscal_type + '%')]")
 
     cfop_external_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cfop',
         string='CFOP External',
-        domain="[('type_in_out', '=', operation_type), "
+        domain="[('type_in_out', '=', fiscal_operation_type), "
                "('type_move', '=ilike', fiscal_type + '%'), "
                "('destination', '=', '2')]")
 
     cfop_export_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cfop',
         string='CFOP Export',
-        domain="[('type_in_out', '=', operation_type), "
+        domain="[('type_in_out', '=', fiscal_operation_type), "
                "('type_move', '=ilike', fiscal_type + '%'), "
                "('destination', '=', '3')]")
 
-    operation_type = fields.Selection(
+    fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
-        related='fiscal_operation_id.operation_type',
+        related='fiscal_operation_id.fiscal_operation_type',
         string='Operation Type',
         store=True,
         readonly=True)
@@ -81,13 +81,13 @@ class OperationLine(models.Model):
     line_inverse_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation.line',
         string='Operation Line Inverse',
-        domain="[('operation_type', '!=', operation_type)]",
+        domain="[('fiscal_operation_type', '!=', fiscal_operation_type)]",
         copy=False)
 
     line_refund_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation.line',
         string='Operation Line Refund',
-        domain="[('operation_type', '!=', operation_type)]",
+        domain="[('fiscal_operation_type', '!=', fiscal_operation_type)]",
         copy=False)
 
     partner_tax_framework = fields.Selection(
@@ -256,7 +256,7 @@ class OperationLine(models.Model):
     @api.multi
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
-        if not self.fiscal_operation_id.operation_type:
+        if not self.fiscal_operation_id.fiscal_operation_type:
             warning = {
                 "title": _("Warning!"),
                 "message": _("You must first select a operation type."),
