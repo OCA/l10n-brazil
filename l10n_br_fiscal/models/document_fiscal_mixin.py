@@ -50,9 +50,9 @@ class FiscalDocumentMixin(models.AbstractModel):
         comodel_name='res.partner',
     )
 
-    operation_type = fields.Selection(
+    fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
-        related='fiscal_operation_id.operation_type',
+        related='fiscal_operation_id.fiscal_operation_type',
         string='Operation Type',
         readonly=True,
     )
