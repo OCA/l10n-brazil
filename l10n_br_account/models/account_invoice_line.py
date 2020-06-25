@@ -86,13 +86,14 @@ class AccountInvoiceLine(models.Model):
 
         if taxes:
             self.price_subtotal = taxes['total_excluded']
-            price_subtotal_signed = self.price_subtotal
             self.price_total = taxes['total_included']
         else:
             self.price_subtotal = self.quantity * self.price_unit
             self.price_total = self.price_subtotal
 
         self.price_subtotal -= self.discount_value
+        price_subtotal_signed = self.price_subtotal
+        
         self.price_total += (
             self.insurance_value + self.other_costs_value +
             self.freight_value - self.discount_value)
