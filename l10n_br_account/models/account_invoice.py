@@ -111,6 +111,67 @@ class AccountInvoice(models.Model):
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return result
 
+    @api.one
+    @api.depends(
+        'invoice_line_ids.price_subtotal',
+        'tax_line_ids.amount',
+        'tax_line_ids.amount_rounding',
+        'currency_id',
+        'company_id',
+        'date_invoice',
+        'type')
+    def _compute_amount(self):
+        self.amount_untaxed = 0.00
+        self.amount_tax = 0.00
+        for inv_line in self.invoice_line_ids:
+            if inv_line.cfop_id.finance_move:
+                self.amount_untaxed += inv_line.price_subtotal
+                self.amount_tax += inv_line.price_tax
+
+            self.amount_total = self.amount_untaxed + self.amount_tax
+
+        amount_total_company_signed = self.amount_total
+        amount_untaxed_signed = self.amount_untaxed
+        if (self.currency_id and self.company_id and
+                self.currency_id != self.company_id.currency_id):
+            currency_id = self.currency_id
+            amount_total_company_signed = currency_id._convert(
+                self.amount_total, self.company_id.currency_id,
+                self.company_id, self.date_invoice or fields.Date.today())
+            amount_untaxed_signed = currency_id._convert(
+                self.amount_untaxed, self.company_id.currency_id,
+                self.company_id, self.date_invoice or fields.Date.today())
+        sign = self.type in ['in_refund', 'out_refund'] and -1 or 1
+        self.amount_total_company_signed = amount_total_company_signed * sign
+        self.amount_total_signed = self.amount_total * sign
+        self.amount_untaxed_signed = amount_untaxed_signed * sign
+
+    @api.model
+    def invoice_line_move_line_get(self):
+        move_lines_dict = super().invoice_line_move_line_get()
+        new_mv_lines_dict = []
+        for line in move_lines_dict:
+            invoice_line = self.invoice_line_ids.browse(line.get('invl_id'))
+            line['price'] = invoice_line.price_total
+            if invoice_line.cfop_id.finance_move:
+                new_mv_lines_dict.append(line)
+
+        return new_mv_lines_dict
+
+    @api.model
+    def tax_line_move_line_get(self):
+        tax_lines_dict = super().tax_line_move_line_get()
+        new_tax_lines_dict = []
+        # for tax in tax_lines_dict:
+        #     new_tax_lines_dict.append(tax)
+        #
+        #     new_tax = tax.copy()
+        #     new_tax['type'] = 'src'
+        #
+        #     new_tax_lines_dict.append(new_tax)
+
+        return new_tax_lines_dict
+
     @api.multi
     def get_taxes_values(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
