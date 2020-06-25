@@ -38,7 +38,7 @@
         <field name="id" invisible="1"/>
         <field name="currency_id" invisible="1"/>
         <field name="document_electronic" invisible="1"/>
-        <field name="operation_type" invisible="1"/>
+        <field name="fiscal_operation_type" invisible="1"/>
         <header>
             <button name="action_confirm" type="object" states="draft" string="Confirm" class="oe_highlight" groups="l10n_br_fiscal.group_user"/>
             <field name="state" widget="statusbar"/>
@@ -114,7 +114,7 @@
               </group>
             </page>
             <page name="products" string="Products and Services">
-              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_operation_id': operation_id, 'default_company_id': company_id, 'default_operation_type': operation_type}">
+              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_operation_id': operation_id, 'default_company_id': company_id, 'default_fiscal_operation_type': fiscal_operation_type}">
                 <tree>
                   <field name="product_id"/>
                   <field name="uom_id"/>
