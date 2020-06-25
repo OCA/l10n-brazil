@@ -23,7 +23,7 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
 <!--        <field name="file_xml_autorizacao_id" ref="dummy_file_1"/> FIXME: Este é um campo related!!!!-->
     </record>
 
@@ -35,7 +35,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -47,7 +47,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -68,7 +68,7 @@
         <field name="partner_cnpj_cpf">14.753.702/0001-50</field>
         <field name="partner_inscr_est">8700737-10</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_other_state_1-3" model="l10n_br_fiscal.document.line">
@@ -78,7 +78,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -90,7 +90,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -102,7 +102,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">2400</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -119,7 +119,7 @@
         <field name="key">26180812984794000154550010000016871192213339</field>
         <field name="number">19221333</field>
         <field name="partner_id" ref="base.res_partner_2"/>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_export_3-1" model="l10n_br_fiscal.document.line">
@@ -129,7 +129,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -141,7 +141,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -161,7 +161,7 @@
         <field name="partner_name">Cliente 9 MG - PJ Não Contribuinte</field>
         <field name="partner_cnpj_cpf">26.355.289/0001-55</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_nao_contribuinte_4-1" model="l10n_br_fiscal.document.line">
@@ -171,7 +171,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -183,7 +183,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -203,7 +203,7 @@
         <field name="partner_name">Cliente 10 MG - PF Não Contribuinte</field>
         <field name="partner_cnpj_cpf">26.355.289/0001-55</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
     </record>
 
     <record id="demo_nfe_nao_contribuinte_pf_1-2" model="l10n_br_fiscal.document.line">
@@ -213,7 +213,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -225,7 +225,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -246,7 +246,7 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_sn_same_state_5-1" model="l10n_br_fiscal.document.line">
@@ -256,7 +256,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -268,7 +268,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -289,7 +289,7 @@
         <field name="partner_cnpj_cpf">14.753.702/0001-50</field>
         <field name="partner_inscr_est">8700737-10</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_sn_other_state_6-1" model="l10n_br_fiscal.document.line">
@@ -299,7 +299,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -311,7 +311,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -327,7 +327,7 @@
         <field name="user_id" ref="base.user_demo"/>
         <field name="key">1</field>
         <field name="partner_id" ref="base.res_partner_2"/>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_sn_export_7-1" model="l10n_br_fiscal.document.line">
@@ -337,7 +337,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -349,7 +349,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -369,7 +369,7 @@
         <field name="partner_name">Cliente 9 MG - PJ Não Contribuinte</field>
         <field name="partner_cnpj_cpf">	26.355.289/0001-55</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_sn_nao_contribuinte_7-1" model="l10n_br_fiscal.document.line">
@@ -379,7 +379,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -391,7 +391,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -412,7 +412,7 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
     </record>
 
     <record id="demo_nfe_line_so_simples_faturamento_7-1" model="l10n_br_fiscal.document.line">
@@ -422,7 +422,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_faturamento_simples_faturamento"/>
         <field name="icms_tax_id" ref="l10n_br_fiscal.tax_icms_0"/>
