@@ -35,7 +35,7 @@ class FiscalTax(models.Model):
                         'name': fiscal_tax.name + ' ' + tax_users.get(tax_use),
                         'type_tax_use': tax_use,
                         'fiscal_tax_ids': [(4, fiscal_tax.id)],
-                        'tax_group_id': fiscal_tax.tax_group_id.account_tax_group().id,
+                        'tax_group_id': fiscal_tax.account_tax_group().id,
                         'amount': 0.00
                     }
 
