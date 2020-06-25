@@ -8,7 +8,7 @@
       <form string="Fiscal Document Line">
         <group name="fiscal_fields" invisible="1">
             <field name="currency_id" invisible="1"/>
-            <field name="operation_type" invisible="1"/>
+            <field name="fiscal_operation_type" invisible="1"/>
             <field name="company_id" invisible="1"/>
             <field name="tax_framework" invisible="1"/>
             <field name="fiscal_genre_id" invisible="1"/>
@@ -49,7 +49,7 @@
                 <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"/>
               </group>
               <group name="l10n_br_fiscal" string="Operation">
-                <field name="operation_type" invisible="1" readonly="1"/>
+                <field name="fiscal_operation_type" invisible="1" readonly="1"/>
                 <field name="fiscal_operation_id" required="1"/>
                 <field name="fiscal_operation_line_id" required="1"/>
                 <field name="cfop_id" attrs="{'invisible': [('fiscal_type', '=', '00'), ('cfop_id', '=', False)]}"/>
