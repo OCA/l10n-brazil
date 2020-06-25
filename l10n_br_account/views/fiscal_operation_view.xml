@@ -6,7 +6,7 @@
         <field name="model">l10n_br_fiscal.operation</field>
         <field name="inherit_id" ref="l10n_br_fiscal.operation_search"/>
         <field name="arch" type="xml">
-            <filter name="operation_type" position="after">
+            <filter name="fiscal_operation_type" position="after">
                 <filter string='Account Journal' name="journal_id" domain="[]" context="{'group_by' : 'journal_id'}"/>
             </filter>
         </field>

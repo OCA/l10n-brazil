@@ -101,8 +101,8 @@ class AccountInvoiceRefund(models.TransientModel):
             view_id, view_type, toolbar, submenu)
 
         invoice_type = self.env.context.get("type", "out_invoice")
-        operation_type = REFUND_TO_OPERATION[invoice_type]
-        fiscal_type = FISCAL_TYPE_REFUND[operation_type]
+        fiscal_operation_type = REFUND_TO_OPERATION[invoice_type]
+        fiscal_type = FISCAL_TYPE_REFUND[fiscal_operation_type]
         eview = etree.fromstring(result["arch"])
         operation_id = eview.xpath(
             "//field[@name='force_fiscal_operation_id']")
@@ -110,8 +110,8 @@ class AccountInvoiceRefund(models.TransientModel):
         for field in operation_id:
             field.set(
                 "domain",
-                "[('operation_type', '=', '%s'), ('fiscal_type', 'in', %s)]"
-                % (operation_type, fiscal_type),
+                "[('fiscal_operation_type', '=', '%s'), ('fiscal_type', 'in', %s)]"
+                % (fiscal_operation_type, fiscal_type),
             )
             setup_modifiers(field)
         result["arch"] = etree.tostring(eview)
