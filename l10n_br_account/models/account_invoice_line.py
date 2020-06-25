@@ -43,6 +43,75 @@ class AccountInvoiceLine(models.Model):
             'l10n_br_fiscal.fiscal_document_line_dummy'),
     )
 
+    @api.one
+    @api.depends(
+        'price_unit',
+        'discount',
+        'invoice_line_tax_ids',
+        'quantity',
+        'product_id',
+        'invoice_id.partner_id',
+        'invoice_id.currency_id',
+        'invoice_id.company_id',
+        'invoice_id.date_invoice',
+        'invoice_id.date',
+        'fiscal_tax_ids')
+    def _compute_price(self):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        if self.invoice_id.fiscal_document_id == dummy_doc:
+            return super()._compute_price()
+
+        currency = self.invoice_id and self.invoice_id.currency_id or None
+        taxes = {}
+        if self.invoice_line_tax_ids:
+            taxes = self.invoice_line_tax_ids.compute_all(
+                price_unit=self.price_unit,
+                currency=self.invoice_id.currency_id,
+                quantity=self.quantity,
+                product=self.product_id,
+                partner=self.invoice_id.partner_id,
+                fiscal_taxes=self.fiscal_tax_ids,
+                operation_line=self.fiscal_operation_line_id,
+                ncm=self.ncm_id,
+                nbm=self.nbm_id,
+                cest=self.cest_id,
+                discount_value=self.discount_value,
+                insurance_value=self.insurance_value,
+                other_costs_value=self.other_costs_value,
+                freight_value=self.freight_value,
+                fiscal_price=self.fiscal_price,
+                fiscal_quantity=self.fiscal_quantity,
+                uot=self.uot_id,
+                icmssn_range=self.icmssn_range_id)
+
+        if taxes:
+            self.price_subtotal = taxes['total_excluded']
+            price_subtotal_signed = self.price_subtotal
+            self.price_total = taxes['total_included']
+        else:
+            self.price_subtotal = self.quantity * self.price_unit
+            self.price_total = self.price_subtotal
+
+        self.price_subtotal -= self.discount_value
+        self.price_total += (
+            self.insurance_value + self.other_costs_value +
+            self.freight_value - self.discount_value)
+
+        if (self.invoice_id.currency_id and self.invoice_id.currency_id
+                != self.invoice_id.company_id.currency_id):
+            currency = self.invoice_id.currency_id
+            date = self.invoice_id._get_currency_rate_date()
+            price_subtotal_signed = currency._convert(
+                price_subtotal_signed, self.invoice_id.company_id.currency_id,
+                self.company_id or self.env.user.company_id,
+                date or fields.Date.today())
+        sign = self.invoice_id.type in ['in_refund', 'out_refund'] and -1 or 1
+        self.price_subtotal_signed = price_subtotal_signed * sign
+
+    def _get_price_tax(self):
+        for l in self:
+            l.price_tax = l.amount_tax_not_included
+
     @api.model
     def _shadowed_fields(self):
         """Returns the list of shadowed fields that are synced
