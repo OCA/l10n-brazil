@@ -14,7 +14,7 @@ class Operation(models.Model):
         company_dependent=True,
         domain="[('type', 'in', {'out': ['sale', 'general'], 'in': "
                "['purchase', 'general'], 'all': ['sale', 'purchase', "
-               "'general']}.get(operation_type, []))]",
+               "'general']}.get(fiscal_operation_type, []))]",
     )
 
     fiscal_position_id = fields.Many2one(
