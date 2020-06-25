@@ -134,18 +134,17 @@ class AccountMoveLine(models.Model):
                            '%Y-%m-%d').strftime('%d/%m/%Y'),
                        ('%.2f' % valor_desconto).replace('.', ',')
                        ))
-
             boleto_cnab_api_data = {
                   'bank': bank_name_brcobranca[0],
                   'valor': str("%.2f" % move_line.debit),
                   'cedente': move_line.company_id.partner_id.legal_name,
                   'cedente_endereco':
-                      move_line.company_id.partner_id.street + ', ' +
-                      move_line.company_id.partner_id.street_number + ' - ' +
-                      move_line.company_id.partner_id.district + ' - ' +
-                      move_line.company_id.partner_id.city_id.name
-                      + ' - ' + 'CEP:' + move_line.company_id.partner_id.zip
-                      + ' - ' + move_line.company_id.partner_id.state_id.code,
+                      move_line.company_id.partner_id.street or '' + ', ' +
+                      move_line.company_id.partner_id.street_number or '' + ' - ' +
+                      move_line.company_id.partner_id.district or '' + ' - ' +
+                      move_line.company_id.partner_id.city_id.name or ''
+                      + ' - ' + 'CEP:' + move_line.company_id.partner_id.zip or ''
+                      + ' - ' + move_line.company_id.partner_id.state_id.code or '',
                   'documento_cedente': move_line.company_id.cnpj_cpf,
                   'sacado': move_line.partner_id.legal_name,
                   'sacado_documento': move_line.partner_id.cnpj_cpf,
@@ -164,10 +163,10 @@ class AccountMoveLine(models.Model):
                   'moeda': dict_brcobranca_currency['R$'],
                   'aceite': move_line.payment_mode_id.boleto_aceite,
                   'sacado_endereco':
-                      move_line.partner_id.street + ', ' +
-                      move_line.partner_id.street_number + ' ' +
-                      move_line.partner_id.city_id.name + ' - ' +
-                      move_line.partner_id.state_id.name,
+                      move_line.partner_id.street or '' + ', ' +
+                      move_line.partner_id.street_number or '' + ' ' +
+                      move_line.partner_id.city_id.name or '' + ' - ' +
+                      move_line.partner_id.state_id.name or '',
                   'data_processamento':
                       move_line.invoice_id.date_invoice.strftime('%Y/%m/%d'),
                   'instrucao1': move_line.payment_mode_id.instrucoes or '',
