@@ -128,7 +128,8 @@ class Operation(models.Model):
 
         if not action_name:
             action_name = ('document_out_action'
-                if fiscal_operation_type == 'out' else 'document_in_action')
+                           if fiscal_operation_type == 'out'
+                           else 'document_in_action')
 
         ctx = self._context.copy()
         ctx.pop('group_by', None)
