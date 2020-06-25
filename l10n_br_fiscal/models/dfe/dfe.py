@@ -63,7 +63,7 @@ def _processador(company_id, force_ambiente=REMOVE_AMBIENTE_PADRAO_HML):
     ambiente = force_ambiente or company_id.nfe_environment
     return edoc_nfe(
         transmissao, company_id.state_id.ibge_code,
-        versao='1.01', ambiente=ambiente # 1 - PROD. 2-HML
+        versao='1.01', ambiente=ambiente  # 1 - PROD. 2-HML
     )
 
 
@@ -536,7 +536,7 @@ class DFe(models.Model):
             raise orm.except_orm(_('Validation!'), _(error_msg))
 
     def send_event(self, company_id, nfe_key, method):
-        processor = _processador(company_id)
+        processor = _processador(company_id, force_ambiente=False)
         cnpj_partner = re.sub('[^0-9]', '', company_id.cnpj_cpf)
         result = {}
         if method == 'ciencia_operacao':
