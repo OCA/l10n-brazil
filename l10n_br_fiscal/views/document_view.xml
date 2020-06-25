@@ -42,7 +42,7 @@
         <field name="id" invisible="1"/>
         <field name="currency_id" invisible="1"/>
         <field name="document_electronic" invisible="1"/>
-        <field name="operation_type" invisible="1"/>
+        <field name="fiscal_operation_type" invisible="1"/>
         <field name="document_section" invisible="1"/>
         <header>
             <button name="action_document_confirm" type="object" string="Confirmar"   groups="l10n_br_fiscal.group_user"    states="em_digitacao"     class="btn-primary"/>
@@ -146,7 +146,7 @@
               </group>
             </page>
             <page name="products" string="Products and Services">
-              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_operation_type': operation_type, 'default_fiscal_operation_id': fiscal_operation_id}">
+              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id}">
                 <tree>
                   <field name="product_id"/>
                   <field name="uom_id"/>
