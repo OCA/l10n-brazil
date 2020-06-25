@@ -132,9 +132,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=lambda self: self._operation_domain(),
         default=_default_operation)
 
-    operation_type = fields.Selection(
+    fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
-        related="fiscal_operation_id.operation_type",
+        related="fiscal_operation_id.fiscal_operation_type",
         string="Fiscal Operation Type",
         readonly=True)
 
@@ -147,7 +147,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cfop_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP",
-        domain="[('type_in_out', '=', operation_type)]")
+        domain="[('type_in_out', '=', fiscal_operation_type)]")
 
     cfop_destination = fields.Selection(
         selection=CFOP_DESTINATION,
@@ -445,7 +445,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ipi_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST IPI",
-        domain="[('cst_type', '=', operation_type),"
+        domain="[('cst_type', '=', fiscal_operation_type),"
                "('tax_domain', '=', 'ipi')]")
 
     ipi_cst_code = fields.Char(
@@ -519,7 +519,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofins_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST COFINS",
-        domain="['|', ('cst_type', '=', operation_type),"
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
                "('cst_type', '=', 'all'),"
                "('tax_domain', '=', 'cofins')]")
 
@@ -563,7 +563,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofinsst_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST COFINS ST",
-        domain="['|', ('cst_type', '=', operation_type),"
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
                "('cst_type', '=', 'all'),"
                "('tax_domain', '=', 'cofinsst')]")
 
@@ -626,7 +626,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pis_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST PIS",
-        domain="['|', ('cst_type', '=', operation_type),"
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
                "('cst_type', '=', 'all'),"
                "('tax_domain', '=', 'pis')]")
 
@@ -670,7 +670,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pisst_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST PIS ST",
-        domain="['|', ('cst_type', '=', operation_type),"
+        domain="['|', ('cst_type', '=', fiscal_operation_type),"
                "('cst_type', '=', 'all'),"
                "('tax_domain', '=', 'pisst')]")
 
