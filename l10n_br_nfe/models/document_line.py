@@ -386,7 +386,8 @@ class NFeLine(spec_models.StackedModel):
             node, fields, vals, path, attr, create_m2o, defaults)
 
     def _build_string_not_simple_type(self, key, vals, value, node):
-        if key not in ['nfe40_CST', 'nfe40_modBC', 'nfe40_CSOSN']:
+        if key not in ['nfe40_CST', 'nfe40_modBC', 'nfe40_CSOSN',
+                       'nfe40_vBC']:
             super(NFeLine, self)._build_string_not_simple_type(
                 key, vals, value, node)
             # TODO avoid collision with cls prefix
@@ -413,6 +414,15 @@ class NFeLine(spec_models.StackedModel):
                          ('tax_domain', '=', 'cofins')])[0].id
         elif key == 'nfe40_modBC':
             vals['icms_base_type'] = value
+        elif key == 'nfe40_vBC':
+            if node.original_tagname_.startswith('ICMS'):
+                vals['icms_base'] = value
+            elif node.original_tagname_.startswith('IPI'):
+                vals['ipi_base'] = value
+            elif node.original_tagname_.startswith('PIS'):
+                vals['pis_base'] = value
+            elif node.original_tagname_.startswith('COFINS'):
+                vals['cofins_base'] = value
 
     def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
         if self._name == 'account.invoice.line' and \
