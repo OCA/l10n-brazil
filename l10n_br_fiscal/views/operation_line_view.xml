@@ -17,7 +17,7 @@
         <field name="arch" type="xml">
             <form string="Fiscal Operation Line">
                 <field name="fiscal_type" invisible="1"/>
-                <field name="operation_type" invisible="1"/>
+                <field name="fiscal_operation_type" invisible="1"/>
                 <header>
                     <button name="action_review" type="object" states="draft" string="Review" class="oe_highlight" groups="l10n_br_fiscal.group_manager"/>
                     <field name="state" widget="statusbar"/>
@@ -40,7 +40,7 @@
                             <field name="add_to_amount"/>
                         </group>
                       </page>
-                      <page name="cfop" string="CFOPs" attrs="{'invisible': [('operation_type', '=', 'all')]}">
+                      <page name="cfop" string="CFOPs" attrs="{'invisible': [('fiscal_operation_type', '=', 'all')]}">
                           <group>
                             <field name="cfop_internal_id"/>
                             <field name="cfop_external_id"/>

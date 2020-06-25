@@ -955,7 +955,7 @@ class ICMSRegulation(models.Model):
         # ICMS tax imported
         if (product.icms_origin in ICMS_ORIGIN_TAX_IMPORTED
                 and company.state_id != partner.state_id
-                and operation_line.operation_type == FISCAL_OUT):
+                and operation_line.fiscal_operation_type == FISCAL_OUT):
             icms_taxes |= self.icms_imported_tax_id
         else:
             # ICMS
@@ -1050,7 +1050,7 @@ class ICMSRegulation(models.Model):
 
         # ICMS FCP for DIFAL
         if (company.state_id != partner.state_id
-                and operation_line.operation_type == FISCAL_OUT
+                and operation_line.fiscal_operation_type == FISCAL_OUT
                 and not partner.is_company):
 
             if not ncm:
@@ -1065,7 +1065,7 @@ class ICMSRegulation(models.Model):
                 ('tax_group_id', '=', tax_group_icmsfcp.id),
             ]
 
-            if operation_line.operation_type == FISCAL_OUT:
+            if operation_line.fiscal_operation_type == FISCAL_OUT:
                 domain.append(
                     ('state_to_ids', '=', partner.state_id.id))
             else:
