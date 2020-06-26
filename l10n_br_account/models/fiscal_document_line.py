@@ -36,8 +36,9 @@ class FiscalDocumentLine(models.Model):
                 # 'narration': template_line.history_id.history,
                 'name': history or '/',
                 'debit': value,
-                'currency_id':
-                    self.currency_id and self.currency_id.id or False,
+                # 'currency_id':
+                #     self.currency_id and self.currency_id.id or False,
+                # Só preencha a moeda caso o lançamento seja multi moeda.
                 'partner_id': self.partner_id and self.partner_id.id or False,
                 'account_id': template_line.account_debit_id.id,
                 'product_id': self.product_id and self.product_id.id or False,
@@ -52,8 +53,9 @@ class FiscalDocumentLine(models.Model):
                 'name': history or '/',
                 # 'narration': template_line.history_id.history,
                 'credit': value,
-                'currency_id':
-                    self.currency_id and self.currency_id.id or False,
+                # 'currency_id':
+                #     self.currency_id and self.currency_id.id or False,
+                # Só preencha a moeda caso o lançamento seja multi moeda.
                 'partner_id': self.partner_id and self.partner_id.id or False,
                 'account_id': template_line.account_credit_id.id,
                 'product_id': self.product_id and self.product_id.id or False,
