@@ -118,20 +118,7 @@ class Document(models.Model):
 
     @api.depends("amount_total", "fiscal_payment_ids")
     def _compute_payment_change_value(self):
-        for record in self:
-            payment_value = 0
-            for payment in record.fiscal_payment_ids:
-                for line in payment.line_ids:
-                    payment_value += line.amount
-
-            record.amount_payment_value = payment_value
-
-            change_value = payment_value - record.amount_total
-            record.amount_change_value = change_value if change_value >= 0 else 0
-
-            missing_payment = record.amount_total - payment_value
-            record.amount_missing_payment_value = missing_payment \
-                if missing_payment >= 0 else 0
+        self._abstract_compute_payment_change_value()
 
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
@@ -495,24 +482,6 @@ class Document(models.Model):
         string='Freight Value',
         default=0.00,
         compute='_compute_amount',
-    )
-
-    amount_change_value = fields.Monetary(
-        string="Change Value",
-        default=0.00,
-        compute="_compute_payment_change_value"
-    )
-
-    amount_payment_value = fields.Monetary(
-        string="Payment Value",
-        default=0.00,
-        compute="_compute_payment_change_value"
-    )
-
-    amount_missing_payment_value = fields.Monetary(
-        string="Missing Payment Value",
-        default=0.00,
-        compute="_compute_payment_change_value"
     )
 
     line_ids = fields.One2many(
