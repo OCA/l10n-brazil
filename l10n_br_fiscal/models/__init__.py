@@ -3,6 +3,7 @@
 from . import data_abstract
 from . import data_product_abstract
 from . import data_ncm_nbs_abstract
+from . import payment_mixin
 from . import document_workflow
 from . import document_fiscal_mixin_methods
 from . import document_fiscal_mixin
