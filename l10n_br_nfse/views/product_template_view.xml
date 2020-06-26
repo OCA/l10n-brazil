@@ -13,7 +13,15 @@
                 <field name="fiscal_deductions_value"/>
             </field>
             <field name="service_type_id" position="after">
-                <field name="city_taxation_code_id"/>
+                <field name="city_taxation_code_id" widget="one2many_list">
+                    <tree editable="bottom">
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="service_type_id" />
+                        <field name="state_id" />
+                        <field name="city_id" />
+                    </tree>
+                </field>
             </field>
         </field>
     </record>
