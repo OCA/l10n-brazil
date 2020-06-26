@@ -14,6 +14,11 @@ class FiscalDocument(models.Model):
         for record in self:
             record.move_template_ids = record.line_ids.mapped('move_template_id')
 
+    invoice_id = fields.Many2one(
+        comodel_name='account.invoice',
+        readonly=True
+    )
+
     account_id = fields.Many2one(
         comodel_name="account.account",
         string="Account",

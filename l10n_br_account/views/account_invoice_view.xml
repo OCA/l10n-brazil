@@ -38,6 +38,35 @@
                     <field name="document_serie" invisible="1"/>
                 </group>
             </xpath>
+            <page name="other_info" position="before">
+                <page name="financeiro" string="Financeiro">
+                    <group>
+                        <field name="amount_missing_payment_value" invisible="1"/>
+                        <group>
+                            <field name="payment_term_id" force_save="1"/>
+                        </group>
+                        <group>
+                            <button name="generate_financial" string="Gerar Parcelas" type="object" attrs="{'invisible': ['|', ('payment_term_id', '=', False), ('financial_ids', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <separator name="pagamentos" string="Pagamentos" colspan="4"/>
+                    <field name="fiscal_payment_ids" context="{}" nolabel="1"/>
+                    <label for="" string="Troco"/>
+                    <field name="amount_change_value"/>
+                    <separator name="financial" string="Financeiro" colspan="4"/>
+                    <field name="financial_ids" nolabel="1" context="{}" force_save="1">
+                        <tree string="Duplicatas" editable="bottom">
+                            <field name="document_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="payment_id" invisible="1"/>
+                            <field name="communication" readonly="1"/>
+                            <field name="date_maturity"/>
+                            <field name="amount" sum="amount"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
         </field>
     </record>
 
@@ -79,37 +108,35 @@
                     <field name="document_serie" invisible="1"/>
                 </group>
             </xpath>
-        </field>
-    </record>
-
-    <record id="invoice_line_form" model="ir.ui.view">
-        <field name="name">l10n_br_account.invoice.line.form</field>
-        <field name="model">account.invoice.line</field>
-        <field name="inherit_id" ref="account.view_invoice_line_form"/>
-        <field name="arch" type="xml">
-            <field name="invoice_line_tax_ids" position="replace">
-                <field name="fiscal_operation_id" required="1"/>
-                <field name="fiscal_operation_line_id" required="1"/>
-                <field name="cfop_id" invisible="1"/>
-                <group name="fiscal_fields" invisible="1">
-                    <field name="fiscal_operation_type" invisible="1" readonly="1"/>
-                    <field name="fiscal_genre_code" invisible="1"/>
-                    <field name="tax_framework" invisible="1"/>
-                </group>
-            </field>
-            <field name="name" position="after">
-                <notebook invisible="1">
-                    <page name="fiscal_taxes" string="Taxes"/>
-                    <page name="outros" string="Outros Custos">
+            <page name="other_info" position="before">
+                <page name="financeiro" string="Financeiro">
+                    <group>
+                        <field name="amount_missing_payment_value" invisible="1"/>
                         <group>
-                            <field name="invoice_line_tax_ids" context="{'type': invoice_type}" domain="[('type_tax_use','!=','none'),('company_id', '=', company_id)]" widget="many2many_tags" options="{'no_create': True}"/>
-                            <field name="insurance_value"/>
-                            <field name="other_costs_value"/>
-                            <field name="freight_value"/>
+                            <field name="payment_term_id" force_save="1"/>
                         </group>
-                    </page>
-                </notebook>
-            </field>
+                        <group>
+                            <button name="generate_financial" string="Gerar Parcelas" type="object" attrs="{'invisible': ['|', ('payment_term_id', '=', False), ('financial_ids', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <separator name="pagamentos" string="Pagamentos" colspan="4"/>
+                    <field name="fiscal_payment_ids" context="{}" nolabel="1"/>
+                    <label for="" string="Troco"/>
+                    <field name="amount_change_value"/>
+                    <separator name="financial" string="Financeiro" colspan="4"/>
+                    <field name="financial_ids" nolabel="1" context="{}" force_save="1">s
+                        <tree string="Duplicatas" editable="bottom">
+                            <field name="document_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="payment_id" invisible="1"/>
+                            <field name="communication" readonly="1"/>
+                            <field name="date_maturity"/>
+                            <field name="amount" sum="amount"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
         </field>
     </record>
 
