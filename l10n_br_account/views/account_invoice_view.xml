@@ -24,23 +24,35 @@
                 <group name="l10n_br_fiscal">
                 </group>
             </xpath>
-            <!-- <page name="other_info" position="before">
-                <page string="Vencimentos">
-                    <field colspan="4" nolabel="1" name="move_line_receivable_id">
-                        <tree string="Vencimentos">
-                            <field name="journal_id"/>
-                            <field name="date"/>
+            <page name="other_info" position="before">
+                <page name="financeiro" string="Financeiro">
+                    <group>
+                        <field name="amount_missing_payment_value" invisible="1"/>
+                        <group>
+                            <field name="payment_term_id" force_save="1"/>
+                        </group>
+                        <group>
+                            <button name="generate_financial" string="Gerar Parcelas" type="object" attrs="{'invisible': ['|', ('payment_term_id', '=', False), ('financial_ids', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <separator name="pagamentos" string="Pagamentos" colspan="4"/>
+                    <field name="fiscal_payment_ids" context="{}" nolabel="1"/>
+                    <label for="" string="Troco"/>
+                    <field name="amount_change_value"/>
+                    <separator name="financial" string="Financeiro" colspan="4"/>
+                    <field name="financial_ids" nolabel="1" context="{}" force_save="1">
+                        <tree string="Duplicatas" editable="bottom">
+                            <field name="document_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="payment_id" invisible="1"/>
+                            <field name="communication" readonly="1"/>
                             <field name="date_maturity"/>
-                            <field name="name"/>
-                            <field name="ref"/>
-                            <field name="partner_id"/>
-                            <field name="move_id"/>
-                            <field name="debit"/>
-                            <field name="credit"/>
+                            <field name="amount" sum="amount"/>
                         </tree>
                     </field>
                 </page>
-            </page> -->
+            </page>
         </field>
     </record>
 
@@ -68,23 +80,35 @@
                 <group name="l10n_br_fiscal">
                 </group>
             </xpath>
-            <!-- <page name="other_info" position="before">
-                <page string="Vencimentos">
-                    <field colspan="4" nolabel="1" name="move_line_receivable_id">
-                        <tree string="Vencimentos">
-                            <field name="journal_id"/>
-                            <field name="date"/>
+            <page name="other_info" position="before">
+                <page name="financeiro" string="Financeiro">
+                    <group>
+                        <field name="amount_missing_payment_value" invisible="1"/>
+                        <group>
+                            <field name="payment_term_id" force_save="1"/>
+                        </group>
+                        <group>
+                            <button name="generate_financial" string="Gerar Parcelas" type="object" attrs="{'invisible': ['|', ('payment_term_id', '=', False), ('financial_ids', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <separator name="pagamentos" string="Pagamentos" colspan="4"/>
+                    <field name="fiscal_payment_ids" context="{}" nolabel="1"/>
+                    <label for="" string="Troco"/>
+                    <field name="amount_change_value"/>
+                    <separator name="financial" string="Financeiro" colspan="4"/>
+                    <field name="financial_ids" nolabel="1" context="{}" force_save="1">s
+                        <tree string="Duplicatas" editable="bottom">
+                            <field name="document_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="payment_id" invisible="1"/>
+                            <field name="communication" readonly="1"/>
                             <field name="date_maturity"/>
-                            <field name="name"/>
-                            <field name="ref"/>
-                            <field name="partner_id"/>
-                            <field name="move_id"/>
-                            <field name="debit"/>
-                            <field name="credit"/>
+                            <field name="amount" sum="amount"/>
                         </tree>
                     </field>
                 </page>
-            </page> -->
+            </page>
         </field>
     </record>
 
