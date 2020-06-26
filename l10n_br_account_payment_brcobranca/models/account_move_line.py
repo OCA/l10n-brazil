@@ -28,8 +28,6 @@ class BoletoWrapper(object):
         # proxy to the wrapped object
         return getattr(self._wrapped_obj, attr)
 
-# TODO Sicredi e Unicred possuem o mesmo codigo 748,
-#  isso estaria certo ? Como diferenciar
 
 dict_brcobranca_bank = {
     '001': 'banco_brasil',
@@ -39,10 +37,11 @@ dict_brcobranca_bank = {
     '399': 'hsbc',
     '341': 'itau',
     '033': 'santander',
-    '748': 'unicred',
+    '748': 'sicred',
     '004': 'banco_nordeste',
     '021': 'banestes',
     '756': 'sicoob',
+    '136': 'unicred',
 }
 
 dict_brcobranca_currency = {
