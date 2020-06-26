@@ -23,14 +23,23 @@ FISCAL_TYPE_REFUND = {
     'in': ['sale_return', 'out_return'],
 }
 
-SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id']
+SHADOWED_FIELDS = [
+    'partner_id', 'company_id', 'date', 'currency_id',
+    'payment_term_id', 'financial_ids', 'fiscal_payment_ids',
+    'journal_id', 'account_id',
+]
 
 
 class AccountInvoice(models.Model):
     _name = 'account.invoice'
-    _inherit = 'account.invoice'
+    _inherit = ['account.invoice', 'l10n_br_fiscal.payment.mixin']
     _inherits = {'l10n_br_fiscal.document': 'fiscal_document_id'}
     _order = 'date_invoice DESC, number DESC'
+    _payment_inverse_name = 'invoice_id'
+
+    @api.depends("amount_total", "fiscal_payment_ids")
+    def _compute_payment_change_value(self):
+        self._abstract_compute_payment_change_value()
 
     # initial account.invoice inherits on fiscal.document that are
     # disable with active=False in their fiscal_document table.
@@ -107,3 +116,19 @@ class AccountInvoice(models.Model):
         if self.fiscal_document_id != dummy_doc:
             return True
         return super(AccountInvoice, self).action_move_create()
+
+    def action_invoice_open(self):
+        for record in self:
+            record.fiscal_document_id.action_document_confirm()
+            record.fiscal_document_id.action_document_send()
+            if record.fiscal_document_id.move_id:
+                record.move_id = record.fiscal_document_id.move_id
+        return super().action_invoice_open()
+
+    @api.multi
+    def _get_computed_reference(self):
+        res = super()._get_computed_reference()
+        if self.company_id.invoice_reference_type == 'fiscal_document':
+            return self.fiscal_document_id.number  # FIXME: Name!
+        return res
+
