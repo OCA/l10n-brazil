@@ -28,7 +28,11 @@ class DocumentLine(models.Model):
             self.fiscal_deductions_value = \
                 self.product_id.fiscal_deductions_value
         if self.product_id and self.product_id.city_taxation_code_id:
-            self.city_taxation_code_id = self.product_id.city_taxation_code_id
+            company_city_id = self.document_id.company_id.city_id
+            city_id = self.product_id.city_taxation_code_id.filtered(
+                lambda r: r.city_id == company_city_id)
+            if city_id:
+                self.city_taxation_code_id = city_id
 
     def _compute_taxes(self, taxes, cst=None):
         discount_value = self.discount_value
