@@ -6,10 +6,24 @@ from odoo import fields, models
 
 
 class ResBank(models.Model):
-    _inherit = "res.bank"
+    _inherit = 'res.bank'
+
+    short_name = fields.Char(
+        string='Short Name',
+    )
 
     code_bc = fields.Char(
-        string=u"Brazilian Bank Code",
+        string='Brazilian Bank Code',
         size=3,
-        help=u"Brazilian Bank Code ex.: 001 is the code of Banco do Brasil",
+        help="Brazilian Bank Code ex.: 001 is the code of Banco do Brasil",
+    )
+
+    ispb_number = fields.Char(
+        string='ISPB Number',
+        size=8,
+    )
+
+    compe_member = fields.Boolean(
+        string='COMPE Member',
+        default=False,
     )
