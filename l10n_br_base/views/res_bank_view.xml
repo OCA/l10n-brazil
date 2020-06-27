@@ -10,6 +10,11 @@
             <xpath expr="//group[2]/group[1]" position="replace"/>
             <field name="bic" position="before">
                 <field name="code_bc"/>
+                <field name="ispb_number"/>
+                <field name="compe_member"/>
+            </field>
+            <field name="name" position="after">
+                <field name="short_name"/>
             </field>
         </field>
     </record>

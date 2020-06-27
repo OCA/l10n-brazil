@@ -7,13 +7,16 @@
         <field name="priority">999</field>
         <field name="inherit_id" ref="base.view_partner_bank_form"/>
         <field name="arch" type="xml">
+            <field name="acc_type" position="after">
+                <field name="bank_account_type"/>
+            </field>
             <field name="acc_number" position="replace">
                 <newline/>
-                <field name="acc_number" select="1"/>
-                <field name="acc_number_dig" select="1"/>
+                <field name="acc_number"/>
+                <field name="acc_number_dig"/>
                 <newline/>
-                <field name="bra_number" select="1"/>
-                <field name="bra_number_dig" select="1"/>
+                <field name="bra_number"/>
+                <field name="bra_number_dig"/>
             </field>
             <field name="bank_id" position="after">
                 <label for="bank_bic" string="BIC/Swift Code"/>
