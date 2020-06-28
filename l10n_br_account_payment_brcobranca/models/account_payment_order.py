@@ -37,10 +37,11 @@ dict_brcobranca_bank = {
     '399': 'hsbc',
     '341': 'itau',
     '033': 'santander',
-    '748': 'unicred',
+    '748': 'sicred',
     '004': 'banco_nordeste',
     '021': 'banestes',
     '756': 'sicoob',
+    '136': 'unicred',
 }
 
 dict_brcobranca_cnab_type = {
@@ -103,10 +104,54 @@ class PaymentOrder(models.Model):
                 'uf_sacado': line.partner_id.state_id.code,
                 'identificacao_ocorrencia': self.codigo_instrucao_movimento
             }
+            if bank_name_brcobranca[0] == 'unicred':
+                # TODO - Verificar se é uma tabela unica por banco ou há padrão
+                # Identificação da Ocorrência:
+                # 01 - Remessa*
+                # 02 - Pedido de Baixa
+                # 04 - Concessão de Abatimento*
+                # 05 - Cancelamento de Abatimento
+                # 06 - Alteração de vencimento
+                # 08 - Alteração de Seu Número
+                # 09 - Protestar*
+                # 11 - Sustar Protesto e Manter em Carteira
+                # 25 - Sustar Protesto e Baixar Título
+                # 26 – Protesto automático
+                # 31 - Alteração de outros da
+                linhas_pagamentos['identificacao_ocorrencia'] = '01'
+
             if line.move_line_id.payment_mode_id.boleto_perc_mora:
-                linhas_pagamentos['codigo_multa'] = '2'
-                linhas_pagamentos['percentual_multa'] = \
-                    line.move_line_id.payment_mode_id.boleto_perc_mora
+                if bank_name_brcobranca[0] == 'bradesco':
+                    linhas_pagamentos['codigo_multa'] = '2'
+                    linhas_pagamentos['percentual_multa'] = \
+                        line.move_line_id.payment_mode_id.boleto_perc_mora
+                if bank_name_brcobranca[0] == 'unicred':
+                    # TODO
+                    # Código adotado pela FEBRABAN para identificação
+                    # do tipo de pagamento de multa.
+                    # Domínio:
+                    # ‘1’ = Valor Fixo (R$)
+                    # ‘2’ = Taxa (%)
+                    # ‘3’ = Isento
+                    linhas_pagamentos['codigo_multa'] = '2'
+                    linhas_pagamentos['percentual_multa'] = \
+                        line.move_line_id.payment_mode_id.boleto_perc_mora
+                    # TODO
+                    # Código para Protesto*
+                    # Código adotado pela FEBRABAN para identificar o tipo de prazo a ser considerado para o
+                    # protesto.
+                    # Domínio:
+                    # 1 = Protestar Dias Corridos
+                    # 2 = Protestar Dias Úteis
+                    # 3 = Não Protestar
+                    # OBS.: a) Na remessa de títulos - Identificação da Ocorrência igual a ‘01’ - Remessa:
+                    # Qualquer caracter diferente de ‘1’, ‘2’ ou ‘3’ será considerado igual a ‘3’.
+                    # 158 a 158
+                    # b) Na instrução de Protesto Automático - Identificação da Ocorrência ‘26’ -
+                    # Protesto automático:
+                    # Qualquer caracter diferente de ‘1’, ‘2’ ou ‘3’, a instrução será rejeitada.
+                    linhas_pagamentos['codigo_protesto'] = 3
+
             precision = self.env['decimal.precision']
             precision_account = precision.precision_get('Account')
             if line.move_line_id.payment_mode_id.cnab_percent_interest:
@@ -114,6 +159,21 @@ class PaymentOrder(models.Model):
                     line.move_line_id.debit *
                     ((line.move_line_id.payment_mode_id.cnab_percent_interest / 100)
                      / 30), precision_account)
+                if bank_name_brcobranca[0] == 'unicred':
+                    # TODO
+                    # Código adotado pela FEBRABAN para identificação do tipo de
+                    # pagamento de mora de juros.
+                    # Domínio:
+                    # ‘1’ = Valor Diário (R$)
+                    # ‘2’ = Taxa Mensal (%)
+                    # ‘3’= Valor Mensal (R$) *
+                    # ‘4’ = Taxa diária (%)
+                    # ‘5’ = Isento
+                    # *OBSERVAÇÃO:
+                    # ‘3’ - Valor Mensal (R$): a CIP não acata valor mensal,
+                    # segundo manual. Cógido mantido
+                    # para Correspondentes que ainda utilizam.
+                    linhas_pagamentos['tipo_mora'] = '1'
             if line.move_line_id.payment_term_id.discount_perc:
                 linhas_pagamentos['data_desconto'] =\
                     line.move_line_id.date_maturity.strftime('%Y/%m/%d')
@@ -121,6 +181,13 @@ class PaymentOrder(models.Model):
                     line.move_line_id.debit * (
                             line.move_line_id.payment_term_id.discount_perc / 100),
                     precision_account)
+                if bank_name_brcobranca[0] == 'unicred':
+                    # TODO
+                    # Código adotado pela FEBRABAN para identificação do desconto.
+                    # Domínio:
+                    # 0 = Isento
+                    # 1 = Valor Fixo
+                    linhas_pagamentos['cod_desconto'] = 1
 
             pagamentos.append(linhas_pagamentos)
 
@@ -148,6 +215,11 @@ class PaymentOrder(models.Model):
             remessa_values.update({
                 'codigo_transmissao': '01234567890123456789',
             })
+        # Field used in Unicred Bank
+        if bank_account.bank_id.code_bc == '136':
+            remessa_values.update({
+                'codigo_beneficiario': int(self.payment_mode_id.codigo_convenio),
+            })
 
         content = json.dumps(remessa_values)
         f = open(tempfile.mktemp(), 'w')
@@ -168,11 +240,10 @@ class PaymentOrder(models.Model):
         # print("AAAAAAAA", res.status_code, str(res.status_code)[0])
         # print('RES.CONTENT', res.content[0], type(res.content[0]))
 
-        # TODO - Verificar a melhor forma de validação res.status_code ou
-        #   res.content[0], na versão 8 foi feito esse if para o banco bradesco
-        # if bank_name_brcobranca[0] == 'bradesco' and res.content[0] == '0':
-        #     remessa = res.content
-        if res.status_code == 201:
+        # TODO - res.content[0] parece variar de acordo com banco, existe padrão ?
+        if bank_name_brcobranca[0] == 'bradesco' and res.content[0] == '0':
+            remessa = res.content
+        elif bank_name_brcobranca[0] == 'unicred' and res.content[0] == 48:
             remessa = res.content
         else:
             raise UserError(res.text)
