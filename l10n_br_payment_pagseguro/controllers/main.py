@@ -10,7 +10,7 @@ from odoo.addons.payment.controllers.portal import PaymentProcessing
 _logger = logging.getLogger(__name__)
 
 
-class PagseguroController(http.Controller):
+class PaSeguroController(http.Controller):
 
     @http.route(['/payment/pagseguro/s2s/create_json_3ds'], type='json', auth='public', csrf=False)
     def pagseguro_s2s_create_json_3ds(self, verify_validity=False, **kwargs):
