@@ -143,6 +143,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         # we now read the record fiscal fields except the m2m tax:
         vals = self._convert_to_write(self.read(fields)[0])
 
+        # remove id field to avoid conflicts
+        vals.pop('id', None)
+
         # this will force to create a new fiscal document line:
         vals['fiscal_document_line_id'] = False
 
