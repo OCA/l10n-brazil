@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fiscal_position_venda" model="account.fiscal.position">
+      <field name="name">Venda</field>
+    </record>
+
+</odoo>
