@@ -7,6 +7,7 @@ def install_chart_template(env, chart_template_id, desired_tax_frameworks):
     for company_id in env["res.company"].search([]):
         country_code =company_id.country_id.code
         if country_code and country_code.upper() == "BR" and \
+                hasattr(company_id, 'tax_framework') and \
                 company_id.tax_framework in desired_tax_frameworks:
             if company_id.chart_template_id != chart_template_id:
                 env.user.company_ids |= company_id
