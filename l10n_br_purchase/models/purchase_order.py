@@ -6,6 +6,10 @@ from lxml import etree
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_PARTNER,
+)
+
 
 class PurchaseOrder(models.Model):
     _name = 'purchase.order'
@@ -78,7 +82,31 @@ class PurchaseOrder(models.Model):
     @api.multi
     def action_view_invoice(self):
         result = super(PurchaseOrder, self).action_view_invoice()
-        result['context'].update(self._prepare_br_fiscal_dict(default=True))
+        fiscal_dict = self._prepare_br_fiscal_dict(default=True)
+
+        document_type_id = self._context.get('document_type_id')
+
+        if document_type_id:
+            document_type = self.env['l10n_br_fiscal.document.type'].browse(
+                document_type_id)
+        else:
+            document_type = self.company_id.document_type_id
+            document_type_id = self.company_id.document_type_id.id
+
+        fiscal_dict['default_fiscal_document_id'] = document_type_id
+        document_serie = document_type.get_document_serie(
+            self.company_id, self.fiscal_operation_id)
+
+        if document_serie:
+            fiscal_dict['default_document_serie_id'] = document_serie.id
+
+        fiscal_dict['default_issuer'] = DOCUMENT_ISSUER_PARTNER
+
+        if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
+            fiscal_dict['defauklt_journal_id'] = (
+                self.fiscal_operation_id.journal_id.id)
+
+        result['context'].update(fiscal_dict)
         return result
 
     @api.onchange('fiscal_operation_id')
