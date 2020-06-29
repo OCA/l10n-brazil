@@ -124,7 +124,10 @@ class AccountInvoice(models.Model):
         self.amount_untaxed = 0.00
         self.amount_tax = 0.00
         for inv_line in self.invoice_line_ids:
-            if inv_line.cfop_id.finance_move:
+            if inv_line.cfop_id and inv_line.cfop_id.finance_move:
+                self.amount_untaxed += inv_line.price_subtotal
+                self.amount_tax += inv_line.price_tax
+            else:
                 self.amount_untaxed += inv_line.price_subtotal
                 self.amount_tax += inv_line.price_tax
 
