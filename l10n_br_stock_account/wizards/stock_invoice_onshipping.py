@@ -16,7 +16,8 @@ class StockInvoiceOnshipping(models.TransientModel):
     )
 
     group = fields.Selection(
-        selection_add=[('fiscal_operation', 'Fiscal Operation')],
+        selection_add=[
+            ('fiscal_operation', 'Fiscal Operation')],
     )
 
     @api.multi
@@ -60,21 +61,10 @@ class StockInvoiceOnshipping(models.TransientModel):
     @api.multi
     def _build_invoice_values_from_pickings(self, pickings):
         picking = fields.first(pickings)
-        comment = ''
-        # TODO - Comments
-        # if picking.fiscal_position_id.inv_copy_note:
-        #     comment += picking.fiscal_position_id.note or ''
-        # if picking.note:
-        #     comment += ' - ' + picking.note
-        # result['comment'] = comment
-        values = super(StockInvoiceOnshipping, self
-                       )._build_invoice_values_from_pickings(pickings)
-
+        invoice, values = super()._build_invoice_values_from_pickings(pickings)
         fiscal_values = picking._prepare_br_fiscal_dict()
-        # FIXME porque esta vindo a chave ID???
-        fiscal_values.pop('id')
-        values[0].update(fiscal_values)
-        return values
+        values.update(fiscal_values)
+        return invoice, values
 
     @api.multi
     def _get_invoice_line_values(self, moves, invoice_values, invoice):
@@ -84,97 +74,10 @@ class StockInvoiceOnshipping(models.TransientModel):
         :param invoice: account.invoice
         :return: dict
         """
-        values = super(StockInvoiceOnshipping, self
-                       )._get_invoice_line_values(
+        values = super()._get_invoice_line_values(
             moves, invoice_values, invoice)
+
         move = fields.first(moves)
         fiscal_values = move._prepare_br_fiscal_dict()
-        # FIXME porque esta vindo a chave ID???
-        fiscal_values.pop('id')
         values.update(fiscal_values)
         return values
-
-    # @api.multi
-    # def action_generate(self):
-    #     """
-    #     Launch the invoice generation
-    #     :return:
-    #     """
-    #     self.ensure_one()
-    #     invoices = self._action_generate_invoices()
-    #     if not invoices:
-    #         raise UserError(_('No invoice created!'))
-    #
-    #     # Update the state on pickings related to new invoices only
-    #     self._update_picking_invoice_status(invoices.mapped("picking_ids"))
-    #
-    #     inv_type = self._get_invoice_type()
-    #     # TODO - Are change the view to brazilian localization ?
-    #     if inv_type in ["out_invoice", "out_refund"]:
-    #         action = self.env.ref("account.action_invoice_tree1")
-    #     else:
-    #         action = self.env.ref("account.action_vendor_bill_template")
-    #
-    #     action_dict = action.read()[0]
-    #
-    #     if len(invoices) > 1:
-    #         action_dict['domain'] = [('id', 'in', invoices.ids)]
-    #     elif len(invoices) == 1:
-    #         if inv_type in ["out_invoice", "out_refund"]:
-    #             form_view = [(self.env.ref('account.invoice_form').id, 'form')]
-    #         else:
-    #             form_view = [(self.env.ref(
-    #                 'account.invoice_supplier_form').id, 'form')]
-    #         if 'views' in action_dict:
-    #             action_dict['views'] = form_view + [
-    #                 (state,  view) for state, view in action[
-    #                     'views'] if view != 'form']
-    #         else:
-    #             action_dict['views'] = form_view
-    #         action_dict['res_id'] = invoices.ids[0]
-    #
-    #     return action_dict
-    #
-    # def _action_generate_invoices(self):
-    #     """
-    #     Action to generate invoices based on pickings
-    #     :return: account.invoice recordset
-    #     """
-    #     pickings = self._load_pickings()
-    #     company = pickings.mapped("company_id")
-    #     if company and company != self.env.user.company_id:
-    #         raise UserError(_("All pickings are not related to your company!"))
-    #     pick_list = self._group_pickings(pickings)
-    #     invoices = self.env['account.invoice'].browse()
-    #     for pickings in pick_list:
-    #         moves = pickings.mapped("move_lines")
-    #         grouped_moves_list = self._group_moves(moves)
-    #         parts = self.ungroup_moves(grouped_moves_list)
-    #
-    #         # The field document_type_id are in a function of operation_line_id
-    #         # but the method used to create lines need to the invoice was created
-    #         # to called, by this reason we need to get this information before the
-    #         # FOR code used to create the invoice lines
-    #         # TODO - Are better way to make it ?
-    #         move = fields.first(pickings.move_lines)
-    #         document_type_id = move.operation_line_id.get_document_type(
-    #             move.picking_id.company_id).id
-    #
-    #         for moves_list in parts:
-    #             invoice, invoice_values = self.with_context(
-    #                 document_type_id=document_type_id
-    #             )._build_invoice_values_from_pickings(pickings)
-    #             lines = [(5, 0, {})]
-    #             for moves in moves_list:
-    #                 line_values = self._get_invoice_line_values(
-    #                     moves, invoice_values, invoice
-    #                 )
-    #                 if line_values:
-    #                     lines.append((0, 0, line_values))
-    #             if line_values:  # Only create the invoice if it have lines
-    #                 invoice_values['invoice_line_ids'] = lines
-    #                 invoice = self._create_invoice(invoice_values)
-    #                 invoice._onchange_invoice_line_ids()
-    #                 invoice.compute_taxes()
-    #                 invoices |= invoice
-    #     return invoices
