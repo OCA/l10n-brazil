@@ -127,27 +127,27 @@ class AccountInvoiceLine(models.Model):
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
 
-    @api.multi
-    def write(self, vals):
-        dummy_doc_line = self.env.ref(
-            'l10n_br_fiscal.fiscal_document_line_dummy')
-        res = super(AccountInvoiceLine, self).write(vals)
-        for line in self:
-            if line.fiscal_document_line_id != dummy_doc_line:
-                shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
-                line.fiscal_document_line_id.write(shadowed_fiscal_vals)
-        return res
-
     @api.model
-    def create(self, vals):
+    def create(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         if self.env['account.invoice'].browse(
-                vals['invoice_id']).fiscal_document_id != dummy_doc:
-            vals['fiscal_document_line_id'] = False
-        line = super(AccountInvoiceLine, self).create(vals)
+                values['invoice_id']).fiscal_document_id != dummy_doc:
+            values['fiscal_document_line_id'] = False
+        line = super().create(values)
         if line.invoice_id.fiscal_document_id != dummy_doc:
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.invoice_id.fiscal_document_id.id
             shadowed_fiscal_vals['document_id'] = doc_id
             line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return line
+
+    @api.multi
+    def write(self, values):
+        dummy_doc_line = self.env.ref(
+            'l10n_br_fiscal.fiscal_document_line_dummy')
+        result = super().write(values)
+        for line in self:
+            if line.fiscal_document_line_id != dummy_doc_line:
+                shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
+                line.fiscal_document_line_id.write(shadowed_fiscal_vals)
+        return result
