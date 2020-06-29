@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_coa.tax_template_out_ipi" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_ipi_simples_nacional'), ref('l10n_br_fiscal.tax_ipi_0'),
+            ref('l10n_br_fiscal.tax_ipi_isento'), ref('l10n_br_fiscal.tax_ipi_nt'),
+            ref('l10n_br_fiscal.tax_ipi_imune'), ref('l10n_br_fiscal.tax_ipi_suspensao'),
+            ref('l10n_br_fiscal.tax_ipi_2'), ref('l10n_br_fiscal.tax_ipi_3'),
+            ref('l10n_br_fiscal.tax_ipi_4'), ref('l10n_br_fiscal.tax_ipi_5'),
+            ref('l10n_br_fiscal.tax_ipi_6'), ref('l10n_br_fiscal.tax_ipi_7'),
+            ref('l10n_br_fiscal.tax_ipi_8'), ref('l10n_br_fiscal.tax_ipi_10'),
+            ref('l10n_br_fiscal.tax_ipi_12'), ref('l10n_br_fiscal.tax_ipi_13'),
+            ref('l10n_br_fiscal.tax_ipi_15'), ref('l10n_br_fiscal.tax_ipi_16'),
+            ref('l10n_br_fiscal.tax_ipi_18'), ref('l10n_br_fiscal.tax_ipi_20'),
+            ref('l10n_br_fiscal.tax_ipi_22'), ref('l10n_br_fiscal.tax_ipi_24'),
+            ref('l10n_br_fiscal.tax_ipi_25'), ref('l10n_br_fiscal.tax_ipi_27'),
+            ref('l10n_br_fiscal.tax_ipi_30'), ref('l10n_br_fiscal.tax_ipi_35'),
+            ref('l10n_br_fiscal.tax_ipi_40'), ref('l10n_br_fiscal.tax_ipi_42'),
+            ref('l10n_br_fiscal.tax_ipi_45'), ref('l10n_br_fiscal.tax_ipi_50'),
+            ref('l10n_br_fiscal.tax_ipi_60'), ref('l10n_br_fiscal.tax_ipi_300'),
+         ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_ipi" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_ipi_simples_nacional'), ref('l10n_br_fiscal.tax_ipi_0'),
+            ref('l10n_br_fiscal.tax_ipi_isento'), ref('l10n_br_fiscal.tax_ipi_nt'),
+            ref('l10n_br_fiscal.tax_ipi_imune'), ref('l10n_br_fiscal.tax_ipi_suspensao'),
+            ref('l10n_br_fiscal.tax_ipi_2'), ref('l10n_br_fiscal.tax_ipi_3'),
+            ref('l10n_br_fiscal.tax_ipi_4'), ref('l10n_br_fiscal.tax_ipi_5'),
+            ref('l10n_br_fiscal.tax_ipi_6'), ref('l10n_br_fiscal.tax_ipi_7'),
+            ref('l10n_br_fiscal.tax_ipi_8'), ref('l10n_br_fiscal.tax_ipi_10'),
+            ref('l10n_br_fiscal.tax_ipi_12'), ref('l10n_br_fiscal.tax_ipi_13'),
+            ref('l10n_br_fiscal.tax_ipi_15'), ref('l10n_br_fiscal.tax_ipi_16'),
+            ref('l10n_br_fiscal.tax_ipi_18'), ref('l10n_br_fiscal.tax_ipi_20'),
+            ref('l10n_br_fiscal.tax_ipi_22'), ref('l10n_br_fiscal.tax_ipi_24'),
+            ref('l10n_br_fiscal.tax_ipi_25'), ref('l10n_br_fiscal.tax_ipi_27'),
+            ref('l10n_br_fiscal.tax_ipi_30'), ref('l10n_br_fiscal.tax_ipi_35'),
+            ref('l10n_br_fiscal.tax_ipi_40'), ref('l10n_br_fiscal.tax_ipi_42'),
+            ref('l10n_br_fiscal.tax_ipi_45'), ref('l10n_br_fiscal.tax_ipi_50'),
+            ref('l10n_br_fiscal.tax_ipi_60'), ref('l10n_br_fiscal.tax_ipi_300'),
+         ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_ii" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_ii_0'), ref('l10n_br_fiscal.tax_ii_2'),
+            ref('l10n_br_fiscal.tax_ii_6'), ref('l10n_br_fiscal.tax_ii_8'),
+            ref('l10n_br_fiscal.tax_ii_10'), ref('l10n_br_fiscal.tax_ii_12'),
+            ref('l10n_br_fiscal.tax_ii_14'), ref('l10n_br_fiscal.tax_ii_16'),
+            ref('l10n_br_fiscal.tax_ii_18'), ref('l10n_br_fiscal.tax_ii_20'),
+            ref('l10n_br_fiscal.tax_ii_26'), ref('l10n_br_fiscal.tax_ii_28'),
+            ref('l10n_br_fiscal.tax_ii_35')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_ii" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_ii_0'), ref('l10n_br_fiscal.tax_ii_2'),
+            ref('l10n_br_fiscal.tax_ii_6'), ref('l10n_br_fiscal.tax_ii_8'),
+            ref('l10n_br_fiscal.tax_ii_10'), ref('l10n_br_fiscal.tax_ii_12'),
+            ref('l10n_br_fiscal.tax_ii_14'), ref('l10n_br_fiscal.tax_ii_16'),
+            ref('l10n_br_fiscal.tax_ii_18'), ref('l10n_br_fiscal.tax_ii_20'),
+            ref('l10n_br_fiscal.tax_ii_26'), ref('l10n_br_fiscal.tax_ii_28'),
+            ref('l10n_br_fiscal.tax_ii_35')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_icms" model="l10n_br_account.tax.template">
+      <field name="fiscal_tax_ids" eval="[(6, False, [
+          ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_nt'),
+          ref('l10n_br_fiscal.tax_icms_suspensao'), ref('l10n_br_fiscal.tax_icms_diferimento'), ref('l10n_br_fiscal.tax_icms_antst'),
+          ref('l10n_br_fiscal.tax_icms_outras'), ref('l10n_br_fiscal.tax_icms_0'), ref('l10n_br_fiscal.tax_icms_1'), ref('l10n_br_fiscal.tax_icms_4'),
+          ref('l10n_br_fiscal.tax_icms_6'), ref('l10n_br_fiscal.tax_icms_7'), ref('l10n_br_fiscal.tax_icms_8_5'), ref('l10n_br_fiscal.tax_icms_9'),
+          ref('l10n_br_fiscal.tax_icms_10'), ref('l10n_br_fiscal.tax_icms_12'), ref('l10n_br_fiscal.tax_icms_13'), ref('l10n_br_fiscal.tax_icms_14'),
+          ref('l10n_br_fiscal.tax_icms_16'), ref('l10n_br_fiscal.tax_icms_17'), ref('l10n_br_fiscal.tax_icms_17_5'), ref('l10n_br_fiscal.tax_icms_18'),
+          ref('l10n_br_fiscal.tax_icms_19'), ref('l10n_br_fiscal.tax_icms_20'), ref('l10n_br_fiscal.tax_icms_21'), ref('l10n_br_fiscal.tax_icms_25'),
+          ref('l10n_br_fiscal.tax_icms_27'), ref('l10n_br_fiscal.tax_icms_28'), ref('l10n_br_fiscal.tax_icms_29'), ref('l10n_br_fiscal.tax_icms_30'),
+          ref('l10n_br_fiscal.tax_icms_35'), ref('l10n_br_fiscal.tax_icms_37'), ref('l10n_br_fiscal.tax_icms_38'), ref('l10n_br_fiscal.tax_icms_7_red_26_57'),
+          ref('l10n_br_fiscal.tax_icms_12_red_26_57'), ref('l10n_br_fiscal.tax_icms_18_red_51_11'), ref('l10n_br_fiscal.tax_icms_7_red_41_43'),
+          ref('l10n_br_fiscal.tax_icms_12_red_41_67'), ref('l10n_br_fiscal.tax_icms_12_red_53_33'), ref('l10n_br_fiscal.tax_icms_18_red_68_89')])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_icms" model="l10n_br_account.tax.template">
+      <field name="fiscal_tax_ids" eval="[(6, False, [
+          ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_isento'), ref('l10n_br_fiscal.tax_icms_nt'),
+          ref('l10n_br_fiscal.tax_icms_suspensao'), ref('l10n_br_fiscal.tax_icms_diferimento'), ref('l10n_br_fiscal.tax_icms_antst'),
+          ref('l10n_br_fiscal.tax_icms_outras'), ref('l10n_br_fiscal.tax_icms_0'), ref('l10n_br_fiscal.tax_icms_1'), ref('l10n_br_fiscal.tax_icms_4'),
+          ref('l10n_br_fiscal.tax_icms_6'), ref('l10n_br_fiscal.tax_icms_7'), ref('l10n_br_fiscal.tax_icms_8_5'), ref('l10n_br_fiscal.tax_icms_9'),
+          ref('l10n_br_fiscal.tax_icms_10'), ref('l10n_br_fiscal.tax_icms_12'), ref('l10n_br_fiscal.tax_icms_13'), ref('l10n_br_fiscal.tax_icms_14'),
+          ref('l10n_br_fiscal.tax_icms_16'), ref('l10n_br_fiscal.tax_icms_17'), ref('l10n_br_fiscal.tax_icms_17_5'), ref('l10n_br_fiscal.tax_icms_18'),
+          ref('l10n_br_fiscal.tax_icms_19'), ref('l10n_br_fiscal.tax_icms_20'), ref('l10n_br_fiscal.tax_icms_21'), ref('l10n_br_fiscal.tax_icms_25'),
+          ref('l10n_br_fiscal.tax_icms_27'), ref('l10n_br_fiscal.tax_icms_28'), ref('l10n_br_fiscal.tax_icms_29'), ref('l10n_br_fiscal.tax_icms_30'),
+          ref('l10n_br_fiscal.tax_icms_35'), ref('l10n_br_fiscal.tax_icms_37'), ref('l10n_br_fiscal.tax_icms_38'), ref('l10n_br_fiscal.tax_icms_7_red_26_57'),
+          ref('l10n_br_fiscal.tax_icms_12_red_26_57'), ref('l10n_br_fiscal.tax_icms_18_red_51_11'), ref('l10n_br_fiscal.tax_icms_7_red_41_43'),
+          ref('l10n_br_fiscal.tax_icms_12_red_41_67'), ref('l10n_br_fiscal.tax_icms_12_red_53_33'), ref('l10n_br_fiscal.tax_icms_18_red_68_89')])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_icmssn" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_icms_sn_com_credito'), ref('l10n_br_fiscal.tax_icms_sn_sem_credito'),
+            ref('l10n_br_fiscal.tax_icms_sn_isento_faixa_bruta'), ref('l10n_br_fiscal.tax_icms_sn_com_credito_st'),
+            ref('l10n_br_fiscal.tax_icms_sn_sem_credito_st'), ref('l10n_br_fiscal.tax_icms_sn_isento_st'),
+            ref('l10n_br_fiscal.tax_icms_sn_imune'), ref('l10n_br_fiscal.tax_icms_sn_nt'),
+            ref('l10n_br_fiscal.tax_icms_sn_cobrado_ant_st'), ref('l10n_br_fiscal.tax_icms_sn_outros'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_icmssn" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_icms_sn_com_credito'), ref('l10n_br_fiscal.tax_icms_sn_sem_credito'),
+            ref('l10n_br_fiscal.tax_icms_sn_isento_faixa_bruta'), ref('l10n_br_fiscal.tax_icms_sn_com_credito_st'),
+            ref('l10n_br_fiscal.tax_icms_sn_sem_credito_st'), ref('l10n_br_fiscal.tax_icms_sn_isento_st'),
+            ref('l10n_br_fiscal.tax_icms_sn_imune'), ref('l10n_br_fiscal.tax_icms_sn_nt'),
+            ref('l10n_br_fiscal.tax_icms_sn_cobrado_ant_st'), ref('l10n_br_fiscal.tax_icms_sn_outros'),
+        ])]"/>
+    </record>
+
+
+    <record id="l10n_br_coa.tax_template_out_icms_subist" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[ref('l10n_br_fiscal.tax_icmsst_29_43'), ref('l10n_br_fiscal.tax_icmsst_40'), ref('l10n_br_fiscal.tax_icmsst_42_73'), ref('l10n_br_fiscal.tax_icmsst_47'), ref('l10n_br_fiscal.tax_icmsst_57'), ref('l10n_br_fiscal.tax_icmsst_71_48'), ref('l10n_br_fiscal.tax_icmsst_146'), ref('l10n_br_fiscal.tax_icmsst_148')])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_icms_subist" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[ref('l10n_br_fiscal.tax_icmsst_29_43'), ref('l10n_br_fiscal.tax_icmsst_40'), ref('l10n_br_fiscal.tax_icmsst_42_73'), ref('l10n_br_fiscal.tax_icmsst_47'), ref('l10n_br_fiscal.tax_icmsst_57'), ref('l10n_br_fiscal.tax_icmsst_71_48'), ref('l10n_br_fiscal.tax_icmsst_146'), ref('l10n_br_fiscal.tax_icmsst_148')])]"/>
+    </record>
+
+
+    <record id="l10n_br_coa.tax_template_out_icmsfcp" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_icmsfcp_nt'), ref('l10n_br_fiscal.tax_icmsfcp_1'),
+            ref('l10n_br_fiscal.tax_icmsfcp_16'), ref('l10n_br_fiscal.tax_icmsfcp_19'),
+            ref('l10n_br_fiscal.tax_icmsfcp_2'), ref('l10n_br_fiscal.tax_icmsfcp_4'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_icmsfcp" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_icmsfcp_nt'), ref('l10n_br_fiscal.tax_icmsfcp_1'),
+            ref('l10n_br_fiscal.tax_icmsfcp_16'), ref('l10n_br_fiscal.tax_icmsfcp_19'),
+            ref('l10n_br_fiscal.tax_icmsfcp_2'), ref('l10n_br_fiscal.tax_icmsfcp_4'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_pis" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_pis_value_0_0122'), ref('l10n_br_fiscal.tax_pis_value_0_0125'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0174'), ref('l10n_br_fiscal.tax_pis_value_0_0177'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0186'), ref('l10n_br_fiscal.tax_pis_value_0_0211'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0223'), ref('l10n_br_fiscal.tax_pis_value_0_0226'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0243'), ref('l10n_br_fiscal.tax_pis_value_0_0253'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0292'), ref('l10n_br_fiscal.tax_pis_value_0_0338'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0341'), ref('l10n_br_fiscal.tax_pis_value_0_0348'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0371'), ref('l10n_br_fiscal.tax_pis_value_0_0455'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0464'), ref('l10n_br_fiscal.tax_pis_value_0_0503'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0536'), ref('l10n_br_fiscal.tax_pis_value_0_0568'),
+            ref('l10n_br_fiscal.tax_pis_value_0_065'), ref('l10n_br_fiscal.tax_pis_value_0_0715'),
+            ref('l10n_br_fiscal.tax_pis_value_0_0763'), ref('l10n_br_fiscal.tax_pis_value_0_0909'),
+            ref('l10n_br_fiscal.tax_pis_value_0_1104'), ref('l10n_br_fiscal.tax_pis_value_10_39'),
+            ref('l10n_br_fiscal.tax_pis_value_12_6900'), ref('l10n_br_fiscal.tax_pis_value_141_10'),
+            ref('l10n_br_fiscal.tax_pis_value_16_07'), ref('l10n_br_fiscal.tax_pis_value_19_81'),
+            ref('l10n_br_fiscal.tax_pis_value_22_48'), ref('l10n_br_fiscal.tax_pis_value_23_38'),
+            ref('l10n_br_fiscal.tax_pis_value_26_3600'), ref('l10n_br_fiscal.tax_pis_value_26_41'),
+            ref('l10n_br_fiscal.tax_pis_value_29_8500'), ref('l10n_br_fiscal.tax_pis_value_3_21'),
+            ref('l10n_br_fiscal.tax_pis_value_46_5800'), ref('l10n_br_fiscal.tax_pis_value_62_61'),
+            ref('l10n_br_fiscal.tax_pis_0'), ref('l10n_br_fiscal.tax_pis_0_65'),
+            ref('l10n_br_fiscal.tax_pis_1_65'), ref('l10n_br_fiscal.tax_pis_simples_nacional'),
+            ref('l10n_br_fiscal.tax_pis_isento'), ref('l10n_br_fiscal.tax_pis_seminc'),
+            ref('l10n_br_fiscal.tax_pis_susp'), ref('l10n_br_fiscal.tax_pis_monofasico_0'),
+            ref('l10n_br_fiscal.tax_pis_monofasico_1'), ref('l10n_br_fiscal.tax_pis_monofasico_1_49'),
+            ref('l10n_br_fiscal.tax_pis_monofasico_1_50'), ref('l10n_br_fiscal.tax_pis_monofasico_1_65'),
+            ref('l10n_br_fiscal.tax_pis_monofasico_1_67'), ref('l10n_br_fiscal.tax_pis_monofasico_1_86'),
+            ref('l10n_br_fiscal.tax_pis_monofasico_10_20'), ref('l10n_br_fiscal.tax_pis_monofasico_2_00'),
+            ref('l10n_br_fiscal.tax_pis_monofasico_2_09'), ref('l10n_br_fiscal.tax_pis_monofasico_2_10'),
+            ref('l10n_br_fiscal.tax_pis_monofasico_2_20'), ref('l10n_br_fiscal.tax_pis_monofasico_2_30'),
+            ref('l10n_br_fiscal.tax_pis_monofasico_2_32'), ref('l10n_br_fiscal.tax_pis_monofasico_3_75'),
+            ref('l10n_br_fiscal.tax_pis_monofasico_4_21'), ref('l10n_br_fiscal.tax_pis_monofasico_5_00'),
+            ref('l10n_br_fiscal.tax_pis_monofasico_5_08'), ref('l10n_br_fiscal.tax_pis_monofasico_6_15'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_65_cred_0'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_65_cred_0_65'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_65_cred_1'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_8_cred_0_8'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0_18'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0_38'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0_54'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0_65'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_11'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_19'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_2375'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_26'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_3'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_34'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_42'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_49'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_50'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_58'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_59'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_65'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_67'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_77'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_86'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_88'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_97'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_98'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_2_09'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_2_20'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_3_31'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_3_74'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_1_3_cred_0'), ref('l10n_br_fiscal.tax_pis_aliqdif_1_3_cred_1_65'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_1_65_cred_0'), ref('l10n_br_fiscal.tax_pis_aliqdif_2_1_cred_2_1'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_2_62_cred_2_62'), ref('l10n_br_fiscal.tax_pis_aliqdif_2_68_cred_2_68'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_2_76_cred_2_76'), ref('l10n_br_fiscal.tax_pis_aliqdif_3_12_cred_3_12'),
+            ref('l10n_br_fiscal.tax_pis_aliqdif_3_52_cred_3_52')
+          ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_pisst" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_pis_st_0_65'),
+            ref('l10n_br_fiscal.tax_pis_st_8_57'),
+            ref('l10n_br_fiscal.tax_pis_st_21_43')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_pis_wh" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_pis_wh_0'),
+            ref('l10n_br_fiscal.tax_pis_wh_0_65'),
+            ref('l10n_br_fiscal.tax_pis_wh_1_65')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_pis" model="l10n_br_account.tax.template">
+      <field name="fiscal_tax_ids" eval="[(6, False,[
+          ref('l10n_br_fiscal.tax_pis_value_0_0122'), ref('l10n_br_fiscal.tax_pis_value_0_0125'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0174'), ref('l10n_br_fiscal.tax_pis_value_0_0177'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0186'), ref('l10n_br_fiscal.tax_pis_value_0_0211'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0223'), ref('l10n_br_fiscal.tax_pis_value_0_0226'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0243'), ref('l10n_br_fiscal.tax_pis_value_0_0253'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0292'), ref('l10n_br_fiscal.tax_pis_value_0_0338'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0341'), ref('l10n_br_fiscal.tax_pis_value_0_0348'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0371'), ref('l10n_br_fiscal.tax_pis_value_0_0455'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0464'), ref('l10n_br_fiscal.tax_pis_value_0_0503'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0536'), ref('l10n_br_fiscal.tax_pis_value_0_0568'),
+          ref('l10n_br_fiscal.tax_pis_value_0_065'), ref('l10n_br_fiscal.tax_pis_value_0_0715'),
+          ref('l10n_br_fiscal.tax_pis_value_0_0763'), ref('l10n_br_fiscal.tax_pis_value_0_0909'),
+          ref('l10n_br_fiscal.tax_pis_value_0_1104'), ref('l10n_br_fiscal.tax_pis_value_10_39'),
+          ref('l10n_br_fiscal.tax_pis_value_12_6900'), ref('l10n_br_fiscal.tax_pis_value_141_10'),
+          ref('l10n_br_fiscal.tax_pis_value_16_07'), ref('l10n_br_fiscal.tax_pis_value_19_81'),
+          ref('l10n_br_fiscal.tax_pis_value_22_48'), ref('l10n_br_fiscal.tax_pis_value_23_38'),
+          ref('l10n_br_fiscal.tax_pis_value_26_3600'), ref('l10n_br_fiscal.tax_pis_value_26_41'),
+          ref('l10n_br_fiscal.tax_pis_value_29_8500'), ref('l10n_br_fiscal.tax_pis_value_3_21'),
+          ref('l10n_br_fiscal.tax_pis_value_46_5800'), ref('l10n_br_fiscal.tax_pis_value_62_61'),
+          ref('l10n_br_fiscal.tax_pis_0'), ref('l10n_br_fiscal.tax_pis_0_65'),
+          ref('l10n_br_fiscal.tax_pis_1_65'), ref('l10n_br_fiscal.tax_pis_simples_nacional'),
+          ref('l10n_br_fiscal.tax_pis_isento'), ref('l10n_br_fiscal.tax_pis_seminc'),
+          ref('l10n_br_fiscal.tax_pis_susp'), ref('l10n_br_fiscal.tax_pis_monofasico_0'),
+          ref('l10n_br_fiscal.tax_pis_monofasico_1'), ref('l10n_br_fiscal.tax_pis_monofasico_1_49'),
+          ref('l10n_br_fiscal.tax_pis_monofasico_1_50'), ref('l10n_br_fiscal.tax_pis_monofasico_1_65'),
+          ref('l10n_br_fiscal.tax_pis_monofasico_1_67'), ref('l10n_br_fiscal.tax_pis_monofasico_1_86'),
+          ref('l10n_br_fiscal.tax_pis_monofasico_10_20'), ref('l10n_br_fiscal.tax_pis_monofasico_2_00'),
+          ref('l10n_br_fiscal.tax_pis_monofasico_2_09'), ref('l10n_br_fiscal.tax_pis_monofasico_2_10'),
+          ref('l10n_br_fiscal.tax_pis_monofasico_2_20'), ref('l10n_br_fiscal.tax_pis_monofasico_2_30'),
+          ref('l10n_br_fiscal.tax_pis_monofasico_2_32'), ref('l10n_br_fiscal.tax_pis_monofasico_3_75'),
+          ref('l10n_br_fiscal.tax_pis_monofasico_4_21'), ref('l10n_br_fiscal.tax_pis_monofasico_5_00'),
+          ref('l10n_br_fiscal.tax_pis_monofasico_5_08'), ref('l10n_br_fiscal.tax_pis_monofasico_6_15'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_65_cred_0'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_65_cred_0_65'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_65_cred_1'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_8_cred_0_8'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0_18'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0_38'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0_54'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_0_65'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_11'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_19'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_2375'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_26'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_3'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_34'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_42'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_49'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_50'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_58'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_59'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_65'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_67'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_77'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_86'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_88'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_97'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_1_98'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_2_09'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_2_20'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_3_31'), ref('l10n_br_fiscal.tax_pis_aliqdif_0_cred_3_74'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_1_3_cred_0'), ref('l10n_br_fiscal.tax_pis_aliqdif_1_3_cred_1_65'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_1_65_cred_0'), ref('l10n_br_fiscal.tax_pis_aliqdif_2_1_cred_2_1'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_2_62_cred_2_62'), ref('l10n_br_fiscal.tax_pis_aliqdif_2_68_cred_2_68'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_2_76_cred_2_76'), ref('l10n_br_fiscal.tax_pis_aliqdif_3_12_cred_3_12'),
+          ref('l10n_br_fiscal.tax_pis_aliqdif_3_52_cred_3_52')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_pisst" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_pis_st_0_65'),
+            ref('l10n_br_fiscal.tax_pis_st_8_57'),
+            ref('l10n_br_fiscal.tax_pis_st_21_43')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_pis_wh" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_pis_wh_0'),
+            ref('l10n_br_fiscal.tax_pis_wh_0_65'),
+            ref('l10n_br_fiscal.tax_pis_wh_1_65')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_cofins" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_cofins_value_0_0563'), ref('l10n_br_fiscal.tax_cofins_value_0_0578'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_0801'), ref('l10n_br_fiscal.tax_cofins_value_0_0815'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_0854'), ref('l10n_br_fiscal.tax_cofins_value_0_0972'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_1026'), ref('l10n_br_fiscal.tax_cofins_value_0_1041'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_112'), ref('l10n_br_fiscal.tax_cofins_value_0_1164'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_1346'), ref('l10n_br_fiscal.tax_cofins_value_0_1555'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_157'), ref('l10n_br_fiscal.tax_cofins_value_0_1602'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_1709'), ref('l10n_br_fiscal.tax_cofins_value_0_2093'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_2136'), ref('l10n_br_fiscal.tax_cofins_value_0_2318'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_2467'), ref('l10n_br_fiscal.tax_cofins_value_0_2617'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_299'), ref('l10n_br_fiscal.tax_cofins_value_0_3289'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_3514'), ref('l10n_br_fiscal.tax_cofins_value_0_4187'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_5084'), ref('l10n_br_fiscal.tax_cofins_value_47_85'),
+            ref('l10n_br_fiscal.tax_cofins_value_58_5100'), ref('l10n_br_fiscal.tax_cofins_value_651_40'),
+            ref('l10n_br_fiscal.tax_cofins_value_73_93'), ref('l10n_br_fiscal.tax_cofins_value_91_10'),
+            ref('l10n_br_fiscal.tax_cofins_value_103_51'), ref('l10n_br_fiscal.tax_cofins_value_107_52'),
+            ref('l10n_br_fiscal.tax_cofins_value_121_6400'), ref('l10n_br_fiscal.tax_cofins_value_121_59'),
+            ref('l10n_br_fiscal.tax_cofins_value_137_8500'), ref('l10n_br_fiscal.tax_cofins_value_14_79'),
+            ref('l10n_br_fiscal.tax_cofins_value_215_0200'), ref('l10n_br_fiscal.tax_cofins_value_288_89'),
+            ref('l10n_br_fiscal.tax_cofins_0'), ref('l10n_br_fiscal.tax_cofins_3'),
+            ref('l10n_br_fiscal.tax_cofins_7_6'), ref('l10n_br_fiscal.tax_cofins_simples_nacional'),
+            ref('l10n_br_fiscal.tax_cofins_isento'), ref('l10n_br_fiscal.tax_cofins_seminc'),
+            ref('l10n_br_fiscal.tax_cofins_susp'), ref('l10n_br_fiscal.tax_cofins_monofasico_0'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_4_60'), ref('l10n_br_fiscal.tax_cofins_monofasico_6_83'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_6_90'), ref('l10n_br_fiscal.tax_cofins_monofasico_7_60'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_7_69'), ref('l10n_br_fiscal.tax_cofins_monofasico_8_54'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_47_40'), ref('l10n_br_fiscal.tax_cofins_monofasico_9_60'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_9_50'), ref('l10n_br_fiscal.tax_cofins_monofasico_9_61'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_9_90'), ref('l10n_br_fiscal.tax_cofins_monofasico_10_30'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_10_80'), ref('l10n_br_fiscal.tax_cofins_monofasico_10_68'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_17_25'), ref('l10n_br_fiscal.tax_cofins_monofasico_19_42'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_23_20'), ref('l10n_br_fiscal.tax_cofins_monofasico_23_44'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_28_32'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_0'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_0_82'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_1_6'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_10_15'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_15_26'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_17_23'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_2_46'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_3'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_02'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_46'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_6'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_7'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_81'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6_15'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6_53'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6_83'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6_92'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_7_26'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_7_30'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_7_69'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_8_11'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_8_54'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_8_65'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_9_08'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_9_13'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_9_61'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_12_35_cred_12_35'), ref('l10n_br_fiscal.tax_cofins_aliqdif_12_57_cred_12_57'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_13_03_cred_13_03'), ref('l10n_br_fiscal.tax_cofins_aliqdif_14_37_cred_14_37'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_16_48_cred_16_48'), ref('l10n_br_fiscal.tax_cofins_aliqdif_3_2_cred_3_2'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_3_cred_3'), ref('l10n_br_fiscal.tax_cofins_aliqdif_3_cred_4_6'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_4_0_cred_0'), ref('l10n_br_fiscal.tax_cofins_aliqdif_6_cred_0'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_6_cred_3'), ref('l10n_br_fiscal.tax_cofins_aliqdif_6_cred_7_6'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_7_6_cred_0'), ref('l10n_br_fiscal.tax_cofins_aliqdif_9_65_cred_9_65')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_cofinsst" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_cofins_st_3'),
+            ref('l10n_br_fiscal.tax_cofins_st_39_43'),
+            ref('l10n_br_fiscal.tax_cofins_st_98_57'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_cofins_wh" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_cofins_wh_0'),
+            ref('l10n_br_fiscal.tax_cofins_wh_3'),
+            ref('l10n_br_fiscal.tax_cofins_wh_7_6'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_cofins" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_cofins_value_0_0563'), ref('l10n_br_fiscal.tax_cofins_value_0_0578'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_0801'), ref('l10n_br_fiscal.tax_cofins_value_0_0815'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_0854'), ref('l10n_br_fiscal.tax_cofins_value_0_0972'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_1026'), ref('l10n_br_fiscal.tax_cofins_value_0_1041'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_112'), ref('l10n_br_fiscal.tax_cofins_value_0_1164'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_1346'), ref('l10n_br_fiscal.tax_cofins_value_0_1555'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_157'), ref('l10n_br_fiscal.tax_cofins_value_0_1602'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_1709'), ref('l10n_br_fiscal.tax_cofins_value_0_2093'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_2136'), ref('l10n_br_fiscal.tax_cofins_value_0_2318'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_2467'), ref('l10n_br_fiscal.tax_cofins_value_0_2617'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_299'), ref('l10n_br_fiscal.tax_cofins_value_0_3289'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_3514'), ref('l10n_br_fiscal.tax_cofins_value_0_4187'),
+            ref('l10n_br_fiscal.tax_cofins_value_0_5084'), ref('l10n_br_fiscal.tax_cofins_value_47_85'),
+            ref('l10n_br_fiscal.tax_cofins_value_58_5100'), ref('l10n_br_fiscal.tax_cofins_value_651_40'),
+            ref('l10n_br_fiscal.tax_cofins_value_73_93'), ref('l10n_br_fiscal.tax_cofins_value_91_10'),
+            ref('l10n_br_fiscal.tax_cofins_value_103_51'), ref('l10n_br_fiscal.tax_cofins_value_107_52'),
+            ref('l10n_br_fiscal.tax_cofins_value_121_6400'), ref('l10n_br_fiscal.tax_cofins_value_121_59'),
+            ref('l10n_br_fiscal.tax_cofins_value_137_8500'), ref('l10n_br_fiscal.tax_cofins_value_14_79'),
+            ref('l10n_br_fiscal.tax_cofins_value_215_0200'), ref('l10n_br_fiscal.tax_cofins_value_288_89'),
+            ref('l10n_br_fiscal.tax_cofins_0'), ref('l10n_br_fiscal.tax_cofins_3'),
+            ref('l10n_br_fiscal.tax_cofins_7_6'), ref('l10n_br_fiscal.tax_cofins_simples_nacional'),
+            ref('l10n_br_fiscal.tax_cofins_isento'), ref('l10n_br_fiscal.tax_cofins_seminc'),
+            ref('l10n_br_fiscal.tax_cofins_susp'), ref('l10n_br_fiscal.tax_cofins_monofasico_0'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_4_60'), ref('l10n_br_fiscal.tax_cofins_monofasico_6_83'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_6_90'), ref('l10n_br_fiscal.tax_cofins_monofasico_7_60'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_7_69'), ref('l10n_br_fiscal.tax_cofins_monofasico_8_54'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_47_40'), ref('l10n_br_fiscal.tax_cofins_monofasico_9_60'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_9_50'), ref('l10n_br_fiscal.tax_cofins_monofasico_9_61'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_9_90'), ref('l10n_br_fiscal.tax_cofins_monofasico_10_30'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_10_80'), ref('l10n_br_fiscal.tax_cofins_monofasico_10_68'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_17_25'), ref('l10n_br_fiscal.tax_cofins_monofasico_19_42'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_23_20'), ref('l10n_br_fiscal.tax_cofins_monofasico_23_44'),
+            ref('l10n_br_fiscal.tax_cofins_monofasico_28_32'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_0'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_0_82'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_1_6'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_10_15'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_15_26'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_17_23'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_2_46'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_3'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_02'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_46'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_6'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_7'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_5_81'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6_15'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6_53'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6_83'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_6_92'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_7_26'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_7_30'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_7_69'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_8_11'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_8_54'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_8_65'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_9_08'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_9_13'), ref('l10n_br_fiscal.tax_cofins_aliqdif_0_cred_9_61'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_12_35_cred_12_35'), ref('l10n_br_fiscal.tax_cofins_aliqdif_12_57_cred_12_57'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_13_03_cred_13_03'), ref('l10n_br_fiscal.tax_cofins_aliqdif_14_37_cred_14_37'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_16_48_cred_16_48'), ref('l10n_br_fiscal.tax_cofins_aliqdif_3_2_cred_3_2'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_3_cred_3'), ref('l10n_br_fiscal.tax_cofins_aliqdif_3_cred_4_6'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_4_0_cred_0'), ref('l10n_br_fiscal.tax_cofins_aliqdif_6_cred_0'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_6_cred_3'), ref('l10n_br_fiscal.tax_cofins_aliqdif_6_cred_7_6'),
+            ref('l10n_br_fiscal.tax_cofins_aliqdif_7_6_cred_0'), ref('l10n_br_fiscal.tax_cofins_aliqdif_9_65_cred_9_65')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_cofinsst" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_cofins_st_3'),
+            ref('l10n_br_fiscal.tax_cofins_st_39_43'),
+            ref('l10n_br_fiscal.tax_cofins_st_98_57')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_cofins_wh" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False,[
+            ref('l10n_br_fiscal.tax_cofins_wh_0'),
+            ref('l10n_br_fiscal.tax_cofins_wh_3'),
+            ref('l10n_br_fiscal.tax_cofins_wh_7_6'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_issqn" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_issqn_nt'), ref('l10n_br_fiscal.tax_issqn_1'),
+            ref('l10n_br_fiscal.tax_issqn_2'), ref('l10n_br_fiscal.tax_issqn_3'),
+            ref('l10n_br_fiscal.tax_issqn_4'), ref('l10n_br_fiscal.tax_issqn_5')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_issqn_wh" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_issqn_wh_nt'), ref('l10n_br_fiscal.tax_issqn_wh_1'),
+            ref('l10n_br_fiscal.tax_issqn_wh_2'), ref('l10n_br_fiscal.tax_issqn_wh_3'),
+            ref('l10n_br_fiscal.tax_issqn_wh_4'), ref('l10n_br_fiscal.tax_issqn_wh_5')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_issqn" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_issqn_nt'), ref('l10n_br_fiscal.tax_issqn_1'),
+            ref('l10n_br_fiscal.tax_issqn_2'), ref('l10n_br_fiscal.tax_issqn_3'),
+            ref('l10n_br_fiscal.tax_issqn_4'), ref('l10n_br_fiscal.tax_issqn_5')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_issqn_wh" model="l10n_br_account.tax.template">
+      <field name="fiscal_tax_ids" eval="[(6, False, [
+          ref('l10n_br_fiscal.tax_issqn_wh_nt'), ref('l10n_br_fiscal.tax_issqn_wh_1'),
+          ref('l10n_br_fiscal.tax_issqn_wh_2'), ref('l10n_br_fiscal.tax_issqn_wh_3'),
+          ref('l10n_br_fiscal.tax_issqn_wh_4'), ref('l10n_br_fiscal.tax_issqn_wh_5')
+      ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_irpj" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_irpj_nt'),
+            ref('l10n_br_fiscal.tax_irpj_1'),
+            ref('l10n_br_fiscal.tax_irpj_4_6')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_irpj_wh" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_irpj_wh_nt'),
+            ref('l10n_br_fiscal.tax_irpj_wh_1'),
+            ref('l10n_br_fiscal.tax_irpj_wh_4_6')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_csll" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_csll_nt'),
+            ref('l10n_br_fiscal.tax_csll_1'),
+            ref('l10n_br_fiscal.tax_csll_2_8')
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_csll_wh" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_csll_wh_1'),
+            ref('l10n_br_fiscal.tax_csll_wh_2_8'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_inss" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_inss_nt'),
+            ref('l10n_br_fiscal.tax_inss_11'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_inss_wh" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_inss_wh_nt'),
+            ref('l10n_br_fiscal.tax_inss_wh_11'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_inss" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_inss_nt'),
+            ref('l10n_br_fiscal.tax_inss_11'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_inss_wh" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_inss_wh_nt'),
+            ref('l10n_br_fiscal.tax_inss_wh_11'),
+        ])]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_simples" model="l10n_br_account.tax.template">
+        <field name="fiscal_tax_ids" eval="[(6, False, [
+            ref('l10n_br_fiscal.tax_simples')
+        ])]"/>
+    </record>
+
+</odoo>
