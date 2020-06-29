@@ -124,10 +124,9 @@ class AccountInvoice(models.Model):
         self.amount_untaxed = 0.00
         self.amount_tax = 0.00
         for inv_line in self.invoice_line_ids:
-            if inv_line.cfop_id:
-                if inv_line.cfop_id.finance_move:
-                    self.amount_untaxed += inv_line.price_subtotal
-                    self.amount_tax += inv_line.price_tax
+            if inv_line.cfop_id and inv_line.cfop_id.finance_move:
+                self.amount_untaxed += inv_line.price_subtotal
+                self.amount_tax += inv_line.price_tax
             else:
                 self.amount_untaxed += inv_line.price_subtotal
                 self.amount_tax += inv_line.price_tax
@@ -157,10 +156,7 @@ class AccountInvoice(models.Model):
         for line in move_lines_dict:
             invoice_line = self.invoice_line_ids.browse(line.get('invl_id'))
             line['price'] = invoice_line.price_total
-            if invoice_line.cfop_id:
-                if invoice_line.cfop_id.finance_move:
-                    new_mv_lines_dict.append(line)
-            else:
+            if invoice_line.cfop_id.finance_move:
                 new_mv_lines_dict.append(line)
 
         return new_mv_lines_dict
@@ -168,7 +164,7 @@ class AccountInvoice(models.Model):
     @api.model
     def tax_line_move_line_get(self):
         tax_lines_dict = super().tax_line_move_line_get()
-        new_tax_lines_dict = tax_lines_dict or []
+        new_tax_lines_dict = []
         # for tax in tax_lines_dict:
         #     new_tax_lines_dict.append(tax)
         #
@@ -176,6 +172,7 @@ class AccountInvoice(models.Model):
         #     new_tax['type'] = 'src'
         #
         #     new_tax_lines_dict.append(new_tax)
+
         return new_tax_lines_dict
 
     @api.multi
