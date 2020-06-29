@@ -93,7 +93,7 @@ class AccountInvoiceLine(models.Model):
 
         self.price_subtotal -= self.discount_value
         price_subtotal_signed = self.price_subtotal
-        
+
         self.price_total += (
             self.insurance_value + self.other_costs_value +
             self.freight_value - self.discount_value)
