@@ -2244,6 +2244,14 @@ msgid "Bank"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bank_account_type
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bank_account_type
+#, fuzzy
+#| msgid "Bank Accounts"
+msgid "Bank Account Type"
+msgstr "Contas Bancárias"
+
+#. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_partner_bank
 msgid "Bank Accounts"
 msgstr "Contas Bancárias"
@@ -2259,6 +2267,12 @@ msgstr "Número da Agência"
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_number_dig
 msgid "Bank Branch Digit"
 msgstr "Dígito da Agência Bancária"
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:64
+#, python-format
+msgid "Bank branch code must be four caracteres."
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1501253
@@ -3859,6 +3873,11 @@ msgstr "CNPJ/CPF"
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "CNPJ/Vat Number"
 msgstr "CNPJ/Id Estrangeiro"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__compe_member
+msgid "COMPE Member"
+msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
@@ -6534,6 +6553,48 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4305801
 msgid "Constantina"
+msgstr ""
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:13
+#: selection:res.partner.bank,bank_account_type:0
+#, python-format
+msgid "Conta corrente conjunta"
+msgstr ""
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:10
+#: selection:res.partner.bank,bank_account_type:0
+#, python-format
+msgid "Conta corrente individual"
+msgstr ""
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:15
+#: selection:res.partner.bank,bank_account_type:0
+#, python-format
+msgid "Conta depósito judicial/Depósito em consignação conjunta"
+msgstr ""
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:12
+#: selection:res.partner.bank,bank_account_type:0
+#, python-format
+msgid "Conta depósito judicial/Depósito em consignação individual"
+msgstr ""
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:14
+#: selection:res.partner.bank,bank_account_type:0
+#, python-format
+msgid "Conta poupança conjunta"
+msgstr ""
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner_bank.py:11
+#: selection:res.partner.bank,bank_account_type:0
+#, python-format
+msgid "Conta poupança individual"
 msgstr ""
 
 #. module: l10n_br_base
@@ -10136,6 +10197,13 @@ msgstr "Código do IBGE"
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__id
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__ispb_number
+#, fuzzy
+#| msgid "CNPJ/Vat Number"
+msgid "ISPB Number"
+msgstr "CNPJ/Id Estrangeiro"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3519105
@@ -22847,6 +22915,11 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3551900
 msgid "Severínia"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__short_name
+msgid "Short Name"
 msgstr ""
 
 #. module: l10n_br_base
