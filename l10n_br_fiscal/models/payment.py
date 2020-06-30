@@ -3,13 +3,6 @@
 
 from odoo import api, fields, models
 
-from ..constants.payment import (
-    BANDEIRA_CARTAO,
-    FORMA_PAGAMENTO,
-    INTEGRACAO_CARTAO,
-    INTEGRACAO_CARTAO_NAO_INTEGRADO,
-)
-
 
 class FiscalPayment(models.Model):
     _name = "l10n_br_fiscal.payment"
