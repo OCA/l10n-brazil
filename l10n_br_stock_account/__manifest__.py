@@ -23,6 +23,7 @@
 
         # Views
         'views/stock_account_view.xml',
+        'views/stock_picking.xml',
         'views/stock_rule_view.xml',
         'views/stock_picking_type_view.xml',
 
