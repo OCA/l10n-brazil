@@ -142,13 +142,13 @@ class FiscalPayment(models.Model):
         return {
             'forma_pagamento':
                 self.payment_mode_id and
-                self.payment_mode_id.forma_pagamento,
+                self.payment_mode_id.forma_pagamento or False,
             'bandeira_cartao':
                 self.payment_condition_id and
-                self.payment_condition_id.bandeira_cartao,
+                self.payment_condition_id.bandeira_cartao or False,
             'integracao_cartao':
                 self.payment_condition_id and
-                self.payment_condition_id.integracao_cartao,
+                self.payment_condition_id.integracao_cartao or False,
             'partner_card_id':
                 self.payment_condition_id and
                 self.payment_condition_id.partner_card_id and

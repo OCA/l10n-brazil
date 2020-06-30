@@ -130,11 +130,14 @@ class PaymentMixin(models.AbstractModel):
                 record.fiscal_payment_ids.unlink()
                 vals = {
                     'payment_term_id':
-                        self.payment_term_id and self.payment_term_id.id,
+                        self.payment_term_id and
+                        self.payment_term_id.id or False,
                     'payment_mode_id':
-                           self.payment_mode_id and self.payment_mode_id.id,
+                       self.payment_mode_id and
+                       self.payment_mode_id.id or False,
                     'payment_condition_id':
-                        self.payment_condition_id and self.payment_condition_id.id,
+                        self.payment_condition_id and
+                        self.payment_condition_id.id or False,
                     'amount': self.amount_missing_payment_value,
                     'currency_id': self.currency_id.id,
                     'company_id': self.company_id.id,
