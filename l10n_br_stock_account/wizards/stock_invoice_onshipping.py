@@ -1,10 +1,8 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import ast
-
-from odoo import models, fields, api, _
-from odoo.exceptions import Warning as UserError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class StockInvoiceOnshipping(models.TransientModel):
@@ -43,27 +41,30 @@ class StockInvoiceOnshipping(models.TransientModel):
         return journal
 
     @api.multi
-    def open_invoice(self):
-        context = dict(self.env.context)
-        for wizard in self:
-            fiscal_document_code = (wizard.journal_id.company_id.
-                                    product_invoice_id.code)
-            context.update(
-                {'fiscal_document_code': fiscal_document_code})
-        result = super(StockInvoiceOnshipping,
-                       self.with_context(context)).open_invoice()
-        if result.get('context'):
-            super_context = ast.literal_eval(result.get('context'))
-            super_context.update(context)
-            result['context'] = str(super_context)
-        return result
-
-    @api.multi
     def _build_invoice_values_from_pickings(self, pickings):
-        picking = fields.first(pickings)
         invoice, values = super()._build_invoice_values_from_pickings(pickings)
-        fiscal_values = picking._prepare_br_fiscal_dict()
-        values.update(fiscal_values)
+        pick = fields.first(pickings)
+        fiscal_vals = pick._prepare_br_fiscal_dict()
+
+        document_type_id = self._context.get('document_type_id')
+
+        if document_type_id:
+            document_type = self.env['l10n_br_fiscal.document.type'].browse(
+                document_type_id)
+        else:
+            document_type = pick.company_id.document_type_id
+            document_type_id = pick.company_id.document_type_id.id
+
+        fiscal_vals['document_type_id'] = document_type_id
+        document_serie = document_type.get_document_serie(
+            pick.company_id, pick.fiscal_operation_id)
+        if document_serie:
+            fiscal_vals['document_serie_id'] = document_serie.id
+
+        if pick.fiscal_operation_id and pick.fiscal_operation_id.journal_id:
+            fiscal_vals['journal_id'] = pick.fiscal_operation_id.journal_id.id
+
+        values.update(fiscal_vals)
         return invoice, values
 
     @api.multi
