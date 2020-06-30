@@ -26,7 +26,7 @@ class StockReturnPicking(models.TransientModel):
         origin_picking = self.env['stock.picking'].browse(
             self.env.context['active_id'])
         refund_fiscal_operation = (
-            origin_picking.fiscal_operation_id.return_operation_id)
+            origin_picking.fiscal_operation_id.return_fiscal_operation_id)
 
         if not refund_fiscal_operation:
             raise UserError(
@@ -49,7 +49,7 @@ class StockReturnPicking(models.TransientModel):
             for move in picking.move_lines:
                 fiscal_operation = (
                     move.origin_returned_move_id.
-                    fiscal_operation_id.return_operation_id)
+                    fiscal_operation_id.return_fiscal_operation_id)
                 fiscal_line_operation = (
                     move.origin_returned_move_id.
                     fiscal_operation_line_id.line_refund_id)
@@ -61,5 +61,8 @@ class StockReturnPicking(models.TransientModel):
                 }
                 write_move = move_obj.browse(move.id)
                 write_move.write(line_values)
+                write_move._onchange_product_id_fiscal()
+                write_move._onchange_fiscal_operation_id()
+                write_move._onchange_fiscal_operation_line_id()
 
         return new_picking_id, pick_type_id
