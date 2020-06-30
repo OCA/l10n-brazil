@@ -1,0 +1,33 @@
+<odoo noupdate="1">
+
+    <record id="condicao_a_vista_dinheiro" model="l10n_br_fiscal.payment.condition">
+        <field name="payment_term_id" ref="term_a_vista"/>
+        <field name="payment_mode_id" ref="payment_mode_dinheiro"/>
+    </record>
+
+    <record id="condicao_a_vista_debito" model="l10n_br_fiscal.payment.condition">
+        <field name="payment_term_id" ref="term_a_vista"/>
+        <field name="payment_mode_id" ref="payment_mode_debito"/>
+    </record>
+
+    <record id="condicao_cheque_30_60" model="l10n_br_fiscal.payment.condition">
+        <field name="payment_term_id" ref="term_30_60"/>
+        <field name="payment_mode_id" ref="payment_mode_cheque"/>
+    </record>
+
+    <record id="condicao_boleto_15" model="l10n_br_fiscal.payment.condition">
+        <field name="payment_term_id" ref="term_15"/>
+        <field name="payment_mode_id" ref="payment_mode_boleto"/>
+    </record>
+
+    <record id="condicao_boleto_30_60" model="l10n_br_fiscal.payment.condition">
+        <field name="payment_term_id" ref="term_30_60"/>
+        <field name="payment_mode_id" ref="payment_mode_boleto"/>
+    </record>
+
+    <record id="condicao_cartao_5" model="l10n_br_fiscal.payment.condition">
+        <field name="payment_term_id" ref="term_5x"/>
+        <field name="payment_mode_id" ref="payment_mode_cartao"/>
+    </record>
+
+</odoo>

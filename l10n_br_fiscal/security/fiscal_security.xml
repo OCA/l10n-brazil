@@ -23,6 +23,11 @@
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
 
+    <record id="group_payment_condition" model="res.groups">
+        <field name="name">Payment Condition</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
     <record id="base.user_admin" model="res.users">
         <field name="groups_id" eval="[(4, ref('l10n_br_fiscal.group_manager'), ref('l10n_br_fiscal.group_data_maintenance'))]"/>
     </record>

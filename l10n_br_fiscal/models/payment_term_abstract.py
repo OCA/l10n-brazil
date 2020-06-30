@@ -5,14 +5,9 @@ from odoo import api, fields, models
 
 from ..constants.payment import (
     BANDEIRA_CARTAO,
-    BANDEIRA_CARTAO_DICT,
     FORMA_PAGAMENTO,
-    FORMA_PAGAMENTO_DICT,
     INTEGRACAO_CARTAO,
     INTEGRACAO_CARTAO_NAO_INTEGRADO,
-    FORMA_PAGAMENTO_CARTOES,
-    FORMA_PAGAMENTO_CARTAO_CREDITO,
-    FORMA_PAGAMENTO_CARTAO_DEBITO,
     FORMA_PAGAMENTO_OUTROS,
 )
 
@@ -20,10 +15,6 @@ from ..constants.payment import (
 class FiscalPaymentTermAbstract(models.AbstractModel):
     _name = 'l10n_br_fiscal.payment.term.abstract'
     _description = 'Campos dos Pagamentos Brasileiros'
-    _rec_name = 'display_name'
-
-    display_name = fields.Char(
-        compute='_compute_display_name2', store=True, index=True)
 
     forma_pagamento = fields.Selection(
         selection=FORMA_PAGAMENTO,
@@ -39,33 +30,14 @@ class FiscalPaymentTermAbstract(models.AbstractModel):
         string='Integração do cartão',
         default=INTEGRACAO_CARTAO_NAO_INTEGRADO,
     )
-    partner_id = fields.Many2one(
+    partner_card_id = fields.Many2one(
         comodel_name='res.partner',
         string='Operadora do cartão',
         ondelete='restrict',
     )
-
-    @api.depends('name', 'forma_pagamento', 'bandeira_cartao')
-    def _compute_display_name2(self):
-
-        for payment_term in self:
-            display_name = ''
-            if payment_term.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
-                if payment_term.forma_pagamento == FORMA_PAGAMENTO_CARTAO_CREDITO:
-                    display_name += '[Crédito '
-                elif payment_term.forma_pagamento == FORMA_PAGAMENTO_CARTAO_DEBITO:
-                    display_name += '[Débito '
-                if payment_term.bandeira_cartao:
-                    display_name += \
-                        BANDEIRA_CARTAO_DICT[payment_term.bandeira_cartao]
-                display_name += '] '
-
-            elif payment_term.forma_pagamento:
-                display_name += '['
-                display_name += \
-                    FORMA_PAGAMENTO_DICT[payment_term.forma_pagamento]
-                display_name += '] '
-
-            display_name += payment_term.name
-
-            payment_term.display_name = display_name
+    partner_card_cnpj_cpf = fields.Char(
+        string='CNPJ/CPF',
+        related='partner_card_id.cnpj_cpf',
+        store=True,
+        size=18,
+    )
