@@ -93,7 +93,7 @@ class PurchaseOrder(models.Model):
             document_type = self.company_id.document_type_id
             document_type_id = self.company_id.document_type_id.id
 
-        fiscal_dict['default_fiscal_document_id'] = document_type_id
+        fiscal_dict['default_document_type_id'] = document_type_id
         document_serie = document_type.get_document_serie(
             self.company_id, self.fiscal_operation_id)
 
