@@ -22,7 +22,7 @@ class PaymentMixin(models.AbstractModel):
         raise NotImplementedError
 
     def _date_field(self):
-        self.date
+        return self.date
 
     def _get_amount_total(self):
         return self.amount_total
@@ -133,8 +133,8 @@ class PaymentMixin(models.AbstractModel):
                         self.payment_term_id and
                         self.payment_term_id.id or False,
                     'payment_mode_id':
-                       self.payment_mode_id and
-                       self.payment_mode_id.id or False,
+                        self.payment_mode_id and
+                        self.payment_mode_id.id or False,
                     'payment_condition_id':
                         self.payment_condition_id and
                         self.payment_condition_id.id or False,
