@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_payment_condition_form_view">
+        <field name="name">l10n_br_fiscal.payment.condition.form (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.payment.condition</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="payment_mode_id"/>
+                            <field name="payment_term_id"/>
+                            <field name="forma_pagamento" invisible="1"/>
+                        </group>
+                        <group string="Cartão" attrs="{'invisible': [('forma_pagamento', 'not in', ('03', '04', '10', '11'))]}">
+                            <field name="bandeira_cartao"/>
+                            <field name="integracao_cartao"/>
+                            <field name="partner_card_id"/>
+                            <field name="partner_card_cnpj_cpf"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_payment_condition_search_view">
+        <field name="name">l10n_br_fiscal.payment.condition.search (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.payment.condition</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_payment_condition_tree_view">
+        <field name="name">l10n_br_fiscal.payment.condition.tree (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.payment.condition</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
