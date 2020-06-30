@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import base64
 
+from erpbrasil.base import misc
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -327,7 +328,8 @@ class NFe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super(NFe, self)._serialize(edocs)
-        for record in self.filtered(fiter_processador_edoc_nfe):
+        for record in self.with_context(
+            {'lang': 'pt_BR'}).filtered(fiter_processador_edoc_nfe):
             inf_nfe = record.export_ds()[0]
 
             tnfe = leiauteNFe.TNFe(
