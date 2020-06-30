@@ -68,9 +68,21 @@ class PaymentMixin(models.AbstractModel):
     # Duplicatas e pagamentos
     #
 
+    payment_condition_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.payment.condition',
+        string='Condição de pagamento',
+        ondelete='restrict',
+    )
+
     payment_term_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.payment.term',
-        string='Condição de pagamento',
+        string='Forma de pagamento',
+        ondelete='restrict',
+    )
+
+    payment_mode_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.payment.mode',
+        string='Modo de pagamento',
         ondelete='restrict',
     )
 
@@ -87,6 +99,16 @@ class PaymentMixin(models.AbstractModel):
         string='Pagamentos',
         copy=True,
     )
+
+    show_payment_condition = fields.Boolean(
+        compute='_compute_show_payment_condition'
+    )
+
+    def _compute_show_payment_condition(self):
+        for record in self:
+            record.show_payment_condition = self.user_has_groups(
+                'l10n_br_fiscal.group_payment_condition'
+            )
 
     def check_financial(self):
         for record in self:
@@ -107,7 +129,12 @@ class PaymentMixin(models.AbstractModel):
                 record.financial_ids.unlink()
                 record.fiscal_payment_ids.unlink()
                 vals = {
-                    'payment_term_id': self.payment_term_id.id,
+                    'payment_term_id':
+                        self.payment_term_id and self.payment_term_id.id,
+                    'payment_mode_id':
+                           self.payment_mode_id and self.payment_mode_id.id,
+                    'payment_condition_id':
+                        self.payment_condition_id and self.payment_condition_id.id,
                     'amount': self.amount_missing_payment_value,
                     'currency_id': self.currency_id.id,
                     'company_id': self.company_id.id,
@@ -158,3 +185,10 @@ class PaymentMixin(models.AbstractModel):
     #         self.fiscal_payment_ids = self.fiscal_payment_ids.new(vals)
     #         for line in self.fiscal_payment_ids.mapped('line_ids'):
     #             line.document_id = self
+
+    @api.onchange('payment_condition_id')
+    def _onchange_payment_condition(self):
+        for record in self:
+            if record.payment_condition_id:
+                record.payment_term_id = record.payment_condition_id.payment_term_id
+                record.payment_mode_id = record.payment_condition_id.payment_mode_id

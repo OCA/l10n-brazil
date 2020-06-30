@@ -172,10 +172,17 @@
             </page>
               <page name="financeiro" string="Financeiro">
                   <group>
+                      <field name="show_payment_condition"  invisible="1"/>
                       <field name="amount_missing_payment_value" invisible="1"/>
-                      <group>
-                          <field name="payment_term_id" force_save="1"/>
-                      </group>
+                        <group colspan="4" col="4" name="payment_term">
+                            <field name="payment_condition_id" colspan="4" attrs="{'invisible': [('show_payment_condition', '=', False)], 'required': [('show_payment_condition', '=', True)]}"/>
+                        </group>
+                        <group>
+                            <field name="payment_mode_id" attrs="{'invisible': [('show_payment_condition', '=', True)]}"/>
+                        </group>
+                        <group>
+                            <field name="payment_term_id" attrs="{'invisible': [('show_payment_condition', '=', True)]}"/>
+                        </group>
                       <group>
                           <button name="generate_financial" string="Gerar Parcelas" type="object" attrs="{'invisible': ['|', ('payment_term_id', '=', False), ('financial_ids', '=', False)]}"/>
                       </group>

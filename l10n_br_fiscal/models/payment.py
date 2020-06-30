@@ -13,6 +13,7 @@ from ..constants.payment import (
 
 class FiscalPayment(models.Model):
     _name = "l10n_br_fiscal.payment"
+    _inherit = 'l10n_br_fiscal.payment.term.abstract'
     _description = "Fiscal Payment"
     _order = 'document_id, sequence, payment_term_id'
 
@@ -24,10 +25,19 @@ class FiscalPayment(models.Model):
     sequence = fields.Integer(
         default=10,
     )
+    payment_condition_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.payment.condition',
+        string='Condição de pagamento',
+        ondelete='restrict',
+    )
     payment_term_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.payment.term',
-        string='Condição de pagamento',
-        required=True,
+        string='Forma de pagamento',
+    )
+    payment_mode_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.payment.mode',
+        string='Modo de pagamento',
+        ondelete='restrict',
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
@@ -54,28 +64,16 @@ class FiscalPayment(models.Model):
         inverse_name='payment_id',
         string='Duplicatas',
     )
-    forma_pagamento = fields.Selection(
-        selection=FORMA_PAGAMENTO,
-        string='Forma de pagamento',
+
+    show_payment_condition = fields.Boolean(
+        compute='_compute_show_payment_condition'
     )
-    bandeira_cartao = fields.Selection(
-        selection=BANDEIRA_CARTAO,
-        string='Bandeira do cartão',
-    )
-    integracao_cartao = fields.Selection(
-        selection=INTEGRACAO_CARTAO,
-        string='Integração do cartão',
-        default=INTEGRACAO_CARTAO_NAO_INTEGRADO,
-    )
-    partner_id = fields.Many2one(
-        comodel_name='res.partner',
-        string='Operadora do cartão',
-        ondelete='restrict',
-    )
-    cnpj_cpf = fields.Char(
-        string='CNPJ/CPF',
-        size=18,
-    )
+
+    def _compute_show_payment_condition(self):
+        for record in self:
+            record.show_payment_condition = self.user_has_groups(
+                'l10n_br_fiscal.group_payment_condition'
+            )
 
     def _get_document_id(self):
         if (self.env.context.get('active_model') == 'l10n_br_fiscal.document' and
@@ -142,12 +140,25 @@ class FiscalPayment(models.Model):
                 ))
                 communication += 1
         return {
-            'forma_pagamento': payment_term_id.forma_pagamento,
-            'bandeira_cartao': payment_term_id.bandeira_cartao,
-            'integracao_cartao': payment_term_id.integracao_cartao,
-            'partner_id': payment_term_id.partner_id.id,
-            'cnpj_cpf':
-                payment_term_id.partner_id and
-                payment_term_id.partner_id.cnpj_cpf or False,
+            'forma_pagamento':
+                self.payment_mode_id and
+                self.payment_mode_id.forma_pagamento,
+            'bandeira_cartao':
+                self.payment_condition_id and
+                self.payment_condition_id.bandeira_cartao,
+            'integracao_cartao':
+                self.payment_condition_id and
+                self.payment_condition_id.integracao_cartao,
+            'partner_card_id':
+                self.payment_condition_id and
+                self.payment_condition_id.partner_card_id and
+                self.payment_condition_id.partner_card_id.id or False,
             'line_ids': line_ids
         }
+
+    @api.onchange('payment_condition_id')
+    def _onchange_payment_condition(self):
+        for record in self:
+            if record.payment_condition_id:
+                record.payment_term_id = record.payment_condition_id.payment_term_id
+                record.payment_mode_id = record.payment_condition_id.payment_mode_id

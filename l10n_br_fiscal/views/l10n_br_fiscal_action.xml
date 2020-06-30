@@ -770,4 +770,22 @@
         <field name="context">{}</field>
     </record>
 
+    <!-- Payment Mode -->
+    <record model="ir.actions.act_window" id="payment_mode_action">
+        <field name="name">Payment Mode</field>
+        <field name="res_model">l10n_br_fiscal.payment.mode</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Payment Condition -->
+    <record model="ir.actions.act_window" id="payment_condition_action">
+        <field name="name">Payment Condition</field>
+        <field name="res_model">l10n_br_fiscal.payment.condition</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
 </odoo>
