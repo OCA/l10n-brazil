@@ -2,8 +2,7 @@
 # Copyright (C) 2020  Luis Felipe Mileo - KMEE <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models, _
-from odoo.exceptions import UserError
+from odoo import api, models
 
 
 class FiscalDocumentMixinMethods(models.AbstractModel):

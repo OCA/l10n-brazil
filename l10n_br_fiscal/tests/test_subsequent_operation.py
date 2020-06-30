@@ -42,7 +42,10 @@ class TestSubsequentOperation(TransactionCase):
             line._onchange_fiscal_taxes()
 
         self.nfe_simples_faturamento.payment_term_id = self.env.ref(
-            'l10n_br_fiscal.a_vista_dinheiro'
+            'l10n_br_fiscal.term_a_vista'
+        )
+        self.nfe_simples_faturamento.payment_mode_id = self.env.ref(
+            'l10n_br_fiscal.payment_mode_dinheiro'
         )
         self.nfe_simples_faturamento.action_document_confirm()
         self.nfe_simples_faturamento.action_document_send()
