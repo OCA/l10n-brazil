@@ -209,17 +209,18 @@ class OperationLine(models.Model):
                 mapping_result['taxes'][tax_ii.tax_domain] = tax_ii
 
             # 3 From ICMS Regulation
-            tax_icms_ids = company.icms_regulation_id.map_tax(
-                company=company,
-                partner=partner,
-                product=product,
-                ncm=ncm,
-                nbm=nbm,
-                cest=cest,
-                operation_line=self)
+            if company.icms_regulation_id:
+                tax_icms_ids = company.icms_regulation_id.map_tax(
+                    company=company,
+                    partner=partner,
+                    product=product,
+                    ncm=ncm,
+                    nbm=nbm,
+                    cest=cest,
+                    operation_line=self)
 
-            for tax in tax_icms_ids:
-                mapping_result['taxes'][tax.tax_domain] = tax
+                for tax in tax_icms_ids:
+                    mapping_result['taxes'][tax.tax_domain] = tax
 
             # 4 From Operation Line
             for tax in self.tax_definition_ids.mapped('tax_id'):
