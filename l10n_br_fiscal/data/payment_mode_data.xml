@@ -1,0 +1,38 @@
+<odoo noupdate="1">
+
+    <record id="payment_mode_dinheiro" model="l10n_br_fiscal.payment.mode">
+        <field name="name">Dinheiro</field>
+        <field name="forma_pagamento">01</field>
+    </record>
+
+    <record id="payment_mode_cheque" model="l10n_br_fiscal.payment.mode">
+        <field name="name">Cheque</field>
+        <field name="forma_pagamento">02</field>
+    </record>
+
+    <record id="payment_mode_cartao" model="l10n_br_fiscal.payment.mode">
+        <field name="name">Crédito</field>
+        <field name="forma_pagamento">03</field>
+    </record>
+
+    <record id="payment_mode_debito" model="l10n_br_fiscal.payment.mode">
+        <field name="name">Débito</field>
+        <field name="forma_pagamento">04</field>
+    </record>
+
+    <record id="payment_mode_credito_loja" model="l10n_br_fiscal.payment.mode">
+        <field name="name">Crédito Loja</field>
+        <field name="forma_pagamento">05</field>
+    </record>
+
+    <record id="payment_mode_boleto" model="l10n_br_fiscal.payment.mode">
+        <field name="name">Boleto Bancário</field>
+        <field name="forma_pagamento">15</field>
+    </record>
+
+    <record id="payment_mode_sem_pagamento" model="l10n_br_fiscal.payment.mode">
+        <field name="name">Sem Pagamento</field>
+        <field name="forma_pagamento">90</field>
+    </record>
+
+</odoo>
