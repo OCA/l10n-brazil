@@ -65,32 +65,31 @@ class StockMove(models.Model):
     def _get_new_picking_values(self):
         """ Prepares a new picking for this move as it could not be assigned to
         another picking. This method is designed to be inherited. """
-        result = super(StockMove, self)._get_new_picking_values()
+        result = super()._get_new_picking_values()
         result.update({'fiscal_operation_id': self.fiscal_operation_id.id})
         return result
 
     @api.model
     def _prepare_merge_moves_distinct_fields(self):
-        distinct_fields = super(
-            StockMove, self)._prepare_merge_moves_distinct_fields()
+        distinct_fields = super()._prepare_merge_moves_distinct_fields()
         distinct_fields += ['fiscal_operation_id', 'fiscal_operation_line_id']
         return distinct_fields
 
     @api.model
     def _prepare_merge_move_sort_method(self, move):
         move.ensure_one()
-        keys_sorted = super(StockMove, self)._prepare_merge_move_sort_method(
+        keys_sorted = super()._prepare_merge_move_sort_method(
             move)
         keys_sorted += [
             move.fiscal_operation_id.id, move.fiscal_operation_line_id.id]
         return keys_sorted
 
     def _prepare_extra_move_vals(self, qty):
-        values = super(StockMove, self)._prepare_extra_move_vals(qty)
+        values = super()._prepare_extra_move_vals(qty)
         values.update(self._prepare_br_fiscal_dict())
         return values
 
     def _prepare_move_split_vals(self, uom_qty):
-        values = super(StockMove, self)._prepare_move_split_vals(uom_qty)
+        values = super()._prepare_move_split_vals(uom_qty)
         values.update(self._prepare_br_fiscal_dict())
         return values
