@@ -18,7 +18,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="user_id" ref="base.user_demo"/>
         <field name="fiscal_operation_type">out</field>
-        <field name="payment_term_id" ref="l10n_br_fiscal.a_vista_dinheiro"/>
+        <field name="payment_term_id" ref="l10n_br_fiscal.term_a_vista"/>
 <!--        <field name="file_xml_autorizacao_id" ref="dummy_file_1"/> FIXME: Este é um campo related!!!!-->
     </record>
 
@@ -183,7 +183,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente10_mg"/>
         <field name="user_id" ref="base.user_demo"/>
         <field name="fiscal_operation_type">out</field>
-        <field name="payment_term_id" ref="l10n_br_fiscal.cartao_5"/>
+        <field name="payment_term_id" ref="l10n_br_fiscal.term_5x"/>
     </record>
 
     <record id="demo_nfe_nao_contribuinte_pf_1-2" model="l10n_br_fiscal.document.line">
@@ -478,14 +478,14 @@
         <field name="currency_id" ref="base.BRL"/>
         <field name="document_id" ref="demo_nfe_financial"/>
         <field name="amount">2000</field>
-        <field name="payment_term_id" ref="l10n_br_fiscal.a_vista_dinheiro"/>
+        <field name="payment_term_id" ref="l10n_br_fiscal.term_a_vista"/>
     </record>
     <record id="demo_nfe_financial_payment_2" model="l10n_br_fiscal.payment">
         <field name="company_id" ref="base.main_company"/>
         <field name="currency_id" ref="base.BRL"/>
         <field name="document_id" ref="demo_nfe_financial"/>
         <field name="amount">2147.25</field>
-        <field name="payment_term_id" ref="l10n_br_fiscal.boleto_15"/>
+        <field name="payment_term_id" ref="l10n_br_fiscal.term_15"/>
     </record>
 
     <function model="l10n_br_fiscal.payment" name="_onchange_payment_term_id">
@@ -592,14 +592,14 @@
         <field name="currency_id" ref="base.BRL"/>
         <field name="document_id" ref="demo_nfe_raise_financial"/>
         <field name="amount">2000</field>
-        <field name="payment_term_id" ref="l10n_br_fiscal.a_vista_dinheiro"/>
+        <field name="payment_term_id" ref="l10n_br_fiscal.term_a_vista"/>
     </record>
     <record id="demo_nfe_raise_financial_payment_2" model="l10n_br_fiscal.payment">
         <field name="company_id" ref="base.main_company"/>
         <field name="currency_id" ref="base.BRL"/>
         <field name="document_id" ref="demo_nfe_raise_financial"/>
         <field name="amount">2000.00</field>
-        <field name="payment_term_id" ref="l10n_br_fiscal.boleto_15"/>
+        <field name="payment_term_id" ref="l10n_br_fiscal.term_15"/>
     </record>
 
     <function model="l10n_br_fiscal.payment" name="_onchange_payment_term_id">
@@ -706,14 +706,14 @@
         <field name="currency_id" ref="base.BRL"/>
         <field name="document_id" ref="demo_nfe_financial_valor_superior"/>
         <field name="amount">2000</field>
-        <field name="payment_term_id" ref="l10n_br_fiscal.a_vista_dinheiro"/>
+        <field name="payment_term_id" ref="l10n_br_fiscal.term_a_vista"/>
     </record>
     <record id="demo_nfe_financial_valor_superior_payment_2" model="l10n_br_fiscal.payment">
         <field name="company_id" ref="base.main_company"/>
         <field name="currency_id" ref="base.BRL"/>
         <field name="document_id" ref="demo_nfe_financial_valor_superior"/>
         <field name="amount">3000.00</field>
-        <field name="payment_term_id" ref="l10n_br_fiscal.boleto_15"/>
+        <field name="payment_term_id" ref="l10n_br_fiscal.term_15"/>
     </record>
 
     <function model="l10n_br_fiscal.payment" name="_onchange_payment_term_id">

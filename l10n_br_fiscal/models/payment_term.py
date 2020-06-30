@@ -7,11 +7,9 @@ from odoo.exceptions import UserError, ValidationError
 
 
 class FiscalPaymentTerm(models.Model):
-    """ This code is a copy of account.payment.term, with the same
-    table and with an injection of Brazilian Fields"""
+    """ This code is a copy of account.payment.term, with the same table"""
 
     _name = 'l10n_br_fiscal.payment.term'
-    _inherit = 'l10n_br_fiscal.payment.term.abstract'
     _table = 'account_payment_term'
 
     _description = 'Fiscal Payment Term'
