@@ -131,4 +131,3 @@ class AccountInvoice(models.Model):
         if self.company_id.invoice_reference_type == 'fiscal_document':
             return self.fiscal_document_id.number  # FIXME: Name!
         return res
-
