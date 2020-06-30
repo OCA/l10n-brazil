@@ -17,6 +17,7 @@
         <field name="name">l10n_br_stock_account.move.form</field>
         <field name="model">stock.move</field>
         <field name="inherit_id" ref="stock_picking_invoicing.view_move_picking_form"/>
+        <field name="priority">99</field>
         <field name="arch" type="xml">
             <field name="invoice_state" position="after">
               <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
