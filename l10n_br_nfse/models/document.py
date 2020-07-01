@@ -167,32 +167,14 @@ class Document(models.Model):
         return edocs
 
     def _prepare_dados_servico(self):
-        return {
-            'valor_servicos': float(self.line_ids.fiscal_price),
-            'valor_deducoes': float(self.line_ids.fiscal_deductions_value),
-            'valor_pis': float(self.line_ids.pis_value),
-            'valor_cofins': float(self.line_ids.cofins_value),
-            'valor_inss': float(self.line_ids.inss_value),
-            'valor_ir': float(self.line_ids.irpj_value),
-            'valor_csll': float(self.line_ids.csll_value),
-            'iss_retido': '1' if self.line_ids.issqn_wh_value else '2',
-            'valor_iss': float(self.line_ids.issqn_value),
-            'valor_iss_retido': float(self.line_ids.issqn_wh_value),
-            'outras_retencoes': float(self.line_ids.other_retentions_value),
-            'base_calculo': float(self.line_ids.issqn_base),
-            'aliquota': float(self.line_ids.issqn_percent / 100),
-            'valor_liquido_nfse': float(self.line_ids.amount_total),
-            'item_lista_servico': self.line_ids.service_type_id.code and
-            self.line_ids.service_type_id.code.replace('.', ''),
+        self.line_ids.ensure_one()
+        result = {
             'codigo_cnae': None,
-            'codigo_tributacao_municipio':
-                self.line_ids.city_taxation_code_id.code,
-            'discriminacao': str(self.line_ids.name[:120] or ''),
-            'codigo_municipio': int('%s%s' % (
-                self.company_id.partner_id.state_id.ibge_code,
-                self.company_id.partner_id.city_id.ibge_code
-            )) or None,
         }
+        result.update(self.line_ids.prepare_line_servico())
+        result.update(self.company_id.prepare_company_servico())
+
+        return result
 
     def _serialize_dados_servico(self):
         self.line_ids.ensure_one()
