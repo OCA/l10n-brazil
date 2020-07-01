@@ -1,3 +1,4 @@
+# Copyright 2019 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 from odoo import api, fields
@@ -10,7 +11,7 @@ class NFeLine(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document.line'
     _inherit = ["l10n_br_fiscal.document.line", "nfe.40.det"]
     _stacked = 'nfe.40.det'
-    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
+    _spec_module = 'odoo.addons.l10n_br_spec_nfe.models.v4_00.leiauteNFe'
     _stack_skip = 'nfe40_det_infNFe_id'
     # all m2o below this level will be stacked even if not required:
     _force_stack_paths = ('det.imposto',)
