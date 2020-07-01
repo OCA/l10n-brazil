@@ -204,40 +204,13 @@ class Document(models.Model):
         )
 
     def _prepare_dados_tomador(self):
-        if self.partner_id.is_company:
-            tomador_cnpj = misc.punctuation_rm(
-                self.partner_id.cnpj_cpf or '')
-            tomador_cpf = None
-        else:
-            tomador_cnpj = None
-            tomador_cpf = misc.punctuation_rm(
-                self.partner_id.cnpj_cpf or '')
-        partner_cep = misc.punctuation_rm(self.partner_id.zip)
+        result = self.partner_id.prepare_partner_tomador(
+            self.company_id.country_id.id)
 
-        if self.partner_id.country_id.id != self.company_id.country_id.id:
-            address_invoice_state_code = 'EX'
-            address_invoice_city_code = int('9999999')
-        else:
-            address_invoice_state_code = self.partner_id.state_id.code
-            address_invoice_city_code = int('%s%s' % (
-                self.partner_id.state_id.ibge_code,
-                self.partner_id.city_id.ibge_code))
+        result.update(
+            {'complemento': self.partner_shipping_id.street2 or None})
 
-        return {
-            'cnpj': tomador_cnpj,
-            'cpf': tomador_cpf,
-            'inscricao_municipal': misc.punctuation_rm(
-                self.partner_id.inscr_mun or '') or None,
-            'razao_social': str(self.partner_id.legal_name[:60] or ''),
-            'endereco': str(self.partner_id.street or
-                            self.partner_id.street_name or ''),
-            'numero': self.partner_id.street_number or '',
-            'complemento': self.partner_shipping_id.street2 or None,
-            'bairro': str(self.partner_id.district or 'Sem Bairro'),
-            'codigo_municipio': address_invoice_city_code,
-            'uf': address_invoice_state_code,
-            'cep': int(partner_cep),
-        }
+        return result
 
     def _serialize_dados_tomador(self):
         dados = self._prepare_dados_tomador()
