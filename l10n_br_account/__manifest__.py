@@ -17,6 +17,7 @@
     "data": [
         # security
         'security/ir.model.access.csv',
+        'security/l10n_br_account_security.xml',
         'security/l10n_br_account_move_history.xml',
         'security/l10n_br_account_move_template.xml',
 
