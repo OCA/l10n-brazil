@@ -29,3 +29,11 @@ class ResCompany(models.Model):
         string="NFSe Environment",
         default=NFSE_ENVIRONMENT_DEFAULT,
     )
+
+    def prepare_company_servico(self):
+        return {
+            'codigo_municipio': int('%s%s' % (
+                self.partner_id.state_id.ibge_code,
+                self.partner_id.city_id.ibge_code
+            )) or None,
+        }
