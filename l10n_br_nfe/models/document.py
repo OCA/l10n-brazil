@@ -1,4 +1,4 @@
-# Copyright 2019 Akretion
+# Copyright 2019 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import base64
@@ -361,6 +361,26 @@ class NFe(spec_models.StackedModel):
             versao=self.nfe_version, ambiente=self.nfe_environment
         )
 
+    @api.multi
+    def _document_export(self, pretty_print=True):
+        super(NFe, self)._document_export()
+        for record in self.filtered(filter_processador_edoc_nfe):
+            # TODO map this better
+            record.nfe40_detPag = [(5, 0, 0), (0, 0, {
+                'nfe40_indPag': '0',
+                'nfe40_tPag': '99',
+                'nfe40_vPag': record.amount_total,
+            })]
+            record.nfe40_detPag.__class__._field_prefix = 'nfe40_'
+
+            edoc = record.serialize()[0]
+            processador = record._processador()
+            xml_file = processador.\
+                _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
+            _logger.debug(xml_file)
+            event_id = self._gerar_evento(xml_file, event_type="0")
+            record.autorizacao_event_id = event_id
+
     def atualiza_status_nfe(self, infProt):
         self.ensure_one()
         # if not infProt.chNFe == self.key:
@@ -388,10 +408,18 @@ class NFe(spec_models.StackedModel):
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
-            procesador = record._processador()
+            # TODO map this better
+            record.nfe40_detPag = [(5, 0, 0), (0, 0, {
+                'nfe40_indPag': '0',
+                'nfe40_tPag': '99',
+                'nfe40_vPag': record.amount_total,
+            })]
+            record.nfe40_detPag.__class__._field_prefix = 'nfe40_'
+
+            processador = record._processador()
             for edoc in record.serialize():
                 processo = None
-                for p in procesador.processar_documento(edoc):
+                for p in processador.processar_documento(edoc):
                     processo = p
                     if processo.webservice == 'nfeAutorizacaoLote':
                         event_id = self._gerar_evento(
@@ -410,7 +438,7 @@ class NFe(spec_models.StackedModel):
                     )
                     nfe_proc.original_tagname_ = 'nfeProc'
                     xml_file = \
-                        procesador._generateds_to_string_etree(nfe_proc)[0]
+                        processador._generateds_to_string_etree(nfe_proc)[0]
                     record.autorizacao_event_id.set_done(xml_file)
                     record.atualiza_status_nfe(protocolo.infProt)
                     record.gera_pdf()
