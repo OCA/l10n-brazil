@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal.l10n_br_fiscal_payment_mode_form_view">
+        <field name="priority">9999</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes"></xpath>
+        </field>
+    </record>
+
+    </data>
+</odoo>
