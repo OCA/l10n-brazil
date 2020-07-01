@@ -6,8 +6,9 @@
         <field name="inherit_id" ref="account.view_account_journal_form"/>
         <field name="arch" type="xml">
             <field name="post_at_bank_rec" position="after">
-                <field name="generate_moves"/>
+                <field name="auto_generate_moves"/>
                 <field name="post_account_moves"/>
+                <field name="generate_move_with_templates"/>
             </field>
         </field>
     </record>
