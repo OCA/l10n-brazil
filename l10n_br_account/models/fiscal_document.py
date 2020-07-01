@@ -61,7 +61,7 @@ class FiscalDocument(models.Model):
         super(FiscalDocument, self)._exec_after_SITUACAO_EDOC_AUTORIZADA(
             old_state, new_state
         )
-        if self.journal_id.generate_moves:
+        if self.journal_id.auto_generate_moves:
             self.action_move_create()
 
     @api.multi
