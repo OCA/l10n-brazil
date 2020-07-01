@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Luiz Felipe do Divino <luiz.divino@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <report
+        id="report_xlsx_financial_defaults"
+        model="report.xlsx.financial.defaults.wizard"
+        string="Default"
+        report_type="xlsx"
+        name="l10n_br_financial.default"
+        file="Default"
+        attachment_use="False"
+    />
+
+</odoo>
