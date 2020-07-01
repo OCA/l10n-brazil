@@ -188,20 +188,20 @@ class AccountPayment(models.Model):
             else:
                 payment.debt_ids = False
 
-    @api.depends('company_id.today_date')
-    def _compute_arrears_days(self):
-        def date_value(date_str):
-            return fields.Date.from_string(date_str)
-
-        for record in self:
-            date_diference = False
-            if record.debt_status == 'paid' and record.date_payment:
-                date_diference = record.date_payment - record.date_business_maturity
-            elif record.debt_status == 'overdue':
-                date_diference = \
-                    record.company_id.today_date - record.date_business_maturity
-            arrears = date_diference and date_diference.days or 0
-            record.arrears_days = arrears
+    # @api.depends('company_id.today_date')
+    # def _compute_arrears_days(self):
+    #     def date_value(date_str):
+    #         return fields.Date.from_string(date_str)
+    #
+    #     for record in self:
+    #         date_diference = False
+    #         if record.debt_status == 'paid' and record.date_payment:
+    #             date_diference = record.date_payment - record.date_business_maturity
+    #         elif record.debt_status == 'overdue':
+    #             date_diference = \
+    #                 record.company_id.today_date - record.date_business_maturity
+    #         arrears = date_diference and date_diference.days or 0
+    #         record.arrears_days = arrears
 
     journal_id = fields.Many2one(
         domain=[(1,'=', 1)],
@@ -486,11 +486,11 @@ class AccountPayment(models.Model):
         comodel_name='l10n_br_fiscal.document'
     )
 
-    arrears_days = fields.Integer(
-        string='Arrears Days',
-        compute='_compute_arrears_days',
-        store=True
-    )
+    # arrears_days = fields.Integer(
+    #     string='Arrears Days',
+    #     compute='_compute_arrears_days',
+    #     store=True
+    # )
 
     def generate_move(self, move_lines):
         for record in self:
