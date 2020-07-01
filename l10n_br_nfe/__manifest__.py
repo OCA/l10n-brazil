@@ -13,12 +13,11 @@
     "version": "12.0.1.0.0",
     "depends": [
         "l10n_br_fiscal",
-        "l10n_br_nfe_spec",
+        "l10n_br_spec_nfe",
     ],
     "data": [
         # Security
         "security/nfe_security.xml",
-        # "security/ir.model.access.csv",
         # Views
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
