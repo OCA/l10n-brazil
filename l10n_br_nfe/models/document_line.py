@@ -27,6 +27,7 @@ class NFeLine(spec_models.StackedModel):
     nfe40_cEAN = fields.Char(related='product_id.barcode')
     nfe40_cEANTrib = fields.Char(related='product_id.barcode')
     nfe40_uCom = fields.Char(related='product_id.uom_id.code')
+    nfe40_uCom = fields.Char(inverse='_inverse_uCom')
     nfe40_uTrib = fields.Char(related='product_id.uom_id.code')
     nfe40_vUnCom = fields.Float(related='fiscal_price')  # TODO sure?
     nfe40_vUnTrib = fields.Float(related='fiscal_price')  # TODO sure?
@@ -187,6 +188,15 @@ class NFeLine(spec_models.StackedModel):
                 record.nfe40_choice16 = 'nfe40_pCOFINS'
             else:
                 record.nfe40_choice16 = 'nfe40_vAliqProd'
+
+    def _inverse_uCom(self):
+        # TODO need fix in search in l10n_br_fiscal/models/uom_uom.py
+        for line in self:
+            if line.nfe40_uCom:
+                uom_ids = self.env['uom.uom'].search(
+                    [('code', 'ilike', line.nfe40_uCom)])
+                if uom_ids:
+                    line.uom_id = uom_ids[0]
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
