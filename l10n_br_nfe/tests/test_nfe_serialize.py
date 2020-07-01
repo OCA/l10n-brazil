@@ -108,12 +108,6 @@ class TestNFeExport(TransactionCase):
         xml_path = os.path.join(
             l10n_br_nfe.__path__[0], 'tests', 'nfe', 'v4_00', 'leiauteNFe',
             'NFe35200697231608000169550010000000111855451724-nf-e.xml')
-        self.nfe.nfe40_detPag = [(5, 0, 0), (0, 0, {
-            'nfe40_indPag': '0',
-            'nfe40_tPag': '99',
-            'nfe40_vPag': self.nfe.amount_total,
-        })]
-        self.nfe.nfe40_detPag.__class__._field_prefix = 'nfe40_'
         self.nfe.action_document_confirm()
         self.nfe.date = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
