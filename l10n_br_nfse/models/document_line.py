@@ -60,3 +60,27 @@ class DocumentLine(models.Model):
             except Exception:
                 return model_view
         return model_view
+
+    def prepare_line_servico(self):
+        return {
+            'valor_servicos': float(self.fiscal_price),
+            'valor_deducoes': float(self.fiscal_deductions_value),
+            'valor_pis': float(self.pis_value),
+            'valor_cofins': float(self.cofins_value),
+            'valor_inss': float(self.inss_value),
+            'valor_ir': float(self.irpj_value),
+            'valor_csll': float(self.csll_value),
+            'iss_retido': '1' if self.issqn_wh_value else '2',
+            'valor_iss': float(self.issqn_value),
+            'valor_iss_retido': float(self.issqn_wh_value),
+            'outras_retencoes': float(self.other_retentions_value),
+            'base_calculo': float(self.issqn_base),
+            'aliquota': float(self.issqn_percent / 100),
+            'valor_liquido_nfse': float(self.amount_total),
+            'item_lista_servico': self.service_type_id.code and
+                                  self.service_type_id.code.replace(
+                                      '.', ''),
+            'codigo_tributacao_municipio':
+                self.city_taxation_code_id.code,
+            'discriminacao': str(self.name[:120] or ''),
+        }
