@@ -115,12 +115,6 @@ class AccountInvoice(models.Model):
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return result
 
-    def action_move_create(self):
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        if self.fiscal_document_id != dummy_doc:
-            return True
-        return super(AccountInvoice, self).action_move_create()
-
     def action_invoice_open(self):
         for record in self:
             record.fiscal_document_id.action_document_confirm()
@@ -128,6 +122,28 @@ class AccountInvoice(models.Model):
             if record.fiscal_document_id.move_id:
                 record.move_id = record.fiscal_document_id.move_id
         return super().action_invoice_open()
+
+    def invoice_validate(self):
+        """ Só podemos validar uma invoice que tem account.move
+        :return:
+        """
+        to_open_invoices = self.filtered(
+            lambda inv:
+                inv.state != 'open' and
+                inv.move_id
+        )
+        return super(AccountInvoice, to_open_invoices).invoice_validate()
+
+    def _move_create_with_templates(self):
+        if not self.move_id:
+            # TODO: Gerar com os dados da invoice
+            # TODO: Verificar se os dados são suficientes
+            self.fiscal_document_id.action_move_create()
+
+    def action_move_create(self):
+        if self.journal_id.generate_move_with_templates:
+            self._move_create_with_templates()
+        return super(AccountInvoice, self).action_move_create()
 
     @api.multi
     def _get_computed_reference(self):
