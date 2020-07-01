@@ -23,7 +23,7 @@ from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import \
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
 from erpbrasil.base import misc
-from erpbrasil.edoc import NFSeFactory
+from erpbrasil.edoc.nfse import NFSeFactory
 
 from odoo import api, fields, models, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
