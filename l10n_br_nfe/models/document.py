@@ -57,7 +57,7 @@ class NFe(spec_models.StackedModel):
                 "nfe.40.dest", "nfe.40.emit"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
-    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
+    _spec_module = 'odoo.addons.l10n_br_spec_nfe.models.v4_00.leiauteNFe'
 #    _concrete_skip = ('nfe.40.det',) # will be mixed in later
     _nfe_search_keys = ['nfe40_Id']
 
