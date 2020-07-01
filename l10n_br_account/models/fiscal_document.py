@@ -5,7 +5,7 @@ from odoo import api, fields, models
 
 
 class FiscalDocument(models.Model):
-    _inherit = "l10n_br_fiscal.document"
+    _inherit = 'l10n_br_fiscal.document'
 
     @api.depends('line_ids')
     def _compute_move_template_ids(self):

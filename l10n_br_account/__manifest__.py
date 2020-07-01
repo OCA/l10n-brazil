@@ -13,6 +13,7 @@
         "account_export_csv",
         "l10n_br_coa",
         "l10n_br_fiscal",
+        "account_payment_mode",
     ],
     "data": [
         # security
@@ -42,6 +43,7 @@
         'views/l10n_br_account_move_template_line.xml',
         'views/l10n_br_account_move_template.xml',
         'views/l10n_br_account_move_history.xml',
+        'views/payment_mode_view.xml',
 
         # Wizards
         'wizards/account_invoice_refund_view.xml',
