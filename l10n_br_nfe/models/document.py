@@ -2,6 +2,7 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import base64
+import logging
 
 from erpbrasil.base import misc
 from erpbrasil.assinatura import certificado as cert
@@ -36,8 +37,10 @@ from requests import Session
 PROCESSADOR_ERPBRASIL_EDOC = 'erpbrasil_edoc'
 PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, 'erpbrasil.edoc')]
 
+_logger = logging.getLogger(__name__)
 
-def fiter_processador_edoc_nfe(record):
+
+def filter_processador_edoc_nfe(record):
     if (record.processador_edoc == PROCESSADOR_ERPBRASIL_EDOC and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFE,
@@ -313,7 +316,7 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def document_number(self):
         super(NFe, self).document_number()
-        if len(self.key) == 47:
+        if self.key and len(self.key) == 47:
             self.nfe40_cNF = self.key[38:-1]
             self.nfe40_cDV = self.key[-1]
 
@@ -329,7 +332,7 @@ class NFe(spec_models.StackedModel):
     def _serialize(self, edocs):
         edocs = super(NFe, self)._serialize(edocs)
         for record in self.with_context(
-            {'lang': 'pt_BR'}).filtered(fiter_processador_edoc_nfe):
+            {'lang': 'pt_BR'}).filtered(filter_processador_edoc_nfe):
             inf_nfe = record.export_ds()[0]
 
             tnfe = leiauteNFe.TNFe(
@@ -359,12 +362,14 @@ class NFe(spec_models.StackedModel):
         )
 
     @api.multi
-    def _document_export(self):
+    def _document_export(self, pretty_print=True):
         super(NFe, self)._document_export()
-        for record in self.filtered(fiter_processador_edoc_nfe):
+        for record in self.filtered(filter_processador_edoc_nfe):
             edoc = record.serialize()[0]
             processador = record._processador()
-            xml_file = processador._generateds_to_string_etree(edoc)[0]
+            xml_file = processador.\
+                _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
+            _logger.debug(xml_file)
             event_id = self._gerar_evento(xml_file, event_type="0")
             record.autorizacao_event_id = event_id
 
@@ -394,7 +399,7 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
-        for record in self.filtered(fiter_processador_edoc_nfe):
+        for record in self.filtered(filter_processador_edoc_nfe):
             procesador = record._processador()
             for edoc in record.serialize():
                 processo = None
@@ -430,7 +435,7 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def cancel_invoice_online(self, justificative):
         super(NFe, self).cancel_invoice_online(justificative)
-        for record in self.filtered(fiter_processador_edoc_nfe):
+        for record in self.filtered(filter_processador_edoc_nfe):
             if record.state in ('open', 'paid'):
                 processador = record._processador()
 
@@ -464,7 +469,7 @@ class NFe(spec_models.StackedModel):
 
     # def cce_invoice_online(self, justificative):
     #     super(NFe, self).cce_invoice_online(justificative)
-    #     for record in self.filtered(fiter_processador_edoc_nfe):
+    #     for record in self.filtered(filter_processador_edoc_nfe):
     #         if record.state in ('open', 'paid'):
     #             processador = record._processador()
     #
