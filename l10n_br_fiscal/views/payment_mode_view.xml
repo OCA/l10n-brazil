@@ -15,6 +15,7 @@
                     <group>
                         <field name="name"/>
                         <field name="forma_pagamento"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
                     </group>
                 </sheet>
                 <div class="oe_chatter"></div>
@@ -39,6 +40,7 @@
             <tree>
                 <field name="name"/>
                 <field name="forma_pagamento"/>
+                <field name="company_id" groups="base.group_multi_company"/>
             </tree>
         </field>
     </record>
