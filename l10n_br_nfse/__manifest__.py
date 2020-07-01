@@ -21,6 +21,7 @@
         'l10n_br_fiscal',
     ],
     'data': [
+        'security/res_partner.xml',
         'security/city_taxation_code.xml',
 
         'data/operation_data.xml',
