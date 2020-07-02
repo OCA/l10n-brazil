@@ -26,6 +26,7 @@
           <field name="uot_id" force_save="1" invisible="1"/>
           <field name="fiscal_price" force_save="1" invisible="1"/>
           <field name="fiscal_quantity" force_save="1" invisible="1"/>
+          <field name="tax_icms_or_issqn" force_save="1" invisible="1"/>
           <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
         </group>
         <notebook>
