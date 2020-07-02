@@ -733,6 +733,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "freight_value")
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
+        self._update_taxes()
 
     @api.onchange("uot_id", "uom_id", "price_unit", "quantity")
     def _onchange_commercial_quantity(self):
