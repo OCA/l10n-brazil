@@ -15,43 +15,43 @@ from nfselib.dsf.ReqEnvioLoteRPS import (
 )
 
 from odoo import api, fields, models, _
-from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
-from odoo.addons.edoc_base.constantes import (
+from erpbrasil.base import misc
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_A_ENVIAR,
 )
-from odoo.addons.edoc_nfse.models.res_company import PROCESSADOR
+from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
 
-
-def fiter_processador_edoc_nfe(record):
+#TODO: Manter aqui ou deixar no modulo nfse
+def fiter_processador_edoc_nfse(record):
     if (record.processador_edoc == PROCESSADOR and
-            record.fiscal_document_id.code in [
+            record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
             ]):
         return True
     return False
 
-
+#TODO: Manter aqui ou deixar no modulo nfse
 def fiter_provedor_dsf(record):
     if record.company_id.provedor_nfse == 'dsf':
         return True
     return False
 
 
-class AccountInvoice(models.Model):
+class Document(models.Model):
 
-    _inherit = 'account.invoice'
+    _inherit = 'l10n_br_fiscal.document'
 
     def _serialize(self, edocs):
-        edocs = super(AccountInvoice, self)._serialize(edocs)
+        edocs = super(Document, self)._serialize(edocs)
         for record in self.filtered(
-                fiter_processador_edoc_nfe).filtered(fiter_provedor_dsf):
+                fiter_processador_edoc_nfse).filtered(fiter_provedor_dsf):
             edocs.append(record.serialize_nfse_dsf())
         return edocs
 
     def serialize_nfse_dsf(self):
         dh_emi = fields.Datetime.context_timestamp(
-            self, fields.Datetime.from_string(self.date_hour_invoice)
+            self, fields.Datetime.from_string(self.date)
         )
 
         numero_rps = self.fiscal_number
@@ -59,12 +59,12 @@ class AccountInvoice(models.Model):
         lista_rps = []
 
         if self.partner_id.is_company:
-            tomador_cnpj = punctuation_rm(
+            tomador_cnpj = misc.punctuation_rm(
                 self.partner_id.cnpj_cpf or '')
             tomador_cpf = None
         else:
             tomador_cnpj = None
-            tomador_cpf = punctuation_rm(
+            tomador_cpf = misc.punctuation_rm(
                 self.partner_id.cnpj_cpf or '')
 
         if self.partner_id.country_id.id != self.company_id.country_id.id:
@@ -74,24 +74,24 @@ class AccountInvoice(models.Model):
         else:
             address_invoice_state_code = self.partner_id.state_id.code
             address_invoice_city = (normalize(
-                'NFKD', unicode(
-                    self.partner_id.l10n_br_city_id.name or '')).encode(
+                'NFKD', str(
+                    self.partner_id.city_id.name or '')).encode(
                 'ASCII', 'ignore'))
             address_invoice_city_code = int(('%s%s') % (
                 self.partner_id.state_id.ibge_code,
-                self.partner_id.l10n_br_city_id.ibge_code))
+                self.partner_id.city_id.ibge_code))
 
-        partner_cep = punctuation_rm(self.partner_id.zip)
+        partner_cep = misc.punctuation_rm(self.partner_id.zip)
 
-        prestador_cnpj = punctuation_rm(self.company_id.partner_id.cnpj_cpf)
-        prestador_im = punctuation_rm(
+        prestador_cnpj = misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf)
+        prestador_im = misc.punctuation_rm(
             self.company_id.partner_id.inscr_mun or '')
 
         inscricao_tomador = None
-        if self.partner_id.l10n_br_city_id ==\
-                self.company_id.partner_id.l10n_br_city_id:
+        if self.partner_id.city_id ==\
+                self.company_id.partner_id.city_id:
             inscricao_tomador = \
-                punctuation_rm(self.partner_id.inscr_mun or '') or None
+                misc.punctuation_rm(self.partner_id.inscr_mun or '') or None
 
         itens = []
         deducoes = []
@@ -186,7 +186,7 @@ class AccountInvoice(models.Model):
             itens.append(
                 tpItens(
                     DiscriminacaoServico=normalize(
-                        'NFKD', unicode(line.name[:120] or '')
+                        'NFKD', str(line.name[:120] or '')
                     ).encode('ASCII', 'ignore'),
                     Quantidade=line.quantity,
                     ValorUnitario=str("%.2f" % line.price_unit),
