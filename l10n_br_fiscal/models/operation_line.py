@@ -234,10 +234,12 @@ class OperationLine(models.Model):
             for tax in partner.fiscal_profile_id.tax_definition_ids.mapped('tax_id'):
                 mapping_result['taxes'][tax.tax_domain] = tax
 
-        if (product.fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE and
-                ncm.code == NCM_FOR_SERVICE):
+        if product.tax_icms_or_issqn == TAX_DOMAIN_ICMS:
             mapping_result['taxes'].pop(TAX_DOMAIN_ICMS, None)
+        elif product.tax_icms_or_issqn == TAX_DOMAIN_ISSQN:
+            mapping_result['taxes'].pop(TAX_DOMAIN_ISSQN, None)
         else:
+            mapping_result['taxes'].pop(TAX_DOMAIN_ICMS, None)
             mapping_result['taxes'].pop(TAX_DOMAIN_ISSQN, None)
 
         return mapping_result

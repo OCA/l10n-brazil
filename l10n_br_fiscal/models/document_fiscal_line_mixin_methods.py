@@ -332,6 +332,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.uom_id = self.product_id.uom_id
             self.ncm_id = self.product_id.ncm_id
             self.nbm_id = self.product_id.nbm_id
+            self.tax_icms_or_issqn = self.tax_icms_or_issqn
             self.cest_id = self.product_id.cest_id
             self.nbs_id = self.product_id.nbs_id
             self.fiscal_genre_id = self.product_id.fiscal_genre_id
@@ -343,6 +344,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.uom_id = False
             self.ncm_id = False
             self.nbm_id = False
+            self.tax_icms_or_issqn = False
             self.cest_id = False
             self.nbs_id = False
             self.fiscal_genre_id = False
