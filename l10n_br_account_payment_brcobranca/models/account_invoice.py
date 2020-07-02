@@ -45,15 +45,25 @@ class AccountInvoice(models.Model):
         f.close()
         files = {'data': open(f.name, 'rb')}
 
-        # TODO - Name of service should be a parameter ?
-        #  For docky users check the name of service
-        #  defined in dev.docker-compose.yml
-        res = requests.post("http://brcobranca:9292/api/boleto/multi",
-                            data={'type': 'pdf'}, files=files)
+        api_address = self.env[
+            "ir.config_parameter"].sudo().get_param(
+            "l10n_br_account_payment_brcobranca.boleto_cnab_api")
+
+        if not api_address:
+            raise UserError(
+                ('Não é possível gerar os boletos.\n'
+                 'Informe o Endereço IP ou Nome do'
+                 ' Boleto CNAB API.'))
+
+        api_service_address = \
+            'http://' + api_address + ':9292/api/boleto/multi'
+        res = requests.post(
+            api_service_address, data={'type': 'pdf'}, files=files)
+
         if str(res.status_code)[0] == '2':
             pdf_string = res.content
         else:
-           raise UserError(res.text.encode('utf-8'))
+            raise UserError(res.text.encode('utf-8'))
 
         # TODO - Name File
         file_name = 'boleto-teste.pdf'
