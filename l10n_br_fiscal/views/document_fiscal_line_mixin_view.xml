@@ -32,12 +32,12 @@
         <notebook>
           <page name="fiscal_taxes" string="Taxes">
             <notebook>
-              <page name="issqn" string="ISSQN" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
+              <page name="issqn" string="ISSQN" attrs="{'invisible': [('tax_icms_or_issqn', '!=', 'issqn')]}">
                 <group>
                   <field name="issqn_tax_id"/>
-                  <field name="issqn_fg_city_id" attrs="{'required': [('fiscal_genre_code', '=', '00')]}"/>
-                  <field name="issqn_eligibility" attrs="{'required': [('fiscal_genre_code', '=', '00')]}"/>
-                  <field name="issqn_incentive" attrs="{'required': [('fiscal_genre_code', '=', '00')]}"/>
+                  <field name="issqn_fg_city_id" attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
+                  <field name="issqn_eligibility" attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
+                  <field name="issqn_incentive" attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
                 </group>
                 <group>
                   <group>
@@ -68,7 +68,7 @@
                       </group>
                   </group>
               </page>
-              <page name="icms" string="ICMS" attrs="{'invisible': [('fiscal_genre_code', '=', '00')]}">
+              <page name="icms" string="ICMS" attrs="{'invisible': [('tax_icms_or_issqn', '!=', 'icms')]}">
                   <group name="icms" string="ICMS">
                     <field name="icms_tax_id" attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                     <field name="icmssn_tax_id" attrs="{'invisible': [('tax_framework', '=', '3')]}"/>
@@ -251,7 +251,7 @@
                       </group>
                   </group>
               </page>
-                <page name="csll" string="CSLL" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
+                <page name="csll" string="CSLL" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}">
                     <group>
                         <field name="csll_tax_id"/>
                     </group>
