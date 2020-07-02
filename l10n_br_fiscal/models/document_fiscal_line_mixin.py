@@ -46,6 +46,8 @@ from ..constants.icms import (
 from ..constants.issqn import (
     ISSQN_ELIGIBILITY,
     ISSQN_ELIGIBILITY_DEFAULT,
+    ISSQN_INCENTIVE,
+    ISSQN_INCENTIVE_DEFAULT,
 )
 
 
@@ -263,6 +265,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         selection=ISSQN_ELIGIBILITY,
         string='ISSQN Eligibility',
         default=ISSQN_ELIGIBILITY_DEFAULT,
+    )
+
+    # indIncentivo
+    issqn_incentive = fields.Selection(
+        selection=ISSQN_INCENTIVE,
+        string='ISSQN Incentive',
+        default=ISSQN_INCENTIVE_DEFAULT,
     )
 
     issqn_base = fields.Monetary(
