@@ -43,6 +43,11 @@ from ..constants.icms import (
     ICMS_ST_BASE_TYPE_DEFAULT
 )
 
+from ..constants.issqn import (
+    ISSQN_ELIGIBILITY,
+    ISSQN_ELIGIBILITY_DEFAULT,
+)
+
 
 class FiscalDocumentLineMixin(models.AbstractModel):
     _name = "l10n_br_fiscal.document.line.mixin"
@@ -229,9 +234,41 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="ISSQN City",
     )
 
+    # vDeducao
+    issqn_deduction_amount = fields.Monetary(
+        string='ISSQN Deduction Value',
+        default=0.00,
+    )
+
+    # vOutro
+    issqn_other_amount = fields.Monetary(
+        string='ISSQN Other Value',
+        default=0.00,
+    )
+
+    # vDescIncond
+    issqn_desc_incond_amount = fields.Monetary(
+        string='ISSQN Discount Incond',
+        default=0.00,
+    )
+
+    # vDescCond
+    issqn_desc_cond_amount = fields.Monetary(
+        string='ISSQN Discount Cond',
+        default=0.00,
+    )
+
+    # indISS
+    issqn_eligibility = fields.Selection(
+        selection=ISSQN_ELIGIBILITY,
+        string='ISSQN Eligibility',
+        default=ISSQN_ELIGIBILITY_DEFAULT,
+    )
+
     issqn_base = fields.Monetary(
         string="ISSQN Base",
-        default=0.00)
+        default=0.00,
+    )
 
     issqn_percent = fields.Float(
         string="ISSQN %",
