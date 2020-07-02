@@ -224,6 +224,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Tax ISSQN",
         domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN)])
 
+    issqn_fg_city_id = fields.Many2one(
+        comodel_name="res.city",
+        string="ISSQN City",
+    )
+
     issqn_base = fields.Monetary(
         string="ISSQN Base",
         default=0.00)
