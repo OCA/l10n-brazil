@@ -23,15 +23,23 @@ class ResPartner(models.Model):
         if self.country_id.id != company_id:
             address_invoice_state_code = 'EX'
             address_invoice_city_code = int('9999999')
+            address_invoice_city_description = 'EX Description'
         else:
             address_invoice_state_code = self.state_id.code
             address_invoice_city_code = int('%s%s' % (
                 self.state_id.ibge_code,
                 self.city_id.ibge_code))
+            address_invoice_city_description = self.city_id.name
+
+        if self.email:
+            email = self.email
+        else:
+            email = None
 
         return {
             'cnpj': tomador_cnpj,
             'cpf': tomador_cpf,
+            'email': email,
             'inscricao_municipal': misc.punctuation_rm(
                 self.inscr_mun or '') or None,
             'razao_social': str(self.legal_name[:60] or ''),
@@ -40,6 +48,7 @@ class ResPartner(models.Model):
             'numero': self.street_number or '',
             'bairro': str(self.district or 'Sem Bairro'),
             'codigo_municipio': address_invoice_city_code,
+            'descricao_municipio': address_invoice_city_description,
             'uf': address_invoice_state_code,
             'cep': int(partner_cep),
         }
