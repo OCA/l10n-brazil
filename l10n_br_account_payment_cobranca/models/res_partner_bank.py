@@ -4,8 +4,6 @@
 
 from odoo import fields, models
 
-from ..constantes import TIPO_DE_CONTA
-
 
 class ResPartnerBank(models.Model):
     """ Adiciona campos necessários para o cadastramentos de contas
@@ -19,11 +17,3 @@ class ResPartnerBank(models.Model):
         help="Será informado pelo banco depois do cadastro do beneficiário "
         "na agência",
     )
-
-    tipo_de_conta = fields.Selection(
-        selection=TIPO_DE_CONTA,
-        string="Tipo de Conta",
-        default="01",
-    )
-
-    bra_number = fields.Char(size=5)

@@ -506,15 +506,6 @@ BOLETO_ESPECIE = [
     ("99", "DIVERSOS"),
 ]
 
-TIPO_DE_CONTA = [
-    ("01", "Conta corrente individual"),
-    ("02", "Conta poupança individual"),
-    ("03", "Conta depósito judicial/Depósito em consignação " "individual"),
-    ("11", "Conta corrente conjunta"),
-    ("12", "Conta poupança conjunta"),
-    ("13", "Conta depósito judicial/Depósito em consignação " "conjunta"),
-]
-
 STATE_CNAB = [
     ("draft", "Novo"),
     ("done", "Processado"),
