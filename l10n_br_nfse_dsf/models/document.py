@@ -49,83 +49,66 @@ class Document(models.Model):
             edocs.append(record.serialize_nfse_dsf())
         return edocs
 
+    def _prepare_itens(self, itens):
+        for line in self.line_ids:
+            itens.append(
+                tpItens(
+                    DiscriminacaoServico=normalize(
+                        'NFKD', str(line.name[:120] or '')
+                    ).encode('ASCII', 'ignore'),
+                    Quantidade=line.quantity,
+                    ValorUnitario=str("%.2f" % line.price_unit),
+                    ValorTotal=str("%.2f" % line.price_gross),
+                    Tributavel=None
+                )
+            )
+
+    def _prepare_deducoes(self, deducoes):
+        # TODO: Popular lista de deduções
+        pass
+
     def serialize_nfse_dsf(self):
-        dh_emi = fields.Datetime.context_timestamp(
-            self, fields.Datetime.from_string(self.date)
-        )
-
-        numero_rps = self.fiscal_number
-
         lista_rps = []
-
-        if self.partner_id.is_company:
-            tomador_cnpj = misc.punctuation_rm(
-                self.partner_id.cnpj_cpf or '')
-            tomador_cpf = None
-        else:
-            tomador_cnpj = None
-            tomador_cpf = misc.punctuation_rm(
-                self.partner_id.cnpj_cpf or '')
-
-        if self.partner_id.country_id.id != self.company_id.country_id.id:
-            address_invoice_state_code = 'EX'
-            address_invoice_city = 'Exterior'
-            address_invoice_city_code = '9999999'
-        else:
-            address_invoice_state_code = self.partner_id.state_id.code
-            address_invoice_city = (normalize(
-                'NFKD', str(
-                    self.partner_id.city_id.name or '')).encode(
-                'ASCII', 'ignore'))
-            address_invoice_city_code = int(('%s%s') % (
-                self.partner_id.state_id.ibge_code,
-                self.partner_id.city_id.ibge_code))
-
-        partner_cep = misc.punctuation_rm(self.partner_id.zip)
-
-        prestador_cnpj = misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf)
-        prestador_im = misc.punctuation_rm(
-            self.company_id.partner_id.inscr_mun or '')
-
-        inscricao_tomador = None
-        if self.partner_id.city_id ==\
-                self.company_id.partner_id.city_id:
-            inscricao_tomador = \
-                misc.punctuation_rm(self.partner_id.inscr_mun or '') or None
-
         itens = []
         deducoes = []
 
+        dict_servico = self._prepare_dados_servico()
+        dict_tomador = self._prepare_dados_tomador()
+        dict_rps = self._prepare_lote_rps()
+
+        self._prepare_itens(itens)
+        self._prepare_deducoes(deducoes)
+
         lista_rps.append(
             tpRPS(
-                Id='rps' + str(numero_rps),
+                Id=dict_rps['id'],
                 Assinatura=None,
-                InscricaoMunicipalPrestador=prestador_im or None,
-                RazaoSocialPrestador=self.company_id.legal_name and self.company_id.legal_name[:120] or None,
+                InscricaoMunicipalPrestador=dict_tomador['inscricao_municipal'] or None,
+                RazaoSocialPrestador=dict_tomador['razao_social'] and dict_tomador['razao_social'][:120] or None,
                 TipoRPS='RPS',
                 SerieRPS='NF',
-                NumeroRPS=int(numero_rps),
-                DataEmissaoRPS=dh_emi, # AAAA-MM-DDTHH:MM:SS
+                NumeroRPS=dict_rps['numero'],
+                DataEmissaoRPS=dict_rps['data_emissao'], # AAAA-MM-DDTHH:MM:SS
                 SituacaoRPS='N', # Situação RPS “N”-Normal“C”-Cancelada
                 # SerieRPSSubstituido=None,
                 # NumeroRPSSubstituido=None,
                 # NumeroNFSeSubstituida=None,
                 # DataEmissaoNFSeSubstituida=None,
                 SeriePrestacao=99,
-                InscricaoMunicipalTomador=inscricao_tomador,
-                CPFCNPJTomador=tomador_cnpj or tomador_cpf or None,
-                RazaoSocialTomador=self.partner_id.legal_name or None,
+                InscricaoMunicipalTomador=dict_tomador['inscricao_municipal'],
+                CPFCNPJTomador=dict_tomador['cnpj'] or dict_tomador['cpf'] or None,
+                RazaoSocialTomador=dict_tomador['razao_social'] or None,
                 # DocTomadorEstrangeiro=None,
                 TipoLogradouroTomador=None,
-                LogradouroTomador=self.partner_id.street or None,
-                NumeroEnderecoTomador=self.partner_id.number or None,
-                ComplementoEnderecoTomador=self.partner_id.street2 or None, # não obrigatório
+                LogradouroTomador=dict_tomador['endereco'] or None,
+                NumeroEnderecoTomador=dict_tomador['numero'] or None,
+                ComplementoEnderecoTomador=dict_tomador['complemento'] or None, # não obrigatório
                 TipoBairroTomador='Bairro',
-                BairroTomador=self.partner_id.district or None,
-                CidadeTomador=address_invoice_city_code,
-                CidadeTomadorDescricao=address_invoice_city,
-                CEPTomador=partner_cep,
-                EmailTomador=self.partner_id.email,
+                BairroTomador=dict_tomador['bairro'] or None,
+                CidadeTomador=dict_tomador['codigo_municipio'],
+                CidadeTomadorDescricao=dict_tomador['codigo_municipio'], # TODO: Verificar informação
+                CEPTomador=dict_tomador['cep'],
+                EmailTomador=dict_tomador['email'],
                 CodigoAtividade='412040000',
                 AliquotaAtividade=5.00,
                 TipoRecolhimento='A',
@@ -133,8 +116,8 @@ class Document(models.Model):
                 MunicipioPrestacaoDescricao='CAMPINAS',
                 Operacao='A',
                 Tributacao='T',
-                ValorPIS=str("%.2f" % self.pis_value),
-                ValorCOFINS=str("%.2f" % self.cofins_value),
+                ValorPIS=str("%.2f" % dict_servico['valor_pis']),
+                ValorCOFINS=str("%.2f" % dict_servico['valor_cofins']),
                 ValorINSS=None,
                 ValorIR=None,
                 ValorCSLL=None,
@@ -150,8 +133,8 @@ class Document(models.Model):
                 # TelefoneTomador=self.partner_id.phone and self.partner_id.phone[:2] or None,
                 # MotCancelamento=None,
                 # CPFCNPJIntermediario=None,
-                Deducoes=deducoes,
-                Itens=itens
+                Deducoes=deducoes, # TODO: Lista vazia
+                Itens=itens # TODO: Lista vazia
             )
         )
         lote_rps = ReqEnvioLoteRPS(
@@ -182,7 +165,7 @@ class Document(models.Model):
         #     ValorDeduzir=None
         # )
 
-        for line in self.invoice_line_ids:
+        for line in self.line_ids:
             itens.append(
                 tpItens(
                     DiscriminacaoServico=normalize(
