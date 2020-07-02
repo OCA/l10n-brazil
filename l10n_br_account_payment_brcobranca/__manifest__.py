@@ -19,7 +19,6 @@
         'views/account_invoice_view.xml',
         'views/l10n_br_cnab_retorno_view.xml',
         'views/res_config_settings_view.xml',
-        'data/cnab_data.xml',
         'data/res_config_settings_data.xml',
     ],
     'demo': [
