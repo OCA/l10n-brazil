@@ -184,8 +184,19 @@ class L10nBrHrCnab(models.Model):
     def processar_arquivo_retorno(self):
 
         files = {'data': base64.b64decode(self.arquivo_retorno)}
+        api_address = self.env[
+            "ir.config_parameter"].sudo().get_param(
+            "l10n_br_account_payment_brcobranca.boleto_cnab_api")
+        if not api_address:
+            raise UserError(
+                ('Não é possível gerar o retorno.\n'
+                 'Informe o Endereço IP ou Nome do'
+                 ' Boleto CNAB API.'))
+        # Ex.: "http://boleto_cnab_api:9292/api/retorno"
+        api_service_address = \
+            'http://' + api_address + ':9292/api/retorno'
         res = requests.post(
-            "http://brcobranca:9292/api/retorno",
+            api_service_address,
             data={
                 'type': self.cnab_type,
                 'bank': self.bank,

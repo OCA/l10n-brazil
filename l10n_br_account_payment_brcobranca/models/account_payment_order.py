@@ -64,6 +64,7 @@ class PaymentOrder(models.Model):
         # https://github.com/kivanio/brcobranca/tree/master/lib/brcobranca/remessa/cnab400
         # and a test here:
         # https://github.com/kivanio/brcobranca/blob/master/spec/brcobranca/remessa/cnab400/itau_spec.rb
+
         bank_account = \
             self.payment_mode_id.fixed_journal_id.bank_account_id
 
@@ -227,11 +228,21 @@ class PaymentOrder(models.Model):
         f.close()
         files = {'data': open(f.name, 'rb')}
 
-        # TODO - Name of service should be a parameter ?
-        #  For docky users check the name of service
-        #  defined in dev.docker-compose.yml
+        api_address = self.env[
+            "ir.config_parameter"].sudo().get_param(
+            "l10n_br_account_payment_brcobranca.boleto_cnab_api")
+
+        if not api_address:
+            raise UserError(
+                ('Não é possível gerar os remessa\n'
+                 'Informe o Endereço IP ou Nome do'
+                 'Boleto CNAB API.'))
+
+        # EX.: "http://boleto_cnab_api:9292/api/remessa"
+        api_service_address = \
+            'http://' + api_address + ':9292/api/remessa'
         res = requests.post(
-            "http://brcobranca:9292/api/remessa",
+            api_service_address,
             data={
                 'type': dict_brcobranca_cnab_type[
                     self.payment_mode_id.payment_method_id.code],
