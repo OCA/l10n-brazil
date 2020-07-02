@@ -34,16 +34,22 @@
               <page name="issqn" string="ISSQN" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
                 <group>
                   <field name="issqn_tax_id"/>
-                  <field name="issqn_fg_city_id"/>
+                  <field name="issqn_fg_city_id" attrs="{'required': [('fiscal_genre_code', '=', '00')]}"/>
+                  <field name="issqn_eligibility" attrs="{'required': [('fiscal_genre_code', '=', '00')]}"/>
                 </group>
                 <group>
                   <group>
                     <field name="issqn_base" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
                     <field name="issqn_percent" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
-                  </group>
-                  <group>
                     <field name="issqn_reduction" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
                     <field name="issqn_value" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                  </group>
+                  <group>
+                    <field name="issqn_deduction_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_other_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_desc_incond_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_desc_cond_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_desc_cond_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
                   </group>
                 </group>
                   <group string="Retenções">
