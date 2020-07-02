@@ -31,7 +31,8 @@ from ..constants.fiscal import (
     TAX_DOMAIN_PIS_WH,
     TAX_DOMAIN_PIS_ST,
     TAX_FRAMEWORK_SIMPLES_ALL,
-    FISCAL_COMMENT_LINE
+    FISCAL_COMMENT_LINE,
+    TAX_ICMS_OR_ISSQN,
 )
 
 from ..constants.icms import (
@@ -87,6 +88,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     product_id = fields.Many2one(
         comodel_name="product.product",
         string="Product")
+
+    tax_icms_or_issqn = fields.Selection(
+        selection=TAX_ICMS_OR_ISSQN,
+        string='ICMS or ISSQN Tax',
+        default=TAX_DOMAIN_ICMS,
+    )
 
     price_unit = fields.Float(
         string="Price Unit",
