@@ -132,6 +132,12 @@ TAX_DOMAIN = (
 )
 
 
+TAX_ICMS_OR_ISSQN = (
+    (TAX_DOMAIN_ICMS, 'ICMS'),
+    (TAX_DOMAIN_ISSQN, 'ISSQN'),
+)
+
+
 TAX_FRAMEWORK = (
     ("1", "1 - Simples Nacional"),
     ("2", "2 - Simples Nacional – excesso de sublimite da receita bruta"),
