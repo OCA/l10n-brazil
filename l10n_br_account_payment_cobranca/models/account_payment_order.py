@@ -57,7 +57,7 @@ class PaymentOrder(models.Model):
         selection=CODIGO_INSTRUCAO_MOVIMENTO,
         string="Código da Instrução para Movimento",
         help="Campo G061 do CNAB",
-        default="0",
+        default="00",
     )
     bank_line_error_ids = fields.One2many(
         comodel_name="bank.payment.line",

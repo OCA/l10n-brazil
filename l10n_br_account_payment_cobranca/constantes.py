@@ -274,8 +274,8 @@ TIPO_MOVIMENTO = [
 ]
 
 CODIGO_INSTRUCAO_MOVIMENTO = [
-    ("0", "00 - Inclusão de Registro Detalhe Liberado"),
-    ("9", "09 - Inclusão do Registro Detalhe Bloqueado"),
+    ("00", "00 - Inclusão de Registro Detalhe Liberado"),
+    ("09", "09 - Inclusão do Registro Detalhe Bloqueado"),
     ("10", "10 - Alteração do Pagamento Liberado para Bloqueado (Bloqueio)"),
     ("11", "11 - Alteração do Pagamento Bloqueado para Liberado (Liberação)"),
     ("17", "17 - Alteração do Valor do Título"),
