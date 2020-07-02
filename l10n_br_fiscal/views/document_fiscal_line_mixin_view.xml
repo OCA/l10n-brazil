@@ -36,6 +36,7 @@
                   <field name="issqn_tax_id"/>
                   <field name="issqn_fg_city_id" attrs="{'required': [('fiscal_genre_code', '=', '00')]}"/>
                   <field name="issqn_eligibility" attrs="{'required': [('fiscal_genre_code', '=', '00')]}"/>
+                  <field name="issqn_incentive" attrs="{'required': [('fiscal_genre_code', '=', '00')]}"/>
                 </group>
                 <group>
                   <group>
