@@ -65,8 +65,7 @@ class AccountInvoice(models.Model):
         else:
             raise UserError(res.text.encode('utf-8'))
 
-        # TODO - Name File
-        file_name = 'boleto-teste.pdf'
+        file_name = 'boleto-' + self.number + '.pdf'
 
         self.file_pdf_id = self.env['ir.attachment'].create(
             {
