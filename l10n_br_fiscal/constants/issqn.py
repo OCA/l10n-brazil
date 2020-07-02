@@ -15,6 +15,9 @@ ISSQN_ELIGIBILITY = [
 ISSQN_ELIGIBILITY_DEFAULT = '2'
 
 ISSQN_INCENTIVE = [
-    ('', ''),
-    ('', ''),
+    ('1', 'Sim'),
+    ('2', 'Não'),
 ]
+
+
+ISSQN_INCENTIVE_DEFAULT = '2'
