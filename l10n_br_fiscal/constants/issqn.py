@@ -13,3 +13,8 @@ ISSQN_ELIGIBILITY = [
 
 
 ISSQN_ELIGIBILITY_DEFAULT = '2'
+
+ISSQN_INCENTIVE = [
+    ('', ''),
+    ('', ''),
+]
