@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="city_taxation_code_form_view">
+        <field name="name">city.taxation.code.form (in l10n_br_fiscal)</field>
+        <field name="model">city.taxation.code</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="service_type_id" />
+                        <field name="state_id" />
+                        <field name="city_id" />
+                    </group>
+
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="city_taxation_code_search_view">
+        <field name="name">city.taxation.code.search (in l10n_br_fiscal)</field>
+        <field name="model">city.taxation.code</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <field name="service_type_id" />
+                <field name="state_id" />
+                <field name="city_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="city_taxation_code_tree_view">
+        <field name="name">city.taxation.code.tree (in l10n_br_fiscal)</field>
+        <field name="model">city.taxation.code</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="service_type_id" />
+                <field name="state_id" />
+                <field name="city_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="city_taxation_code_act_window">
+        <field name="name">City Taxation Code</field>
+        <field name="res_model">city.taxation.code</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="city_taxation_code_menu">
+        <field name="name">City Taxation Code</field>
+        <field name="parent_id" ref="l10n_br_fiscal.others_config_menu"/>
+        <field name="action" ref="city_taxation_code_act_window"/>
+        <field name="sequence" eval="16"/>
+    </record>
+
+</odoo>
