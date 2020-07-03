@@ -37,8 +37,6 @@ class AccountInvoice(models.Model):
         compute="_compute_receivables",
     )
 
-    active = fields.Boolean(string="Ativo", default=True)
-
     # eval_state_cnab = fields.Selection(
     #     string=u"Estado CNAB",
     #     related="move_line_receivable_id.state_cnab",
