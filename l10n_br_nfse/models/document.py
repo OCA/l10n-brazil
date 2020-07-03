@@ -14,7 +14,12 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     TAX_FRAMEWORK_SIMPLES_ALL,
 )
-from ..constants.nfse import (NFSE_ENVIRONMENTS)
+from ..constants.nfse import (
+    NFSE_ENVIRONMENTS,
+    OPERATION_NATURE,
+    RPS_TYPE,
+    TAXATION_SPECIAL_REGIME,
+)
 
 from .res_company import PROCESSADOR
 
@@ -49,35 +54,17 @@ class Document(models.Model):
     )
     rps_type = fields.Selection(
         string='RPS Type',
-        selection=[
-            ('1', 'Recibo provisório de Serviços'),
-            ('2', 'RPS Nota Fiscal Conjugada (Mista)'),
-            ('3', 'Cupom'),
-        ],
+        selection=RPS_TYPE,
         default='1',
     )
     operation_nature = fields.Selection(
         string='Operation Nature',
-        selection=[
-            ('1', 'Tributação no município'),
-            ('2', 'Tributação fora do município'),
-            ('3', 'Isenção'),
-            ('4', 'Imune'),
-            ('5', 'Exigibilidade suspensa por decisão judicial'),
-            ('6', 'Exigibilidade suspensa por procedimento administrativo'),
-        ],
+        selection=OPERATION_NATURE,
         default='1',
     )
     taxation_special_regime = fields.Selection(
         string='Taxation Special Regime',
-        selection=[
-            ('1', 'Microempresa Municipal'),
-            ('2', 'Estimativa'),
-            ('3', 'Sociedade de Profissionais'),
-            ('4', 'Cooperativa'),
-            ('5', 'Microempresario Individual(MEI)'),
-            ('6', 'Microempresario e Empresa de Pequeno Porte(ME EPP)'),
-        ],
+        selection=TAXATION_SPECIAL_REGIME,
         default='1',
     )
     verify_code = fields.Char(
