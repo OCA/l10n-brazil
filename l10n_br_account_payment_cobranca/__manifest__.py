@@ -21,7 +21,6 @@
         'security/cnab_cobranca_security.xml',
         'views/res_company.xml',
         'views/account_payment_mode.xml',
-        'views/res_partner_bank.xml',
         'views/account_payment_order.xml',
         'views/account_payment_order_menu_views.xml',
         'views/account_payment_line.xml',
