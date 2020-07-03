@@ -361,18 +361,6 @@ class NFe(spec_models.StackedModel):
             versao=self.nfe_version, ambiente=self.nfe_environment
         )
 
-    @api.multi
-    def _document_export(self, pretty_print=True):
-        super(NFe, self)._document_export()
-        for record in self.filtered(filter_processador_edoc_nfe):
-            edoc = record.serialize()[0]
-            processador = record._processador()
-            xml_file = processador.\
-                _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
-            _logger.debug(xml_file)
-            event_id = self._gerar_evento(xml_file, event_type="0")
-            record.autorizacao_event_id = event_id
-
     def atualiza_status_nfe(self, infProt):
         self.ensure_one()
         # if not infProt.chNFe == self.key:
@@ -405,6 +393,11 @@ class NFe(spec_models.StackedModel):
                 processo = None
                 for p in procesador.processar_documento(edoc):
                     processo = p
+                    if processo.webservice == 'nfeAutorizacaoLote':
+                        event_id = self._gerar_evento(
+                            processo.envio_xml.decode('utf-8'),
+                            event_type="0")
+                        record.autorizacao_event_id = event_id
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ['100']:
                 protocolos = processo.resposta.protNFe
