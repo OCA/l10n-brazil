@@ -3,23 +3,6 @@
 
 from requests import Session
 
-from nfselib.ginfes.v3_01.tipos_v03 import (
-    ListaRpsType,
-    tcCpfCnpj,
-    tcDadosServico,
-    tcDadosTomador,
-    tcEndereco,
-    tcIdentificacaoPrestador,
-    tcIdentificacaoRps,
-    tcIdentificacaoTomador,
-    tcInfRps,
-    tcLoteRps,
-    tcRps,
-    tcValores,
-)
-from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import \
-    EnviarLoteRpsEnvio
-
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
 from erpbrasil.base import misc
