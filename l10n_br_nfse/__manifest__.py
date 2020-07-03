@@ -22,7 +22,6 @@
     ],
     'data': [
         'security/res_partner.xml',
-        'security/city_taxation_code.xml',
 
         'data/operation_data.xml',
         'views/document_view.xml',
@@ -30,11 +29,9 @@
         'views/document_line_view.xml',
         'views/res_company_view.xml',
         'reports/danfse_ginfes.xml',
-        'views/city_taxation_code.xml',
     ],
     'demo': [
         'demo/product_demo.xml',
         'demo/fiscal_document_demo.xml',
-        'demo/city_taxation_code.xml',
     ],
 }
