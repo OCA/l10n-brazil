@@ -97,6 +97,7 @@
         "views/document_invalidate_number.xml",
         "views/document_cancel.xml",
         "views/document_correction.xml",
+        "views/city_taxation_code.xml",
     ],
     "demo": [
         # Some demo data is being loaded via post_init_hook in hook file
