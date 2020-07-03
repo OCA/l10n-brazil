@@ -23,9 +23,14 @@ Edoc Nfse
     :target: https://runbot.odoo-community.org/runbot/124/12.0-l10n_br_nfse
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5| 
+|badge1| |badge2| |badge3| |badge4| |badge5|
 
-Este módulo permite a criação e transmissão de Notas Fiscais de Serviço Eletrônicas (NFS-e).
+Este módulo permite a criação das informações básicas e transmissão de Notas Fiscais de Serviço Eletrônicas (NFS-e).
+
+Este módulo depende dos módulos:
+
+* l10n_br_nfse_dsf
+* l10n_br_nfse_ginfes
 
 **Table of contents**
 
@@ -73,6 +78,7 @@ Contributors
 
 * Luis Felipe Mileo <mileo@kmee.com.br>
 * Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
+* Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
 
 Maintainers
 ~~~~~~~~~~~
