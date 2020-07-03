@@ -15,7 +15,6 @@ from nfselib.dsf.ReqEnvioLoteRPS import (
 )
 
 from odoo import api, fields, models, _
-from erpbrasil.base import misc
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_A_ENVIAR,
@@ -65,6 +64,15 @@ class Document(models.Model):
 
     def _prepare_deducoes(self, deducoes):
         # TODO: Popular lista de deduções
+        # tpDeducoes(
+        #     DeducaoPor=None,
+        #     TipoDeducao=None,
+        #     # CPFCNPJReferencia=None,
+        #     # NumeroNFReferencia=None,
+        #     # ValorTotalReferencia=None,
+        #     PercentualDeduzir=None,
+        #     ValorDeduzir=None
+        # )
         pass
 
     def serialize_nfse_dsf(self):
@@ -154,28 +162,5 @@ class Document(models.Model):
             ),
             Lote=tpLote(RPS=lista_rps)
         )
-
-        # tpDeducoes(
-        #     DeducaoPor=None,
-        #     TipoDeducao=None,
-        #     # CPFCNPJReferencia=None,
-        #     # NumeroNFReferencia=None,
-        #     # ValorTotalReferencia=None,
-        #     PercentualDeduzir=None,
-        #     ValorDeduzir=None
-        # )
-
-        for line in self.line_ids:
-            itens.append(
-                tpItens(
-                    DiscriminacaoServico=normalize(
-                        'NFKD', str(line.name[:120] or '')
-                    ).encode('ASCII', 'ignore'),
-                    Quantidade=line.quantity,
-                    ValorUnitario=str("%.2f" % line.price_unit),
-                    ValorTotal=str("%.2f" % line.price_gross),
-                    Tributavel=None
-                )
-            )
 
         return lote_rps
