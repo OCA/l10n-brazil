@@ -159,13 +159,6 @@ class Document(models.Model):
             event_id = self._gerar_evento(xml_file, event_type="0")
             record.autorizacao_event_id = event_id
 
-    def _serialize(self, edocs):
-        edocs = super(Document, self)._serialize(edocs)
-        for record in self.filtered(
-                fiter_processador_edoc_nfse).filtered(fiter_provedor_ginfes):
-            edocs.append(record.serialize_nfse())
-        return edocs
-
     def _prepare_dados_servico(self):
         self.line_ids.ensure_one()
         result = {
@@ -176,33 +169,6 @@ class Document(models.Model):
 
         return result
 
-    def _serialize_dados_servico(self):
-        self.line_ids.ensure_one()
-        dados = self._prepare_dados_servico()
-        return tcDadosServico(
-            Valores=tcValores(
-                ValorServicos=dados['valor_servicos'],
-                ValorDeducoes=dados['valor_deducoes'],
-                ValorPis=dados['valor_pis'],
-                ValorCofins=dados['valor_cofins'],
-                ValorInss=dados['valor_inss'],
-                ValorIr=dados['valor_ir'],
-                ValorCsll=dados['valor_csll'],
-                IssRetido=dados['iss_retido'],
-                ValorIss=dados['valor_iss'],
-                ValorIssRetido=dados['valor_iss_retido'],
-                OutrasRetencoes=dados['outras_retencoes'],
-                BaseCalculo=dados['base_calculo'],
-                Aliquota=dados['aliquota'],
-                ValorLiquidoNfse=dados['valor_liquido_nfse'],
-            ),
-            ItemListaServico=dados['item_lista_servico'],
-            CodigoCnae=dados['codigo_cnae'],
-            CodigoTributacaoMunicipio=dados['codigo_tributacao_municipio'],
-            Discriminacao=dados['discriminacao'],
-            CodigoMunicipio=dados['codigo_municipio'],
-        )
-
     def _prepare_dados_tomador(self):
         result = self.partner_id.prepare_partner_tomador(
             self.company_id.country_id.id)
@@ -211,28 +177,6 @@ class Document(models.Model):
             {'complemento': self.partner_shipping_id.street2 or None})
 
         return result
-
-    def _serialize_dados_tomador(self):
-        dados = self._prepare_dados_tomador()
-        return tcDadosTomador(
-            IdentificacaoTomador=tcIdentificacaoTomador(
-                CpfCnpj=tcCpfCnpj(
-                    Cnpj=dados['cnpj'],
-                    Cpf=dados['cpf'],
-                ),
-                InscricaoMunicipal=dados['inscricao_municipal']
-            ),
-            RazaoSocial=dados['razao_social'],
-            Endereco=tcEndereco(
-                Endereco=dados['endereco'],
-                Numero=dados['numero'],
-                Complemento=dados['complemento'],
-                Bairro=dados['bairro'],
-                CodigoMunicipio=dados['codigo_municipio'],
-                Uf=dados['uf'],
-                Cep=dados['cep'],
-            ) or None,
-        )
 
     def _prepare_lote_rps(self):
         num_rps = self.rps_number
@@ -261,52 +205,6 @@ class Document(models.Model):
             'intermediario_servico': None,
             'construcao_civil': None,
         }
-
-    def _serialize_rps(self, dados):
-
-        return tcRps(
-            InfRps=tcInfRps(
-                Id=dados['id'],
-                IdentificacaoRps=tcIdentificacaoRps(
-                    Numero=dados['numero'],
-                    Serie=dados['serie'],
-                    Tipo=dados['tipo'],
-                ),
-                DataEmissao=dados['data_emissao'],
-                NaturezaOperacao=dados['natureza_operacao'],
-                RegimeEspecialTributacao=dados['regime_especial_tributacao'],
-                OptanteSimplesNacional=dados['optante_simples_nacional'],
-                IncentivadorCultural=dados['incentivador_cultural'],
-                Status=dados['status'],
-                RpsSubstituido=dados['rps_substitiuido'],
-                Servico=self._serialize_dados_servico(),
-                Prestador=tcIdentificacaoPrestador(
-                    Cnpj=dados['cnpj'],
-                    InscricaoMunicipal=dados['inscricao_municipal'],
-                ),
-                Tomador=self._serialize_dados_tomador(),
-                IntermediarioServico=dados['intermediario_servico'],
-                ConstrucaoCivil=dados['construcao_civil'],
-            )
-        )
-
-    def _serialize_lote_rps(self):
-        dados = self._prepare_lote_rps()
-        return tcLoteRps(
-            Cnpj=dados['cnpj'],
-            InscricaoMunicipal=dados['inscricao_municipal'],
-            QuantidadeRps='1',
-            ListaRps=ListaRpsType(
-                Rps=[self._serialize_rps(dados)]
-            )
-        )
-
-    def serialize_nfse(self):
-        # numero_lote = 14
-        lote_rps = EnviarLoteRpsEnvio(
-            LoteRps=self._serialize_lote_rps()
-        )
-        return lote_rps
 
     @api.multi
     def _eletronic_document_send(self):
