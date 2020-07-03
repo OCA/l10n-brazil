@@ -103,3 +103,5 @@
 "l10n_br_fiscal_document_correction_manager","manager_l10n_br_fiscal_document_correction","model_l10n_br_fiscal_document_correction","l10n_br_fiscal.group_manager",1,1,1,1
 "l10n_br_fiscal_closing_user","Fiscal Document Event for User","model_l10n_br_fiscal_closing","l10n_br_fiscal.group_user",1,1,1,0
 "l10n_br_fiscal_closing_manager","Fiscal Document Event for User","model_l10n_br_fiscal_closing","l10n_br_fiscal.group_manager",1,1,1,1
+"l10n_br_fiscal_city_taxation_code_user","Fiscal City Taxation Code for User","model_l10n_br_fiscal_city_taxation_code","l10n_br_fiscal.group_user",1,1,1,0
+"l10n_br_fiscal_city_taxation_code_manager","Fiscal City Taxation Code for Manager","model_l10n_br_fiscal_city_taxation_code","l10n_br_fiscal.group_user",1,1,1,1
