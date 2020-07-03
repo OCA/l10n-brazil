@@ -270,6 +270,24 @@
         <field name="inverse_fiscal_operation_id" ref="fo_venda"/>
     </record>
 
+    <record id="document_SE_serie_1" model="l10n_br_fiscal.document.serie">
+        <field name="code">001</field>
+        <field name="name">Série 1</field>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_SE"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="active">True</field>
+    </record>
+
+    <record id="tax_issqn_definition_venda_servico" model="l10n_br_fiscal.tax.definition">
+        <field name="is_taxed" eval="True"/>
+        <field name="is_debit_credit" eval="True"/>
+        <field name="custom_tax" eval="True"/>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_issqn_2"/>
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_issqn"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
+        <field name="state">approved</field>
+    </record>
+
     <!--
     <record id="base.main_company" model="res.company">
         <field name="in_invoice_fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
