@@ -23,7 +23,6 @@
     'data': [
         'security/res_partner.xml',
 
-        'data/operation_data.xml',
         'views/document_view.xml',
         'views/product_template_view.xml',
         'views/document_line_view.xml',
