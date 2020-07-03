@@ -6,7 +6,7 @@ from odoo import api, fields, models, _
 
 class CityTaxationCode(models.Model):
 
-    _name = 'city.taxation.code'
+    _name = 'l10n_br_fiscal.city.taxation.code'
     _description = 'City Taxation Code'
 
     name = fields.Char(
