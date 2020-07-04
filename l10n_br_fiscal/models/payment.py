@@ -2,7 +2,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
-
+from ..constants.payment import (
+    FORMA_PAGAMENTO,
+)
 
 class FiscalPayment(models.Model):
     _name = "l10n_br_fiscal.payment"
@@ -22,10 +24,9 @@ class FiscalPayment(models.Model):
         comodel_name='l10n_br_fiscal.payment.term',
         string='Forma de pagamento',
     )
-    payment_mode_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.payment.mode',
+    payment_mode = fields.Selection(
         string='Modo de pagamento',
-        ondelete='restrict',
+        selection=FORMA_PAGAMENTO,
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
@@ -118,8 +119,6 @@ class FiscalPayment(models.Model):
                 ))
                 communication += 1
         return {
-            'forma_pagamento':
-                self.payment_mode_id and
-                self.payment_mode_id.forma_pagamento or False,
+            'forma_pagamento': self.payment_mode,
             'line_ids': line_ids
         }
