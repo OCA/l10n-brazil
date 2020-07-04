@@ -36,9 +36,6 @@ class TestSubsequentOperation(TransactionCase):
         self.nfe_simples_faturamento.payment_term_id = self.env.ref(
             'l10n_br_fiscal.term_a_vista'
         )
-        self.nfe_simples_faturamento.payment_mode_id = self.env.ref(
-            'l10n_br_fiscal.payment_mode_dinheiro'
-        )
         self.nfe_simples_faturamento.action_document_confirm()
 
         subsequent_documents = self.nfe_simples_faturamento.document_subsequent_ids
