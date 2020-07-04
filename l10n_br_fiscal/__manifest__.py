@@ -40,7 +40,6 @@
         "data/res_partner_data.xml",
         "data/payment_term_data.xml",
         "data/payment_mode_data.xml",
-        "data/payment_condition_data.xml",
 
         # Views
         "views/cnae_view.xml",
@@ -102,7 +101,6 @@
         "views/payment_view.xml",
         "views/payment_term_view.xml",
         "views/payment_mode_view.xml",
-        "views/payment_condition_view.xml",
 
         # Actions
         "views/l10n_br_fiscal_action.xml",
