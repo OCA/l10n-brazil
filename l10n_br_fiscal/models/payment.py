@@ -18,11 +18,6 @@ class FiscalPayment(models.Model):
     sequence = fields.Integer(
         default=10,
     )
-    payment_condition_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.payment.condition',
-        string='Condição de pagamento',
-        ondelete='restrict',
-    )
     payment_term_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.payment.term',
         string='Forma de pagamento',
@@ -57,16 +52,6 @@ class FiscalPayment(models.Model):
         inverse_name='payment_id',
         string='Duplicatas',
     )
-
-    show_payment_condition = fields.Boolean(
-        compute='_compute_show_payment_condition'
-    )
-
-    def _compute_show_payment_condition(self):
-        for record in self:
-            record.show_payment_condition = self.user_has_groups(
-                'l10n_br_fiscal.group_payment_condition'
-            )
 
     def _get_document_id(self):
         if (self.env.context.get('active_model') == 'l10n_br_fiscal.document' and
@@ -136,22 +121,5 @@ class FiscalPayment(models.Model):
             'forma_pagamento':
                 self.payment_mode_id and
                 self.payment_mode_id.forma_pagamento or False,
-            'bandeira_cartao':
-                self.payment_condition_id and
-                self.payment_condition_id.bandeira_cartao or False,
-            'integracao_cartao':
-                self.payment_condition_id and
-                self.payment_condition_id.integracao_cartao or False,
-            'partner_card_id':
-                self.payment_condition_id and
-                self.payment_condition_id.partner_card_id and
-                self.payment_condition_id.partner_card_id.id or False,
             'line_ids': line_ids
         }
-
-    @api.onchange('payment_condition_id')
-    def _onchange_payment_condition(self):
-        for record in self:
-            if record.payment_condition_id:
-                record.payment_term_id = record.payment_condition_id.payment_term_id
-                record.payment_mode_id = record.payment_condition_id.payment_mode_id

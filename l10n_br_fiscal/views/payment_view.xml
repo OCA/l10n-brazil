@@ -13,19 +13,17 @@
                     <field name="document_id"  invisible="1"/>
                     <field name="company_id"  invisible="1"/>
                     <field name="currency_id"  invisible="1"/>
-                    <field name="show_payment_condition"  invisible="1"/>
                     <group>
                         <group>
                             <field name="amount" required="1"/>
                         </group>
                         <group colspan="4" col="4" name="payment_term">
-                            <field name="payment_condition_id" colspan="4" attrs="{'invisible': [('show_payment_condition', '=', False)], 'required': [('show_payment_condition', '=', True)]}"/>
                         </group>
                         <group>
                             <field name="payment_mode_id" attrs="{'invisible': [('show_payment_condition', '=', True)]}"/>
                         </group>
-                        <group>
-                            <field name="payment_term_id" attrs="{'invisible': [('show_payment_condition', '=', True)]}"/>
+                        <group name="payment_term">
+                            <field name="payment_term_id"/>
                         </group>
                         <separator string="Vencimentos"/>
                         <field name="line_ids" context="{
