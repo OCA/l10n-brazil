@@ -17,8 +17,8 @@ class NFeLine(spec_models.StackedModel):
     _force_stack_paths = ('det.imposto',)
     _rec_name = 'nfe40_xProd'
 
-    # The generateDS prod mixin (prod XML tag) cannot be inject in
-    # the product.product object because the tag embeded values from the
+    # The generateDS prod mixin (prod XML tag) cannot be injected in
+    # the product.product object because the tag includes attributes from the
     # fiscal document line. So the mapping is done:
     # from Odoo -> XML by using related fields/_compute
     # from XML -> Odoo by overriding the product create method
