@@ -6,9 +6,9 @@
         <field name="inherit_id" ref="account.view_account_journal_form"/>
         <field name="arch" type="xml">
             <field name="post_at_bank_rec" position="after">
-                <field name="auto_generate_moves"/>
-                <field name="post_account_moves"/>
-                <field name="generate_move_with_templates"/>
+                <field name="auto_generate_moves" groups='l10n_br_account.group_roteiros_contabeis'/>
+                <field name="post_account_moves" groups='l10n_br_account.group_roteiros_contabeis'/>
+                <field name="generate_move_with_templates" groups='l10n_br_account.group_roteiros_contabeis'/>
             </field>
         </field>
     </record>

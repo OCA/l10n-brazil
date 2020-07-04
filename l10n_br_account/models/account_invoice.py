@@ -251,6 +251,8 @@ class AccountInvoice(models.Model):
 
     def action_move_create(self):
         if self.journal_id.generate_move_with_templates:
+            if not self.journal_id.auto_generate_moves:
+                return
             self._move_create_with_templates()
         return super(AccountInvoice, self).action_move_create()
 

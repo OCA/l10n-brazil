@@ -44,6 +44,7 @@
         'views/l10n_br_account_move_template.xml',
         'views/l10n_br_account_move_history.xml',
         'views/payment_mode_view.xml',
+        'views/account_journal_view.xml',
 
         # Wizards
         'wizards/account_invoice_refund_view.xml',

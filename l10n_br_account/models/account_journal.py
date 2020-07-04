@@ -13,13 +13,10 @@ class AccountJournal(models.Model):
     )
     auto_generate_moves = fields.Boolean(
         string='Generate Moves Automatically',
-        groups='l10n_br_account.group_roteiros_contabeis',
     )
     post_account_moves = fields.Boolean(
         string='Post Moves Automatically',
-        groups='l10n_br_account.group_roteiros_contabeis',
     )
     generate_move_with_templates = fields.Boolean(
         string='Generate moves with templates',
-        groups='l10n_br_account.group_roteiros_contabeis',
     )
