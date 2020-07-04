@@ -3,6 +3,9 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from ..constants.payment import (
+    FORMA_PAGAMENTO,
+)
 
 
 class PaymentMixin(models.AbstractModel):
@@ -74,10 +77,9 @@ class PaymentMixin(models.AbstractModel):
         ondelete='restrict',
     )
 
-    payment_mode_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.payment.mode',
+    payment_mode = fields.Selection(
         string='Modo de pagamento',
-        ondelete='restrict',
+        selection=FORMA_PAGAMENTO,
     )
 
     financial_ids = fields.One2many(
@@ -116,9 +118,7 @@ class PaymentMixin(models.AbstractModel):
                     'payment_term_id':
                         self.payment_term_id and
                         self.payment_term_id.id or False,
-                    'payment_mode_id':
-                        self.payment_mode_id and
-                        self.payment_mode_id.id or False,
+                    'payment_mode': self.payment_mode,
                     'amount': self.amount_missing_payment_value,
                     'currency_id': self.currency_id.id,
                     'company_id': self.company_id.id,

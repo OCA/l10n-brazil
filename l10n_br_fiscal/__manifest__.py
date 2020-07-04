@@ -39,7 +39,6 @@
         "data/ir_cron.xml",
         "data/l10n_br_fiscal_comment_data.xml",
         "data/payment_term_data.xml",
-        "data/payment_mode_data.xml",
 
         # Wizards
         "wizards/wizard_document_cancel_view.xml",
@@ -102,7 +101,6 @@
         'views/dfe/dfe_views.xml',
         'views/payment_view.xml',
         'views/payment_term_view.xml',
-        'views/payment_mode_view.xml',
 
         "views/l10n_br_fiscal_menu.xml",
         "views/operation_dashboard_view.xml",
