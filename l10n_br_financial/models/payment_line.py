@@ -26,5 +26,8 @@ class FiscalPaymentLine(models.Model):
                 'payment_date': record.document_id.date,
                 'company_id': record.company_id.id,
                 'state': 'draft',
+                'financial_account_id':
+                    record.document_id.fiscal_operation_id.financial_account_id and
+                    record.document_id.fiscal_operation_id.financial_account_id.id or False,
             }))
         return result

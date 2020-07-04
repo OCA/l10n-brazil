@@ -18,7 +18,7 @@ from odoo import models
 
 class ReportXslxFinancialCashflow(models.AbstractModel):
 
-    _name = 'report.financial.cashflow'
+    _name = 'report.l10n_br_financial.cashflow'
     _inherit = 'report.finacial.base'
 
     def define_title(self):
@@ -108,7 +108,7 @@ class ReportXslxFinancialCashflow(models.AbstractModel):
                 report_data['time_span_titles'][time_span_date] = title
                 current_date += relativedelta(months=1)
 
-        accounts = self.env['account.account'].search([], order='code')
+        accounts = self.env['financial.account'].search([], order='code')
         for account in accounts:
             line = {
                 'account_code': account.code,
@@ -122,8 +122,8 @@ class ReportXslxFinancialCashflow(models.AbstractModel):
 
             report_data['lines'][account.code] = line
 
-            # if account.level == 1:
-            #     report_data['summaries'][account.code] = line
+            if account.level == 1:
+                report_data['summaries'][account.code] = line
 
         #
         # Now the summaries_total and summaries_accumulated lines
@@ -193,13 +193,13 @@ class ReportXslxFinancialCashflow(models.AbstractModel):
                 fa.code,
                 sum(fm.amount_total * fm.sign)
             from
-                acount_payment fm
+                account_payment fm
                 join financial_account_tree_analysis fat
-                 on fat.child_account_id = fm.account_id
-                join account_account fa
+                 on fat.child_account_id = fm.financial_account_id
+                join financial_account fa
                  on fa.id = fat.parent_account_id
             where
-                fm.type %(type)s ('2receive', '2pay')
+                fm.payment_type %(type)s ('2receive', '2pay')
                 and fm.%(period)s < %(date_from)s
 
             group by
@@ -239,11 +239,11 @@ class ReportXslxFinancialCashflow(models.AbstractModel):
             from
                 account_payment fm
                  join financial_account_tree_analysis fat
-                  on fat.child_account_id = fm.account_id
-                 join account_account fa
+                  on fat.child_account_id = fm.financial_account_id
+                 join financial_account fa
                   on fa.id = fat.parent_account_id
             where
-                fm.type %(type)s ('2receive', '2pay')
+                fm.payment_type %(type)s ('2receive', '2pay')
                 and fm.%(period)s between %(date_from)s and %(date_to)s
 
             group by

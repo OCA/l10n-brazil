@@ -17,7 +17,7 @@
         'report_xlsx',
     ],
     'data': [
-        # 'security/account_payment.xml',
+        'security/account_payment.xml',
 
         'views/financial_menu.xml',
 
@@ -32,6 +32,8 @@
         'views/account_payment_base_view.xml',
         'views/account_payment_2receive_view.xml',
         'views/account_payment_debt_2pay_view.xml',
+        'views/financial_account_view.xml',
+        'views/fiscal_operation_view.xml',
 
         'views/document.xml',
 
@@ -41,6 +43,6 @@
         'reports/report_xlsx_financial_partner_statement_data.xml',
     ],
     'demo': [
-        # 'demo/account_payment.xml',
+        'demo/financial.account.csv',
     ],
 }

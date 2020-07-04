@@ -485,6 +485,9 @@ class AccountPayment(models.Model):
     document_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document'
     )
+    financial_account_id = fields.Many2one(
+        comodel_name='financial.account',
+    )
 
     # arrears_days = fields.Integer(
     #     string='Arrears Days',
@@ -498,8 +501,8 @@ class AccountPayment(models.Model):
                 data = {
                     'name': '/',
                     'debit': record.amount,
-                    'currency_id':
-                        record.currency_id and record.currency_id.id or False,
+                    # 'currency_id':
+                    #     record.currency_id and record.currency_id.id or False,
                     'partner_id': record.partner_id and record.partner_id.id or False,
                     'account_id': record.partner_id.property_account_receivable_id.id,
                     'date_maturity': record.date_maturity,

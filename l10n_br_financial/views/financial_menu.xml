@@ -7,6 +7,7 @@
     <record model="ir.ui.menu" id="l10n_br_financial_main_menu">
         <field name="name">Treasury</field>
         <field name="sequence" eval="39"/>
+        <field name="web_icon">l10n_br_financial,static/description/icon.png</field>
     </record>
 
     <record model="ir.ui.menu" id="l10n_br_financial_overview">
@@ -54,7 +55,7 @@
         <field name="sequence" eval="90"/>
     </record>
 
-    <record model="ir.ui.menu" id="account_payment_config">
+    <record model="ir.ui.menu" id="financial_config_menu">
         <field name="name">Configuration</field>
         <field name="parent_id" ref="l10n_br_financial_main_menu"/>
         <field name="sequence" eval="999"/>

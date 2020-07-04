@@ -51,6 +51,7 @@
                             <field name="doc_source_id"/>
                             <field name="payment_date"/>
                             <field name="account_id"/>
+                            <field name="financial_account_id"/>
                             <field name="document_type_id" required="1"/>
                             <field name="date_maturity" required="1"/>
                             <field name="date_business_maturity"/>
@@ -62,7 +63,7 @@
                         </group>
                         <group name="document_amounts">
                             <separator string="Values"/>
-=                            <group name="amounts" colspan="2" class="oe_center" >
+                            <group name="amounts" colspan="2" class="oe_center" >
                                 <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                 <field name="amount" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
 
@@ -135,18 +136,21 @@
         <field name="mode">primary</field>
         <field name="inherit_id" ref="account.view_account_payment_tree"/>
         <field name="arch" type="xml">
-            <tree decoration-info="state == 'draft'" decoration-muted="state in ['reconciled', 'cancelled']" edit="false">
-                <field name="payment_date"/>
-                <field name="name"/>
-                <field name="journal_id"/>
-                <field name="payment_method_id"/>
-                <field name="partner_id" string="Vendor"/>
-                <field name="amount" sum="Amount"/>
-                <field name="company_id" groups="base.group_multi_company"/>
-                <field name="state"/>
-                <field name="currency_id" invisible="1"/>
-                <field name="partner_type" invisible="1"/>
-            </tree>
+            <xpath expr="//tree" position="replace">
+                <tree decoration-info="debt_status == 'due'"  decoration-warning="debt_status == 'due_today'" decoration-danger="debt_status == 'overdue'" decoration-primary="debt_status == 'paid_partially'" decoration-success="debt_status == 'paid'" decoration-muted="debt_status in ['reconciled', 'cancelled']" edit="false">
+                    <field name="payment_date" string="Date"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="journal_id"/>
+                    <field name="name"/>
+                    <field name="partner_id" string="Vendor"/>
+<!--                    <field name="payment_method_id"/>-->
+                    <field name="amount" sum="Amount"/>
+                    <field name="state"/>
+                    <field name="debt_status"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="partner_type" invisible="1"/>
+                </tree>
+            </xpath>
         </field>
     </record>
 
