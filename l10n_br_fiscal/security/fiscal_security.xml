@@ -73,10 +73,4 @@
         <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
     </record>
 
-    <record id="l10n_br_fiscal_payment_mode_company_rule" model="ir.rule">
-      <field name="name">Fiscal Payment mode multi-company rule</field>
-        <field name="model_id" ref="model_l10n_br_fiscal_payment_mode"/>
-      <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
-    </record>
-
 </odoo>
