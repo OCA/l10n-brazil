@@ -78,6 +78,20 @@ class AccountInvoice(models.Model):
             "l10n_br_fiscal.fiscal_document_dummy"),
     )
 
+    financial_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment.line',
+        inverse_name=_payment_inverse_name,
+        string='Duplicatas',
+        copy=True,
+    )
+
+    fiscal_payment_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment',
+        inverse_name=_payment_inverse_name,
+        string='Pagamentos',
+        copy=True,
+    )
+
     @api.model
     def _shadowed_fields(self):
         """Returns the list of shadowed fields that are synced
