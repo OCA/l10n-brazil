@@ -22,3 +22,4 @@ from . import fiscal_document
 from . import fiscal_document_line
 from . import account_journal
 from . import payment_mode
+from . import account_payment_term
