@@ -242,8 +242,10 @@ class AccountInvoice(models.Model):
 
     def action_invoice_open(self):
         for record in self:
-            record.fiscal_document_id.action_document_confirm()
-            record.fiscal_document_id.action_document_send()
+            if record.fiscal_document_id and not record.env.context.get(
+                    'edoc_workflow'):
+                record.fiscal_document_id.action_document_confirm()
+                record.fiscal_document_id.action_document_send()
             if record.fiscal_document_id.move_id:
                 record.move_id = record.fiscal_document_id.move_id
         return super().action_invoice_open()
