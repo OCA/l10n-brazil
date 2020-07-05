@@ -123,35 +123,39 @@ class PaymentMixin(models.AbstractModel):
                 else:
                     record.generate_financial()
 
+    def _prepare_payment_mixin_inverse_vals(self):
+        return {self._payment_inverse_name: self.id}
+
     def generate_financial(self):
         for record in self:
-            if record.payment_term_id and self.company_id and self.currency_id:
+            if record.payment_term_id and record.company_id and record.currency_id:
                 record.financial_ids.unlink()
                 record.fiscal_payment_ids.unlink()
                 vals = {
                     'payment_term_id':
-                        self.payment_term_id and
-                        self.payment_term_id.id or False,
+                        record.payment_term_id and
+                        record.payment_term_id.id or False,
                     'payment_mode_id':
-                        self.payment_mode_id and
-                        self.payment_mode_id.id or False,
+                        record.payment_mode_id and
+                        record.payment_mode_id.id or False,
                     'payment_condition_id':
-                        self.payment_condition_id and
-                        self.payment_condition_id.id or False,
-                    'amount': self.amount_missing_payment_value,
-                    'currency_id': self.currency_id.id,
-                    'company_id': self.company_id.id,
+                        record.payment_condition_id and
+                        record.payment_condition_id.id or False,
+                    'amount': record.amount_missing_payment_value,
+                    'currency_id': record.currency_id.id,
+                    'company_id': record.company_id.id,
                 }
-                vals.update(self.fiscal_payment_ids._compute_payment_vals(
-                    payment_term_id=self.payment_term_id,
-                    currency_id=self.currency_id,
-                    company_id=self.company_id,
-                    amount=self.amount_missing_payment_value, date=self._date_field())
-                )
-                vals[self._payment_inverse_name] = self.id
-                self.fiscal_payment_ids = self.fiscal_payment_ids.new(vals)
-                for line in self.fiscal_payment_ids.mapped('line_ids'):
-                    setattr(line, self._payment_inverse_name, self)
+                vals.update(record.fiscal_payment_ids._compute_payment_vals(
+                    payment_term_id=record.payment_term_id,
+                    currency_id=record.currency_id,
+                    company_id=record.company_id,
+                    amount=record.amount_missing_payment_value,
+                    date=record._date_field(),
+                ))
+                vals.update(record._prepare_payment_mixin_inverse_vals())
+                record.fiscal_payment_ids = record.fiscal_payment_ids.new(vals)
+                for line in record.fiscal_payment_ids.mapped('line_ids'):
+                    setattr(line, record._payment_inverse_name, record)
 
             elif record.fiscal_payment_ids:
                 record.financial_ids.unlink()
