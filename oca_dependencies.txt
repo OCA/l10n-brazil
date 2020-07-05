@@ -2,3 +2,4 @@ currency
 bank-payment
 account-payment
 account-invoicing
+account-financial-reporting
