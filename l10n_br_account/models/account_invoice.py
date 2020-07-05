@@ -1,5 +1,6 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
+# Copyright 2020 KMEE - Luis Felipe Miléo
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
@@ -26,7 +27,7 @@ FISCAL_TYPE_REFUND = {
 SHADOWED_FIELDS = [
     'partner_id', 'company_id', 'date', 'currency_id',
     'payment_term_id', 'financial_ids', 'fiscal_payment_ids',
-    'journal_id', 'account_id',
+    'journal_id', 'account_id', 'move_id',
 ]
 
 
@@ -112,6 +113,7 @@ class AccountInvoice(models.Model):
         invoice = super(AccountInvoice, self).create(values)
         if invoice.fiscal_document_id != dummy_doc:
             shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
+            shadowed_fiscal_vals['invoice_id'] = invoice.id
             invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return invoice
 

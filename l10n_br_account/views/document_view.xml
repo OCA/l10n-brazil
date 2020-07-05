@@ -10,6 +10,7 @@
                 <page name="account" string="Accounting">
                     <group>
                         <group>
+                            <field name="invoice_id"/>
                             <field name="move_template_ids" widget="many2many_tags"/>
                             <field name="journal_id"/>
                         </group>
