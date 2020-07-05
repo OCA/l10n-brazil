@@ -266,6 +266,8 @@ class AccountInvoice(models.Model):
             # TODO: Gerar com os dados da invoice
             # TODO: Verificar se os dados são suficientes
             self.fiscal_document_id.action_move_create()
+            if self.fiscal_document_id.move_id:
+                self.move_id = self.fiscal_document_id.move_id
 
     def action_move_create(self):
         for record in self:
