@@ -80,7 +80,7 @@ class FiscalDocument(models.Model):
             ctx = dict(self._context, lang=record.partner_id.lang)
 
             if not record.date:
-                raise NotImplementedError
+                record.date = record._date_server_format()
 
             move_lines = list()
 
