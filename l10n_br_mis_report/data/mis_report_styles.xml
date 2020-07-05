@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+  <data>
+
+    <record id="mis_report_style_l10n_br_negrito" model="mis.report.style">
+      <field name="name">BR Negrito</field>
+      <field name="font_weight_inherit" eval="0"/>
+      <field name="font_weight">bold</field>
+    </record>
+
+  </data>
+</odoo>
