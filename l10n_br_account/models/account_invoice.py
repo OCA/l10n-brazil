@@ -250,11 +250,22 @@ class AccountInvoice(models.Model):
             self.fiscal_document_id.action_move_create()
 
     def action_move_create(self):
-        if self.journal_id.generate_move_with_templates:
-            if not self.journal_id.auto_generate_moves:
-                return
-            self._move_create_with_templates()
-        return super(AccountInvoice, self).action_move_create()
+        for record in self:
+            if record.journal_id.generate_move_with_templates:
+                ctx = record.env.context
+                if not record.journal_id.auto_generate_moves:
+                    return
+                record._move_create_with_templates()
+            else:
+                #
+                # This context must be keep it unit account.payment.term.compute() call
+                #
+                ctx = record.env.context.copy()
+                ctx['fiscal_payment_ids'] = record.fiscal_payment_ids
+                ctx['financial_ids'] = record.financial_ids
+            return super(
+                AccountInvoice, record.with_context(ctx)
+            ).action_move_create()
 
     @api.multi
     def _get_computed_reference(self):
@@ -262,3 +273,11 @@ class AccountInvoice(models.Model):
         if self.company_id.invoice_reference_type == 'fiscal_document':
             return self.fiscal_document_id.number  # FIXME: Name!
         return res
+
+    def _onchange_payment_term_date_invoice(self):
+        ctx = self.env.context.copy()
+        ctx['fiscal_payment_ids'] = self.fiscal_payment_ids
+        ctx['financial_ids'] = self.financial_ids
+        return super(
+            AccountInvoice, self.with_context(ctx)
+        )._onchange_payment_term_date_invoice()
