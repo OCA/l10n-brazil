@@ -25,6 +25,7 @@
             <notebook name="l10n_br_account_payment_order" position="inside">
                 <page string="Cobranca">
                     <group>
+                        <field name="bank_code_bc" invisible="1"/>
                         <field name="boleto_type"/>
                         <field name="gera_nosso_numero"/>
                         <field name="boleto_convenio"/>
@@ -36,8 +37,8 @@
                         <field name="boleto_especie"/>
                         <field name="boleto_protesto"/>
                         <field name="boleto_protesto_prazo"/>
-                        <field name="boleto_byte_idt"/>
-                        <field name="boleto_posto"/>
+                        <field name="boleto_byte_idt" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
+                        <field name="boleto_posto" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
                     </group>
                 </page>
                 <page string="Pagamento">

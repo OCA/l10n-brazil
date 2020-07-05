@@ -122,6 +122,8 @@ class PaymentMode(models.Model):
         help='Código do Posto da Cooperativa de Crédito,'
              ' usado pelos bancos Sicred/Unicred e Sicoob.'
     )
+    # Field used to make invisible banks specifics fields
+    bank_code_bc = fields.Char(related='fixed_journal_id.bank_id.code_bc')
 
     @api.onchange("product_tax_id")
     def _onchange_product_tax_id(self):
