@@ -12,6 +12,8 @@ class SaleOrder(models.Model):
     _name = 'sale.order'
     _inherit = [_name, 'l10n_br_fiscal.document.mixin']
 
+    _payment_inverse_name = 'sale_id'
+
     @api.depends('order_line.price_total')
     def _amount_all(self):
         """Compute the total amounts of the SO."""
@@ -39,6 +41,13 @@ class SaleOrder(models.Model):
 
             order.amount_insurance = sum(
                 line.insurance_value for line in order.order_line)
+
+    @api.depends("amount_total", "fiscal_payment_ids")
+    def _compute_payment_change_value(self):
+        self._abstract_compute_payment_change_value()
+
+    def _date_field(self):
+        self.confirmation_date
 
     @api.model
     def _default_fiscal_operation(self):
@@ -134,6 +143,20 @@ class SaleOrder(models.Model):
         column1='sale_id',
         column2='comment_id',
         string='Comments',
+    )
+
+    financial_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment.line',
+        inverse_name=_payment_inverse_name,
+        string='Duplicatas',
+        copy=True,
+    )
+
+    fiscal_payment_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment',
+        inverse_name=_payment_inverse_name,
+        string='Pagamentos',
+        copy=True,
     )
 
     @api.model
@@ -236,9 +259,16 @@ class SaleOrder(models.Model):
 
         document_type_list = []
 
+        if len(inv_ids) > 1 and self.financial_ids:
+            # The ratio of payments is not implemented
+            raise NotImplementedError
+
         for invoice_id in inv_ids:
             invoice_created_by_super = self.env[
                 'account.invoice'].browse(invoice_id)
+
+            for fiscal_payment in self.fiscal_payment_ids:
+                fiscal_payment.invoice_id = invoice_created_by_super
 
             # Identify how many Document Types exist
             for inv_line in invoice_created_by_super.invoice_line_ids:

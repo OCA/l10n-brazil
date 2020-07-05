@@ -124,6 +124,36 @@
                     </div>
                 </group>
             </xpath>
+            <field name="payment_term_id" position="replace"/>
+             <page name="other_information" position="before">
+                <page name="financeiro" string="Financeiro">
+                    <group>
+                        <field name="amount_missing_payment_value" invisible="1"/>
+                        <group>
+                            <field name="payment_term_id" force_save="1"/>
+                        </group>
+                        <group>
+                            <button name="generate_financial" string="Gerar Parcelas" type="object" attrs="{'invisible': ['|', ('payment_term_id', '=', False), ('financial_ids', '=', False)]}"/>
+                        </group>
+                    </group>
+                    <separator name="pagamentos" string="Pagamentos" colspan="4"/>
+                    <field name="fiscal_payment_ids" nolabel="1"/>
+                    <label for="" string="Troco"/>
+                    <field name="amount_change_value"/>
+                    <separator name="financial" string="Financeiro" colspan="4"/>
+                    <field name="financial_ids" nolabel="1" context="{}" force_save="1">
+                        <tree string="Duplicatas" editable="bottom">
+                            <field name="document_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="payment_id" invisible="1"/>
+                            <field name="communication" readonly="1"/>
+                            <field name="date_maturity"/>
+                            <field name="amount" sum="amount"/>
+                        </tree>
+                    </field>
+                </page>
+            </page>
         </field>
     </record>
 
