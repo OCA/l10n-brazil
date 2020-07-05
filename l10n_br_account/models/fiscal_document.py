@@ -126,3 +126,9 @@ class FiscalDocument(models.Model):
         invoices.unlink()
         return super().unlink()
 
+    def _prepare_payment_mixin_inverse_vals(self):
+        vals = super(FiscalDocument, self)._prepare_payment_mixin_inverse_vals()
+        if self.invoice_id:
+            vals['invoice_id'] = self.invoice_id.id
+        return vals
+
