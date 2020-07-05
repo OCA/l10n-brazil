@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_main_menu">
+        <field name="name">Treasury</field>
+        <field name="sequence" eval="39"/>
+        <field name="web_icon">l10n_br_financial,static/description/icon.png</field>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_overview">
+        <field name="name">Overview</field>
+        <field name="sequence" eval="10"/>
+        <field name="action" ref="account.open_account_journal_dashboard_kanban"/>
+        <field name="parent_id" ref="l10n_br_financial_main_menu"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_receivable_menu">
+        <field name="name">Receivables</field>
+        <field name="parent_id" ref="l10n_br_financial_main_menu"/>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_payable_menu">
+        <field name="name">Payables</field>
+        <field name="parent_id" ref="l10n_br_financial_main_menu"/>
+        <field name="sequence" eval="30"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_bank_and_cash_menu">
+        <field name="name">Bank and Cash</field>
+        <field name="parent_id" ref="l10n_br_financial_main_menu"/>
+        <field name="sequence" eval="40"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_bank_menu">
+        <field name="name">Bank</field>
+        <field name="parent_id" ref="l10n_br_financial_bank_and_cash_menu"/>
+        <field name="action" ref="account.action_bank_statement_tree"/>
+        <field name="sequence" eval="10"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_cash_menu">
+        <field name="name">Cash</field>
+        <field name="parent_id" ref="l10n_br_financial_bank_and_cash_menu"/>
+        <field name="action" ref="account.action_view_bank_statement_tree"/>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_reporting">
+        <field name="name">Reporting</field>
+        <field name="parent_id" ref="l10n_br_financial_main_menu"/>
+        <field name="sequence" eval="90"/>
+    </record>
+
+    <record model="ir.ui.menu" id="financial_config_menu">
+        <field name="name">Configuration</field>
+        <field name="parent_id" ref="l10n_br_financial_main_menu"/>
+        <field name="sequence" eval="999"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account.menu_action_account_payments_receivable">
+        <field name="parent_id" ref="l10n_br_financial_receivable_menu"/>
+    </record>
+
+    <record model="ir.ui.menu" id="account.menu_action_account_payments_payable">
+        <field name="parent_id" ref="l10n_br_financial_payable_menu"/>
+    </record>
+
+
+</odoo>

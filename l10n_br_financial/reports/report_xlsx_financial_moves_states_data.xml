@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2017 KMEE
+    Copyright 2017 KMEE - Luiz Felipe do Divino <luiz.divino@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+        <report
+            id="report_xlsx_financial_moves_states_action"
+            model="report.xlsx.financial.moves.states.wizard"
+            string="Move States"
+            report_type="xlsx"
+            name="l10n_br_financial.move_states"
+            file="Move States"
+            attachment_use="False"
+    />
+
+</odoo>

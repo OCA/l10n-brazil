@@ -116,6 +116,10 @@ class Document(models.Model):
             record.amount_total = sum(
                 line.amount_total for line in record.line_ids)
 
+    @api.depends("amount_total", "fiscal_payment_ids")
+    def _compute_payment_change_value(self):
+        self._abstract_compute_payment_change_value()
+
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
     active = fields.Boolean(
@@ -125,11 +129,11 @@ class Document(models.Model):
 
     fiscal_operation_id = fields.Many2one(
         domain="[('state', '=', 'approved'), "
-               "'|', ('operation_type', '=', operation_type),"
-               " ('operation_type', '=', 'all')]",
+               "'|', ('fiscal_operation_type', '=', fiscal_operation_type),"
+               " ('fiscal_operation_type', '=', 'all')]",
     )
 
-    operation_type = fields.Selection(
+    fiscal_operation_type = fields.Selection(
         related=False,
     )
 
@@ -638,10 +642,10 @@ class Document(models.Model):
                 new = record.copy()
                 new.fiscal_operation_id = (
                     record.fiscal_operation_id.return_fiscal_operation_id)
-                if record.operation_type == 'out':
-                    new.operation_type = 'in'
+                if record.fiscal_operation_type == 'out':
+                    new.fiscal_operation_type = 'in'
                 else:
-                    new.operation_type = 'out'
+                    new.fiscal_operation_type = 'out'
                 new._onchange_fiscal_operation_id()
                 new.line_ids.write({'fiscal_operation_id': new.fiscal_operation_id.id})
 
@@ -654,11 +658,11 @@ class Document(models.Model):
     def action_create_return(self):
         self.ensure_one()
         return_id = self._create_return()
-        if return_id.operation_type == 'out':
-            return_id.operation_type = 'in'
+        if return_id.fiscal_operation_type == 'out':
+            return_id.fiscal_operation_type = 'in'
             action = self.env.ref('l10n_br_fiscal.document_in_action').read()[0]
         else:
-            return_id.operation_type = 'out'
+            return_id.fiscal_operation_type = 'out'
             action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
 
         action['domain'] = literal_eval(action['domain'])

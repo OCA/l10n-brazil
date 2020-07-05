@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="l10n_br_fiscal.fo_venda_venda" model="l10n_br_fiscal.operation.line">
+        <field name="move_template_id" ref="template_receita_venda_fabricadas"/>
+    </record>
+    <record id="l10n_br_fiscal.fo_venda_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="move_template_id" ref="template_receita_revenda_mercadoria"/>
+    </record>
+    <record id="l10n_br_fiscal.fo_venda_servico" model="l10n_br_fiscal.operation.line">
+        <field name="move_template_id" ref="template_receita_venda_serviços"/>
+    </record>
+
+</odoo>

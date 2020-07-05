@@ -42,7 +42,7 @@
         <field name="id" invisible="1"/>
         <field name="currency_id" invisible="1"/>
         <field name="document_electronic" invisible="1"/>
-        <field name="operation_type" invisible="1"/>
+        <field name="fiscal_operation_type" invisible="1"/>
         <field name="document_section" invisible="1"/>
         <header>
             <button name="action_document_confirm" type="object" string="Confirmar"   groups="l10n_br_fiscal.group_user"    states="em_digitacao"     class="btn-primary"/>
@@ -146,7 +146,7 @@
               </group>
             </page>
             <page name="products" string="Products and Services">
-              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_operation_type': operation_type, 'default_fiscal_operation_id': fiscal_operation_id}">
+              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id}">
                 <tree>
                   <field name="product_id"/>
                   <field name="uom_id"/>
@@ -170,8 +170,50 @@
                 </tree>
               </field>
             </page>
-            <page nam="finance" string="Finance">
-            </page>
+              <page name="financeiro" string="Financeiro">
+                  <group>
+                      <field name="show_payment_condition"  invisible="1"/>
+                      <field name="amount_missing_payment_value" invisible="1"/>
+                        <group colspan="4" col="4" name="payment_term">
+                            <field name="payment_condition_id" colspan="4" attrs="{'invisible': [('show_payment_condition', '=', False)], 'required': [('show_payment_condition', '=', True)]}"/>
+                        </group>
+                        <group>
+                            <field name="payment_mode_id" attrs="{'invisible': [('show_payment_condition', '=', True)]}"/>
+                        </group>
+                        <group>
+                            <field name="payment_term_id" attrs="{'invisible': [('show_payment_condition', '=', True)]}"/>
+                        </group>
+                      <group>
+                          <button name="generate_financial" string="Gerar Parcelas" type="object" attrs="{'invisible': ['|', ('payment_term_id', '=', False), ('financial_ids', '=', False)]}"/>
+                      </group>
+                  </group>
+                  <separator name="pagamentos" string="Pagamentos" colspan="4"/>
+                  <field name="fiscal_payment_ids" context="{
+                        'default_amount': amount_missing_payment_value,
+                        'default_date': date,
+                        'default_currency_id': currency_id,
+                        'default_company_id': company_id,
+                        'default_document_id': id,
+                        }" nolabel="1"/>
+                  <label for="" string="Troco"/>
+                  <field name="amount_change_value"/>
+                  <separator name="financial" string="Financeiro" colspan="4"/>
+                  <field name="financial_ids" nolabel="1" context="{
+                            'default_document_id': id,
+                            'default_currency_id': currency_id,
+                            'default_company_id': company_id,
+                            }" force_save="1">
+                      <tree string="Duplicatas" editable="bottom">
+                          <field name="document_id" invisible="1"/>
+                          <field name="currency_id" invisible="1"/>
+                          <field name="company_id" invisible="1"/>
+                          <field name="payment_id" invisible="1"/>
+                          <field name="communication" readonly="1"/>
+                          <field name="date_maturity"/>
+                          <field name="amount" sum="amount"/>
+                      </tree>
+                  </field>
+              </page>
             <page nam="others" string="Others">
                 <group>
                     <field name="operation_name"/>

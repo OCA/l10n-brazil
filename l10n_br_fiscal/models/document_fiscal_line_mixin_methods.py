@@ -143,6 +143,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         # we now read the record fiscal fields except the m2m tax:
         vals = self._convert_to_write(self.read(fields)[0])
 
+        # remove id field to avoid conflicts
+        vals.pop('id', None)
+
         # this will force to create a new fiscal document line:
         vals['fiscal_document_line_id'] = False
 
@@ -316,8 +319,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 taxes |= tax
             self.fiscal_tax_ids = taxes
             self._update_taxes()
-            self.comment_ids = [
-                (6, 0, self.fiscal_operation_line_id.comment_ids.ids)]
+            self.comment_ids |= self.fiscal_operation_line_id.comment_ids
 
         if not self.fiscal_operation_line_id:
             self.cfop_id = False
@@ -748,3 +750,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
         self._onchange_fiscal_operation_id()
+
+    @api.onchange('fiscal_tax_ids')
+    def _onchange_fiscal_tax_ids(self):
+        self._update_taxes()

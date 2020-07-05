@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020 KMEE
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="account_payment_debt_2pay_form">
+        <field name="name">account.payment.debt.2pay.form (in financial)</field>
+        <field name="model">account.payment</field>
+        <field name="mode">primary</field>
+        <field name="priority">9999</field>
+        <field name="inherit_id" ref="l10n_br_financial.account_payment_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]" position="attributes">
+                <attribute name="string">Payable</attribute>
+            </xpath>
+<!--            <field name="payment_ids" position="attributes">-->
+<!--                <attribute name="context">{'default_type': 'payment_item', 'default_amount_document': amount_residual, 'default_partner_id': partner_id, 'default_account_id': account_id, 'default_currency_id': currency_id, 'default_document_type_id': document_type_id, 'tree_view_ref': 'financial.account_payment_payment_one2many_base_tree', 'form_view_ref': 'financial.account_payment_payment_one2many_base_form'}</attribute>-->
+<!--            </field>-->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="account_payment_debt_2pay_tree">
+        <field name="name">account.payment.debt.2pay.tree (in financial)</field>
+        <field name="model">account.payment</field>
+        <field name="mode">primary</field>
+        <field name="priority">9999</field>
+        <field name="inherit_id" ref="l10n_br_financial.account_payment_tree_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree[1]" position="attributes">
+                <attribute name="string">Payables</attribute>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <record model="ir.ui.view" id="account_payment_debt_2pay_search">-->
+<!--        <field name="name">account.payment.debt.2pay.search (in financial)</field>-->
+<!--        <field name="model">account.payment</field>-->
+<!--        <field name="mode">primary</field>-->
+<!--        <field name="priority">9999</field>-->
+<!--        <field name="inherit_id" ref="financial.account_payment_debt_base_search" />-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//search[1]" position="attributes">-->
+<!--                <attribute name="string">Payables</attribute>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record model="ir.actions.act_window" id="l10n_br_financial_2pay_action">
+        <field name="name">Payable</field>
+        <field name="res_model">account.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('payment_type', '=', '2pay')]</field>
+        <field name="context">{'default_payment_type': '2pay', 'default_partner_type': 'supplier'}</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="l10n_br_financial_2pay_action_tree">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="l10n_br_financial.account_payment_debt_2pay_tree"/>
+        <field name="act_window_id" ref="l10n_br_financial_2pay_action"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="l10n_br_financial_2pay_action_form">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="l10n_br_financial.account_payment_debt_2pay_form"/>
+        <field name="act_window_id" ref="l10n_br_financial_2pay_action"/>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_financial_2pay_menu">
+        <field name="name">Payable</field>
+        <field name="parent_id" ref="l10n_br_financial_payable_menu"/>
+        <field name="action" ref="l10n_br_financial_2pay_action"/>
+        <field name="sequence" eval="2"/>
+    </record>
+
+</odoo>

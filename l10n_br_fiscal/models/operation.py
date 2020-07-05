@@ -31,7 +31,7 @@ class Operation(models.Model):
         readonly=True,
         states={'draft': [('readonly', False)]})
 
-    operation_type = fields.Selection(
+    fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
         string='Type',
         required=True,
@@ -60,16 +60,16 @@ class Operation(models.Model):
         string='Return Operation',
         readonly=True,
         states={'draft': [('readonly', False)]},
-        domain="[('operation_type', '!=', operation_type), "
+        domain="[('fiscal_operation_type', '!=', fiscal_operation_type), "
                "('fiscal_type', 'in', {'sale': ['sale_refund'], 'purchase': "
-               "['purchase_refund'], 'other': ['return_in', 'return_out']}.get("
-               "fiscal_type, []))]")
+               "['purchase_refund'], 'other': ['return_in', 'return_out'],"
+               "'return_in': ['return_out'], 'return_out': ['return_in']}.get("
+               "fiscal_type, []))]",
+    )
 
     inverse_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Inverse Operation',
-        domain="[('operation_type', '!=', operation_type), "
-               "('fiscal_type', '!=', fiscal_type)]",
         readonly=True,
         states={'draft': [('readonly', False)]})
 
@@ -163,7 +163,7 @@ class Operation(models.Model):
 
         domain = [
             ('fiscal_operation_id', '=', self.id),
-            ('operation_type', '=', self.operation_type),
+            ('fiscal_operation_type', '=', self.fiscal_operation_type),
             ('state', '=', 'approved'),
         ]
 

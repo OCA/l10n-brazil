@@ -250,6 +250,9 @@ class DocumentWorkflow(models.AbstractModel):
         )
         if to_confirm:
             to_confirm._document_confirm()
+            to_confirm.with_context(
+                action_document_confirm=True
+            ).check_financial()
 
     def _document_send(self):
         self._change_state(SITUACAO_EDOC_AUTORIZADA)

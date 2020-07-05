@@ -1,4 +1,5 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
+# Copyright (C) 2020  Luis Felipe Mileo - KMEE <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, models
@@ -8,33 +9,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
     _name = 'l10n_br_fiscal.document.mixin.methods'
     _description = 'Document Fiscal Mixin Methods'
 
-    @api.model
-    def fields_view_get(
-            self, view_id=None, view_type="form", toolbar=False, submenu=False):
-
-        model_view = super().fields_view_get(
-            view_id, view_type, toolbar, submenu
-        )
-        return model_view  # TO REMOVE
-
-        # if view_type == "form":
-        #     fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_mixin_form")
-        #
-        #     doc = etree.fromstring(model_view.get("arch"))
-        #
-        #     for fiscal_node in doc.xpath("//group[@name='l10n_br_fiscal']"):
-        #         sub_view_node = etree.fromstring(fiscal_view["arch"])
-        #
-        #         from odoo.osv.orm import setup_modifiers
-        #         setup_modifiers(fiscal_node)
-        #         try:
-        #             fiscal_node.getparent().replace(fiscal_node, sub_view_node)
-        #             model_view["arch"] = etree.tostring(doc, encoding="unicode")
-        #         except ValueError:
-        #             return model_view
-        #
-        # return model_view
-
     @api.multi
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
@@ -42,6 +16,9 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
 
         # we now read the record fiscal fields except the m2m tax:
         vals = self._convert_to_write(self.read(fields)[0])
+
+        # remove id field to avoid conflicts
+        vals.pop('id', None)
 
         # this will force to create a new fiscal document line:
         vals['fiscal_document_id'] = False

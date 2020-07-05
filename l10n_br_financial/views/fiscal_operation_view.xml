@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fiscal_operation_form" model="ir.ui.view">
+        <field name="name">fiscal.operation.form</field>
+        <field name="model">l10n_br_fiscal.operation</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_form"/>
+        <field name="arch" type="xml">
+            <group name="account_main" position="after">
+                <group name="financial_main">
+                    <group>
+                        <field name="financial_account_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <record model="ir.actions.act_window" id="l10n_br_fiscal.payment_mode_action">
+        <field name="res_model">account.payment.mode</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_fiscal.payment_term_action">
+        <field name="res_model">account.payment.term</field>
+    </record>
+
+    </data>
+</odoo>

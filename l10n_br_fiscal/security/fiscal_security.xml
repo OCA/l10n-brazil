@@ -23,6 +23,11 @@
         <field name="category_id" ref="base.module_category_hidden"/>
     </record>
 
+    <record id="group_payment_condition" model="res.groups">
+        <field name="name">Payment Condition</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
     <record id="base.user_admin" model="res.users">
         <field name="groups_id" eval="[(4, ref('l10n_br_fiscal.group_manager'), ref('l10n_br_fiscal.group_data_maintenance'))]"/>
     </record>
@@ -60,6 +65,18 @@
         <field name="model_id" ref="model_l10n_br_fiscal_document_line"/>
         <field eval="True" name="global"/>
         <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+    <record model="ir.rule" id="l10n_br_fiscal_payment_term_comp_rule">
+        <field name="name">Fiscal payment term company rule</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_payment_term"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+    <record id="l10n_br_fiscal_payment_mode_company_rule" model="ir.rule">
+      <field name="name">Fiscal Payment mode multi-company rule</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_payment_mode"/>
+      <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'child_of', [user.company_id.id])]</field>
     </record>
 
 </odoo>

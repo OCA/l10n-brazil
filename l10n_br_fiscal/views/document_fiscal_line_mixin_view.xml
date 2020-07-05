@@ -7,15 +7,26 @@
     <field name="arch" type="xml">
       <form>
         <group name="fiscal_fields" invisible="1">
-          <field name="currency_id" invisible="1"/>
-          <field name="operation_type" invisible="1"/>
-          <field name="company_id" invisible="1"/>
-          <field name="partner_id" invisible="1"/>
-          <field name="partner_company_type" invisible="1"/>
-          <field name="tax_framework" invisible="1"/>
-          <field name="fiscal_genre_code" invisible="1"/>
-          <field name="amount_tax_not_included" invisible="1"/>
-          <field name="cfop_destination" invisible="1"/>
+          <field name="currency_id" force_save="1" invisible="1"/>
+          <field name="fiscal_operation_type" force_save="1" invisible="1"/>
+          <field name="company_id" force_save="1" invisible="1"/>
+          <field name="partner_id" force_save="1" invisible="1"/>
+          <field name="fiscal_type" force_save="1" invisible="1"/>
+          <field name="partner_company_type" force_save="1" invisible="1"/>
+          <field name="tax_framework" force_save="1" invisible="1"/>
+          <field name="amount_tax_not_included" force_save="1" invisible="1"/>
+          <field name="cfop_destination" force_save="1" invisible="1"/>
+          <field name="fiscal_genre_id" force_save="1" invisible="1"/>
+          <field name="fiscal_genre_code" force_save="1" invisible="1"/>
+          <field name="ncm_id" force_save="1" invisible="1"/>
+          <field name="nbm_id" force_save="1" invisible="1"/>
+          <field name="cest_id" force_save="1" invisible="1"/>
+          <field name="nbs_id" force_save="1" invisible="1"/>
+          <field name="service_type_id" force_save="1" invisible="1"/>
+          <field name="uot_id" force_save="1" invisible="1"/>
+          <field name="fiscal_price" force_save="1" invisible="1"/>
+          <field name="fiscal_quantity" force_save="1" invisible="1"/>
+          <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
         </group>
         <notebook>
           <page name="fiscal_taxes" string="Taxes">
@@ -138,11 +149,11 @@
                     <field name="pis_tax_id"/>
                     <field name="pis_cst_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
                     <field name="pis_cst_code" readonly="1" invisible="1"/>
-                    <field name="pis_credit_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                    <field name="pis_credit_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                   </group>
                   <group>
                     <group>
-                      <field name="pis_base_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                      <field name="pis_base_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                       <field name="pis_base_type" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
                       <field name="pis_percent" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
                       <field name="pis_reduction" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
@@ -187,11 +198,11 @@
                   <field name="cofins_tax_id"/>
                   <field name="cofins_cst_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
                   <field name="cofins_cst_code" readonly="1" invisible="1"/>
-                  <field name="cofins_credit_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                  <field name="cofins_credit_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                 </group>
                 <group>
                   <group>
-                    <field name="cofins_base_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                    <field name="cofins_base_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                     <field name="cofins_base_type" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
                     <field name="cofins_percent" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
                     <field name="cofins_reduction" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>

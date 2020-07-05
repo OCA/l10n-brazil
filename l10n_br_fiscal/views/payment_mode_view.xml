@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_payment_mode_form_view">
+        <field name="name">l10n_br_fiscal.payment.mode.form (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.payment.mode</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="forma_pagamento"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_payment_mode_search_view">
+        <field name="name">l10n_br_fiscal.payment.mode.search (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.payment.mode</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_fiscal_payment_mode_tree_view">
+        <field name="name">l10n_br_fiscal.payment.mode.tree (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.payment.mode</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="forma_pagamento"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

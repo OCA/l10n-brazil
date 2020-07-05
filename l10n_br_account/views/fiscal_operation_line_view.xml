@@ -7,7 +7,8 @@
         <field name="inherit_id" ref="l10n_br_fiscal.operation_line_form"/>
         <field name="arch" type="xml">
             <field name="ind_ie_dest" position="after">
-                <field name="fiscal_position_id"/>
+                <field name="fiscal_position_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="move_template_id"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
             </field>
         </field>
     </record>

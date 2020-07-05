@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_account_move_template_line_tree_view">
+        <field name="name">l10n_br_account.move.template.line.tree (in l10n_br_account)</field>
+        <field name="model">l10n_br_account.move.template.line</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="template_id" invisible="1"/>
+                <field name="model_id" invisible="1"/>
+                <field name="field_id"/>
+                <field name="account_debit_id"/>
+                <field name="account_credit_id"/>
+                <field name="history_id"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>
