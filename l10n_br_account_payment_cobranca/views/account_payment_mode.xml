@@ -40,8 +40,10 @@
                         <field name="boleto_dias_protesto"/>
                         <field name="boleto_byte_idt" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
                         <field name="boleto_posto" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
+                        <field name="boleto_cod_mora"/>
                         <field name="boleto_perc_mora"/>
                         <field name="instrucao_boleto_perc_mora"/>
+                        <field name="boleto_cod_multa"/>
                         <field name="boleto_perc_multa"/>
                         <field name="instrucao_boleto_perc_multa"/>
                     </group>

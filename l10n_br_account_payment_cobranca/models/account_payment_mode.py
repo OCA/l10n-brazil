@@ -143,6 +143,12 @@ class PaymentMode(models.Model):
              ' empresa ',
     )
 
+    boleto_cod_mora = fields.Char(
+        size=1,
+        string='Código da Mora',
+        help='Código adotado pela FEBRABAN para identificação'
+             ' do tipo de pagamento de mora de juros.',
+    )
     boleto_perc_mora = fields.Float(
         string='Percentual de Juros de Mora',
         digits=dp.get_precision('Account')
@@ -156,6 +162,12 @@ class PaymentMode(models.Model):
     boleto_perc_multa = fields.Float(
         string='Percentual de Multa',
         digits=dp.get_precision('Account')
+    )
+    boleto_cod_multa = fields.Char(
+        size=1,
+        string='Código da Multa',
+        help='Código adotado pela FEBRABAN para identificação'
+             ' do tipo de pagamento de multa.',
     )
     instrucao_boleto_perc_multa = fields.Text(
         'Instrução Multa por Atraso',
