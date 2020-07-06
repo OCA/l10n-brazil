@@ -70,7 +70,13 @@ class PaymentMode(models.Model):
         string="Espécie do Título",
         default="01",
     )
-    boleto_protesto = fields.Char(
+    boleto_cod_protesto = fields.Char(
+        # Na configuração ou implementação de outros campos é
+        # melhor seguir a idéia abaixo pois os campos não são usados com
+        # frequencia e incluir um campo do tipo Char permitindo que seja
+        # informado o valor de acordo com a configuração do Boleto ao
+        # invês de diversos campos do Tipo Select para cada Banco parece
+        # ser melhor.
         # [ Deixado manualmente, pois cada banco parece ter sua tabela.
         # ('0', u'Sem instrução'),
         # ('1', u'Protestar (Dias Corridos)'),
@@ -79,10 +85,16 @@ class PaymentMode(models.Model):
         # ('7', u'Negativar (Dias Corridos)'),
         # ('8', u'Não Negativar')
         # ]
-        string="Códigos de Protesto",
+        string="Código de Protesto",
+        help='Código adotado pela FEBRABAN para identificar o tipo'
+             ' de prazo a ser considerado para o protesto.',
         default="0",
     )
-    boleto_protesto_prazo = fields.Char("Prazo protesto", size=2)
+    boleto_dias_protesto = fields.Char(
+        string="Número de Dias para Protesto", size=2,
+        help='Número de dias decorrentes após a data de vencimento'
+             ' para inicialização do processo de cobrança via protesto.'
+    )
     gera_nosso_numero = fields.Boolean(
         string="Gerar nosso número?",
         help="Dependendo da carteira, banco, etc. "

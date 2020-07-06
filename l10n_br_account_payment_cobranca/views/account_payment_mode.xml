@@ -35,8 +35,8 @@
                         <field name="boleto_cnab_code"/>
                         <field name="boleto_aceite"/>
                         <field name="boleto_especie"/>
-                        <field name="boleto_protesto"/>
-                        <field name="boleto_protesto_prazo"/>
+                        <field name="boleto_cod_protesto"/>
+                        <field name="boleto_dias_protesto"/>
                         <field name="boleto_byte_idt" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
                         <field name="boleto_posto" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
                     </group>
