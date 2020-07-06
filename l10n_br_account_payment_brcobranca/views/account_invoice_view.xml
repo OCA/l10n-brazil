@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
             <button name="action_invoice_draft" position="after">
-                <button name="view_boleto_pdf" type="object" string="Imprimir Boleto" class="btn-primary"/>
+                <button name="view_boleto_pdf" type="object" string="Imprimir Boleto" class="btn-primary" states="open"/>
             </button>
         </field>
     </record>
