@@ -33,9 +33,9 @@ class AccountInvoice(models.Model):
         boleto_list = receivable_ids.send_payment()
         if not boleto_list:
             raise UserError(
-                'Error !', ('Não é possível gerar os boletos\n'
-                            'Certifique-se que a fatura esteja confirmada e o '
-                            'forma de pagamento seja duplicatas'))
+                ('Não é possível gerar os boletos\n'
+                 'Certifique-se que a fatura esteja confirmada e o '
+                 'forma de pagamento seja duplicatas'))
 
         boletos = [b.boleto_cnab_api_data for b in boleto_list]
 
