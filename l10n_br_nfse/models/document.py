@@ -88,8 +88,9 @@ class Document(models.Model):
             if company.provedor_nfse == 'ginfes':
                 if values.get('document_serie_id') and \
                         not values.get('rps_number'):
-                    values['rps_number'] = self._create_serie_number(
-                        values.get('document_serie_id'), values['date'])
+                    serie_id = self.document_serie_id.browse(
+                        values['document_serie_id'])
+                    values['rps_number'] = serie_id.next_seq_number()
                 values['number'] = 'SN'
         return super(Document, self).create(values)
 
