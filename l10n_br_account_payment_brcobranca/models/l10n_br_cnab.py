@@ -157,6 +157,21 @@ DICT_OCORRENCIAS_ITAU = {
     '93': u'TARIFA MENSAL DE EXCLUSÃO DE NEGATIVAÇÃO EXPRESSA POR LIQUIDAÇÃO',
 }
 
+DICT_OCORRENCIAS_UNICRED = {
+    '01': '01 - Pago (Título protestado pago em cartório)',
+    '02': '02 - Instrução Confirmada*',
+    '03': '03 - Instrução Rejeitada*',
+    '04': '04 - Sustado Judicial (Título protestado sustado judicialmente)',
+    '06': '06 - Liquidação Normal *',
+    '07': '07 - Liquidação em Condicional (Título liquidado em cartório com'
+          ' cheque do próprio devedor)',
+    '08': '08 - Sustado Definitivo (Título protestado sustado judicialmente)',
+    '09': '09 - Liquidação de Título Descontado',
+    '10': '10 - Protesto solicitado',
+    '11': '11 - Protesto Em cartório',
+    '12': '12 - Sustação solicitada'
+}
+
 
 class L10nBrHrCnab(models.Model):
     _inherit = "l10n_br.cnab"
@@ -263,6 +278,9 @@ class L10nBrHrCnab(models.Model):
                        dict_line['codigo_ocorrencia']].encode('utf-8')
             if self.bank == 'itau':
                 descricao_ocorrencia = DICT_OCORRENCIAS_ITAU[
+                       dict_line['codigo_ocorrencia']].encode('utf-8')
+            if self.bank == 'unicred':
+                descricao_ocorrencia = DICT_OCORRENCIAS_UNICRED[
                        dict_line['codigo_ocorrencia']].encode('utf-8')
 
             if not account_move_line:
