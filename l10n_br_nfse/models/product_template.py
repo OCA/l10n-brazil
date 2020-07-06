@@ -12,5 +12,5 @@ class ProductTemplate(models.Model):
     )
     city_taxation_code_id = fields.Many2many(
         string='City Taxation Code',
-        comodel_name='city.taxation.code'
+        comodel_name='l10n_br_fiscal.city.taxation.code'
     )
