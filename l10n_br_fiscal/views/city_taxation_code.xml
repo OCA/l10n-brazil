@@ -6,7 +6,7 @@
 
     <record model="ir.ui.view" id="city_taxation_code_form_view">
         <field name="name">city.taxation.code.form (in l10n_br_fiscal)</field>
-        <field name="model">city.taxation.code</field>
+        <field name="model">l10n_br_fiscal.city.taxation.code</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -28,7 +28,7 @@
 
     <record model="ir.ui.view" id="city_taxation_code_search_view">
         <field name="name">city.taxation.code.search (in l10n_br_fiscal)</field>
-        <field name="model">city.taxation.code</field>
+        <field name="model">l10n_br_fiscal.city.taxation.code</field>
         <field name="arch" type="xml">
             <search>
                 <field name="code" />
@@ -42,7 +42,7 @@
 
     <record model="ir.ui.view" id="city_taxation_code_tree_view">
         <field name="name">city.taxation.code.tree (in l10n_br_fiscal)</field>
-        <field name="model">city.taxation.code</field>
+        <field name="model">l10n_br_fiscal.city.taxation.code</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="code" />
@@ -56,7 +56,7 @@
 
     <record model="ir.actions.act_window" id="city_taxation_code_act_window">
         <field name="name">City Taxation Code</field>
-        <field name="res_model">city.taxation.code</field>
+        <field name="res_model">l10n_br_fiscal.city.taxation.code</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
