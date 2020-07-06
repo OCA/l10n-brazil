@@ -78,61 +78,6 @@ class AccountMoveLine(models.Model):
             precision = self.env['decimal.precision']
             precision_account = precision.precision_get('Account')
 
-            instrucao_juros = ""
-            instrucao_juros_tmp = "APÓS VENCIMENTO COBRAR PERCENTUAL"
-            if move_line.payment_mode_id.instrucao_boleto_perc_mora:
-                instrucao_juros_tmp = \
-                    move_line.payment_mode_id.instrucao_boleto_perc_mora
-            if move_line.payment_mode_id.boleto_perc_mora:
-                valor_juros = round(
-                    move_line.debit *
-                    ((move_line.payment_mode_id.boleto_perc_mora / 100)
-                     / 30), precision_account)
-                instrucao_juros = (
-                    instrucao_juros_tmp +
-                    " DE %s %% AO MÊS ( R$ %s AO DIA )"
-                    % (('%.2f' %
-                        move_line.payment_mode_id.boleto_perc_mora
-                        ).replace('.', ','),
-                       ('%.2f' % valor_juros).replace('.', ',')))
-
-            instrucao_multa = ''
-            instrucao_multa_tmp = "APÓS VENCIMENTO COBRAR MULTA"
-            if move_line.payment_mode_id.instrucao_boleto_perc_multa:
-                instrucao_multa_tmp = \
-                    move_line.payment_mode_id.instrucao_boleto_perc_multa
-            if move_line.payment_mode_id.boleto_perc_mora:
-                valor_multa = round(move_line.debit * (
-                    (move_line.payment_mode_id.boleto_perc_multa / 100)
-                ), precision_account)
-                instrucao_multa = (
-                    instrucao_multa_tmp +
-                    " DE %s %% ( R$ %s )" %
-                    (('%.2f' % move_line.payment_mode_id.boleto_perc_multa
-                      ).replace('.', ','),
-                     ('%.2f' % valor_multa).replace('.', ',')))
-
-            instrucao_desconto_vencimento = ''
-            instrucao_desconto_vencimento_tmp =\
-                'CONCEDER ABATIMENTO PERCENTUAL DE'
-            if move_line.payment_term_id.instrucao_discount_perc:
-                instrucao_desconto_vencimento_tmp =\
-                    move_line.payment_term_id.instrucao_discount_perc
-            if move_line.payment_term_id.discount_perc:
-                valor_desconto = round(
-                    move_line.debit * (
-                        move_line.payment_term_id.discount_perc / 100),
-                    precision_account)
-                instrucao_desconto_vencimento = (
-                    instrucao_desconto_vencimento_tmp + ' %s %% '
-                    'ATÉ O VENCIMENTO EM %s ( R$ %s )'
-                    % (('%.2f' % move_line.payment_term_id.discount_perc
-                        ).replace('.', ','),
-                       datetime.strptime(
-                           move_line.date_maturity,
-                           '%Y-%m-%d').strftime('%d/%m/%Y'),
-                       ('%.2f' % valor_desconto).replace('.', ',')
-                       ))
             boleto_cnab_api_data = {
                   'bank': bank_name_brcobranca[0],
                   'valor': str("%.2f" % move_line.debit),
@@ -169,10 +114,77 @@ class AccountMoveLine(models.Model):
                   'data_processamento':
                       move_line.invoice_id.date_invoice.strftime('%Y/%m/%d'),
                   'instrucao1': move_line.payment_mode_id.instrucoes or '',
-                  'instrucao3': instrucao_juros,
-                  'instrucao4': instrucao_multa,
-                  'instrucao5': instrucao_desconto_vencimento,
             }
+
+            # Instrução de Juros
+            if move_line.payment_mode_id.boleto_perc_mora:
+                instrucao_juros = ""
+                instrucao_juros_tmp = "APÓS VENCIMENTO COBRAR PERCENTUAL"
+                if move_line.payment_mode_id.instrucao_boleto_perc_mora:
+                    instrucao_juros_tmp = \
+                        move_line.payment_mode_id.instrucao_boleto_perc_mora
+
+                valor_juros = round(
+                    move_line.debit *
+                    ((move_line.payment_mode_id.boleto_perc_mora / 100)
+                     / 30), precision_account)
+                instrucao_juros = (
+                    instrucao_juros_tmp +
+                    " DE %s %% AO MÊS ( R$ %s AO DIA )"
+                    % (('%.2f' %
+                        move_line.payment_mode_id.boleto_perc_mora
+                        ).replace('.', ','),
+                       ('%.2f' % valor_juros).replace('.', ',')))
+                boleto_cnab_api_data.update({
+                    'instrucao3': instrucao_juros,
+                })
+
+            # Instrução Multa
+            if move_line.payment_mode_id.boleto_perc_mora:
+                instrucao_multa = ''
+                instrucao_multa_tmp = "APÓS VENCIMENTO COBRAR MULTA"
+                if move_line.payment_mode_id.instrucao_boleto_perc_multa:
+                    instrucao_multa_tmp = \
+                        move_line.payment_mode_id.instrucao_boleto_perc_multa
+
+                valor_multa = round(move_line.debit * (
+                    (move_line.payment_mode_id.boleto_perc_multa / 100)
+                ), precision_account)
+                instrucao_multa = (
+                    instrucao_multa_tmp +
+                    " DE %s %% ( R$ %s )" %
+                    (('%.2f' % move_line.payment_mode_id.boleto_perc_multa
+                      ).replace('.', ','),
+                     ('%.2f' % valor_multa).replace('.', ',')))
+                boleto_cnab_api_data.update({
+                    'instrucao4': instrucao_multa,
+                })
+
+            # Instrução Desconto
+            if move_line.payment_term_id.discount_perc:
+                instrucao_desconto_vencimento = ''
+                instrucao_desconto_vencimento_tmp = \
+                    'CONCEDER ABATIMENTO PERCENTUAL DE'
+                if move_line.payment_term_id.instrucao_discount_perc:
+                    instrucao_desconto_vencimento_tmp = \
+                        move_line.payment_term_id.instrucao_discount_per
+                valor_desconto = round(
+                    move_line.debit * (
+                        move_line.payment_term_id.discount_perc / 100),
+                    precision_account)
+                instrucao_desconto_vencimento = (
+                    instrucao_desconto_vencimento_tmp + ' %s %% '
+                    'ATÉ O VENCIMENTO EM %s ( R$ %s )'
+                    % (('%.2f' % move_line.payment_term_id.discount_perc
+                        ).replace('.', ','),
+                       datetime.strptime(
+                           move_line.date_maturity,
+                           '%Y-%m-%d').strftime('%d/%m/%Y'),
+                       ('%.2f' % valor_desconto).replace('.', ',')
+                       ))
+                boleto_cnab_api_data.update({
+                    'instrucao4': instrucao_desconto_vencimento,
+                })
 
             if bank_account.bank_id.code_bc in ('021', '004'):
                 boleto_cnab_api_data.update({
