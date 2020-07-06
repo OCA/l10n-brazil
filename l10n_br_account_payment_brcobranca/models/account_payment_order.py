@@ -118,63 +118,64 @@ class PaymentOrder(models.Model):
                 # 11 - Sustar Protesto e Manter em Carteira
                 # 25 - Sustar Protesto e Baixar Título
                 # 26 – Protesto automático
-                # 31 - Alteração de outros da
+                # 31 - Alteração de outros dados (Alteração de dados do pagador)
+                # 40 - Alteração de Carteira
                 linhas_pagamentos['identificacao_ocorrencia'] = '01'
+                linhas_pagamentos['codigo_protesto'] = \
+                    line.move_line_id.payment_mode_id.boleto_cod_protesto or '3'
+                linhas_pagamentos['dias_protesto'] = \
+                    line.move_line_id.payment_mode_id.boleto_dias_protesto
 
-            if line.move_line_id.payment_mode_id.boleto_perc_mora:
-                if bank_name_brcobranca[0] == 'bradesco':
-                    linhas_pagamentos['codigo_multa'] = '2'
+                # Código adotado pela FEBRABAN para identificação
+                # do tipo de pagamento de multa.
+                # Domínio:
+                # ‘1’ = Valor Fixo (R$)
+                # ‘2’ = Taxa (%)
+                # ‘3’ = Isento
+                # Isento de Multa caso não exista percentual
+                linhas_pagamentos['codigo_multa'] = '3'
+
+                # Código adotado pela FEBRABAN para identificação do tipo de
+                # pagamento de mora de juros.
+                # Domínio:
+                # ‘1’ = Valor Diário (R$)
+                # ‘2’ = Taxa Mensal (%)
+                # ‘3’= Valor Mensal (R$) *
+                # ‘4’ = Taxa diária (%)
+                # ‘5’ = Isento
+                # *OBSERVAÇÃO:
+                # ‘3’ - Valor Mensal (R$): a CIP não acata valor mensal,
+                # segundo manual. Cógido mantido
+                # para Correspondentes que ainda utilizam.
+                # Isento de Mora caso não exista percentual
+                linhas_pagamentos['tipo_mora'] = '5'
+
+                # TODO
+                # Código adotado pela FEBRABAN para identificação do desconto.
+                # Domínio:
+                # 0 = Isento
+                # 1 = Valor Fixo
+                linhas_pagamentos['cod_desconto'] = '0'
+
+            if line.move_line_id.payment_mode_id.boleto_perc_multa:
+                if bank_name_brcobranca[0] in ('bradesco', 'unicred'):
+                    linhas_pagamentos['codigo_multa'] = \
+                        line.move_line_id.payment_mode_id.boleto_cod_multa
                     linhas_pagamentos['percentual_multa'] = \
-                        line.move_line_id.payment_mode_id.boleto_perc_mora
-                if bank_name_brcobranca[0] == 'unicred':
-                    # TODO
-                    # Código adotado pela FEBRABAN para identificação
-                    # do tipo de pagamento de multa.
-                    # Domínio:
-                    # ‘1’ = Valor Fixo (R$)
-                    # ‘2’ = Taxa (%)
-                    # ‘3’ = Isento
-                    linhas_pagamentos['codigo_multa'] = '2'
-                    linhas_pagamentos['percentual_multa'] = \
-                        line.move_line_id.payment_mode_id.boleto_perc_mora
-                    # TODO
-                    # Código para Protesto*
-                    # Código adotado pela FEBRABAN para identificar o tipo de prazo a ser considerado para o
-                    # protesto.
-                    # Domínio:
-                    # 1 = Protestar Dias Corridos
-                    # 2 = Protestar Dias Úteis
-                    # 3 = Não Protestar
-                    # OBS.: a) Na remessa de títulos - Identificação da Ocorrência igual a ‘01’ - Remessa:
-                    # Qualquer caracter diferente de ‘1’, ‘2’ ou ‘3’ será considerado igual a ‘3’.
-                    # 158 a 158
-                    # b) Na instrução de Protesto Automático - Identificação da Ocorrência ‘26’ -
-                    # Protesto automático:
-                    # Qualquer caracter diferente de ‘1’, ‘2’ ou ‘3’, a instrução será rejeitada.
-                    linhas_pagamentos['codigo_protesto'] = 3
+                        line.move_line_id.payment_mode_id.boleto_perc_multa
 
             precision = self.env['decimal.precision']
             precision_account = precision.precision_get('Account')
-            if line.move_line_id.payment_mode_id.cnab_percent_interest:
+            if line.move_line_id.payment_mode_id.boleto_perc_mora:
                 linhas_pagamentos['valor_mora'] = round(
                     line.move_line_id.debit *
-                    ((line.move_line_id.payment_mode_id.cnab_percent_interest / 100)
+                    ((line.move_line_id.payment_mode_id.boleto_perc_mora / 100)
                      / 30), precision_account)
                 if bank_name_brcobranca[0] == 'unicred':
-                    # TODO
-                    # Código adotado pela FEBRABAN para identificação do tipo de
-                    # pagamento de mora de juros.
-                    # Domínio:
-                    # ‘1’ = Valor Diário (R$)
-                    # ‘2’ = Taxa Mensal (%)
-                    # ‘3’= Valor Mensal (R$) *
-                    # ‘4’ = Taxa diária (%)
-                    # ‘5’ = Isento
-                    # *OBSERVAÇÃO:
-                    # ‘3’ - Valor Mensal (R$): a CIP não acata valor mensal,
-                    # segundo manual. Cógido mantido
-                    # para Correspondentes que ainda utilizam.
-                    linhas_pagamentos['tipo_mora'] = '1'
+                    linhas_pagamentos['tipo_mora'] =\
+                        line.move_line_id.payment_mode_id.boleto_cod_mora
+
+            # TODO - Definir como sera implementado a configuração do Desconto
             if line.move_line_id.payment_term_id.discount_perc:
                 linhas_pagamentos['data_desconto'] =\
                     line.move_line_id.date_maturity.strftime('%Y/%m/%d')
@@ -183,11 +184,6 @@ class PaymentOrder(models.Model):
                             line.move_line_id.payment_term_id.discount_perc / 100),
                     precision_account)
                 if bank_name_brcobranca[0] == 'unicred':
-                    # TODO
-                    # Código adotado pela FEBRABAN para identificação do desconto.
-                    # Domínio:
-                    # 0 = Isento
-                    # 1 = Valor Fixo
                     linhas_pagamentos['cod_desconto'] = 1
 
             pagamentos.append(linhas_pagamentos)
@@ -212,9 +208,8 @@ class PaymentOrder(models.Model):
 
         # Field used in Sicredi/Unicred and Sicoob Banks
         if bank_account.bank_id.code_bc == '748':
-            # TODO - Verificar no manual de onde vem o campo e tirar o hardcode
             remessa_values.update({
-                'codigo_transmissao': '01234567890123456789',
+                'codigo_transmissao': int(self.payment_mode_id.codigo_convenio),
             })
         # Field used in Unicred Bank
         if bank_account.bank_id.code_bc == '136':
