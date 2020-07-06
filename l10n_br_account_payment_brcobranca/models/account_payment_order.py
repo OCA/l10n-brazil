@@ -124,7 +124,7 @@ class PaymentOrder(models.Model):
                 linhas_pagamentos['codigo_protesto'] = \
                     line.move_line_id.payment_mode_id.boleto_cod_protesto or '3'
                 linhas_pagamentos['dias_protesto'] = \
-                    line.move_line_id.payment_mode_id.boleto_dias_protesto
+                    line.move_line_id.payment_mode_id.boleto_dias_protesto or '0'
 
                 # Código adotado pela FEBRABAN para identificação
                 # do tipo de pagamento de multa.
