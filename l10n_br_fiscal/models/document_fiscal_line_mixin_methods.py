@@ -319,7 +319,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 taxes |= tax
             self.fiscal_tax_ids = taxes
             self._update_taxes()
-            self.comment_ids |= self.fiscal_operation_line_id.comment_ids
+            self.comment_ids = self.fiscal_operation_line_id.comment_ids
 
         if not self.fiscal_operation_line_id:
             self.cfop_id = False
@@ -332,7 +332,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.uom_id = self.product_id.uom_id
             self.ncm_id = self.product_id.ncm_id
             self.nbm_id = self.product_id.nbm_id
-            self.tax_icms_or_issqn = self.tax_icms_or_issqn
+            self.tax_icms_or_issqn = self.product_id.tax_icms_or_issqn
             self.cest_id = self.product_id.cest_id
             self.nbs_id = self.product_id.nbs_id
             self.fiscal_genre_id = self.product_id.fiscal_genre_id
