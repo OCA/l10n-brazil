@@ -86,7 +86,7 @@ class AccountInvoice(models.Model):
     @api.model
     def create(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        invoice = super(AccountInvoice, self).create(values)
+        invoice = super().create(values)
         if invoice.fiscal_document_id != dummy_doc:
             shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
             invoice.fiscal_document_id.write(shadowed_fiscal_vals)
@@ -95,7 +95,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def write(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        result = super(AccountInvoice, self).write(values)
+        result = super().write(values)
         for invoice in self:
             if invoice.fiscal_document_id != dummy_doc:
                 shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
