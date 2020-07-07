@@ -562,12 +562,124 @@ class Document(models.Model):
         default=False,
     )
 
+    def _prepare_address_fields(self, company_id, partner_id):
+        result = {}
+        if company_id:
+            company = self.env['res.company'].browse(company_id)
+            result.update(self._prepare_company_vals(company))
+
+        if partner_id:
+            partner = self.env['res.partner'].browse(partner_id)
+            result.update(self._prepare_partner_vals(partner))
+        return result
+
+    def _prepare_company_vals(self, company=None):
+        values = {}
+        company = company or self.company_id
+        if self.company_id:
+            values.update({
+                'company_legal_name': company.legal_name,
+                'company_name': company.name,
+                'company_cnpj_cpf': company.cnpj_cpf,
+                'company_inscr_est': company.inscr_est,
+                'company_inscr_mun': company.inscr_mun,
+                'company_suframa': company.suframa,
+                'company_cnae_main_id': company.cnae_main_id.id,
+                'company_tax_framework': company.tax_framework,
+            })
+        return values
+
+    def _prepare_partner_vals(self, partner=None):
+        values = {}
+        partner = partner or self.partner_id
+        if partner:
+            values.update({
+                'partner_legal_name': partner.legal_name,
+                'partner_name': partner.name,
+                'partner_cnpj_cpf': partner.cnpj_cpf,
+                'partner_inscr_est': partner.inscr_est,
+                'partner_inscr_mun': partner.inscr_mun,
+                'partner_suframa': partner.suframa,
+                'partner_cnae_main_id': partner.cnae_main_id.id,
+                'partner_tax_framework': partner.tax_framework,
+            })
+        return values
+
+    def _document_comment_vals(self):
+        return {
+            'user': self.env.user,
+            'ctx': self._context,
+            'doc': self,
+        }
+
+    def document_comment(self):
+        for record in self:
+            record.additional_data = \
+                record.additional_data and record.additional_data + ' - ' or ''
+            record.additional_data += record.comment_ids.compute_message(
+                record._document_comment_vals())
+            record.line_ids.document_comment()
+
+    @api.multi
+    @api.constrains('number')
+    def _check_number(self):
+        for record in self:
+            if not record.number:
+                return
+            domain = [
+                ('id', '!=', record.id),
+                ('active', '=', True),
+                ('company_id', '=', record.company_id.id),
+                ('issuer', '=', record.issuer),
+                ('document_type_id', '=', record.document_type_id.id),
+                ('document_serie', '=', record.document_serie),
+                ('number', '=', record.number)]
+
+            if not record.issuer == DOCUMENT_ISSUER_PARTNER:
+                domain.append(('partner_id', '=', record.partner_id.id))
+
+            if record.env["l10n_br_fiscal.document"].search(domain):
+                raise ValidationError(_(
+                    "There is already a fiscal document with this "
+                    "Serie: {0}, Number: {1} !".format(
+                        record.document_serie, record.number)))
+
     @api.multi
     def name_get(self):
         return [(r.id, '{0} - Série: {1} - Número: {2}'.format(
             r.document_type_id.name,
             r.document_serie,
             r.number)) for r in self]
+
+    @api.model
+    def create(self, values):
+        if not values.get('date'):
+            values['date'] = self._date_server_format()
+
+        if 'company_id' or 'partner_id' in values:
+            values.update(self._prepare_address_fields(
+                company_id=values.get('company_id'),
+                partner_id=values.get('partner_id')
+            ))
+        return super().create(values)
+
+    @api.multi
+    def write(self, values):
+        for fdoc in self:
+            if 'company_id' or 'partner_id' in values:
+                values.update(fdoc._prepare_address_fields(
+                    company_id=values.get('company_id'),
+                    partner_id=values.get('partner_id')
+                ))
+        return super().write(values)
+
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        self.update(self._prepare_company_vals())
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        self.update(self._prepare_partner_vals())
 
     @api.multi
     @api.onchange('document_section')
@@ -600,36 +712,6 @@ class Document(models.Model):
                     ])[0]
 
             return {'domain': domain}
-
-    @api.multi
-    @api.constrains('number')
-    def _check_number(self):
-        for record in self:
-            if not record.number:
-                return
-            domain = [
-                ('id', '!=', record.id),
-                ('active', '=', True),
-                ('company_id', '=', record.company_id.id),
-                ('issuer', '=', record.issuer),
-                ('document_type_id', '=', record.document_type_id.id),
-                ('document_serie', '=', record.document_serie),
-                ('number', '=', record.number)]
-
-            if not record.issuer == DOCUMENT_ISSUER_PARTNER:
-                domain.append(('partner_id', '=', record.partner_id.id))
-
-            if record.env["l10n_br_fiscal.document"].search(domain):
-                raise ValidationError(_(
-                    "There is already a fiscal document with this "
-                    "Serie: {0}, Number: {1} !".format(
-                        record.document_serie, record.number)))
-
-    @api.model
-    def create(self, values):
-        if not values.get('date'):
-            values['date'] = self._date_server_format()
-        return super().create(values)
 
     def _create_return(self):
         return_ids = self.env[self._name]
@@ -664,21 +746,6 @@ class Document(models.Model):
         action['domain'] = literal_eval(action['domain'])
         action['domain'].append(('id', '=', return_id.id))
         return action
-
-    def _document_comment_vals(self):
-        return {
-            'user': self.env.user,
-            'ctx': self._context,
-            'doc': self,
-        }
-
-    def document_comment(self):
-        for record in self:
-            record.additional_data = \
-                record.additional_data and record.additional_data + ' - ' or ''
-            record.additional_data += record.comment_ids.compute_message(
-                record._document_comment_vals())
-            record.line_ids.document_comment()
 
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
         super(Document, self)._exec_after_SITUACAO_EDOC_A_ENVIAR(
