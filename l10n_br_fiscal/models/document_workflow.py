@@ -236,6 +236,7 @@ class DocumentWorkflow(models.AbstractModel):
             if (nfe.issuer == DOCUMENT_ISSUER_COMPANY
                     and nfe.document_electronic
                     and not nfe.key):
+                nfe.document_serie = nfe.document_serie_id.code
                 nfe.key = nfe._generate_key()
 
     def document_check(self):
