@@ -19,7 +19,7 @@ class Country(models.Model):
 
     siscomex_code = fields.Char(
         string='Siscomex Code',
-        size=4,
+        size=3,
     )
 
     nationality_code = fields.Char(
