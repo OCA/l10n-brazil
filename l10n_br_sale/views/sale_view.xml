@@ -83,6 +83,14 @@
             </xpath>
             <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="replace"/>
             <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace"/>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+                <label for="fiscal_quantity" string="Fiscal Quantity"/>
+                <div>
+                    <field context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}" name="fiscal_quantity" class="oe_inline"/>
+                    <field name="uot_id" force_save="1" groups="uom.group_uom" class="oe_inline oe_no_button" attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)],}"/>
+                </div>
+                <field name="fiscal_price"/>
+            </xpath>
             <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
                 <notebook>
                   <page name="fiscal_taxes" string="Taxes"/>
