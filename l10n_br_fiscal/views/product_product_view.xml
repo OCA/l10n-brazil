@@ -43,6 +43,7 @@
                             <field name="icms_origin" attrs="{'required': [('fiscal_type', '!=', '09')], 'invisible': [('fiscal_type', '=', '09')]}"/>
                             <field name="ncm_id" required="1"/>
                             <field name="service_type_id" attrs="{'invisible': [('fiscal_type', '!=', '09')]}"/>
+                            <field name="tax_icms_or_issqn"/>
                         </group>
                         <group>
                             <field name="fiscal_genre_id" required="1"/>
