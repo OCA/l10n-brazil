@@ -12,19 +12,6 @@ class TaxDefinitionICMS(models.Model):
         comodel_name='l10n_br_fiscal.icms.regulation',
         string='ICMS Regulation')
 
-    state_from_id = fields.Many2one(
-        comodel_name='res.country.state',
-        string='From State',
-        domain=[('country_id.code', '=', 'BR')])
-
-    state_to_ids = fields.Many2many(
-        comodel_name='res.country.state',
-        relation='tax_definition_state_to_rel',
-        colunm1='tax_definition_id',
-        colunm2='state_id',
-        string='To States',
-        domain=[('country_id.code', '=', 'BR')])
-
     @api.multi
     @api.constrains('icms_regulation_id', 'state_from_id')
     def _check_icms(self):
