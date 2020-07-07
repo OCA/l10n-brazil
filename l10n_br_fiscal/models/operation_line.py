@@ -235,9 +235,9 @@ class OperationLine(models.Model):
                 mapping_result['taxes'][tax.tax_domain] = tax
 
         if product.tax_icms_or_issqn == TAX_DOMAIN_ICMS:
-            mapping_result['taxes'].pop(TAX_DOMAIN_ICMS, None)
-        elif product.tax_icms_or_issqn == TAX_DOMAIN_ISSQN:
             mapping_result['taxes'].pop(TAX_DOMAIN_ISSQN, None)
+        elif product.tax_icms_or_issqn == TAX_DOMAIN_ISSQN:
+            mapping_result['taxes'].pop(TAX_DOMAIN_ICMS, None)
         else:
             mapping_result['taxes'].pop(TAX_DOMAIN_ICMS, None)
             mapping_result['taxes'].pop(TAX_DOMAIN_ISSQN, None)
