@@ -117,8 +117,7 @@ class AccountMoveLine(models.Model):
             }
 
             # Instrução de Juros
-            if move_line.payment_mode_id.boleto_perc_mora:
-                instrucao_juros = ""
+            if move_line.payment_mode_id.boleto_perc_mora > 0.0:
                 instrucao_juros_tmp = "APÓS VENCIMENTO COBRAR PERCENTUAL"
                 if move_line.payment_mode_id.instrucao_boleto_perc_mora:
                     instrucao_juros_tmp = \
@@ -140,8 +139,7 @@ class AccountMoveLine(models.Model):
                 })
 
             # Instrução Multa
-            if move_line.payment_mode_id.boleto_perc_mora:
-                instrucao_multa = ''
+            if move_line.payment_mode_id.boleto_perc_multa > 0.0:
                 instrucao_multa_tmp = "APÓS VENCIMENTO COBRAR MULTA"
                 if move_line.payment_mode_id.instrucao_boleto_perc_multa:
                     instrucao_multa_tmp = \
@@ -161,7 +159,7 @@ class AccountMoveLine(models.Model):
                 })
 
             # Instrução Desconto
-            if move_line.payment_term_id.discount_perc:
+            if move_line.payment_term_id.discount_perc > 0.0:
                 instrucao_desconto_vencimento = ''
                 instrucao_desconto_vencimento_tmp = \
                     'CONCEDER ABATIMENTO PERCENTUAL DE'
