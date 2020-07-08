@@ -110,16 +110,25 @@
               </group>
               <group>
                 <group name="company_left">
-                  <field name="company_legal_name"/>
-                  <field name="company_name"/>
-                  <field name="company_cnpj_cpf"/>
-                  <field name="company_inscr_est"/>
+                  <field name="company_legal_name" readonly="1"/>
+                  <field name="company_name" readonly="1"/>
+                  <field name="company_cnpj_cpf" readonly="1"/>
+                  <field name="company_inscr_est" readonly="1"/>
+                  <field name="company_street" readonly="1"/>
+                  <field name="company_number" readonly="1"/>
+                  <field name="company_street2" readonly="1"/>
+                  <field name="company_district" readonly="1"/>
                 </group>
                 <group name="company_right">
-                  <field name="company_inscr_mun"/>
-                  <field name="company_suframa"/>
-                  <field name="company_cnae_main_id"/>
-                  <field name="company_tax_framework"/>
+                  <field name="company_inscr_mun" readonly="1"/>
+                  <field name="company_suframa" readonly="1"/>
+                  <field name="company_cnae_main_id" readonly="1"/>
+                  <field name="company_tax_framework" readonly="1"/>
+                  <field name="company_country_id" readonly="1"/>
+                  <field name="company_state_id" readonly="1"/>
+                  <field name="company_city_id" readonly="1"/>
+                  <field name="company_zip" readonly="1"/>
+                  <field name="company_phone" readonly="1"/>
                 </group>
               </group>
             </page>
@@ -129,16 +138,27 @@
               </group>
               <group>
                 <group name="partner_left">
-                  <field name="partner_legal_name" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_name" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_cnpj_cpf" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_inscr_est" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_legal_name" readonly="1"/>
+                  <field name="partner_name" readonly="1"/>
+                  <field name="partner_cnpj_cpf" readonly="1"/>
+                  <field name="partner_inscr_est" readonly="1"/>
+                  <field name="partner_ind_ie_dest" readonly="1"/>
+                  <field name="partner_street" readonly="1"/>
+                  <field name="partner_number" readonly="1"/>
+                  <field name="partner_street2" readonly="1"/>
+                  <field name="partner_district" readonly="1"/>
                 </group>
                 <group name="partner_right">
-                  <field name="partner_inscr_mun" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_suframa" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_cnae_main_id" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_tax_framework" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_inscr_mun" readonly="1"/>
+                  <field name="partner_suframa" readonly="1"/>
+                  <field name="partner_cnae_main_id" readonly="1"/>
+                  <field name="partner_tax_framework" readonly="1"/>
+                  <field name="partner_is_company" readonly="1"/>
+                  <field name="partner_country_id" readonly="1"/>
+                  <field name="partner_state_id" readonly="1"/>
+                  <field name="partner_city_id" readonly="1"/>
+                  <field name="partner_zip" readonly="1"/>
+                  <field name="partner_phone" readonly="1"/>
                 </group>
               </group>
               <group>
@@ -264,8 +284,7 @@
             </page>
             <page name="extra_info" string="Extra Info">
                 <group>
-                    <field name="comment_ids" widget="many2many_tags"
-                           domain="[('object','=','l10n_br_fiscal.document')]"/>
+                    <field name="comment_ids" widget="many2many_tags" domain="[('object','=','l10n_br_fiscal.document')]"/>
                     <field name="additional_data"/>
                 </group>
             </page>
