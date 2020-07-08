@@ -159,7 +159,7 @@ class AccountInvoice(models.Model):
     @api.model
     def tax_line_move_line_get(self):
         tax_lines_dict = super().tax_line_move_line_get()
-        new_tax_lines_dict = []
+        # new_tax_lines_dict = []
         # for tax in tax_lines_dict:
         #     new_tax_lines_dict.append(tax)
         #
@@ -167,7 +167,7 @@ class AccountInvoice(models.Model):
         #     new_tax['type'] = 'src'
         #
         #     new_tax_lines_dict.append(new_tax)
-        return new_tax_lines_dict
+        return tax_lines_dict
 
     @api.multi
     def get_taxes_values(self):
