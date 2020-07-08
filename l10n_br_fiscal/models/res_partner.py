@@ -21,7 +21,7 @@ class ResPartner(models.Model):
         o tipo fiscal para não contribuinte já que quando é criado um novo
         parceiro o valor do campo is_company é false"""
         return self.env["l10n_br_fiscal.partner.profile"].search(
-            [('default', '=', True), ('is_company','=', is_company)],
+            [('default', '=', True), ('is_company', '=', is_company)],
             limit=1)
 
     tax_framework = fields.Selection(
