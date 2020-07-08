@@ -228,7 +228,7 @@ class L10nBrHrCnab(models.Model):
     @api.multi
     def processar_arquivo_retorno_cnab400(self, data):
 
-        lote_id = self.env['l10n.br.cnab.lote'].create({'cnab_id': self.id})
+        lote_id = self.env['l10n_br.cnab.lote'].create({'cnab_id': self.id})
 
         quantidade_registros = 0
         total_valores = 0
@@ -246,11 +246,17 @@ class L10nBrHrCnab(models.Model):
                 # 4 e 5 - Registro de Detalhe (Opcional)
                 continue
 
-            quantidade_registros += 1
-            account_move_line = self.env['account.move.line'].search(
-                [('boleto_own_number', '=', dict_line['nosso_numero'][:11])]
-            )
-            payment_line = self.env['payment.line'].search(
+            # Nosso Numero sem o Digito Verificador
+            if self.bank == 'bradesco':
+                account_move_line = self.env['account.move.line'].search(
+                    [('nosso_numero', '=', dict_line['nosso_numero'][:11])]
+                )
+            elif self.bank == 'unicred':
+                account_move_line = self.env['account.move.line'].search(
+                    [('nosso_numero', '=', dict_line['nosso_numero'][6:16])]
+                )
+
+            payment_line = self.env['account.payment.line'].search(
                 [('move_line_id', '=', account_move_line.id)]
             )
 
@@ -265,21 +271,22 @@ class L10nBrHrCnab(models.Model):
                         dict_line['valor_recebido'][11:]))
             total_valores += valor_titulo
 
-            if (dict_line['data_ocorrencia'] == '000000' or
-                    not dict_line['data_ocorrencia']):
-                data_ocorrencia = dict_line['data_de_ocorrencia']
-            else:
-                data_ocorrencia = datetime.datetime.strptime(
-                    str(dict_line['data_ocorrencia']), "%d%m%y").date()
-
             # Cada Banco pode possuir um Codigo de Ocorrencia distinto
             if self.bank == 'bradesco':
+                if (dict_line['data_ocorrencia'] == '000000' or
+                        not dict_line['data_ocorrencia']):
+                    data_ocorrencia = dict_line['data_de_ocorrencia']
+                else:
+                    data_ocorrencia = datetime.datetime.strptime(
+                        str(dict_line['data_ocorrencia']), "%d%m%y").date()
                 descricao_ocorrencia = DICT_OCORRENCIAS_BRADESCO[
                        dict_line['codigo_ocorrencia']].encode('utf-8')
             if self.bank == 'itau':
+                data_ocorrencia = datetime.date.today()
                 descricao_ocorrencia = DICT_OCORRENCIAS_ITAU[
                        dict_line['codigo_ocorrencia']].encode('utf-8')
             if self.bank == 'unicred':
+                data_ocorrencia = datetime.date.today()
                 descricao_ocorrencia = DICT_OCORRENCIAS_UNICRED[
                        dict_line['codigo_ocorrencia']].encode('utf-8')
 
@@ -305,9 +312,10 @@ class L10nBrHrCnab(models.Model):
                     str(dict_line['data_credito']), "%d%m%y").date()
 
             if (str(dict_line['codigo_ocorrencia']) in ('06', '17')
-                    and self.bank == 'bradesco') or (
+                    and self.bank in ('bradesco', 'unicred')) or (
                         str(dict_line['codigo_ocorrencia']) in ('06', '10') and
                         self.bank == 'itau'):
+
                 vals_evento = {
                     'lote_id': lote_id.id,
                     'data_ocorrencia': data_ocorrencia,
@@ -316,10 +324,11 @@ class L10nBrHrCnab(models.Model):
                     # 'favorecido_nome':
                     #    obj_account_move_line.company_id.partner_id.name,
                     'favorecido_conta_bancaria':
-                        account_move_line.payment_mode_id.bank_id.id,
+                        account_move_line.payment_mode_id.
+                        fixed_journal_id.bank_account_id,
                     'nosso_numero': dict_line['nosso_numero'],
                     'seu_numero': dict_line['documento_numero'] or
-                        account_move_line.name,
+                        account_move_line.numero_documento,
                     # 'tipo_moeda': evento.credito_moeda_tipo,
                     'valor_titulo': valor_titulo,
                     'valor_pagamento': valor_recebido,
@@ -332,7 +341,7 @@ class L10nBrHrCnab(models.Model):
                 # para criar o Extrato Bancario
                 balance_end_real += valor_recebido
                 line_statement_vals.append({
-                    'name': account_move_line.name or '?',
+                    'name': account_move_line.numero_documento or '?',
                     'amount': valor_recebido,
                     'partner_id': account_move_line.partner_id.id,
                     'ref': account_move_line.ref,
@@ -347,7 +356,7 @@ class L10nBrHrCnab(models.Model):
                     'ocorrencias': descricao_ocorrencia,
                     'data_ocorrencia': data_ocorrencia,
                     'nosso_numero': dict_line['nosso_numero'],
-                    'seu_numero': account_move_line.name,
+                    'seu_numero': account_move_line.numero_documento,
                     'valor_titulo': valor_titulo,
                 }
 
@@ -363,6 +372,8 @@ class L10nBrHrCnab(models.Model):
         # a mais ou a menos pelo operador
         if line_statement_vals:
             vals_bank_statement = {
+                # TODO - name of Bank Statement
+                # 'name': 'BNK/%s/0001' % time.strftime('%Y'),
                 'journal_id': self.account_journal.id,
                 'balance_end_real': balance_end_real,
             }
