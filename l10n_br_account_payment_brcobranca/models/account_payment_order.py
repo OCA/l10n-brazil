@@ -93,7 +93,7 @@ class PaymentOrder(models.Model):
                 'documento_sacado': misc.punctuation_rm(line.partner_id.cnpj_cpf),
                 'nome_sacado':
                     line.partner_id.legal_name.strip()[:40],
-                'numero': str(line.move_line_id.name)[:10],
+                'numero': str(line.numero_documento)[:10],
                 'endereco_sacado': str(
                     line.partner_id.street + ', ' + str(
                         line.partner_id.street_number))[:40],
@@ -156,6 +156,8 @@ class PaymentOrder(models.Model):
                 # 0 = Isento
                 # 1 = Valor Fixo
                 linhas_pagamentos['cod_desconto'] = '0'
+                # 00000005/01
+                linhas_pagamentos['numero'] = str(line.numero_documento)[1:11]
 
             if line.move_line_id.payment_mode_id.boleto_perc_multa:
                 if bank_name_brcobranca[0] in ('bradesco', 'unicred'):
@@ -263,6 +265,9 @@ class PaymentOrder(models.Model):
 
         #                remessa = cnab.remessa(order)
 
+        # TODO - Devido a configuração do TimeZone os arquivos
+        #  que estão sendo criados dependendo do horário estão
+        #  sendo salvos com a data do dia seguinte
         if self.payment_mode_id.payment_method_id.code == '240':
             file_name = 'CB%s%s.REM' % (
                 time.strftime('%d%m'), str(self.file_number))
