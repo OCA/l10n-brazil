@@ -42,11 +42,12 @@
         <field name="boleto_carteira">3</field>
         <field name="boleto_modalidade">DM</field>
         <field name="boleto_variacao">19</field>
-        <field name="boleto_aceite">S</field>
+        <field name="boleto_aceite">N</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
-        <field name="boleto_byte_idt">2</field>
-        <field name="boleto_posto">01</field>
+        <field name="boleto_cod_protesto">2</field>
+        <field name="boleto_dias_protesto">5</field>
+        <field name="codigo_convenio">72234050</field>
     </record>
 
     <!-- Payment Mode Cobrança Unicred 240 -->
@@ -66,11 +67,12 @@
         <field name="boleto_carteira">3</field>
         <field name="boleto_modalidade">DM</field>
         <field name="boleto_variacao">19</field>
-        <field name="boleto_aceite">S</field>
+        <field name="boleto_aceite">N</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
-        <field name="boleto_byte_idt">2</field>
-        <field name="boleto_posto">01</field>
+        <field name="boleto_cod_protesto">2</field>
+        <field name="boleto_dias_protesto">5</field>
+        <field name="codigo_convenio">72234050</field>
     </record>
 
     <!-- Modo de Pagamento cobrança Itau 240 -->
