@@ -65,7 +65,8 @@ class AccountInvoice(models.Model):
         else:
             raise UserError(res.text.encode('utf-8'))
 
-        file_name = 'boleto-' + self.number + '.pdf'
+        inv_number = self.get_invoice_fiscal_number().split("/")[-1].zfill(8)
+        file_name = 'boleto_nf-' + inv_number + '.pdf'
 
         self.file_pdf_id = self.env['ir.attachment'].create(
             {
@@ -82,7 +83,7 @@ class AccountInvoice(models.Model):
     def _target_new_tab(self, attachment_id):
         if attachment_id:
             return {
-                'type' : 'ir.actions.act_url',
+                'type': 'ir.actions.act_url',
                 'url': '/web/content/{id}/{nome}'.format(
                     id=attachment_id.id,
                     nome=attachment_id.name),
