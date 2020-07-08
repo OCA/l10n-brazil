@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2020-06-13 22:19+0000\n"
+"PO-Revision-Date: 2020-07-08 17:19+0000\n"
 "Last-Translator: Maurício Liell <mauricio@liell.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -2241,15 +2241,13 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_bank
 msgid "Bank"
-msgstr ""
+msgstr "Banco"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bank_account_type
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bank_account_type
-#, fuzzy
-#| msgid "Bank Accounts"
 msgid "Bank Account Type"
-msgstr "Contas Bancárias"
+msgstr "Tipo de conta bancária"
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_partner_bank
@@ -2272,7 +2270,7 @@ msgstr "Dígito da Agência Bancária"
 #: code:addons/l10n_br_base/models/res_partner_bank.py:64
 #, python-format
 msgid "Bank branch code must be four caracteres."
-msgstr ""
+msgstr "O código da agência bancária deve ter quatro caracteres."
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1501253
@@ -3539,12 +3537,13 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__code_bc
 msgid "Brazilian Bank Code"
-msgstr ""
+msgstr "Código Bancário Brasileiro"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_bank__code_bc
 msgid "Brazilian Bank Code ex.: 001 is the code of Banco do Brasil"
 msgstr ""
+"Exemplo de Código Bancário Brasileiro: 001 é o código do Banco do Brasil"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
@@ -10200,10 +10199,8 @@ msgstr "ID"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__ispb_number
-#, fuzzy
-#| msgid "CNPJ/Vat Number"
 msgid "ISPB Number"
-msgstr "CNPJ/Id Estrangeiro"
+msgstr "Número ISPB"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3519105
@@ -22920,7 +22917,7 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__short_name
 msgid "Short Name"
-msgstr ""
+msgstr "Nome curto"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4217600
