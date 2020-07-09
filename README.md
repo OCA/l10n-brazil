@@ -69,3 +69,34 @@ Deve hoje se seguir os fluxos de trabalho padrão da OCA: [https://odoo-communit
 Se você for votado como core OCA reviewer pelos outros reviewers, você tera os direitos de commit no projeto. Você também pode ganhar esse direito só nesse projeto fazendo um esforço de contribuições no tempo comparável aos outros committers.
 
 lista de discussão: [https://groups.google.com/forum/#!forum/openerp-brasil](https://groups.google.com/forum/#!forum/openerp-brasil)
+
+[//]: # (addons)
+
+Available addons
+----------------
+addon | version | summary
+--- | --- | ---
+[l10n_br_account](l10n_br_account/) | 12.0.1.0.1 | Brazilian Localization Account
+[l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.1.0.0 | Brazilian Payment Order
+[l10n_br_base](l10n_br_base/) | 12.0.1.0.1 | Customization of base module for implementations in Brazil.
+[l10n_br_coa](l10n_br_coa/) | 12.0.1.0.0 | Base Brasilian Localization of Chart of Account
+[l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.1.0.0 | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
+[l10n_br_coa_simple](l10n_br_coa_simple/) | 12.0.1.0.1 | Brazilian Simple Chart of Account
+[l10n_br_crm](l10n_br_crm/) | 12.0.1.0.0 | Brazilian Localization CRM
+[l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 12.0.1.0.0 | Update exchange rates using OCA modules for Brazil
+[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.2.0.0 | Brazilian fiscal core module.
+[l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 | Brazilian Localization HR
+[l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.0.0 | Brazilian Localization HR Contract
+[l10n_br_portal](l10n_br_portal/) | 12.0.1.0.0 | Campos Brasileiros no Portal
+[l10n_br_resource](l10n_br_resource/) | 12.0.1.0.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
+[l10n_br_stock](l10n_br_stock/) | 12.0.1.0.0 | Brazilian Localization Warehouse
+[l10n_br_zip](l10n_br_zip/) | 12.0.2.0.0 | Brazilian Localisation ZIP Codes
+
+
+Unported addons
+---------------
+addon | version | summary
+--- | --- | ---
+[l10n_br_nfe](l10n_br_nfe/) | 12.0.1.0.0 (unported) | Brazilian Eletronic Invoice NF-e .
+
+[//]: # (end addons)
