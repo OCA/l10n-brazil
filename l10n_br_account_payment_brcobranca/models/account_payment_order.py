@@ -105,6 +105,9 @@ class PaymentOrder(models.Model):
                 'uf_sacado': line.partner_id.state_id.code,
                 'identificacao_ocorrencia': self.codigo_instrucao_movimento
             }
+
+            payment_mode = line.move_line_id.payment_mode_id
+
             if bank_name_brcobranca[0] == 'unicred':
                 # TODO - Verificar se é uma tabela unica por banco ou há padrão
                 # Identificação da Ocorrência:
@@ -122,9 +125,9 @@ class PaymentOrder(models.Model):
                 # 40 - Alteração de Carteira
                 linhas_pagamentos['identificacao_ocorrencia'] = '01'
                 linhas_pagamentos['codigo_protesto'] = \
-                    line.move_line_id.payment_mode_id.boleto_cod_protesto or '3'
+                    payment_mode.boleto_cod_protesto or '3'
                 linhas_pagamentos['dias_protesto'] = \
-                    line.move_line_id.payment_mode_id.boleto_dias_protesto or '0'
+                    payment_mode.boleto_dias_protesto or '0'
 
                 # Código adotado pela FEBRABAN para identificação
                 # do tipo de pagamento de multa.
@@ -135,6 +138,31 @@ class PaymentOrder(models.Model):
                 # Isento de Multa caso não exista percentual
                 linhas_pagamentos['codigo_multa'] = '3'
 
+                # Isento de Mora
+                linhas_pagamentos['tipo_mora'] = '5'
+
+                # TODO
+                # Código adotado pela FEBRABAN para identificação do desconto.
+                # Domínio:
+                # 0 = Isento
+                # 1 = Valor Fixo
+                linhas_pagamentos['cod_desconto'] = '0'
+                # 00000005/01
+                linhas_pagamentos['numero'] = str(line.numero_documento)[1:11]
+
+            if payment_mode.boleto_perc_multa:
+                if bank_name_brcobranca[0] in ('bradesco', 'unicred'):
+                    linhas_pagamentos['codigo_multa'] = \
+                        payment_mode.boleto_cod_multa
+                    linhas_pagamentos['percentual_multa'] = \
+                        payment_mode.boleto_perc_multa
+
+            precision = self.env['decimal.precision']
+            precision_account = precision.precision_get('Account')
+            if payment_mode.boleto_perc_mora:
+                linhas_pagamentos['tipo_mora'] = \
+                    payment_mode.boleto_cod_mora
+                # TODO - É padrão em todos os bancos ?
                 # Código adotado pela FEBRABAN para identificação do tipo de
                 # pagamento de mora de juros.
                 # Domínio:
@@ -148,36 +176,15 @@ class PaymentOrder(models.Model):
                 # segundo manual. Cógido mantido
                 # para Correspondentes que ainda utilizam.
                 # Isento de Mora caso não exista percentual
-                linhas_pagamentos['tipo_mora'] = '5'
+                if payment_mode.boleto_cod_mora == '1':
+                    linhas_pagamentos['valor_mora'] = round(
+                        line.move_line_id.debit *
+                        ((payment_mode.boleto_perc_mora / 100)
+                         / 30), precision_account)
+                if payment_mode.boleto_cod_mora == '2':
+                    linhas_pagamentos['valor_mora'] = \
+                        payment_mode.boleto_perc_mora
 
-                # TODO
-                # Código adotado pela FEBRABAN para identificação do desconto.
-                # Domínio:
-                # 0 = Isento
-                # 1 = Valor Fixo
-                linhas_pagamentos['cod_desconto'] = '0'
-                # 00000005/01
-                linhas_pagamentos['numero'] = str(line.numero_documento)[1:11]
-
-            if line.move_line_id.payment_mode_id.boleto_perc_multa:
-                if bank_name_brcobranca[0] in ('bradesco', 'unicred'):
-                    linhas_pagamentos['codigo_multa'] = \
-                        line.move_line_id.payment_mode_id.boleto_cod_multa
-                    linhas_pagamentos['percentual_multa'] = \
-                        line.move_line_id.payment_mode_id.boleto_perc_multa
-
-            precision = self.env['decimal.precision']
-            precision_account = precision.precision_get('Account')
-            if line.move_line_id.payment_mode_id.boleto_perc_mora:
-                linhas_pagamentos['valor_mora'] = round(
-                    line.move_line_id.debit *
-                    ((line.move_line_id.payment_mode_id.boleto_perc_mora / 100)
-                     / 30), precision_account)
-                if bank_name_brcobranca[0] == 'unicred':
-                    linhas_pagamentos['tipo_mora'] =\
-                        line.move_line_id.payment_mode_id.boleto_cod_mora
-
-            # TODO - Definir como sera implementado a configuração do Desconto
             if line.move_line_id.payment_term_id.discount_perc:
                 linhas_pagamentos['data_desconto'] =\
                     line.move_line_id.date_maturity.strftime('%Y/%m/%d')
@@ -186,7 +193,7 @@ class PaymentOrder(models.Model):
                             line.move_line_id.payment_term_id.discount_perc / 100),
                     precision_account)
                 if bank_name_brcobranca[0] == 'unicred':
-                    linhas_pagamentos['cod_desconto'] = 1
+                    linhas_pagamentos['cod_desconto'] = '1'
 
             pagamentos.append(linhas_pagamentos)
 
