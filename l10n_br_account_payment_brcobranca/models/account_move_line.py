@@ -160,12 +160,11 @@ class AccountMoveLine(models.Model):
 
             # Instrução Desconto
             if move_line.payment_term_id.discount_perc > 0.0:
-                instrucao_desconto_vencimento = ''
                 instrucao_desconto_vencimento_tmp = \
                     'CONCEDER ABATIMENTO PERCENTUAL DE'
                 if move_line.payment_term_id.instrucao_discount_perc:
                     instrucao_desconto_vencimento_tmp = \
-                        move_line.payment_term_id.instrucao_discount_per
+                        move_line.payment_term_id.instrucao_discount_perc
                 valor_desconto = round(
                     move_line.debit * (
                         move_line.payment_term_id.discount_perc / 100),
@@ -175,13 +174,11 @@ class AccountMoveLine(models.Model):
                     'ATÉ O VENCIMENTO EM %s ( R$ %s )'
                     % (('%.2f' % move_line.payment_term_id.discount_perc
                         ).replace('.', ','),
-                       datetime.strptime(
-                           move_line.date_maturity,
-                           '%Y-%m-%d').strftime('%d/%m/%Y'),
+                       move_line.date_maturity.strftime('%d/%m/%Y'),
                        ('%.2f' % valor_desconto).replace('.', ',')
                        ))
                 boleto_cnab_api_data.update({
-                    'instrucao4': instrucao_desconto_vencimento,
+                    'instrucao5': instrucao_desconto_vencimento,
                 })
 
             if bank_account.bank_id.code_bc in ('021', '004'):
