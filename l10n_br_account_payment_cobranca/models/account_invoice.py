@@ -397,7 +397,7 @@ class AccountInvoice(models.Model):
                     count += 1
                 if new_payorder:
                     inv.message_post(
-                        _(
+                        body=_(
                             "%d payment lines added to the new draft payment "
                             "order %s which has been automatically created."
                         )
@@ -405,7 +405,7 @@ class AccountInvoice(models.Model):
                     )
                 else:
                     inv.message_post(
-                        _(
+                        body=_(
                             "%d payment lines added to the existing draft "
                             "payment order %s."
                         )
@@ -464,7 +464,6 @@ class AccountInvoice(models.Model):
     def register_payment(
         self, payment_line, writeoff_acc_id=False, writeoff_journal_id=False
     ):
-
         res = super(AccountInvoice, self).register_payment(
             payment_line, writeoff_acc_id, writeoff_journal_id
         )
