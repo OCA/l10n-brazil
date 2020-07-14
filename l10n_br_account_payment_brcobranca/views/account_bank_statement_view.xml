@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Menu Extrato Bancario -
+         Todo - Não encontrei onde esta implementado isso no core -->
+    <menuitem id="menu_bank_statement_categ" name="Extrato Bancário"
+          parent="account_payment_order.payment_root" sequence="1"/>
+
+    <menuitem id="bank_statement"
+              parent="menu_bank_statement_categ"
+              name="Extrato Bancario" sequence="1"
+              action="account.action_bank_statement_tree"/>
+</odoo>
