@@ -237,9 +237,9 @@ class L10nBrHrCnab(models.Model):
                             or invoice.account_id.id,
                             "journal_id": bank_payment_line_id.order_id.journal_id.id,
                             "date_maturity": datetime.strptime(
-                                str(evento.vencimento).zfill(6), STR_EVENTO_FORMAT
+                                str(evento.data_vencimento).zfill(6), STR_EVENTO_FORMAT
                             )
-                            if evento.vencimento
+                            if evento.data_vencimento
                             else "",
                             "date": datetime.strptime(
                                 str(evento.data_ocorrencia).zfill(6), STR_EVENTO_FORMAT
@@ -473,9 +473,9 @@ class L10nBrHrCnab(models.Model):
                     "identificacao_titulo_empresa":
                         evento.identificacao_titulo_empresa,
                     "date_maturity": datetime.strptime(
-                        str(evento.vencimento).zfill(6), STR_EVENTO_FORMAT
+                        str(evento.data_vencimento).zfill(6), STR_EVENTO_FORMAT
                     )
-                    if evento.vencimento
+                    if evento.data_vencimento
                     else "",
                     "date": datetime.strptime(
                         str(evento.data_ocorrencia).zfill(6), STR_EVENTO_FORMAT
