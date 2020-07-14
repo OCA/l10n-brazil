@@ -19,6 +19,7 @@
         'views/account_invoice_view.xml',
         'views/l10n_br_cnab_retorno_view.xml',
         'views/res_config_settings_view.xml',
+        'views/account_bank_statement_view.xml',
         'data/res_config_settings_data.xml',
         'security/ir.model.access.csv',
     ],
