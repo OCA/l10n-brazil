@@ -234,6 +234,7 @@ class L10nBrHrCnab(models.Model):
         total_valores = 0
         balance_end_real = 0.0
         line_statement_vals = []
+        reconcile_statement_vals = []
 
         for dict_line in data:
             if int(dict_line['codigo_registro']) != 1:
@@ -264,13 +265,9 @@ class L10nBrHrCnab(models.Model):
                 str(dict_line['valor_titulo'][0:11] + '.' +
                     dict_line['valor_titulo'][11:]))
 
-            valor_recebido = 0.0
-            if dict_line['valor_recebido']:
-                valor_recebido = float(
-                    str(dict_line['valor_recebido'][0:11] + '.' +
-                        dict_line['valor_recebido'][11:]))
             total_valores += valor_titulo
 
+            data_ocorrencia = datetime.date.today()
             # Cada Banco pode possuir um Codigo de Ocorrencia distinto
             if self.bank == 'bradesco':
                 if (dict_line['data_ocorrencia'] == '000000' or
@@ -281,15 +278,16 @@ class L10nBrHrCnab(models.Model):
                         str(dict_line['data_ocorrencia']), "%d%m%y").date()
                 descricao_ocorrencia = DICT_OCORRENCIAS_BRADESCO[
                        dict_line['codigo_ocorrencia']].encode('utf-8')
+
             if self.bank == 'itau':
-                data_ocorrencia = datetime.date.today()
                 descricao_ocorrencia = DICT_OCORRENCIAS_ITAU[
                        dict_line['codigo_ocorrencia']].encode('utf-8')
+
             if self.bank == 'unicred':
-                data_ocorrencia = datetime.date.today()
                 descricao_ocorrencia = DICT_OCORRENCIAS_UNICRED[
                        dict_line['codigo_ocorrencia']].encode('utf-8')
 
+            # Linha não encontrada
             if not account_move_line:
                 vals_evento = {
                    'lote_id': lote_id.id,
@@ -304,6 +302,12 @@ class L10nBrHrCnab(models.Model):
                 self.env['l10n_br.cnab.evento'].create(vals_evento)
                 continue
 
+            valor_recebido = 0.0
+            if dict_line['valor_recebido']:
+                valor_recebido = float(
+                    str(dict_line['valor_recebido'][0:11] + '.' +
+                        dict_line['valor_recebido'][11:]))
+
             if (dict_line['data_credito'] == '000000' or
                     not dict_line['data_credito']):
                 data_credito = dict_line['data_credito']
@@ -312,9 +316,17 @@ class L10nBrHrCnab(models.Model):
                     str(dict_line['data_credito']), "%d%m%y").date()
 
             if (str(dict_line['codigo_ocorrencia']) in ('06', '17')
-                    and self.bank in ('bradesco', 'unicred')) or (
+                    and self.bank == 'bradesco') or (
                         str(dict_line['codigo_ocorrencia']) in ('06', '10') and
-                        self.bank == 'itau'):
+                        self.bank == 'itau') or (
+                        str(dict_line['codigo_ocorrencia']) in
+                        ('01', '06', '07', '09') and
+                        self.bank == 'unicred'):
+
+                reconcile_line_vals = {
+                    'numero_documento': account_move_line.numero_documento}
+                counterpart_line_vals = []
+                new_aml_vals = []
 
                 vals_evento = {
                     'lote_id': lote_id.id,
@@ -323,19 +335,99 @@ class L10nBrHrCnab(models.Model):
                     # 'segmento': evento.servico_segmento,
                     # 'favorecido_nome':
                     #    obj_account_move_line.company_id.partner_id.name,
-                    'favorecido_conta_bancaria':
+                    'favorecido_conta_bancaria_id':
                         account_move_line.payment_mode_id.
-                        fixed_journal_id.bank_account_id,
+                        fixed_journal_id.bank_account_id.id,
                     'nosso_numero': dict_line['nosso_numero'],
-                    'seu_numero': dict_line['documento_numero'] or
+                    'identificacao_titulo_empresa':
+                        dict_line['documento_numero'] or
                         account_move_line.numero_documento,
                     # 'tipo_moeda': evento.credito_moeda_tipo,
-                    'valor_titulo': valor_titulo,
+                    'valor': valor_titulo,
                     'valor_pagamento': valor_recebido,
                     'ocorrencias': descricao_ocorrencia,
                     'bank_payment_line_id':
                         payment_line.bank_line_id.id or False,
+                    'invoice_id': account_move_line.invoice_id.id,
+                    'data_vencimento': datetime.datetime.strptime(
+                        str(dict_line['data_vencimento']), "%d%m%y").date(),
                 }
+
+                # Valor Desconto
+                if dict_line.get('desconto'):
+                    valor_desconto = float(
+                        str(dict_line['desconto'][0:11] + '.' +
+                            dict_line['desconto'][11:]))
+                    vals_evento['valor_desconto'] = valor_desconto
+
+                    # Atualiza o Valor Recebido
+                    valor_recebido -= valor_desconto
+
+                    new_aml_vals.append({
+                        'name': 'Desconto (boleto)',
+                        'debit': valor_desconto,
+                        'credit': 0.0,
+                        # TODO - Definir Conta Contabil de Desconto
+                        'account_id': account_move_line.payment_mode_id.
+                            default_tax_account_id.id,
+                    })
+
+                # Valor Juros Mora - valor de mora e multa pagos pelo sacado
+                if dict_line.get('juros_mora'):
+                    valor_juros_mora = float(
+                        str(dict_line['juros_mora'][0:11] + '.' +
+                            dict_line['juros_mora'][11:]))
+
+                    vals_evento['juros_mora_multa'] = valor_juros_mora
+
+                    # Atualiza o Valor Recebido
+                    valor_recebido += valor_juros_mora
+
+                    new_aml_vals.append({
+                        'name': 'Valor Juros Mora (boleto)',
+                        'debit': 0.0,
+                        'credit': valor_juros_mora,
+                        # TODO - Definir Conta Contábil de Juros Mora e Multa
+                        'account_id': account_move_line.payment_mode_id.
+                        fixed_journal_id.default_credit_account_id.id,
+                    })
+
+                # Valor Tarifa
+                if dict_line.get('valor_tarifa'):
+                    valor_tarifa = float(
+                        str(dict_line['valor_tarifa'][0:4] + '.' +
+                            dict_line['valor_tarifa'][4:]))
+                    vals_evento['tarifa_cobranca'] = valor_tarifa
+
+                    # Atualiza o Valor Recebido
+                    valor_recebido -= valor_tarifa
+
+                    new_aml_vals.append({
+                        'name': 'Tarifas bancárias (boleto)',
+                        'debit': valor_tarifa,
+                        'credit': 0.0,
+                        'account_id': account_move_line.payment_mode_id.
+                            default_tax_account_id.id,
+                    })
+
+                # Valor Abatimento
+                if dict_line.get('valor_abatimento'):
+                    valor_abatimento = float(
+                        str(dict_line['valor_abatimento'][0:11] + '.' +
+                            dict_line['valor_abatimento'][11:]))
+                    vals_evento['valor_abatimento'] = valor_abatimento
+
+                    # Atualiza o valor recebido
+                    valor_recebido -= valor_abatimento
+
+                    new_aml_vals.append({
+                        'name': 'Abatimento (boleto)',
+                        'debit': valor_abatimento,
+                        'credit': 0.0,
+                        # TODO - Definir Conta Contabil de Abatimento
+                        'account_id': account_move_line.payment_mode_id.
+                        default_tax_account_id.id,
+                    })
 
                 # Monta o dicionario que sera usado
                 # para criar o Extrato Bancario
@@ -349,6 +441,20 @@ class L10nBrHrCnab(models.Model):
                     'amount_currency': valor_recebido,
                     'currency_id': account_move_line.currency_id.id,
                 })
+
+                # Linha da Fatura a ser reconciliada
+                counterpart_line_vals.append({
+                    'name': account_move_line.numero_documento,
+                    'debit': 0.0,
+                    'credit': valor_titulo,
+                    'move_line': account_move_line,
+                })
+
+                # Monta uma Lista com Dicionarios usados para
+                # reconciliar o extrato bancario
+                reconcile_line_vals['new_aml_vals'] = new_aml_vals
+                reconcile_line_vals['counterpart_aml_vals'] = counterpart_line_vals
+                reconcile_statement_vals.append(reconcile_line_vals)
 
             else:
                 vals_evento = {
@@ -367,9 +473,9 @@ class L10nBrHrCnab(models.Model):
         self.num_lotes = 1
         self.num_eventos = quantidade_registros
 
-        # Criacao de um Extrato Bancario para ser conciliado
-        # pelo usuario permitindo assim o tratamento de valores
-        # a mais ou a menos pelo operador
+        # Criacao de um Extrato Bancario a ser conciliado logo abaixo, sendo
+        # necessário o usuario apenas clicar em Validar na tela do Extrato.
+        # TODO - automatizar validando o extrato ou deixar de usar o extrato ?
         if line_statement_vals:
             vals_bank_statement = {
                 # TODO - name of Bank Statement
@@ -383,6 +489,17 @@ class L10nBrHrCnab(models.Model):
             for line in line_statement_vals:
                 line['statement_id'] = statement.id
                 statement_line_obj.create(line)
+
+        # Reconciliação do Extrato e Fatura
+        for line in statement.line_ids:
+            for reconcile_line in reconcile_statement_vals:
+                if line.name == reconcile_line.get('numero_documento'):
+                    line.process_reconciliation(
+                         counterpart_aml_dicts=reconcile_line.get(
+                             'counterpart_aml_vals'),
+                         new_aml_dicts=reconcile_line.get(
+                             'new_aml_vals')
+                    )
 
         return self.write({'state': 'done'})
 
