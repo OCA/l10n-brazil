@@ -41,7 +41,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Caixa e Equivalentes de Caixa</field>
             <field name="name">caixa</field>
-            <field name="expression">bale[1.1.1]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('account.data_account_type_current_assets').id)]+bale[('user_type_id', '=', ref('account.data_account_type_liquidity').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -51,7 +51,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Contas a Receber</field>
             <field name="name">contas_a_receber</field>
-            <field name="expression">bale[1.1.2]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('account.data_account_type_receivable').id)]-bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_client_receivable_losses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -61,7 +61,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Estoques</field>
             <field name="name">estoques</field>
-            <field name="expression">bale[1.1.3]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_current_assets_stock').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -71,7 +71,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Outros Creditos</field>
             <field name="name">outros_creditos</field>
-            <field name="expression">bale[1.1.4]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_credits').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -114,7 +114,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Realizável a Longo Prazo</field>
             <field name="name">realizavel_longo_prazo</field>
-            <field name="expression">bale[1.3.1]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_to_receive_credits').id)]-bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_to_receive_expenses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -124,7 +124,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Investimentos</field>
             <field name="name">investimentos</field>
-            <field name="expression">bale[1.3.2]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_investments').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -134,7 +134,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Imobilizado</field>
             <field name="name">imobilizado</field>
-            <field name="expression">bale[1.3.3]+bale[1.3.3.06]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('account.data_account_type_fixed_assets').id)]-bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_fixed_assets_depreciation').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -144,7 +144,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Intangível</field>
             <field name="name">intangivel</field>
-            <field name="expression">bale[1.3.4]+bale[1.3.4.02]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_fixed_digital_assets').id)]-bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_fixed_assets_amortization').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -154,7 +154,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">(-) Depreciação e Amortização Acumuladas</field>
             <field name="name">depreciacao_amortizacao</field>
-            <field name="expression">bale[1.3.3.06]+bale[1.3.4.02]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_fixed_assets_depreciation').id)]-bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_fixed_assets_amortization').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -206,7 +206,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Fornecedores</field>
             <field name="name">fornecedores</field>
-            <field name="expression">bale[2.1.1]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_provider_payable').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -217,7 +217,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Empréstimos e Financiamentos</field>
             <field name="name">emprestimos_financiamentos</field>
-            <field name="expression">bale[2.1.2]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_current_financial_liabilities').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -227,7 +227,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Obrigações Fiscais</field>
             <field name="name">obrigacoes_fiscais</field>
-            <field name="expression">bale[2.1.3]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_current_fiscal_liabilities').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -238,7 +238,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Obrigações Trabalhistas e Sociais</field>
             <field name="name">obrigacoes_trabalhistas_sociais</field>
-            <field name="expression">bale[2.1.4]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_current_labor_liabilities').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -248,7 +248,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Obrigações Trabalhistas e Sociais</field>
             <field name="name">contas_a_pagar</field>
-            <field name="expression">bale[2.1.5]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_current_hired_liabilities').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -258,7 +258,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Provisões</field>
             <field name="name">provisoes</field>
-            <field name="expression">bale[2.1.6]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_current_leave_liabilities').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -291,7 +291,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Financiamentos</field>
             <field name="name">financiamentos_longo</field>
-            <field name="expression">bale[2.2.1]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_current_bank_loan_liabilities').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -301,7 +301,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Emprestimos</field>
             <field name="name">emprestimos_longo</field>
-            <field name="expression">bale[2.2.1]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_current_bank_loan_liabilities').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -334,7 +334,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Capital Social</field>
             <field name="name">capital_social</field>
-            <field name="expression">bale[2.3.1]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('account.data_account_type_equity').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -344,7 +344,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Reservas de Capital</field>
             <field name="name">reservas_capital</field>
-            <field name="expression">bale[2.3.2.01]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_equity_capital_reserve').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -354,7 +354,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Reservas de Lucros</field>
             <field name="name">reservas_lucros</field>
-            <field name="expression">bale[2.3.2.02]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_equity_income_reserve').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -364,7 +364,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">Lucros Acumulados</field>
             <field name="name">lucros</field>
-            <field name="expression">bale[2.3.3.01]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_equity_accumulated_profits').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -374,7 +374,7 @@
             <field name="report_id" ref="balanco_patrimonial"/>
             <field name="description">(-) Prejuízos Acumulados</field>
             <field name="name">prejuizos</field>
-            <field name="expression">bale[2.3.3.02]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_equity_accumulated_losses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
