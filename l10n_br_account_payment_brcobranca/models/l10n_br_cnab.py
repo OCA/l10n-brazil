@@ -298,7 +298,7 @@ class L10nBrHrCnab(models.Model):
                        u' * - BOLETO NÃO ENCONTRADO DENTRO DO PROGRAMA',
                    'nosso_numero': linha_cnab['nosso_numero'],
                    'seu_numero': linha_cnab['documento_numero'],
-                   'valor_titulo': valor_titulo,
+                   'valor': valor_titulo,
                 }
                 self.env['l10n_br.cnab.evento'].create(vals_evento)
                 continue
@@ -463,7 +463,7 @@ class L10nBrHrCnab(models.Model):
                     'data_ocorrencia': data_ocorrencia,
                     'nosso_numero': linha_cnab['nosso_numero'],
                     'seu_numero': account_move_line.numero_documento,
-                    'valor_titulo': valor_titulo,
+                    'valor': valor_titulo,
                 }
 
             self.env['l10n_br.cnab.evento'].create(vals_evento)
@@ -508,10 +508,3 @@ class L10nBrHrCnab(models.Model):
             value_float = float(
                 str(value[0:11] + '.' + value[11:]))
             return value_float
-
-
-class L10nBrHrCnabEvento(models.Model):
-    _inherit = "l10n_br.cnab.evento"
-
-    data_ocorrencia = fields.Date(string=u"Data da Ocorrência")
-    valor_titulo = fields.Float(string=u"Valor do Título")
