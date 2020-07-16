@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-    <record id="brcobranca_view_cnab_evento_tree" model="ir.ui.view">
-        <field name="name">brcobranca.cnab.evento.tree</field>
-        <field name="model">l10n_br.cnab.evento</field>
-        <field name="inherit_id" ref="l10n_br_account_payment_cobranca.view_cnab_evento_tree"/>
-        <field name="arch" type="xml">
-            <field name="data_real_pagamento" position="before">
-                <field name="data_ocorrencia" />
-            </field>
-            <field name="valor_pagamento" position="before">
-                <field name="valor_titulo" />
-            </field>
-        </field>
-    </record>
-
     <record id="brcobranca_cnab_retorno_form_view" model="ir.ui.view">
         <field name="name">brcobranca.cnab.retorno.form.view</field>
         <field name="model">l10n_br.cnab</field>
