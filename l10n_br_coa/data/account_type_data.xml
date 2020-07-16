@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- account.account.type -->
+        <record model="account.account.type"
+                id="data_account_type_revenue_deduction">
+            <field name="name">Income Deduction</field>
+            <field name="type">other</field>
+            <field name="internal_group">income</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_admin_expenses">
+            <field name="name">Administrative Expenses</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+        <record model="account.account.type"
+                id="data_account_type_sale_expenses">
+            <field name="name">Sales Expenses</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+        <record model="account.account.type"
+                id="data_account_type_other_general_expenses">
+            <field name="name">Other General Expenses</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_revenue_financial">
+            <field name="name">Financial Income</field>
+            <field name="type">other</field>
+            <field name="internal_group">income</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_expenses_financial">
+            <field name="name">Financial Expenses</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_other_operational_expenses">
+            <field name="name">Other Operational Expenses</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_client_receivable_losses">
+            <field name="name">Client Receivable Losses</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True"/>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_current_assets_stock">
+            <field name="name">Current Stock Assets</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True"/>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_other_credits">
+            <field name="name">Other Credits</field>
+            <field name="type">receivable</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_to_receive_credits">
+            <field name="name">To Receive Credits</field>
+            <field name="type">receivable</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_to_receive_expenses">
+            <field name="name">To Receive Credit Expenses</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_investments">
+            <field name="name">Investments</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_fixed_assets_depreciation">
+            <field name="name">Fixed Assets Depreciation</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_fixed_digital_assets">
+            <field name="name">Fixed Digital Assets</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_fixed_assets_amortization">
+            <field name="name">Fixed Assets Amortization</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_provider_payable">
+            <field name="name">Provider Payable</field>
+            <field name="type">payable</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_current_financial_liabilities">
+            <field name="name">Current Financial Liabilities</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_current_fiscal_liabilities">
+            <field name="name">Current Fiscal Liabilities</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_current_labor_liabilities">
+            <field name="name">Current Labor Liabilities</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_current_hired_liabilities">
+            <field name="name">Current Hired Liabilities</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_current_leave_liabilities">
+            <field name="name">Current Leave Liabilities</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_current_bank_loan_liabilities">
+            <field name="name">Current Bank Loan Liabilities</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_current_loan_liabilities">
+            <field name="name">Current Loan Liabilities</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_equity_capital_reserve">
+            <field name="name">Capital Reserve</field>
+            <field name="internal_group">equity</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_equity_income_reserve">
+            <field name="name">Income Reserve</field>
+            <field name="internal_group">equity</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_equity_accumulated_profits">
+            <field name="name">Accumulated Profits</field>
+            <field name="internal_group">equity</field>
+        </record>
+
+        <record model="account.account.type"
+                id="data_account_type_equity_accumulated_losses">
+            <field name="name">Accumulated Losses</field>
+            <field name="internal_group">equity</field>
+        </record>
+    </data>
+</odoo>
