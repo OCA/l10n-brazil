@@ -22,7 +22,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">Vendas de Produtos, Mercadorias e Serviços</field>
             <field name="name">receita_vendas</field>
-            <field name="expression">bale[3.1.1]+bale[3.1.1.04]</field>
+            <field name="expression">-bal[('user_type_id', '=', ref('account.data_account_type_revenue').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -32,7 +32,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">(-) Deduções de Tributos, Abatimentos e Devoluções</field>
             <field name="name">deducoes_receita</field>
-            <field name="expression">bale[3.1.1.04]</field>
+            <field name="expression">bal[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_deduction').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -65,7 +65,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">Custo dos Produtos, Mercadorias e Serviços</field>
             <field name="name">custo_vendas</field>
-            <field name="expression">bale[3.2.1]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('account.data_account_type_direct_costs').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -99,7 +99,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">Despesas Administrativas</field>
             <field name="name">despesas_administrativas</field>
-            <field name="expression">bale[3.2.2.01]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_admin_expenses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -109,7 +109,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">Despesas com Vendas</field>
             <field name="name">despesas_vendas</field>
-            <field name="expression">bale[3.2.2.02]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_sale_expenses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -119,7 +119,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">Outras Despesas Gerais</field>
             <field name="name">despesas_gerais</field>
-            <field name="expression">bale[3.2.2.03]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_general_expenses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -151,7 +151,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">Receitas Financeiras</field>
             <field name="name">receitas_financeiras</field>
-            <field name="expression">bale[3.1.2]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_financial').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -161,7 +161,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">(-) Despesas Financeiras</field>
             <field name="name">despesas_financeiras</field>
-            <field name="expression">bale[3.2.3]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expenses_financial').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -172,7 +172,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS</field>
             <field name="name">outras_receitas_despesas_op</field>
-            <field name="expression">bale[3.2.4]</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_operational_expenses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
