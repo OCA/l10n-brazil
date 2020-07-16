@@ -17,6 +17,7 @@
         'data/account_tax_tag.xml',
         'data/account_tax_group.xml',
         'data/account_tax_template.xml',
+        'data/account_type_data.xml',
     ],
     'installable': True,
 }
