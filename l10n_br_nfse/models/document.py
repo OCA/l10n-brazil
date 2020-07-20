@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from requests import Session
+import logging
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -22,6 +23,8 @@ from ..constants.nfse import (
 )
 
 from .res_company import PROCESSADOR
+
+_logger = logging.getLogger(__name__)
 
 
 def fiter_processador_edoc_nfse(record):
@@ -126,9 +129,12 @@ class Document(models.Model):
         for record in self.filtered(fiter_processador_edoc_nfse):
             edoc = record.serialize()[0]
             processador = record._processador_erpbrasil_nfse()
-            xml_file = processador._generateds_to_string_etree(edoc)[0]
+            xml_file = processador.\
+                _generateds_to_string_etree(edoc)[0]
             event_id = self._gerar_evento(xml_file, event_type="0")
+            _logger.debug(xml_file)
             record.autorizacao_event_id = event_id
+
 
     def _prepare_dados_servico(self):
         self.line_ids.ensure_one()
