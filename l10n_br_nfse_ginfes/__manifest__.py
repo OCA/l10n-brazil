@@ -15,6 +15,7 @@
             'erpbrasil.assinatura',
             'erpbrasil.transmissao',
             'erpbrasil.base',
+            'nfselib',
         ],
     },
     'depends': [
