@@ -5,7 +5,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_SE"/>
-        <field name="document_serie_id" ref="l10n_br_nfse.document_SE_serie_1"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.document_SE_serie_1"/>
         <field name="document_serie">001</field>
         <field name="document_section">nfse_recibos</field>
         <field name="key">1</field>
@@ -32,6 +32,7 @@
         <field name="operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
+        <field name="city_taxation_code_id" ref="l10n_br_fiscal.city_taxation_code_itajuba"/>
     </record>
 
     <data noupdate="1">
@@ -39,9 +40,6 @@
             <value eval="[ref('l10n_br_nfse.demo_nfse_line_same_state_1-1')]"/>
         </function>
         <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
-            <value eval="[ref('l10n_br_nfse.demo_nfse_line_same_state_1-1')]"/>
-        </function>
-        <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_line_id">
             <value eval="[ref('l10n_br_nfse.demo_nfse_line_same_state_1-1')]"/>
         </function>
     </data>
