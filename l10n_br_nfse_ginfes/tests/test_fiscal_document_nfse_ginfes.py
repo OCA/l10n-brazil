@@ -26,6 +26,8 @@ class TestFiscalDocumentNFSeGinfes(TransactionCase):
         self.nfse_same_state = self.env.ref(
             'l10n_br_nfse.demo_nfse_same_state'
         )
+        self.company_ginfes = self.env.ref(
+            'l10n_br_fiscal.empresa_simples_nacional')
 
         self.company_ginfes.processador_edoc = 'erpbrasil_edoc'
         self.company_ginfes.partner_id.inscr_mun = '35172'
@@ -34,8 +36,6 @@ class TestFiscalDocumentNFSeGinfes(TransactionCase):
             'base.state_br_mg')
         self.company_ginfes.partner_id.city_id = self.env.ref(
             'l10n_br_base.city_3132404')
-        self.company_ginfes = self.env.ref(
-            'l10n_br_fiscal.empresa_simples_nacional')
         self.company_ginfes.icms_regulation_id = self.env.ref(
             'l10n_br_fiscal.tax_icms_regulation').id
         self.company_ginfes.city_taxation_code_id = self.env.ref(
