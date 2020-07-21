@@ -19,11 +19,9 @@ from nfselib.ginfes.v3_01.tipos_v03 import (
 from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import \
     EnviarLoteRpsEnvio
 
-from odoo import api, fields, models, _
+from odoo import models
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
-    SITUACAO_EDOC_AUTORIZADA,
-    TAX_FRAMEWORK_SIMPLES_ALL,
 )
 
 from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
@@ -47,7 +45,6 @@ def fiter_provedor_ginfes(record):
 class Document(models.Model):
 
     _inherit = 'l10n_br_fiscal.document'
-
 
     def _serialize(self, edocs):
         edocs = super(Document, self)._serialize(edocs)
