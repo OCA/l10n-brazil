@@ -7,13 +7,12 @@ import os
 import logging
 from OpenSSL import crypto
 
-from odoo.tests.common import TransactionCase, Form
-from odoo.tests import tagged
+from odoo.tests.common import TransactionCase
 from datetime import datetime, timedelta
 from odoo.tools import config
 from odoo import fields
 from odoo.tools.misc import format_date
-from odoo.addons import l10n_br_nfse_ginfes
+from ... import l10n_br_nfse_ginfes
 
 _logger = logging.getLogger(__name__)
 
@@ -133,8 +132,8 @@ class TestFiscalDocumentNFSeGinfes(TransactionCase):
         xml_path = os.path.join(
             l10n_br_nfse_ginfes.__path__[0], 'tests', 'nfse',
             '001_50_nfse.xml')
-        output = os.path.join(config['data_dir'], 'filestore',
-                              self.cr.dbname, self.nfse_same_state.file_xml_id.store_fname)
+        output = os.path.join(config['data_dir'], 'filestore', self.cr.dbname,
+                              self.nfse_same_state.file_xml_id.store_fname)
         _logger.info("XML file saved at %s" % (output,))
 
         diff = main.diff_files(xml_path, output)
