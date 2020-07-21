@@ -135,7 +135,6 @@ class Document(models.Model):
             _logger.debug(xml_file)
             record.autorizacao_event_id = event_id
 
-
     def _prepare_dados_servico(self):
         self.line_ids.ensure_one()
         result = {

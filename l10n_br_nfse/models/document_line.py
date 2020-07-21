@@ -77,9 +77,9 @@ class DocumentLine(models.Model):
             'base_calculo': float(self.issqn_base),
             'aliquota': float(self.issqn_percent / 100),
             'valor_liquido_nfse': float(self.amount_total),
-            'item_lista_servico': self.service_type_id.code and
-                                  self.service_type_id.code.replace(
-                                      '.', ''),
+            'item_lista_servico':
+                self.service_type_id.code and
+                self.service_type_id.code.replace('.', ''),
             'codigo_tributacao_municipio':
                 self.city_taxation_code_id.code,
             'discriminacao': str(self.name[:120] or ''),
