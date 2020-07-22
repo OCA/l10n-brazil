@@ -124,13 +124,13 @@ class Document(models.Model):
         )
 
     @api.multi
-    def _document_export(self):
+    def _document_export(self, pretty_print=True):
         super(Document, self)._document_export()
         for record in self.filtered(fiter_processador_edoc_nfse):
             edoc = record.serialize()[0]
             processador = record._processador_erpbrasil_nfse()
             xml_file = processador.\
-                _generateds_to_string_etree(edoc)[0]
+                _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
             event_id = self._gerar_evento(xml_file, event_type="0")
             _logger.debug(xml_file)
             record.autorizacao_event_id = event_id
