@@ -1,1 +1,1 @@
-Este módulo permite a criação e transmissão de Notas Fiscais de Serviço Eletrônicas (NFS-e).
+Esse módulo completa o documento criado pelo l10n_br_nfse para permite a criação e transmissão de Notas Fiscais de Serviço Eletrônicas (NFS-e) pelo sistema GINFES.
