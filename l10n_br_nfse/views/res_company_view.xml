@@ -12,6 +12,7 @@
             <field name="tax_framework" position="after">
                 <field name="cultural_encourager"/>
                 <field name="nfse_environment"/>
+                <field name="nfse_city_logo" widget="image"/>
             </field>
         </field>
     </record>
