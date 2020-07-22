@@ -23,9 +23,9 @@ Edoc Nfse Ginfes
     :target: https://runbot.odoo-community.org/runbot/124/12.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| |badge5|
+|badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Este módulo permite a criação e transmissão de Notas Fiscais de Serviço Eletrônicas (NFS-e) pelo sistema Ginfes.
+Esse módulo completa o documento criado pelo l10n_br_nfse para permite a criação e transmissão de Notas Fiscais de Serviço Eletrônicas (NFS-e) pelo sistema GINFES.
 
 **Table of contents**
 
@@ -39,16 +39,17 @@ Installation
 * Este módulo tem uma depedencia do pacote python erpbrasil.assinatura
 * Este módulo tem uma depedencia do pacote python erpbrasil.transmissao
 * Este módulo tem uma depedencia do pacote python erpbrasil.base
+* Este módulo tem uma depedencia do pacote python nfselib
 
 Configuration
 =============
 
-Após a instalação do módulo deve ser configurado na empresa o processador de documentos eletrônicos como erpbrasil.edoc.
+É apenas necessário a instalação e configuração do módulo l10n_br_nfse.
 
 Usage
 =====
 
-
+Após ser criado uma Nota Fiscal de Serviço Eletrônicas (NFS-e) é possível confirmá-la e transmiti-la.
 
 Bug Tracker
 ===========
