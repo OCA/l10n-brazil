@@ -38,6 +38,19 @@ class FiscalDocumentMixin(models.AbstractModel):
         default=_default_operation,
     )
 
+    #
+    # Company and Partner are defined here to avoid warnings on runbot
+    #
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company',
+    )
+
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='Partner',
+    )
+
     operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
         related='fiscal_operation_id.operation_type',
