@@ -202,7 +202,7 @@ class AccountInvoice(models.Model):
                 icmssn_range=line.icmssn_range_id)['taxes']
 
             for tax in taxes:
-                if tax.get('amount', 0.0) > 0.0:
+                if tax.get('amount', 0.0) == 0.0:
                     val = self._prepare_tax_line_vals(line, tax)
                     key = self.env['account.tax'].browse(
                         tax['id']).get_grouping_key(val)
