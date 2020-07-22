@@ -17,7 +17,6 @@
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00"/>
         <field name="icms_origin" eval=""/>
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_105"/>
-        <field name="city_taxation_code">6202300</field>
         <field name="fiscal_deductions_value">0.0</field>
     </record>
 
