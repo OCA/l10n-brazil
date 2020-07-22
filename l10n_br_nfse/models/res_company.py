@@ -30,6 +30,10 @@ class ResCompany(models.Model):
         default=NFSE_ENVIRONMENT_DEFAULT,
     )
 
+    nfse_city_logo = fields.Binary(
+        string='NFSe City Logo',
+    )
+
     def prepare_company_servico(self):
         return {
             'codigo_municipio': int('%s%s' % (
