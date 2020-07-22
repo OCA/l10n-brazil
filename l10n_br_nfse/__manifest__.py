@@ -20,6 +20,7 @@
     },
     'depends': [
         'l10n_br_fiscal',
+        'l10n_br_zip',
     ],
     'data': [
         'security/res_partner.xml',
