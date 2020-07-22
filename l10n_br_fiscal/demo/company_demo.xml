@@ -79,7 +79,6 @@
         <field name="phone">(21) 3010 9965</field>
         <field name="email">info@simplesnacional.example.com</field>
         <field name="website">www.example.com</field>
-        <field name="icms_regulation_id" ref="tax_icms_regulation"/>
     </record>
 
     <record id="empresa_simples_nacional" model="res.company">
