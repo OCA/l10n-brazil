@@ -52,8 +52,8 @@
             </style>
             <div class="row completa">
                 <div class="col-2">
-                    <img src="/l10n_br_nfse/static/src/img/itajuba.png" alt="Logo Prefeitura Itajubá"
-                        style="max-height:80px; margin-top:4px; margin-left:10px;" />
+                    <img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.nfse_city_logo)"
+                         style="max-height:80px; margin-top:4px; margin-left:10px;"/>
                 </div>
                 <div class="col-7 br" style="padding:0px;text-align:center;font-size:20px;">
                     Prefeitura do Município de Itajubá
