@@ -1,1 +1,1 @@
-Após a instalação do módulo deve ser configurado na empresa o processador de documentos eletrônicos como erpbrasil.edoc.
+É apenas necessário a instalação e configuração do módulo l10n_br_nfse.
