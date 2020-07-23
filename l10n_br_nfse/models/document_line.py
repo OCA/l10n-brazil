@@ -81,6 +81,6 @@ class DocumentLine(models.Model):
                 self.service_type_id.code and
                 self.service_type_id.code.replace('.', ''),
             'codigo_tributacao_municipio':
-                self.city_taxation_code_id.code,
+                self.city_taxation_code_id.code or '',
             'discriminacao': str(self.name[:120] or ''),
         }
