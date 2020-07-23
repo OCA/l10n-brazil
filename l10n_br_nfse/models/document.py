@@ -199,6 +199,23 @@ class Document(models.Model):
 
                         if processo.webservice == 'RecepcionarLoteRpsV3':
                             if processo.resposta.Protocolo is None:
+                                mensagem_completa = ''
+                                if processo.resposta.ListaMensagemRetorno:
+                                    lista_msgs = processo.resposta.ListaMensagemRetorno
+                                    for mr in lista_msgs.MensagemRetorno:
+
+                                        correcao = ''
+                                        if mr.Correcao:
+                                            correcao = mr.Correcao
+
+                                        mensagem_completa += (
+                                            mr.Codigo + ' - ' +
+                                            mr.Mensagem +
+                                            ' - Correção: ' +
+                                            correcao + '\n'
+                                        )
+                                vals['edoc_error_message'] = mensagem_completa
+                                record.write(vals)
                                 return
                             protocolo = processo.resposta.Protocolo
 
