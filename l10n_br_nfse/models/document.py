@@ -94,7 +94,7 @@ class Document(models.Model):
                     serie_id = self.document_serie_id.browse(
                         values['document_serie_id'])
                     values['rps_number'] = serie_id.next_seq_number()
-                values['number'] = 'SN'
+                values['number'] = None
         return super(Document, self).create(values)
 
     def _generate_key(self):
