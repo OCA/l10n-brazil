@@ -198,7 +198,7 @@ class Document(models.Model):
                         processo = p
 
                         if processo.webservice == 'RecepcionarLoteRpsV3':
-                            if not hasattr(processo.resposta, 'Protocolo'):
+                            if processo.resposta.Protocolo is None:
                                 return
                             protocolo = processo.resposta.Protocolo
 
