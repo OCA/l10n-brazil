@@ -13,3 +13,6 @@ from . import res_config_settings
 from . import cfop
 from . import invalidate_number
 from . import spec_mixin
+
+from . import dfe
+from . import mdfe
