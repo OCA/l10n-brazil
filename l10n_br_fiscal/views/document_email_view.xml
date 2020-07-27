@@ -7,10 +7,8 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="document_type_id"/>
-                <field name="email_template_authorized_id"/>
-                <field name="email_template_canceled_id"/>
-                <field name="email_template_denied_id"/>
-                <field name="email_template_correction_id"/>
+                <field name="state_edoc"/>
+                <field name="email_template"/>
             </tree>
         </field>
     </record>
@@ -30,15 +28,9 @@
                         </button>
                     </div>
                     <group>
-                        <group>
-                            <field name="document_type_id"/>
-                        </group>
-                        <group>
-                            <field name="email_template_authorized_id"/>
-                            <field name="email_template_canceled_id"/>
-                            <field name="email_template_denied_id"/>
-                            <field name="email_template_correction_id"/>
-                        </group>
+                        <field name="document_type_id"/>
+                        <field name="state_edoc"/>
+                        <field name="email_template"/>
                     </group>
                 </sheet>
             </form>
