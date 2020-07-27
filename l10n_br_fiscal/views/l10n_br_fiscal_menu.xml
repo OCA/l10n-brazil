@@ -187,10 +187,14 @@
     <!-- Fiscal Document Serie -->
     <menuitem id="document_serie_menu" action="document_serie_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="20"/>
 
-    <!-- Fiscal Document Serie -->
+    <!-- Fiscal Document Certificate -->
     <menuitem id="certificate_menu" action="certificate_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="30"/>
 
+    <!-- Fiscal Document Email -->
+    <menuitem id="document_email_menu" action="document_email_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="60"/>
+
     <!-- Comment -->
-    <menuitem id="comment_menu" action="comment_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="40"/>
+    <menuitem id="comment_menu" action="comment_action" groups="l10n_br_fiscal.group_manager" parent="others_config_menu" sequence="50"/>
+
 
 </odoo>
