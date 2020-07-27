@@ -22,6 +22,7 @@
 
         # Data
         # Some data is being loaded via post_init_hook in hook file
+        "data/l10n_br_fiscal_email_template.xml",
         "data/l10n_br_fiscal_data.xml",
         "data/uom_data.xml",
         "data/product_data.xml",
