@@ -248,6 +248,11 @@ class ResCompany(models.Model):
         comodel_name='l10n_br_fiscal.document.type',
         string='Default Document Type')
 
+    document_email_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.email",
+        inverse_name="company_id",
+        string="Email Template Definition")
+
     def _del_tax_definition(self, tax_domain):
         tax_def = self.tax_definition_ids.filtered(
             lambda d: d.tax_group_id.tax_domain != tax_domain
