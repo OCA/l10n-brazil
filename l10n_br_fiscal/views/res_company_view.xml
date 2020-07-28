@@ -96,7 +96,6 @@
                                 <group>
                                     <field name="processador_edoc"/>
                                     <field name="document_type_id"/>
-                                    <field name="email_template"/>
                                 </group>
                                 <group></group>
                             </group>
