@@ -441,11 +441,3 @@ class ResCompany(models.Model):
             self._set_tax_definition(self.tax_inss_wh_id)
         else:
             self._del_tax_definition(TAX_DOMAIN_INSS_WH)
-
-    email_template = fields.Many2one(
-        comodel_name="mail.template",
-        string="Fiscal Document E-mail Template",
-        # default=lambda self: self.env.ref('l10n_br_fiscal.fiscal_document_change_state_template'),
-        help="Select the email template that will be sent when "
-        "this document state change."
-    )
