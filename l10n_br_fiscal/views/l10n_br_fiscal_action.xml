@@ -409,8 +409,8 @@
             <p class="o_view_nocontent_smiling_face">
               Add a new Fiscal Document Email Definition
             </p><p>
-              All Documents Email Definition supported by Brazilian
-              Fiscal modulo for Odoo.
+              All Document Email Definitions supported by the Brazilian
+              Fiscal module for Odoo.
             </p>
         </field>
     </record>

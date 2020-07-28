@@ -6,6 +6,7 @@
         <field name="model">l10n_br_fiscal.document.email</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="name"/>
                 <field name="document_type_id"/>
                 <field name="state_edoc"/>
                 <field name="email_template"/>
