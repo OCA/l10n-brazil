@@ -30,15 +30,16 @@ class DocumentType(models.Model):
         required=True
     )
 
+    document_email_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.email",
+        inverse_name="document_type_id",
+        string="Email Template Definition")
+
     document_serie_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.document.serie',
         inverse_name='document_type_id',
         string='Document Series',
     )
-    document_email_ids = fields.One2many(
-        comodel_name="l10n_br_fiscal.document.email",
-        inverse_name="document_type_id",
-        string="Email Template Definition")
 
     def _get_default_document_serie(self, company):
         """Overwrite this method in a custom fiscal document
