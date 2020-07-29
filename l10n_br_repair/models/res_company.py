@@ -1,7 +1,7 @@
 # Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 
 
 class ResCompany(models.Model):
@@ -11,3 +11,7 @@ class ResCompany(models.Model):
     repair_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Operação Fiscal Padrão de Reparos')
+
+    copy_note = fields.Boolean(
+        string='Copy Repair note on invoice',
+        default=False)

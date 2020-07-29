@@ -17,21 +17,15 @@
         'l10n_br_account',
     ],
     'data': [
-        # Security
-        # "security/ir.model.access.csv",
+        'demo/res_company.xml',
         'security/l10n_br_repair_security.xml',
-
         'views/res_company.xml',
         'views/repair_order.xml',
         'views/repair_fee.xml',
         'views/repair_line.xml',
-
     ],
     'demo': [
-        #'demo/res_company.xml',
-        #'demo/repair_fee.xml',
-        #'demo/repair_line.xml',
-        #'demo/repair_order.xml',
+        'demo/res_company.xml',
     ],
     'installable': True,
     'auto_install': True,
