@@ -4,7 +4,7 @@
 from lxml import etree
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 from odoo.addons import decimal_precision as dp
 from odoo.osv import expression
 
@@ -16,37 +16,17 @@ class RepairOrder(models.Model):
 
     # Módulos reparos tem apenas uma invoice. Porém, no caso do brasil é uma fatura de serviço e uma de produtos
 
-    # @api.one
-    # @api.depends('operations.price_unit', 'operations.product_uom_qty', 'operations.product_id',
-    #              'fees_lines.price_unit', 'fees_lines.product_uom_qty', 'fees_lines.product_id',
-    #              'pricelist_id.currency_id', 'partner_id')
-    # def _amount_tax(self):
-    #     val = 0.0
-    #     for operation in self.operations:
-    #         if operation.tax_id:
-    #             tax_calculate = operation.tax_id.compute_all(operation.price_unit, self.pricelist_id.currency_id,
-    #                                                          operation.product_uom_qty, operation.product_id,
-    #                                                          self.partner_id)
-    #             for c in tax_calculate['taxes']:
-    #                 val += c['amount']
-    #     for fee in self.fees_lines:
-    #         if fee.tax_id:
-    #             tax_calculate = fee.tax_id.compute_all(fee.price_unit, self.pricelist_id.currency_id,
-    #                                                    fee.product_uom_qty, fee.product_id, self.partner_id)
-    #             for c in tax_calculate['taxes']:
-    #                 val += c['amount']
-    #     self.amount_tax = val
-
     @api.one
-    @api.depends('operations.price_unit', 'operations.product_uom_qty', 'operations.product_id',
-                 'fees_lines.price_unit', 'fees_lines.product_uom_qty', 'fees_lines.product_id',
+    @api.depends('operations.price_unit', 'operations.product_uom_qty',
+                 'operations.product_id', 'fees_lines.price_unit',
+                 'fees_lines.product_uom_qty', 'fees_lines.product_id',
                  'pricelist_id.currency_id', 'partner_id')
     def _amount_tax(self):
         self._amount_total()
         pass
 
-    #@api.depends('amount_untaxed', 'amount_tax')
-    @api.depends('operations.price_total','fees_lines.price_total')
+    # @api.depends('amount_untaxed', 'amount_tax')
+    @api.depends('operations.price_total', 'fees_lines.price_total')
     def _amount_total(self):
         """Compute the total amounts of the Repair Order."""
         for order in self:
@@ -82,9 +62,11 @@ class RepairOrder(models.Model):
                 sum(line.insurance_value for line in order.operations) + \
                 sum(line.insurance_value for line in order.fees_lines)
 
-        _sql_constraints = [
-        ('name', 'unique (name)', 'The name of the Repair Order must be unique!'),
-    ]
+        _sql_constraints = [(
+            'name',
+            'unique (name)',
+            'The name of the Repair Order must be unique!',
+        )]
 
     @api.model
     def _default_fiscal_operation(self):
@@ -166,8 +148,11 @@ class RepairOrder(models.Model):
         string='Currency ID',
         related='partner_id.currency_id')
 
-    invoice_count = fields.Integer(string='Invoice Count', compute='_get_invoiced', readonly=True)
-    invoice_ids = fields.Many2many("account.invoice", string='Invoices', compute="_get_invoiced", readonly=True,
+    invoice_count = fields.Integer(string='Invoice Count',
+                                   compute='_get_invoiced', readonly=True)
+
+    invoice_ids = fields.Many2many("account.invoice", string='Invoices',
+                                   compute="_get_invoiced", readonly=True,
                                    copy=False)
 
     fiscal_document_count = fields.Integer(
@@ -200,23 +185,38 @@ class RepairOrder(models.Model):
         refund is not directly linked to the SO.
         """
         # Ignore the status of the deposit product
-        deposit_product_id = self.env['sale.advance.payment.inv']._default_product_id()
+        # deposit_product_id = self.env['sale.advance.payment.inv']._default_product_id()
 
         for order in self:
-            invoice_ids = order.operations.mapped('invoice_line_id').mapped('invoice_id').filtered(lambda r: r.type in ['out_invoice', 'out_refund']) + \
-                          order.fees_lines.mapped('invoice_line_id').mapped('invoice_id').filtered(
-                              lambda r: r.type in ['out_invoice', 'out_refund'])
+            invoice_ids = \
+                order.operations.mapped('invoice_line_id')\
+                    .mapped('invoice_id')\
+                    .filtered(lambda r: r.type in ['out_invoice', 'out_refund']) + \
+                order.fees_lines.mapped('invoice_line_id')\
+                    .mapped('invoice_id')\
+                    .filtered(lambda r: r.type in ['out_invoice', 'out_refund'])
             # Search for invoices which have been 'cancelled' (filter_refund = 'modify' in
             # 'account.invoice.refund')
             # use like as origin may contains multiple references (e.g. 'SO01, SO02')
-            refunds = invoice_ids.search([('origin', 'like', order.name), ('company_id', '=', order.company_id.id), ('type', 'in', ('out_invoice', 'out_refund'))])
-            invoice_ids |= refunds.filtered(lambda r: order.name in [origin.strip() for origin in r.origin.split(',')])
+            refunds = invoice_ids.search([
+                ('origin', 'like', order.name),
+                ('company_id', '=', order.company_id.id),
+                ('type', 'in', ('out_invoice', 'out_refund'))
+            ])
+
+            invoice_ids |= refunds.filtered(lambda r: order.name in [
+                origin.strip() for origin in r.origin.split(',')])
 
             # Search for refunds as well
             domain_inv = expression.OR([
-                ['&', ('origin', '=', inv.number), ('journal_id', '=', inv.journal_id.id)]
+                [
+                    '&',
+                    ('origin', '=', inv.number),
+                    ('journal_id', '=', inv.journal_id.id)
+                ]
                 for inv in invoice_ids if inv.number
             ])
+
             if domain_inv:
                 refund_ids = self.env['account.invoice'].search(expression.AND([
                     ['&', ('type', '=', 'out_refund'), ('origin', '!=', False)],
@@ -229,9 +229,6 @@ class RepairOrder(models.Model):
                 'invoice_count': len(set(invoice_ids.ids + refund_ids.ids)),
                 'invoice_ids': invoice_ids.ids + refund_ids.ids,
             })
-
-
-
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
@@ -343,11 +340,18 @@ class RepairOrder(models.Model):
         """
         self.ensure_one()
         company_id = self.company_id.id
-        journal_id = (self.env['account.invoice'].with_context(company_id=company_id or self.env.user.company_id.id)
+        journal_id = (self.env['account.invoice'].with_context(
+            company_id=company_id or self.env.user.company_id.id)
             .default_get(['journal_id'])['journal_id'])
         if not journal_id:
-            raise UserError(_('Please define an accounting sales journal for this company.'))
-        vinvoice = self.env['account.invoice'].new({'partner_id': self.partner_invoice_id.id, 'type': 'out_invoice'})
+            raise UserError(_(
+                'Please define an accounting sales journal for this company.'))
+
+        vinvoice = self.env['account.invoice'].new({
+            'partner_id': self.partner_invoice_id.id,
+            'type': 'out_invoice'
+        })
+
         # Get partner extra fields
         vinvoice._onchange_partner_id()
         invoice_vals = vinvoice._convert_to_write(vinvoice._cache)
@@ -395,22 +399,37 @@ class RepairOrder(models.Model):
         InvoiceLine = self.env['account.invoice.line']
         Invoice = self.env['account.invoice']
 
-        for repair in self.filtered(lambda repair: repair.state not in ('draft', 'cancel') and not repair.invoice_id):
+        for repair in self.filtered(
+            lambda repair: repair.state not in
+                           ('draft', 'cancel') and not repair.invoice_id):
+
             if not repair.partner_id.id and not repair.partner_invoice_id.id:
-                raise UserError(_('You have to select an invoice address in the repair form.'))
+                raise UserError(_(
+                    'You have to select an invoice address in the repair form.'))
+
             comment = repair.quotation_notes
+
             if repair.invoice_method != 'none':
                 if group and repair.partner_invoice_id.id in invoices_group:
                     invoice = invoices_group[repair.partner_invoice_id.id]
                     invoice.write({
                         'name': invoice.name + ', ' + repair.name,
                         'origin': invoice.origin + ', ' + repair.name,
-                        'comment': (comment and (invoice.comment and invoice.comment + "\n" + comment or comment)) or (invoice.comment and invoice.comment or ''),
+                        'comment': (comment and (invoice.comment and
+                                                 invoice.comment + "\n" + comment or
+                                                 comment)) or
+                                   (invoice.comment and invoice.comment or ''),
                     })
                 else:
                     if not repair.partner_id.property_account_receivable_id:
-                        raise UserError(_('No account defined for partner "%s".') % repair.partner_id.name)
-                    fp_id = repair.partner_id.property_account_position_id.id or self.env['account.fiscal.position'].get_fiscal_position(repair.partner_id.id, delivery_id=repair.address_id.id)
+                        raise UserError(_(
+                            'No account defined for partner "%s".') %
+                                        repair.partner_id.name)
+
+                    # fp_id = repair.partner_id.property_account_position_id.id or \
+                    #         self.env['account.fiscal.position'].get_fiscal_position(
+                    #             repair.partner_id.id, delivery_id=repair.address_id.id)
+
                     inv_data = self._prepare_invoice()
                     invoice = Invoice.create(inv_data)
                     # invoice = Invoice.create({
@@ -435,13 +454,19 @@ class RepairOrder(models.Model):
                             name = operation.name
 
                         if operation.product_id.property_account_income_id:
-                            account_id = operation.product_id.property_account_income_id.id
-                        elif operation.product_id.categ_id.property_account_income_categ_id:
-                            account_id = operation.product_id.categ_id.property_account_income_categ_id.id
+                            account_id = operation.\
+                                product_id.property_account_income_id.id
+                        elif operation.product_id.categ_id\
+                            .property_account_income_categ_id:
+                            account_id = operation.product_id.categ_id\
+                                .property_account_income_categ_id.id
                         else:
-                            raise UserError(_('No account defined for product "%s".') % operation.product_id.name)
+                            raise UserError(_(
+                                'No account defined for product "%s".') %
+                                            operation.product_id.name)
 
-                        inv_line_data = operation._prepare_invoice_line(operation.product_uom_qty)
+                        inv_line_data = operation\
+                            ._prepare_invoice_line(operation.product_uom_qty)
 
                         inv_line_data['invoice_id'] = invoice.id
 
@@ -459,8 +484,11 @@ class RepairOrder(models.Model):
                         #     'product_id': operation.product_id and operation.product_id.id or False
                         # })
 
+                        operation.write({
+                            'invoiced': True,
+                            'invoice_line_id': invoice_line.id
+                        })
 
-                        operation.write({'invoiced': True, 'invoice_line_id': invoice_line.id})
                 for fee in repair.fees_lines:
                     if group:
                         name = repair.name + '-' + fee.name
@@ -468,13 +496,15 @@ class RepairOrder(models.Model):
                         name = fee.name
                     if not fee.product_id:
                         raise UserError(_('No product defined on fees.'))
-
                     if fee.product_id.property_account_income_id:
                         account_id = fee.product_id.property_account_income_id.id
                     elif fee.product_id.categ_id.property_account_income_categ_id:
-                        account_id = fee.product_id.categ_id.property_account_income_categ_id.id
+                        account_id = fee.product_id.categ_id\
+                            .property_account_income_categ_id.id
                     else:
-                        raise UserError(_('No account defined for product "%s".') % fee.product_id.name)
+                        raise UserError(_(
+                            'No account defined for product "%s".') %
+                                        fee.product_id.name)
 
                     inv_line_data = fee._prepare_invoice_line(fee.product_uom_qty)
 
@@ -493,6 +523,7 @@ class RepairOrder(models.Model):
                     #     'price_unit': fee.price_unit,
                     #     'price_subtotal': fee.product_uom_qty * fee.price_unit
                     # })
+
                     fee.write({'invoiced': True, 'invoice_line_id': invoice_line.id})
                 invoice.compute_taxes()
 
@@ -551,9 +582,10 @@ class RepairOrder(models.Model):
                                     invoices_origin[group_key].append(order.name)
                                 if (order.client_order_ref and
                                     order.client_order_ref not in
-                                    invoices_name[group_key]):
-                                    invoices_name[group_key].append(
-                                        order.client_order_ref)
+                                    invoices_name[group_key]
+                                ):
+                                    invoices_name[group_key]\
+                                        .append(order.client_order_ref)
 
                         # Update Invoice Line
                         for inv_line in invoice_created_by_super.invoice_line_ids:
@@ -562,7 +594,6 @@ class RepairOrder(models.Model):
                                     inv_line.invoice_id.company_id)
                             if fiscal_document_type.id == document_type.id:
                                 inv_line.invoice_id = invoice.id
+                                inv_line.document_id = invoice.fiscal_document_id
 
         return res
-
-

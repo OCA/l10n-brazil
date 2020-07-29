@@ -40,12 +40,22 @@ This module depends on:
 Configuration
 =============
 
-No configuration required.
+To configure this module, you need to:
 
-Known issues / Roadmap
-======================
+#. Go to Settings -> Users & Companies -> Companies
+#. Select or create a company and go to Taxes -> Repair
+#. Set the default Tax Operation for repairs.
 
-* TODO!
+Usage
+=====
+
+To use this module, you need to:
+
+#. Go to Repair
+#. Create or select a Repair Order
+#. Set Invoice Method (After or Before Repair)
+#. Confirm the Repair
+#. Create Invoice
 
 Changelog
 =========
@@ -77,16 +87,16 @@ Contributors
 ~~~~~~~~~~~~
 
 * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+* Eduardo Aparício <eduardo.aparicio@escodoo.com.br>
 * Renato Lima <renato.lima@akretion.com.br>
 * Luis Felipe Mileo <mileo@kmee.com.br>
-
 
 Other credits
 ~~~~~~~~~~~~~
 
 The development of this module has been financially supported by:
 
-* ESCODOO - https://www.escodoo.com.br
+* Escodoo - https://www.escodoo.com.br
 
 Maintainers
 ~~~~~~~~~~~

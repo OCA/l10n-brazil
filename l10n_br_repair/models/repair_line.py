@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import UserError
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 
@@ -119,14 +119,19 @@ class RepairLine(models.Model):
         self.ensure_one()
         res = {}
         product = self.product_id.with_context(force_company=self.company_id.id)
-        account = product.property_account_income_id or product.categ_id.property_account_income_categ_id
+        account = product.property_account_income_id or \
+                  product.categ_id.property_account_income_categ_id
 
         if not account and self.product_id:
-            raise UserError(_('Please define income account for this product: "%s" (id:%d) - or for its category: "%s".') %
-                (self.product_id.name, self.product_id.id, self.product_id.categ_id.name))
+            raise UserError(_('Please define income account for this product: '
+                              '"%s" (id:%d) - or for its category: "%s".') %
+                            (self.product_id.name,
+                             self.product_id.id,
+                             self.product_id.categ_id.name))
 
         fpos = self.repair_id.partner_id.property_account_position_id.id or self.env[
-            'account.fiscal.position'].get_fiscal_position(self.repair_id.partner_id.id, delivery_id=self.repair_id.address_id.id)
+            'account.fiscal.position'].get_fiscal_position(
+            self.repair_id.partner_id.id, delivery_id=self.repair_id.address_id.id)
 
         if fpos and account:
             account = fpos.map_account(account)
@@ -159,11 +164,6 @@ class RepairLine(models.Model):
     @api.onchange('discount', 'product_uom_qty', 'price_unit')
     def _onchange_discount_percent(self):
         """Update discount value"""
-        # if not self.env.user.has_group('l10n_br_repair.group_discount_per_value'):
-        #     if self.discount:
-        #         self.discount_value = (
-        #             (self.product_uom_qty * self.price_unit) * (
-        #             self.discount / 100))
         self.discount_value = (
             (self.product_uom_qty * self.price_unit) * (
             self.discount / 100))
@@ -171,11 +171,6 @@ class RepairLine(models.Model):
     @api.onchange('discount_value')
     def _onchange_discount_value(self):
         """Update discount percent"""
-        # if self.env.user.has_group('l10n_br_repair.group_discount_per_value'):
-        #     if self.discount_value:
-        #         self.discount = ((self.discount_value * 100) /
-        #                          (self.product_uom_qty * self.price_unit))
-
         self.discount = ((self.discount_value * 100) /
                          (self.product_uom_qty * self.price_unit))
 
