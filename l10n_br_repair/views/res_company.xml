@@ -14,9 +14,7 @@
                     <group>
                         <group>
                             <field name="repair_fiscal_operation_id"/>
-<!--                            <field name="repair_fiscal_operation_line_id"/>-->
-<!--                            <field name="repair_fiscal_operation_fee_id"/>-->
-<!--                            <field name="copy_note"/>-->
+                            <field name="copy_note"/>
                         </group>
                     </group>
                 </page>

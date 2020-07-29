@@ -2,12 +2,11 @@
 <!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
-<odoo noupdate="1">
+<odoo>
 
-    <!-- TODO
-    <record model="res.company" id="res_company_demo_1">
-       <field name="name">...</field>
+    <!-- Demo Company -->
+    <record id="l10n_br_fiscal.empresa_simples_nacional" model="res.company">
+        <field name="repair_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
     </record>
-    -->
 
 </odoo>
