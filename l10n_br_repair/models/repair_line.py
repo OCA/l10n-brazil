@@ -112,7 +112,8 @@ class RepairLine(models.Model):
     @api.multi
     def _prepare_invoice_line(self, qty):
         """
-        Prepare the dict of values to create the new invoice line for a sales order line.
+        Prepare the dict of values to create the new invoice line for
+        a repair order line.
 
         :param qty: float quantity to invoice
         """
