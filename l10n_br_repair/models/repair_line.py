@@ -119,8 +119,9 @@ class RepairLine(models.Model):
         self.ensure_one()
         res = {}
         product = self.product_id.with_context(force_company=self.company_id.id)
-        account = product.property_account_income_id or \
-                  product.categ_id.property_account_income_categ_id
+        account = \
+            product.property_account_income_id or \
+            product.categ_id.property_account_income_categ_id
 
         if not account and self.product_id:
             raise UserError(_('Please define income account for this product: '
@@ -163,16 +164,17 @@ class RepairLine(models.Model):
 
     @api.onchange('discount', 'product_uom_qty', 'price_unit')
     def _onchange_discount_percent(self):
-        """Update discount value"""
         self.discount_value = (
-            (self.product_uom_qty * self.price_unit) * (
-            self.discount / 100))
+            (self.product_uom_qty * self.price_unit) *
+            (self.discount / 100)
+        )
 
     @api.onchange('discount_value')
     def _onchange_discount_value(self):
-        """Update discount percent"""
-        self.discount = ((self.discount_value * 100) /
-                         (self.product_uom_qty * self.price_unit))
+        self.discount = (
+            (self.discount_value * 100) /
+            (self.product_uom_qty * self.price_unit)
+        )
 
     @api.onchange('fiscal_tax_ids')
     def _onchange_fiscal_tax_ids(self):
