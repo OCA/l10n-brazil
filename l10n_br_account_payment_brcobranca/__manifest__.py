@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 Akretion
 # @author Raphaël Valyi <raphael.valyi@akretion.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
@@ -14,6 +13,7 @@
     'website': 'www.akretion.com',
     'depends': [
         'l10n_br_account_payment_order',
+        'account_move_base_import',
     ],
     'data': [
         'views/account_invoice_view.xml',
