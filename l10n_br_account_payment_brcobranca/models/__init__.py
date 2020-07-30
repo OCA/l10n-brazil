@@ -8,3 +8,4 @@ from . import account_payment_order
 from . import l10n_br_cnab
 from . import res_config_settings
 from . import bank_payment_line
+from . import account_journal
