@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
+import xml.etree.ElementTree as ET
 from nfselib.ginfes.v3_01.tipos_v03 import (
     ListaRpsType,
     tcCpfCnpj,
@@ -148,3 +149,35 @@ class Document(models.Model):
             LoteRps=self._serialize_lote_rps()
         )
         return lote_rps
+
+    def cancelar_documento(self):
+        for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
+            processador = record._processador_erpbrasil_nfse()
+            processo = processador.cancela_documento()
+
+            if processo.webservice == 'CancelarNfseV3':
+                mensagem_completa = ''
+                situacao = True
+                retorno = ET.fromstring(processo.retorno)
+
+                sucesso = retorno.findall(
+                    ".//{http://www.ginfes.com.br/tipos_v03.xsd}Sucesso")
+                if not sucesso:
+                    mensagem_erro = retorno.findall(
+                        ".//{http://www.ginfes.com.br/tipos_v03.xsd}Mensagem")[
+                        0].text
+                    correcao = retorno.findall(
+                        ".//{http://www.ginfes.com.br/tipos_v03.xsd}Correcao")[
+                        0].text
+                    codigo = retorno.findall(
+                        ".//{http://www.ginfes.com.br/tipos_v03.xsd}Codigo")[
+                        0].text
+                    mensagem_completa += (
+                                codigo + ' - ' +
+                                mensagem_erro +
+                                ' - Correção: ' +
+                                correcao + '\n'
+                            )
+                    situacao = False
+
+                return situacao, mensagem_completa
