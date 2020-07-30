@@ -48,6 +48,7 @@ class Document(models.Model):
 
     edoc_error_message = fields.Text(
         readonly=True,
+        copy=False,
     )
 
     rps_number = fields.Char(
