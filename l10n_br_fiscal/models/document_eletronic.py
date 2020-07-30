@@ -38,14 +38,17 @@ class DocumentEletronic(models.AbstractModel):
                 )
 
     codigo_situacao = fields.Char(
-        string='Código situação')
+        string='Código situação',
+        copy=False,)
 
     motivo_situacao = fields.Char(
-        string='Motivo situação')
+        string='Motivo situação',
+        copy=False,)
 
     codigo_motivo_situacao = fields.Char(
         compute='_compute_codigo_motivo_situacao',
-        string='Situação')
+        string='Situação',
+        copy=False,)
 
     # Eventos de envio
     data_hora_autorizacao = fields.Datetime(
@@ -54,7 +57,8 @@ class DocumentEletronic(models.AbstractModel):
 
     protocolo_autorizacao = fields.Char(
         string="Protocolo",
-        readonly=True)
+        readonly=True,
+        copy=False)
 
     autorizacao_event_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.event",
