@@ -13,6 +13,7 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
     SITUACAO_EDOC_AUTORIZADA,
+    NFE_IND_IE_DEST,
 )
 
 
@@ -229,6 +230,12 @@ class Document(models.Model):
         related='partner_id.inscr_est',
     )
 
+    partner_ind_ie_dest = fields.Selection(
+        selection=NFE_IND_IE_DEST,
+        string='Contribuinte do ICMS',
+        related='partner_id.ind_ie_dest',
+    )
+
     partner_inscr_mun = fields.Char(
         string='Municipal Tax Number',
         related='partner_id.inscr_mun',
@@ -258,7 +265,7 @@ class Document(models.Model):
 
     partner_number = fields.Char(
         string='Partner Number',
-        related='partner_id.number',
+        related='partner_id.street_number',
     )
 
     partner_street2 = fields.Char(
@@ -371,7 +378,7 @@ class Document(models.Model):
 
     company_number = fields.Char(
         string='Company Number',
-        related='company_id.number',
+        related='company_id.street_number',
     )
 
     company_street2 = fields.Char(
@@ -392,7 +399,7 @@ class Document(models.Model):
     company_state_id = fields.Many2one(
         comodel_name='res.country.state',
         string='Company State',
-        related='company_id.city_id',
+        related='company_id.state_id',
     )
 
     company_city_id = fields.Many2one(
