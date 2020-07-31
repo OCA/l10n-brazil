@@ -153,7 +153,7 @@ class Document(models.Model):
     def cancelar_documento(self):
         for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
             processador = record._processador_erpbrasil_nfse()
-            processo = processador.cancela_documento()
+            processo = processador.cancela_documento(doc_numero=self.number)
 
             if processo.webservice == 'CancelarNfseV3':
                 mensagem_completa = ''
