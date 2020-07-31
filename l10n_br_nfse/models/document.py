@@ -122,7 +122,6 @@ class Document(models.Model):
                 self.company_id.partner_id.cnpj_cpf),
             im_prestador=misc.punctuation_rm(
                 self.company_id.partner_id.inscr_mun or ''),
-            doc_numero=self.number,
         )
 
     @api.multi
