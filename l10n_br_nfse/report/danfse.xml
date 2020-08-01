@@ -2,15 +2,15 @@
 <odoo>
 
     <report
-        id="report_br_nfse_danfe_ginfes"
-        string="Nota de Serviço - Ginfes"
+        id="report_br_nfse_danfe"
+        string="Nota de Serviço"
         model="l10n_br_fiscal.document"
         report_type="qweb-pdf"
-        file="l10n_br_nfse.main_template_br_nfse_danfe_ginfes"
-        name="l10n_br_nfse.main_template_br_nfse_danfe_ginfes" />
+        file="l10n_br_nfse.main_template_br_nfse_danfe"
+        name="l10n_br_nfse.main_template_br_nfse_danfe" />
 
       <record id="paperformat_br_nfse_danfse" model="report.paperformat">
-          <field name="name">Danfe Ginfes</field>
+          <field name="name">Danfe NFS-e</field>
           <field name="default" eval="True" />
           <field name="orientation">Portrait</field>
           <field name="margin_top">3</field>
@@ -21,13 +21,13 @@
           <field name="header_spacing">3</field>
       </record>
 
-    <record id="report_br_nfse_danfe_ginfes" model="ir.actions.report">
+    <record id="report_br_nfse_danfe" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_br_nfse_danfse"/>
-        <field name="name">Nota de Serviço - Ginfes</field>
+        <field name="name">Nota de Serviço</field>
         <field name="print_report_name">'%s - NF - %s' % (object.number, object.partner_id.name)</field>
     </record>
 
-    <template id="danfse_report_template_ginfes">
+    <template id="danfse_report_template">
         <div class="page" style="font-size:12px;">
             <style type="text/css">
                 .col-1, .col-2,
@@ -56,11 +56,11 @@
                          style="max-height:80px; margin-top:4px; margin-left:10px;"/>
                 </div>
                 <div class="col-7 br" style="padding:0px;text-align:center;font-size:20px;">
-                    Prefeitura do Município de Itajubá
+                    Prefeitura do Município de <span t-field="doc.company_id.city_id" />
                     <br />
                     Secretaria Municipal da Fazenda
                     <br />
-                    NOTA FISCAL ELETRÔNICA DE SERVIÇO - NFSe
+                    NOTA FISCAL ELETRÔNICA DE SERVIÇO - <span style="text-transform:uppercase" t-field="doc.company_id.provedor_nfse" />
                 </div>
                 <div class="col-3" style="padding:0px;">
                     <div style="padding: 3px; text-align:center;">
@@ -491,7 +491,7 @@
                 </div>
                 <div class="col-11 linha bl">
                     1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo Tomador dos Serviços.<br />
-                    2- A autenticidade desta Nota Fiscal poderá ser verificada no site, ribeiraopreto.ginfes.com.br com a utilização do Código de Verificação.<br />
+                    2- A autenticidade desta Nota Fiscal poderá ser verificada no site, <span t-field="doc.company_id.nfse_website" /> com a utilização do Código de Verificação.<br />
                     <t t-if="doc.company_id.tax_framework != '3'">
                         3 - Documento emitido por ME ou EPP optante pelo Simples Nacional.Não gera direito a crédito fiscal de ISS e IPI.
                     </t>
@@ -500,11 +500,11 @@
         </div>
     </template>
 
-    <template id="main_template_br_nfse_danfe_ginfes">
+    <template id="main_template_br_nfse_danfe">
         <t t-call="web.html_container">
             <div class="article">
                 <t t-foreach="docs" t-as="doc">
-                    <t t-call="l10n_br_nfse.danfse_report_template_ginfes" t-lang="doc.company_id.partner_id.lang"/>
+                    <t t-call="l10n_br_nfse.danfse_report_template" t-lang="doc.company_id.partner_id.lang"/>
                 </t>
             </div>
         </t>

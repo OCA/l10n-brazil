@@ -36,8 +36,8 @@ def fiter_processador_edoc_nfse(record):
     return False
 
 
-def fiter_provedor_ginfes(record):
-    if record.company_id.provedor_nfse == 'ginfes':
+def fiter_provedor(record):
+    if record.company_id.provedor_nfse:
         return True
     return False
 
@@ -89,7 +89,7 @@ class Document(models.Model):
         if values.get('company_id'):
             company_obj = self.env['res.company']
             company = company_obj.browse(values['company_id'])
-            if company.provedor_nfse == 'ginfes':
+            if company.provedor_nfse:
                 if values.get('document_serie_id') and \
                         not values.get('rps_number'):
                     serie_id = self.document_serie_id.browse(
@@ -198,7 +198,7 @@ class Document(models.Model):
                     for p in processador.processar_documento(edoc):
                         processo = p
 
-                        if processo.webservice == 'RecepcionarLoteRpsV3':
+                        if processo.webservice in ('RecepcionarLoteRpsV3', 'RecepcionarLoteRps'):
                             if processo.resposta.Protocolo is None:
                                 mensagem_completa = ''
                                 if processo.resposta.ListaMensagemRetorno:
@@ -220,7 +220,7 @@ class Document(models.Model):
                                 return
                             protocolo = processo.resposta.Protocolo
 
-                    if processo.webservice == 'ConsultarSituacaoLoteRpsV3':
+                    if processo.webservice in ('ConsultarSituacaoLoteRpsV3', 'ConsultarSituacaoLoteRps'):
                         vals['codigo_situacao'] = processo.resposta.Situacao
             else:
                 vals['codigo_situacao'] = 4

@@ -10,7 +10,9 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
         <field name="arch" type="xml">
             <field name="codigo_motivo_situacao" position="after">
-                <field name="edoc_error_message" attrs="{'invisible': [('document_section', '!=', 'nfse_recibos')]}"/>
+<!--                Comentei temporariamente este trecho porque document_section não está sendo preenchido no caso da NFSe-->
+<!--                <field name="edoc_error_message" attrs="{'invisible': [('document_section', '!=', 'nfse_recibos')]}"/>-->
+                <field name="edoc_error_message"/>
             </field>
             <field name="state_fiscal" position="before">
                 <field name="rps_number" force_save="1" readonly="1"/>
