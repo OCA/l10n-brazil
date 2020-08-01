@@ -29,7 +29,7 @@
         'views/product_template_view.xml',
         'views/document_line_view.xml',
         'views/res_company_view.xml',
-        'reports/danfse_ginfes.xml',
+        'report/danfse.xml',
     ],
     'demo': [
         'demo/product_demo.xml',
