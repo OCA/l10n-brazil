@@ -14,11 +14,9 @@ class ResCompany(models.Model):
         selection_add=[(PROCESSADOR, 'erpbrasil.edoc')]
     )
     provedor_nfse = fields.Selection(
-        selection=[
-            ('ginfes', 'Ginfes'),
-            ('dsf', 'DSF / Iss Digital'),
-        ],
-        default='ginfes',
+        selection=[],
+        string="NFSe Provider",
+        default=False,
     )
     cultural_encourager = fields.Boolean(
         string='Cultural Encourager',
@@ -29,9 +27,11 @@ class ResCompany(models.Model):
         string="NFSe Environment",
         default=NFSE_ENVIRONMENT_DEFAULT,
     )
-
     nfse_city_logo = fields.Binary(
         string='NFSe City Logo',
+    )
+    nfse_website = fields.Char(
+        string='NFSe Website',
     )
 
     def prepare_company_servico(self):
