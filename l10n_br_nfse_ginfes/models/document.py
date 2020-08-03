@@ -159,19 +159,16 @@ class Document(models.Model):
                 mensagem_completa = ''
                 situacao = True
                 retorno = ET.fromstring(processo.retorno)
+                nsmap = {'tipo': 'http://www.ginfes.com.br/tipos_v03.xsd'}
 
-                sucesso = retorno.findall(
-                    ".//{http://www.ginfes.com.br/tipos_v03.xsd}Sucesso")
+                sucesso = retorno.findall(".//tipo:Sucesso", namespaces=nsmap)
                 if not sucesso:
                     mensagem_erro = retorno.findall(
-                        ".//{http://www.ginfes.com.br/tipos_v03.xsd}Mensagem")[
-                        0].text
+                        ".//tipo:Mensagem", namespaces=nsmap)[0].text
                     correcao = retorno.findall(
-                        ".//{http://www.ginfes.com.br/tipos_v03.xsd}Correcao")[
-                        0].text
+                        ".//tipo:Correcao", namespaces=nsmap)[0].text
                     codigo = retorno.findall(
-                        ".//{http://www.ginfes.com.br/tipos_v03.xsd}Codigo")[
-                        0].text
+                        ".//tipo:Codigo", namespaces=nsmap)[0].text
                     mensagem_completa += (
                             codigo + ' - ' + mensagem_erro +
                             ' - Correção: ' + correcao + '\n'
