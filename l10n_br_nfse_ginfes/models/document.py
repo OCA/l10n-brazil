@@ -173,11 +173,9 @@ class Document(models.Model):
                         ".//{http://www.ginfes.com.br/tipos_v03.xsd}Codigo")[
                         0].text
                     mensagem_completa += (
-                                codigo + ' - ' +
-                                mensagem_erro +
-                                ' - Correção: ' +
-                                correcao + '\n'
-                            )
+                            codigo + ' - ' + mensagem_erro +
+                            ' - Correção: ' + correcao + '\n'
+                    )
                     situacao = False
 
                 return situacao, mensagem_completa
