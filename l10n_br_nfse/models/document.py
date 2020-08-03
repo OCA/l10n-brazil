@@ -20,6 +20,8 @@ from ..constants.nfse import (
     OPERATION_NATURE,
     RPS_TYPE,
     TAXATION_SPECIAL_REGIME,
+    RECEPCIONAR_LOTE_RPS,
+    CONSULTAR_SITUACAO_LOTE_RPS,
 )
 
 from .res_company import PROCESSADOR
@@ -198,11 +200,12 @@ class Document(models.Model):
                     for p in processador.processar_documento(edoc):
                         processo = p
 
-                        if processo.webservice in ('RecepcionarLoteRpsV3', 'RecepcionarLoteRps'):
+                        if processo.webservice in RECEPCIONAR_LOTE_RPS:
                             if processo.resposta.Protocolo is None:
                                 mensagem_completa = ''
                                 if processo.resposta.ListaMensagemRetorno:
-                                    lista_msgs = processo.resposta.ListaMensagemRetorno
+                                    lista_msgs = \
+                                        processo.resposta.ListaMensagemRetorno
                                     for mr in lista_msgs.MensagemRetorno:
 
                                         correcao = ''
@@ -220,7 +223,7 @@ class Document(models.Model):
                                 return
                             protocolo = processo.resposta.Protocolo
 
-                    if processo.webservice in ('ConsultarSituacaoLoteRpsV3', 'ConsultarSituacaoLoteRps'):
+                    if processo.webservice in CONSULTAR_SITUACAO_LOTE_RPS:
                         vals['codigo_situacao'] = processo.resposta.Situacao
             else:
                 vals['codigo_situacao'] = 4
