@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="nfse_ginfes_document_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_nfse_ginfes.document.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
+        <field name="arch" type="xml">
+            <button name="action_create_return" position="after">
+                <button name="action_consultar_nfse_rps" type="object" string="Consultar NFS-e por RPS" groups="l10n_br_fiscal.group_user"/>
+            </button>
+        </field>
+    </record>
+
+</odoo>
