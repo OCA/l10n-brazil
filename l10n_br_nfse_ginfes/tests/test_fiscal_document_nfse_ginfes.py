@@ -29,6 +29,7 @@ class TestFiscalDocumentNFSeGinfes(TransactionCase):
             'l10n_br_fiscal.empresa_simples_nacional')
 
         self.company_ginfes.processador_edoc = 'erpbrasil_edoc'
+        self.company_ginfes.provedor_nfse = 'ginfes'
         self.company_ginfes.partner_id.inscr_mun = '35172'
         self.company_ginfes.partner_id.inscr_est = ''
         self.company_ginfes.partner_id.state_id = self.env.ref(
