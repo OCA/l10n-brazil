@@ -3,6 +3,8 @@
 
 
 import xml.etree.ElementTree as ET
+from datetime import datetime
+from erpbrasil.base import misc
 from nfselib.ginfes.v3_01.tipos_v03 import (
     ListaRpsType,
     tcCpfCnpj,
@@ -20,7 +22,8 @@ from nfselib.ginfes.v3_01.tipos_v03 import (
 from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import \
     EnviarLoteRpsEnvio
 
-from odoo import models
+from odoo import models, _
+from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
 )
@@ -176,3 +179,84 @@ class Document(models.Model):
                     situacao = False
 
                 return situacao, mensagem_completa
+
+    def action_consultar_nfse_rps(self):
+        for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
+            processador = record._processador_erpbrasil_nfse()
+            processo = processador.consulta_nfse_rps(
+                self.rps_number, self.document_serie, self.rps_type)
+
+            retorno = ET.fromstring(processo.retorno)
+            nsmap = {'consulta': 'http://www.ginfes.com.br/servico_consultar_nfse_rps_resposta_v03.xsd',
+                     'tipo': 'http://www.ginfes.com.br/tipos_v03.xsd'}
+            if processo.webservice == 'ConsultarNfsePorRpsV3':
+                enviado = retorno.findall(
+                    ".//consulta:CompNfse", namespaces=nsmap)
+                nao_encontrado = retorno.findall(
+                    ".//tipo:MensagemRetorno", namespaces=nsmap)
+
+                if enviado:
+                    # NFS-e já foi enviada
+
+                    cancelada = retorno.findall(
+                        ".//tipo:NfseCancelamento",namespaces=nsmap)
+
+                    if cancelada:
+                        # NFS-e enviada foi cancelada
+
+                        data = retorno.findall(
+                            ".//tipo:DataHora", namespaces=nsmap)[0].text
+                        data = datetime.strptime(data, '%Y-%m-%dT%H:%M:%S').\
+                            strftime("%m/%d/%Y")
+                        mensagem = _('NFS-e cancelada em ' + data)
+                        raise ValidationError(_(mensagem))
+
+                    else:
+                        numero = retorno.findall(".//tipo:InfNfse/tipo:Numero",
+                                                 namespaces=nsmap)[0].text
+                        cnpj_prestador = retorno.findall(
+                            ".//tipo:IdentificacaoPrestador/tipo:Cnpj",
+                            namespaces=nsmap)[0].text
+                        razao_social_prestador = retorno.findall(
+                            ".//tipo:PrestadorServico/tipo:RazaoSocial",
+                            namespaces=nsmap)[0].text
+
+                        varibles_error = []
+
+                        if numero != self.number:
+                            varibles_error.append('Número')
+                        if cnpj_prestador != misc.punctuation_rm(
+                            self.company_cnpj_cpf):
+                            varibles_error.append('CNPJ do prestador')
+                        if razao_social_prestador != self.company_legal_name:
+                            varibles_error.append('Razão Social de pestrador')
+
+                        if varibles_error:
+                            mensagem = 'Os seguintes campos não condizem com' \
+                                       ' o provedor NFS-e: \n'
+                            mensagem += '\n'.join(varibles_error)
+                            raise ValidationError(_(mensagem))
+                        else:
+                            # TODO: Mensagem de sucesso
+                            pass
+
+                elif nao_encontrado:
+                    # NFS-e não foi enviada
+
+                    mensagem_erro = retorno.findall(
+                        ".//tipo:Mensagem", namespaces=nsmap)[0].text
+                    correcao = retorno.findall(
+                        ".//tipo:Correcao", namespaces=nsmap)[0].text
+                    codigo = retorno.findall(
+                        ".//tipo:Codigo", namespaces=nsmap)[0].text
+                    mensagem = (
+                        codigo + ' - ' + mensagem_erro +
+                        ' - Correção: ' + correcao + '\n'
+                    )
+
+                    raise ValidationError(_(mensagem))
+
+                else:
+                    mensagem = _('Erro desconhecido.')
+                    raise ValidationError(_(mensagem))
+
