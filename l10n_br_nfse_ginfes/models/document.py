@@ -173,9 +173,8 @@ class Document(models.Model):
                     codigo = retorno.findall(
                         ".//tipo:Codigo", namespaces=nsmap)[0].text
                     mensagem_completa += (
-                            codigo + ' - ' + mensagem_erro +
-                            ' - Correção: ' + correcao + '\n'
-                    )
+                        codigo + ' - ' + mensagem_erro +
+                        ' - Correção: ' + correcao + '\n')
                     situacao = False
 
                 return situacao, mensagem_completa
@@ -187,7 +186,8 @@ class Document(models.Model):
                 self.rps_number, self.document_serie, self.rps_type)
 
             retorno = ET.fromstring(processo.retorno)
-            nsmap = {'consulta': 'http://www.ginfes.com.br/servico_consultar_nfse_rps_resposta_v03.xsd',
+            nsmap = {'consulta': 'http://www.ginfes.com.br/servico_consultar_'
+                                 'nfse_rps_resposta_v03.xsd',
                      'tipo': 'http://www.ginfes.com.br/tipos_v03.xsd'}
             if processo.webservice == 'ConsultarNfsePorRpsV3':
                 enviado = retorno.findall(
@@ -199,7 +199,7 @@ class Document(models.Model):
                     # NFS-e já foi enviada
 
                     cancelada = retorno.findall(
-                        ".//tipo:NfseCancelamento",namespaces=nsmap)
+                        ".//tipo:NfseCancelamento", namespaces=nsmap)
 
                     if cancelada:
                         # NFS-e enviada foi cancelada
@@ -226,7 +226,7 @@ class Document(models.Model):
                         if numero != self.number:
                             varibles_error.append('Número')
                         if cnpj_prestador != misc.punctuation_rm(
-                            self.company_cnpj_cpf):
+                                self.company_cnpj_cpf):
                             varibles_error.append('CNPJ do prestador')
                         if razao_social_prestador != self.company_legal_name:
                             varibles_error.append('Razão Social de pestrador')
@@ -259,4 +259,3 @@ class Document(models.Model):
                 else:
                     mensagem = _('Erro desconhecido.')
                     raise ValidationError(_(mensagem))
-
