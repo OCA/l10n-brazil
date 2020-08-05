@@ -232,12 +232,13 @@ class Document(models.Model):
                             varibles_error.append('Razão Social de pestrador')
 
                         if varibles_error:
-                            mensagem = 'Os seguintes campos não condizem com' \
-                                       ' o provedor NFS-e: \n'
+                            mensagem = _('Os seguintes campos não condizem com'
+                                         ' o provedor NFS-e: \n')
                             mensagem += '\n'.join(varibles_error)
                             return mensagem
                         else:
-                            return "NFS-e enviada e corresponde com o provedor"
+                            return _(
+                                "NFS-e enviada e corresponde com o provedor")
 
                 elif nao_encontrado:
                     # NFS-e não foi enviada
@@ -248,7 +249,7 @@ class Document(models.Model):
                         ".//tipo:Correcao", namespaces=nsmap)[0].text
                     codigo = retorno.findall(
                         ".//tipo:Codigo", namespaces=nsmap)[0].text
-                    mensagem = (
+                    mensagem = _(
                         codigo + ' - ' + mensagem_erro +
                         ' - Correção: ' + correcao + '\n'
                     )
