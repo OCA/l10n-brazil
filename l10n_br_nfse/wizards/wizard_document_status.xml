@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="wizard_document_status_form_view">
+        <field name="name">wizard.document.status.form (in l10n_br_nfse)</field>
+        <field name="model">l10n_br_fiscal.document.status.wizard</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_status_wizard_form"/>
+        <field name="arch" type="xml">
+            <group states="done" position="before">
+                <group  colspan="2" col='2'>
+                  <field name="rps_number" readonly="1"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="wizard_document_status_act_multi">
+        <field name="name">Fiscal Document Inquiry</field>
+        <field name="res_model">l10n_br_fiscal.document.status.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="binding_model_id" ref="model_l10n_br_fiscal_document" />
+        <field name="target">new</field>
+    </record>
+
+</odoo>
