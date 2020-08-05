@@ -28,6 +28,7 @@
                         <field name="bank_code_bc" invisible="1"/>
                         <field name="boleto_type"/>
                         <field name="gera_nosso_numero"/>
+                        <field name="own_number_sequence"/>
                         <field name="boleto_convenio"/>
                         <field name="boleto_carteira"/>
                         <field name="boleto_modalidade"/>

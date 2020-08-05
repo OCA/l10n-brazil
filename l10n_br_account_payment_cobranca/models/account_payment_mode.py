@@ -136,6 +136,12 @@ class PaymentMode(models.Model):
     )
     # Field used to make invisible banks specifics fields
     bank_code_bc = fields.Char(related='fixed_journal_id.bank_id.code_bc')
+    own_number_sequence = fields.Many2one(
+        comodel_name='ir.sequence', string='Sequência do Nosso Número',
+        help='Para usar essa Sequencia é preciso definir o campo Tipo do'
+             ' Nosso Número como Sequencial Único por Carteira no cadastro da'
+             ' empresa ',
+    )
 
     @api.onchange("product_tax_id")
     def _onchange_product_tax_id(self):
@@ -158,3 +164,8 @@ class PaymentMode(models.Model):
     def boleto_restriction(self):
         if self.boleto_type == "6" and not self.boleto_carteira:
             raise ValidationError("Carteira no banco Itaú é obrigatória")
+
+    @api.multi
+    def get_own_number_sequence(self):
+        self.ensure_one()
+        return self.own_number_sequence.next_by_id()

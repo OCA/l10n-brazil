@@ -315,8 +315,15 @@ class AccountInvoice(models.Model):
                 elif inv.company_id.own_number_type == SEQUENCIAL_FATURA:
                     sequence = numero_documento.replace("/", "")
                 elif inv.company_id.own_number_type == SEQUENCIAL_CARTEIRA:
-                    # TODO: Implementar uma sequencia na carteira de cobranca
-                    raise NotImplementedError
+                    if not inv.payment_mode_id.own_number_sequence:
+                        raise UserError(
+                            _(
+                                "Favor acessar aba Cobrança da configuração"
+                                " do Modo de Pagamento e determinar o "
+                                "campo Sequência do Nosso Número."
+                            )
+                        )
+                    sequence = inv.payment_mode_id.get_own_number_sequence()
                 else:
                     raise UserError(
                         _(
