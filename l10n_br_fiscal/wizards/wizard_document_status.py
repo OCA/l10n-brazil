@@ -22,7 +22,6 @@ class DocumentStatusWizard(models.TransientModel):
     document_status = fields.Text(
         string="Status", readonly=True)
 
-
     @api.multi
     def get_document_status(self):
         pass
