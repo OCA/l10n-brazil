@@ -23,7 +23,6 @@ from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import \
     EnviarLoteRpsEnvio
 
 from odoo import models, _
-from odoo.exceptions import ValidationError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
 )
