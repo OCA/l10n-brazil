@@ -209,7 +209,7 @@ class Document(models.Model):
                         data = datetime.strptime(data, '%Y-%m-%dT%H:%M:%S').\
                             strftime("%m/%d/%Y")
                         mensagem = _('NFS-e cancelada em ' + data)
-                        raise ValidationError(_(mensagem))
+                        return mensagem
 
                     else:
                         numero = retorno.findall(".//tipo:InfNfse/tipo:Numero",
@@ -235,10 +235,9 @@ class Document(models.Model):
                             mensagem = 'Os seguintes campos não condizem com' \
                                        ' o provedor NFS-e: \n'
                             mensagem += '\n'.join(varibles_error)
-                            raise ValidationError(_(mensagem))
+                            return mensagem
                         else:
-                            # TODO: Mensagem de sucesso
-                            pass
+                            return "NFS-e enviada e corresponde com o provedor"
 
                 elif nao_encontrado:
                     # NFS-e não foi enviada
@@ -254,8 +253,8 @@ class Document(models.Model):
                         ' - Correção: ' + correcao + '\n'
                     )
 
-                    raise ValidationError(_(mensagem))
+                    return mensagem
 
                 else:
                     mensagem = _('Erro desconhecido.')
-                    raise ValidationError(_(mensagem))
+                    return mensagem
