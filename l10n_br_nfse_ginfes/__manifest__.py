@@ -21,9 +21,4 @@
     'depends': [
         'l10n_br_nfse',
     ],
-    'data': [
-        'views/document_view.xml',
-    ],
-    'demo': [
-    ],
 }

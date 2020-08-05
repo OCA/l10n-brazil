@@ -22,13 +22,18 @@ from nfselib.ginfes.v3_01.tipos_v03 import (
 from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio_v03 import \
     EnviarLoteRpsEnvio
 
-from odoo import models, _
-from odoo.exceptions import ValidationError
+from odoo import models, api, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
+    SITUACAO_EDOC_AUTORIZADA,
 )
 
 from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
+
+from ..constants.ginfes import (
+    RECEPCIONAR_LOTE_RPS,
+    CONSULTAR_SITUACAO_LOTE_RPS,
+)
 
 
 def fiter_processador_edoc_nfse_ginfes(record):
@@ -232,12 +237,13 @@ class Document(models.Model):
                             varibles_error.append('Razão Social de pestrador')
 
                         if varibles_error:
-                            mensagem = 'Os seguintes campos não condizem com' \
-                                       ' o provedor NFS-e: \n'
+                            mensagem = _('Os seguintes campos não condizem com'
+                                         ' o provedor NFS-e: \n')
                             mensagem += '\n'.join(varibles_error)
                             return mensagem
                         else:
-                            return "NFS-e enviada e corresponde com o provedor"
+                            return _(
+                                "NFS-e enviada e corresponde com o provedor")
 
                 elif nao_encontrado:
                     # NFS-e não foi enviada
@@ -248,7 +254,7 @@ class Document(models.Model):
                         ".//tipo:Correcao", namespaces=nsmap)[0].text
                     codigo = retorno.findall(
                         ".//tipo:Codigo", namespaces=nsmap)[0].text
-                    mensagem = (
+                    mensagem = _(
                         codigo + ' - ' + mensagem_erro +
                         ' - Correção: ' + correcao + '\n'
                     )
@@ -258,3 +264,98 @@ class Document(models.Model):
                 else:
                     mensagem = _('Erro desconhecido.')
                     return mensagem
+
+    @api.multi
+    def _eletronic_document_send(self):
+        super(Document, self)._eletronic_document_send()
+        for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
+            for record in self.filtered(fiter_provedor_ginfes):
+                processador = record._processador_erpbrasil_nfse()
+
+                protocolo = record.protocolo_autorizacao
+                vals = dict()
+
+                if not protocolo:
+                    for edoc in record.serialize():
+                        processo = None
+                        for p in processador.processar_documento(edoc):
+                            processo = p
+
+                            if processo.webservice in RECEPCIONAR_LOTE_RPS:
+                                if processo.resposta.Protocolo is None:
+                                    mensagem_completa = ''
+                                    if processo.resposta.ListaMensagemRetorno:
+                                        lista_msgs = processo.resposta.\
+                                            ListaMensagemRetorno
+                                        for mr in lista_msgs.MensagemRetorno:
+
+                                            correcao = ''
+                                            if mr.Correcao:
+                                                correcao = mr.Correcao
+
+                                            mensagem_completa += (
+                                                mr.Codigo + ' - ' +
+                                                mr.Mensagem +
+                                                ' - Correção: ' +
+                                                correcao + '\n'
+                                            )
+                                    vals['edoc_error_message'] = \
+                                        mensagem_completa
+                                    record.write(vals)
+                                    return
+                                protocolo = processo.resposta.Protocolo
+
+                        if processo.webservice in CONSULTAR_SITUACAO_LOTE_RPS:
+                            vals['codigo_situacao'] = \
+                                processo.resposta.Situacao
+                else:
+                    vals['codigo_situacao'] = 4
+
+                if vals.get('codigo_situacao') == 1:
+                    vals['motivo_situacao'] = _('Não Recebido')
+
+                elif vals.get('codigo_situacao') == 2:
+                    vals['motivo_situacao'] = _('Lote ainda não processado')
+
+                elif vals.get('codigo_situacao') == 3:
+                    vals['motivo_situacao'] = _('Procesado com Erro')
+
+                elif vals.get('codigo_situacao') == 4:
+                    vals['motivo_situacao'] = _('Procesado com Sucesso')
+                    vals['protocolo_autorizacao'] = protocolo
+
+                if vals.get('codigo_situacao') in (3, 4):
+                    processo = processador.consultar_lote_rps(protocolo)
+
+                    if processo.resposta:
+                        mensagem_completa = ''
+                        if processo.resposta.ListaMensagemRetorno:
+                            lista_msgs = processo.resposta.ListaMensagemRetorno
+                            for mr in lista_msgs.MensagemRetorno:
+
+                                correcao = ''
+                                if mr.Correcao:
+                                    correcao = mr.Correcao
+
+                                mensagem_completa += (
+                                    mr.Codigo + ' - ' +
+                                    mr.Mensagem +
+                                    ' - Correção: ' +
+                                    correcao + '\n'
+                                )
+                        vals['edoc_error_message'] = mensagem_completa
+
+                    if processo.resposta.ListaNfse:
+                        xml_file = processador._generateds_to_string_etree(
+                            processo.resposta)[0]
+                        record.autorizacao_event_id.set_done(xml_file)
+                        for comp in processo.resposta.ListaNfse.CompNfse:
+                            vals['number'] = comp.Nfse.InfNfse.Numero
+                            vals['data_hora_autorizacao'] = \
+                                comp.Nfse.InfNfse.DataEmissao
+                            vals['verify_code'] = \
+                                comp.Nfse.InfNfse.CodigoVerificacao
+                        record._change_state(SITUACAO_EDOC_AUTORIZADA)
+
+                record.write(vals)
+        return
