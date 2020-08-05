@@ -13,7 +13,7 @@ class WizardDocumentStatus(models.TransientModel):
         compute='_compute_rps_number'
     )
 
-    @api.depends('rps_number', 'state')
+    @api.depends('state')
     @api.multi
     def _compute_rps_number(self):
         for record in self:
