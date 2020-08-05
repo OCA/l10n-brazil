@@ -8,15 +8,8 @@
             <form string="Fiscal Document Inquiry on SEFAZ">
                 <field invisible="1" name="state"/>
                     <group>
-                        <field name="chNFe" attrs="{'readonly':[('state','=','done')]}"/>
                         <group states="done">
-                            <field name="version"/>
-                            <field name="nfe_environment" attrs="{'readonly': True}"/>
-                            <field name="xMotivo"/>
-                            <field name="cUF"/>
-                            <field name="protNFe"/>
-                            <field name="retCancNFe"/>
-                            <field name="procEventoNFe"/>
+                            <field name="document_status"/>
                         </group>
                     </group>
                 <footer states="init">
@@ -31,7 +24,7 @@
     </record>
 
     <record id="document_status_wizard_action" model="ir.actions.act_window">
-        <field name="name">Fiscal Document Inquiry on SEFAZ</field>
+        <field name="name">Fiscal Document Inquiry</field>
         <field name="res_model">l10n_br_fiscal.document.status.wizard</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
