@@ -19,6 +19,15 @@
                                 </div>
                             </div>
                         </div>
+                        <label for="cnab_return_method"/>
+                        <div class="text-muted">
+                            Metodo de Retorno do CNAB
+                            <div class="content-group">
+                                <div class="row mt16 ml4">
+                                    <field name="cnab_return_method"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </xpath>
