@@ -191,11 +191,6 @@ dict_brcobranca_bank = {
     '136': 'unicred',
 }
 
-dict_brcobranca_cnab_type = {
-    '240': 'cnab240',
-    '400': 'cnab400',
-}
-
 
 class CNABFileParser(FileParser):
     """CNAB parser that use a define format in CNAB to import
@@ -267,7 +262,19 @@ class CNABFileParser(FileParser):
         total_valores = 0
         balance_end_real = 0.0
         line_statement_vals = []
-        reconcile_statement_vals = []
+
+        # Forma de Lançamento do Retorno
+        # Manual - Criação de uma Entrada de Diário com os valores de
+        #          desconto, juros/mora, tarifa bancaria e abatimento
+        #          e um Extrato Bancario com o valor total ( valor
+        #          liquido + desconto + tarifa bancaria + abatimanto )
+        # Automatico - Criação de uma Entrada de Diário com os valores
+        #              da forma Manual mais o valor total, conciliado com
+        #              a Fatura correspondente
+        #
+        cnab_return_method = self.env[
+            'ir.config_parameter'].sudo().get_param(
+            'l10n_br_account_payment_brcobranca.cnab_return_method')
 
         # Lista com os dados q poderão ser usados na criação das account move line
         result_row_list = []
@@ -304,9 +311,8 @@ class CNABFileParser(FileParser):
                 [('move_line_id', '=', account_move_line.id)]
             )
 
-            valor_titulo = float(
-                str(linha_cnab['valor_titulo'][0:11] + '.' +
-                    linha_cnab['valor_titulo'][11:]))
+            valor_titulo = self.cnab_str_to_float(
+                linha_cnab['valor_titulo'])
 
             total_valores += valor_titulo
 
@@ -359,47 +365,44 @@ class CNABFileParser(FileParser):
                     str(linha_cnab['data_credito']), "%d%m%y").date()
 
             # Codigos de Ocorrencia - Liquidação
-            if ((cod_ocorrencia in ('06', '17') and bank_name_brcobranca == 'bradesco') or
-                    (cod_ocorrencia in ('06', '10') and bank_name_brcobranca == 'itau') or
+            # TODO - esses codigos deveriam ser informados em um campo ao inves
+            #  de estarem chumbados aqui
+            if ((cod_ocorrencia in ('06', '17') and
+                 bank_name_brcobranca == 'bradesco') or
+                    (cod_ocorrencia in ('06', '10') and
+                     bank_name_brcobranca == 'itau') or
                     (cod_ocorrencia in ('01', '06', '07', '09') and
                      bank_name_brcobranca == 'unicred')):
-
-                # TODO - deve ser uma hash p/ evitar
-                #  erros com mais de boleto cadastrado
-                reconcile_line_vals = {
-                    'numero_documento': account_move_line.numero_documento}
-                counterpart_line_vals = []
-                new_aml_vals = []
 
                 # Valor Desconto
                 if linha_cnab.get('desconto'):
                     valor_desconto = self.cnab_str_to_float(
                         linha_cnab['desconto'])
 
-                    # TODO - Atualizar o Valor Recebido ou isso
-                    #  ja vem informado ? Confirmar no arquivo de retorno
-                    # valor_recebido -= valor_desconto
-
-                    new_aml_vals.append({
-                        'name': 'Desconto (boleto) ' + account_move_line.numero_documento,
-                        'debit': valor_desconto,
-                        'credit': 0.0,
-                        # TODO - Definir Conta Contabil de Desconto
-                        'account_id': account_move_line.payment_mode_id.
-                        default_tax_account_id.id,
-                    })
+                    # Valor Liquido precisa ser somado
+                    # p/ conciliar com a Fatura
+                    valor_recebido += valor_desconto
 
                     result_row_list.append({
-                        'name': 'Desconto (boleto) ' + account_move_line.numero_documento,
+                        'name': 'Desconto (boleto) ' +
+                                account_move_line.numero_documento,
                         'amount': valor_desconto,
                         'debit': valor_desconto,
                         'credit': 0.0,
-                        # TODO - Definir Conta Contabil de Desconto
-                        'account_id': account_move_line.payment_mode_id.
-                            default_tax_account_id.id,
+                        'account_id': self.journal.default_debit_account_id.id,
                         'type': 'desconto',
-                        'bank_payment_line_id':
-                            payment_line.bank_line_id.id or False,
+                        'ref': account_move_line.numero_documento,
+                    })
+                    result_row_list.append({
+                        'name': 'Desconto (boleto) ' +
+                                account_move_line.numero_documento,
+                        'amount': valor_desconto,
+                        'debit': 0.0,
+                        'credit': valor_desconto,
+                        'account_id': account_move_line.payment_mode_id.
+                        default_discount_account_id.id,
+                        'type': 'desconto',
+                        'ref': account_move_line.numero_documento,
                     })
 
                 # Valor Juros Mora - valor de mora e multa pagos pelo sacado
@@ -407,31 +410,33 @@ class CNABFileParser(FileParser):
                     valor_juros_mora = self.cnab_str_to_float(
                         linha_cnab['juros_mora'])
 
-                    # TODO - Atualizar o Valor Recebido ou isso
-                    #  ja vem informado ? Confirmar no arquivo de retorno
+                    # O valor não está sendo somando pois isso
+                    # altera o Valor recebido desbalanceando a
+                    # conciliação com a Fatura
                     # valor_recebido += valor_juros_mora
 
-                    # TODO - Deveria ser tbm um counterpart ? E ser criado
-                    #  um outro lançamento para ser conciliado com esse
                     result_row_list.append({
-                        'name': 'Valor Juros Mora (boleto) ' + account_move_line.numero_documento,
+                        'name': 'Valor Juros Mora (boleto) ' +
+                                account_move_line.numero_documento,
                         'debit': 0.0,
                         'credit': valor_juros_mora,
                         'amount': valor_juros_mora,
-                        # TODO - Definir Conta Contábil de Juros Mora e Multa
                         'account_id': account_move_line.payment_mode_id.
-                            fixed_journal_id.default_credit_account_id.id,
+                        default_juros_mora_account_id.id,
                         'type': 'juros_mora',
-                        'bank_payment_line_id':
-                            payment_line.bank_line_id.id or False,
+                        'ref': account_move_line.numero_documento,
+                        'partner_id': account_move_line.partner_id.id,
                     })
-                    new_aml_vals.append({
-                        'name': 'Valor Juros Mora (boleto)' + account_move_line.numero_documento,
-                        'debit': 0.0,
-                        'credit': valor_juros_mora,
-                        # TODO - Definir Conta Contábil de Juros Mora e Multa
-                        'account_id': account_move_line.payment_mode_id.
-                        fixed_journal_id.default_credit_account_id.id,
+
+                    result_row_list.append({
+                        'name': 'Valor Juros Mora (boleto) ' +
+                                account_move_line.numero_documento,
+                        'debit': valor_juros_mora,
+                        'credit': 0.0,
+                        'amount': valor_juros_mora,
+                        'account_id': self.journal.default_debit_account_id.id,
+                        'type': 'juros_mora',
+                        'ref': account_move_line.numero_documento,
                     })
 
                 # Valor Tarifa
@@ -440,28 +445,31 @@ class CNABFileParser(FileParser):
                         str(linha_cnab['valor_tarifa'][0:4] + '.' +
                             linha_cnab['valor_tarifa'][4:]))
 
-                    # TODO - Atualizar o Valor Recebido ou isso
-                    #  ja vem informado ? Confirmar no arquivo de retorno
-                    # valor_recebido -= valor_tarifa
+                    # Valor Liquido precisa ser somado
+                    # p/ conciliar com a Fatura
+                    valor_recebido += valor_tarifa
 
                     result_row_list.append({
-                        'name': 'Tarifas bancárias (boleto)' + account_move_line.numero_documento,
+                        'name': 'Tarifas bancárias (boleto) ' +
+                                account_move_line.numero_documento,
+                        'debit': 0.0,
+                        'credit': valor_tarifa,
+                        'amount': valor_tarifa,
+                        'account_id': account_move_line.payment_mode_id.
+                        default_tax_account_id.id,
+                        'type': 'tarifa',
+                        'ref': account_move_line.numero_documento,
+                    })
+
+                    result_row_list.append({
+                        'name': 'Tarifas bancárias (boleto) ' +
+                                account_move_line.numero_documento,
                         'debit': valor_tarifa,
                         'credit': 0.0,
                         'amount': valor_tarifa,
-                        'account_id': account_move_line.payment_mode_id.
-                            default_tax_account_id.id,
                         'type': 'tarifa',
-                        'bank_payment_line_id':
-                            payment_line.bank_line_id.id or False,
-                    })
-
-                    new_aml_vals.append({
-                        'name': 'Tarifas bancárias (boleto)' + account_move_line.numero_documento,
-                        'debit': valor_tarifa,
-                        'credit': 0.0,
-                        'account_id': account_move_line.payment_mode_id.
-                        default_tax_account_id.id,
+                        'account_id': self.journal.default_debit_account_id.id,
+                        'ref': account_move_line.numero_documento,
                     })
 
                 # Valor Abatimento
@@ -469,30 +477,31 @@ class CNABFileParser(FileParser):
                     valor_abatimento = self.cnab_str_to_float(
                         linha_cnab['valor_abatimento'])
 
-                    # TODO - Atualizar o Valor Recebido ou isso
-                    #  ja vem informado ? Confirmar no arquivo de retorno
-                    # valor_recebido -= valor_abatimento
+                    # Valor Liquido precisa ser somado
+                    # p/ conciliar com a Fatura
+                    valor_recebido += valor_abatimento
 
                     result_row_list.append({
-                        'name': 'Abatimento (boleto) ' + account_move_line.numero_documento,
+                        'name': 'Abatimento (boleto) ' +
+                                account_move_line.numero_documento,
                         'debit': valor_abatimento,
                         'credit': 0.0,
                         'amount': valor_abatimento,
-                        # TODO - Definir Conta Contabil de Abatimento
-                        'account_id': account_move_line.payment_mode_id.
-                            default_tax_account_id.id,
+                        'account_id': self.journal.default_debit_account_id.id,
                         'type': 'abatimento',
-                        'bank_payment_line_id':
-                            payment_line.bank_line_id.id or False,
+                        'ref': account_move_line.numero_documento,
                     })
 
-                    new_aml_vals.append({
-                        'name': 'Abatimento (boleto) ' + account_move_line.numero_documento,
-                        'debit': valor_abatimento,
-                        'credit': 0.0,
-                        # TODO - Definir Conta Contabil de Abatimento
+                    result_row_list.append({
+                        'name': 'Abatimento (boleto) ' +
+                                account_move_line.numero_documento,
+                        'debit': 0.0,
+                        'credit': valor_abatimento,
+                        'amount': valor_abatimento,
                         'account_id': account_move_line.payment_mode_id.
-                        default_tax_account_id.id,
+                        default_abatimento_account_id.id,
+                        'type': 'abatimento',
+                        'ref': account_move_line.numero_documento,
                     })
 
                 vals_evento = {
@@ -504,7 +513,7 @@ class CNABFileParser(FileParser):
                     #    obj_account_move_line.company_id.partner_id.name,
                     'favorecido_conta_bancaria_id':
                         account_move_line.payment_mode_id.
-                            fixed_journal_id.bank_account_id.id,
+                        fixed_journal_id.bank_account_id.id,
                     'nosso_numero': linha_cnab['nosso_numero'],
                     'identificacao_titulo_empresa':
                         linha_cnab['documento_numero'] or
@@ -524,43 +533,36 @@ class CNABFileParser(FileParser):
                     'tarifa_cobranca': valor_tarifa,
                 }
 
-                # Monta o dicionario que sera usado
-                # para criar o Extrato Bancario
-                balance_end_real += valor_recebido
-                line_statement_vals.append({
-                    'name': account_move_line.numero_documento or '?',
-                    'amount': valor_recebido,
-                    'partner_id': account_move_line.partner_id.id,
-                    'ref': account_move_line.ref,
-                    'date': account_move_line.date,
-                    'amount_currency': valor_recebido,
-                    'currency_id': account_move_line.currency_id.id,
-                })
+                if cnab_return_method == 'manual':
+                    # Monta o dicionario que sera usado
+                    # para criar o Extrato Bancario
+                    balance_end_real += valor_recebido
+                    line_statement_vals.append({
+                        'name': account_move_line.numero_documento or '?',
+                        'amount': valor_recebido,
+                        'partner_id': account_move_line.partner_id.id,
+                        'ref': account_move_line.ref,
+                        'date': account_move_line.date,
+                        'amount_currency': valor_recebido,
+                        'currency_id': account_move_line.currency_id.id,
+                    })
 
                 # Linha da Fatura a ser reconciliada
-                result_row_list.append({
-                    'name': account_move_line.numero_documento,
-                    'debit': 0.0,
-                    'credit': valor_recebido,
-                    'amount': valor_recebido,
-                    'move_line': account_move_line,
-                    'type': 'liquidado',
-                    'bank_payment_line_id':
-                        payment_line.bank_line_id.id or False,
-                })
-
-                counterpart_line_vals.append({
-                    'name': account_move_line.numero_documento,
-                    'debit': 0.0,
-                    'credit': valor_recebido,
-                    'move_line': account_move_line,
-                })
-
-                # Monta uma Lista com Dicionarios usados para
-                # reconciliar o extrato bancario
-                reconcile_line_vals['new_aml_vals'] = new_aml_vals
-                reconcile_line_vals['counterpart_aml_vals'] = counterpart_line_vals
-                reconcile_statement_vals.append(reconcile_line_vals)
+                if cnab_return_method == 'automatic':
+                    result_row_list.append({
+                         'name': account_move_line.invoice_id.number,
+                         'debit': 0.0,
+                         'credit': valor_recebido,
+                         'amount': valor_recebido,
+                         'move_line': account_move_line,
+                         'invoice_id': account_move_line.invoice_id.id,
+                         'type': 'liquidado',
+                         'bank_payment_line_id':
+                         payment_line.bank_line_id.id or False,
+                         'ref': account_move_line.nosso_numero,
+                         'account_id': account_move_line.account_id.id,
+                         'partner_id': account_move_line.partner_id.id,
+                    })
 
             else:
                 vals_evento = {
@@ -579,13 +581,14 @@ class CNABFileParser(FileParser):
             self.num_lotes = 1
             self.num_eventos = quantidade_registros
 
-        # Criacao de um Extrato Bancario a ser conciliado logo abaixo, sendo
-        # necessário o usuario apenas clicar em Validar na tela do Extrato.
-        # TODO - automatizar validando o extrato ou deixar de usar o extrato ?
+        # Forma Manual do Retorno CNAB
+        # Criacao de um Extrato Bancario, isso permite o tratamento de alguma
+        # diferença que tenha restado já que os valores de Juros/Mora, Tarifas,
+        # Desconto e Abatimento estão sendo lançados em uma entrada de Diário
+        # separada e portanto na maioria dos casos o valor no extrato vai estar
+        # de acordo com o valor da fatura
         if line_statement_vals:
             vals_bank_statement = {
-                # TODO - Validar usar a sequencia do diário no nome do Extrato
-                #  estaria correto ?
                 'name': self.journal.sequence_id.next_by_id(),
                 'journal_id': self.journal.id,
                 'balance_end_real': balance_end_real,
@@ -596,17 +599,6 @@ class CNABFileParser(FileParser):
             for line in line_statement_vals:
                 line['statement_id'] = statement.id
                 statement_line_obj.create(line)
-
-        # Reconciliação do Extrato e Fatura
-        # for line in statement.line_ids:
-        #    for reconcile_line in reconcile_statement_vals:
-        #        if line.name == reconcile_line.get('numero_documento'):
-        #            line.process_reconciliation(
-        #                 counterpart_aml_dicts=reconcile_line.get(
-        #                     'counterpart_aml_vals'),
-        #                 new_aml_dicts=reconcile_line.get(
-        #                     'new_aml_vals')
-        #            )
 
         return result_row_list
 
@@ -622,8 +614,9 @@ class CNABFileParser(FileParser):
         :return: dict of vals that represent additional infos for the statement
         """
         return {
-            'name': self.move_name or '/',
-            'date': self.move_date or fields.Datetime.now(),
+            'name': 'Retorno CNAB - ' + str(
+                fields.Datetime.now().date().strftime('%d/%m/%Y')),
+            'date': fields.Datetime.now(),
             'ref': self.move_ref or '/'
         }
 
@@ -647,56 +640,24 @@ class CNABFileParser(FileParser):
         """
 
         vals = {
-            "name": line["name"] or line.get("source"),
-            # "date_maturity": date.fromtimestamp(line["created"]),
-            "credit": line['credit'],
-            "debit": line['debit'],
-            "ref": line.get("source"),
-            "already_completed": False,
-            "partner_id": None,
-            "account_id": None,
-            # 'bank_payment_line_id': line['bank_payment_line_id'],
+            'name': line['name'] or line.get('source'),
+            'credit': line['credit'],
+            'debit': line['debit'],
+            'already_completed': False,
+            'partner_id': None,
+            'account_id': None,
+            'ref': line['ref'],
+            'account_id': line['account_id'],
         }
-        if line["type"] == 'liquidada':
-            vals.update(
-                {
-                    #"partner_id": self.journal.partner_id.id,
-                    'move_line': line['move_line'],
-                    "account_id": line['account_id'],
-                    "already_completed": True,
+        if line['type'] == 'liquidado':
+            vals.update({
+                'invoice_id': line['invoice_id'],
+                'partner_id': line['partner_id'],
+                'already_completed': True,
                 }
             )
-        elif line["type"] == "desconto":
-            vals.update(
-                {
-                    #"partner_id": self.journal.partner_id.id,
-                    "account_id": line['account_id'],
-                    # "already_completed": True,
-                }
-            )
-        elif line["type"] == "tarifa":
-            vals.update(
-                {
-                    #"partner_id": self.journal.partner_id.id,
-                    "account_id": line['account_id'],
-                    #"already_completed": True,
-                }
-            )
-        elif line["type"] == "abatimento":
-            vals.update(
-                {
-                    #"partner_id": self.journal.partner_id.id,
-                    "account_id": line['account_id'],
-                    #"already_completed": True,
-                }
-            )
-        elif line["type"] == "juros_mora":
-            vals.update(
-                {
-                    #"partner_id": self.journal.partner_id.id,
-                    "account_id": line['account_id'],
-                    #"already_completed": True,
-                }
-            )
+        elif line["type"] == "juros_mora" and line['credit'] > 0.0:
+            vals.update({
+                'partner_id': line['partner_id']})
 
         return vals
