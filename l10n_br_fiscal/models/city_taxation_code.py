@@ -7,15 +7,8 @@ from odoo import fields, models
 class CityTaxationCode(models.Model):
 
     _name = 'l10n_br_fiscal.city.taxation.code'
+    _inherit = "l10n_br_fiscal.data.abstract"
     _description = 'City Taxation Code'
-
-    name = fields.Char(
-        string='Description',
-    )
-
-    code = fields.Char(
-        string='Code',
-    )
 
     service_type_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.service.type',
