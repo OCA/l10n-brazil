@@ -85,19 +85,20 @@ class Document(models.Model):
 
     @api.model
     def create(self, values):
-        if not values.get('date'):
-            values['date'] = self._date_server_format()
+        for record in self.filtered(fiter_processador_edoc_nfse):
+            if not values.get('date'):
+                values['date'] = record._date_server_format()
 
-        if values.get('company_id'):
-            company_obj = self.env['res.company']
-            company = company_obj.browse(values['company_id'])
-            if company.provedor_nfse:
-                if values.get('document_serie_id') and \
-                        not values.get('rps_number'):
-                    serie_id = self.document_serie_id.browse(
-                        values['document_serie_id'])
-                    values['rps_number'] = serie_id.next_seq_number()
-                values['number'] = None
+            if values.get('company_id'):
+                company_obj = record.env['res.company']
+                company = company_obj.browse(values['company_id'])
+                if company.provedor_nfse:
+                    if values.get('document_serie_id') and \
+                            not values.get('rps_number'):
+                        serie_id = record.document_serie_id.browse(
+                            values['document_serie_id'])
+                        values['rps_number'] = serie_id.next_seq_number()
+                    values['number'] = None
         return super(Document, self).create(values)
 
     def _generate_key(self):
