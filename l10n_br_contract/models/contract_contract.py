@@ -45,8 +45,12 @@ class ContractContract(models.Model):
         invoice_vals = super()._prepare_invoice(date_invoice, journal)
         invoice_vals['fiscal_document_id'] = False
         invoice_vals['company_id'] = self.company_id.id
-        invoice_vals['operation_type'] = 'out'
+        invoice_vals['fiscal_operation_type'] = 'out'
         invoice_vals['document_type_id'] = self.company_id.document_type_id.id
+        if invoice_vals['document_type_id'] == \
+            self.env['l10n_br_fiscal.document.type'].search([
+                ('code', '=', 'SE')], limit=1).id:
+            invoice_vals['document_section'] = 'nfse_recibos'
         invoice_vals['fiscal_operation_id'] = \
             self.env.ref('l10n_br_fiscal.fo_venda').id
         invoice_vals['document_serie_id'] = \
