@@ -2004,14 +2004,12 @@ msgstr "Criar um novo Perfil Fiscal de Parceiro"
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.subsequent_document_action
 #, fuzzy
-#| msgid "Create a new Document"
 msgid "Create a new Subsequent Document"
 msgstr "Criar um novo Documento"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.subsequent_operation_action
 #, fuzzy
-#| msgid "Create a new fiscal operation"
 msgid "Create a new Subsequent operation"
 msgstr "Criar uma nova Operação Fiscal"
 
@@ -2444,7 +2442,6 @@ msgstr "Mixin para Documento Fiscal"
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_line_mixin_methods
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_mixin_methods
 #, fuzzy
-#| msgid "Document Fiscal Mixin"
 msgid "Document Fiscal Mixin Methods"
 msgstr "Mixin para Documento Fiscal"
 
@@ -2471,7 +2468,6 @@ msgstr "Documento Relacionado"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_section
 #, fuzzy
-#| msgid "Document Serie"
 msgid "Document Section"
 msgstr "Série"
 
@@ -2484,7 +2480,6 @@ msgstr "Série"
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document_serie.py:56
 #, fuzzy, python-format
-#| msgid "Document Serie"
 msgid "Document Serie Sequence"
 msgstr "Série"
 
@@ -2501,7 +2496,6 @@ msgstr "Subtipo de Certificado"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_subsequent_ids
 #, fuzzy
-#| msgid "Document SubType"
 msgid "Document Subsequent"
 msgstr "Subtipo de Certificado"
 
@@ -2859,7 +2853,6 @@ msgstr "Período de Fechamento Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_comment
 #, fuzzy
-#| msgid "Fiscal Document"
 msgid "Fiscal Comment"
 msgstr "Documento Fiscal"
 
@@ -3034,7 +3027,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__operation_type
 #, fuzzy
-#| msgid "Fiscal Operation"
 msgid "Fiscal Operation Type"
 msgstr "Operação Fiscal"
 
@@ -3242,7 +3234,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 #, fuzzy
-#| msgid "General"
 msgid "Geral"
 msgstr "Geral"
 
@@ -5132,7 +5123,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.subsequent.operation,generation_situation:0
 #, fuzzy
-#| msgid "Main Attachment"
 msgid "Manualmente"
 msgstr "Anexo Principal"
 
@@ -5884,7 +5874,6 @@ msgstr "Nome da Operação Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__operation_performed
 #, fuzzy
-#| msgid "Operation Name"
 msgid "Operation Performed"
 msgstr "Nome da Operação Fiscal"
 
@@ -5899,7 +5888,6 @@ msgstr "Tipo de Operação Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__subsequent_operation_id
 #, fuzzy
-#| msgid "Operation Line Refund"
 msgid "Operation to be performed"
 msgstr "Linha da Operação Fiscal Devolução"
 
@@ -5948,7 +5936,6 @@ msgstr "Origem"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__fiscal_operation_id
 #, fuzzy
-#| msgid "Operation"
 msgid "Origin operation"
 msgstr "Operação"
 
@@ -6839,7 +6826,6 @@ msgstr "Produtos Relacionados"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__fiscal_operation_id
 #, fuzzy
-#| msgid "Related Partners"
 msgid "Related operation"
 msgstr "Parceiros Relacionados"
 
@@ -7103,7 +7089,6 @@ msgstr "Endereço de Entrega"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.source_document_tree
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.subsequent_document_tree
 #, fuzzy
-#| msgid "Document"
 msgid "Show Document"
 msgstr "Documento"
 
@@ -7201,14 +7186,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.source_document_tree
 #, fuzzy
-#| msgid "Operation"
 msgid "Source Operation"
 msgstr "Operação"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__source_document_id
 #, fuzzy
-#| msgid "Group documents"
 msgid "Source document"
 msgstr "Grupo de Documentos"
 
@@ -7294,7 +7277,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__subsequent_document_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.subsequent_document_menu
 #, fuzzy
-#| msgid "CFe Documents"
 msgid "Subsequent Document"
 msgstr "CFes"
 
@@ -7305,14 +7287,12 @@ msgstr "CFes"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_document__subsequent_operation_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.subsequent_operation_menu
 #, fuzzy
-#| msgid "Operation"
 msgid "Subsequent Operation"
 msgstr "Operação"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 #, fuzzy
-#| msgid "Operations"
 msgid "Subsequent Operations"
 msgstr "Operações"
 
@@ -7324,7 +7304,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 #, fuzzy
-#| msgid "CFe Documents"
 msgid "Subsequents Documents"
 msgstr "CFes"
 
@@ -8097,7 +8076,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__website_message_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__website_message_ids
 #, fuzzy
-#| msgid "Messages"
 msgid "Website Messages"
 msgstr "Mensagens"
 
