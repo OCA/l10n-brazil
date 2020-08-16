@@ -176,7 +176,6 @@ msgstr "CBO"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cei_code
 #, fuzzy
-#| msgid "Code"
 msgid "CEI Code"
 msgstr "Código"
 
@@ -205,14 +204,12 @@ msgstr "CPF Invalido!"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_code
 #, fuzzy
-#| msgid "Code"
 msgid "CRC Code"
 msgstr "Código"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_state_id
 #, fuzzy
-#| msgid "State"
 msgid "CRC State"
 msgstr "Estado"
 
@@ -467,14 +464,12 @@ msgstr "Moeda"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_customer
 #, fuzzy
-#| msgid "Number of Actions"
 msgid "Customer Location"
 msgstr "Número de ações"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
 #, fuzzy
-#| msgid "Number of Actions"
 msgid "Customer Payment Mode"
 msgstr "Número de ações"
 
@@ -1759,7 +1754,6 @@ msgstr "Campo utilitário para expressar o valor da moeda"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_supplier
 #, fuzzy
-#| msgid "Voter section"
 msgid "Vendor Location"
 msgstr "Seção do eleitor"
 
