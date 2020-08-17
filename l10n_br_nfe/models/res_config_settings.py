@@ -3,22 +3,25 @@
 
 from odoo import fields, models
 
-from ..constants.nfe import NFE_ENVIRONMENTS, NFE_VERSIONS
+from ..constants.nfe import (
+    NFE_ENVIRONMENTS,
+    NFE_VERSIONS,
+)
 
 
 class ResConfigSettings(models.TransientModel):
-    _inherit = "res.config.settings"
+    _inherit = 'res.config.settings'
 
     nfe_version = fields.Selection(
-        string="NF-e Version",
+        string='NF-e Version',
         selection=NFE_VERSIONS,
-        related="company_id.nfe_version",
+        related='company_id.nfe_version',
         readonly=False,
     )
 
     nfe_environment = fields.Selection(
-        string="NFe Environment",
+        string='NFe Environment',
         selection=NFE_ENVIRONMENTS,
-        related="company_id.nfe_environment",
+        related='company_id.nfe_environment',
         readonly=False,
     )
