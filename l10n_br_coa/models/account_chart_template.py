@@ -12,5 +12,4 @@ class AccountChartTemplate(models.Model):
             for template in \
                     self.env['l10n_br_account.tax.template'].search([]):
                 template.create_account_tax_templates(self.id)
-        return super(AccountChartTemplate, self
-                     ).try_loading_for_current_company()
+        return super().try_loading_for_current_company()
