@@ -11,7 +11,7 @@ class WizardDocumentStatus(models.TransientModel):
     rps_number = fields.Char(
         string='RPS Number',
         default=lambda self: self.env['l10n_br_fiscal.document'].browse(
-                self._context.get('active_ids', [])).rps_number
+            self._context.get('active_ids', [])).rps_number
     )
 
     @api.multi
