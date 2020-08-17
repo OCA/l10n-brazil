@@ -48,7 +48,7 @@ class FiscalTax(models.Model):
 
     @api.model
     def create(self, values):
-        fiscal_taxes = super(FiscalTax, self).create(values)
+        fiscal_taxes = super().create(values)
         fiscal_taxes._create_account_tax()
         return fiscal_taxes
 
@@ -68,4 +68,4 @@ class FiscalTax(models.Model):
                                  ' Inative ' + active_datetime),
                         'fiscal_tax_ids': False,
                         'active': False})
-        return super(FiscalTax, self).unlink()
+        return super().unlink()
