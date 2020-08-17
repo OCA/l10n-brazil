@@ -194,6 +194,14 @@ class PaymentOrder(models.Model):
                 if bank_name_brcobranca[0] == 'unicred':
                     linhas_pagamentos['cod_desconto'] = '1'
 
+            # Protesto
+            if payment_mode.boleto_cod_protesto:
+                linhas_pagamentos['codigo_protesto'] = \
+                    payment_mode.boleto_cod_protesto
+                if payment_mode.boleto_dias_protesto:
+                    linhas_pagamentos['dias_protesto'] = \
+                        payment_mode.boleto_dias_protesto
+
             pagamentos.append(linhas_pagamentos)
 
         remessa_values = {
