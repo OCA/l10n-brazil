@@ -61,12 +61,12 @@ class AccountInvoice(models.Model):
     # allows to install the l10n_br_account module without creating issues
     # with the existing Odoo invoice (demo or not).
     fiscal_document_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Document",
+        comodel_name='l10n_br_fiscal.document',
+        string='Fiscal Document',
         required=True,
-        ondelete="cascade",
+        ondelete='cascade',
         default=lambda self: self.env.ref(
-            "l10n_br_fiscal.fiscal_document_dummy"),
+            'l10n_br_fiscal.fiscal_document_dummy'),
     )
 
     @api.model
@@ -80,7 +80,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         vals = self._convert_to_write(self.read(self._shadowed_fields())[0])
         if default:  # in case you want to use new rather than write later
-            return {"default_%s" % (k,): vals[k] for k in vals.keys()}
+            return {'default_%s' % (k,): vals[k] for k in vals.keys()}
         return vals
 
     @api.model
@@ -171,9 +171,10 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def get_taxes_values(self):
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        if self.fiscal_document_id == dummy_doc:
-            return super().get_taxes_values()
+        # uncomment these lines
+        # dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        # if self.fiscal_document_id == dummy_doc:
+        #     return super().get_taxes_values()
 
         tax_grouped = {}
         round_curr = self.currency_id.round
@@ -202,7 +203,7 @@ class AccountInvoice(models.Model):
                 icmssn_range=line.icmssn_range_id)['taxes']
 
             for tax in taxes:
-                if tax.get('amount', 0.0) == 0.0:
+                if tax.get('amount', 0.0) != 0.0:
                     val = self._prepare_tax_line_vals(line, tax)
                     key = self.env['account.tax'].browse(
                         tax['id']).get_grouping_key(val)
