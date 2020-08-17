@@ -4,13 +4,15 @@
 from odoo import api, models
 from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    SITUACAO_EDOC_CANCELADA, SITUACAO_FISCAL_CANCELADO,
-    CANCELADO, SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_FISCAL_CANCELADO,
+    CANCELADO,
+    SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 
 
 class DocumentCancel(models.Model):
-    _inherit = "l10n_br_fiscal.document.cancel"
+    _inherit = 'l10n_br_fiscal.document.cancel'
 
     @api.multi
     def cancel_document(self, event_id):

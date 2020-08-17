@@ -1,6 +1,7 @@
 # Copyright 2019 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -17,19 +18,43 @@ class NFeLine(spec_models.StackedModel):
     _force_stack_paths = ('det.imposto',)
     _rec_name = 'nfe40_xProd'
 
-    # The generateDS prod mixin (prod XML tag) cannot be injected in
-    # the product.product object because the tag includes attributes from the
+    # The generateDS prod mixin (prod XML tag) cannot be inject in
+    # the product.product object because the tag embeded values from the
     # fiscal document line. So the mapping is done:
     # from Odoo -> XML by using related fields/_compute
     # from XML -> Odoo by overriding the product create method
-    nfe40_cProd = fields.Char(related='product_id.default_code')
-    nfe40_xProd = fields.Char(related='product_id.name')
-    nfe40_cEAN = fields.Char(related='product_id.barcode')
-    nfe40_cEANTrib = fields.Char(related='product_id.barcode')
-    nfe40_uCom = fields.Char(related='product_id.uom_id.code', inverse='_inverse_uCom')
-    nfe40_uTrib = fields.Char(related='product_id.uom_id.code')
-    nfe40_vUnCom = fields.Float(related='fiscal_price')  # TODO sure?
-    nfe40_vUnTrib = fields.Float(related='fiscal_price')  # TODO sure?
+    nfe40_cProd = fields.Char(
+        related='product_id.default_code',
+    )
+
+    nfe40_xProd = fields.Char(
+        related='product_id.name',
+    )
+
+    nfe40_cEAN = fields.Char(
+        related='product_id.barcode',
+    )
+
+    nfe40_cEANTrib = fields.Char(
+        related='product_id.barcode',
+    )
+
+    nfe40_uCom = fields.Char(
+        related='product_id.uom_id.code',
+        inverse='_inverse_uCom',
+    )
+
+    nfe40_uTrib = fields.Char(
+        related='product_id.uom_id.code',
+    )
+
+    nfe40_vUnCom = fields.Float(
+        related='price_unit',
+    )
+
+    nfe40_vUnTrib = fields.Float(
+        related='fiscal_price',
+    )
 
     nfe40_choice9 = fields.Selection([
         ('normal', 'Produto Normal'),  # overriden to allow normal product
@@ -77,35 +102,39 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_orig = fields.Selection(
-        related='icms_origin'
+        related='icms_origin',
     )
 
     nfe40_modBC = fields.Selection(
-        related='icms_base_type'
+        related='icms_base_type',
     )
 
     nfe40_vBC = fields.Monetary(
-        related='icms_base'
+        related='icms_base',
     )
 
     nfe40_vICMS = fields.Monetary(
-        related='icms_value'
+        related='icms_value',
     )
 
     nfe40_vPIS = fields.Monetary(
-        related='pis_value'
+        related='pis_value',
     )
 
     nfe40_vCOFINS = fields.Monetary(
-        related='cofins_value'
+        related='cofins_value',
     )
 
     nfe40_CFOP = fields.Char(
-        related='cfop_id.code'
+        related='cfop_id.code',
     )
-    nfe40_indTot = fields.Selection(default='1')
+
+    nfe40_indTot = fields.Selection(
+        default='1',
+    )
+
     nfe40_vIPI = fields.Monetary(
-        related='ipi_value'
+        related='ipi_value',
     )
 
     @api.depends('icms_cst_id')
@@ -276,8 +305,7 @@ class NFeLine(spec_models.StackedModel):
                      ) / 100) * ((100 - self.nfe40_pICMSInterPart
                                   ) / 100))
 
-        return super(NFeLine, self)._export_fields(
-            xsd_fields, class_obj, export_dict)
+        return super()._export_fields(xsd_fields, class_obj, export_dict)
 
     def _export_field(self, xsd_field, class_obj, member_spec):
         if xsd_field in ['nfe40_cEAN', 'nfe40_cEANTrib'] and \
@@ -311,8 +339,7 @@ class NFeLine(spec_models.StackedModel):
                 return self._export_float_monetary(
                     xsd_field, member_spec, class_obj, True)
         else:
-            return super(NFeLine, self)._export_field(
-                xsd_field, class_obj, member_spec)
+            return super()._export_field(xsd_field, class_obj, member_spec)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         if not self[field_name] and not xsd_required:
@@ -327,8 +354,7 @@ class NFeLine(spec_models.StackedModel):
         if field_name in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
             self[field_name] = False
             return False
-        return super(NFeLine, self)._export_many2one(
-            field_name, xsd_required, class_obj)
+        return super()._export_many2one(field_name, xsd_required, class_obj)
 
     def _export_float_monetary(self, field_name, member_spec, class_obj,
                                xsd_required):
@@ -342,7 +368,7 @@ class NFeLine(spec_models.StackedModel):
                     (class_obj._name == 'nfe.40.fat'):
                 self[field_name] = False
                 return False
-        return super(NFeLine, self)._export_float_monetary(
+        return super()._export_float_monetary(
             field_name, member_spec, class_obj, xsd_required)
 
     def _build_attr(self, node, fields, vals, path, attr, create_m2o,
@@ -379,25 +405,25 @@ class NFeLine(spec_models.StackedModel):
             vals['quantity'] = float(value)
             vals['fiscal_quantity'] = float(value)
         if key == 'nfe40_pICMS':
-            vals['icms_percent'] = float(value)
+            vals['icms_percent'] = float(value or 0.00)
         if key == 'nfe40_pIPI':
-            vals['ipi_percent'] = float(value)
+            vals['ipi_percent'] = float(value or 0.00)
         if key == 'nfe40_pPIS':
-            vals['pis_percent'] = float(value)
+            vals['pis_percent'] = float(value or 0.00)
         if key == 'nfe40_pCOFINS':
-            vals['cofins_percent'] = float(value)
+            vals['cofins_percent'] = float(value or 0.00)
         if key == 'nfe40_cEnq':
             code = str(int(value))
             vals['ipi_guideline_id'] = \
                 self.env['l10n_br_fiscal.tax.ipi.guideline'].search([
                     ('code', '=', code)], limit=1).id
 
-        return super(NFeLine, self)._build_attr(
+        return super()._build_attr(
             node, fields, vals, path, attr, create_m2o, defaults)
 
     def _build_string_not_simple_type(self, key, vals, value, node):
         if key not in ['nfe40_CST', 'nfe40_modBC', 'nfe40_CSOSN']:
-            super(NFeLine, self)._build_string_not_simple_type(
+            super()._build_string_not_simple_type(
                 key, vals, value, node)
             # TODO avoid collision with cls prefix
         elif key == 'nfe40_CST':
@@ -431,18 +457,16 @@ class NFeLine(spec_models.StackedModel):
             # stacked m2o
             vals.update(new_value)
         else:
-            super(NFeLine, self)._build_many2one(comodel, vals, new_value,
-                                                 key, create_m2o)
+            super()._build_many2one(comodel, vals, new_value, key, create_m2o)
 
     def _verify_related_many2ones(self, related_many2ones):
         if related_many2ones.get('product_id', {}).get('barcode') and \
                 related_many2ones['product_id']['barcode'] == 'SEM GTIN':
             del related_many2ones['product_id']['barcode']
-        return super(NFeLine, self)._verify_related_many2ones(
-            related_many2ones)
+        return super()._verify_related_many2ones(related_many2ones)
 
     def _get_aditional_keys(self, model, rec_dict, keys):
-        keys = super(NFeLine, self)._get_aditional_keys(model, rec_dict, keys)
+        keys = super()._get_aditional_keys(model, rec_dict, keys)
         if model._name == 'product.product' and rec_dict.get('barcode'):
             return ['barcode'] + keys
         return keys
