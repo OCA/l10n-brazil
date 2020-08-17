@@ -9,15 +9,20 @@
     'license': 'AGPL-3',
     'author': 'Akretion, KMEE, Odoo Community Association (OCA)',
     'website': 'https://github.com/oca/l10n-brazil',
-    'depends': [
-        "account"
-    ],
+    'depends': ['account'],
     'data': [
+        # Security
         'security/l10n_br_account_tax_template.xml',
+
+        # Data
+        'data/account_tax_tag.xml',
+        'data/account_tax_group_data.xml',
+        'data/l10n_br_account_tax_template_data.xml',
+
+        # Views
         'views/l10n_br_account_tax_template.xml',
-        "data/account_tax_group_data.xml",
-        "data/l10n_br_account_tax_template_data.xml",
+        'views/account_tax_template.xml',
+        'views/account_tax.xml',
     ],
-    'demo': [
-    ],
+    'installable': True,
 }
