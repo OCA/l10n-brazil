@@ -8,7 +8,9 @@ class L10nBrAccountTaxTemplate(models.Model):
     _name = 'l10n_br_account.tax.template'
     _inherit = 'account.tax.template'
 
-    chart_template_id = fields.Many2one(required=False)
+    chart_template_id = fields.Many2one(
+        required=False,
+    )
 
     def create_account_tax_templates(self, chart_template_id):
         self.ensure_one()
