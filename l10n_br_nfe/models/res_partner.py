@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields
+
 from odoo.addons.spec_driven_model.models import spec_models
 
 
@@ -11,17 +12,17 @@ class ResPartner(spec_models.SpecModel):
     # what happen to m2o to tendereco if we don't inherit from tendereco?
     # should we stack tendereco from dest? will m2o to tendereco work?
     # can we use related fields and context views to avoid troubles?
-    _inherit = ["res.partner", "nfe.40.tendereco",
-                "nfe.40.tlocal", "nfe.40.dest"]
-    _name = "res.partner"
+    _name = 'res.partner'
+    _inherit = ['res.partner', 'nfe.40.tendereco',
+                'nfe.40.tlocal', 'nfe.40.dest']
     _nfe_search_keys = ['nfe40_CNPJ', 'nfe40_CPF', 'nfe40_xNome']
 
     @api.model
-    def _prepare_import_dict(self, vals, defaults={}):
-        vals = super(ResPartner, self)._prepare_import_dict(vals)
-        if not vals.get('name') and vals.get('legal_name'):
-            vals['name'] = vals['legal_name']
-        return vals
+    def _prepare_import_dict(self, values, defaults={}):
+        vals = super()._prepare_import_dict(values)
+        if not values.get('name') and values.get('legal_name'):
+            values['name'] = values['legal_name']
+        return values
 
 # TODO deal with nfe40_enderDest. Item can be the address with dest on the parent...
 
