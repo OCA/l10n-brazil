@@ -10,7 +10,6 @@ from odoo.tools.misc import format_date
 from odoo import fields
 
 
-
 class TestFiscalDocumentNFSeCommon(TransactionCase):
 
         def setUp(self):
