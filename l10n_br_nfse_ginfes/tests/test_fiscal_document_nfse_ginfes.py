@@ -1,20 +1,17 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 #   Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from base64 import b64encode
+
 from xmldiff import main
 import os
 import logging
-from OpenSSL import crypto
 
-from odoo.tests.common import TransactionCase
-from datetime import datetime, timedelta
+from datetime import datetime
 from odoo.tools import config
-from odoo import fields
-from odoo.tools.misc import format_date
 from ... import l10n_br_nfse_ginfes
 
-from odoo.addons.l10n_br_nfse.tests.test_fiscal_document_nfse_common import TestFiscalDocumentNFSeCommon
+from odoo.addons.l10n_br_nfse.tests.test_fiscal_document_nfse_common \
+    import TestFiscalDocumentNFSeCommon
 
 
 _logger = logging.getLogger(__name__)
