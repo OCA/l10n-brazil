@@ -262,7 +262,10 @@ class NFeLine(spec_models.StackedModel):
                 xsd_fields.remove('nfe40_vBC')
                 xsd_fields.remove('nfe40_pCOFINS')
 
-        self.nfe40_NCM = self.ncm_id.code.replace('.', '') # TODO via _compute
+        if self.ncm_id and self.ncm_id.code:
+            self.nfe40_NCM = self.ncm_id.code.replace('.', '') # TODO via _compute
+        else:
+            self.nfe40_NCM = ''
         self.nfe40_CEST = self.cest_id and \
             self.cest_id.code.replace('.', '') or False
         self.nfe40_qCom = self.quantity
@@ -308,6 +311,36 @@ class NFeLine(spec_models.StackedModel):
         return super()._export_fields(xsd_fields, class_obj, export_dict)
 
     def _export_field(self, xsd_field, class_obj, member_spec):
+        # ISSQN
+        if xsd_field == 'nfe40_cMunFG':
+            return self.issqn_fg_city_id.state_id.ibge_code + self.issqn_fg_city_id.ibge_code
+        if xsd_field == 'nfe40_cListServ':
+            return self.service_type_id.code
+        if xsd_field == 'nfe40_vDeducao':
+            return self.issqn_deduction_amount
+        if xsd_field == 'nfe40_vOutro':
+            return self.issqn_other_amount
+        if xsd_field == 'nfe40_vDescIncond':
+            return self.issqn_desc_incond_amount
+        if xsd_field == 'nfe40_vDescCond':
+            return self.issqn_desc_cond_amount
+        if xsd_field == 'nfe40_vISSRet':
+            return self.issqn_wh_value
+        if xsd_field == 'nfe40_indISS':
+            return self.issqn_eligibility
+        if xsd_field == 'nfe40_cServico':
+            return '' # TODO
+        if xsd_field == 'nfe40_cMun':
+            return self.issqn_fg_city_id.state_id.ibge_code + self.issqn_fg_city_id.ibge_code  # TODO
+        if xsd_field == 'nfe40_cPais':
+            return self.issqn_fg_city_id.state_id.country_id.bc_code[1:] # TODO
+        if xsd_field == 'nfe40_nProcesso':
+            return '' # TODO
+        if xsd_field == 'nfe40_indIncentivo':
+            return self.issqn_incentive
+        if xsd_field == 'nfe40_xProd':
+            return self.name
+
         if xsd_field in ['nfe40_cEAN', 'nfe40_cEANTrib'] and \
                 not self[xsd_field]:
             return 'SEM GTIN'
@@ -348,7 +381,11 @@ class NFeLine(spec_models.StackedModel):
                     field_name not in ['nfe40_PIS', 'nfe40_COFINS']:
                 return False
         if field_name == 'nfe40_ISSQN' and \
-                self.product_id.type == 'consu':
+                not self.service_type_id: # TODO
+            self[field_name] = False
+            return False
+        if field_name == 'nfe40_ICMS' and \
+                self.service_type_id: # TODO
             self[field_name] = False
             return False
         if field_name in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
