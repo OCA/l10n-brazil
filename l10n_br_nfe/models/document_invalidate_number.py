@@ -1,18 +1,21 @@
 # Copyright (C) 2020  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from odoo.addons.l10n_br_fiscal.constants.fiscal import \
-    SITUACAO_EDOC_INUTILIZADA
+from requests import Session
+
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
-from requests import Session
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    SITUACAO_EDOC_INUTILIZADA,
+)
 
 
 class DocumentInvalidateNumber(models.Model):
-    _inherit = "l10n_br_fiscal.document.invalidate.number"
+    _inherit = 'l10n_br_fiscal.document.invalidate.number'
 
     def _processador(self):
         if not self.company_id.certificate_nfe_id:
