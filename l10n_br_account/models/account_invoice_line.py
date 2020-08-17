@@ -18,7 +18,8 @@ SHADOWED_FIELDS = ['name', 'partner_id', 'company_id', 'currency_id',
 class AccountInvoiceLine(models.Model):
     _name = 'account.invoice.line'
     _inherit = ['account.invoice.line',
-                'l10n_br_fiscal.document.line.mixin.methods']
+                'l10n_br_fiscal.document.line.mixin.methods',
+                'l10n_br_account.document.line.mixin']
     _inherits = {'l10n_br_fiscal.document.line': 'fiscal_document_line_id'}
 
     # initial account.invoice.line inherits on fiscal.document.line that are
@@ -57,10 +58,6 @@ class AccountInvoiceLine(models.Model):
         'invoice_id.date',
         'fiscal_tax_ids')
     def _compute_price(self):
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        if self.invoice_id.fiscal_document_id == dummy_doc:
-            return super()._compute_price()
-
         currency = self.invoice_id and self.invoice_id.currency_id or None
         taxes = {}
         if self.invoice_line_tax_ids:
