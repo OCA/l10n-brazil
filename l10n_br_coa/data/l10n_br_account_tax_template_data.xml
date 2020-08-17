@@ -1,127 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="tax_tag_ipi" model="account.account.tag">
-        <field name="name">IPI</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_ii" model="account.account.tag">
-        <field name="name">II</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_icms" model="account.account.tag">
-        <field name="name">ICMS</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_icmssn" model="account.account.tag">
-        <field name="name">ICMS SN</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_icmsst" model="account.account.tag">
-        <field name="name">ICMS ST</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_icmsfcp" model="account.account.tag">
-        <field name="name">ICMS FCP</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_pis" model="account.account.tag">
-        <field name="name">PIS</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_pisst" model="account.account.tag">
-        <field name="name">PIS ST</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_pis_wh" model="account.account.tag">
-        <field name="name">PIS WH</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_cofins" model="account.account.tag">
-        <field name="name">COFINS</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_cofinsst" model="account.account.tag">
-        <field name="name">COFINS ST</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_cofins_wh" model="account.account.tag">
-        <field name="name">COFINS WH</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_issqn" model="account.account.tag">
-        <field name="name">ISSQN</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_issqn_wh" model="account.account.tag">
-        <field name="name">ISSQN WH</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_csll" model="account.account.tag">
-        <field name="name">CSLL</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_csll_wh" model="account.account.tag">
-        <field name="name">CSLL WH</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_ir" model="account.account.tag">
-        <field name="name">IR</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_irpj" model="account.account.tag">
-        <field name="name">IRPJ</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_irpj_wh" model="account.account.tag">
-        <field name="name">IRPJ WH</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_inss" model="account.account.tag">
-        <field name="name">INSS</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_inss_wh" model="account.account.tag">
-        <field name="name">INSS</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_simples" model="account.account.tag">
-        <field name="name">Simples Nacional</field>
-        <field name="applicability">taxes</field>
-    </record>
-
-    <record id="tax_tag_others" model="account.account.tag">
-        <field name="name">Others</field>
-        <field name="applicability">taxes</field>
-    </record>
-
     <record id="tax_template_out_ipi" model="l10n_br_account.tax.template">
         <field name="description">IPI</field>
         <field name="name">IPI Saída</field>
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
@@ -132,6 +18,29 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_ipi"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+    </record>
+
+    <record id="tax_template_in_ipi_deductible" model="l10n_br_account.tax.template">
+        <field name="description">IPI</field>
+        <field name="name">IPI Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_ipi"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
+    </record>
+
+    <record id="tax_template_out_ipi_deductible" model="l10n_br_account.tax.template">
+        <field name="description">IPI</field>
+        <field name="name">IPI Saida Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
@@ -142,6 +51,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
@@ -152,6 +62,29 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_ii"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+    </record>
+
+    <record id="tax_template_ii_in_deductible" model="l10n_br_account.tax.template">
+        <field name="description">II</field>
+        <field name="name">II Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_ii"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
+    </record>
+
+    <record id="tax_template_ii_out_deductible" model="l10n_br_account.tax.template">
+        <field name="description">II</field>
+        <field name="name">II Saida Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
@@ -162,6 +95,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
@@ -172,6 +106,29 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_icms"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+    </record>
+
+    <record id="tax_template_icms_in_deductible" model="l10n_br_account.tax.template">
+        <field name="description">ICMS</field>
+        <field name="name">ICMS Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_icms"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
+    </record>
+
+    <record id="tax_template_icms_out_deductible" model="l10n_br_account.tax.template">
+        <field name="description">ICMS</field>
+        <field name="name">ICMS Saida Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
@@ -182,6 +139,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmssn"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmssn')])]"/>
     </record>
@@ -192,6 +150,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmssn"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmssn')])]"/>
     </record>
@@ -202,6 +161,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmsst"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
     </record>
@@ -212,6 +172,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmsst"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
     </record>
@@ -222,6 +183,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmsfcp"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsfcp')])]"/>
     </record>
@@ -232,6 +194,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmsfcp"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsfcp')])]"/>
     </record>
@@ -242,6 +205,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
      </record>
@@ -252,6 +216,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pisst"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pisst')])]"/>
     </record>
@@ -262,6 +227,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis_wh"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis_wh')])]"/>
     </record>
@@ -272,6 +238,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
     </record>
@@ -282,6 +249,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pisst"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pisst')])]"/>
     </record>
@@ -292,8 +260,31 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis_wh"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis_wh')])]"/>
+    </record>
+
+    <record id="tax_template_in_pis_deductible" model="l10n_br_account.tax.template">
+        <field name="description">PIS</field>
+        <field name="name">PIS Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_pis"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
+    </record>
+
+    <record id="tax_template_out_pis_deductible" model="l10n_br_account.tax.template">
+        <field name="description">PIS</field>
+        <field name="name">PIS Saida Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_pis"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
     </record>
 
     <record id="tax_template_out_cofins" model="l10n_br_account.tax.template">
@@ -302,6 +293,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
     </record>
@@ -312,6 +304,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofinsst"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofinsst')])]"/>
     </record>
@@ -322,6 +315,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofinsst"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofinsst')])]"/>
     </record>
@@ -332,6 +326,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
     </record>
@@ -342,6 +337,7 @@
        <field name="amount">0.00</field>
        <field name="type_tax_use">purchase</field>
        <field eval="0" name="price_include"/>
+       <field eval="0" name="deductible"/>
        <field name="tax_group_id" ref="tax_group_cofinsst"/>
        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofinsst')])]"/>
     </record>
@@ -352,8 +348,31 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofins_wh"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins_wh')])]"/>
+     </record>
+
+     <record id="tax_template_cofins_in_deductible" model="l10n_br_account.tax.template">
+         <field name="description">COFINS</field>
+         <field name="name">COFINS Entrada Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">purchase</field>
+         <field eval="0" name="price_include"/>
+         <field eval="1" name="deductible"/>
+         <field name="tax_group_id" ref="tax_group_cofins"/>
+         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
+     </record>
+
+     <record id="tax_template_cofins_out_deductible" model="l10n_br_account.tax.template">
+         <field name="description">COFINS</field>
+         <field name="name">COFINS Saida Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">sale</field>
+         <field eval="0" name="price_include"/>
+         <field eval="1" name="deductible"/>
+         <field name="tax_group_id" ref="tax_group_cofins"/>
+         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
      </record>
 
      <record id="tax_template_out_issqn" model="l10n_br_account.tax.template">
@@ -362,6 +381,7 @@
          <field name="amount">0.00</field>
          <field name="type_tax_use">none</field>
          <field eval="0" name="price_include"/>
+         <field eval="0" name="deductible"/>
          <field name="tax_group_id" ref="tax_group_issqn"/>
          <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
      </record>
@@ -372,6 +392,7 @@
          <field name="amount">0.00</field>
          <field name="type_tax_use">none</field>
          <field eval="0" name="price_include"/>
+         <field eval="0" name="deductible"/>
          <field name="tax_group_id" ref="tax_group_issqn_wh"/>
          <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn_wh')])]"/>
      </record>
@@ -382,6 +403,7 @@
          <field name="amount">0.00</field>
          <field name="type_tax_use">none</field>
          <field eval="0" name="price_include"/>
+         <field eval="0" name="deductible"/>
          <field name="tax_group_id" ref="tax_group_issqn"/>
          <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
      </record>
@@ -392,6 +414,7 @@
          <field name="amount">0.00</field>
          <field name="type_tax_use">none</field>
          <field eval="0" name="price_include"/>
+         <field eval="0" name="deductible"/>
          <field name="tax_group_id" ref="tax_group_issqn_wh"/>
          <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn_wh')])]"/>
      </record>
@@ -402,6 +425,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">none</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_irpj"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj')])]"/>
     </record>
@@ -412,6 +436,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">none</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_irpj_wh"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj_wh')])]"/>
     </record>
@@ -422,6 +447,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">none</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_csll"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll')])]"/>
     </record>
@@ -432,6 +458,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">none</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_csll_wh"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll_wh')])]"/>
     </record>
@@ -442,6 +469,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_inss"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
     </record>
@@ -452,6 +480,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_inss"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
     </record>
@@ -462,6 +491,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_inss"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
     </record>
@@ -472,6 +502,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_inss_wh"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss_wh')])]"/>
     </record>
@@ -482,6 +513,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">none</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_simples"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_simples')])]"/>
     </record>
@@ -492,6 +524,7 @@
         <field name="amount">0.00</field>
         <field name="type_tax_use">none</field>
         <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_others"/>
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_others')])]"/>
     </record>
