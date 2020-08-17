@@ -4,7 +4,31 @@
 
 <odoo>
 
-    <record id="view_l10n_br_account_tax_template_form" model="ir.ui.view">
+    <record id="l10n_br_account_tax_template_search" model="ir.ui.view">
+        <field name="name">l10n_br_account.tax.template.search</field>
+        <field name="model">l10n_br_account.tax.template</field>
+        <field name="arch" type="xml">
+            <search string="Search Tax Templates">
+                <field name="name" filter_domain="['|', ('name','ilike',self), ('description','ilike',self)]" string="Tax Template"/>
+                <filter string="Sale" name="sale" domain="[('type_tax_use','=','sale')]" help="Taxes used in Sales"/>
+                <filter string="Purchase" name="purchase" domain="[('type_tax_use','=','purchase')]" help="Taxes used in Purchases"/>
+                <field name="chart_template_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_tax_template_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.tax.template.tree</field>
+        <field name="model">l10n_br_account.tax.template</field>
+        <field name="arch" type="xml">
+            <tree string="Account Tax Template">
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_account_tax_template_form" model="ir.ui.view">
         <field name="name">l10n_br_account.tax.template.form</field>
         <field name="model">l10n_br_account.tax.template</field>
         <field name="arch" type="xml">
@@ -51,38 +75,17 @@
             </form>
         </field>
     </record>
-    <record id="view_l10n_br_account_tax_template_tree" model="ir.ui.view">
-        <field name="name">l10n_br_account.tax.template.tree</field>
-        <field name="model">l10n_br_account.tax.template</field>
-        <field name="arch" type="xml">
-            <tree string="Account Tax Template">
-                <field name="name"/>
-                <field name="description"/>
-            </tree>
-        </field>
-    </record>
-    <record id="view_l10n_br_account_tax_template_search" model="ir.ui.view">
-        <field name="name">l10n_br_account.tax.template.search</field>
-        <field name="model">l10n_br_account.tax.template</field>
-        <field name="arch" type="xml">
-            <search string="Search Tax Templates">
-                <field name="name" filter_domain="['|', ('name','ilike',self), ('description','ilike',self)]" string="Tax Template"/>
-                <filter string="Sale" name="sale" domain="[('type_tax_use','=','sale')]" help="Taxes used in Sales"/>
-                <filter string="Purchase" name="purchase" domain="[('type_tax_use','=','purchase')]" help="Taxes used in Purchases"/>
-                <field name="chart_template_id"/>
-            </search>
-        </field>
-    </record>
-    <record id="action_l10n_br_account_tax_template_form" model="ir.actions.act_window">
+
+    <record id="l10n_br_account_tax_template_action" model="ir.actions.act_window">
         <field name="name">Tax Templates</field>
         <field name="res_model">l10n_br_account.tax.template</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="view_l10n_br_account_tax_template_search"/>
+        <field name="search_view_id" ref="l10n_br_account_tax_template_search"/>
     </record>
 
-    <menuitem id="menu_l10n_br_account_tax_template"
-        action="action_l10n_br_account_tax_template_form"
+    <menuitem id="l10n_br_account_tax_template_menu"
+        action="l10n_br_account_tax_template_action"
         parent="account.menu_finance_configuration"
         sequence="31"/>
 
