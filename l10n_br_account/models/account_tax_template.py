@@ -17,7 +17,7 @@ class AccountTaxTemplate(models.Model):
 
     @api.multi
     def _generate_tax(self, company):
-        mapping = super(AccountTaxTemplate, self)._generate_tax(company)
+        mapping = super()._generate_tax(company)
         taxes_template = self.browse(mapping.get('tax_template_to_tax').keys())
 
         for tax_template in taxes_template:
