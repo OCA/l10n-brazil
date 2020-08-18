@@ -40,12 +40,15 @@ msgid "Data Prevista"
 msgstr "Data Prevista"
 
 #. module: l10n_br_account_payment_order
+<<<<<<< HEAD
 #: selection:account.payment.mode,operation_type:0
 #: selection:account.payment.order,operation_type:0
 msgid "Debito em conta corrente"
 msgstr "Debito em conta corrente"
 
 #. module: l10n_br_account_payment_order
+=======
+>>>>>>> [REF] remove field operation_type in l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br-account_payment_mode_form
 msgid "Geral"
 msgstr "Geral"
@@ -84,12 +87,6 @@ msgid ""
 msgstr ""
 "O código da Agencia Bancaria do Santander deve ter no máximo quatro "
 "caracteres."
-
-#. module: l10n_br_account_payment_order
-#: selection:account.payment.mode,operation_type:0
-#: selection:account.payment.order,operation_type:0
-msgid "Pagamento"
-msgstr "Pagamento"
 
 #. module: l10n_br_account_payment_order
 #: model:ir.model,name:l10n_br_account_payment_order.model_account_payment_line
@@ -131,14 +128,6 @@ msgstr "Sequência"
 msgid "Sequência já usada! Crie uma sequência unica para cada modo"
 msgstr "Sequência já usada! Crie uma sequência unica para cada modo"
 
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__operation_type
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__operation_type
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__operation_type
-msgid "Tipo de Operação"
-msgstr "Tipo de Operação"
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__amount_interest
 msgid "Valor Juros"
 msgstr "Valor Juros"
