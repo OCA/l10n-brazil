@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="l10n_br-view_payments_tree" model="ir.ui.view">
-        <field name="name">l10n_br_account_payment_order.aml</field>
+    <record id="move_line_payments_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account_payment_order.move.line.payments.tree</field>
         <field name="model">account.move.line</field>
         <field name="inherit_id" ref="account_due_list.view_payments_tree"/>
         <field name="arch" type="xml">
