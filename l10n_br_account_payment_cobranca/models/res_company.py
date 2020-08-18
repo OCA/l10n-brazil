@@ -31,22 +31,6 @@ class ResCompany(models.Model):
         default="1",
     )
 
-    client_id = fields.Char(string="ID do Cliente")
-
-    client_secret = fields.Char(string="Segredo")
-
-    itau_key = fields.Char(string="Chave")
-
-    api_endpoint = fields.Char(string="API ENDPOINT")
-
-    raiz_endpoint = fields.Char(string="RAIZ ENDPOINT")
-
-    api_itau_token = fields.Char(string="Itaú API Token", readonly=True)
-
-    api_itau_token_due_datetime = fields.Datetime(
-        string="Validade do Token", readonly=True
-    )
-
     @api.multi
     def get_own_number_sequence(self):
         self.ensure_one()

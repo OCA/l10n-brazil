@@ -1,33 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="view_boleto_account_company_form" model="ir.ui.view">
-        <field name="name">l10n_br_account_payment_boleto.res.company.form
-        </field>
+
+    <record id="res_company_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_payment_order.res.company.form</field>
         <field name="model">res.company</field>
-        <field name="inherit_id"
-               ref="base.view_company_form"/>
+        <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page string="Cobrança">
                     <group>
                         <field name="own_number_type"/>
-                        <field name="own_number_sequence" attrs="{'invisible': [('own_number_type', '!=', '0')],
-                                                                  'required': [('own_number_type', '==', '0')]}"/>
+                        <field name="own_number_sequence" attrs="{'invisible': [('own_number_type', '!=', '0')], 'required': [('own_number_type', '==', '0')]}"/>
                     </group>
                 </page>
-<!--                <page string="Api Itaú" group="base.group_no_one">-->
-<!--                    <group>-->
-<!--                        <field name="environment"/>-->
-<!--                        <field name="client_id"/>-->
-<!--                        <field name="client_secret"/>-->
-<!--                        <field name="itau_key"/>-->
-<!--                        <field name="api_endpoint"/>-->
-<!--                        <field name="raiz_endpoint"/>-->
-<!--                        <field name="api_itau_token"/>-->
-<!--                        <field name="api_itau_token_due_datetime"/>-->
-<!--                    </group>-->
-<!--                </page>-->
             </notebook>
         </field>
     </record>
+
 </odoo>
