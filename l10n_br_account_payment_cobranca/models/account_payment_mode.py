@@ -119,7 +119,6 @@ class PaymentMode(models.Model):
         string="Conta Padrão",
         help="Conta padrão para Taxa",
     )
-    operation_type = fields.Selection(selection_add=[("3", "Cobrança")])
     cnab_sequence_id = fields.Many2one(
         comodel_name='ir.sequence',
         string=u'Sequencia do CNAB')

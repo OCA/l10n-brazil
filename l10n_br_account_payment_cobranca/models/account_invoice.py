@@ -316,19 +316,6 @@ class AccountInvoice(models.Model):
         return result
 
     @api.multi
-    def _prepare_new_payment_order(self, payment_mode=None):
-        vals = super(AccountInvoice, self)._prepare_new_payment_order(payment_mode)
-        if payment_mode is None:
-            payment_mode = self.env["account.payment.mode"]
-        vals.update(
-            {
-                "operation_type": payment_mode.operation_type
-                or self.payment_mode_id.operation_type
-            }
-        )
-        return vals
-
-    @api.multi
     def assign_outstanding_credit(self, credit_aml_id):
         self.ensure_one()
 
