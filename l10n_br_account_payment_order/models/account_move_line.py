@@ -6,25 +6,27 @@ from odoo import api, fields, models
 
 
 class AccountMoveLine(models.Model):
-    _inherit = "account.move.line"
+    _inherit = 'account.move.line'
 
-    date_scheduled = fields.Date(string="Data Prevista")
-
-    @api.depends("move_id")
-    def _compute_journal_entry_ref(self):
-        for record in self:
-            if record.name:
-                record.journal_entry_ref = record.name
-            elif record.move_id.name:
-                record.journal_entry_ref = record.move_id.name
-            elif record.invoice_id and record.invoice_id.number:
-                record.journal_entry_ref = record.invoice_id.number
-            else:
-                record.journal_entry_ref = "*" + str(record.move_id.id)
-
-    journal_entry_ref = fields.Char(
-        compute="_compute_journal_entry_ref", string="Journal Entry Ref", store=True
+    date_scheduled = fields.Date(
+        string='Data Prevista',
     )
+
+    # journal_entry_ref = fields.Char(
+    #     compute="_compute_journal_entry_ref", string="Journal Entry Ref", store=True
+    # )
+    #
+    # @api.depends("move_id")
+    # def _compute_journal_entry_ref(self):
+    #     for record in self:
+    #         if record.name:
+    #             record.journal_entry_ref = record.name
+    #         elif record.move_id.name:
+    #             record.journal_entry_ref = record.move_id.name
+    #         elif record.invoice_id and record.invoice_id.number:
+    #             record.journal_entry_ref = record.invoice_id.number
+    #         else:
+    #             record.journal_entry_ref = "*" + str(record.move_id.id)
 
     @api.multi
     def get_balance(self):
