@@ -36,12 +36,6 @@ msgid "Data Prevista"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: selection:account.payment.mode,operation_type:0
-#: selection:account.payment.order,operation_type:0
-msgid "Debito em conta corrente"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br-account_payment_mode_form
 msgid "Geral"
 msgstr ""
@@ -75,12 +69,6 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/res_partner_bank.py:18
 #, python-format
 msgid "O cógido da Agencia Bancaria do Santander deve ter no máximo quatro caracteres."
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: selection:account.payment.mode,operation_type:0
-#: selection:account.payment.order,operation_type:0
-msgid "Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -124,14 +112,6 @@ msgid "Sequência já usada! Crie uma sequência unica para cada modo"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__operation_type
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__operation_type
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_order__operation_type
-msgid "Tipo de Operação"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_line__amount_interest
 msgid "Valor Juros"
 msgstr ""
-
