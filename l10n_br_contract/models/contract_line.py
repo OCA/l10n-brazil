@@ -10,8 +10,8 @@ class ContractLine(models.Model):
     _inherit = 'contract.line'
 
     @api.multi
-    def _prepare_invoice_line(self, invoice_id=False):
-        invoice_line_vals = super()._prepare_invoice_line(invoice_id)
+    def _prepare_invoice_line(self, invoice_id=False, invoice_values=False):
+        invoice_line_vals = super()._prepare_invoice_line(invoice_id, invoice_values)
         invoice_line_vals['fiscal_operation_id'] = \
             self.env.ref('l10n_br_fiscal.fo_venda').id
         return invoice_line_vals
