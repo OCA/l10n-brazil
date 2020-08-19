@@ -141,5 +141,160 @@
                    ref="account.account_payment_method_manual_in"/>
         </record>
 
+
+
+            <!-- Modo de Pagamentos Cobrança Bradesco400 -->
+            <record id="payment_mode_cobranca_bradesco400" model="account.payment.mode">
+                <field name="name">Cobrança Bradesco400</field>
+                <field name="company_id" ref="base.main_company"/>
+                <field name="instrucoes">Pagavel em qualquer banco ate o
+                    vencimento
+                </field>
+                <field name="bank_account_link">fixed</field>
+                <field name="fixed_journal_id" ref="bradesco_journal"/>
+                <field name="payment_order_ok">True</field>
+                <field name="payment_method_id"
+                       ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
+                <field name="boleto_convetion">06</field>
+                <field name="boleto_wallet">03</field>
+                <field name="boleto_modality">DM</field>
+                <field name="boleto_variation">19</field>
+                <field name="boleto_accept">S</field>
+                <field name="cnab_sequence_id"
+                       ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+            </record>
+
+            <!-- Payment Mode Cobrança Unicred 400 -->
+            <record id="payment_mode_cobranca_unicred400" model="account.payment.mode">
+                <field name="name">Cobrança Unicred400</field>
+                <field name="company_id" ref="base.main_company"/>
+                <field name="instrucoes">Pagavel em qualquer banco ate o
+                    vencimento
+                </field>
+                <field name="bank_account_link">fixed</field>
+                <field name="fixed_journal_id" ref="unicred_journal"/>
+                <field name="payment_order_ok">True</field>
+                <field name="payment_method_id"
+                       ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
+                <field name="boleto_convetion">06</field>
+                <field name="boleto_wallet">21</field>
+                <field name="boleto_modality">DM</field>
+                <field name="boleto_variation">19</field>
+                <field name="boleto_accept">N</field>
+                <field name="cnab_sequence_id"
+                       ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+                <field name="boleto_protest_code">2</field>
+                <field name="boleto_days_protest">5</field>
+                <field name="codigo_convenio">72234050</field>
+            </record>
+
+            <!-- Payment Mode Cobrança Unicred 240 -->
+            <record id="payment_mode_cobranca_unicred240" model="account.payment.mode">
+                <field name="name">Cobrança Unicred240</field>
+                <field name="company_id" ref="base.main_company"/>
+                <field name="instrucoes">Pagavel em qualquer banco ate o
+                    vencimento
+                </field>
+                <field name="bank_account_link">fixed</field>
+                <field name="fixed_journal_id" ref="unicred_journal"/>
+                <field name="payment_order_ok">True</field>
+                <field name="payment_method_id"
+                       ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
+                        <field name="boleto_convetion">06</field>
+                <field name="boleto_wallet">3</field>
+                <field name="boleto_modality">DM</field>
+                <field name="boleto_variation">19</field>
+                <field name="boleto_accept">N</field>
+                <field name="cnab_sequence_id"
+                       ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+                <field name="boleto_protest_code">2</field>
+                <field name="boleto_days_protest">5</field>
+                <field name="code_convetion">72234050</field>
+            </record>
+
+            <!-- Modo de Pagamento cobrança Itau 240 -->
+            <record id="payment_mode_cobranca_itau240" model="account.payment.mode">
+                <field name="name">Cobrança Itau240</field>
+                <field name="company_id" ref="base.main_company"/>
+                <field name="instrucoes">Pagavel em qualquer banco ate o
+                    vencimento
+                </field>
+                <field name="bank_account_link">fixed</field>
+                <field name="fixed_journal_id" ref="itau_journal"/>
+                <field name="payment_order_ok">True</field>
+                <field name="payment_method_id"
+                       ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
+                        <field name="boleto_convetion">06</field>
+                <field name="boleto_wallet">3</field>
+                <field name="boleto_modality">DM</field>
+                <field name="boleto_variation">19</field>
+                <field name="boleto_accept">S</field>
+                <field name="cnab_sequence_id"
+                       ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+            </record>
+
+            <!-- Modo de Pagamento cobrança Caixa Economica Federal 240 -->
+            <record id="payment_mode_cobranca_cef240" model="account.payment.mode">
+                <field name="name">Cobrança Caixa Economica Federal 240</field>
+                <field name="company_id" ref="base.main_company"/>
+                <field name="instrucoes">Pagavel em qualquer banco ate o
+                    vencimento
+                </field>
+                <field name="bank_account_link">fixed</field>
+                <field name="fixed_journal_id" ref="cef_journal"/>
+                <field name="payment_order_ok">True</field>
+                <field name="payment_method_id"
+                       ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
+                        <field name="boleto_convetion">06</field>
+                <field name="boleto_wallet">3</field>
+                <field name="boleto_modality">DM</field>
+                <field name="boleto_variation">19</field>
+                <field name="boleto_accept">S</field>
+                <field name="cnab_sequence_id"
+                       ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+            </record>
+
+            <!-- Modo de Pagamento cobrança Itau 400 -->
+            <record id="payment_mode_cobranca_itau400" model="account.payment.mode">
+                <field name="name">Cobrança Itau400</field>
+                <field name="company_id" ref="base.main_company"/>
+                <field name="instrucoes">Pagavel em qualquer banco ate o
+                    vencimento
+                </field>
+                <field name="bank_account_link">fixed</field>
+                <field name="fixed_journal_id" ref="itau_journal"/>
+                <field name="payment_order_ok">True</field>
+                <field name="payment_method_id"
+                       ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
+                        <field name="boleto_convetion">06</field>
+                <field name="boleto_wallet">3</field>
+                <field name="boleto_modality">DM</field>
+                <field name="boleto_variation">19</field>
+                <field name="boleto_accept">S</field>
+                <field name="cnab_sequence_id"
+                       ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+            </record>
+
+            <!-- Payment Mode Cobrança Banco do Brasil 400 -->
+            <record id="payment_mode_cobranca_bb400" model="account.payment.mode">
+                <field name="name">Cobrança Banco do Brasil 400</field>
+                <field name="company_id" ref="base.main_company"/>
+                <field name="instrucoes">Pagavel em qualquer banco ate o
+                    vencimento
+                </field>
+                <field name="bank_account_link">fixed</field>
+                <field name="fixed_journal_id" ref="bb_journal"/>
+                <field name="payment_order_ok">True</field>
+                <field name="payment_method_id"
+                       ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
+                <field name="boleto_convetion">06</field>
+                <field name="boleto_wallet">3</field>
+                <field name="boleto_modality">DM</field>
+                <field name="boleto_variation">19</field>
+                <field name="boleto_accept">S</field>
+                <field name="cnab_sequence_id"
+                       ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
+            </record>
+
     </data>
 </odoo>
