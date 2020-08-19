@@ -4,12 +4,15 @@
 
 from odoo import api, fields, models
 
-from ..constantes import (SEQUENCIAL_CARTEIRA, SEQUENCIAL_EMPRESA,
-                          SEQUENCIAL_FATURA)
+from ..constants import (
+    SEQUENCIAL_CARTEIRA,
+    SEQUENCIAL_EMPRESA,
+    SEQUENCIAL_FATURA,
+)
 
 
 class ResCompany(models.Model):
-    _inherit = "res.company"
+    _inherit = 'res.company'
 
     own_number_type = fields.Selection(
         selection=[

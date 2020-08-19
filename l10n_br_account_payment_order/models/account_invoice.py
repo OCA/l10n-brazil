@@ -8,8 +8,11 @@ import logging
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ..constantes import (SEQUENCIAL_CARTEIRA, SEQUENCIAL_EMPRESA,
-                          SEQUENCIAL_FATURA)
+from ..constants import (
+    SEQUENCIAL_CARTEIRA,
+    SEQUENCIAL_EMPRESA,
+    SEQUENCIAL_FATURA,
+)
 
 _logger = logging.getLogger(__name__)
 

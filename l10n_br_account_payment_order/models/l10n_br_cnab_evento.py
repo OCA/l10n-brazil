@@ -6,7 +6,7 @@ import logging
 
 from odoo import fields, models
 
-from ..constantes import STATE_CNAB
+from ..constants import STATE_CNAB
 
 _logger = logging.getLogger(__name__)
 
