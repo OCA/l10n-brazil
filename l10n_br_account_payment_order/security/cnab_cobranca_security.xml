@@ -3,18 +3,15 @@
 
     <record id="group_cnab_cobranca" model="res.groups">
         <field name="name">CNAB Cobranca</field>
-        <field name="category_id"
-               ref="base.module_category_accounting_and_finance"/>
+        <field name="category_id" ref="base.module_category_accounting_and_finance"/>
     </record>
 
     <record id="base.user_admin" model="res.users">
-        <field name="groups_id"
-               eval="[(4, ref('l10n_br_account_payment_cobranca.group_cnab_cobranca'))]"/>
+        <field name="groups_id" eval="[(4, ref('l10n_br_account_payment_order.group_cnab_cobranca'))]"/>
     </record>
 
     <record id="base.group_system" model="res.groups">
-        <field name="implied_ids"
-               eval="[(4, ref('l10n_br_account_payment_cobranca.group_cnab_cobranca'))]"/>
+        <field name="implied_ids" eval="[(4, ref('l10n_br_account_payment_order.group_cnab_cobranca'))]"/>
     </record>
 
 </odoo>
