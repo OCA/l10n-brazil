@@ -11,36 +11,10 @@
             <button name="create_account_payment_line" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
-<!--            <xpath expr="//field[@name='move_id']" position="after">-->
-<!--                <field name="state_cnab"/>-->
-<!--                <field name="nosso_numero"/>-->
-<!--            </xpath>-->
-<!--            <header position="inside">-->
-<!--                <field name="eval_state_cnab" invisible="1"/>-->
-<!--                <button name="%(account_invoice_api_action)d"-->
-<!--                        string="Registrar Boleto via API" type="action"-->
-<!--                        groups="base.group_user"-->
-<!--                        class="oe_highlight" style="background-color:red; text-color:white;"-->
-<!--                        attrs="{'invisible': ['|','|',-->
-<!--                        ('state', '!=', 'open')-->
-<!--                        ]}"-->
-<!--                />-->
-<!--                        ('eval_state_cnab', 'in', ('added_paid', 'accepted', 'done', 'accepted_hml')),-->
-<!--                        ('eval_situacao_pagamento', 'in', ('aberta'))-->
-<!--            </header>-->
-
-<!--            <field name="payment_mode_id" position="after">-->
-<!--                <field name="eval_state_cnab" attrs="{'invisible': [('eval_state_cnab', '=', False)]}"/>-->
-<!--                <field name="eval_situacao_pagamento" attrs="{'invisible': [('eval_situacao_pagamento', '=', False)]}"/>-->
-<!--            </field>-->
-
             <notebook position="inside">
                 <page string="Vencimentos" name="vencimentos">
                     <field name="move_line_receivable_ids"/>
                 </page>
-<!--                <page string="Operações Bancárias Via API">-->
-<!--                    <field name="bank_api_operation_ids" class="oe_inline" readonly="True"/>-->
-<!--                </page>-->
             </notebook>
         </field>
     </record>
@@ -57,53 +31,6 @@
             <filter name="unpaid" position="attributes">
                 <attribute name="domain">[('state','!=','paid')]</attribute>
             </filter>
-<!--            <field name="journal_id" position="after">-->
-<!--                <field name="eval_state_cnab"/>-->
-<!--                <field name="eval_situacao_pagamento"/>-->
-<!--            </field>-->
-<!--            <field name="partner_id" position="before">-->
-<!--                <separator string="Estado CNAB"/>-->
-<!--                <group expand="0" string="Estado CNAB">-->
-<!--                    <filter name="eval_state_cnab" string="CNAB Inicial"-->
-<!--                            domain="[('eval_state_cnab', '=', 'draft')]"/>-->
-<!--                    <filter name="eval_state_cnab" string="CNAB Adicionado à Ordem de Pagamento"-->
-<!--                            domain="[('eval_state_cnab', '=', 'added')]"/>-->
-<!--                    <filter name="eval_state_cnab" string="CNAB Adicionado para Baixa"-->
-<!--                            domain="[('eval_state_cnab', '=', 'added_paid')]"/>-->
-<!--                    <filter name="eval_state_cnab" string="CNAB Exportado"-->
-<!--                            domain="[('eval_state_cnab', '=', 'exported')]"/>-->
-<!--                    <filter name="eval_state_cnab" string="CNAB Erro ao Exportar"-->
-<!--                            domain="[('eval_state_cnab', '=', 'exporting_error')]"/>-->
-<!--                    <filter name="eval_state_cnab" string="CNAB Aceito no Banco"-->
-<!--                            domain="[('eval_state_cnab', '=', 'accepted')]"/>-->
-<!--                    <filter name="eval_state_cnab" string="CNAB Aceito no Banco em HML"-->
-<!--                            domain="[('eval_state_cnab', '=', 'accepted_hml')]"/>-->
-<!--                    <filter name="eval_state_cnab" string="CNAB Não Aceito no Banco"-->
-<!--                            domain="[('eval_state_cnab', '=', 'not_accepted')]"/>-->
-<!--                </group>-->
-
-<!--                <separator string="Situação do Pagamento"/>-->
-<!--                <group expand="0" string="Situação Pagamento">-->
-<!--                    <filter name="eval_situacao_pagamento" string="Pagamento - Inicial"-->
-<!--                            domain="[('eval_situacao_pagamento', '=', 'draft')]"/>-->
-<!--                    <filter name="eval_situacao_pagamento" string="Pagamento - Aberto"-->
-<!--                            domain="[('eval_situacao_pagamento', '=', 'aberta')]"/>-->
-<!--                    <filter name="eval_situacao_pagamento" string="Pagamento - Pago"-->
-<!--                            domain="[('eval_situacao_pagamento', '=', 'paga')]"/>-->
-<!--                    <filter name="eval_situacao_pagamento" string="Pagamento - Liquidado"-->
-<!--                            domain="[('eval_situacao_pagamento', '=', 'liquidada')]"/>-->
-<!--                    <filter name="eval_situacao_pagamento" string="Pagamento - Baixa Simples"-->
-<!--                            domain="[('eval_situacao_pagamento', '=', 'baixa')]"/>-->
-<!--                    <filter name="eval_situacao_pagamento" string="Pagamento - Baixa por Liquidação"-->
-<!--                            domain="[('eval_situacao_pagamento', '=', 'baixa_liquidacao')]"/>-->
-<!--                </group>-->
-<!--            </field>-->
-<!--            <filter name="group_by_partner_id" position="after">-->
-<!--                <filter name="eval_situacao_pagamento" string="Situação Pagamento"-->
-<!--                        context="{'group_by': 'eval_situacao_pagamento'}"/>-->
-<!--                <filter name="eval_state_cnab" string="Situação CNAB"-->
-<!--                        context="{'group_by': 'eval_state_cnab'}"/>-->
-<!--            </filter>-->
         </field>
     </record>
 </odoo>
