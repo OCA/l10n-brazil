@@ -35,8 +35,7 @@
                 <field name="message"/>
                 <field name="register_qty"/>
                 <field name="total_value"/>
-                <field name="event_id"
-                       context="{'form_view_ref':'l10n_br_account_payment_cobranca.cnab_retorno_evento_form_view'}"/>
+                <field name="event_id" context="{'form_view_ref':'l10n_br_account_payment_order.cnab_retorno_evento_form_view'}"/>
             </tree>
         </field>
     </record>
@@ -141,7 +140,7 @@
                 </group>
                 <group string="Eventos">
                     <field name="event_id"
-                           ontext="{'form_view_ref':'l10n_br_account_payment_cobranca.cnab_retorno_evento_form_view'}"
+                           ontext="{'form_view_ref':'l10n_br_account_payment_order.cnab_retorno_evento_form_view'}"
                            nolabel="1"
                            attrs="{'readonly': [('state', '=', 'done')]}"/>
                 </group>
@@ -199,7 +198,7 @@
                 <group string="Lote de Eventos" name="evento-lines"
                        attrs="{'invisible': [('state','!=', 'done')]}">
                     <field name="lot_id"
-                           context="{'form_view_ref':'l10n_br_account_payment_cobranca.cnab_retorno_lote_form_view'}"
+                           context="{'form_view_ref':'l10n_br_account_payment_order.cnab_retorno_lote_form_view'}"
                            nolabel="1"
                            attrs="{'readonly': [('state', '=', 'done')]}"/>
                 </group>
