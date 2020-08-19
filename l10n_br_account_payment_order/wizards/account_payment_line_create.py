@@ -9,13 +9,16 @@ from odoo import api, fields, models
 
 
 class AccountPaymentLineCreate(models.TransientModel):
-    _inherit = "account.payment.line.create"
+    _inherit = 'account.payment.line.create'
 
     allow_error = fields.Boolean(
         string="Permitir linhas com erro na exportação, "
-        "já incluidas em outras ordens"
+               "já incluidas em outras ordens",
     )
-    allow_rejected = fields.Boolean(string="Permitir linhas com retorno rejeitado")
+
+    allow_rejected = fields.Boolean(
+        string="Permitir linhas com retorno rejeitado",
+    )
 
     @api.multi
     def _prepare_move_line_domain(self):
