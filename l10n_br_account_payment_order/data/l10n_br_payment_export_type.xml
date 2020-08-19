@@ -25,7 +25,6 @@
         <field name="code">500</field>
         <field name="name">Cnab500</field>
         <field name="active">True</field>
-        <field name="payment_order_type">payment</field>
         <field name="bank_account_required">False</field>
         <field name="payment_type">inbound</field>
     </record>
