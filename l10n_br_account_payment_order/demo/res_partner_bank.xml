@@ -336,4 +336,14 @@
         <field name="bank_name">Sicredi - Instituição Financeira Cooperativa</field>
     </record>
 
+    <record id="main_company_bank_unicredi" model="res.partner.bank">
+        <field name="acc_number">371</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">1234</field>
+        <field name="bra_number_dig">0</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="partner_id" ref="base.main_partner"/>
+        <field name="bank_name">Unicred</field>
+    </record>
+
 </odoo>
