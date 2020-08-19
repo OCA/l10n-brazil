@@ -16,6 +16,17 @@
                 <field name="percent_interest"/>
                 <field name="amount_interest"/>
             </xpath>
+            <xpath expr="//group[@name='right']" position="after">
+                <group name="cnab" string="CNAB">
+                    <field name="own_number"/>
+                    <field name="document_number"/>
+                    <field name="company_title_identification"/>
+                    <field name="doc_finality_code"/>
+                    <field name="ted_finality_code"/>
+                    <field name="complementary_finality_code"/>
+                    <field name="favored_warning"/>
+                </group>
+            </xpath>
         </field>
     </record>
 
