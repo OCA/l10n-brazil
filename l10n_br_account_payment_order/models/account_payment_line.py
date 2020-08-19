@@ -6,7 +6,7 @@ from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 from odoo.tools.float_utils import float_round as round # TODO check round methods in 12.0
 
-from ..constantes import (
+from ..constants import (
     AVISO_FAVORECIDO,
     CODIGO_FINALIDADE_TED,
     COMPLEMENTO_TIPO_SERVICO,
