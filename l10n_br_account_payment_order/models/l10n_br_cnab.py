@@ -73,7 +73,7 @@ TIPO_INSCRICAO_EMPRESA = {
 
 class L10nBrHrCnab(models.Model):
     _name = "l10n_br.cnab"
-    _rec_name = "display_name"
+    _description = 'l10n_br CNAB'
 
     display_name = fields.Char(compute="_compute_display_name", store=True, index=True)
 
