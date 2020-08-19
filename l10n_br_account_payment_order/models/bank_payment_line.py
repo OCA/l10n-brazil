@@ -3,9 +3,12 @@
 
 from odoo import api, fields, models
 
-from ..constantes import (AVISO_FAVORECIDO, CODIGO_FINALIDADE_TED,
-                          COMPLEMENTO_TIPO_SERVICO)
-from .account_move_line import ESTADOS_CNAB
+from ..constants import (
+    AVISO_FAVORECIDO,
+    CODIGO_FINALIDADE_TED,
+    COMPLEMENTO_TIPO_SERVICO,
+    ESTADOS_CNAB,
+)
 
 
 class BankPaymentLine(models.Model):
