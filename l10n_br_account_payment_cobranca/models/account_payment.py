@@ -11,6 +11,6 @@ class AccountPayment(models.Model):
 
     @api.multi
     def post(self):
-        super(AccountPayment, self).post()
+        super().post()
         for record in self:
             record.invoice_ids.create_account_payment_line_baixa()
