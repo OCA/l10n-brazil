@@ -9,7 +9,7 @@ from datetime import datetime
 
 from odoo import api, fields, models
 
-from ..constantes import (
+from ..constants import (
     CODIGO_OCORRENCIAS, STATE_CNAB, RETORNO_400_CONFIRMADA, RETORNO_400_REJEITADA,
     RETORNO_400_LIQUIDACAO, RETORNO_400_BAIXA, RETORNOS_TRATADOS,
     COD_REGISTROS_REJEITADOS_CNAB400, CODIGO_OCORRENCIAS_CNAB200, STR_EVENTO_FORMAT)
