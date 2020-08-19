@@ -67,7 +67,7 @@ class AccountInvoice(models.Model):
     @api.onchange("payment_mode_id")
     def _onchange_payment_mode_id(self):
         tax_analytic_tag_id = self.env.ref(
-            "l10n_br_account_payment_cobranca." "account_analytic_tag_tax"
+            'l10n_br_account_payment_order.account_analytic_tag_tax'
         )
 
         to_remove_invoice_line_ids = self.invoice_line_ids.filtered(
@@ -100,7 +100,7 @@ class AccountInvoice(models.Model):
     @api.onchange("payment_term_id")
     def _onchange_payment_term(self):
         interest_analytic_tag_id = self.env.ref(
-            "l10n_br_account_payment_cobranca." "account_analytic_tag_interest"
+            'l10n_br_account_payment_order.account_analytic_tag_interest'
         )
 
         to_remove_invoice_line_ids = self.invoice_line_ids.filtered(

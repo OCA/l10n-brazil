@@ -36,9 +36,6 @@
                 <field name="movement_instruction_code"/>
                 <field name="movement_type"/>
             </field>
-            <field name="payment_line_ids" position="attributes">
-                <attribute name="context">{'default_payment_type': payment_type, 'tree_view_ref': 'l10n_br_account_payment_cobranca.l10n_br_cobranca_payment_line_tree', 'form_view_ref': 'l10n_br_account_payment_cobranca.l10n_br_cobranca_payment_line_form'}</attribute>
-            </field>
             <page name="bank-payment-lines" position="after">
                 <page name="bank-error-lines" string="Problemas"
                       attrs="{'invisible': [('bank_line_error_ids','=',[])]}">

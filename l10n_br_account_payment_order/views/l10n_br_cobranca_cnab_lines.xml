@@ -111,10 +111,9 @@
     <!--<field name="arch" type="xml">-->
     <!--<data>-->
     <!--<form position="inside">-->
-    <!--<field name="payment_order_type" invisible="1"/>-->
     <!--</form>-->
     <!--&lt;!&ndash;<button string="Invoices" position="attributes">&ndash;&gt;-->
-    <!--&lt;!&ndash;<attribute name="attrs">{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'cobranca')]}</attribute>&ndash;&gt;-->
+    <!--&lt;!&ndash;<attribute name="attrs">{'invisible': [('state', '!=', 'draft')]}</attribute>&ndash;&gt;-->
     <!--&lt;!&ndash;</button>&ndash;&gt;-->
     <!--&lt;!&ndash;<div class=" oe_right oe_button_box" position="inside">&ndash;&gt;-->
     <!--&lt;!&ndash;<button name="%(account_payment.action_create_payment_order)s"&ndash;&gt;-->
@@ -122,13 +121,10 @@
     <!--&lt;!&ndash;string="Invoices"&ndash;&gt;-->
     <!--&lt;!&ndash;help="Select invoices to collect"&ndash;&gt;-->
     <!--&lt;!&ndash;type="action"&ndash;&gt;-->
-    <!--&lt;!&ndash;attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('payment_order_type', '!=', 'cobranca')]}"&ndash;&gt;-->
+    <!--&lt;!&ndash;attrs="{'invisible': [('state', '!=', 'draft')]}"&ndash;&gt;-->
     <!--&lt;!&ndash;icon="fa-pencil-square-o"&ndash;&gt;-->
     <!--&lt;!&ndash;widget="statinfo"/>&ndash;&gt;-->
     <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--<field name="mode" position="attributes">-->
-    <!--<attribute name="domain">[('payment_order_type', '=', payment_order_type)]</attribute>-->
-    <!--</field>-->
     <!--</data>-->
     <!--</field>-->
     <!--</record>-->

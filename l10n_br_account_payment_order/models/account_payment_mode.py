@@ -175,18 +175,6 @@ class AccountPaymentMode(models.Model):
              'O nosso número pode ser gerado pelo banco.',
     )
 
-    default_account_id = fields.Many2one(
-        comodel_name='account.account',
-        string='Conta Padrão',
-        help='Conta padrão para recebimentos',
-    )
-
-    default_tax_account_id = fields.Many2one(
-        comodel_name='account.account',
-        string='Conta Padrão para Taxas Bancárias',
-        help='Conta padrão para recebimentos de Taxas Bancárias',
-    )
-
     product_tax_id = fields.Many2one(
         comodel_name='product.product',
         string='Taxa Adicional',
@@ -261,12 +249,6 @@ class AccountPaymentMode(models.Model):
         _("Sequência já usada! Crie uma sequência unica para cada modo"),
         )
     ]
-
-
-    @api.constrains('product_override')
-    def _constrains_product_override(self):
-        if self.product_override and self.product_override_value <= 0:
-            raise ValidationError('O valor da Taxa deve ser maior que 0 (zero)')
 
     @api.constrains(
         'boleto_type',
