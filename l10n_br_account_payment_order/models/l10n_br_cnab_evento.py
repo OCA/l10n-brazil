@@ -13,6 +13,7 @@ _logger = logging.getLogger(__name__)
 
 class L10nBrCnabEvento(models.Model):
     _name = 'l10n_br.cnab.evento'
+    _description = 'l10n_br CNAB Event'
 
     bank_payment_line_id = fields.Many2one(
         string='Bank Payment Line', comodel_name='bank.payment.line'

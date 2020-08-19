@@ -12,8 +12,8 @@ _logger = logging.getLogger(__name__)
 
 
 class L10nBrCnabLote(models.Model):
-
     _name = 'l10n_br.cnab.lote'
+    _description = 'l10n_br CNAB Lot'
 
     account_bank_id = fields.Many2one(
         string='Conta Bancária', comodel_name='res.partner.bank'
