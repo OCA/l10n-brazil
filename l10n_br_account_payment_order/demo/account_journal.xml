@@ -7,10 +7,8 @@
         <field name="name">Banco Bradesco</field>
         <field name="type">bank</field>
         <field name="code">BNC2</field>
-        <field name="inbound_payment_method_ids"
-               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
-               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
-        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_bradesco"/>
+        <field name="inbound_payment_method_ids" eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="main_company_bank_bradesco"/>
     </record>
 
     <!-- Diario Unicred -->
@@ -18,10 +16,8 @@
         <field name="name">Banco Unicred</field>
         <field name="type">bank</field>
         <field name="code">BNC3</field>
-        <field name="inbound_payment_method_ids"
-               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
-               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
-        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_unicredi"/>
+        <field name="inbound_payment_method_ids" eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="main_company_bank_unicredi"/>
     </record>
 
     <!-- Diario Itau -->
@@ -29,10 +25,8 @@
         <field name="name">Banco Itau</field>
         <field name="type">bank</field>
         <field name="code">BNC4</field>
-        <field name="inbound_payment_method_ids"
-               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
-               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
-        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_itau"/>
+        <field name="inbound_payment_method_ids" eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="main_company_bank_itau"/>
     </record>
 
     <!-- Diario Banco do Brasil -->
@@ -40,10 +34,8 @@
         <field name="name">Banco do Brasil</field>
         <field name="type">bank</field>
         <field name="code">BNC5</field>
-        <field name="inbound_payment_method_ids"
-               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
-               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
-        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_bb"/>
+        <field name="inbound_payment_method_ids" eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="main_company_bank_bb"/>
     </record>
 
     <!-- Diario Banco Caixa Economica Federal -->
@@ -51,10 +43,16 @@
         <field name="name">Banco Caixa Economica Federal</field>
         <field name="type">bank</field>
         <field name="code">BNC6</field>
-        <field name="inbound_payment_method_ids"
-               eval="[(6,0,[ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab240'),
-               ref('l10n_br_account_payment_cobranca.payment_mode_type_cnab400')])]"/>
-        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_cef"/>
+        <field name="inbound_payment_method_ids" eval="[(6,0,[ref('payment_mode_type_cnab240'), ref('payment_mode_type_cnab400')])]"/>
+        <field name="bank_account_id" ref="main_company_bank_cef"/>
+    </record>
+
+    <!-- Diario Banco Teste -->
+    <record id="l10n_br_account_payment_order-account_journal" model="account.journal">
+        <field name="name">Diário de Banco(teste l10n_br_account_payment_order)</field>
+        <field name="code">TPO</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="base.main_company"/>
     </record>
 
 </odoo>
