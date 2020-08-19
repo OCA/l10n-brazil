@@ -6,7 +6,7 @@ from odoo.exceptions import ValidationError
 
 
 class AccountMove(models.Model):
-    _inherit = "account.move"
+    _inherit = 'account.move'
 
     @api.multi
     def unlink(self):
@@ -24,4 +24,4 @@ class AccountMove(models.Model):
                     )
                 )
             payment_line_ids.unlink()
-        return super(AccountMove, self).unlink()
+        return super().unlink()
