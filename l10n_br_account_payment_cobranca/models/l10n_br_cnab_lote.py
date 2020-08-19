@@ -13,24 +13,24 @@ _logger = logging.getLogger(__name__)
 
 class L10nBrCnabLote(models.Model):
 
-    _name = "l10n_br.cnab.lote"
+    _name = 'l10n_br.cnab.lote'
 
     account_bank_id = fields.Many2one(
-        string="Conta Bancária", comodel_name="res.partner.bank"
+        string='Conta Bancária', comodel_name='res.partner.bank'
     )
     cnab_id = fields.Many2one(
-        string="CNAB", comodel_name="l10n_br.cnab", ondelete="cascade"
+        string='CNAB', comodel_name='l10n_br.cnab', ondelete='cascade'
     )
-    empresa_inscricao_numero = fields.Char(string="Número de Inscrição")
-    empresa_inscricao_tipo = fields.Char(string="Tipo de Inscrição")
-    evento_id = fields.One2many(
-        string="Eventos", comodel_name="l10n_br.cnab.evento", inverse_name="lote_id"
+    company_registration_number = fields.Char(string='Número de Inscrição')
+    company_registration_type = fields.Char(string='Tipo de Inscrição')
+    event_id = fields.One2many(
+        string='Eventos', comodel_name='l10n_br.cnab.evento', inverse_name='lote_id'
     )
-    mensagem = fields.Char(string="Mensagem")
-    qtd_registros = fields.Integer(string="Quantidade de Registros")
-    servico_operacao = fields.Char(string="Tipo de Operação")
+    message = fields.Char(string='Mensagem')
+    register_qty = fields.Integer(string='Quantidade de Registros')
+    operation_service = fields.Char(string='Tipo de Operação')
     state = fields.Selection(
-        string="State", related="cnab_id.state", selection=STATE_CNAB, default="draft"
+        string='State', related='cnab_id.state', selection=STATE_CNAB, default='draft'
     )
-    tipo_servico = fields.Char(string="Tipo do Serviço")
-    total_valores = fields.Float(string="Valor Total")
+    service_type = fields.Char(string='Tipo do Serviço')
+    total_value = fields.Float(string='Valor Total')

@@ -11,12 +11,12 @@
 
     <!--ADD SUBMENU ENTRY -->
     <!-- This Menu Item must have a parent and an action -->
-    <menuitem id="menu_l10n_br_cnab_evento_action"
+    <!--<menuitem id="menu_l10n_br_cnab_evento_action"
               name="Eventos de retorno"
               parent="l10n_br_account_payment_order.menu_retorno_categ"
               action="action_l10n_br_cnab_evento"
               sequence="2"
-    />
+    />-->
 
 <!--    &lt;!&ndash;GROUP BY LOTE NAME&ndash;&gt;-->
 <!--    <record id="view_l10n_br_cnab_evento_search" model="ir.ui.view">-->

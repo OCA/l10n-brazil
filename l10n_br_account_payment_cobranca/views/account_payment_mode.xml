@@ -17,46 +17,40 @@
                 </group>
             </group>
             <group name="l10n_br_account_payment_order-geral" position="inside">
-                <field name="condicao_emissao_papeleta"/>
+                <field name="condition_issuing_paper"/>
                 <field name="cnab_percent_interest"/>
                 <field name="cnab_sequence_id"/>
-                <field name="comunicacao_2"/>
+                <field name="communication_2"/>
             </group>
             <notebook name="l10n_br_account_payment_order" position="inside">
                 <page string="Cobranca">
                     <group>
                         <field name="bank_code_bc" invisible="1"/>
                         <field name="boleto_type"/>
-                        <field name="gera_nosso_numero"/>
+                        <field name="generate_own_number"/>
                         <field name="own_number_sequence"/>
-                        <field name="boleto_convenio"/>
-                        <field name="boleto_carteira"/>
-                        <field name="boleto_modalidade"/>
-                        <field name="boleto_variacao"/>
+                        <field name="boleto_convetion"/>
+                        <field name="boleto_wallet"/>
+                        <field name="boleto_modality"/>
+                        <field name="boleto_variation"/>
                         <field name="boleto_cnab_code"/>
-                        <field name="boleto_aceite"/>
-                        <field name="boleto_especie"/>
-                        <field name="boleto_cod_protesto"/>
-                        <field name="boleto_dias_protesto"/>
+                        <field name="boleto_accept"/>
+                        <field name="boleto_species"/>
+                        <field name="boleto_protest_code"/>
+                        <field name="boleto_days_protest"/>
                         <field name="boleto_byte_idt" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
-                        <field name="boleto_posto" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
-                        <field name="boleto_cod_mora"/>
-                        <field name="boleto_perc_mora"/>
-                        <field name="instrucao_boleto_perc_mora"/>
-                        <field name="boleto_cod_multa"/>
-                        <field name="boleto_perc_multa"/>
-                        <field name="instrucao_boleto_perc_multa"/>
+                        <field name="boleto_post" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
                     </group>
                 </page>
                 <page string="Pagamento">
                     <group>
-                        <field name="tipo_servico"/>
-                        <field name="forma_lancamento"/>
-                        <field name="codigo_convenio"/>
-                        <field name="codigo_finalidade_doc"/>
-                        <field name="codigo_finalidade_ted"/>
-                        <field name="codigo_finalidade_complementar"/>
-                        <field name="aviso_ao_favorecido"/>
+                        <field name="service_type"/>
+                        <field name="release_form"/>
+                        <field name="code_convetion"/>
+                        <field name="doc_finality_code"/>
+                        <field name="ted_finality_code"/>
+                        <field name="complementary_finality_code"/>
+                        <field name="favored_warning"/>
                     </group>
                 </page>
                 <page string="Contabilidade">

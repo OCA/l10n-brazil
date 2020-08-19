@@ -9,102 +9,99 @@ from .account_move_line import ESTADOS_CNAB
 
 
 class BankPaymentLine(models.Model):
-    _inherit = "bank.payment.line"
+    _inherit = 'bank.payment.line'
 
     @api.model
     def default_get(self, fields_list):
         res = super(BankPaymentLine, self).default_get(fields_list)
         mode = (
-            self.env["account.payment.order"]
-            .browse(self.env.context.get("order_id"))
+            self.env['account.payment.order']
+            .browse(self.env.context.get('order_id'))
             .payment_mode_id
         )
         if mode.codigo_finalidade_doc:
-            res.update({"codigo_finalidade_doc": mode.codigo_finalidade_doc})
+            res.update({'doc_finality_code': mode.doc_finality_code})
         if mode.codigo_finalidade_ted:
-            res.update({"codigo_finalidade_ted": mode.codigo_finalidade_ted})
+            res.update({'ted_finality_code': mode.ted_finality_code})
         if mode.codigo_finalidade_complementar:
             res.update(
-                {"codigo_finalidade_complementar": mode.codigo_finalidade_complementar}
+                {'complementary_finality_code': mode.complementary_finality_code}
             )
         if mode.aviso_ao_favorecido:
-            res.update({"aviso_ao_favorecido": mode.aviso_ao_favorecido})
+            res.update({'favored_warning': mode.favored_warning})
         return res
 
-    codigo_finalidade_doc = fields.Selection(
+    doc_finality_code = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
-        string="Complemento do Tipo de Serviço",
-        help="Campo P005 do CNAB",
+        string='Complemento do Tipo de Serviço',
+        help='Campo P005 do CNAB',
     )
-    codigo_finalidade_ted = fields.Selection(
+    ted_finality_code = fields.Selection(
         selection=CODIGO_FINALIDADE_TED,
-        string="Código Finalidade da TED",
-        help="Campo P011 do CNAB",
+        string='Código Finalidade da TED',
+        help='Campo P011 do CNAB',
     )
-    codigo_finalidade_complementar = fields.Char(
-        size=2, string="Código de finalidade complementar", help="Campo P013 do CNAB"
+    complementary_finality_code = fields.Char(
+        size=2, string='Código de finalidade complementar', help='Campo P013 do CNAB'
     )
-    aviso_ao_favorecido = fields.Selection(
+    favored_warning = fields.Selection(
         selection=AVISO_FAVORECIDO,
-        string="Aviso ao Favorecido",
-        help="Campo P006 do CNAB",
-        default="0",
+        string='Aviso ao Favorecido',
+        help='Campo P006 do CNAB',
+        default='0',
     )
-    abatimento = fields.Float(
+    rebate_value = fields.Float(
         digits=(13, 2),
-        string="Valor do Abatimento",
-        help="Campo G045 do CNAB",
+        string='Valor do Abatimento',
+        help='Campo G045 do CNAB',
         default=0.00,
     )
-    desconto = fields.Float(
+    discount_value = fields.Float(
         digits=(13, 2),
-        string="Valor do Desconto",
-        help="Campo G046 do CNAB",
+        string='Valor do Desconto',
+        help='Campo G046 do CNAB',
         default=0.00,
     )
-    mora = fields.Float(
-        digits=(13, 2), string="Valor da Mora", help="Campo G047 do CNAB", default=0.00
+    interest_value = fields.Float(
+        digits=(13, 2), string='Valor da Mora', help='Campo G047 do CNAB', default=0.00
     )
-    multa = fields.Float(
-        digits=(13, 2), string="Valor da Multa", help="Campo G048 do CNAB", default=0.00
+    fee_value = fields.Float(
+        digits=(13, 2), string='Valor da Multa', help='Campo G048 do CNAB', default=0.00
     )
-    evento_id = fields.One2many(
-        string="Eventos CNAB",
-        comodel_name="l10n_br.cnab.evento",
-        inverse_name="bank_payment_line_id",
+    event_id = fields.One2many(
+        string='Eventos CNAB',
+        comodel_name='l10n_br.cnab.evento',
+        inverse_name='bank_payment_line_id',
         readonly=True,
     )
-    codigo_finalidade_complementar = fields.Char(
-        size=2, string="Código de finalidade complementar", help="Campo P013 do CNAB"
-    )
-    nosso_numero = fields.Char(string="Nosso Numero")
-    numero_documento = fields.Char(string="Número documento")
-    identificacao_titulo_empresa = fields.Char(string="Identificação Titulo Empresa")
-    is_erro_exportacao = fields.Boolean(string="Contem erro de exportação")
-    mensagem_erro_exportacao = fields.Char(string="Mensagem de erro")
-    ultimo_estado_cnab = fields.Selection(
+    own_number = fields.Char(string='Nosso Numero')
+    document_number = fields.Char(string='Número documento')
+    company_title_identification = fields.Char(string='Identificação Titulo Empresa')
+    is_export_error = fields.Boolean(string='Contem erro de exportação')
+    export_error_message = fields.Char(string='Mensagem de erro')
+    last_state_cnab = fields.Selection(
         selection=ESTADOS_CNAB,
-        string="Último Estado do CNAB",
-        help="Último Estado do CNAB antes da confirmação de "
-        "pagamento nas Ordens de Pagamento",
+        string='Último Estado do CNAB',
+        help='Último Estado do CNAB antes da confirmação de '
+        'pagamento nas Ordens de Pagamento',
     )
 
     @api.multi
     def unlink(self):
         for record in self:
-            if not record.ultimo_estado_cnab:
+            if not record.last_state_cnab:
                 continue
 
-            move_line_id = self.env["account.move.line"].search(
+            move_line_id = self.env['account.move.line'].search(
                 [
                     (
-                        "identificacao_titulo_empresa",
-                        "=",
-                        record.identificacao_titulo_empresa,
+                        'company_title_identification',
+                        '=',
+                        record.company_title_identification,
                     )
                 ]
             )
-            move_line_id.state_cnab = record.ultimo_estado_cnab
+            move_line_id.state_cnab = record.last_state_cnab
 
         return super(BankPaymentLine, self).unlink()
 

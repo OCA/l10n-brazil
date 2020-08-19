@@ -15,11 +15,11 @@
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id"
                ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
-        <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">03</field>
-        <field name="boleto_modalidade">DM</field>
-        <field name="boleto_variacao">19</field>
-        <field name="boleto_aceite">S</field>
+        <field name="boleto_convetion">06</field>
+        <field name="boleto_wallet">03</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">S</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
     </record>
@@ -36,15 +36,15 @@
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id"
                ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
-        <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">3</field>
-        <field name="boleto_modalidade">DM</field>
-        <field name="boleto_variacao">19</field>
-        <field name="boleto_aceite">N</field>
+        <field name="boleto_convetion">06</field>
+        <field name="boleto_wallet">21</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">N</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
-        <field name="boleto_cod_protesto">2</field>
-        <field name="boleto_dias_protesto">5</field>
+        <field name="boleto_protest_code">2</field>
+        <field name="boleto_days_protest">5</field>
         <field name="codigo_convenio">72234050</field>
     </record>
 
@@ -60,16 +60,16 @@
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id"
                ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
-                <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">3</field>
-        <field name="boleto_modalidade">DM</field>
-        <field name="boleto_variacao">19</field>
-        <field name="boleto_aceite">N</field>
+                <field name="boleto_convetion">06</field>
+        <field name="boleto_wallet">3</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">N</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
-        <field name="boleto_cod_protesto">2</field>
-        <field name="boleto_dias_protesto">5</field>
-        <field name="codigo_convenio">72234050</field>
+        <field name="boleto_protest_code">2</field>
+        <field name="boleto_days_protest">5</field>
+        <field name="code_convetion">72234050</field>
     </record>
 
     <!-- Modo de Pagamento cobrança Itau 240 -->
@@ -84,11 +84,11 @@
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id"
                ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
-                <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">3</field>
-        <field name="boleto_modalidade">DM</field>
-        <field name="boleto_variacao">19</field>
-        <field name="boleto_aceite">S</field>
+                <field name="boleto_convetion">06</field>
+        <field name="boleto_wallet">3</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">S</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
     </record>
@@ -105,11 +105,11 @@
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id"
                ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab240"/>
-                <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">3</field>
-        <field name="boleto_modalidade">DM</field>
-        <field name="boleto_variacao">19</field>
-        <field name="boleto_aceite">S</field>
+                <field name="boleto_convetion">06</field>
+        <field name="boleto_wallet">3</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">S</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
     </record>
@@ -126,11 +126,11 @@
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id"
                ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
-                <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">3</field>
-        <field name="boleto_modalidade">DM</field>
-        <field name="boleto_variacao">19</field>
-        <field name="boleto_aceite">S</field>
+                <field name="boleto_convetion">06</field>
+        <field name="boleto_wallet">3</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">S</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
     </record>
@@ -147,11 +147,11 @@
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id"
                ref="l10n_br_account_payment_cobranca.payment_mode_type_cnab400"/>
-        <field name="boleto_convenio">06</field>
-        <field name="boleto_carteira">3</field>
-        <field name="boleto_modalidade">DM</field>
-        <field name="boleto_variacao">19</field>
-        <field name="boleto_aceite">S</field>
+        <field name="boleto_convetion">06</field>
+        <field name="boleto_wallet">3</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">S</field>
         <field name="cnab_sequence_id"
                ref="l10n_br_account_payment_cobranca.sequence_cnab_number"/>
     </record>

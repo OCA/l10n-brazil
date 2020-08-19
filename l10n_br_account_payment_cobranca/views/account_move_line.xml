@@ -7,12 +7,12 @@
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
             <field name="blocked" position="after">
-                <field name="state_cnab"/>
-                <field name="situacao_pagamento"/>
-                <field name="nosso_numero"/>
-                <field name="numero_documento"/>
-                <field name="identificacao_titulo_empresa"/>
-                <field name="instrucoes"/>
+                <field name="cnab_state"/>
+                <field name="payment_situation"/>
+                <field name="own_number"/>
+                <field name="document_number"/>
+                <field name="company_title_identification"/>
+                <field name="instructions"/>
             </field>
             <field name="debit" position="after">
                 <field name="residual"/>

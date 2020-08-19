@@ -16,66 +16,66 @@ _logger = logging.getLogger(__name__)
 
 
 class PaymentOrder(models.Model):
-    _inherit = "account.payment.order"
+    _inherit = 'account.payment.order'
 
-    active = fields.Boolean(string="Ativo", default=True)
+    active = fields.Boolean(string='Ativo', default=True)
 
-    file_number = fields.Integer(string="Número sequencial do arquivo")
+    file_number = fields.Integer(string='Número sequencial do arquivo')
 
-    cnab_file = fields.Binary(string="CNAB File", readonly=True)
+    cnab_file = fields.Binary(string='CNAB File', readonly=True)
 
-    cnab_filename = fields.Char("CNAB Filename")
+    cnab_filename = fields.Char('CNAB Filename')
 
-    tipo_servico = fields.Selection(
+    service_type = fields.Selection(
         selection=TIPO_SERVICO,
-        string="Tipo de Serviço",
-        help="Campo G025 do CNAB",
-        default="30",
+        string='Tipo de Serviço',
+        help='Campo G025 do CNAB',
+        default='30',
     )
-    forma_lancamento = fields.Selection(
-        selection=FORMA_LANCAMENTO, string="Forma Lançamento", help="Campo G029 do CNAB"
+    release_form = fields.Selection(
+        selection=FORMA_LANCAMENTO, string='Forma Lançamento', help='Campo G029 do CNAB'
     )
-    codigo_convenio = fields.Char(
+    code_convetion = fields.Char(
         size=20,
-        string="Código do Convênio no Banco",
-        help="Campo G007 do CNAB",
-        default="0001222130126",
+        string='Código do Convênio no Banco',
+        help='Campo G007 do CNAB',
+        default='0001222130126',
     )
-    indicativo_forma_pagamento = fields.Selection(
+    indicative_form_payment = fields.Selection(
         selection=INDICATIVO_FORMA_PAGAMENTO,
-        string="Indicativo de Forma de Pagamento",
-        help="Campo P014 do CNAB",
-        default="01",
+        string='Indicativo de Forma de Pagamento',
+        help='Campo P014 do CNAB',
+        default='01',
     )
-    tipo_movimento = fields.Selection(
+    movement_type = fields.Selection(
         selection=TIPO_MOVIMENTO,
-        string="Tipo de Movimento",
-        help="Campo G060 do CNAB",
-        default="0",
+        string='Tipo de Movimento',
+        help='Campo G060 do CNAB',
+        default='0',
     )
-    codigo_instrucao_movimento = fields.Selection(
+    movement_instruction_code = fields.Selection(
         selection=CODIGO_INSTRUCAO_MOVIMENTO,
-        string="Código da Instrução para Movimento",
-        help="Campo G061 do CNAB",
-        default="00",
+        string='Código da Instrução para Movimento',
+        help='Campo G061 do CNAB',
+        default='00',
     )
     bank_line_error_ids = fields.One2many(
-        comodel_name="bank.payment.line",
-        inverse_name="order_id",
-        string="Bank Payment Error Lines",
+        comodel_name='bank.payment.line',
+        inverse_name='order_id',
+        string='Bank Payment Error Lines',
         readonly=True,
-        domain=[("is_erro_exportacao", "=", True)],
+        domain=[('is_export_error', '=', True)],
     )
 
     def _confirm_debit_orders_api(self):
-        """
+        '''
         Method create to confirm all bank_api exclusive account.payment.order
         :return:
-        """
-        _logger.info("_confirm_debit_orders_api()")
+        '''
+        _logger.info('_confirm_debit_orders_api()')
 
         order_ids = self.search(
-            [("active", "=", False), ("state", "=", "draft"), ("name", "ilike", "api")]
+            [('active', '=', False), ('state', '=', 'draft'), ('name', 'ilike', 'api')]
         )
 
         for order_id in order_ids:
@@ -88,11 +88,11 @@ class PaymentOrder(models.Model):
     @api.model
     def _prepare_bank_payment_line(self, paylines):
         result = super()._prepare_bank_payment_line(paylines)
-        result["nosso_numero"] = paylines[0].nosso_numero
-        result["numero_documento"] = paylines[0].numero_documento
-        result["identificacao_titulo_empresa"] =\
-            paylines[0].identificacao_titulo_empresa
-        result["ultimo_estado_cnab"] = paylines[0].move_line_id.state_cnab
+        result['own_number'] = paylines[0].own_number
+        result['document_number'] = paylines[0].document_number
+        result['company_title_identification'] =\
+            paylines[0].company_title_identification
+        result['last_state_cnab'] = paylines[0].move_line_id.state_cnab
         return result
 
     @api.multi
@@ -101,8 +101,8 @@ class PaymentOrder(models.Model):
 
         if self.bank_line_error_ids:
             self.message_post(
-                "Erro ao gerar o arquivo," ' verifique a aba "Linhas com problemas"'
+                'Erro ao gerar o arquivo, verifique a aba Linhas com problemas'
             )
             return False
-        self.message_post("Arquivo gerado com sucesso")
+        self.message_post('Arquivo gerado com sucesso')
         return result

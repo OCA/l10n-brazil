@@ -77,22 +77,22 @@ class L10nBrHrCnab(models.Model):
 
     display_name = fields.Char(compute="_compute_display_name", store=True, index=True)
 
-    arquivo_retorno = fields.Binary(string="Arquivo Retorno")
+    return_file = fields.Binary(string="Arquivo Retorno")
     filename = fields.Char(string="Filename")
     bank_account_id = fields.Many2one(
         string="Conta cedente", comodel_name="res.partner.bank"
     )
-    data = fields.Date(
+    cnab_date = fields.Date(
         string="Data CNAB", required=True, default=datetime.now().date())
-    data_arquivo = fields.Date(string="Data Criação no Banco")
-    sequencial_arquivo = fields.Char(string="Sequencial do Arquivo")
-    motivo_erro = fields.Char(string="Motivo do Erro")
-    lote_id = fields.One2many(
+    date_file = fields.Date(string="Data Criação no Banco")
+    sequential_file = fields.Char(string="Sequencial do Arquivo")
+    reason_error = fields.Char(string="Motivo do Erro")
+    lot_id = fields.One2many(
         string="Lotes", comodel_name="l10n_br.cnab.lote", inverse_name="cnab_id"
     )
     name = fields.Char(string="Name")
-    num_eventos = fields.Integer(string="Número de Eventos")
-    num_lotes = fields.Integer(string="Número de Lotes")
+    number_events = fields.Integer(string="Número de Eventos")
+    number_lots = fields.Integer(string="Número de Lotes")
     state = fields.Selection(string="Estágio", selection=STATE_CNAB, default="draft")
 
     @api.one

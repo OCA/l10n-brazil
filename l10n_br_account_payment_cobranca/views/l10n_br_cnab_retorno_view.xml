@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-    <menuitem id="menu_main_cnab" name="CNAB" parent="account.menu_finance"
-              sequence="6"/>
+    <!--<menuitem id="menu_main_cnab" name="CNAB" parent="account.menu_finance"
+              sequence="6"/>-->
 
     <record id="view_cnab_retorno_tree" model="ir.ui.view">
         <field name="name">cnab.retorno.tree</field>
@@ -10,13 +10,13 @@
         <field name="arch" type="xml">
             <tree string="CNAB Retorno Lines">
                 <field name="name"/>
-                <field name="data"/>
-                <field name="arquivo_retorno"/>
-                <field name="data_arquivo"/>
-                <field name="sequencial_arquivo"/>
+                <field name="cnab_date"/>
+                <field name="return_file"/>
+                <field name="date_file"/>
+                <field name="sequential_file"/>
                 <field name="bank_account_id"/>
-                <field name="num_lotes"/>
-                <field name="num_eventos"/>
+                <field name="number_lots"/>
+                <field name="number_events"/>
                 <field name="state"/>
             </tree>
         </field>
@@ -28,14 +28,14 @@
         <field name="arch" type="xml">
             <tree string="CNAB Lotes Lines">
                 <field name="account_bank_id"/>
-                <field name="empresa_inscricao_numero"/>
-                <field name="empresa_inscricao_tipo"/>
-                <field name="servico_operacao"/>
-                <field name="tipo_servico"/>
-                <field name="mensagem"/>
-                <field name="qtd_registros"/>
-                <field name="total_valores"/>
-                <field name="evento_id"
+                <field name="company_registration_number"/>
+                <field name="company_registration_type"/>
+                <field name="operation_service"/>
+                <field name="service_type"/>
+                <field name="message"/>
+                <field name="register_qty"/>
+                <field name="total_value"/>
+                <field name="event_id"
                        context="{'form_view_ref':'l10n_br_account_payment_cobranca.cnab_retorno_evento_form_view'}"/>
             </tree>
         </field>
@@ -49,18 +49,18 @@
                 <field name="bank_payment_line_id"/>
                 <field name="invoice_id"/>
                 <field name="partner_id"/>
-                <field name="data_ocorrencia"/>
-                <field name="data_real_pagamento"/>
-                <field name="segmento"/>
-                <field name="favorecido_id"/>
-                <field name="favorecido_conta_bancaria_id"/>
-                <field name="nosso_numero"/>
-                <field name="seu_numero"/>
-                <field name="tipo_moeda"/>
-                <field name="valor"/>
-                <field name="valor_pagamento"/>
-                <field name="tarifa_cobranca"/>
-                <field name="ocorrencias"/>
+                <field name="occurrence_date"/>
+                <field name="real_payment_date"/>
+                <field name="segment"/>
+                <field name="favored_id"/>
+                <field name="favored_bank_account_id"/>
+                <field name="own_number"/>
+                <field name="your_number"/>
+                <field name="currency_type"/>
+                <field name="title_value"/>
+                <field name="payment_value"/>
+                <field name="tariff_charge"/>
+                <field name="occurrences"/>
             </tree>
         </field>
     </record>
@@ -78,25 +78,25 @@
                     <group>
                         <field name="invoice_id"/>
                         <field name="partner_id"/>
-                        <field name="data_ocorrencia"/>
-                        <field name="data_real_pagamento"/>
-                        <field name="segmento"/>
-                        <field name="favorecido_id"/>
-                        <field name="nosso_numero"/>
-                        <field name="seu_numero"/>
-                        <field name="tipo_moeda"/>
-                        <field name="valor"/>
-                        <field name="valor_pagamento"/>
-                        <field name="tarifa_cobranca"/>
-                        <field name="valor_abatimento"/>
-                        <field name="valor_desconto"/>
-                        <field name="valor_iof"/>
-                        <field name="juros_mora_multa"/>
-                        <field name="outros_creditos"/>
+                        <field name="occurrence_date"/>
+                        <field name="real_payment_date"/>
+                        <field name="segment"/>
+                        <field name="favored_id"/>
+                        <field name="own_number"/>
+                        <field name="your_number"/>
+                        <field name="currency_type"/>
+                        <field name="title_value"/>
+                        <field name="payment_value"/>
+                        <field name="tariff_charge"/>
+                        <field name="rebate_value"/>
+                        <field name="discount_value"/>
+                        <field name="iof_value"/>
+                        <field name="interest_fee_value"/>
+                        <field name="other_credits"/>
                         <field name="bank_payment_line_id"/>
                     </group>
                     <group>
-                        <field name="ocorrencias"/>
+                        <field name="occurrences"/>
                         <field name="str_motiv_a"/>
                         <field name="str_motiv_b"/>
                         <field name="str_motiv_c"/>
@@ -121,26 +121,26 @@
                     <group>
                         <field name="account_bank_id"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="empresa_inscricao_numero"
+                        <field name="company_registration_number"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="empresa_inscricao_tipo"
+                        <field name="company_registration_type"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="servico_operacao"
+                        <field name="operation_service"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                     </group>
                     <group>
-                        <field name="tipo_servico"
+                        <field name="service_type"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="mensagem"
+                        <field name="message"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="qtd_registros"
+                        <field name="register_qty"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="total_valores"
+                        <field name="total_value"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                     </group>
                 </group>
                 <group string="Eventos">
-                    <field name="evento_id"
+                    <field name="event_id"
                            ontext="{'form_view_ref':'l10n_br_account_payment_cobranca.cnab_retorno_evento_form_view'}"
                            nolabel="1"
                            attrs="{'readonly': [('state', '=', 'done')]}"/>
@@ -170,35 +170,35 @@
                 </h1>
                 <group>
                     <group>
-                        <field name="data"
+                        <field name="cnab_date"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="arquivo_retorno" filename="filename" widget="binary" required="True"
+                        <field name="return_file" filename="filename" widget="binary" required="True"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                         <field name="filename" invisible="1"/>
-                        <field name="motivo_erro"
+                        <field name="reason_error"
                                attrs="{'readonly': [('state', 'in', ('error'))]}" readonly="1"/>
                     </group>
 
                 </group>
                 <group attrs="{'invisible': [('state','!=', 'done')], 'readonly': [('state', '=', 'done')]}">
                     <group>
-                        <field name="data_arquivo"
+                        <field name="date_file"
                                attrs="{'readonly': [('state', 'in', ('done', 'error'))]}"/>
-                        <field name="sequencial_arquivo"
+                        <field name="sequential_file"
                                attrs="{'readonly': [('state', 'in', ('done', 'error'))]}" readonly="1"/>
                         <field name="bank_account_id"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                     </group>
                     <group>
-                        <field name="num_lotes"
+                        <field name="number_lots"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
-                        <field name="num_eventos"
+                        <field name="number_events"
                                attrs="{'readonly': [('state', '=', 'done')]}"/>
                     </group>
                 </group>
                 <group string="Lote de Eventos" name="evento-lines"
                        attrs="{'invisible': [('state','!=', 'done')]}">
-                    <field name="lote_id"
+                    <field name="lot_id"
                            context="{'form_view_ref':'l10n_br_account_payment_cobranca.cnab_retorno_lote_form_view'}"
                            nolabel="1"
                            attrs="{'readonly': [('state', '=', 'done')]}"/>
@@ -243,9 +243,9 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_cnab_retorno"
+    <!--<menuitem id="menu_cnab_retorno"
               parent="l10n_br_account_payment_order.menu_retorno_categ"
               name="Processar Retorno" sequence="1"
-              action="action_cnab_retorno"/>
+              action="action_cnab_retorno"/>-->
 
 </odoo>

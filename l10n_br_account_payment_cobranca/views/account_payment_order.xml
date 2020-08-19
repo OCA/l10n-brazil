@@ -22,14 +22,14 @@
             </div>
 
             <field name="bank_line_count" position="after">
-                <field name="tipo_servico"/>
-                <field name="forma_lancamento"/>
-                <field name="codigo_convenio"/>
+                <field name="service_type"/>
+                <field name="release_form"/>
+                <field name="code_convetion"/>
             </field>
             <field name="company_id" position="after">
-                <field name="indicativo_forma_pagamento"/>
-                <field name="codigo_instrucao_movimento"/>
-                <field name="tipo_movimento"/>
+                <field name="indicative_form_payment"/>
+                <field name="movement_instruction_code"/>
+                <field name="movement_type"/>
             </field>
             <field name="payment_line_ids" position="attributes">
                 <attribute name="context">{'default_payment_type': payment_type, 'tree_view_ref': 'l10n_br_account_payment_cobranca.l10n_br_cobranca_payment_line_tree', 'form_view_ref': 'l10n_br_account_payment_cobranca.l10n_br_cobranca_payment_line_form'}</attribute>
@@ -42,10 +42,10 @@
                         <tree>
                             <field name="name"/>
                             <field name="partner_id"/>
-                            <field name="nosso_numero"/>
-                            <field name="numero_documento"/>
-                            <field name="identificacao_titulo_empresa"/>
-                            <field name="mensagem_erro_exportacao"/>
+                            <field name="own_number"/>
+                            <field name="document_number"/>
+                            <field name="company_title_identification"/>
+                            <field name="export_error_message"/>
                         </tree>
                     </field>
                 </page>

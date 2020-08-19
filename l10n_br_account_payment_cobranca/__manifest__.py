@@ -7,7 +7,7 @@
 
 {
     'name': 'Account Payment CNAB',
-    'version': '12.0.1.0.0',
+    'version': '12.0.2.0.0',
     'category': 'Banking addons',
     'license': 'AGPL-3',
     'author': 'KMEE, Odoo Community Association (OCA)',
@@ -27,7 +27,7 @@
         'views/account_payment_term_view.xml',
         'views/bank_payment_line.xml',
         'views/account_invoice.xml',
-        'views/bank_api_operation_views.xml',
+        # 'views/bank_api_operation_views.xml',
         'views/account_move_line.xml',
         'views/l10n_br_cnab_retorno_view.xml',
         'views/l10n_br_cnab_evento_views.xml',

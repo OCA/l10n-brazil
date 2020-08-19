@@ -12,64 +12,64 @@ _logger = logging.getLogger(__name__)
 
 
 class L10nBrCnabEvento(models.Model):
-    _name = "l10n_br.cnab.evento"
+    _name = 'l10n_br.cnab.evento'
 
     bank_payment_line_id = fields.Many2one(
-        string="Bank Payment Line", comodel_name="bank.payment.line"
+        string='Bank Payment Line', comodel_name='bank.payment.line'
     )
-    data_real_pagamento = fields.Date(string="Data do Crédito")
-    data_ocorrencia = fields.Date(string="Data da Ocorrência")
-    data_vencimento = fields.Date(string="Data de Vencimento")
-    favorecido_conta_bancaria_id = fields.Many2one(
-        string="Conta Bancária", comodel_name="res.partner.bank"
+    real_payment_date = fields.Date(string='Data do Crédito')
+    occurrence_date = fields.Date(string='Data da Ocorrência')
+    due_date = fields.Date(string='Data de Vencimento')
+    favored_bank_account_id = fields.Many2one(
+        string='Conta Bancária', comodel_name='res.partner.bank'
     )
-    favorecido_id = fields.Many2one(string="Favorecido", comodel_name="res.partner")
-    identificacao_titulo_empresa = fields.Char(
-        string="Identificação do Título da Empresa", required=False
+    favored_id = fields.Many2one(string='Favorecido', comodel_name='res.partner')
+    company_title_identification = fields.Char(
+        string='Identificação do Título da Empresa', required=False
     )
-    invoice_id = fields.Many2one(comodel_name="account.invoice", string="Fatura")
-    juros_mora_multa = fields.Float(string="Juros de Mora/Multa")
+    invoice_id = fields.Many2one(comodel_name='account.invoice', string='Fatura')
+    interest_fee_value = fields.Float(string='Juros de Mora/Multa')
     lote_id = fields.Many2one(
-        string="Lote", comodel_name="l10n_br.cnab.lote", ondelete="cascade"
+        string='Lote', comodel_name='l10n_br.cnab.lote', ondelete='cascade'
     )
-    nosso_numero = fields.Char(string="Nosso Número")
-    ocorrencias = fields.Char(string="Ocorrências")
-    outros_creditos = fields.Float(string="Outros Créditos")
-    partner_id = fields.Many2one(comodel_name="res.partner", string="Associado")
-    segmento = fields.Char(string="Segmento")
-    seu_numero = fields.Char(string="Seu Número")
+    own_number = fields.Char(string='Nosso Número')
+    occurrences = fields.Char(string='Ocorrências')
+    other_credits = fields.Float(string='Outros Créditos')
+    partner_id = fields.Many2one(comodel_name='res.partner', string='Associado')
+    segment = fields.Char(string='Segmento')
+    your_number = fields.Char(string='Seu Número')
     state = fields.Selection(
-        string="State", related="lote_id.state", selection=STATE_CNAB, default="draft"
+        string='State', related='lote_id.state', selection=STATE_CNAB, default='draft'
     )
-    str_motiv_a = fields.Char("Motivo da ocorrência 01")
-    str_motiv_b = fields.Char("Motivo de ocorrência 02")
-    str_motiv_c = fields.Char("Motivo de ocorrência 03")
-    str_motiv_d = fields.Char("Motivo de ocorrência 04")
-    str_motiv_e = fields.Char("Motivo de ocorrência 05")
-    tipo_moeda = fields.Char(string="Tipo de Moeda")
-    tarifa_cobranca = fields.Float(string="Tarifa")
-    valor = fields.Float(string="Valor da Linha")
-    valor_abatimento = fields.Float(
-        string="Valor do Abatimento",
-        help="""Se o desconto ou abatimento é concedido na entrada do boleto
+    str_motiv_a = fields.Char('Motivo da ocorrência 01')
+    str_motiv_b = fields.Char('Motivo de ocorrência 02')
+    str_motiv_c = fields.Char('Motivo de ocorrência 03')
+    str_motiv_d = fields.Char('Motivo de ocorrência 04')
+    str_motiv_e = fields.Char('Motivo de ocorrência 05')
+    currency_type = fields.Char(string='Tipo de Moeda')
+    tariff_charge = fields.Float(string='Tarifa')
+    title_value = fields.Float(string='Valor da Linha')
+    rebate_value = fields.Float(
+        string='Valor do Abatimento',
+        help='''Se o desconto ou abatimento é concedido na entrada do boleto
         estes campos são retornados zerados(apesar de corretamente registrados
         no Itaú). Se concedidos após a entrada, retornam com os valores
         do desconto ou abatimento.
         Na liquidação, desconto e abatimento retornam somados no campo
         desconto; opcionalmente, mediante cadastro prévio em nosso sistema,
         estes valores poderão retornar separados, conforme mostra o
-        indicador 36.4 do Item 5 - Condições Personalizadas.""",
+        indicador 36.4 do Item 5 - Condições Personalizadas.''',
     )
-    valor_desconto = fields.Float(
-        string="Valor do Desconto",
-        help="""Se o desconto ou abatimento é concedido na entrada do boleto
+    discount_value = fields.Float(
+        string='Valor do Desconto',
+        help='''Se o desconto ou abatimento é concedido na entrada do boleto
         estes campos são retornados zerados(apesar de corretamente registrados
         no Itaú). Se concedidos após a entrada, retornam com os valores
         do desconto ou abatimento.
         Na liquidação, desconto e abatimento retornam somados no campo
         desconto; opcionalmente, mediante cadastro prévio em nosso sistema,
         estes valores poderão retornar separados, conforme mostra o
-        indicador 36.4 do Item 5 - Condições Personalizadas.""",
+        indicador 36.4 do Item 5 - Condições Personalizadas.''',
     )
-    valor_iof = fields.Float(string="Valor do IOF")
-    valor_pagamento = fields.Float(string="Valor do Pagamento")
+    iof_value = fields.Float(string='Valor do IOF')
+    payment_value = fields.Float(string='Valor do Pagamento')

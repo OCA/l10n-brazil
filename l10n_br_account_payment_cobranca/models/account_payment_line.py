@@ -8,66 +8,66 @@ from ..constantes import (AVISO_FAVORECIDO, CODIGO_FINALIDADE_TED,
                           COMPLEMENTO_TIPO_SERVICO)
 
 
-class PaymentLine(models.Model):
-    _inherit = "account.payment.line"
+class AccountPaymentLine(models.Model):
+    _inherit = 'account.payment.line'
 
     @api.model
     def default_get(self, fields_list):
-        res = super(PaymentLine, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         mode = (
-            self.env["account.payment.order"]
-            .browse(self.env.context.get("order_id"))
+            self.env['account.payment.order']
+            .browse(self.env.context.get('order_id'))
             .payment_mode_id
         )
-        if mode.codigo_finalidade_doc:
-            res.update({"codigo_finalidade_doc": mode.codigo_finalidade_doc})
-        if mode.codigo_finalidade_ted:
-            res.update({"codigo_finalidade_ted": mode.codigo_finalidade_ted})
-        if mode.codigo_finalidade_complementar:
+        if mode.doc_finality_code:
+            res.update({'doc_finality_code': mode.doc_finality_code})
+        if mode.ted_finality_code:
+            res.update({'ted_finality_code': mode.ted_finality_code})
+        if mode.complementary_finality_code:
             res.update(
-                {"codigo_finalidade_complementar": mode.codigo_finalidade_complementar}
+                {'complementary_finality_code': mode.complementary_finality_code}
             )
-        if mode.aviso_ao_favorecido:
-            res.update({"aviso_ao_favorecido": mode.aviso_ao_favorecido})
+        if mode.favored_warning:
+            res.update({'favored_warning': mode.favored_warning})
         return res
 
-    nosso_numero = fields.Char(string="Nosso Numero")
-    numero_documento = fields.Char(string="Número documento")
-    identificacao_titulo_empresa = fields.Char(string="Identificação Titulo Empresa")
-    codigo_finalidade_doc = fields.Selection(
+    own_number = fields.Char(string='Nosso Numero')
+    document_number = fields.Char(string='Número documento')
+    company_title_identification = fields.Char(string='Identificação Titulo Empresa')
+    doc_finality_code = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
-        string="Complemento do Tipo de Serviço",
-        help="Campo P005 do CNAB",
+        string='Complemento do Tipo de Serviço',
+        help='Campo P005 do CNAB',
     )
-    codigo_finalidade_ted = fields.Selection(
+    ted_finality_code = fields.Selection(
         selection=CODIGO_FINALIDADE_TED,
-        string="Código Finalidade da TED",
-        help="Campo P011 do CNAB",
+        string='Código Finalidade da TED',
+        help='Campo P011 do CNAB',
     )
-    codigo_finalidade_complementar = fields.Char(
-        size=2, string="Código de finalidade complementar", help="Campo P013 do CNAB"
+    complementary_finality_code = fields.Char(
+        size=2, string='Código de finalidade complementar', help='Campo P013 do CNAB'
     )
-    aviso_ao_favorecido = fields.Selection(
+    favored_warning = fields.Selection(
         selection=AVISO_FAVORECIDO,
-        string="Aviso ao Favorecido",
-        help="Campo P006 do CNAB",
-        default="0",
+        string='Aviso ao Favorecido',
+        help='Campo P006 do CNAB',
+        default='0',
     )
-    abatimento = fields.Float(
+    rebate_value = fields.Float(
         digits=(13, 2),
-        string="Valor do Abatimento",
-        help="Campo G045 do CNAB",
+        string='Valor do Abatimento',
+        help='Campo G045 do CNAB',
         default=0.00,
     )
-    desconto = fields.Float(
+    discount_value = fields.Float(
         digits=(13, 2),
-        string="Valor do Desconto",
-        help="Campo G046 do CNAB",
+        string='Valor do Desconto',
+        help='Campo G046 do CNAB',
         default=0.00,
     )
-    mora = fields.Float(
-        digits=(13, 2), string="Valor da Mora", help="Campo G047 do CNAB", default=0.00
+    interest_value = fields.Float(
+        digits=(13, 2), string='Valor da Mora', help='Campo G047 do CNAB', default=0.00
     )
-    multa = fields.Float(
-        digits=(13, 2), string="Valor da Multa", help="Campo G048 do CNAB", default=0.00
+    fee_value = fields.Float(
+        digits=(13, 2), string='Valor da Multa', help='Campo G048 do CNAB', default=0.00
     )
