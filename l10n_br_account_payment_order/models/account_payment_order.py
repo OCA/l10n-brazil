@@ -12,7 +12,7 @@ import logging
 
 from odoo import api, fields, models
 
-from ..constantes import (
+from ..constants import (
     CODIGO_INSTRUCAO_MOVIMENTO,
     FORMA_LANCAMENTO,
     INDICATIVO_FORMA_PAGAMENTO,
