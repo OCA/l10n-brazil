@@ -7,6 +7,7 @@
     'version': '12.0.1.0.0',
     'license': 'AGPL-3',
     'author': "KMEE, "
+              "Akretion, "
               "Odoo Community Association (OCA)",
     'website': 'https://github.com/OCA/l10n-brazil',
     'category': 'Banking addons',
@@ -17,7 +18,7 @@
         'account_cancel',
     ],
     'data': [
-        # Security]
+        # Security
         'security/cnab_cobranca_security.xml',
         'security/ir.model.access.csv',
 
@@ -45,7 +46,6 @@
         # 'views/l10n_br_payment_cnab.xml',
         # 'views/l10n_br_cobranca_cnab.xml',
         # 'views/l10n_br_cobranca_cnab_lines.xml',
-        # 'views/account_payment_order_menu_views.xml', TODO REMOVE
 
         # Wizards
         'wizards/account_payment_line_create_view.xml',
