@@ -86,11 +86,11 @@ class AccountMoveLine(models.Model):
 
     @api.multi
     def create_payment_line_from_move_line(self, payment_order):
-        '''
+        """
         Altera estado do cnab para adicionado a ordem
         :param payment_order:
         :return:
-        '''
+        """
         cnab_state = 'added'
         if self.invoice_id.state == 'paid':
             cnab_state = 'added_paid'
@@ -115,12 +115,12 @@ class AccountMoveLine(models.Model):
 
     @api.multi
     def write(self, values):
-        '''
+        """
         Sobrescrita do método Write. Não deve ser possível voltar o cnab_state
         ou a situacao_pagamento para um estado anterior
         :param values:
         :return:
-        '''
+        """
         for record in self:
             cnab_state = values.get('cnab_state')
 
