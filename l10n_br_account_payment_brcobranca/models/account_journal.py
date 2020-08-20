@@ -44,7 +44,7 @@ class AccountJournal(models.Model):
                 # nosso numero, que pode acontecer qdo existem mais de um banco
                 # configurado para gerar Boletos
                 line_to_reconcile = move_line_obj.search([
-                    ('nosso_numero', '=', line.ref),
+                    ('own_number', '=', line.ref),
                     ('invoice_id', '=', line.invoice_id.id)
                 ])
 
