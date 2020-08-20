@@ -3,8 +3,6 @@
 #   @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
-
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -14,30 +12,25 @@ from ..constants import (
     SEQUENCIAL_FATURA,
 )
 
-_logger = logging.getLogger(__name__)
-
 
 class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
-
-    @api.multi
-    @api.depends("state", "move_id.line_ids", "move_id.line_ids.account_id")
-    def _compute_receivables(self):
-        for record in self:
-            lines = self.env["account.move.line"]
-            for line in record.move_id.line_ids:
-                if (
-                    line.account_id.id == record.account_id.id
-                    and line.account_id.internal_type in ("receivable", "payable")
-                ):
-                    lines |= line
-            record.move_line_receivable_ids = lines.sorted()
+    _inherit = 'account.invoice'
 
     move_line_receivable_ids = fields.Many2many(
-        comodel_name="account.move.line",
-        string=u"Receivables",
+        comodel_name='account.move.line',
+        string='Receivables',
         store=True,
-        compute="_compute_receivables",
+        compute='_compute_receivables',
+    )
+
+    eval_payment_mode_instrucoes = fields.Text(
+        string='Instruções de Cobrança do Modo de Pagamento',
+        related='payment_mode_id.instrucoes',
+        readonly=True,
+    )
+
+    instrucoes = fields.Text(
+        string='Instruções de cobrança',
     )
 
     # eval_state_cnab = fields.Selection(
@@ -56,19 +49,22 @@ class AccountInvoice(models.Model):
     #     index=True,
     # )
 
-    eval_payment_mode_instrucoes = fields.Text(
-        string="Instruções de Cobrança do Modo de Pagamento",
-        related="payment_mode_id.instrucoes",
-        readonly=True,
-    )
+    @api.multi
+    @api.depends('state', 'move_id.line_ids', 'move_id.line_ids.account_id')
+    def _compute_receivables(self):
+        for record in self:
+            lines = self.env['account.move.line']
+            for line in record.move_id.line_ids:
+                if (line.account_id.id == record.account_id.id
+                        and line.account_id.internal_type in ('receivable',
+                                                              'payable')):
+                    lines |= line
+            record.move_line_receivable_ids = lines.sorted()
 
-    instrucoes = fields.Text(string="Instruções de cobrança")
-
-    @api.onchange("payment_mode_id")
+    @api.onchange('payment_mode_id')
     def _onchange_payment_mode_id(self):
         tax_analytic_tag_id = self.env.ref(
-            'l10n_br_account_payment_order.account_analytic_tag_tax'
-        )
+            'l10n_br_account_payment_order.account_analytic_tag_tax')
 
         to_remove_invoice_line_ids = self.invoice_line_ids.filtered(
             lambda i: tax_analytic_tag_id in i.analytic_tag_ids
@@ -98,7 +94,7 @@ class AccountInvoice(models.Model):
             )
 
     @api.onchange("payment_term_id")
-    def _onchange_payment_term(self):
+    def _onchange_payment_term_id(self):
         interest_analytic_tag_id = self.env.ref(
             'l10n_br_account_payment_order.account_analytic_tag_interest'
         )
@@ -180,14 +176,13 @@ class AccountInvoice(models.Model):
 
             record._remove_payment_order_line()
 
-        super(AccountInvoice, self).action_invoice_cancel()
+        super().action_invoice_cancel()
 
     @api.multi
     def get_invoice_fiscal_number(self):
         """ Como neste modulo nao temos o numero do documento fiscal,
         vamos retornar o numero do core e deixar este metodo
         para caso alguem queira sobrescrever"""
-
         self.ensure_one()
         return self.number
 
@@ -226,7 +221,8 @@ class AccountInvoice(models.Model):
 
                 interval.transaction_ref = sequence
                 interval.nosso_numero = (
-                    sequence if interval.payment_mode_id.gera_nosso_numero else "0"
+                    sequence if interval.payment_mode_id.generate_own_number
+                        else "0"
                 )
                 interval.numero_documento = numero_documento
                 interval.identificacao_titulo_empresa = hex(interval.id).upper()
@@ -239,20 +235,19 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_move_create(self):
-        result = super(AccountInvoice, self).action_move_create()
+        result = super().action_move_create()
 
         self._pos_action_move_create()
         return result
 
     @api.multi
     def create_account_payment_line_baixa(self):
-
         for inv in self:
 
             applicable_lines = inv.move_id.line_ids.filtered(
                 lambda x: (
                     x.payment_mode_id.payment_order_ok
-                    and x.account_id.internal_type in ("receivable", "payable")
+                    and x.account_id.internal_type in ('receivable', 'payable')
                 )
             )
 
@@ -265,7 +260,7 @@ class AccountInvoice(models.Model):
                     % inv.number
                 )
 
-            payment_modes = applicable_lines.mapped("payment_mode_id")
+            payment_modes = applicable_lines.mapped('payment_mode_id')
             if not payment_modes:
                 raise UserError(_("No Payment Mode on invoice %s") % inv.number)
 
@@ -312,7 +307,7 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def invoice_validate(self):
-        result = super(AccountInvoice, self).invoice_validate()
+        result = super().invoice_validate()
         filtered_invoice_ids = self.filtered(lambda s: s.payment_mode_id)
         if filtered_invoice_ids:
             filtered_invoice_ids.create_account_payment_line()
@@ -343,15 +338,14 @@ class AccountInvoice(models.Model):
                     "exportada ou aceita no banco."
                 )
             )
-        return super(AccountInvoice, self).assign_outstanding_credit(credit_aml_id)
+        return super().assign_outstanding_credit(credit_aml_id)
 
     @api.multi
     def register_payment(
         self, payment_line, writeoff_acc_id=False, writeoff_journal_id=False
     ):
-        res = super(AccountInvoice, self).register_payment(
-            payment_line, writeoff_acc_id, writeoff_journal_id
-        )
+        res = super().register_payment(
+            payment_line, writeoff_acc_id, writeoff_journal_id)
 
         self._pos_action_move_create()
 

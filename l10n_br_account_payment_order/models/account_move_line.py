@@ -54,6 +54,24 @@ class AccountMoveLine(models.Model):
         currency_field='company_currency_id',
     )
 
+    journal_entry_ref = fields.Char(
+        string="Journal Entry Ref",
+        compute="_compute_journal_entry_ref",
+        store=True,
+    )
+
+    @api.depends("move_id")
+    def _compute_journal_entry_ref(self):
+        for record in self:
+            if record.name:
+                record.journal_entry_ref = record.name
+            elif record.move_id.name:
+                record.journal_entry_ref = record.move_id.name
+            elif record.invoice_id and record.invoice_id.number:
+                record.journal_entry_ref = record.invoice_id.number
+            else:
+                record.journal_entry_ref = "*" + str(record.move_id.id)
+
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
         vals = super()._prepare_payment_line_vals(payment_order)
@@ -98,44 +116,27 @@ class AccountMoveLine(models.Model):
     @api.multi
     def write(self, values):
         '''
-        Sobrescrita do método Write. Não deve ser possível voltar o state_cnab
+        Sobrescrita do método Write. Não deve ser possível voltar o cnab_state
         ou a situacao_pagamento para um estado anterior
         :param values:
         :return:
         '''
         for record in self:
-            state_cnab = values.get('state_cnab')
+            cnab_state = values.get('cnab_state')
 
-            if state_cnab and (
-                record.state_cnab == 'done'
+            if cnab_state and (
+                record.cnab_state == 'done'
                 or (
-                    record.state_cnab in ['accepted', 'accepted_hml']
-                    and state_cnab not in ['accepted', 'accepted_hml', 'done']
+                    record.cnab_state in ['accepted', 'accepted_hml']
+                    and cnab_state not in ['accepted', 'accepted_hml', 'done']
                 )
             ):
-                values.pop('state_cnab', False)
+                values.pop('cnab_state', False)
 
-            if record.situacao_pagamento not in ['inicial', 'aberta']:
-                values.pop('situacao_pagamento', False)
+            if record.payment_situation not in ['inicial', 'aberta']:
+                values.pop('payment_situation', False)
 
         return super().write(values)
-
-
-    # journal_entry_ref = fields.Char(
-    #     compute="_compute_journal_entry_ref", string="Journal Entry Ref", store=True
-    # )
-    #
-    # @api.depends("move_id")
-    # def _compute_journal_entry_ref(self):
-    #     for record in self:
-    #         if record.name:
-    #             record.journal_entry_ref = record.name
-    #         elif record.move_id.name:
-    #             record.journal_entry_ref = record.move_id.name
-    #         elif record.invoice_id and record.invoice_id.number:
-    #             record.journal_entry_ref = record.invoice_id.number
-    #         else:
-    #             record.journal_entry_ref = "*" + str(record.move_id.id)
 
     @api.multi
     def get_balance(self):
