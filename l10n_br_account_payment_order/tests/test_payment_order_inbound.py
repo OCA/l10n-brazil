@@ -6,10 +6,10 @@
 from odoo.tests.common import TransactionCase
 
 
-class TestPaymentOrder(TransactionCase):
+class TestPaymentOrderInbound(TransactionCase):
 
     def setUp(self):
-        super(TestPaymentOrder, self).setUp()
+        super().setUp()
 
         # Get Invoice for test
         self.invoice_customer_original = self.env.ref(
