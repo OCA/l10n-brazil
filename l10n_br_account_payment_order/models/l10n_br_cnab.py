@@ -509,7 +509,7 @@ class L10nBrHrCnab(models.Model):
         raise NotImplementedError
 
     def _get_name(self, data, filename):
-        cnab_ids = self.search([('data', '=', data)], order='id desc')
+        cnab_ids = self.search([('cnab_date', '=', data)], order='id desc')
         cnab_idx = 1
         if cnab_ids:
             search_result = list(
@@ -518,7 +518,7 @@ class L10nBrHrCnab(models.Model):
                     [
                         re.search(r'\((\d)\)', name)
                         for name in self.search(
-                            [('data', '=', data), ('id', '!=', self.id)],
+                            [('cnab_date', '=', data), ('id', '!=', self.id)],
                             order='id desc',
                         ).mapped('name')
                     ],
