@@ -113,7 +113,7 @@ class AccountPaymentOrder(models.Model):
         result['document_number'] = paylines[0].document_number
         result['company_title_identification'] =\
             paylines[0].company_title_identification
-        result['last_state_cnab'] = paylines[0].move_line_id.state_cnab
+        result['last_cnab_state'] = paylines[0].move_line_id.cnab_state
         return result
 
     @api.multi
