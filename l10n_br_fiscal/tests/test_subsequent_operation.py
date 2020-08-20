@@ -34,7 +34,6 @@ class TestSubsequentOperation(TransactionCase):
 
         self.nfe_simples_faturamento._onchange_fiscal_operation_id()
         self.nfe_simples_faturamento._onchange_company_id()
-        self.nfe_simples_faturamento._onchange_partner_id()
         self.nfe_simples_faturamento._onchange_document_serie_id()
 
         for line in self.nfe_simples_faturamento.line_ids:
