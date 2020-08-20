@@ -88,11 +88,11 @@ class PaymentOrder(models.Model):
             linhas_pagamentos = {
                 'valor': line.amount_currency,
                 'data_vencimento': line.move_line_id.date_maturity.strftime('%Y/%m/%d'),
-                'nosso_numero': line.move_line_id.nosso_numero,
+                'nosso_numero': line.move_line_id.own_number,
                 'documento_sacado': misc.punctuation_rm(line.partner_id.cnpj_cpf),
                 'nome_sacado':
                     line.partner_id.legal_name.strip()[:40],
-                'numero': str(line.numero_documento)[:10],
+                'numero': str(line.document_number)[:10],
                 'endereco_sacado': str(
                     line.partner_id.street + ', ' + str(
                         line.partner_id.street_number))[:40],
@@ -102,7 +102,7 @@ class PaymentOrder(models.Model):
                 'cidade_sacado':
                     line.partner_id.city_id.name,
                 'uf_sacado': line.partner_id.state_id.code,
-                'identificacao_ocorrencia': self.codigo_instrucao_movimento
+                'identificacao_ocorrencia': self.movement_instruction_code
             }
 
             payment_mode = line.move_line_id.payment_mode_id
@@ -124,9 +124,9 @@ class PaymentOrder(models.Model):
                 # 40 - Alteração de Carteira
                 linhas_pagamentos['identificacao_ocorrencia'] = '01'
                 linhas_pagamentos['codigo_protesto'] = \
-                    payment_mode.boleto_cod_protesto or '3'
+                    payment_mode.boleto_protest_code or '3'
                 linhas_pagamentos['dias_protesto'] = \
-                    payment_mode.boleto_dias_protesto or '0'
+                    payment_mode.boleto_days_protest or '0'
 
                 # Código adotado pela FEBRABAN para identificação
                 # do tipo de pagamento de multa.
@@ -147,20 +147,19 @@ class PaymentOrder(models.Model):
                 # 1 = Valor Fixo
                 linhas_pagamentos['cod_desconto'] = '0'
                 # 00000005/01
-                linhas_pagamentos['numero'] = str(line.numero_documento)[1:11]
+                linhas_pagamentos['numero'] = str(line.document_number)[1:11]
 
-            if payment_mode.boleto_perc_multa:
-                if bank_name_brcobranca[0] in ('bradesco', 'unicred'):
-                    linhas_pagamentos['codigo_multa'] = \
-                        payment_mode.boleto_cod_multa
-                    linhas_pagamentos['percentual_multa'] = \
-                        payment_mode.boleto_perc_multa
+            if payment_mode.boleto_fee_perc:
+                linhas_pagamentos['codigo_multa'] = \
+                    payment_mode.boleto_fee_code
+                linhas_pagamentos['percentual_multa'] = \
+                    payment_mode.boleto_fee_perc
 
             precision = self.env['decimal.precision']
             precision_account = precision.precision_get('Account')
-            if payment_mode.boleto_perc_mora:
+            if payment_mode.boleto_interest_perc:
                 linhas_pagamentos['tipo_mora'] = \
-                    payment_mode.boleto_cod_mora
+                    payment_mode.boleto_interest_perc
                 # TODO - É padrão em todos os bancos ?
                 # Código adotado pela FEBRABAN para identificação do tipo de
                 # pagamento de mora de juros.
@@ -175,37 +174,37 @@ class PaymentOrder(models.Model):
                 # segundo manual. Cógido mantido
                 # para Correspondentes que ainda utilizam.
                 # Isento de Mora caso não exista percentual
-                if payment_mode.boleto_cod_mora == '1':
+                if payment_mode.boleto_interest_code == '1':
                     linhas_pagamentos['valor_mora'] = round(
                         line.move_line_id.debit *
-                        ((payment_mode.boleto_perc_mora / 100)
+                        ((payment_mode.boleto_interest_code / 100)
                          / 30), precision_account)
-                if payment_mode.boleto_cod_mora == '2':
+                if payment_mode.boleto_interest_code == '2':
                     linhas_pagamentos['valor_mora'] = \
-                        payment_mode.boleto_perc_mora
+                        payment_mode.boleto_interest_code
 
-            if line.move_line_id.payment_term_id.discount_perc:
+            if payment_mode.boleto_discount_perc:
                 linhas_pagamentos['data_desconto'] =\
                     line.move_line_id.date_maturity.strftime('%Y/%m/%d')
                 linhas_pagamentos['valor_desconto'] = round(
                     line.move_line_id.debit * (
-                            line.move_line_id.payment_term_id.discount_perc / 100),
+                            payment_mode.boleto_discount_perc / 100),
                     precision_account)
                 if bank_name_brcobranca[0] == 'unicred':
                     linhas_pagamentos['cod_desconto'] = '1'
 
             # Protesto
-            if payment_mode.boleto_cod_protesto:
+            if payment_mode.boleto_protest_code:
                 linhas_pagamentos['codigo_protesto'] = \
-                    payment_mode.boleto_cod_protesto
-                if payment_mode.boleto_dias_protesto:
+                    payment_mode.boleto_protest_code
+                if payment_mode.boleto_days_protest:
                     linhas_pagamentos['dias_protesto'] = \
-                        payment_mode.boleto_dias_protesto
+                        payment_mode.boleto_days_protest
 
             pagamentos.append(linhas_pagamentos)
 
         remessa_values = {
-            'carteira': str(self.payment_mode_id.boleto_carteira),
+            'carteira': str(self.payment_mode_id.boleto_wallet),
             'agencia': int(bank_account.bra_number),
             # 'digito_agencia': order.mode.bank_id.bra_number_dig,
             'conta_corrente': int(misc.punctuation_rm(bank_account.acc_number)),
@@ -217,20 +216,19 @@ class PaymentOrder(models.Model):
             'sequencial_remessa': self.payment_mode_id.cnab_sequence_id.next_by_id(),
         }
 
-        if (bank_name_brcobranca[0] == 'bradesco'
-                and self.payment_mode_id.payment_method_id.code == '400'):
+        if bank_name_brcobranca[0] == 'bradesco':
             remessa_values[
-                'codigo_empresa'] = int(self.payment_mode_id.codigo_convenio)
+                'codigo_empresa'] = int(self.payment_mode_id.code_convetion)
 
-        # Field used in Sicredi/Unicred and Sicoob Banks
-        if bank_account.bank_id.code_bc == '748':
+        # Field used in Sicredi and Sicoob Banks
+        if bank_account.bank_id.code_bc in ('748', '756'):
             remessa_values.update({
-                'codigo_transmissao': int(self.payment_mode_id.codigo_convenio),
+                'codigo_transmissao': int(self.payment_mode_id.code_convetion),
             })
         # Field used in Unicred Bank
         if bank_account.bank_id.code_bc == '136':
             remessa_values.update({
-                'codigo_beneficiario': int(self.payment_mode_id.codigo_convenio),
+                'codigo_beneficiario': int(self.payment_mode_id.code_convetion),
             })
 
         content = json.dumps(remessa_values)
