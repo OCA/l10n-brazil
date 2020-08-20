@@ -24,7 +24,7 @@ class L10nBrCnabLote(models.Model):
     company_registration_number = fields.Char(string='Número de Inscrição')
     company_registration_type = fields.Char(string='Tipo de Inscrição')
     event_id = fields.One2many(
-        string='Eventos', comodel_name='l10n_br.cnab.evento', inverse_name='lote_id'
+        string='Eventos', comodel_name='l10n_br.cnab.evento', inverse_name='lot_id'
     )
     message = fields.Char(string='Mensagem')
     register_qty = fields.Integer(string='Quantidade de Registros')
