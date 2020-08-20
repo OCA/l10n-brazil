@@ -2,10 +2,24 @@
 <odoo noupdate="1">
 
    <!-- Faturas/Invoices de Teste -->
-
     <!-- Fatura/Invoice Bradesco 400 -->
     <record id="demo_invoice_payment_order" model="account.invoice">
+        <field name="name">Test Payment Order</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo"/>
         <field name="payment_mode_id" ref="payment_mode_cobranca_bradesco400"/>
+    </record>
+
+    <record id="demo_invoice_line_original" model="account.invoice.line">
+        <field name="invoice_id" ref="demo_invoice_payment_order"/>
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error_2"/>
     </record>
 
     <!-- Invoice Itau 240 -->
