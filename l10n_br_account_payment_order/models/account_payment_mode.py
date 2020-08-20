@@ -25,7 +25,7 @@ class AccountPaymentMode(models.Model):
         string='Sequência',
     )
 
-    instrucoes = fields.Text(
+    instructions = fields.Text(
         string='Instruções de cobrança',
     )
 
