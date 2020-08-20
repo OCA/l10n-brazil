@@ -13,7 +13,7 @@
     'author': 'Akretion',
     'website': 'www.akretion.com',
     'depends': [
-        'l10n_br_account_payment_cobranca',
+        'l10n_br_account_payment_order',
     ],
     'data': [
         'views/account_invoice_view.xml',
