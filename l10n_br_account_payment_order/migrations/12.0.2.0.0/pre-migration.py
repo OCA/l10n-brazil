@@ -6,6 +6,7 @@ from openupgradelib import openupgrade
 
 _column_renames = {
     'account.payment.mode': [
+        ('instrucoes', 'instructions'),
         ('condicao_da_papeleta', 'condition_issuing_paper'),
         ('comunicacao_2', 'communication_2'),
         ('tipo_servico', 'service_type'),
@@ -31,6 +32,7 @@ _column_renames = {
         ('boleto_perc_multa', 'boleto_fee_perc'),
     ],
     'account.payment.line': [
+        ('linha_digitavel', 'digitable_line'),
         ('nosso_numero', 'own_number'),
         ('numero_documento', 'document_number'),
         ('identificacao_titulo_empresa', 'company_title_identification'),
@@ -116,6 +118,10 @@ _column_renames = {
         ('identificacao_titulo_empresa', 'company_title_identification'),
         ('situacao_pagamento', 'payment_situation'),
         ('instrucoes', 'instructions'),
+    ],
+    'account.invoice': [
+        ('instrucoes', 'instructions'),
+        ('eval_payment_mode_instrucoes', 'eval_payment_mode_instructions')
     ],
 }
 
