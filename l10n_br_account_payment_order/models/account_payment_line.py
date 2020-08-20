@@ -16,7 +16,7 @@ from ..constants import (
 class AccountPaymentLine(models.Model):
     _inherit = 'account.payment.line'
 
-    linha_digitavel = fields.Char(
+    digitable_line = fields.Char(
         string='Linha Digitável',
     )
 
