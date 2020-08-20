@@ -14,7 +14,7 @@
                         <page string="Geral">
                             <group name="l10n_br_account_payment_order-geral">
                                 <field name="internal_sequence_id"/>
-                                <field name="instrucoes"/>
+                                <field name="instructions"/>
                                 <field name="invoice_print"/>
                             </group>
                         </page>
@@ -66,8 +66,8 @@
                 </page>
                 <page string="Contabilidade">
                     <group>
-                        <!-- <field name="default_account_id"/>
-                        <field name="tax_account_id"/> -->
+                        <!-- <field name="default_account_id"/> -->
+                        <field name="tax_account_id"/>
                     </group>
                 </page>
             </notebook>
