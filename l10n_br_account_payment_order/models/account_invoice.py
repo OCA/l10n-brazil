@@ -220,12 +220,12 @@ class AccountInvoice(models.Model):
                     )
 
                 interval.transaction_ref = sequence
-                interval.nosso_numero = (
+                interval.own_number = (
                     sequence if interval.payment_mode_id.generate_own_number
                     else '0'
                 )
-                interval.numero_documento = numero_documento
-                interval.identificacao_titulo_empresa = hex(interval.id).upper()
+                interval.document_number = numero_documento
+                interval.company_title_identification = hex(interval.id).upper()
                 instructions = ''
                 if inv.eval_payment_mode_instructions:
                     instructions = inv.eval_payment_mode_instructions + '\n'
