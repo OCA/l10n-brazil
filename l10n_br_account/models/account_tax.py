@@ -96,19 +96,21 @@ class AccountTax(models.Model):
             )
 
             if fiscal_tax:
-                if not fiscal_tax.get('tax_include'):
+                tax = self.filtered(lambda t: t.id == account_tax.get('id'))
+                if not fiscal_tax.get('tax_include') and not tax.deductible:
                     taxes_results['total_included'] += fiscal_tax.get(
                         'tax_value')
 
                 account_tax.update({
                     'id': account_tax.get('id'),
-                    'name': fiscal_tax.get('name'),
+                    'name': '{0} ({1})'.format(
+                        account_tax.get('name'),
+                        fiscal_tax.get('name')
+                    ),
                     'amount': fiscal_tax.get('tax_value'),
                     'base': fiscal_tax.get('base'),
                     'tax_include': fiscal_tax.get('tax_include'),
                 })
-
-                tax = self.filtered(lambda t: t.id == account_tax.get('id'))
 
                 if tax.deductible:
                     account_tax.update({
