@@ -104,7 +104,7 @@ class AccountInvoice(models.Model):
 
     @api.one
     @api.depends(
-        'invoice_line_ids.price_subtotal',
+        'invoice_line_ids.price_total',
         'tax_line_ids.amount',
         'tax_line_ids.amount_rounding',
         'currency_id',
@@ -112,8 +112,6 @@ class AccountInvoice(models.Model):
         'date_invoice',
         'type')
     def _compute_amount(self):
-        self.amount_untaxed = 0.00
-        self.amount_tax = 0.00
         for inv_line in self.invoice_line_ids:
             if inv_line.cfop_id:
                 if inv_line.cfop_id.finance_move:
@@ -123,8 +121,7 @@ class AccountInvoice(models.Model):
                 self.amount_untaxed += inv_line.price_subtotal
                 self.amount_tax += inv_line.price_tax
 
-            self.amount_total = self.amount_untaxed + self.amount_tax
-
+        self.amount_total = self.amount_untaxed + self.amount_tax
         amount_total_company_signed = self.amount_total
         amount_untaxed_signed = self.amount_untaxed
         if (self.currency_id and self.company_id and
