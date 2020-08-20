@@ -106,9 +106,10 @@ class AccountInvoiceLine(models.Model):
         sign = self.invoice_id.type in ['in_refund', 'out_refund'] and -1 or 1
         self.price_subtotal_signed = price_subtotal_signed * sign
 
+    @api.depends('price_total')
     def _get_price_tax(self):
         for l in self:
-            l.price_tax = l.amount_tax_not_included
+            l.price_tax = l.price_total - l.price_subtotal
 
     @api.model
     def _shadowed_fields(self):
