@@ -300,11 +300,11 @@ class CNABFileParser(FileParser):
             # Nosso Numero sem o Digito Verificador
             if bank_name_brcobranca == 'bradesco':
                 account_move_line = self.env['account.move.line'].search(
-                    [('nosso_numero', '=', linha_cnab['nosso_numero'][:11])]
+                    [('own_number', '=', linha_cnab['nosso_numero'][:11])]
                 )
             elif bank_name_brcobranca == 'unicred':
                 account_move_line = self.env['account.move.line'].search(
-                    [('nosso_numero', '=', linha_cnab['nosso_numero'][6:16])]
+                    [('own_number', '=', linha_cnab['nosso_numero'][6:16])]
                 )
 
             payment_line = self.env['account.payment.line'].search(
@@ -374,6 +374,9 @@ class CNABFileParser(FileParser):
                     (cod_ocorrencia in ('01', '06', '07', '09') and
                      bank_name_brcobranca == 'unicred')):
 
+                valor_desconto = valor_juros_mora =\
+                    valor_abatimento = valor_tarifa = 0.0
+
                 # Valor Desconto
                 if linha_cnab.get('desconto'):
                     valor_desconto = self.cnab_str_to_float(
@@ -385,24 +388,22 @@ class CNABFileParser(FileParser):
 
                     result_row_list.append({
                         'name': 'Desconto (boleto) ' +
-                                account_move_line.numero_documento,
-                        'amount': valor_desconto,
+                                account_move_line.document_number,
                         'debit': valor_desconto,
                         'credit': 0.0,
                         'account_id': self.journal.default_debit_account_id.id,
                         'type': 'desconto',
-                        'ref': account_move_line.numero_documento,
+                        'ref': account_move_line.document_number,
                     })
                     result_row_list.append({
                         'name': 'Desconto (boleto) ' +
-                                account_move_line.numero_documento,
-                        'amount': valor_desconto,
+                                account_move_line.document_number,
                         'debit': 0.0,
                         'credit': valor_desconto,
                         'account_id': account_move_line.payment_mode_id.
-                        default_discount_account_id.id,
+                        discount_account_id.id,
                         'type': 'desconto',
-                        'ref': account_move_line.numero_documento,
+                        'ref': account_move_line.document_number,
                     })
 
                 # Valor Juros Mora - valor de mora e multa pagos pelo sacado
@@ -417,26 +418,24 @@ class CNABFileParser(FileParser):
 
                     result_row_list.append({
                         'name': 'Valor Juros Mora (boleto) ' +
-                                account_move_line.numero_documento,
+                                account_move_line.document_number,
                         'debit': 0.0,
                         'credit': valor_juros_mora,
-                        'amount': valor_juros_mora,
                         'account_id': account_move_line.payment_mode_id.
-                        default_juros_mora_account_id.id,
+                        interest_fee_account_id.id,
                         'type': 'juros_mora',
-                        'ref': account_move_line.numero_documento,
+                        'ref': account_move_line.document_number,
                         'partner_id': account_move_line.partner_id.id,
                     })
 
                     result_row_list.append({
                         'name': 'Valor Juros Mora (boleto) ' +
-                                account_move_line.numero_documento,
+                                account_move_line.document_number,
                         'debit': valor_juros_mora,
                         'credit': 0.0,
-                        'amount': valor_juros_mora,
                         'account_id': self.journal.default_debit_account_id.id,
                         'type': 'juros_mora',
-                        'ref': account_move_line.numero_documento,
+                        'ref': account_move_line.document_number,
                     })
 
                 # Valor Tarifa
@@ -451,25 +450,23 @@ class CNABFileParser(FileParser):
 
                     result_row_list.append({
                         'name': 'Tarifas bancárias (boleto) ' +
-                                account_move_line.numero_documento,
+                                account_move_line.document_number,
                         'debit': 0.0,
                         'credit': valor_tarifa,
-                        'amount': valor_tarifa,
                         'account_id': account_move_line.payment_mode_id.
-                        default_tax_account_id.id,
+                        tax_account_id.id,
                         'type': 'tarifa',
-                        'ref': account_move_line.numero_documento,
+                        'ref': account_move_line.document_number,
                     })
 
                     result_row_list.append({
                         'name': 'Tarifas bancárias (boleto) ' +
-                                account_move_line.numero_documento,
+                                account_move_line.document_number,
                         'debit': valor_tarifa,
                         'credit': 0.0,
-                        'amount': valor_tarifa,
                         'type': 'tarifa',
                         'account_id': self.journal.default_debit_account_id.id,
-                        'ref': account_move_line.numero_documento,
+                        'ref': account_move_line.document_number,
                     })
 
                 # Valor Abatimento
@@ -483,54 +480,53 @@ class CNABFileParser(FileParser):
 
                     result_row_list.append({
                         'name': 'Abatimento (boleto) ' +
-                                account_move_line.numero_documento,
+                                account_move_line.document_number,
                         'debit': valor_abatimento,
                         'credit': 0.0,
-                        'amount': valor_abatimento,
                         'account_id': self.journal.default_debit_account_id.id,
                         'type': 'abatimento',
-                        'ref': account_move_line.numero_documento,
+                        'ref': account_move_line.document_number,
                     })
 
                     result_row_list.append({
                         'name': 'Abatimento (boleto) ' +
-                                account_move_line.numero_documento,
+                                account_move_line.document_number,
                         'debit': 0.0,
                         'credit': valor_abatimento,
-                        'amount': valor_abatimento,
                         'account_id': account_move_line.payment_mode_id.
-                        default_abatimento_account_id.id,
+                        rebate_account_id.id,
                         'type': 'abatimento',
-                        'ref': account_move_line.numero_documento,
+                        'ref': account_move_line.document_number,
                     })
 
                 vals_evento = {
-                    'lote_id': lote_id.id,
-                    'data_ocorrencia': data_ocorrencia,
-                    'data_real_pagamento': data_credito.strftime("%Y-%m-%d"),
+                    'lot_id': lote_id.id,
+                    'occurrence_date': data_ocorrencia,
+                    'real_payment_date': data_credito.strftime("%Y-%m-%d"),
                     # 'segmento': evento.servico_segmento,
                     # 'favorecido_nome':
                     #    obj_account_move_line.company_id.partner_id.name,
-                    'favorecido_conta_bancaria_id':
+                    'favored_bank_account_id':
                         account_move_line.payment_mode_id.
                         fixed_journal_id.bank_account_id.id,
-                    'nosso_numero': linha_cnab['nosso_numero'],
-                    'identificacao_titulo_empresa':
+                    'own_number': linha_cnab['nosso_numero'],
+                    'your_number': account_move_line.document_number,
+                    'company_title_identification':
                         linha_cnab['documento_numero'] or
-                        account_move_line.numero_documento,
+                        account_move_line.document_number,
                     # 'tipo_moeda': evento.credito_moeda_tipo,
-                    'valor': valor_titulo,
-                    'valor_pagamento': valor_recebido,
-                    'ocorrencias': descricao_ocorrencia,
+                    'title_value': valor_titulo,
+                    'payment_value': valor_recebido,
+                    'occurrences': descricao_ocorrencia,
                     'bank_payment_line_id':
                         payment_line.bank_line_id.id or False,
                     'invoice_id': account_move_line.invoice_id.id,
-                    'data_vencimento': datetime.datetime.strptime(
+                    'due_date': datetime.datetime.strptime(
                         str(linha_cnab['data_vencimento']), "%d%m%y").date(),
-                    'valor_desconto': valor_desconto,
-                    'juros_mora_multa': valor_juros_mora,
-                    'valor_abatimento': valor_abatimento,
-                    'tarifa_cobranca': valor_tarifa,
+                    'discount_value': valor_desconto,
+                    'interest_fee_value': valor_juros_mora,
+                    'rebate_value': valor_abatimento,
+                    'tariff_charge': valor_tarifa,
                 }
 
                 if cnab_return_method == 'manual':
@@ -538,7 +534,7 @@ class CNABFileParser(FileParser):
                     # para criar o Extrato Bancario
                     balance_end_real += valor_recebido
                     line_statement_vals.append({
-                        'name': account_move_line.numero_documento or '?',
+                        'name': account_move_line.document_number or '?',
                         'amount': valor_recebido,
                         'partner_id': account_move_line.partner_id.id,
                         'ref': account_move_line.ref,
@@ -553,25 +549,24 @@ class CNABFileParser(FileParser):
                          'name': account_move_line.invoice_id.number,
                          'debit': 0.0,
                          'credit': valor_recebido,
-                         'amount': valor_recebido,
                          'move_line': account_move_line,
                          'invoice_id': account_move_line.invoice_id.id,
                          'type': 'liquidado',
                          'bank_payment_line_id':
                          payment_line.bank_line_id.id or False,
-                         'ref': account_move_line.nosso_numero,
+                         'ref': account_move_line.own_number,
                          'account_id': account_move_line.account_id.id,
                          'partner_id': account_move_line.partner_id.id,
                     })
 
             else:
                 vals_evento = {
-                    'lote_id': lote_id.id,
-                    'ocorrencias': descricao_ocorrencia,
-                    'data_ocorrencia': data_ocorrencia,
-                    'nosso_numero': linha_cnab['nosso_numero'],
-                    'seu_numero': account_move_line.numero_documento,
-                    'valor': valor_titulo,
+                    'lot_id': lote_id.id,
+                    'occurrences': descricao_ocorrencia,
+                    'occurrence_date': data_ocorrencia,
+                    'own_number': account_move_line.own_number,
+                    'your_number': account_move_line.document_number,
+                    'title_value': valor_titulo,
                 }
 
             self.env['l10n_br.cnab.evento'].create(vals_evento)
@@ -645,7 +640,6 @@ class CNABFileParser(FileParser):
             'debit': line['debit'],
             'already_completed': False,
             'partner_id': None,
-            'account_id': None,
             'ref': line['ref'],
             'account_id': line['account_id'],
         }
