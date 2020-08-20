@@ -11,7 +11,7 @@
                     <field name="own_number"/>
                     <field name="document_number"/>
                     <field name="company_title_identification"/>
-                    <field name="last_state_cnab" invisible="1"/>
+                    <field name="last_cnab_state" invisible="1"/>
                     <field name="doc_finality_code"/>
                     <field name="ted_finality_code"/>
                     <field name="complementary_finality_code"/>
