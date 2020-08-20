@@ -91,6 +91,7 @@ _column_renames = {
         ('valor_desconto', 'discount_value'),
         ('valor_iof', 'iof_value'),
         ('valor_pagamento', 'payment_value'),
+        ('lote_id', 'lot_id'),
     ],
     'l10n_br.cnab.lote': [
         ('empresa_inscricao_numero', 'company_registration_number'),
