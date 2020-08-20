@@ -6,4 +6,4 @@ from odoo import models
 
 class AccountTax(models.Model):
     _name = 'account.tax'
-    _inherit = [ 'account.tax.mixin', 'account.tax']
+    _inherit = ['account.tax.mixin', 'account.tax']
