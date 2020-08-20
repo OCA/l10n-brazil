@@ -6,12 +6,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ..constants import (
-    SEQUENCIAL_CARTEIRA,
-    SEQUENCIAL_EMPRESA,
-    SEQUENCIAL_FATURA,
-)
-
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -196,11 +190,14 @@ class AccountInvoice(models.Model):
                 numero_documento = inv_number + '/' + str(index + 1).zfill(2)
 
                 # Verificar se é boleto para criar o numero
-                if inv.company_id.own_number_type == SEQUENCIAL_EMPRESA:
+                if inv.company_id.own_number_type == '0':
+                    # SEQUENCIAL_EMPRESA
                     sequence = inv.company_id.get_own_number_sequence()
-                elif inv.company_id.own_number_type == SEQUENCIAL_FATURA:
+                elif inv.company_id.own_number_type == '1':
+                    # SEQUENCIAL_FATURA
                     sequence = numero_documento.replace('/', '')
-                elif inv.company_id.own_number_type == SEQUENCIAL_CARTEIRA:
+                elif inv.company_id.own_number_type == '2':
+                    # SEQUENCIAL_CARTEIRA
                     if not inv.payment_mode_id.own_number_sequence:
                         raise UserError(
                             _(
