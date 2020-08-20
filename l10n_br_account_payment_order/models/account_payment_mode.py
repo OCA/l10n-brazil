@@ -231,6 +231,15 @@ class AccountPaymentMode(models.Model):
         digits=dp.get_precision('Account'),
     )
 
+    # TODO - criar outro campo para separar a Conta Contabil de Multa ?
+    #  o valor vem somado ao Juros Mora no retorno do cnab 400 unicred,
+    #  isso seria o padrão dos outros bancos ?
+    interest_fee_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Conta Contabil de Juros Mora e Multa',
+        help='Conta padrão para Juros Mora',
+    )
+
     boleto_fee_code = fields.Char(
         string='Código da Multa',
         size=1,
@@ -242,9 +251,23 @@ class AccountPaymentMode(models.Model):
         string='Percentual de Multa',
         digits=dp.get_precision('Account'),
     )
+
     boleto_discount_perc = fields.Float(
         string=u"Percentual de Desconto até a Data de Vencimento",
-        digits=dp.get_precision('Account'))
+        digits=dp.get_precision('Account')
+    )
+
+    discount_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Conta Contabil de Desconto',
+        help='Conta padrão para Desconto',
+    )
+
+    rebate_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Conta Contabil de Abatimanto',
+        help='Conta padrão para Abatimento',
+    )
 
     _sql_constraints = [(
         "internal_sequence_id_unique",
