@@ -93,38 +93,38 @@ class AccountInvoice(models.Model):
                 }
             )
 
-    @api.onchange("payment_term_id")
-    def _onchange_payment_term_id(self):
-        interest_analytic_tag_id = self.env.ref(
-            'l10n_br_account_payment_order.account_analytic_tag_interest'
-        )
-
-        to_remove_invoice_line_ids = self.invoice_line_ids.filtered(
-            lambda i: interest_analytic_tag_id in i.analytic_tag_ids
-        )
-
-        self.invoice_line_ids -= to_remove_invoice_line_ids
-
-        payment_term_id = self.payment_term_id
-        amount_total = self.amount_total
-        if payment_term_id.has_interest and amount_total > 0:
-            invoice_line_data = {
-                "name": "Taxa de juros por parcelamento no cartão",
-                "partner_id": self.partner_id.id,
-                "account_id": payment_term_id.interest_account_id.id,
-                "analytic_tag_ids": [(6, 0, [interest_analytic_tag_id.id])],
-                "quantity": 1,
-                "price_unit": amount_total * payment_term_id.interest_rate / 100,
-            }
-
-            self.update(
-                {
-                    "invoice_line_ids": [
-                        (6, 0, self.invoice_line_ids.ids),
-                        (0, 0, invoice_line_data),
-                    ]
-                }
-            )
+    # @api.onchange("payment_term_id")
+    # def _onchange_payment_term_id(self):
+    #     interest_analytic_tag_id = self.env.ref(
+    #         'l10n_br_account_payment_order.account_analytic_tag_interest'
+    #     )
+    #
+    #     to_remove_invoice_line_ids = self.invoice_line_ids.filtered(
+    #         lambda i: interest_analytic_tag_id in i.analytic_tag_ids
+    #     )
+    #
+    #     self.invoice_line_ids -= to_remove_invoice_line_ids
+    #
+    #     payment_term_id = self.payment_term_id
+    #     amount_total = self.amount_total
+    #     if payment_term_id.has_interest and amount_total > 0:
+    #         invoice_line_data = {
+    #             "name": "Taxa de juros por parcelamento no cartão",
+    #             "partner_id": self.partner_id.id,
+    #             "account_id": payment_term_id.interest_account_id.id,
+    #             "analytic_tag_ids": [(6, 0, [interest_analytic_tag_id.id])],
+    #             "quantity": 1,
+    #             "price_unit": amount_total * payment_term_id.interest_rate / 100,
+    #         }
+    #
+    #         self.update(
+    #             {
+    #                 "invoice_line_ids": [
+    #                     (6, 0, self.invoice_line_ids.ids),
+    #                     (0, 0, invoice_line_data),
+    #                 ]
+    #             }
+    #         )
 
     def _remove_payment_order_line(self, _raise=True):
         move_line_receivable_ids = self.move_line_receivable_ids
@@ -222,7 +222,7 @@ class AccountInvoice(models.Model):
                 interval.transaction_ref = sequence
                 interval.nosso_numero = (
                     sequence if interval.payment_mode_id.generate_own_number
-                        else "0"
+                    else "0"
                 )
                 interval.numero_documento = numero_documento
                 interval.identificacao_titulo_empresa = hex(interval.id).upper()
@@ -317,13 +317,13 @@ class AccountInvoice(models.Model):
     def assign_outstanding_credit(self, credit_aml_id):
         self.ensure_one()
 
-        if self.payment_term_id.payment_mode_selection == "cartao":
-            raise UserError(
-                _(
-                    "Não é possível adicionar pagamentos em uma fatura "
-                    "parcelada no cartão de crédito"
-                )
-            )
+        # if self.payment_term_id.payment_mode_selection == "cartao":
+        #     raise UserError(
+        #         _(
+        #             "Não é possível adicionar pagamentos em uma fatura "
+        #             "parcelada no cartão de crédito"
+        #         )
+        #     )
         if self.eval_situacao_pagamento in ["paga", "liquidada", "baixa_liquidacao"]:
             raise UserError(
                 _(
