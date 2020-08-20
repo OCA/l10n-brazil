@@ -2,11 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-SEQUENCIAL_EMPRESA = "0"
-SEQUENCIAL_FATURA = "1"
-SEQUENCIAL_CARTEIRA = "2"
-
-
 COBRANCA = "01"
 BOLETO_PAGAMENTO_ELETRONICO = "03"
 CONCILIACAO_BANCARIA = "04"
