@@ -89,10 +89,10 @@ class AccountPaymentOrder(models.Model):
     )
 
     def _confirm_debit_orders_api(self):
-        '''
+        """
         Method create to confirm all bank_api exclusive account.payment.order
         :return:
-        '''
+        """
         _logger.info('_confirm_debit_orders_api()')
 
         order_ids = self.search(
