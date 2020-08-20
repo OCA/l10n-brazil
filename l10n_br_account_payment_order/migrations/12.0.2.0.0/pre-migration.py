@@ -66,7 +66,7 @@ _column_renames = {
         ('identificacao_titulo_empresa', 'company_title_identification'),
         ('is_erro_exportacao', 'is_export_error'),
         ('mensagem_erro_exportacao', 'export_error_message'),
-        ('ultimo_estado_cnab', 'last_state_cnab')
+        ('ultimo_estado_cnab', 'last_cnab_state')
     ],
     'l10n_br.cnab.evento': [
         ('data_real_pagamento', 'real_payment_date'),
@@ -116,9 +116,9 @@ _column_renames = {
         ('identificacao_titulo_empresa', 'company_title_identification'),
         ('situacao_pagamento', 'payment_situation'),
         ('instrucoes', 'instructions'),
-        ('ultimo_estado_cnab', 'last_state_cnab')
     ],
 }
+
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
