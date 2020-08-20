@@ -733,6 +733,26 @@ class Document(models.Model):
         reference_id = self.env['l10n_br_fiscal.document.related'].create(vals)
         return reference_id
 
+    def _get_email_template(self, new_state):
+        return = self.document_type_id.document_email_ids.filtered(
+            lambda e: e.state_edoc == new_state).mapped(
+                'email_template')
+
+    def _after_change_state(self, old_state, new_state):
+        super()._after_change_state(old_state, new_state)
+        self.send_email(new_state)
+
+    def send_email(self, new_state):
+        email_template = self._get_email_template(new_state)
+        if email_template:
+            # TODO as fontes das mensagens deveriam ser os eventos gerados
+            # pela mudança de status
+            # email_values = {
+            #     'attachment_ids': [self.file_pdf_id.id,
+            #                        self.file_xml_autorizacao_id.id]
+            # }
+            email_template.send_mail(res_id=self.id, email_values=email_values)
+
     def _document_reference(self, reference_ids):
         for referenced_item in reference_ids:
             referenced_item.fiscal_document_related_ids = self.id
