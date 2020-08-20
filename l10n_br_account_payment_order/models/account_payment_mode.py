@@ -297,3 +297,11 @@ class AccountPaymentMode(models.Model):
     def get_own_number_sequence(self):
         self.ensure_one()
         return self.own_number_sequence.next_by_id()
+
+    @api.constrains('boleto_discount_perc')
+    def _check_discount_perc(self):
+        for record in self:
+            if record.boleto_discount_perc > 100 or\
+               record.boleto_discount_perc < 0:
+                raise ValidationError(
+                    _('O percentual deve ser um valor entre 0 a 100.'))
