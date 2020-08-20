@@ -21,6 +21,15 @@
         <field name="price_unit">100</field>
         <field name="quantity">10</field>
         <field name="account_id" model="account.account" eval="obj().env.ref('product.product_product_5').categ_id.property_account_income_categ_id.id"/>
+
+    <!-- Conta Contabil -->
+    <record model="account.account" id="1_account_template_3010101010200_avoid_travis_error_2">
+        <field name="code">3.01.01.01.01.02.00-AVOID_TRAVIS_ERROR*</field>
+        <field name="name">Receita da Venda no Mercado Interno
+            de Produtos de Fabricação Própria - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_revenue"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="reconcile" eval="True"/>
     </record>
 
 </odoo>
