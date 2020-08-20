@@ -10,7 +10,6 @@ from . import account_payment_mode
 from . import account_payment_order
 from . import account_payment_line
 from . import account_payment
-from . import res_partner_bank
 from . import bank_payment_line
 from . import l10n_br_cnab
 from . import l10n_br_cnab_evento
