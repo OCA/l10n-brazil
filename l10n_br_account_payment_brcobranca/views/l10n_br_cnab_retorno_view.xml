@@ -4,9 +4,9 @@
     <record id="brcobranca_cnab_retorno_form_view" model="ir.ui.view">
         <field name="name">brcobranca.cnab.retorno.form.view</field>
         <field name="model">l10n_br.cnab</field>
-        <field name="inherit_id" ref="l10n_br_account_payment_cobranca.cnab_retorno_form_view"/>
+        <field name="inherit_id" ref="l10n_br_account_payment_order.cnab_retorno_form_view"/>
         <field name="arch" type="xml">
-            <field name="arquivo_retorno" position="after">
+            <field name="return_file" position="after">
                 <field name="account_journal" widget="many2one"
                        style="width: 50%" domain="[('type', '=', 'bank')]"
                        required="True"/>
