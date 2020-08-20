@@ -30,7 +30,7 @@ class L10nBrCnabEvento(models.Model):
     )
     invoice_id = fields.Many2one(comodel_name='account.invoice', string='Fatura')
     interest_fee_value = fields.Float(string='Juros de Mora/Multa')
-    lote_id = fields.Many2one(
+    lot_id = fields.Many2one(
         string='Lote', comodel_name='l10n_br.cnab.lote', ondelete='cascade'
     )
     own_number = fields.Char(string='Nosso Número')
@@ -40,7 +40,7 @@ class L10nBrCnabEvento(models.Model):
     segment = fields.Char(string='Segmento')
     your_number = fields.Char(string='Seu Número')
     state = fields.Selection(
-        string='State', related='lote_id.state', selection=STATE_CNAB, default='draft'
+        string='State', related='lot_id.state', selection=STATE_CNAB, default='draft'
     )
     str_motiv_a = fields.Char('Motivo da ocorrência 01')
     str_motiv_b = fields.Char('Motivo de ocorrência 02')
