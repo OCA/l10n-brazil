@@ -16,21 +16,20 @@ class BankPaymentLine(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        res = super(BankPaymentLine, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         mode = (
-            self.env['account.payment.order']
-            .browse(self.env.context.get('order_id'))
-            .payment_mode_id
+            self.env['account.payment.order'].browse(
+                self.env.context.get('order_id')).payment_mode_id
         )
-        if mode.codigo_finalidade_doc:
+        if mode.doc_finality_code:
             res.update({'doc_finality_code': mode.doc_finality_code})
-        if mode.codigo_finalidade_ted:
+        if mode.ted_finality_code:
             res.update({'ted_finality_code': mode.ted_finality_code})
-        if mode.codigo_finalidade_complementar:
+        if mode.complementary_finality_code:
             res.update(
                 {'complementary_finality_code': mode.complementary_finality_code}
             )
-        if mode.aviso_ao_favorecido:
+        if mode.favored_warning:
             res.update({'favored_warning': mode.favored_warning})
         return res
 
@@ -39,60 +38,92 @@ class BankPaymentLine(models.Model):
         string='Complemento do Tipo de Serviço',
         help='Campo P005 do CNAB',
     )
+
     ted_finality_code = fields.Selection(
         selection=CODIGO_FINALIDADE_TED,
         string='Código Finalidade da TED',
         help='Campo P011 do CNAB',
     )
+
     complementary_finality_code = fields.Char(
-        size=2, string='Código de finalidade complementar', help='Campo P013 do CNAB'
+        string='Código de finalidade complementar',
+        size=2,
+        help='Campo P013 do CNAB',
     )
+
     favored_warning = fields.Selection(
         selection=AVISO_FAVORECIDO,
         string='Aviso ao Favorecido',
-        help='Campo P006 do CNAB',
         default='0',
+        help='Campo P006 do CNAB',
     )
+
     rebate_value = fields.Float(
-        digits=(13, 2),
         string='Valor do Abatimento',
-        help='Campo G045 do CNAB',
-        default=0.00,
-    )
-    discount_value = fields.Float(
         digits=(13, 2),
-        string='Valor do Desconto',
-        help='Campo G046 do CNAB',
         default=0.00,
+        help='Campo G045 do CNAB',
     )
+
+    discount_value = fields.Float(
+        string='Valor do Desconto',
+        digits=(13, 2),
+        default=0.00,
+        help='Campo G046 do CNAB',
+    )
+
     interest_value = fields.Float(
-        digits=(13, 2), string='Valor da Mora', help='Campo G047 do CNAB', default=0.00
+        string='Valor da Mora',
+        digits=(13, 2),
+        default=0.00,
+        help='Campo G047 do CNAB',
     )
+
     fee_value = fields.Float(
-        digits=(13, 2), string='Valor da Multa', help='Campo G048 do CNAB', default=0.00
+        string='Valor da Multa',
+        digits=(13, 2),
+        default=0.00,
+        help='Campo G048 do CNAB',
     )
+
     event_id = fields.One2many(
         string='Eventos CNAB',
         comodel_name='l10n_br.cnab.evento',
         inverse_name='bank_payment_line_id',
         readonly=True,
     )
-    own_number = fields.Char(string='Nosso Numero')
-    document_number = fields.Char(string='Número documento')
-    company_title_identification = fields.Char(string='Identificação Titulo Empresa')
-    is_export_error = fields.Boolean(string='Contem erro de exportação')
-    export_error_message = fields.Char(string='Mensagem de erro')
-    last_state_cnab = fields.Selection(
+
+    own_number = fields.Char(
+        string='Nosso Numero',
+    )
+
+    document_number = fields.Char(
+        string='Número documento',
+    )
+
+    company_title_identification = fields.Char(
+        string='Identificação Titulo Empresa',
+    )
+
+    is_export_error = fields.Boolean(
+        string='Contem erro de exportação',
+    )
+
+    export_error_message = fields.Char(
+        string='Mensagem de erro',
+    )
+
+    last_cnab_state = fields.Selection(
         selection=ESTADOS_CNAB,
         string='Último Estado do CNAB',
         help='Último Estado do CNAB antes da confirmação de '
-        'pagamento nas Ordens de Pagamento',
+             'pagamento nas Ordens de Pagamento',
     )
 
     @api.multi
     def unlink(self):
         for record in self:
-            if not record.last_state_cnab:
+            if not record.last_cnab_state:
                 continue
 
             move_line_id = self.env['account.move.line'].search(
@@ -104,9 +135,9 @@ class BankPaymentLine(models.Model):
                     )
                 ]
             )
-            move_line_id.state_cnab = record.last_state_cnab
+            move_line_id.state_cnab = record.last_cnab_state
 
-        return super(BankPaymentLine, self).unlink()
+        return super().unlink()
 
     @api.model
     def same_fields_payment_line_and_bank_payment_line(self):
@@ -116,9 +147,7 @@ class BankPaymentLine(models.Model):
         to bank payment line
         The fields must have the same name on the 2 objects
         """
-        same_fields = super(
-            BankPaymentLine, self
-        ).same_fields_payment_line_and_bank_payment_line()
+        same_fields = super().same_fields_payment_line_and_bank_payment_line()
 
         # TODO: Implementar campo brasileiros que permitem mesclar linhas
 
