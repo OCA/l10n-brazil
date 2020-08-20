@@ -49,6 +49,7 @@
                         <field name="boleto_species"/>
                         <field name="boleto_protest_code"/>
                         <field name="boleto_days_protest"/>
+                        <field name="boleto_discount_perc"/>
                         <field name="boleto_byte_idt" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
                         <field name="boleto_post" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
                     </group>

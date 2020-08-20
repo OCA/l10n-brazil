@@ -242,6 +242,9 @@ class AccountPaymentMode(models.Model):
         string='Percentual de Multa',
         digits=dp.get_precision('Account'),
     )
+    boleto_discount_perc = fields.Float(
+        string=u"Percentual de Desconto até a Data de Vencimento",
+        digits=dp.get_precision('Account'))
 
     _sql_constraints = [(
         "internal_sequence_id_unique",
