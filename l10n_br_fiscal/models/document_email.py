@@ -1,10 +1,13 @@
 # Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
+# Copyright 2020 - TODAY, Renato Lima - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
 
 from ..constants.fiscal import (
     SITUACAO_EDOC,
+    DOCUMENT_ISSUER,
+    DOCUMENT_ISSUER_COMPANY,
 )
 
 
@@ -35,6 +38,13 @@ class DocumentEmail(models.Model):
         string='Fiscal Document Type',
         help="Select the type of document that will be applied "
              "to the email templates definitions."
+    )
+
+    issuer = fields.Selection(
+        selection=DOCUMENT_ISSUER,
+        default=DOCUMENT_ISSUER_COMPANY,
+        required=True,
+        string='Issuer',
     )
 
     state_edoc = fields.Selection(
