@@ -27,14 +27,6 @@ class AccountInvoice(models.Model):
         string='Instruções de cobrança',
     )
 
-    # eval_state_cnab = fields.Selection(
-    #     string=u'Estado CNAB',
-    #     related='move_line_receivable_id.state_cnab',
-    #     readonly=True,
-    #     store=True,
-    #     index=True,
-    # )
-    #
     # eval_situacao_pagamento = fields.Selection(
     #     string=u'Situação do Pagamento',
     #     related='move_line_receivable_id.situacao_pagamento',
@@ -122,9 +114,12 @@ class AccountInvoice(models.Model):
 
     def _remove_payment_order_line(self, _raise=True):
         move_line_receivable_ids = self.move_line_receivable_ids
-        payment_order_ids = self.env['account.payment.order'].search(
-            [('payment_line_ids.move_line_id', 'in', [move_line_receivable_ids.id])]
-        )
+        payment_order_ids = self.env['account.payment.order']
+
+        for line in move_line_receivable_ids:
+            payment_order_ids |= self.env['account.payment.order'].search(
+                [('payment_line_ids.move_line_id', 'in', [line.id])]
+            )
 
         if payment_order_ids:
             draft_cancel_payment_order_ids = payment_order_ids.filtered(
@@ -132,42 +127,22 @@ class AccountInvoice(models.Model):
             )
             if payment_order_ids - draft_cancel_payment_order_ids:
                 if _raise:
-                    raise UserError(
-                        _(
-                            'A fatura não pode ser cancelada pois a mesma já se '
-                            'encontra exportada por uma ordem de pagamento.'
-                        )
-                    )
+                    raise UserError(_(
+                        'A fatura não pode ser cancelada pois a mesma já se '
+                        'encontra exportada por uma ordem de pagamento.'))
 
             for po_id in draft_cancel_payment_order_ids:
-                p_line_id = self.env['account.payment.line'].search(
-                    [
+                p_line_id = self.env['account.payment.line']
+                for line in move_line_receivable_ids:
+                    p_line_id |= self.env['account.payment.line'].search([
                         ('order_id', '=', po_id.id),
-                        ('move_line_id', '=', move_line_receivable_ids.id),
-                    ]
-                )
+                        ('move_line_id', '=', line.id)])
+
                 po_id.payment_line_ids -= p_line_id
 
     @api.multi
     def action_invoice_cancel(self):
         for record in self:
-            if record.eval_state_cnab == 'accepted':
-                raise UserError(
-                    _(
-                        'A fatura não pode ser cancelada pois já foi aprovada '
-                        'no Banco.'
-                    )
-                )
-            if record.eval_state_cnab == 'done':
-                raise UserError(_('Não é possível cancelar uma fatura finalizada.'))
-            if record.eval_state_cnab == 'exported':
-                raise UserError(
-                    _(
-                        'A fatura não pode ser cancelada pois já foi exportada '
-                        'em uma remessa.'
-                    )
-                )
-
             record._remove_payment_order_line()
 
         super().action_invoice_cancel()
