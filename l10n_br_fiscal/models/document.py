@@ -935,7 +935,6 @@ class Document(models.Model):
             default_template_id=template and template.id or False,
             default_composition_mode='comment',
             model_description=self.document_type_id.name or self._name,
-            custom_layout="mail.mail_notification_paynow",
             force_email=True
         )
         return {
