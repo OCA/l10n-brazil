@@ -46,10 +46,11 @@ class DocumentEmail(models.Model):
         index=True,
     )
 
-    email_template = fields.Many2one(
+    email_template_id = fields.Many2one(
         comodel_name='mail.template',
         string='Fiscal Document E-mail Template',
         required=True,
+        domain=[('model', '=', 'l10n_br_fiscal.document')],
         help="Select the email template that will be sent when "
              "this document state change.",
     )
