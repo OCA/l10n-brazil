@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-<data>
     <record id="fiscal_document_change_state_template" model="mail.template">
       <field name="name">Fiscal Document Change State Notification Email</field>
       <field name="model_id" ref="model_l10n_br_fiscal_document"/>
       <field name="email_from">${object.company_id.partner_id.email}</field>
       <field name="email_cc">${not object.partner_id and object.partner_email or ''|safe},</field>
-      <field name="subject">The Fiscal Document ${object.number} has changed.</field>
+      <field name="subject">${object.document_type_id.name}: ${object.number} Serie: ${object.document_serie} is: ${dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}</field>
       <field name="partner_to">${object.partner_id.id}</field>
       <field name="auto_delete" eval="False"/>
       <field name="lang">${object.partner_id.lang}</field>
@@ -33,10 +32,32 @@
                         <td align="center" style="min-width: 590px;">
                           <table width="590" border="0" cellpadding="0" bgcolor="#ffffff" style="min-width: 590px; background-color: rgb(255, 255, 255); padding: 20px; border-collapse:separate;">
                             <tbody>
-                              <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">
-                                <p>Hello ${object.partner_id.name},</p>
-                                <p>The Fiscal Document ${object.number} has changed.</p>
-                              </td>
+                              <tr>
+                                <td valign="top" style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;">
+                                  <p>Hello ${object.partner_id.name},</p>
+                                  <p>The Fiscal Document ${object.number} has changed.</p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;" valign="top">
+                                  Document Number: ${object.number}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;" valign="top">
+                                  Document Serie: ${object.document_serie}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;" valign="top">
+                                  Document Key: ${object.key}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;" valign="top">
+                                  Document Status: ${dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}
+                                </td>
+                              </tr>
                             </tbody>
                           </table>
                         </td>
@@ -65,5 +86,5 @@
                 </html>
             ]]></field>
     </record>
-</data>
+
 </odoo>
