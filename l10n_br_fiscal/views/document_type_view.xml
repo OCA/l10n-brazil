@@ -25,7 +25,14 @@
                         <field name="name"/>
                         <field name="electronic"/>
                     </group>
-                    <field name="document_serie_ids" context="{'default_document_type_id': id}"/>
+                    <notebook>
+                        <page name="document_serie" string="Series">
+                            <field name="document_serie_ids" context="{'default_document_type_id': id}"/>
+                        </page>
+                        <page name="document_email" string="Email Templates">
+                            <field name="document_email_ids" context="{'default_document_type_id': id}"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
