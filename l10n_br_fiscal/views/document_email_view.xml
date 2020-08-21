@@ -9,7 +9,7 @@
                 <field name="name"/>
                 <field name="document_type_id"/>
                 <field name="state_edoc"/>
-                <field name="email_template"/>
+                <field name="email_template_id"/>
             </tree>
         </field>
     </record>
@@ -31,7 +31,7 @@
                     <group>
                         <field name="document_type_id"/>
                         <field name="state_edoc"/>
-                        <field name="email_template"/>
+                        <field name="email_template_id"/>
                     </group>
                 </sheet>
             </form>
