@@ -819,17 +819,15 @@ class Document(models.Model):
             record.line_ids.document_comment()
 
     def _get_email_template(self, new_state):
-        email_template = \
-            self.document_type_id\
-                .document_email_ids.filtered(
-                    lambda e: e.state_edoc == new_state)\
-                .mapped('email_template_id')
-        return email_template
+        return self.document_type_id.document_email_ids.filtered(
+            lambda d: d.state_edoc == new_state and
+            self.issuer = d.issuer).mapped('email_template_id')
 
     def send_email(self, new_state):
-        email_template = self._get_email_template(new_state)
-        if email_template:
-            email_template.send_mail(self.id)
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            email_template = self._get_email_template(new_state)
+            if email_template:
+                email_template.send_mail(self.id)
 
     def _after_change_state(self, old_state, new_state):
         super()._after_change_state(old_state, new_state)
