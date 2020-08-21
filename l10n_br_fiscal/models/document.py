@@ -823,7 +823,7 @@ class Document(models.Model):
             self.document_type_id\
                 .document_email_ids.filtered(
                     lambda e: e.state_edoc == new_state)\
-                .mapped('email_template')
+                .mapped('email_template_id')
         return email_template
 
     def send_email(self, new_state):
