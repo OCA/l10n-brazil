@@ -8,6 +8,7 @@
             <tree>
                 <field name="name"/>
                 <field name="document_type_id"/>
+                <field name="issuer"/>
                 <field name="state_edoc"/>
                 <field name="email_template_id"/>
             </tree>
@@ -30,6 +31,7 @@
                     </div>
                     <group>
                         <field name="document_type_id"/>
+                        <field name="issuer"/>
                         <field name="state_edoc"/>
                         <field name="email_template_id"/>
                         <field name="company_id" groups="base.group_multi_company"/>
