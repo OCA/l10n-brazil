@@ -30,6 +30,7 @@ _column_renames = {
         ('boleto_perc_mora', 'boleto_interest_perc'),
         ('boleto_cod_multa', 'boleto_fee_code'),
         ('boleto_perc_multa', 'boleto_fee_perc'),
+        ('tax_account_id', 'product_tax_account_id'),
     ],
     'account.payment.line': [
         ('linha_digitavel', 'digitable_line'),

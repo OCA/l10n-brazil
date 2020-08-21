@@ -180,10 +180,10 @@ class AccountPaymentMode(models.Model):
         string='Taxa Adicional',
     )
 
-    tax_account_id = fields.Many2one(
+    product_tax_account_id = fields.Many2one(
         comodel_name='account.account',
-        string='Conta Padrão',
-        help='Conta padrão para Taxa',
+        string='Conta de Taxa do Produto',
+        help='Conta padrão para a Taxa do Produto',
     )
 
     cnab_sequence_id = fields.Many2one(
@@ -267,6 +267,12 @@ class AccountPaymentMode(models.Model):
         comodel_name='account.account',
         string='Conta Contabil de Abatimanto',
         help='Conta padrão para Abatimento',
+    )
+
+    tariff_charge_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Conta Contabil Tarifa Bancaria',
+        help='Conta padrão para a Tarifa Bancaria',
     )
 
     _sql_constraints = [(
