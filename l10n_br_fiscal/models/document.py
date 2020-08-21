@@ -820,8 +820,8 @@ class Document(models.Model):
 
     def _get_email_template(self, state):
         return self.document_type_id.document_email_ids.filtered(
-            lambda d: d.state_edoc == state and
-            self.issuer = d.issuer).mapped('email_template_id')
+            lambda d: d.state_edoc == state
+            and self.issuer == d.issuer).mapped('email_template_id')
 
     def send_email(self, state):
         email_template = self._get_email_template(state)
