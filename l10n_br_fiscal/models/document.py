@@ -803,6 +803,38 @@ class Document(models.Model):
         action['domain'].append(('id', '=', return_id.id))
         return action
 
+    def _document_comment_vals(self):
+        return {
+            'user': self.env.user,
+            'ctx': self._context,
+            'doc': self,
+        }
+
+    def document_comment(self):
+        for record in self:
+            record.additional_data = \
+                record.additional_data and record.additional_data + ' - ' or ''
+            record.additional_data += record.comment_ids.compute_message(
+                record._document_comment_vals())
+            record.line_ids.document_comment()
+
+    def _get_email_template(self, new_state):
+        email_template = \
+            self.document_type_id\
+                .document_email_ids.filtered(
+                    lambda e: e.state_edoc == new_state)\
+                .mapped('email_template')
+        return email_template
+
+    def send_email(self, new_state):
+        email_template = self._get_email_template(new_state)
+        if email_template:
+            email_template.send_mail(self.id)
+
+    def _after_change_state(self, old_state, new_state):
+        super()._after_change_state(old_state, new_state)
+        self.send_email(new_state)
+
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
         super(Document, self)._exec_after_SITUACAO_EDOC_A_ENVIAR(
             old_state, new_state
