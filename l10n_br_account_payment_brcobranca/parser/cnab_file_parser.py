@@ -454,7 +454,7 @@ class CNABFileParser(FileParser):
                         'debit': 0.0,
                         'credit': valor_tarifa,
                         'account_id': account_move_line.payment_mode_id.
-                        tax_account_id.id,
+                        tariff_charge_account_id.id,
                         'type': 'tarifa',
                         'ref': account_move_line.document_number,
                     })
