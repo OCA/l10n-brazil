@@ -818,25 +818,22 @@ class Document(models.Model):
                 record._document_comment_vals())
             record.line_ids.document_comment()
 
-    def _get_email_template(self, new_state):
+    def _get_email_template(self, state):
         return self.document_type_id.document_email_ids.filtered(
-            lambda d: d.state_edoc == new_state and
+            lambda d: d.state_edoc == state and
             self.issuer = d.issuer).mapped('email_template_id')
 
-    def send_email(self, new_state):
-        if self.issuer == DOCUMENT_ISSUER_COMPANY:
-            email_template = self._get_email_template(new_state)
-            if email_template:
-                email_template.send_mail(self.id)
+    def send_email(self, state):
+        email_template = self._get_email_template(state)
+        if email_template:
+            email_template.send_mail(self.id)
 
     def _after_change_state(self, old_state, new_state):
         super()._after_change_state(old_state, new_state)
         self.send_email(new_state)
 
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
-        super(Document, self)._exec_after_SITUACAO_EDOC_A_ENVIAR(
-            old_state, new_state
-        )
+        super()._exec_after_SITUACAO_EDOC_A_ENVIAR(old_state, new_state)
         self.document_comment()
 
     @api.onchange('fiscal_operation_id')
@@ -916,3 +913,39 @@ class Document(models.Model):
             message = _("Canceling the document is not allowed: one or more "
                         "associated documents have already been authorized.")
             raise UserWarning(message)
+
+    @api.multi
+    def action_send_email(self):
+        """ Open a window to compose an email, with the fiscal document_type
+        template message loaded by default
+        """
+        self.ensure_one()
+        template = self._get_email_template(self.state)
+        compose_form = self.env.ref(
+            'mail.email_compose_message_wizard_form', False)
+        lang = self.env.context.get('lang')
+        if template and template.lang:
+            lang = template._render_template(
+                template.lang, self._name, self.id)
+        self = self.with_context(lang=lang)
+        ctx = dict(
+            default_model='l10n_br_fiscal.document',
+            default_res_id=self.id,
+            default_use_template=bool(template),
+            default_template_id=template and template.id or False,
+            default_composition_mode='comment',
+            model_description=self.document_type_id.name or self._name,
+            custom_layout="mail.mail_notification_paynow",
+            force_email=True
+        )
+        return {
+            'name': _('Send Fiscal Document Email Notification'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form.id, 'form')],
+            'view_id': compose_form.id,
+            'target': 'new',
+            'context': ctx,
+        }
