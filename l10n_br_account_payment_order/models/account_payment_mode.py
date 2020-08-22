@@ -5,7 +5,7 @@
 
 from odoo import _, api, fields, models
 from odoo.addons import decimal_precision as dp
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 from ..constants import (
     AVISO_FAVORECIDO,
@@ -219,6 +219,11 @@ class AccountPaymentMode(models.Model):
              'empresa',
     )
 
+    # Field used to make invisible own_number_sequence
+    own_number_type = fields.Selection(
+        related='fixed_journal_id.company_id.own_number_type',
+    )
+
     boleto_interest_code = fields.Char(
         string='Código da Mora',
         size=1,
@@ -300,9 +305,24 @@ class AccountPaymentMode(models.Model):
             self.tax_account_id = False
 
     @api.multi
-    def get_own_number_sequence(self):
-        self.ensure_one()
-        return self.own_number_sequence.next_by_id()
+    def get_own_number_sequence(self, inv, numero_documento):
+        if inv.company_id.own_number_type == '0':
+            # SEQUENCIAL_EMPRESA
+            sequence = inv.company_id.own_number_sequence.next_by_id()
+        elif inv.company_id.own_number_type == '1':
+            # SEQUENCIAL_FATURA
+            sequence = numero_documento.replace('/', '')
+        elif inv.company_id.own_number_type == '2':
+            # SEQUENCIAL_CARTEIRA
+            sequence = inv.payment_mode_id.own_number_sequence.next_by_id()
+        else:
+            raise UserError(_(
+                'Favor acessar aba Cobrança da configuração da'
+                ' sua empresa para determinar o tipo de '
+                'sequencia utilizada nas cobrancas'
+            ))
+
+        return sequence
 
     @api.constrains('boleto_discount_perc')
     def _check_discount_perc(self):
