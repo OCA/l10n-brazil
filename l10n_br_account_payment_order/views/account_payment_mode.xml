@@ -39,7 +39,8 @@
                         <field name="bank_code_bc" invisible="1"/>
                         <field name="boleto_type"/>
                         <field name="generate_own_number"/>
-                        <field name="own_number_sequence"/>
+                        <field name="own_number_type" invisible="1"/>
+                        <field name="own_number_sequence" attrs="{'invisible': [('own_number_type', '!=', '2')], 'required': [('own_number_type', '==', '2')]}"/>
                         <field name="boleto_convetion"/>
                         <field name="boleto_wallet"/>
                         <field name="boleto_modality"/>
