@@ -158,38 +158,25 @@ class AccountInvoice(models.Model):
     @api.multi
     def _pos_action_move_create(self):
         for inv in self:
-            # inv.transaction_id = sequence
+
+            # TODO - apesar do campo move_line_receivable_ids ser do tipo
+            #  compute esta sendo preciso chamar o metodo porque as vezes
+            #  ocorre da linha vir vazia o que impede de entrar no FOR
+            #  abaixo causando o não preenchimento de dados usados no Boleto,
+            #  isso deve ser melhor investigado
             inv._compute_receivables()
+
+            # TODO - Verificar se é boleto, existe uma
+            #  forma melhor ou outro campo ?
+            if not inv.payment_mode_id.code_convetion:
+                return
+
             for index, interval in enumerate(inv.move_line_receivable_ids):
                 inv_number = inv.get_invoice_fiscal_number().split('/')[-1].zfill(8)
                 numero_documento = inv_number + '/' + str(index + 1).zfill(2)
 
-                # Verificar se é boleto para criar o numero
-                if inv.company_id.own_number_type == '0':
-                    # SEQUENCIAL_EMPRESA
-                    sequence = inv.company_id.get_own_number_sequence()
-                elif inv.company_id.own_number_type == '1':
-                    # SEQUENCIAL_FATURA
-                    sequence = numero_documento.replace('/', '')
-                elif inv.company_id.own_number_type == '2':
-                    # SEQUENCIAL_CARTEIRA
-                    if not inv.payment_mode_id.own_number_sequence:
-                        raise UserError(
-                            _(
-                                'Favor acessar aba Cobrança da configuração'
-                                ' do Modo de Pagamento e determinar o '
-                                'campo Sequência do Nosso Número.'
-                            )
-                        )
-                    sequence = inv.payment_mode_id.get_own_number_sequence()
-                else:
-                    raise UserError(
-                        _(
-                            'Favor acessar aba Cobrança da configuração da'
-                            ' sua empresa para determinar o tipo de '
-                            'sequencia utilizada nas cobrancas'
-                        )
-                    )
+                sequence = inv.payment_mode_id.get_own_number_sequence(
+                    inv, numero_documento)
 
                 interval.transaction_ref = sequence
                 interval.own_number = (

@@ -2,7 +2,7 @@
 #   @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class ResCompany(models.Model):
@@ -27,8 +27,3 @@ class ResCompany(models.Model):
         selection=[('1', 'HOMOLOGAÇÃO'), ('2', 'PRODUÇÃO')],
         default='1',
     )
-
-    @api.multi
-    def get_own_number_sequence(self):
-        self.ensure_one()
-        return self.own_number_sequence.next_by_id()
