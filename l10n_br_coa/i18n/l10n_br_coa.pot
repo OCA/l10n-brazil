@@ -19,8 +19,13 @@ msgid "Account Chart Template"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_tree
+#: model:ir.model,name:l10n_br_coa.model_account_tax_mixin
+msgid "Account Tax Mixin"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_tree
 msgid "Account Tax Template"
 msgstr ""
 
@@ -60,7 +65,7 @@ msgid "Adjustment"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_form
 msgid "Advanced Options"
 msgstr ""
 
@@ -151,7 +156,15 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_form
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__deductible
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__deductible
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__deductible
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__deductible
+msgid "Deductible Tax?"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_form
 msgid "Definition"
 msgstr ""
 
@@ -161,6 +174,7 @@ msgid "Determines where the tax is selectable. Note : 'None' means a tax can't b
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__display_name
 msgid "Display Name"
 msgstr ""
@@ -201,6 +215,7 @@ msgid "ICMS ST"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__id
 msgid "ID"
 msgstr ""
@@ -266,6 +281,7 @@ msgid "Included in Price"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -321,7 +337,7 @@ msgid "Percentage of Price Tax Included"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
 msgid "Purchase"
 msgstr ""
 
@@ -331,7 +347,7 @@ msgid "Purchases"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
 msgid "Sale"
 msgstr ""
 
@@ -341,7 +357,7 @@ msgid "Sales"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
 msgid "Search Tax Templates"
 msgstr ""
 
@@ -358,6 +374,11 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_simples
 msgid "Simples Nacional"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_tax
+msgid "Tax"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -401,24 +422,29 @@ msgid "Tax Scope"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
 msgid "Tax Template"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.actions.act_window,name:l10n_br_coa.action_l10n_br_account_tax_template_form
-#: model:ir.ui.menu,name:l10n_br_coa.menu_l10n_br_account_tax_template
+#: model:ir.actions.act_window,name:l10n_br_coa.l10n_br_account_tax_template_action
+#: model:ir.ui.menu,name:l10n_br_coa.l10n_br_account_tax_template_menu
 msgid "Tax Templates"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
 msgid "Taxes used in Purchases"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.view_l10n_br_account_tax_template_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
 msgid "Taxes used in Sales"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_account_tax_template
+msgid "Templates for Taxes"
 msgstr ""
 
 #. module: l10n_br_coa
