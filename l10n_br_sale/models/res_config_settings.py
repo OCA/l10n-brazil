@@ -5,10 +5,10 @@ from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
-    _inherit = "res.config.settings"
+    _inherit = 'res.config.settings'
 
     copy_note = fields.Boolean(
-        string="Copiar Observações nos Documentos Fiscais",
-        related="company_id.copy_note",
-        readonly=False
+        string='Copy notes in Fiscal documents',
+        related='company_id.copy_note',
+        readonly=False,
     )
