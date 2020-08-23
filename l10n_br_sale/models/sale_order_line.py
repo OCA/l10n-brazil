@@ -10,11 +10,6 @@ class SaleOrderLine(models.Model):
     _name = 'sale.order.line'
     _inherit = [_name, 'l10n_br_fiscal.document.line.mixin']
 
-    def _get_protected_fields(self):
-        protected_fields = super(SaleOrderLine, self)._get_protected_fields()
-        return protected_fields + [
-            'fiscal_tax_ids', 'fiscal_operation_id', 'fiscal_operation_line_id']
-
     @api.model
     def _default_fiscal_operation(self):
         return self.env.user.company_id.sale_fiscal_operation_id
@@ -35,31 +30,37 @@ class SaleOrderLine(models.Model):
         relation='fiscal_sale_line_tax_rel',
         column1='document_id',
         column2='fiscal_tax_id',
-        string='Fiscal Taxes')
+        string='Fiscal Taxes',
+    )
 
     quantity = fields.Float(
         related='product_uom_qty',
-        depends=['product_uom_qty'])
+        depends=['product_uom_qty'],
+    )
 
     uom_id = fields.Many2one(
         related='product_uom',
-        depends=['product_uom'])
+        depends=['product_uom'],
+    )
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        related="order_id.company_id.tax_framework",
-        string="Tax Framework")
+        related='order_id.company_id.tax_framework',
+        string='Tax Framework',
+    )
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         related='order_id.partner_id',
-        string='Partner')
+        string='Partner',
+    )
 
     # Add Fields in model sale.order.line
     price_gross = fields.Monetary(
         compute='_compute_amount',
         string='Gross Amount',
-        default=0.00)
+        default=0.00,
+    )
 
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
@@ -68,6 +69,13 @@ class SaleOrderLine(models.Model):
         column2='comment_id',
         string='Comments',
     )
+
+    def _get_protected_fields(self):
+        protected_fields = super()._get_protected_fields()
+        return protected_fields + [
+            'fiscal_tax_ids', 'fiscal_operation_id',
+            'fiscal_operation_line_id',
+        ]
 
     @api.depends(
         'product_uom_qty',
@@ -82,7 +90,7 @@ class SaleOrderLine(models.Model):
         'tax_id')
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
-        super(SaleOrderLine, self)._compute_amount()
+        super()._compute_amount()
         for l in self:
             l._update_taxes()
             price_tax = l.price_tax + l.amount_tax_not_included
@@ -99,7 +107,7 @@ class SaleOrderLine(models.Model):
     @api.multi
     def _prepare_invoice_line(self, qty):
         self.ensure_one()
-        result = super(SaleOrderLine, self)._prepare_invoice_line(qty)
+        result = super()._prepare_invoice_line(qty)
         result.update(self._prepare_br_fiscal_dict())
         return result
 
