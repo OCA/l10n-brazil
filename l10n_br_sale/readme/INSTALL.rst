@@ -1,4 +1,4 @@
 This module depends on:
 
-* account_fiscal_position_rule_sale
+* sale_management
 * l10n_br_account
