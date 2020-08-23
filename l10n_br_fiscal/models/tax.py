@@ -27,12 +27,9 @@ from ..constants.icms import (
     ICMS_DIFAL_DOUBLE_BASE
 )
 
-from ..constants.pis_cofins import (
-    CST_COFINS_NO_TAXED,
-    CST_PIS_NO_TAXED
-)
 
 TAX_DICT_VALUES = {
+    "name": False,
     "fiscal_tax_id": False,
     "tax_include": False,
     "tax_withholding": False,
@@ -161,9 +158,9 @@ class Tax(models.Model):
         "Tax already exists with this name !")]
 
     @api.multi
-    def get_account_tax(self, operation_type=FISCAL_OUT):
+    def get_account_tax(self, fiscal_operation_type=FISCAL_OUT):
         account_tax_type = {'out': 'sale', 'in': 'purchase'}
-        type_tax_use = account_tax_type.get(operation_type, 'sale')
+        type_tax_use = account_tax_type.get(fiscal_operation_type, 'sale')
 
         account_taxes = self.env["account.tax"].search([
             ("fiscal_tax_id", "=", self.ids),
@@ -172,13 +169,13 @@ class Tax(models.Model):
 
         return account_taxes
 
-    def cst_from_tax(self, operation_type=FISCAL_OUT):
+    def cst_from_tax(self, fiscal_operation_type=FISCAL_OUT):
         self.ensure_one()
         cst = self.env["l10n_br_fiscal.cst"]
-        if operation_type == FISCAL_IN:
+        if fiscal_operation_type == FISCAL_IN:
             cst = self.cst_in_id
 
-        if operation_type == FISCAL_OUT:
+        if fiscal_operation_type == FISCAL_OUT:
             cst = self.cst_out_id
         return cst
 
@@ -192,6 +189,7 @@ class Tax(models.Model):
         remove_from_base = kwargs.get("remove_from_base", 0.00)
         compute_reduction = kwargs.get("compute_reduction", True)
 
+        tax_dict["name"] = tax.name
         tax_dict["base_type"] = tax.tax_base_type
         tax_dict["tax_include"] = tax.tax_group_id.tax_include
         tax_dict["tax_withholding"] = tax.tax_group_id.tax_withholding
@@ -228,7 +226,10 @@ class Tax(models.Model):
         if compute_reduction:
             base_amount -= base_reduction
 
-        tax_dict["base"] = base_amount
+        if not tax.percent_amount and not tax.value_amount:
+            tax_dict["base"] = 0.00
+        else:
+            tax_dict["base"] = base_amount
 
         return tax_dict
 
@@ -262,8 +263,9 @@ class Tax(models.Model):
 
         tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
 
-        operation_type = operation_line.operation_type or FISCAL_OUT
-        tax_dict['cst_id'] = tax.cst_from_tax(operation_type)
+        fiscal_operation_type = (operation_line.fiscal_operation_type
+                                 or FISCAL_OUT)
+        tax_dict['cst_id'] = tax.cst_from_tax(fiscal_operation_type)
 
         base_amount = tax_dict.get("base", 0.00)
 
@@ -327,7 +329,7 @@ class Tax(models.Model):
 
         # DIFAL
         if (company.state_id != partner.state_id
-                and operation_line.operation_type == FISCAL_OUT
+                and operation_line.fiscal_operation_type == FISCAL_OUT
                 and not partner.is_company):
             tax_icms_difal = company.icms_regulation_id.map_tax_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line)
@@ -522,19 +524,13 @@ class Tax(models.Model):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_pis(self, tax, taxes_dict, **kwargs):
-        cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
-        if cst.code not in CST_PIS_NO_TAXED:
-            taxes_dict = self._compute_generic(tax, taxes_dict, **kwargs)
-        return taxes_dict
+        return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_pis_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_cofins(self, tax, taxes_dict, **kwargs):
-        cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
-        if cst.code not in CST_COFINS_NO_TAXED:
-            taxes_dict = self._compute_generic(tax, taxes_dict, **kwargs)
-        return taxes_dict
+        return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_cofins_wh(self, tax, taxes_dict, **kwargs):
         return self._compute_generic(tax, taxes_dict, **kwargs)
@@ -575,8 +571,9 @@ class Tax(models.Model):
             try:
                 # Define CST FROM TAX
                 operation_line = kwargs.get("operation_line")
-                operation_type = operation_line.operation_type or FISCAL_OUT
-                kwargs.update({"cst": tax.cst_from_tax(operation_type)})
+                fiscal_operation_type = (operation_line.fiscal_operation_type
+                                         or FISCAL_OUT)
+                kwargs.update({"cst": tax.cst_from_tax(fiscal_operation_type)})
 
                 compute_method = getattr(self, "_compute_%s" % tax.tax_domain)
                 taxes[tax.tax_domain].update(

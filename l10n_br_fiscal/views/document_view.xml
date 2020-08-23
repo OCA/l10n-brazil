@@ -42,7 +42,7 @@
         <field name="id" invisible="1"/>
         <field name="currency_id" invisible="1"/>
         <field name="document_electronic" invisible="1"/>
-        <field name="operation_type" invisible="1"/>
+        <field name="fiscal_operation_type" invisible="1"/>
         <field name="document_section" invisible="1"/>
         <header>
             <button name="action_document_confirm" type="object" string="Confirmar"   groups="l10n_br_fiscal.group_user"    states="em_digitacao"     class="btn-primary"/>
@@ -110,16 +110,25 @@
               </group>
               <group>
                 <group name="company_left">
-                  <field name="company_legal_name"/>
-                  <field name="company_name"/>
-                  <field name="company_cnpj_cpf"/>
-                  <field name="company_inscr_est"/>
+                  <field name="company_legal_name" readonly="1"/>
+                  <field name="company_name" readonly="1"/>
+                  <field name="company_cnpj_cpf" readonly="1"/>
+                  <field name="company_inscr_est" readonly="1"/>
+                  <field name="company_street" readonly="1"/>
+                  <field name="company_number" readonly="1"/>
+                  <field name="company_street2" readonly="1"/>
+                  <field name="company_district" readonly="1"/>
                 </group>
                 <group name="company_right">
-                  <field name="company_inscr_mun"/>
-                  <field name="company_suframa"/>
-                  <field name="company_cnae_main_id"/>
-                  <field name="company_tax_framework"/>
+                  <field name="company_inscr_mun" readonly="1"/>
+                  <field name="company_suframa" readonly="1"/>
+                  <field name="company_cnae_main_id" readonly="1"/>
+                  <field name="company_tax_framework" readonly="1"/>
+                  <field name="company_country_id" readonly="1"/>
+                  <field name="company_state_id" readonly="1"/>
+                  <field name="company_city_id" readonly="1"/>
+                  <field name="company_zip" readonly="1"/>
+                  <field name="company_phone" readonly="1"/>
                 </group>
               </group>
             </page>
@@ -129,16 +138,27 @@
               </group>
               <group>
                 <group name="partner_left">
-                  <field name="partner_legal_name" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_name" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_cnpj_cpf" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_inscr_est" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_legal_name" readonly="1"/>
+                  <field name="partner_name" readonly="1"/>
+                  <field name="partner_cnpj_cpf" readonly="1"/>
+                  <field name="partner_inscr_est" readonly="1"/>
+                  <field name="partner_ind_ie_dest" readonly="1"/>
+                  <field name="partner_street" readonly="1"/>
+                  <field name="partner_number" readonly="1"/>
+                  <field name="partner_street2" readonly="1"/>
+                  <field name="partner_district" readonly="1"/>
                 </group>
                 <group name="partner_right">
-                  <field name="partner_inscr_mun" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_suframa" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_cnae_main_id" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
-                  <field name="partner_tax_framework" force_save="1" attrs="{'readonly': [('partner_id', '!=', False)]}"/>
+                  <field name="partner_inscr_mun" readonly="1"/>
+                  <field name="partner_suframa" readonly="1"/>
+                  <field name="partner_cnae_main_id" readonly="1"/>
+                  <field name="partner_tax_framework" readonly="1"/>
+                  <field name="partner_is_company" readonly="1"/>
+                  <field name="partner_country_id" readonly="1"/>
+                  <field name="partner_state_id" readonly="1"/>
+                  <field name="partner_city_id" readonly="1"/>
+                  <field name="partner_zip" readonly="1"/>
+                  <field name="partner_phone" readonly="1"/>
                 </group>
               </group>
               <group>
@@ -146,7 +166,7 @@
               </group>
             </page>
             <page name="products" string="Products and Services">
-              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_operation_type': operation_type, 'default_fiscal_operation_id': fiscal_operation_id}">
+              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id}">
                 <tree>
                   <field name="product_id"/>
                   <field name="uom_id"/>
@@ -264,8 +284,7 @@
             </page>
             <page name="extra_info" string="Extra Info">
                 <group>
-                    <field name="comment_ids" widget="many2many_tags"
-                           domain="[('object','=','l10n_br_fiscal.document')]"/>
+                    <field name="comment_ids" widget="many2many_tags" domain="[('object','=','l10n_br_fiscal.document')]"/>
                     <field name="additional_data"/>
                 </group>
             </page>

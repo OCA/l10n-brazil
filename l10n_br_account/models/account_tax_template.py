@@ -12,12 +12,12 @@ class AccountTaxTemplate(models.Model):
         relation='l10n_br_fiscal_account_template_tax_rel',
         colunm1='account_tax_id',
         colunm2='fiscal_tax_id',
-        string='Fiscal Taxes')
+        string='Fiscal Taxes',
+    )
 
     @api.multi
     def _generate_tax(self, company):
-        mapping = super(AccountTaxTemplate, self)._generate_tax(company)
-
+        mapping = super()._generate_tax(company)
         taxes_template = self.browse(mapping.get('tax_template_to_tax').keys())
 
         for tax_template in taxes_template:

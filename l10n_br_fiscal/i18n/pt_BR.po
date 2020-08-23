@@ -676,7 +676,7 @@ msgstr "Alerta de Certificado Vencido."
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_search
 #: selection:l10n_br_fiscal.cst,cst_type:0
-#: selection:l10n_br_fiscal.operation,operation_type:0
+#: selection:l10n_br_fiscal.operation,fiscal_operation_type:0
 msgid "All"
 msgstr "Tudo"
 
@@ -3024,8 +3024,8 @@ msgid "Fiscal Operation Line already exists with this name !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__operation_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_operation_type
 #, fuzzy
 msgid "Fiscal Operation Type"
 msgstr "Operação Fiscal"
@@ -4610,9 +4610,9 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.cfop,type_in_out:0
 #: selection:l10n_br_fiscal.cst,cst_type:0
-#: selection:l10n_br_fiscal.document,operation_type:0
+#: selection:l10n_br_fiscal.document,fiscal_operation_type:0
 #: selection:l10n_br_fiscal.document.serie,fiscal_type:0
-#: selection:l10n_br_fiscal.operation,operation_type:0
+#: selection:l10n_br_fiscal.operation,fiscal_operation_type:0
 #: selection:l10n_br_fiscal.tax.definition,type_in_out:0
 msgid "In"
 msgstr "Entrada"
@@ -5878,9 +5878,9 @@ msgid "Operation Performed"
 msgstr "Nome da Operação Fiscal"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__operation_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__operation_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__fiscal_operation_type
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_search
 msgid "Operation Type"
 msgstr "Tipo de Operação Fiscal"
@@ -5966,9 +5966,9 @@ msgstr "Outros"
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.cfop,type_in_out:0
 #: selection:l10n_br_fiscal.cst,cst_type:0
-#: selection:l10n_br_fiscal.document,operation_type:0
+#: selection:l10n_br_fiscal.document,fiscal_operation_type:0
 #: selection:l10n_br_fiscal.document.serie,fiscal_type:0
-#: selection:l10n_br_fiscal.operation,operation_type:0
+#: selection:l10n_br_fiscal.operation,fiscal_operation_type:0
 #: selection:l10n_br_fiscal.tax.definition,type_in_out:0
 msgid "Out"
 msgstr "Saída"
@@ -7825,7 +7825,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__type_in_out
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cst__cst_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__fiscal_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__type_in_out
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_pis_cofins__piscofins_type
 msgid "Type"

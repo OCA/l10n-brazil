@@ -12,7 +12,8 @@ class AccountTax(models.Model):
         relation='l10n_br_fiscal_account_tax_rel',
         colunm1='account_tax_id',
         colunm2='fiscal_tax_id',
-        string='Fiscal Taxes')
+        string='Fiscal Taxes',
+    )
 
     @api.multi
     def compute_all(
@@ -57,7 +58,7 @@ class AccountTax(models.Model):
             }]
         } """
 
-        taxes_results = super(AccountTax, self).compute_all(
+        taxes_results = super().compute_all(
             price_unit, currency, quantity, product, partner)
 
         if not fiscal_taxes:
@@ -71,8 +72,8 @@ class AccountTax(models.Model):
             price_unit=price_unit,
             quantity=quantity,
             uom_id=product.uom_id,
-            fiscal_price=fiscal_price,
-            fiscal_quantity=fiscal_quantity,
+            fiscal_price=fiscal_price or price_unit,
+            fiscal_quantity=fiscal_quantity or quantity,
             uot_id=uot or product.uot_id,
             ncm=ncm or product.ncm_id,
             nbm=nbm or product.nbm_id,
@@ -91,20 +92,29 @@ class AccountTax(models.Model):
 
         for account_tax in taxes_results['taxes']:
             fiscal_tax = fiscal_taxes_results.get(
-                account_taxes_by_domain.get(
-                    account_tax.get('id')))
+                account_taxes_by_domain.get(account_tax.get('id'))
+            )
 
             if fiscal_tax:
-                if not fiscal_tax.get('tax_include'):
+                tax = self.filtered(lambda t: t.id == account_tax.get('id'))
+                if not fiscal_tax.get('tax_include') and not tax.deductible:
                     taxes_results['total_included'] += fiscal_tax.get(
                         'tax_value')
 
                 account_tax.update({
                     'id': account_tax.get('id'),
-                    'name': fiscal_tax.get('name'),
+                    'name': '{0} ({1})'.format(
+                        account_tax.get('name'),
+                        fiscal_tax.get('name')
+                    ),
                     'amount': fiscal_tax.get('tax_value'),
                     'base': fiscal_tax.get('base'),
-                    'tax_include': fiscal_tax.get('tax_include')
+                    'tax_include': fiscal_tax.get('tax_include'),
                 })
+
+                if tax.deductible:
+                    account_tax.update({
+                        'amount': fiscal_tax.get('tax_value', 0.0) * -1,
+                    })
 
         return taxes_results

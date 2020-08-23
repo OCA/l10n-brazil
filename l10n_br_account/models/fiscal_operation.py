@@ -11,14 +11,14 @@ class Operation(models.Model):
     journal_id = fields.Many2one(
         comodel_name='account.journal',
         string='Account Journal',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        domain="[('type', 'in', {'out': ['sale'], 'in': "
-               "['purchase'], 'all': ['sale', 'purchase']}.get("
-               "operation_type, []))]")
+        company_dependent=True,
+        domain="[('type', 'in', {'out': ['sale', 'general'], 'in': "
+               "['purchase', 'general'], 'all': ['sale', 'purchase', "
+               "'general']}.get(fiscal_operation_type, []))]",
+    )
 
     fiscal_position_id = fields.Many2one(
         comodel_name='account.fiscal.position',
         string='Fiscal Position',
-        readonly=True,
-        states={'draft': [('readonly', False)]})
+        company_dependent=True,
+    )

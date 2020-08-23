@@ -6,7 +6,9 @@ from odoo import api, fields, models
 from ..constants.fiscal import (
     NCM_FOR_SERVICE_REF,
     PRODUCT_FISCAL_TYPE,
-    PRODUCT_FISCAL_TYPE_SERVICE
+    PRODUCT_FISCAL_TYPE_SERVICE,
+    TAX_ICMS_OR_ISSQN,
+    TAX_DOMAIN_ICMS,
 )
 
 from ..constants.icms import ICMS_ORIGIN, ICMS_ORIGIN_DEFAULT
@@ -39,6 +41,12 @@ class ProductTemplate(models.Model):
         comodel_name='l10n_br_fiscal.nbm',
         index=True,
         string='NBM')
+
+    tax_icms_or_issqn = fields.Selection(
+        selection=TAX_ICMS_OR_ISSQN,
+        string='ICMS or ISSQN Tax',
+        default=TAX_DOMAIN_ICMS,
+    )
 
     fiscal_genre_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.product.genre',

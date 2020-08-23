@@ -13,6 +13,7 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
     SITUACAO_EDOC_AUTORIZADA,
+    NFE_IND_IE_DEST,
 )
 
 
@@ -125,11 +126,11 @@ class Document(models.Model):
 
     fiscal_operation_id = fields.Many2one(
         domain="[('state', '=', 'approved'), "
-               "'|', ('operation_type', '=', operation_type),"
-               " ('operation_type', '=', 'all')]",
+               "'|', ('fiscal_operation_type', '=', fiscal_operation_type),"
+               " ('fiscal_operation_type', '=', 'all')]",
     )
 
-    operation_type = fields.Selection(
+    fiscal_operation_type = fields.Selection(
         related=False,
     )
 
@@ -211,36 +212,103 @@ class Document(models.Model):
 
     partner_legal_name = fields.Char(
         string='Legal Name',
+        related='partner_id.legal_name',
     )
 
     partner_name = fields.Char(
         string='Name',
+        related='partner_id.name',
     )
 
     partner_cnpj_cpf = fields.Char(
         string='CNPJ',
+        related='partner_id.cnpj_cpf',
     )
 
     partner_inscr_est = fields.Char(
         string='State Tax Number',
+        related='partner_id.inscr_est',
+    )
+
+    partner_ind_ie_dest = fields.Selection(
+        selection=NFE_IND_IE_DEST,
+        string='Contribuinte do ICMS',
+        related='partner_id.ind_ie_dest',
     )
 
     partner_inscr_mun = fields.Char(
         string='Municipal Tax Number',
+        related='partner_id.inscr_mun',
     )
 
     partner_suframa = fields.Char(
         string='Suframa',
+        related='partner_id.suframa',
     )
 
     partner_cnae_main_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cnae',
         string='Main CNAE',
+        related='partner_id.cnae_main_id',
     )
 
     partner_tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         string='Tax Framework',
+        related='partner_id.tax_framework',
+    )
+
+    partner_street = fields.Char(
+        string='Partner Street',
+        related='partner_id.street',
+    )
+
+    partner_number = fields.Char(
+        string='Partner Number',
+        related='partner_id.street_number',
+    )
+
+    partner_street2 = fields.Char(
+        string='Partner Street2',
+        related='partner_id.street2',
+    )
+
+    partner_district = fields.Char(
+        string='Partner District',
+        related='partner_id.district',
+    )
+
+    partner_country_id = fields.Many2one(
+        comodel_name='res.country',
+        string='Partner Country',
+        related='partner_id.country_id',
+    )
+
+    partner_state_id = fields.Many2one(
+        comodel_name='res.country.state',
+        string='Partner State',
+        related='partner_id.state_id',
+    )
+
+    partner_city_id = fields.Many2one(
+        comodel_name='res.city',
+        string='Partner City',
+        related='partner_id.city_id',
+    )
+
+    partner_zip = fields.Char(
+        string='Partner Zip',
+        related='partner_id.zip',
+    )
+
+    partner_phone = fields.Char(
+        string='Partner Phone',
+        related='partner_id.phone',
+    )
+
+    partner_is_company = fields.Boolean(
+        string='Partner Is Company?',
+        related='partner_id.is_company',
     )
 
     partner_shipping_id = fields.Many2one(
@@ -262,37 +330,91 @@ class Document(models.Model):
 
     company_legal_name = fields.Char(
         string='Company Legal Name',
+        related='company_id.legal_name',
     )
 
     company_name = fields.Char(
         string='Company Name',
         size=128,
+        related='company_id.name',
     )
 
     company_cnpj_cpf = fields.Char(
         string='Company CNPJ',
+        related='company_id.cnpj_cpf',
     )
 
     company_inscr_est = fields.Char(
         string='Company State Tax Number',
+        related='company_id.inscr_est',
     )
 
     company_inscr_mun = fields.Char(
         string='Company Municipal Tax Number',
+        related='company_id.inscr_mun',
     )
 
     company_suframa = fields.Char(
         string='Company Suframa',
+        related='company_id.suframa',
     )
 
     company_cnae_main_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cnae',
         string='Company Main CNAE',
+        related='company_id.cnae_main_id',
     )
 
     company_tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         string='Company Tax Framework',
+        related='company_id.tax_framework',
+    )
+
+    company_street = fields.Char(
+        string='Company Street',
+        related='company_id.street',
+    )
+
+    company_number = fields.Char(
+        string='Company Number',
+        related='company_id.street_number',
+    )
+
+    company_street2 = fields.Char(
+        string='Company Street2',
+        related='company_id.street2',
+    )
+    company_district = fields.Char(
+        string='Company District',
+        related='company_id.district',
+    )
+
+    company_country_id = fields.Many2one(
+        comodel_name='res.country',
+        string='Company Country',
+        related='company_id.country_id',
+    )
+
+    company_state_id = fields.Many2one(
+        comodel_name='res.country.state',
+        string='Company State',
+        related='company_id.state_id',
+    )
+
+    company_city_id = fields.Many2one(
+        comodel_name='res.city',
+        string='Company City',
+        related='company_id.city_id',
+    )
+    company_zip = fields.Char(
+        string='Company ZIP',
+        related='company_id.zip',
+    )
+
+    company_phone = fields.Char(
+        string='Company Phone',
+        related='company_id.phone',
     )
 
     currency_id = fields.Many2one(
@@ -487,10 +609,6 @@ class Document(models.Model):
         copy=True,
     )
 
-    additional_data = fields.Text(
-        string='Additional Data',
-    )
-
     # TODO esse campo deveria ser calculado de
     # acordo com o fiscal_document_id
     document_section = fields.Selection(
@@ -562,12 +680,62 @@ class Document(models.Model):
         default=False,
     )
 
+    def _document_comment_vals(self):
+        return {
+            'user': self.env.user,
+            'ctx': self._context,
+            'doc': self,
+        }
+
+    def document_comment(self):
+        for record in self:
+            record.additional_data = \
+                record.additional_data and record.additional_data + ' - ' or ''
+            record.additional_data += record.comment_ids.compute_message(
+                record._document_comment_vals())
+            record.line_ids.document_comment()
+
+    @api.multi
+    @api.constrains('number')
+    def _check_number(self):
+        for record in self:
+            if not record.number:
+                return
+            domain = [
+                ('id', '!=', record.id),
+                ('active', '=', True),
+                ('company_id', '=', record.company_id.id),
+                ('issuer', '=', record.issuer),
+                ('document_type_id', '=', record.document_type_id.id),
+                ('document_serie', '=', record.document_serie),
+                ('number', '=', record.number)]
+
+            if not record.issuer == DOCUMENT_ISSUER_PARTNER:
+                domain.append(('partner_id', '=', record.partner_id.id))
+
+            if record.env["l10n_br_fiscal.document"].search(domain):
+                raise ValidationError(_(
+                    "There is already a fiscal document with this "
+                    "Serie: {0}, Number: {1} !".format(
+                        record.document_serie, record.number)))
+
     @api.multi
     def name_get(self):
         return [(r.id, '{0} - Série: {1} - Número: {2}'.format(
             r.document_type_id.name,
             r.document_serie,
             r.number)) for r in self]
+
+    @api.model
+    def create(self, values):
+        if not values.get('date'):
+            values['date'] = self._date_server_format()
+        return super().create(values)
+
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        if self.company_id:
+            self.currency_id = self.company_id.currency_id
 
     @api.multi
     @api.onchange('document_section')
@@ -601,36 +769,6 @@ class Document(models.Model):
 
             return {'domain': domain}
 
-    @api.multi
-    @api.constrains('number')
-    def _check_number(self):
-        for record in self:
-            if not record.number:
-                return
-            domain = [
-                ('id', '!=', record.id),
-                ('active', '=', True),
-                ('company_id', '=', record.company_id.id),
-                ('issuer', '=', record.issuer),
-                ('document_type_id', '=', record.document_type_id.id),
-                ('document_serie', '=', record.document_serie),
-                ('number', '=', record.number)]
-
-            if not record.issuer == DOCUMENT_ISSUER_PARTNER:
-                domain.append(('partner_id', '=', record.partner_id.id))
-
-            if record.env["l10n_br_fiscal.document"].search(domain):
-                raise ValidationError(_(
-                    "There is already a fiscal document with this "
-                    "Serie: {0}, Number: {1} !".format(
-                        record.document_serie, record.number)))
-
-    @api.model
-    def create(self, values):
-        if not values.get('date'):
-            values['date'] = self._date_server_format()
-        return super().create(values)
-
     def _create_return(self):
         return_ids = self.env[self._name]
         for record in self:
@@ -638,10 +776,10 @@ class Document(models.Model):
                 new = record.copy()
                 new.fiscal_operation_id = (
                     record.fiscal_operation_id.return_fiscal_operation_id)
-                if record.operation_type == 'out':
-                    new.operation_type = 'in'
+                if record.fiscal_operation_type == 'out':
+                    new.fiscal_operation_type = 'in'
                 else:
-                    new.operation_type = 'out'
+                    new.fiscal_operation_type = 'out'
                 new._onchange_fiscal_operation_id()
                 new.line_ids.write({'fiscal_operation_id': new.fiscal_operation_id.id})
 
@@ -654,31 +792,16 @@ class Document(models.Model):
     def action_create_return(self):
         self.ensure_one()
         return_id = self._create_return()
-        if return_id.operation_type == 'out':
-            return_id.operation_type = 'in'
+        if return_id.fiscal_operation_type == 'out':
+            return_id.fiscal_operation_type = 'in'
             action = self.env.ref('l10n_br_fiscal.document_in_action').read()[0]
         else:
-            return_id.operation_type = 'out'
+            return_id.fiscal_operation_type = 'out'
             action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
 
         action['domain'] = literal_eval(action['domain'])
         action['domain'].append(('id', '=', return_id.id))
         return action
-
-    def _document_comment_vals(self):
-        return {
-            'user': self.env.user,
-            'ctx': self._context,
-            'doc': self,
-        }
-
-    def document_comment(self):
-        for record in self:
-            record.additional_data = \
-                record.additional_data and record.additional_data + ' - ' or ''
-            record.additional_data += record.comment_ids.compute_message(
-                record._document_comment_vals())
-            record.line_ids.document_comment()
 
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
         super(Document, self)._exec_after_SITUACAO_EDOC_A_ENVIAR(

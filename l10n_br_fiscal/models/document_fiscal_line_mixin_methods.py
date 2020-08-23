@@ -143,6 +143,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         # we now read the record fiscal fields except the m2m tax:
         vals = self._convert_to_write(self.read(fields)[0])
 
+        # remove id field to avoid conflicts
+        vals.pop('id', None)
+
         # this will force to create a new fiscal document line:
         vals['fiscal_document_line_id'] = False
 
@@ -316,8 +319,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 taxes |= tax
             self.fiscal_tax_ids = taxes
             self._update_taxes()
-            self.comment_ids = [
-                (6, 0, self.fiscal_operation_line_id.comment_ids.ids)]
+            self.comment_ids = self.fiscal_operation_line_id.comment_ids
 
         if not self.fiscal_operation_line_id:
             self.cfop_id = False
@@ -330,6 +332,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.uom_id = self.product_id.uom_id
             self.ncm_id = self.product_id.ncm_id
             self.nbm_id = self.product_id.nbm_id
+            self.tax_icms_or_issqn = self.product_id.tax_icms_or_issqn
             self.cest_id = self.product_id.cest_id
             self.nbs_id = self.product_id.nbs_id
             self.fiscal_genre_id = self.product_id.fiscal_genre_id
@@ -341,6 +344,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.uom_id = False
             self.ncm_id = False
             self.nbm_id = False
+            self.tax_icms_or_issqn = False
             self.cest_id = False
             self.nbs_id = False
             self.fiscal_genre_id = False
@@ -731,6 +735,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "freight_value")
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
+        self._update_taxes()
 
     @api.onchange("uot_id", "uom_id", "price_unit", "quantity")
     def _onchange_commercial_quantity(self):
@@ -748,3 +753,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
         self._onchange_fiscal_operation_id()
+
+    @api.onchange('fiscal_tax_ids')
+    def _onchange_fiscal_tax_ids(self):
+        self._update_taxes()

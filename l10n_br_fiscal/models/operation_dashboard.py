@@ -94,10 +94,10 @@ class Operation(models.Model):
         ctx = self._context.copy()
         model = 'l10n_br_fiscal.document'
         if self.fiscal_type == 'sale':
-            ctx.update({'default_operation_type': 'out',
+            ctx.update({'default_fiscal_operation_type': 'out',
                         'default_fiscal_operation_id': self.id})
         elif self.fiscal_type == 'purchase':
-            ctx.update({'default_operation_type': 'in',
+            ctx.update({'default_fiscal_operation_type': 'in',
                         'default_fiscal_operation_id': self.id})
         return {
             'name': _('Create invoice/bill'),
@@ -122,18 +122,19 @@ class Operation(models.Model):
             'return_out': 'out',
             'other': 'out',
         }
-        operation_type = _fiscal_type_map[self.fiscal_type]
+        fiscal_operation_type = _fiscal_type_map[self.fiscal_type]
 
         action_name = self._context.get('action_name', False)
 
         if not action_name:
-            action_name = 'document_out_action' if operation_type == 'out' \
-                else 'document_in_action'
+            action_name = ('document_out_action'
+                           if fiscal_operation_type == 'out'
+                           else 'document_in_action')
 
         ctx = self._context.copy()
         ctx.pop('group_by', None)
         ctx.update({
-            'default_operation_type': operation_type,
+            'default_fiscal_operation_type': fiscal_operation_type,
         })
 
         [action] = self.env.ref('l10n_br_fiscal.%s' % action_name).read()

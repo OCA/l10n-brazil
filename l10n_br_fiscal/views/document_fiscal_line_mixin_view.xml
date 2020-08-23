@@ -7,31 +7,51 @@
     <field name="arch" type="xml">
       <form>
         <group name="fiscal_fields" invisible="1">
-          <field name="currency_id" invisible="1"/>
-          <field name="operation_type" invisible="1"/>
-          <field name="company_id" invisible="1"/>
-          <field name="partner_id" invisible="1"/>
-          <field name="partner_company_type" invisible="1"/>
-          <field name="tax_framework" invisible="1"/>
-          <field name="fiscal_genre_code" invisible="1"/>
-          <field name="amount_tax_not_included" invisible="1"/>
-          <field name="cfop_destination" invisible="1"/>
+          <field name="currency_id" force_save="1" invisible="1"/>
+          <field name="fiscal_operation_type" force_save="1" invisible="1"/>
+          <field name="company_id" force_save="1" invisible="1"/>
+          <field name="partner_id" force_save="1" invisible="1"/>
+          <field name="fiscal_type" force_save="1" invisible="1"/>
+          <field name="partner_company_type" force_save="1" invisible="1"/>
+          <field name="tax_framework" force_save="1" invisible="1"/>
+          <field name="amount_tax_not_included" force_save="1" invisible="1"/>
+          <field name="cfop_destination" force_save="1" invisible="1"/>
+          <field name="fiscal_genre_id" force_save="1" invisible="1"/>
+          <field name="fiscal_genre_code" force_save="1" invisible="1"/>
+          <field name="ncm_id" force_save="1" invisible="1"/>
+          <field name="nbm_id" force_save="1" invisible="1"/>
+          <field name="cest_id" force_save="1" invisible="1"/>
+          <field name="nbs_id" force_save="1" invisible="1"/>
+          <field name="service_type_id" force_save="1" invisible="1"/>
+          <field name="uot_id" force_save="1" invisible="1"/>
+          <field name="fiscal_price" force_save="1" invisible="1"/>
+          <field name="fiscal_quantity" force_save="1" invisible="1"/>
+          <field name="tax_icms_or_issqn" force_save="1" invisible="1"/>
+          <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1"/>
         </group>
         <notebook>
           <page name="fiscal_taxes" string="Taxes">
             <notebook>
-              <page name="issqn" string="ISSQN" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
+              <page name="issqn" string="ISSQN" attrs="{'invisible': [('tax_icms_or_issqn', '!=', 'issqn')]}">
                 <group>
                   <field name="issqn_tax_id"/>
+                  <field name="issqn_fg_city_id" attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
+                  <field name="issqn_eligibility" attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
+                  <field name="issqn_incentive" attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
                 </group>
                 <group>
                   <group>
                     <field name="issqn_base" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
                     <field name="issqn_percent" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
-                  </group>
-                  <group>
                     <field name="issqn_reduction" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
                     <field name="issqn_value" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                  </group>
+                  <group>
+                    <field name="issqn_deduction_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_other_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_desc_incond_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_desc_cond_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
+                    <field name="issqn_desc_cond_amount" force_save="1" attrs="{'readonly': [('issqn_tax_id', '!=', False)]}"/>
                   </group>
                 </group>
                   <group string="Retenções">
@@ -48,7 +68,7 @@
                       </group>
                   </group>
               </page>
-              <page name="icms" string="ICMS" attrs="{'invisible': [('fiscal_genre_code', '=', '00')]}">
+              <page name="icms" string="ICMS" attrs="{'invisible': [('tax_icms_or_issqn', '!=', 'icms')]}">
                   <group name="icms" string="ICMS">
                     <field name="icms_tax_id" attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"/>
                     <field name="icmssn_tax_id" attrs="{'invisible': [('tax_framework', '=', '3')]}"/>
@@ -138,11 +158,11 @@
                     <field name="pis_tax_id"/>
                     <field name="pis_cst_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
                     <field name="pis_cst_code" readonly="1" invisible="1"/>
-                    <field name="pis_credit_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                    <field name="pis_credit_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                   </group>
                   <group>
                     <group>
-                      <field name="pis_base_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                      <field name="pis_base_id" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                       <field name="pis_base_type" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
                       <field name="pis_percent" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
                       <field name="pis_reduction" force_save="1" attrs="{'readonly': [('pis_tax_id', '!=', False)]}"/>
@@ -187,11 +207,11 @@
                   <field name="cofins_tax_id"/>
                   <field name="cofins_cst_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
                   <field name="cofins_cst_code" readonly="1" invisible="1"/>
-                  <field name="cofins_credit_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                  <field name="cofins_credit_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                 </group>
                 <group>
                   <group>
-                    <field name="cofins_base_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('operation_type', '=', 'out')]}"/>
+                    <field name="cofins_base_id" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"/>
                     <field name="cofins_base_type" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
                     <field name="cofins_percent" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
                     <field name="cofins_reduction" force_save="1" attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"/>
@@ -231,7 +251,7 @@
                       </group>
                   </group>
               </page>
-                <page name="csll" string="CSLL" attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}">
+                <page name="csll" string="CSLL" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}">
                     <group>
                         <field name="csll_tax_id"/>
                     </group>
