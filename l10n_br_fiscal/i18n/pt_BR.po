@@ -121,8 +121,6 @@ msgid "1 - Estrangeira – importação direta, exceto a indicada no código 6"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,company_tax_framework:0
-#: selection:l10n_br_fiscal.document,partner_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,company_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,partner_tax_framework:0
 #: selection:l10n_br_fiscal.partner.profile,tax_framework:0
@@ -173,8 +171,6 @@ msgid "2 - Contribuinte Isento do ICMS"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,company_tax_framework:0
-#: selection:l10n_br_fiscal.document,partner_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,company_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,partner_tax_framework:0
 #: selection:l10n_br_fiscal.partner.profile,tax_framework:0
@@ -192,8 +188,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,company_tax_framework:0
-#: selection:l10n_br_fiscal.document,partner_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,company_tax_framework:0
 #: selection:l10n_br_fiscal.operation.line,partner_tax_framework:0
 #: selection:l10n_br_fiscal.partner.profile,tax_framework:0
@@ -634,6 +628,7 @@ msgstr "Compõe o Total do Documento Fiscal?"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__additional_data
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__additional_data
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__additional_data
 msgid "Additional Data"
 msgstr "Dados Adicional"
 
@@ -1555,7 +1550,7 @@ msgid "Cancelar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:763
+#: code:addons/l10n_br_fiscal/models/document.py:886
 #, python-format
 msgid ""
 "Canceling the document is not allowed: one or more associated documents have "
@@ -1633,6 +1628,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_status_wizard__chNFe
 msgid "Chave de Acesso NFE"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_is_company
+msgid "Check if the contact is a company, otherwise it is a person"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -1795,6 +1795,21 @@ msgid "Company CNPJ"
 msgstr "Empresa CNPJ"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_city_id
+msgid "Company City"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_country_id
+msgid "Company Country"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_district
+msgid "Company District"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_legal_name
 msgid "Company Legal Name"
 msgstr "Empresa Razão Social"
@@ -1815,9 +1830,34 @@ msgid "Company Name"
 msgstr "Nome da Empresa"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_number
+msgid "Company Number"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_phone
+msgid "Company Phone"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_state_id
+msgid "Company State"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_inscr_est
 msgid "Company State Tax Number"
 msgstr "Empresa I.E."
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_street
+msgid "Company Street"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_street2
+msgid "Company Street2"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_suframa
@@ -1834,6 +1874,11 @@ msgstr "Empresa Regime Trib."
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_company_type
 msgid "Company Type"
 msgstr "Tipo de Empresa"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_zip
+msgid "Company ZIP"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,edoc_purpose:0
@@ -1912,6 +1957,7 @@ msgid "Contact"
 msgstr "Contato"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_ind_ie_dest
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__ind_ie_dest
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__ind_ie_dest
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__ind_ie_dest
@@ -2713,6 +2759,24 @@ msgid "Exception"
 msgstr "Exceção"
 
 #. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document.line,issqn_eligibility:0
+#: selection:l10n_br_fiscal.document.line.mixin,issqn_eligibility:0
+msgid "Exigibilidade Suspensa por Decisão Judicial"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document.line,issqn_eligibility:0
+#: selection:l10n_br_fiscal.document.line.mixin,issqn_eligibility:0
+msgid "Exigibilidade Suspensa por Processo Administrativo"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document.line,issqn_eligibility:0
+#: selection:l10n_br_fiscal.document.line.mixin,issqn_eligibility:0
+msgid "Exigível"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__date_expiration
 msgid "Expiration Date"
 msgstr "Vencimento"
@@ -2742,6 +2806,12 @@ msgstr "UoM de Exportação"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__uoe_factor
 msgid "Export UoM Factor"
 msgstr "Fator de UoM de Exportação"
+
+#. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document.line,issqn_eligibility:0
+#: selection:l10n_br_fiscal.document.line.mixin,issqn_eligibility:0
+msgid "Exportação"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.module.category,description:l10n_br_fiscal.module_category_l10n_br_fiscal_management
@@ -3017,7 +3087,7 @@ msgid "Fiscal Operation Line"
 msgstr "Linha de Operação Fiscal"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:150
+#: code:addons/l10n_br_fiscal/models/operation_line.py:148
 #: sql_constraint:l10n_br_fiscal.operation.line:0
 #, python-format
 msgid "Fiscal Operation Line already exists with this name !"
@@ -3292,6 +3362,11 @@ msgid "Hotel Room"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_number
+msgid "House Number"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:36
 #: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:46
 #, python-format
@@ -3320,7 +3395,10 @@ msgstr "Atualização IBPT"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+#: selection:l10n_br_fiscal.document.line,tax_icms_or_issqn:0
+#: selection:l10n_br_fiscal.document.line.mixin,tax_icms_or_issqn:0
 #: selection:l10n_br_fiscal.document.type,type:0
+#: selection:product.template,tax_icms_or_issqn:0
 msgid "ICMS"
 msgstr ""
 
@@ -4099,6 +4177,14 @@ msgid "ICMS Value"
 msgstr "Valor do ICMS"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__tax_icms_or_issqn
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__tax_icms_or_issqn
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__tax_icms_or_issqn
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__tax_icms_or_issqn
+msgid "ICMS or ISSQN Tax"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_icms_relief_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_icms_relief_search
 msgid "ICMS relief"
@@ -4454,7 +4540,10 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
+#: selection:l10n_br_fiscal.document.line,tax_icms_or_issqn:0
+#: selection:l10n_br_fiscal.document.line.mixin,tax_icms_or_issqn:0
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
+#: selection:product.template,tax_icms_or_issqn:0
 msgid "ISSQN"
 msgstr ""
 
@@ -4475,6 +4564,48 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_base
 msgid "ISSQN Base"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_fg_city_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_fg_city_id
+msgid "ISSQN City"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_deduction_amount
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_deduction_amount
+msgid "ISSQN Deduction Value"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_desc_cond_amount
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_desc_cond_amount
+msgid "ISSQN Discount Cond"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_desc_incond_amount
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_desc_incond_amount
+msgid "ISSQN Discount Incond"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_eligibility
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_eligibility
+msgid "ISSQN Eligibility"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_incentive
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_incentive
+msgid "ISSQN Incentive"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__issqn_other_amount
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__issqn_other_amount
+msgid "ISSQN Other Value"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -4603,6 +4734,8 @@ msgid "Impresso"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document.line,issqn_eligibility:0
+#: selection:l10n_br_fiscal.document.line.mixin,issqn_eligibility:0
 #: selection:l10n_br_fiscal.tax.ipi.guideline,cst_group:0
 msgid "Imunidade"
 msgstr ""
@@ -4762,6 +4895,8 @@ msgid "Is Valid?"
 msgstr "É Válido?"
 
 #. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document.line,issqn_eligibility:0
+#: selection:l10n_br_fiscal.document.line.mixin,issqn_eligibility:0
 #: selection:l10n_br_fiscal.tax.ipi.guideline,cst_group:0
 msgid "Isenção"
 msgstr ""
@@ -5702,6 +5837,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_final:0
+#: selection:l10n_br_fiscal.document.line,issqn_incentive:0
+#: selection:l10n_br_fiscal.document.line.mixin,issqn_incentive:0
 msgid "Não"
 msgstr ""
 
@@ -5712,6 +5849,12 @@ msgid ""
 "Não foi possível salvar o arquivo\n"
 "                    em disco, verifique as permissões de escrita\n"
 "                    e o caminho da pasta"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document.line,issqn_eligibility:0
+#: selection:l10n_br_fiscal.document.line.mixin,issqn_eligibility:0
+msgid "Não incidência"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6273,6 +6416,31 @@ msgid "Partner"
 msgstr "Parceiro"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_city_id
+msgid "Partner City"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_country_id
+msgid "Partner Country"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_district
+msgid "Partner District"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_is_company
+msgid "Partner Is Company?"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_number
+msgid "Partner Number"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_order
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_order
 msgid "Partner Order (xPed)"
@@ -6282,6 +6450,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__partner_order_line
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__partner_order_line
 msgid "Partner Order Line (nItemPed)"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_phone
+msgid "Partner Phone"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6297,9 +6470,29 @@ msgid "Partner Quantity"
 msgstr "Quantidade de Parceiros"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_state_id
+msgid "Partner State"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_street
+msgid "Partner Street"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_street2
+msgid "Partner Street2"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__partner_tax_framework
 msgid "Partner Tax Framework"
 msgstr "Regime Tributário do Parceiro"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_zip
+msgid "Partner Zip"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.partners_config_menu
@@ -7094,6 +7287,8 @@ msgstr "Documento"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_final:0
+#: selection:l10n_br_fiscal.document.line,issqn_incentive:0
+#: selection:l10n_br_fiscal.document.line.mixin,issqn_incentive:0
 msgid "Sim"
 msgstr ""
 
@@ -7438,7 +7633,7 @@ msgid "Tax Definition already exists for this Company and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition_icms.py:43
+#: code:addons/l10n_br_fiscal/models/tax_definition_icms.py:30
 #, python-format
 msgid "Tax Definition already exists for this ICMS and Tax Group !"
 msgstr ""
@@ -7456,6 +7651,7 @@ msgid "Tax Definition already exists for this Partner Profile and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_country_state__tax_definition_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
 msgid "Tax Definitions"
 msgstr "Definições de Imposto"
@@ -7765,7 +7961,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:625
+#: code:addons/l10n_br_fiscal/models/document.py:719
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
@@ -7965,6 +8161,11 @@ msgstr ""
 "serviços"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_legal_name
+msgid "Used in fiscal documents"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__user_id
 msgid "User"
 msgstr "Usuário"
@@ -8059,7 +8260,7 @@ msgid "Volume"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:261
+#: code:addons/l10n_br_fiscal/models/operation_line.py:262
 #, python-format
 msgid "Warning!"
 msgstr ""
@@ -8149,7 +8350,7 @@ msgid "You can note repeat the alternative name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:253
+#: code:addons/l10n_br_fiscal/models/operation_line.py:254
 #, python-format
 msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
@@ -8161,19 +8362,19 @@ msgid "You cannot delete an Operation which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition.py:185
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:223
 #, python-format
 msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:262
+#: code:addons/l10n_br_fiscal/models/operation_line.py:263
 #, python-format
 msgid "You must first select a operation type."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:159
+#: code:addons/l10n_br_fiscal/models/operation_line.py:157
 #, python-format
 msgid "You need set a default fiscal document in your company !"
 msgstr ""
