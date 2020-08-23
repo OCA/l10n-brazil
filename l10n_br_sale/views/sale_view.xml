@@ -72,7 +72,7 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//label[@for='customer_lead']" position="before">
-                <field name="fiscal_type" force_save="1" invisible="1"  readonly="1"/>
+                <field name="fiscal_type" force_save="1" invisible="1" readonly="1"/>
                 <field name="fiscal_operation_id" required="1"/>
                 <field name="fiscal_operation_line_id" required="1"/>
                 <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '=', '00'), ('cfop_id', '!=', False)]}"/>
