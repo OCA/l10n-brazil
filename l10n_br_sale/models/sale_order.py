@@ -184,7 +184,7 @@ class SaleOrder(models.Model):
         for order in self:
             for line in order.order_line:
                 line.discount = order.discount_rate
-                line._onchange_discount()
+                line._onchange_discount_percent()
 
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
@@ -229,11 +229,12 @@ class SaleOrder(models.Model):
             document_type = self.company_id.document_type_id
             document_type_id = self.company_id.document_type_id.id
 
-        result['document_type_id'] = document_type_id
-        document_serie = document_type.get_document_serie(
-            self.company_id, self.fiscal_operation_id)
-        if document_serie:
-            result['document_serie_id'] = document_serie.id
+        if document_type:
+            result['document_type_id'] = document_type_id
+            document_serie = document_type.get_document_serie(
+                self.company_id, self.fiscal_operation_id)
+            if document_serie:
+                result['document_serie_id'] = document_serie.id
 
         if self.fiscal_operation_id:
             if self.fiscal_operation_id.journal_id:
