@@ -10,6 +10,7 @@ class Company(models.Model):
     purchase_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Default Fiscal Operation for Purchase',
-        domain="[('state', '=', 'approved'), "
-               "('fiscal_type', '=', 'purchase')]"
+        domain=[
+            ('state', '=', 'approved'),
+            ('fiscal_type', '=', 'purchase')],
     )
