@@ -51,7 +51,6 @@ class DocumentEmail(models.Model):
         selection=SITUACAO_EDOC,
         string='Situação e-doc',
         copy=False,
-        required=True,
         index=True,
     )
 
