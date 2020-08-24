@@ -13,7 +13,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 class PurchaseOrder(models.Model):
     _name = 'purchase.order'
-    _inherit = ['purchase.order', 'l10n_br_fiscal.document.mixin']
+    _inherit = [_name, 'l10n_br_fiscal.document.mixin']
 
     @api.model
     def _default_fiscal_operation(self):
@@ -81,7 +81,7 @@ class PurchaseOrder(models.Model):
 
     @api.multi
     def action_view_invoice(self):
-        result = super(PurchaseOrder, self).action_view_invoice()
+        result = super().action_view_invoice()
         fiscal_dict = self._prepare_br_fiscal_dict(default=True)
 
         document_type_id = self._context.get('document_type_id')
