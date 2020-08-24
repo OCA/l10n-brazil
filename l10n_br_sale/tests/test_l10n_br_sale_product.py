@@ -2,12 +2,12 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import odoo.tests.common as common
+from odoo.tests import common
 
 
 class TestL10nBRSaleProduct(common.TransactionCase):
     def setUp(self):
-        super(TestL10nBRSaleProduct, self).setUp()
+        super().setUp()
         self.sale_object = self.env["sale.order"]
         self.sale_stock = self.sale_object.browse(
             self.ref("l10n_br_sale.l10n_br_sale_product_demo_1"))
