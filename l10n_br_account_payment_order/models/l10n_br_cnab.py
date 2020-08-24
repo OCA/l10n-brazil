@@ -71,7 +71,7 @@ TIPO_INSCRICAO_EMPRESA = {
 }
 
 
-class L10nBrHrCnab(models.Model):
+class L10nBrCnab(models.Model):
     _name = 'l10n_br.cnab'
     _description = 'l10n_br CNAB'
 
@@ -540,10 +540,10 @@ class L10nBrHrCnab(models.Model):
 
             name = self._get_name(data, filename)
             vals.update({'name': name})
-        return super(L10nBrHrCnab, self).write(vals)
+        return super().write(vals)
 
     @api.model
     def create(self, vals):
         name = self._get_name(vals.get('data'), vals.get('filename'))
         vals.update({'name': name})
-        return super(L10nBrHrCnab, self).create(vals)
+        return super().create(vals)
