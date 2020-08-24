@@ -1,17 +1,20 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import models, api, fields, _
-from odoo.exceptions import Warning as UserError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class StockReturnPicking(models.TransientModel):
     _inherit = 'stock.return.picking'
 
-    invoice_state = fields.Selection([
-        ('2binvoiced', 'To be refunded/invoiced'),
-        ('none', 'No invoicing')],
-        'Invoicing', required=True)
+    invoice_state = fields.Selection(
+        selection=[
+            ('2binvoiced', 'To be refunded/invoiced'),
+            ('none', 'No invoicing')],
+        string='Invoicing',
+        required=True,
+    )
 
     @api.multi
     def _create_returns(self):
@@ -30,13 +33,11 @@ class StockReturnPicking(models.TransientModel):
 
         if not refund_fiscal_operation:
             raise UserError(
-                _('Error!'),
                 _('This Fiscal Operation does not has Fiscal'
-                  ' Operation for Returns!'))
+                  ' Operation for Returns!')
+            )
 
-        new_picking_id, pick_type_id = super(
-            StockReturnPicking, self)._create_returns()
-
+        new_picking_id, pick_type_id = super()._create_returns()
         picking = picking_obj.browse(new_picking_id)
 
         if self.invoice_state == '2binvoiced':
