@@ -166,9 +166,8 @@ class AccountInvoice(models.Model):
             #  isso deve ser melhor investigado
             inv._compute_receivables()
 
-            # TODO - Verificar se é boleto, existe uma
-            #  forma melhor ou outro campo ?
-            if not inv.payment_mode_id.code_convetion:
+            # Verifica se gera Ordem de Pagamento
+            if not inv.payment_mode_id.payment_order_ok:
                 return
 
             for index, interval in enumerate(inv.move_line_receivable_ids):
@@ -269,7 +268,10 @@ class AccountInvoice(models.Model):
         result = super().invoice_validate()
         filtered_invoice_ids = self.filtered(lambda s: s.payment_mode_id)
         if filtered_invoice_ids:
-            filtered_invoice_ids.create_account_payment_line()
+            for filtered_invoice_id in filtered_invoice_ids:
+                #  Verifica se gera Ordem de Pagamento
+                if filtered_invoice_id.payment_mode_id.payment_order_ok:
+                    filtered_invoice_id.create_account_payment_line()
         return result
 
     @api.multi
