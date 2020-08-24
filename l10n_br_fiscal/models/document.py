@@ -819,9 +819,16 @@ class Document(models.Model):
             record.line_ids.document_comment()
 
     def _get_email_template(self, state):
-        return self.document_type_id.document_email_ids.filtered(
-            lambda d: d.state_edoc == state
-            and self.issuer == d.issuer).mapped('email_template_id')
+        self.ensure_one()
+        return self.document_type_id.document_email_ids.search(
+            ['|',
+             ('state_edoc', '=', False),
+             ('state_edoc', '=', state),
+             ('issuer', '=', self.issuer),
+             '|',
+             ('document_type_id', '=', False),
+             ('document_type_id', '=', self.document_type_id.id)],
+            limit=1, order='state_edoc, document_type_id').mapped('email_template_id')
 
     def send_email(self, state):
         email_template = self._get_email_template(state)
