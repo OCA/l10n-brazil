@@ -112,7 +112,7 @@
         <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
         <field name="document_serie">13</field>
         <field name="document_section">nfe</field>
         <field name="user_id" ref="base.user_demo"/>
@@ -401,7 +401,7 @@
         <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
         <field name="document_serie">1</field>
         <field name="document_section">nfe</field>
         <field name="key">NFe35200497231608000169550010000000371161029083</field>
