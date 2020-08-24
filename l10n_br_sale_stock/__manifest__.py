@@ -15,7 +15,9 @@
         'l10n_br_stock_account',
     ],
     'data': [],
-    'demo': [],
+    'demo': [
+        'demo/l10n_br_sale_stock_demo.xml',
+    ],
     'installable': True,
     'auto_install': True,
 }
