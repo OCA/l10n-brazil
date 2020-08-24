@@ -48,7 +48,6 @@ def post_init_hook(cr, registry):
             "demo/l10n_br_fiscal.nbs-demo.csv",
             "demo/l10n_br_fiscal.cest-demo.csv",
             "demo/company_demo.xml",
-            "demo/operation_demo.xml",
             "demo/product_demo.xml",
             "demo/partner_demo.xml",
             "demo/fiscal_document_demo.xml",
