@@ -9,7 +9,7 @@ from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 class PurchaseOrderLine(models.Model):
     _name = 'purchase.order.line'
-    _inherit = ['purchase.order.line', 'l10n_br_fiscal.document.line.mixin']
+    _inherit = [_name, 'l10n_br_fiscal.document.line.mixin']
 
     @api.model
     def _default_fiscal_operation(self):
@@ -52,7 +52,7 @@ class PurchaseOrderLine(models.Model):
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         related="order_id.company_id.tax_framework",
-        string="Tax Framework",
+        string='Tax Framework',
     )
 
     partner_id = fields.Many2one(
@@ -64,7 +64,7 @@ class PurchaseOrderLine(models.Model):
     @api.depends('product_qty', 'price_unit',  'taxes_id')
     def _compute_amount(self):
         """Compute the amounts of the PO line."""
-        super(PurchaseOrderLine, self)._compute_amount()
+        super()._compute_amount()
         for line in self:
             line._update_taxes()
             price_tax = line.price_tax + line.amount_tax_not_included
@@ -82,7 +82,7 @@ class PurchaseOrderLine(models.Model):
     def _onchange_quantity(self):
         """To call the method in the mixin to update
         the price and fiscal quantity."""
-        super(PurchaseOrderLine, self)._onchange_quantity()
+        super()._onchange_quantity()
         self._onchange_commercial_quantity()
 
     @api.onchange('fiscal_tax_ids')
