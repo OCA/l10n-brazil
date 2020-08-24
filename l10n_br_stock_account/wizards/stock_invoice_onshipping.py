@@ -37,7 +37,7 @@ class StockInvoiceOnshipping(models.TransientModel):
                     (picking.company_id.name,
                      picking.fiscal_operation_id.name))
         else:
-            journal = super(StockInvoiceOnshipping, self)._get_journal()
+            journal = super()._get_journal()
         return journal
 
     @api.multi
