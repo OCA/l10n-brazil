@@ -1,20 +1,19 @@
 # Copyright (C) 2016  Magno Costa - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp.tests import common
+from odoo.tests import common
 
 
 class TestSaleOrderService(common.TransactionCase):
 
     def setUp(self):
-        super(TestSaleOrderService, self).setUp()
+        super().setUp()
         self.sale_order_service = self.env.ref(
             "l10n_br_sale.sale_order_service")
 
     def test_sale_order_service(self):
         """ Test Sale Order with service and product
             to check if create two invoices. """
-
         self.sale_order_service.onchange_partner_id()
         self.sale_order_service.onchange_partner_shipping_id()
         self.sale_order_service._onchange_fiscal_operation_id()
