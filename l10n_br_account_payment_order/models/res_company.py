@@ -21,9 +21,3 @@ class ResCompany(models.Model):
     own_number_sequence = fields.Many2one(
         comodel_name='ir.sequence', string='Sequência do Nosso Número'
     )
-
-    environment = fields.Selection(
-        string='Ambiente',
-        selection=[('1', 'HOMOLOGAÇÃO'), ('2', 'PRODUÇÃO')],
-        default='1',
-    )
