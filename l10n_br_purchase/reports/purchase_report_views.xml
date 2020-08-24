@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_purchase_report_search" model="ir.ui.view">
+        <field name="name">l10n_br_purchase.report.search</field>
+        <field name="model">purchase.report</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_search"/>
+        <field name="arch" type="xml">
+            <filter name="fiscal_position" position="before">
+                <filter string="Fiscal Operation" name="fiscal_operation_id" context="{'group_by':'fiscal_operation_id'}"/>
+                <filter string="Fiscal Operation Line" name="fiscal_operation_line_id" context="{'group_by':'fiscal_operation_line_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>
