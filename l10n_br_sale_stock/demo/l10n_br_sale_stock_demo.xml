@@ -1,151 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data noupdate="1">
+<odoo>
 
-        <record id="sale.sale_order_1" model="sale.order">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_1" model="sale.order">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_1" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_1" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_2" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_2" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_3" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_3" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_2" model="sale.order">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_2" model="sale.order">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_4" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_4" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_5" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_5" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_3" model="sale.order">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_3" model="sale.order">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_6" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_6" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_7" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_7" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_4" model="sale.order">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_4" model="sale.order">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_8" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_8" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_9" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_9" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_10" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_10" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_11" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_11" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_5" model="sale.order">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_5" model="sale.order">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_12" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_12" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_13" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_6" model="sale.order">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_14" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_15" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_6" model="sale.order">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_7" model="sale.order">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_15" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_16" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_7" model="sale.order">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_17" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_16" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_18" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_17" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_19" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_18" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_8" model="sale.order">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_19" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_20" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_8" model="sale.order">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
+    <record id="sale.sale_order_line_21" model="sale.order.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
 
-        <record id="sale.sale_order_line_20" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
-
-        <record id="sale.sale_order_line_21" model="sale.order.line">
-            <field name="fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-            <field name="fiscal_position" ref="l10n_br_account_product.fp_78df616ab31e95ee46c6a519a2ce9e12_internal_demo"/>
-        </record>
-
-    </data>
-</openerp>
+</odoo>
