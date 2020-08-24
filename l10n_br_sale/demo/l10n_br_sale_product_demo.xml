@@ -13,6 +13,7 @@
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="note">TESTE</field>
+        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
     </record>
 
     <record id="l10n_br_sale_product_demo_line-1-1" model="sale.order.line">
