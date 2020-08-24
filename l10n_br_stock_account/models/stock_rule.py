@@ -3,8 +3,6 @@
 # Copyright (C) 2016  Luis Felipe Miléo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from dateutil.relativedelta import relativedelta
-
 from odoo import _, api, fields, models
 
 
@@ -29,8 +27,8 @@ class StockRule(models.Model):
 
     invoice_state = fields.Selection(
         selection=[
-            ("2binvoiced", _("To Be Invoiced")),
-            ("none", _("Not Applicable"))],
+            ('2binvoiced', _('To Be Invoiced')),
+            ('none', _('Not Applicable'))],
         string='Invoice Status',
         default='none',
         copy=False,
