@@ -19,9 +19,12 @@
         # View
         "views/purchase_view.xml",
         "views/res_company_view.xml",
+
+        # Reports
+        'reports/purchase_report_views.xml',
     ],
     "demo": [
-        "demo/l10n_br_purchase_demo.xml"
+        "demo/l10n_br_purchase_demo.xml",
     ],
     "installable": True,
     "auto_install": False,
