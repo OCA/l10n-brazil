@@ -2,15 +2,15 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import odoo.tests.common as common
+from odoo.tests import common
 
 
 class TestL10nBRSale(common.TransactionCase):
     def setUp(self):
-        super(TestL10nBRSale, self).setUp()
-        self.sale_object = self.env["sale.order"]
+        super().setUp()
+        self.sale_object = self.env['sale.order']
         self.sale_order_1 = self.sale_object.browse(
-            self.ref("l10n_br_sale.sale_order_teste_1")
+            self.ref('l10n_br_sale.sale_order_teste_1')
         )
         self.operation_line_revenda = self.env[
             'l10n_br_fiscal.document.line'].browse(
@@ -167,6 +167,7 @@ class TestL10nBRSale(common.TransactionCase):
                 pricelist_id=self.env.ref("product.list0").id,
                 team_id=self.env.ref("sales_team.crm_team_1").id,
                 state="draft",
+                company_id=self.env.ref('l10n_br_fiscal.empresa_lucro_presumido').id,
                 fiscal_operation_id=self.env.ref('l10n_br_fiscal.fo_venda').id,
                 order_line=[
                     (0, 0,
@@ -193,7 +194,7 @@ class TestL10nBRSale(common.TransactionCase):
         self.assertEquals(
             self.sale_discount.amount_total,
             90.0,
-            u"Error to apply discount on sale order.",
+            "Error to apply discount on sale order.",
         )
         for line in self.sale_discount.order_line:
             line._onchange_product_id_fiscal()
@@ -219,5 +220,5 @@ class TestL10nBRSale(common.TransactionCase):
             self.assertEquals(
                 invoice.amount_untaxed,
                 90.0,
-                u"Error to apply discount on invoice" u" created from sale order.",
+                "Error to apply discount on invoice created from sale order.",
             )
