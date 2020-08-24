@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <odoo noupdate="1">
+
+    <function model="account.chart.template" name="_load_template">
+        <value eval="[ref('l10n_br_coa_generic.l10n_br_coa_generic_template')]"/>
+        <value model="res.company" eval="obj().env.ref('l10n_br_fiscal.empresa_lucro_presumido')"/>
+    </function>
+
+  </odoo>
