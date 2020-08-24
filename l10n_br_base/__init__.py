@@ -5,7 +5,7 @@ from . import models
 from . import tests
 
 from odoo.addons import account
-from odoo import api, SUPERUSER_ID
+from odoo import api, tools, SUPERUSER_ID
 
 # Install Simple Chart of Account Template for Brazilian Companies
 _auto_install_l10n_original = account._auto_install_l10n
@@ -20,6 +20,13 @@ def _auto_install_l10n_br_generic_module(cr, registry):
             module_name_domain = [("name", "=", "l10n_br_coa_generic")]
         else:
             module_name_domain = [("name", "=", "l10n_br_coa_simple")]
+
+        # Load all l10n_br COA in Demo
+        if not tools.config["without_demo"]:
+            module_name_domain = [
+                ("name", "in", ("l10n_br_coa_simple", "l10n_br_coa_generic"))
+            ]
+
         module_ids = env["ir.module.module"].search(
             module_name_domain + [("state", "=", "uninstalled")]
         )
