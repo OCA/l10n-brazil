@@ -63,7 +63,7 @@ class AccountInvoice(models.Model):
             invoice_line_data = {
                 'name': 'Taxa adicional do modo de pagamento escolhido',
                 'partner_id': self.partner_id.id,
-                'account_id': payment_mode_id.tax_account_id.id,
+                'account_id': payment_mode_id.product_tax_account_id.id,
                 'product_id': payment_mode_id.product_tax_id.id,
                 'price_unit': payment_mode_id.product_tax_id.lst_price,
                 'quantity': 1,
