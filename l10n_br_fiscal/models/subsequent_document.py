@@ -94,8 +94,11 @@ class SubsequentDocument(models.Model):
         new_doc.fiscal_operation_id = self.fiscal_operation_id
         new_doc.document_type_id = self.subsequent_operation_id.\
             operation_document_type_id.document_type_id
-        new_doc.document_serie_id = self.subsequent_operation_id.\
-            operation_document_type_id.document_serie_id
+        new_doc.document_serie_id = (
+            new_doc.document_type_id.get_document_serie(
+                new_doc.company_id, new_doc.fiscal_operation_id)
+        )
+
         # new_doc.condicao_pagamento_id = \
         #     self._subsequent_payment_condition()
         # new_doc.tipo_pagamento = self._subsequent_payment_type()
@@ -107,7 +110,9 @@ class SubsequentDocument(models.Model):
         new_doc._document_reference(reference_ids)
 
         new_doc._onchange_fiscal_operation_id()
-        new_doc.line_ids.write({'fiscal_operation_id': new_doc.fiscal_operation_id.id})
+        new_doc.line_ids.write({
+            'fiscal_operation_id': new_doc.fiscal_operation_id.id
+        })
 
         for item in new_doc.line_ids:
             item._onchange_fiscal_operation_id()
@@ -116,8 +121,6 @@ class SubsequentDocument(models.Model):
 
         document = new_doc
         document.action_document_confirm()
-        document.number = False
-        document.date_in_out = False
         self.subsequent_document_id = document
 
     @api.depends('subsequent_document_id.state_edoc')
