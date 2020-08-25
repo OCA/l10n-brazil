@@ -55,4 +55,12 @@
         <field name="company_id" ref="base.main_company"/>
     </record>
 
+    <!-- Diario Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
+    <record id="cheque_journal" model="account.journal">
+        <field name="name">Diário Cheque</field>
+        <field name="code">DCQ</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
 </odoo>
