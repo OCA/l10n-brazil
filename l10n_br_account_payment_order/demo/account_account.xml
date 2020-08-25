@@ -32,4 +32,12 @@
         <field name="reconcile" eval="True"/>
     </record>
 
+    <record model="account.account" id="1_account_template_3010101010300_avoid_travis_error_2">
+        <field name="code">3.01.01.01.01.03.00-AVOID_TRAVIS_ERROR*</field>
+        <field name="name">Taxa do Boleto - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_revenue"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="reconcile" eval="True"/>
+    </record>
+
 </odoo>
