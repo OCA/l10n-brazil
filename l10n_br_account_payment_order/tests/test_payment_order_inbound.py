@@ -18,6 +18,16 @@ class TestPaymentOrderInbound(TransactionCase):
 
         self.invoice_customer_original.journal_id.update_posted = True
 
+        # Product Tax Boleto
+        self.invoice_product_tax_boleto = self.env.ref(
+            'l10n_br_account_payment_order.demo_invoice_payment_order_bb_cnab400'
+        )
+
+        # Product Tax Boleto
+        self.invoice_cheque = self.env.ref(
+            'l10n_br_account_payment_order.demo_invoice_payment_order_cheque'
+        )
+
     def test_payment_order(self):
         """Test automatic creation of Payment Order."""
 
@@ -40,3 +50,21 @@ class TestPaymentOrderInbound(TransactionCase):
         payment_order.draft2open()
         # The file generation need additional module to use BRCobranca or PyBoleto
         # payment_order.open2generated()
+
+    def test_product_tax_boleto(self):
+        """ Test Invoice where Payment Mode has Product Tax. """
+        self.invoice_product_tax_boleto._onchange_payment_mode_id()
+        # I validate invoice by creating on
+        self.invoice_customer_original.action_invoice_open()
+
+        # I check that the invoice state is "Open"
+        self.assertEquals(self.invoice_customer_original.state, 'open')
+
+    def test_payment_mode_without_payment_order(self):
+        """ Test Invoice when Payment Mode not generate Payment Order. """
+        self.invoice_cheque._onchange_payment_mode_id()
+        # I validate invoice by creating on
+        self.invoice_cheque.action_invoice_open()
+
+        # I check that the invoice state is "Open"
+        self.assertEquals(self.invoice_cheque.state, 'open')
