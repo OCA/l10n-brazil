@@ -136,6 +136,18 @@
         <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
     </record>
 
+    <!-- Produto Taxa -->
+    <record id="product_tax_boleto" model="product.product">
+        <field name="name">Produto Taxa Boleto</field>
+        <field name="categ_id" ref="product.product_category_3"/>
+        <field name="list_price">5.0</field>
+        <field name="standard_price">5.0</field>
+        <field name="type">service</field>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="uom_po_id" ref="uom.product_uom_unit"/>
+        <field name="default_code">TAX_BOLETO</field>
+    </record>
+
     <!-- Payment Mode Cobrança Banco do Brasil 400 -->
     <record id="payment_mode_cobranca_bb400" model="account.payment.mode">
         <field name="name">Cobrança Banco do Brasil 400</field>
@@ -151,6 +163,18 @@
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
+        <field name="product_tax_id" ref="product_tax_boleto"/>
+        <field name="product_tax_account_id" ref="1_account_template_3010101010300_avoid_travis_error_2"/>
+    </record>
+
+    <!-- Payment Mode Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
+    <record id="payment_mode_cheque" model="account.payment.mode">
+        <field name="name">Cheque</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="cheque_journal"/>
+        <field name="payment_order_ok">False</field>
+        <field name="payment_method_id" ref="account.account_payment_method_manual_in"/>
     </record>
 
 </odoo>
