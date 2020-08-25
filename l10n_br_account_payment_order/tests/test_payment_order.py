@@ -22,12 +22,12 @@ class TestPaymentOrder(TransactionCase):
             'l10n_br_account_payment_order.payment_mode_cobranca_itau400'
         )
 
-        self.env['account.payment.order'].search([])
-
         # Configure to be possibile create Payment Order
         self.payment_mode.payment_order_ok = True
 
         self.invoice_customer_original.payment_mode_id = self.payment_mode.id
+
+        self.invoice_customer_original._onchange_payment_mode_id()
 
         # Configure Journal to update posted
         self.invoice_customer_original.journal_id.update_posted = True
@@ -44,6 +44,9 @@ class TestPaymentOrder(TransactionCase):
         # I check that now there is a move attached to the invoice
         assert self.invoice_customer_original.move_id,\
             "Move not created for open invoice"
+
+        payment_order = self.env['account.payment.order'].search([])
+        assert payment_order, "Payment Order not created."
 
     def test_implemented_fields_payment_order(self):
         """ Test implemented fields in object account.move.line """
@@ -68,7 +71,10 @@ class TestPaymentOrder(TransactionCase):
         for line in self.invoice_customer_original.move_id.line_ids.filtered(
                 lambda l: l.account_id.id ==
                 self.invoice_customer_original.account_id.id):
-            self.assertEqual(
+
+            assert line.own_number,\
+                'own_number field is not filled in created Move Line.'
+            self.assertEquals(
                 line.journal_entry_ref, line.invoice_id.name,
                 "Error with compute field journal_entry_ref")
             test_balance_value = line.get_balance()
@@ -141,3 +147,10 @@ class TestPaymentOrder(TransactionCase):
                     partner_id=self.ref('l10n_br_base.res_partner_akretion'),
                     bra_number='12345'
                 ))
+
+    def test_cancel_invoice(self):
+        """ Test Cancel Invoice """
+        self.invoice_customer_original.action_invoice_cancel()
+
+        # I check that the invoice state is "Cancel"
+        self.assertEquals(self.invoice_customer_original.state, 'cancel')
