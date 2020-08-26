@@ -10,7 +10,7 @@
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
             <field name="tax_framework" position="after">
-                <field name="cultural_encourager"/>
+                <field name="cultural_sponsor"/>
                 <field name="nfse_environment"/>
                 <field name="provedor_nfse"/>
                 <field name="nfse_website"/>
