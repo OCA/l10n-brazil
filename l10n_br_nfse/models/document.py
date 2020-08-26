@@ -14,6 +14,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
     TAX_FRAMEWORK_SIMPLES_ALL,
+    DOCUMENT_ISSUER_COMPANY,
 )
 from ..constants.nfse import (
     NFSE_ENVIRONMENTS,
@@ -83,23 +84,15 @@ class Document(models.Model):
         default=lambda self: self.env.user.company_id.nfse_environment,
     )
 
-    @api.model
-    def create(self, values):
+    def document_number(self):
         for record in self.filtered(fiter_processador_edoc_nfse):
-            if not values.get('date'):
-                values['date'] = record._date_server_format()
-
-            if values.get('company_id'):
-                company_obj = record.env['res.company']
-                company = company_obj.browse(values['company_id'])
-                if company.provedor_nfse:
-                    if values.get('document_serie_id') and \
-                            not values.get('rps_number'):
-                        serie_id = record.document_serie_id.browse(
-                            values['document_serie_id'])
-                        values['rps_number'] = serie_id.next_seq_number()
-                    values['number'] = None
-        return super(Document, self).create(values)
+            if record.issuer == DOCUMENT_ISSUER_COMPANY:
+                if record.document_serie_id:
+                    record.document_serie = record.document_serie_id.code
+                    if not record.rps_number and record.date:
+                        record.rps_number = record.document_serie_id.\
+                            next_seq_number()
+        super(Document, self).document_number()
 
     def _generate_key(self):
         remaining = self - self.filtered(fiter_processador_edoc_nfse)
