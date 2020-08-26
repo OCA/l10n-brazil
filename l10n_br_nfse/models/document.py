@@ -175,4 +175,6 @@ class Document(models.Model):
             'rps_substitiuido': None,
             'intermediario_servico': None,
             'construcao_civil': None,
+            'carga_tributaria': self.amount_tax,
+            'total_recebido': self.amount_total,
         }
