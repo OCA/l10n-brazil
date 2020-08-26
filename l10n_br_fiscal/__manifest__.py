@@ -22,6 +22,7 @@
 
         # Data
         # Some data is being loaded via post_init_hook in hook file
+        "data/l10n_br_fiscal_email_template.xml",
         "data/l10n_br_fiscal_data.xml",
         "data/uom_data.xml",
         "data/product_data.xml",
@@ -67,6 +68,7 @@
         "views/product_genre_view.xml",
         "views/document_type_view.xml",
         "views/document_serie_view.xml",
+        "views/document_email_view.xml",
         "views/certificate_view.xml",
         "views/simplified_tax_view.xml",
         "views/simplified_tax_range_view.xml",
