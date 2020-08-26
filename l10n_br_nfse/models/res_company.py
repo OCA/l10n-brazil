@@ -18,8 +18,8 @@ class ResCompany(models.Model):
         string="NFSe Provider",
         default=False,
     )
-    cultural_encourager = fields.Boolean(
-        string='Cultural Encourager',
+    cultural_sponsor = fields.Boolean(
+        string='Cultural Sponsor',
         default=False,
     )
     nfse_environment = fields.Selection(
