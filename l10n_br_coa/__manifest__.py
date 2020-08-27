@@ -1,6 +1,6 @@
 # Copyright 2020 KMEE
 # Copyright (C) 2020 - TODAY Renato Lima - Akretion
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+# License AGPL-3.0 or later (http://www.gnu.org/lic enses/agpl).
 
 {
     'name': 'L10n Br Coa',
@@ -15,8 +15,8 @@
         # Data
         'data/l10n_br_coa_template.xml',
         'data/account_tax_tag.xml',
-        'data/account_tax_group_data.xml',
-        'data/l10n_br_account_tax_template_data.xml',
+        'data/account_tax_group.xml',
+        'data/account_tax_template.xml',
     ],
     'installable': True,
 }
