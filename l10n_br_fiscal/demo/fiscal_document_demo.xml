@@ -12,7 +12,7 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.fo_venda_55_serie_1"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="document_serie">1</field>
         <field name="document_section">nfe</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
@@ -51,7 +51,7 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.fo_venda_55_serie_1"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="document_serie">1</field>
         <field name="document_section">nfe</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente5_pe"/>
@@ -97,7 +97,7 @@
 
     <!-- NFe Test - Empresa Contribuinte - Exterior -->
     <record id="demo_nfe_export" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
@@ -139,7 +139,7 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.fo_venda_55_serie_1"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="document_serie">1</field>
         <field name="document_section">nfe</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente9_mg"/>
@@ -176,7 +176,7 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.fo_venda_55_serie_1"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="document_serie">1</field>
         <field name="document_section">nfe</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente10_mg"/>
@@ -210,7 +210,7 @@
 
     <!-- NFe Test - Empresa Simples Nacional - Mesmo Estado -->
     <record id="demo_nfe_sn_same_state" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
@@ -247,7 +247,7 @@
 
     <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
     <record id="demo_nfe_sn_other_state" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
@@ -284,7 +284,7 @@
 
     <!-- NFe Test - Empresa Simples Nacional - Exterior -->
     <record id="demo_nfe_sn_export" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
@@ -321,7 +321,7 @@
 
     <!-- NFe Test - Empresa Simples Nacional - Outro Estado -->
     <record id="demo_nfe_sn_nao_contribuinte" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="empresa_simples_nacional"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
@@ -358,7 +358,7 @@
 
     <!-- NFe Test - Subsequent Operation - Simples Faturamento -->
     <record id="demo_nfe_so_simples_faturamento" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
