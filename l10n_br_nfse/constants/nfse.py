@@ -32,13 +32,3 @@ TAXATION_SPECIAL_REGIME = [
     ('5', 'Microempresario Individual(MEI)'),
     ('6', 'Microempresario e Empresa de Pequeno Porte(ME EPP)'),
 ]
-
-RECEPCIONAR_LOTE_RPS = [
-    'RecepcionarLoteRpsV3',
-    'RecepcionarLoteRps'
-]
-
-CONSULTAR_SITUACAO_LOTE_RPS = [
-    'ConsultarSituacaoLoteRpsV3',
-    'ConsultarSituacaoLoteRps'
-]
