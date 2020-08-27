@@ -7,8 +7,9 @@
         <field name="payment_term_id" ref="account.account_payment_term_advance"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="type">out_invoice</field>
-        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
-        <field name="payment_mode_id" ref="payment_mode_boleto"/>
+        <field name="account_id" model="account.account" eval="obj().env.ref('l10n_br_base.res_partner_akretion').property_account_receivable_id.id"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="payment_mode_id" ref="main_company_payment_mode_boleto"/>
         <field name="user_id" ref="base.user_admin"/>
     </record>
 
