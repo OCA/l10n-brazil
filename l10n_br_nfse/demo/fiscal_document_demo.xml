@@ -16,7 +16,7 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="rps_number">50</field>
         <field name="rps_type">1</field>
         <field name="operation_nature">1</field>
@@ -29,7 +29,7 @@
         <field name="product_id" ref="customized_development_sale"/>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
         <field name="city_taxation_code_id" ref="l10n_br_fiscal.city_taxation_code_itajuba"/>
