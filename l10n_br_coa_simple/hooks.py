@@ -18,6 +18,9 @@ def post_init_hook(cr, registry):
 
     # Load COA to Demo Company
     if not tools.config.get('without_demo'):
-        env.user.company_id = env.ref(
-            'l10n_br_fiscal.empresa_simples_nacional')
-        coa_simple_tmpl.try_loading_for_current_company()
+        user_admin = env.ref('base.user_admin')
+        user_admin.company_id = env.ref(
+            'l10n_br_base.empresa_simples_nacional')
+        coa_simple_tmpl.sudo(
+            user=user_admin.id).try_loading_for_current_company()
+        user_admin.company_id = env.ref('base.main_company')
