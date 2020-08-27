@@ -8,6 +8,7 @@
         <field name="bank_account_code_prefix">1.1.1.2.</field>
         <field name="transfer_account_code_prefix">1.1.1.2.0</field>
         <field name="currency_id" ref="base.BRL"/>
+        <field name="parent_id" ref="l10n_br_coa.l10n_br_coa_template"/>
     </record>
 
 </odoo>
