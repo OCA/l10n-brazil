@@ -36,7 +36,6 @@ from ..constants.ginfes import (
 )
 
 
-
 def fiter_processador_edoc_nfse_ginfes(record):
     if (record.processador_edoc == PROCESSADOR and
             record.document_type_id.code in [
