@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Account Journal for Main Company -->
+    <record id="main_company_bank_journal" model="account.journal">
+        <field name="name">Diário de Banco(teste l10n_br_account_payment_order)</field>
+        <field name="code">TPO</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <!-- Account Journal for Simples Nacional -->
+    <record id="simples_nacional_bank_journal" model="account.journal">
+        <field name="name">Diário de Banco(teste l10n_br_account_payment_order)</field>
+        <field name="code">TPO</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
+    </record>
+
+    <!-- Account Journal for Lucro Presumido -->
+    <record id="lucro_presumido_bank_journal" model="account.journal">
+        <field name="name">Diário de Banco(teste l10n_br_account_payment_order)</field>
+        <field name="code">TPO</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
+    </record>
+
+</odoo>
