@@ -10,16 +10,19 @@ from openerp.exceptions import UserError, ValidationError
 class TestPaymentOrder(TransactionCase):
 
     def setUp(self):
-        super(TestPaymentOrder, self).setUp()
+        super().setUp()
+
 
         # Get Invoice for test
         self.invoice_customer_original = self.env.ref(
             'l10n_br_account_payment_order.demo_invoice_payment_order'
         )
 
+        self.env.user.company_id = self.invoice_customer_original.company_id
+
         # Payment Mode
         self.payment_mode = self.env.ref(
-            'account_payment_mode.payment_mode_inbound_ct1'
+            'l10n_br_account_payment_order.payment_mode_boleto'
         )
 
         self.env['account.payment.order'].search([])
