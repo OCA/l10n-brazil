@@ -28,7 +28,6 @@ class TestFiscalDocumentNFSeGinfes(TestFiscalDocumentNFSeCommon):
         """ Test NFS-e same state. """
 
         self.nfse_same_state._onchange_document_serie_id()
-        self.nfse_same_state._onchange_partner_id()
         self.nfse_same_state._onchange_fiscal_operation_id()
         self.nfse_same_state._onchange_company_id()
         self.nfse_same_state.rps_number = 50
