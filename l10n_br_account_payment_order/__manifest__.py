@@ -24,6 +24,8 @@
         'views/account_payment_mode.xml',
     ],
     'demo': [
+        'demo/res_partner_bank.xml',
+        'demo/account_journal.xml',
         'demo/account_payment_mode_demo.xml',
         'demo/account_payment_order_demo.xml',
     ],
