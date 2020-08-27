@@ -78,6 +78,7 @@ Contributors
 
 * Luis Felipe Mileo <mileo@kmee.com.br>
 * Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
+* Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
 
 Maintainers
 ~~~~~~~~~~~
@@ -91,6 +92,20 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-gabrielcardoso21| image:: https://github.com/gabrielcardoso21.png?size=40px
+    :target: https://github.com/gabrielcardoso21
+    :alt: gabrielcardoso21
+.. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
+    :target: https://github.com/mileo
+    :alt: mileo
+.. |maintainer-luismalta| image:: https://github.com/luismalta.png?size=40px
+    :target: https://github.com/luismalta
+    :alt: luismalta
+
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-gabrielcardoso21| |maintainer-mileo| |maintainer-luismalta| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_nfse>`_ project on GitHub.
 
