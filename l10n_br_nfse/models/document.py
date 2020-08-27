@@ -9,10 +9,9 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from erpbrasil.base import misc
 from erpbrasil.edoc.nfse import NFSeFactory
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
-    SITUACAO_EDOC_AUTORIZADA,
     TAX_FRAMEWORK_SIMPLES_ALL,
     DOCUMENT_ISSUER_COMPANY,
 )
