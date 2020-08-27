@@ -8,8 +8,10 @@ class TestFiscalTax(common.TransactionCase):
     def setUp(self):
         super().setUp()
 
-        self.company_lucro_presumido = self.env.ref('empresa_lucro_presumido')
-        self.company_simples = self.env.ref('empresa_simples_nacional')
+        self.company_lucro_presumido = self.env.ref(
+            'l10n_br_base.empresa_lucro_presumido')
+        self.company_simples = self.env.ref(
+            'l10n_br_base.empresa_simples_nacional')
 
         self._switch_user_company(self.env.user, self.company_lucro_presumido)
 
