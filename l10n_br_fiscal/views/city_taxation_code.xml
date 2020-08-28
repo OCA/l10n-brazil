@@ -54,11 +54,4 @@
         </field>
     </record>
 
-    <record model="ir.ui.menu" id="city_taxation_code_menu">
-        <field name="name">City Taxation Code</field>
-        <field name="parent_id" ref="l10n_br_fiscal.others_config_menu"/>
-        <field name="action" ref="city_taxation_code_act_window"/>
-        <field name="sequence" eval="16"/>
-    </record>
-
 </odoo>
