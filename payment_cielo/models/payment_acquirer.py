@@ -17,8 +17,8 @@ class PaymentAcquirerCielo(models.Model):
     _inherit = 'payment.acquirer'
 
     provider = fields.Selection(selection_add=[('cielo', 'Cielo')])
-    cielo_secret_key = fields.Char(required_if_provider='cielo', groups='base.group_user')
-    cielo_publishable_key = fields.Char(required_if_provider='cielo', groups='base.group_user')
+    cielo_merchant_key = fields.Char(required_if_provider='cielo', groups='base.group_user')
+    cielo_merchant_id = fields.Char(string='Cielo Merchant Id', required_if_provider='cielo', groups='base.group_user')
     cielo_image_url = fields.Char(
         "Checkout Image URL", groups='base.group_user')
 
@@ -52,4 +52,20 @@ class PaymentAcquirerCielo(models.Model):
             return 'apisandbox.cieloecommerce.cielo.com.br'
         if self.environment == 'prod':
             return 'api.cieloecommerce.cielo.com.br'
+
+    @api.multi
+    def _get_cielo_api_headers(self):
+        if self.environment == 'test':
+            CIELO_HEADERS = {
+                'MerchantId': 'be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd',
+                'MerchantKey': 'POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE',
+                'Content-Type': 'application/json',
+            }
+        if self.environment == 'prod':
+            CIELO_HEADERS = {
+                'MerchantId': self.cielo_merchant_id,
+                'MerchantKey': self.cielo_merchant_key,
+                'Content-Type': 'application/json',
+            }
+        return CIELO_HEADERS
 
