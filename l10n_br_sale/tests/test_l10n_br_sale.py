@@ -167,7 +167,7 @@ class TestL10nBRSale(common.TransactionCase):
                 pricelist_id=self.env.ref("product.list0").id,
                 team_id=self.env.ref("sales_team.crm_team_1").id,
                 state="draft",
-                company_id=self.env.ref('l10n_br_fiscal.empresa_lucro_presumido').id,
+                company_id=self.env.ref('l10n_br_base.empresa_lucro_presumido').id,
                 fiscal_operation_id=self.env.ref('l10n_br_fiscal.fo_venda').id,
                 order_line=[
                     (0, 0,
