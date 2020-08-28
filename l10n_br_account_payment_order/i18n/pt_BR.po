@@ -22,7 +22,9 @@ msgid "Bank Accounts"
 msgstr "Contas Bancárias"
 
 #. module: l10n_br_account_payment_order
-#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_boleto
+#: model:account.payment.mode,name:l10n_br_account_payment_order.lucro_presumido_payment_mode_boleto
+#: model:account.payment.mode,name:l10n_br_account_payment_order.main_company_payment_mode_boleto
+#: model:account.payment.mode,name:l10n_br_account_payment_order.simples_nacional_payment_mode_boleto
 msgid "Boleto Bancario"
 msgstr ""
 
