@@ -48,8 +48,8 @@ class PaymentAcquirerCielo(models.Model):
 
     @api.model
     def _get_cielo_api_url(self):
-        #  TODO: Diferenciar URL de testes e produção
-        # hml apisandbox.cieloecommerce.cielo.com.br
-        # produção api.cieloecommerce.cielo.com.br
-        return 'apisandbox.cieloecommerce.cielo.com.br'
+        if self.environment == 'test':
+            return 'apisandbox.cieloecommerce.cielo.com.br'
+        if self.environment == 'prod':
+            return 'api.cieloecommerce.cielo.com.br'
 
