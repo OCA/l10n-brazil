@@ -192,80 +192,13 @@ class Document(models.Model):
             processo = processador.consulta_nfse_rps(
                 self.rps_number, self.document_serie, self.rps_type)
 
-            retorno = ET.fromstring(processo.retorno)
-            nsmap = {'consulta': 'http://www.ginfes.com.br/servico_consultar_'
-                                 'nfse_rps_resposta_v03.xsd',
-                     'tipo': 'http://www.ginfes.com.br/tipos_v03.xsd'}
-            if processo.webservice in CONSULTAR_NFSE_POR_RPS:
-                enviado = retorno.findall(
-                    ".//consulta:CompNfse", namespaces=nsmap)
-                nao_encontrado = retorno.findall(
-                    ".//tipo:MensagemRetorno", namespaces=nsmap)
-
-                if enviado:
-                    # NFS-e já foi enviada
-
-                    cancelada = retorno.findall(
-                        ".//tipo:NfseCancelamento", namespaces=nsmap)
-
-                    if cancelada:
-                        # NFS-e enviada foi cancelada
-
-                        data = retorno.findall(
-                            ".//tipo:DataHora", namespaces=nsmap)[0].text
-                        data = datetime.strptime(data, '%Y-%m-%dT%H:%M:%S').\
-                            strftime("%m/%d/%Y")
-                        mensagem = _('NFS-e cancelada em ' + data)
-                        return mensagem
-
-                    else:
-                        numero = retorno.findall(".//tipo:InfNfse/tipo:Numero",
-                                                 namespaces=nsmap)[0].text
-                        cnpj_prestador = retorno.findall(
-                            ".//tipo:IdentificacaoPrestador/tipo:Cnpj",
-                            namespaces=nsmap)[0].text
-                        razao_social_prestador = retorno.findall(
-                            ".//tipo:PrestadorServico/tipo:RazaoSocial",
-                            namespaces=nsmap)[0].text
-
-                        varibles_error = []
-
-                        if numero != self.number:
-                            varibles_error.append('Número')
-                        if cnpj_prestador != misc.punctuation_rm(
-                                self.company_cnpj_cpf):
-                            varibles_error.append('CNPJ do prestador')
-                        if razao_social_prestador != self.company_legal_name:
-                            varibles_error.append('Razão Social de pestrador')
-
-                        if varibles_error:
-                            mensagem = _('Os seguintes campos não condizem com'
-                                         ' o provedor NFS-e: \n')
-                            mensagem += '\n'.join(varibles_error)
-                            return mensagem
-                        else:
-                            return _(
-                                "NFS-e enviada e corresponde com o provedor")
-
-                elif nao_encontrado:
-                    # NFS-e não foi enviada
-
-                    mensagem_erro = retorno.findall(
-                        ".//tipo:Mensagem", namespaces=nsmap)[0].text
-                    correcao = retorno.findall(
-                        ".//tipo:Correcao", namespaces=nsmap)[0].text
-                    codigo = retorno.findall(
-                        ".//tipo:Codigo", namespaces=nsmap)[0].text
-                    mensagem = _(
-                        codigo + ' - ' + mensagem_erro +
-                        ' - Correção: ' + correcao + '\n'
-                    )
-
-                    return mensagem
-
-                else:
-                    mensagem = _('Erro desconhecido.')
-                    return mensagem
+            return _(
+                processador.analisa_retorno_consulta(
+                    processo,
+                    self.number,
+                    self.company_cnpj_cpf,
+                    self.company_legal_name)
+            )
 
     @api.multi
     def _eletronic_document_send(self):
