@@ -33,6 +33,8 @@ from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
 from ..constants.ginfes import (
     RECEPCIONAR_LOTE_RPS,
     CONSULTAR_SITUACAO_LOTE_RPS,
+    CANCELAR_NFSE,
+    CONSULTAR_NFSE_POR_RPS,
 )
 
 
@@ -163,7 +165,7 @@ class Document(models.Model):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.cancela_documento(doc_numero=self.number)
 
-            if processo.webservice == 'CancelarNfseV3':
+            if processo.webservice in CANCELAR_NFSE:
                 mensagem_completa = ''
                 situacao = True
                 retorno = ET.fromstring(processo.retorno)
@@ -194,7 +196,7 @@ class Document(models.Model):
             nsmap = {'consulta': 'http://www.ginfes.com.br/servico_consultar_'
                                  'nfse_rps_resposta_v03.xsd',
                      'tipo': 'http://www.ginfes.com.br/tipos_v03.xsd'}
-            if processo.webservice == 'ConsultarNfsePorRpsV3':
+            if processo.webservice in CONSULTAR_NFSE_POR_RPS:
                 enviado = retorno.findall(
                     ".//consulta:CompNfse", namespaces=nsmap)
                 nao_encontrado = retorno.findall(
