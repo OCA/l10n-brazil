@@ -12,12 +12,6 @@ from odoo.tools.float_utils import float_round
 
 _logger = logging.getLogger(__name__)
 
-# TODO: MerchantId e MerchantKey de hml e produção (pegar valor da produção das configurações do payent acquirer
-CIELO_HEADERS = {
-        'MerchantId': 'be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd',
-        'MerchantKey': 'POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE',
-        'Content-Type': 'application/json',
-    }
 # TODO: INT_CURRENCIES é necessário?
 INT_CURRENCIES = [
     u'BRL', u'XAF', u'XPF', u'CLP', u'KMF', u'DJF', u'GNF', u'JPY', u'MGA', u'PYG', u'RWF', u'KRW',
@@ -75,9 +69,8 @@ class PaymentTransactionCielo(models.Model):
 
         _logger.info('_create_cielo_charge: Sending values to URL %s, values:\n%s', api_url_charge, pprint.pformat(charge_params))
         r = requests.post(api_url_charge,
-                          auth=(self.acquirer_id.cielo_secret_key, ''),
                           json=charge_params,
-                          headers=CIELO_HEADERS)
+                          headers=self.acquirer_id._get_cielo_api_headers())
         # TODO: Interpretar modelo de retorno em caso de erro (atualmente uma compra não autorizada da erro pois a resposta r não aceita o método json() )
         # TODO: Salvar todos os dados de retorno em seus respectivos campos (talvez criar novos para maior controle)
         # TODO: IMPORTANTE deletar informações do cartão e setar active=false pra não aparecer na lista de cartões salvos
