@@ -20,7 +20,6 @@
         # Views
         "views/account_tax_view.xml",
         "views/account_tax_template_view.xml",
-        "views/fiscal_tax_group_view.xml",
         "views/fiscal_operation_view.xml",
         'views/fiscal_operation_line_view.xml',
         'views/account_invoice_view.xml',
