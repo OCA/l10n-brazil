@@ -710,7 +710,7 @@ class Document(models.Model):
                 ('document_serie', '=', record.document_serie),
                 ('number', '=', record.number)]
 
-            if not record.issuer == DOCUMENT_ISSUER_PARTNER:
+            if record.issuer == DOCUMENT_ISSUER_PARTNER:
                 domain.append(('partner_id', '=', record.partner_id.id))
 
             if record.env["l10n_br_fiscal.document"].search(domain):
