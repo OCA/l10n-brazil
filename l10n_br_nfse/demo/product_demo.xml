@@ -18,6 +18,7 @@
         <field name="icms_origin" eval=""/>
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_105"/>
         <field name="fiscal_deductions_value">0.0</field>
+        <field name="city_taxation_code_id" ref="l10n_br_fiscal.city_taxation_code_itajuba"/>
     </record>
 
 </odoo>
