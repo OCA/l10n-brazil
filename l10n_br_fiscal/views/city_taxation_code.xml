@@ -4,7 +4,35 @@
 
 <odoo>
 
-    <record model="ir.ui.view" id="city_taxation_code_form_view">
+    <record id="city_taxation_code_search_view" model="ir.ui.view">
+        <field name="name">city.taxation.code.search (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.city.taxation.code</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code" />
+                <field name="name" />
+                <field name="service_type_id" />
+                <field name="state_id" />
+                <field name="city_id" />
+            </search>
+        </field>
+    </record>
+
+    <record id="city_taxation_code_tree_view" model="ir.ui.view">
+        <field name="name">city.taxation.code.tree (in l10n_br_fiscal)</field>
+        <field name="model">l10n_br_fiscal.city.taxation.code</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code" />
+                <field name="name" />
+                <field name="service_type_id" />
+                <field name="state_id" />
+                <field name="city_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="city_taxation_code_form_view" model="ir.ui.view">
         <field name="name">city.taxation.code.form (in l10n_br_fiscal)</field>
         <field name="model">l10n_br_fiscal.city.taxation.code</field>
         <field name="arch" type="xml">
@@ -19,38 +47,8 @@
                         <field name="state_id" />
                         <field name="city_id" />
                     </group>
-
                 </sheet>
-                <div class="oe_chatter"></div>
             </form>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="city_taxation_code_search_view">
-        <field name="name">city.taxation.code.search (in l10n_br_fiscal)</field>
-        <field name="model">l10n_br_fiscal.city.taxation.code</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="code" />
-                <field name="name" />
-                <field name="service_type_id" />
-                <field name="state_id" />
-                <field name="city_id" />
-            </search>
-        </field>
-    </record>
-
-    <record model="ir.ui.view" id="city_taxation_code_tree_view">
-        <field name="name">city.taxation.code.tree (in l10n_br_fiscal)</field>
-        <field name="model">l10n_br_fiscal.city.taxation.code</field>
-        <field name="arch" type="xml">
-            <tree>
-                <field name="code" />
-                <field name="name" />
-                <field name="service_type_id" />
-                <field name="state_id" />
-                <field name="city_id" />
-            </tree>
         </field>
     </record>
 
