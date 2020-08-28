@@ -10,8 +10,7 @@ from openerp.exceptions import UserError, ValidationError
 class TestPaymentOrder(TransactionCase):
 
     def setUp(self):
-        super(TestPaymentOrder, self).setUp()
-
+        super().setUp()
         # Get Invoice for test
         self.invoice_customer_original = self.env.ref(
             'l10n_br_account_payment_order.demo_invoice_payment_order'
@@ -19,7 +18,7 @@ class TestPaymentOrder(TransactionCase):
 
         # Payment Mode
         self.payment_mode = self.env.ref(
-            'account_payment_mode.payment_mode_inbound_ct1'
+            'l10n_br_account_payment_order.main_company_payment_mode_boleto'
         )
 
         self.env['account.payment.order'].search([])
@@ -133,7 +132,6 @@ class TestPaymentOrder(TransactionCase):
 
     def test_bra_number_constrains(self):
         """ Test bra_number constrains. """
-
         self.banco_bradesco = self.env[
             'res.bank'].search([('code_bc', '=', '033')])
         with self.assertRaises(ValidationError):

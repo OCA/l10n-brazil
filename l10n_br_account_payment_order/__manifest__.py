@@ -24,8 +24,10 @@
         'views/account_payment_mode.xml',
     ],
     'demo': [
-        'demo/account_payment_order_demo.xml',
-        'demo/account_payment_mode_demo.xml'
+        'demo/res_partner_bank.xml',
+        'demo/account_journal.xml',
+        'demo/account_payment_mode.xml',
+        'demo/account_payment_order.xml',
     ],
     'installable': True,
 }
