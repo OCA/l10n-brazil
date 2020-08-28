@@ -71,7 +71,6 @@ class PaymentTransactionCielo(models.Model):
         r = requests.post(api_url_charge,
                           json=charge_params,
                           headers=self.acquirer_id._get_cielo_api_headers())
-        # TODO: Interpretar modelo de retorno em caso de erro (atualmente uma compra não autorizada da erro pois a resposta r não aceita o método json() )
         # TODO: Salvar todos os dados de retorno em seus respectivos campos (talvez criar novos para maior controle)
         # TODO: IMPORTANTE deletar informações do cartão e setar active=false pra não aparecer na lista de cartões salvos
         res = r.json()
@@ -92,23 +91,34 @@ class PaymentTransactionCielo(models.Model):
             _logger.info('Cielo: trying to validate an already validated tx (ref %s)', self.reference)
             return True
 
-        status = tree.get('Payment').get('Status')
-        if status == 1:
-            self.write({
-                'date': fields.datetime.now(),
-                'acquirer_reference': tree.get('id'),
-            })
-            self._set_transaction_done()
-            self.execute_callback()
-            if self.payment_token_id:
-                self.payment_token_id.verified = True
-            return True
-        else:
-            error = tree.get('Payment').get('ReturnMessage')
+        if type(tree) != list:
+            status = tree.get('Payment').get('Status')
+            if status == 1:
+                self.write({
+                    'date': fields.datetime.now(),
+                    'acquirer_reference': tree.get('id'),
+                })
+                self._set_transaction_done()
+                self.execute_callback()
+                if self.payment_token_id:
+                    self.payment_token_id.verified = True
+                return True
+            else:
+                error = tree.get('Payment').get('ReturnMessage')
+                _logger.warn(error)
+                self.sudo().write({
+                    'state_message': error,
+                    'acquirer_reference': tree.get('id'),
+                    'date': fields.datetime.now(),
+                })
+                self._set_transaction_cancel()
+                return False
+
+        elif type(tree) == list:
+            error = tree[0].get('Message')
             _logger.warn(error)
             self.sudo().write({
                 'state_message': error,
-                'acquirer_reference': tree.get('id'),
                 'date': fields.datetime.now(),
             })
             self._set_transaction_cancel()
