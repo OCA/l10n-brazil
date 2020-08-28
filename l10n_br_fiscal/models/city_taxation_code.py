@@ -13,7 +13,7 @@ class CityTaxationCode(models.Model):
     service_type_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.service.type',
         string='Service Type',
-        domain="[('internal_type', '=', 'normal')]"
+        domain=[('internal_type', '=', 'normal')]
     )
 
     state_id = fields.Many2one(
