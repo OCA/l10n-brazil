@@ -30,28 +30,34 @@ class DocumentCancelWizard(models.TransientModel):
             document_id = self.env[self.env.context["active_model"]].browse(
                 self.env.context["active_id"]
             )
+            situacao, mensagem = document_id.cancelar_documento()
 
-            document_id.cancel_reason = wizard.justificative
-            msg = "Cancelamento: {}".format(wizard.justificative)
-            document_id.message_post(body=msg)
+            if situacao:
+                document_id.cancel_reason = wizard.justificative
+                msg = "Cancelamento: {}".format(wizard.justificative)
+                document_id.message_post(body=msg)
 
-            cancel = self.env[
-                'l10n_br_fiscal.document.cancel'].create({
-                    'document_id': document_id.id,
-                    'justificative': wizard.justificative,
+                cancel = self.env[
+                    'l10n_br_fiscal.document.cancel'].create({
+                        'document_id': document_id.id,
+                        'justificative': wizard.justificative,
+                    })
+                event_id = self.env['l10n_br_fiscal.document.event'].create({
+                    'type': '2',
+                    'response': 'Cancelamento da NFe %s' % document_id.key,
+                    'company_id': document_id.company_id.id,
+                    'origin': 'NFe-%s' % document_id.number,
+                    'create_date': fields.Datetime.now(),
+                    'write_date': fields.Datetime.now(),
+                    'end_date': fields.Datetime.now(),
+                    'state': 'draft',
+                    'cancel_document_event_id': cancel.id,
+                    'fiscal_document_event_id': document_id.id,
                 })
-            event_id = self.env['l10n_br_fiscal.document_event'].create({
-                'type': '2',
-                'response': 'Cancelamento da NFe %s' % document_id.key,
-                'company_id': document_id.company_id.id,
-                'origin': 'NFe-%s' % document_id.number,
-                'create_date': fields.Datetime.now(),
-                'write_date': fields.Datetime.now(),
-                'end_date': fields.Datetime.now(),
-                'state': 'draft',
-                'cancel_document_event_id': cancel.id,
-                'fiscal_document_event_id': document_id.id,
-            })
 
-            cancel.cancel_document(event_id)
+                cancel.cancel_document(event_id)
+            else:
+                raise ValidationError(
+                    _(mensagem))
+
         return {"type": "ir.actions.act_window_close"}

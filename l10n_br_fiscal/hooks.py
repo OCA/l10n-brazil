@@ -54,6 +54,7 @@ def post_init_hook(cr, registry):
             "demo/fiscal_operation_demo.xml",
             "demo/subsequent_operation_demo.xml",
             "demo/l10n_br_fiscal_document_email.xml",
+            "demo/city_taxation_code_demo.xml",
         ]
 
         # Load only demo CSV files with few lines instead of thousands
