@@ -1,4 +1,6 @@
-# -*- coding: utf-8 -*-
+# Copyright 2020 KMEE INFORMATICA LTDA
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 import unittest
 import odoo
 from odoo import fields
@@ -6,35 +8,35 @@ from odoo.addons.payment.tests.common import PaymentAcquirerCommon
 from odoo.tools import mute_logger
 
 
-class StripeCommon(PaymentAcquirerCommon):
+class CieloCommon(PaymentAcquirerCommon):
 
     def setUp(self):
-        super(StripeCommon, self).setUp()
-        self.stripe = self.env.ref('payment.payment_acquirer_stripe')
-        self.stripe.write({
-            'stripe_secret_key': 'sk_test_KJtHgNwt2KS3xM7QJPr4O5E8',
-            'stripe_publishable_key': 'pk_test_QSPnimmb4ZhtkEy3Uhdm4S6J',
+        super(CieloCommon, self).setUp()
+        self.cielo = self.env.ref('payment_cielo.payment_acquirer_cielo')
+        self.cielo.write({
+            'cielo_merchant_id': 'be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd',
+            'cielo_merchant_key': 'POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE',
         })
 
 
 @odoo.tests.tagged('post_install', '-at_install', '-standard', 'external')
-class StripeTest(StripeCommon):
+class CieloTest(CieloCommon):
 
     @unittest.skip("")
-    def test_10_stripe_s2s(self):
-        self.assertEqual(self.stripe.environment, 'test', 'test without test environment')
+    def test_10_cielo_s2s(self):
+        self.assertEqual(self.cielo.environment, 'test', 'test without test environment')
 
-        # Add Stripe credentials
-        self.stripe.write({
-            'stripe_secret_key': 'sk_test_bldAlqh1U24L5HtRF9mBFpK7',
-            'stripe_publishable_key': 'pk_test_0TKSyYSZS9AcS4keZ2cxQQCW',
+        # Add Cielo credentials
+        self.cielo.write({
+            'cielo_merchant_id': 'be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd',
+            'cielo_merchant_key': 'POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE',
         })
 
-        # Create payment meethod for Stripe
+        # Create payment meethod for Cielo
         payment_token = self.env['payment.token'].create({
-            'acquirer_id': self.stripe.id,
+            'acquirer_id': self.cielo.id,
             'partner_id': self.buyer_id,
-            'cc_number': '4242424242424242',
+            'cc_number': '4024007197692931',
             'cc_expiry': '02 / 26',
             'cc_brand': 'visa',
             'cvc': '111',
@@ -45,19 +47,17 @@ class StripeTest(StripeCommon):
         tx = self.env['payment.transaction'].create({
             'reference': 'test_ref_%s' % fields.date.today(),
             'currency_id': self.currency_euro.id,
-            'acquirer_id': self.stripe.id,
+            'acquirer_id': self.cielo.id,
             'partner_id': self.buyer_id,
             'payment_token_id': payment_token.id,
             'type': 'server2server',
             'amount': 115.0
         })
-        tx.stripe_s2s_do_transaction()
+        tx.cielo_s2s_do_transaction()
 
-        # Check state
-        self.assertEqual(tx.state, 'done', 'Stripe: Transcation has been discarded.')
 
-    def test_20_stripe_form_render(self):
-        self.assertEqual(self.stripe.environment, 'test', 'test without test environment')
+    def test_20_cielo_form_render(self):
+        self.assertEqual(self.cielo.environment, 'test', 'test without test environment')
 
         # ----------------------------------------
         # Test: button direct rendering
@@ -65,21 +65,21 @@ class StripeTest(StripeCommon):
 
         # render the button
         tx = self.env['payment.transaction'].create({
-            'acquirer_id': self.stripe.id,
+            'acquirer_id': self.cielo.id,
             'amount': 320.0,
             'reference': 'SO404',
             'currency_id': self.currency_euro.id,
         })
-        self.stripe.render('SO404', 320.0, self.currency_euro.id, values=self.buyer_values).decode('utf-8')
+        self.cielo.render('SO404', 320.0, self.currency_euro.id, values=self.buyer_values).decode('utf-8')
 
     @unittest.skip(
         "as the test is post-install and because payment_strip_sca changes"
         "the code logic and is automatically installed, this test is invalid.")
-    def test_30_stripe_form_management(self):
-        self.assertEqual(self.stripe.environment, 'test', 'test without test environment')
+    def test_30_cielo_form_management(self):
+        self.assertEqual(self.cielo.environment, 'test', 'test without test environment')
 
-        # typical data posted by Stripe after client has successfully paid
-        stripe_post_data = {
+        # typical data posted by Cielo after client has successfully paid
+        cielo_post_data = {
             u'amount': 470000,
             u'amount_refunded': 0,
             u'application_fee': None,
@@ -137,30 +137,30 @@ class StripeTest(StripeCommon):
 
         tx = self.env['payment.transaction'].create({
             'amount': 4700.0,
-            'acquirer_id': self.stripe.id,
+            'acquirer_id': self.cielo.id,
             'currency_id': self.currency_euro.id,
             'reference': 'SO100-1',
             'partner_name': 'Norbert Buyer',
             'partner_country_id': self.country_france.id})
 
         # validate it
-        tx.form_feedback(stripe_post_data, 'stripe')
-        self.assertEqual(tx.state, 'done', 'Stripe: validation did not put tx into done state')
-        self.assertEqual(tx.acquirer_reference, stripe_post_data.get('id'), 'Stripe: validation did not update tx id')
-        stripe_post_data['metadata']['reference'] = u'SO100-2'
+        tx.form_feedback(cielo_post_data, 'Cielo')
+        self.assertEqual(tx.state, 'done', 'Cielo: validation did not put tx into done state')
+        self.assertEqual(tx.acquirer_reference, cielo_post_data.get('id'), 'cielo: validation did not update tx id')
+        cielo_post_data['metadata']['reference'] = u'SO100-2'
         # reset tx
         tx = self.env['payment.transaction'].create({
             'amount': 4700.0,
-            'acquirer_id': self.stripe.id,
+            'acquirer_id': self.cielo.id,
             'currency_id': self.currency_euro.id,
             'reference': 'SO100-2',
             'partner_name': 'Norbert Buyer',
             'partner_country_id': self.country_france.id})
         # simulate an error
-        stripe_post_data['status'] = 'error'
-        stripe_post_data.update({u'error': {u'message': u"Your card's expiration year is invalid.", u'code': u'invalid_expiry_year', u'type': u'card_error', u'param': u'exp_year'}})
-        with mute_logger('odoo.addons.payment_stripe.models.payment'):
-            with mute_logger('odoo.addons.payment_stripe_sca.models.payment'):
-                tx.form_feedback(stripe_post_data, 'stripe')
+        cielo_post_data['status'] = 'error'
+        cielo_post_data.update({u'error': {u'message': u"Your card's expiration year is invalid.", u'code': u'invalid_expiry_year', u'type': u'card_error', u'param': u'exp_year'}})
+        with mute_logger('odoo.addons.payment_cielo.models.payment'):
+            with mute_logger('odoo.addons.payment_cielo_sca.models.payment'):
+                tx.form_feedback(cielo_post_data, 'cielo')
         # check state
         self.assertEqual(tx.state, 'cancel', 'Stipe: erroneous validation did not put tx into error state')
