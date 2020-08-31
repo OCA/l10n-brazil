@@ -11,3 +11,4 @@ from . import test_fiscal_document_generic
 from . import test_fiscal_closing
 from . import test_subsequent_operation
 from . import test_uom_uom
+from . import test_fiscal_document_nfse
