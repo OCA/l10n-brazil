@@ -47,7 +47,7 @@ class PaymentTokenCielo(models.Model):
         token = values.get('cielo_token')
         description = None
         payment_acquirer = self.env['payment.acquirer'].browse(values.get('acquirer_id'))
-        # when asking to create a token on Stripe servers
+
         if values.get('cc_number'):
             payment_params = {
                 'card[number]': values['cc_number'].replace(' ', ''),
