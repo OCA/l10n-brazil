@@ -16,10 +16,10 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
             super(TestFiscalDocumentNFSeCommon, self).setUp()
 
             self.nfse_same_state = self.env.ref(
-                'l10n_br_nfse.demo_nfse_same_state'
+                'l10n_br_fiscal.demo_nfse_same_state'
             )
             self.company = self.env.ref(
-                'l10n_br_fiscal.empresa_simples_nacional')
+                'l10n_br_base.empresa_simples_nacional')
 
             self.company.processador_edoc = 'erpbrasil_edoc'
             self.company.partner_id.inscr_mun = '35172'
@@ -100,3 +100,53 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
             p12.set_certificate(cert)
 
             return b64encode(p12.export(passwd))
+
+        def test_certified_nfse_same_state_(self):
+            """ Test Certified NFSe same state. """
+
+            self.nfse_same_state._onchange_document_serie_id()
+            self.nfse_same_state._onchange_fiscal_operation_id()
+
+            # RPS Number
+            self.assertEquals(
+                self.nfse_same_state.rps_number, '50',
+                "Error to mappping RPS Number 50"
+                " for Venda de Serviço de Contribuinte Dentro do Estado.")
+
+            # RPS Type
+            self.assertEquals(
+                self.nfse_same_state.rps_type, '1',
+                "Error to mappping RPS Type 1"
+                " for Venda de Serviço de Contribuinte Dentro do Estado.")
+
+            # Operation Nature
+            self.assertEquals(
+                self.nfse_same_state.operation_nature, '1',
+                "Error to mappping Operation Nature 1"
+                " for Venda de Serviço de Contribuinte Dentro do Estado.")
+
+            # Taxation Special Regime
+            self.assertEquals(
+                self.nfse_same_state.taxation_special_regime, '1',
+                "Error to mappping Taxation Special Regime 1"
+                " for Venda de Serviço de Contribuinte Dentro do Estado.")
+
+            for line in self.nfse_same_state.line_ids:
+                line._onchange_product_id_fiscal()
+                line._onchange_commercial_quantity()
+                line._onchange_ncm_id()
+                line._onchange_fiscal_operation_id()
+                line._onchange_fiscal_operation_line_id()
+                line._onchange_fiscal_taxes()
+
+                # Fiscal Deductions Value
+                self.assertEquals(
+                    line.fiscal_deductions_value, 0.0,
+                    "Error to mappping Fiscal Deductions Value 0.0"
+                    " for Venda de Serviço de Contribuinte Dentro do Estado.")
+
+                # City Taxation Code
+                self.assertEquals(
+                    line.city_taxation_code_id.code, '6311900',
+                    "Error to mappping City Taxation Code 6311900"
+                    " for Venda de Serviço de Contribuinte Dentro do Estado.")
