@@ -55,6 +55,11 @@ class PaymentTransactionCielo(models.Model):
            }
         }
 
+        self.payment_token_id.card_number = ''
+        self.payment_token_id.card_exp = ''
+        self.payment_token_id.card_cvc = ''
+        self.payment_token_id.active = False
+
         # charge_params = {
         #     'amount': int(self.amount if self.currency_id.name in INT_CURRENCIES else float_round(self.amount * 100, 2)),
         #     'currency': self.currency_id.name,
