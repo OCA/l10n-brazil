@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-from . import test_stripe
+from . import test_cielo
