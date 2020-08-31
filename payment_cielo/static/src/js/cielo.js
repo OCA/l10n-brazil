@@ -10,8 +10,6 @@ odoo.define('payment_cielo.cielo', function(require) {
     // Request token cielo via backend
 
 
-    // The following currencies are integer only, see
-    // https://stripe.com/docs/currencies#zero-decimal
     var int_currencies = [
         'BIF', 'XAF', 'XPF', 'CLP', 'KMF', 'DJF', 'GNF', 'JPY', 'MGA', 'PYG',
         'RWF', 'KRW', 'VUV', 'VND', 'XOF'
@@ -19,13 +17,13 @@ odoo.define('payment_cielo.cielo', function(require) {
 
     if ($.blockUI) {
         // our message needs to appear above the modal dialog
-        $.blockUI.defaults.baseZ = 2147483647; //same z-index as StripeCheckout
+        $.blockUI.defaults.baseZ = 2147483647;
         $.blockUI.defaults.css.border = '0';
         $.blockUI.defaults.css["background-color"] = '';
         $.blockUI.defaults.overlayCSS["opacity"] = '0.9';
     }
     var cieloHandler;
-    function getStripeHandler()
+    function getCieloHandler()
     {
         if (cieloHandler) {
             return cieloHandler;
@@ -125,7 +123,7 @@ odoo.define('payment_cielo.cielo', function(require) {
             // Restore 'Pay Now' button HTML since data might have changed it.
             $(provider_form[0]).find('#pay_cielo').replaceWith($pay_cielo);
         }).done(function () {
-            getStripeHandler().open({
+            getCieloHandler().open({
                 name: merchant,
                 description: invoice_num,
                 email: email,
