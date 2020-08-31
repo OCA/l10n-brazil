@@ -2,14 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-import requests
-import pprint
 
-from odoo import api, fields, models, _
-from odoo.addons.payment.models.payment_acquirer import ValidationError
-from odoo.exceptions import UserError
-from odoo.tools.safe_eval import safe_eval
-from odoo.tools.float_utils import float_round
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -18,8 +12,11 @@ class PaymentAcquirerCielo(models.Model):
     _inherit = 'payment.acquirer'
 
     provider = fields.Selection(selection_add=[('cielo', 'Cielo')])
-    cielo_merchant_key = fields.Char(required_if_provider='cielo', groups='base.group_user')
-    cielo_merchant_id = fields.Char(string='Cielo Merchant Id', required_if_provider='cielo', groups='base.group_user')
+    cielo_merchant_key = fields.Char(required_if_provider='cielo',
+                                     groups='base.group_user')
+    cielo_merchant_id = fields.Char(string='Cielo Merchant Id',
+                                    required_if_provider='cielo',
+                                    groups='base.group_user')
     cielo_image_url = fields.Char(
         "Checkout Image URL", groups='base.group_user')
 
@@ -28,7 +25,8 @@ class PaymentAcquirerCielo(models.Model):
         self.ensure_one()
 
         # mandatory fields
-        for field_name in ["cc_number", "cvc", "cc_holder_name", "cc_expiry", "cc_brand"]:
+        for field_name in ["cc_number", "cvc", "cc_holder_name", "cc_expiry",
+                           "cc_brand"]:
             if not data.get(field_name):
                 return False
         return True
@@ -69,4 +67,3 @@ class PaymentAcquirerCielo(models.Model):
                 'Content-Type': 'application/json',
             }
         return CIELO_HEADERS
-
