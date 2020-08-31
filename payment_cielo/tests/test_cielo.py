@@ -24,7 +24,8 @@ class CieloTest(CieloCommon):
 
     @unittest.skip("")
     def test_10_cielo_s2s(self):
-        self.assertEqual(self.cielo.environment, 'test', 'test without test environment')
+        self.assertEqual(self.cielo.environment, 'test',
+                         'test without test environment')
 
         # Add Cielo credentials
         self.cielo.write({
@@ -55,28 +56,30 @@ class CieloTest(CieloCommon):
         })
         tx.cielo_s2s_do_transaction()
 
-
     def test_20_cielo_form_render(self):
-        self.assertEqual(self.cielo.environment, 'test', 'test without test environment')
+        self.assertEqual(self.cielo.environment, 'test',
+                         'test without test environment')
 
         # ----------------------------------------
         # Test: button direct rendering
         # ----------------------------------------
 
         # render the button
-        tx = self.env['payment.transaction'].create({
+        self.env['payment.transaction'].create({
             'acquirer_id': self.cielo.id,
             'amount': 320.0,
             'reference': 'SO404',
             'currency_id': self.currency_euro.id,
         })
-        self.cielo.render('SO404', 320.0, self.currency_euro.id, values=self.buyer_values).decode('utf-8')
+        self.cielo.render('SO404', 320.0, self.currency_euro.id,
+                          values=self.buyer_values).decode('utf-8')
 
     @unittest.skip(
         "as the test is post-install and because payment_strip_sca changes"
         "the code logic and is automatically installed, this test is invalid.")
     def test_30_cielo_form_management(self):
-        self.assertEqual(self.cielo.environment, 'test', 'test without test environment')
+        self.assertEqual(self.cielo.environment, 'test',
+                         'test without test environment')
 
         # typical data posted by Cielo after client has successfully paid
         cielo_post_data = {
@@ -107,7 +110,8 @@ class CieloTest(CieloCommon):
                          u'has_more': False,
                          u'object': u'list',
                          u'total_count': 0,
-                         u'url': u'/v1/charges/ch_172xfnGMfVJxozLwEjSfpfxD/refunds'},
+                         u'url':
+                             u'/v1/charges/ch_172xfnGMfVJxozLwEjSfpfxD/refunds'},
             u'shipping': None,
             u'source': {u'address_city': None,
                         u'address_country': None,
@@ -145,8 +149,10 @@ class CieloTest(CieloCommon):
 
         # validate it
         tx.form_feedback(cielo_post_data, 'Cielo')
-        self.assertEqual(tx.state, 'done', 'Cielo: validation did not put tx into done state')
-        self.assertEqual(tx.acquirer_reference, cielo_post_data.get('id'), 'cielo: validation did not update tx id')
+        self.assertEqual(tx.state, 'done',
+                         'Cielo: validation did not put tx into done state')
+        self.assertEqual(tx.acquirer_reference, cielo_post_data.get('id'),
+                         'cielo: validation did not update tx id')
         cielo_post_data['metadata']['reference'] = u'SO100-2'
         # reset tx
         tx = self.env['payment.transaction'].create({
@@ -158,9 +164,13 @@ class CieloTest(CieloCommon):
             'partner_country_id': self.country_france.id})
         # simulate an error
         cielo_post_data['status'] = 'error'
-        cielo_post_data.update({u'error': {u'message': u"Your card's expiration year is invalid.", u'code': u'invalid_expiry_year', u'type': u'card_error', u'param': u'exp_year'}})
+        cielo_post_data.update({u'error': {
+            u'message': u"Your card's expiration year is invalid.",
+            u'code': u'invalid_expiry_year', u'type': u'card_error',
+            u'param': u'exp_year'}})
         with mute_logger('odoo.addons.payment_cielo.models.payment'):
             with mute_logger('odoo.addons.payment_cielo_sca.models.payment'):
                 tx.form_feedback(cielo_post_data, 'cielo')
         # check state
-        self.assertEqual(tx.state, 'cancel', 'Stipe: erroneous validation did not put tx into error state')
+        self.assertEqual(tx.state, 'cancel',
+                         'Stipe: erroneous validation did not put tx into error state')
