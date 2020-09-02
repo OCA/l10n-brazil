@@ -13,7 +13,7 @@
     "depends": ["sale_management", "l10n_br_account"],
     "data": [
         # Data
-        "data/company_data.xml",
+        "data/company.xml",
 
         # Security
         "security/ir.model.access.csv",
@@ -29,9 +29,9 @@
     ],
     "demo": [
         # Demo
-        "demo/company_demo.xml",
-        "demo/l10n_br_sale_demo.xml",
-        "demo/l10n_br_sale_product_demo.xml",
+        "demo/product.xml",
+        "demo/company.xml",
+        "demo/l10n_br_sale.xml",
     ],
     "installable": True,
     "auto_install": True,
