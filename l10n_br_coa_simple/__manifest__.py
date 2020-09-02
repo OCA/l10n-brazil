@@ -9,7 +9,7 @@
     "author": "Akretion, " "Odoo Community Association (OCA)",
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.1",
-    "depends": ["l10n_br_coa", "l10n_br_base"],
+    "depends": ["l10n_br_coa"],
     "data": [
         "data/l10n_br_coa_simple_template.xml",
         "data/account_group.xml",
