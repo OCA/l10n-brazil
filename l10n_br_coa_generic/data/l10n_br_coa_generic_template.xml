@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="l10n_br_coa_generic_template" model="account.chart.template">
-        <field name="name">Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)</field>
+        <field name="name">Plano de Contas Genérico para Empresas do Regime normal</field>
         <field name="code_digits">2</field>
         <field name="cash_account_code_prefix">1.1.1.1.</field>
         <field name="bank_account_code_prefix">1.1.1.2.</field>
