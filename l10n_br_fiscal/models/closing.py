@@ -329,7 +329,7 @@ class FiscalClosing(models.Model):
                 ziph.writestr(os.path.join(zip_path, file), file)
 
     def action_export(self):
-        temp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
+        temp_dir = tempfile.TemporaryDirectory()
 
         files_dir = self._prepara_arquivos(temp_dir)
         order_file = io.BytesIO()
