@@ -28,7 +28,7 @@
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="note">TESTE</field>
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="base.main_company"/>
     </record>
 
     <record id="sale_order_line_teste_1-1" model="sale.order.line">
@@ -67,7 +67,7 @@
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="note">TESTE</field>
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="base.main_company"/>
     </record>
 
     <record id="sale_order_line_teste_2-1" model="sale.order.line">
@@ -109,7 +109,7 @@
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="base.main_company"/>
     </record>
 
     <record id="sale_order_service-2-1" model="sale.order.line">
