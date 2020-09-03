@@ -33,7 +33,6 @@
         'reports/report_print_button_view.xml',
 
         # Views
-        'views/account_due_list.xml',
         'views/account_payment_order.xml',
         'views/account_payment_line.xml',
         'views/account_payment_mode.xml',
