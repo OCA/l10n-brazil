@@ -99,6 +99,10 @@ class ProductTemplate(models.Model):
         string='Tax UoM Factor',
         default=0.00)
 
+    cnae_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.cnae',
+        string='CNAE Code')
+
     # TODO add percent of estimate taxes
 
     @api.onchange('fiscal_type')
