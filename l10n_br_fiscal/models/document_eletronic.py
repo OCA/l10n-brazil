@@ -53,7 +53,8 @@ class DocumentEletronic(models.AbstractModel):
     # Eventos de envio
     data_hora_autorizacao = fields.Datetime(
         string="Data Hora",
-        readonly=True)
+        readonly=True,
+        copy=False)
 
     protocolo_autorizacao = fields.Char(
         string="Protocolo",
