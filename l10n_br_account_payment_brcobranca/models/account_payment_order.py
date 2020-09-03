@@ -268,15 +268,6 @@ class PaymentOrder(models.Model):
         else:
             raise UserError(res.text)
 
-        # self.state = 'done'
-        # self.cnab_file = base64.b64encode(remessa)
-
-        # Criando instancia do CNAB a partir do código do banco
-        #            cnab = Cnab.get_cnab(
-        #                order.mode.bank_id.bank_bic, order.mode.type.code)()
-
-        #                remessa = cnab.remessa(order)
-
         # TODO - Devido a configuração do TimeZone os arquivos
         #  que estão sendo criados dependendo do horário estão
         #  sendo salvos com a data do dia seguinte
@@ -289,9 +280,9 @@ class PaymentOrder(models.Model):
         elif self.payment_mode_id.payment_method_id.code == '500':
             file_name = 'PG%s%s.REM' % (
                 time.strftime('%d%m'), str(self.file_number))
-        # self.state = 'done'
-        # self.cnab_file = base64.b64encode(remessa)
-        # self.cnab_file = base64.b64encode(remessa)
-        # self.cnab_filename = self.name
 
         return remessa, file_name
+
+    def generated2uploaded(self):
+        super().generated2uploaded()
+        self.action_done()
