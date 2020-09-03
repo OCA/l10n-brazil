@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
 
-    <!-- Invoice -->
-    <record id="demo_invoice_payment_order" model="account.invoice">
-        <field name="name">Test Payment Order</field>
-        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
-        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="type">out_invoice</field>
-        <field name="account_id" model="account.account" eval="obj().env.ref('l10n_br_base.res_partner_akretion').property_account_receivable_id.id"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="payment_mode_id" ref="main_company_payment_mode_boleto"/>
-        <field name="user_id" ref="base.user_admin"/>
-    </record>
-
-    <record id="demo_invoice_line_original" model="account.invoice.line">
-        <field name="invoice_id" ref="demo_invoice_payment_order"/>
-        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
-        <field name="product_id" ref="product.product_product_5"/>
-        <field name="uom_id" ref="uom.product_uom_unit"/>
-        <field name="price_unit">100</field>
-        <field name="quantity">10</field>
-        <field name="account_id" model="account.account" eval="obj().env.ref('product.product_product_5').categ_id.property_account_income_categ_id.id"/>
-
     <!-- Conta Contabil -->
     <record model="account.account" id="1_account_template_3010101010200_avoid_travis_error_2">
         <field name="code">3.01.01.01.01.02.00-AVOID_TRAVIS_ERROR*</field>
