@@ -74,6 +74,7 @@ class Document(models.Model):
     verify_code = fields.Char(
         string='Verify Code',
         readonly=True,
+        copy=False,
     )
     nfse_environment = fields.Selection(
         selection=NFSE_ENVIRONMENTS,
