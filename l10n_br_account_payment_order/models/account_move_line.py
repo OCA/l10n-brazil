@@ -10,19 +10,10 @@ from ..constants import ESTADOS_CNAB, SITUACAO_PAGAMENTO
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    date_scheduled = fields.Date(
-        string='Data Prevista',
-    )
-
     cnab_state = fields.Selection(
         selection=ESTADOS_CNAB,
         string='Estados CNAB',
         default='draft',
-    )
-
-    date_payment_created = fields.Date(
-        string='Data da criação do pagamento',
-        readonly=True,
     )
 
     own_number = fields.Char(
@@ -46,12 +37,6 @@ class AccountMoveLine(models.Model):
     instructions = fields.Text(
         string='Instruções de cobrança',
         readonly=True,
-    )
-
-    residual = fields.Monetary(
-        string='Valor Residual',
-        default=0.0,
-        currency_field='company_currency_id',
     )
 
     journal_entry_ref = fields.Char(
