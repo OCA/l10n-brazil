@@ -27,26 +27,92 @@ class Cnab(object):
         self.cnab_type = False
 
     @staticmethod
-    def get_cnab(bank, cnab_type='240'):
+    def gerar_remessa(order):
+        bank_code = order.company_partner_bank_id.bank_id.code_bc
+        cnab_type = order.payment_mode_id.payment_method_id.code
+
         if cnab_type == '240':
-            from .cnab_240.cnab_240 import Cnab240
-            return Cnab240.get_bank(bank)
+            from febraban.cnab240.itau.sispag import Transfer, File
+            from febraban.cnab240.itau.sispag.file.lot import Lot
+            from febraban.cnab240.user import User, UserAddress, UserBank
+            sender = User(
+                name="YOUR COMPANY NAME HERE",
+                identifier="12345678901234",
+                bank=UserBank(
+                    bankId="341",
+                    branchCode="4321",
+                    accountNumber="12345678",
+                    accountVerifier="9"
+                ),
+                address=UserAddress(
+                    streetLine1="AV PAULISTA 1000",
+                    city="SAO PAULO",
+                    stateCode="SP",
+                    zipCode="01310000"
+                )
+            )
+
+            receiver1 = User(
+                name="RECEIVER NAME HERE",
+                identifier="01234567890",
+                bank=UserBank(
+                    bankId="341",
+                    branchCode="1234",
+                    accountNumber="123456",
+                    accountVerifier="9"
+                )
+            )
+
+            receiver2 = User(
+                name="RECEIVER NAME HERE",
+                identifier="01234567890",
+                bank=UserBank(
+                    bankId="341",
+                    branchCode="1234",
+                    accountNumber="123456",
+                    accountVerifier="9"
+                )
+            )
+
+            receivers = [receiver1, receiver2]
+
+            file = File()
+            file.setSender(sender)
+
+            lot = Lot()
+            sender.name = "SENDER NAME"
+            lot.setSender(sender)
+            lot.setHeaderLotType(
+                kind="20",  # Tipo de pagamento - Fornecedores
+                method="01"  # TED - Outra titularidade
+            )
+
+            for receiver in receivers:
+                payment = Transfer()
+                payment.setSender(sender)
+                payment.setReceiver(receiver)
+                payment.setAmountInCents("10000")
+                payment.setScheduleDate("06052020")
+                payment.setInfo(
+                    reason="10"  # Crédito em Conta Corrente
+                )
+                payment.setIdentifier("ID1234567890")
+                lot.add(register=payment)
+
+            file.addLot(lot)
+            return file.toString().encode()
         elif cnab_type == '400':
+            raise NotImplementedError
+            # Legacy Code
             from .cnab_400.cnab_400 import Cnab400
             return Cnab400.get_bank(bank)
         elif cnab_type == '500':
+            raise NotImplementedError
+            # Legacy Code
             from .pag_for.pag_for500 import PagFor500
             return PagFor500.get_bank(bank)
         else:
             return False
-
-    @staticmethod
-    def gerar_remessa(order):
-        cnab = Cnab.get_cnab(
-            order.company_partner_bank_id.bank_id.code_bc,
-            order.payment_mode_id.payment_method_id.code
-        )()
-        return cnab.remessa(order)
 
     @staticmethod
     def detectar_retorno(cnab_file_object):
