@@ -51,6 +51,7 @@
                             <field name="cest_id" attrs="{'invisible': [('fiscal_type', '=', '09')]}"/>
                             <field name="nbm_id" attrs="{'invisible': [('fiscal_type', '=', '09')]}"/>
                             <field name="nbs_id" attrs="{'invisible': [('fiscal_type', '!=', '09')]}"/>
+                            <field name="cnae_id"/>
                         </group>
                         <group string="Tax UOM">
                             <field name="uoe_id"/>
