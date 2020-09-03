@@ -21,6 +21,13 @@ class DocumentLine(models.Model):
         comodel_name='l10n_br_fiscal.city.taxation.code'
     )
 
+    cnae_id = fields.Many2one(
+        comodel='l10n_br_fiscal.cnae',
+        string='CNAE Code',
+        related='product_id.cnae_id',
+        store=True,
+    )
+
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
         super(DocumentLine, self)._onchange_product_id_fiscal()
@@ -83,4 +90,5 @@ class DocumentLine(models.Model):
             'codigo_tributacao_municipio':
                 self.city_taxation_code_id.code or '',
             'discriminacao': str(self.name[:120] or ''),
+            'codigo_cnae': self.cnae_id.code or '',
         }

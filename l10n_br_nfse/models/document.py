@@ -133,7 +133,7 @@ class Document(models.Model):
     def _prepare_dados_servico(self):
         self.line_ids.ensure_one()
         result = {
-            'codigo_cnae': None,
+
         }
         result.update(self.line_ids.prepare_line_servico())
         result.update(self.company_id.prepare_company_servico())
