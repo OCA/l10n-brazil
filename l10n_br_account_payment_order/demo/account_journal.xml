@@ -2,6 +2,30 @@
 <odoo noupdate="1">
 
     <!-- Diarios -->
+    <!-- Account Journal for Main Company -->
+    <record id="main_company_bank_journal" model="account.journal">
+        <field name="name">Diário de Banco - Empresa Principal</field>
+        <field name="code">TPO</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <!-- Account Journal for Simples Nacional -->
+    <record id="simples_nacional_bank_journal" model="account.journal">
+        <field name="name">Diário de Banco - Simples Nacional</field>
+        <field name="code">TPO</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
+    </record>
+
+    <!-- Account Journal for Lucro Presumido -->
+    <record id="lucro_presumido_bank_journal" model="account.journal">
+        <field name="name">Diário de Banco - Lucro Presumido</field>
+        <field name="code">TPO</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
+    </record>
+
     <!-- Diario Bradesco -->
     <record id="bradesco_journal" model="account.journal">
         <field name="name">Banco Bradesco</field>
