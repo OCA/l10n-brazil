@@ -10,15 +10,15 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
     'depends': [
-        'l10n_br_account_payment_cobranca',
-        'queue_job'
+        'l10n_br_account_payment_order',
+        # 'queue_job'
     ],
     'data': [
-        'views/account_invoice.xml',
+        # 'views/account_invoice.xml',
     ],
     'demo': [
     ],
     'external_dependencies': {
-        'python': ['pyboleto'],
+        'python': ['erpbrasil.febraban'],
     },
 }

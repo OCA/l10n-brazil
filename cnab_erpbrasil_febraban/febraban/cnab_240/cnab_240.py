@@ -15,13 +15,12 @@ import time
 import unicodedata
 from decimal import Decimal
 
-from odoo.addons.l10n_br_base.tools.misc import punctuation_rm
 
 from ..cnab import Cnab
 
 _logger = logging.getLogger(__name__)
 try:
-    from cnab240.tipos import Arquivo, Lote
+    from erpbrasi.febraban.cnab.tipos import Arquivo, Lote
 except ImportError as err:
     _logger.debug = err
 
@@ -42,23 +41,23 @@ class Cnab240(Cnab):
         :param bank: str - Código do banco
         :return:
         '''
-        if bank == '341':
-            from .bancos.itau import Itau240
-            return Itau240
-        elif bank == '237':
-            from .bancos.bradesco import Bradesco240
-            return Bradesco240
-        elif bank == '104':
-            from .bancos.cef import Cef240
-            return Cef240
-        elif bank == '033':
-            from .bancos.santander import Santander240
-            return Santander240
-        elif bank == '001':
-            from .bancos.bb import BB240
-            return BB240
-        else:
-            return Cnab240
+        # if bank == '341':
+        #     from .bancos.itau import Itau240
+        #     return Itau240
+        # elif bank == '237':
+        #     from .bancos.bradesco import Bradesco240
+        #     return Bradesco240
+        # elif bank == '104':
+        #     from .bancos.cef import Cef240
+        #     return Cef240
+        # elif bank == '033':
+        #     from .bancos.santander import Santander240
+        #     return Santander240
+        # elif bank == '001':
+        #     from .bancos.bb import BB240
+        #     return BB240
+        # else:
+        return Cnab240
 
     def get_inscricao_tipo(self, partner_id):
         # TODO: Implementar codigo para PIS/PASEP
@@ -490,9 +489,18 @@ class Cnab240(Cnab):
         :param order: payment.order
         :return: Arquivo Cnab pronto para download
         """
-        # cobrancasimples_valor_titulos = 0
-
         self.order = order
+
+        if not (self.order.company_partner_bank_id and
+            self.order.company_partner_bank_id.bank_id
+        ):
+            raise NotImplementedError
+
+        bank_id = self.order.company_partner_bank_id.bank_id
+
+
+
+        # self.bank =
 
         # Preparar Header do Arquivo
         self.arquivo = Arquivo(self.bank, **self._prepare_header())

@@ -8,7 +8,8 @@ import logging
 _logger = logging.getLogger(__name__)
 
 try:
-    from pyboleto import bank
+    from erpbrasil.febraban.boleto.banco import get_class_for_codigo
+    from erpbrasil.febraban.boleto.exceptions import BoletoException
 except ImportError as err:
     _logger.debug = err
 
@@ -16,7 +17,6 @@ try:
     from cStringIO import StringIO
 except ImportError:
     from io import StringIO
-BoletoException = bank.BoletoException
 
 
 class Boleto:
@@ -42,7 +42,7 @@ class Boleto:
         bank_code = \
             move_line.payment_mode_id. \
             fixed_journal_id.bank_account_id.bank_id.code_bc
-        return bank.get_class_for_codigo(bank_code)
+        return get_class_for_codigo(bank_code)
 
     def __init__(self, move_line, nosso_numero):
         self._cedente(move_line.company_id)

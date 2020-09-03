@@ -10,9 +10,9 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-from odoo.addons.queue_job.job import job
+# from odoo.addons.queue_job.job import job
 
-from pyboleto.bank_api.itau import ApiItau
+# from pyboleto.bank_api.itau import ApiItau
 
 _logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class AccountInvoice(models.Model):
 
     _inherit = 'account.invoice'
 
-    @job
+    # @job
     @api.multi
     def register_invoice_api(self):
         for record in self:

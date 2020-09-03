@@ -17,8 +17,8 @@ from ..cnab import Cnab
 
 _logger = logging.getLogger(__name__)
 try:
-    from cnab240.tipos import ArquivoCobranca400
-    from cnab240.errors import Cnab240Error
+    from erpbrasil.febraban.cnab.tipos import ArquivoCobranca400
+    from erpbrasil.febraban.cnab.errors import Cnab240Error
 except ImportError as err:
     _logger.debug = (err)
 

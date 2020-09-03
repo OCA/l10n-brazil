@@ -12,6 +12,8 @@ from ..febraban.cnab import Cnab
 _logger = logging.getLogger(__name__)
 
 try:
+    from erpbrasi.febraban.cnab.tipos import Arquivo, Lote
+
     from cnab240.errors import (Cnab240Error)
 except ImportError as err:
     _logger.debug = err
