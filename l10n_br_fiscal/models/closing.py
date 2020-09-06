@@ -5,7 +5,6 @@
 
 import os
 import base64
-import re
 import tempfile
 import zipfile
 import io
@@ -25,18 +24,10 @@ from ..constants.fiscal import (
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
     MODELO_FISCAL_NFSE,
     MODELO_FISCAL_RL,
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_ENVIADA,
-    SITUACAO_EDOC_REJEITADA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_INUTILIZADA,
-)
-
-from odoo.addons.l10n_br_nfe.constants.nfe import (
-    NFE_ENVIRONMENTS
 )
 
 _logger = logging.getLogger(__name__)
@@ -233,7 +224,7 @@ class FiscalClosing(models.Model):
             fsc_op_type.get(document.fiscal_operation_type),
             (document.document_serie or '').zfill(3) +
             ('-' + misc.punctuation_rm(str(document.number)).zfill(9)
-            if self.group_folder else '')
+                if self.group_folder else '')
         ])
         return document_path
 
@@ -258,7 +249,7 @@ class FiscalClosing(models.Model):
     def _document_domain(self, periodic_export):
         domain = [
             ('document_type', 'in', MODELO_FISCAL_EMISSAO_PRODUTO +
-                                    MODELO_FISCAL_EMISSAO_SERVICO),
+                MODELO_FISCAL_EMISSAO_SERVICO),
             ('state_edoc', 'in', SITUACAO_EDOC),
         ]
 
