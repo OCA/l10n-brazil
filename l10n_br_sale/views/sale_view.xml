@@ -73,8 +73,14 @@
             </xpath>
             <xpath expr="//field[@name='order_line']/form//label[@for='customer_lead']" position="before">
                 <field name="fiscal_type" force_save="1" invisible="1" readonly="1"/>
-                <field name="fiscal_operation_id" required="1"/>
-                <field name="fiscal_operation_line_id" required="1"/>
+                <field name="fiscal_operation_id" attrs="{
+                    'readonly': [('state', 'in', ('sale', 'done', 'cancel'))],
+                    'required': [('display_type', '=', False)],
+                }"/>
+                <field name="fiscal_operation_line_id" attrs="{
+                    'readonly': [('state', 'in', ('sale', 'done', 'cancel'))],
+                    'required': [('display_type', '=', False)],
+                }"/>
                 <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '=', '00'), ('cfop_id', '!=', False)]}"/>
                 <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '=', False)]}"/>
                 <field name="cfop_destination" invisible="1"/>
@@ -94,13 +100,13 @@
             <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
                 <notebook>
                   <page name="fiscal_taxes" string="Taxes"/>
-                  <page string="Invoice Lines" groups="base.group_no_one">
+                  <page string="Invoice Lines" groups="base.group_no_one" attrs="{'invisible': [('display_type', '!=', False)]}">
                       <div attrs="{'invisible': [('display_type', '!=', False)]}">
                           <label for="invoice_lines"/>
                           <field name="invoice_lines"/>
                       </div>
                   </page>
-                  <page name="outros" string="Outros Custos">
+                  <page name="outros" string="Outros Custos" attrs="{'invisible': [('display_type', '!=', False)]}">
                       <group>
                         <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
                           <field name="freight_value"/>

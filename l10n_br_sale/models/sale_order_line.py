@@ -1,8 +1,13 @@
 # @ 2019 Akretion - www.akretion.com.br -
 #   Magno Costa <magno.costa@akretion.com.br>
+# @ 2020 KMEE - www.kme.com.br
+#   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from lxml import etree
+
 from odoo import api, fields, models
+from odoo.osv.orm import setup_modifiers
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 
@@ -139,3 +144,19 @@ class SaleOrderLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
         self.tax_id |= self.fiscal_tax_ids.account_taxes()
+
+    @api.model
+    def fiscal_form_view(self, form_view_arch):
+        """ Do not display fiscal taxes at section and comment lines
+        :param form_view_arch:
+        :return:
+        """
+        arch = super(SaleOrderLine, self).fiscal_form_view(form_view_arch)
+
+        sale_arch = etree.XML(arch)
+        page_node = sale_arch.xpath("//page[@name='fiscal_taxes']")
+        if page_node:
+            page_node[0].set('invisible', str(('display_type', '!=', False)))
+            setup_modifiers(sale_arch)
+            return etree.tostring(sale_arch)
+        return arch
