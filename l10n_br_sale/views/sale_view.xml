@@ -73,12 +73,12 @@
                 </group>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//label[@for='customer_lead']" position="before">
-                <field name="fiscal_operation_id" required="1" options="{'no_create': True}"/>
-                <field name="fiscal_operation_line_id" required="1" options="{'no_create': True}"/>
+                <field name="fiscal_operation_id" options="{'no_create': True}" attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)]}"/>
+                <field name="fiscal_operation_line_id" options="{'no_create': True}" attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)]}"/>
                 <field name="cfop_id" options="{'no_create': True}" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
-                <field name="service_type_id" options="{'no_create': True}" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"/>
                 <field name="price_total" invisible="1"/>
                 <field name="price_subtotal" invisible="1"/>
+                <field name="service_type_id" options="{'no_create': True}" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="replace"/>
             <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace"/>
@@ -91,10 +91,10 @@
                 <field name="fiscal_price"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
-                <notebook>
+                <notebook attrs="{'invisible': [('display_type', '!=', False)]}">
                   <page name="fiscal_taxes" string="Taxes"/>
-                  <page string="Invoice Lines" groups="base.group_no_one">
-                      <div attrs="{'invisible': [('display_type', '!=', False)]}">
+                  <page string="Invoice Lines" groups="base.group_no_one" attrs="{'invisible': [('display_type', '!=', False)]}">
+                      <div>
                           <label for="invoice_lines"/>
                           <field name="invoice_lines"/>
                       </div>
