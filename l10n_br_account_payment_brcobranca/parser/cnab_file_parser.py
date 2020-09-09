@@ -16,149 +16,149 @@ from odoo.addons.account_move_base_import.parser.file_parser import (
 )
 
 DICT_OCORRENCIAS_BRADESCO = {
-    '02': u'Entrada Confirmada (verificar motivo na posição 319 a 328)',
-    '03': u'Entrada Rejeitada ( verificar motivo na posição 319 a 328)',
-    '06': u'Liquidação normal (sem motivo)',
-    '09': u'Baixado Automat. via Arquivo (verificar motivo posição 319 a 328)',
-    '10': u'Baixado conforme instruções da Agência('
-          u'verificar motivo pos.319 a 328)',
-    '11': u'Em Ser - Arquivo de Títulos pendentes (sem motivo)',
-    '12': u'Abatimento Concedido (sem motivo)',
-    '13': u'Abatimento Cancelado (sem motivo)',
-    '14': u'Vencimento Alterado (sem motivo)',
-    '15': u'Liquidação em Cartório (sem motivo)',
-    '16': u'Título Pago em Cheque – Vinculado',
-    '17': u'Liquidação após baixa ou Título não registrado (sem motivo)',
-    '18': u'Acerto de Depositária (sem motivo)',
-    '19': u'Confirmação Receb. Inst. de Protesto '
-          u'(verificar motivo pos.295 a 295)',
-    '20': u'Confirmação Recebimento Instrução Sustação de'
-          u' Protesto (sem motivo)',
-    '21': u'Acerto do Controle do Participante (sem motivo)',
-    '22': u'Título Com Pagamento Cancelado',
-    '23': u'Entrada do Título em Cartório (sem motivo)',
-    '24': u'Entrada rejeitada por CEP Irregular'
-          u' (verificar motivo pos.319 a 328)',
-    '25': u'Confirmação Receb.Inst.de Protesto Falimentar'
-          u' (verificar pos.295 a 295)',
-    '27': u'Baixa Rejeitada (verificar motivo posição 319 a 328)',
-    '28': u'Débito de tarifas/custas (verificar motivo na posição 319 a 328)',
-    '29': u'Ocorrências do Pagador (NOVO)',
-    '30': u'Alteração de Outros Dados Rejeitados '
-          u'(verificar motivo pos.319 a 328)',
-    '32': u'Instrução Rejeitada (verificar motivo posição 319 a 328)',
-    '33': u'Confirmação Pedido Alteração Outros Dados (sem motivo)',
-    '34': u'Retirado de Cartório e Manutenção Carteira (sem motivo)',
-    '35': u'Desagendamento do débito automático '
-          u'(verificar motivos pos. 319 a 328)',
-    '40': u'Estorno de pagamento (NOVO)',
-    '55': u'Sustado judicial (NOVO)',
-    '68': u'Acerto dos dados do rateio de Crédito (verificar motivo posição de'
-          u' status do registro tipo 3)',
-    '69': u'Cancelamento dos dados do rateio (verificar motivo posição de'
-          u' status do registro tipo 3)',
-    '073': u'Confirmação Receb. Pedido de Negativação (NOVO)',
-    '074': u'Confir Pedido de Excl de Negat (com ou sem baixa) (NOVO)',
-    '00': u'Nota: Para as ocorrências sem motivos, as posições serão'
-          u' informadas com Zeros.',
+    '02': 'Entrada Confirmada (verificar motivo na posição 319 a 328)',
+    '03': 'Entrada Rejeitada ( verificar motivo na posição 319 a 328)',
+    '06': 'Liquidação normal (sem motivo)',
+    '09': 'Baixado Automat. via Arquivo (verificar motivo posição 319 a 328)',
+    '10': 'Baixado conforme instruções da Agência('
+          'verificar motivo pos.319 a 328)',
+    '11': 'Em Ser - Arquivo de Títulos pendentes (sem motivo)',
+    '12': 'Abatimento Concedido (sem motivo)',
+    '13': 'Abatimento Cancelado (sem motivo)',
+    '14': 'Vencimento Alterado (sem motivo)',
+    '15': 'Liquidação em Cartório (sem motivo)',
+    '16': 'Título Pago em Cheque – Vinculado',
+    '17': 'Liquidação após baixa ou Título não registrado (sem motivo)',
+    '18': 'Acerto de Depositária (sem motivo)',
+    '19': 'Confirmação Receb. Inst. de Protesto '
+          '(verificar motivo pos.295 a 295)',
+    '20': 'Confirmação Recebimento Instrução Sustação de'
+          ' Protesto (sem motivo)',
+    '21': 'Acerto do Controle do Participante (sem motivo)',
+    '22': 'Título Com Pagamento Cancelado',
+    '23': 'Entrada do Título em Cartório (sem motivo)',
+    '24': 'Entrada rejeitada por CEP Irregular'
+          ' (verificar motivo pos.319 a 328)',
+    '25': 'Confirmação Receb.Inst.de Protesto Falimentar'
+          ' (verificar pos.295 a 295)',
+    '27': 'Baixa Rejeitada (verificar motivo posição 319 a 328)',
+    '28': 'Débito de tarifas/custas (verificar motivo na posição 319 a 328)',
+    '29': 'Ocorrências do Pagador (NOVO)',
+    '30': 'Alteração de Outros Dados Rejeitados '
+          '(verificar motivo pos.319 a 328)',
+    '32': 'Instrução Rejeitada (verificar motivo posição 319 a 328)',
+    '33': 'Confirmação Pedido Alteração Outros Dados (sem motivo)',
+    '34': 'Retirado de Cartório e Manutenção Carteira (sem motivo)',
+    '35': 'Desagendamento do débito automático '
+          '(verificar motivos pos. 319 a 328)',
+    '40': 'Estorno de pagamento (NOVO)',
+    '55': 'Sustado judicial (NOVO)',
+    '68': 'Acerto dos dados do rateio de Crédito (verificar motivo posição de'
+          ' status do registro tipo 3)',
+    '69': 'Cancelamento dos dados do rateio (verificar motivo posição de'
+          ' status do registro tipo 3)',
+    '073': 'Confirmação Receb. Pedido de Negativação (NOVO)',
+    '074': 'Confir Pedido de Excl de Negat (com ou sem baixa) (NOVO)',
+    '00': 'Nota: Para as ocorrências sem motivos, as posições serão'
+          ' informadas com Zeros.',
 }
 
 DICT_OCORRENCIAS_ITAU = {
-    '02': u'ENTRADA CONFIRMADA COM POSSIBILIDADE DE MENSAGEM'
-          u' (NOTA 20 – TABELA 10)',
-    '03': u'ENTRADA REJEITADA (NOTA 20 – TABELA 1)',
-    '04': u'ALTERAÇÃO DE DADOS – NOVA ENTRADA OU ALTERAÇÃO/EXCLUSÃO'
-          u' DE DADOS ACATADA',
-    '05': u'ALTERAÇÃO DE DADOS – BAIXA',
-    '06': u'LIQUIDAÇÃO NORMAL',
-    '07': u'LIQUIDAÇÃO PARCIAL – COBRANÇA INTELIGENTE (B2B)',
-    '08': u'LIQUIDAÇÃO EM CARTÓRIO',
-    '09': u'BAIXA SIMPLES',
-    '10': u'BAIXA POR TER SIDO LIQUIDADO',
-    '11': u'EM SER (SÓ NO RETORNO MENSAL)',
-    '12': u'ABATIMENTO CONCEDIDO',
-    '13': u'ABATIMENTO CANCELADO',
-    '14': u'VENCIMENTO ALTERADO',
-    '15': u'BAIXAS REJEITADAS (NOTA 20 – TABELA 4)',
-    '16': u'INSTRUÇÕES REJEITADAS (NOTA 20 – TABELA 3)',
-    '17': u'ALTERAÇÃO/EXCLUSÃO DE DADOS REJEITADOS (NOTA 20 – TABELA 2)',
-    '18': u'COBRANÇA CONTRATUAL – INSTRUÇÕES/ALTERAÇÕES'
-          u' REJEITADAS/PENDENTES (NOTA 20 – TABELA 5)',
-    '19': u'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE PROTESTO',
-    '20': u'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE SUSTAÇÃO'
-          u' DE PROTESTO /TARIFA',
-    '21': u'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE NÃO PROTESTAR',
-    '23': u'TÍTULO ENVIADO A CARTÓRIO/TARIFA',
-    '24': u'INSTRUÇÃO DE PROTESTO REJEITADA / SUSTADA / PENDENTE'
-          u' (NOTA 20 – TABELA 7)',
-    '25': u'ALEGAÇÕES DO PAGADOR (NOTA 20 – TABELA 6)',
-    '26': u'TARIFA DE AVISO DE COBRANÇA',
-    '27': u'TARIFA DE EXTRATO POSIÇÃO (B40X)',
-    '28': u'TARIFA DE RELAÇÃO DAS LIQUIDAÇÕES',
-    '29': u'TARIFA DE MANUTENÇÃO DE TÍTULOS VENCIDOS',
-    '30': u'DÉBITO MENSAL DE TARIFAS (PARA ENTRADAS E BAIXAS)',
-    '32': u'BAIXA POR TER SIDO PROTESTADO',
-    '33': u'CUSTAS DE PROTESTO',
-    '34': u'CUSTAS DE SUSTAÇÃO',
-    '35': u'CUSTAS DE CARTÓRIO DISTRIBUIDOR',
-    '36': u'CUSTAS DE EDITAL',
-    '37': u'TARIFA DE EMISSÃO DE BOLETO/TARIFA DE ENVIO DE DUPLICATA',
-    '38': u'TARIFA DE INSTRUÇÃO',
-    '39': u'TARIFA DE OCORRÊNCIAS',
-    '40': u'TARIFA MENSAL DE EMISSÃO DE BOLETO/TARIFA MENSAL'
-          u' DE ENVIO DE DUPLICATA',
-    '41': u'DÉBITO MENSAL DE TARIFAS – EXTRATO DE POSIÇÃO (B4EP/B4OX)',
-    '42': u'DÉBITO MENSAL DE TARIFAS – OUTRAS INSTRUÇÕES',
-    '43': u'DÉBITO MENSAL DE TARIFAS – MANUTENÇÃO DE TÍTULOS VENCIDOS',
-    '44': u'DÉBITO MENSAL DE TARIFAS – OUTRAS OCORRÊNCIAS',
-    '45': u'DÉBITO MENSAL DE TARIFAS – PROTESTO',
-    '46': u'DÉBITO MENSAL DE TARIFAS – SUSTAÇÃO DE PROTESTO',
-    '47': u'BAIXA COM TRANSFERÊNCIA PARA DESCONTO',
-    '48': u'CUSTAS DE SUSTAÇÃO JUDICIAL',
-    '51': u'TARIFA MENSAL REF A ENTRADAS BANCOS CORRESPONDENTES NA CARTEIRA',
-    '52': u'TARIFA MENSAL BAIXAS NA CARTEIRA',
-    '53': u'TARIFA MENSAL BAIXAS EM BANCOS CORRESPONDENTES NA CARTEIRA',
-    '54': u'TARIFA MENSAL DE LIQUIDAÇÕES NA CARTEIRA',
-    '55': u'TARIFA MENSAL DE LIQUIDAÇÕES EM BANCOS'
-          u' CORRESPONDENTES NA CARTEIRA',
-    '56': u'CUSTAS DE IRREGULARIDADE',
-    '57': u'INSTRUÇÃO CANCELADA (NOTA 20 – TABELA 8)',
-    '59': u'BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG',
-    '60': u'ENTRADA REJEITADA CARNÊ (NOTA 20 – TABELA 1)',
-    '61': u'TARIFA EMISSÃO AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)',
-    '62': u'DÉBITO MENSAL DE TARIFA – AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)',
-    '63': u'TÍTULO SUSTADO JUDICIALMENTE',
-    '64': u'ENTRADA CONFIRMADA COM RATEIO DE CRÉDITO',
-    '65': u'PAGAMENTO COM CHEQUE – AGUARDANDO COMPENSAÇÃO',
-    '69': u'CHEQUE DEVOLVIDO (NOTA 20 – TABELA 9)',
-    '71': u'ENTRADA REGISTRADA, AGUARDANDO AVALIAÇÃO',
-    '72': u'BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG'
-          u' SEM TÍTULO CORRESPONDENTE',
-    '73': u'CONFIRMAÇÃO DE ENTRADA NA COBRANÇA SIMPLES –'
-          u' ENTRADA NÃO ACEITA NA COBRANÇA CONTRATUAL',
-    '74': u'INSTRUÇÃO DE NEGATIVAÇÃO EXPRESSA REJEITADA (NOTA 20 – TABELA 11)',
-    '75': u'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE ENTRADA'
-          u' EM NEGATIVAÇÃO EXPRESSA',
-    '76': u'CHEQUE COMPENSADO',
-    '77': u'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE EXCLUSÃO DE'
-          u' ENTRADA EM NEGATIVAÇÃO EXPRESSA',
-    '78': u'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE CANCELAMENTO DE'
-          u' NEGATIVAÇÃO EXPRESSA',
-    '79': u'NEGATIVAÇÃO EXPRESSA INFORMACIONAL (NOTA 20 – TABELA 12)',
-    '80': u'CONFIRMAÇÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA – TARIFA',
-    '82': u'CONFIRMAÇÃO DO CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA – TARIFA',
-    '83': u'CONFIRMAÇÃO DE EXCLUSÃO DE ENTRADA EM NEGATIVAÇÃO'
-          u' EXPRESSA POR LIQUIDAÇÃO – TARIFA',
-    '85': u'TARIFA POR BOLETO (ATÉ 03 ENVIOS) COBRANÇA ATIVA ELETRÔNICA',
-    '86': u'TARIFA EMAIL COBRANÇA ATIVA ELETRÔNICA',
-    '87': u'TARIFA SMS COBRANÇA ATIVA ELETRÔNICA',
-    '88': u'TARIFA MENSAL POR BOLETO (ATÉ 03 ENVIOS)'
-          u' COBRANÇA ATIVA ELETRÔNICA',
-    '89': u'TARIFA MENSAL EMAIL COBRANÇA ATIVA ELETRÔNICA',
-    '90': u'TARIFA MENSAL SMS COBRANÇA ATIVA ELETRÔNICA',
-    '91': u'TARIFA MENSAL DE EXCLUSÃO DE ENTRADA DE NEGATIVAÇÃO EXPRESSA',
-    '92': u'TARIFA MENSAL DE CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA',
-    '93': u'TARIFA MENSAL DE EXCLUSÃO DE NEGATIVAÇÃO EXPRESSA POR LIQUIDAÇÃO',
+    '02': 'ENTRADA CONFIRMADA COM POSSIBILIDADE DE MENSAGEM'
+          ' (NOTA 20 – TABELA 10)',
+    '03': 'ENTRADA REJEITADA (NOTA 20 – TABELA 1)',
+    '04': 'ALTERAÇÃO DE DADOS – NOVA ENTRADA OU ALTERAÇÃO/EXCLUSÃO'
+          ' DE DADOS ACATADA',
+    '05': 'ALTERAÇÃO DE DADOS – BAIXA',
+    '06': 'LIQUIDAÇÃO NORMAL',
+    '07': 'LIQUIDAÇÃO PARCIAL – COBRANÇA INTELIGENTE (B2B)',
+    '08': 'LIQUIDAÇÃO EM CARTÓRIO',
+    '09': 'BAIXA SIMPLES',
+    '10': 'BAIXA POR TER SIDO LIQUIDADO',
+    '11': 'EM SER (SÓ NO RETORNO MENSAL)',
+    '12': 'ABATIMENTO CONCEDIDO',
+    '13': 'ABATIMENTO CANCELADO',
+    '14': 'VENCIMENTO ALTERADO',
+    '15': 'BAIXAS REJEITADAS (NOTA 20 – TABELA 4)',
+    '16': 'INSTRUÇÕES REJEITADAS (NOTA 20 – TABELA 3)',
+    '17': 'ALTERAÇÃO/EXCLUSÃO DE DADOS REJEITADOS (NOTA 20 – TABELA 2)',
+    '18': 'COBRANÇA CONTRATUAL – INSTRUÇÕES/ALTERAÇÕES'
+          ' REJEITADAS/PENDENTES (NOTA 20 – TABELA 5)',
+    '19': 'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE PROTESTO',
+    '20': 'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE SUSTAÇÃO'
+          ' DE PROTESTO /TARIFA',
+    '21': 'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE NÃO PROTESTAR',
+    '23': 'TÍTULO ENVIADO A CARTÓRIO/TARIFA',
+    '24': 'INSTRUÇÃO DE PROTESTO REJEITADA / SUSTADA / PENDENTE'
+          ' (NOTA 20 – TABELA 7)',
+    '25': 'ALEGAÇÕES DO PAGADOR (NOTA 20 – TABELA 6)',
+    '26': 'TARIFA DE AVISO DE COBRANÇA',
+    '27': 'TARIFA DE EXTRATO POSIÇÃO (B40X)',
+    '28': 'TARIFA DE RELAÇÃO DAS LIQUIDAÇÕES',
+    '29': 'TARIFA DE MANUTENÇÃO DE TÍTULOS VENCIDOS',
+    '30': 'DÉBITO MENSAL DE TARIFAS (PARA ENTRADAS E BAIXAS)',
+    '32': 'BAIXA POR TER SIDO PROTESTADO',
+    '33': 'CUSTAS DE PROTESTO',
+    '34': 'CUSTAS DE SUSTAÇÃO',
+    '35': 'CUSTAS DE CARTÓRIO DISTRIBUIDOR',
+    '36': 'CUSTAS DE EDITAL',
+    '37': 'TARIFA DE EMISSÃO DE BOLETO/TARIFA DE ENVIO DE DUPLICATA',
+    '38': 'TARIFA DE INSTRUÇÃO',
+    '39': 'TARIFA DE OCORRÊNCIAS',
+    '40': 'TARIFA MENSAL DE EMISSÃO DE BOLETO/TARIFA MENSAL'
+          ' DE ENVIO DE DUPLICATA',
+    '41': 'DÉBITO MENSAL DE TARIFAS – EXTRATO DE POSIÇÃO (B4EP/B4OX)',
+    '42': 'DÉBITO MENSAL DE TARIFAS – OUTRAS INSTRUÇÕES',
+    '43': 'DÉBITO MENSAL DE TARIFAS – MANUTENÇÃO DE TÍTULOS VENCIDOS',
+    '44': 'DÉBITO MENSAL DE TARIFAS – OUTRAS OCORRÊNCIAS',
+    '45': 'DÉBITO MENSAL DE TARIFAS – PROTESTO',
+    '46': 'DÉBITO MENSAL DE TARIFAS – SUSTAÇÃO DE PROTESTO',
+    '47': 'BAIXA COM TRANSFERÊNCIA PARA DESCONTO',
+    '48': 'CUSTAS DE SUSTAÇÃO JUDICIAL',
+    '51': 'TARIFA MENSAL REF A ENTRADAS BANCOS CORRESPONDENTES NA CARTEIRA',
+    '52': 'TARIFA MENSAL BAIXAS NA CARTEIRA',
+    '53': 'TARIFA MENSAL BAIXAS EM BANCOS CORRESPONDENTES NA CARTEIRA',
+    '54': 'TARIFA MENSAL DE LIQUIDAÇÕES NA CARTEIRA',
+    '55': 'TARIFA MENSAL DE LIQUIDAÇÕES EM BANCOS'
+          ' CORRESPONDENTES NA CARTEIRA',
+    '56': 'CUSTAS DE IRREGULARIDADE',
+    '57': 'INSTRUÇÃO CANCELADA (NOTA 20 – TABELA 8)',
+    '59': 'BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG',
+    '60': 'ENTRADA REJEITADA CARNÊ (NOTA 20 – TABELA 1)',
+    '61': 'TARIFA EMISSÃO AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)',
+    '62': 'DÉBITO MENSAL DE TARIFA – AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)',
+    '63': 'TÍTULO SUSTADO JUDICIALMENTE',
+    '64': 'ENTRADA CONFIRMADA COM RATEIO DE CRÉDITO',
+    '65': 'PAGAMENTO COM CHEQUE – AGUARDANDO COMPENSAÇÃO',
+    '69': 'CHEQUE DEVOLVIDO (NOTA 20 – TABELA 9)',
+    '71': 'ENTRADA REGISTRADA, AGUARDANDO AVALIAÇÃO',
+    '72': 'BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG'
+          ' SEM TÍTULO CORRESPONDENTE',
+    '73': 'CONFIRMAÇÃO DE ENTRADA NA COBRANÇA SIMPLES –'
+          ' ENTRADA NÃO ACEITA NA COBRANÇA CONTRATUAL',
+    '74': 'INSTRUÇÃO DE NEGATIVAÇÃO EXPRESSA REJEITADA (NOTA 20 – TABELA 11)',
+    '75': 'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE ENTRADA'
+          ' EM NEGATIVAÇÃO EXPRESSA',
+    '76': 'CHEQUE COMPENSADO',
+    '77': 'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE EXCLUSÃO DE'
+          ' ENTRADA EM NEGATIVAÇÃO EXPRESSA',
+    '78': 'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE CANCELAMENTO DE'
+          ' NEGATIVAÇÃO EXPRESSA',
+    '79': 'NEGATIVAÇÃO EXPRESSA INFORMACIONAL (NOTA 20 – TABELA 12)',
+    '80': 'CONFIRMAÇÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA – TARIFA',
+    '82': 'CONFIRMAÇÃO DO CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA – TARIFA',
+    '83': 'CONFIRMAÇÃO DE EXCLUSÃO DE ENTRADA EM NEGATIVAÇÃO'
+          ' EXPRESSA POR LIQUIDAÇÃO – TARIFA',
+    '85': 'TARIFA POR BOLETO (ATÉ 03 ENVIOS) COBRANÇA ATIVA ELETRÔNICA',
+    '86': 'TARIFA EMAIL COBRANÇA ATIVA ELETRÔNICA',
+    '87': 'TARIFA SMS COBRANÇA ATIVA ELETRÔNICA',
+    '88': 'TARIFA MENSAL POR BOLETO (ATÉ 03 ENVIOS)'
+          ' COBRANÇA ATIVA ELETRÔNICA',
+    '89': 'TARIFA MENSAL EMAIL COBRANÇA ATIVA ELETRÔNICA',
+    '90': 'TARIFA MENSAL SMS COBRANÇA ATIVA ELETRÔNICA',
+    '91': 'TARIFA MENSAL DE EXCLUSÃO DE ENTRADA DE NEGATIVAÇÃO EXPRESSA',
+    '92': 'TARIFA MENSAL DE CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA',
+    '93': 'TARIFA MENSAL DE EXCLUSÃO DE NEGATIVAÇÃO EXPRESSA POR LIQUIDAÇÃO',
 }
 
 DICT_OCORRENCIAS_UNICRED = {
@@ -226,8 +226,8 @@ class CNABFileParser(FileParser):
         files = {'data': base64.b64decode(filebuffer)}
 
         api_address = self.env[
-            "ir.config_parameter"].sudo().get_param(
-            "l10n_br_account_payment_brcobranca.boleto_cnab_api")
+            'ir.config_parameter'].sudo().get_param(
+            'l10n_br_account_payment_brcobranca.boleto_cnab_api')
         if not api_address:
             raise UserError(
                 ('Não é possível gerar o retorno.\n'
@@ -352,18 +352,6 @@ class CNABFileParser(FileParser):
                 self.env['l10n_br.cnab.evento'].create(vals_evento)
                 continue
 
-            valor_recebido = 0.0
-            if linha_cnab['valor_recebido']:
-                valor_recebido = self.cnab_str_to_float(
-                    linha_cnab['valor_recebido'])
-
-            if (linha_cnab['data_credito'] == '000000' or
-                    not linha_cnab['data_credito']):
-                data_credito = linha_cnab['data_credito']
-            else:
-                data_credito = datetime.datetime.strptime(
-                    str(linha_cnab['data_credito']), "%d%m%y").date()
-
             # Codigos de Ocorrencia - Liquidação
             # TODO - esses codigos deveriam ser informados em um campo ao inves
             #  de estarem chumbados aqui
@@ -374,17 +362,24 @@ class CNABFileParser(FileParser):
                     (cod_ocorrencia in ('01', '06', '07', '09') and
                      bank_name_brcobranca == 'unicred')):
 
-                valor_desconto = valor_juros_mora =\
+                valor_recebido = valor_desconto = valor_juros_mora =\
                     valor_abatimento = valor_tarifa = 0.0
+
+                if linha_cnab['valor_recebido']:
+                    valor_recebido = self.cnab_str_to_float(
+                        linha_cnab['valor_recebido'])
+
+                if (linha_cnab['data_credito'] == '000000' or
+                        not linha_cnab['data_credito']):
+                    data_credito = linha_cnab['data_credito']
+                else:
+                    data_credito = datetime.datetime.strptime(
+                        str(linha_cnab['data_credito']), "%d%m%y").date()
 
                 # Valor Desconto
                 if linha_cnab.get('desconto'):
                     valor_desconto = self.cnab_str_to_float(
                         linha_cnab['desconto'])
-
-                    # Valor Liquido precisa ser somado
-                    # p/ conciliar com a Fatura
-                    valor_recebido += valor_desconto
 
                     result_row_list.append({
                         'name': 'Desconto (boleto) ' +
@@ -410,11 +405,6 @@ class CNABFileParser(FileParser):
                 if linha_cnab.get('juros_mora'):
                     valor_juros_mora = self.cnab_str_to_float(
                         linha_cnab['juros_mora'])
-
-                    # O valor não está sendo somando pois isso
-                    # altera o Valor recebido desbalanceando a
-                    # conciliação com a Fatura
-                    # valor_recebido += valor_juros_mora
 
                     result_row_list.append({
                         'name': 'Valor Juros Mora (boleto) ' +
@@ -444,10 +434,6 @@ class CNABFileParser(FileParser):
                         str(linha_cnab['valor_tarifa'][0:4] + '.' +
                             linha_cnab['valor_tarifa'][4:]))
 
-                    # Valor Liquido precisa ser somado
-                    # p/ conciliar com a Fatura
-                    valor_recebido += valor_tarifa
-
                     result_row_list.append({
                         'name': 'Tarifas bancárias (boleto) ' +
                                 account_move_line.document_number,
@@ -473,10 +459,6 @@ class CNABFileParser(FileParser):
                 if linha_cnab.get('valor_abatimento'):
                     valor_abatimento = self.cnab_str_to_float(
                         linha_cnab['valor_abatimento'])
-
-                    # Valor Liquido precisa ser somado
-                    # p/ conciliar com a Fatura
-                    valor_recebido += valor_abatimento
 
                     result_row_list.append({
                         'name': 'Abatimento (boleto) ' +
@@ -532,6 +514,10 @@ class CNABFileParser(FileParser):
                 if cnab_return_method == 'manual':
                     # Monta o dicionario que sera usado
                     # para criar o Extrato Bancario
+                    # TODO checar possivel BUG, se não houver outro valor
+                    #  a ser adicionado no result_row_list o modulo original
+                    #  retorna erro de Empty File, mas esse caso só aconteceria
+                    #  se a Tarifa Bancaria for ZERO
                     balance_end_real += valor_recebido
                     line_statement_vals.append({
                         'name': account_move_line.document_number or '?',
@@ -594,7 +580,6 @@ class CNABFileParser(FileParser):
             for line in line_statement_vals:
                 line['statement_id'] = statement.id
                 statement_line_obj.create(line)
-
         return result_row_list
 
     def cnab_str_to_float(self, value):
