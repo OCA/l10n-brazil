@@ -67,6 +67,7 @@ class PaymentOrder(models.Model):
         bank_account = \
             self.payment_mode_id.fixed_journal_id.bank_account_id
 
+        # Lista de bancos não implentados no BRCobranca
         if bank_account.bank_id.code_bc in \
                 dict_brcobranca_bank:
             bank_name_brcobranca = \
@@ -76,12 +77,14 @@ class PaymentOrder(models.Model):
                 _('The Bank %s is not implemented in BRCobranca.')
                 % bank_account.bank_id.name)
 
-        if (bank_name_brcobranca[0] not in ('bradesco', 'itau', 'unicred')
-                or self.payment_mode_id.payment_method_id.code != '400'):
+        # Informa se o CNAB especifico de um Banco não está implementado
+        # no BRCobranca, evitando a mensagem de erro mais extensa da lib
+        if (bank_name_brcobranca[0] == 'itau'
+                and self.payment_mode_id.payment_method_id.code == '240'):
             raise UserError(
-                _('The Bank %s and CNAB %s are not implemented.')
-                % (bank_account.bank_id.name,
-                   self.payment_mode_id.payment_method_id.code))
+                _('The CNAB %s for Bank %s are not implemented in BRCobranca.')
+                % (self.payment_mode_id.payment_method_id.code,
+                   bank_account.bank_id.name,))
 
         pagamentos = []
         for line in self.payment_line_ids:
@@ -204,31 +207,59 @@ class PaymentOrder(models.Model):
             pagamentos.append(linhas_pagamentos)
 
         remessa_values = {
-            'carteira': str(self.payment_mode_id.boleto_wallet),
+            'carteira': str(payment_mode.boleto_wallet),
             'agencia': int(bank_account.bra_number),
-            # 'digito_agencia': order.mode.bank_id.bra_number_dig,
             'conta_corrente': int(misc.punctuation_rm(bank_account.acc_number)),
             'digito_conta': bank_account.acc_number_dig[0],
             'empresa_mae': bank_account.partner_id.legal_name[:30],
             'documento_cedente': misc.punctuation_rm(
                 bank_account.partner_id.cnpj_cpf),
             'pagamentos': pagamentos,
-            'sequencial_remessa': self.payment_mode_id.cnab_sequence_id.next_by_id(),
+            'sequencial_remessa': payment_mode.cnab_sequence_id.next_by_id(),
         }
 
+        # Campos especificos de cada Banco
         if bank_name_brcobranca[0] == 'bradesco':
             remessa_values[
-                'codigo_empresa'] = int(self.payment_mode_id.code_convetion)
+                'codigo_empresa'] = int(payment_mode.code_convetion)
 
-        # Field used in Sicredi and Sicoob Banks
-        if bank_account.bank_id.code_bc in ('748', '756'):
+        # Field used in Sicoob Banks
+        if bank_account.bank_id.code_bc == '756':
             remessa_values.update({
-                'codigo_transmissao': int(self.payment_mode_id.code_convetion),
+                'codigo_transmissao': int(payment_mode.code_convetion),
             })
+
+        # Field used in Sicredi Banks
+        if bank_account.bank_id.code_bc == '748':
+            remessa_values.update({
+                'codigo_transmissao': int(payment_mode.code_convetion),
+                'posto': payment_mode.boleto_post,
+                'byte_idt': payment_mode.boleto_byte_idt,
+            })
+
         # Field used in Unicred Bank
         if bank_account.bank_id.code_bc == '136':
+            remessa_values[
+                'codigo_beneficiario'] = int(self.payment_mode_id.code_convetion)
+
+        # Field used in Caixa Economica Federal
+        if bank_account.bank_id.code_bc == '104':
             remessa_values.update({
-                'codigo_beneficiario': int(self.payment_mode_id.code_convetion),
+                'convenio': int(payment_mode.code_convetion),
+                'digito_agencia': bank_account.bra_number_dig,
+            })
+
+        # Field used in Banco do Brasil
+        if bank_account.bank_id.code_bc == '001':
+            # TODO - BRCobranca retornando erro de agencia deve ter 4 digitos,
+            #  mesmo o valor estando correto, é preciso verificar melhor
+            remessa_values.update({
+                'convenio': int(payment_mode.code_convetion),
+                'variacao_carteira': payment_mode.boleto_variation,
+                # TODO - Mapear e se necessário criar os campos abaixo devido
+                #  ao erro comentado acima não está sendo possível validar
+                'tipo_cobranca': '04DSC',
+                'convenio_lider': '7654321',
             })
 
         content = json.dumps(remessa_values)
@@ -238,8 +269,8 @@ class PaymentOrder(models.Model):
         files = {'data': open(f.name, 'rb')}
 
         api_address = self.env[
-            "ir.config_parameter"].sudo().get_param(
-            "l10n_br_account_payment_brcobranca.boleto_cnab_api")
+            'ir.config_parameter'].sudo().get_param(
+            'l10n_br_account_payment_brcobranca.boleto_cnab_api')
 
         if not api_address:
             raise UserError(
@@ -257,13 +288,19 @@ class PaymentOrder(models.Model):
                     self.payment_mode_id.payment_method_id.code],
                 'bank': bank_name_brcobranca[0],
             }, files=files)
-        # print("AAAAAAAA", res.status_code, str(res.status_code)[0])
-        # print('RES.CONTENT', res.content[0], type(res.content[0]))
 
-        # TODO - res.content[0] parece variar de acordo com banco, existe padrão ?
-        if bank_name_brcobranca[0] == 'bradesco' and res.content[0] == '0':
+        # TODO - res.content[0] parece variar de acordo com banco,
+        #  existe padrão ?
+        #  Provavelemnte está em 48 para CNAB 400 e 49 para o 240, é
+        #  preciso testar e validar outros bancos e CNAB para confirmação
+
+        # É preciso manter o codigo abaixo pois sem isso o programa
+        # irá gravar o LOG de erros do BRCobranca no arquivo gerado
+        # ao inves do conteudo do CNAB
+        if bank_name_brcobranca[0] == 'caixa' and res.content[0] == 49:
             remessa = res.content
-        elif bank_name_brcobranca[0] == 'unicred' and res.content[0] == 48:
+        elif bank_name_brcobranca[0] in ('unicred', 'bradesco', 'itau')\
+                and res.content[0] == 48:
             remessa = res.content
         else:
             raise UserError(res.text)
