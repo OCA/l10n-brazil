@@ -2,8 +2,8 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import time
 import logging
+from datetime import datetime
 
 from odoo import models, api, fields, _
 
@@ -268,18 +268,17 @@ class PaymentOrder(models.Model):
         else:
             raise UserError(res.text)
 
-        # TODO - Devido a configuração do TimeZone os arquivos
-        #  que estão sendo criados dependendo do horário estão
-        #  sendo salvos com a data do dia seguinte
+        # Get user TIME ZONE to avoid generate file in 'future'
+        now_user_tz = fields.Datetime.context_timestamp(self, datetime.now())
         if self.payment_mode_id.payment_method_id.code == '240':
             file_name = 'CB%s%s.REM' % (
-                time.strftime('%d%m'), str(self.file_number))
+                datetime.strftime(now_user_tz, '%d%m'), str(self.file_number))
         elif self.payment_mode_id.payment_method_id.code == '400':
             file_name = 'CB%s%02d.REM' % (
-                time.strftime('%d%m'), self.file_number or 1)
+                datetime.strftime(now_user_tz, '%d%m'), self.file_number or 1)
         elif self.payment_mode_id.payment_method_id.code == '500':
             file_name = 'PG%s%s.REM' % (
-                time.strftime('%d%m'), str(self.file_number))
+                datetime.strftime(now_user_tz, '%d%m'), str(self.file_number))
 
         return remessa, file_name
 
