@@ -3,7 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-from datetime import datetime
 
 from odoo import models, api, fields, _
 
@@ -64,6 +63,8 @@ class PaymentOrder(models.Model):
         # and a test here:
         # https://github.com/kivanio/brcobranca/blob/master/spec/brcobranca/remessa/cnab400/itau_spec.rb
 
+        cnab_type = self.payment_mode_id.payment_method_code
+
         bank_account = \
             self.payment_mode_id.fixed_journal_id.bank_account_id
 
@@ -80,7 +81,7 @@ class PaymentOrder(models.Model):
         # Informa se o CNAB especifico de um Banco não está implementado
         # no BRCobranca, evitando a mensagem de erro mais extensa da lib
         if (bank_name_brcobranca[0] == 'itau'
-                and self.payment_mode_id.payment_method_id.code == '240'):
+                and cnab_type == '240'):
             raise UserError(
                 _('The CNAB %s for Bank %s are not implemented in BRCobranca.')
                 % (self.payment_mode_id.payment_method_id.code,
@@ -285,37 +286,35 @@ class PaymentOrder(models.Model):
             api_service_address,
             data={
                 'type': dict_brcobranca_cnab_type[
-                    self.payment_mode_id.payment_method_id.code],
+                    cnab_type],
                 'bank': bank_name_brcobranca[0],
             }, files=files)
 
-        # TODO - res.content[0] parece variar de acordo com banco,
-        #  existe padrão ?
-        #  Provavelemnte está em 48 para CNAB 400 e 49 para o 240, é
-        #  preciso testar e validar outros bancos e CNAB para confirmação
-
-        # É preciso manter o codigo abaixo pois sem isso o programa
-        # irá gravar o LOG de erros do BRCobranca no arquivo gerado
-        # ao inves do conteudo do CNAB
-        if bank_name_brcobranca[0] == 'caixa' and res.content[0] == 49:
+        if cnab_type == '240' and 'R01' in res.text[242:254]:
+            #  Todos os header de lote cnab 240 tem conteúdo: R01,
+            #  verificar observações G025 e G028 do manual cnab 240 febraban.
             remessa = res.content
-        elif bank_name_brcobranca[0] in ('unicred', 'bradesco', 'itau')\
-                and res.content[0] == 48:
+        elif cnab_type == '400' and res.text[:3] in ('01R', 'DCB'):
+            # A remessa 400 não tem um layout padronizado,
+            # entretanto a maiorias dos arquivos começa com 01REMESSA,
+            # o banco de brasilia começa com DCB...
+            # Dúvidas verificar exemplos:
+            # https://github.com/kivanio/brcobranca/tree/master/spec/fixtures/remessa
             remessa = res.content
         else:
             raise UserError(res.text)
 
-        # Get user TIME ZONE to avoid generate file in 'future'
-        now_user_tz = fields.Datetime.context_timestamp(self, datetime.now())
-        if self.payment_mode_id.payment_method_id.code == '240':
+        context_today = fields.Date.context_today(self)
+
+        if cnab_type == '240':
             file_name = 'CB%s%s.REM' % (
-                datetime.strftime(now_user_tz, '%d%m'), str(self.file_number))
-        elif self.payment_mode_id.payment_method_id.code == '400':
+                context_today.strftime('%d%m'), str(self.file_number))
+        elif cnab_type == '400':
             file_name = 'CB%s%02d.REM' % (
-                datetime.strftime(now_user_tz, '%d%m'), self.file_number or 1)
-        elif self.payment_mode_id.payment_method_id.code == '500':
+                context_today.strftime('%d%m'), self.file_number or 1)
+        elif cnab_type == '500':
             file_name = 'PG%s%s.REM' % (
-                datetime.strftime(now_user_tz, '%d%m'), str(self.file_number))
+                context_today.strftime('%d%m'), str(self.file_number))
 
         return remessa, file_name
 
