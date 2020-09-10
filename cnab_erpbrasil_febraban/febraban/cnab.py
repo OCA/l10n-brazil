@@ -10,6 +10,7 @@ from __future__ import division, print_function, unicode_literals
 import logging
 import base64
 import codecs
+from unidecode import unidecode
 
 _logger = logging.getLogger(__name__)
 
@@ -28,7 +29,8 @@ class Cnab(object):
 
     @staticmethod
     def gerar_remessa(order):
-        bank_code = order.company_partner_bank_id.bank_id.code_bc
+        bank_id = order.company_partner_bank_id.bank_id
+        bank_code = bank_id.code_bc
         cnab_type = order.payment_mode_id.payment_method_id.code
 
         if cnab_type == '240':
@@ -36,67 +38,60 @@ class Cnab(object):
             from febraban.cnab240.itau.sispag.file.lot import Lot
             from febraban.cnab240.user import User, UserAddress, UserBank
             sender = User(
-                name="YOUR COMPANY NAME HERE",
-                identifier="12345678901234",
+                name=order.company_id.legal_name.upper(),
+                identifier=order.company_id.cnpj_cpf.replace(
+                    '.', '').replace('/', '').replace('-', ''),
                 bank=UserBank(
-                    bankId="341",
-                    branchCode="4321",
-                    accountNumber="12345678",
-                    accountVerifier="9"
+                    bankId=bank_code,
+                    branchCode=order.company_partner_bank_id.bra_number,
+                    accountNumber=order.company_partner_bank_id.acc_number,
+                    accountVerifier=
+                    order.company_partner_bank_id.acc_number_dig
                 ),
                 address=UserAddress(
-                    streetLine1="AV PAULISTA 1000",
-                    city="SAO PAULO",
-                    stateCode="SP",
-                    zipCode="01310000"
+                    streetLine1=(order.company_id.partner_id.street + ' ' +
+                                 (order.company_id.partner_id.street_number
+                                  or '')).upper(),
+                    city=unidecode(order.company_id.city_id.name).upper(),
+                    stateCode=order.company_id.state_id.code,
+                    zipCode=order.company_id.zip.replace('-', '')
                 )
             )
-
-            receiver1 = User(
-                name="RECEIVER NAME HERE",
-                identifier="01234567890",
-                bank=UserBank(
-                    bankId="341",
-                    branchCode="1234",
-                    accountNumber="123456",
-                    accountVerifier="9"
-                )
-            )
-
-            receiver2 = User(
-                name="RECEIVER NAME HERE",
-                identifier="01234567890",
-                bank=UserBank(
-                    bankId="341",
-                    branchCode="1234",
-                    accountNumber="123456",
-                    accountVerifier="9"
-                )
-            )
-
-            receivers = [receiver1, receiver2]
 
             file = File()
             file.setSender(sender)
 
             lot = Lot()
-            sender.name = "SENDER NAME"
+            sender.name = order.company_id.legal_name.upper()
             lot.setSender(sender)
             lot.setHeaderLotType(
-                kind="20",  # Tipo de pagamento - Fornecedores
-                method="01"  # TED - Outra titularidade
+                kind=order.service_type,  # Tipo de pagamento - Fornecedores
+                method=order.release_form  # TED - Outra titularidade
             )
 
-            for receiver in receivers:
+            for line in order.bank_line_ids:
+                receiver = User(
+                    name=line.partner_id.name.upper(),
+                    identifier=(line.partner_id.cnpj_cpf or ''
+                                ).replace('-', '').replace('.', ''
+                                                           ).replace('/', ''),
+                    bank=UserBank(
+                        bankId=line.partner_bank_id.bank_id.code_bc,
+                        branchCode=line.partner_bank_id.bra_number,
+                        accountNumber=line.partner_bank_id.acc_number,
+                        accountVerifier=line.partner_bank_id.acc_number_dig
+                    )
+                )
+
                 payment = Transfer()
                 payment.setSender(sender)
                 payment.setReceiver(receiver)
-                payment.setAmountInCents("10000")
-                payment.setScheduleDate("06052020")
+                payment.setAmountInCents(str(int(line.amount_currency * 100)))
+                payment.setScheduleDate(line.date.strftime('%d%m%Y'))
                 payment.setInfo(
                     reason="10"  # Crédito em Conta Corrente
                 )
-                payment.setIdentifier("ID1234567890")
+                payment.setIdentifier("ID%s" % line.own_number)
                 lot.add(register=payment)
 
             file.addLot(lot)
