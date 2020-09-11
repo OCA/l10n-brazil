@@ -13,7 +13,7 @@ from odoo import models, api, fields, _
 from odoo.exceptions import Warning as UserError
 from ..constants.br_cobranca import (
     DICT_BRCOBRANCA_CNAB_TYPE,
-    DICT_BRCOBRANCA_BANK,
+    get_brcobranca_bank,
 )
 
 
@@ -23,7 +23,6 @@ try:
     from erpbrasil.base import misc
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
-
 
 
 class PaymentOrder(models.Model):
@@ -87,8 +86,8 @@ class PaymentOrder(models.Model):
         # https://github.com/kivanio/brcobranca/blob/master/spec/brcobranca/remessa/cnab400/itau_spec.rb
 
         cnab_type = self.payment_mode_id.payment_method_code
-        bank_account = self.journal_id.bank_account_id
-        bank_name_brcobranca = DICT_BRCOBRANCA_BANK.get(bank_account.bank_id.code_bc)
+        bank_account_id = self.journal_id.bank_account_id
+        bank_brcobranca = get_brcobranca_bank(bank_account_id)
 
         if self.payment_mode_id.group_lines:
             raise UserError(
@@ -101,32 +100,27 @@ class PaymentOrder(models.Model):
                   ' post moves active \n Please uncheck it on payment mode'
                   ' configuration to continue')
             )
-        if not bank_name_brcobranca:
-            # Lista de bancos não implentados no BRCobranca
-            raise UserError(
-                _('The Bank %s is not implemented in BRCobranca.')
-                % bank_account.bank_id.name)
-        if cnab_type not in bank_name_brcobranca.remessa:
+        if cnab_type not in bank_brcobranca.remessa:
             # Informa se o CNAB especifico de um Banco não está implementado
             # no BRCobranca, evitando a mensagem de erro mais extensa da lib
             raise UserError(
                 _('The CNAB %s for Bank %s are not implemented in BRCobranca.')
-                % (cnab_type, bank_account.bank_id.name,))
+                % (cnab_type, bank_account_id.bank_id.name,))
 
         pagamentos = []
         for line in self.bank_line_ids:
             pagamentos.append(line.prepare_bank_payment_line(
-                bank_name_brcobranca
+                bank_brcobranca
             ))
 
         remessa_values = {
             'carteira': str(self.payment_mode_id.boleto_wallet),
-            'agencia': bank_account.bra_number,
-            'conta_corrente': int(misc.punctuation_rm(bank_account.acc_number)),
-            'digito_conta': bank_account.acc_number_dig[0],
-            'empresa_mae': bank_account.partner_id.legal_name[:30],
+            'agencia': bank_account_id.bra_number,
+            'conta_corrente': int(misc.punctuation_rm(bank_account_id.acc_number)),
+            'digito_conta': bank_account_id.acc_number_dig[0],
+            'empresa_mae': bank_account_id.partner_id.legal_name[:30],
             'documento_cedente': misc.punctuation_rm(
-                bank_account.partner_id.cnpj_cpf),
+                bank_account_id.partner_id.cnpj_cpf),
             'pagamentos': pagamentos,
             'sequencial_remessa': self.payment_mode_id.cnab_sequence_id.next_by_id(),
         }
@@ -134,7 +128,7 @@ class PaymentOrder(models.Model):
         try:
             bank_method = getattr(
                 self, '_prepare_remessa_{}_{}'.format(
-                    bank_name_brcobranca.name,
+                    bank_brcobranca.name,
                     cnab_type
                 )
             )
@@ -167,7 +161,7 @@ class PaymentOrder(models.Model):
             data={
                 'type': DICT_BRCOBRANCA_CNAB_TYPE[
                     cnab_type],
-                'bank': bank_name_brcobranca[0],
+                'bank': bank_brcobranca.name,
             }, files=files)
 
         if cnab_type == '240' and 'R01' in res.text[242:254]:
