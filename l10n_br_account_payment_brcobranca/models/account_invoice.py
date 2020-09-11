@@ -29,14 +29,12 @@ class AccountInvoice(models.Model):
 
         receivable_ids = self.mapped('move_line_receivable_ids')
 
-        boleto_list = receivable_ids.send_payment()
-        if not boleto_list:
+        boletos = receivable_ids.send_payment()
+        if not boletos:
             raise UserError(
                 ('Não é possível gerar os boletos\n'
                  'Certifique-se que a fatura esteja confirmada e o '
                  'forma de pagamento seja duplicatas'))
-
-        boletos = [b.boleto_cnab_api_data for b in boleto_list]
 
         content = json.dumps(boletos)
         f = open(tempfile.mktemp(), 'w')
