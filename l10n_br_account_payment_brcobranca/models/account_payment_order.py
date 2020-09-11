@@ -1,10 +1,17 @@
 # Copyright 2020 Akretion
 # @author Magno Costa <magno.costa@akretion.com.br>
+# Copyright 2020 KMEE
+# @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import json
 import logging
+import tempfile
+from collections import namedtuple
 
+import requests
 from odoo import models, api, fields, _
+from odoo.exceptions import Warning as UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -12,22 +19,6 @@ try:
     from erpbrasil.base import misc
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
-
-import logging
-
-import requests
-import json
-import tempfile
-from collections import namedtuple
-from odoo.exceptions import Warning as UserError
-
-
-
-_logger = logging.getLogger(__name__)
-try:
-    from cnab240.errors import (Cnab240Error)
-except ImportError as err:
-    _logger.debug = err
 
 dict_brcobranca_cnab_type = {
     '240': 'cnab240',
