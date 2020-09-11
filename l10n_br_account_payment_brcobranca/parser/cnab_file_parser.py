@@ -216,10 +216,10 @@ class CNABFileParser(FileParser):
 
     @classmethod
     def parser_for(cls, parser_name):
-        if parser_name == "cnab400":
-            return parser_name == "cnab400"
-        elif parser_name == "cnab240":
-            return parser_name == "cnab240"
+        if parser_name == 'cnab400':
+            return parser_name == 'cnab400'
+        elif parser_name == 'cnab240':
+            return parser_name == 'cnab240'
 
     def parse(self, filebuffer):
 
@@ -251,29 +251,26 @@ class CNABFileParser(FileParser):
         string_result = res.json()
         data = json.loads(string_result)
 
-        self.result_row_list = self.processar_arquivo_retorno_cnab400(data)
+        self.result_row_list = self.process_return_file(data)
 
         yield self.result_row_list
 
     @api.multi
-    def processar_arquivo_retorno_cnab400(self, data):
+    def process_return_file(self, data):
 
         quantidade_registros = 0
         total_valores = 0
-        balance_end_real = 0.0
-        line_statement_vals = []
 
-        # Forma de Lançamento do Retorno
-        # Manual - Criação de uma Entrada de Diário com os valores de
-        #          desconto, juros/mora, tarifa bancaria e abatimento
-        #          e um Extrato Bancario com o valor total ( valor
-        #          liquido + desconto + tarifa bancaria + abatimanto )
-        # Automatico - Criação de uma Entrada de Diário com os valores
-        #              da forma Manual mais o valor total, conciliado com
-        #              a Fatura correspondente
+        #          Forma de Lançamento do Retorno
+        # Criação de uma Entrada de Diário com os valores de desconto,
+        # juros/mora, tarifa bancaria, abatimento, valor total
         #
+        # Quando marcada a opção de Reconciliação Automatica no Diário
+        # a Fatura será Reconciliada e a Entrada de Diário será movida
+        # para o status Lançado
 
-        # Lista com os dados q poderão ser usados na criação das account move line
+        # Lista com os dados q poderão ser usados
+        # na criação das account move line
         result_row_list = []
 
         for linha_cnab in data:
@@ -337,14 +334,14 @@ class CNABFileParser(FileParser):
             # Linha não encontrada
             if not account_move_line:
                 vals_evento = {
-                    'lote_id': lote_id.id,
-                    'ocorrencias': descricao_ocorrencia,
-                    'data_ocorrencia': data_ocorrencia,
+                    'lot_id': lote_id.id,
+                    'occurrences': descricao_ocorrencia,
+                    'occurrences_date': data_ocorrencia,
                     'str_motiv_a':
                         u' * - BOLETO NÃO ENCONTRADO.',
-                    'nosso_numero': linha_cnab['nosso_numero'],
-                    'seu_numero': linha_cnab['documento_numero'],
-                    'valor': valor_titulo,
+                    'own_number': linha_cnab['nosso_numero'],
+                    'your_number': linha_cnab['documento_numero'],
+                    'title_value': valor_titulo,
                 }
                 self.env['l10n_br.cnab.evento'].create(vals_evento)
                 continue
@@ -508,39 +505,20 @@ class CNABFileParser(FileParser):
                     'tariff_charge': valor_tarifa,
                 }
 
-                if not self.journal.return_auto_reconcile:
-                    # Monta o dicionario que sera usado
-                    # para criar o Extrato Bancario
-                    # TODO checar possivel BUG, se não houver outro valor
-                    #  a ser adicionado no result_row_list o modulo original
-                    #  retorna erro de Empty File, mas esse caso só aconteceria
-                    #  se a Tarifa Bancaria for ZERO
-                    balance_end_real += valor_recebido
-                    line_statement_vals.append({
-                        'name': account_move_line.document_number or '?',
-                        'amount': valor_recebido,
-                        'partner_id': account_move_line.partner_id.id,
-                        'ref': account_move_line.ref,
-                        'date': account_move_line.date,
-                        'amount_currency': valor_recebido,
-                        'currency_id': account_move_line.currency_id.id,
-                    })
-
                 # Linha da Fatura a ser reconciliada
-                if self.journal.return_auto_reconcile:
-                    result_row_list.append({
-                         'name': account_move_line.invoice_id.number,
-                         'debit': 0.0,
-                         'credit': valor_recebido,
-                         'move_line': account_move_line,
-                         'invoice_id': account_move_line.invoice_id.id,
-                         'type': 'liquidado',
-                         'bank_payment_line_id':
-                         payment_line.bank_line_id.id or False,
-                         'ref': account_move_line.own_number,
-                         'account_id': account_move_line.account_id.id,
-                         'partner_id': account_move_line.partner_id.id,
-                    })
+                result_row_list.append({
+                     'name': account_move_line.invoice_id.number,
+                     'debit': 0.0,
+                     'credit': valor_recebido,
+                     'move_line': account_move_line,
+                     'invoice_id': account_move_line.invoice_id.id,
+                     'type': 'liquidado',
+                     'bank_payment_line_id':
+                     payment_line.bank_line_id.id or False,
+                     'ref': account_move_line.own_number,
+                     'account_id': account_move_line.account_id.id,
+                     'partner_id': account_move_line.partner_id.id,
+                })
 
             else:
                 vals_evento = {
@@ -559,24 +537,6 @@ class CNABFileParser(FileParser):
             self.num_lotes = 1
             self.num_eventos = quantidade_registros
 
-        # Forma Manual do Retorno CNAB
-        # Criacao de um Extrato Bancario, isso permite o tratamento de alguma
-        # diferença que tenha restado já que os valores de Juros/Mora, Tarifas,
-        # Desconto e Abatimento estão sendo lançados em uma entrada de Diário
-        # separada e portanto na maioria dos casos o valor no extrato vai estar
-        # de acordo com o valor da fatura
-        if line_statement_vals:
-            vals_bank_statement = {
-                'name': self.journal.sequence_id.next_by_id(),
-                'journal_id': self.journal.id,
-                'balance_end_real': balance_end_real,
-            }
-            statement = self.env[
-                'account.bank.statement'].create(vals_bank_statement)
-            statement_line_obj = self.env['account.bank.statement.line']
-            for line in line_statement_vals:
-                line['statement_id'] = statement.id
-                statement_line_obj.create(line)
         return result_row_list
 
     def cnab_str_to_float(self, value):
@@ -632,7 +592,7 @@ class CNABFileParser(FileParser):
                 'already_completed': True,
                 }
             )
-        elif line["type"] == "juros_mora" and line['credit'] > 0.0:
+        elif line['type'] == 'juros_mora' and line['credit'] > 0.0:
             vals.update({
                 'partner_id': line['partner_id']})
 
