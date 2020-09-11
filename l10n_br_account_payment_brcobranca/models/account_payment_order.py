@@ -18,7 +18,9 @@ import logging
 import requests
 import json
 import tempfile
+from collections import namedtuple
 from odoo.exceptions import Warning as UserError
+
 
 
 _logger = logging.getLogger(__name__)
@@ -27,24 +29,29 @@ try:
 except ImportError as err:
     _logger.debug = err
 
-dict_brcobranca_bank = {
-    '001': 'banco_brasil',
-    '041': 'banrisul',
-    '237': 'bradesco',
-    '104': 'caixa',
-    '399': 'hsbc',
-    '341': 'itau',
-    '033': 'santander',
-    '748': 'sicred',
-    '004': 'banco_nordeste',
-    '021': 'banestes',
-    '756': 'sicoob',
-    '136': 'unicred',
-}
-
 dict_brcobranca_cnab_type = {
     '240': 'cnab240',
     '400': 'cnab400',
+}
+
+BankRecord = namedtuple('Bank', 'name, retorno, remessa')
+
+dict_brcobranca_bank = {
+    '001': BankRecord('banco_brasil', retorno=['400'], remessa=['240', '400']),
+    '004': BankRecord('banco_nordeste', retorno=['400'], remessa=['400']),
+    '021': BankRecord('banestes', retorno=[], remessa=[]),
+    '033': BankRecord('santander', retorno=['240'], remessa=['400']),
+    '041': BankRecord('banrisul', retorno=['400'], remessa=['400']),
+    '070': BankRecord('banco_brasilia', retorno=[], remessa=['400']),
+    '097': BankRecord('credisis', retorno=['400'], remessa=['400']),
+    '104': BankRecord('caixa', retorno=['240'], remessa=['240']),
+    '136': BankRecord('unicred', retorno=['400'], remessa=['240', '400']),
+    '237': BankRecord('bradesco', retorno=['400'], remessa=['400']),
+    '341': BankRecord('itau', retorno=['400'], remessa=['400']),
+    '399': BankRecord('hsbc', retorno=[], remessa=[]),
+    '745': BankRecord('citibank', retorno=[], remessa=['400']),
+    '748': BankRecord('sicred', retorno=['240'], remessa=['240']),
+    '756': BankRecord('sicoob', retorno=['240'], remessa=['240', '400']),
 }
 
 
@@ -64,28 +71,19 @@ class PaymentOrder(models.Model):
         # https://github.com/kivanio/brcobranca/blob/master/spec/brcobranca/remessa/cnab400/itau_spec.rb
 
         cnab_type = self.payment_mode_id.payment_method_code
-
-        bank_account = \
-            self.payment_mode_id.fixed_journal_id.bank_account_id
-
-        # Lista de bancos não implentados no BRCobranca
-        if bank_account.bank_id.code_bc in \
-                dict_brcobranca_bank:
-            bank_name_brcobranca = \
-                dict_brcobranca_bank[bank_account.bank_id.code_bc],
-        else:
+        bank_account = self.journal_id.bank_account_id
+        bank_name_brcobranca = dict_brcobranca_bank.get(bank_account.bank_id.code_bc)
+        if not bank_name_brcobranca:
+            # Lista de bancos não implentados no BRCobranca
             raise UserError(
                 _('The Bank %s is not implemented in BRCobranca.')
                 % bank_account.bank_id.name)
-
-        # Informa se o CNAB especifico de um Banco não está implementado
-        # no BRCobranca, evitando a mensagem de erro mais extensa da lib
-        if (bank_name_brcobranca[0] == 'itau'
-                and cnab_type == '240'):
+        if cnab_type not in bank_name_brcobranca.remessa:
+            # Informa se o CNAB especifico de um Banco não está implementado
+            # no BRCobranca, evitando a mensagem de erro mais extensa da lib
             raise UserError(
                 _('The CNAB %s for Bank %s are not implemented in BRCobranca.')
-                % (self.payment_mode_id.payment_method_id.code,
-                   bank_account.bank_id.name,))
+                % (cnab_type, bank_account.bank_id.name,))
 
         pagamentos = []
         for line in self.payment_line_ids:
