@@ -272,9 +272,6 @@ class CNABFileParser(FileParser):
         #              da forma Manual mais o valor total, conciliado com
         #              a Fatura correspondente
         #
-        cnab_return_method = self.env[
-            'ir.config_parameter'].sudo().get_param(
-            'l10n_br_account_payment_brcobranca.cnab_return_method')
 
         # Lista com os dados q poderão ser usados na criação das account move line
         result_row_list = []
@@ -511,7 +508,7 @@ class CNABFileParser(FileParser):
                     'tariff_charge': valor_tarifa,
                 }
 
-                if cnab_return_method == 'manual':
+                if not self.journal.return_auto_reconcile:
                     # Monta o dicionario que sera usado
                     # para criar o Extrato Bancario
                     # TODO checar possivel BUG, se não houver outro valor
@@ -530,7 +527,7 @@ class CNABFileParser(FileParser):
                     })
 
                 # Linha da Fatura a ser reconciliada
-                if cnab_return_method == 'automatic':
+                if self.journal.return_auto_reconcile:
                     result_row_list.append({
                          'name': account_move_line.invoice_id.number,
                          'debit': 0.0,
