@@ -13,23 +13,6 @@ from ..constants.br_cobranca import (
 _logger = logging.getLogger(__name__)
 
 
-class BoletoWrapper(object):
-    def __init__(self, boleto_cnab_api_data):
-        # wrap the object
-        # self._wrapped_obj = obj
-        self.boleto_cnab_api_data = boleto_cnab_api_data
-
-    def __getattr__(self, attr):
-        # see if this object has attr
-        # NOTE do not use hasattr, it goes into
-        # infinite recurrsion
-        if attr in self.__dict__:
-            # this object has it
-            return getattr(self, attr)
-        # proxy to the wrapped object
-        return getattr(self._wrapped_obj, attr)
-
-
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     # see the list of brcobranca boleto fields:
@@ -153,5 +136,5 @@ class AccountMoveLine(models.Model):
                     'posto': move_line.payment_mode_id.boleto_posto,
                 })
 
-            wrapped_boleto_list.append(BoletoWrapper(boleto_cnab_api_data))
+            wrapped_boleto_list.append(boleto_cnab_api_data)
         return wrapped_boleto_list
