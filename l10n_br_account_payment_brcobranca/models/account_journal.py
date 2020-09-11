@@ -33,12 +33,9 @@ class AccountJournal(models.Model):
             :param:    context: global context
         """
 
-        move_line_obj = self.env["account.move.line"]
+        move_line_obj = self.env['account.move.line']
 
         if self.return_auto_reconcile:
-            # TODO - os outros valores deveriam ser conciliados ?
-            #  Porque para isso deverão estar na mesma Conta Contabil
-
             # Conciliação entre a Linha da Fatura e a Linha criada
             for line in move.line_ids:
                 # Pesquisando pelo Nosso Numero e Invoice evito o problema
@@ -69,6 +66,7 @@ class AccountJournal(models.Model):
         move = super()._move_import(
             parser, file_stream, result_row_list=None, ftype="csv")
 
+        # Lançamento Automatico do Diário
         if self.return_auto_reconcile:
             move.post()
 
