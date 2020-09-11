@@ -64,6 +64,12 @@ class PaymentOrder(models.Model):
         cnab_type = self.payment_mode_id.payment_method_code
         bank_account = self.journal_id.bank_account_id
         bank_name_brcobranca = dict_brcobranca_bank.get(bank_account.bank_id.code_bc)
+
+        if self.payment_mode_id.group_lines:
+            raise UserError(
+                _('The Payment mode can not be used with the group lines active, \n '
+                  'please uncheck it on payment mode configuration to c')
+            )
         if not bank_name_brcobranca:
             # Lista de bancos não implentados no BRCobranca
             raise UserError(
