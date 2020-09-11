@@ -6,6 +6,9 @@
 
 from collections import namedtuple
 
+from odoo import _
+from odoo.exceptions import Warning as UserError
+
 DICT_BRCOBRANCA_CNAB_TYPE = {
     '240': 'cnab240',
     '400': 'cnab400',
@@ -30,3 +33,17 @@ DICT_BRCOBRANCA_BANK = {
     '748': BankRecord('sicred', retorno=['240'], remessa=['240']),
     '756': BankRecord('sicoob', retorno=['240'], remessa=['240', '400']),
 }
+
+DICT_BRCOBRANCA_CURRENCY = {
+    'R$': '9',
+}
+
+
+def get_brcobranca_bank(bank_account_id):
+    bank_name_brcobranca = DICT_BRCOBRANCA_BANK.get(bank_account_id.bank_id.code_bc)
+    if not bank_name_brcobranca:
+        # Lista de bancos não implentados no BRCobranca
+        raise UserError(
+            _('The Bank %s is not implemented in BRCobranca.')
+            % bank_account_id.bank_id.name)
+    return bank_name_brcobranca
