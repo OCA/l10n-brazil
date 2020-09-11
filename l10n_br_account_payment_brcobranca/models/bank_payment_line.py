@@ -18,10 +18,9 @@ except ImportError:
 
 class BankPaymentLine(models.Model):
     _inherit = "bank.payment.line"
-    
-    def prepare_bank_payment_line(self, bank_name_brcobranca):
-        payment_mode_id = self.order_id.payment_mode_id
-        linhas_pagamentos = {
+
+    def _prepare_bank_line_vals(self):
+        return {
             'valor': self.amount_currency,
             'data_vencimento': self.date.strftime('%Y/%m/%d'),
             'nosso_numero': self.own_number,
@@ -41,47 +40,62 @@ class BankPaymentLine(models.Model):
             'identificacao_ocorrencia': self.order_id.movement_instruction_code
         }
 
-        if bank_name_brcobranca[0] == 'unicred':
-            # TODO - Verificar se é uma tabela unica por banco ou há padrão
-            # Identificação da Ocorrência:
-            # 01 - Remessa*
-            # 02 - Pedido de Baixa
-            # 04 - Concessão de Abatimento*
-            # 05 - Cancelamento de Abatimento
-            # 06 - Alteração de vencimento
-            # 08 - Alteração de Seu Número
-            # 09 - Protestar*
-            # 11 - Sustar Protesto e Manter em Carteira
-            # 25 - Sustar Protesto e Baixar Título
-            # 26 – Protesto automático
-            # 31 - Alteração de outros dados (Alteração de dados do pagador)
-            # 40 - Alteração de Carteira
-            linhas_pagamentos['identificacao_ocorrencia'] = '01'
-            linhas_pagamentos['codigo_protesto'] = \
-                payment_mode_id.boleto_protest_code or '3'
-            linhas_pagamentos['dias_protesto'] = \
-                payment_mode_id.boleto_days_protest or '0'
+    def _prepare_bank_line_unicred(self, payment_mode_id, linhas_pagamentos):
+        # TODO - Verificar se é uma tabela unica por banco ou há padrão
+        # Identificação da Ocorrência:
+        # 01 - Remessa*
+        # 02 - Pedido de Baixa
+        # 04 - Concessão de Abatimento*
+        # 05 - Cancelamento de Abatimento
+        # 06 - Alteração de vencimento
+        # 08 - Alteração de Seu Número
+        # 09 - Protestar*
+        # 11 - Sustar Protesto e Manter em Carteira
+        # 25 - Sustar Protesto e Baixar Título
+        # 26 – Protesto automático
+        # 31 - Alteração de outros dados (Alteração de dados do pagador)
+        # 40 - Alteração de Carteira
+        linhas_pagamentos['identificacao_ocorrencia'] = '01'
+        linhas_pagamentos['codigo_protesto'] = \
+            payment_mode_id.boleto_protest_code or '3'
+        linhas_pagamentos['dias_protesto'] = \
+            payment_mode_id.boleto_days_protest or '0'
 
-            # Código adotado pela FEBRABAN para identificação
-            # do tipo de pagamento de multa.
-            # Domínio:
-            # ‘1’ = Valor Fixo (R$)
-            # ‘2’ = Taxa (%)
-            # ‘3’ = Isento
-            # Isento de Multa caso não exista percentual
-            linhas_pagamentos['codigo_multa'] = '3'
+        # Código adotado pela FEBRABAN para identificação
+        # do tipo de pagamento de multa.
+        # Domínio:
+        # ‘1’ = Valor Fixo (R$)
+        # ‘2’ = Taxa (%)
+        # ‘3’ = Isento
+        # Isento de Multa caso não exista percentual
+        linhas_pagamentos['codigo_multa'] = '3'
 
-            # Isento de Mora
-            linhas_pagamentos['tipo_mora'] = '5'
+        # Isento de Mora
+        linhas_pagamentos['tipo_mora'] = '5'
 
-            # TODO
-            # Código adotado pela FEBRABAN para identificação do desconto.
-            # Domínio:
-            # 0 = Isento
-            # 1 = Valor Fixo
-            linhas_pagamentos['cod_desconto'] = '0'
-            # 00000005/01
-            linhas_pagamentos['numero'] = str(self.document_number)[1:11]
+        # TODO
+        # Código adotado pela FEBRABAN para identificação do desconto.
+        # Domínio:
+        # 0 = Isento
+        # 1 = Valor Fixo
+        linhas_pagamentos['cod_desconto'] = '0'
+        # 00000005/01
+        linhas_pagamentos['numero'] = str(self.document_number)[1:11]
+
+        if payment_mode_id.boleto_discount_perc:
+            linhas_pagamentos['cod_desconto'] = '1'
+
+    def prepare_bank_payment_line(self, bank_name_brcobranca):
+        payment_mode_id = self.order_id.payment_mode_id
+        linhas_pagamentos = self._prepare_bank_line_vals()
+        try:
+            bank_method = getattr(
+                self, '_prepare_bank_line_{}'.format(bank_name_brcobranca.name)
+            )
+            if bank_method:
+                bank_method(payment_mode_id, linhas_pagamentos)
+        except:
+            pass
 
         if payment_mode_id.boleto_fee_perc:
             linhas_pagamentos['codigo_multa'] = \
@@ -124,8 +138,6 @@ class BankPaymentLine(models.Model):
                 self.amount_currency * (
                         payment_mode_id.boleto_discount_perc / 100),
                 precision_account)
-            if bank_name_brcobranca[0] == 'unicred':
-                linhas_pagamentos['cod_desconto'] = '1'
 
         # Protesto
         if payment_mode_id.boleto_protest_code:
