@@ -12,6 +12,12 @@ class AccountJournal(models.Model):
         selection_add=[('cnab400', 'CNAB 400'), ('cnab240', 'CNAB 240')]
     )
 
+    return_auto_reconcile = fields.Boolean(
+        string="Automatic Reconcile payment returns",
+        help="Enable automatic payment return reconciliation.",
+        default=False,
+    )
+
     @api.multi
     def _write_extra_move_lines(self, parser, move):
         """Insert extra lines after the main statement lines.
@@ -29,11 +35,7 @@ class AccountJournal(models.Model):
 
         move_line_obj = self.env["account.move.line"]
 
-        cnab_return_method = self.env[
-            'ir.config_parameter'].sudo().get_param(
-            'l10n_br_account_payment_brcobranca.cnab_return_method')
-
-        if cnab_return_method == 'automatic':
+        if self.return_auto_reconcile:
             # TODO - os outros valores deveriam ser conciliados ?
             #  Porque para isso deverão estar na mesma Conta Contabil
 
@@ -67,11 +69,7 @@ class AccountJournal(models.Model):
         move = super()._move_import(
             parser, file_stream, result_row_list=None, ftype="csv")
 
-        cnab_return_method = self.env[
-            'ir.config_parameter'].sudo().get_param(
-            'l10n_br_account_payment_brcobranca.cnab_return_method')
-
-        if cnab_return_method == 'automatic':
+        if self.return_auto_reconcile:
             move.post()
 
         return move

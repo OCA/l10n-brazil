@@ -10,8 +10,4 @@
                search="[('id', '=', ref('boleto_cnab_api_config_settings'))]"/>
     </function>
 
-    <record id="boleto_cnab_api_config_settings" model="res.config.settings">
-        <field name="cnab_return_method">manual</field>
-    </record>
-
 </odoo>
