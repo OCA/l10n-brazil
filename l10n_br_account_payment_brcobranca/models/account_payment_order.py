@@ -7,11 +7,15 @@
 import json
 import logging
 import tempfile
-from collections import namedtuple
 
 import requests
 from odoo import models, api, fields, _
 from odoo.exceptions import Warning as UserError
+from ..constants.br_cobranca import (
+    DICT_BRCOBRANCA_CNAB_TYPE,
+    DICT_BRCOBRANCA_BANK,
+)
+
 
 _logger = logging.getLogger(__name__)
 
@@ -20,34 +24,59 @@ try:
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
-dict_brcobranca_cnab_type = {
-    '240': 'cnab240',
-    '400': 'cnab400',
-}
-
-BankRecord = namedtuple('Bank', 'name, retorno, remessa')
-
-dict_brcobranca_bank = {
-    '001': BankRecord('banco_brasil', retorno=['400'], remessa=['240', '400']),
-    '004': BankRecord('banco_nordeste', retorno=['400'], remessa=['400']),
-    '021': BankRecord('banestes', retorno=[], remessa=[]),
-    '033': BankRecord('santander', retorno=['240'], remessa=['400']),
-    '041': BankRecord('banrisul', retorno=['400'], remessa=['400']),
-    '070': BankRecord('banco_brasilia', retorno=[], remessa=['400']),
-    '097': BankRecord('credisis', retorno=['400'], remessa=['400']),
-    '104': BankRecord('caixa', retorno=['240'], remessa=['240']),
-    '136': BankRecord('unicred', retorno=['400'], remessa=['240', '400']),
-    '237': BankRecord('bradesco', retorno=['400'], remessa=['400']),
-    '341': BankRecord('itau', retorno=['400'], remessa=['400']),
-    '399': BankRecord('hsbc', retorno=[], remessa=[]),
-    '745': BankRecord('citibank', retorno=[], remessa=['400']),
-    '748': BankRecord('sicred', retorno=['240'], remessa=['240']),
-    '756': BankRecord('sicoob', retorno=['240'], remessa=['240', '400']),
-}
 
 
 class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
+
+    def _prepare_remessa_banco_brasil(self, remessa_values):
+        # TODO - BRCobranca retornando erro de agencia deve ter 4 digitos,
+        #  mesmo o valor estando correto, é preciso verificar melhor
+        remessa_values.update({
+            'convenio': int(self.payment_mode_id.code_convetion),
+            'variacao_carteira': self.payment_mode_id.boleto_variation,
+            # TODO - Mapear e se necessário criar os campos abaixo devido
+            #  ao erro comentado acima não está sendo possível validar
+            'tipo_cobranca': '04DSC',
+            'convenio_lider': '7654321',
+        })
+
+    def _prepare_remessa_caixa(self, remessa_values):
+        remessa_values.update({
+            'convenio': int(self.payment_mode_id.code_convetion),
+            'digito_agencia': self.journal_id.bank_account_id.bra_number_dig,
+        })
+
+    def _prepare_remessa_unicred(self, remessa_values):
+        remessa_values[
+            'codigo_beneficiario'] = int(self.payment_mode_id.code_convetion)
+
+    def _prepare_remessa_sicred(self, remessa_values):
+        remessa_values.update({
+            'codigo_transmissao': int(self.payment_mode_id.code_convetion),
+            'posto': self.payment_mode_id.boleto_post,
+            'byte_idt': self.payment_mode_id.boleto_byte_idt,
+        })
+
+    def _prepare_remessa_sicoob(self, remessa_values):
+        remessa_values.update({
+            'codigo_transmissao': int(self.payment_mode_id.code_convetion),
+        })
+
+    def _prepare_remessa_bradesco(self, remessa_values):
+        remessa_values['codigo_empresa'] = int(self.payment_mode_id.code_convetion)
+
+    def get_file_name(self, cnab_type):
+        context_today = fields.Date.context_today(self)
+        if cnab_type == '240':
+            return 'CB%s%s.REM' % (
+                context_today.strftime('%d%m'), str(self.file_number))
+        elif cnab_type == '400':
+            return 'CB%s%02d.REM' % (
+                context_today.strftime('%d%m'), self.file_number or 1)
+        elif cnab_type == '500':
+            return 'PG%s%s.REM' % (
+                context_today.strftime('%d%m'), str(self.file_number))
 
     @api.multi
     def generate_payment_file(self):
@@ -63,12 +92,18 @@ class PaymentOrder(models.Model):
 
         cnab_type = self.payment_mode_id.payment_method_code
         bank_account = self.journal_id.bank_account_id
-        bank_name_brcobranca = dict_brcobranca_bank.get(bank_account.bank_id.code_bc)
+        bank_name_brcobranca = DICT_BRCOBRANCA_BANK.get(bank_account.bank_id.code_bc)
 
         if self.payment_mode_id.group_lines:
             raise UserError(
                 _('The Payment mode can not be used with the group lines active, \n '
-                  'please uncheck it on payment mode configuration to c')
+                  'please uncheck it on payment mode configuration to continue')
+            )
+        if self.payment_mode_id.generate_move or self.payment_mode_id.post_move:
+            raise UserError(
+                _('The Payment mode can not be used with the generated moves or'
+                  ' post moves active \n Please uncheck it on payment mode'
+                  ' configuration to continue')
             )
         if not bank_name_brcobranca:
             # Lista de bancos não implentados no BRCobranca
@@ -84,7 +119,9 @@ class PaymentOrder(models.Model):
 
         pagamentos = []
         for line in self.bank_line_ids:
-            pagamentos.append(line.prepare_bank_payment_line(bank_name_brcobranca))
+            pagamentos.append(line.prepare_bank_payment_line(
+                bank_name_brcobranca
+            ))
 
         remessa_values = {
             'carteira': str(self.payment_mode_id.boleto_wallet),
@@ -98,49 +135,14 @@ class PaymentOrder(models.Model):
             'sequencial_remessa': self.payment_mode_id.cnab_sequence_id.next_by_id(),
         }
 
-        # Campos especificos de cada Banco
-        if bank_name_brcobranca[0] == 'bradesco':
-            remessa_values[
-                'codigo_empresa'] = int(self.payment_mode_id.code_convetion)
-
-        # Field used in Sicoob Banks
-        if bank_account.bank_id.code_bc == '756':
-            remessa_values.update({
-                'codigo_transmissao': int(self.payment_mode_id.code_convetion),
-            })
-
-        # Field used in Sicredi Banks
-        if bank_account.bank_id.code_bc == '748':
-            remessa_values.update({
-                'codigo_transmissao': int(self.payment_mode_id.code_convetion),
-                'posto': self.payment_mode_id.boleto_post,
-                'byte_idt': self.payment_mode_id.boleto_byte_idt,
-            })
-
-        # Field used in Unicred Bank
-        if bank_account.bank_id.code_bc == '136':
-            remessa_values[
-                'codigo_beneficiario'] = int(self.payment_mode_id.code_convetion)
-
-        # Field used in Caixa Economica Federal
-        if bank_account.bank_id.code_bc == '104':
-            remessa_values.update({
-                'convenio': int(self.payment_mode_id.code_convetion),
-                'digito_agencia': bank_account.bra_number_dig,
-            })
-
-        # Field used in Banco do Brasil
-        if bank_account.bank_id.code_bc == '001':
-            # TODO - BRCobranca retornando erro de agencia deve ter 4 digitos,
-            #  mesmo o valor estando correto, é preciso verificar melhor
-            remessa_values.update({
-                'convenio': int(self.payment_mode_id.code_convetion),
-                'variacao_carteira': self.payment_mode_id.boleto_variation,
-                # TODO - Mapear e se necessário criar os campos abaixo devido
-                #  ao erro comentado acima não está sendo possível validar
-                'tipo_cobranca': '04DSC',
-                'convenio_lider': '7654321',
-            })
+        try:
+            bank_method = getattr(
+                self, '_prepare_remessa_{}'.format(bank_name_brcobranca.name)
+            )
+            if bank_method:
+                bank_method(remessa_values)
+        except:
+            pass
 
         content = json.dumps(remessa_values)
         f = open(tempfile.mktemp(), 'w')
@@ -164,7 +166,7 @@ class PaymentOrder(models.Model):
         res = requests.post(
             api_service_address,
             data={
-                'type': dict_brcobranca_cnab_type[
+                'type': DICT_BRCOBRANCA_CNAB_TYPE[
                     cnab_type],
                 'bank': bank_name_brcobranca[0],
             }, files=files)
@@ -183,19 +185,7 @@ class PaymentOrder(models.Model):
         else:
             raise UserError(res.text)
 
-        context_today = fields.Date.context_today(self)
-
-        if cnab_type == '240':
-            file_name = 'CB%s%s.REM' % (
-                context_today.strftime('%d%m'), str(self.file_number))
-        elif cnab_type == '400':
-            file_name = 'CB%s%02d.REM' % (
-                context_today.strftime('%d%m'), self.file_number or 1)
-        elif cnab_type == '500':
-            file_name = 'PG%s%s.REM' % (
-                context_today.strftime('%d%m'), str(self.file_number))
-
-        return remessa, file_name
+        return remessa, self.get_file_name(cnab_type)
 
     def generated2uploaded(self):
         super().generated2uploaded()
