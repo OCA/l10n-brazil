@@ -12,6 +12,12 @@ import base64
 import codecs
 from unidecode import unidecode
 
+from febraban.cnab240.itau.sispag import \
+    Transfer, DasPayment, IssPayment, UtilityPayment, File
+from febraban.cnab240.itau.sispag.file.lot import Lot
+from febraban.cnab240.libs.barCode import LineNumberO
+from febraban.cnab240.user import User, UserAddress, UserBank
+
 _logger = logging.getLogger(__name__)
 
 
@@ -34,9 +40,6 @@ class Cnab(object):
         cnab_type = order.payment_mode_id.payment_method_id.code
 
         if cnab_type == '240':
-            from febraban.cnab240.itau.sispag import Transfer, File
-            from febraban.cnab240.itau.sispag.file.lot import Lot
-            from febraban.cnab240.user import User, UserAddress, UserBank
             sender = User(
                 name=order.company_id.legal_name.upper(),
                 identifier=order.company_id.cnpj_cpf.replace(
@@ -66,7 +69,8 @@ class Cnab(object):
             lot.setSender(sender)
             lot.setHeaderLotType(
                 kind=order.service_type,  # Tipo de pagamento - Fornecedores
-                method=order.release_form  # TED - Outra titularidade
+                method=order.release_form_itau or
+                order.release_form  # TED - Outra titularidade
             )
 
             for line in order.bank_line_ids:
@@ -83,15 +87,40 @@ class Cnab(object):
                     )
                 )
 
-                payment = Transfer()
-                payment.setSender(sender)
-                payment.setReceiver(receiver)
-                payment.setAmountInCents(str(int(line.amount_currency * 100)))
-                payment.setScheduleDate(line.date.strftime('%d%m%Y'))
-                payment.setInfo(
-                    reason="10"  # Crédito em Conta Corrente
-                )
-                payment.setIdentifier("ID%s" % line.own_number)
+                if order.release_form_itau == "41":
+                    payment = Transfer()
+                    payment.setSender(sender)
+                    payment.setReceiver(receiver)
+                    payment.setAmountInCents(str(int(line.amount_currency * 100)))
+                    payment.setScheduleDate(line.date.strftime('%d%m%Y'))
+                    payment.setInfo(
+                        reason="10"  # Crédito em Conta Corrente
+                    )
+                    payment.setIdentifier("ID%s" % line.own_number)
+                elif order.release_form_itau == "91":
+                    payment = DasPayment()
+                    payment.setPayment(
+                        sender=sender,
+                        scheduleDate=line.date.strftime('%d%m%Y'),
+                        identifier="ID%s" % line.own_number,
+                        lineNumber=LineNumberO(line.communication)
+                    )
+                elif order.release_form_itau == "19":
+                    payment = IssPayment()
+                    payment.setPayment(
+                        sender=sender,
+                        scheduleDate=line.date.strftime('%d%m%Y'),
+                        identifier="ID%s" % line.own_number,
+                        lineNumber=LineNumberO(line.communication)
+                    )
+                elif order.release_form_itau == "13":
+                    payment = UtilityPayment()
+                    payment.setPayment(
+                        sender=sender,
+                        scheduleDate=line.date.strftime('%d%m%Y'),
+                        identifier="ID%s" % line.own_number,
+                        lineNumber=LineNumberO(line.communication)
+                    )
                 lot.add(register=payment)
 
             file.addLot(lot)
