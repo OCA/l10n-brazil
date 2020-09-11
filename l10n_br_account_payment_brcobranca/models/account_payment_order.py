@@ -29,41 +29,37 @@ except ImportError:
 class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
-    def _prepare_remessa_banco_brasil(self, remessa_values):
+    def _prepare_remessa_banco_brasil_400(self, remessa_values):
         # TODO - BRCobranca retornando erro de agencia deve ter 4 digitos,
         #  mesmo o valor estando correto, é preciso verificar melhor
         remessa_values.update({
             'convenio': int(self.payment_mode_id.code_convetion),
-            'variacao_carteira': self.payment_mode_id.boleto_variation,
+            'variacao_carteira': self.payment_mode_id.boleto_variation.zfill(3),
             # TODO - Mapear e se necessário criar os campos abaixo devido
             #  ao erro comentado acima não está sendo possível validar
             'tipo_cobranca': '04DSC',
             'convenio_lider': '7654321',
+            'carteira': str(self.payment_mode_id.boleto_wallet).zfill(2),
         })
 
-    def _prepare_remessa_caixa(self, remessa_values):
+    def _prepare_remessa_caixa_240(self, remessa_values):
         remessa_values.update({
             'convenio': int(self.payment_mode_id.code_convetion),
             'digito_agencia': self.journal_id.bank_account_id.bra_number_dig,
         })
 
-    def _prepare_remessa_unicred(self, remessa_values):
+    def _prepare_remessa_unicred_400(self, remessa_values):
         remessa_values[
             'codigo_beneficiario'] = int(self.payment_mode_id.code_convetion)
 
-    def _prepare_remessa_sicred(self, remessa_values):
+    def _prepare_remessa_sicred_240(self, remessa_values):
         remessa_values.update({
             'codigo_transmissao': int(self.payment_mode_id.code_convetion),
             'posto': self.payment_mode_id.boleto_post,
             'byte_idt': self.payment_mode_id.boleto_byte_idt,
         })
 
-    def _prepare_remessa_sicoob(self, remessa_values):
-        remessa_values.update({
-            'codigo_transmissao': int(self.payment_mode_id.code_convetion),
-        })
-
-    def _prepare_remessa_bradesco(self, remessa_values):
+    def _prepare_remessa_bradesco_400(self, remessa_values):
         remessa_values['codigo_empresa'] = int(self.payment_mode_id.code_convetion)
 
     def get_file_name(self, cnab_type):
@@ -125,7 +121,7 @@ class PaymentOrder(models.Model):
 
         remessa_values = {
             'carteira': str(self.payment_mode_id.boleto_wallet),
-            'agencia': int(bank_account.bra_number),
+            'agencia': bank_account.bra_number,
             'conta_corrente': int(misc.punctuation_rm(bank_account.acc_number)),
             'digito_conta': bank_account.acc_number_dig[0],
             'empresa_mae': bank_account.partner_id.legal_name[:30],
@@ -137,7 +133,10 @@ class PaymentOrder(models.Model):
 
         try:
             bank_method = getattr(
-                self, '_prepare_remessa_{}'.format(bank_name_brcobranca.name)
+                self, '_prepare_remessa_{}_{}'.format(
+                    bank_name_brcobranca.name,
+                    cnab_type
+                )
             )
             if bank_method:
                 bank_method(remessa_values)
