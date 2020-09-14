@@ -87,6 +87,7 @@ addon | version | summary
 [l10n_br_fiscal](l10n_br_fiscal/) | 12.0.3.3.0 | Brazilian fiscal core module.
 [l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.0.0 | Brazilian Localization HR Contract
+[l10n_br_nfse](l10n_br_nfse/) | 12.0.1.0.0 | NFS-e
 [l10n_br_portal](l10n_br_portal/) | 12.0.1.0.0 | Campos Brasileiros no Portal
 [l10n_br_resource](l10n_br_resource/) | 12.0.1.0.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
 [l10n_br_stock](l10n_br_stock/) | 12.0.1.0.0 | Brazilian Localization Warehouse
