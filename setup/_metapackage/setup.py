@@ -19,6 +19,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_fiscal',
         'odoo12-addon-l10n_br_hr',
         'odoo12-addon-l10n_br_hr_contract',
+        'odoo12-addon-l10n_br_nfse',
         'odoo12-addon-l10n_br_portal',
         'odoo12-addon-l10n_br_resource',
         'odoo12-addon-l10n_br_stock',
