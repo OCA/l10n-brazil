@@ -3,8 +3,6 @@
 
 
 import xml.etree.ElementTree as ET
-from datetime import datetime
-from erpbrasil.base import misc
 from nfselib.ginfes.v3_01.tipos_v03 import (
     ListaRpsType,
     tcCpfCnpj,
@@ -34,7 +32,6 @@ from ..constants.ginfes import (
     RECEPCIONAR_LOTE_RPS,
     CONSULTAR_SITUACAO_LOTE_RPS,
     CANCELAR_NFSE,
-    CONSULTAR_NFSE_POR_RPS,
 )
 
 
