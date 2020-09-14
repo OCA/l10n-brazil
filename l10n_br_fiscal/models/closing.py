@@ -5,7 +5,6 @@
 
 import os
 import base64
-import re
 import tempfile
 import zipfile
 import io
@@ -25,18 +24,10 @@ from ..constants.fiscal import (
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
     MODELO_FISCAL_NFSE,
     MODELO_FISCAL_RL,
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_ENVIADA,
-    SITUACAO_EDOC_REJEITADA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_INUTILIZADA,
-)
-
-from odoo.addons.l10n_br_nfe.constants.nfe import (
-    NFE_ENVIRONMENTS
 )
 
 _logger = logging.getLogger(__name__)
@@ -55,13 +46,7 @@ PATH_MODELO = {
     MODELO_FISCAL_RL: 'rl',
 }
 
-PATH_AMBIENTE = dict(NFE_ENVIRONMENTS)
-
 SITUACAO_EDOC = [
-    SITUACAO_EDOC_EM_DIGITACAO,
-    SITUACAO_EDOC_A_ENVIAR,
-    SITUACAO_EDOC_ENVIADA,
-    SITUACAO_EDOC_REJEITADA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
@@ -86,7 +71,8 @@ class FiscalClosing(models.Model):
         for record in self:
             if record.export_type == 'period':
                 record.name = "{}/{}".format(record.month, record.year)
-                record.file_name = "{}-{}".format(record.month, record.year) + '.zip'
+                record.file_name = "{}-{}.{}".format(
+                    record.month, record.year, 'zip')
             else:
                 now = fields.Datetime.now().strftime('%d/%m/%Y')
                 record.name = now
@@ -117,7 +103,6 @@ class FiscalClosing(models.Model):
 
     year = fields.Char(
         string='Year',
-        size=4,
         index=True)
 
     month = fields.Char(
@@ -230,25 +215,17 @@ class FiscalClosing(models.Model):
         'unique (company_id, month, year, export_type)',
         "The closing must be unique for the company in a period of time.")]
 
-    def monta_caminho(self, document):
+    def _create_tempfile_path(self, document):
+        fsc_op_type = {'out': 'Saída', 'in': 'Entrada', 'all': 'Todos'}
         document_path = '/'.join([
-            # TODO: Colocar ambiente
-            # PATH_AMBIENTE[documento.nfe_environment],
             misc.punctuation_rm(document.company_cnpj_cpf),
-            PATH_MODELO[document.document_type_id.code],
             document.date.strftime("%m-%Y"),
-            document.document_serie_id.code.zfill(3) +
+            PATH_MODELO[document.document_type_id.code],
+            fsc_op_type.get(document.fiscal_operation_type),
+            (document.document_serie or '').zfill(3) +
             ('-' + misc.punctuation_rm(str(document.number)).zfill(9)
-             if self.group_folder else '')
+                if self.group_folder else '')
         ])
-        if self.raiz:
-            if not os.path.exists(self.raiz + '/' + document_path):
-                try:
-                    os.makedirs(self.raiz + '/' + document_path)
-                except OSError:
-                    raise RedirectWarning(
-                        _('Error!'),
-                        _('Check write permissions and folder path'))
         return document_path
 
     def _date_range(self):
@@ -259,35 +236,29 @@ class FiscalClosing(models.Model):
         date_max = '-'.join((self.year, self.month, str(date_range[1])))
         date_max = datetime.strptime(date_max, '%Y-%m-%d')
         date_max = datetime.combine(date_max, date_max.time().max)
-
         return date_min, date_max
 
-    def _save_temp_file(self, document_path, anexo, temp_dir):
-        document_path = document_path + '/' + anexo.datas_fname
-        filename = os.path.join(temp_dir.name, document_path)
+    def _save_tempfile(self, document_path, anexo, temp_dir):
+        filename = os.path.join(temp_dir.name, document_path, anexo.datas_fname)
+        if not os.path.dirname(filename):
+            os.makedirs(os.path.dirname(filename))
 
-        if not os.path.exists(os.path.dirname(filename)):
-            try:
-                os.makedirs(os.path.dirname(filename))
-            except OSError:
-                raise RedirectWarning(
-                    _('Error!'),
-                    _('Check write permissions and folder path'))
+        with open(filename, 'wb') as file:
+            file.write(base64.b64decode(anexo.datas))
 
-            with open(filename, 'wb') as file:
-                file.write(base64.b64decode(anexo.datas))
-
-    def _prepara_arquivos(self, temp_dir, periodic_export=False):
-        domain = [('document_type', 'in', MODELO_FISCAL_EMISSAO_PRODUTO +
-                   MODELO_FISCAL_EMISSAO_SERVICO),
-                  ('state_edoc', 'in', SITUACAO_EDOC)]
+    def _document_domain(self, periodic_export):
+        domain = [
+            ('document_type', 'in', MODELO_FISCAL_EMISSAO_PRODUTO +
+                MODELO_FISCAL_EMISSAO_SERVICO),
+            ('state_edoc', 'in', SITUACAO_EDOC),
+        ]
 
         domain += [
             ('close_id', '=', False)
         ] if periodic_export else []
 
         domain += [
-            ('company_id', '=', self.company_id.ids)
+            ('company_id', 'in', self.company_id.ids)
         ] if self.company_id else []
 
         if self.export_type == 'period':
@@ -298,6 +269,10 @@ class FiscalClosing(models.Model):
                 ('date', '<=', date_max),
             ]
 
+        return domain
+
+    def _prepare_files(self, temp_dir, periodic_export=False):
+        domain = self._document_domain(periodic_export)
         documents = self.env['l10n_br_fiscal.document'].search(domain)
         # documents += self.env['l10n_br_fiscal.document_correction'].search(domain)
         # documents += self.env['l10n_br_fiscal.document_cancel'].search(domain)
@@ -308,41 +283,41 @@ class FiscalClosing(models.Model):
                       and getattr(document, campo).id is not False]
 
             document.close_id = self.id
-
-            if not anexos:
-                continue
-            document_path = self.monta_caminho(document)
             try:
-                for anexo in anexos:
-                    self._save_temp_file(document_path, anexo, temp_dir)
+                document_path = self._create_tempfile_path(document)
 
+                for anexo in anexos:
+                    self._save_tempfile(document_path, anexo, temp_dir)
+
+            except OSError:
+                raise RedirectWarning(
+                    _('Error!'),
+                    _('I/O Error'))
+            except PermissionError:
+                raise RedirectWarning(
+                    _('Error!'),
+                    _('Check write permissions in your system temp folder'))
             except Exception:
                 _logger.error(_('Replication failed: document attachments '
                                 '[id =% s] is not present in the database.'
                                 % document.id))
         return temp_dir.name
 
-    def zipdir(self, path, ziph):
-        for root, dirs, files in os.walk(path):
-            for file in files:
-                zip_path = re.sub(".*/odoo/.*?/.", "/", root)
-                ziph.writestr(os.path.join(zip_path, file), file)
-
     def action_export(self):
         temp_dir = tempfile.TemporaryDirectory()
+        files_dir = self._prepare_files(temp_dir)
+        archive = io.BytesIO()
 
-        files_dir = self._prepara_arquivos(temp_dir)
-        order_file = io.BytesIO()
-        order_zip = zipfile.ZipFile(
-            order_file, mode="w", compression=zipfile.ZIP_DEFLATED
-        )
+        with zipfile.ZipFile(archive, 'w') as zip_archive:
+            for dirname, subdirs, files in os.walk(files_dir):
+                zip_archive.write(dirname)
+                for filename in files:
+                    zip_archive.write(os.path.join(dirname, filename))
 
-        self.zipdir(files_dir, order_zip)
         temp_dir.cleanup()
 
-        order_zip.close()
         self.write({
-            'zip_file': base64.b64encode(order_file.getvalue()),
+            'zip_file': base64.b64encode(archive.getbuffer()),
             'state': 'open'
         })
 
