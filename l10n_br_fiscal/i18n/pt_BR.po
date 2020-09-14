@@ -1754,11 +1754,10 @@ msgid "Check if the contact is a company, otherwise it is a person"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/closing.py:251
-#: code:addons/l10n_br_fiscal/models/closing.py:275
+#: code:addons/l10n_br_fiscal/models/closing.py:299
 #, python-format
-msgid "Check write permissions and folder path"
-msgstr "Verifique a permissão de escrita da pasta"
+msgid "Check write permissions in your system temp folder"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.service_type_form
@@ -2823,8 +2822,8 @@ msgid "Error in the request: {}"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/closing.py:250
-#: code:addons/l10n_br_fiscal/models/closing.py:274
+#: code:addons/l10n_br_fiscal/models/closing.py:294
+#: code:addons/l10n_br_fiscal/models/closing.py:298
 #, python-format
 msgid "Error!"
 msgstr ""
@@ -3516,6 +3515,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_number
 msgid "House Number"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/closing.py:295
+#, python-format
+msgid "I/O Error"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7169,7 +7174,7 @@ msgid "Related operation"
 msgstr "Parceiros Relacionados"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/closing.py:320
+#: code:addons/l10n_br_fiscal/models/closing.py:301
 #, python-format
 msgid ""
 "Replication failed: document attachments [id =% s] is not present in the "
@@ -8635,6 +8640,9 @@ msgstr ""
 #: selection:uom.category,measure_type:0
 msgid "Àrea / Superfície"
 msgstr ""
+
+#~ msgid "Check write permissions and folder path"
+#~ msgstr "Verifique a permissão de escrita da pasta"
 
 #~ msgid "Fiscal Document Abstract"
 #~ msgstr "Documento Fiscal Abstrato"
