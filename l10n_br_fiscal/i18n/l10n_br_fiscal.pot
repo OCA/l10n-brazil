@@ -1178,6 +1178,12 @@ msgid "CNAE"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__cnae_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__cnae_id
+msgid "CNAE Code"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/cnae.py:41
 #: sql_constraint:l10n_br_fiscal.cnae:0
 #, python-format
@@ -2245,6 +2251,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__custom_tax
 msgid "Custom Tax"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:product.product,name:l10n_br_fiscal.customized_development_sale
+#: model:product.template,name:l10n_br_fiscal.customized_development_sale_product_template
+msgid "Customized Odoo Development"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3411,6 +3423,12 @@ msgstr ""
 #: model:product.product,name:l10n_br_fiscal.expense_hotel_sale
 #: model:product.template,name:l10n_br_fiscal.expense_hotel_sale_product_template
 msgid "Hotel Room"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:product.product,uom_name:l10n_br_fiscal.customized_development_sale
+#: model:product.template,uom_name:l10n_br_fiscal.customized_development_sale_product_template
+msgid "Hour(s)"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5218,7 +5236,7 @@ msgid "Lista Positiva (valor)"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:74
+#: code:addons/l10n_br_fiscal/hooks.py:75
 #, python-format
 msgid "Loading l10n_br_fiscal demo files."
 msgstr ""
@@ -5230,13 +5248,13 @@ msgid "Loading l10n_br_fiscal fiscal files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:127
+#: code:addons/l10n_br_fiscal/hooks.py:128
 #, python-format
 msgid "Loading l10n_br_fiscal post init files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:104
+#: code:addons/l10n_br_fiscal/hooks.py:105
 #, python-format
 msgid "Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
 msgstr ""
@@ -8428,6 +8446,11 @@ msgid "dias"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: selection:res.company,processador_edoc:0
+msgid "erpbrasil.edoc"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__file
 msgid "file"
 msgstr ""
@@ -8438,7 +8461,9 @@ msgid "key"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:product.product,weight_uom_name:l10n_br_fiscal.customized_development_sale
 #: model:product.product,weight_uom_name:l10n_br_fiscal.expense_hotel_sale
+#: model:product.template,weight_uom_name:l10n_br_fiscal.customized_development_sale_product_template
 #: model:product.template,weight_uom_name:l10n_br_fiscal.expense_hotel_sale_product_template
 msgid "kg"
 msgstr ""
