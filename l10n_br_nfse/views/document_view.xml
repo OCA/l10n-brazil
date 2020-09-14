@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 KMEE INFORMATICA LTDA
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="nfse_document_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_nfse.document.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
+        <field name="arch" type="xml">
+            <field name="codigo_motivo_situacao" position="after">
+<!--                Comentei temporariamente este trecho porque document_section não está sendo preenchido no caso da NFSe-->
+<!--                <field name="edoc_error_message" attrs="{'invisible': [('document_section', '!=', 'nfse_recibos')]}"/>-->
+                <field name="edoc_error_message"/>
+            </field>
+            <field name="state_fiscal" position="before">
+                <field name="rps_number" force_save="1" readonly="1"/>
+                <field name="rps_type"/>
+                <field name="operation_nature"/>
+                <field name="taxation_special_regime"/>
+            </field>
+            <field name="protocolo_autorizacao" position="after">
+                <field name="verify_code"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
