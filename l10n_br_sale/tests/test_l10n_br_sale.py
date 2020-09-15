@@ -12,13 +12,17 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CFOP_DESTINATION_INTERNAL,
     CFOP_DESTINATION_EXTERNAL,
     CFOP_DESTINATION_EXPORT,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ISSQN,
 )
 
 
-class TestSaleMainCompany(TransactionCase):
+class L10nBrSaleBaseTest(TransactionCase):
 
     def setUp(self):
         super().setUp()
+        self.main_company = self.env.ref('base.main_company')
+        self.company = self.env.ref('base.main_company')
         self.so_products = self.env.ref('l10n_br_sale.main_so_only_products')
         self.so_services = self.env.ref('l10n_br_sale.main_so_only_services')
         self.so_prod_srv = self.env.ref('l10n_br_sale.main_so_product_service')
@@ -30,12 +34,14 @@ class TestSaleMainCompany(TransactionCase):
             'l10n_br_fiscal.fo_venda_servico_ind')
         self.fsc_op_line_serv = self.env.ref(
             'l10n_br_fiscal.fo_venda_servico')
-        self.company = self.env.ref('base.main_company')
 
         TAXES_NORMAL = {
             'icms': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_icms_12'),
                 'cst': self.env.ref('l10n_br_fiscal.cst_icms_00'),
+            },
+            'issqn': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_issqn_5'),
             },
             'ipi': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_ipi_5'),
@@ -43,11 +49,11 @@ class TestSaleMainCompany(TransactionCase):
             },
             'pis': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_pis_0_65'),
-                'cst': self.env.ref('l10n_br_fiscal.cst_pis_49'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_pis_01'),
             },
             'cofins': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_cofins_3'),
-                'cst': self.env.ref('l10n_br_fiscal.cst_cofins_49'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_cofins_01'),
             },
             'icmsfcp': {
                 'tax': False,
@@ -59,6 +65,9 @@ class TestSaleMainCompany(TransactionCase):
             'icms': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_icms_sn_com_credito'),
                 'cst': self.env.ref('l10n_br_fiscal.cst_icmssn_101'),
+            },
+            'issqn': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_issqn_5'),
             },
             'ipi': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_ipi_simples_nacional'),
@@ -113,8 +122,32 @@ class TestSaleMainCompany(TransactionCase):
             },
         }
 
+        # self.FISCAL_DEFS[
+        #     CFOP_DESTINATION_INTERNAL][
+        #     self.fsc_op_line_resale.name][
+        #     TAX_FRAMEWORK_NORMAL]['ipi']['tax'] = self.env.ref(
+        #         'l10n_br_fiscal.tax_ipi_nt')
+        #
+        # self.FISCAL_DEFS[
+        #     CFOP_DESTINATION_INTERNAL][
+        #     self.fsc_op_line_resale.name][
+        #     TAX_FRAMEWORK_NORMAL]['ipi']['cst'] = self.env.ref(
+        #         'l10n_br_fiscal.cst_ipi_53')
+        #
+        # self.FISCAL_DEFS[
+        #     CFOP_DESTINATION_EXTERNAL][
+        #     self.fsc_op_line_resale.name][
+        #     TAX_FRAMEWORK_NORMAL]['ipi']['tax'] = self.env.ref(
+        #         'l10n_br_fiscal.tax_ipi_nt')
+        #
+        # self.FISCAL_DEFS[
+        #     CFOP_DESTINATION_EXTERNAL][
+        #     self.fsc_op_line_resale.name][
+        #     TAX_FRAMEWORK_NORMAL]['ipi']['cst'] = self.env.ref(
+        #         'l10n_br_fiscal.cst_ipi_53')
+
     def _change_user_company(self, company):
-        pass
+        self.env.user.company_id.write({'id': company.id})
 
     def _run_sale_order_onchanges(self, sale_order):
         sale_order.onchange_partner_id()
@@ -128,7 +161,7 @@ class TestSaleMainCompany(TransactionCase):
         sale_line._onchange_fiscal_taxes()
 
     def _invoice_sale_order(self, sale_order):
-        self.so_products.action_confirm()
+        sale_order.action_confirm()
 
         # Create and check invoice
         sale_order.action_invoice_create(final=True)
@@ -157,6 +190,7 @@ class TestSaleMainCompany(TransactionCase):
 
     def test_l10n_br_sale_products(self):
         """Test brazilian Sale Order with only Products."""
+        self._change_user_company(self.company)
         self._run_sale_order_onchanges(self.so_products)
         self.assertTrue(
             self.so_products.fiscal_operation_id,
@@ -200,7 +234,12 @@ class TestSaleMainCompany(TransactionCase):
             else:
                 icms_tax = line.icms_tax_id
 
-            icms_cst = line.icms_cst_id
+                if (line.fiscal_operation_line_id.name
+                        == self.fsc_op_line_resale.name):
+                    taxes['ipi']['tax'] = self.env.ref(
+                        'l10n_br_fiscal.tax_ipi_nt')
+                    taxes['ipi']['cst'] = self.env.ref(
+                        'l10n_br_fiscal.cst_ipi_53')
 
             # ICMS
             self.assertEquals(
@@ -211,7 +250,7 @@ class TestSaleMainCompany(TransactionCase):
             )
 
             self.assertEquals(
-                icms_cst.code, taxes['icms']['cst'].code,
+                line.icms_cst_id.code, taxes['icms']['cst'].code,
                 "Error to mapping CST {} from {} for {}.".format(
                     taxes['icms']['cst'].code,
                     taxes['icms']['tax'].name,
@@ -273,9 +312,11 @@ class TestSaleMainCompany(TransactionCase):
             )
 
         self._invoice_sale_order(self.so_products)
+        self._change_user_company(self.main_company)
 
     def test_l10n_br_sale_services(self):
         """Test brazilian Sale Order with only Services."""
+        self._change_user_company(self.company)
         self._run_sale_order_onchanges(self.so_services)
         self.assertTrue(
             self.so_services.fiscal_operation_id,
@@ -306,50 +347,44 @@ class TestSaleMainCompany(TransactionCase):
                 line.fiscal_operation_line_id.name][
                     line.company_id.tax_framework]
 
-            if line.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-                icms_tax = line.icmssn_tax_id
-            else:
-                icms_tax = line.icms_tax_id
-
-            icms_cst = line.icms_cst_id
-
             # ICMS
-            self.assertEquals(
-                icms_tax.name, taxes['icms']['tax'].name,
-                "Error to mapping Tax {} for {}.".format(
-                    taxes['icms']['tax'].name,
-                    line.fiscal_operation_line_id.name)
-            )
+            if line.tax_icms_or_issqn == TAX_DOMAIN_ICMS:
+                if line.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+                    icms_tax = line.icmssn_tax_id
+                else:
+                    icms_tax = line.icms_tax_id
 
-            self.assertEquals(
-                icms_cst.code, taxes['icms']['cst'].code,
-                "Error to mapping CST {} from {} for {}.".format(
-                    taxes['icms']['cst'].code,
-                    taxes['icms']['tax'].name,
-                    line.fiscal_operation_line_id.name)
+                icms_cst = line.icms_cst_id
+
+
+                self.assertEquals(
+                    icms_tax.name, taxes['icms']['tax'].name,
+                    "Error to mapping Tax {} for {}.".format(
+                        taxes['icms']['tax'].name,
+                        line.fiscal_operation_line_id.name)
                 )
 
-            # ICMS FCP
-            self.assertFalse(
-                line.icmsfcp_tax_id,
-                "Error to mapping ICMS FCP 2%"
-                " for Venda de Contribuinte Dentro do Estado.")
+                self.assertEquals(
+                    icms_cst.code, taxes['icms']['cst'].code,
+                    "Error to mapping CST {} from {} for {}.".format(
+                        taxes['icms']['cst'].code,
+                        taxes['icms']['tax'].name,
+                        line.fiscal_operation_line_id.name)
+                )
 
-            # IPI
-            self.assertEquals(
-                line.ipi_tax_id.name, taxes['ipi']['tax'].name,
-                "Error to mapping Tax {} for {}.".format(
-                    taxes['ipi']['tax'].name,
-                    line.fiscal_operation_line_id.name)
-            )
+                # ICMS FCP
+                self.assertFalse(
+                    line.icmsfcp_tax_id,
+                    "Error to mapping ICMS FCP 2%"
+                    " for Venda de Contribuinte Dentro do Estado.")
 
-            self.assertEquals(
-                line.ipi_cst_id.code, taxes['ipi']['cst'].code,
-                "Error to mapping CST {} from {} for {}.".format(
-                    taxes['ipi']['cst'].code,
-                    taxes['ipi']['tax'].name,
-                    line.fiscal_operation_line_id.name)
-            )
+            if line.tax_icms_or_issqn == TAX_DOMAIN_ISSQN:
+                self.assertEquals(
+                    line.issqn_tax_id.name, taxes['issqn']['tax'].name,
+                    "Error to mapping Tax {} for {}.".format(
+                        taxes['issqn']['tax'].name,
+                        line.fiscal_operation_line_id.name)
+                )
 
             # PIS
             self.assertEquals(
@@ -384,3 +419,4 @@ class TestSaleMainCompany(TransactionCase):
             )
 
         self._invoice_sale_order(self.so_services)
+        self._change_user_company(self.main_company)
