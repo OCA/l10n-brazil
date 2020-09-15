@@ -16,6 +16,7 @@ from ..constants.fiscal import (
     OPERATION_FISCAL_TYPE,
     CFOP_DESTINATION_EXPORT,
     FISCAL_COMMENT_LINE,
+    TAX_ICMS_OR_ISSQN,
     TAX_DOMAIN_ISSQN,
     TAX_DOMAIN_ICMS,
 )
@@ -75,6 +76,11 @@ class OperationLine(models.Model):
         string='Fiscal Type',
         store=True,
         readonly=True)
+
+    tax_icms_or_issqn = fields.Selection(
+        selection=TAX_ICMS_OR_ISSQN,
+        string='ICMS or ISSQN Tax',
+    )
 
     line_inverse_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation.line',
