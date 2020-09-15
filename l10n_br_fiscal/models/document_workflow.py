@@ -230,13 +230,20 @@ class DocumentWorkflow(models.AbstractModel):
 
     def document_number(self):
         for nfe in self:
-            if nfe.issuer == DOCUMENT_ISSUER_COMPANY and nfe.document_serie_id:
-                nfe.document_serie = nfe.document_serie_id.code
-                if not nfe.number and nfe.date:
-                    nfe.number = nfe.document_serie_id.next_seq_number()
+            if not nfe.number and nfe.document_serie_id and nfe.date:
+                nfe.number = nfe.document_serie_id.next_seq_number()
 
-                if nfe.document_electronic and not nfe.key:
-                    nfe.key = nfe._generate_key()
+            if (nfe.issuer == DOCUMENT_ISSUER_COMPANY
+                    and not nfe.operation_name):
+                nfe.operation_name = ', '.join(
+                    [l.name for l in nfe.line_ids.mapped(
+                        'fiscal_operation_id')])
+
+            if (nfe.issuer == DOCUMENT_ISSUER_COMPANY
+                    and nfe.document_electronic
+                    and not nfe.key):
+                nfe.document_serie = nfe.document_serie_id.code
+                nfe.key = nfe._generate_key()
 
     def document_check(self):
         return True
