@@ -6,12 +6,10 @@ from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES,
-    TAX_FRAMEWORK_SIMPLES_EX,
     TAX_FRAMEWORK_SIMPLES_ALL,
     TAX_FRAMEWORK_NORMAL,
     CFOP_DESTINATION_INTERNAL,
     CFOP_DESTINATION_EXTERNAL,
-    CFOP_DESTINATION_EXPORT,
 )
 
 
