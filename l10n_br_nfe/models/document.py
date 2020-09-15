@@ -102,7 +102,7 @@ class NFe(spec_models.StackedModel):
         related='document_version',
     )
 
-    nfe40_nNF = fields.Char(]
+    nfe40_nNF = fields.Char(
         related='number',
     )
 
@@ -269,15 +269,6 @@ class NFe(spec_models.StackedModel):
         if self.key and len(self.key) == 47:
             self.nfe40_cNF = self.key[38:-1]
             self.nfe40_cDV = self.key[-1]
-
-    @api.multi
-    def document_check(self):
-        super().document_check()
-        to_check = self.filtered(
-            lambda inv: self.document_type_id.code == '55'
-        )
-        if to_check:
-            txt.validate(to_check)
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
@@ -647,8 +638,8 @@ class NFe(spec_models.StackedModel):
                                        'nfe40_enderDest']:
                 return False
         if field_name == 'nfe40_ISSQNtot' and all(
-                t == 'consu' for t in
-                self.nfe40_det.mapped('product_id.type')
+                t == 'issqn' for t in
+                self.nfe40_det.mapped('product_id.tax_icms_or_issqn')
         ):
             self[field_name] = False
             return False
