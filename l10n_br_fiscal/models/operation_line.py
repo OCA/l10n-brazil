@@ -66,7 +66,7 @@ class OperationLine(models.Model):
     fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT_ALL,
         related='fiscal_operation_id.fiscal_operation_type',
-        string='Operation Type',
+        string='Fiscal Operation Type',
         store=True,
         readonly=True)
 
