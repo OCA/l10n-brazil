@@ -26,6 +26,7 @@
 
         'views/document_view.xml',
         'views/product_template_view.xml',
+        'views/product_product_view.xml',
         'views/document_line_view.xml',
         'views/res_company_view.xml',
 
