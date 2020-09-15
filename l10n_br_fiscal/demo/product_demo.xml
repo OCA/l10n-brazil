@@ -277,6 +277,7 @@
         <field name="categ_id" ref="product.product_category_4"/>
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000"/>
         <field name="fiscal_type">09</field>
+        <field name="tax_icms_or_issqn">issqn</field>
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00"/>
         <field name="icms_origin" eval=""/>
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_105"/>
