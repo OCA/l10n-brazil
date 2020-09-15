@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+        <record id="product_product_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <field name="nbs_id" position="after">
+                <field name="fiscal_deductions_value"/>
+            </field>
+            <field name="service_type_id" position="after">
+                <field name="city_taxation_code_id" context="{'default_service_type_id': service_type_id}">
+                    <tree editable="bottom">
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="service_type_id" />
+                        <field name="state_id" />
+                        <field name="city_id" />
+                    </tree>
+                </field>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>
