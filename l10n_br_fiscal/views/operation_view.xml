@@ -9,7 +9,7 @@
                 <field name="code"/>
                 <field name="name"/>
                 <group expand='0' string='Group By...'>
-                    <filter string='Operation Type' name="fiscal_operation_type" domain="[]" context="{'group_by' : 'fiscal_operation_type'}"/>
+                    <filter string='Fiscal Operation Type' name="fiscal_operation_type" domain="[]" context="{'group_by' : 'fiscal_operation_type'}"/>
                 </group>
             </search>
         </field>
