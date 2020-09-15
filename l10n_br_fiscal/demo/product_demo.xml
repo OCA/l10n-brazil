@@ -294,6 +294,7 @@
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00"/>
         <field name="icms_origin" eval=""/>
         <field name="service_type_id" ref="l10n_br_fiscal.service_type_105"/>
+        <field name="cnae_id" ref="l10n_br_fiscal.cnae_3101200"/>
     </record>
 
 </odoo>
