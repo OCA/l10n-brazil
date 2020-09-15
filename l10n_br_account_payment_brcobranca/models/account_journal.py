@@ -2,7 +2,12 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+import sys
+import traceback
+from datetime import datetime
+
 from odoo import fields, models, api, _
+from odoo.exceptions import UserError, ValidationError
 
 
 class AccountJournal(models.Model):
@@ -52,19 +57,137 @@ class AccountJournal(models.Model):
 
     def _move_import(
             self, parser, file_stream, result_row_list=None, ftype="csv"):
-        """Create a bank statement with the given profile and parser. It will
-        fulfill the bank statement with the values of the file provided, but
-        will not complete data (like finding the partner, or the right
-        account). This will be done in a second step with the completion rules.
-
-        :param prof : The profile used to import the file
-        :param parser: the parser
-        :param filebuffer file_stream: binary of the provided file
-        :param char: ftype represent the file extension (csv by default)
-        :return: ID of the created account.bank.statement
         """
-        move = super()._move_import(
-            parser, file_stream, result_row_list=None, ftype="csv")
+            Overwrite this method to create the CNAB Return Log and change
+            the warning message when the file don't has any line to create
+            the Journal Entry, because in CNAB there is the situation where
+            the file just has only Log infomation.
+        """
+
+        # Call super when file is not CNAB
+        if ftype == 'csv':
+            super()._move_import(
+                parser, file_stream, result_row_list=None, ftype="csv")
+
+        move_obj = self.env["account.move"]
+        move_line_obj = self.env["account.move.line"]
+        attachment_obj = self.env["ir.attachment"]
+        if result_row_list is None:
+            result_row_list = parser.result_row_list
+
+        # Creation of CNAB Return Log
+        context = self.env.context
+        now_user_tz = fields.Datetime.context_timestamp(
+            self, datetime.now())
+        cnab_return_log = self.env['cnab.return.log'].create({
+            'name': 'Retorno CNAB - ' + str(
+                datetime.strftime(now_user_tz, '%d/%m/%Y - %H:%M')),
+            'filename': context.get('file_name'),
+        })
+        qty_cnab_log_lines = 0
+        qty_cnab_number_lots = 0
+        amount_total_title = 0.0
+        amount_total_received = 0.0
+        for cnab_return_log_line in parser.cnab_return_log_line:
+            amount_total_title += cnab_return_log_line.get('title_value')
+            amount_total_received += cnab_return_log_line.get('payment_value')
+            cnab_return_log_line['cnab_return_log_id'] = cnab_return_log.id
+            self.env['cnab.return.log.line'].create(cnab_return_log_line)
+            qty_cnab_log_lines += 1
+            if qty_cnab_number_lots != cnab_return_log_line['cnab_lot']:
+                qty_cnab_number_lots += 1
+
+        cnab_return_log.number_lots = qty_cnab_number_lots
+        cnab_return_log.number_events = qty_cnab_log_lines
+        cnab_return_log.amount_total_title = amount_total_title
+        cnab_return_log.amount_total_received = amount_total_received
+
+        attachment_data = {
+            'name': context.get('file_name'),
+            'datas': file_stream,
+            'datas_fname': context.get('file_name'),
+            'res_model': 'cnab.return.log',
+            'res_id': cnab_return_log.id,
+        }
+        attachment_obj.create(attachment_data)
+
+        # Original Method
+        # Check all key are present in account.bank.statement.line!!
+        # if not result_row_list:
+        #    raise UserError(_("Nothing to import: " "The file is empty"))
+        if not result_row_list:
+            raise UserError(_(
+                '''There is no lines with Payments Values to create
+                Journal Entry, but was create a CNAB Return Log
+                with all events in the file.'''))
+
+        parsed_cols = list(
+            parser.get_move_line_vals(result_row_list[0]).keys()
+        )
+
+        for col in parsed_cols:
+            if col not in move_line_obj._fields:
+                raise UserError(
+                    _(
+                        "Missing column! Column %s you try to import is not "
+                        "present in the move line!"
+                    )
+                    % col
+                )
+        move_vals = self.prepare_move_vals(result_row_list, parser)
+        move = move_obj.create(move_vals)
+        try:
+            # Record every line in the bank statement
+            move_store = []
+            for line in result_row_list:
+                parser_vals = parser.get_move_line_vals(line)
+                values = self.prepare_move_line_vals(parser_vals, move)
+                move_store.append(values)
+            move_line_obj.with_context(check_move_validity=False).create(
+                move_store
+            )
+            self._write_extra_move_lines(parser, move)
+            if self.create_counterpart:
+                self._create_counterpart(parser, move)
+            # Check if move is balanced
+            move.assert_balanced()
+            # Computed total amount of the move
+            move._amount_compute()
+            # Attach data to the move
+            attachment_data = {
+                "name": "statement file",
+                "datas": file_stream,
+                "datas_fname": "%s.%s" % (fields.Date.today(), ftype),
+                "res_model": "account.move",
+                "res_id": move.id,
+            }
+            attachment_obj.create(attachment_data)
+            # If user ask to launch completion at end of import, do it!
+            if self.launch_import_completion:
+                move.button_auto_completion()
+            # Write the needed log infos on profile
+            self.write_logs_after_import(move, len(result_row_list))
+        except UserError:
+            # "Clean" exception, raise as such
+            raise
+        except Exception:
+            error_type, error_value, trbk = sys.exc_info()
+            st = "Error: %s\nDescription: %s\nTraceback:" % (
+                error_type.__name__,
+                error_value,
+            )
+            st += "".join(traceback.format_tb(trbk, 30))
+            raise ValidationError(
+                _(
+                    "Statement import error "
+                    "The statement cannot be created: %s"
+                )
+                % st
+            )
+
+        # CNAB Return Log
+        move.cnab_return_log_id = cnab_return_log.id
+        cnab_return_log.move_id = move.id
 
         # Lançamento Automatico do Diário
         if self.return_auto_reconcile:
