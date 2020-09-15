@@ -55,7 +55,7 @@ class DocumentCorrectionWizard(models.TransientModel):
                 'end_date': fields.Datetime.now(),
                 'state': 'draft',
                 'correction_document_event_id': carta.id,
-                'fiscal_document_event_id': document_id.id,
+                'fiscal_document_id': document_id.id,
             })
 
             carta.correction(event_id)
