@@ -22,15 +22,7 @@
         <field name="nbs_id" ref="l10n_br_fiscal.nbs_114021100"/>
     </record>
 
-    <record id="expense_hotel_sale" model="product.product">
-        <field name="name">Hotel Room</field>
-        <field name="list_price">400.0</field>
-        <field name="standard_price">400.0</field>
-        <field name="type">service</field>
-        <field name="default_code">EXP_HA</field>
-        <field name="uom_id" ref="uom.product_uom_day"/>
-        <field name="uom_po_id" ref="uom.product_uom_day"/>
-        <field name="categ_id" ref="product.cat_expense"/>
+    <record id="product.expense_hotel" model="product.product">
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000"/>
         <field name="fiscal_type">09</field>
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00"/>
@@ -268,12 +260,6 @@
 
     <!-- TODO: Restaurant Expenses: How expenses must be record at fiscal? -->
     <record id="product.expense_product" model="product.product">
-        <field name="fiscal_type">99</field>
-        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000"/>
-    </record>
-
-        <!-- Hotel Accommodation -->
-    <record id="product.expense_hotel" model="product.product">
         <field name="fiscal_type">99</field>
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000"/>
     </record>
