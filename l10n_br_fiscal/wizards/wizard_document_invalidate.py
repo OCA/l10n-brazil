@@ -50,7 +50,7 @@ class WizardDocumentInvalidate(models.TransientModel):
                 'end_date': fields.Datetime.now(),
                 'state': 'draft',
                 'invalid_number_document_event_id': inut.id,
-                'fiscal_document_event_id': document_id.id,
+                'fiscal_document_id': document_id.id,
             })
 
             inut.invalidate(event_id)
