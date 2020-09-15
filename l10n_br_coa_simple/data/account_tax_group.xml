@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Properties -->
+    <!-- ICMS -->
+    <record forcecreate="True" id="property_colect_account_id_icms" model="ir.property">
+        <field name="name">l10n_br_coa_simple_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_icms'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_21302'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+    <record forcecreate="True" id="property_recover_account_id_icms" model="ir.property">
+        <field name="name">l10n_br_coa_simple_refund_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','refund_account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_icms'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_11402'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+    <!-- IPI -->
+    <record forcecreate="True" id="property_colect_account_id_ipi" model="ir.property">
+        <field name="name">l10n_br_coa_simple_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_ipi'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_21304'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+    <record forcecreate="True" id="property_recover_account_id_ipi" model="ir.property">
+        <field name="name">l10n_br_coa_simple_refund_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','refund_account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_ipi'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_11402'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+    <!-- PIS -->
+    <record forcecreate="True" id="property_colect_account_id_pis" model="ir.property">
+        <field name="name">l10n_br_coa_simple_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_pis'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_21305'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+    <record forcecreate="True" id="property_recover_account_id_pis" model="ir.property">
+        <field name="name">l10n_br_coa_simple_refund_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','refund_account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_pis'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_11402'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+    <!-- COFINS -->
+    <record forcecreate="True" id="property_colect_account_id_cofins" model="ir.property">
+        <field name="name">l10n_br_coa_simple_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_cofins'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_21306'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+    <record forcecreate="True" id="property_recover_account_id_cofins" model="ir.property">
+        <field name="name">l10n_br_coa_simple_refund_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','refund_account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_cofins'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_11402'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+    <!-- ISSQN -->
+    <record forcecreate="True" id="property_colect_account_id_issqn" model="ir.property">
+        <field name="name">l10n_br_coa_simple_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_issqn'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_21303'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+    <record forcecreate="True" id="property_recover_account_id_issqn" model="ir.property">
+        <field name="name">l10n_br_coa_simple_refund_account_id</field>
+        <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','refund_account_id')]"/>
+        <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_issqn'))" name="res_id"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_simple.account_template_11402'))" name="value"/>
+        <field name="company_id" eval="0"/>
+    </record>
+
+
+</odoo>
