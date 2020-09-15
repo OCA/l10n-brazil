@@ -5,8 +5,8 @@
 import base64
 import requests
 import json
-
 import datetime
+
 from odoo import models, fields, api, _
 from odoo.exceptions import Warning as UserError
 
@@ -213,6 +213,7 @@ class CNABFileParser(FileParser):
         self.support_multi_moves = None
         self.env = journal.env
         self.bank = self.journal.bank_account_id.bank_id
+        self.cnab_return_log_line = []
 
     @classmethod
     def parser_for(cls, parser_name):
@@ -258,9 +259,6 @@ class CNABFileParser(FileParser):
     @api.multi
     def process_return_file(self, data):
 
-        quantidade_registros = 0
-        total_valores = 0
-
         #          Forma de Lançamento do Retorno
         # Criação de uma Entrada de Diário com os valores de desconto,
         # juros/mora, tarifa bancaria, abatimento, valor total
@@ -274,8 +272,6 @@ class CNABFileParser(FileParser):
         result_row_list = []
 
         for linha_cnab in data:
-            cnab = self.env['l10n_br.cnab'].create(vals={})
-            lote_id = self.env['l10n_br.cnab.lote'].create({'cnab_id': cnab.id})
 
             if int(linha_cnab['codigo_registro']) != 1:
                 # Bradesco
@@ -308,8 +304,6 @@ class CNABFileParser(FileParser):
             valor_titulo = self.cnab_str_to_float(
                 linha_cnab['valor_titulo'])
 
-            total_valores += valor_titulo
-
             data_ocorrencia = datetime.date.today()
             cod_ocorrencia = str(linha_cnab['codigo_ocorrencia'])
             # Cada Banco pode possuir um Codigo de Ocorrencia distinto
@@ -333,8 +327,8 @@ class CNABFileParser(FileParser):
 
             # Linha não encontrada
             if not account_move_line:
-                vals_evento = {
-                    'lot_id': lote_id.id,
+                self.cnab_return_log_line.append({
+                    'cnab_lot': 1,
                     'occurrences': descricao_ocorrencia,
                     'occurrences_date': data_ocorrencia,
                     'str_motiv_a':
@@ -342,8 +336,7 @@ class CNABFileParser(FileParser):
                     'own_number': linha_cnab['nosso_numero'],
                     'your_number': linha_cnab['documento_numero'],
                     'title_value': valor_titulo,
-                }
-                self.env['l10n_br.cnab.evento'].create(vals_evento)
+                })
                 continue
 
             # Codigos de Ocorrencia - Liquidação
@@ -475,8 +468,8 @@ class CNABFileParser(FileParser):
                         'ref': account_move_line.document_number,
                     })
 
-                vals_evento = {
-                    'lot_id': lote_id.id,
+                self.cnab_return_log_line.append({
+                    'cnab_lot': 1,
                     'occurrence_date': data_ocorrencia,
                     'real_payment_date': data_credito.strftime("%Y-%m-%d"),
                     # 'segmento': evento.servico_segmento,
@@ -503,7 +496,7 @@ class CNABFileParser(FileParser):
                     'interest_fee_value': valor_juros_mora,
                     'rebate_value': valor_abatimento,
                     'tariff_charge': valor_tarifa,
-                }
+                })
 
                 # Linha da Fatura a ser reconciliada
                 result_row_list.append({
@@ -521,21 +514,14 @@ class CNABFileParser(FileParser):
                 })
 
             else:
-                vals_evento = {
-                    'lot_id': lote_id.id,
+                self.cnab_return_log_line.append({
+                    'cnab_lot': 1,
                     'occurrences': descricao_ocorrencia,
                     'occurrence_date': data_ocorrencia,
                     'own_number': account_move_line.own_number,
                     'your_number': account_move_line.document_number,
                     'title_value': valor_titulo,
-                }
-
-            self.env['l10n_br.cnab.evento'].create(vals_evento)
-
-            lote_id.total_valores = total_valores
-            lote_id.qtd_registros = quantidade_registros
-            self.num_lotes = 1
-            self.num_eventos = quantidade_registros
+                })
 
         return result_row_list
 
@@ -554,7 +540,7 @@ class CNABFileParser(FileParser):
             'name': 'Retorno CNAB - ' + str(
                 fields.Datetime.now().date().strftime('%d/%m/%Y')),
             'date': fields.Datetime.now(),
-            'ref': self.move_ref or '/'
+            'ref': self.move_ref or '/',
         }
 
     def get_move_line_vals(self, line, *args, **kwargs):
