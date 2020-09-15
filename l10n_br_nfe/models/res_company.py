@@ -26,7 +26,8 @@ class ResCompany(spec_models.SpecModel):
     )
 
     nfe_version = fields.Selection(
-        selection=NFE_VERSIONS, string='NFe Version',
+        selection=NFE_VERSIONS,
+        string='NFe Version',
         default=NFE_VERSION_DEFAULT,
     )
 

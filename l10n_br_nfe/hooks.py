@@ -2,8 +2,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import os
-from odoo import api, SUPERUSER_ID
+
 from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
+
+from odoo import api, SUPERUSER_ID
 from odoo.addons import l10n_br_nfe
 from odoo.addons.spec_driven_model import hooks
 
