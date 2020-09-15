@@ -637,7 +637,7 @@ class NFe(spec_models.StackedModel):
                     field_name not in ['nfe40_PIS', 'nfe40_COFINS',
                                        'nfe40_enderDest']:
                 return False
-        if field_name == 'nfe40_ISSQNtot' and all(
+        if field_name == 'nfe40_ISSQNtot' and not any(
                 t == 'issqn' for t in
                 self.nfe40_det.mapped('product_id.tax_icms_or_issqn')
         ):
