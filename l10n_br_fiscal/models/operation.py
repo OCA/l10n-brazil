@@ -194,6 +194,12 @@ class Operation(models.Model):
             ('product_type', '=', False),
         ]
 
+        domain += [
+            '|',
+            ('tax_icms_or_issqn', '=', product.tax_icms_or_issqn),
+            ('tax_icms_or_issqn', '=', False),
+        ]
+
         return domain
 
     @api.multi
