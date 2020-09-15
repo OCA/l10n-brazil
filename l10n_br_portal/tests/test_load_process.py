@@ -15,11 +15,11 @@ class TestUi(odoo.tests.HttpCase):
             url_path="/my/account",
             code="%s.run('%s')" % tour,
             ready="%s.tours['%s'].ready" % tour,
-            login="portal",
-            timeout=60
+            login="admin",
+            timeout=180
         )
         # check result
-        record = self.env.ref('base.partner_demo_portal')
+        record = self.env.ref('base.partner_admin')
         self.assertEqual(record.country_id.code, 'BR')
         self.assertEqual(record.state_id.code, 'MG')
         self.assertEqual(record.city_id.ibge_code, '32404')
