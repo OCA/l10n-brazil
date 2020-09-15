@@ -59,7 +59,7 @@
     <record id="main_sl_only_services_1_2" model="sale.order.line">
         <field name="order_id" ref="main_so_only_services"/>
         <field name="name">Virtual Interior Design</field>
-        <field name="product_id" ref="product.product_product_1"/>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
         <field name="product_uom_qty">15</field>
         <field name="product_uom" ref="uom.product_uom_hour"/>
         <field name="price_unit">30.75</field>
@@ -71,7 +71,7 @@
     <record id="main_sl_only_services_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_only_services"/>
         <field name="name">Virtual Home Staging</field>
-        <field name="product_id" ref="product.product_product_2"/>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
         <field name="product_uom_qty">20</field>
         <field name="product_uom" ref="uom.product_uom_hour"/>
         <field name="price_unit">38.25</field>
@@ -177,7 +177,7 @@
     <record id="sn_sl_only_services_1_2" model="sale.order.line">
         <field name="order_id" ref="sn_so_only_services"/>
         <field name="name">Virtual Interior Design</field>
-        <field name="product_id" ref="product.product_product_1"/>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
         <field name="product_uom_qty">15</field>
         <field name="product_uom" ref="uom.product_uom_hour"/>
         <field name="price_unit">30.75</field>
@@ -189,7 +189,7 @@
     <record id="sn_sl_only_services_2_2" model="sale.order.line">
         <field name="order_id" ref="sn_so_only_services"/>
         <field name="name">Virtual Home Staging</field>
-        <field name="product_id" ref="product.product_product_2"/>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
         <field name="product_uom_qty">20</field>
         <field name="product_uom" ref="uom.product_uom_hour"/>
         <field name="price_unit">38.25</field>
@@ -295,7 +295,7 @@
     <record id="lc_sl_only_services_1_2" model="sale.order.line">
         <field name="order_id" ref="lc_so_only_services"/>
         <field name="name">Virtual Interior Design</field>
-        <field name="product_id" ref="product.product_product_1"/>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
         <field name="product_uom_qty">15</field>
         <field name="product_uom" ref="uom.product_uom_hour"/>
         <field name="price_unit">30.75</field>
@@ -307,7 +307,7 @@
     <record id="lc_sl_only_services_2_2" model="sale.order.line">
         <field name="order_id" ref="lc_so_only_services"/>
         <field name="name">Virtual Home Staging</field>
-        <field name="product_id" ref="product.product_product_2"/>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
         <field name="product_uom_qty">20</field>
         <field name="product_uom" ref="uom.product_uom_hour"/>
         <field name="price_unit">38.25</field>
