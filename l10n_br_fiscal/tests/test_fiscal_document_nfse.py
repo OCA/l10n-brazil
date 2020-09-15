@@ -7,7 +7,7 @@ from odoo.tests.common import TransactionCase
 class TestFiscalDocumentNFSe(TransactionCase):
 
     def setUp(self):
-        super(TestFiscalDocumentNFSe, self).setUp()
+        super().setUp()
 
         self.nfse_same_state = self.env.ref(
             'l10n_br_fiscal.demo_nfse_same_state'
@@ -28,8 +28,8 @@ class TestFiscalDocumentNFSe(TransactionCase):
             line._onchange_fiscal_taxes()
 
             self.assertEquals(
-                line.fiscal_operation_line_id.name, 'Venda de Serviço',
-                "Error to mappping Venda de Serviço"
+                line.fiscal_operation_line_id.name, 'Prestação de Serviço',
+                "Error to mappping Prestação de Serviço"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.")
 
             # Service Type
@@ -38,25 +38,10 @@ class TestFiscalDocumentNFSe(TransactionCase):
                 "Error to mapping Service Type Code 1.05"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.")
 
-            # IPI
+            # ISSQN
             self.assertEquals(
-                line.ipi_tax_id.name, 'IPI Simples Nacional',
-                "Error to mapping IPI Simples Nacional"
-                " for Venda de Serviço de Contribuinte Dentro do Estado.")
-            self.assertEquals(
-                line.ipi_cst_id.code, '99',
-                "Error to mapping CST 99 from IPI Simples Nacional"
-                " to Venda de Serviço de Contribuinte Dentro do Estado.")
-
-            # ICMS CST
-            self.assertEquals(
-                line.icms_cst_id.name, 'Tributada com permissão de crédito',
+                line.issqn_tax_id.name, 'ISSQN 5%',
                 "Error to mapping ICMS CST Tributada com permissão de crédito"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.")
-            self.assertEquals(
-                line.icms_cst_id.code, '101',
-                "Error to mapping ICMS CST 101 for "
-                "Tributada com permissão de crédito"
-                " to Venda de Serviço de Contribuinte Dentro do Estado.")
 
         self.nfse_same_state.action_document_confirm()
