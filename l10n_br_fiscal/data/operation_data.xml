@@ -55,9 +55,18 @@
         <field name="product_type">00</field>
     </record>
 
+    <record id="fo_venda_servico_ind" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="name">Prestação de Serviço de Industrialização</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5124"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6124"/>
+        <field name="state">approved</field>
+        <field name="product_type">09</field>
+    </record>
+
     <record id="fo_venda_servico" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="name">Venda de Serviço</field>
+        <field name="name">Prestação de Serviço</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_SE"/>
         <field name="state">approved</field>
         <field name="product_type">09</field>

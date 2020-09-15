@@ -85,7 +85,7 @@
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
     </record>
 
-    <record id="cofins_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
+    <record id="cofins_tax_definition_empresa_lucro_presumido" model="l10n_br_fiscal.tax.definition">
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins"/>
         <field name="is_taxed">True</field>
@@ -96,7 +96,7 @@
         <field name="state">draft</field>
     </record>
 
-    <record id="pis_tax_definition_main_company" model="l10n_br_fiscal.tax.definition">
+    <record id="pis_tax_definition_empresa_lucro_presumido" model="l10n_br_fiscal.tax.definition">
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis"/>
         <field name="is_taxed">True</field>
