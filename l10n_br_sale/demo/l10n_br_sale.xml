@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Sale Order Teste - 1 -->
-    <record id="sale_order_teste_1" model="sale.order">
-        <field name="name">Teste l10n_br_sale - 1</field>
+    <!-- Main Company Simples Nacional -->
+    <!-- Sale Order with only products test -->
+    <record id="main_so_only_products" model="sale.order">
+        <field name="name">Main l10n_br_sale - Produtos</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
@@ -16,8 +17,8 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
     </record>
 
-    <record id="sale_order_line_teste_1-1" model="sale.order.line">
-        <field name="order_id" ref="sale_order_teste_1"/>
+    <record id="main_sl_only_products_1_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_only_products"/>
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27"/>
         <field name="product_uom_qty">2</field>
@@ -28,8 +29,8 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
-    <record id="sale_order_line_teste_1-2" model="sale.order.line">
-        <field name="order_id" ref="sale_order_teste_1"/>
+    <record id="main_sl_only_products_2_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_only_products"/>
         <field name="name">Mouse, Wireless</field>
         <field name="product_id" ref="product.product_product_12"/>
         <field name="product_uom_qty">2</field>
@@ -40,9 +41,9 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
-    <!-- Sale Order Teste - 2 -->
-    <record id="sale_order_teste_2" model="sale.order">
-        <field name="name">Teste l10n_br_sale - 2</field>
+    <!-- Sale Order with only services test -->
+    <record id="main_so_only_services" model="sale.order">
+        <field name="name">Main l10n_br_sale - Serviços</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
@@ -55,8 +56,47 @@
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
     </record>
 
-    <record id="sale_order_line_teste_2-1" model="sale.order.line">
-        <field name="order_id" ref="sale_order_teste_2"/>
+    <record id="main_sl_only_services_1_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_only_services"/>
+        <field name="name">Virtual Interior Design</field>
+        <field name="product_id" ref="product.product_product_1"/>
+        <field name="product_uom_qty">15</field>
+        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="price_unit">30.75</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
+    </record>
+
+    <record id="main_sl_only_services_2_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_only_services"/>
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="product.product_product_2"/>
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
+    </record>
+
+    <!-- Sale Order with product and service test -->
+    <record id="main_so_product_service" model="sale.order">
+        <field name="name">Main l10n_br_sale - Produtos e Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="pricelist_id" ref="product.list0"/>
+        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="main_sl_product_service_1_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_product_service"/>
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27"/>
         <field name="product_uom_qty">2</field>
@@ -67,8 +107,48 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
-    <record id="sale_order_line_teste_2-2" model="sale.order.line">
-        <field name="order_id" ref="sale_order_teste_2"/>
+    <record id="main_sl_product_service_2_2" model="sale.order.line">
+        <field name="order_id" ref="main_so_product_service"/>
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="product.product_product_2"/>
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico_ind"/>
+    </record>
+
+    <!-- Empresa Simples Nacional -->
+    <!-- Sale Order with only products test -->
+    <record id="sn_so_only_products" model="sale.order">
+        <field name="name">SN l10n_br_sale - Produtos</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="pricelist_id" ref="product.list0"/>
+        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
+    </record>
+
+    <record id="sn_sl_only_products_1_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_only_products"/>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+    </record>
+
+    <record id="sn_sl_only_products_2_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_only_products"/>
         <field name="name">Mouse, Wireless</field>
         <field name="product_id" ref="product.product_product_12"/>
         <field name="product_uom_qty">2</field>
@@ -79,9 +159,48 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
-    <!-- Sale Service -->
-        <record id="sale_order_service" model="sale.order">
-        <field name="name">Teste Serviço</field>
+    <!-- Sale Order with only services test -->
+    <record id="sn_so_only_services" model="sale.order">
+        <field name="name">SN l10n_br_sale - Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="pricelist_id" ref="product.list0"/>
+        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
+    </record>
+
+    <record id="sn_sl_only_services_1_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_only_services"/>
+        <field name="name">Virtual Interior Design</field>
+        <field name="product_id" ref="product.product_product_1"/>
+        <field name="product_uom_qty">15</field>
+        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="price_unit">30.75</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
+    </record>
+
+    <record id="sn_sl_only_services_2_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_only_services"/>
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="product.product_product_2"/>
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
+    </record>
+
+    <!-- Sale Order with product and service test -->
+    <record id="sn_so_product_service" model="sale.order">
+        <field name="name">SN l10n_br_sale - Produtos e Serviços</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
@@ -91,11 +210,11 @@
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
-        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
     </record>
 
-    <record id="sale_order_service-2-1" model="sale.order.line">
-        <field name="order_id" ref="sale_order_service"/>
+    <record id="sn_sl_product_service_1_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_product_service"/>
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27"/>
         <field name="product_uom_qty">2</field>
@@ -106,21 +225,22 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
-    <record id="sale_order_service-2-2" model="sale.order.line">
-        <field name="order_id" ref="sale_order_service"/>
-        <field name="name">Serviço</field>
-        <field name="product_id" ref="sale.advance_product_0"/>
-        <field name="product_uom_qty">1</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
-        <field name="price_unit">1000</field>
+    <record id="sn_sl_product_service_2_2" model="sale.order.line">
+        <field name="order_id" ref="sn_so_product_service"/>
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="product.product_product_2"/>
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="price_unit">38.25</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico_ind"/>
     </record>
 
-    <!-- Sale Order Teste - 1 -->
-    <record id="l10n_br_sale_product_demo_1" model="sale.order">
-        <field name="name">Teste l10n_br_sale_product - 1</field>
+    <!-- Empresa Lucro Presumido -->
+    <!-- Sale Order with only products test -->
+    <record id="lc_so_only_products" model="sale.order">
+        <field name="name">LC l10n_br_sale - Produtos</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
@@ -133,34 +253,106 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
     </record>
 
-    <record id="l10n_br_sale_product_demo_line-1-1" model="sale.order.line">
-        <field name="order_id" ref="l10n_br_sale_product_demo_1"/>
+    <record id="lc_sl_only_products_1_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_only_products"/>
         <field name="name">Laptop Customized</field>
         <field name="product_id" ref="product.product_product_27"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">500</field>
-        <field name="insurance_value">2.0</field>
-        <field name="other_costs_value">1.0</field>
-        <field name="freight_value">3.0</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
-    <record id="l10n_br_sale_product_demo-1-2" model="sale.order.line">
-        <field name="order_id" ref="l10n_br_sale_product_demo_1"/>
+    <record id="lc_sl_only_products_2_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_only_products"/>
         <field name="name">Mouse, Wireless</field>
         <field name="product_id" ref="product.product_product_12"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="price_unit">500</field>
-        <field name="insurance_value">2.0</field>
-        <field name="other_costs_value">1.0</field>
-        <field name="freight_value">3.0</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+    </record>
+
+    <!-- Sale Order with only services test -->
+    <record id="lc_so_only_services" model="sale.order">
+        <field name="name">LC l10n_br_sale - Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="pricelist_id" ref="product.list0"/>
+        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="note">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
+    </record>
+
+    <record id="lc_sl_only_services_1_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_only_services"/>
+        <field name="name">Virtual Interior Design</field>
+        <field name="product_id" ref="product.product_product_1"/>
+        <field name="product_uom_qty">15</field>
+        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="price_unit">30.75</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
+    </record>
+
+    <record id="lc_sl_only_services_2_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_only_services"/>
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="product.product_product_2"/>
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
+    </record>
+
+    <!-- Sale Order with product and service test -->
+    <record id="lc_so_product_service" model="sale.order">
+        <field name="name">LC l10n_br_sale - Produtos e Serviços</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="pricelist_id" ref="product.list0"/>
+        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
+    </record>
+
+    <record id="lc_sl_product_service_1_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_product_service"/>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+    </record>
+
+    <record id="lc_sl_product_service_2_2" model="sale.order.line">
+        <field name="order_id" ref="lc_so_product_service"/>
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="product.product_product_2"/>
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico_ind"/>
     </record>
 
 </odoo>
