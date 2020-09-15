@@ -52,7 +52,7 @@ class DocumentCancelWizard(models.TransientModel):
                     'end_date': fields.Datetime.now(),
                     'state': 'draft',
                     'cancel_document_event_id': cancel.id,
-                    'fiscal_document_event_id': document_id.id,
+                    'fiscal_document_id': document_id.id,
                 })
 
                 cancel.cancel_document(event_id)
