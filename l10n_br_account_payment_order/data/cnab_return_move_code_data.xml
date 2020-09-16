@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- CNAB Return Code -->
+    <!-- Unicred CNAB 400-->
+    <record id="unicred_cnab_400-code_01" model="cnab.return.move.code">
+        <field name="name">Pago (Título protestado pago em cartório)</field>
+        <field name="code">01</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_02" model="cnab.return.move.code">
+        <field name="name">Instrução Confirmada*</field>
+        <field name="code">02</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_03" model="cnab.return.move.code">
+        <field name="name">Instrução Rejeitada*</field>
+        <field name="code">03</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_04" model="cnab.return.move.code">
+        <field name="name">Sustado Judicial (Título protestado sustado judicialmente)</field>
+        <field name="code">04</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_06" model="cnab.return.move.code">
+        <field name="name">Liquidação Normal *</field>
+        <field name="code">06</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_07" model="cnab.return.move.code">
+        <field name="name">Liquidação em Condicional (Título liquidado em cartório com cheque do próprio devedor)</field>
+        <field name="code">07</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_08" model="cnab.return.move.code">
+        <field name="name">Sustado Definitivo (Título protestado sustado judicialmente)</field>
+        <field name="code">08</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_09" model="cnab.return.move.code">
+        <field name="name">Liquidação de Título Descontado</field>
+        <field name="code">09</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_10" model="cnab.return.move.code">
+        <field name="name">Liquidação de Título Descontado</field>
+        <field name="code">10</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_11" model="cnab.return.move.code">
+        <field name="name">Protesto Em cartório</field>
+        <field name="code">11</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="unicred_cnab_400-code_12" model="cnab.return.move.code">
+        <field name="name">Sustação solicitada</field>
+        <field name="code">12</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <!-- Bradesco - TODO Atualizar -->
+    <record id="bradesco_cnab_400-code_06" model="cnab.return.move.code">
+        <field name="name">Liquidação Normal *</field>
+        <field name="code">06</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_17" model="cnab.return.move.code">
+        <field name="name">Liquidação *Atualizar Tabela</field>
+        <field name="code">17</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <!-- Itau - TODO Atualizar -->
+    <record id="itau_cnab_400-code_06" model="cnab.return.move.code">
+        <field name="name">Liquidação Normal *</field>
+        <field name="code">06</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_10" model="cnab.return.move.code">
+        <field name="name">Liquidação *Atualizar Tabela</field>
+        <field name="code">10</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+</odoo>
