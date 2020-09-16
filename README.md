@@ -76,12 +76,12 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 12.0.1.1.0 | Brazilian Localization Account
+[l10n_br_account](l10n_br_account/) | 12.0.2.0.0 | Brazilian Localization Account
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.1.0.0 | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 12.0.1.0.1 | Customization of base module for implementations in Brazil.
-[l10n_br_coa](l10n_br_coa/) | 12.0.1.1.0 | Base Brasilian Localization of Chart of Account
-[l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.1.0.0 | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
-[l10n_br_coa_simple](l10n_br_coa_simple/) | 12.0.1.0.1 | Brazilian Simple Chart of Account
+[l10n_br_coa](l10n_br_coa/) | 12.0.2.0.0 | Base Brasilian Localization of Chart of Account
+[l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.2.0.0 | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
+[l10n_br_coa_simple](l10n_br_coa_simple/) | 12.0.2.0.0 | Brazilian Simple Chart of Account
 [l10n_br_crm](l10n_br_crm/) | 12.0.1.0.0 | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 12.0.1.0.0 | Update exchange rates using OCA modules for Brazil
 [l10n_br_fiscal](l10n_br_fiscal/) | 12.0.3.5.1 | Brazilian fiscal core module.
