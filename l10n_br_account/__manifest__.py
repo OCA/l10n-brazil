@@ -14,13 +14,12 @@
         'security/ir.model.access.csv',
 
         # data
-        "data/l10n_br_account_tax_data.xml",
-        "data/l10n_br_account_tax_group_data.xml",
+        "data/account_tax_group.xml",
+        "data/account_tax_template.xml",
 
         # Views
         "views/account_tax_view.xml",
         "views/account_tax_template_view.xml",
-        "views/fiscal_tax_group_view.xml",
         "views/fiscal_operation_view.xml",
         'views/fiscal_operation_line_view.xml',
         'views/account_invoice_view.xml',

@@ -12,10 +12,12 @@
     "version": "12.0.1.0.0",
     "depends": ["l10n_br_coa"],
     "data": [
-        "data/account_chart_template_data.xml",
-        "data/account_group_data.xml",
+        "data/l10n_br_coa_generic_template.xml",
+        "data/account_group.xml",
         "data/account.account.template.csv",
-        "data/account_tax_template_data.xml",
+        "data/account_tax_group.xml",
+        "data/account_fiscal_position_template.xml",
+        "data/l10n_br_coa_generic_template_post.xml",
     ],
     "post_init_hook": "post_init_hook",
 }
