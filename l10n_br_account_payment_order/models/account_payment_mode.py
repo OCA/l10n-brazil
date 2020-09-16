@@ -280,6 +280,13 @@ class AccountPaymentMode(models.Model):
         help='Conta padrão para a Tarifa Bancaria',
     )
 
+    cnab_liq_return_move_code_ids = fields.Many2many(
+        comodel_name='cnab.return.move.code',
+        relation='cnab_return_liquidity_move_code_rel',
+        column1='cnab_liq_return_move_code_id',
+        column2='payment_mode_id',
+        string='CNAB Liquidity Return Move Code')
+
     _sql_constraints = [(
         "internal_sequence_id_unique",
         "unique(internal_sequence_id)",

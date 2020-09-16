@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cnab_return_move_code_tree_view" model="ir.ui.view">
+        <field name="name">cnab.return.log.tree</field>
+        <field name="model">cnab.return.move.code</field>
+        <field name="arch" type="xml">
+            <tree string="CNAB Return Move Code">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="bank_id"/>
+                <field name="payment_method_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="cnab_return_move_code_form_view" model="ir.ui.view">
+        <field name="name">cnab.return.log.form.view</field>
+        <field name="model">cnab.return.move.code</field>
+        <field name="arch" type="xml">
+            <form string="CNAB Return Move Code">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="bank_id"/>
+                        <field name="payment_method_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="cnab_return_move_code_action">
+        <field name="name">CNAB Return Move Code</field>
+        <field name="res_model">cnab.return.move.code</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_cnab_return_log"
+              parent="account.account_management_menu"
+              name="CNAB Return Move Code" sequence="999"
+              action="cnab_return_move_code_action"/>
+
+</odoo>
