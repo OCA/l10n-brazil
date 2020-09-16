@@ -1,5 +1,8 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+
+import re
 from lxml import etree
 
 from odoo import api, fields, models
@@ -92,5 +95,6 @@ class DocumentLine(models.Model):
             'codigo_tributacao_municipio':
                 self.city_taxation_code_id.code or '',
             'discriminacao': str(self.name[:120] or ''),
-            'codigo_cnae': self.cnae_id.code or '',
+            'codigo_cnae': re.sub(
+                '[^0-9]', '', self.cnae_id.code or '') or None,
         }
