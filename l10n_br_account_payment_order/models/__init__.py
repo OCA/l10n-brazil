@@ -14,3 +14,4 @@ from . import bank_payment_line
 from . import l10n_br_cnab
 from . import l10n_br_cnab_evento
 from . import l10n_br_cnab_lote
+from . import cnab_return_move_code
