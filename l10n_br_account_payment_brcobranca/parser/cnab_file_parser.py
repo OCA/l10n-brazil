@@ -339,15 +339,13 @@ class CNABFileParser(FileParser):
                 })
                 continue
 
-            # Codigos de Ocorrencia - Liquidação
-            # TODO - esses codigos deveriam ser informados em um campo ao inves
-            #  de estarem chumbados aqui
-            if ((cod_ocorrencia in ('06', '17') and
-                 bank_name_brcobranca == 'bradesco') or
-                    (cod_ocorrencia in ('06', '10') and
-                     bank_name_brcobranca == 'itau') or
-                    (cod_ocorrencia in ('01', '06', '07', '09') and
-                     bank_name_brcobranca == 'unicred')):
+            # Codigos de Movimento de Retorno - Liquidação
+            cnab_liq_move_code = []
+            for move_code in account_move_line.payment_mode_id.\
+                    cnab_liq_return_move_code_ids:
+                cnab_liq_move_code.append(move_code.code)
+
+            if cod_ocorrencia in cnab_liq_move_code:
 
                 valor_recebido = valor_desconto = valor_juros_mora =\
                     valor_abatimento = valor_tarifa = 0.0
