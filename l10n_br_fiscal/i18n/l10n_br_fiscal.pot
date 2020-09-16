@@ -2307,12 +2307,6 @@ msgid "Date Move"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:product.product,uom_name:l10n_br_fiscal.expense_hotel_sale
-#: model:product.template,uom_name:l10n_br_fiscal.expense_hotel_sale_product_template
-msgid "Day(s)"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "Days Before"
 msgstr ""
@@ -2728,7 +2722,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/document_event.py:27
-#: code:addons/l10n_br_fiscal/models/document_event.py:200
+#: code:addons/l10n_br_fiscal/models/document_event.py:204
 #, python-format
 msgid "Erro!"
 msgstr ""
@@ -3157,7 +3151,7 @@ msgid "Fiscal Operation Line"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:148
+#: code:addons/l10n_br_fiscal/models/operation_line.py:154
 #: sql_constraint:l10n_br_fiscal.operation.line:0
 #, python-format
 msgid "Fiscal Operation Line already exists with this name !"
@@ -3423,12 +3417,6 @@ msgid "Group documents"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:product.product,name:l10n_br_fiscal.expense_hotel_sale
-#: model:product.template,name:l10n_br_fiscal.expense_hotel_sale_product_template
-msgid "Hotel Room"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:product.product,uom_name:l10n_br_fiscal.customized_development_sale
 #: model:product.template,uom_name:l10n_br_fiscal.customized_development_sale_product_template
 msgid "Hour(s)"
@@ -3477,6 +3465,7 @@ msgstr ""
 #: selection:l10n_br_fiscal.document.line,tax_icms_or_issqn:0
 #: selection:l10n_br_fiscal.document.line.mixin,tax_icms_or_issqn:0
 #: selection:l10n_br_fiscal.document.type,type:0
+#: selection:l10n_br_fiscal.operation.line,tax_icms_or_issqn:0
 #: selection:product.template,tax_icms_or_issqn:0
 msgid "ICMS"
 msgstr ""
@@ -4258,6 +4247,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__tax_icms_or_issqn
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__tax_icms_or_issqn
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__tax_icms_or_issqn
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__tax_icms_or_issqn
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__tax_icms_or_issqn
 msgid "ICMS or ISSQN Tax"
@@ -4623,6 +4613,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 #: selection:l10n_br_fiscal.document.line,tax_icms_or_issqn:0
 #: selection:l10n_br_fiscal.document.line.mixin,tax_icms_or_issqn:0
+#: selection:l10n_br_fiscal.operation.line,tax_icms_or_issqn:0
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 #: selection:product.template,tax_icms_or_issqn:0
 msgid "ISSQN"
@@ -5923,7 +5914,7 @@ msgid "Não"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:201
+#: code:addons/l10n_br_fiscal/models/document_event.py:205
 #, python-format
 msgid "Não foi possível salvar o arquivo\n"
 "                    em disco, verifique as permissões de escrita\n"
@@ -8318,7 +8309,7 @@ msgid "Volume"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:262
+#: code:addons/l10n_br_fiscal/models/operation_line.py:268
 #, python-format
 msgid "Warning!"
 msgstr ""
@@ -8407,7 +8398,7 @@ msgid "You can note repeat the alternative name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:254
+#: code:addons/l10n_br_fiscal/models/operation_line.py:260
 #, python-format
 msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
@@ -8425,13 +8416,13 @@ msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:263
+#: code:addons/l10n_br_fiscal/models/operation_line.py:269
 #, python-format
 msgid "You must first select a operation type."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:157
+#: code:addons/l10n_br_fiscal/models/operation_line.py:163
 #, python-format
 msgid "You need set a default fiscal document in your company !"
 msgstr ""
@@ -8463,9 +8454,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:product.product,weight_uom_name:l10n_br_fiscal.customized_development_sale
-#: model:product.product,weight_uom_name:l10n_br_fiscal.expense_hotel_sale
 #: model:product.template,weight_uom_name:l10n_br_fiscal.customized_development_sale_product_template
-#: model:product.template,weight_uom_name:l10n_br_fiscal.expense_hotel_sale_product_template
 msgid "kg"
 msgstr ""
 
