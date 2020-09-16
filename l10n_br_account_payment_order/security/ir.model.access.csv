@@ -2,3 +2,4 @@
 access_l10n_br_cnab,access_l10n_br_cnab,model_l10n_br_cnab,group_cnab_cobranca,1,1,1,1
 access_l10n_br_cnab_lote,access_l10n_br_cnab_lote,model_l10n_br_cnab_lote,group_cnab_cobranca,1,1,1,1
 access_l10n_br_cnab_evento,access_l10n_br_cnab_evento,model_l10n_br_cnab_evento,group_cnab_cobranca,1,1,1,1
+access_cnab_return_move_code,access_cnab_return_move_code,model_cnab_return_move_code,group_cnab_cobranca,1,1,1,1
