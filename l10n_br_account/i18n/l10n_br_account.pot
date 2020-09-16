@@ -15,7 +15,6 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_tax_group_form
 msgid "Account"
 msgstr ""
 
@@ -129,7 +128,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__fiscal_tax_ids
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_tax_template__fiscal_tax_ids
 msgid "Fiscal Taxes"
 msgstr ""
 
@@ -184,16 +182,6 @@ msgid "Tax"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__colect_account_id
-msgid "Tax Account"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__recover_account_id
-msgid "Tax Account on Credit Notes"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_tax_group
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_tax_group
 msgid "Tax Group"
@@ -218,10 +206,5 @@ msgstr ""
 #: code:addons/l10n_br_account/models/fiscal_document.py:21
 #, python-format
 msgid "You cannot delete a fiscal document which is not draft state."
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_account_tax_template
-msgid "l10n_br_account.tax.template"
 msgstr ""
 
