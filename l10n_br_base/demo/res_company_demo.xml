@@ -79,15 +79,4 @@
         <field name="inscr_est">755.338.250.133</field>
     </record>
 
-    <!-- Configure Users -->
-    <record id="base.user_admin" model="res.users">
-        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('l10n_br_base.empresa_simples_nacional'), ref('l10n_br_base.empresa_lucro_presumido')])]"/>
-        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
-    </record>
-
-    <record id="base.user_demo" model="res.users">
-        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('l10n_br_base.empresa_simples_nacional'), ref('l10n_br_base.empresa_lucro_presumido')])]"/>
-        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
-    </record>
-
 </odoo>
