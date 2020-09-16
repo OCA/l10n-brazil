@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-import xml.etree.ElementTree as ET
 from nfselib.ginfes.v3_01.tipos_v03 import (
     ListaRpsType,
     tcCpfCnpj,
@@ -31,7 +30,6 @@ from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
 from ..constants.ginfes import (
     RECEPCIONAR_LOTE_RPS,
     CONSULTAR_SITUACAO_LOTE_RPS,
-    CANCELAR_NFSE,
 )
 
 
@@ -162,26 +160,7 @@ class Document(models.Model):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.cancela_documento(doc_numero=self.number)
 
-            if processo.webservice in CANCELAR_NFSE:
-                mensagem_completa = ''
-                situacao = True
-                retorno = ET.fromstring(processo.retorno)
-                nsmap = {'tipo': 'http://www.ginfes.com.br/tipos_v03.xsd'}
-
-                sucesso = retorno.findall(".//tipo:Sucesso", namespaces=nsmap)
-                if not sucesso:
-                    mensagem_erro = retorno.findall(
-                        ".//tipo:Mensagem", namespaces=nsmap)[0].text
-                    correcao = retorno.findall(
-                        ".//tipo:Correcao", namespaces=nsmap)[0].text
-                    codigo = retorno.findall(
-                        ".//tipo:Codigo", namespaces=nsmap)[0].text
-                    mensagem_completa += (
-                        codigo + ' - ' + mensagem_erro +
-                        ' - Correção: ' + correcao + '\n')
-                    situacao = False
-
-                return situacao, mensagem_completa
+            return processador.analisa_retorno_cancelamento(processo)
 
     def action_consultar_nfse_rps(self):
         for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
