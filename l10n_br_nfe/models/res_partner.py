@@ -90,7 +90,7 @@ class ResPartner(spec_models.SpecModel):
 
     def _inverse_nfe40_cMun(self):
         for rec in self:
-            if len(self.nfe40_cMun) == 7:
+            if self.nfe40_cMun and len(self.nfe40_cMun) == 7:
                 state_ibge = self.nfe40_cMun[0:1]
                 city_ibge = self.nfe40_cMun[2:8]
                 state = self.env['res.country.state'].search(
