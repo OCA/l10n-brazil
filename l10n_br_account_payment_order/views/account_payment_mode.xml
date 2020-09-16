@@ -54,6 +54,9 @@
                         <field name="boleto_discount_perc"/>
                         <field name="boleto_byte_idt" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
                         <field name="boleto_post" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
+                        <field name="payment_method_code" invisible="1"/>
+                        <field name="cnab_liq_return_move_code_ids" widget="many2many_tags"
+                               domain="[('bank_code_bc','=', bank_code_bc), ('payment_method_code', '=', payment_method_code)]"/>
                     </group>
                 </page>
                 <page string="Pagamento">
