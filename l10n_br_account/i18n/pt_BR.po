@@ -19,7 +19,6 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_tax_group_form
 msgid "Account"
 msgstr "Conta"
 
@@ -133,7 +132,6 @@ msgstr "Grupos de impostos"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__fiscal_tax_ids
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_tax_template__fiscal_tax_ids
 msgid "Fiscal Taxes"
 msgstr "Impostos"
 
@@ -188,16 +186,6 @@ msgid "Tax"
 msgstr "Imposto"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__colect_account_id
-msgid "Tax Account"
-msgstr "Conta de imposto"
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_tax_group__recover_account_id
-msgid "Tax Account on Credit Notes"
-msgstr "Conta de Impostos em Notas de Crédito"
-
-#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_tax_group
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_tax_group
 msgid "Tax Group"
@@ -224,10 +212,14 @@ msgstr "Usado nos documentos fiscais"
 msgid "You cannot delete a fiscal document which is not draft state."
 msgstr ""
 
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_account_tax_template
-msgid "l10n_br_account.tax.template"
-msgstr "l10n_br_account.tax.template"
+#~ msgid "Tax Account"
+#~ msgstr "Conta de imposto"
+
+#~ msgid "Tax Account on Credit Notes"
+#~ msgstr "Conta de Impostos em Notas de Crédito"
+
+#~ msgid "l10n_br_account.tax.template"
+#~ msgstr "l10n_br_account.tax.template"
 
 #~ msgid "Inscr. Estadual"
 #~ msgstr "Inscr. Estadual"
