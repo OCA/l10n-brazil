@@ -5,6 +5,8 @@
 import re
 from lxml import etree
 
+from erpbrasil.base import misc
+
 from odoo import api, fields, models
 
 
@@ -95,6 +97,5 @@ class DocumentLine(models.Model):
             'codigo_tributacao_municipio':
                 self.city_taxation_code_id.code or '',
             'discriminacao': str(self.name[:120] or ''),
-            'codigo_cnae': re.sub(
-                '[^0-9]', '', self.cnae_id.code or '') or None,
+            'codigo_cnae': misc.punctuation_rm(self.cnae_id.code) or None,
         }
