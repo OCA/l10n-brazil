@@ -116,26 +116,30 @@ class DocumentEvent(models.Model):
         readonly=True,
         default="draft")
 
-    # FIXME Porque existe este campo m2o com ele mesmo???
     fiscal_document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
-        string="Fiscal Document")
+        string="Fiscal Document",
+    )
 
     cancel_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.cancel", string="Cancelamento"
+        comodel_name="l10n_br_fiscal.document.cancel",
+        string="Cancelamento"
     )
 
     correction_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.correction", string="Carta de correção"
+        comodel_name="l10n_br_fiscal.document.correction",
+        string="Carta de correção"
     )
 
     invalid_number_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.invalidate.number", string=u"Inutilização"
+        comodel_name="l10n_br_fiscal.document.invalidate.number",
+        string=u"Inutilização"
     )
 
     document_invalidate_number_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.invalidate.number",
-        string="Invalidate Document")
+        string="Invalidate Document"
+    )
 
     display_name = fields.Char(
         string="Nome",

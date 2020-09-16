@@ -93,7 +93,7 @@ class SubsequentDocument(models.Model):
         new_doc.company_id = self._subsequent_company()
         new_doc.fiscal_operation_id = self.fiscal_operation_id
         new_doc.document_type_id = self.subsequent_operation_id.\
-            operation_document_type_id.document_type_id
+            operation_document_type_id
         new_doc.document_serie_id = (
             new_doc.document_type_id.get_document_serie(
                 new_doc.company_id, new_doc.fiscal_operation_id)
