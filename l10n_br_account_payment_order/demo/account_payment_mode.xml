@@ -139,7 +139,7 @@
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
         <field name="boleto_convetion">06</field>
-        <field name="boleto_wallet">3</field>
+        <field name="boleto_wallet">175</field>
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
@@ -169,8 +169,8 @@
         <field name="fixed_journal_id" ref="bb_journal"/>
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
-        <field name="boleto_convetion">06</field>
-        <field name="boleto_wallet">3</field>
+        <field name="boleto_convetion">0123456</field>
+        <field name="boleto_wallet">18</field>
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
