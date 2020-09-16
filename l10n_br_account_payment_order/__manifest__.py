@@ -28,6 +28,7 @@
         'data/boleto_data.xml',
         'data/ir_cron.xml',
         'data/account_analytic_tag_data.xml',
+        'data/cnab_return_move_code_data.xml',
 
         # Reports
         'reports/report_print_button_view.xml',
@@ -45,6 +46,7 @@
         # 'views/l10n_br_payment_cnab.xml',
         # 'views/l10n_br_cobranca_cnab.xml',
         # 'views/l10n_br_cobranca_cnab_lines.xml',
+        'views/cnab_return_move_code_view.xml',
 
         # Wizards
         'wizards/account_payment_line_create_view.xml',
