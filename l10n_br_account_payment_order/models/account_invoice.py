@@ -245,20 +245,24 @@ class AccountInvoice(models.Model):
     def assign_outstanding_credit(self, credit_aml_id):
         self.ensure_one()
 
-        if self.eval_situacao_pagamento in ['paga', 'liquidada', 'baixa_liquidacao']:
-            raise UserError(
-                _(
-                    'Não é possível adicionar pagamentos em uma fatura que '
-                    'já está paga.'
-                )
-            )
-        if self.eval_state_cnab in ['accepted', 'exported', 'done']:
-            raise UserError(
-                _(
-                    'Não é possível adicionar pagamentos em uma fatura já '
-                    'exportada ou aceita no banco.'
-                )
-            )
+        # TODO - Existe necessidade de ser feito algo nesse metodo ?
+        #  Criar o teste do caso de uso de um Pagto por fora do CNAB
+        #  p/ validar
+        # if self.eval_situacao_pagamento in ['paga', 'liquidada',
+        # 'baixa_liquidacao']:
+        #    raise UserError(
+        #       _(
+        #         'Não é possível adicionar pagamentos em uma fatura que '
+        #         'já está paga.'
+        #         )
+        #        )
+        # if self.eval_state_cnab in ['accepted', 'exported', 'done']:
+        #    raise UserError(
+        #      _(
+        #        'Não é possível adicionar pagamentos em uma fatura já '
+        #        'exportada ou aceita no banco.'
+        #        )
+        #     )
         return super().assign_outstanding_credit(credit_aml_id)
 
     @api.multi
