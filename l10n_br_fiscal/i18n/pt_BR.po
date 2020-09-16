@@ -3244,8 +3244,12 @@ msgid "Fiscal Operation Line already exists with this name !"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_operation_type
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_operation_type
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__fiscal_operation_type
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_search
 #, fuzzy
 msgid "Fiscal Operation Type"
 msgstr "Tipo de Operação Fiscal"
@@ -6185,14 +6189,6 @@ msgid "Operation Performed"
 msgstr "Nome da Operação Fiscal"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_operation_type
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__fiscal_operation_type
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_search
-msgid "Operation Type"
-msgstr "Tipo de Operação Fiscal"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_subsequent_operation__subsequent_operation_id
 #, fuzzy
 msgid "Operation to be performed"
@@ -8640,6 +8636,9 @@ msgstr ""
 #: selection:uom.category,measure_type:0
 msgid "Àrea / Superfície"
 msgstr ""
+
+#~ msgid "Operation Type"
+#~ msgstr "Tipo de Operação Fiscal"
 
 #~ msgid "Check write permissions and folder path"
 #~ msgstr "Verifique a permissão de escrita da pasta"
