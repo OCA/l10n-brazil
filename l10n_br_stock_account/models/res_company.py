@@ -9,15 +9,11 @@ class ResCompany(models.Model):
 
     stock_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
         domain=[('state', '=', 'approved')],
     )
 
     stock_in_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
         domain=[
             ('state', '=', 'approved'),
             ('fiscal_operation_type', '=', 'in')],
@@ -25,8 +21,6 @@ class ResCompany(models.Model):
 
     stock_out_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
         domain=[
             ('state', '=', 'approved'),
             ('fiscal_operation_type', '=', 'out')],
