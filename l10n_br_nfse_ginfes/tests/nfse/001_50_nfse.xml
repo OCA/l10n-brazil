@@ -35,7 +35,7 @@
                             <ValorLiquidoNfse>100.00</ValorLiquidoNfse>
                         </Valores>
                         <ItemListaServico>105</ItemListaServico>
-                        <CodigoCnae>3101-2/00</CodigoCnae>
+                        <CodigoCnae>3101200</CodigoCnae>
                         <CodigoTributacaoMunicipio>6311900</CodigoTributacaoMunicipio>
                         <Discriminacao>[ODOO_DEV] Customized Odoo Development</Discriminacao>
                         <CodigoMunicipio>3132404</CodigoMunicipio>
