@@ -24,85 +24,8 @@ msgid "Account Tax Mixin"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_tree
-msgid "Account Tax Template"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__tag_ids
-msgid "Account tag"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__account_id
-msgid "Account that will be set on invoice tax lines for invoices. Leave empty to use the expense account."
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__refund_account_id
-msgid "Account that will be set on invoice tax lines for refunds. Leave empty to use the expense account."
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__cash_basis_base_account_id
-msgid "Account that will be set on lines created in cash basis journal entry and used to keep track of the tax base amount."
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__cash_basis_account_id
-msgid "Account used as counterpart for the journal entry, for taxes eligible based on payments."
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__active
-msgid "Active"
-msgstr ""
-
-#. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,type_tax_use:0
-msgid "Adjustment"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_form
-msgid "Advanced Options"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__include_base_amount
-msgid "Affect Subsequent Taxes"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__amount
-msgid "Amount"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__analytic
-msgid "Analytic Cost"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__cash_basis_base_account_id
-msgid "Base Tax Received Account"
-msgstr ""
-
-#. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,tax_exigibility:0
-msgid "Based on Invoice"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__tax_exigibility
-msgid "Based on Invoice: the tax is due as soon as the invoice is validated.\n"
-"Based on Payment: the tax is due as soon as the payment of the invoice is received."
-msgstr ""
-
-#. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,tax_exigibility:0
-msgid "Based on Payment"
+#: model:ir.ui.menu,name:l10n_br_coa.account_reports_br_statements_menu
+msgid "Brazil"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -131,67 +54,25 @@ msgid "CSLL WH"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__chart_template_id
-msgid "Chart Template"
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__ded_account_id
+msgid "Deductible Tax Account"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__price_include
-msgid "Check this if the price you use on the product and invoices includes this tax."
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__children_tax_ids
-msgid "Children Taxes"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__create_uid
-msgid "Created by"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__create_date
-msgid "Created on"
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__ded_refund_account_id
+msgid "Deductible Tax Account on Credit Notes"
 msgstr ""
 
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__deductible
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__deductible
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__deductible
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__deductible
 msgid "Deductible Tax?"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_form
-msgid "Definition"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__type_tax_use
-msgid "Determines where the tax is selectable. Note : 'None' means a tax can't be used by itself, however it can still be used in a group. 'adjustment' is used to perform tax adjustment."
-msgstr ""
-
-#. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__display_name
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__display_name
 msgid "Display Name"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__description
-msgid "Display on Invoices"
-msgstr ""
-
-#. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,amount_type:0
-msgid "Fixed"
-msgstr ""
-
-#. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,amount_type:0
-msgid "Group of Taxes"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -216,7 +97,6 @@ msgstr ""
 
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__id
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__id
 msgid "ID"
 msgstr ""
 
@@ -266,44 +146,8 @@ msgid "ISSQN WH"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__include_base_amount
-msgid "If set, taxes which are computed after this one will be computed based on the price tax included."
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__analytic
-msgid "If set, the amount computed by this tax will be assigned to the same analytic account as the invoice line (if any)"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__price_include
-msgid "Included in Price"
-msgstr ""
-
-#. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin____last_update
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template____last_update
 msgid "Last Modified on"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__write_uid
-msgid "Last Updated by"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__write_date
-msgid "Last Updated on"
-msgstr ""
-
-#. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,type_tax_use:0
-msgid "None"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__tag_ids
-msgid "Optional tags you may want to assign for custom reporting"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -327,51 +171,6 @@ msgid "PIS WH"
 msgstr ""
 
 #. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,amount_type:0
-msgid "Percentage of Price"
-msgstr ""
-
-#. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,amount_type:0
-msgid "Percentage of Price Tax Included"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
-msgid "Purchase"
-msgstr ""
-
-#. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,type_tax_use:0
-msgid "Purchases"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
-msgid "Sale"
-msgstr ""
-
-#. module: l10n_br_coa
-#: selection:l10n_br_account.tax.template,type_tax_use:0
-msgid "Sales"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
-msgid "Search Tax Templates"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__sequence
-msgid "Sequence"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__active
-msgid "Set active to false to hide the tax without removing it."
-msgstr ""
-
-#. module: l10n_br_coa
 #: model:account.tax.group,name:l10n_br_coa.tax_group_simples
 msgid "Simples Nacional"
 msgstr ""
@@ -382,78 +181,22 @@ msgid "Tax"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__account_id
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__account_id
 msgid "Tax Account"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__refund_account_id
-msgid "Tax Account on Refunds"
+#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__refund_account_id
+msgid "Tax Account on Credit Notes"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__amount_type
-msgid "Tax Computation"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__tax_exigibility
-msgid "Tax Due"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__tax_group_id
+#: model:ir.model,name:l10n_br_coa.model_account_tax_group
 msgid "Tax Group"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__name
-msgid "Tax Name"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__cash_basis_account_id
-msgid "Tax Received Account"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_account_tax_template__type_tax_use
-msgid "Tax Scope"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
-msgid "Tax Template"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.actions.act_window,name:l10n_br_coa.l10n_br_account_tax_template_action
-#: model:ir.ui.menu,name:l10n_br_coa.l10n_br_account_tax_template_menu
-msgid "Tax Templates"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
-msgid "Taxes used in Purchases"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model_terms:ir.ui.view,arch_db:l10n_br_coa.l10n_br_account_tax_template_search
-msgid "Taxes used in Sales"
 msgstr ""
 
 #. module: l10n_br_coa
 #: model:ir.model,name:l10n_br_coa.model_account_tax_template
 msgid "Templates for Taxes"
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model.fields,help:l10n_br_coa.field_l10n_br_account_tax_template__sequence
-msgid "The sequence field is used to define order in which the tax lines are applied."
-msgstr ""
-
-#. module: l10n_br_coa
-#: model:ir.model,name:l10n_br_coa.model_l10n_br_account_tax_template
-msgid "l10n_br_account.tax.template"
 msgstr ""
 
