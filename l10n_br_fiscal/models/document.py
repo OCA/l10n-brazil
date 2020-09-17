@@ -801,7 +801,7 @@ class Document(models.Model):
         return_docs = self._create_return()
 
         if return_docs:
-            action['domain'] = literal_eval(action['domain'])
+            action['domain'] = literal_eval(action['domain'] or '[]')
             action['domain'].append(('id', 'in', return_docs.ids))
 
             return action
