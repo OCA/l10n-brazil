@@ -176,6 +176,7 @@ class Document(models.Model):
 
     operation_name = fields.Char(
         string='Operation Name',
+        copy=False,
     )
 
     document_electronic = fields.Boolean(
@@ -770,38 +771,40 @@ class Document(models.Model):
             return {'domain': domain}
 
     def _create_return(self):
-        return_ids = self.env[self._name]
+        return_docs = self.env[self._name]
         for record in self:
-            if record.fiscal_operation_id.return_fiscal_operation_id:
-                new = record.copy()
-                new.fiscal_operation_id = (
-                    record.fiscal_operation_id.return_fiscal_operation_id)
-                if record.fiscal_operation_type == 'out':
-                    new.fiscal_operation_type = 'in'
-                else:
-                    new.fiscal_operation_type = 'out'
-                new._onchange_fiscal_operation_id()
-                new.line_ids.write({'fiscal_operation_id': new.fiscal_operation_id.id})
+            fsc_op = record.fiscal_operation_id.return_fiscal_operation_id
+            if not fsc_op:
+                raise ValidationError(_(
+                    "The fiscal operation {} there is no Return Fiscal "
+                    "Operation definied".format(record.fiscal_operation_id)))
 
-                for item in new.line_ids:
-                    item._onchange_fiscal_operation_id()
+            new_doc = record.copy()
+            new_doc.fiscal_operation_id = fsc_op
+            new_doc._onchange_fiscal_operation_id()
 
-                return_ids |= new
-        return return_ids
+            for l in new_doc.line_ids:
+                fsc_op_line = l.fiscal_operation_id.return_fiscal_operation_id
+                if not fsc_op_line:
+                    raise ValidationError(_(
+                        "The fiscal operation {} there is no Return Fiscal "
+                        "Operation definied".format(l.fiscal_operation_id)))
+                l.fiscal_operation_id = fsc_op_line
+                l._onchange_fiscal_operation_id()
 
+            return_docs |= new_doc
+        return return_docs
+
+    @api.multi
     def action_create_return(self):
-        self.ensure_one()
-        return_id = self._create_return()
-        if return_id.fiscal_operation_type == 'out':
-            return_id.fiscal_operation_type = 'in'
-            action = self.env.ref('l10n_br_fiscal.document_in_action').read()[0]
-        else:
-            return_id.fiscal_operation_type = 'out'
-            action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
+        action = self.env.ref('l10n_br_fiscal.document_action').read()[0]
+        return_docs = self._create_return()
 
-        action['domain'] = literal_eval(action['domain'])
-        action['domain'].append(('id', '=', return_id.id))
-        return action
+        if return_docs:
+            action['domain'] = literal_eval(action['domain'])
+            action['domain'].append(('id', 'in', return_docs.ids))
+
+            return action
 
     def _document_comment_vals(self):
         return {
@@ -846,6 +849,10 @@ class Document(models.Model):
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
         super()._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id:
+            self.fiscal_operation_type = (
+                self.fiscal_operation_id.fiscal_operation_type)
+
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
             self.document_type_id = self.company_id.document_type_id
 
