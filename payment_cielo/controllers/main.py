@@ -15,7 +15,7 @@ _logger = logging.getLogger(__name__)
 class CieloController(http.Controller):
 
     @http.route(['/payment/cielo/s2s/create_json_3ds'], type='json',
-                auth='public', csrf=False)
+                auth='public', csrf=False, website=True)
     def cielo_s2s_create_json_3ds(self, verify_validity=False, **kwargs):
         if not kwargs.get('partner_id'):
             kwargs = dict(kwargs, partner_id=request.env.user.partner_id.id)
