@@ -3,11 +3,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 import sys
+import os
 import traceback
 from datetime import datetime
 
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError, ValidationError
+from odoo.addons.account_move_base_import.parser.parser import new_move_parser
 
 
 class AccountJournal(models.Model):
@@ -55,6 +57,40 @@ class AccountJournal(models.Model):
                 if line_to_reconcile:
                     (line + line_to_reconcile).reconcile()
 
+    def multi_move_import(self, file_stream, ftype="csv"):
+        """Create multiple bank statements from values given by the parser for
+        the given profile.
+
+        :param int/long profile_id: ID of the profile used to import the file
+        :param filebuffer file_stream: binary of the provided file
+        :param char: ftype represent the file extension (csv by default)
+        :return: list: list of ids of the created account.bank.statement
+        """
+        filename = self._context.get("file_name", None)
+        if filename:
+            (filename, __) = os.path.splitext(filename)
+        parser = new_move_parser(self, ftype=ftype, move_ref=filename)
+        res_move = self.env["account.move"]
+        res_cnab_log = self.env['cnab.return.log']
+        for result_row_list in parser.parse(file_stream):
+            result = self._move_import(
+                parser,
+                file_stream,
+                result_row_list=result_row_list,
+                ftype=ftype,
+            )
+
+            if hasattr(result, 'journal_id'):
+                print('multi adicionando move if ==> result', result)
+                res_move |= result
+            if hasattr(result, 'cnab_date'):
+                res_cnab_log |= result
+        print('multi move import ===>', res_move)
+        if res_move:
+            return res_move
+        else:
+            return res_cnab_log
+
     def _move_import(
             self, parser, file_stream, result_row_list=None, ftype="csv"):
         """
@@ -75,6 +111,13 @@ class AccountJournal(models.Model):
         if result_row_list is None:
             result_row_list = parser.result_row_list
 
+        # Original Method
+        # Check all key are present in account.bank.statement.line!!
+        # if not result_row_list:
+        #    raise UserError(_("Nothing to import: " "The file is empty"))
+        if not result_row_list and not parser.cnab_return_log_line:
+            raise UserError(_("Nothing to import: " "The file is empty"))
+
         # Creation of CNAB Return Log
         context = self.env.context
         now_user_tz = fields.Datetime.context_timestamp(
@@ -90,7 +133,9 @@ class AccountJournal(models.Model):
         amount_total_received = 0.0
         for cnab_return_log_line in parser.cnab_return_log_line:
             amount_total_title += cnab_return_log_line.get('title_value')
-            amount_total_received += cnab_return_log_line.get('payment_value')
+            if cnab_return_log_line.get('payment_value'):
+                amount_total_received += \
+                    cnab_return_log_line.get('payment_value')
             cnab_return_log_line['cnab_return_log_id'] = cnab_return_log.id
             self.env['cnab.return.log.line'].create(cnab_return_log_line)
             qty_cnab_log_lines += 1
@@ -111,15 +156,8 @@ class AccountJournal(models.Model):
         }
         attachment_obj.create(attachment_data)
 
-        # Original Method
-        # Check all key are present in account.bank.statement.line!!
-        # if not result_row_list:
-        #    raise UserError(_("Nothing to import: " "The file is empty"))
         if not result_row_list:
-            raise UserError(_(
-                '''There is no lines with Payments Values to create
-                Journal Entry, but was create a CNAB Return Log
-                with all events in the file.'''))
+            return cnab_return_log
 
         parsed_cols = list(
             parser.get_move_line_vals(result_row_list[0]).keys()

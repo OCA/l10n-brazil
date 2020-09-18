@@ -300,7 +300,6 @@ class CNABFileParser(FileParser):
             payment_line = self.env['account.payment.line'].search(
                 [('move_line_id', '=', account_move_line.id)]
             )
-
             valor_titulo = self.cnab_str_to_float(
                 linha_cnab['valor_titulo'])
 
@@ -330,7 +329,7 @@ class CNABFileParser(FileParser):
                 self.cnab_return_log_line.append({
                     'cnab_lot': 1,
                     'occurrences': descricao_ocorrencia,
-                    'occurrences_date': data_ocorrencia,
+                    'occurrence_date': data_ocorrencia,
                     'str_motiv_a':
                         u' * - BOLETO NÃO ENCONTRADO.',
                     'own_number': linha_cnab['nosso_numero'],
@@ -520,7 +519,6 @@ class CNABFileParser(FileParser):
                     'your_number': account_move_line.document_number,
                     'title_value': valor_titulo,
                 })
-
         return result_row_list
 
     def cnab_str_to_float(self, value):
