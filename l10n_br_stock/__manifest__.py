@@ -7,7 +7,10 @@
     "version": "12.0.1.0.0",
     "depends": ["stock", "l10n_br_base"],
     "data": ["views/stock_view.xml"],
-    "demo": ["demo/res_users_demo.xml"],
+    "demo": [
+        "demo/res_users_demo.xml",
+        "demo/stock_location_demo.xml",
+    ],
     "installable": True,
     "auto_install": False,
     "post_init_hook": "post_init_hook",
