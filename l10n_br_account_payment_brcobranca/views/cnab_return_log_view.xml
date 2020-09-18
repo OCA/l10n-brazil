@@ -83,6 +83,7 @@
                 <field name="payment_value"/>
                 <field name="tariff_charge"/>
                 <field name="occurrences"/>
+                <field name="str_motiv_a"/>
             </tree>
         </field>
     </record>
