@@ -67,7 +67,7 @@ def set_stock_warehouse_external_ids(env, company_external_id):
     env['ir.model.data']._update_xmlids(data_list)
 
 
-def post_init_hook(cr, registry):
+def pre_init_hook(cr):
     """Import XML data to change core data"""
 
     if not tools.config["without_demo"]:
