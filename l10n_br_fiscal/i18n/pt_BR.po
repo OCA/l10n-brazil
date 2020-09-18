@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-07 15:11+0000\n"
-"PO-Revision-Date: 2020-06-23 00:58+0000\n"
+"PO-Revision-Date: 2020-09-18 21:20+0000\n"
 "Last-Translator: Maurício Liell <mauricio@liell.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -5328,6 +5328,7 @@ msgstr ""
 #, python-format
 msgid "Loading l10n_br_fiscal fiscal files. It may take a minute..."
 msgstr ""
+"Carregando arquivos fiscais do l10n_br_fiscal. Isso pode demorar um minuto..."
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/hooks.py:129
@@ -5341,6 +5342,8 @@ msgstr ""
 msgid ""
 "Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
 msgstr ""
+"Carregando arquivos de produção do l10n_br_fiscal. Isso pode demorar pelo "
+"menos 3 minutos..."
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.cest,segment:0
