@@ -10,6 +10,7 @@
     "demo": [
         "demo/res_users_demo.xml",
         "demo/stock_location_demo.xml",
+        "demo/stock_inventory_demo.xml",
     ],
     "installable": True,
     "auto_install": False,
