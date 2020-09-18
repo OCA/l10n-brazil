@@ -61,69 +61,79 @@ class Cnab(object):
                 )
             )
 
+            bank_line_obj = order.env['bank.payment.line']
+            option_obj = order.env['l10n_br.cnab.option']
+
             file = File()
             file.setSender(sender)
 
-            lot = Lot()
-            sender.name = order.company_id.legal_name.upper()
-            lot.setSender(sender)
-            lot.setHeaderLotType(
-                kind=order.service_type,  # Tipo de pagamento - Fornecedores
-                method=order.release_form_itau or
-                order.release_form  # TED - Outra titularidade
-            )
-
-            for line in order.bank_line_ids:
-                receiver = User(
-                    name=line.partner_id.name.upper(),
-                    identifier=(line.partner_id.cnpj_cpf or ''
-                                ).replace('-', '').replace('.', ''
-                                                           ).replace('/', ''),
-                    bank=UserBank(
-                        bankId=line.partner_bank_id.bank_id.code_bc,
-                        branchCode=line.partner_bank_id.bra_number,
-                        accountNumber=line.partner_bank_id.acc_number,
-                        accountVerifier=line.partner_bank_id.acc_number_dig
-                    )
+            for group in bank_line_obj.read_group(
+                [('id', 'in', order.bank_line_ids.ids)],
+                [], ['release_form_id', 'service_type_id'], lazy=False
+            ):
+                lot = Lot()
+                sender.name = order.company_id.legal_name.upper()
+                lot.setSender(sender)
+                lot.setHeaderLotType(
+                    kind=option_obj.browse(group['service_type_id'][0]).code,
+                    method=option_obj.browse(group['release_form_id'][0]).code,
                 )
 
-                if order.release_form_itau == "41":
-                    payment = Transfer()
-                    payment.setSender(sender)
-                    payment.setReceiver(receiver)
-                    payment.setAmountInCents(str(int(line.amount_currency * 100)))
-                    payment.setScheduleDate(line.date.strftime('%d%m%Y'))
-                    payment.setInfo(
-                        reason="10"  # Crédito em Conta Corrente
+                for line in bank_line_obj.search(group['__domain']):
+                    receiver = User(
+                        name=line.partner_id.name.upper(),
+                        identifier=(line.partner_id.cnpj_cpf or ''
+                                    ).replace('-', '').replace(
+                            '.', '').replace('/', ''),
+                        bank=UserBank(
+                            bankId=line.partner_bank_id.bank_id.code_bc,
+                            branchCode=line.partner_bank_id.bra_number,
+                            accountNumber=line.partner_bank_id.acc_number,
+                            accountVerifier=
+                            line.partner_bank_id.acc_number_dig
+                        )
                     )
-                    payment.setIdentifier("ID%s" % line.own_number)
-                elif order.release_form_itau == "91":
-                    payment = DasPayment()
-                    payment.setPayment(
-                        sender=sender,
-                        scheduleDate=line.date.strftime('%d%m%Y'),
-                        identifier="ID%s" % line.own_number,
-                        lineNumber=LineNumberO(line.communication)
-                    )
-                elif order.release_form_itau == "19":
-                    payment = IssPayment()
-                    payment.setPayment(
-                        sender=sender,
-                        scheduleDate=line.date.strftime('%d%m%Y'),
-                        identifier="ID%s" % line.own_number,
-                        lineNumber=LineNumberO(line.communication)
-                    )
-                elif order.release_form_itau == "13":
-                    payment = UtilityPayment()
-                    payment.setPayment(
-                        sender=sender,
-                        scheduleDate=line.date.strftime('%d%m%Y'),
-                        identifier="ID%s" % line.own_number,
-                        lineNumber=LineNumberO(line.communication)
-                    )
-                lot.add(register=payment)
 
-            file.addLot(lot)
+                    if line.release_form_id.code == "41":
+                        payment = Transfer()
+                        payment.setSender(sender)
+                        payment.setReceiver(receiver)
+                        payment.setAmountInCents(str(int(line.amount_currency * 100)))
+                        payment.setScheduleDate(line.date.strftime('%d%m%Y'))
+                        payment.setInfo(
+                            reason="10"  # Crédito em Conta Corrente
+                        )
+                        payment.setIdentifier("ID%s" % line.own_number)
+                    elif line.release_form_id.code == "91":
+                        payment = DasPayment()
+                        payment.setPayment(
+                            sender=sender,
+                            scheduleDate=line.date.strftime('%d%m%Y'),
+                            identifier="ID%s" % line.own_number,
+                            lineNumber=LineNumberO(line.communication)
+                        )
+                    elif line.release_form_id.code == "19":
+                        payment = IssPayment()
+                        payment.setPayment(
+                            sender=sender,
+                            scheduleDate=line.date.strftime('%d%m%Y'),
+                            identifier="ID%s" % line.own_number,
+                            lineNumber=LineNumberO(line.communication)
+                        )
+                    elif line.release_form_id.code == "13":
+                        payment = UtilityPayment()
+                        payment.setPayment(
+                            sender=sender,
+                            scheduleDate=line.date.strftime('%d%m%Y'),
+                            identifier="ID%s" % line.own_number,
+                            lineNumber=LineNumberO(line.communication)
+                        )
+                    else:
+                        continue
+                    lot.add(register=payment)
+
+                file.addLot(lot)
+
             return file.toString().encode()
         elif cnab_type == '400':
             raise NotImplementedError
