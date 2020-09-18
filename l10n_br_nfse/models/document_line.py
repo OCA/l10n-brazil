@@ -28,7 +28,6 @@ class DocumentLine(models.Model):
     cnae_id = fields.Many2one(
         comodel='l10n_br_fiscal.cnae',
         string='CNAE Code',
-        related='product_id.cnae_id',
         store=True,
     )
 
