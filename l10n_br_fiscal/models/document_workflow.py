@@ -1,34 +1,63 @@
 # Copyright (C) 2019  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ..constants.fiscal import (SITUACAO_EDOC,
-                                SITUACAO_EDOC_A_ENVIAR,
-                                SITUACAO_EDOC_AUTORIZADA,
-                                SITUACAO_EDOC_CANCELADA,
-                                SITUACAO_EDOC_DENEGADA,
-                                SITUACAO_EDOC_EM_DIGITACAO,
-                                SITUACAO_EDOC_ENVIADA,
-                                SITUACAO_EDOC_INUTILIZADA,
-                                SITUACAO_EDOC_REJEITADA, SITUACAO_FISCAL,
-                                SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
-                                WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
-                                WORKFLOW_EDOC,
-                                PROCESSADOR_NENHUM,
-                                PROCESSADOR,
-                                DOCUMENT_ISSUER_COMPANY,
-                                )
-
-import logging
-
-_logger = logging.getLogger(__name__)
+from ..constants.fiscal import (
+    SITUACAO_EDOC,
+    SITUACAO_EDOC_A_ENVIAR,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_EM_DIGITACAO,
+    SITUACAO_EDOC_ENVIADA,
+    SITUACAO_EDOC_INUTILIZADA,
+    SITUACAO_EDOC_REJEITADA, SITUACAO_FISCAL,
+    SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
+    WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
+    WORKFLOW_EDOC,
+    PROCESSADOR_NENHUM,
+    PROCESSADOR,
+    DOCUMENT_ISSUER_COMPANY,
+)
 
 
 class DocumentWorkflow(models.AbstractModel):
-    _name = "l10n_br_fiscal.document.workflow"
-    _description = "Fiscal Document Workflow"
+    _name = 'l10n_br_fiscal.document.workflow'
+    _description = 'Fiscal Document Workflow'
+
+    state_edoc = fields.Selection(
+        selection=SITUACAO_EDOC,
+        string='Situação e-doc',
+        default=SITUACAO_EDOC_EM_DIGITACAO,
+        copy=False,
+        required=True,
+        track_visibility='onchange',
+        index=True,
+    )
+
+    state_fiscal = fields.Selection(
+        selection=SITUACAO_FISCAL,
+        string='Situação Fiscal',
+        copy=False,
+        track_visibility='onchange',
+        index=True,
+    )
+
+    cancel_reason = fields.Char(
+        string='Cancel Reason',
+    )
+
+    correction_reason = fields.Char(
+        string='Correction Reason',
+    )
+
+    processador_edoc = fields.Selection(
+        string='Processador',
+        selection=PROCESSADOR,
+        default=PROCESSADOR_NENHUM,
+    )
 
     def _direct_draft_send(self):
         return False
@@ -194,59 +223,29 @@ class DocumentWorkflow(models.AbstractModel):
             record.state_edoc = new_state
             record._after_change_state(old_state, new_state)
 
-    state_edoc = fields.Selection(
-        selection=SITUACAO_EDOC,
-        string="Situação e-doc",
-        default=SITUACAO_EDOC_EM_DIGITACAO,
-        copy=False,
-        required=True,
-        track_visibility="onchange",
-        index=True)
-
-    state_fiscal = fields.Selection(
-        selection=SITUACAO_FISCAL,
-        string="Situação Fiscal",
-        copy=False,
-        track_visibility="onchange",
-        index=True)
-
-    cancel_reason = fields.Char(
-        string="Cancel Reason")
-
-    correction_reason = fields.Char(
-        string="Correction Reason")
-
-    processador_edoc = fields.Selection(
-        string="Processador",
-        selection=PROCESSADOR,
-        default=PROCESSADOR_NENHUM)
-
     def document_date(self):
         if not self.date:
             self.date = self._date_server_format()
+
+    def document_check(self):
+        return True
 
     def _generate_key(self):
         pass
 
     def document_number(self):
-        for nfe in self:
-            if not nfe.number and nfe.document_serie_id and nfe.date:
-                nfe.number = nfe.document_serie_id.next_seq_number()
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            if not self.number and self.document_serie_id:
+                self.number = self.document_serie_id.next_seq_number()
 
-            if (nfe.issuer == DOCUMENT_ISSUER_COMPANY
-                    and not nfe.operation_name):
-                nfe.operation_name = ', '.join(
-                    [l.name for l in nfe.line_ids.mapped(
+            if not self.operation_name:
+                self.operation_name = ', '.join(
+                    [l.name for l in self.line_ids.mapped(
                         'fiscal_operation_id')])
 
-            if (nfe.issuer == DOCUMENT_ISSUER_COMPANY
-                    and nfe.document_electronic
-                    and not nfe.key):
-                nfe.document_serie = nfe.document_serie_id.code
-                nfe.key = nfe._generate_key()
-
-    def document_check(self):
-        return True
+            if self.document_electronic and not self.key:
+                self.document_serie = self.document_serie_id.code
+                self.key = self._generate_key()
 
     def _document_confirm(self):
         self._change_state(SITUACAO_EDOC_A_ENVIAR)
