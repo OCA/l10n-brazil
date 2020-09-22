@@ -281,16 +281,22 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     l.inss_wh_tax_id = tax
                     self._set_fields_inss_wh(computed_tax)
 
-    @api.onchange("fiscal_operation_id")
+    def _get_product_price(self):
+        price = {
+            'sale_price': self.product_id.list_price,
+            'cost_price': self.product_id.standard_price,
+        }
+
+        self.price_unit = price.get(
+            self.fiscal_operation_id.default_price_unit, 0.00)
+
+    @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
-            price = {
-                "sale_price": self.product_id.list_price,
-                "cost_price": self.product_id.standard_price,
-            }
+            if not self.price_unit:
+                self._get_product_price()
 
-            self.price_unit = price.get(self.fiscal_operation_id.default_price_unit,
-                                        0.00)
+            self._onchange_commercial_quantity()
 
             self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
@@ -351,6 +357,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.service_type_id = False
             self.uot_id = False
 
+        self._get_product_price()
         self._onchange_fiscal_operation_id()
 
     def _set_fields_issqn(self, tax_dict):
