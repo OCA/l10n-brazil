@@ -2,7 +2,6 @@
 <odoo>
     <template id="assets_frontend" inherit_id="web.assets_frontend" name="Address Assets" priority="16">
         <xpath expr="//script[last()]" position="after">
-            <script type="text/javascript" src="/l10n_br_website_sale/static/lib/cleave/cleave.min.js"></script>
             <script type="text/javascript" src="/l10n_br_website_sale/static/src/js/l10n_br_address.js"></script>
         </xpath>
     </template>
