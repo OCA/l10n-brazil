@@ -4,14 +4,14 @@
 from odoo import http
 from odoo.http import request
 
-from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 
 class L10nBrWebsiteSale(WebsiteSale):
 
     # overwrite confirm_order
-    @http.route(['/shop/confirm_order'], type='http', auth="public", website=True, sitemap=False)
+    @http.route(['/shop/confirm_order'], type='http', auth="public",
+                website=True, sitemap=False)
     def confirm_order(self, **post):
         order = request.website.sale_get_order()
 
@@ -46,24 +46,26 @@ class L10nBrWebsiteSale(WebsiteSale):
         return res
 
     def values_postprocess(self, order, mode, values, errors, error_msg):
-        new_values, errors, error_msg = super(L10nBrWebsiteSale, self).values_postprocess(order, mode, values, errors, error_msg)
+        new_values, errors, error_msg = super(L10nBrWebsiteSale, self)\
+            .values_postprocess(order, mode, values, errors, error_msg)
         if 'city_id' in values:
             new_values['city_id'] = values['city_id']
         return new_values, errors, error_msg
 
-
-    @http.route(['/shop/country_infos/<model("res.country"):country>'], type='json', auth="public", methods=['POST'], website=True)
+    @http.route(['/shop/country_infos/<model("res.country"):country>'],
+                type='json', auth="public", methods=['POST'], website=True)
     def country_infos(self, country, mode, **kw):
         return dict(
             fields=country.get_address_fields(),
-            states=[(st.id, st.name, st.code) for st in country.get_website_sale_states(mode=mode)],
+            states=[(st.id, st.name, st.code) for st in country
+                .get_website_sale_states(mode=mode)],
             phone_code=country.phone_code
         )
 
-    @http.route(['/shop/state_infos/<model("res.country.state"):state>'], type='json', auth="public", methods=['POST'], website=True)
+    @http.route(['/shop/state_infos/<model("res.country.state"):state>'],
+                type='json', auth="public", methods=['POST'], website=True)
     def state_infos(self, state, **kw):
-        cities = request.env['res.city'].search([('state_id','=',state.id)])
+        cities = request.env['res.city'].search([('state_id', '=', state.id)])
         return dict(
             cities=[(ct.id, ct.name) for ct in cities],
         )
-
