@@ -80,7 +80,7 @@
         <field name="custom_tax">True</field>
         <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53"/>
-        <field name="state">draft</field>
+        <field name="state">approved</field>
     </record>
 
     <record id="fo_bonificacao" model="l10n_br_fiscal.operation">
@@ -233,25 +233,5 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="active">True</field>
     </record>
-
-    <record id="tax_issqn_definition_venda_servico" model="l10n_br_fiscal.tax.definition">
-        <field name="is_taxed" eval="True"/>
-        <field name="is_debit_credit" eval="True"/>
-        <field name="custom_tax" eval="True"/>
-        <field name="tax_id" ref="l10n_br_fiscal.tax_issqn_2"/>
-        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_issqn"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
-        <field name="state">approved</field>
-    </record>
-
-    <!--
-    <record id="base.main_company" model="res.company">
-        <field name="in_invoice_fiscal_category_id" ref="l10n_br_account_product.fc_b7aafa9c3056c3f020ceae63d7312504"/>
-        <field name="out_invoice_fiscal_category_id" ref="l10n_br_account_product.fc_78df616ab31e95ee46c6a519a2ce9e12"/>
-        <field name="in_refund_fiscal_category_id" ref="l10n_br_account_product.fc_f20c37a9e1e1c870af37efe62a786fbf"/>
-        <field name="out_refund_fiscal_category_id" ref="l10n_br_account_product.fc_7817d015cb9832d137d7939a224a79a5"/>
-        <field name="product_invoice_id" ref="l10n_br_account_product.fiscal_document_55"/>
-        <field name="document_serie_product_ids" eval="[(6,0,[ref('l10n_br_document_serie_1_product')])]"/>
-    </record> -->
 
 </odoo>
