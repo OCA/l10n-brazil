@@ -776,8 +776,8 @@ class Document(models.Model):
             fsc_op = record.fiscal_operation_id.return_fiscal_operation_id
             if not fsc_op:
                 raise ValidationError(_(
-                    "The fiscal operation {} there is no Return Fiscal "
-                    "Operation definied".format(record.fiscal_operation_id)))
+                    "The fiscal operation {} has no return Fiscal "
+                    "Operation defined".format(record.fiscal_operation_id)))
 
             new_doc = record.copy()
             new_doc.fiscal_operation_id = fsc_op
@@ -787,10 +787,11 @@ class Document(models.Model):
                 fsc_op_line = l.fiscal_operation_id.return_fiscal_operation_id
                 if not fsc_op_line:
                     raise ValidationError(_(
-                        "The fiscal operation {} there is no Return Fiscal "
-                        "Operation definied".format(l.fiscal_operation_id)))
+                        "The fiscal operation {} has no return Fiscal "
+                        "Operation defined".format(l.fiscal_operation_id)))
                 l.fiscal_operation_id = fsc_op_line
                 l._onchange_fiscal_operation_id()
+                l._onchange_fiscal_operation_line_id()
 
             return_docs |= new_doc
         return return_docs
@@ -804,7 +805,7 @@ class Document(models.Model):
             action['domain'] = literal_eval(action['domain'] or '[]')
             action['domain'].append(('id', 'in', return_docs.ids))
 
-            return action
+        return action
 
     def _document_comment_vals(self):
         return {
