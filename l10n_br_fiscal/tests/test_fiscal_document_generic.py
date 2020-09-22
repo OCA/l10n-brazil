@@ -10,7 +10,7 @@ from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 class TestFiscalDocumentGeneric(TransactionCase):
 
     def setUp(self):
-        super(TestFiscalDocumentGeneric, self).setUp()
+        super().setUp()
         # Contribuinte
         self.nfe_same_state = self.env.ref(
             'l10n_br_fiscal.demo_nfe_same_state'
@@ -775,10 +775,9 @@ class TestFiscalDocumentGeneric(TransactionCase):
 
     def test_nfe_return(self):
         """ Test Fiscal Document Return """
-
         action = self.nfe_same_state.action_create_return()
         return_id = self.nfe_same_state.browse(
-            [i[2] for i in action['domain'] if i[0] == 'id'])
+            [i[2][0] for i in action['domain'] if i[0] == 'id'])
 
         self.assertEquals(
             return_id.fiscal_operation_id.id,
