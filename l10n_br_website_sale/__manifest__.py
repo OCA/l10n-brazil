@@ -7,11 +7,12 @@
         Website sale localização brasileira.""",
     'version': '12.0.1.0.0',
     'license': 'AGPL-3',
-    'author': 'KMEE INFORMATICA LTDA,Odoo Community Association (OCA)',
+    'author': 'KMEE INFORMATICA LTDA',
     'website': 'www.kmee.com.br',
     'depends': [
         'web',
-        'website_sale'
+        'website_sale',
+        'l10n_br_sale',
     ],
     'data': [
         'templates/portal_templates.xml',
