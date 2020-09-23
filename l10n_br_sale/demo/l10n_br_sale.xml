@@ -29,6 +29,14 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_only_products_1_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_only_products_1_2')]"/>
+    </function>
+
     <record id="main_sl_only_products_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_only_products"/>
         <field name="name">Mouse, Wireless</field>
@@ -40,6 +48,14 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_only_products_2_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_only_products_2_2')]"/>
+    </function>
 
     <!-- Sale Order with only services test -->
     <record id="main_so_only_services" model="sale.order">
@@ -68,6 +84,14 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
     </record>
 
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_only_services_1_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_only_services_1_2')]"/>
+    </function>
+
     <record id="main_sl_only_services_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_only_services"/>
         <field name="name">Virtual Home Staging</field>
@@ -79,6 +103,14 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
     </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_only_services_2_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_only_services_2_2')]"/>
+    </function>
 
     <!-- Sale Order with product and service test -->
     <record id="main_so_product_service" model="sale.order">
@@ -107,6 +139,14 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_product_service_1_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_product_service_1_2')]"/>
+    </function>
+
     <record id="main_sl_product_service_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_product_service"/>
         <field name="name">Virtual Home Staging</field>
@@ -118,6 +158,14 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico_ind"/>
     </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_product_service_2_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_product_service_2_2')]"/>
+    </function>
 
     <!-- Empresa Simples Nacional -->
     <!-- Sale Order with only products test -->
@@ -147,6 +195,14 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_only_products_1_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_only_products_1_2')]"/>
+    </function>
+
     <record id="sn_sl_only_products_2_2" model="sale.order.line">
         <field name="order_id" ref="sn_so_only_products"/>
         <field name="name">Mouse, Wireless</field>
@@ -158,6 +214,14 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_only_products_2_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_only_products_2_2')]"/>
+    </function>
 
     <!-- Sale Order with only services test -->
     <record id="sn_so_only_services" model="sale.order">
@@ -186,6 +250,14 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
     </record>
 
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_only_services_1_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_only_services_1_2')]"/>
+    </function>
+
     <record id="sn_sl_only_services_2_2" model="sale.order.line">
         <field name="order_id" ref="sn_so_only_services"/>
         <field name="name">Virtual Home Staging</field>
@@ -197,6 +269,14 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
     </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_only_services_2_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_only_services_2_2')]"/>
+    </function>
 
     <!-- Sale Order with product and service test -->
     <record id="sn_so_product_service" model="sale.order">
@@ -225,6 +305,14 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_product_service_1_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_product_service_1_2')]"/>
+    </function>
+
     <record id="sn_sl_product_service_2_2" model="sale.order.line">
         <field name="order_id" ref="sn_so_product_service"/>
         <field name="name">Virtual Home Staging</field>
@@ -236,6 +324,14 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico_ind"/>
     </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_product_service_2_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_product_service_2_2')]"/>
+    </function>
 
     <!-- Empresa Lucro Presumido -->
     <!-- Sale Order with only products test -->
@@ -265,6 +361,14 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_only_products_1_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_only_products_1_2')]"/>
+    </function>
+
     <record id="lc_sl_only_products_2_2" model="sale.order.line">
         <field name="order_id" ref="lc_so_only_products"/>
         <field name="name">Mouse, Wireless</field>
@@ -276,6 +380,14 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_only_products_2_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_only_products_2_2')]"/>
+    </function>
 
     <!-- Sale Order with only services test -->
     <record id="lc_so_only_services" model="sale.order">
@@ -304,6 +416,14 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
     </record>
 
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_only_services_1_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_only_services_1_2')]"/>
+    </function>
+
     <record id="lc_sl_only_services_2_2" model="sale.order.line">
         <field name="order_id" ref="lc_so_only_services"/>
         <field name="name">Virtual Home Staging</field>
@@ -315,6 +435,14 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
     </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_only_services_2_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_only_services_2_2')]"/>
+    </function>
 
     <!-- Sale Order with product and service test -->
     <record id="lc_so_product_service" model="sale.order">
@@ -343,6 +471,14 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
 
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_product_service_1_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_product_service_1_2')]"/>
+    </function>
+
     <record id="lc_sl_product_service_2_2" model="sale.order.line">
         <field name="order_id" ref="lc_so_product_service"/>
         <field name="name">Virtual Home Staging</field>
@@ -354,5 +490,13 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico_ind"/>
     </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_product_service_2_2')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_product_service_2_2')]"/>
+    </function>
 
 </odoo>
