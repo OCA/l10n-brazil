@@ -4,7 +4,7 @@
 
 {
     'name': 'Brazilian Localization Sales and Warehouse',
-    'category': 'Localisation',
+    'category': 'Localization',
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://github.com/OCA/l10n-brazil',
