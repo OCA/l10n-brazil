@@ -1064,6 +1064,11 @@ msgid "Message for Invoice"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn_msg
+msgid "Message for Sales Order"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn_msg
 msgid "Message for Stock Picking"
 msgstr ""
@@ -1295,8 +1300,23 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_count
+msgid "Sale Order Count"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_ids
+msgid "Sales Order"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__team_id
 msgid "Sales Team"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn
+msgid "Sales Warnings"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1327,6 +1347,7 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__sale_warn
 msgid "Selecting the \"Warning\" option will notify user with the message, Selecting \"Blocking Message\" will throw an exception with the message and block the flow. The Message has to be written in the next field."
 msgstr ""
 
