@@ -6,12 +6,10 @@ from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES,
-    TAX_FRAMEWORK_SIMPLES_EX,
     TAX_FRAMEWORK_SIMPLES_ALL,
     TAX_FRAMEWORK_NORMAL,
     CFOP_DESTINATION_INTERNAL,
     CFOP_DESTINATION_EXTERNAL,
-    CFOP_DESTINATION_EXPORT,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ISSQN,
 )
@@ -122,32 +120,9 @@ class L10nBrSaleBaseTest(TransactionCase):
             },
         }
 
-        # self.FISCAL_DEFS[
-        #     CFOP_DESTINATION_INTERNAL][
-        #     self.fsc_op_line_resale.name][
-        #     TAX_FRAMEWORK_NORMAL]['ipi']['tax'] = self.env.ref(
-        #         'l10n_br_fiscal.tax_ipi_nt')
-        #
-        # self.FISCAL_DEFS[
-        #     CFOP_DESTINATION_INTERNAL][
-        #     self.fsc_op_line_resale.name][
-        #     TAX_FRAMEWORK_NORMAL]['ipi']['cst'] = self.env.ref(
-        #         'l10n_br_fiscal.cst_ipi_53')
-        #
-        # self.FISCAL_DEFS[
-        #     CFOP_DESTINATION_EXTERNAL][
-        #     self.fsc_op_line_resale.name][
-        #     TAX_FRAMEWORK_NORMAL]['ipi']['tax'] = self.env.ref(
-        #         'l10n_br_fiscal.tax_ipi_nt')
-        #
-        # self.FISCAL_DEFS[
-        #     CFOP_DESTINATION_EXTERNAL][
-        #     self.fsc_op_line_resale.name][
-        #     TAX_FRAMEWORK_NORMAL]['ipi']['cst'] = self.env.ref(
-        #         'l10n_br_fiscal.cst_ipi_53')
-
     def _change_user_company(self, company):
-        self.env.user.company_id.write({'id': company.id})
+        self.env.user.company_ids += company
+        self.env.user.company_id = company
 
     def _run_sale_order_onchanges(self, sale_order):
         sale_order.onchange_partner_id()
@@ -165,6 +140,7 @@ class L10nBrSaleBaseTest(TransactionCase):
 
         # Create and check invoice
         sale_order.action_invoice_create(final=True)
+
         self.assertEquals(
             sale_order.state, "sale", "Error to confirm Sale Order."
         )
@@ -355,7 +331,6 @@ class L10nBrSaleBaseTest(TransactionCase):
                     icms_tax = line.icms_tax_id
 
                 icms_cst = line.icms_cst_id
-
 
                 self.assertEquals(
                     icms_tax.name, taxes['icms']['tax'].name,
