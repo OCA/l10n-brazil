@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_sale_report" model="ir.ui.view">
+        <field name="name">l10n_br_sale.report</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+            <filter name="Sales" position="after">
+                <filter string="Fiscal Operation"
+                        icon="terp-stock_symbol-selection"
+                        name="fiscal_operation_id"
+                        context="{'group_by':'fiscal_operation_id'}"/>
+                <filter string="Fiscal Operation Line"
+                        icon="terp-stock_symbol-selection"
+                        name="fiscal_operation_line_id"
+                        context="{'group_by':'fiscal_operation_line_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>
