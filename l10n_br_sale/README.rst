@@ -25,7 +25,7 @@ Brazilian Localization Sale
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Este módulo extende o módulo sale do Odoo para adapta-lo as necessidades brasileira, com este módulo você tem dados fiscal para faturamento e geração dos documentos fiscais (NF-e, NFS-e, CF-e, NFC-e e etc.), calculo dos impostos e contribuições brasileiros (municipais, estaduais e federal).
+Este módulo estende o módulo sale do Odoo para adaptá-lo as necessidades brasileira, com este módulo você tem dados fiscal para faturamento e geração dos documentos fiscais (NF-e, NFS-e, CF-e, NFC-e e etc.), cálculo dos impostos e contribuições brasileiros (municipais, estaduais e federal).
 
 **Table of contents**
 
@@ -54,6 +54,7 @@ Após configurar a empresa, os dados contábeis e fiscais, ao criar um pedido de
 .. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/l10n_br_sale/static/description/sale_order_1.png
     :alt: Pedido de Venda
     :width: 600 px
+
 
 Ao adicionar um produto ou serviço será exibido os detalhes dos impostos:
 
