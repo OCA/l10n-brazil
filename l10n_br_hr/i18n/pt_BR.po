@@ -1125,6 +1125,11 @@ msgid "Message for Invoice"
 msgstr "Mensagem para Fatura"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn_msg
+msgid "Message for Sales Order"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn_msg
 msgid "Message for Stock Picking"
 msgstr "Mensagem para o picking de estoque"
@@ -1357,9 +1362,24 @@ msgid "Responsible User"
 msgstr "Usuário Responsável"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_count
+msgid "Sale Order Count"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_ids
+msgid "Sales Order"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__team_id
 msgid "Sales Team"
 msgstr "Time de Vendas"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn
+msgid "Sales Warnings"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__user_id
@@ -1389,6 +1409,7 @@ msgstr "Selecione o modo de pagamento padrão para este fornecedor."
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__sale_warn
 msgid ""
 "Selecting the \"Warning\" option will notify user with the message, "
 "Selecting \"Blocking Message\" will throw an exception with the message and "
