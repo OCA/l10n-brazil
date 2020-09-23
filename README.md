@@ -90,6 +90,7 @@ addon | version | summary
 [l10n_br_nfse](l10n_br_nfse/) | 12.0.1.3.0 | NFS-e
 [l10n_br_portal](l10n_br_portal/) | 12.0.1.0.0 | Campos Brasileiros no Portal
 [l10n_br_resource](l10n_br_resource/) | 12.0.1.0.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
+[l10n_br_sale](l10n_br_sale/) | 12.0.1.0.0 | Brazilian Localization Sale
 [l10n_br_stock](l10n_br_stock/) | 12.0.1.0.0 | Brazilian Localization Warehouse
 [l10n_br_zip](l10n_br_zip/) | 12.0.2.0.0 | Brazilian Localisation ZIP Codes
 
