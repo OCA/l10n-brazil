@@ -30,14 +30,7 @@ class StockMove(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
-    quantity = fields.Float(
-        related='product_uom_qty',
-    )
-
-    uom_id = fields.Many2one(
-        related='product_uom',
-    )
-
+    # Adapt Mixin's fields
     fiscal_tax_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax',
         relation='fiscal_move_line_tax_rel',
@@ -46,10 +39,26 @@ class StockMove(models.Model):
         string="Fiscal Taxes",
     )
 
+    quantity = fields.Float(
+        related='product_uom_qty',
+    )
+
+    uom_id = fields.Many2one(
+        related='product_uom',
+    )
+
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         related='picking_id.company_id.tax_framework',
         string='Tax Framework',
+    )
+
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='stock_move_line_comment_rel',
+        column1='stock_move_id',
+        column2='comment_id',
+        string='Comments',
     )
 
     @api.onchange(
@@ -93,3 +102,25 @@ class StockMove(models.Model):
         values = super()._prepare_move_split_vals(uom_qty)
         values.update(self._prepare_br_fiscal_dict())
         return values
+
+    @api.onchange('fiscal_tax_ids')
+    def _onchange_fiscal_tax_ids(self):
+        super()._onchange_fiscal_tax_ids()
+        self.tax_id |= self.fiscal_tax_ids.account_taxes()
+
+    @api.multi
+    def _get_price_unit_invoice(self, inv_type, partner, qty=1):
+        result = super()._get_price_unit_invoice(inv_type, partner, qty)
+        return result
+
+    def _get_price_unit(self):
+        """ Returns the unit price to store on the quant """
+        result = super()._get_price_unit()
+        return result
+
+    @api.onchange('product_id')
+    def _onchange_product_id_fiscal(self):
+        result = super()._onchange_product_id_fiscal()
+        if self.product_id:
+            self.price_unit = self._get_price_unit()
+        return result
