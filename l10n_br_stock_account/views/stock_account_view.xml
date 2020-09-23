@@ -20,6 +20,14 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <field name="invoice_state" position="after">
+              <field name="fiscal_type" force_save="1" invisible="1" readonly="1"/>
+              <field name="price_unit"/>
+              <label for="fiscal_quantity" string="Fiscal Quantity"/>
+                <div>
+                    <field context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}" name="fiscal_quantity" class="oe_inline"/>
+                    <field name="uot_id" class="oe_inline oe_no_button"/>
+                </div>
+              <field name="fiscal_price"/>
               <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
               <field name="fiscal_operation_line_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
               <field name="cfop_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
