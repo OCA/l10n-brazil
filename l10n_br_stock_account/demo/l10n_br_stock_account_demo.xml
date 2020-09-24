@@ -51,7 +51,20 @@
         <field name="invoice_state">2binvoiced</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="company_id" ref="base.main_company"/>
     </record>
+
+    <function model="stock.move" name="_onchange_product_id_fiscal">
+        <value eval="[ref('demo_l10n_br_stock_account-move_1_1')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('demo_l10n_br_stock_account-move_1_1')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('demo_l10n_br_stock_account-move_1_1')]"/>
+    </function>
 
     <record model="stock.move" id="demo_l10n_br_stock_account-move_1_2">
         <field name="name">Test - l10n_br_stock_account - 1</field>
@@ -64,6 +77,19 @@
         <field name="invoice_state">2binvoiced</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="company_id" ref="base.main_company"/>
     </record>
+
+    <function model="stock.move" name="_onchange_product_id_fiscal">
+        <value eval="[ref('demo_l10n_br_stock_account-move_1_2')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('demo_l10n_br_stock_account-move_1_2')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('demo_l10n_br_stock_account-move_1_2')]"/>
+    </function>
 
 </odoo>
