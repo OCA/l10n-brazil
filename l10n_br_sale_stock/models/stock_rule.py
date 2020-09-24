@@ -11,18 +11,7 @@ class StockRule(models.Model):
 
     def _get_custom_move_fields(self):
         res = super(StockRule, self)._get_custom_move_fields()
-        res += [
-            'freight_value',
-            'insurance_value',
-            'other_costs_value',
-            'cofins_tax_id',
-            'cofins_cst_id',
-            'pis_tax_id',
-            'pis_cst_id',
-            'ipi_tax_id',
-            'ipi_cst_id',
-            'icmssn_tax_id',
-            'icms_tax_id',
-            'icms_cst_id',
-            ]
+        fiscal_fields = [key for key in self.env[
+            'l10n_br_fiscal.document.line.mixin']._fields.keys()]
+        res += fiscal_fields
         return res
