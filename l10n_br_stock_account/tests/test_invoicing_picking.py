@@ -16,7 +16,7 @@ class InvoicingPickingTest(TransactionCase):
         self.stock_invoice_onshipping = self.env['stock.invoice.onshipping']
         self.stock_return_picking = self.env['stock.return.picking']
         self.stock_picking_sp = self.env.ref(
-                'l10n_br_stock_account.demo_l10n_br_stock_account-picking-1')
+            'l10n_br_stock_account.demo_l10n_br_stock_account-picking-1')
 
     def _run_fiscal_onchanges(self, record):
         record._onchange_fiscal_operation_id()
