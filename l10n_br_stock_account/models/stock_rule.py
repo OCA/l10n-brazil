@@ -37,6 +37,16 @@ class StockRule(models.Model):
              "Not Applicable: no invoice to create",
     )
 
+    def _get_stock_move_values(self, product_id, product_qty, product_uom,
+                               location_id, name, origin, values, group_id):
+        move_values = super()._get_stock_move_values(
+            product_id, product_qty, product_uom, location_id, name, origin, values,
+            group_id
+        )
+        move_values['fiscal_operation_id'] = self.fiscal_operation_id.id
+        move_values['invoice_state'] = self.invoice_state
+        return move_values
+
     def _get_custom_move_fields(self):
         """ The purpose of this method is to be override in order to
         easily add fields from procurement 'values' argument to move data.
