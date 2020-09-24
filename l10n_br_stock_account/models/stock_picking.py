@@ -31,3 +31,11 @@ class StockPicking(models.Model):
         default=_default_fiscal_operation,
         domain=lambda self: self._fiscal_operation_domain(),
     )
+
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='stock_picking_comment_rel',
+        column1='picking_id',
+        column2='comment_id',
+        string='Comments',
+    )
