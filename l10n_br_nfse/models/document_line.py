@@ -28,7 +28,9 @@ class DocumentLine(models.Model):
     cnae_id = fields.Many2one(
         comodel='l10n_br_fiscal.cnae',
         string='CNAE Code',
-        store=True,
+        domain="['|', "
+               "('id', 'in', document_id.company_id.cnae_secondary_ids), "
+               "('id', '=', document_id.company_id.cnae_main_id)]",
     )
 
     @api.onchange("product_id")
