@@ -27,3 +27,8 @@ class CityTaxationCode(models.Model):
         comodel_name="res.city",
         domain="[('state_id', '=', state_id)]",
     )
+
+    cnae_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.cnae',
+        string='CNAE Code',
+    )
