@@ -9,25 +9,14 @@ from __future__ import division, print_function, unicode_literals
 import logging
 
 from odoo import _, api, fields, models
-import base64
-from lxml import objectify
-
-_logger = logging.getLogger(__name__)
 
 from ...constants.mdfe import (
-    SIT_MANIF_PENDENTE,
-    SIT_MANIF_CIENTE,
-    SIT_MANIF_CONFIRMADO,
-    SIT_MANIF_DESCONHECIDO,
-    SIT_MANIF_NAO_REALIZADO,
-    SIT_NFE_AUTORIZADA,
-    SIT_NFE_CANCELADA,
-    SIT_NFE_DENEGADA,
-
     OPERATION_TYPE,
     SITUACAO_MANIFESTACAO,
     SITUACAO_NFE
 )
+
+_logger = logging.getLogger(__name__)
 
 
 class MDFe(models.Model):
@@ -179,7 +168,7 @@ class MDFe(models.Model):
             'res_model': 'ir.attachment',
             'type': 'ir.actions.act_window',
             'target': 'new',
-            'flags': {'mode': 'readonly'}, # default is 'edit'
+            'flags': {'mode': 'readonly'},  # default is 'edit'
             'res_id': attachment_id.id,
         }
 
