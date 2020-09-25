@@ -1,6 +1,10 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+
 from lxml import etree
+
+from erpbrasil.base import misc
 
 from odoo import api, fields, models
 
@@ -21,12 +25,28 @@ class DocumentLine(models.Model):
         comodel_name='l10n_br_fiscal.city.taxation.code'
     )
 
+    cnae_main_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cnae",
+        related='company_id.cnae_main_id',
+        string="Main CNAE")
+
+    cnae_secondary_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.cnae",
+        related='company_id.cnae_secondary_ids',
+        string="Secondary CNAE")
+
     cnae_id = fields.Many2one(
-        comodel='l10n_br_fiscal.cnae',
+        comodel_name='l10n_br_fiscal.cnae',
         string='CNAE Code',
-        related='product_id.cnae_id',
-        store=True,
+        domain="['|', "
+               "('id', 'in', cnae_secondary_ids), "
+               "('id', '=', cnae_main_id)]",
     )
+
+    @api.onchange("city_taxation_code_id")
+    def _onchange_city_taxation_code_id(self):
+        if self.city_taxation_code_id:
+            self.cnae_id = self.city_taxation_code_id.cnae_id
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
@@ -40,8 +60,6 @@ class DocumentLine(models.Model):
                 lambda r: r.city_id == company_city_id)
             if city_id:
                 self.city_taxation_code_id = city_id
-        if self.product_id and self.product_id.cnae_id:
-            self.cnae_id = self.product_id.cnae_id
 
     def _compute_taxes(self, taxes, cst=None):
         discount_value = self.discount_value
@@ -92,5 +110,5 @@ class DocumentLine(models.Model):
             'codigo_tributacao_municipio':
                 self.city_taxation_code_id.code or '',
             'discriminacao': str(self.name[:120] or ''),
-            'codigo_cnae': self.cnae_id.code or '',
+            'codigo_cnae': misc.punctuation_rm(self.cnae_id.code) or None,
         }
