@@ -9,7 +9,7 @@ import os
 import shutil
 import tarfile
 
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import UserError
 from odoo import api, fields, models, _
 import logging
 _logger = logging.getLogger(__name__)
@@ -70,7 +70,7 @@ class Attachment(models.TransientModel):
                 ids = attachment_obj
                 for record in attachment_ids:
                     ids += \
-                        attachment_obj.search([('res_id','=',record.id)])
+                        attachment_obj.search([('res_id', '=', record.id)])
                 attachment_ids = ids
 
             self.attachment_ids = attachment_ids
