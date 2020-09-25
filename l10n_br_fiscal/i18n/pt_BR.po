@@ -1673,7 +1673,7 @@ msgid "Cancelar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:920
+#: code:addons/l10n_br_fiscal/models/document.py:928
 #, python-format
 msgid ""
 "Canceling the document is not allowed: one or more associated documents have "
@@ -2153,6 +2153,7 @@ msgid "Create a new Comment"
 msgstr "Criar uma Observação"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_action
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_cte_in_action
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_cte_out_action
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_in_action
@@ -3068,6 +3069,7 @@ msgid "Fiscal Data Product Abstract"
 msgstr "Dados Fiscais Abstratos de Produto"
 
 #. module: l10n_br_fiscal
+#: model:ir.actions.act_window,name:l10n_br_fiscal.document_action
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_type_action
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__fiscal_document_id
@@ -6050,7 +6052,7 @@ msgid "Não é permitido faixas sobrepostas!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:187
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:216
 #, python-format
 msgid ""
 "Não é possível realizar esta operação,\n"
@@ -6062,7 +6064,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:113
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:142
 #, python-format
 msgid ""
 "Não é possível retornar o documento para em \n"
@@ -6108,6 +6110,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_action
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_cte_in_action
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_cte_out_action
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_in_action
@@ -7349,7 +7352,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:948
+#: code:addons/l10n_br_fiscal/models/document.py:956
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8119,6 +8122,13 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document.py:780
+#: code:addons/l10n_br_fiscal/models/document.py:791
+#, python-format
+msgid "The fiscal operation {} has no return Fiscal Operation defined"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax__sequence
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__sequence
 msgid ""
@@ -8135,7 +8145,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:719
+#: code:addons/l10n_br_fiscal/models/document.py:720
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
