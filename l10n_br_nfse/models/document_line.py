@@ -25,13 +25,28 @@ class DocumentLine(models.Model):
         comodel_name='l10n_br_fiscal.city.taxation.code'
     )
 
+    cnae_main_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cnae",
+        related='company_id.cnae_main_id',
+        string="Main CNAE")
+
+    cnae_secondary_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.cnae",
+        related='company_id.cnae_secondary_ids',
+        string="Secondary CNAE")
+
     cnae_id = fields.Many2one(
-        comodel='l10n_br_fiscal.cnae',
+        comodel_name='l10n_br_fiscal.cnae',
         string='CNAE Code',
         domain="['|', "
-               "('id', 'in', document_id.company_id.cnae_secondary_ids), "
-               "('id', '=', document_id.company_id.cnae_main_id)]",
+               "('id', 'in', cnae_secondary_ids), "
+               "('id', '=', cnae_main_id)]",
     )
+
+    @api.onchange("city_taxation_code_id")
+    def _onchange_city_taxation_code_id(self):
+        if self.city_taxation_code_id:
+            self.cnae_id = self.city_taxation_code_id.cnae_id
 
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
