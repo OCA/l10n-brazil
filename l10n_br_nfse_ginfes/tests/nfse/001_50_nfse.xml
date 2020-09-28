@@ -27,11 +27,11 @@
                             <ValorIr>0.00</ValorIr>
                             <ValorCsll>0.00</ValorCsll>
                             <IssRetido>2</IssRetido>
-                            <ValorIss>0.00</ValorIss>
+                            <ValorIss>5.00</ValorIss>
                             <ValorIssRetido>0.00</ValorIssRetido>
                             <OutrasRetencoes>0.00</OutrasRetencoes>
-                            <BaseCalculo>0.00</BaseCalculo>
-                            <Aliquota>0.00</Aliquota>
+                            <BaseCalculo>100.00</BaseCalculo>
+                            <Aliquota>0.05</Aliquota>
                             <ValorLiquidoNfse>100.00</ValorLiquidoNfse>
                         </Valores>
                         <ItemListaServico>105</ItemListaServico>
