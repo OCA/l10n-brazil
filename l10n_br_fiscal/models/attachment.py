@@ -17,6 +17,7 @@ _logger = logging.getLogger(__name__)
 
 class Attachment(models.TransientModel):
     _name = 'l10n_br_fiscal.attachment'
+    _description = "Fiscal Attachment"
 
     attachment = fields.Binary(
         string='Attachment',
