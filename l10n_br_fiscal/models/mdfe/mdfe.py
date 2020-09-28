@@ -64,7 +64,7 @@ class MDFe(models.Model):
     nsu = fields.Char(
         string="NSU",
         size=25,
-        select=True,
+        index=True,
     )
 
     operation_type = fields.Selection(
@@ -136,13 +136,13 @@ class MDFe(models.Model):
     document_state = fields.Selection(
         string="Document State",
         selection=SITUACAO_NFE,
-        select=True,
+        index=True,
     )
 
     state = fields.Selection(
         string="Manifestation State",
         selection=SITUACAO_MANIFESTACAO,
-        select=True,
+        index=True,
     )
     dfe_id = fields.Many2one(
         string="DF-e",
