@@ -25,6 +25,7 @@
             <field name="expression">-bal[('user_type_id', '=', ref('account.data_account_type_revenue').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="auto_expand_accounts" eval="True"/>
         </record>
 
         <record id="dre_deducoes_receita" model="mis.report.kpi">
@@ -35,6 +36,7 @@
             <field name="expression">bal[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_deduction').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="auto_expand_accounts" eval="True"/>
         </record>
 
         <record id="dre_receita" model="mis.report.kpi">
@@ -68,6 +70,7 @@
             <field name="expression">bale[('user_type_id', '=', ref('account.data_account_type_direct_costs').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="auto_expand_accounts" eval="True"/>
         </record>
 
         <record id="dre_lucro_bruto" model="mis.report.kpi">
@@ -91,7 +94,6 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
-
         </record>
 
         <record id="dre_despesas_administrativas" model="mis.report.kpi">
@@ -102,6 +104,7 @@
             <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_admin_expenses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="auto_expand_accounts" eval="True"/>
         </record>
 
         <record id="dre_despesas_vendas" model="mis.report.kpi">
@@ -112,6 +115,7 @@
             <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_sale_expenses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="auto_expand_accounts" eval="True"/>
         </record>
 
         <record id="dre_despesas_gerais" model="mis.report.kpi">
@@ -122,6 +126,7 @@
             <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_general_expenses').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="auto_expand_accounts" eval="True"/>
         </record>
 
         <record id="dre_resultado_operacional" model="mis.report.kpi">
@@ -154,6 +159,7 @@
             <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_financial').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="auto_expand_accounts" eval="True"/>
         </record>
 
         <record id="dre_despesas_financeiras" model="mis.report.kpi">
@@ -164,6 +170,7 @@
             <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expenses_financial').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
+            <field name="auto_expand_accounts" eval="True"/>
         </record>
 
 
@@ -176,6 +183,7 @@
             <field name="type">num</field>
             <field name="compare_method">pct</field>
             <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+            <field name="auto_expand_accounts" eval="True"/>
         </record>
 
 
