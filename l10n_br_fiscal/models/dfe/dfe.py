@@ -15,11 +15,7 @@ class DFe(models.Model):
     _name = "l10n_br_fiscal.dfe"
     _description = 'Consult DF-e'
     _order = 'id desc'
-    _rec_name = 'display_name'
 
-    display_name = fields.Char(
-        compute='_compute_display_name'
-    )
     company_id = fields.Many2one(
         comodel_name='res.company',
         string="Company",
@@ -41,10 +37,10 @@ class DFe(models.Model):
 
     @api.multi
     @api.depends('company_id.name', 'last_nsu')
-    def _compute_display_name(self):
-        for record in self:
-            record.display_name = '{} - NSU: {}'.format(
-                record.company_id.name, record.last_nsu)
+    def name_get(self):
+        return [(r.id, '{} - NSU: {}'.format(
+            r.company_id.name,
+            r.last_nsu)) for r in self]
 
     imported_document_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.document',
