@@ -65,15 +65,14 @@ class ContractContract(models.Model):
         for invoice in invoices:
             invoice.fiscal_document_id._onchange_document_serie_id()
             invoice.fiscal_document_id._onchange_company_id()
-            invoice.fiscal_document_id._onchange_partner_id()
             invoice.fiscal_document_id._onchange_fiscal_operation_id()
             if hasattr(invoice.fiscal_document_id, 'rps_number') and \
                     invoice.fiscal_document_id.number:
                 invoice.fiscal_document_id.rps_number = \
                     invoice.fiscal_document_id.number
                 invoice.fiscal_document_id.number = False
-            if invoice.fiscal_document_id.payment_term_id:
-                invoice.fiscal_document_id.generate_financial()
+            # if invoice.fiscal_document_id.payment_term_id:
+            #     invoice.fiscal_document_id.generate_financial()
             for line in invoice.fiscal_document_id.line_ids:
                 line._onchange_product_id_fiscal()
                 line._onchange_fiscal_operation_id()
