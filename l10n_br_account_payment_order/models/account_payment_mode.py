@@ -66,7 +66,6 @@ class AccountPaymentMode(models.Model):
         string='Código do Convênio no Banco',
         size=20,
         help='Campo G007 do CNAB',
-        default='0001222130126',
     )
 
     doc_finality_code = fields.Selection(
