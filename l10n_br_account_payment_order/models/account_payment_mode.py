@@ -303,6 +303,17 @@ class AccountPaymentMode(models.Model):
     def boleto_restriction(self):
         if self.boleto_type == '6' and not self.boleto_wallet:
             raise ValidationError('Carteira no banco Itaú é obrigatória')
+        if self.group_lines:
+            raise ValidationError(
+                _('The Payment mode can not be used for Boleto/CNAB with the group'
+                  ' lines active. \n Please uncheck it to continue.')
+            )
+        if self.generate_move or self.post_move:
+            raise ValidationError(
+                _('The Payment mode can not be used for Boleto/CNAB with the'
+                  ' generated moves or post moves active. \n Please uncheck it'
+                  ' to continue.')
+            )
 
     @api.onchange('product_tax_id')
     def _onchange_product_tax_id(self):
