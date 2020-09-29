@@ -15,167 +15,6 @@ from odoo.addons.account_move_base_import.parser.file_parser import (
     float_or_zero,
 )
 
-DICT_OCORRENCIAS_BRADESCO = {
-    '02': 'Entrada Confirmada (verificar motivo na posição 319 a 328)',
-    '03': 'Entrada Rejeitada ( verificar motivo na posição 319 a 328)',
-    '06': 'Liquidação normal (sem motivo)',
-    '09': 'Baixado Automat. via Arquivo (verificar motivo posição 319 a 328)',
-    '10': 'Baixado conforme instruções da Agência('
-          'verificar motivo pos.319 a 328)',
-    '11': 'Em Ser - Arquivo de Títulos pendentes (sem motivo)',
-    '12': 'Abatimento Concedido (sem motivo)',
-    '13': 'Abatimento Cancelado (sem motivo)',
-    '14': 'Vencimento Alterado (sem motivo)',
-    '15': 'Liquidação em Cartório (sem motivo)',
-    '16': 'Título Pago em Cheque – Vinculado',
-    '17': 'Liquidação após baixa ou Título não registrado (sem motivo)',
-    '18': 'Acerto de Depositária (sem motivo)',
-    '19': 'Confirmação Receb. Inst. de Protesto '
-          '(verificar motivo pos.295 a 295)',
-    '20': 'Confirmação Recebimento Instrução Sustação de'
-          ' Protesto (sem motivo)',
-    '21': 'Acerto do Controle do Participante (sem motivo)',
-    '22': 'Título Com Pagamento Cancelado',
-    '23': 'Entrada do Título em Cartório (sem motivo)',
-    '24': 'Entrada rejeitada por CEP Irregular'
-          ' (verificar motivo pos.319 a 328)',
-    '25': 'Confirmação Receb.Inst.de Protesto Falimentar'
-          ' (verificar pos.295 a 295)',
-    '27': 'Baixa Rejeitada (verificar motivo posição 319 a 328)',
-    '28': 'Débito de tarifas/custas (verificar motivo na posição 319 a 328)',
-    '29': 'Ocorrências do Pagador (NOVO)',
-    '30': 'Alteração de Outros Dados Rejeitados '
-          '(verificar motivo pos.319 a 328)',
-    '32': 'Instrução Rejeitada (verificar motivo posição 319 a 328)',
-    '33': 'Confirmação Pedido Alteração Outros Dados (sem motivo)',
-    '34': 'Retirado de Cartório e Manutenção Carteira (sem motivo)',
-    '35': 'Desagendamento do débito automático '
-          '(verificar motivos pos. 319 a 328)',
-    '40': 'Estorno de pagamento (NOVO)',
-    '55': 'Sustado judicial (NOVO)',
-    '68': 'Acerto dos dados do rateio de Crédito (verificar motivo posição de'
-          ' status do registro tipo 3)',
-    '69': 'Cancelamento dos dados do rateio (verificar motivo posição de'
-          ' status do registro tipo 3)',
-    '073': 'Confirmação Receb. Pedido de Negativação (NOVO)',
-    '074': 'Confir Pedido de Excl de Negat (com ou sem baixa) (NOVO)',
-    '00': 'Nota: Para as ocorrências sem motivos, as posições serão'
-          ' informadas com Zeros.',
-}
-
-DICT_OCORRENCIAS_ITAU = {
-    '02': 'ENTRADA CONFIRMADA COM POSSIBILIDADE DE MENSAGEM'
-          ' (NOTA 20 – TABELA 10)',
-    '03': 'ENTRADA REJEITADA (NOTA 20 – TABELA 1)',
-    '04': 'ALTERAÇÃO DE DADOS – NOVA ENTRADA OU ALTERAÇÃO/EXCLUSÃO'
-          ' DE DADOS ACATADA',
-    '05': 'ALTERAÇÃO DE DADOS – BAIXA',
-    '06': 'LIQUIDAÇÃO NORMAL',
-    '07': 'LIQUIDAÇÃO PARCIAL – COBRANÇA INTELIGENTE (B2B)',
-    '08': 'LIQUIDAÇÃO EM CARTÓRIO',
-    '09': 'BAIXA SIMPLES',
-    '10': 'BAIXA POR TER SIDO LIQUIDADO',
-    '11': 'EM SER (SÓ NO RETORNO MENSAL)',
-    '12': 'ABATIMENTO CONCEDIDO',
-    '13': 'ABATIMENTO CANCELADO',
-    '14': 'VENCIMENTO ALTERADO',
-    '15': 'BAIXAS REJEITADAS (NOTA 20 – TABELA 4)',
-    '16': 'INSTRUÇÕES REJEITADAS (NOTA 20 – TABELA 3)',
-    '17': 'ALTERAÇÃO/EXCLUSÃO DE DADOS REJEITADOS (NOTA 20 – TABELA 2)',
-    '18': 'COBRANÇA CONTRATUAL – INSTRUÇÕES/ALTERAÇÕES'
-          ' REJEITADAS/PENDENTES (NOTA 20 – TABELA 5)',
-    '19': 'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE PROTESTO',
-    '20': 'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE SUSTAÇÃO'
-          ' DE PROTESTO /TARIFA',
-    '21': 'CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE NÃO PROTESTAR',
-    '23': 'TÍTULO ENVIADO A CARTÓRIO/TARIFA',
-    '24': 'INSTRUÇÃO DE PROTESTO REJEITADA / SUSTADA / PENDENTE'
-          ' (NOTA 20 – TABELA 7)',
-    '25': 'ALEGAÇÕES DO PAGADOR (NOTA 20 – TABELA 6)',
-    '26': 'TARIFA DE AVISO DE COBRANÇA',
-    '27': 'TARIFA DE EXTRATO POSIÇÃO (B40X)',
-    '28': 'TARIFA DE RELAÇÃO DAS LIQUIDAÇÕES',
-    '29': 'TARIFA DE MANUTENÇÃO DE TÍTULOS VENCIDOS',
-    '30': 'DÉBITO MENSAL DE TARIFAS (PARA ENTRADAS E BAIXAS)',
-    '32': 'BAIXA POR TER SIDO PROTESTADO',
-    '33': 'CUSTAS DE PROTESTO',
-    '34': 'CUSTAS DE SUSTAÇÃO',
-    '35': 'CUSTAS DE CARTÓRIO DISTRIBUIDOR',
-    '36': 'CUSTAS DE EDITAL',
-    '37': 'TARIFA DE EMISSÃO DE BOLETO/TARIFA DE ENVIO DE DUPLICATA',
-    '38': 'TARIFA DE INSTRUÇÃO',
-    '39': 'TARIFA DE OCORRÊNCIAS',
-    '40': 'TARIFA MENSAL DE EMISSÃO DE BOLETO/TARIFA MENSAL'
-          ' DE ENVIO DE DUPLICATA',
-    '41': 'DÉBITO MENSAL DE TARIFAS – EXTRATO DE POSIÇÃO (B4EP/B4OX)',
-    '42': 'DÉBITO MENSAL DE TARIFAS – OUTRAS INSTRUÇÕES',
-    '43': 'DÉBITO MENSAL DE TARIFAS – MANUTENÇÃO DE TÍTULOS VENCIDOS',
-    '44': 'DÉBITO MENSAL DE TARIFAS – OUTRAS OCORRÊNCIAS',
-    '45': 'DÉBITO MENSAL DE TARIFAS – PROTESTO',
-    '46': 'DÉBITO MENSAL DE TARIFAS – SUSTAÇÃO DE PROTESTO',
-    '47': 'BAIXA COM TRANSFERÊNCIA PARA DESCONTO',
-    '48': 'CUSTAS DE SUSTAÇÃO JUDICIAL',
-    '51': 'TARIFA MENSAL REF A ENTRADAS BANCOS CORRESPONDENTES NA CARTEIRA',
-    '52': 'TARIFA MENSAL BAIXAS NA CARTEIRA',
-    '53': 'TARIFA MENSAL BAIXAS EM BANCOS CORRESPONDENTES NA CARTEIRA',
-    '54': 'TARIFA MENSAL DE LIQUIDAÇÕES NA CARTEIRA',
-    '55': 'TARIFA MENSAL DE LIQUIDAÇÕES EM BANCOS'
-          ' CORRESPONDENTES NA CARTEIRA',
-    '56': 'CUSTAS DE IRREGULARIDADE',
-    '57': 'INSTRUÇÃO CANCELADA (NOTA 20 – TABELA 8)',
-    '59': 'BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG',
-    '60': 'ENTRADA REJEITADA CARNÊ (NOTA 20 – TABELA 1)',
-    '61': 'TARIFA EMISSÃO AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)',
-    '62': 'DÉBITO MENSAL DE TARIFA – AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)',
-    '63': 'TÍTULO SUSTADO JUDICIALMENTE',
-    '64': 'ENTRADA CONFIRMADA COM RATEIO DE CRÉDITO',
-    '65': 'PAGAMENTO COM CHEQUE – AGUARDANDO COMPENSAÇÃO',
-    '69': 'CHEQUE DEVOLVIDO (NOTA 20 – TABELA 9)',
-    '71': 'ENTRADA REGISTRADA, AGUARDANDO AVALIAÇÃO',
-    '72': 'BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG'
-          ' SEM TÍTULO CORRESPONDENTE',
-    '73': 'CONFIRMAÇÃO DE ENTRADA NA COBRANÇA SIMPLES –'
-          ' ENTRADA NÃO ACEITA NA COBRANÇA CONTRATUAL',
-    '74': 'INSTRUÇÃO DE NEGATIVAÇÃO EXPRESSA REJEITADA (NOTA 20 – TABELA 11)',
-    '75': 'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE ENTRADA'
-          ' EM NEGATIVAÇÃO EXPRESSA',
-    '76': 'CHEQUE COMPENSADO',
-    '77': 'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE EXCLUSÃO DE'
-          ' ENTRADA EM NEGATIVAÇÃO EXPRESSA',
-    '78': 'CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE CANCELAMENTO DE'
-          ' NEGATIVAÇÃO EXPRESSA',
-    '79': 'NEGATIVAÇÃO EXPRESSA INFORMACIONAL (NOTA 20 – TABELA 12)',
-    '80': 'CONFIRMAÇÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA – TARIFA',
-    '82': 'CONFIRMAÇÃO DO CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA – TARIFA',
-    '83': 'CONFIRMAÇÃO DE EXCLUSÃO DE ENTRADA EM NEGATIVAÇÃO'
-          ' EXPRESSA POR LIQUIDAÇÃO – TARIFA',
-    '85': 'TARIFA POR BOLETO (ATÉ 03 ENVIOS) COBRANÇA ATIVA ELETRÔNICA',
-    '86': 'TARIFA EMAIL COBRANÇA ATIVA ELETRÔNICA',
-    '87': 'TARIFA SMS COBRANÇA ATIVA ELETRÔNICA',
-    '88': 'TARIFA MENSAL POR BOLETO (ATÉ 03 ENVIOS)'
-          ' COBRANÇA ATIVA ELETRÔNICA',
-    '89': 'TARIFA MENSAL EMAIL COBRANÇA ATIVA ELETRÔNICA',
-    '90': 'TARIFA MENSAL SMS COBRANÇA ATIVA ELETRÔNICA',
-    '91': 'TARIFA MENSAL DE EXCLUSÃO DE ENTRADA DE NEGATIVAÇÃO EXPRESSA',
-    '92': 'TARIFA MENSAL DE CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA',
-    '93': 'TARIFA MENSAL DE EXCLUSÃO DE NEGATIVAÇÃO EXPRESSA POR LIQUIDAÇÃO',
-}
-
-DICT_OCORRENCIAS_UNICRED = {
-    '01': '01 - Pago (Título protestado pago em cartório)',
-    '02': '02 - Instrução Confirmada*',
-    '03': '03 - Instrução Rejeitada*',
-    '04': '04 - Sustado Judicial (Título protestado sustado judicialmente)',
-    '06': '06 - Liquidação Normal *',
-    '07': '07 - Liquidação em Condicional (Título liquidado em cartório com'
-          ' cheque do próprio devedor)',
-    '08': '08 - Sustado Definitivo (Título protestado sustado judicialmente)',
-    '09': '09 - Liquidação de Título Descontado',
-    '10': '10 - Protesto solicitado',
-    '11': '11 - Protesto Em cartório',
-    '12': '12 - Sustação solicitada'
-}
-
 dict_brcobranca_bank = {
     '001': 'banco_brasil',
     '041': 'banrisul',
@@ -288,6 +127,7 @@ class CNABFileParser(FileParser):
                 dict_brcobranca_bank[self.bank.code_bc]
 
             # Nosso Numero sem o Digito Verificador
+            # TODO - Pode ser melhorado ? Deveria
             if bank_name_brcobranca == 'bradesco':
                 account_move_line = self.env['account.move.line'].search(
                     [('own_number', '=', linha_cnab['nosso_numero'][:11])]
@@ -305,7 +145,21 @@ class CNABFileParser(FileParser):
 
             data_ocorrencia = datetime.date.today()
             cod_ocorrencia = str(linha_cnab['codigo_ocorrencia'])
+
             # Cada Banco pode possuir um Codigo de Ocorrencia distinto
+            # tanto no CNAB 400 quanto no 240
+            cnab_return_move_code = self.env['cnab.return.move.code'].search([
+                ('bank_id', '=', self.bank.id),
+                ('payment_method_code', '=', self.parser_name[4:7]),
+                ('code', '=', cod_ocorrencia)
+            ])
+            if cnab_return_move_code:
+                descricao_ocorrencia = \
+                    cod_ocorrencia + '-' + cnab_return_move_code.name
+            else:
+                descricao_ocorrencia = \
+                    cod_ocorrencia + '-' + 'CÓDIGO DA DESCRIÇÂO NÃO ENCONTRADO'
+
             if bank_name_brcobranca == 'bradesco':
                 if (linha_cnab['data_ocorrencia'] == '000000' or
                         not linha_cnab['data_ocorrencia']):
@@ -313,16 +167,6 @@ class CNABFileParser(FileParser):
                 else:
                     data_ocorrencia = datetime.datetime.strptime(
                         str(linha_cnab['data_ocorrencia']), "%d%m%y").date()
-                descricao_ocorrencia = DICT_OCORRENCIAS_BRADESCO[
-                    cod_ocorrencia].encode('utf-8')
-
-            if bank_name_brcobranca == 'itau':
-                descricao_ocorrencia = DICT_OCORRENCIAS_ITAU[
-                    cod_ocorrencia].encode('utf-8')
-
-            if bank_name_brcobranca == 'unicred':
-                descricao_ocorrencia = DICT_OCORRENCIAS_UNICRED[
-                    cod_ocorrencia].encode('utf-8')
 
             # Linha não encontrada
             if not account_move_line:
@@ -331,7 +175,7 @@ class CNABFileParser(FileParser):
                     'occurrences': descricao_ocorrencia,
                     'occurrence_date': data_ocorrencia,
                     'str_motiv_a':
-                        u' * - BOLETO NÃO ENCONTRADO.',
+                        ' * - BOLETO NÃO ENCONTRADO.',
                     'own_number': linha_cnab['nosso_numero'],
                     'your_number': linha_cnab['documento_numero'],
                     'title_value': valor_titulo,
