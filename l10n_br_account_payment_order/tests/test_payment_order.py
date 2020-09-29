@@ -113,7 +113,7 @@ class TestPaymentOrder(TransactionCase):
         # Open payment order
         payment_order.draft2open()
 
-        self.assertEquals(len(payment_order.bank_line_ids), 1)
+        self.assertEquals(len(payment_order.bank_line_ids), 2)
 
         # TODO
         # Generate and upload
