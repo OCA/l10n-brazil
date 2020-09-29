@@ -39,3 +39,26 @@ class StockPicking(models.Model):
         column2='comment_id',
         string='Comments',
     )
+
+    @api.multi
+    def action_view_document(self):
+        invoices = self.mapped('invoice_ids')
+        action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
+        if len(invoices) > 1:
+            action['domain'] = [
+                ('id', 'in', invoices.mapped('fiscal_document_id').ids),
+            ]
+        elif len(invoices) == 1:
+            form_view = [
+                (self.env.ref('l10n_br_fiscal.document_form').id, 'form'),
+            ]
+            if 'views' in action:
+                action['views'] = form_view + [(state, view) for state, view
+                                               in action['views'] if
+                                               view != 'form']
+            else:
+                action['views'] = form_view
+            action['res_id'] = invoices.fiscal_document_id.id
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+        return action
