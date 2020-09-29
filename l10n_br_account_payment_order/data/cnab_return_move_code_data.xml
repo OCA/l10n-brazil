@@ -2,6 +2,7 @@
 <odoo noupdate="1">
 
     <!-- CNAB Return Code -->
+
     <!-- Unicred CNAB 400-->
     <record id="unicred_cnab_400-code_01" model="cnab.return.move.code">
         <field name="name">Pago (Título protestado pago em cartório)</field>
@@ -60,7 +61,7 @@
     </record>
 
     <record id="unicred_cnab_400-code_10" model="cnab.return.move.code">
-        <field name="name">Liquidação de Título Descontado</field>
+        <field name="name">Protesto solicitado</field>
         <field name="code">10</field>
         <field name="bank_id" ref="l10n_br_base.res_bank_136"/>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
@@ -80,7 +81,21 @@
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
     </record>
 
-    <!-- Bradesco - TODO Atualizar -->
+    <!-- Bradesco CNAB 400-->
+    <record id="bradesco_cnab_400-code_02" model="cnab.return.move.code">
+        <field name="name">Entrada Confirmada</field>
+        <field name="code">02</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_03" model="cnab.return.move.code">
+        <field name="name">Entrada Rejeitada</field>
+        <field name="code">03</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
     <record id="bradesco_cnab_400-code_06" model="cnab.return.move.code">
         <field name="name">Liquidação Normal *</field>
         <field name="code">06</field>
@@ -88,24 +103,794 @@
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
     </record>
 
+    <record id="bradesco_cnab_400-code_09" model="cnab.return.move.code">
+        <field name="name">Baixado Automat. via Arquivo</field>
+        <field name="code">09</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_10" model="cnab.return.move.code">
+        <field name="name">Baixado conforme instruções da Agência</field>
+        <field name="code">10</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_11" model="cnab.return.move.code">
+        <field name="name">Em Ser - Arquivo de Títulos pendentes</field>
+        <field name="code">11</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_12" model="cnab.return.move.code">
+        <field name="name">Abatimento Concedido</field>
+        <field name="code">12</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_13" model="cnab.return.move.code">
+        <field name="name">Abatimento Cancelado</field>
+        <field name="code">13</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_14" model="cnab.return.move.code">
+        <field name="name">Vencimento Alterado</field>
+        <field name="code">14</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_15" model="cnab.return.move.code">
+        <field name="name">Liquidação em Cartório</field>
+        <field name="code">15</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_16" model="cnab.return.move.code">
+        <field name="name">Título Pago em Cheque – Vinculado</field>
+        <field name="code">16</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
     <record id="bradesco_cnab_400-code_17" model="cnab.return.move.code">
-        <field name="name">Liquidação *Atualizar Tabela</field>
+        <field name="name">Liquidação após baixa ou Título não registrado</field>
         <field name="code">17</field>
         <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
     </record>
 
-    <!-- Itau - TODO Atualizar -->
+    <record id="bradesco_cnab_400-code_18" model="cnab.return.move.code">
+        <field name="name">Acerto de Depositária</field>
+        <field name="code">18</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_19" model="cnab.return.move.code">
+        <field name="name">Confirmação Receb. Inst. de Protesto</field>
+        <field name="code">19</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_20" model="cnab.return.move.code">
+        <field name="name">Confirmação Recebimento Instrução Sustação de Protesto</field>
+        <field name="code">20</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_21" model="cnab.return.move.code">
+        <field name="name">Acerto do Controle do Participante (sem motivo)</field>
+        <field name="code">21</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_22" model="cnab.return.move.code">
+        <field name="name">Título Com Pagamento Cancelado</field>
+        <field name="code">22</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_23" model="cnab.return.move.code">
+        <field name="name">Entrada do Título em Cartório (sem motivo)</field>
+        <field name="code">23</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_24" model="cnab.return.move.code">
+        <field name="name">Entrada rejeitada por CEP Irregular</field>
+        <field name="code">24</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_25" model="cnab.return.move.code">
+        <field name="name">Confirmação Receb.Inst.de Protesto Falimentar</field>
+        <field name="code">25</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_27" model="cnab.return.move.code">
+        <field name="name">Baixa Rejeitada</field>
+        <field name="code">27</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_28" model="cnab.return.move.code">
+        <field name="name">Débito de tarifas/custas</field>
+        <field name="code">28</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_29" model="cnab.return.move.code">
+        <field name="name">Ocorrências do Pagador (NOVO)</field>
+        <field name="code">29</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_30" model="cnab.return.move.code">
+        <field name="name">Alteração de Outros Dados Rejeitados</field>
+        <field name="code">30</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_32" model="cnab.return.move.code">
+        <field name="name">Instrução Rejeitada</field>
+        <field name="code">32</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_33" model="cnab.return.move.code">
+        <field name="name">Confirmação Pedido Alteração Outros Dados (sem motivo)</field>
+        <field name="code">33</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_34" model="cnab.return.move.code">
+        <field name="name">Retirado de Cartório e Manutenção Carteira</field>
+        <field name="code">34</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_35" model="cnab.return.move.code">
+        <field name="name">Desagendamento do débito automático</field>
+        <field name="code">35</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_40" model="cnab.return.move.code">
+        <field name="name">Estorno de pagamento</field>
+        <field name="code">40</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_55" model="cnab.return.move.code">
+        <field name="name">Sustado judicial</field>
+        <field name="code">55</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_68" model="cnab.return.move.code">
+        <field name="name">Acerto dos dados do rateio de Crédito</field>
+        <field name="code">68</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_69" model="cnab.return.move.code">
+        <field name="name">Cancelamento dos dados do rateio</field>
+        <field name="code">69</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_73" model="cnab.return.move.code">
+        <field name="name">Confirmação Receb. Pedido de Negativação</field>
+        <field name="code">73</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_74" model="cnab.return.move.code">
+        <field name="name">Confir Pedido de Excl de Negat (com ou sem baixa)</field>
+        <field name="code">74</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="bradesco_cnab_400-code_00" model="cnab.return.move.code">
+        <field name="name">Nota: Para as ocorrências sem motivos, as posições serão informadas com Zeros.</field>
+        <field name="code">00</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_237"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <!-- Itau - CNAB 400 -->
+    <record id="itau_cnab_400-code_02" model="cnab.return.move.code">
+        <field name="name">ENTRADA CONFIRMADA COM POSSIBILIDADE DE MENSAGEM</field>
+        <field name="code">02</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_03" model="cnab.return.move.code">
+        <field name="name">ENTRADA REJEITADA</field>
+        <field name="code">03</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_04" model="cnab.return.move.code">
+        <field name="name">ALTERAÇÃO DE DADOS – NOVA ENTRADA OU ALTERAÇÃO/EXCLUSÃO DE DADOS ACATADA</field>
+        <field name="code">04</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_05" model="cnab.return.move.code">
+        <field name="name">ALTERAÇÃO DE DADOS – BAIXA</field>
+        <field name="code">05</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
     <record id="itau_cnab_400-code_06" model="cnab.return.move.code">
-        <field name="name">Liquidação Normal *</field>
+        <field name="name">Liquidação Normal</field>
         <field name="code">06</field>
         <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
     </record>
 
+    <record id="itau_cnab_400-code_07" model="cnab.return.move.code">
+        <field name="name">LIQUIDAÇÃO PARCIAL – COBRANÇA INTELIGENTE (B2B)</field>
+        <field name="code">07</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_08" model="cnab.return.move.code">
+        <field name="name">LIQUIDAÇÃO EM CARTÓRIO</field>
+        <field name="code">08</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_09" model="cnab.return.move.code">
+        <field name="name">BAIXA SIMPLES</field>
+        <field name="code">09</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
     <record id="itau_cnab_400-code_10" model="cnab.return.move.code">
-        <field name="name">Liquidação *Atualizar Tabela</field>
+        <field name="name">BAIXA POR TER SIDO LIQUIDADO</field>
         <field name="code">10</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_11" model="cnab.return.move.code">
+        <field name="name">EM SER (SÓ NO RETORNO MENSAL)</field>
+        <field name="code">11</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_12" model="cnab.return.move.code">
+        <field name="name">ABATIMENTO CONCEDIDO</field>
+        <field name="code">12</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_13" model="cnab.return.move.code">
+        <field name="name">ABATIMENTO CANCELADO</field>
+        <field name="code">13</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_14" model="cnab.return.move.code">
+        <field name="name">VENCIMENTO ALTERADO</field>
+        <field name="code">14</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_15" model="cnab.return.move.code">
+        <field name="name">BAIXAS REJEITADAS (NOTA 20 – TABELA 4)</field>
+        <field name="code">15</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_16" model="cnab.return.move.code">
+        <field name="name">INSTRUÇÕES REJEITADAS (NOTA 20 – TABELA 3)</field>
+        <field name="code">16</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_17" model="cnab.return.move.code">
+        <field name="name">ALTERAÇÃO/EXCLUSÃO DE DADOS REJEITADOS (NOTA 20 – TABELA 2)</field>
+        <field name="code">17</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_18" model="cnab.return.move.code">
+        <field name="name">COBRANÇA CONTRATUAL – INSTRUÇÕES/ALTERAÇÕES REJEITADAS/PENDENTES (NOTA 20 – TABELA 5)</field>
+        <field name="code">18</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_19" model="cnab.return.move.code">
+        <field name="name">CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE PROTESTO</field>
+        <field name="code">19</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_20" model="cnab.return.move.code">
+        <field name="name">CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE SUSTAÇÃO DE PROTESTO /TARIFA</field>
+        <field name="code">20</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_21" model="cnab.return.move.code">
+        <field name="name">CONFIRMA RECEBIMENTO DE INSTRUÇÃO DE NÃO PROTESTAR</field>
+        <field name="code">21</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_23" model="cnab.return.move.code">
+        <field name="name">TÍTULO ENVIADO A CARTÓRIO/TARIFA</field>
+        <field name="code">23</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_24" model="cnab.return.move.code">
+        <field name="name">INSTRUÇÃO DE PROTESTO REJEITADA / SUSTADA / PENDENTE (NOTA 20 – TABELA 7)</field>
+        <field name="code">24</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_25" model="cnab.return.move.code">
+        <field name="name">ALEGAÇÕES DO PAGADOR (NOTA 20 – TABELA 6)</field>
+        <field name="code">25</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_26" model="cnab.return.move.code">
+        <field name="name">TARIFA DE AVISO DE COBRANÇA</field>
+        <field name="code">26</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_27" model="cnab.return.move.code">
+        <field name="name">TARIFA DE EXTRATO POSIÇÃO (B40X)</field>
+        <field name="code">27</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_28" model="cnab.return.move.code">
+        <field name="name">TARIFA DE RELAÇÃO DAS LIQUIDAÇÕES</field>
+        <field name="code">28</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_29" model="cnab.return.move.code">
+        <field name="name">TARIFA DE MANUTENÇÃO DE TÍTULOS VENCIDOS</field>
+        <field name="code">29</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_30" model="cnab.return.move.code">
+        <field name="name">DÉBITO MENSAL DE TARIFAS (PARA ENTRADAS E BAIXAS)</field>
+        <field name="code">30</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_32" model="cnab.return.move.code">
+        <field name="name">BAIXA POR TER SIDO PROTESTADO</field>
+        <field name="code">32</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_33" model="cnab.return.move.code">
+        <field name="name">CUSTAS DE PROTESTO</field>
+        <field name="code">33</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_34" model="cnab.return.move.code">
+        <field name="name">CUSTAS DE SUSTAÇÃO</field>
+        <field name="code">34</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_35" model="cnab.return.move.code">
+        <field name="name">CUSTAS DE CARTÓRIO DISTRIBUIDOR</field>
+        <field name="code">35</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_36" model="cnab.return.move.code">
+        <field name="name">CUSTAS DE EDITAL</field>
+        <field name="code">36</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_37" model="cnab.return.move.code">
+        <field name="name">TARIFA DE EMISSÃO DE BOLETO/TARIFA DE ENVIO DE DUPLICATA</field>
+        <field name="code">37</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_38" model="cnab.return.move.code">
+        <field name="name">TARIFA DE INSTRUÇÃO</field>
+        <field name="code">38</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_39" model="cnab.return.move.code">
+        <field name="name">TARIFA DE OCORRÊNCIAS</field>
+        <field name="code">39</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_40" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL DE EMISSÃO DE BOLETO/TARIFA MENSAL DE ENVIO DE DUPLICATA</field>
+        <field name="code">40</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_41" model="cnab.return.move.code">
+        <field name="name">DÉBITO MENSAL DE TARIFAS – EXTRATO DE POSIÇÃO (B4EP/B4OX)</field>
+        <field name="code">41</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_42" model="cnab.return.move.code">
+        <field name="name">DÉBITO MENSAL DE TARIFAS – OUTRAS INSTRUÇÕES</field>
+        <field name="code">42</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_43" model="cnab.return.move.code">
+        <field name="name">DÉBITO MENSAL DE TARIFAS – MANUTENÇÃO DE TÍTULOS VENCIDOS</field>
+        <field name="code">43</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_44" model="cnab.return.move.code">
+        <field name="name">DÉBITO MENSAL DE TARIFAS – OUTRAS OCORRÊNCIAS</field>
+        <field name="code">44</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_45" model="cnab.return.move.code">
+        <field name="name">DÉBITO MENSAL DE TARIFAS – PROTESTO</field>
+        <field name="code">45</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_46" model="cnab.return.move.code">
+        <field name="name">DÉBITO MENSAL DE TARIFAS – SUSTAÇÃO DE PROTESTO</field>
+        <field name="code">46</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_47" model="cnab.return.move.code">
+        <field name="name">BAIXA COM TRANSFERÊNCIA PARA DESCONTO</field>
+        <field name="code">47</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_48" model="cnab.return.move.code">
+        <field name="name">CUSTAS DE SUSTAÇÃO JUDICIAL</field>
+        <field name="code">48</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_51" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL REF A ENTRADAS BANCOS CORRESPONDENTES NA CARTEIRA</field>
+        <field name="code">51</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_52" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL BAIXAS NA CARTEIRA</field>
+        <field name="code">52</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_53" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL BAIXAS EM BANCOS CORRESPONDENTES NA CARTEIRA</field>
+        <field name="code">53</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_54" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL DE LIQUIDAÇÕES NA CARTEIRA</field>
+        <field name="code">54</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_55" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL DE LIQUIDAÇÕES EM BANCOS CORRESPONDENTES NA CARTEIRA</field>
+        <field name="code">55</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_56" model="cnab.return.move.code">
+        <field name="name">CUSTAS DE IRREGULARIDADE</field>
+        <field name="code">56</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_57" model="cnab.return.move.code">
+        <field name="name">INSTRUÇÃO CANCELADA (NOTA 20 – TABELA 8)</field>
+        <field name="code">57</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_59" model="cnab.return.move.code">
+        <field name="name">BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG</field>
+        <field name="code">59</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_60" model="cnab.return.move.code">
+        <field name="name">ENTRADA REJEITADA CARNÊ (NOTA 20 – TABELA 1)</field>
+        <field name="code">60</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_61" model="cnab.return.move.code">
+        <field name="name">TARIFA EMISSÃO AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)</field>
+        <field name="code">61</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_62" model="cnab.return.move.code">
+        <field name="name">DÉBITO MENSAL DE TARIFA – AVISO DE MOVIMENTAÇÃO DE TÍTULOS (2154)</field>
+        <field name="code">62</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_63" model="cnab.return.move.code">
+        <field name="name">TÍTULO SUSTADO JUDICIALMENTE</field>
+        <field name="code">63</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_64" model="cnab.return.move.code">
+        <field name="name">ENTRADA CONFIRMADA COM RATEIO DE CRÉDITO</field>
+        <field name="code">64</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_65" model="cnab.return.move.code">
+        <field name="name">PAGAMENTO COM CHEQUE – AGUARDANDO COMPENSAÇÃO</field>
+        <field name="code">65</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_69" model="cnab.return.move.code">
+        <field name="name">CHEQUE DEVOLVIDO (NOTA 20 – TABELA 9)</field>
+        <field name="code">69</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_71" model="cnab.return.move.code">
+        <field name="name">ENTRADA REGISTRADA, AGUARDANDO AVALIAÇÃO</field>
+        <field name="code">71</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_72" model="cnab.return.move.code">
+        <field name="name">BAIXA POR CRÉDITO EM C/C ATRAVÉS DO SISPAG SEM TÍTULO CORRESPONDENTE</field>
+        <field name="code">72</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_73" model="cnab.return.move.code">
+        <field name="name">CONFIRMAÇÃO DE ENTRADA NA COBRANÇA SIMPLES – ENTRADA NÃO ACEITA NA COBRANÇA CONTRATUAL</field>
+        <field name="code">73</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_74" model="cnab.return.move.code">
+        <field name="name">INSTRUÇÃO DE NEGATIVAÇÃO EXPRESSA REJEITADA (NOTA 20 – TABELA 11)</field>
+        <field name="code">74</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_75" model="cnab.return.move.code">
+        <field name="name">CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA</field>
+        <field name="code">75</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_76" model="cnab.return.move.code">
+        <field name="name">CHEQUE COMPENSADO</field>
+        <field name="code">76</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_77" model="cnab.return.move.code">
+        <field name="name">CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE EXCLUSÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA</field>
+        <field name="code">77</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_78" model="cnab.return.move.code">
+        <field name="name">CONFIRMAÇÃO DE RECEBIMENTO DE INSTRUÇÃO DE CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA</field>
+        <field name="code">78</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_79" model="cnab.return.move.code">
+        <field name="name">NEGATIVAÇÃO EXPRESSA INFORMACIONAL (NOTA 20 – TABELA 12)</field>
+        <field name="code">79</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_80" model="cnab.return.move.code">
+        <field name="name">CONFIRMAÇÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA – TARIFA</field>
+        <field name="code">80</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_82" model="cnab.return.move.code">
+        <field name="name">CONFIRMAÇÃO DO CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA – TARIFA</field>
+        <field name="code">82</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_83" model="cnab.return.move.code">
+        <field name="name">CONFIRMAÇÃO DE EXCLUSÃO DE ENTRADA EM NEGATIVAÇÃO EXPRESSA POR LIQUIDAÇÃO – TARIFA</field>
+        <field name="code">83</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_85" model="cnab.return.move.code">
+        <field name="name">TARIFA POR BOLETO (ATÉ 03 ENVIOS) COBRANÇA ATIVA ELETRÔNICA</field>
+        <field name="code">85</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_86" model="cnab.return.move.code">
+        <field name="name">TARIFA EMAIL COBRANÇA ATIVA ELETRÔNICA</field>
+        <field name="code">86</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_87" model="cnab.return.move.code">
+        <field name="name">TARIFA SMS COBRANÇA ATIVA ELETRÔNICA</field>
+        <field name="code">87</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_88" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL POR BOLETO (ATÉ 03 ENVIOS) COBRANÇA ATIVA ELETRÔNICA</field>
+        <field name="code">88</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_89" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL EMAIL COBRANÇA ATIVA ELETRÔNICA</field>
+        <field name="code">89</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_90" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL SMS COBRANÇA ATIVA ELETRÔNICA</field>
+        <field name="code">90</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_91" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL DE EXCLUSÃO DE ENTRADA DE NEGATIVAÇÃO EXPRESSA</field>
+        <field name="code">91</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_92" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL DE CANCELAMENTO DE NEGATIVAÇÃO EXPRESSA</field>
+        <field name="code">92</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+    </record>
+
+    <record id="itau_cnab_400-code_93" model="cnab.return.move.code">
+        <field name="name">TARIFA MENSAL DE EXCLUSÃO DE NEGATIVAÇÃO EXPRESSA POR LIQUIDAÇÃO</field>
+        <field name="code">93</field>
         <field name="bank_id" ref="l10n_br_base.res_bank_341"/>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
     </record>
