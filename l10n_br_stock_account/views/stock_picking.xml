@@ -20,6 +20,17 @@
                 <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
                 <field name="fiscal_operation_line_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
             </xpath>
+            <div name="button_box" position="inside">
+                <button name="action_view_document"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('invoice_ids', '=', [])]}" groups="base.group_user">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_text">Documents</span>
+                    </div>
+                </button>
+            </div>
         </field>
     </record>
 
