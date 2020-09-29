@@ -299,7 +299,6 @@ class AccountPaymentMode(models.Model):
         'boleto_modality',
         'boleto_convetion',
         'boleto_variation',
-        'boleto_accept',
     )
     def boleto_restriction(self):
         if self.boleto_type == '6' and not self.boleto_wallet:
