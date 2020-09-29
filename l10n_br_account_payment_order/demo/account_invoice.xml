@@ -20,7 +20,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">10</field>
-        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error_2"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
     <!-- Invoice Itau 240 -->
@@ -40,7 +40,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">10</field>
-        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error_2"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
     <!-- Invoice Itau 400 -->
@@ -60,7 +60,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">10</field>
-        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error_2"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
     <!-- Invoice Unicred 400 -->
@@ -80,7 +80,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">10</field>
-        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error_2"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
     <!-- Invoice Caixa Economica Federal 240 -->
@@ -100,7 +100,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">10</field>
-        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error_2"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
     <!-- Invoice Banco do Brasil 400 -->
@@ -120,7 +120,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">10</field>
-        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error_2"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
     <!-- Invoice Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
@@ -140,7 +140,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">10</field>
-        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error_2"/>
+        <field name="account_id" ref="1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
 </odoo>
