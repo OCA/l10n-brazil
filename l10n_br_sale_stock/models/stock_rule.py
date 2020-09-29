@@ -1,7 +1,7 @@
 # Copyright (C) 2020 - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models
+from odoo import models
 
 
 class StockRule(models.Model):
