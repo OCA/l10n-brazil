@@ -1,7 +1,6 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -39,8 +38,8 @@ class TestSaleStock(TransactionCase):
                         'delivery" storable products')
 
         # set stock.picking to be invoiced
-        self.assertTrue(len(self.so.picking_ids) == 1,
-                       'More than one stock picking for sale.order')
+        self.assertTrue(len(self.so.picking_ids) == 1, 'More than one stock '
+                                                       'picking for sale.order')
         self.so.picking_ids.set_to_be_invoiced()
 
         # validate stock.picking
@@ -69,4 +68,3 @@ class TestSaleStock(TransactionCase):
                              sale_order_line[field],
                              'Field %s failed to transfer from '
                              'sale.order.line to stock.move' % field)
-
