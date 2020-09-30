@@ -12,19 +12,33 @@ class CNABReturnMoveCode(models.Model):
     _name = 'cnab.return.move.code'
     _description = 'CNAB Return Move Code'
 
-    name = fields.Char(string='Name')
-    code = fields.Char(string='Code')
+    name = fields.Char(
+        string='Name',
+        index=True,
+    )
+    code = fields.Char(
+        string='Code',
+        index=True,
+    )
     bank_id = fields.Many2one(
-        string='Bank', comodel_name='res.bank'
+        string='Bank',
+        comodel_name='res.bank',
+        index=True,
     )
     payment_method_id = fields.Many2one(
-        'account.payment.method', string='Payment Method'
+        comodel_name='account.payment.method',
+        string='Payment Method',
+        index=True,
     )
     # Fields used to create domain
     bank_code_bc = fields.Char(
         related='bank_id.code_bc',
+        store=True,
     )
-    payment_method_code = fields.Char(related='payment_method_id.code')
+    payment_method_code = fields.Char(
+        related='payment_method_id.code',
+        store=True,
+    )
 
     @api.multi
     def name_get(self):
