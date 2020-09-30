@@ -13,7 +13,7 @@ class AccountMove(models.Model):
         for record in self:
             payment_line_ids = record.line_ids.mapped("payment_line_ids")
             if any(
-                state not in ["draft", "cancel"]
+                state not in ("draft", "cancel")
                 for state in payment_line_ids.mapped("state")
             ):
                 raise ValidationError(
