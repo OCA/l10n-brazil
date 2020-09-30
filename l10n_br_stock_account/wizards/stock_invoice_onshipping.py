@@ -18,6 +18,12 @@ class StockInvoiceOnshipping(models.TransientModel):
             ('fiscal_operation', 'Fiscal Operation')],
     )
 
+    def _action_generate_invoices(self):
+        invoices = super()._action_generate_invoices()
+        for line in invoices.mapped('invoice_line_ids'):
+            line.invoice_line_tax_ids = line.fiscal_tax_ids.account_taxes()
+        return invoices
+
     @api.multi
     def _get_journal(self):
         """
