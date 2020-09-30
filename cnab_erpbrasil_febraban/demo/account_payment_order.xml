@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <function model="account.payment.order" name="draft2open" eval="[[ref('l10n_br_account_payment_order.account_payment_order_demo')]]"/>
+    <function model="account.payment.order" name="open2generated" eval="[[ref('l10n_br_account_payment_order.account_payment_order_demo')]]"/>
+
+</odoo>

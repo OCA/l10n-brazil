@@ -15,6 +15,7 @@
     'data': [
     ],
     'demo': [
+        'demo/account_payment_order.xml',
     ],
     'external_dependencies': {
         'python': [
