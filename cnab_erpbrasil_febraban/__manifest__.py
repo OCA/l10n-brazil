@@ -7,18 +7,18 @@
         Integração com CNAB através da biblioteca erpbrasil.febraban""",
     'version': '12.0.1.0.0',
     'license': 'AGPL-3',
-    'author': 'KMEE,Odoo Community Association (OCA)',
+    'author': 'KMEE, Odoo Community Association (OCA)',
     'website': 'http://odoo-brasil.org',
     'depends': [
         'l10n_br_account_payment_order',
-        # 'queue_job'
     ],
     'data': [
-        # 'views/account_invoice.xml',
     ],
     'demo': [
     ],
     'external_dependencies': {
-        'python': ['erpbrasil.febraban'],
+        'python': [
+            'febraban',
+        ],
     },
 }

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2019 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -10,8 +9,8 @@ from odoo import api, models, fields
 
 _logger = logging.getLogger(__name__)
 
-class L10n_brCnab(models.Model):
 
+class L10n_brCnab(models.Model):
     _inherit = 'l10n_br.cnab'
 
     @api.multi
@@ -50,7 +49,7 @@ class L10n_brCnab(models.Model):
                 else:
                     self._reprocessa_lote_400(evento, lote_id)
 
-            #TODO: Verificar necessidade de atualizar dados do Account.Move
+            # TODO: Verificar necessidade de atualizar dados do Account.Move
             return self.write({'state': 'done'})
 
     @api.multi
@@ -143,8 +142,8 @@ class L10n_brCnab(models.Model):
                     inv_move_lines = inv.move_line_receivable_id
                     pay_move_lines = move.line_ids.filtered(
                         lambda x: x.account_id == inv_move_lines.account_id and
-                        x.partner_id == inv_move_lines.partner_id and
-                        x.name == inv_move_lines.transaction_ref
+                                  x.partner_id == inv_move_lines.partner_id and
+                                  x.name == inv_move_lines.transaction_ref
                     )
                     move_lines = pay_move_lines | inv_move_lines
                     move_lines.reconcile()

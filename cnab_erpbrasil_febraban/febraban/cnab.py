@@ -1,28 +1,22 @@
-# -*- coding: utf-8 -*-
 # © 2012 KMEE INFORMATICA LTDA
 #   @author Luis Felipe Mileo <mileo@kmee.com.br>
 #   @author Daniel Sadamo <daniel.sadamo@kmee.com.br>
 #   @author Fernando Marcato <fernando.marcato@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from __future__ import division, print_function, unicode_literals
-
 import logging
 import base64
 import codecs
 from unidecode import unidecode
 
-from febraban.cnab240.itau.sispag import \
-    Transfer, DasPayment, IssPayment, UtilityPayment, File
-from febraban.cnab240.itau.sispag.file.lot import Lot
-from febraban.cnab240.libs.barCode import LineNumberO
-from febraban.cnab240.user import User, UserAddress, UserBank
-
 _logger = logging.getLogger(__name__)
 
-
 try:
-    from cnab240.tipos import ArquivoCobranca400
+    from febraban.cnab240.itau.sispag import \
+        Transfer, DasPayment, IssPayment, UtilityPayment, File
+    from febraban.cnab240.itau.sispag.file.lot import Lot
+    from febraban.cnab240.libs.barCode import LineNumberO
+    from febraban.cnab240.user import User, UserAddress, UserBank
 except ImportError as err:
     _logger.debug = (err)
 
@@ -135,18 +129,6 @@ class Cnab(object):
                 file.addLot(lot)
 
             return file.toString().encode()
-        elif cnab_type == '400':
-            raise NotImplementedError
-            # Legacy Code
-            from .cnab_400.cnab_400 import Cnab400
-            return Cnab400.get_bank(bank)
-        elif cnab_type == '500':
-            raise NotImplementedError
-            # Legacy Code
-            from .pag_for.pag_for500 import PagFor500
-            return PagFor500.get_bank(bank)
-        else:
-            return False
 
     @staticmethod
     def detectar_retorno(cnab_file_object):
@@ -170,20 +152,9 @@ class Cnab(object):
 
         cnab = Cnab.get_cnab(banco, cnab_type)()
         return cnab_type, cnab.retorno(arquivo_retorno)
-
-    def retorno(self, arquivo_retorno):
-        return ArquivoCobranca400(
-            self.classe_retorno,
-            arquivo=arquivo_retorno
-        )
-
-    def remessa(self, order):
-        pass
-
-    def convert_int(self, campo):
-        if campo:
-            return int(campo)
-        # Retornamos de propósito vazio para que a cnab240 acuse o erro do
-        # registro em branco pois, se retornarmos ZERO o erro vai passar
-        # despercebido
-        return ''
+    #
+    # def retorno(self, arquivo_retorno):
+    #     return ArquivoCobranca400(
+    #         self.classe_retorno,
+    #         arquivo=arquivo_retorno
+    #     )
