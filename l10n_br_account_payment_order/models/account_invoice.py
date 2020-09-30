@@ -79,24 +79,37 @@ class AccountInvoice(models.Model):
                 }
             )
 
+    # TODO: Criar um movimento de baixa
     def _remove_payment_order_line(self, _raise=True):
+        """ Try to search payment orders related to the account move of this
+        invoice, we can't remove a payment.order.line / bank.line of a invoice
+        that already sent to the bank.
+
+        The only way to do that is to say that you want to cancel it.
+
+        Creating a new move of "BAIXA/ESTORNO"
+
+        :param _raise:
+        :return:
+        """
         move_line_receivable_ids = self.move_line_receivable_ids
         payment_order_ids = self.env['account.payment.order']
 
-        for line in move_line_receivable_ids:
-            payment_order_ids |= self.env['account.payment.order'].search(
-                [('payment_line_ids.move_line_id', 'in', [line.id])]
-            )
+        payment_order_ids |= self.env['account.payment.order'].search([
+            ('payment_line_ids.move_line_id', 'in', move_line_receivable_ids.ids),
+        ])
 
         if payment_order_ids:
             draft_cancel_payment_order_ids = payment_order_ids.filtered(
-                lambda p: p.state in ['draft', 'cancel']
+                lambda p: p.state in ('draft', 'cancel')
             )
             if payment_order_ids - draft_cancel_payment_order_ids:
                 if _raise:
                     raise UserError(_(
                         'A fatura não pode ser cancelada pois a mesma já se '
-                        'encontra exportada por uma ordem de pagamento.'))
+                        'encontra exportada por uma ordem de pagamento. \n',
+                        'Envie um novo lançamento solicitando a Baixa/Cancelamento'
+                    ))
 
             for po_id in draft_cancel_payment_order_ids:
                 p_line_id = self.env['account.payment.line']
@@ -104,15 +117,17 @@ class AccountInvoice(models.Model):
                     p_line_id |= self.env['account.payment.line'].search([
                         ('order_id', '=', po_id.id),
                         ('move_line_id', '=', line.id)])
-
                 po_id.payment_line_ids -= p_line_id
 
     @api.multi
     def action_invoice_cancel(self):
+        """ Before cancel the invoice, check if this invoice have any payment order
+        related to it.
+        :return:
+        """
         for record in self:
             record._remove_payment_order_line()
-
-        super().action_invoice_cancel()
+        return super().action_invoice_cancel()
 
     @api.multi
     def get_invoice_fiscal_number(self):
@@ -125,7 +140,6 @@ class AccountInvoice(models.Model):
     @api.multi
     def _pos_action_move_create(self):
         for inv in self:
-
             # TODO - apesar do campo move_line_receivable_ids ser do tipo
             #  compute esta sendo preciso chamar o metodo porque as vezes
             #  ocorre da linha vir vazia o que impede de entrar no FOR
@@ -161,14 +175,12 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_move_create(self):
         result = super().action_move_create()
-
         self._pos_action_move_create()
         return result
 
     @api.multi
     def create_account_payment_line_baixa(self):
         for inv in self:
-
             applicable_lines = inv.move_id.line_ids.filtered(
                 lambda x: (
                     x.payment_mode_id.payment_order_ok
