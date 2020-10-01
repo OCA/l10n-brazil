@@ -71,14 +71,14 @@ class InvoicingPickingTest(TransactionCase):
             self.assertEquals(
                 line.id, self.stock_picking_sp.id,
                 'Relation between invoice and picking are missing.')
-        # for line in invoice.invoice_line_ids:
-        #     self.assertTrue(
-        #         line.invoice_line_tax_ids,
-        #         'Taxes in invoice lines are missing.'
-        #     )
-        # self.assertTrue(
-        #     invoice.tax_line_ids, 'Total of Taxes in Invoice are missing.'
-        # )
+        for line in invoice.invoice_line_ids:
+            self.assertTrue(
+                line.invoice_line_tax_ids,
+                'Taxes in invoice lines are missing.'
+            )
+        self.assertTrue(
+            invoice.tax_line_ids, 'Total of Taxes in Invoice are missing.'
+        )
         self.assertTrue(
             invoice.fiscal_operation_id,
             'Mapping fiscal operation on wizard to create invoice fail.'
