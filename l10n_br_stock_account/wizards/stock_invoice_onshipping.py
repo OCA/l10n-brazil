@@ -81,10 +81,9 @@ class StockInvoiceOnshipping(models.TransientModel):
         :param invoice: account.invoice
         :return: dict
         """
-        values = super()._get_invoice_line_values(
-            moves, invoice_values, invoice)
 
         move = fields.first(moves)
-        fiscal_values = move._prepare_br_fiscal_dict()
-        values.update(fiscal_values)
+        values = move._prepare_br_fiscal_dict()
+        values.update(super()._get_invoice_line_values(
+            moves, invoice_values, invoice))
         return values
