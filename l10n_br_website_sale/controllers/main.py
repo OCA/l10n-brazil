@@ -69,3 +69,14 @@ class L10nBrWebsiteSale(WebsiteSale):
         return dict(
             cities=[(ct.id, ct.name) for ct in cities],
         )
+
+    @http.route('/l10n_br/zip_search_public', type='json', auth="public",
+                website=True)
+    def zip_search(self, zipcode):
+        try:
+            return request.env['l10n_br.zip'].sudo()._consultar_cep(zipcode)
+        except Exception as e:
+            return {
+                'error': 'zip',
+                'error_message': e,
+                }

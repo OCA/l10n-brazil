@@ -62,7 +62,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
             function () {
                 var vals = {zipcode: $('input[name="zip"]').val()};
                 console.log("Changing ZIP");
-                ajax.jsonRpc("/l10n_br/zip_search", 'call', vals).then(function (data) {
+                ajax.jsonRpc("/l10n_br/zip_search_public", 'call', vals).then(function (data) {
                     if (data.error) {
                         // todo: Retornar nos campos error e error_message
                         console.log('Falha ao consultar cep');
