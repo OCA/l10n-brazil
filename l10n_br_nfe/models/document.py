@@ -218,7 +218,6 @@ class NFe(spec_models.StackedModel):
 
     @api.onchange('partner_id')
     def _onchange_partner_id(self):
-        super(NFe, self)._onchange_partner_id()
         if self.partner_id:
             self.partner_street = self.partner_id.street
             self.partner_number = self.partner_id.street_number
