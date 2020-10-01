@@ -129,6 +129,23 @@ class TestPaymentOrderInbound(TransactionCase):
         """
         pass
 
+    def test_payment_inbound_return_baixado(self):
+        """ The payment was exported, accepted, and after some days the user at
+         internet banking cancel it (STATE: BAIXADO). The invoice must stay
+         open, waiting to the user to do a new manual action.
+
+          - The user must be warned that the state of the invoice/aml
+            was changed at the bank;
+          - The user can record manual/statement payment with another payment method;
+          - The user can cancel the invoice/aml;
+
+         This test is similar with "test_payment_inbound_payment_in_cash" buy
+         it is not exported again to the bank because i'ts already set manualy at the
+         internet banking
+        :return:
+        """
+        pass
+
     def test_payment_inbound_return_paid_with_interest(self):
         """ The payment was exported, accepted, and after some days the bank
         return that it's paid (LIQUIDADO) by the customer but with interest
