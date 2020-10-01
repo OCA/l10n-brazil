@@ -146,6 +146,10 @@ class NFe(spec_models.StackedModel):
         related='company_tax_framework'
     )
 
+    nfe40_NFref = fields.One2many(
+        related='fiscal_document_related_ids'
+    )
+
     partner_ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
         string=u"Contribuinte do ICMS",
