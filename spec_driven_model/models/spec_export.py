@@ -72,12 +72,8 @@ class AbstractSpecMixin(models.AbstractModel):
                     'original_spec_model')
             )
         else:
-            if self[field_name]:
-                return self[field_name]._build_generateds(
-                    class_obj._fields[field_name].comodel_name)
-            else:
-                return self._build_generateds(
-                    class_obj._fields[field_name].comodel_name)
+            return (self[field_name] or self)._build_generateds(
+                class_obj._fields[field_name].comodel_name)
 
     def _export_one2many(self, field_name, class_obj=None):
         relational_data = []
