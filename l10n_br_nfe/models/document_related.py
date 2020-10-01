@@ -11,6 +11,10 @@ class DocumentRelated(models.Model):
     _name = 'l10n_br_fiscal.document.related'
     _inherit = [_name, 'nfe.40.nfref']
 
+    nfe40_NFref_ide_id = fields.Many2one(
+        related='fiscal_document_id',
+    )
+
     nfe40_choice4 = fields.Selection(
         compute='_compute_choice4',
         store=True,
