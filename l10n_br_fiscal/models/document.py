@@ -888,7 +888,7 @@ class Document(models.Model):
 
     def _document_reference(self, reference_ids):
         for referenced_item in reference_ids:
-            referenced_item.fiscal_document_related_ids = self.id
+            referenced_item.document_related_id = self.id
             self.fiscal_document_related_ids |= referenced_item
 
     @api.depends('document_subsequent_ids.subsequent_document_id')
