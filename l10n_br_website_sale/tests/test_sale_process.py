@@ -7,7 +7,7 @@ class TestUi(odoo.tests.HttpCase):
         tour = (
             "odoo.__DEBUG__.services['web_tour.tour']",
             "l10n_br_website_sale_tour",
-        )
+            )
         self.phantom_js(
             url_path="/shop",
             code="%s.run('%s')" % tour,
@@ -17,5 +17,7 @@ class TestUi(odoo.tests.HttpCase):
             )
         # check result
         record = self.env.ref('base.partner_admin')
+        record = self.env['sale.order'].search(
+            [('partner_id', '=', record.id)], limit=1).partner_shipping_id
         self.assertEqual(record.state_id.code, 'SP')
-        self.assertEqual(record.city_id.ibge_code, '3549904')
+        self.assertEqual(record.city_id.ibge_code, '49904')
