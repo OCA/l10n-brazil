@@ -14,7 +14,7 @@
     <menuitem id="document_menu" name="Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
 
     <!-- Sub Menu for All Documents-->
-    <menuitem id="document_sub_menu" name="All Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_menu" sequence="999"/>
+    <menuitem id="document_sub_menu" name="All Documents" groups="l10n_br_fiscal.group_manager" parent="document_menu" sequence="999"/>
 
     <!-- Incomming Documents -->
     <menuitem id="document_in_menu" action="document_in_action" name="Incomming Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="10"/>
@@ -29,7 +29,7 @@
     <menuitem id="document_invalidate_number_menu" action="document_invalidate_number_action" name="Invalidate Number" parent="document_sub_menu" sequence="40"/>
 
     <!-- Fiscal Events -->
-    <menuitem id="event_menu" action="document_event_action" name="Fiscal Events" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="50"/>
+    <menuitem id="event_menu" action="document_event_action" name="Fiscal Event" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="50"/>
 
     <!-- Partners -->
     <menuitem id="partners_menu" name="Partners" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
