@@ -27,6 +27,7 @@
         'views/stock_rule_view.xml',
         'views/stock_picking_type_view.xml',
         'views/res_company_view.xml',
+        'views/fiscal_operation_view.xml',
 
         # Wizards
         'wizards/stock_invoice_onshipping_view.xml',
