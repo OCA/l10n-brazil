@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Operation Dashboard -->
+    <record id="operation_dashboard_action" model="ir.actions.act_window">
+        <field name="name">Operation Dashboard</field>
+        <field name="res_model">l10n_br_fiscal.operation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="operation_dashboard_kanban"/>
+        <field name="usage">menu</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_neutral_face">
+                This is the fiscal dashboard
+            </p>
+        </field>
+    </record>
+
     <!-- CNAE -->
     <record id="cnae_action" model="ir.actions.act_window">
         <field name="name">CNAE</field>
@@ -579,8 +594,8 @@
         </field>
     </record>
 
-    <record id="document_action" model="ir.actions.act_window">
-        <field name="name">Fiscal Document</field>
+    <record id="document_all_action" model="ir.actions.act_window">
+        <field name="name">All Documents</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
         <field name="view_type">form</field>
@@ -598,68 +613,8 @@
     </record>
 
     <!-- Fiscal Document In -->
-    <record id="document_nfe_in_action" model="ir.actions.act_window">
-        <field name="name">NF-e Receivement</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="document_search"/>
-        <field name="view_id" ref="document_tree"/>
-        <field name="domain">[('fiscal_operation_type', '=', 'in'), ('document_section', '=', 'nfe')]</field>
-        <field name="context">{'default_fiscal_operation_type': 'in', 'default_document_section': 'nfe'}</field>
-        <field name="help" type="html">
-          <p class="o_view_nocontent_smiling_face">
-            Create a new Document
-          </p><p>
-            Odoo helps you easily track all activities
-            related to a fiscal operation.
-          </p>
-        </field>
-    </record>
-
-    <record id="document_nfse_recibos_in_action" model="ir.actions.act_window">
-        <field name="name">NFS-e and Receipts Receivement</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="document_search"/>
-        <field name="view_id" ref="document_tree"/>
-        <field name="domain">[('fiscal_operation_type', '=', 'in'), ('document_section', '=', 'nfse_recibos')]</field>
-        <field name="context">{'default_fiscal_operation_type': 'in', 'default_document_section': 'nfse_recibos'}</field>
-        <field name="help" type="html">
-          <p class="o_view_nocontent_smiling_face">
-            Create a new Document
-          </p><p>
-            Odoo helps you easily track all activities
-            related to a fiscal operation.
-          </p>
-        </field>
-    </record>
-
-    <record id="document_cte_in_action" model="ir.actions.act_window">
-        <field name="name">CT-e Receivement</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="document_search"/>
-        <field name="view_id" ref="document_tree"/>
-        <field name="domain">[('fiscal_operation_type', '=', 'in'), ('document_section', '=', 'cte')]</field>
-        <field name="context">{'default_fiscal_operation_type': 'in', 'default_document_section': 'cte'}</field>
-        <field name="help" type="html">
-          <p class="o_view_nocontent_smiling_face">
-            Create a new Document
-          </p><p>
-            Odoo helps you easily track all activities
-            related to a fiscal operation.
-          </p>
-        </field>
-    </record>
-
     <record id="document_in_action" model="ir.actions.act_window">
-        <field name="name">Receivement</field>
+        <field name="name">Incomming Document</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
         <field name="view_type">form</field>
@@ -679,88 +634,8 @@
     </record>
 
     <!-- Fiscal Document Out -->
-    <record id="document_nfe_out_action" model="ir.actions.act_window">
-        <field name="name">NF-e Emission</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="document_search"/>
-        <field name="view_id" ref="document_tree"/>
-        <field name="domain">[('fiscal_operation_type', '=', 'out'), ('document_section', '=', 'nfe')]</field>
-        <field name="context">{'default_fiscal_operation_type': 'out', 'default_document_section': 'nfe'}</field>
-        <field name="help" type="html">
-          <p class="o_view_nocontent_smiling_face">
-            Create a new Document
-          </p><p>
-            Odoo helps you easily track all activities
-            related to a fiscal operation.
-          </p>
-        </field>
-    </record>
-
-    <record id="document_nfse_recibos_out_action" model="ir.actions.act_window">
-        <field name="name">NFS-e and Receipts Emission</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="document_search"/>
-        <field name="view_id" ref="document_tree"/>
-        <field name="domain">[('fiscal_operation_type', '=', 'out'), ('document_section', '=', 'nfse_recibos')]</field>
-        <field name="context">{'default_fiscal_operation_type': 'out', 'default_document_section': 'nfse_recibos'}</field>
-        <field name="help" type="html">
-          <p class="o_view_nocontent_smiling_face">
-            Create a new Document
-          </p><p>
-            Odoo helps you easily track all activities
-            related to a fiscal operation.
-          </p>
-        </field>
-    </record>
-
-    <record id="document_nfce_cfe_out_action" model="ir.actions.act_window">
-        <field name="name">NFC-e and CF-e Emission</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="document_search"/>
-        <field name="view_id" ref="document_tree"/>
-        <field name="domain">[('fiscal_operation_type', '=', 'out'), ('document_section', '=', 'nfce_cfe')]</field>
-        <field name="context">{'default_fiscal_operation_type': 'out', 'default_document_section': 'nfce_cfe'}</field>
-        <field name="help" type="html">
-          <p class="o_view_nocontent_smiling_face">
-            Create a new Document
-          </p><p>
-            Odoo helps you easily track all activities
-            related to a fiscal operation.
-          </p>
-        </field>
-    </record>
-
-    <record id="document_cte_out_action" model="ir.actions.act_window">
-        <field name="name">CT-e Emission</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="document_search"/>
-        <field name="view_id" ref="document_tree"/>
-        <field name="domain">[('fiscal_operation_type', '=', 'out'), ('document_section', '=', 'cte')]</field>
-        <field name="context">{'default_fiscal_operation_type': 'out', 'default_document_section': 'cte'}</field>
-        <field name="help" type="html">
-          <p class="o_view_nocontent_smiling_face">
-            Create a new Document
-          </p><p>
-            Odoo helps you easily track all activities
-            related to a fiscal operation.
-          </p>
-        </field>
-    </record>
-
     <record id="document_out_action" model="ir.actions.act_window">
-        <field name="name">Emission</field>
+        <field name="name">Outgoing Document</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
         <field name="view_type">form</field>
@@ -776,6 +651,42 @@
             Odoo helps you easily track all activities
             related to a fiscal operation.
           </p>
+        </field>
+    </record>
+
+    <!-- Document Event -->
+    <record id="document_event_action" model="ir.actions.act_window">
+        <field name="name">Event</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document.event</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="document_event_search"/>
+        <field name="view_id" ref="document_event_tree"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Document
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
+    <!-- Invalidate Number -->
+    <record id="document_invalidate_number_action" model="ir.actions.act_window">
+        <field name="name">Invalidate Number</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document.invalidate.number</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Create a new Document
+            </p><p>
+              Odoo helps you easily track all activities
+              related to a fiscal operation.
+            </p>
         </field>
     </record>
 
@@ -797,13 +708,11 @@
         <field name="view_type">form</field>
     </record>
 
-    <!-- City Taxation Code-->
-    <record model="ir.actions.act_window" id="city_taxation_code_act_window">
+    <!-- City Taxation Code -->
+    <record id="city_taxation_code_action" model="ir.actions.act_window">
         <field name="name">City Taxation Code</field>
         <field name="res_model">l10n_br_fiscal.city.taxation.code</field>
         <field name="view_mode">tree,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
     </record>
 
 </odoo>
