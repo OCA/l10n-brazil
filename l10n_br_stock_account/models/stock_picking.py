@@ -10,12 +10,17 @@ class StockPicking(models.Model):
 
     @api.model
     def _default_fiscal_operation(self):
-        fiscal_operation = self.env['l10n_br_fiscal.operation']
+        company = self.env.user.company_id
+        fiscal_operation = self.env.user.company_id.stock_fiscal_operation_id
         picking_type_id = self.env.context.get('default_picking_type_id')
         if picking_type_id:
             picking_type = self.env['stock.picking.type'].browse(
                 picking_type_id)
-            fiscal_operation = picking_type.fiscal_operation_id
+            fiscal_operation = picking_type.fiscal_operation_id or (
+                company.stock_in_fiscal_operation_id
+                if picking_type.code == 'incoming'
+                else company.stock_out_fiscal_operation_id
+            )
         return fiscal_operation
 
     @api.model
