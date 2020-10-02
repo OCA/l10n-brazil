@@ -317,6 +317,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 partner=self.partner_id,
                 product=self.product_id)
 
+            self._onchange_fiscal_operation_line_id()
+
     @api.onchange("fiscal_operation_line_id")
     def _onchange_fiscal_operation_line_id(self):
 
