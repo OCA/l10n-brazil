@@ -39,12 +39,6 @@
         "data/ir_cron.xml",
         "data/l10n_br_fiscal_comment_data.xml",
 
-        # Wizards
-        "wizards/wizard_document_cancel_view.xml",
-        "wizards/wizard_document_correction_view.xml",
-        "wizards/wizard_document_invalidate_view.xml",
-        "wizards/wizard_document_status_view.xml",
-
         # Views
         "views/cnae_view.xml",
         "views/cfop_view.xml",
@@ -89,7 +83,6 @@
         "views/res_config_settings_view.xml",
         "views/subsequent_operation_view.xml",
         "views/subsequent_document_view.xml",
-        "views/l10n_br_fiscal_action.xml",
         "views/uom_uom.xml",
         "views/closing.xml",
         "views/document_invalidate_number.xml",
@@ -98,11 +91,20 @@
         "views/city_taxation_code.xml",
         'views/mdfe/mdfe_views.xml',
         'views/dfe/dfe_views.xml',
-
-
-        "views/l10n_br_fiscal_menu.xml",
         "views/operation_dashboard_view.xml",
         "views/document_event_view.xml",
+
+        # Wizards
+        "wizards/wizard_document_cancel_view.xml",
+        "wizards/wizard_document_correction_view.xml",
+        "wizards/wizard_document_invalidate_view.xml",
+        "wizards/wizard_document_status_view.xml",
+
+        # Actions
+        "views/l10n_br_fiscal_action.xml",
+
+        # Menus
+        "views/l10n_br_fiscal_menu.xml",
     ],
     "demo": [
         # Some demo data is being loaded via post_init_hook in hook file
