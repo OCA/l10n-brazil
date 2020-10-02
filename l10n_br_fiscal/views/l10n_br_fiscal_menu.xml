@@ -8,7 +8,7 @@
     <menuitem id="overview_menu" name="Overview" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="0"/>
 
     <!-- Operation Dashboard -->
-    <menuitem id="operation_dashboard_menu" action="open_operation_dashboard_kanban" name="Operation Dashboard" parent="overview_menu" sequence="999"/>
+    <menuitem id="operation_dashboard_menu" action="operation_dashboard_action" name="Operation Dashboard" parent="overview_menu" sequence="999"/>
 
     <!-- Fiscal Documents-->
     <menuitem id="document_menu" name="Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
@@ -25,8 +25,11 @@
     <!-- All Documents -->
     <menuitem id="document_all_menu" action="document_all_action" name="All Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="30"/>
 
+    <!-- Invalidate Number -->
+    <menuitem id="document_invalidate_number_menu" action="document_invalidate_number_action" name="Invalidate Number" parent="document_sub_menu" sequence="40"/>
+
     <!-- Fiscal Events -->
-    <menuitem id="event_menu" action="event_action" name="Fiscal Events" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="40"/>
+    <menuitem id="event_menu" action="document_event_action" name="Fiscal Events" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="50"/>
 
     <!-- Partners -->
     <menuitem id="partners_menu" name="Partners" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
