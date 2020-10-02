@@ -37,6 +37,10 @@ class StockPicking(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
+    invoice_state = fields.Selection(
+        related='fiscal_operation_id.invoice_state',
+    )
+
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
         relation='stock_picking_comment_rel',
