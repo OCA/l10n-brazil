@@ -656,7 +656,7 @@
 
     <!-- Document Event -->
     <record id="document_event_action" model="ir.actions.act_window">
-        <field name="name">Event</field>
+        <field name="name">Fiscal Event</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document.event</field>
         <field name="view_type">form</field>
