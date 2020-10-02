@@ -30,6 +30,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
                     'call').then(function (data) {
                         // populate states and display
                         var selectCities = $("select[name='city_id']");
+                        var zip_city = $("select[name='city_id']")[0].val;
                         // dont reload state at first loading (done in qweb)
                         if (selectCities.data('init') === 0 || selectCities
                             .find('option').length === 1) {
@@ -42,9 +43,10 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
                                     selectCities.append(opt);
                                 });
                                 selectCities.parent('div').show();
-                                if (!$("select[name='city_id']").val()) {
-                                    $('input[name="zip"]').change();
-                                }
+                                $("select[name='city_id']").val(zip_city)
+                                // if (!$("select[name='city_id']").val()) {
+                                //     $('input[name="zip"]').change();
+                                // }
                             } else {
                                 selectCities.val('').parent('div')
                                     .hide();
@@ -62,6 +64,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
             function () {
                 var vals = {zipcode: $('input[name="zip"]').val()};
                 console.log("Changing ZIP");
+                $('a:contains("Next")').attr('display: none !important;')
                 ajax.jsonRpc("/l10n_br/zip_search_public", 'call', vals).then(function (data) {
                     if (data.error) {
                         // todo: Retornar nos campos error e error_message
@@ -69,10 +72,12 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
                     } else {
                         $('input[name="district"]').val(data.district);
                         $('input[name="street"]').val(data.street);
-                        $('select[name="state_id"]').val(data.state_id);
-                        $('select[name="state_id"]').change();
                         $('select[name="city_id"]').val(data.city_id);
                         $('select[name="city_id"]').change();
+                        $('select[name="city_id"]')[0].val = 3139
+                        $('select[name="state_id"]').val(data.state_id);
+                        $('select[name="state_id"]').change();
+                        $('a:contains("Next")').attr('display: block !important;')
                     }
                 });
             }
