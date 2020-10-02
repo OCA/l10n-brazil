@@ -142,8 +142,14 @@
     <!-- Tax ICMS Regulation -->
     <menuitem id="tax_icms_regulation_menu" action="tax_icms_regulation_action" groups="l10n_br_fiscal.group_manager" parent="tax_icms_config_menu" sequence="20"/>
 
+    <!-- Tax ISSQN Settings -->
+    <menuitem id="tax_issqn_config_menu" name="ISSQN" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="50"/>
+
+    <!-- City Taxation Code-->
+    <menuitem id="city_taxation_code_menu" action="city_taxation_code_action" groups="l10n_br_fiscal.group_manager" parent="tax_issqn_config_menu" sequence="10"/>
+
     <!-- Tax IPI Settings -->
-    <menuitem id="tax_ipi_config_menu" name="IPI" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="50"/>
+    <menuitem id="tax_ipi_config_menu" name="IPI" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="60"/>
 
     <!-- Tax IPI Control Seal -->
     <menuitem id="tax_ipi_control_seal_menu" action="tax_ipi_control_seal_action" groups="l10n_br_fiscal.group_manager" parent="tax_ipi_config_menu" sequence="10"/>
@@ -155,7 +161,7 @@
     <menuitem id="tax_ipi_guideline_class_menu" action="tax_ipi_guideline_class_action" groups="l10n_br_fiscal.group_manager" parent="tax_ipi_config_menu" sequence="30"/>
 
     <!-- Tax PIS COFINS Settings -->
-    <menuitem id="tax_pis_cofins_config_menu" name="PIS/COFINS" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="60"/>
+    <menuitem id="tax_pis_cofins_config_menu" name="PIS/COFINS" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="70"/>
 
     <!-- Tax PIS COFINS -->
     <menuitem id="tax_pis_cofins_menu" action="tax_pis_cofins_action" groups="l10n_br_fiscal.group_manager" parent="tax_pis_cofins_config_menu" sequence="10"/>
@@ -201,8 +207,5 @@
 
     <!-- Subsequent Document -->
     <menuitem id="subsequent_document_menu" action="subsequent_document_action" groups="base.group_no_one" parent="others_config_menu" sequence="60"/>
-
-    <!-- City Taxation Code-->
-    <menuitem id="city_taxation_code_menu" action="city_taxation_code_act_window" groups="l10n_br_fiscal.group_manager" parent="l10n_br_fiscal.others_config_menu" sequence="16"/>
 
 </odoo>
