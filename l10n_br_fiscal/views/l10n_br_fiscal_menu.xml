@@ -10,32 +10,23 @@
     <!-- Operation Dashboard -->
     <menuitem id="operation_dashboard_menu" action="open_operation_dashboard_kanban" name="Operation Dashboard" parent="overview_menu" sequence="999"/>
 
-    <!--    # Fiscal Documents-->
-    <!--    <menuitem id="documents_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>-->
+    <!-- Fiscal Documents-->
+    <menuitem id="document_menu" name="Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
 
-    # Fiscal Documents In
-    <menuitem id="document_in_menu" name="Receivement" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
+    <!-- Sub Menu for All Documents-->
+    <menuitem id="document_sub_menu" name="All Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_menu" sequence="999"/>
 
-    <menuitem id="document_nfe_in_menu" action="document_nfe_in_action" name="NF-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="10"/>
+    <!-- Incomming Documents -->
+    <menuitem id="document_in_menu" action="document_in_action" name="Incomming Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="10"/>
 
-    <menuitem id="document_nfse_recibos_in_menu" action="document_nfse_recibos_in_action" name="NFS-e e Recibos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="15"/>
+    <!-- Outgoing Documents -->
+    <menuitem id="document_out_menu" action="document_out_action" name="Outgoing Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="20"/>
 
-    <menuitem id="document_cte_in_menu" action="document_cte_in_action" name="CT-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="20"/>
+    <!-- All Documents -->
+    <menuitem id="document_all_menu" action="document_all_action" name="All Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="30"/>
 
-    <menuitem id="document_all_in_menu" action="document_in_action" name="Todos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="25"/>
-
-    # Fiscal Documents Out
-    <menuitem id="document_out_menu" name="Emission" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="11"/>
-
-    <menuitem id="document_nfe_out_menu" action="document_nfe_out_action" name="NF-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="10"/>
-
-    <menuitem id="document_nfse_recibos_out_menu" action="document_nfse_recibos_out_action" name="NFS-e e Recibos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="15"/>
-
-    <menuitem id="document_nfce_cfe_out_menu" action="document_nfce_cfe_out_action" name="NFC-e e CF-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="20"/>
-
-    <menuitem id="document_cte_out_menu" action="document_cte_out_action" name="CT-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="25"/>
-
-    <menuitem id="document_all_out_menu" action="document_out_action" name="Todos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="30"/>
+    <!-- Fiscal Events -->
+    <menuitem id="event_menu" action="event_action" name="Fiscal Events" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="40"/>
 
     <!-- Partners -->
     <menuitem id="partners_menu" name="Partners" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
@@ -76,16 +67,10 @@
     <!-- Product UOM -->
     <menuitem id="uom_menu" action="uom.product_uom_form_action" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="40"/>
 
-    # Consult DF-e
-    <menuitem action="dfe_action" id="dfe_consult_menu" name="Consult DF-e" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="50"/>
-
-    # MDF-e
-    <menuitem action="l10n_br_fiscal_mdfe_action" id="mdfe_menu" name="Recipient Manifestation" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="60"/>
-
-    # Configuration Menu
+    <!-- Accountant Menu -->
     <menuitem id="accountant_menu" name="Accountant" groups="l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="900"/>
 
-    # Fiscal Closing
+    <!-- Fiscal Closing -->
     <menuitem id="fiscal_closing_menu" name="Fiscal Closing" parent="accountant_menu" action="fiscal_closing_action" groups="l10n_br_fiscal.group_manager" sequence="99"/>
 
     <!-- Configuration Menu -->
