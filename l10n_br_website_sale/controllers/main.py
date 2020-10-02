@@ -70,7 +70,7 @@ class L10nBrWebsiteSale(WebsiteSale):
             cities=[(ct.id, ct.name) for ct in cities],
         )
 
-    @http.route('/l10n_br/zip_search_public', type='json', auth="public",
+    @http.route('/l10n_br/zip_search_public', type='json', auth="user",
                 website=True)
     def zip_search(self, zipcode):
         try:
