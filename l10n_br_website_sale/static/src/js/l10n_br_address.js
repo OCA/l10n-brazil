@@ -74,7 +74,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
                         $('input[name="street"]').val(data.street);
                         $('select[name="city_id"]').val(data.city_id);
                         $('select[name="city_id"]').change();
-                        $('select[name="city_id"]')[0].val = 3139
+                        $('select[name="city_id"]')[0].val = data.city_id;
                         $('select[name="state_id"]').val(data.state_id);
                         $('select[name="state_id"]').change();
                         $('a:contains("Next")').attr('display: block !important;')
