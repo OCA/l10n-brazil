@@ -23,6 +23,8 @@
                     <group>
                         <field name="code"/>
                         <field name="name"/>
+                        <field name="prefix"/>
+                        <field name="sufix"/>
                         <field name="electronic"/>
                     </group>
                     <notebook>
