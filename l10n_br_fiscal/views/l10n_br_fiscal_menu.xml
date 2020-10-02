@@ -17,10 +17,10 @@
     <menuitem id="document_sub_menu" name="All Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_menu" sequence="999"/>
 
     <!-- Incomming Documents -->
-    <menuitem id="document_in_menu" action="document_in_action" name="Incomming Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="10"/>
+    <menuitem id="document_in_menu" action="document_in_action" name="Incomming Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="10"/>
 
     <!-- Outgoing Documents -->
-    <menuitem id="document_out_menu" action="document_out_action" name="Outgoing Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="20"/>
+    <menuitem id="document_out_menu" action="document_out_action" name="Outgoing Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="20"/>
 
     <!-- All Documents -->
     <menuitem id="document_all_menu" action="document_all_action" name="All Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="30"/>
