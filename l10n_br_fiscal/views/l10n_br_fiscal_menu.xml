@@ -11,7 +11,7 @@
     <menuitem id="operation_dashboard_menu" action="operation_dashboard_action" name="Operation Dashboard" parent="overview_menu" sequence="999"/>
 
     <!-- Fiscal Documents-->
-    <menuitem id="document_menu" name="Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
+    <menuitem id="document_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
 
     <!-- Sub Menu for All Documents-->
     <menuitem id="document_sub_menu" name="All Documents" groups="l10n_br_fiscal.group_manager" parent="document_menu" sequence="999"/>
