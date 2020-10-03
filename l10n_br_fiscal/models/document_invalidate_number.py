@@ -7,50 +7,61 @@ from odoo.exceptions import UserError, ValidationError
 from ..constants.fiscal import SITUACAO_EDOC_INUTILIZADA
 
 
-class DocumentInvalidateNumber(models.Model):
-    _name = "l10n_br_fiscal.document.invalidate.number"
-    _description = "Fiscal Document Invalidate Number Record"
-
-    @api.multi
-    def name_get(self):
-        return [(rec.id,
-                 u"({0}): {1} - {2}".format(
-                     rec.document_serie_id.name,
-                     rec.number_start, rec.number_end)
-                 ) for rec in self]
-
-    company_id = fields.Many2one(
-        readonly=True, related=False,
-        states={'draft': [('readonly', False)]}, required=True,
-        default=lambda self: self.env['res.company']._company_default_get(
-            'l10n_br_fiscal.document.invalidate.number'))
+class InvalidateNumber(models.Model):
+    _name = 'l10n_br_fiscal.invalidate.number'
+    _description = 'Invalidate Number'
 
     document_serie_id = fields.Many2one(
-        'l10n_br_fiscal.document.serie', 'Série',
-        domain="[('company_id', '=', company_id)]", readonly=True,
-        states={'draft': [('readonly', False)]}, required=True)
+        comodel_name='l10n_br_fiscal.document.serie',
+        string='Serie',
+        required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        related='document_serie_id.company_id',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
 
     number_start = fields.Integer(
-        u'Número Inicial', readonly=True,
-        states={'draft': [('readonly', False)]}, required=True)
+        string='Initial Number',
+        required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
 
     number_end = fields.Integer(
-        u'Número Final', readonly=True,
-        states={'draft': [('readonly', False)]}, required=True)
+        string='End Number',
+        required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+
+    justification = fields.Char(
+        string='Justification',
+        size=255,
+    )
 
     state = fields.Selection(
-        [('draft', 'Rascunho'), ('cancel', 'Cancelado'),
-         ('done', u'Concluído')], 'Status', required=True, default='draft')
+        selection=[
+            ('draft', 'Rascunho'),
+            ('done', 'Concluído'),
+        ],
+        string='Status',
+        readonly=True,
+        default='draft',
+    )
 
-    invalid_number_document_event_ids = fields.One2many(
-        'l10n_br_fiscal.document.event', 'invalid_number_document_event_id',
-        u'Eventos', states={'done': [('readonly', True)]})
-
-    _sql_constraints = [
-        ('number_uniq',
-         'unique(document_serie_id, number_start, number_end, state)',
-         u'Sequência existente!'),
-    ]
+    event_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.event',
+        inverse_name='invalidate_number_id',
+        string='Events',
+        readonly=True,
+        states={'done': [('readonly', True)]},
+    )
 
     @api.multi
     @api.constrains('number_start', 'number_end')
@@ -69,44 +80,42 @@ class DocumentInvalidateNumber(models.Model):
                     ('number_start', '=', False)]
 
                 if self.search_count(domain):
-                    raise ValidationError(_(
-                        "Não é permitido faixas sobrepostas!"))
+                    raise ValidationError(
+                        _("Number range overlap is not allowed."))
         return True
 
     def action_draft_done(self):
         self.write({'state': 'done'})
-        return True
+
+    @api.multi
+    def name_get(self):
+        return [(rec.id,
+                 '({0}): {1} - {2}'.format(
+                     rec.document_serie_id.name,
+                     rec.number_start, rec.number_end)
+                 ) for rec in self]
 
     @api.multi
     def unlink(self):
-        unlink_ids = []
-        for invalid_number in self:
-            if invalid_number['state'] in ('draft'):
-                unlink_ids.append(invalid_number['id'])
-            else:
-                raise UserError(_(
-                    u'Você não pode excluir uma sequência concluída.'))
-        return super(DocumentInvalidateNumber, self).unlink()
+        invalid_number_draft = self.filtered(lambda n: n.state == 'draft')
+        if invalid_number_draft:
+            raise UserError(
+                _('You cannot unlink a done Invalidate Number Range.'))
+        return super().unlink()
 
     @api.multi
     def action_invalidate(self):
-        for record in self:
-            event_id = self.env['l10n_br_fiscal.document.event'].create({
+        for r in self:
+            event_id = self.env['l10n_br_fiscal.event'].create({
                 'type': '3',
                 'response': 'Inutilização do número %s ao número %s' % (
                     record.number_start, record.number_end),
-                'company_id': record.company_id.id,
                 'origin': 'Inutilização de faixa',
-                'create_date': fields.Datetime.now(),
-                'write_date': fields.Datetime.now(),
-                'end_date': fields.Datetime.now(),
                 'state': 'draft',
-                'invalid_number_document_event_id': record.id,
+                'invalid_number_id': record.id,
             })
-
             record.invalidate(event_id)
 
-    @api.multi
     def invalidate(self, event_id):
         for record in self:
             event_id.state = 'done'
