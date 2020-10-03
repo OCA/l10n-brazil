@@ -780,7 +780,7 @@ class Document(models.Model):
 
     @api.multi
     def action_create_return(self):
-        action = self.env.ref('l10n_br_fiscal.document_action').read()[0]
+        action = self.env.ref('l10n_br_fiscal.document_all_action').read()[0]
         return_docs = self._create_return()
 
         if return_docs:
