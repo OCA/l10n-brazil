@@ -10,9 +10,6 @@ from . import document_fiscal_mixin
 from . import document_fiscal_invoice_mixin
 from . import document_fiscal_line_mixin_methods
 from . import document_fiscal_line_mixin
-from . import document_event_abstract
-from . import document_cancel
-from . import document_correction
 from . import document_event
 from . import document_eletronic
 from . import document_invalidate_number
