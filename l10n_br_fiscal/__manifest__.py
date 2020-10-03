@@ -87,8 +87,6 @@
         "views/uom_uom.xml",
         "views/closing.xml",
         "views/document_invalidate_number.xml",
-        "views/document_cancel.xml",
-        "views/document_correction.xml",
         "views/city_taxation_code.xml",
         'views/mdfe/mdfe_views.xml',
         'views/dfe/dfe_views.xml',
