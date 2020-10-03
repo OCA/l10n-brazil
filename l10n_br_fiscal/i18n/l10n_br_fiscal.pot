@@ -6980,6 +6980,11 @@ msgid "Por período"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__prefix
+msgid "Prefix"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: selection:res.company,profit_calculation:0
 msgid "Presumed"
 msgstr ""
@@ -7943,6 +7948,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Subsequents Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_type__sufix
+msgid "Sufix"
 msgstr ""
 
 #. module: l10n_br_fiscal
