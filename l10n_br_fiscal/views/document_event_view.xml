@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="document_event_search" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.document.event.search</field>
-        <field name="model">l10n_br_fiscal.document.event</field>
+        <field name="name">l10n_br_fiscal.event.search</field>
+        <field name="model">l10n_br_fiscal.event</field>
         <field name="arch" type="xml">
             <search string="Fiscal Document Event">
                 <field name="origin"/>
@@ -12,8 +12,8 @@
     </record>
 
     <record id="document_event_tree" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.document.event.tree</field>
-        <field name="model">l10n_br_fiscal.document.event</field>
+        <field name="name">l10n_br_fiscal.event.tree</field>
+        <field name="model">l10n_br_fiscal.event</field>
         <field name="arch" type="xml">
             <tree edit="false" create="false">
                 <field name="type"/>
@@ -21,8 +21,8 @@
                 <field name="response"/>
                 <field name="origin"/>
                 <field name="write_date"/>
-                <field name="end_date"/>
-                <field name="status"/>
+                <field name="date"/>
+                <field name="status_code"/>
                 <field name="message"/>
                 <field name="state"/>
             </tree>
@@ -30,8 +30,8 @@
     </record>
 
     <record id="document_event_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.document.event.form</field>
-        <field name="model">l10n_br_fiscal.document.event</field>
+        <field name="name">l10n_br_fiscal.event.form</field>
+        <field name="model">l10n_br_fiscal.event</field>
         <field name="arch" type="xml">
             <form string="Eventos Eletronicos" edit="false" create="false">
                 <header>
@@ -40,13 +40,13 @@
                 <group>
                     <field name="type"/>
                     <field name="company_id"/>
-                    <field name="response"/>
+                    <field name="response"/>sta
                     <field name="origin"/>
                     <field name="write_date"/>
-                    <field name="file_sent"/>
-                    <field name="end_date"/>
-                    <field name="file_returned"/>
-                    <field name="status"/>
+                    <field name="path_file_request"/>
+                    <field name="date"/>
+                    <field name="path_file_response"/>
+                    <field name="status_code"/>
                     <field name="message"/>
                     <field name="state"/>
                 </group>
