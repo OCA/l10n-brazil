@@ -9,7 +9,6 @@ from ..constants.fiscal import SITUACAO_EDOC_INUTILIZADA
 
 class DocumentInvalidateNumber(models.Model):
     _name = "l10n_br_fiscal.document.invalidate.number"
-    _inherit = "l10n_br_fiscal.event.abstract"
     _description = "Fiscal Document Invalidate Number Record"
 
     @api.multi
