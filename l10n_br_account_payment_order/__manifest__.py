@@ -38,8 +38,12 @@
         'views/account_payment_mode.xml',
         'views/res_company.xml',
         'views/bank_payment_line.xml',
-        'views/l10n_br_cnab_retorno_view.xml',
-        'views/l10n_br_cnab_evento_views.xml',
+        # TODO - mover os cnab/lote/evento para o modulo de implentacao da
+        #  KMEE, já que para importacao do arquivo CNAB de retorno a Akretion
+        #  passou a usar o account_move_base_import, estou mantendo a visão
+        #  para permirtir a extração e assim preservar o histórico de commits
+        # 'views/l10n_br_cnab_retorno_view.xml',
+        # 'views/l10n_br_cnab_evento_views.xml',
         'views/account_invoice.xml',
         'views/account_move_line.xml',
         # 'views/l10n_br_payment_cnab.xml',

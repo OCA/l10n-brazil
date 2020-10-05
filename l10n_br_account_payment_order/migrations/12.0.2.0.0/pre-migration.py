@@ -71,6 +71,10 @@ _column_renames = {
         ('mensagem_erro_exportacao', 'export_error_message'),
         ('ultimo_estado_cnab', 'last_cnab_state')
     ],
+    # TODO - mover os cnab/lote/evento para o modulo de implentacao da KMEE,
+    #  já que para importacao do arquivo CNAB de retorno a Akretion passou a
+    #  usar o account_move_base_import, estou mantendo o código para permirtir
+    #  a extração e assim preservar o histórico de commits
     'l10n_br.cnab.evento': [
         ('data_real_pagamento', 'real_payment_date'),
         ('data_ocorrencia', 'occurrence_date'),
