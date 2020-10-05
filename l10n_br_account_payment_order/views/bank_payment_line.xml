@@ -21,13 +21,19 @@
                     <field name="fee_value"/>
                     <field name="favored_warning"/>
                 </group>
-                <xpath expr="//group[@name='payment-lines'"
+                <!--
+                 # TODO - mover os cnab/lote/evento para o modulo de implentacao da KMEE,
+                 #  já que para importacao do arquivo CNAB de retorno a Akretion passou a
+                 #  usar o account_move_base_import, estou mantendo o código para permirtir
+                 #  a extração e assim preservar o histórico de commits
+                 -->
+                <!--<xpath expr="//group[@name='payment-lines'"
                        position="after">
                     <group string="Histórico de Eventos CNAB Relacionados"
                            name="evento-lines">
                         <field name="event_id" nolabel="1"/>
                     </group>
-                </xpath>
+                </xpath>-->
             </group>
         </field>
     </record>
