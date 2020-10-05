@@ -11,7 +11,11 @@ from . import account_payment_order
 from . import account_payment_line
 from . import account_payment
 from . import bank_payment_line
-from . import l10n_br_cnab
-from . import l10n_br_cnab_evento
-from . import l10n_br_cnab_lote
+# TODO - mover os cnab/lote/evento para o modulo de implentacao da KMEE,
+#  já que para importacao do arquivo CNAB de retorno a Akretion passou a
+#  usar o account_move_base_import, estou mantendo o código para permirtir
+#  a extração e assim preservar o histórico de commits
+# from . import l10n_br_cnab
+# from . import l10n_br_cnab_evento
+# from . import l10n_br_cnab_lote
 from . import cnab_return_move_code
