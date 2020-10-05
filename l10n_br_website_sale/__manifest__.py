@@ -6,6 +6,7 @@
     'summary': """
         Website sale localização brasileira.""",
     'version': '12.0.1.0.0',
+    "development_status": "Alpha",
     'license': 'AGPL-3',
     'author': 'KMEE, Odoo Community Association (OCA)',
     'website': 'www.kmee.com.br',
