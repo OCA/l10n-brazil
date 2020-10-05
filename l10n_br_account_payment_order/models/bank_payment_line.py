@@ -86,12 +86,16 @@ class BankPaymentLine(models.Model):
         help='Campo G048 do CNAB',
     )
 
-    event_id = fields.One2many(
-        string='Eventos CNAB',
-        comodel_name='l10n_br.cnab.evento',
-        inverse_name='bank_payment_line_id',
-        readonly=True,
-    )
+    # TODO - mover os cnab/lote/evento para o modulo de implentacao da KMEE,
+    #  já que para importacao do arquivo CNAB de retorno a Akretion passou a
+    #  usar o account_move_base_import, estou mantendo o código para permirtir
+    #  a extração e assim preservar o histórico de commits
+    # event_id = fields.One2many(
+    #    string='Eventos CNAB',
+    #    comodel_name='l10n_br.cnab.evento',
+    #    inverse_name='bank_payment_line_id',
+    #    readonly=True,
+    # )
 
     own_number = fields.Char(
         string='Nosso Numero',
