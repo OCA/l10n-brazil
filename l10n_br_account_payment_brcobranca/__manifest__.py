@@ -17,7 +17,6 @@
     ],
     'data': [
         'views/account_invoice_view.xml',
-        'views/l10n_br_cnab_retorno_view.xml',
         'views/res_config_settings_view.xml',
         'views/account_journal_view.xml',
         'views/account_move_view.xml',
