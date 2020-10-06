@@ -7,4 +7,3 @@ from odoo import models
 class Operation(models.Model):
     _name = 'l10n_br_fiscal.operation'
     _inherit = [_name, 'stock.invoice.state.mixin']
-
