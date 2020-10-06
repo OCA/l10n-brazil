@@ -26,10 +26,11 @@ class L10nBrWebsiteSale(WebsiteSale):
         return super(L10nBrWebsiteSale, self).confirm_order(**post)
 
     def _get_mandatory_billing_fields(self):
-        return ["name", "email", "street", "country_id", "state_id", "city_id"]
+        return ["name", "email", "street", "country_id", "state_id",
+                "city_id", "zip"]
 
     def _get_mandatory_shipping_fields(self):
-        return ["name", "street", "country_id", "state_id", "city_id"]
+        return ["name", "street", "country_id", "state_id", "city_id", "zip"]
 
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'],
                 auth="public", website=True, sitemap=False)
