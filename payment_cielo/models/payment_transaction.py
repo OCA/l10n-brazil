@@ -28,6 +28,8 @@ class PaymentTransactionCielo(models.Model):
         if self.payment_token_id.card_brand == 'mastercard':
             self.payment_token_id.card_brand = 'master'
 
+        # self.payment_token_id.cielo_token
+
         charge_params = {
             #  TODO: MerchantOrderId - Numero de identificação do Pedido.
             "MerchantOrderId": "2014111703",
@@ -43,22 +45,13 @@ class PaymentTransactionCielo(models.Model):
                 #  sub Merchant.
                 "SoftDescriptor": "123456789ABCD",
                 "CreditCard": {
-                    "CardNumber": self.payment_token_id.card_number,
-                    "Holder": self.payment_token_id.card_holder,
-                    "ExpirationDate": self.payment_token_id.card_exp,
-                    "SecurityCode": self.payment_token_id.card_cvc,
+                    "CardToken": self.payment_token_id.cielo_token,
                     "Brand": self.payment_token_id.card_brand,
-                    "CardOnFile": {
-                        "Usage": "Used",
-                        "Reason": "Unscheduled"
-                    }
+                    "SaveCard": "true"
                 }
             }
         }
 
-        self.payment_token_id.card_number = ''
-        self.payment_token_id.card_exp = ''
-        self.payment_token_id.card_cvc = ''
         self.payment_token_id.active = False
 
         # charge_params = {
