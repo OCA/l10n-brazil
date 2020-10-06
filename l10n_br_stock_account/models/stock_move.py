@@ -94,13 +94,13 @@ class StockMove(models.Model):
         return keys_sorted
 
     def _prepare_extra_move_vals(self, qty):
-        values = super()._prepare_extra_move_vals(qty)
-        values.update(self._prepare_br_fiscal_dict())
+        values = self._prepare_br_fiscal_dict()
+        values.update(super()._prepare_extra_move_vals(qty))
         return values
 
     def _prepare_move_split_vals(self, uom_qty):
-        values = super()._prepare_move_split_vals(uom_qty)
-        values.update(self._prepare_br_fiscal_dict())
+        values = self._prepare_br_fiscal_dict()
+        values.update(super()._prepare_move_split_vals(uom_qty))
         return values
 
     @api.onchange('fiscal_tax_ids')
