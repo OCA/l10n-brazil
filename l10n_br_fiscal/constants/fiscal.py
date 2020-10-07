@@ -27,10 +27,16 @@ OPERATION_FISCAL_TYPE = [
 OPERATION_FISCAL_TYPE_DEFAULT = 'other'
 
 
-COMMENT_TYPE = [("fiscal", "Fiscal"), ("commercial", "Commercial")]
+COMMENT_TYPE = [
+    ('fiscal', 'Fiscal'),
+    ('commercial', 'Commercial'),
+]
 
 
-COMMENT_TYPE_DEFAULT = "commercial"
+COMMENT_TYPE_FISCAL = 'fiscal'
+
+
+COMMENT_TYPE_COMMERCIAL = 'commercial'
 
 
 PRODUCT_FISCAL_TYPE = (
