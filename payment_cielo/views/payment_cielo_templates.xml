@@ -21,12 +21,6 @@
             <input type="hidden" name='email' t-att-value='email'/>
             <input id="acquirer_cielo" type="hidden" name="acquirer" t-att-value="acquirer.id"/>
             <input type="hidden" name="cielo_key" t-att-value="acquirer.cielo_publishable_key"/>
-            <script type="text/javascript">
-                odoo.define(function (require) {
-                    var ajax = require('web.ajax');
-                    ajax.loadJS("/payment_cielo/static/src/js/cielo.js");
-                });
-            </script>
         </template>
 
         <template id="cielo_s2s_form">
