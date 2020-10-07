@@ -5,6 +5,17 @@
         <form action="/shop/address" position="replace">
             <form action="/shop/address" method="post" class="checkout_autoformat">
                 <div class="form-row">
+                    <div t-attf-class="form-group #{error.get('company_type') and 'o_has_error' or ''} col-xl-12 div_type">
+                        <label class="col-form-label" for="person_type">Tipo de
+                            Pessoa: </label>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="company_type" id="radioCompany" value="company" t-attf-class="#{error.get('company_type') and 'is-invalid' or ''}" t-att-checked="'company_type' in checkout and checkout['company_type'] == 'company'"/>
+                            Pessoa Jurídica </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" name="company_type" id="radioPerson" value="person" t-attf-class="#{error.get('company_type') and 'is-invalid' or ''}" t-att-checked="'company_type' in checkout and checkout['company_type'] == 'person'"/>
+                            Pessoa Física </div>
+                    </div>
+
                     <div t-attf-class="form-group #{error.get('name') and 'o_has_error' or ''} col-lg-12 div_name">
                         <label class="col-form-label" for="name">Name</label>
                         <input type="text" name="name" t-attf-class="form-control #{error.get('name') and 'is-invalid' or ''}" t-att-value="'name' in checkout and checkout['name']"/>
