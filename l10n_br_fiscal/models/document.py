@@ -678,21 +678,6 @@ class Document(models.Model):
         default=False,
     )
 
-    def _document_comment_vals(self):
-        return {
-            'user': self.env.user,
-            'ctx': self._context,
-            'doc': self,
-        }
-
-    def document_comment(self):
-        for record in self:
-            record.additional_data = \
-                record.additional_data and record.additional_data + ' - ' or ''
-            record.additional_data += record.comment_ids.compute_message(
-                record._document_comment_vals())
-            record.line_ids.document_comment()
-
     @api.multi
     @api.constrains('number')
     def _check_number(self):
@@ -803,21 +788,6 @@ class Document(models.Model):
             action['domain'].append(('id', 'in', return_docs.ids))
 
         return action
-
-    def _document_comment_vals(self):
-        return {
-            'user': self.env.user,
-            'ctx': self._context,
-            'doc': self,
-        }
-
-    def document_comment(self):
-        for record in self:
-            record.additional_data = \
-                record.additional_data and record.additional_data + ' - ' or ''
-            record.additional_data += record.comment_ids.compute_message(
-                record._document_comment_vals())
-            record.line_ids.document_comment()
 
     def _get_email_template(self, state):
         self.ensure_one()
