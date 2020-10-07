@@ -290,6 +290,20 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.price_unit = price.get(
             self.fiscal_operation_id.default_price_unit, 0.00)
 
+    def _document_comment_vals(self):
+        return {
+            'user': self.env.user,
+            'ctx': self._context,
+            'doc': self.document_id,
+            'item': self,
+        }
+
+    def document_comment(self):
+        for d in self.filtered('comment_ids'):
+            d.additional_data = d.additional_data or ''
+            d.additional_data += d.comment_ids.compute_message(
+                d._document_comment_vals())
+
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
