@@ -925,3 +925,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string='Comments',
         domain=[('object', '=', FISCAL_COMMENT_LINE)],
     )
+
+    additional_data = fields.Text(
+        string='Additional Data',
+    )
