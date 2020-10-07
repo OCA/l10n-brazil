@@ -145,11 +145,13 @@ class AccountInvoice(models.Model):
             #  ocorre da linha vir vazia o que impede de entrar no FOR
             #  abaixo causando o não preenchimento de dados usados no Boleto,
             #  isso deve ser melhor investigado
+            if not inv.payment_mode_id:
+                continue
             inv._compute_receivables()
 
             # Verifica se gera Ordem de Pagamento
             if not inv.payment_mode_id.payment_order_ok:
-                return
+                continue
 
             for index, interval in enumerate(inv.move_line_receivable_ids):
                 inv_number = inv.get_invoice_fiscal_number().split('/')[-1].zfill(8)
