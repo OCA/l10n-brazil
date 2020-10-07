@@ -16,6 +16,12 @@
                                 Email</label>
                             <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="'email' in checkout and checkout['email']"/>
                         </div>
+
+                        <div t-attf-class="form-group #{error.get('cnpj_cpf') and 'o_has_error' or ''} col-xl-6" id="cnpj_cpf">
+                            <label class="col-form-label" for="contact_name">
+                                CPF/CNPJ</label>
+                            <input type="text" id="input_cnpj_cpf" name="cnpj_cpf" t-attf-class="form-control #{error.get('cnpj_cpf') and 'is-invalid' or ''}" t-att-value="'cnpj_cpf' in checkout and checkout['cnpj_cpf']"/>
+                        </div>
                     </t>
                     <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
                         <label class="col-form-label" for="phone">Phone</label>
