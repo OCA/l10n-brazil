@@ -10,7 +10,7 @@ from odoo.osv import expression
 
 from ..constants.fiscal import (
     COMMENT_TYPE,
-    COMMENT_TYPE_DEFAULT,
+    COMMENT_TYPE_COMMERCIAL,
     FISCAL_COMMENT_OBJECTS,
 )
 
@@ -43,7 +43,7 @@ class Comment(models.Model):
     comment_type = fields.Selection(
         selection=COMMENT_TYPE,
         string='Comment Type',
-        default=COMMENT_TYPE_DEFAULT,
+        default=COMMENT_TYPE_COMMERCIAL,
         required=True,
     )
 
