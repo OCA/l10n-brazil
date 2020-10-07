@@ -1,11 +1,19 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+
 from odoo import http
 from odoo.http import request
 
 from odoo.addons.website_sale.controllers.main import WebsiteSale
 
+_logger = logging.getLogger(__name__)
+try:
+    from erpbrasil.base.fiscal import cnpj_cpf, ie
+    from erpbrasil.base import misc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 class L10nBrWebsiteSale(WebsiteSale):
 
@@ -27,7 +35,7 @@ class L10nBrWebsiteSale(WebsiteSale):
 
     def _get_mandatory_billing_fields(self):
         return ["name", "email", "street", "country_id", "state_id",
-                "city_id", "zip"]
+                "city_id", "zip", "cnpj_cpf"]
 
     def _get_mandatory_shipping_fields(self):
         return ["name", "street", "country_id", "state_id", "city_id", "zip"]
@@ -51,7 +59,28 @@ class L10nBrWebsiteSale(WebsiteSale):
             .values_postprocess(order, mode, values, errors, error_msg)
         if 'city_id' in values:
             new_values['city_id'] = values['city_id']
+        if 'cnpj_cpf' in values and 'cnpj_cpf' not in errors:
+            new_values['cnpj_cpf'] = values['cnpj_cpf']
         return new_values, errors, error_msg
+
+    def checkout_form_validate(self, mode, all_form_values, data):
+        error, error_message = super(L10nBrWebsiteSale, self)\
+            .checkout_form_validate(mode, all_form_values, data)
+
+        order = request.website.sale_get_order()
+        if order.partner_id.is_company:
+            if not cnpj_cpf.validar(data['cnpj_cpf']):
+                error['cnpj_cpf'] = 'error'
+                error_message.append("CNPJ Inválido")
+        elif not cnpj_cpf.validar(data['cnpj_cpf']):
+            error['cnpj_cpf'] = 'error'
+            error_message.append("CPF Inválido")
+
+        if 'cnpj_cpf' not in error:
+            all_form_values['cnpj_cpf'] = data['cnpj_cpf']
+
+        return error, error_message
+
 
     @http.route(['/shop/country_infos/<model("res.country"):country>'],
                 type='json', auth="public", methods=['POST'], website=True)
