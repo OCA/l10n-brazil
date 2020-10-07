@@ -116,10 +116,6 @@ class DocumentLine(models.Model):
         string='Product',
     )
 
-    additional_data = fields.Text(
-        string='Additional Data',
-    )
-
     # Amount Fields
     amount_estimate_tax = fields.Monetary(
         string='Amount Estimate Total',
@@ -168,18 +164,3 @@ class DocumentLine(models.Model):
         compute='_compute_amount',
         default=0.00,
     )
-
-    def _document_comment_vals(self):
-        return {
-            'user': self.env.user,
-            'ctx': self._context,
-            'doc': self.document_id,
-            'item': self,
-        }
-
-    def document_comment(self):
-        for record in self.filtered('comment_ids'):
-            record.additional_data = \
-                record.additional_data and record.additional_data + ' - ' or ''
-            record.additional_data += record.comment_ids.compute_message(
-                record._document_comment_vals())
