@@ -15,6 +15,7 @@ try:
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
+
 class L10nBrWebsiteSale(WebsiteSale):
 
     # overwrite confirm_order
@@ -34,8 +35,17 @@ class L10nBrWebsiteSale(WebsiteSale):
         return super(L10nBrWebsiteSale, self).confirm_order(**post)
 
     def _get_mandatory_billing_fields(self):
-        return ["name", "email", "street", "country_id", "state_id",
-                "city_id", "zip", "cnpj_cpf"]
+        return [
+            "name",
+            "email",
+            "street",
+            "country_id",
+            "state_id",
+            "city_id",
+            "zip",
+            "cnpj_cpf",
+            "company_type"
+            ]
 
     def _get_mandatory_shipping_fields(self):
         return ["name", "street", "country_id", "state_id", "city_id", "zip"]
@@ -50,21 +60,24 @@ class L10nBrWebsiteSale(WebsiteSale):
                 kw['city'] = city_id.name
         res = super(L10nBrWebsiteSale, self).address(**kw)
         if 'submitted' not in kw:
-            country_id = request.env['res.country'].search([('code', '=', 'BR')])
+            country_id = request.env['res.country'].search(
+                [('code', '=', 'BR')])
             res.qcontext['country'] = country_id
         return res
 
     def values_postprocess(self, order, mode, values, errors, error_msg):
-        new_values, errors, error_msg = super(L10nBrWebsiteSale, self)\
+        new_values, errors, error_msg = super(L10nBrWebsiteSale, self) \
             .values_postprocess(order, mode, values, errors, error_msg)
         if 'city_id' in values:
             new_values['city_id'] = values['city_id']
         if 'cnpj_cpf' in values and 'cnpj_cpf' not in errors:
             new_values['cnpj_cpf'] = values['cnpj_cpf']
+        if 'company_type' in values and 'company_type' not in errors:
+            new_values['company_type'] = values['company_type']
         return new_values, errors, error_msg
 
     def checkout_form_validate(self, mode, all_form_values, data):
-        error, error_message = super(L10nBrWebsiteSale, self)\
+        error, error_message = super(L10nBrWebsiteSale, self) \
             .checkout_form_validate(mode, all_form_values, data)
 
         order = request.website.sale_get_order()
@@ -81,7 +94,6 @@ class L10nBrWebsiteSale(WebsiteSale):
 
         return error, error_message
 
-
     @http.route(['/shop/country_infos/<model("res.country"):country>'],
                 type='json', auth="public", methods=['POST'], website=True)
     def country_infos(self, country, mode, **kw):
@@ -90,7 +102,7 @@ class L10nBrWebsiteSale(WebsiteSale):
             states=[(st.id, st.name, st.code) for st in
                     country.get_website_sale_states(mode=mode)],
             phone_code=country.phone_code
-        )
+            )
 
     @http.route(['/shop/state_infos/<model("res.country.state"):state>'],
                 type='json', auth="public", methods=['POST'], website=True)
@@ -98,7 +110,7 @@ class L10nBrWebsiteSale(WebsiteSale):
         cities = request.env['res.city'].search([('state_id', '=', state.id)])
         return dict(
             cities=[(ct.id, ct.name) for ct in cities],
-        )
+            )
 
     @http.route('/l10n_br/zip_search_public', type='json', auth="user",
                 website=True)
