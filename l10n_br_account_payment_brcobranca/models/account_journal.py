@@ -42,20 +42,23 @@ class AccountJournal(models.Model):
 
         move_line_obj = self.env['account.move.line']
 
-        if self.return_auto_reconcile:
-            # Conciliação entre a Linha da Fatura e a Linha criada
-            for line in move.line_ids:
+        for line in move.line_ids:
+            if line.invoice_id:
                 # Pesquisando pelo Nosso Numero e Invoice evito o problema
                 # de existirem move lines com o mesmo valor no campo
                 # nosso numero, que pode acontecer qdo existem mais de um banco
                 # configurado para gerar Boletos
+                # IMPORTANTE: No parser estou definindo o REF do que não quero
+                # usar aqui com account_move_line.document_number
                 line_to_reconcile = move_line_obj.search([
                     ('own_number', '=', line.ref),
                     ('invoice_id', '=', line.invoice_id.id)
                 ])
 
-                if line_to_reconcile:
-                    (line + line_to_reconcile).reconcile()
+                # Conciliação Automatica entre a Linha da Fatura e a Linha criada
+                if self.return_auto_reconcile:
+                    if line_to_reconcile:
+                        (line + line_to_reconcile).reconcile()
 
     def multi_move_import(self, file_stream, ftype="csv"):
         """Create multiple bank statements from values given by the parser for
@@ -81,11 +84,9 @@ class AccountJournal(models.Model):
             )
 
             if hasattr(result, 'journal_id'):
-                print('multi adicionando move if ==> result', result)
                 res_move |= result
             if hasattr(result, 'cnab_date'):
                 res_cnab_log |= result
-        print('multi move import ===>', res_move)
         if res_move:
             return res_move
         else:
@@ -93,12 +94,11 @@ class AccountJournal(models.Model):
 
     def _move_import(
             self, parser, file_stream, result_row_list=None, ftype="csv"):
-        """
-            Overwrite this method to create the CNAB Return Log and change
-            the warning message when the file don't has any line to create
-            the Journal Entry, because in CNAB there is the situation where
-            the file just has only Log infomation.
-        """
+
+        # Overwrite this method to create the CNAB Return Log and change
+        # the warning message when the file don't has any line to create
+        # the Journal Entry, because in CNAB exist the case where
+        # the file just has only Log information.
 
         # Call super when file is not CNAB
         if ftype == 'csv':
@@ -128,7 +128,6 @@ class AccountJournal(models.Model):
             'filename': context.get('file_name'),
         })
         qty_cnab_log_lines = 0
-        qty_cnab_number_lots = 0
         amount_total_title = 0.0
         amount_total_received = 0.0
         for cnab_return_log_line in parser.cnab_return_log_line:
@@ -139,10 +138,7 @@ class AccountJournal(models.Model):
             cnab_return_log_line['cnab_return_log_id'] = cnab_return_log.id
             self.env['cnab.return.log.line'].create(cnab_return_log_line)
             qty_cnab_log_lines += 1
-            if qty_cnab_number_lots != cnab_return_log_line['cnab_lot']:
-                qty_cnab_number_lots += 1
 
-        cnab_return_log.number_lots = qty_cnab_number_lots
         cnab_return_log.number_events = qty_cnab_log_lines
         cnab_return_log.amount_total_title = amount_total_title
         cnab_return_log.amount_total_received = amount_total_received
