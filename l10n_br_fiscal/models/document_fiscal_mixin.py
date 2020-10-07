@@ -74,8 +74,12 @@ class FiscalDocumentMixin(models.AbstractModel):
         domain=[('object', '=', FISCAL_COMMENT_DOCUMENT)],
     )
 
-    additional_data = fields.Text(
-        string='Additional Data',
+    fiscal_additional_data = fields.Text(
+        string='Fiscal Additional Data',
+    )
+
+    customer_additional_data = fields.Text(
+        string='Customer Additional Data',
     )
 
     ind_final = fields.Selection(

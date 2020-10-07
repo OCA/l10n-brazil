@@ -3,6 +3,11 @@
 
 from odoo import api, models
 
+from ..constants.fiscal import (
+    COMMENT_TYPE_FISCAL,
+    COMMENT_TYPE_COMMERCIAL,
+)
+
 
 class FiscalDocumentMixinMethods(models.AbstractModel):
     _name = 'l10n_br_fiscal.document.mixin.methods'
@@ -25,6 +30,26 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         if default:  # in case you want to use new rather than write later
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
+
+    def _document_comment_vals(self):
+        return {
+            'user': self.env.user,
+            'ctx': self._context,
+            'doc': self,
+        }
+
+    def document_comment(self):
+        for d in self:
+            fiscal_additional_data = d.fiscal_additional_data or ''
+            d.fiscal_additional_data += d.comment_ids.filtered(
+                lambda c: c.comment_type == COMMENT_TYPE_FISCAL
+                    ).compute_message(
+                d._document_comment_vals())
+            d.customer_additional_data += d.comment_ids.filtered(
+                lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
+                    ).compute_message(
+                d._document_comment_vals())
+            d.line_ids.document_comment()
 
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
