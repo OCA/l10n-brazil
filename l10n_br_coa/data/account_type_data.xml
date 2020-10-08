@@ -209,5 +209,11 @@
             <field name="internal_group">expense</field>
         </record>
 
+        <record model="account.account.type" id="data_account_type_apuracao">
+            <field name="name">Apuração</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
     </data>
 </odoo>
