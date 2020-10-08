@@ -203,7 +203,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">(-) Despesa com Contribuição Social</field>
             <field name="name">contribuicao_social</field>
-            <field name="expression">0</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_csll').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
@@ -213,7 +213,7 @@
             <field name="report_id" ref="dre"/>
             <field name="description">(-) Despesa com Imposto de Renda da Pessoa Jurídica</field>
             <field name="name">imposto_renda_pj</field>
-            <field name="expression">0</field>
+            <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_irpj').id)]</field>
             <field name="type">num</field>
             <field name="compare_method">pct</field>
         </record>
