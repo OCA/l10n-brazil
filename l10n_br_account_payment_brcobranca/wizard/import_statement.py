@@ -23,14 +23,11 @@ class CreditPartnerStatementImporter(models.TransientModel):
                 importer.input_statement,
                 ftype.replace('.', '')
             )
-            print('result === import statement ==>', result)
             if hasattr(result, 'journal_id'):
-                print('result === import statement == if>', result)
                 moves |= result
             if hasattr(result, 'cnab_date'):
                 cnab_logs |= result
 
-        print('MOVES', moves)
         if moves:
             xmlid = ('account', 'action_move_journal_line')
             action = self.env['ir.actions.act_window'].for_xml_id(*xmlid)
