@@ -63,6 +63,12 @@ class L10nBrWebsiteSale(WebsiteSale):
             country_id = request.env['res.country'].search(
                 [('code', '=', 'BR')])
             res.qcontext['country'] = country_id
+        #initiate form with city filled
+        if 'checkout' in res.qcontext and res.qcontext['checkout'].city_id:
+            state_id = res.qcontext['checkout'].city_id.state_id
+            cities = request.env['res.city'].search(
+                [('state_id', '=', state_id.id)])
+            res.qcontext['cities'] = cities
         return res
 
     def values_postprocess(self, order, mode, values, errors, error_msg):
