@@ -3,6 +3,10 @@
     <data noupdate="1">
         <!-- Tipos de conta do Balanço Patrimonial -->
 
+        <record model="account.account.type" id="account.data_account_type_liquidity">
+            <field name="name">Ativo / Circulante / Caixa e Equivalentes de Caixa</field>
+        </record>
+
         <record model="account.account.type" id="account.data_account_type_receivable">
             <field name="name">Ativo / Circulante / Contas a Receber</field>
         </record>
@@ -28,12 +32,6 @@
         <record model="account.account.type" id="data_account_type_non_current_assets_receivable">
             <field name="name">Ativo / Não Circulante / Realizável a Longo Prazo</field>
             <field name="type">receivable</field>
-            <field name="internal_group">asset</field>
-        </record>
-
-        <record model="account.account.type" id="data_account_type_non_current_assets_receivable_loss">
-            <field name="name">Ativo / Não Circulante / Perdas Estimadas com Créditos duvidosos</field>
-            <field name="type">other</field>
             <field name="internal_group">asset</field>
         </record>
 
