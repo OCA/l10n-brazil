@@ -8,7 +8,7 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <field name="picking_type_id" position="after">
-                <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
+                <field name="fiscal_operation_id" attrs="{'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
             </field>
             <field name="move_ids_without_package" position="attributes">
                 <attribute name="context">
