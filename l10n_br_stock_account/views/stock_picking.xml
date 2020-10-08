@@ -10,6 +10,10 @@
             <field name="picking_type_id" position="after">
                 <field name="fiscal_operation_id" attrs="{'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"/>
             </field>
+            <field name="invoice_state" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </field>
             <field name="move_ids_without_package" position="attributes">
                 <attribute name="context">
                     {'default_invoice_state': invoice_state,
