@@ -18,7 +18,6 @@ class StockInvoiceOnshipping(models.TransientModel):
             ('fiscal_operation', 'Fiscal Operation')],
     )
 
-
     @api.multi
     def _get_journal(self):
         """
