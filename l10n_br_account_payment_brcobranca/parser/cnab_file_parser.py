@@ -274,8 +274,7 @@ class CNABFileParser(FileParser):
                         str(linha_cnab['valor_tarifa'][0:4] + '.' +
                             linha_cnab['valor_tarifa'][4:]))
 
-                    # Valor precisa usar a mesma Conta Contabil da Move Line
-                    # pois será usado para conciliar com a Fatura
+                    # Usado para Conciliar a Fatura
                     result_row_list.append({
                         'name': 'Tarifas bancárias (boleto) ' +
                                 account_move_line.document_number,
@@ -288,23 +287,17 @@ class CNABFileParser(FileParser):
                         'partner_id': account_move_line.partner_id.id,
                     })
 
-                    # TODO - se não for necessário criar essa contra partida
-                    #  o campo tariff_account_id no payment mode perde a
-                    #  razão de continuar existindo para ser usado por esse
-                    #  modulo
-                    '''result_row_list.append({
+                    result_row_list.append({
                         'name': 'Tarifas bancárias (boleto) ' +
                                 account_move_line.document_number,
                         'debit': valor_tarifa,
                         'credit': 0.0,
                         'type': 'tarifa',
                         'account_id': account_move_line.payment_mode_id.
-                        tariff_account_id.id,
+                        tariff_charge_account_id.id,
                         'ref': account_move_line.document_number,
-                        # 'move_line': account_move_line,
                         'invoice_id': account_move_line.invoice_id.id,
-                        'partner_id': account_move_line.partner_id.id,
-                    })'''
+                    })
 
                 # Valor Abatimento
                 if linha_cnab.get('valor_abatimento'):
@@ -337,35 +330,6 @@ class CNABFileParser(FileParser):
                         'invoice_id': account_move_line.invoice_id.id,
                         'partner_id': account_move_line.partner_id.id,
                     })'''
-
-                self.cnab_return_log_line.append({
-                    'occurrence_date': data_ocorrencia,
-                    'real_payment_date': data_credito.strftime("%Y-%m-%d"),
-                    # 'segmento': evento.servico_segmento,
-                    # 'favorecido_nome':
-                    #    obj_account_move_line.company_id.partner_id.name,
-                    'favored_bank_account_id':
-                        account_move_line.payment_mode_id.
-                        fixed_journal_id.bank_account_id.id,
-                    'own_number': linha_cnab['nosso_numero'],
-                    'your_number': account_move_line.document_number,
-                    'company_title_identification':
-                        linha_cnab['documento_numero'] or
-                        account_move_line.document_number,
-                    # 'tipo_moeda': evento.credito_moeda_tipo,
-                    'title_value': valor_titulo,
-                    'payment_value': valor_recebido,
-                    'occurrences': descricao_ocorrencia,
-                    'bank_payment_line_id':
-                        payment_line.bank_line_id.id or False,
-                    'invoice_id': account_move_line.invoice_id.id,
-                    'due_date': datetime.datetime.strptime(
-                        str(linha_cnab['data_vencimento']), "%d%m%y").date(),
-                    'discount_value': valor_desconto,
-                    'interest_fee_value': valor_juros_mora,
-                    'rebate_value': valor_abatimento,
-                    'tariff_charge': valor_tarifa,
-                })
 
                 # Linha da Fatura a ser reconciliada
                 result_row_list.append({
@@ -409,6 +373,36 @@ class CNABFileParser(FileParser):
                         'partner_id': account_move_line.partner_id.id,
                     })
 
+                # CNAB LOG
+                self.cnab_return_log_line.append({
+                    'occurrence_date': data_ocorrencia,
+                    'real_payment_date': data_credito.strftime("%Y-%m-%d"),
+                    # 'segmento': evento.servico_segmento,
+                    # 'favorecido_nome':
+                    #    obj_account_move_line.company_id.partner_id.name,
+                    'favored_bank_account_id':
+                        account_move_line.payment_mode_id.
+                        fixed_journal_id.bank_account_id.id,
+                    'own_number': linha_cnab['nosso_numero'],
+                    'your_number': account_move_line.document_number,
+                    'company_title_identification':
+                        linha_cnab['documento_numero'] or
+                        account_move_line.document_number,
+                    # 'tipo_moeda': evento.credito_moeda_tipo,
+                    'title_value': valor_titulo,
+                    'payment_value': valor_recebido,
+                    'occurrences': descricao_ocorrencia,
+                    'bank_payment_line_id':
+                        payment_line.bank_line_id.id or False,
+                    'invoice_id': account_move_line.invoice_id.id,
+                    'due_date': datetime.datetime.strptime(
+                        str(linha_cnab['data_vencimento']), "%d%m%y").date(),
+                    'discount_value': valor_desconto,
+                    'interest_fee_value': valor_juros_mora,
+                    'rebate_value': valor_abatimento,
+                    'tariff_charge': valor_tarifa,
+                })
+
             else:
                 self.cnab_return_log_line.append({
                     'occurrences': descricao_ocorrencia,
@@ -417,6 +411,7 @@ class CNABFileParser(FileParser):
                     'your_number': account_move_line.document_number,
                     'title_value': valor_titulo,
                 })
+
         return result_row_list
 
     def cnab_str_to_float(self, value):
@@ -431,8 +426,8 @@ class CNABFileParser(FileParser):
         :return: dict of vals that represent additional infos for the statement
         """
         return {
-            'name': 'Retorno CNAB - ' + str(
-                fields.Datetime.now().date().strftime('%d/%m/%Y')),
+            'name': 'Retorno CNAB - Banco ' + self.bank.name + ' - Conta '
+                    + self.journal.bank_account_id.acc_number,
             'date': fields.Datetime.now(),
             # TODO  - Campo está sendo preenchido em outro lugar
             'ref': 'Retorno CNAB',
@@ -476,7 +471,7 @@ class CNABFileParser(FileParser):
                 }
             )
         elif line['type'] in (
-                'abatimento', 'desconto') and line['debit'] > 0.0:
+                'abatimento', 'desconto', 'tarifa') and line['debit'] > 0.0:
             vals.update({
                 'invoice_id': line['invoice_id'],
                 'already_completed': True,
