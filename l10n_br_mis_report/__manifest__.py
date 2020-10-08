@@ -13,15 +13,12 @@
     "development_status": "Alpha",
     'depends': [
         'mis_builder',
+        'l10n_br_coa',
     ],
     'data': [
         'data/mis_report_styles.xml',
 
         'data/mis_report_bp.xml',
         'data/mis_report_dre.xml',
-
-        # 'data/mis_report_dfc.xml',
-        # 'data/mis_report_dmpl.xml',
-        # 'data/mis_report_dva.xml',
     ],
 }
