@@ -9,7 +9,7 @@
 "account_template_11402","1.1.4.02","Impostos a Recuperar",,"account_group_114","l10n_br_coa.data_account_type_current_assets_other_credits","1","l10n_br_coa_simple_chart_template"
 "account_template_11403","1.1.4.03","Outros Valores a Receber",,"account_group_114","l10n_br_coa.data_account_type_current_assets_other_credits","1","l10n_br_coa_simple_chart_template"
 "account_template_13101","1.3.1.01","Contas a Receber",,"account_group_131","l10n_br_coa.data_account_type_non_current_assets_receivable","1","l10n_br_coa_simple_chart_template"
-"account_template_13102","1.3.1.02","(-) Perdas Estimadas com Créditos de Liquidação Duvidosa",,"account_group_131","l10n_br_coa.data_account_type_non_current_assets_receivable","0","l10n_br_coa_simple_chart_template"
+"account_template_13102","1.3.1.02","(-) Perdas Estimadas com Créditos de Liquidação Duvidosa",,"account_group_131","l10n_br_coa.data_account_type_non_current_assets_receivable","1","l10n_br_coa_simple_chart_template"
 "account_template_13201","1.3.2.01","Participações Societárias",,"account_group_132","l10n_br_coa.data_account_type_non_current_investments","0","l10n_br_coa_simple_chart_template"
 "account_template_13202","1.3.2.02","Outros Investimentos",,"account_group_132","l10n_br_coa.data_account_type_non_current_investments","0","l10n_br_coa_simple_chart_template"
 "account_template_13301","1.3.3.01","Terrenos",,"account_group_133","account.data_account_type_fixed_assets","0","l10n_br_coa_simple_chart_template"
