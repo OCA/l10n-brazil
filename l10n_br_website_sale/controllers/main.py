@@ -65,9 +65,11 @@ class L10nBrWebsiteSale(WebsiteSale):
         # initiate form with city filled
         if 'checkout' in res.qcontext and 'city_id' in res.qcontext[
                 'checkout'] and res.qcontext['checkout']['city_id']:
-            state_id = res.qcontext['checkout'].city_id.state_id
+            state_id = res.qcontext['checkout']['state_id']
+            if type(state_id) != str:
+                state_id = state_id.id
             cities = request.env['res.city'].search(
-                [('state_id', '=', state_id.id)])
+                [('state_id', '=', state_id)])
             res.qcontext['cities'] = cities
         return res
 
