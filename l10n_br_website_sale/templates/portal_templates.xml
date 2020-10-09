@@ -8,6 +8,7 @@
                     <div t-attf-class="form-group #{error.get('company_type') and 'o_has_error' or ''} col-xl-12 div_type">
                         <label class="col-form-label" for="person_type">Tipo de
                             Pessoa: </label>
+                        <br/>
                         <div class="form-check form-check-inline">
                             <input type="radio" name="company_type" id="radioCompany" value="company" t-attf-class="#{error.get('company_type') and 'is-invalid' or ''}" t-att-checked="'company_type' in checkout and checkout['company_type'] == 'company'"/>
                             Pessoa Jurídica </div>
