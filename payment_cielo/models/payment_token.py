@@ -124,7 +124,7 @@ class PaymentTokenCielo(models.Model):
 
         # pop credit card info to info sent to create
         for field_name in ["card_number", "card_cvc", "card_holder",
-        "card_exp"]:
+                           "card_exp"]:
             res.pop(field_name, None)
         return res
 
