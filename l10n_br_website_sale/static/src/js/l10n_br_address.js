@@ -9,20 +9,22 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
             " '.checkout_autoformat'");
     }
 
-    var cleaveCNPJ = new Cleave('#input_cnpj_cpf', {
-        blocks: [2, 3, 3, 4, 2],
-        delimiters: ['.', '.', '-'],
-        numericOnly: true,
-        onValueChanged: function (e) {
-            if (e.target.rawValue.length > 11) {
-                this.properties['blocks'] = [2, 3, 3, 4, 2];
-                this.properties['delimiters'] = ['.', '.', '/', '-'];
-            } else {
-                this.properties['blocks'] = [3, 3, 3, 3];
-                this.properties['delimiters'] = ['.', '.', '-'];
+    if ($('#input_cnpj_cpf').length) {
+        var cleaveCNPJ = new Cleave('#input_cnpj_cpf', {
+            blocks: [2, 3, 3, 4, 2],
+            delimiters: ['.', '.', '-'],
+            numericOnly: true,
+            onValueChanged: function (e) {
+                if (e.target.rawValue.length > 11) {
+                    this.properties['blocks'] = [2, 3, 3, 4, 2];
+                    this.properties['delimiters'] = ['.', '.', '/', '-'];
+                } else {
+                    this.properties['blocks'] = [3, 3, 3, 3];
+                    this.properties['delimiters'] = ['.', '.', '-'];
+                }
             }
-        }
-    });
+        });
+    }
 
     var cleaveZipCode = new Cleave('.input-zipcode', {
         blocks: [5, 3],

@@ -86,17 +86,18 @@ class L10nBrWebsiteSale(WebsiteSale):
         error, error_message = super(L10nBrWebsiteSale, self) \
             .checkout_form_validate(mode, all_form_values, data)
 
-        order = request.website.sale_get_order()
-        if order.partner_id.is_company:
-            if not cnpj_cpf.validar(data['cnpj_cpf']):
+        if 'cnpj_cpf' in data:
+            order = request.website.sale_get_order()
+            if order.partner_id.is_company:
+                if not cnpj_cpf.validar(data['cnpj_cpf']):
+                    error['cnpj_cpf'] = 'error'
+                    error_message.append("CNPJ Inválido")
+            elif not cnpj_cpf.validar(data['cnpj_cpf']):
                 error['cnpj_cpf'] = 'error'
-                error_message.append("CNPJ Inválido")
-        elif not cnpj_cpf.validar(data['cnpj_cpf']):
-            error['cnpj_cpf'] = 'error'
-            error_message.append("CPF Inválido")
+                error_message.append("CPF Inválido")
 
-        if 'cnpj_cpf' not in error:
-            all_form_values['cnpj_cpf'] = data['cnpj_cpf']
+            if 'cnpj_cpf' not in error:
+                all_form_values['cnpj_cpf'] = data['cnpj_cpf']
 
         return error, error_message
 
