@@ -45,7 +45,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             fsc_comments.append(d.fiscal_additional_data or '')
             fsc_comments.append(d.comment_ids.filtered(
                 lambda c: c.comment_type == COMMENT_TYPE_FISCAL
-                    ).compute_message(d._document_comment_vals()) or '')
+                ).compute_message(d._document_comment_vals()) or '')
             d.fiscal_additional_data = fsc_comments.join(', ')
 
             # Commercial Coments
@@ -53,7 +53,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             com_comments.append(d.customer_additional_data or '')
             com_comments.append(d.comment_ids.filtered(
                 lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
-                    ).compute_message(d._document_comment_vals()) or '')
+                ).compute_message(d._document_comment_vals()) or '')
             d.customer_additional_data = com_comments.join(', ')
             d.line_ids.document_comment()
 
