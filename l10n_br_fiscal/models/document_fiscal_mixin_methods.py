@@ -46,7 +46,8 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             fsc_comments.append(d.comment_ids.filtered(
                 lambda c: c.comment_type == COMMENT_TYPE_FISCAL
                 ).compute_message(d._document_comment_vals()) or '')
-            d.fiscal_additional_data = fsc_comments.join(', ')
+            d.fiscal_additional_data = ', '.join(
+                [c for c in fsc_comments if c])
 
             # Commercial Coments
             com_comments = []
@@ -54,7 +55,8 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             com_comments.append(d.comment_ids.filtered(
                 lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
                 ).compute_message(d._document_comment_vals()) or '')
-            d.customer_additional_data = com_comments.join(', ')
+            d.customer_additional_data = ', '.join(
+                [c for c in com_comments if c])
             d.line_ids.document_comment()
 
     @api.onchange('fiscal_operation_id')
