@@ -63,7 +63,8 @@ class L10nBrWebsiteSale(WebsiteSale):
                 [('code', '=', 'BR')])
             res.qcontext['country'] = country_id
         # initiate form with city filled
-        if 'checkout' in res.qcontext and res.qcontext['checkout'].city_id:
+        if 'checkout' in res.qcontext and 'city_id' in res.qcontext[
+                'checkout'] and res.qcontext['checkout']['city_id']:
             state_id = res.qcontext['checkout'].city_id.state_id
             cities = request.env['res.city'].search(
                 [('state_id', '=', state_id.id)])
