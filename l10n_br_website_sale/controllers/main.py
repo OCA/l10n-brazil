@@ -68,6 +68,8 @@ class L10nBrWebsiteSale(WebsiteSale):
             state_id = res.qcontext['checkout']['state_id']
             if type(state_id) != str:
                 state_id = state_id.id
+            else:
+                state_id = int(state_id)
             cities = request.env['res.city'].search(
                 [('state_id', '=', state_id)])
             res.qcontext['cities'] = cities
