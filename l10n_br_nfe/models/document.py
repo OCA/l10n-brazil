@@ -184,18 +184,11 @@ class NFe(spec_models.StackedModel):
 
     nfe40_infAdic = fields.Many2one(
         compute='_compute_inf_adic',
-        inverse='_inverse_inf_adic',
     )
 
     @api.multi
-    @api.depends('nfe40_infAdic')
+    @api.depends('fiscal_additional_data', 'customer_additional_data')
     def _compute_inf_adic(self):
-        for d in self:
-            if d.nfe40_infAdic:
-                d.fiscal_additional_data = d.nfe40_infAdic.nfe40_infAdFisco
-                d.customer_additional_data = d.nfe40_infAdic.nfe40_infCpl
-
-    def _inverse_inf_adic(self):
         for d in self:
             if d.fiscal_additional_data or d.customer_additional_data:
                 inf_adic_vals = {
@@ -203,7 +196,8 @@ class NFe(spec_models.StackedModel):
                     'nfe40_infCpl': d.customer_additional_data,
                 }
                 if not d.nfe40_infAdic:
-                    d.nfe40_infAdic.create(inf_adic_vals)
+                    d.nfe40_infAdic = self.env['nfe.40.infadic'].create(
+                        inf_adic_vals)
                 else:
                     d.nfe40_infAdic.write(inf_adic_vals)
 
