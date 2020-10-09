@@ -10,8 +10,7 @@ from odoo.addons.website_sale.controllers.main import WebsiteSale
 
 _logger = logging.getLogger(__name__)
 try:
-    from erpbrasil.base.fiscal import cnpj_cpf, ie
-    from erpbrasil.base import misc
+    from erpbrasil.base.fiscal import cnpj_cpf
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
@@ -63,7 +62,7 @@ class L10nBrWebsiteSale(WebsiteSale):
             country_id = request.env['res.country'].search(
                 [('code', '=', 'BR')])
             res.qcontext['country'] = country_id
-        #initiate form with city filled
+        # initiate form with city filled
         if 'checkout' in res.qcontext and res.qcontext['checkout'].city_id:
             state_id = res.qcontext['checkout'].city_id.state_id
             cities = request.env['res.city'].search(
