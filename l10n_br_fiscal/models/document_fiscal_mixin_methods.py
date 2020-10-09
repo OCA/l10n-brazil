@@ -40,15 +40,21 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
 
     def document_comment(self):
         for d in self:
-            fiscal_additional_data = d.fiscal_additional_data or ''
-            d.fiscal_additional_data += d.comment_ids.filtered(
+            # Fiscal Comments
+            fsc_comments = []
+            fsc_comments.append(d.fiscal_additional_data or '')
+            fsc_comments.append(d.comment_ids.filtered(
                 lambda c: c.comment_type == COMMENT_TYPE_FISCAL
-                    ).compute_message(
-                d._document_comment_vals())
-            d.customer_additional_data += d.comment_ids.filtered(
+                    ).compute_message(d._document_comment_vals()) or '')
+            d.fiscal_additional_data = fsc_comments.join(', ')
+
+            # Commercial Coments
+            com_comments = []
+            com_comments.append(d.customer_additional_data or '')
+            com_comments.append(d.comment_ids.filtered(
                 lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
-                    ).compute_message(
-                d._document_comment_vals())
+                    ).compute_message(d._document_comment_vals()) or '')
+            d.customer_additional_data = com_comments.join(', ')
             d.line_ids.document_comment()
 
     @api.onchange('fiscal_operation_id')
