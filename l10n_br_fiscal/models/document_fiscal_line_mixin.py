@@ -926,6 +926,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[('object', '=', FISCAL_COMMENT_LINE)],
     )
 
-    additional_data = fields.Text(
+    additional_data = fields.Char(
         string='Additional Data',
     )
