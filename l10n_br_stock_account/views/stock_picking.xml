@@ -46,6 +46,7 @@
                     </div>
                 </button>
             </div>
+            <button name="set_to_be_invoiced" position="replace"/>
         </field>
     </record>
 
