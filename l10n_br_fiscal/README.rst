@@ -87,6 +87,7 @@ Contributors
 
 * Renato Lima <renato.lima@akretion.com.br>
 * Raphaël Valyi <raphael.valyi@akretion.com.br>
+* Magno Costa <magno.costa@akretion.com.br>
 * Luis Felipe Mileo <mileo@kmee.com.br>
 * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
@@ -103,6 +104,14 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-renatonlima| image:: https://github.com/renatonlima.png?size=40px
+    :target: https://github.com/renatonlima
+    :alt: renatonlima
+
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-renatonlima| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_fiscal>`_ project on GitHub.
 
