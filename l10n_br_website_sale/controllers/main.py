@@ -38,6 +38,9 @@ class L10nBrWebsiteSale(WebsiteSale):
             "name",
             "email",
             "street",
+            "street2",
+            "street_number",
+            "district",
             "country_id",
             "state_id",
             "city_id",
@@ -47,7 +50,16 @@ class L10nBrWebsiteSale(WebsiteSale):
             ]
 
     def _get_mandatory_shipping_fields(self):
-        return ["name", "street", "country_id", "state_id", "city_id", "zip"]
+        return [
+            "name",
+            "street",
+            "country_id",
+            "state_id",
+            "city_id",
+            "zip",
+            "street_number",
+            "district"
+            ]
 
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'],
                 auth="public", website=True, sitemap=False)
@@ -84,6 +96,10 @@ class L10nBrWebsiteSale(WebsiteSale):
             new_values['cnpj_cpf'] = values['cnpj_cpf']
         if 'company_type' in values and 'company_type' not in errors:
             new_values['company_type'] = values['company_type']
+        if 'street_number' in values:
+            new_values['street_number'] = values['street_number']
+        if 'district' in values:
+            new_values['district'] = values['district']
         return new_values, errors, error_msg
 
     def checkout_form_validate(self, mode, all_form_values, data):
