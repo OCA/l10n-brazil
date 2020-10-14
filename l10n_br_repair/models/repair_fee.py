@@ -25,6 +25,8 @@ class RepairFee(models.Model):
         domain = [('state', '=', 'approved')]
         return domain
 
+    discount = fields.Float(string='Discount (%)')
+
     fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         default=_default_fiscal_operation,
