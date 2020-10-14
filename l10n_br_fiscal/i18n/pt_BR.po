@@ -1806,7 +1806,6 @@ msgstr "CSTs"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_cte
-#: selection:l10n_br_fiscal.document,document_section:0
 msgid "CT-e"
 msgstr "CT-e"
 
@@ -3056,11 +3055,6 @@ msgstr "Número do Documento"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Document Related"
 msgstr "Documentos Relacionados"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_section
-msgid "Document Section"
-msgstr "Seção de documentos"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_serie_id
@@ -6437,7 +6431,6 @@ msgstr "NCMs"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.certificate,type:0
-#: selection:l10n_br_fiscal.document,document_section:0
 msgid "NF-e"
 msgstr "NF-e"
 
@@ -6450,11 +6443,6 @@ msgstr "NF-e/CT-e"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_nfe
 msgid "NF-e/NFC-e"
 msgstr "NF-e/NFC-e"
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,document_section:0
-msgid "NFC-e e CF-e"
-msgstr "NFC-e e CF-e"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_pres:0
@@ -6476,11 +6464,6 @@ msgstr "Documentos NFCe"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_nfse
 msgid "NFS-e"
 msgstr "NFS-e"
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,document_section:0
-msgid "NFS-e e Recibos"
-msgstr "NFS-e e Recibos"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_closing_form
@@ -9210,17 +9193,6 @@ msgstr "Situações"
 #: selection:l10n_br_fiscal.tax.definition,activity_state:0
 msgid "Today"
 msgstr "Hoje"
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,document_section:0
-msgid "Todos"
-msgstr "Todos"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__amount_change
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Troco"
-msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.closing,export_type:0
