@@ -351,6 +351,11 @@ class RepairOrder(models.Model):
         self.ensure_one()
         # self.update(self._prepare_br_fiscal_dict())
         company_id = self.company_id.id
+
+        if not self.company_id.document_type_id:
+            raise UserError(_(
+                'Please define an default document type for this company.'))
+
         journal_id = (self.env['account.invoice'].with_context(
             company_id=company_id or self.env.user.company_id.id)
             .default_get(['journal_id'])['journal_id'])
@@ -414,6 +419,8 @@ class RepairOrder(models.Model):
         invoices_group = {}
         InvoiceLine = self.env['account.invoice.line']
         Invoice = self.env['account.invoice']
+
+
 
         for repair in \
             self.filtered(lambda repair:
