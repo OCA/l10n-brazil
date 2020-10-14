@@ -1,2 +1,3 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-access_cnab_return_move_code,access_cnab_return_move_code,model_cnab_return_move_code,group_cnab_cobranca,1,1,1,1
+access_cnab_return_move_code_user,access_cnab_return_move_code_user,model_cnab_return_move_code,group_cnab_user,1,0,0,0
+access_cnab_return_move_code_manager,access_cnab_return_move_code_manager,model_cnab_return_move_code,group_cnab_manager,1,1,1,1
