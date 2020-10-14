@@ -5,7 +5,8 @@
     <field name="name">l10n_br_fiscal.invalidate.number.search</field>
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
-      <search string="Fiscal Document">
+      <search string="Invalidate Number">
+        <field name="document_serie_id"/>
         <field name="company_id"/>
       </search>
     </field>
@@ -15,7 +16,7 @@
     <field name="name">l10n_br_fiscal.invalidate.number.tree</field>
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
-      <tree string="Fiscal Document">
+      <tree string="Invalidate Number">
           <field name="company_id"/>
           <field name="number_start"/>
           <field name="number_end"/>
@@ -28,7 +29,7 @@
     <field name="name">l10n_br_fiscal.invalidate.number.form</field>
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
-      <form string="Fiscal Document">
+      <form string="Invalidate Number">
           <header>
               <field name="state" widget="statusbar"/>
               <button name="action_invalidate" type="object" string="Confirmar" states="draft" class="oe_highlight"/>
