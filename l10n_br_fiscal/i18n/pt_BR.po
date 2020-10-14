@@ -3692,7 +3692,7 @@ msgstr "Linha de Documentos Fiscais"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_related
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_document_related_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_related_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_related_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_related_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_related_tree

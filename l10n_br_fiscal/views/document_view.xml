@@ -190,7 +190,7 @@
               </field>
             </page>
             <page name="document_related" string="Document Related">
-              <field name="fiscal_document_related_ids"/>
+              <field name="document_related_ids"/>
               <separator colspan="4" string="Subsequents Documents"/>
               <field name="document_subsequent_ids">
                   <tree editable="bottom">
