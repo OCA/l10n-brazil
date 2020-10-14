@@ -120,9 +120,9 @@ class Document(models.Model):
         string='Serie Number',
     )
 
-    fiscal_document_related_ids = fields.One2many(
+    document_related_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.document.related',
-        inverse_name='fiscal_document_id',
+        inverse_name='document_id',
         string='Fiscal Document Related',
     )
 
@@ -370,8 +370,8 @@ class Document(models.Model):
 
     def _document_reference(self, reference_ids):
         for referenced_item in reference_ids:
-            referenced_item.fiscal_document_related_ids = self.id
-            self.fiscal_document_related_ids |= referenced_item
+            referenced_item.document_related_ids = self.id
+            self.document_related_ids |= referenced_item
 
     @api.depends('document_subsequent_ids.subsequent_document_id')
     def _compute_document_subsequent_generated(self):
