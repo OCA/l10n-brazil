@@ -159,21 +159,6 @@ class Document(models.Model):
         copy=True,
     )
 
-    # TODO esse campo deveria ser calculado de
-    # acordo com o fiscal_document_id
-    document_section = fields.Selection(
-        selection=[
-            ('nfe', 'NF-e'),
-            ('nfse_recibos', 'NFS-e e Recibos'),
-            ('nfce_cfe', 'NFC-e e CF-e'),
-            ('cte', 'CT-e'),
-            ('todos', 'Todos'),
-        ],
-        string='Document Section',
-        readonly=True,
-        copy=True,
-    )
-
     edoc_purpose = fields.Selection(
         selection=[
             ('1', 'Normal'),
@@ -273,38 +258,6 @@ class Document(models.Model):
     def _onchange_company_id(self):
         if self.company_id:
             self.currency_id = self.company_id.currency_id
-
-    @api.multi
-    @api.onchange('document_section')
-    def _onchange_document_section(self):
-        if self.document_section:
-            domain = dict()
-            if self.document_section == 'nfe':
-                domain['document_type_id'] = [('code', '=', '55')]
-                self.document_type_id = \
-                    self.env['l10n_br_fiscal.document.type'].search([
-                        ('code', '=', '55')
-                    ])[0]
-            elif self.document_section == 'nfse_recibos':
-                domain['document_type_id'] = [('code', '=', 'SE')]
-                self.document_type_id = \
-                    self.env['l10n_br_fiscal.document.type'].search([
-                        ('code', '=', 'SE')
-                    ])[0]
-            elif self.document_section == 'nfce_cfe':
-                domain['document_type_id'] = [('code', 'in', ('59', '65'))]
-                self.document_type_id = \
-                    self.env['l10n_br_fiscal.document.type'].search([
-                        ('code', '=', '59')
-                    ])[0]
-            elif self.document_section == 'cte':
-                domain['document_type_id'] = [('code', '=', '57')]
-                self.document_type_id = \
-                    self.env['l10n_br_fiscal.document.type'].search([
-                        ('code', '=', '57')
-                    ])[0]
-
-            return {'domain': domain}
 
     def _create_return(self):
         return_docs = self.env[self._name]
