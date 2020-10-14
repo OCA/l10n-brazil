@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-  <record id="document_invalidate_number_search" model="ir.ui.view">
+  <record id="invalidate_number_search" model="ir.ui.view">
     <field name="name">l10n_br_fiscal.invalidate.number.search</field>
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
@@ -11,7 +11,7 @@
     </field>
   </record>
 
-  <record id="document_invalidate_number_tree" model="ir.ui.view">
+  <record id="invalidate_number_tree" model="ir.ui.view">
     <field name="name">l10n_br_fiscal.invalidate.number.tree</field>
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
@@ -24,7 +24,7 @@
     </field>
   </record>
 
-  <record id="document_invalidate_number_form" model="ir.ui.view">
+  <record id="invalidate_number_form" model="ir.ui.view">
     <field name="name">l10n_br_fiscal.invalidate.number.form</field>
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
@@ -43,7 +43,7 @@
               <field name="justification"/>
           </group>
           <notebook>
-              <page string="Eventos">
+              <page string="Events">
                   <field name="event_ids"/>
               </page>
           </notebook>
