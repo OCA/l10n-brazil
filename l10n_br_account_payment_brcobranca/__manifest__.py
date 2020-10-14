@@ -23,6 +23,7 @@
         'views/cnab_return_log_view.xml',
         'data/res_config_settings_data.xml',
         'security/ir.model.access.csv',
+        'wizard/import_statement_view.xml'
     ],
     'demo': [
         'demo/account_journal_demo.xml'
