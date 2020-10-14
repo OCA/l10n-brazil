@@ -213,12 +213,12 @@
                     <field name="status_description" attrs="{'invisible': [('document_electronic', '=', '0')]}"/>
                 </group>
                 <group>
-                    <group name="autorizacao" string="Autorização" colspan="4">
-                        <field name="data_hora_autorizacao"/>
-                        <field name="protocolo_autorizacao"/>
-                        <field name="file_xml_id"/>
-                        <field name="file_xml_autorizacao_id"/>
-                        <field name="file_pdf_id"/>
+                    <group name="authorization" string="Authorization" colspan="4">
+                        <field name="authorization_date"/>
+                        <field name="authorization_protocol"/>
+                        <field name="send_file_id"/>
+                        <field name="authorization_file_id"/>
+                        <field name="file_report_id"/>
                     </group>
                     <group name="cancelamento" string="Cancelamento" colspan="4" attrs="{'invisible': [('state', '!=', 'cancelada')]}" >
                         <field name="data_hora_cancelamento"/>
