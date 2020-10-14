@@ -11,7 +11,7 @@ class DocumentRelated(models.Model):
     _name = 'l10n_br_fiscal.document.related'
     _description = 'Fiscal Document Related'
 
-    fiscal_document_id = fields.Many2one(
+    document_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document',
         string='Fiscal Document',
         index=True)
