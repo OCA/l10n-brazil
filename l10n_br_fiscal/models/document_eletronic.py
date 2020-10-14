@@ -51,14 +51,12 @@ class DocumentEletronic(models.AbstractModel):
         string='Authorization Date',
         related='authorization_event_id.date',
         readonly=True,
-        copy=False,
     )
 
     authorization_protocol = fields.Char(
         string='Authorization Protocol',
         related='authorization_event_id.protocol_number',
         readonly=True,
-        copy=False,
     )
 
     send_file_id = fields.Many2one(
@@ -67,7 +65,6 @@ class DocumentEletronic(models.AbstractModel):
         string='Send Document File XML',
         ondelete='restrict',
         readonly=True,
-        copy=False,
     )
 
     authorization_file_id = fields.Many2one(
@@ -76,7 +73,6 @@ class DocumentEletronic(models.AbstractModel):
         string='Authorization File XML',
         ondelete='restrict',
         readonly=True,
-        copy=False,
     )
 
     file_report_id = fields.Many2one(
@@ -87,31 +83,32 @@ class DocumentEletronic(models.AbstractModel):
         copy=False,
     )
 
-    # Eventos de cancelamento
-    data_hora_cancelamento = fields.Datetime(
-        string="Data Hora Autorização",
-        readonly=True)
-
-    protocolo_cancelamento = fields.Char(
-        string="Protocolo Autorização",
-        readonly=True)
-
+    # Cancel Event Related Fields
     cancel_event_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.event',
-        string='Cancel',
+        string='Cancel Event',
+        copy=False,
     )
 
-    file_xml_cancelamento_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        string="XML de cancelamento",
-        ondelete="restrict",
-        copy=False)
+    cancel_date = fields.Datetime(
+        string='Cancel Date',
+        related='cancel_event_id.date',
+        readonly=True,
+    )
 
-    file_xml_autorizacao_cancelamento_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        string="XML de autorização de cancelamento",
+    cancel_protocol_number = fields.Char(
+        string='Cancel Protocol Number',
+        related='cancel_event_id.protocol_number',
+        readonly=True,
+    )
+
+    cancel_file_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        related='cancel_event_id.file_response_id',
+        string='Cancel File XML',
         ondelete="restrict",
-        copy=False)
+        readonly=True,
+    )
 
     document_version = fields.Char(
         string='Versão',
@@ -192,11 +189,11 @@ class DocumentEletronic(models.AbstractModel):
                 }
 
     def view_xml(self):
-        xml_file = self.file_xml_autorizacao_id or self.file_xml_id
+        xml_file = self.authorization_file_id or self.send_file_id
         if not xml_file:
             self._document_export()
-            xml_file = self.file_xml_autorizacao_id or self.file_xml_id
+            xml_file = self.authorization_file_id or self.send_file_id
         return self._target_new_tab(xml_file)
 
     def view_pdf(self):
-        return self._target_new_tab(self.file_pdf_id)
+        return self._target_new_tab(self.file_report_id)
