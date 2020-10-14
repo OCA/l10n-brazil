@@ -420,8 +420,6 @@ class RepairOrder(models.Model):
         InvoiceLine = self.env['account.invoice.line']
         Invoice = self.env['account.invoice']
 
-
-
         for repair in \
             self.filtered(lambda repair:
                           repair.state not in
