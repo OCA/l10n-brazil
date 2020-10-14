@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="document_event_search" model="ir.ui.view">
+    <record id="event_search" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.event.search</field>
         <field name="model">l10n_br_fiscal.event</field>
         <field name="arch" type="xml">
@@ -11,7 +11,7 @@
         </field>
     </record>
 
-    <record id="document_event_tree" model="ir.ui.view">
+    <record id="event_tree" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.event.tree</field>
         <field name="model">l10n_br_fiscal.event</field>
         <field name="arch" type="xml">
@@ -29,7 +29,7 @@
         </field>
     </record>
 
-    <record id="document_event_form" model="ir.ui.view">
+    <record id="event_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.event.form</field>
         <field name="model">l10n_br_fiscal.event</field>
         <field name="arch" type="xml">
