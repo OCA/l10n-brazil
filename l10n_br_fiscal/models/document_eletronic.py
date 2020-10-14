@@ -62,22 +62,22 @@ class DocumentEletronic(models.AbstractModel):
         copy=False)
 
     autorizacao_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.event",
+        comodel_name="l10n_br_fiscal.event",
         string="Autorização",
         readonly=True,
         copy=False)
 
     file_xml_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        related="autorizacao_event_id.xml_sent_id",
-        string="XML envio",
-        ondelete="restrict",
+        comodel_name='ir.attachment',
+        related='autorizacao_event_id.file_request_id',
+        string='XML envio',
+        ondelete='restrict',
         copy=False,
         readonly=True)
 
     file_xml_autorizacao_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        related="autorizacao_event_id.xml_returned_id",
+        comodel_name='ir.attachment',
+        related="autorizacao_event_id.file_response_id",
         string="XML de autorização",
         ondelete="restrict",
         copy=False,
@@ -99,7 +99,7 @@ class DocumentEletronic(models.AbstractModel):
         readonly=True)
 
     cancel_event_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.document.event',
+        comodel_name='l10n_br_fiscal.event',
         string='Cancel',
     )
 
@@ -147,14 +147,14 @@ class DocumentEletronic(models.AbstractModel):
         electronic._eletronic_document_send()
 
     def _gerar_evento(self, arquivo_xml, event_type):
-        event_obj = self.env["l10n_br_fiscal.document.event"]
+        event_obj = self.env["l10n_br_fiscal.event"]
 
         vals = {
             "type": event_type,
             "company_id": self.company_id.id,
             "origin": self.document_type_id.code + "/" + self.number,
             "create_date": fields.Datetime.now(),
-            "fiscal_document_id": self.id,
+            "document_id": self.id,
         }
         event_id = event_obj.create(vals)
         event_id._grava_anexo(arquivo_xml, "xml")
