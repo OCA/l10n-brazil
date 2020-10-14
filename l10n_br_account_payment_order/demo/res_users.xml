@@ -3,7 +3,7 @@
 
     <!-- Configure Users CNAB access -->
     <record id="base.user_demo" model="res.users">
-        <field name="groups_id" eval="[(4, ref('l10n_br_account_payment_order.group_cnab_cobranca'))]"/>
+        <field name="groups_id" eval="[(4, ref('group_cnab_user'))]"/>
     </record>
 
 </odoo>
