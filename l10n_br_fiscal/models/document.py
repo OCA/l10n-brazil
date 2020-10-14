@@ -185,9 +185,9 @@ class Document(models.Model):
         default='1',
     )
 
-    document_event_ids = fields.One2many(
-        comodel_name='l10n_br_fiscal.document.event',
-        inverse_name='fiscal_document_id',
+    event_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.event',
+        inverse_name='document_id',
         string='Events',
         copy=False,
         readonly=True,
