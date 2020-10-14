@@ -210,7 +210,7 @@
             <page name="others" string="Others">
                 <group>
                     <field name="operation_name"/>
-                    <field name="codigo_motivo_situacao" attrs="{'invisible': [('document_electronic', '=', '0')]}"/>
+                    <field name="status_description" attrs="{'invisible': [('document_electronic', '=', '0')]}"/>
                 </group>
                 <group>
                     <group name="autorizacao" string="Autorização" colspan="4">
