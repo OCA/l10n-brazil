@@ -15,7 +15,7 @@
             <xpath expr="//field[@name='fees_lines']/tree" position="attributes">
                 <attribute name="editable"/>
             </xpath>
-            <xpath expr="//field[@name='fees_lines']/tree/field[@name='discount']" position="replace"/>
+<!--            <xpath expr="//field[@name='fees_lines']/tree/field[@name='discount']" position="replace"/>-->
             <xpath expr="//field[@name='fees_lines']/tree/field[@name='tax_id']" position="replace"/>
             <xpath expr="//field[@name='fees_lines']/tree/field[@name='price_unit']" position="after">
                 <field name="discount" groups="!l10n_br_repair.group_discount_per_value"/>

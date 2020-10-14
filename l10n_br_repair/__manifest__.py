@@ -13,7 +13,8 @@
         'Odoo Community Association (OCA)',
     'website': 'https://github.com/OCA/l10n-brazil',
     'depends': [
-        'repair_discount',
+        # 'repair_discount',
+        'repair',
         'l10n_br_account',
     ],
     'data': [
@@ -31,6 +32,7 @@
     'auto_install': True,
     'development_status': 'Production/Beta',
     'maintainers': ['marcelsavegnago'],
+    'conflicts': ['repair_discount'],
     'external_dependencies': {'python': ['erpbrasil.base']}
 
 }
