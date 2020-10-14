@@ -21,13 +21,13 @@ class CNABReturnLog(models.Model):
     filename = fields.Char(string='Nome do Arquivo')
     number_events = fields.Integer(string='Número de Eventos')
     number_lots = fields.Integer(string='Número de Lotes')
-    cnab_date = fields.Date(
-        string='Data CNAB', required=True, default=datetime.now().date())
+    cnab_date = fields.Datetime(string='Data CNAB')
     bank_account_id = fields.Many2one(
         string='Conta cedente', comodel_name='res.partner.bank'
     )
     # TODO - validar o campo a partir do primeiro arquivo incluido
     #  para evitar de 'pular' a sequencia ?
+    #  O BRCobranca ignora a linha do header
     sequential_file = fields.Char(string='Sequencial do Arquivo')
 
     cnab_return_log_line_ids = fields.One2many(
