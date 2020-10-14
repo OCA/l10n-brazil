@@ -5,12 +5,12 @@
 <odoo>
 
     <record id="document_correction_wizard_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.document.correction.wizard.form (in l10n_br_fiscal)</field>
+        <field name="name">l10n_br_fiscal.document.correction.wizard.form</field>
         <field name="model">l10n_br_fiscal.document.correction.wizard</field>
         <field name="arch" type="xml">
             <form string="Carta de Correção">
                 <group>
-                    <field name="justificative"/>
+                    <field name="justification"/>
                 </group>
                 <footer>
                     <button name="doit"
