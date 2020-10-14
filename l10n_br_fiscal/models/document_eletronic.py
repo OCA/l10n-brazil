@@ -39,46 +39,53 @@ class DocumentEletronic(models.AbstractModel):
         copy=False,
     )
 
-
-
-    # Eventos de envio
-    data_hora_autorizacao = fields.Datetime(
-        string="Data Hora",
+    # Authorization Event Related Fields
+    authorization_event_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.event',
+        string='Authorization Event',
         readonly=True,
-        copy=False)
+        copy=False,
+    )
 
-    protocolo_autorizacao = fields.Char(
-        string="Protocolo",
+    authorization_date = fields.Datetime(
+        string='Authorization Date',
+        related='authorization_event_id.date',
         readonly=True,
-        copy=False)
+        copy=False,
+    )
 
-    autorizacao_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.event",
-        string="Autorização",
+    authorization_protocol = fields.Char(
+        string='Authorization Protocol',
+        related='authorization_event_id.protocol_number',
         readonly=True,
-        copy=False)
+        copy=False,
+    )
 
-    file_xml_id = fields.Many2one(
+    send_file_id = fields.Many2one(
         comodel_name='ir.attachment',
-        related='autorizacao_event_id.file_request_id',
-        string='XML envio',
+        related='authorization_event_id.file_request_id',
+        string='Send Document File XML',
         ondelete='restrict',
+        readonly=True,
         copy=False,
-        readonly=True)
+    )
 
-    file_xml_autorizacao_id = fields.Many2one(
+    authorization_file_id = fields.Many2one(
         comodel_name='ir.attachment',
-        related="autorizacao_event_id.file_response_id",
-        string="XML de autorização",
-        ondelete="restrict",
+        related='authorization_event_id.file_response_id',
+        string='Authorization File XML',
+        ondelete='restrict',
+        readonly=True,
         copy=False,
-        readonly=True)
+    )
 
-    file_pdf_id = fields.Many2one(
-        comodel_name="ir.attachment",
-        string="PDF",
-        ondelete="restrict",
-        copy=False)
+    file_report_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        string='Document Report',
+        ondelete='restrict',
+        readonly=True,
+        copy=False,
+    )
 
     # Eventos de cancelamento
     data_hora_cancelamento = fields.Datetime(
