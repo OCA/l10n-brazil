@@ -27,6 +27,19 @@ Relatórios contábeis brasileiros: Balanço Patrimonial e DRE
 
 Templates de relatórios contábeis brasileiros: DRE e BP baseados no ITG 1000
 
+Balanço Patrimonial
+-------------------
+
+.. image:: https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/l10n_br_mis_report/static/description/img/bp.png
+   :alt: BP
+
+Demonstrativo de Resultados do Exercício (DRE)
+----------------------------------------------
+
+.. image:: https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/l10n_br_mis_report/static/description/img/dre.png
+   :alt: DRE
+
+
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
    Only for development or testing purpose, do not use in production.

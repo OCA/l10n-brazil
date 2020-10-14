@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.15.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils 0.16: http://docutils.sourceforge.net/" />
 <title>Relatórios contábeis brasileiros: Balanço Patrimonial e DRE</title>
 <style type="text/css">
 
@@ -369,6 +369,13 @@ ul.auto-toc {
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external" href="https://odoo-community.org/page/development-status"><img alt="Alpha" src="https://img.shields.io/badge/maturity-Alpha-red.png" /></a> <a class="reference external" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/licence-AGPL--3-blue.png" /></a> <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_mis_report"><img alt="OCA/l10n-brazil" src="https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github" /></a> <a class="reference external" href="https://translation.odoo-community.org/projects/l10n-brazil-12-0/l10n-brazil-12-0-l10n_br_mis_report"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external" href="https://runbot.odoo-community.org/runbot/124/12.0"><img alt="Try me on Runbot" src="https://img.shields.io/badge/runbot-Try%20me-875A7B.png" /></a></p>
 <p>Templates de relatórios contábeis brasileiros: DRE e BP baseados no ITG 1000</p>
+<div class="section" id="balanco-patrimonial">
+<h1>Balanço Patrimonial</h1>
+<img alt="BP" src="https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/l10n_br_mis_report/static/description/img/bp.png" />
+</div>
+<div class="section" id="demonstrativo-de-resultados-do-exercicio-dre">
+<h1>Demonstrativo de Resultados do Exercício (DRE)</h1>
+<img alt="DRE" src="https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/l10n_br_mis_report/static/description/img/dre.png" />
 <div class="admonition important">
 <p class="first admonition-title">Important</p>
 <p class="last">This is an alpha version, the data model and design can change at any time without warning.
@@ -390,13 +397,13 @@ Only for development or testing purpose, do not use in production.
 </ul>
 </div>
 <div class="section" id="configuration">
-<h1><a class="toc-backref" href="#id1">Configuration</a></h1>
+<h2><a class="toc-backref" href="#id1">Configuration</a></h2>
 <p>Este relatório é estruturado a partir do tipo de conta, caso você esteja utilizando um plano de contas customizado
 deverá ficar atendo a campo tipo de conta no cadastro do plano de contas.</p>
 <p>Alem disso caso você esteja utilizando um dos plano de contas padrão e criar uma nova conta, você também deve ficar atendo a classificação.</p>
 </div>
 <div class="section" id="usage">
-<h1><a class="toc-backref" href="#id2">Usage</a></h1>
+<h2><a class="toc-backref" href="#id2">Usage</a></h2>
 <ol class="arabic">
 <li><p class="first">Acesse  Contabilidade &gt; Relatórios &gt; MIS &gt; Relatórios MIS</p>
 </li>
@@ -421,7 +428,7 @@ deverá ficar atendo a campo tipo de conta no cadastro do plano de contas.</p>
 </ol>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#id3">Bug Tracker</a></h1>
+<h2><a class="toc-backref" href="#id3">Bug Tracker</a></h2>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
@@ -429,22 +436,22 @@ If you spotted it first, help us smashing it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#id4">Credits</a></h1>
+<h2><a class="toc-backref" href="#id4">Credits</a></h2>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#id5">Authors</a></h2>
+<h3><a class="toc-backref" href="#id5">Authors</a></h3>
 <ul class="simple">
 <li>KMEE</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#id6">Contributors</a></h2>
+<h3><a class="toc-backref" href="#id6">Contributors</a></h3>
 <ul class="simple">
 <li>Luis Felipe Mileo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
 <li>Diego Paradeda &lt;<a class="reference external" href="mailto:diego.paradeda&#64;kmee.com.br">diego.paradeda&#64;kmee.com.br</a>&gt;</li>
 </ul>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#id7">Maintainers</a></h2>
+<h3><a class="toc-backref" href="#id7">Maintainers</a></h3>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose
@@ -454,6 +461,7 @@ promote its widespread use.</p>
 <p><a class="reference external" href="https://github.com/mileo"><img alt="mileo" src="https://github.com/mileo.png?size=40px" /></a></p>
 <p>This module is part of the <a class="reference external" href="https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_mis_report">OCA/l10n-brazil</a> project on GitHub.</p>
 <p>You are welcome to contribute. To learn how please visit <a class="reference external" href="https://odoo-community.org/page/Contribute">https://odoo-community.org/page/Contribute</a>.</p>
+</div>
 </div>
 </div>
 </div>
