@@ -1595,7 +1595,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_cte
-#: selection:l10n_br_fiscal.document,document_section:0
 msgid "CT-e"
 msgstr ""
 
@@ -2771,11 +2770,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 msgid "Document Related"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_section
-msgid "Document Section"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6037,7 +6031,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.certificate,type:0
-#: selection:l10n_br_fiscal.document,document_section:0
 msgid "NF-e"
 msgstr ""
 
@@ -6052,7 +6045,6 @@ msgid "NF-e/NFC-e"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,document_section:0
 msgid "NFC-e e CF-e"
 msgstr ""
 
@@ -6077,10 +6069,6 @@ msgstr ""
 msgid "NFS-e"
 msgstr ""
 
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,document_section:0
-msgid "NFS-e e Recibos"
-msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_closing_form
@@ -8690,11 +8678,6 @@ msgstr ""
 #: selection:l10n_br_fiscal.service.type,activity_state:0
 #: selection:l10n_br_fiscal.tax.definition,activity_state:0
 msgid "Today"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,document_section:0
-msgid "Todos"
 msgstr ""
 
 #. module: l10n_br_fiscal
