@@ -655,14 +655,14 @@
     </record>
 
     <!-- Document Event -->
-    <record id="document_event_action" model="ir.actions.act_window">
+    <record id="event_action" model="ir.actions.act_window">
         <field name="name">Fiscal Event</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document.event</field>
+        <field name="res_model">l10n_br_fiscal.event</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="document_event_search"/>
-        <field name="view_id" ref="document_event_tree"/>
+        <field name="search_view_id" ref="event_search"/>
+        <field name="view_id" ref="event_tree"/>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
             Create a new Document
@@ -674,10 +674,10 @@
     </record>
 
     <!-- Invalidate Number -->
-    <record id="document_invalidate_number_action" model="ir.actions.act_window">
+    <record id="invalidate_number_action" model="ir.actions.act_window">
         <field name="name">Invalidate Number</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document.invalidate.number</field>
+        <field name="res_model">l10n_br_fiscal.invalidate.number</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="help" type="html">
