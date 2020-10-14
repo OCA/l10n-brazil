@@ -6,7 +6,7 @@
 
     <!-- Main Company -->
     <record id="base.main_company" model="res.company">
-        <field name="sale_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="repair_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
     </record>
 
 </odoo>

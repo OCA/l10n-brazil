@@ -10,26 +10,141 @@ from odoo.osv import expression
 
 
 class RepairOrder(models.Model):
-
     _name = 'repair.order'
     _inherit = [_name, 'l10n_br_fiscal.document.mixin']
 
-    # Módulos reparos tem apenas uma invoice. Porém, no caso do brasil é
-    # uma fatura de serviço e uma de produtos
+    @api.model
+    def _default_fiscal_operation(self):
+        return self.env.user.company_id.repair_fiscal_operation_id
 
-    @api.one
-    @api.depends('operations.price_unit', 'operations.product_uom_qty',
-                 'operations.product_id', 'fees_lines.price_unit',
-                 'fees_lines.product_uom_qty', 'fees_lines.product_id',
-                 'pricelist_id.currency_id', 'partner_id')
-    def _amount_tax(self):
-        self._amount_total()
-        pass
+    @api.model
+    def _default_copy_note(self):
+        return self.env.user.company_id.copy_note  # TODO: Corrigir o nome do campo
 
-    # @api.depends('amount_untaxed', 'amount_tax')
+    @api.model
+    def _fiscal_operation_domain(self):
+        domain = [('state', '=', 'approved')]
+        return domain
+
+    fiscal_position_id = fields.Many2one(
+        comodel_name='account.fiscal.position',
+        oldname='fiscal_position',
+        string='Fiscal Position'
+    )
+
+    fiscal_operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+        default=_default_fiscal_operation,
+        domain=lambda self: self._fiscal_operation_domain(),
+    )
+
+    ind_pres = fields.Selection(
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+
+    copy_note = fields.Boolean(
+        string='Copiar Observação no documentos fiscal',
+        default=_default_copy_note,
+    )
+
+    cnpj_cpf = fields.Char(
+        string='CNPJ/CPF',
+        related='partner_id.cnpj_cpf',
+    )
+
+    legal_name = fields.Char(
+        string='Legal Name',
+        related='partner_id.legal_name',
+    )
+
+    ie = fields.Char(
+        string='State Tax Number/RG',
+        related='partner_id.inscr_est',
+    )
+
+    discount_rate = fields.Float(
+        string='Discount',
+        readonly=True,
+        states={'draft': [('readonly', False)]},
+    )
+
+    amount_gross = fields.Monetary(
+        compute='_amount_all',
+        string='Amount Gross',
+        store=True,
+        readonly=True,
+        help="Amount without discount.",
+    )
+
+    amount_discount = fields.Monetary(
+        compute='_amount_all',
+        store=True,
+        string='Discount (-)',
+        readonly=True,
+        help="The discount amount.",
+    )
+
+    amount_freight = fields.Float(
+        compute='_amount_all',
+        store=True,
+        string='Freight',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'),
+        states={'draft': [('readonly', False)]},
+    )
+
+    amount_insurance = fields.Float(
+        compute='_amount_all',
+        store=True,
+        string='Insurance',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'),
+    )
+
+    amount_costs = fields.Float(
+        compute='_amount_all',
+        store=True,
+        string='Other Costs',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'),
+    )
+
+    fiscal_document_count = fields.Integer(
+        string='Fiscal Document Count',
+        related='invoice_count',
+        readonly=True,
+    )
+
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='repair_order_comment_rel',
+        column1='repair_id',
+        column2='comment_id',
+        string='Comments',
+    )
+
+    currency_id = fields.Many2one(
+        string='Currency ID',
+        related='partner_id.currency_id')
+
+    invoice_count = fields.Integer(string='Invoice Count',
+                                   compute='_get_invoiced', readonly=True)
+
+    invoice_ids = fields.Many2many("account.invoice", string='Invoices',
+                                   compute="_get_invoiced", readonly=True,
+                                   copy=False)
+
+    client_order_ref = fields.Char(string='Customer Reference', copy=False)
+
     @api.depends('operations.price_total', 'fees_lines.price_total')
-    def _amount_total(self):
-        """Compute the total amounts of the Repair Order."""
+    def _amount_all(self):
+        """Compute the total amounts of the SO."""
         for order in self:
             order.amount_gross = \
                 sum(line.price_gross for line in order.operations) + \
@@ -62,114 +177,6 @@ class RepairOrder(models.Model):
             order.amount_insurance = \
                 sum(line.insurance_value for line in order.operations) + \
                 sum(line.insurance_value for line in order.fees_lines)
-
-        # _sql_constraints = [(
-        #     'name',
-        #     'unique (name)',
-        #     'The name of the Repair Order must be unique!',
-        # )]
-
-    @api.model
-    def _default_fiscal_operation(self):
-        return self.env.user.company_id.repair_fiscal_operation_id
-
-    @api.model
-    def _fiscal_operation_domain(self):
-        domain = [('state', '=', 'approved')]
-        return domain
-
-    fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        readonly=True,
-        states={'draft': [('readonly', False)]},
-        default=_default_fiscal_operation,
-        domain=lambda self: self._fiscal_operation_domain())
-
-    ind_pres = fields.Selection(
-        readonly=True,
-        states={'draft': [('readonly', False)]})
-
-    cnpj_cpf = fields.Char(
-        string='CNPJ/CPF',
-        related='partner_id.cnpj_cpf')
-
-    legal_name = fields.Char(
-        string='Legal Name',
-        related='partner_id.legal_name')
-
-    ie = fields.Char(
-        string='State Tax Number/RG',
-        related='partner_id.inscr_est')
-
-    discount_rate = fields.Float(
-        string='Discount',
-        readonly=True,
-        states={'draft': [('readonly', False)]})
-
-    amount_gross = fields.Monetary(
-        compute='_amount_total',
-        string="Amount Gross",
-        store=True,
-        readonly=True,
-        help="Amount without discount.")
-
-    amount_discount = fields.Monetary(
-        compute='_amount_total',
-        store=True,
-        string='Discount (-)',
-        readonly=True,
-        help="The discount amount.")
-
-    amount_freight = fields.Float(
-        compute='_amount_total',
-        store=True,
-        string='Freight',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision("Account"),
-        states={"draft": [("readonly", False)]})
-
-    amount_insurance = fields.Float(
-        compute='_amount_total',
-        store=True,
-        string='Insurance',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'))
-
-    amount_costs = fields.Float(
-        compute='_amount_total',
-        store=True,
-        string="Other Costs",
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'))
-
-    currency_id = fields.Many2one(
-        string='Currency ID',
-        related='partner_id.currency_id')
-
-    invoice_count = fields.Integer(string='Invoice Count',
-                                   compute='_get_invoiced', readonly=True)
-
-    invoice_ids = fields.Many2many("account.invoice", string='Invoices',
-                                   compute="_get_invoiced", readonly=True,
-                                   copy=False)
-
-    fiscal_document_count = fields.Integer(
-        string='Fiscal Document Count',
-        related='invoice_count',
-        readonly=True)
-
-    comment_ids = fields.Many2many(
-        comodel_name='l10n_br_fiscal.comment',
-        relation='repair_order_comment_rel',
-        column1='repair_id',
-        column2='comment_id',
-        string='Comments',
-    )
-
-    client_order_ref = fields.Char(string='Customer Reference', copy=False)
 
     @api.depends('state', 'operations.invoice_line_id', 'fees_lines.invoice_line_id')
     def _get_invoiced(self):
@@ -301,11 +308,13 @@ class RepairOrder(models.Model):
         invoices = self.mapped('invoice_ids')
         action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
         if len(invoices) > 1:
-            action['domain'] = \
-                [('id', 'in', invoices.mapped('fiscal_document_id').ids)]
+            action['domain'] = [
+                ('id', 'in', invoices.mapped('fiscal_document_id').ids),
+            ]
         elif len(invoices) == 1:
-            form_view = \
-                [(self.env.ref('l10n_br_fiscal.document_form').id, 'form')]
+            form_view = [
+                (self.env.ref('l10n_br_fiscal.document_form').id, 'form'),
+            ]
             if 'views' in action:
                 action['views'] = form_view + [(state, view) for state, view
                                                in action['views'] if
@@ -339,12 +348,8 @@ class RepairOrder(models.Model):
 
     @api.multi
     def _prepare_invoice(self):
-        """
-        Prepare the dict of values to create the new invoice for
-        a sales order. This method may be overridden to implement custom invoice
-        generation (making sure to call super() to establish a clean extension chain).
-        """
         self.ensure_one()
+        # self.update(self._prepare_br_fiscal_dict())
         company_id = self.company_id.id
         journal_id = (self.env['account.invoice'].with_context(
             company_id=company_id or self.env.user.company_id.id)
@@ -383,14 +388,19 @@ class RepairOrder(models.Model):
             document_type_id = self.company_id.document_type_id.id
 
         invoice_vals['document_type_id'] = document_type_id
+
         document_serie = document_type.get_document_serie(
             self.company_id, self.fiscal_operation_id)
+
         if document_serie:
             invoice_vals['document_serie_id'] = document_serie.id
 
         if self.fiscal_operation_id:
             if self.fiscal_operation_id.journal_id:
                 invoice_vals['journal_id'] = self.fiscal_operation_id.journal_id.id
+
+        # if self.fiscal_position_id:
+        #     invoice_vals['fiscal_position_id'] = self.fiscal_position_id
 
         return invoice_vals
 
