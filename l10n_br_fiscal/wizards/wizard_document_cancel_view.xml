@@ -5,12 +5,12 @@
 <odoo>
 
     <record id="document_cancel_wizard_form" model="ir.ui.view">
-        <field name="name">l10n_br_fiscal.document.cancel.wizard.form (in l10n_br_fiscal)</field>
+        <field name="name">l10n_br_fiscal.document.cancel.wizard</field>
         <field name="model">l10n_br_fiscal.document.cancel.wizard</field>
         <field name="arch" type="xml">
             <form string="Cancelamento de documento fiscal">
                 <group>
-                    <field name="justificative"/>
+                    <field name="justification"/>
                 </group>
                 <footer>
                     <button name="doit"
@@ -25,7 +25,7 @@
         </field>
     </record>
 
-    <record id="document_cancel_wizard_action" model="ir.actions.act_window" >
+    <record id="document_cancel_wizard_action" model="ir.actions.act_window">
         <field name="name">Cancelamento de documento fiscal</field>
         <field name="res_model">l10n_br_fiscal.document.cancel.wizard</field>
         <field name="view_mode">form</field>
