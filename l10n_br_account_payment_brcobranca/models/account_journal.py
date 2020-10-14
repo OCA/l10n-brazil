@@ -120,12 +120,11 @@ class AccountJournal(models.Model):
 
         # Creation of CNAB Return Log
         context = self.env.context
-        now_user_tz = fields.Datetime.context_timestamp(
-            self, datetime.now())
         cnab_return_log = self.env['cnab.return.log'].create({
-            'name': 'Retorno CNAB - ' + str(
-                datetime.strftime(now_user_tz, '%d/%m/%Y - %H:%M')),
+            'name': 'Banco ' + parser.bank.name + ' - Conta '
+                    + parser.journal.bank_account_id.acc_number,
             'filename': context.get('file_name'),
+            'cnab_date': fields.Datetime.now(),
         })
         qty_cnab_log_lines = 0
         amount_total_title = 0.0
