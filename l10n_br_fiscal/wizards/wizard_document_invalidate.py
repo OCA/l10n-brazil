@@ -30,7 +30,7 @@ class WizardDocumentInvalidate(models.TransientModel):
             )
 
             inut = self.env[
-                'l10n_br_fiscal.document.invalidate.number'].create({
+                'l10n_br_fiscal.invalidate.number'].create({
                     'company_id': document_id.company_id.id,
                     'document_id': document_id.id,
                     'document_serie_id': document_id.document_serie_id.id,
@@ -39,7 +39,7 @@ class WizardDocumentInvalidate(models.TransientModel):
                     'state': 'draft',
                     'justificative': wizard.justificative,
                 })
-            event_id = self.env['l10n_br_fiscal.document.event'].create({
+            event_id = self.env['l10n_br_fiscal.document'].create({
                 'type': '3',
                 'response': 'Inutilização do número %s ao número %s' % (
                     document_id.number, document_id.number),
