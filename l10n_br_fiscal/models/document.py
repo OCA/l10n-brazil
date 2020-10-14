@@ -59,11 +59,6 @@ class Document(models.Model):
         related=False,
     )
 
-    is_edoc_printed = fields.Boolean(
-        string='Printed',
-        readonly=True,
-    )
-
     number = fields.Char(
         string='Number',
         copy=False,
