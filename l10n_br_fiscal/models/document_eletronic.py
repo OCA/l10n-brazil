@@ -10,10 +10,6 @@ from ..constants.fiscal import (
     PROCESSADOR_NENHUM
 )
 
-import logging
-
-_logger = logging.getLogger(__name__)
-
 
 def filter_processador(record):
     if record.document_electronic and \
@@ -23,32 +19,27 @@ def filter_processador(record):
 
 
 class DocumentEletronic(models.AbstractModel):
-    _name = "l10n_br_fiscal.document.electronic"
-    _description = "Fiscal Eletronic Document"
+    _name = 'l10n_br_fiscal.document.electronic'
+    _description = 'Fiscal Eletronic Document'
+    _inherit = 'l10n_br_fiscal.document.workflow'
 
-    _inherit = "l10n_br_fiscal.document.workflow"
+    status_code = fields.Char(
+        string='Status Code',
+        copy=False,
+    )
 
-    @api.depends('codigo_situacao', 'motivo_situacao')
-    def _compute_codigo_motivo_situacao(self):
-        for record in self:
-            if record.motivo_situacao and record.codigo_situacao:
-                record.codigo_motivo_situacao = '{} - {}'.format(
-                    record.codigo_situacao,
-                    record.motivo_situacao
-                )
+    status_name = fields.Char(
+        string='Status Name',
+        copy=False,
+    )
 
-    codigo_situacao = fields.Char(
-        string='Código situação',
-        copy=False,)
+    status_description = fields.Char(
+        compute='_compute_status_description',
+        string='Status Description',
+        copy=False,
+    )
 
-    motivo_situacao = fields.Char(
-        string='Motivo situação',
-        copy=False,)
 
-    codigo_motivo_situacao = fields.Char(
-        compute='_compute_codigo_motivo_situacao',
-        string='Situação',
-        copy=False,)
 
     # Eventos de envio
     data_hora_autorizacao = fields.Datetime(
@@ -123,6 +114,15 @@ class DocumentEletronic(models.AbstractModel):
     is_edoc_printed = fields.Boolean(
         string="Impresso",
         readonly=True)
+
+    @api.depends('status_code', 'status_name')
+    def _compute_status_description(self):
+        for record in self:
+            if record.status_code:
+                record.status_description = '{} - {}'.format(
+                    record.status_code or '',
+                    record.status_name or '',
+                )
 
     def _eletronic_document_send(self):
         """ Implement this method in your transmission module,
