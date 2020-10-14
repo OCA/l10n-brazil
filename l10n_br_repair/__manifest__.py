@@ -18,7 +18,7 @@
         'l10n_br_account',
     ],
     'data': [
-        'demo/res_company.xml',
+        'data/res_company.xml',
         'security/l10n_br_repair_security.xml',
         'views/res_company.xml',
         'views/repair_order.xml',
