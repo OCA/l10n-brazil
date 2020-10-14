@@ -80,7 +80,7 @@ class DocumentSerie(models.Model):
         is_invalid_number = True
         # TODO Improve this implementation!
         invalids = self.env[
-            'l10n_br_fiscal.document.invalidate.number'].search([
+            'l10n_br_fiscal.invalidate.number'].search([
                 ('state', '=', 'done'),
                 ('document_serie_id', '=', self.id)])
         invalid_numbers = []
