@@ -75,14 +75,6 @@ class DocumentEletronic(models.AbstractModel):
         readonly=True,
     )
 
-    file_report_id = fields.Many2one(
-        comodel_name='ir.attachment',
-        string='Document Report',
-        ondelete='restrict',
-        readonly=True,
-        copy=False,
-    )
-
     # Cancel Event Related Fields
     cancel_event_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.event',
@@ -106,18 +98,26 @@ class DocumentEletronic(models.AbstractModel):
         comodel_name='ir.attachment',
         related='cancel_event_id.file_response_id',
         string='Cancel File XML',
-        ondelete="restrict",
+        ondelete='restrict',
         readonly=True,
     )
 
     document_version = fields.Char(
-        string='Versão',
+        string='Version',
         default='4.00',
         readonly=True)
 
     is_edoc_printed = fields.Boolean(
-        string="Impresso",
+        string="Is Printed?",
         readonly=True)
+
+    file_report_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        string='Document Report',
+        ondelete='restrict',
+        readonly=True,
+        copy=False,
+    )
 
     @api.depends('status_code', 'status_name')
     def _compute_status_description(self):
@@ -145,7 +145,7 @@ class DocumentEletronic(models.AbstractModel):
 
     def _document_send(self):
         no_electronic = self.filtered(lambda d: not d.document_electronic)
-        super(DocumentEletronic, no_electronic)._document_send()
+        super()._document_send()
 
         electronic = self - no_electronic
         electronic._eletronic_document_send()
