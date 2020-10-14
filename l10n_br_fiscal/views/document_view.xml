@@ -227,7 +227,7 @@
                         <field name="file_xml_cancelamento_id"/>
                         <field name="file_xml_autorizacao_cancelamento_id"/>
                     </group>
-                    <field name="document_event_ids">
+                    <field name="event_ids">
                         <tree>
                             <field name="id"/>
                             <field name="type"/>
