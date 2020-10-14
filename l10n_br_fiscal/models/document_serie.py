@@ -46,7 +46,14 @@ class DocumentSerie(models.Model):
         string='Sequence')
 
     sequence_number_next = fields.Integer(
-        related='internal_sequence_id.number_next')
+        related='internal_sequence_id.number_next',
+    )
+
+    invalidate_number_id = fields.One2many(
+        comodel_name='l10n_br_fiscal.invalidate.number',
+        inverse_name='document_serie_id',
+        string='Invalidate Number Range',
+    )
 
     @api.model
     def _create_sequence(self, values):
