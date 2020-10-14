@@ -36,7 +36,7 @@ class DocumentCancelWizard(models.TransientModel):
                     'document_id': document_id.id,
                     'justificative': wizard.justificative,
                 })
-            event_id = self.env['l10n_br_fiscal.document.event'].create({
+            event_id = self.env['l10n_br_fiscal.event'].create({
                 'type': '2',
                 'response': 'Cancelamento da NFe %s' % document_id.key,
                 'company_id': document_id.company_id.id,
