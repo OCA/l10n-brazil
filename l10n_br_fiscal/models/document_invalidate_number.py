@@ -2,7 +2,7 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from ..constants.fiscal import SITUACAO_EDOC_INUTILIZADA
 
@@ -23,7 +23,6 @@ class InvalidateNumber(models.Model):
         comodel_name='res.company',
         related='document_serie_id.company_id',
         readonly=True,
-        states={'draft': [('readonly', False)]},
     )
 
     number_start = fields.Integer(
@@ -47,8 +46,8 @@ class InvalidateNumber(models.Model):
 
     state = fields.Selection(
         selection=[
-            ('draft', 'Rascunho'),
-            ('done', 'Concluído'),
+            ('draft', _('Draft')),
+            ('done', _('Done')),
         ],
         string='Status',
         readonly=True,
@@ -92,7 +91,8 @@ class InvalidateNumber(models.Model):
         return [(rec.id,
                  '({0}): {1} - {2}'.format(
                      rec.document_serie_id.name,
-                     rec.number_start, rec.number_end)
+                     rec.number_start,
+                     rec.number_end)
                  ) for rec in self]
 
     @api.multi
