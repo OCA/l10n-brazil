@@ -35,6 +35,7 @@ class RepairFee(models.Model):
     )
 
     quantity = fields.Float(
+        'Service Quantity',
         related='product_uom_qty',
         depends=['product_uom_qty'],
     )
