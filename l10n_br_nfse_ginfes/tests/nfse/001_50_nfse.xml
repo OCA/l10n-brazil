@@ -19,20 +19,20 @@
                     <Status>1</Status>
                     <Servico>
                         <Valores>
-                            <ValorServicos>100.00</ValorServicos>
-                            <ValorDeducoes>0.00</ValorDeducoes>
-                            <ValorPis>0.00</ValorPis>
-                            <ValorCofins>0.00</ValorCofins>
-                            <ValorInss>0.00</ValorInss>
-                            <ValorIr>0.00</ValorIr>
-                            <ValorCsll>0.00</ValorCsll>
+                            <ValorServicos>100</ValorServicos>
+                            <ValorDeducoes>0</ValorDeducoes>
+                            <ValorPis>0</ValorPis>
+                            <ValorCofins>0</ValorCofins>
+                            <ValorInss>0</ValorInss>
+                            <ValorIr>0</ValorIr>
+                            <ValorCsll>0</ValorCsll>
                             <IssRetido>2</IssRetido>
-                            <ValorIss>5.00</ValorIss>
-                            <ValorIssRetido>0.00</ValorIssRetido>
-                            <OutrasRetencoes>0.00</OutrasRetencoes>
-                            <BaseCalculo>100.00</BaseCalculo>
+                            <ValorIss>5</ValorIss>
+                            <ValorIssRetido>0</ValorIssRetido>
+                            <OutrasRetencoes>0</OutrasRetencoes>
+                            <BaseCalculo>100</BaseCalculo>
                             <Aliquota>0.05</Aliquota>
-                            <ValorLiquidoNfse>100.00</ValorLiquidoNfse>
+                            <ValorLiquidoNfse>100</ValorLiquidoNfse>
                         </Valores>
                         <ItemListaServico>105</ItemListaServico>
                         <CodigoCnae>3101200</CodigoCnae>
