@@ -125,10 +125,15 @@ class RepairLine(models.Model):
                 l.price_subtotal + l.freight_value +
                 l.insurance_value + l.other_costs_value)
 
+            price_subtotal = (
+                l.price_subtotal * (1 - (l.discount or 0.0) / 100.0)
+            )
+
             l.update({
                 'price_tax': price_tax,
-                'price_gross': price_total + price_tax + l.discount_value,
+                'price_gross': price_subtotal + l.discount_value,
                 'price_total': price_total + price_tax,
+                'price_subtotal': price_subtotal,
             })
 
     @api.multi
