@@ -4,7 +4,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
-
+import odoo.addons.decimal_precision as dp
 
 class RepairLine(models.Model):
     _name = 'repair.line'
@@ -85,6 +85,11 @@ class RepairLine(models.Model):
     discount = fields.Float(
         string='Discount (%)',
     )
+
+    price_subtotal = fields.Float(
+        'Subtotal',
+        compute='_compute_price_subtotal',
+        digits=dp.get_precision('Account'))
 
     company_id = fields.Many2one(
         related='repair_id.company_id',
