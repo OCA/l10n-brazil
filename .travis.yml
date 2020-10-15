@@ -19,6 +19,7 @@ addons:
 env:
   global:
   - VERSION="12.0" TESTS="0" LINT_CHECK="0"
+  - PHANTOMJS_VERSION="2.1.2"
   - WKHTMLTOPDF_VERSION="0.12.5"
 
   matrix:
