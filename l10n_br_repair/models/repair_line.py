@@ -35,6 +35,7 @@ class RepairLine(models.Model):
     )
 
     quantity = fields.Float(
+        'Part Quantity',
         related='product_uom_qty',
         depends=['product_uom_qty'],
     )
