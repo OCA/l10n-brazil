@@ -6,6 +6,7 @@ from odoo.exceptions import UserError
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 import odoo.addons.decimal_precision as dp
 
+
 class RepairLine(models.Model):
     _name = 'repair.line'
     _inherit = [_name, 'l10n_br_fiscal.document.line.mixin']
