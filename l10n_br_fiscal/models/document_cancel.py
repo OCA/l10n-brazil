@@ -3,9 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from ..constants.fiscal import (
-    SITUACAO_EDOC_CANCELADA, SITUACAO_FISCAL_CANCELADO,
-)
 
 
 class DocumentCancel(models.Model):
@@ -25,8 +22,7 @@ class DocumentCancel(models.Model):
             if not record.document_id or not record.justificative:
                 continue
 
-            record.document_id.state_fiscal = SITUACAO_FISCAL_CANCELADO
-            record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
+            record.document_id._document_cancel(record.justificative)
 
             event_id.write({
                 'state': 'done',
