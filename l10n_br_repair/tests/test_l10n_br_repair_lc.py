@@ -1,7 +1,5 @@
-# Copyright (C) 2016  Magno Costa - Akretion
-# Copyright (C) 2020  Renato Lima - Akretion
-# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-
+# Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - www.escodoo.com.br
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from .test_l10n_br_repair import L10nBrRepairBaseTest
 
