@@ -34,7 +34,6 @@ Installation
 
 This module depends on:
 
-* repair_discount
 * l10n_br_account
 
 Configuration
@@ -56,6 +55,12 @@ To use this module, you need to:
 #. Set Invoice Method (After or Before Repair)
 #. Confirm the Repair
 #. Create Invoice
+
+Known issues / Roadmap
+======================
+
+This module hasn't been tested with *repair_discount* module
+installed, so maybe it's incompatible with it.
 
 Changelog
 =========
@@ -90,6 +95,7 @@ Contributors
 * Eduardo Aparício <eduardo.aparicio@escodoo.com.br>
 * Renato Lima <renato.lima@akretion.com.br>
 * Luis Felipe Mileo <mileo@kmee.com.br>
+* Raphaël Valyi <raphael.valyi@akretion.com.br>
 
 Other credits
 ~~~~~~~~~~~~~
