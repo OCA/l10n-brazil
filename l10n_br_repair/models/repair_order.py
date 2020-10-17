@@ -19,7 +19,7 @@ class RepairOrder(models.Model):
 
     @api.model
     def _default_copy_note(self):
-        return self.env.user.company_id.copy_note  # TODO: Corrigir o nome do campo
+        return self.env.user.company_id.copy_repair_quotation_notes
 
     @api.model
     def _fiscal_operation_domain(self):
@@ -45,7 +45,7 @@ class RepairOrder(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
-    copy_note = fields.Boolean(
+    copy_repair_quotation_notes = fields.Boolean(
         string='Copiar Observação no documentos fiscal',
         default=_default_copy_note,
     )
@@ -334,7 +334,7 @@ class RepairOrder(models.Model):
             action['domain'] = [('id', 'in', invoices.ids)]
         elif len(invoices) == 1:
             form_view = \
-                [(self.env.ref('account.action_invoice_form').id, 'form')]
+                [(self.env.ref('account.invoice_form').id, 'form')]
             if 'views' in action:
                 action['views'] = form_view + [(state, view) for state, view
                                                in action['views'] if
@@ -379,6 +379,7 @@ class RepairOrder(models.Model):
             'journal_id': journal_id,
             'currency_id': self.pricelist_id.currency_id.id,
             'company_id': company_id,
+            'comment': self.quotation_notes,
         })
 
         invoice_vals.update(self._prepare_br_fiscal_dict())

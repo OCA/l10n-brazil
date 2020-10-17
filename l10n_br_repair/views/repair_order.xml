@@ -34,6 +34,15 @@
                  <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
              </field>
 
+            <field name="quotation_notes" position="after">
+                <group>
+                    <label for="copy_repair_quotation_notes"/>
+                    <div>
+                        <field name="copy_repair_quotation_notes"/>
+                    </div>
+                </group>
+            </field>
+
         </field>
 
     </record>
