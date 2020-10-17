@@ -19,7 +19,7 @@
             </button>
             <field name="invoice_method" position="after" >
                 <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>
-                <field name="fiscal_position_id" options="{'no_create': True}" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>
+<!--                <field name="fiscal_position_id" options="{'no_create': True}" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>-->
                 <field name="ind_pres" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>
             </field>
 
