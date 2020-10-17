@@ -152,12 +152,12 @@ class RepairFee(models.Model):
                              self.product_id.id,
                              self.product_id.categ_id.name))
 
-        fpos = self.repair_id.partner_id.property_account_position_id.id or self.env[
-            'account.fiscal.position'].get_fiscal_position(
-            self.repair_id.partner_id.id, delivery_id=self.repair_id.address_id.id)
-
-        if fpos and account:
-            account = fpos.map_account(account)
+        # fpos = self.repair_id.partner_id.property_account_position_id.id or self.env[
+        #     'account.fiscal.position'].get_fiscal_position(
+        #     self.repair_id.partner_id.id, delivery_id=self.repair_id.address_id.id)
+        #
+        # if fpos and account:
+        #     account = fpos.map_account(account)
 
         res = {
             'name': self.name,
