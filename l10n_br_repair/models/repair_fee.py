@@ -187,7 +187,7 @@ class RepairFee(models.Model):
     @api.onchange('discount', 'product_uom_qty', 'price_unit')
     def _onchange_discount_percent(self):
         """Update discount value"""
-        if not self.env.user.has_group('l10n_br_sale.group_discount_per_value'):
+        if not self.env.user.has_group('l10n_br_repair.group_discount_per_value'):
             if self.discount:
                 self.discount_value = (
                     (self.product_uom_qty * self.price_unit)
@@ -197,7 +197,7 @@ class RepairFee(models.Model):
     @api.onchange('discount_value')
     def _onchange_discount_value(self):
         """Update discount percent"""
-        if self.env.user.has_group('l10n_br_sale.group_discount_per_value'):
+        if self.env.user.has_group('l10n_br_repair.group_discount_per_value'):
             if self.discount_value:
                 self.discount = ((self.discount_value * 100) /
                                  (self.product_uom_qty * self.price_unit))
