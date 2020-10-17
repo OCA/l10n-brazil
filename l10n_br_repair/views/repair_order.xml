@@ -26,7 +26,7 @@
 
             <field name="amount_untaxed" position="before" >
                 <field name="amount_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                 <field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                 <field name="amount_discount" groups="l10n_br_repair.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
             </field>
             <field name="amount_untaxed" position="after" >
                  <field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}"/>
