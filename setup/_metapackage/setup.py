@@ -24,6 +24,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_resource',
         'odoo12-addon-l10n_br_sale',
         'odoo12-addon-l10n_br_stock',
+        'odoo12-addon-l10n_br_stock_account',
         'odoo12-addon-l10n_br_zip',
     ],
     classifiers=[
