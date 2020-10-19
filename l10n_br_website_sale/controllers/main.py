@@ -41,7 +41,6 @@ class L10nBrWebsiteSale(WebsiteSale):
             "name",
             "email",
             "street",
-            "street2",
             "street_number",
             "district",
             "country_id",
