@@ -34,7 +34,10 @@ class L10nBrWebsiteSale(WebsiteSale):
         return super(L10nBrWebsiteSale, self).confirm_order(**post)
 
     def _get_mandatory_billing_fields(self):
-        return [
+        res = super(L10nBrWebsiteSale, self)._get_mandatory_billing_fields()
+        if 'city' in res:
+            res.remove('city')
+        extension = [
             "name",
             "email",
             "street",
@@ -48,9 +51,14 @@ class L10nBrWebsiteSale(WebsiteSale):
             "cnpj_cpf",
             "company_type"
             ]
+        res.extend(extension)
+        return res
 
     def _get_mandatory_shipping_fields(self):
-        return [
+        res = super(L10nBrWebsiteSale, self)._get_mandatory_shipping_fields()
+        if 'city' in res:
+            res.remove('city')
+        extension = [
             "name",
             "street",
             "country_id",
@@ -60,6 +68,8 @@ class L10nBrWebsiteSale(WebsiteSale):
             "street_number",
             "district"
             ]
+        res.extend(extension)
+        return res
 
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'],
                 auth="public", website=True, sitemap=False)
