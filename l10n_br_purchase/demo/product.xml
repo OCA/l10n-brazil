@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Produtos -->
+    <record id="product.product_product_12" model="product.product">
+        <field name="purchase_method">purchase</field>
+    </record>
+
+    <record id="product.product_product_27" model="product.product">
+        <field name="purchase_method">purchase</field>
+    </record>
+
+</odoo>
