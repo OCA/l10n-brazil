@@ -37,6 +37,21 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
             "select[name='city_id']:enabled option:not(:first)");
         $('.checkout_autoformat').on(
             'change',
+            "select[name='country_id']",
+            function () {
+                var country_id = $("select[name='country_id']") || false;
+                if(country_id) {
+                    if(country_id.val() == 31) {
+                        $("input[name='city']").parent('div').hide();
+                        $("select[name='city_id']").parent('div').show();
+                    } else {
+                        $("select[name='city_id']").parent('div').hide();
+                        $("input[name='city']").parent('div').show();
+                    }
+                }
+            });
+        $('.checkout_autoformat').on(
+            'change',
             "select[name='state_id']",
             function () {
                 if (!$("#state_id").val()) {
@@ -60,6 +75,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
                                     selectCities.append(opt);
                                 });
                                 selectCities.parent('div').show();
+                                $("input[name='city']").parent('div').hide();
                                 $("select[name='city_id']").val(zip_city)
                                 // if (!$("select[name='city_id']").val()) {
                                 //     $('input[name="zip"]').change();
@@ -67,6 +83,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
                             } else {
                                 selectCities.val('').parent('div')
                                     .hide();
+                                $("input[name='city']").parent('div').show();
                             }
                             selectCities.data('init', 0);
                         } else {
