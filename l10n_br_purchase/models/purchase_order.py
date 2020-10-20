@@ -103,7 +103,7 @@ class PurchaseOrder(models.Model):
         fiscal_dict['default_issuer'] = DOCUMENT_ISSUER_PARTNER
 
         if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
-            fiscal_dict['defauklt_journal_id'] = (
+            fiscal_dict['default_journal_id'] = (
                 self.fiscal_operation_id.journal_id.id)
 
         result['context'].update(fiscal_dict)
