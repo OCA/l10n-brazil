@@ -90,7 +90,7 @@
                             </t>
                         </select>
                     </div>
-                    <div t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state" t-att-style="(not country or not country.state_ids) and 'display: none'">
+                    <div id="div_state" t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-lg-6 div_state" t-att-style="(not country or not country.state_ids) and 'display: none'">
                         <label class="col-form-label" for="state_id">State /
                             Province</label>
                         <select id="state_id" name="state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
@@ -102,10 +102,11 @@
                             </t>
                         </select>
                     </div>
-                    <div t-attf-class="form-group #{error.get('city_id') and 'o_has_error' or ''} col-xl-6">
-                        <label class="col-form-label" for="city_id">
+
+                    <div t-attf-class="form-group #{error.get('city_id') and 'o_has_error' or ''} col-xl-6" t-att-style="(not country or not country.state_ids) and 'display: none'">
+                        <label class="col-form-label" for="city_id" t-att-style="(not country or not country.state_ids) and 'display: none'">
                             Cidade</label>
-                        <select name="city_id" t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}">
+                        <select name="city_id" id="city_id" t-attf-class="form-control #{error.get('city_id') and 'is-invalid' or ''}" t-att-style="(not country or not country.state_ids) and 'display: none'">
                             <option value="">select...</option>
                             <t t-foreach="cities or []" t-as="citie">
                                 <option t-att-value="citie.id" style="display:none;" t-att-data-state_id="citie.state_id.id"  t-att-selected="citie.id == ('city_id' in checkout and checkout['city_id'] != '' and int(checkout['city_id']))">
@@ -113,6 +114,13 @@
                                 </option>
                             </t>
                         </select>
+
+                    </div>
+
+                    <div t-attf-class="form-group #{error.get('city') and 'o_has_error' or ''} col-lg-6" t-att-style="(country and not country.state_ids) and 'display: none'">
+                        <label class="col-form-label" for="city">
+                            City</label>
+                        <input type="text" name="city" id="city" t-attf-class="form-control #{error.get('city') and 'is-invalid' or ''}" t-att-value="'city' in checkout and checkout['city']"/>
                     </div>
 
                     <div class="w-100"/>

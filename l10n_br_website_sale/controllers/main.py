@@ -35,39 +35,45 @@ class L10nBrWebsiteSale(WebsiteSale):
 
     def _get_mandatory_billing_fields(self):
         res = super(L10nBrWebsiteSale, self)._get_mandatory_billing_fields()
-        if 'city' in res:
-            res.remove('city')
-        extension = [
-            "name",
-            "email",
-            "street",
-            "street_number",
-            "district",
-            "country_id",
-            "state_id",
-            "city_id",
-            "zip",
-            "cnpj_cpf",
-            "company_type"
-            ]
-        res.extend(extension)
+        order = request.website.sale_get_order()
+        if order.partner_invoice_id.country_id and \
+                order.partner_invoice_id.country_id.code == 'BR':
+            if 'city' in res:
+                res.remove('city')
+            extension = [
+                "name",
+                "email",
+                "street",
+                "street_number",
+                "district",
+                "country_id",
+                "state_id",
+                "city_id",
+                "zip",
+                "cnpj_cpf",
+                "company_type"
+                ]
+            res.extend(extension)
         return res
 
     def _get_mandatory_shipping_fields(self):
         res = super(L10nBrWebsiteSale, self)._get_mandatory_shipping_fields()
-        if 'city' in res:
-            res.remove('city')
-        extension = [
-            "name",
-            "street",
-            "country_id",
-            "state_id",
-            "city_id",
-            "zip",
-            "street_number",
-            "district"
-            ]
-        res.extend(extension)
+        order = request.website.sale_get_order()
+        if order.partner_shipping_id.country_id and \
+                order.partner_shipping_id.country_id.code == 'BR':
+            if 'city' in res:
+                res.remove('city')
+            extension = [
+                "name",
+                "street",
+                "country_id",
+                "state_id",
+                "city_id",
+                "zip",
+                "street_number",
+                "district"
+                ]
+            res.extend(extension)
         return res
 
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'],
@@ -89,8 +95,10 @@ class L10nBrWebsiteSale(WebsiteSale):
             state_id = res.qcontext['checkout']['state_id']
             if type(state_id) != str:
                 state_id = state_id.id
-            else:
+            elif state_id:
                 state_id = int(state_id)
+            else:
+                return res
             cities = request.env['res.city'].search(
                 [('state_id', '=', state_id)])
             res.qcontext['cities'] = cities
@@ -99,6 +107,14 @@ class L10nBrWebsiteSale(WebsiteSale):
     def values_postprocess(self, order, mode, values, errors, error_msg):
         new_values, errors, error_msg = super(L10nBrWebsiteSale, self) \
             .values_postprocess(order, mode, values, errors, error_msg)
+        if 'country_id' in new_values and new_values['country_id'] != '31':
+            if 'state_id' in errors:
+                errors.pop('state_id', None)
+            if 'city_id' in errors:
+                errors.pop('city_id', None)
+            if 'cnpj_cpf' in errors:
+                errors.pop('city_id', None)
+
         if 'city_id' in values:
             new_values['city_id'] = values['city_id']
         if 'cnpj_cpf' in values and 'cnpj_cpf' not in errors:
@@ -116,17 +132,18 @@ class L10nBrWebsiteSale(WebsiteSale):
             .checkout_form_validate(mode, all_form_values, data)
 
         if 'cnpj_cpf' in data:
-            order = request.website.sale_get_order()
-            if order.partner_id.is_company:
-                if not cnpj_cpf.validar(data['cnpj_cpf']):
+            if 'country_id' in data and data['country_id'] == '31':
+                order = request.website.sale_get_order()
+                if order.partner_id.is_company:
+                    if not cnpj_cpf.validar(data['cnpj_cpf']):
+                        error['cnpj_cpf'] = 'error'
+                        error_message.append("CNPJ Inválido")
+                elif not cnpj_cpf.validar(data['cnpj_cpf']):
                     error['cnpj_cpf'] = 'error'
-                    error_message.append("CNPJ Inválido")
-            elif not cnpj_cpf.validar(data['cnpj_cpf']):
-                error['cnpj_cpf'] = 'error'
-                error_message.append("CPF Inválido")
+                    error_message.append("CPF Inválido")
 
-            if 'cnpj_cpf' not in error:
-                all_form_values['cnpj_cpf'] = data['cnpj_cpf']
+                if 'cnpj_cpf' not in error:
+                    all_form_values['cnpj_cpf'] = data['cnpj_cpf']
 
         return error, error_message
 
