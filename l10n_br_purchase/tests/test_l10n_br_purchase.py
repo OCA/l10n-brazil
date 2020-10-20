@@ -2,74 +2,299 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import odoo.tests.common as common
-from odoo.tests.common import Form
+from odoo.tests.common import TransactionCase
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    TAX_FRAMEWORK_SIMPLES,
+    TAX_FRAMEWORK_SIMPLES_ALL,
+    TAX_FRAMEWORK_NORMAL,
+    CFOP_DESTINATION_INTERNAL,
+    CFOP_DESTINATION_EXTERNAL,
+    TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ISSQN,
+    DOCUMENT_ISSUER_PARTNER,
+)
 
 
-class TestL10nBRPurchase(common.TransactionCase):
+class L10nBrPurchaseBaseTest(TransactionCase):
+
     def setUp(self):
-        super(TestL10nBRPurchase, self).setUp()
-        self.purchase_order_1 = self.env.ref(
-            "l10n_br_purchase.l10n_br_purchase_order-demo_1")
-        self.invoice_model = self.env["account.invoice"]
+        super().setUp()
+        self.main_company = self.env.ref('base.main_company')
+        self.company = self.env.ref('base.main_company')
+        self.po_products = self.env.ref(
+            'l10n_br_purchase.main_po_only_products')
+        # self.po_services = self.env.ref(
+        #     'l10n_br_purchase.main_po_only_services')
+        # self.po_prod_srv = self.env.ref(
+        #     'l10n_br_purchase.main_po_product_service')
+        self.fsc_op_purchase = self.env.ref('l10n_br_fiscal.fo_compras')
+        self.fsc_op_line_purchase = self.env.ref(
+            'l10n_br_fiscal.fo_compras_compras')
+        self.fsc_op_line_dist = self.env.ref(
+            'l10n_br_fiscal.fo_compras_compras')
+        self.fsc_op_line_serv = self.env.ref(
+            'l10n_br_fiscal.fo_venda_servico')
 
-    def test_l10n_br_purchase_order(self):
-        """
-        Test Purchase Order in Brazilian Localization.
-        """
+        TAXES_NORMAL = {
+            'icms': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_icms_12'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_icms_00'),
+            },
+            'issqn': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_issqn_5'),
+            },
+            'ipi': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_ipi_5'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_ipi_50'),
+            },
+            'pis': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_pis_0_65'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_pis_01'),
+            },
+            'cofins': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_cofins_3'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_cofins_01'),
+            },
+            'icmsfcp': {
+                'tax': False,
+                'cst': False,
+            },
+        }
 
-        self.purchase_order_1.onchange_partner_id()
+        TAXES_SIMPLES = {
+            'icms': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_icms_sn_com_credito'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_icmssn_101'),
+            },
+            'issqn': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_issqn_5'),
+            },
+            'ipi': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_ipi_simples_nacional'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_ipi_49'),
+            },
+            'pis': {
+                'tax': self.env.ref('l10n_br_fiscal.tax_pis_simples_nacional'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_pis_99'),
+            },
+            'cofins': {
+                'tax': self.env.ref(
+                    'l10n_br_fiscal.tax_cofins_simples_nacional'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_cofins_99'),
+            },
+            'icmsfcp': {
+                'tax': False,
+                'cst': False,
+            },
+        }
 
-        self.assertTrue(
-            self.purchase_order_1.fiscal_operation_id,
-            "Error to inform fiscal Operation in Purchase Order.",
+        self.FISCAL_DEFS = {
+            CFOP_DESTINATION_INTERNAL: {
+                self.fsc_op_line_purchase.name: {
+                    'cfop': self.env.ref('l10n_br_fiscal.cfop_1101'),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+            },
+            CFOP_DESTINATION_EXTERNAL: {
+                self.fsc_op_line_purchase.name: {
+                    'cfop': self.env.ref('l10n_br_fiscal.cfop_2101'),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+            },
+            'service': {
+                self.fsc_op_line_serv.name: {
+                    'cfop': False,
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+            },
+        }
+
+    def _change_user_company(self, company):
+        self.env.user.company_ids += company
+        self.env.user.company_id = company
+
+    def _run_purchase_order_onchanges(self, purchase_order):
+        purchase_order.onchange_partner_id()
+        purchase_order._onchange_fiscal_operation_id()
+
+    def _run_purchase_line_onchanges(self, purchase_line):
+        purchase_line._onchange_product_id_fiscal()
+        purchase_line._onchange_fiscal_operation_id()
+        purchase_line._onchange_fiscal_operation_line_id()
+        purchase_line._onchange_fiscal_taxes()
+
+    def _invoice_purchase_order(self, order):
+        order.button_confirm()
+
+        invoice_values = {
+            'partner_id': order.partner_id.id,
+            'purchase_id': order.id,
+            'account_id': order.partner_id.property_account_payable_id.id,
+            'type': 'in_invoice',
+
+        }
+
+        invoice_values.update(order._prepare_br_fiscal_dict())
+        invoice_values['issuer'] = DOCUMENT_ISSUER_PARTNER
+        self.invoice = self.env['account.invoice'].create(invoice_values)
+        self.invoice.purchase_order_change()
+
+        self.assertEqual(
+            order.order_line.mapped('qty_invoiced'), [4.0, 2.0],
+            'Purchase: all products should be invoiced"'
         )
-
-        for line in self.purchase_order_1.order_line:
-            line._onchange_product_id()
-            line._onchange_fiscal_operation_id()
-            line._onchange_fiscal_operation_line_id()
-            line._onchange_fiscal_taxes()
-            self.assertTrue(
-                line.fiscal_operation_line_id,
-                "Error to mapping fiscal Operation Line in "
-                "Purchase Order Line.",
-            )
-
-        self.purchase_order_1.button_confirm()
 
         self.assertEquals(
-            self.purchase_order_1.state, "purchase",
-            "Error to confirm Purchase Order."
+            order.state, 'purchase', 'Error to confirm Purchase Order.'
         )
 
+        for invoice in order.invoice_ids:
+            self.assertTrue(
+                invoice.fiscal_operation_id,
+                "Error to included Operation on invoice "
+                "dictionary from Purchase Order.",
+            )
+
+            self.assertTrue(
+                invoice.fiscal_operation_type,
+                "Error to included Operation Type on invoice"
+                " dictionary from Purchase Order.",
+            )
+
+            for line in invoice.invoice_line_ids:
+                self.assertTrue(
+                    line.fiscal_operation_line_id,
+                    "Error to included Operation "
+                    "Line from Purchase Order Line.",
+                )
+
+    def test_l10n_br_purchase_products(self):
+        """Test brazilian Purchase Order with only Products."""
+        self._change_user_company(self.company)
+        self._run_purchase_order_onchanges(self.po_products)
         self.assertTrue(
-            self.purchase_order_1.picking_ids,
-            "Purchase Order: no picking created for"
-            ' "invoice on delivery" stockable products',
+            self.po_products.fiscal_operation_id,
+            'Error to mapping Operation on Purchase Order.',
         )
 
-        res = self.purchase_order_1.with_context(
-            create_bill=True).action_view_invoice()
-        ctx = res.get('context')
-        f = Form(self.invoice_model.with_context(ctx),
-                 view='account.invoice_supplier_form')
-        invoice = f.save()
+        self.assertEquals(
+            self.po_products.fiscal_operation_id.name,
+            self.fsc_op_purchase.name,
+            "Error to mapping correct Operation on Purchase Order "
+            "after change fiscal category.",
+        )
 
-        self.assertTrue(
-            self.purchase_order_1.invoice_ids,
-            "Purchase Order: no invoice created."
-        )
-        self.assertTrue(
-            invoice.fiscal_operation_id,
-            "Invoice: created without field fiscal Operation."
-        )
-        self.assertTrue(
-            invoice.purchase_id,
-            "Invoice: created without field Purchase."
-        )
-        for line in invoice.invoice_line_ids:
+        for line in self.po_products.order_line:
+            self._run_purchase_line_onchanges(line)
+
+            self.assertTrue(
+                line.fiscal_operation_id,
+                "Error to mapping Fiscal Operation on Purchase Order Line.",
+            )
+
             self.assertTrue(
                 line.fiscal_operation_line_id,
-                "Invoice Line: created without field fiscal Operation Line."
+                "Error to mapping Fiscal Operation"
+                " Line on Purchase Order Line.",
             )
+
+            cfop = self.FISCAL_DEFS[line.cfop_id.destination][
+                line.fiscal_operation_line_id.name]['cfop']
+
+            taxes = self.FISCAL_DEFS[line.cfop_id.destination][
+                line.fiscal_operation_line_id.name][
+                    line.company_id.tax_framework]
+
+            self.assertEquals(
+                line.cfop_id.code, cfop.code,
+                "Error to mapping CFOP {} for {}.".format(cfop.code, cfop.name)
+            )
+
+            if line.company_id.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+                icms_tax = line.icmssn_tax_id
+            else:
+                icms_tax = line.icms_tax_id
+
+                if (line.fiscal_operation_line_id.name
+                        == self.fsc_op_line_dist.name):
+                    taxes['ipi']['tax'] = self.env.ref(
+                        'l10n_br_fiscal.tax_ipi_nt')
+                    taxes['ipi']['cst'] = self.env.ref(
+                        'l10n_br_fiscal.cst_ipi_53')
+
+            # ICMS
+            self.assertEquals(
+                icms_tax.name, taxes['icms']['tax'].name,
+                "Error to mapping Tax {} for {}.".format(
+                    taxes['icms']['tax'].name,
+                    line.fiscal_operation_line_id.name)
+            )
+
+            self.assertEquals(
+                line.icms_cst_id.code, taxes['icms']['cst'].code,
+                "Error to mapping CST {} from {} for {}.".format(
+                    taxes['icms']['cst'].code,
+                    taxes['icms']['tax'].name,
+                    line.fiscal_operation_line_id.name)
+                )
+
+            # ICMS FCP
+            self.assertFalse(
+                line.icmsfcp_tax_id,
+                "Error to mapping ICMS FCP 2%"
+                " for Venda de Contribuinte Dentro do Estado.")
+
+            # IPI
+            self.assertEquals(
+                line.ipi_tax_id.name, taxes['ipi']['tax'].name,
+                "Error to mapping Tax {} for {}.".format(
+                    taxes['ipi']['tax'].name,
+                    line.fiscal_operation_line_id.name)
+            )
+
+            self.assertEquals(
+                line.ipi_cst_id.code, taxes['ipi']['cst'].code,
+                "Error to mapping CST {} from {} for {}.".format(
+                    taxes['ipi']['cst'].code,
+                    taxes['ipi']['tax'].name,
+                    line.fiscal_operation_line_id.name)
+            )
+
+            # PIS
+            self.assertEquals(
+                line.pis_tax_id.name, taxes['pis']['tax'].name,
+                "Error to mapping Tax {} for {}.".format(
+                    taxes['pis']['tax'].name,
+                    line.fiscal_operation_line_id.name)
+            )
+
+            self.assertEquals(
+                line.pis_cst_id.code, taxes['pis']['cst'].code,
+                "Error to mapping CST {} from {} for {}.".format(
+                    taxes['pis']['cst'].code,
+                    taxes['pis']['tax'].name,
+                    line.fiscal_operation_line_id.name)
+            )
+
+            # COFINS
+            self.assertEquals(
+                line.cofins_tax_id.name, taxes['cofins']['tax'].name,
+                "Error to mapping Tax {} for {}.".format(
+                    taxes['cofins']['tax'].name,
+                    line.fiscal_operation_line_id.name)
+            )
+
+            self.assertEquals(
+                line.cofins_cst_id.code, taxes['cofins']['cst'].code,
+                "Error to mapping CST {} from {} for {}.".format(
+                    taxes['cofins']['cst'].code,
+                    taxes['cofins']['tax'].name,
+                    line.fiscal_operation_line_id.name)
+            )
+
+        self._invoice_purchase_order(self.po_products)
+        self._change_user_company(self.main_company)
