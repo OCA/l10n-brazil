@@ -99,7 +99,7 @@
         <field name="product_id" ref="product.product_product_27"/>
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">12.50</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_compras_compras"/>
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')"/>
@@ -134,7 +134,7 @@
         <field name="product_id" ref="product.product_product_12"/>
         <field name="product_qty">4</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">3645.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_compras_compras"/>
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')"/>
