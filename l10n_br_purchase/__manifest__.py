@@ -14,7 +14,7 @@
         "security/ir.model.access.csv",
 
         # Data
-        "data/l10n_br_purchase_data.xml",
+        "data/company.xml",
 
         # View
         "views/purchase_view.xml",
@@ -24,7 +24,7 @@
         'reports/purchase_report_views.xml',
     ],
     "demo": [
-        "demo/l10n_br_purchase_demo.xml",
+        "demo/l10n_br_purchase.xml",
     ],
     "installable": True,
     "auto_install": False,
