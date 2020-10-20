@@ -17,9 +17,14 @@ from nfselib.paulistana.v02.PedidoEnvioLoteRPS_v01 import (
     PedidoEnvioLoteRPS,
 )
 
-from odoo import models, api
+from odoo import models, api, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
+    SITUACAO_EDOC_AUTORIZADA,
+)
+
+from ..constants.paulistana import (
+    ENVIO_LOTE_RPS,
 )
 
 from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
@@ -83,10 +88,10 @@ class Document(models.Model):
                 SerieRPS=dados_lote_rps['serie'],
                 NumeroRPS=dados_lote_rps['numero'],
             ),
-            TipoRPS='RPS',  # FIXME: Hardcoded
+            TipoRPS=self._map_type_rps(dados_lote_rps['tipo']),
             DataEmissao=dados_lote_rps['data_emissao'],
-            StatusRPS='N',  # FIXME: Hardcoded
-            TributacaoRPS='T',  # FIXME: Hardcoded
+            StatusRPS='N',
+            TributacaoRPS=self._map_taxation_rps(dados_lote_rps['natureza_operacao']),
             ValorServicos=dados_servico['valor_servicos'],
             ValorDeducoes=dados_servico['valor_deducoes'],
             ValorPIS=dados_servico['valor_pis'],
@@ -106,7 +111,7 @@ class Document(models.Model):
                 NumeroEndereco=dados_tomador['numero'],
                 ComplementoEndereco=dados_tomador['complemento'],
                 Bairro=dados_tomador['bairro'],
-                Cidade=dados_tomador['municipio'],
+                Cidade=dados_tomador['codigo_municipio'],
                 UF=dados_tomador['uf'],
                 CEP=str(dados_tomador['cep']),
             ),
@@ -114,7 +119,9 @@ class Document(models.Model):
             Discriminacao=dados_servico['discriminacao'],
             ValorCargaTributaria=dados_lote_rps['carga_tributaria'],
             FonteCargaTributaria=dados_lote_rps['total_recebido'],
-            MunicipioPrestacao=dados_servico['codigo_municipio'],
+            MunicipioPrestacao=self._map_provision_municipality(
+                dados_lote_rps['natureza_operacao'],
+                dados_servico['codigo_municipio']),
         )
 
     def _serialize_rps(self, dados):
@@ -141,17 +148,18 @@ class Document(models.Model):
         assinatura = ''
 
         assinatura += dados_lote_rps['inscricao_municipal'].zfill(8)
-        assinatura += dados_lote_rps['serie'].ljust(5, '0')
+        assinatura += dados_lote_rps['serie'].ljust(5, ' ')
         assinatura += dados_lote_rps['numero'].zfill(12)
         assinatura += datetime.strptime(dados_lote_rps['data_emissao'],
                                         '%Y-%m-%dT%H:%M:%S').strftime("%Y%m%d")
-        assinatura += 'T'  # FIXME: Verificar tipo de tributação
+        assinatura += self._map_taxation_rps(
+            dados_lote_rps['natureza_operacao'])
         assinatura += 'N'  # FIXME: Verificar status do RPS
         assinatura += 'N'
-        assinatura += str(
-            dados_lote_rps['total_recebido']).replace('.', '').zfill(15)
-        assinatura += str(
-            dados_lote_rps['carga_tributaria']).replace('.', '').zfill(15)
+        assinatura += ('%.2f'% dados_lote_rps['total_recebido']).\
+            replace('.', '').zfill(15)
+        assinatura += ('%.2f'% dados_lote_rps['carga_tributaria']).\
+            replace('.', '').zfill(15)
         assinatura += dados_servico['codigo_tributacao_municipio'].zfill(5)
         assinatura += '2'  # FIXME: Manter sempre CNPJ?
         assinatura += dados_tomador['cnpj'].zfill(14)
@@ -160,6 +168,34 @@ class Document(models.Model):
         # assinatura += 'N'
 
         return assinatura.encode()
+
+    def _map_taxation_rps(self, operation_nature):
+        # FIXME: Lidar com diferença de tributado em São Paulo ou não
+        dict_taxation = {
+            '1': 'T',
+            '2': 'F',
+            '3': 'A',
+            '4': 'R',
+            '5': 'X',
+            '6': 'X',
+        }
+
+        return dict_taxation[operation_nature]
+
+    def _map_provision_municipality(self, operation_nature, municipal_code):
+        if operation_nature == '1':
+            return None
+        else:
+            return municipal_code
+
+    def _map_type_rps(self, rps_type):
+        dict_type_rps = {
+            '1': 'RPS',
+            '2': 'RPS-M',
+            '3': 'RPS-C',
+        }
+
+        return dict_type_rps[rps_type]
 
     @api.multi
     def _eletronic_document_send(self):
@@ -177,16 +213,32 @@ class Document(models.Model):
                         for p in processador.processar_documento(edoc):
                             processo = p
 
-                            retorno = ET.fromstring(processo.retorno)
+                            if processo.webservice in ENVIO_LOTE_RPS:
+                                retorno = ET.fromstring(processo.retorno)
 
-                            if retorno:
-                                mensagem_erro = ''
-                                for erro in retorno.findall("Erro"):
-                                    codigo = erro.find('Codigo').text
-                                    descricao = erro.find('Descricao').text
-                                    mensagem_erro += codigo + ' - ' + descricao + '\n'
+                                if retorno:
+                                    if processo.resposta.Cabecalho.Sucesso == 'true':
+                                        record.autorizacao_event_id.set_done(
+                                            processo.envio_xml)
+                                        record._change_state(
+                                            SITUACAO_EDOC_AUTORIZADA)
 
-                                vals['edoc_error_message'] = mensagem_erro
+
+                                        vals['codigo_motivo_situacao'] = _('Procesado com Sucesso')
+                                        vals['edoc_error_message'] = ''
+                                        #TODO: Verificar resposta do ConsultarLote
+                                        # vals['number'] =
+                                        # vals['data_hora_autorizacao'] =
+                                        # vals['verify_code'] =
+                                    else:
+                                        mensagem_erro = ''
+                                        for erro in retorno.findall("Erro"):
+                                            codigo = erro.find('Codigo').text
+                                            descricao = erro.find('Descricao').text
+                                            mensagem_erro += codigo + ' - ' + descricao + '\n'
+
+                                        vals['edoc_error_message'] = mensagem_erro
+                                        vals['codigo_motivo_situacao'] = _('Procesado com Erro')
                 record.write(vals)
         return
 
