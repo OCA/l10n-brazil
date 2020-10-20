@@ -9,6 +9,7 @@
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
         <field name="user_id" ref="base.user_demo"/>
+        <field name="company_id" ref="base.main_company"/>
     </record>
 
     <function model="purchase.order" name="_onchange_fiscal_operation_id">
@@ -64,6 +65,7 @@
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
         <field name="user_id" ref="base.user_demo"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
     </record>
 
     <function model="purchase.order" name="_onchange_fiscal_operation_id">
