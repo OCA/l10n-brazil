@@ -24,6 +24,8 @@
         'reports/purchase_report_views.xml',
     ],
     "demo": [
+        "demo/company.xml",
+        "demo/product.xml",
         "demo/l10n_br_purchase.xml",
     ],
     "installable": True,
