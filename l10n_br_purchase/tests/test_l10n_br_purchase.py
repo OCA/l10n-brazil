@@ -10,8 +10,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_NORMAL,
     CFOP_DESTINATION_INTERNAL,
     CFOP_DESTINATION_EXTERNAL,
-    TAX_DOMAIN_ICMS,
-    TAX_DOMAIN_ISSQN,
     DOCUMENT_ISSUER_PARTNER,
 )
 
