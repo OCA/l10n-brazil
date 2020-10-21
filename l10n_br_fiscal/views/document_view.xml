@@ -80,8 +80,9 @@
             <label for="key" attrs="{'invisible': [('document_electronic', '=', False)]}"/>
             <div class="o_row" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}">
               <field name="key" force_save="1" class="oe_inline"/>
-              <button name="action_search_key" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Pesquisar Chave" title="Pesquisar Chave"/>
-              <button name="action_import_xml" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-upload oe_edit_only" aria-label="Upload" title="Upload"/>
+            <!-- TODO: Migration 14 -->
+<!--              <button name="action_search_key" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Pesquisar Chave" title="Pesquisar Chave"/>-->
+<!--              <button name="action_import_xml" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-cloud-upload oe_edit_only" aria-label="Upload" title="Upload"/>-->
             </div>
           </group>
           <group>
