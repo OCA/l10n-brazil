@@ -18,7 +18,7 @@ class L10nBrCoaGeneric(TransactionCase):
         """Test to install the chart of accounts template in a new company"""
         self.env.user.company_ids += self.l10n_br_company
         self.env.user.company_id = self.l10n_br_company
-        self.l10n_br_coa_generic.try_loading_for_current_company()
+        self.l10n_br_coa_generic.try_loading()
 
         self.assertEquals(
             self.l10n_br_coa_generic, self.l10n_br_company.chart_template_id)
