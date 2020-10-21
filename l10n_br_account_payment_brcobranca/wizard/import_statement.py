@@ -25,7 +25,7 @@ class CreditPartnerStatementImporter(models.TransientModel):
             )
             if hasattr(result, 'journal_id'):
                 moves |= result
-            if hasattr(result, 'cnab_date'):
+            if hasattr(result, 'filename'):
                 cnab_logs |= result
 
         if moves:
@@ -39,12 +39,12 @@ class CreditPartnerStatementImporter(models.TransientModel):
                 action['res_id'] = moves.id if moves else False
             return action
         else:
-            xmlid = ('l10n_br_account_payment_brcobranca', 'cnab_return_log_action')
+            xmlid = ('l10n_br_account_payment_order', 'cnab_return_log_action')
             action = self.env['ir.actions.act_window'].for_xml_id(*xmlid)
             if len(cnab_logs) > 1:
                 action['domain'] = [('id', 'in', cnab_logs.id)]
             ref = self.env.ref(
-                'l10n_br_account_payment_brcobranca.cnab_return_log_form_view')
+                'l10n_br_account_payment_order.cnab_return_log_form_view')
             action['views'] = [(ref.id, 'form')]
             action['res_id'] = cnab_logs.id if cnab_logs else False
             return action

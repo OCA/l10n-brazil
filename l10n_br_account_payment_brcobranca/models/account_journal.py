@@ -85,7 +85,7 @@ class AccountJournal(models.Model):
 
             if hasattr(result, 'journal_id'):
                 res_move |= result
-            if hasattr(result, 'cnab_date'):
+            if hasattr(result, 'filename'):
                 res_cnab_log |= result
         if res_move:
             return res_move
@@ -115,7 +115,7 @@ class AccountJournal(models.Model):
         # Check all key are present in account.bank.statement.line!!
         # if not result_row_list:
         #    raise UserError(_("Nothing to import: " "The file is empty"))
-        if not result_row_list and not parser.cnab_return_log_line:
+        if not result_row_list and not parser.cnab_return_events:
             raise UserError(_("Nothing to import: " "The file is empty"))
 
         # Creation of CNAB Return Log
@@ -124,21 +124,22 @@ class AccountJournal(models.Model):
             'name': 'Banco ' + parser.bank.name + ' - Conta '
                     + parser.journal.bank_account_id.acc_number,
             'filename': context.get('file_name'),
-            'cnab_date': fields.Datetime.now(),
+            'cnab_date_import': fields.Datetime.now(),
+            'bank_account_id': parser.journal.bank_account_id.id,
         })
-        qty_cnab_log_lines = 0
+        qty_cnab_return_events = 0
         amount_total_title = 0.0
         amount_total_received = 0.0
-        for cnab_return_log_line in parser.cnab_return_log_line:
-            amount_total_title += cnab_return_log_line.get('title_value')
-            if cnab_return_log_line.get('payment_value'):
+        for cnab_return_event in parser.cnab_return_events:
+            amount_total_title += cnab_return_event.get('title_value')
+            if cnab_return_event.get('payment_value'):
                 amount_total_received += \
-                    cnab_return_log_line.get('payment_value')
-            cnab_return_log_line['cnab_return_log_id'] = cnab_return_log.id
-            self.env['cnab.return.log.line'].create(cnab_return_log_line)
-            qty_cnab_log_lines += 1
+                    cnab_return_event.get('payment_value')
+            cnab_return_event['cnab_return_log_id'] = cnab_return_log.id
+            self.env['cnab.return.event'].create(cnab_return_event)
+            qty_cnab_return_events += 1
 
-        cnab_return_log.number_events = qty_cnab_log_lines
+        cnab_return_log.number_events = qty_cnab_return_events
         cnab_return_log.amount_total_title = amount_total_title
         cnab_return_log.amount_total_received = amount_total_received
 
