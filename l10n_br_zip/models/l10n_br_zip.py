@@ -62,7 +62,7 @@ class L10nBrZip(models.Model):
         state_id=False,
         city_id=False,
         district=False,
-        street=False,
+        street_name=False,
         zip_code=False,
     ):
         domain = []
@@ -70,7 +70,7 @@ class L10nBrZip(models.Model):
             new_zip = misc.punctuation_rm(zip_code or "")
             domain.append(("zip_code", "=", new_zip))
         else:
-            if not state_id or not city_id or len(street or "") == 0:
+            if not state_id or not city_id or len(street_name or "") == 0:
                 raise UserError(_("Necessário informar Estado, município e logradouro"))
 
             if country_id:
@@ -81,8 +81,8 @@ class L10nBrZip(models.Model):
                 domain.append(("city_id", "=", city_id))
             if district:
                 domain.append(("district", "ilike", district))
-            if street:
-                domain.append(("street", "ilike", street))
+            if street_name:
+                domain.append(("street_name", "ilike", street_name))
 
         return domain
 
@@ -111,7 +111,7 @@ class L10nBrZip(models.Model):
             "district": self.district,
             "street_name": ((self.street_type or "") + " " + (self.street_name or ""))
             if self.street_type
-            else (self.street or ""),
+            else (self.street_name or ""),
             "zip": misc.format_zipcode(self.zip_code, self.country_id.code),
         }
 

@@ -8,7 +8,7 @@
             <form string="Pesquisar CEP">
                 <group colspan="8" col="8" states="init">
                     <field colspan="8" name="zip"/>
-                    <field colspan="8" name="street"/>
+                    <field colspan="8" name="street_name"/>
                     <field colspan="4" name="district"/>
                     <field colspan="4" name="country_id" required="True"/>
                     <field colspan="4" name="state_id" required="True"/>
@@ -34,7 +34,6 @@
         <field name="name">Pesquisar CEP</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br.zip.search</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
