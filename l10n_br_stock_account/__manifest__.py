@@ -22,16 +22,16 @@
         'data/l10n_br_stock_account_data.xml',
 
         # Views
-        'views/stock_account_view.xml',
-        'views/stock_picking.xml',
-        'views/stock_rule_view.xml',
-        'views/stock_picking_type_view.xml',
-        'views/res_company_view.xml',
-        'views/fiscal_operation_view.xml',
+        # 'views/stock_account_view.xml',
+        # 'views/stock_picking.xml',
+        # 'views/stock_rule_view.xml',
+        # 'views/stock_picking_type_view.xml',
+        # 'views/res_company_view.xml',
+        # 'views/fiscal_operation_view.xml',
 
         # Wizards
-        'wizards/stock_invoice_onshipping_view.xml',
-        'wizards/stock_return_picking_view.xml',
+        # 'wizards/stock_invoice_onshipping_view.xml',
+        # 'wizards/stock_return_picking_view.xml',
     ],
     'demo': [
         # Demo
