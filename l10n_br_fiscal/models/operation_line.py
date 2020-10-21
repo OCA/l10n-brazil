@@ -64,14 +64,12 @@ class OperationLine(models.Model):
                "('destination', '=', '3')]")
 
     fiscal_operation_type = fields.Selection(
-        selection=FISCAL_IN_OUT_ALL,
         related='fiscal_operation_id.fiscal_operation_type',
         string='Fiscal Operation Type',
         store=True,
         readonly=True)
 
     fiscal_type = fields.Selection(
-        selection=OPERATION_FISCAL_TYPE,
         related='fiscal_operation_id.fiscal_type',
         string='Fiscal Type',
         store=True,

@@ -14,6 +14,7 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     SITUACAO_EDOC_AUTORIZADA,
     NFE_IND_IE_DEST,
+    FISCAL_IN_OUT_ALL,
 )
 
 
@@ -132,6 +133,7 @@ class Document(models.Model):
 
     fiscal_operation_type = fields.Selection(
         related=False,
+        selection=FISCAL_IN_OUT_ALL,
     )
 
     is_edoc_printed = fields.Boolean(
@@ -232,7 +234,6 @@ class Document(models.Model):
     )
 
     partner_ind_ie_dest = fields.Selection(
-        selection=NFE_IND_IE_DEST,
         string='Contribuinte do ICMS',
         related='partner_id.ind_ie_dest',
     )
@@ -254,7 +255,6 @@ class Document(models.Model):
     )
 
     partner_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         string='Tax Framework',
         related='partner_id.tax_framework',
     )
@@ -367,7 +367,6 @@ class Document(models.Model):
     )
 
     company_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         string='Company Tax Framework',
         related='company_id.tax_framework',
     )

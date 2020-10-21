@@ -147,7 +147,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=_default_operation)
 
     fiscal_operation_type = fields.Selection(
-        selection=FISCAL_IN_OUT,
         related="fiscal_operation_id.fiscal_operation_type",
         string="Fiscal Operation Type",
         readonly=True)
@@ -164,7 +163,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain="[('type_in_out', '=', fiscal_operation_type)]")
 
     cfop_destination = fields.Selection(
-        selection=CFOP_DESTINATION,
         related="cfop_id.destination",
         string="CFOP Destination")
 

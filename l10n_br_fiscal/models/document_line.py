@@ -101,7 +101,6 @@ class DocumentLine(models.Model):
     )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         related='company_id.tax_framework',
         string='Tax Framework',
     )

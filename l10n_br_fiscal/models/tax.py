@@ -110,7 +110,6 @@ class Tax(models.Model):
         required=True)
 
     tax_domain = fields.Selection(
-        selection=TAX_DOMAIN,
         related="tax_group_id.tax_domain",
         string="Tax Domain",
         required=True,

@@ -51,7 +51,6 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     fiscal_operation_type = fields.Selection(
-        selection=FISCAL_IN_OUT,
         related='fiscal_operation_id.fiscal_operation_type',
         string='Fiscal Operation Type',
         readonly=True,
