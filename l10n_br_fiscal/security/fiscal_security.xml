@@ -38,7 +38,7 @@
         <field eval="True" name="global" />
         <field
             name="domain_force"
-        >['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        >['|',('company_id','=',False),('company_id','in',company_ids)]</field>
     </record>
 
     <record id="l10n_br_fiscal_operation_line_rule" model="ir.rule">
@@ -47,7 +47,7 @@
         <field eval="True" name="global" />
         <field
             name="domain_force"
-        >['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        >['|',('company_id','=',False),('company_id','in',company_ids)]</field>
     </record>
 
     <record id="l10n_br_fiscal_document_serie_rule" model="ir.rule">
@@ -56,7 +56,7 @@
         <field eval="True" name="global" />
         <field
             name="domain_force"
-        >['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        >['|',('company_id','=',False),('company_id','in',company_ids)]</field>
     </record>
 
     <record id="l10n_br_fiscal_document_rule" model="ir.rule">
@@ -65,7 +65,7 @@
         <field eval="True" name="global" />
         <field
             name="domain_force"
-        >['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        >['|',('company_id','=',False),('company_id','in',company_ids)]</field>
     </record>
 
     <record id="l10n_br_fiscal_document_line_rule" model="ir.rule">
@@ -74,7 +74,7 @@
         <field eval="True" name="global" />
         <field
             name="domain_force"
-        >['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        >['|',('company_id','=',False),('company_id','in',company_ids)]</field>
     </record>
 
     <record id="l10n_br_fiscal_document_email_rule" model="ir.rule">
@@ -83,7 +83,7 @@
         <field eval="True" name="global" />
         <field
             name="domain_force"
-        >['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+        >['|',('company_id','=',False),('company_id','in',company_ids)]</field>
     </record>
 
 </odoo>
