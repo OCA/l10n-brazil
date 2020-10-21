@@ -44,15 +44,15 @@ class L10nBrPurchaseBaseTest(TransactionCase):
             },
             'ipi': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_ipi_5'),
-                'cst': self.env.ref('l10n_br_fiscal.cst_ipi_50'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_ipi_00'),
             },
             'pis': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_pis_0_65'),
-                'cst': self.env.ref('l10n_br_fiscal.cst_pis_01'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_pis_50'),
             },
             'cofins': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_cofins_3'),
-                'cst': self.env.ref('l10n_br_fiscal.cst_cofins_01'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_pis_50'),
             },
             'icmsfcp': {
                 'tax': False,
@@ -74,12 +74,12 @@ class L10nBrPurchaseBaseTest(TransactionCase):
             },
             'pis': {
                 'tax': self.env.ref('l10n_br_fiscal.tax_pis_simples_nacional'),
-                'cst': self.env.ref('l10n_br_fiscal.cst_pis_99'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_pis_98'),
             },
             'cofins': {
                 'tax': self.env.ref(
                     'l10n_br_fiscal.tax_cofins_simples_nacional'),
-                'cst': self.env.ref('l10n_br_fiscal.cst_cofins_99'),
+                'cst': self.env.ref('l10n_br_fiscal.cst_cofins_98'),
             },
             'icmsfcp': {
                 'tax': False,
@@ -216,13 +216,6 @@ class L10nBrPurchaseBaseTest(TransactionCase):
                 icms_tax = line.icmssn_tax_id
             else:
                 icms_tax = line.icms_tax_id
-
-                if (line.fiscal_operation_line_id.name
-                        == self.fsc_op_line_dist.name):
-                    taxes['ipi']['tax'] = self.env.ref(
-                        'l10n_br_fiscal.tax_ipi_nt')
-                    taxes['ipi']['cst'] = self.env.ref(
-                        'l10n_br_fiscal.cst_ipi_53')
 
             # ICMS
             self.assertEquals(
