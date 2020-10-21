@@ -10,7 +10,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
     <record id="tax_template_in_ipi" model="account.tax.template">
@@ -22,7 +21,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
     <record id="tax_template_in_ipi_deductible" model="account.tax.template">
@@ -34,7 +32,6 @@
         <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
     <record id="tax_template_out_ipi_deductible" model="account.tax.template">
@@ -46,7 +43,6 @@
         <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ipi"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ipi')])]"/>
     </record>
 
     <record id="tax_template_out_ii" model="account.tax.template">
@@ -58,7 +54,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_in_ii" model="account.tax.template">
@@ -70,7 +65,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_ii_in_deductible" model="account.tax.template">
@@ -82,7 +76,6 @@
         <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_ii_out_deductible" model="account.tax.template">
@@ -94,7 +87,6 @@
         <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_ii"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_ii')])]"/>
     </record>
 
     <record id="tax_template_out_icms" model="account.tax.template">
@@ -106,7 +98,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
     <record id="tax_template_in_icms" model="account.tax.template">
@@ -118,7 +109,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
     <record id="tax_template_icms_in_deductible" model="account.tax.template">
@@ -130,7 +120,6 @@
         <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
     <record id="tax_template_icms_out_deductible" model="account.tax.template">
@@ -142,7 +131,6 @@
         <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icms"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icms')])]"/>
     </record>
 
     <record id="tax_template_out_icmssn" model="account.tax.template">
@@ -154,7 +142,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmssn"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmssn')])]"/>
     </record>
 
     <record id="tax_template_in_icmssn" model="account.tax.template">
@@ -166,7 +153,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmssn"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmssn')])]"/>
     </record>
 
     <record id="tax_template_out_icms_subist" model="account.tax.template">
@@ -178,7 +164,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmsst"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
     </record>
 
     <record id="tax_template_in_icms_subist" model="account.tax.template">
@@ -190,7 +175,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmsst"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsst')])]"/>
     </record>
 
     <record id="tax_template_out_icmsfcp" model="account.tax.template">
@@ -202,7 +186,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmsfcp"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsfcp')])]"/>
     </record>
 
     <record id="tax_template_in_icmsfcp" model="account.tax.template">
@@ -214,7 +197,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_icmsfcp"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_icmsfcp')])]"/>
     </record>
 
     <record id="tax_template_out_pis" model="account.tax.template">
@@ -226,8 +208,7 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
-     </record>
+    </record>
 
     <record id="tax_template_out_pisst" model="account.tax.template">
         <field name="description">PIS ST</field>
@@ -238,7 +219,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pisst"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pisst')])]"/>
     </record>
 
     <record id="tax_template_out_pis_wh" model="account.tax.template">
@@ -250,7 +230,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis_wh"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis_wh')])]"/>
     </record>
 
     <record id="tax_template_in_pis" model="account.tax.template">
@@ -262,7 +241,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
     </record>
 
     <record id="tax_template_in_pisst" model="account.tax.template">
@@ -274,7 +252,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pisst"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pisst')])]"/>
     </record>
 
     <record id="tax_template_in_pis_wh" model="account.tax.template">
@@ -286,7 +263,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis_wh"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis_wh')])]"/>
     </record>
 
     <record id="tax_template_in_pis_deductible" model="account.tax.template">
@@ -298,7 +274,6 @@
         <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
     </record>
 
     <record id="tax_template_out_pis_deductible" model="account.tax.template">
@@ -310,7 +285,6 @@
         <field eval="1" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_pis"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_pis')])]"/>
     </record>
 
     <record id="tax_template_out_cofins" model="account.tax.template">
@@ -322,7 +296,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
     </record>
 
     <record id="tax_template_out_cofinsst" model="account.tax.template">
@@ -334,7 +307,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofinsst"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofinsst')])]"/>
     </record>
 
     <record id="tax_template_out_cofins_wh" model="account.tax.template">
@@ -346,7 +318,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofinsst"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofinsst')])]"/>
     </record>
 
     <record id="tax_template_in_cofins" model="account.tax.template">
@@ -358,19 +329,17 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofins"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
     </record>
 
-   <record id="tax_template_in_cofinsst" model="account.tax.template">
-       <field name="description">COFINS ST</field>
-       <field name="name">COFINS ST Entrada</field>
-       <field name="amount">0.00</field>
-       <field name="type_tax_use">purchase</field>
-       <field eval="0" name="price_include"/>
-       <field eval="0" name="deductible"/>
-       <field name="tax_group_id" ref="tax_group_cofinsst"/>
-       <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-       <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofinsst')])]"/>
+    <record id="tax_template_in_cofinsst" model="account.tax.template">
+        <field name="description">COFINS ST</field>
+        <field name="name">COFINS ST Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_cofinsst"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
     </record>
 
     <record id="tax_template_in_cofins_wh" model="account.tax.template">
@@ -382,80 +351,73 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_cofins_wh"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins_wh')])]"/>
-     </record>
+    </record>
 
-     <record id="tax_template_cofins_in_deductible" model="account.tax.template">
-         <field name="description">COFINS</field>
-         <field name="name">COFINS Entrada Dedutível</field>
-         <field name="amount">0.00</field>
-         <field name="type_tax_use">purchase</field>
-         <field eval="0" name="price_include"/>
-         <field eval="1" name="deductible"/>
-         <field name="tax_group_id" ref="tax_group_cofins"/>
-         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
-     </record>
+    <record id="tax_template_cofins_in_deductible" model="account.tax.template">
+        <field name="description">COFINS</field>
+        <field name="name">COFINS Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_cofins"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+    </record>
 
-     <record id="tax_template_cofins_out_deductible" model="account.tax.template">
-         <field name="description">COFINS</field>
-         <field name="name">COFINS Saida Dedutível</field>
-         <field name="amount">0.00</field>
-         <field name="type_tax_use">sale</field>
-         <field eval="0" name="price_include"/>
-         <field eval="1" name="deductible"/>
-         <field name="tax_group_id" ref="tax_group_cofins"/>
-         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_cofins')])]"/>
-     </record>
+    <record id="tax_template_cofins_out_deductible" model="account.tax.template">
+        <field name="description">COFINS</field>
+        <field name="name">COFINS Saida Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field eval="1" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_cofins"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+    </record>
 
-     <record id="tax_template_out_issqn" model="account.tax.template">
-         <field name="description">ISSQN</field>
-         <field name="name">ISSQN Saida</field>
-         <field name="amount">0.00</field>
-         <field name="type_tax_use">none</field>
-         <field eval="0" name="price_include"/>
-         <field eval="0" name="deductible"/>
-         <field name="tax_group_id" ref="tax_group_issqn"/>
-         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
-     </record>
+    <record id="tax_template_out_issqn" model="account.tax.template">
+        <field name="description">ISSQN</field>
+        <field name="name">ISSQN Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_issqn"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+    </record>
 
-     <record id="tax_template_out_issqn_wh" model="account.tax.template">
-         <field name="description">ISSQN WH</field>
-         <field name="name">ISSQN WH Saida</field>
-         <field name="amount">0.00</field>
-         <field name="type_tax_use">none</field>
-         <field eval="0" name="price_include"/>
-         <field eval="0" name="deductible"/>
-         <field name="tax_group_id" ref="tax_group_issqn_wh"/>
-         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn_wh')])]"/>
-     </record>
+    <record id="tax_template_out_issqn_wh" model="account.tax.template">
+        <field name="description">ISSQN WH</field>
+        <field name="name">ISSQN WH Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_issqn_wh"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+    </record>
 
-     <record id="tax_template_in_issqn" model="account.tax.template">
-         <field name="description">ISSQN</field>
-         <field name="name">ISSQN Entrada</field>
-         <field name="amount">0.00</field>
-         <field name="type_tax_use">none</field>
-         <field eval="0" name="price_include"/>
-         <field eval="0" name="deductible"/>
-         <field name="tax_group_id" ref="tax_group_issqn"/>
-         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn')])]"/>
-     </record>
+    <record id="tax_template_in_issqn" model="account.tax.template">
+        <field name="description">ISSQN</field>
+        <field name="name">ISSQN Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_issqn"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+    </record>
 
-     <record id="tax_template_in_issqn_wh" model="account.tax.template">
-         <field name="description">ISSQN WH</field>
-         <field name="name">ISSQN WH Entrada</field>
-         <field name="amount">0.00</field>
-         <field name="type_tax_use">none</field>
-         <field eval="0" name="price_include"/>
-         <field eval="0" name="deductible"/>
-         <field name="tax_group_id" ref="tax_group_issqn_wh"/>
-         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn_wh')])]"/>
-     </record>
+    <record id="tax_template_in_issqn_wh" model="account.tax.template">
+        <field name="description">ISSQN WH</field>
+        <field name="name">ISSQN WH Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_issqn_wh"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+    </record>
 
     <record id="tax_template_irpj" model="account.tax.template">
         <field name="description">IRPJ</field>
@@ -466,7 +428,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_irpj"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj')])]"/>
     </record>
 
     <record id="tax_template_irpj_wh" model="account.tax.template">
@@ -478,7 +439,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_irpj_wh"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj_wh')])]"/>
     </record>
 
     <record id="tax_template_csll" model="account.tax.template">
@@ -490,7 +450,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_csll"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll')])]"/>
     </record>
 
     <record id="tax_template_csll_wh" model="account.tax.template">
@@ -502,7 +461,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_csll_wh"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll_wh')])]"/>
     </record>
 
     <record id="tax_template_out_inss" model="account.tax.template">
@@ -514,7 +472,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_inss"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
     </record>
 
     <record id="tax_template_out_inss_wh" model="account.tax.template">
@@ -526,7 +483,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_inss"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
     </record>
 
     <record id="tax_template_in_inss" model="account.tax.template">
@@ -538,7 +494,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_inss"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
     </record>
 
     <record id="tax_template_in_inss_wh" model="account.tax.template">
@@ -550,7 +505,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_inss_wh"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss_wh')])]"/>
     </record>
 
     <record id="tax_template_simples" model="account.tax.template">
@@ -562,7 +516,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_simples"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_simples')])]"/>
     </record>
 
     <record id="tax_template_others" model="account.tax.template">
@@ -574,7 +527,6 @@
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_others"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_others')])]"/>
     </record>
 
 </odoo>
