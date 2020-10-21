@@ -49,7 +49,6 @@ class StockPicking(models.Model):
         string='Comments',
     )
 
-    @api.multi
     def action_view_document(self):
         invoices = self.mapped('invoice_ids')
         action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]

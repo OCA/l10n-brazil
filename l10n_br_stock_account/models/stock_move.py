@@ -111,7 +111,6 @@ class StockMove(models.Model):
         values['invoice_state'] = self.invoice_state
         return values
 
-    @api.multi
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
         return result

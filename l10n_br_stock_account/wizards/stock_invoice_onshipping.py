@@ -18,7 +18,6 @@ class StockInvoiceOnshipping(models.TransientModel):
             ('fiscal_operation', 'Fiscal Operation')],
     )
 
-    @api.multi
     def _get_journal(self):
         """
         Get the journal depending on the journal_type
@@ -40,7 +39,6 @@ class StockInvoiceOnshipping(models.TransientModel):
             journal = super()._get_journal()
         return journal
 
-    @api.multi
     def _build_invoice_values_from_pickings(self, pickings):
         invoice, values = super()._build_invoice_values_from_pickings(pickings)
         pick = fields.first(pickings)
@@ -67,7 +65,6 @@ class StockInvoiceOnshipping(models.TransientModel):
         values.update(fiscal_vals)
         return invoice, values
 
-    @api.multi
     def _get_invoice_line_values(self, moves, invoice_values, invoice):
         """
         Create invoice line values from given moves

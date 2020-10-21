@@ -16,7 +16,6 @@ class StockReturnPicking(models.TransientModel):
         required=True,
     )
 
-    @api.multi
     def _create_returns(self):
         """
          Creates return picking.
