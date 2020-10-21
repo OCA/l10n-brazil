@@ -6,6 +6,7 @@
     "website": "http://odoo-brasil.org",
     "version": "13.0.1.0.0",
     "depends": ["stock", "l10n_br_base"],
+    "maintainers": ["mileo"],
     "data": ["views/stock_view.xml"],
     "demo": [
         "demo/res_users_demo.xml",
