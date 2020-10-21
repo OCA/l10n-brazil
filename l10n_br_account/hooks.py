@@ -17,19 +17,19 @@ def pre_init_hook(cr):
     that we use to fill these new foreign keys.
     """
     env = api.Environment(cr, SUPERUSER_ID, {})
-    if not column_exists(cr, "account_invoice", "fiscal_document_id"):
-        create_column(cr, "account_invoice", "fiscal_document_id", "INTEGER")
+    if not column_exists(cr, "account_move", "fiscal_document_id"):
+        create_column(cr, "account_move", "fiscal_document_id", "INTEGER")
     fiscal_doc_id = env.ref("l10n_br_fiscal.fiscal_document_dummy").id
     cr.execute(
-        """update account_invoice set fiscal_document_id=%s
+        """update account_move set fiscal_document_id=%s
                where fiscal_document_id IS NULL;""",
         (fiscal_doc_id,),
     )
     fiscal_doc_line_id = env.ref("l10n_br_fiscal.fiscal_document_line_dummy").id
-    if not column_exists(cr, "account_invoice_line", "fiscal_document_line_id"):
-        create_column(cr, "account_invoice_line", "fiscal_document_line_id", "INTEGER")
+    if not column_exists(cr, "account_move_line", "fiscal_document_line_id"):
+        create_column(cr, "account_move_line", "fiscal_document_line_id", "INTEGER")
     cr.execute(
-        """update account_invoice_line set fiscal_document_line_id=%s
+        """update account_move_line set fiscal_document_line_id=%s
                where fiscal_document_line_id IS NULL;""",
         (fiscal_doc_line_id,),
     )

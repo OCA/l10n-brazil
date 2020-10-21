@@ -16,8 +16,8 @@ SHADOWED_FIELDS = ['name', 'partner_id', 'company_id', 'currency_id',
 
 
 class AccountInvoiceLine(models.Model):
-    _name = 'account.invoice.line'
-    _inherit = ['account.invoice.line',
+    _name = 'account.move.line'
+    _inherit = ['account.move.line',
                 'l10n_br_fiscal.document.line.mixin.methods',
                 'l10n_br_account.document.line.mixin']
     _inherits = {'l10n_br_fiscal.document.line': 'fiscal_document_line_id'}
@@ -44,7 +44,6 @@ class AccountInvoiceLine(models.Model):
             'l10n_br_fiscal.fiscal_document_line_dummy'),
     )
 
-    @api.one
     @api.depends(
         'price_unit',
         'discount',
@@ -54,57 +53,58 @@ class AccountInvoiceLine(models.Model):
         'invoice_id.partner_id',
         'invoice_id.currency_id',
         'invoice_id.company_id',
-        'invoice_id.date_invoice',
+        # 'invoice_id.date_invoice', # TODO MIGRATION 14
         'invoice_id.date',
         'fiscal_tax_ids')
     def _compute_price(self):
-        currency = self.invoice_id and self.invoice_id.currency_id or None
-        taxes = {}
-        if self.invoice_line_tax_ids:
-            taxes = self.invoice_line_tax_ids.compute_all(
-                price_unit=self.price_unit,
-                currency=self.invoice_id.currency_id,
-                quantity=self.quantity,
-                product=self.product_id,
-                partner=self.invoice_id.partner_id,
-                fiscal_taxes=self.fiscal_tax_ids,
-                operation_line=self.fiscal_operation_line_id,
-                ncm=self.ncm_id,
-                nbm=self.nbm_id,
-                cest=self.cest_id,
-                discount_value=self.discount_value,
-                insurance_value=self.insurance_value,
-                other_costs_value=self.other_costs_value,
-                freight_value=self.freight_value,
-                fiscal_price=self.fiscal_price,
-                fiscal_quantity=self.fiscal_quantity,
-                uot=self.uot_id,
-                icmssn_range=self.icmssn_range_id)
+        for record in self:
+            currency = record.invoice_id and record.invoice_id.currency_id or None
+            taxes = {}
+            if record.invoice_line_tax_ids:
+                taxes = record.invoice_line_tax_ids.compute_all(
+                    price_unit=record.price_unit,
+                    currency=record.invoice_id.currency_id,
+                    quantity=record.quantity,
+                    product=record.product_id,
+                    partner=record.invoice_id.partner_id,
+                    fiscal_taxes=record.fiscal_tax_ids,
+                    operation_line=record.fiscal_operation_line_id,
+                    ncm=record.ncm_id,
+                    nbm=record.nbm_id,
+                    cest=record.cest_id,
+                    discount_value=record.discount_value,
+                    insurance_value=record.insurance_value,
+                    other_costs_value=record.other_costs_value,
+                    freight_value=record.freight_value,
+                    fiscal_price=record.fiscal_price,
+                    fiscal_quantity=record.fiscal_quantity,
+                    uot=record.uot_id,
+                    icmssn_range=record.icmssn_range_id)
 
-        if taxes:
-            self.price_subtotal = taxes['total_excluded']
-            self.price_total = taxes['total_included']
-        else:
-            self.price_subtotal = self.quantity * self.price_unit
-            self.price_total = self.price_subtotal
+            if taxes:
+                record.price_subtotal = taxes['total_excluded']
+                record.price_total = taxes['total_included']
+            else:
+                record.price_subtotal = record.quantity * record.price_unit
+                record.price_total = record.price_subtotal
 
-        self.price_subtotal -= self.discount_value
-        price_subtotal_signed = self.price_subtotal
+            record.price_subtotal -= record.discount_value
+            price_subtotal_signed = record.price_subtotal
 
-        self.price_total += (
-            self.insurance_value + self.other_costs_value +
-            self.freight_value - self.discount_value)
+            record.price_total += (
+                record.insurance_value + record.other_costs_value +
+                record.freight_value - record.discount_value)
 
-        if (self.invoice_id.currency_id and self.invoice_id.currency_id
-                != self.invoice_id.company_id.currency_id):
-            currency = self.invoice_id.currency_id
-            date = self.invoice_id._get_currency_rate_date()
-            price_subtotal_signed = currency._convert(
-                price_subtotal_signed, self.invoice_id.company_id.currency_id,
-                self.company_id or self.env.user.company_id,
-                date or fields.Date.today())
-        sign = self.invoice_id.type in ['in_refund', 'out_refund'] and -1 or 1
-        self.price_subtotal_signed = price_subtotal_signed * sign
+            if (record.invoice_id.currency_id and record.invoice_id.currency_id
+                    != record.invoice_id.company_id.currency_id):
+                currency = record.invoice_id.currency_id
+                date = record.invoice_id._get_currency_rate_date()
+                price_subtotal_signed = currency._convert(
+                    price_subtotal_signed, record.invoice_id.company_id.currency_id,
+                    record.company_id or record.env.user.company_id,
+                    date or fields.Date.today())
+            sign = record.invoice_id.type in ['in_refund', 'out_refund'] and -1 or 1
+            record.price_subtotal_signed = price_subtotal_signed * sign
 
     @api.depends('price_total')
     def _get_price_tax(self):
@@ -117,7 +117,7 @@ class AccountInvoiceLine(models.Model):
         from the parent."""
         return SHADOWED_FIELDS
 
-    @api.multi
+
     def _prepare_shadowed_fields_dict(self, default=False):
         self.ensure_one()
         vals = self._convert_to_write(self.read(self._shadowed_fields())[0])
@@ -128,7 +128,7 @@ class AccountInvoiceLine(models.Model):
     @api.model
     def create(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        if self.env['account.invoice'].browse(
+        if self.env['account.move'].browse(
                 values['invoice_id']).fiscal_document_id != dummy_doc:
             values['fiscal_document_line_id'] = False
         line = super().create(values)
@@ -139,7 +139,7 @@ class AccountInvoiceLine(models.Model):
             line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return line
 
-    @api.multi
+
     def write(self, values):
         dummy_doc_line = self.env.ref(
             'l10n_br_fiscal.fiscal_document_line_dummy')

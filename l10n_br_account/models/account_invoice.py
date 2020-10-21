@@ -27,8 +27,8 @@ SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id']
 
 
 class AccountInvoice(models.Model):
-    _name = 'account.invoice'
-    _inherit = 'account.invoice'
+    _name = 'account.move'
+    _inherit = 'account.move'
     _inherits = {'l10n_br_fiscal.document': 'fiscal_document_id'}
     _order = 'date_invoice DESC, number DESC'
 
@@ -75,7 +75,7 @@ class AccountInvoice(models.Model):
         from the parent."""
         return SHADOWED_FIELDS
 
-    @api.multi
+
     def _prepare_shadowed_fields_dict(self, default=False):
         self.ensure_one()
         vals = self._convert_to_write(self.read(self._shadowed_fields())[0])
@@ -92,7 +92,7 @@ class AccountInvoice(models.Model):
             invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return invoice
 
-    @api.multi
+
     def write(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         result = super().write(values)
@@ -102,41 +102,42 @@ class AccountInvoice(models.Model):
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return result
 
-    @api.one
     @api.depends(
         'invoice_line_ids.price_total',
-        'tax_line_ids.amount',
-        'tax_line_ids.amount_rounding',
+        # 'tax_line_ids.amount',  # TODO MIGRATION 14
+        # 'tax_line_ids.amount_rounding',  # TODO MIGRATION 14
         'currency_id',
         'company_id',
-        'date_invoice',
-        'type')
+        # 'date_invoice', TODO MIGRATION 14
+        # 'type'  TODO MIGRATION 14
+    )
     def _compute_amount(self):
-        for inv_line in self.invoice_line_ids:
-            if inv_line.cfop_id:
-                if inv_line.cfop_id.finance_move:
-                    self.amount_untaxed += inv_line.price_subtotal
-                    self.amount_tax += inv_line.price_tax
-            else:
-                self.amount_untaxed += inv_line.price_subtotal
-                self.amount_tax += inv_line.price_tax
+        for record in self:
+            for inv_line in record.invoice_line_ids:
+                if inv_line.cfop_id:
+                    if inv_line.cfop_id.finance_move:
+                        record.amount_untaxed += inv_line.price_subtotal
+                        record.amount_tax += inv_line.price_tax
+                else:
+                    record.amount_untaxed += inv_line.price_subtotal
+                    record.amount_tax += inv_line.price_tax
 
-        self.amount_total = self.amount_untaxed + self.amount_tax
-        amount_total_company_signed = self.amount_total
-        amount_untaxed_signed = self.amount_untaxed
-        if (self.currency_id and self.company_id and
-                self.currency_id != self.company_id.currency_id):
-            currency_id = self.currency_id
-            amount_total_company_signed = currency_id._convert(
-                self.amount_total, self.company_id.currency_id,
-                self.company_id, self.date_invoice or fields.Date.today())
-            amount_untaxed_signed = currency_id._convert(
-                self.amount_untaxed, self.company_id.currency_id,
-                self.company_id, self.date_invoice or fields.Date.today())
-        sign = self.type in ['in_refund', 'out_refund'] and -1 or 1
-        self.amount_total_company_signed = amount_total_company_signed * sign
-        self.amount_total_signed = self.amount_total * sign
-        self.amount_untaxed_signed = amount_untaxed_signed * sign
+            record.amount_total = record.amount_untaxed + record.amount_tax
+            amount_total_company_signed = record.amount_total
+            amount_untaxed_signed = record.amount_untaxed
+            if (record.currency_id and record.company_id and
+                    record.currency_id != record.company_id.currency_id):
+                currency_id = record.currency_id
+                amount_total_company_signed = currency_id._convert(
+                    record.amount_total, record.company_id.currency_id,
+                    record.company_id, record.date_invoice or fields.Date.today())
+                amount_untaxed_signed = currency_id._convert(
+                    record.amount_untaxed, record.company_id.currency_id,
+                    record.company_id, record.date_invoice or fields.Date.today())
+            sign = record.type in ['in_refund', 'out_refund'] and -1 or 1
+            record.amount_total_company_signed = amount_total_company_signed * sign
+            record.amount_total_signed = record.amount_total * sign
+            record.amount_untaxed_signed = amount_untaxed_signed * sign
 
     @api.model
     def invoice_line_move_line_get(self):
@@ -166,7 +167,7 @@ class AccountInvoice(models.Model):
         #     new_tax_lines_dict.append(new_tax)
         return tax_lines_dict
 
-    @api.multi
+
     def get_taxes_values(self):
         # uncomment these lines
         # dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')

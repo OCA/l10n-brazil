@@ -4,7 +4,7 @@
 from lxml import etree
 
 from odoo import _, api, fields, models
-from odoo.osv.orm import setup_modifiers
+# from odoo.osv.orm import setup_modifiers
 from odoo.exceptions import Warning as UserError
 
 from ..models.account_invoice import REFUND_TO_OPERATION, FISCAL_TYPE_REFUND
@@ -17,9 +17,9 @@ class AccountInvoiceRefund(models.TransientModel):
         comodel_name="l10n_br_fiscal.operation",
         string="Force Fiscal Operation")
 
-    @api.multi
+
     def compute_refund(self, mode="refund"):
-        inv_obj = self.env["account.invoice"]
+        inv_obj = self.env["account.move"]
         context = dict(self.env.context)
 
         for send_invoice in inv_obj.browse(context.get("active_ids")):
@@ -113,6 +113,6 @@ class AccountInvoiceRefund(models.TransientModel):
                 "[('fiscal_operation_type', '=', '%s'), ('fiscal_type', 'in', %s)]"
                 % (fiscal_operation_type, fiscal_type),
             )
-            setup_modifiers(field)
+            setup_modifiers(field) # TODO: Migration 14
         result["arch"] = etree.tostring(eview)
         return result

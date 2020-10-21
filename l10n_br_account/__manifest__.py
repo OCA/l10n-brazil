@@ -7,8 +7,8 @@
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "http://github.com/OCA/l10n-brazil",
-    "depends": ["account_cancel", "l10n_br_coa", "l10n_br_fiscal"],
     "version": "14.0.1.0.0",
+    "depends": ["account", "l10n_br_coa", "l10n_br_fiscal"],
     "data": [
         # security
         'security/ir.model.access.csv',
@@ -22,16 +22,16 @@
         "views/account_tax_template_view.xml",
         "views/fiscal_operation_view.xml",
         'views/fiscal_operation_line_view.xml',
-        'views/account_invoice_view.xml',
-        'views/account_invoice_line_view.xml',
+        # 'views/account_invoice_view.xml',
+        # 'views/account_invoice_line_view.xml',
 
         # Wizards
-        'wizards/account_invoice_refund_view.xml',
+        # 'wizards/account_invoice_refund_view.xml',
     ],
     "demo": [
-        "demo/account_journal_demo.xml",
-        "demo/fiscal_operation_demo.xml",
-        "demo/res_users_demo.xml",
+        # "demo/account_journal_demo.xml",
+        # "demo/fiscal_operation_demo.xml",
+        # "demo/res_users_demo.xml",
     ],
     "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",

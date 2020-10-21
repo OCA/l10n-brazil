@@ -15,7 +15,7 @@ class AccountTaxTemplate(models.Model):
         string='Fiscal Taxes',
     )
 
-    @api.multi
+
     def _generate_tax(self, company):
         mapping = super()._generate_tax(company)
         taxes_template = self.browse(mapping.get('tax_template_to_tax').keys())

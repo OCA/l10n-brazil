@@ -15,7 +15,7 @@ class AccountTax(models.Model):
         string='Fiscal Taxes',
     )
 
-    @api.multi
+
     def compute_all(
         self,
         price_unit,
