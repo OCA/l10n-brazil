@@ -3,7 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.addons import decimal_precision as dp
+
 
 from ..constants.fiscal import (
     INDUSTRY_TYPE,
@@ -114,7 +114,7 @@ class ResCompany(models.Model):
         string="Annual Revenue",
         currency_field="currency_id",
         default=0.00,
-        digits=dp.get_precision("Fiscal Documents"))
+        digits="Fiscal Documents")
 
     simplifed_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax",
@@ -133,7 +133,7 @@ class ResCompany(models.Model):
         string="Simplifed Tax Percent",
         default=0.00,
         related="simplifed_tax_range_id.total_tax_percent",
-        digits=dp.get_precision("Fiscal Tax Percent"))
+        digits="Fiscal Tax Percent")
 
     ibpt_api = fields.Boolean(
         string="Use IBPT API",
@@ -149,12 +149,12 @@ class ResCompany(models.Model):
     certificate_ecnpj_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.certificate",
         string="E-CNPJ",
-        domain="[('type', '=', 'e-cnpj'), ('is_valid', '=', True)]")
+        domain=[('type', '=', 'e-cnpj'), ('is_valid', '=', True)])
 
     certificate_nfe_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.certificate",
         string="NFe",
-        domain="[('type', '=', 'nf-e'), ('is_valid', '=', True)]")
+        domain=[('type', '=', 'nf-e'), ('is_valid', '=', True)])
 
     accountant_id = fields.Many2one(
         comodel_name="res.partner",

@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.addons import decimal_precision as dp
+
 
 from ..constants.fiscal import (
     FISCAL_IN,
@@ -74,19 +74,19 @@ class Tax(models.Model):
     percent_amount = fields.Float(
         string="Percent",
         default=0.00,
-        digits=dp.get_precision("Fiscal Tax Percent"),
+        digits="Fiscal Tax Percent",
         required=True)
 
     percent_reduction = fields.Float(
         string="Percent Reduction",
         default=0.00,
-        digits=dp.get_precision("Fiscal Tax Percent"),
+        digits="Fiscal Tax Percent",
         required=True)
 
     percent_debit_credit = fields.Float(
         string="Percent Debit/Credit",
         default=0.00,
-        digits=dp.get_precision("Fiscal Tax Percent"),
+        digits="Fiscal Tax Percent",
         required=True)
 
     currency_id = fields.Many2one(
@@ -97,7 +97,7 @@ class Tax(models.Model):
     value_amount = fields.Float(
         string="Value",
         default=0.00,
-        digits=dp.get_precision("Fiscal Tax Value"),
+        digits="Fiscal Tax Value",
         required=True)
 
     uot_id = fields.Many2one(
@@ -144,13 +144,13 @@ class Tax(models.Model):
     icmsst_mva_percent = fields.Float(
         string="MVA Percent",
         default=0.00,
-        digits=dp.get_precision("Fiscal Tax Percent"),
+        digits="Fiscal Tax Percent",
         required=True)
 
     icmsst_value = fields.Float(
         string="PFC Value",
         default=0.00,
-        digits=dp.get_precision("Fiscal Tax Value"),
+        digits="Fiscal Tax Value",
         required=True)
 
     _sql_constraints = [(

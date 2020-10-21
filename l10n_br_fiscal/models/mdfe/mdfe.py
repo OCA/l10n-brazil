@@ -46,7 +46,7 @@ class MDFe(models.Model):
     number = fields.Float(
         string="Document Number",
         index=True,
-        digits=(18, 0),
+        digits="Fiscal Documents",
     )
     document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
@@ -75,7 +75,7 @@ class MDFe(models.Model):
     document_value = fields.Float(
         string="Document Total Value",
         readonly=True,
-        digits=(18, 2),
+        digits="Fiscal Documents",
     )
 
     ie = fields.Char(

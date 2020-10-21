@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
-from odoo.addons import decimal_precision as dp
+
 
 from ..constants.fiscal import (
     CFOP_DESTINATION,
@@ -97,7 +97,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     price_unit = fields.Float(
         string="Price Unit",
-        digits=dp.get_precision("Product Price"))
+        digits="Product Price")
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
@@ -112,7 +112,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     quantity = fields.Float(
         string="Quantity",
-        digits=dp.get_precision("Product Unit of Measure"))
+        digits="Product Unit of Measure")
 
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
@@ -170,7 +170,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     fiscal_price = fields.Float(
         string="Fiscal Price",
-        digits=dp.get_precision("Product Price"))
+        digits="Product Price")
 
     uot_id = fields.Many2one(
         comodel_name="uom.uom",
@@ -178,7 +178,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     fiscal_quantity = fields.Float(
         string="Fiscal Quantity",
-        digits=dp.get_precision("Product Unit of Measure"))
+        digits="Product Unit of Measure")
 
     discount_value = fields.Monetary(
         string="Discount Value",
@@ -543,7 +543,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ii_base = fields.Float(
         string='II Base',
         required=True,
-        digits=dp.get_precision('Account'),
+        digits='Account',
         default=0.00)
 
     ii_percent = fields.Float(
@@ -552,19 +552,19 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ii_value = fields.Float(
         string='II Value',
         required=True,
-        digits=dp.get_precision('Account'),
+        digits='Account',
         default=0.00)
 
     ii_iof_value = fields.Float(
         string='IOF Value',
         required=True,
-        digits=dp.get_precision('Account'),
+        digits='Account',
         default=0.00)
 
     ii_customhouse_charges = fields.Float(
         string='Despesas Aduaneiras',
         required=True,
-        digits=dp.get_precision('Account'),
+        digits='Account',
         default=0.00)
 
     # PIS/COFINS Fields

@@ -2,7 +2,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from openerp import fields, models
-from openerp.addons import decimal_precision as dp
 
 from ..models.l10n_br_account_product import PRODUCT_FISCAL_TYPE
 
@@ -27,31 +26,31 @@ class AccountInvoiceReport(models.Model):
     )
 
     icms_value = fields.Float(
-        string=u"Valor ICMS", required=True, digits=dp.get_precision("Account")
+        string=u"Valor ICMS", required=True, digits="Account"
     )
 
     icms_st_value = fields.Float(
-        string=u"Valor ICMS ST", required=True, digits=dp.get_precision("Account")
+        string=u"Valor ICMS ST", required=True, digits="Account"
     )
 
     ipi_value = fields.Float(
-        string=u"Valor IPI", required=True, digits=dp.get_precision("Account")
+        string=u"Valor IPI", required=True, digits="Account"
     )
 
     pis_value = fields.Float(
-        string=u"Valor PIS", required=True, digits=dp.get_precision("Account")
+        string=u"Valor PIS", required=True, digits="Account"
     )
 
     cofins_value = fields.Float(
-        string=u"Valor COFINS", required=True, digits=dp.get_precision("Account")
+        string=u"Valor COFINS", required=True, digits="Account"
     )
 
     ii_value = fields.Float(
-        string=u"Valor II", required=True, digits=dp.get_precision("Account")
+        string=u"Valor II", required=True, digits="Account"
     )
 
     total_with_taxes = fields.Float(
-        string=u"Total com Impostos", required=True, digits=dp.get_precision("Account")
+        string=u"Total com Impostos", required=True, digits="Account"
     )
 
     def _select(self):
