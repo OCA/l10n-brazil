@@ -52,7 +52,7 @@ class CNABFileParser(FileParser):
         self.support_multi_moves = None
         self.env = journal.env
         self.bank = self.journal.bank_account_id.bank_id
-        self.cnab_return_log_line = []
+        self.cnab_return_events = []
 
     @classmethod
     def parser_for(cls, parser_name):
@@ -169,7 +169,7 @@ class CNABFileParser(FileParser):
 
             # Linha não encontrada
             if not account_move_line:
-                self.cnab_return_log_line.append({
+                self.cnab_return_events.append({
                     'occurrences': descricao_ocorrencia,
                     'occurrence_date': data_ocorrencia,
                     'str_motiv_a':
@@ -374,7 +374,7 @@ class CNABFileParser(FileParser):
                     })
 
                 # CNAB LOG
-                self.cnab_return_log_line.append({
+                self.cnab_return_events.append({
                     'occurrence_date': data_ocorrencia,
                     'real_payment_date': data_credito.strftime("%Y-%m-%d"),
                     # 'segmento': evento.servico_segmento,
@@ -404,7 +404,7 @@ class CNABFileParser(FileParser):
                 })
 
             else:
-                self.cnab_return_log_line.append({
+                self.cnab_return_events.append({
                     'occurrences': descricao_ocorrencia,
                     'occurrence_date': data_ocorrencia,
                     'own_number': account_move_line.own_number,
