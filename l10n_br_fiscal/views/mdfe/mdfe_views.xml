@@ -10,35 +10,36 @@
         <field name="arch" type="xml">
             <form string="Manifestation">
                 <header>
-                    <button name="action_ciencia_emissao"
-                            string="Ciência da Emissão"
-                            type="object"
-                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
-                            attrs="{'invisible':[['state','not in',['pendente']]]}"/>
-                    <button name="action_confirmar_operacacao"
-                            string="Confirmar Operação"
-                            type="object"
-                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
-                            attrs="{'invisible':[['state','not in',['ciente']]]}"/>
-                    <button name="action_operacao_desconhecida"
-                            string="Desconhecer Operação"
-                            type="object"
-                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
-                            attrs="{'invisible':[['state','not in',['ciente']]]}"/>
-                    <button name="action_negar_operacao"
-                            string="Operação não Realizada"
-                            type="object"
-                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
-                            attrs="{'invisible':[['state','not in',['ciente']]]}"/>
-                    <button name="action_import_xml"
-                            string="Import Document"
-                            type="object"
-                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
-                            attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>
-                    <button name="action_download_xml"
-                            string="Download Document's XML"
-                            type="object"
-                            attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>
+                    <!-- TODO: Migration 14 -->
+<!--                    <button name="action_ciencia_emissao"-->
+<!--                            string="Ciência da Emissão"-->
+<!--                            type="object"-->
+<!--                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."-->
+<!--                            attrs="{'invisible':[['state','not in',['pendente']]]}"/>-->
+<!--                    <button name="action_confirmar_operacacao"-->
+<!--                            string="Confirmar Operação"-->
+<!--                            type="object"-->
+<!--                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."-->
+<!--                            attrs="{'invisible':[['state','not in',['ciente']]]}"/>-->
+<!--                    <button name="action_operacao_desconhecida"-->
+<!--                            string="Desconhecer Operação"-->
+<!--                            type="object"-->
+<!--                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."-->
+<!--                            attrs="{'invisible':[['state','not in',['ciente']]]}"/>-->
+<!--                    <button name="action_negar_operacao"-->
+<!--                            string="Operação não Realizada"-->
+<!--                            type="object"-->
+<!--                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."-->
+<!--                            attrs="{'invisible':[['state','not in',['ciente']]]}"/>-->
+<!--                    <button name="action_import_xml"-->
+<!--                            string="Import Document"-->
+<!--                            type="object"-->
+<!--                            confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."-->
+<!--                            attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>-->
+<!--                    <button name="action_download_xml"-->
+<!--                            string="Download Document's XML"-->
+<!--                            type="object"-->
+<!--                            attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"/>-->
                     <field name="state" statusbar_visible="pendente,ciente,confirmado" readonly="1"
                            statusbar_colors='{"confirmado":"blue","desconhecido":"red","nao_realizado":"red"}'
                            widget="statusbar" nolabel="1"
