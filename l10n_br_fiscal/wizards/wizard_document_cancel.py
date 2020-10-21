@@ -15,7 +15,7 @@ class DocumentCancelWizard(models.TransientModel):
         size=255,
         required=True)
 
-    @api.multi
+
     @api.constrains('justificative')
     def _check_justificative(self):
         for record in self:
@@ -24,7 +24,7 @@ class DocumentCancelWizard(models.TransientModel):
                     _('Justificativa deve ter o tamanho mínimo de 15 '
                       'caracteres.'))
 
-    @api.multi
+
     def doit(self):
         for wizard in self:
             document_id = self.env[self.env.context["active_model"]].browse(

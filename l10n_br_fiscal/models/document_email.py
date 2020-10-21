@@ -63,7 +63,7 @@ class DocumentEmail(models.Model):
              "this document state change.",
     )
 
-    @api.multi
+
     @api.depends('document_type_id', 'state_edoc')
     def _compute_name(self):
         for record in self:

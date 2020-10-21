@@ -20,7 +20,7 @@ class DocumentCorrection(models.Model):
         string=u"Eventos",
     )
 
-    @api.multi
+
     def correction(self, event_id):
         for record in self:
             if not record.document_id or not record.justificative:

@@ -52,7 +52,7 @@ class DataAbstract(models.AbstractModel):
 
         return self.browse(recs).name_get()
 
-    @api.multi
+
     def name_get(self):
         def truncate_name(name):
             if len(name) > 60:

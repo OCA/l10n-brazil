@@ -23,7 +23,7 @@ class MDFe(models.Model):
     _name = "l10n_br_fiscal.mdfe"
     _description = 'Recipient Manifestation'
 
-    @api.multi
+
     def name_get(self):
         return [(rec.id,
                  u"NFº: {0} ({1}): {2}".format(
@@ -149,7 +149,7 @@ class MDFe(models.Model):
         comodel_name="l10n_br_fiscal.dfe",
     )
 
-    @api.multi
+
     def cria_wizard_gerenciamento(self, state=""):
 
         dados = {
@@ -159,7 +159,7 @@ class MDFe(models.Model):
 
         return self.env["wizard.confirma.acao"].create(dados)
 
-    @api.multi
+
     def download_attachment(self, attachment_id=None):
 
         action = {

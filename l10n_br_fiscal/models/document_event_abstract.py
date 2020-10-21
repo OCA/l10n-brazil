@@ -35,14 +35,14 @@ class EventAbstract(models.AbstractModel):
 
     display_name = fields.Char(string=u"Nome", compute="_compute_display_name")
 
-    @api.multi
+
     @api.depends("document_id.number", "document_id.partner_id.name")
     def _compute_display_name(self):
         self.ensure_one()
         names = ["Fatura", self.document_id.number, self.document_id.partner_id.name]
         self.display_name = " / ".join(filter(None, names))
 
-    @api.multi
+
     @api.constrains('justificative')
     def _check_justificative(self):
         if len(self.justificative) < 15:

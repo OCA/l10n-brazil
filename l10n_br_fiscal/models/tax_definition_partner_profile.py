@@ -12,7 +12,7 @@ class TaxDefinitionPartnerProfile(models.Model):
         comodel_name='l10n_br_fiscal.partner.profile',
         string='Partner Profile')
 
-    @api.multi
+
     @api.constrains('fiscal_profile_id')
     def _check_fiscal_profile_id(self):
         for record in self:

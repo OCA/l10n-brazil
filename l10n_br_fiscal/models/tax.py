@@ -157,7 +157,7 @@ class Tax(models.Model):
         "fiscal_tax_code_uniq", "unique (name)",
         "Tax already exists with this name !")]
 
-    @api.multi
+
     def get_account_tax(self, fiscal_operation_type=FISCAL_OUT):
         account_tax_type = {'out': 'sale', 'in': 'purchase'}
         type_tax_use = account_tax_type.get(fiscal_operation_type, 'sale')
@@ -541,7 +541,7 @@ class Tax(models.Model):
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
-    @api.multi
+
     def compute_taxes(self, **kwargs):
         """
         arguments:

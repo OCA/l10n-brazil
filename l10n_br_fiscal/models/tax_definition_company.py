@@ -8,7 +8,7 @@ from odoo.exceptions import ValidationError
 class TaxDefinitionCompany(models.Model):
     _inherit = 'l10n_br_fiscal.tax.definition'
 
-    @api.multi
+
     @api.constrains('company_id')
     def _check_company_id(self):
         for record in self:

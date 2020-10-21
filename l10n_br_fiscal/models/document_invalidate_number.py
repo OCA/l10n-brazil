@@ -12,7 +12,7 @@ class DocumentInvalidateNumber(models.Model):
     _inherit = "l10n_br_fiscal.event.abstract"
     _description = "Fiscal Document Invalidate Number Record"
 
-    @api.multi
+
     def name_get(self):
         return [(rec.id,
                  u"({0}): {1} - {2}".format(
@@ -53,7 +53,7 @@ class DocumentInvalidateNumber(models.Model):
          u'Sequência existente!'),
     ]
 
-    @api.multi
+
     @api.constrains('number_start', 'number_end')
     def _check_range(self):
         for record in self:
@@ -78,7 +78,7 @@ class DocumentInvalidateNumber(models.Model):
         self.write({'state': 'done'})
         return True
 
-    @api.multi
+
     def unlink(self):
         unlink_ids = []
         for invalid_number in self:
@@ -89,7 +89,7 @@ class DocumentInvalidateNumber(models.Model):
                     u'Você não pode excluir uma sequência concluída.'))
         return super(DocumentInvalidateNumber, self).unlink()
 
-    @api.multi
+
     def action_invalidate(self):
         for record in self:
             event_id = self.env['l10n_br_fiscal.document.event'].create({
@@ -107,7 +107,7 @@ class DocumentInvalidateNumber(models.Model):
 
             record.invalidate(event_id)
 
-    @api.multi
+
     def invalidate(self, event_id):
         for record in self:
             event_id.state = 'done'

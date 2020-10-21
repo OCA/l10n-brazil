@@ -943,7 +943,7 @@ class ICMSRegulation(models.Model):
 
         return view_super
 
-    @api.multi
+
     def map_tax_icms(self, company, partner, product, ncm=None, nbm=None,
                      cest=None, operation_line=None):
         self.ensure_one()
@@ -998,7 +998,7 @@ class ICMSRegulation(models.Model):
         icms_taxes |= tax_definitions.mapped('tax_id')
         return icms_taxes
 
-    @api.multi
+
     def map_tax_icmsst(self, company, partner, product, ncm=None, nbm=None,
                        cest=None, operation_line=None):
         self.ensure_one()
@@ -1039,7 +1039,7 @@ class ICMSRegulation(models.Model):
         icms_taxes |= tax_definitions.mapped('tax_id')
         return icms_taxes
 
-    @api.multi
+
     def map_tax_icmsfcp(self, company, partner, product, ncm=None, nbm=None,
                         cest=None, operation_line=None):
 
@@ -1098,7 +1098,7 @@ class ICMSRegulation(models.Model):
         icms_taxes |= tax_definitions.mapped('tax_id')
         return icms_taxes
 
-    @api.multi
+
     def map_tax_icms_difal(self, company, partner, product, ncm=None,
                            nbm=None, cest=None, operation_line=None):
         self.ensure_one()
@@ -1146,7 +1146,7 @@ class ICMSRegulation(models.Model):
         icms_taxes |= tax_definitions.mapped('tax_id')
         return icms_taxes
 
-    @api.multi
+
     def map_tax(self, company, partner, product, ncm=None, nbm=None,
                 cest=None, operation_line=None):
 

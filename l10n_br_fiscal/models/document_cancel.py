@@ -16,7 +16,7 @@ class DocumentCancel(models.Model):
         string=u"Eventos",
     )
 
-    @api.multi
+
     def cancel_document(self, event_id):
         for record in self:
             if not record.document_id or not record.justificative:

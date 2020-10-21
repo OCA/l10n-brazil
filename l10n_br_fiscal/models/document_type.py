@@ -60,7 +60,7 @@ class DocumentType(models.Model):
             ('company_id', '=', company.id),
             ('document_type_id', '=', self.id)], limit=1)
 
-    @api.multi
+
     def get_document_serie(self, company, fiscal_operation):
         self.ensure_one()
         serie = self.env['l10n_br_fiscal.document.serie']

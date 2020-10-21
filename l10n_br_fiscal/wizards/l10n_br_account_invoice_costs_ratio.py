@@ -16,7 +16,7 @@ class L10nBrAccountProductInvoiceCostsRatio(models.TransientModel):
     amount_insurance_value = fields.Float("Seguro")
     amount_costs_value = fields.Float("Outros Custos")
 
-    @api.multi
+
     def set_invoice_costs_ratio(self):
 
         if not self._context.get("active_model") in "account.invoice":

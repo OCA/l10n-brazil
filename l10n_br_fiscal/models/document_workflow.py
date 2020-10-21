@@ -192,7 +192,7 @@ class DocumentWorkflow(models.AbstractModel):
         elif new_state == SITUACAO_EDOC_INUTILIZADA:
             self._exec_after_SITUACAO_EDOC_INUTILIZADA(old_state, new_state)
 
-    @api.multi
+
     def _change_state(self, new_state):
         """ Método para alterar o estado do documento fiscal, mantendo a
         integridade do workflow da invoice.
@@ -281,14 +281,14 @@ class DocumentWorkflow(models.AbstractModel):
         msg = "Cancelamento: {}".format(justificative)
         self.message_post(body=msg)
 
-    @api.multi
+
     def action_document_cancel(self):
         result = self.env["ir.actions.act_window"].for_xml_id(
             "l10n_br_fiscal", "document_cancel_wizard_action"
         )
         return result
 
-    @api.multi
+
     def action_document_invalidate(self):
         result = self.env["ir.actions.act_window"].for_xml_id(
             "l10n_br_fiscal", "wizard_document_invalidate_action"
@@ -300,7 +300,7 @@ class DocumentWorkflow(models.AbstractModel):
         msg = "Carta de correção: {}".format(justificative)
         self.message_post(body=msg)
 
-    @api.multi
+
     def action_document_correction(self):
         result = self.env["ir.actions.act_window"].for_xml_id(
             "l10n_br_fiscal", "document_correction_wizard_action"

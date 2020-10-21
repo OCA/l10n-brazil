@@ -12,7 +12,7 @@ class TaxDefinitionICMS(models.Model):
         comodel_name='l10n_br_fiscal.icms.regulation',
         string='ICMS Regulation')
 
-    @api.multi
+
     @api.constrains('icms_regulation_id', 'state_from_id')
     def _check_icms(self):
         for record in self:

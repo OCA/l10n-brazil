@@ -14,7 +14,7 @@ class WizardDocumentInvalidate(models.TransientModel):
     justificative = fields.Text("Justificativa", size=255, required=True)
 
     @api.constrains("justificative")
-    @api.multi
+
     def _check_justificative(self):
         for record in self:
             if len(record.justificative) < 15:
@@ -22,7 +22,7 @@ class WizardDocumentInvalidate(models.TransientModel):
                     _("Justificativa deve ter o tamanho mínimo de 15 " "caracteres.")
                 )
 
-    @api.multi
+
     def doit(self):
         for wizard in self:
             document_id = self.env[self.env.context["active_model"]].browse(

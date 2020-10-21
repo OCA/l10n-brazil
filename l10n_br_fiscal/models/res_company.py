@@ -37,7 +37,7 @@ from ..constants.fiscal import (
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    @api.multi
+
     def _compute_l10n_br_data(self):
         """ Read the l10n_br specific functional fields. """
         super(ResCompany, self)._compute_l10n_br_data()

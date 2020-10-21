@@ -156,7 +156,7 @@ class DocumentEvent(models.Model):
         copy=False,
         readony=True)
 
-    @api.multi
+
     @api.depends("company_id.name", "origin")
     def _compute_display_name(self):
         self.ensure_one()
@@ -261,7 +261,7 @@ class DocumentEvent(models.Model):
         self.write(vals)
         return attachment_id
 
-    @api.multi
+
     def set_done(self, arquivo_xml):
         self._grava_anexo(arquivo_xml, "xml", autorizacao=True)
         self.write({"state": "done", "end_date": fields.Datetime.now()})
