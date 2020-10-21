@@ -2,19 +2,25 @@
 #   @author  Luiz Felipe do Divino Costa <luiz.divino@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import logging
-
 from odoo import fields, models
 
-from ..constants import STATE_CNAB
 
-_logger = logging.getLogger(__name__)
+class CNABReturnEvent(models.Model):
+    """
+        The class is used to register the Events of CNAB return file.
+    """
+    _name = 'cnab.return.event'
+    _description = 'CNAB Return Event'
 
-
-class L10nBrCnabEvento(models.Model):
-    _name = 'l10n_br.cnab.evento'
-    _description = 'l10n_br CNAB Event'
-
+    cnab_return_log_id = fields.Many2one(
+        string='CNAB Return Log', comodel_name='cnab.return.log',
+    )
+    # Field used to make invisible/visible fields refer to Lot
+    is_cnab_lot = fields.Boolean(string='Is CNAB Lot?')
+    # O arquivo de Retorno pode ter ou não Lotes
+    lot_id = fields.Many2one(
+        string='Lote', comodel_name='cnab.return.lot', ondelete='cascade'
+    )
     bank_payment_line_id = fields.Many2one(
         string='Bank Payment Line', comodel_name='bank.payment.line'
     )
@@ -30,18 +36,12 @@ class L10nBrCnabEvento(models.Model):
     )
     invoice_id = fields.Many2one(comodel_name='account.invoice', string='Fatura')
     interest_fee_value = fields.Float(string='Juros de Mora/Multa')
-    lot_id = fields.Many2one(
-        string='Lote', comodel_name='l10n_br.cnab.lote', ondelete='cascade'
-    )
     own_number = fields.Char(string='Nosso Número')
     occurrences = fields.Char(string='Ocorrências')
     other_credits = fields.Float(string='Outros Créditos')
     partner_id = fields.Many2one(comodel_name='res.partner', string='Associado')
     segment = fields.Char(string='Segmento')
     your_number = fields.Char(string='Seu Número')
-    state = fields.Selection(
-        string='State', related='lot_id.state', selection=STATE_CNAB, default='draft'
-    )
     str_motiv_a = fields.Char('Motivo da ocorrência 01')
     str_motiv_b = fields.Char('Motivo de ocorrência 02')
     str_motiv_c = fields.Char('Motivo de ocorrência 03')
