@@ -10,7 +10,6 @@ _logger = logging.getLogger(__name__)
 
 def post_init_hook(cr, registry):
     """Import XML data to change core data"""
-
     files = [
         "data/l10n_br_fiscal.cnae.csv",
         "data/l10n_br_fiscal.cfop.csv",
@@ -38,7 +37,6 @@ def post_init_hook(cr, registry):
             mode="init",
             noupdate=True,
             kind="init",
-            report=None,
         )
 
     if not tools.config["without_demo"]:
@@ -84,7 +82,6 @@ def post_init_hook(cr, registry):
                 mode="init",
                 noupdate=True,
                 kind="demo",
-                report=None,
             )
 
     elif tools.config["without_demo"]:
@@ -117,7 +114,6 @@ def post_init_hook(cr, registry):
                 mode="init",
                 noupdate=True,
                 kind="init",
-                report=None,
             )
 
     # Load post files
@@ -138,5 +134,4 @@ def post_init_hook(cr, registry):
             mode="init",
             noupdate=True,
             kind="init",
-            report=None,
         )
