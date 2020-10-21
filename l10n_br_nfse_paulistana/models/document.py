@@ -5,16 +5,13 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 from erpbrasil.base import misc
 
-from nfselib.paulistana.v02.TiposNFe_v01 import (
+from nfselib.paulistana.v02.PedidoEnvioLoteRPS import (
+    CabecalhoType,
+    PedidoEnvioLoteRPS,
     tpEndereco,
     tpCPFCNPJ,
     tpRPS,
     tpChaveRPS,
-)
-
-from nfselib.paulistana.v02.PedidoEnvioLoteRPS_v01 import (
-    CabecalhoType,
-    PedidoEnvioLoteRPS,
 )
 
 from odoo import models, api, _
@@ -49,6 +46,26 @@ class Document(models.Model):
 
     _inherit = 'l10n_br_fiscal.document'
 
+    def convert_type_nfselib(self, class_object, object_filed, value):
+        if value is None:
+            return value
+
+        value_type = ''
+        for field in class_object().member_data_items_:
+            if field.name == object_filed:
+                value_type = field.child_attrs.get('type', '').\
+                    replace('xs:', '')
+                break
+
+        if value_type in ('int', 'long', 'byte', 'nonNegativeInteger'):
+            return int(value)
+        elif value_type == 'decimal':
+            return float(value)
+        elif value_type == 'string':
+            return str(value)
+        else:
+            return value
+
     def _serialize(self, edocs):
         edocs = super(Document, self)._serialize(edocs)
         for record in self.filtered(
@@ -68,13 +85,24 @@ class Document(models.Model):
 
     def _serialize_cabecalho(self, dados_lote_rps):
         return CabecalhoType(
-            CPFCNPJRemetente=tpCPFCNPJ(CNPJ=dados_lote_rps['cnpj']),
-            transacao=False,  # TOOD: Verficar origem do dado
-            dtInicio=dados_lote_rps['data_emissao'],
-            dtFim=dados_lote_rps['data_emissao'],
-            QtdRPS='1',
-            ValorTotalServicos=dados_lote_rps['total_recebido'],
-            ValorTotalDeducoes=dados_lote_rps['carga_tributaria'],
+            Versao=self.convert_type_nfselib(CabecalhoType, 'Versao', 1),
+            CPFCNPJRemetente=tpCPFCNPJ(
+                CNPJ=self.convert_type_nfselib(
+                    CabecalhoType, 'tpCPFCNPJ', dados_lote_rps['cnpj'])),
+            transacao=False,  # TODO: Verficar origem do dado
+            dtInicio=self.convert_type_nfselib(
+                CabecalhoType, 'dtInicio',
+                dados_lote_rps['data_emissao'].split('T', 1)[0]),
+            dtFim=self.convert_type_nfselib(
+                CabecalhoType, 'dtFim',
+                dados_lote_rps['data_emissao'].split('T', 1)[0]),
+            QtdRPS=self.convert_type_nfselib(CabecalhoType, 'QtdRPS', '1'),
+            ValorTotalServicos=self.convert_type_nfselib(
+                CabecalhoType, 'ValorTotalServicos',
+                dados_lote_rps['total_recebido']),
+            ValorTotalDeducoes=self.convert_type_nfselib(
+                CabecalhoType, 'ValorTotalDeducoes',
+                dados_lote_rps['carga_tributaria']),
         )
 
     def _serialize_lote_rps(self, dados_lote_rps, dados_servico):
@@ -83,64 +111,115 @@ class Document(models.Model):
             Assinatura=self.assinatura_rps(dados_lote_rps, dados_servico,
                                            dados_tomador),
             ChaveRPS=tpChaveRPS(
-                InscricaoPrestador=dados_lote_rps['inscricao_municipal'].zfill(
-                    8),
-                SerieRPS=dados_lote_rps['serie'],
-                NumeroRPS=dados_lote_rps['numero'],
+                InscricaoPrestador=self.convert_type_nfselib(
+                    tpChaveRPS, 'InscricaoPrestador',
+                    dados_lote_rps['inscricao_municipal'].zfill(8)),
+                SerieRPS=self.convert_type_nfselib(
+                    tpChaveRPS, 'SerieRPS', dados_lote_rps['serie']),
+                NumeroRPS=self.convert_type_nfselib(
+                    tpChaveRPS, 'NumeroRPS', dados_lote_rps['numero']),
             ),
             TipoRPS=self._map_type_rps(dados_lote_rps['tipo']),
-            DataEmissao=dados_lote_rps['data_emissao'],
-            StatusRPS='N',
-            TributacaoRPS=self._map_taxation_rps(dados_lote_rps['natureza_operacao']),
-            ValorServicos=dados_servico['valor_servicos'],
-            ValorDeducoes=dados_servico['valor_deducoes'],
-            ValorPIS=dados_servico['valor_pis'],
-            ValorCOFINS=dados_servico['valor_cofins'],
-            ValorINSS=dados_servico['valor_inss'],
-            ValorIR=dados_servico['valor_ir'],
-            ValorCSLL=dados_servico['valor_csll'],
-            CodigoServico=dados_servico['codigo_tributacao_municipio'],
-            AliquotaServicos=dados_servico['aliquota'],
+            DataEmissao=self.convert_type_nfselib(
+                tpRPS, 'DataEmissao',
+                dados_lote_rps['data_emissao'].split('T', 1)[0]),
+            StatusRPS=self.convert_type_nfselib(tpRPS, 'StatusRPS', 'N'),
+            TributacaoRPS=self.convert_type_nfselib(
+                tpRPS, 'TributacaoRPS',
+                self._map_taxation_rps(dados_lote_rps['natureza_operacao'])),
+            ValorServicos=self.convert_type_nfselib(
+                tpRPS, 'ValorServicos', dados_servico['valor_servicos']),
+            ValorDeducoes=self.convert_type_nfselib(
+                tpRPS, 'ValorDeducoes', dados_servico['valor_deducoes']),
+            ValorPIS=self.convert_type_nfselib(
+                tpRPS, 'ValorPIS', dados_servico['valor_pis']),
+            ValorCOFINS=self.convert_type_nfselib(
+                tpRPS, 'ValorCOFINS', dados_servico['valor_cofins']),
+            ValorINSS=self.convert_type_nfselib(
+                tpRPS, 'ValorINSS', dados_servico['valor_inss']),
+            ValorIR=self.convert_type_nfselib(
+                tpRPS, 'ValorIR', dados_servico['valor_ir']),
+            ValorCSLL=self.convert_type_nfselib(
+                tpRPS, 'ValorCSLL', dados_servico['valor_csll']),
+            CodigoServico=self.convert_type_nfselib(
+                tpRPS, 'CodigoServico',
+                dados_servico['codigo_tributacao_municipio']),
+            AliquotaServicos=self.convert_type_nfselib(
+                tpRPS, 'AliquotaServicos', dados_servico['aliquota']),
             ISSRetido=False,  # FIXME: Hardcoded
-            CPFCNPJTomador=tpCPFCNPJ(CNPJ=dados_tomador['cnpj']),
-            InscricaoMunicipalTomador=dados_tomador['inscricao_municipal'],
-            InscricaoEstadualTomador=dados_tomador['inscricao_estadual'],
-            RazaoSocialTomador=dados_tomador['razao_social'],
+            CPFCNPJTomador=self.convert_type_nfselib(
+                tpRPS, 'CPFCNPJTomador', tpCPFCNPJ(CNPJ=dados_tomador['cnpj'])),
+            InscricaoMunicipalTomador=self.convert_type_nfselib(
+                tpRPS, 'InscricaoMunicipalTomador',
+                dados_tomador['inscricao_municipal']),
+            InscricaoEstadualTomador=self.convert_type_nfselib(
+                tpRPS, 'InscricaoEstadualTomador',
+                dados_tomador['inscricao_estadual']),
+            RazaoSocialTomador=self.convert_type_nfselib(
+                tpRPS, 'RazaoSocialTomador', dados_tomador['razao_social']),
             EnderecoTomador=tpEndereco(
-                Logradouro=dados_tomador['endereco'],
-                NumeroEndereco=dados_tomador['numero'],
-                ComplementoEndereco=dados_tomador['complemento'],
-                Bairro=dados_tomador['bairro'],
-                Cidade=dados_tomador['codigo_municipio'],
-                UF=dados_tomador['uf'],
-                CEP=str(dados_tomador['cep']),
+                Logradouro=self.convert_type_nfselib(
+                    tpEndereco, 'Logradouro', dados_tomador['endereco']),
+                NumeroEndereco=self.convert_type_nfselib(
+                    tpEndereco, 'NumeroEndereco', dados_tomador['numero']),
+                ComplementoEndereco=self.convert_type_nfselib(
+                    tpEndereco, 'ComplementoEndereco',
+                    dados_tomador['complemento']),
+                Bairro=self.convert_type_nfselib(
+                    tpEndereco, 'Bairro', dados_tomador['bairro']),
+                Cidade=self.convert_type_nfselib(
+                    tpEndereco, 'Cidade', dados_tomador['codigo_municipio']),
+                UF=self.convert_type_nfselib(
+                    tpEndereco, 'UF', dados_tomador['uf']),
+                CEP=self.convert_type_nfselib(
+                    tpEndereco, 'CEP', dados_tomador['cep']),
             ),
-            EmailTomador=dados_tomador['email'],
-            Discriminacao=dados_servico['discriminacao'],
-            ValorCargaTributaria=dados_lote_rps['carga_tributaria'],
-            FonteCargaTributaria=dados_lote_rps['total_recebido'],
-            MunicipioPrestacao=self._map_provision_municipality(
-                dados_lote_rps['natureza_operacao'],
-                dados_servico['codigo_municipio']),
+            EmailTomador=self.convert_type_nfselib(
+                tpRPS, 'EmailTomador', dados_tomador['email']),
+            Discriminacao=self.convert_type_nfselib(
+                tpRPS, 'Discriminacao', dados_servico['discriminacao']),
+            ValorCargaTributaria=self.convert_type_nfselib(
+                tpRPS, 'ValorCargaTributaria',
+                dados_lote_rps['carga_tributaria']),
+            FonteCargaTributaria=self.convert_type_nfselib(
+                tpRPS, 'FonteCargaTributaria',
+                dados_lote_rps['total_recebido']),
+            MunicipioPrestacao=self.convert_type_nfselib(
+                CabecalhoType, 'Versao',
+                self._map_provision_municipality(
+                    dados_lote_rps['natureza_operacao'],
+                    dados_servico['codigo_municipio']
+                )
+            ),
         )
 
     def _serialize_rps(self, dados):
         return tpRPS(
-            InscricaoMunicipalTomador=dados['inscricao_municipal'],
+            InscricaoMunicipalTomador=self.convert_type_nfselib(
+                tpRPS, 'InscricaoMunicipalTomador',
+                dados['inscricao_municipal']),
             CPFCNPJTomador=tpCPFCNPJ(
-                Cnpj=dados['cnpj'],
-                Cpf=dados['cpf'],
+                Cnpj=self.convert_type_nfselib(
+                    tpCPFCNPJ, 'Cnpj', dados['cnpj']),
+                Cpf=self.convert_type_nfselib(
+                    tpCPFCNPJ, 'Cpf', dados['cpf']),
             ),
-            RazaoSocialTomador=dados['razao_social'],
+            RazaoSocialTomador=self.convert_type_nfselib(
+                tpRPS, 'RazaoSocialTomador', dados['razao_social']),
             EnderecoTomador=tpEndereco(
-                # TipoLogradouro='Rua', # TODO: Verificar se este campo é necessario
-                Logradouro=dados['endereco'],
-                NumeroEndereco=dados['numero'],
-                ComplementoEndereco=dados['complemento'],
-                Bairro=dados['bairro'],
-                Cidade=dados['codigo_municipio'],
-                UF=dados['uf'],
-                CEP=dados['cep'],
+                Logradouro=self.convert_type_nfselib(
+                    tpEndereco, 'Logradouro', dados['endereco']),
+                NumeroEndereco=self.convert_type_nfselib(
+                    tpEndereco, 'NumeroEndereco', dados['numero']),
+                ComplementoEndereco=self.convert_type_nfselib(
+                    tpEndereco, 'ComplementoEndereco', dados['complemento']),
+                Bairro=self.convert_type_nfselib(
+                    tpEndereco, 'Bairro', dados['bairro']),
+                Cidade=self.convert_type_nfselib(
+                    tpEndereco, 'Cidade', dados['codigo_municipio']),
+                UF=self.convert_type_nfselib(
+                    tpEndereco, 'UF', dados['uf']),
+                CEP=self.convert_type_nfselib(tpEndereco, 'CEP', dados['cep']),
             ) or None,
         )
 
@@ -217,7 +296,7 @@ class Document(models.Model):
                                 retorno = ET.fromstring(processo.retorno)
 
                                 if retorno:
-                                    if processo.resposta.Cabecalho.Sucesso == 'true':
+                                    if processo.resposta.Cabecalho.Sucesso:
                                         record.autorizacao_event_id.set_done(
                                             processo.envio_xml)
                                         record._change_state(
@@ -241,6 +320,20 @@ class Document(models.Model):
                                         vals['codigo_motivo_situacao'] = _('Procesado com Erro')
                 record.write(vals)
         return
+
+    def action_consultar_nfse_rps(self):
+        for record in self.filtered(fiter_processador_edoc_nfse_paulistana()):
+            processador = record._processador_erpbrasil_nfse()
+            processo = processador.consulta_nfse_rps(
+                int(self.rps_number), self.document_serie, int(self.rps_type))
+
+            return _(
+                processador.analisa_retorno_consulta(
+                    processo,
+                    self.number,
+                    self.company_cnpj_cpf,
+                    self.company_legal_name)
+            )
 
 
 
