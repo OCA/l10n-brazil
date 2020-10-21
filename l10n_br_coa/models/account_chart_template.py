@@ -16,7 +16,6 @@ class AccountChartTemplate(models.Model):
                 'account_purchase_tax_id': False,
             })
 
-    @api.multi
     def _load_template(self, company, code_digits=None,
                        account_ref=None, taxes_ref=None):
         account_ref, taxes_ref = super()._load_template(
