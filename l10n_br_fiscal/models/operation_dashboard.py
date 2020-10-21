@@ -38,10 +38,10 @@ class Operation(models.Model):
     #         query = self._where_calc(args)
     #         self._apply_ir_rules(query, 'read')
 
-    @api.one
     def _compute_kanban_dashboard(self):
-        self.kanban_dashboard = json.dumps(
-            self.get_operation_dashboard_datas())
+        for record in self:
+            record.kanban_dashboard = json.dumps(
+                record.get_operation_dashboard_datas())
 
     kanban_dashboard = fields.Text(
         compute='_compute_kanban_dashboard')
