@@ -117,7 +117,7 @@ class Attachment(models.TransientModel):
                     # caminho do arquivo
                     full_path = attachment_obj._full_path(
                         attachment.store_fname)
-                    attachment_name = attachment.datas_fname
+                    attachment_name = attachment.store_fname
                     new_file = os.path.join(attachment_dir, attachment_name)
 
                     # copying in a new directory with a new name
@@ -141,7 +141,7 @@ class Attachment(models.TransientModel):
 
                 values = {
                     'name': file_name + '.tar.gz',
-                    'datas_fname': file_name + '.tar.gz',
+                    'store_fname': file_name + '.tar.gz',
                     'res_model': 'l10n_br_fiscal.attachment',
                     'res_id': self.id,
                     'type': 'binary',

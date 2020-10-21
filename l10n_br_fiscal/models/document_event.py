@@ -245,7 +245,7 @@ class DocumentEvent(models.Model):
         attachment_id = ir_attachment_id.create(
             {
                 "name": file_name,
-                "datas_fname": file_name,
+                "store_fname": file_name,
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(arquivo.encode("utf-8")),
