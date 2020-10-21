@@ -7,7 +7,7 @@
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
-    "maintainers": ["renatonlima"],
+    "maintainers": ["renatonlima", "mileo"],
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "14.0.1.0.0",
     "depends": [
