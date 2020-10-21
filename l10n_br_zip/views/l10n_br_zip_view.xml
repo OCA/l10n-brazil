@@ -10,7 +10,7 @@
                 <field name="zip_code"/>
                 <field name="district"/>
                 <field name="street_type"/>
-                <field name="street"/>
+                <field name="street_name"/>
                 <field name="zip_complement"/>
             </tree>
         </field>
@@ -24,7 +24,7 @@
                 <group>
                     <field name="zip_code"/>
                     <field name="street_type"/>
-                    <field name="street"/>
+                    <field name="street_name"/>
                     <field name="zip_complement"/>
                     <field name="district"/>
                     <field name="country_id"/>

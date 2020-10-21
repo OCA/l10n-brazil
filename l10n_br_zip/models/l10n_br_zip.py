@@ -1,4 +1,5 @@
 # Copyright (C) 2012  Renato Lima (Akretion)                                  #
+# Copyright (C) 2020  Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
@@ -36,7 +37,7 @@ class L10nBrZip(models.Model):
 
     zip_complement = fields.Char(string="Range", size=200)
 
-    street = fields.Char(string="Logradouro", size=72)
+    street_name = fields.Char(string="Logradouro", size=72)
 
     district = fields.Char(string="District", size=72)
 
@@ -108,7 +109,7 @@ class L10nBrZip(models.Model):
             "city_id": self.city_id.id,
             "city": self.city_id.name,
             "district": self.district,
-            "street": ((self.street_type or "") + " " + (self.street or ""))
+            "street_name": ((self.street_type or "") + " " + (self.street_name or ""))
             if self.street_type
             else (self.street or ""),
             "zip": misc.format_zipcode(self.zip_code, self.country_id.code),
@@ -139,7 +140,7 @@ class L10nBrZip(models.Model):
 
             values = {
                 "zip_code": zip_str,
-                "street": cep.get("logradouro"),
+                "street_name": cep.get("logradouro"),
                 "zip_complement": cep.get("complemento"),
                 "district": cep.get("bairro"),
                 "city_id": city.id or False,
@@ -157,7 +158,7 @@ class L10nBrZip(models.Model):
                 state_id=obj.state_id.id,
                 city_id=obj.city_id.id,
                 district=obj.district,
-                street=obj.street,
+                street_name=obj.street_name,
                 zip_code=obj.zip,
             )
         except AttributeError as e:
@@ -194,7 +195,7 @@ class L10nBrZip(models.Model):
         wizard = self.env["l10n_br.zip.search"].create(
             {
                 "zip": obj.zip,
-                "street": obj.street,
+                "street_name": obj.street_name,
                 "district": obj.district,
                 "country_id": obj.country_id.id,
                 "state_id": obj.state_id.id,
