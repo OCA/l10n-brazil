@@ -15,7 +15,7 @@
         "data/l10n_br_coa_generic_template.xml",
         "data/account_group.xml",
         "data/account.account.template.csv",
-        "data/account_tax_group.xml",
+        # "data/account_tax_group.xml",
         "data/account_fiscal_position_template.xml",
         "data/l10n_br_coa_generic_template_post.xml",
     ],
