@@ -1,3 +1,9 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 access_cnab_return_move_code_user,access_cnab_return_move_code_user,model_cnab_return_move_code,group_cnab_user,1,0,0,0
 access_cnab_return_move_code_manager,access_cnab_return_move_code_manager,model_cnab_return_move_code,group_cnab_manager,1,1,1,1
+access_cnab_return_log_user,access_cnab_return_log_user,model_cnab_return_log,group_cnab_user,1,1,1,0
+access_cnab_return_log_manager,access_cnab_return_log_manager,model_cnab_return_log,group_cnab_manager,1,1,1,1
+access_cnab_return_event_user,access_cnab_return_event_user,model_cnab_return_event,group_cnab_user,1,1,1,0
+access_cnab_return_event_manager,access_cnab_return_event_manager,model_cnab_return_event,group_cnab_manager,1,1,1,1
+access_cnab_return_lot_user,access_cnab_return_lot_user,model_cnab_return_lot,group_cnab_user,1,1,1,0
+access_cnab_return_lot_manager,access_cnab_return_lot_manager,model_cnab_return_lot,group_cnab_manager,1,1,1,1
