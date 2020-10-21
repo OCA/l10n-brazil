@@ -4,7 +4,7 @@
 from lxml import etree
 
 from odoo import api, models
-from odoo.osv.orm import setup_modifiers
+# from odoo.osv.orm import setup_modifiers
 
 from .tax import TAX_DICT_VALUES
 

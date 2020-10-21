@@ -7,7 +7,8 @@ from lxml import etree
 from erpbrasil.base import misc
 
 from odoo import _, api, fields, models
-from odoo.osv import orm
+
+# from odoo.osv import orm
 
 from .ibpt.taxes import DeOlhoNoImposto
 
