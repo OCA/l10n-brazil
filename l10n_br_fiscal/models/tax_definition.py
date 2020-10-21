@@ -198,7 +198,7 @@ class TaxDefinition(models.Model):
         default=OPERATION_STATE_DEFAULT,
         index=True,
         readonly=True,
-        tracking='onchange',
+        tracking=True,
         copy=False,
     )
 

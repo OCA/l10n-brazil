@@ -33,7 +33,7 @@ class DocumentWorkflow(models.AbstractModel):
         default=SITUACAO_EDOC_EM_DIGITACAO,
         copy=False,
         required=True,
-        tracking='onchange',
+        tracking=True,
         index=True,
     )
 
@@ -41,7 +41,7 @@ class DocumentWorkflow(models.AbstractModel):
         selection=SITUACAO_FISCAL,
         string='Situação Fiscal',
         copy=False,
-        tracking='onchange',
+        tracking=True,
         index=True,
     )
 

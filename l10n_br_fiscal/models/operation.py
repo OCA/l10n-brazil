@@ -85,7 +85,7 @@ class Operation(models.Model):
         default=OPERATION_STATE_DEFAULT,
         index=True,
         readonly=True,
-        tracking='onchange',
+        tracking=True,
         copy=False)
 
     document_type_ids = fields.One2many(
