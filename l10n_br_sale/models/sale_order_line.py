@@ -104,7 +104,6 @@ class SaleOrderLine(models.Model):
                 'price_total': price_total + price_tax,
             })
 
-    @api.multi
     def _prepare_invoice_line(self, qty):
         self.ensure_one()
         result = super()._prepare_invoice_line(qty)

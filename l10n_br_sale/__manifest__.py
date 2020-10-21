@@ -9,7 +9,7 @@
         'Akretion, '
         'Odoo Community Association (OCA)',
     "website": "http://github.com/OCA/l10n-brazil",
-    "version": "12.0.1.0.0",
+    "version": "14.0.1.0.0",
     "depends": ["sale_management", "l10n_br_account"],
     "data": [
         # Data
@@ -29,9 +29,9 @@
     ],
     "demo": [
         # Demo
-        "demo/product.xml",
-        "demo/company.xml",
-        "demo/l10n_br_sale.xml",
+        # "demo/product.xml",
+        # "demo/company.xml",
+        # "demo/l10n_br_sale.xml",
     ],
     "installable": True,
     "auto_install": True,

@@ -191,7 +191,6 @@ class SaleOrder(models.Model):
         super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
 
-    @api.multi
     def action_view_document(self):
         invoices = self.mapped('invoice_ids')
         action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
@@ -214,7 +213,6 @@ class SaleOrder(models.Model):
             action = {'type': 'ir.actions.act_window_close'}
         return action
 
-    @api.multi
     def _prepare_invoice(self):
         self.ensure_one()
         result = super()._prepare_invoice()
@@ -242,7 +240,6 @@ class SaleOrder(models.Model):
 
         return result
 
-    @api.multi
     def action_invoice_create(self, grouped=False, final=False):
 
         inv_ids = super().action_invoice_create(grouped=grouped, final=final)
