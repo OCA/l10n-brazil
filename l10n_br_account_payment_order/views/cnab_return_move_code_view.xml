@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="cnab_return_move_code_tree_view" model="ir.ui.view">
-        <field name="name">cnab.return.log.tree</field>
+        <field name="name">cnab.return.move.code.tree</field>
         <field name="model">cnab.return.move.code</field>
         <field name="arch" type="xml">
             <tree string="CNAB Return Move Code">
@@ -15,7 +15,7 @@
     </record>
 
     <record id="cnab_return_move_code_form_view" model="ir.ui.view">
-        <field name="name">cnab.return.log.form.view</field>
+        <field name="name">cnab.return.move.code.form.view</field>
         <field name="model">cnab.return.move.code</field>
         <field name="arch" type="xml">
             <form string="CNAB Return Move Code">
@@ -38,7 +38,7 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_cnab_return_log"
+    <menuitem id="menu_cnab_return_move_code"
               parent="account.account_management_menu"
               name="CNAB Return Move Code" sequence="999"
               action="cnab_return_move_code_action"/>
