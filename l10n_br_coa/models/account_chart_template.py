@@ -26,17 +26,17 @@ class AccountChartTemplate(models.Model):
             chart_template_ref = self.get_external_id().get(self.id)
             coa_name, _ = chart_template_ref.split('.')
             coa_name = coa_name + '_'
-            acc_names = {
-                'sale': {
-                    'account_id': 'account_id',
-                    'refund_account_id': 'refund_account_id'},
-                'purchase': {
-                    'account_id': 'refund_account_id',
-                    'refund_account_id': 'account_id'},
-                'all': {
-                    'account_id': 'account_id',
-                    'refund_account_id': 'refund_account_id'},
-            }
+            # acc_names = {
+            #     'sale': {
+            #         'account_id': 'account_id',
+            #         'refund_account_id': 'refund_account_id'},
+            #     'purchase': {
+            #         'account_id': 'refund_account_id',
+            #         'refund_account_id': 'account_id'},
+            #     'all': {
+            #         'account_id': 'account_id',
+            #         'refund_account_id': 'refund_account_id'},
+            # }
 
             properties = self.env['ir.property'].search([
                 ('name', 'ilike', coa_name + '%'),
@@ -55,25 +55,25 @@ class AccountChartTemplate(models.Model):
                         (int(property.value_reference.split(',')[1])), False)
                 })
 
-            taxes = self.env['account.tax'].browse(taxes_ref.values())
-            for tax in taxes:
-                group_account = group_accounts.get(tax.tax_group_id.id, {})
-                if group_account:
-                    if tax.deductible:
-                        account_id = group_account.get('ded_account_id')
-                        refund_account_id = group_account.get(
-                            'ded_refund_account_id')
-                    else:
-                        account_id = group_account.get(
-                            acc_names.get(tax.type_tax_use, {}).get(
-                                'account_id'))
-                        refund_account_id = group_account.get(
-                            acc_names.get(tax.type_tax_use, {}).get(
-                                'refund_account_id'))
-
-                    tax.write({
-                        'account_id': account_id,
-                        'refund_account_id': refund_account_id,
-                    })
+            # taxes = self.env['account.tax'].browse(taxes_ref.values())
+            # for tax in taxes:
+            #     group_account = group_accounts.get(tax.tax_group_id.id, {})
+            #     if group_account:
+            #         if tax.deductible:
+            #             account_id = group_account.get('ded_account_id')
+            #             refund_account_id = group_account.get(
+            #                 'ded_refund_account_id')
+            #         else:
+            #             account_id = group_account.get(
+            #                 acc_names.get(tax.type_tax_use, {}).get(
+            #                     'account_id'))
+            #             refund_account_id = group_account.get(
+            #                 acc_names.get(tax.type_tax_use, {}).get(
+            #                     'refund_account_id'))
+            #
+            #         tax.write({
+            #             'account_id': account_id,
+            #             'refund_account_id': refund_account_id,
+            #         })
 
         return account_ref, taxes_ref
