@@ -7,7 +7,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.cnae</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="cnae_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -25,7 +24,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.cfop</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="cfop_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -43,7 +41,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.cst</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="cst_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -61,7 +58,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.tax.group</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_group_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -79,7 +75,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.tax</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -97,7 +92,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.icms.regulation</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_icms_regulation_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -115,7 +109,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.icms.relief</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_icms_relief_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -133,7 +126,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.tax.pis.cofins</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_pis_cofins_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -151,7 +143,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.tax.pis.cofins.base</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_pis_cofins_base_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -169,7 +160,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.tax.pis.cofins.credit</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_pis_cofins_credit_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -187,7 +177,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.tax.ipi.control.seal</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_ipi_control_seal_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -205,7 +194,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.tax.ipi.guideline</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_ipi_guideline_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -223,7 +211,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.tax.ipi.guideline.class</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="tax_ipi_guideline_class_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -241,7 +228,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.ncm</field>
         <field name="view_mode">tree,form,kanban</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="ncm_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -259,7 +245,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.nbm</field>
         <field name="view_mode">tree,form,kanban</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="nbm_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -277,7 +262,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.nbs</field>
         <field name="view_mode">tree,form,kanban</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="nbs_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -295,7 +279,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.service.type</field>
         <field name="view_mode">tree,form,kanban</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="service_type_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -313,7 +296,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.cest</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="cest_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -331,7 +313,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.product.genre</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="product_genre_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -349,7 +330,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document.type</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="document_type_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -367,7 +347,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document.serie</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="document_serie_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -385,7 +364,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.certificate</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="certificate_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -403,7 +381,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document.email</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="document_email_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -421,7 +398,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.simplified.tax</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="simplified_tax_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -438,7 +414,6 @@
         <field name="name">Partner</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="base.view_res_partner_filter"/>
         <field name="help" type="html">
@@ -455,7 +430,6 @@
         <field name="name">Partner Profile</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.partner.profile</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="partner_profile_search"/>
         <field name="view_id" ref="partner_profile_tree"/>
@@ -475,7 +449,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.template</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="domain">['|', '|', ('fiscal_type', '!=', '09'), ('fiscal_type', '=', False), ('type', '!=', 'service')]</field>
         <field name="view_id" ref="product_template_tree"/>
         <field name="help" type="html">
@@ -493,7 +466,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">product.template</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="domain">['|', '|', ('fiscal_type', '=', '09'), ('fiscal_type', '=', False), ('type', '=', 'service')]</field>
         <field name="context">{'default_fiscal_type': '09', 'default_type': 'service'}</field>
         <field name="view_id" ref="product_template_tree"/>
@@ -512,7 +484,6 @@
         <field name="name">Operation</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.operation</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="operation_search"/>
         <field name="view_id" ref="operation_tree"/>
@@ -531,7 +502,6 @@
         <field name="name">Subsequent Operation</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.subsequent.operation</field>
-        <field name="view_type">tree</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="view_id" ref="subsequent_operation_tree"/>
         <field name="help" type="html">
@@ -548,7 +518,6 @@
         <field name="name">Subsequent Document</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.subsequent.document</field>
-        <field name="view_type">tree</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="view_id" ref="subsequent_document_tree"/>
         <field name="help" type="html">
@@ -565,7 +534,6 @@
         <field name="name">Comment</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.comment</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="comment_search"/>
         <field name="view_id" ref="comment_tree"/>
@@ -583,7 +551,6 @@
         <field name="name">Fiscal Document</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -602,7 +569,6 @@
         <field name="name">NF-e Receivement</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -622,7 +588,6 @@
         <field name="name">NFS-e and Receipts Receivement</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -642,7 +607,6 @@
         <field name="name">CT-e Receivement</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -662,7 +626,6 @@
         <field name="name">Receivement</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -683,7 +646,6 @@
         <field name="name">NF-e Emission</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -703,7 +665,6 @@
         <field name="name">NFS-e and Receipts Emission</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -723,7 +684,6 @@
         <field name="name">NFC-e and CF-e Emission</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -743,7 +703,6 @@
         <field name="name">CT-e Emission</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -763,7 +722,6 @@
         <field name="name">Emission</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="search_view_id" ref="document_search"/>
         <field name="view_id" ref="document_tree"/>
@@ -794,8 +752,7 @@
         <field name="name">Fiscal Closing</field>
         <field name="res_model">l10n_br_fiscal.closing</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
-    </record>
+        </record>
 
     <!-- City Taxation Code-->
     <record model="ir.actions.act_window" id="city_taxation_code_act_window">

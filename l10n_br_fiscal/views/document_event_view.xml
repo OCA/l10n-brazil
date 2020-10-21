@@ -152,7 +152,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document.event</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="l10n_br_account_document_event_tree"/>
     </record>
 
@@ -162,7 +161,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document.invalidate.number</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
     </record>
 
     <record id="action_l10n_br_account_invoice_cancel" model="ir.actions.act_window">
@@ -170,7 +168,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document.cancel</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
     </record>
 
     <record id="action_l10n_br_account_cce" model="ir.actions.act_window">
@@ -178,7 +175,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_fiscal.document.correction</field>
         <field name="view_mode">tree,form</field>
-        <field name="view_type">form</field>
     </record>
 
     <menuitem id="menu_l10n_br_account_fiscal_manager" name="Cadastros" parent="fiscal_menu" sequence="12"/>

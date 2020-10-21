@@ -123,7 +123,6 @@ action= {
     'type': 'ir.actions.act_window',
     'res_model': 'wizard.confirma.acao',
     'view_mode': 'form',
-    'view_type': 'form',
     'target': 'new',
     'res_id': wizard_id.id,
 }
@@ -143,7 +142,6 @@ action= {
             id="l10n_br_fiscal_mdfe_action">
         <field name="name">Manifestation</field>
         <field name="res_model">l10n_br_fiscal.mdfe</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 

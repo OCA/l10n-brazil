@@ -26,7 +26,6 @@
     <record id="document_status_wizard_action" model="ir.actions.act_window">
         <field name="name">Fiscal Document Inquiry</field>
         <field name="res_model">l10n_br_fiscal.document.status.wizard</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>

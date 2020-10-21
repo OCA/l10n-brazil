@@ -71,7 +71,6 @@
     <record id="open_operation_dashboard_kanban" model="ir.actions.act_window">
         <field name="name">Fiscal Overview</field>
         <field name="res_model">l10n_br_fiscal.operation</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,form</field>
         <field name="view_id" ref="operation_dashboard_kanban_view"/>
         <field name="usage">menu</field>

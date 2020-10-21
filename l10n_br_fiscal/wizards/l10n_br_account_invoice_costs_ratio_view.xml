@@ -26,7 +26,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_account_product.invoice.costs_ratio</field>
         <field name="view_mode">form</field>
-        <field name="view_type">form</field>
         <field name="view_id" ref="view_l10n_br_account_product_costs_ratio_form"/>
         <field name="target">new</field>
     </record>

@@ -75,7 +75,6 @@
     <record model="ir.actions.act_window" id="dfe_action">
         <field name="name">DF-e Consult</field>
         <field name="res_model">l10n_br_fiscal.dfe</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
