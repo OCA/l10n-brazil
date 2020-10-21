@@ -22,7 +22,5 @@ def post_init_hook(cr, registry):
         company = env.ref(
             'l10n_br_base.empresa_simples_nacional', raise_if_not_found=False)
         if company:
-            user_admin.company_id = company
-            coa_simple_tmpl.sudo(
-                user=user_admin.id).try_loading_for_current_company()
-            user_admin.company_id = env.ref('base.main_company')
+            coa_simple_tmpl.with_user(
+                user_admin.id).with_company(company.id).try_loading()
