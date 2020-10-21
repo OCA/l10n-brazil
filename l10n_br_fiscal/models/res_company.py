@@ -68,6 +68,8 @@ class ResCompany(models.Model):
 
             if tax_range:
                 record.simplifed_tax_range_id = tax_range.id
+            else:
+                record.simplifed_tax_range_id = False
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",

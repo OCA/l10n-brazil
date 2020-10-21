@@ -912,6 +912,7 @@ class Document(models.Model):
     def _compute_document_subsequent_generated(self):
         for document in self:
             if not document.document_subsequent_ids:
+                document.document_subsequent_generated = False
                 continue
             document.document_subsequent_generated = all(
                 subsequent_id.operation_performed

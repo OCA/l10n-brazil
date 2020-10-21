@@ -126,12 +126,11 @@ class SubsequentDocument(models.Model):
     @api.depends('subsequent_document_id.state_edoc')
     def _compute_operation_performed(self):
         for subsequent in self:
+            subsequent.operation_performed = False
             if not subsequent.subsequent_document_id:
                 continue
-            if subsequent.subsequent_document_id.state_edoc == \
+            if not subsequent.subsequent_document_id.state_edoc == \
                     SITUACAO_EDOC_CANCELADA:
-                subsequent.operation_performed = False
-            else:
                 subsequent.operation_performed = True
 
     @api.multi

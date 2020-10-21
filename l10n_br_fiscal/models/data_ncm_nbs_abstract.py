@@ -68,6 +68,9 @@ class DataNcmNbsAbstract(models.AbstractModel):
                     last_estimated.federal_taxes_national
                     + last_estimated.state_taxes
                     + last_estimated.municipal_taxes)
+            else:
+                record.estimate_tax_imported = 0
+                record.estimate_tax_national = 0
 
     def _get_ibpt(self, config, code_unmasked):
         return False

@@ -31,7 +31,7 @@ class DataAbstract(models.AbstractModel):
     def _compute_code_unmasked(self):
         for r in self:
             # TODO mask code and unmasck
-            r.code_unmasked = misc.punctuation_rm(r.code)
+            r.code_unmasked = misc.punctuation_rm(r.code) or ''
 
     @api.model
     def _name_search(self, name, args=None, operator='ilike',

@@ -31,6 +31,7 @@ class DocumentEletronic(models.AbstractModel):
     @api.depends('codigo_situacao', 'motivo_situacao')
     def _compute_codigo_motivo_situacao(self):
         for record in self:
+            record.codigo_motivo_situacao = ''
             if record.motivo_situacao and record.codigo_situacao:
                 record.codigo_motivo_situacao = '{} - {}'.format(
                     record.codigo_situacao,
