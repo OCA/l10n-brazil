@@ -20,7 +20,6 @@
         'views/res_config_settings_view.xml',
         'views/account_journal_view.xml',
         'views/account_move_view.xml',
-        'views/cnab_return_log_view.xml',
         'data/res_config_settings_data.xml',
         'security/ir.model.access.csv',
         'wizard/import_statement_view.xml'
