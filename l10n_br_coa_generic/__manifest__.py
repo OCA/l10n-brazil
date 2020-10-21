@@ -11,6 +11,7 @@
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "14.0.1.0.0",
     "depends": ["l10n_br_coa"],
+    "maintainers": ["renatonlima", "gabrielcardoso21", "mileo"],
     "data": [
         "data/l10n_br_coa_generic_template.xml",
         "data/account_group.xml",
