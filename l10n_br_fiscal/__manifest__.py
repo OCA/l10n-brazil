@@ -12,7 +12,6 @@
     "version": "14.0.1.0.0",
     "depends": [
         "uom",
-        "decimal_precision",
         "product",
         "l10n_br_base",
     ],
