@@ -54,7 +54,7 @@
     </record>
 
     <record id="user_demo_presumido" model="res.users">
-        <field name="partner_id" ref="partner_demo_simples"/>
+        <field name="partner_id" ref="partner_demo_presumido"/>
         <field name="login">presumido</field>
         <field name="password">presumido</field>
         <field name="signature" type="xml">
