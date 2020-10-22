@@ -43,35 +43,17 @@ class AccountMoveLineChange(models.TransientModel):
     payment_mode_id = fields.Many2one(
         comodel_name='account.payment.mode',
     )
+    reason = fields.Text(
+        string="Justificativa",
+    )
     # Muitas opções são permitidas, verificar manual do cnab 240.
     # Entretanto inicialmente só vamos implementar as mais simples.
 
-    def _pre_process_change(self):
-        pass
-
-    def _change_date_maturity(self):
-        for aml in self.account_move_line_ids:
-            if aml.date_maturity != self.date_maturity:
-                aml.date_maturity = self.date_maturity
-
-    def _change_payment_mode(self):
-        for aml in self.account_move_line_ids:
-            if aml.payment_mode_id != self.payment_mode_id:
-                aml.payment_mode_id = self.payment_mode_id
-
-    def _change_baixa(self):
-        NotImplementedError
-
-    def _post_process_change(self):
-        pass
-
     @api.multi
     def doit(self):
-        self._pre_process_change()
-        if self.change_type == 'change_date_maturity':
-            self._change_date_maturity()
-        elif self.change_type == 'change_payment_mode':
-            self._change_payment_mode()
-        elif self.change_type == 'baixa':
-            self._change_baixa()
-        self._post_process_change()
+        self.account_move_line_ids._create_change(
+            change_type=self.change_type,
+            reason=self.reason,
+            new_date=self.date_maturity,
+            new_payment_mode_id=self.payment_mode_id,
+        )
