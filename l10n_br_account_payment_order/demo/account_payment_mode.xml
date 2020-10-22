@@ -12,6 +12,8 @@
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="main_company_bank_journal"/>
     </record>
 
     <!-- Account Payment Mode -->
