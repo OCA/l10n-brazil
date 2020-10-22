@@ -66,6 +66,7 @@
         'demo/account_payment_mode.xml',
         'demo/account_invoice.xml',
         'demo/res_users.xml',
+        'demo/account_payment_order.xml',
     ],
     'installable': True,
 }
