@@ -7,16 +7,16 @@
         <field name="inherit_id" ref="account.view_move_line_form"/>
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
-            <xpath expr="//sheet" position="before">
+            <sheet position="before">
                 <header>
+                    <!-- TODO: Verificar quando o botão não deve ser exibido -->
                     <button
                         string="Update Information"
                         type="action"
                         name="%(account_move_line_change_act_window)d"
                     />
                 </header>
-                <!-- TODO: Verificar quando o botão não deve ser exibido -->
-            </xpath>
+            </sheet>
             <field name="blocked" position="after">
                 <field name="cnab_state"/>
                 <field name="payment_situation"/>
@@ -25,6 +25,13 @@
                 <field name="company_title_identification"/>
                 <field name="instructions"/>
             </field>
+            <sheet position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </sheet>
         </field>
     </record>
 
