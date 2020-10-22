@@ -2,13 +2,14 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 from ..constants import ESTADOS_CNAB, SITUACAO_PAGAMENTO
 
 
 class AccountMoveLine(models.Model):
-    _inherit = 'account.move.line'
+    _name = 'account.move.line'
+    _inherit = ["account.move.line", "mail.thread", "mail.activity.mixin"]
 
     cnab_state = fields.Selection(
         selection=ESTADOS_CNAB,
@@ -32,6 +33,7 @@ class AccountMoveLine(models.Model):
         selection=SITUACAO_PAGAMENTO,
         string='Situação do Pagamento',
         default='inicial',
+        track_visibility='onchange',
     )
 
     instructions = fields.Text(
@@ -44,7 +46,18 @@ class AccountMoveLine(models.Model):
         compute="_compute_journal_entry_ref",
         store=True,
     )
-    date_maturity = fields.Date(readonly=True)
+    payment_mode_id = fields.Many2one(
+        track_visibility='onchange'
+    )
+    date_maturity = fields.Date(
+        readonly=True,
+        track_visibility='onchange'
+    )
+    last_change_reason = fields.Text(
+        readonly=True,
+        track_visibility='onchange',
+        string="Justificativa",
+    )
 
     @api.depends("move_id")
     def _compute_journal_entry_ref(self):
@@ -136,3 +149,42 @@ class AccountMoveLine(models.Model):
         for line in self:
             total += (line.debit or 0.0) - (line.credit or 0.0)
         return total
+
+    def _create_payment_order_change(self, **kwargs):
+        self.ensure_one()
+        # TODO:
+
+    def _change_date_maturity(self, new_date, reason, **kwargs):
+        moves_to_sync = self.filtered(lambda m: m.date_maturity != new_date)
+        moves_to_sync._create_payment_order_change(new_date=new_date, **kwargs)
+        moves_to_sync.write({
+            'date_maturity': new_date,
+            'last_change_reason': reason,
+        })
+
+    def _change_payment_mode(self, reason, new_payment_mode_id, **kwargs):
+        moves_to_sync = self.filtered(
+            lambda m: m.payment_mode_id != new_payment_mode_id)
+        moves_to_sync._create_payment_order_change(
+            new_payment_mode_id=new_payment_mode_id, **kwargs)
+        moves_to_sync.write({
+            'payment_mode_id': new_payment_mode_id.id,
+            'last_change_reason': reason,
+        })
+
+    def _create_baixa(self, reason, **kwargs):
+        moves_to_sync = self.filtered(lambda m: True)
+        # TODO: Verificar restrições possíveis
+        moves_to_sync._create_payment_order_change(baixa=True, **kwargs)
+        moves_to_sync.write({
+            'last_change_reason': reason,
+            'payment_situation': 'baixa',  # FIXME: Podem ser múltiplos motivos
+        })
+
+    def _create_change(self, change_type, reason='', **kwargs):
+        if change_type == 'change_date_maturity':
+            self._change_date_maturity(reason, **kwargs)
+        elif change_type == 'change_payment_mode':
+            self._change_payment_mode(reason, **kwargs)
+        elif change_type == 'baixa':
+            self._create_baixa(reason, **kwargs)
