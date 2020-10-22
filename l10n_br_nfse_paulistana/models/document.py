@@ -322,18 +322,15 @@ class Document(models.Model):
         return
 
     def action_consultar_nfse_rps(self):
-        for record in self.filtered(fiter_processador_edoc_nfse_paulistana()):
+        for record in self.filtered(fiter_processador_edoc_nfse_paulistana):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
-                int(self.rps_number), self.document_serie, int(self.rps_type))
-
-            return _(
-                processador.analisa_retorno_consulta(
-                    processo,
-                    self.number,
-                    self.company_cnpj_cpf,
-                    self.company_legal_name)
+                numero_rps=self.rps_number,
+                serie_rps=self.document_serie,
+                insc_prest=misc.punctuation_rm(
+                    self.company_id.partner_id.inscr_mun or '') or None,
+                cnpj_prest=misc.punctuation_rm(
+                    self.company_id.partner_id.cnpj_cpf),
             )
 
-
-
+            return _(processador.analisa_retorno_consulta(processo))
