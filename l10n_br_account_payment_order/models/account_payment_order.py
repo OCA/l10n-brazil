@@ -102,10 +102,12 @@ class AccountPaymentOrder(models.Model):
     def open2generated(self):
         result = super().open2generated()
 
-        if self.bank_line_error_ids:
-            self.message_post(
-                'Erro ao gerar o arquivo, verifique a aba Linhas com problemas'
-            )
-            return False
-        self.message_post('Arquivo gerado com sucesso')
+        for record in self:
+            if record.bank_line_error_ids:
+                record.message_post(
+                    'Erro ao gerar o arquivo, verifique a aba Linhas com problemas'
+                )
+                continue
+            else:
+                record.message_post('Arquivo gerado com sucesso')
         return result
