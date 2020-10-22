@@ -32,6 +32,10 @@
         # Reports
         'reports/report_print_button_view.xml',
 
+        # Wizards
+        'wizards/account_payment_line_create_view.xml',
+        'wizards/account_move_line_change.xml',
+
         # Views
         'views/account_payment_order.xml',
         'views/account_payment_line.xml',
@@ -55,9 +59,6 @@
         'views/account_invoice.xml',
         'views/account_move_line.xml',
         'views/cnab_return_move_code_view.xml',
-
-        # Wizards
-        'wizards/account_payment_line_create_view.xml',
     ],
     'demo': [
         'demo/res_partner_bank.xml',
