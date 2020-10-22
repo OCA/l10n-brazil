@@ -44,6 +44,7 @@ class AccountMoveLine(models.Model):
         compute="_compute_journal_entry_ref",
         store=True,
     )
+    date_maturity = fields.Date(readonly=True)
 
     @api.depends("move_id")
     def _compute_journal_entry_ref(self):
