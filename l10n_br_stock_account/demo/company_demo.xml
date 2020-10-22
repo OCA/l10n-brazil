@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-  <!-- Demo Company -->
+<!-- Demo Company -->
+<!--   
   <record id="base.main_company" model="res.company">
       <field name="stock_fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
       <field name="stock_in_fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
@@ -19,5 +19,5 @@
       <field name="stock_in_fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
       <field name="stock_out_fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
   </record>
-
+ -->
 </odoo>
