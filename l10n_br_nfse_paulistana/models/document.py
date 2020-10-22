@@ -22,6 +22,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 from ..constants.paulistana import (
     ENVIO_LOTE_RPS,
+    CONSULTA_LOTE,
 )
 
 from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
@@ -292,8 +293,8 @@ class Document(models.Model):
                         for p in processador.processar_documento(edoc):
                             processo = p
 
+                            retorno = ET.fromstring(processo.retorno)
                             if processo.webservice in ENVIO_LOTE_RPS:
-                                retorno = ET.fromstring(processo.retorno)
 
                                 if retorno:
                                     if processo.resposta.Cabecalho.Sucesso:
@@ -301,23 +302,33 @@ class Document(models.Model):
                                             processo.envio_xml)
                                         record._change_state(
                                             SITUACAO_EDOC_AUTORIZADA)
-
-
-                                        vals['codigo_motivo_situacao'] = _('Procesado com Sucesso')
+                                        vals['codigo_motivo_situacao'] = \
+                                            _('Procesado com Sucesso')
                                         vals['edoc_error_message'] = ''
-                                        #TODO: Verificar resposta do ConsultarLote
-                                        # vals['number'] =
-                                        # vals['data_hora_autorizacao'] =
-                                        # vals['verify_code'] =
                                     else:
                                         mensagem_erro = ''
                                         for erro in retorno.findall("Erro"):
                                             codigo = erro.find('Codigo').text
-                                            descricao = erro.find('Descricao').text
-                                            mensagem_erro += codigo + ' - ' + descricao + '\n'
+                                            descricao = \
+                                                erro.find('Descricao').text
+                                            mensagem_erro += codigo + ' - ' \
+                                                             + descricao + '\n'
 
-                                        vals['edoc_error_message'] = mensagem_erro
-                                        vals['codigo_motivo_situacao'] = _('Procesado com Erro')
+                                        vals['edoc_error_message'] = \
+                                            mensagem_erro
+                                        vals['codigo_motivo_situacao'] = \
+                                            _('Procesado com Erro')
+
+                            if processo.webservice in CONSULTA_LOTE:
+                                if processo.resposta.Cabecalho.Sucesso:
+                                    nfse = retorno.find('.//NFe')
+                                    # TODO: Verificar resposta do ConsultarLote
+                                    vals['number'] = nfse.find('.//Numero')
+                                    vals['data_hora_autorizacao'] = \
+                                        nfse.find('.//DataEmissaoRPS')
+                                    vals['verify_code'] = \
+                                        nfse.find('.//CodigoVerificacao')
+
                 record.write(vals)
         return
 
