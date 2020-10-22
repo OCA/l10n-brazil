@@ -7,6 +7,16 @@
         <field name="inherit_id" ref="account.view_move_line_form"/>
         <field name="priority" eval="16"/>
         <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button
+                        string="Update Information"
+                        type="action"
+                        name="%(account_move_line_change_act_window)d"
+                    />
+                </header>
+                <!-- TODO: Verificar quando o botão não deve ser exibido -->
+            </xpath>
             <field name="blocked" position="after">
                 <field name="cnab_state"/>
                 <field name="payment_situation"/>
@@ -14,6 +24,22 @@
                 <field name="document_number"/>
                 <field name="company_title_identification"/>
                 <field name="instructions"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="cnab_view_move_line_tree_inherit" model="ir.ui.view">
+        <field name="name">cnab.account.move.line.tree.inherit</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account_due_list.view_payments_tree"/>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+            <field name="reconciled" position="after">
+                <button
+                    string="Update Information"
+                    type="action"
+                    name="%(account_move_line_change_act_window)d"
+                />
             </field>
         </field>
     </record>
