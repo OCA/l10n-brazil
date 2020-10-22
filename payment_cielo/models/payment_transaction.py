@@ -14,7 +14,7 @@ INT_CURRENCIES = [
     u'BRL', u'XAF', u'XPF', u'CLP', u'KMF', u'DJF', u'GNF', u'JPY', u'MGA',
     u'PYG', u'RWF', u'KRW',
     u'VUV', u'VND', u'XOF'
-]
+    ]
 
 
 class PaymentTransactionCielo(models.Model):
@@ -35,7 +35,7 @@ class PaymentTransactionCielo(models.Model):
             "MerchantOrderId": "2014111703",
             "Customer": {
                 "Name": self.partner_id.name
-            },
+                },
             "Payment": {
                 "Type": "CreditCard",
                 "Amount": self.amount * 100,
@@ -48,9 +48,9 @@ class PaymentTransactionCielo(models.Model):
                     "CardToken": self.payment_token_id.cielo_token,
                     "Brand": self.payment_token_id.card_brand,
                     "SaveCard": "true"
+                    }
                 }
             }
-        }
 
         self.payment_token_id.active = False
 
@@ -90,6 +90,14 @@ class PaymentTransactionCielo(models.Model):
         return self._cielo_s2s_validate_tree(result)
 
     @api.multi
+    def cielo_s2s_capture_transaction(self):
+        pass
+
+    @api.multi
+    def cielo_s2s_void_transaction(self):
+        pass
+
+    @api.multi
     def _cielo_s2s_validate_tree(self, tree):
         self.ensure_one()
         if self.state != 'draft':
@@ -104,7 +112,7 @@ class PaymentTransactionCielo(models.Model):
                 self.write({
                     'date': fields.datetime.now(),
                     'acquirer_reference': tree.get('id'),
-                })
+                    })
                 self._set_transaction_done()
                 self.execute_callback()
                 if self.payment_token_id:
@@ -117,7 +125,7 @@ class PaymentTransactionCielo(models.Model):
                     'state_message': error,
                     'acquirer_reference': tree.get('id'),
                     'date': fields.datetime.now(),
-                })
+                    })
                 self._set_transaction_cancel()
                 return False
 
@@ -127,6 +135,6 @@ class PaymentTransactionCielo(models.Model):
             self.sudo().write({
                 'state_message': error,
                 'date': fields.datetime.now(),
-            })
+                })
             self._set_transaction_cancel()
             return False
