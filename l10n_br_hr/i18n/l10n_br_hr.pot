@@ -965,6 +965,11 @@ msgid "Last Modified on"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_website_so_id
+msgid "Last Online Sales Order"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_deficiency__write_uid
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_dependent_type__write_uid
@@ -1265,6 +1270,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_ethnicity_form
 msgid "Raça/Cor"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
+msgid "Registration Website"
 msgstr ""
 
 #. module: l10n_br_hr
