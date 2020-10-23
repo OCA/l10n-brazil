@@ -6,6 +6,7 @@ from ..constants.payment import (
     FORMA_PAGAMENTO,
 )
 
+
 class FiscalPayment(models.Model):
     _name = "l10n_br_fiscal.payment"
     _inherit = 'l10n_br_fiscal.payment.term.abstract'

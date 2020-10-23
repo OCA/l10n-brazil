@@ -169,4 +169,3 @@ class PaymentMixin(models.AbstractModel):
     #         self.fiscal_payment_ids = self.fiscal_payment_ids.new(vals)
     #         for line in self.fiscal_payment_ids.mapped('line_ids'):
     #             line.document_id = self
-
