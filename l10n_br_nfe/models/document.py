@@ -429,7 +429,10 @@ class NFe(spec_models.StackedModel):
                     record.autorizacao_event_id.set_done(xml_file)
                     record.atualiza_status_nfe(protocolo.infProt)
                     if protocolo.infProt.cStat == AUTORIZADO:
-                        record.gera_pdf()
+                        try:
+                            record.gera_pdf()
+                        except Exception:
+                            pass  # TODO: Tratar excessões
             elif processo.resposta.cStat == '225':
                 state = SITUACAO_EDOC_REJEITADA
 
