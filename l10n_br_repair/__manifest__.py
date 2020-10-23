@@ -17,6 +17,7 @@
     'depends': [
         'repair',
         'l10n_br_account',
+        'l10n_br_stock',
     ],
     'data': [
         'data/res_company.xml',
@@ -28,6 +29,7 @@
     ],
     'demo': [
         'demo/res_company.xml',
+        'demo/repair_order.xml'
     ],
     'installable': True,
     'auto_install': True,
