@@ -1,4 +1,5 @@
-# Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - www.escodoo.com.br
+# Copyright 2018 Akretion - www.akretion.com.br - Magno Costa <magno.costa@akretion.com
+#           2020 - TODAY, Marcel Savegnago - Escodoo - www.escodoo.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.tests.common import TransactionCase
@@ -141,41 +142,41 @@ class L10nBrRepairBaseTest(TransactionCase):
         repair_order.action_invoice_create(final=True)
 
         self.assertEquals(
-            repair_order.state, "sale", "Error to confirm Sale Order."
+            repair_order.state, "repair", "Error to confirm Repair Order."
         )
 
         for invoice in repair_order.invoice_ids:
             self.assertTrue(
                 invoice.fiscal_operation_id,
                 "Error to included Operation on invoice "
-                "dictionary from Sale Order.",
+                "dictionary from Repair Order.",
             )
 
             self.assertTrue(
                 invoice.fiscal_operation_type,
                 "Error to included Operation Type on invoice"
-                " dictionary from Sale Order.",
+                " dictionary from Repair Order.",
             )
 
             for line in invoice.invoice_line_ids:
                 self.assertTrue(
                     line.fiscal_operation_line_id,
-                    "Error to included Operation Line from Sale Order Line.",
+                    "Error to included Operation Line from Repair Order Line.",
                 )
 
     def test_l10n_br_repair_products(self):
-        """Test brazilian Sale Order with only Products."""
+        """Test brazilian Repair Order with only Products."""
         self._change_user_company(self.company)
         self._run_repair_order_onchanges(self.so_products)
         self.assertTrue(
             self.so_products.fiscal_operation_id,
-            "Error to mapping Operation on Sale Order.",
+            "Error to mapping Operation on Repair Order.",
         )
 
         self.assertEquals(
             self.so_products.fiscal_operation_id.name,
             self.fsc_op_sale.name,
-            "Error to mapping correct Operation on Sale Order "
+            "Error to mapping correct Operation on Repair Order "
             "after change fiscal category.",
         )
 
@@ -184,12 +185,12 @@ class L10nBrRepairBaseTest(TransactionCase):
 
             self.assertTrue(
                 line.fiscal_operation_id,
-                "Error to mapping Fiscal Operation on Sale Order Line.",
+                "Error to mapping Fiscal Operation on Repair Order Line.",
             )
 
             self.assertTrue(
                 line.fiscal_operation_line_id,
-                "Error to mapping Fiscal Operation Line on Sale Order Line.",
+                "Error to mapping Fiscal Operation Line on Repair Order Line.",
             )
 
             cfop = self.FISCAL_DEFS[line.cfop_id.destination][
@@ -290,18 +291,18 @@ class L10nBrRepairBaseTest(TransactionCase):
         self._change_user_company(self.main_company)
 
     def test_l10n_br_repair_services(self):
-        """Test brazilian Sale Order with only Services."""
+        """Test brazilian Repair Order with only Services."""
         self._change_user_company(self.company)
         self._run_repair_order_onchanges(self.so_services)
         self.assertTrue(
             self.so_services.fiscal_operation_id,
-            "Error to mapping Operation on Sale Order.",
+            "Error to mapping Operation on Repair Order.",
         )
 
         self.assertEquals(
             self.so_services.fiscal_operation_id.name,
             self.fsc_op_sale.name,
-            "Error to mapping correct Operation on Sale Order "
+            "Error to mapping correct Operation on Repair Order "
             "after change fiscal category.",
         )
 
@@ -310,12 +311,12 @@ class L10nBrRepairBaseTest(TransactionCase):
 
             self.assertTrue(
                 line.fiscal_operation_id,
-                "Error to mapping Fiscal Operation on Sale Order Line.",
+                "Error to mapping Fiscal Operation on Repair Order Line.",
             )
 
             self.assertTrue(
                 line.fiscal_operation_line_id,
-                "Error to mapping Fiscal Operation Line on Sale Order Line.",
+                "Error to mapping Fiscal Operation Line on Repair Order Line.",
             )
 
             taxes = self.FISCAL_DEFS['service'][
