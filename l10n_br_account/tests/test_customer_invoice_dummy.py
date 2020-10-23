@@ -228,3 +228,11 @@ class TestCustomerInvoice(TransactionCase):
         assert self.invoice_3.move_id, "Move Receivable not created for open invoice"
         self.assertEquals(
             self.invoice_3.state, "open", "Invoice should be in state Open")
+
+    def test_invoice_line_ids_write(self):
+        self.invoice_3.invoice_line_ids.write({'invoice_id': self.invoice_3.id})
+        for line in self.invoice_3.invoice_line_ids:
+            self.assertEquals(
+                line.document_id.id,
+                self.invoice_3.fiscal_document_id.id,
+                "line.document_id should be equal account.fiscal_document_id")
