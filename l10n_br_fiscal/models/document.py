@@ -43,6 +43,7 @@ class Document(models.Model):
         "l10n_br_fiscal.document.mixin",
         "l10n_br_fiscal.document.electronic",
         "l10n_br_fiscal.document.invoice.mixin",
+        "l10n_br_fiscal.payment.mixin",
     ]
     _description = "Fiscal Document"
 
