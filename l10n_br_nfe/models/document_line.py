@@ -252,7 +252,7 @@ class NFeLine(spec_models.StackedModel):
                 self.nfe40_pICMSUFDest = 18.0
             elif self.document_id.partner_id.state_id.code == 'RJ':
                 self.nfe40_pICMSUFDest = 20.0
-            self.nfe40_pICMSInter = '7.00'
+            self.nfe40_pICMSInter = '%.2f' % self.icms_percent
             self.nfe40_pICMSInterPart = 100.0
             self.nfe40_vICMSUFDest = (
                 self.nfe40_vBCUFDest * (
