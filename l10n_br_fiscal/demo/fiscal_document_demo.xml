@@ -550,7 +550,7 @@
 
     <!-- NFe Test - Com onchanges -->
     <record id="demo_nfe_financial" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
@@ -564,14 +564,11 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
 <!--        <field name="file_xml_autorizacao_id" ref="dummy_file_1"/> FIXME: Este é um campo related!!!!-->
     </record>
 
     <function model="l10n_br_fiscal.document" name="_onchange_document_serie_id">
-        <value eval="[ref('l10n_br_fiscal.demo_nfe_financial')]"/>
-    </function>
-    <function model="l10n_br_fiscal.document" name="_onchange_partner_id">
         <value eval="[ref('l10n_br_fiscal.demo_nfe_financial')]"/>
     </function>
     <function model="l10n_br_fiscal.document" name="_onchange_fiscal_operation_id">
@@ -585,7 +582,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -597,7 +594,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -664,7 +661,7 @@
 
     <!-- NFe Test - Com onchanges -->
     <record id="demo_nfe_raise_financial" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
@@ -678,16 +675,14 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
 <!--        <field name="file_xml_autorizacao_id" ref="dummy_file_1"/> FIXME: Este é um campo related!!!!-->
     </record>
 
     <function model="l10n_br_fiscal.document" name="_onchange_document_serie_id">
         <value eval="[ref('l10n_br_fiscal.demo_nfe_raise_financial')]"/>
     </function>
-    <function model="l10n_br_fiscal.document" name="_onchange_partner_id">
-        <value eval="[ref('l10n_br_fiscal.demo_nfe_raise_financial')]"/>
-    </function>
+
     <function model="l10n_br_fiscal.document" name="_onchange_fiscal_operation_id">
         <value eval="[ref('l10n_br_fiscal.demo_nfe_raise_financial')]"/>
     </function>
@@ -699,7 +694,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -711,7 +706,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -778,7 +773,7 @@
 
     <!-- NFe Test - Valor superior -->
     <record id="demo_nfe_financial_valor_superior" model="l10n_br_fiscal.document">
-        <field name="company_id" ref="l10n_br_fiscal.empresa_lucro_presumido"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
@@ -792,16 +787,14 @@
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
         <field name="partner_inscr_est">454.504.604.553</field>
         <field name="partner_tax_framework">3</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
 <!--        <field name="file_xml_autorizacao_id" ref="dummy_file_1"/> FIXME: Este é um campo related!!!!-->
     </record>
 
     <function model="l10n_br_fiscal.document" name="_onchange_document_serie_id">
         <value eval="[ref('l10n_br_fiscal.demo_nfe_financial_valor_superior')]"/>
     </function>
-    <function model="l10n_br_fiscal.document" name="_onchange_partner_id">
-        <value eval="[ref('l10n_br_fiscal.demo_nfe_financial_valor_superior')]"/>
-    </function>
+
     <function model="l10n_br_fiscal.document" name="_onchange_fiscal_operation_id">
         <value eval="[ref('l10n_br_fiscal.demo_nfe_financial_valor_superior')]"/>
     </function>
@@ -813,7 +806,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
@@ -825,7 +818,7 @@
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100</field>
         <field name="quantity">1</field>
-        <field name="operation_type">out</field>
+        <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
     </record>
