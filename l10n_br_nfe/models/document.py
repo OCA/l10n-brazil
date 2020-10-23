@@ -445,7 +445,10 @@ class NFe(spec_models.StackedModel):
                         procesador._generateds_to_string_etree(nfe_proc)[0]
                     record.autorizacao_event_id.set_done(xml_file)
                     record.atualiza_status_nfe(protocolo.infProt)
-                    record.gera_pdf()
+                    try:
+                        record.gera_pdf()
+                    except Exception as e:
+                        pass  # TODO: Tratar excessões
             elif processo.resposta.cStat == '225':
                 state = SITUACAO_EDOC_REJEITADA
 
