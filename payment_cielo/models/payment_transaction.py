@@ -20,6 +20,21 @@ INT_CURRENCIES = [
 class PaymentTransactionCielo(models.Model):
     _inherit = 'payment.transaction'
 
+    cielo_s2s_capture_link = fields.Char(
+        string="Capture Link",
+        required=False,
+        )
+
+    cielo_s2s_void_link = fields.Char(
+        string="Void Link",
+        required=False,
+        )
+
+    cielo_s2s_check_link = fields.Char(
+        string="Check Link",
+        required=False,
+        )
+
     def _create_cielo_charge(self, acquirer_ref=None, tokenid=None,
                              email=None):
         api_url_charge = 'https://%s/1/sales' % (
@@ -74,8 +89,6 @@ class PaymentTransactionCielo(models.Model):
         r = requests.post(api_url_charge,
                           json=charge_params,
                           headers=self.acquirer_id._get_cielo_api_headers())
-        # TODO: Salvar todos os dados de retorno em seus respectivos campos
-        #  (talvez criar novos para maior controle)
         res = r.json()
         _logger.info('_create_cielo_charge: Values received:\n%s',
                      pprint.pformat(res))
@@ -91,11 +104,35 @@ class PaymentTransactionCielo(models.Model):
 
     @api.multi
     def cielo_s2s_capture_transaction(self):
-        pass
+        _logger.info(
+            'cielo_s2s_capture_transaction: Sending values to URL %s',
+            self.cielo_s2s_capture_link)
+        r = requests.put(self.cielo_s2s_capture_link,
+                         headers=self.acquirer_id._get_cielo_api_headers())
+        res = r.json()
+        _logger.info('cielo_s2s_capture_transaction: Values received:\n%s',
+                     pprint.pformat(res))
+        # analyse result
+        if type(res) == dict and res.get('ProviderReturnMessage') and res.get(
+                'ProviderReturnMessage') == 'Operation Successful':
+            # apply result
+            self._set_transaction_done()
 
     @api.multi
     def cielo_s2s_void_transaction(self):
-        pass
+        _logger.info(
+            'cielo_s2s_void_transaction: Sending values to URL %s',
+            self.cielo_s2s_void_link)
+        r = requests.put(self.cielo_s2s_void_link,
+                         headers=self.acquirer_id._get_cielo_api_headers())
+        res = r.json()
+        _logger.info('cielo_s2s_void_transaction: Values received:\n%s',
+                     pprint.pformat(res))
+        # analyse result
+        if type(res) == dict and res.get('ProviderReturnMessage') and res.get(
+                'ProviderReturnMessage') == 'Operation Successful':
+            # apply result
+            self._set_transaction_cancel()
 
     @api.multi
     def _cielo_s2s_validate_tree(self, tree):
@@ -113,7 +150,19 @@ class PaymentTransactionCielo(models.Model):
                     'date': fields.datetime.now(),
                     'acquirer_reference': tree.get('id'),
                     })
-                self._set_transaction_done()
+                # store capture and void links for future manual operations
+                for method in tree.get('Payment').get('Links'):
+                    if 'Rel' in method and 'Href' in method:
+                        if method.get('Rel') == 'self':
+                            self.cielo_s2s_check_link = method.get('Href')
+                        if method.get('Rel') == 'capture':
+                            self.cielo_s2s_capture_link = method.get('Href')
+                        if method.get('Rel') == 'void':
+                            self.cielo_s2s_void_link = method.get('Href')
+
+                # setting transaction to authorized - must match Cielo
+                # payment using the case without automatic capture
+                self._set_transaction_authorized()
                 self.execute_callback()
                 if self.payment_token_id:
                     self.payment_token_id.verified = True
