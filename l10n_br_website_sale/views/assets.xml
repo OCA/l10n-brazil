@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_frontend" inherit_id="web.assets_frontend" name="Address Assets" priority="16">
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/l10n_br_website_sale/static/src/js/l10n_br_address.js"></script>
+            <script type="text/javascript" src="/l10n_br_website_sale/static/src/js/l10n_br_website_sale_tour.js"></script>
+        </xpath>
+    </template>
+
+</odoo>
