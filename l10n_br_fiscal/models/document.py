@@ -40,7 +40,9 @@ class Document(models.Model):
         'mail.thread',
         'mail.activity.mixin',
         'l10n_br_fiscal.document.mixin',
-        'l10n_br_fiscal.document.electronic']
+        'l10n_br_fiscal.document.electronic',
+        'l10n_br_fiscal.payment.mixin',
+    ]
     _description = 'Fiscal Document'
 
     @api.depends('line_ids')
