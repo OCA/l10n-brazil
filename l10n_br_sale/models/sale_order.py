@@ -267,7 +267,9 @@ class SaleOrder(models.Model):
                     document_type_list.append(fiscal_document_type.id)
 
             # Check if there more than one Document Type
-            if len(document_type_list) > 1:
+            if ((fiscal_document_type !=
+                    invoice_created_by_super.document_type_id.id) or
+                    (len(document_type_list) > 1)):
 
                 # Remove the First Document Type,
                 # already has Invoice created
