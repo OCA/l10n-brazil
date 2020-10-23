@@ -11,6 +11,7 @@
         <field name="key">1</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="user_id" ref="base.user_demo"/>
+        <field name="payment_term_id" ref="l10n_br_fiscal.term_a_vista"/>
         <field name="partner_legal_name">Cliente 1 SP</field>
         <field name="partner_name">Cliente 1 SP Contribuinte</field>
         <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
