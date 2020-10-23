@@ -14,10 +14,7 @@ from ..constants.fiscal import (
 
 class FiscalDocumentMixin(models.AbstractModel):
     _name = 'l10n_br_fiscal.document.mixin'
-    _inherit = [
-        'l10n_br_fiscal.document.mixin.methods',
-        'l10n_br_fiscal.payment.mixin',
-    ]
+    _inherit = 'l10n_br_fiscal.document.mixin.methods'
     _description = 'Document Fiscal Mixin'
 
     def _date_server_format(self):
