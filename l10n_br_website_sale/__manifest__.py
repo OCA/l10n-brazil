@@ -9,7 +9,7 @@
     "development_status": "Alpha",
     'license': 'AGPL-3',
     'author': 'KMEE, Odoo Community Association (OCA)',
-    'website': 'www.kmee.com.br',
+    'website': 'https://github.com/OCA/l10n-brazil',
     'depends': [
         'website_sale',
         'l10n_br_sale',
