@@ -1,0 +1,278 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_mis_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_outras_receitas_despesas_operacionais
+msgid "(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_resultado_financeiro
+msgid "(+/-) RESULTADO FINANCEIRO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_header_custo_vendas
+msgid "(-) CUSTO DAS VENDAS"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_header_despesas_operacionais
+msgid "(-) DESPESAS OPERACIONAIS"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_deducoes_receita
+msgid "(-) Deduções de Tributos, Abatimentos e Devoluções"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_depreciacao_amortizacao
+msgid "(-) Depreciação e Amortização Acumuladas"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_contribuicao_social
+msgid "(-) Despesa com Contribuição Social"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_imposto_renda_pj
+msgid "(-) Despesa com Imposto de Renda da Pessoa Jurídica"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_despesas_financeiras
+msgid "(-) Despesas Financeiras"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_prejuizos
+msgid "(-) Prejuízos Acumulados"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_lucro_bruto
+msgid "= LUCRO BRUTO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_receita
+msgid "= RECEITA"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_resultado_antes_lucro
+msgid "= RESULTADO ANTES DAS DESPESAS COM TRIBUTOS SOBRE O LUCRO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_resultado
+msgid "= RESULTADO LÍQUIDO DO PERÍODO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_resultado_operacional
+msgid "= RESULTADO OPERACIONAL ANTES DO RESULTADO FINANCEIRO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_header_1
+msgid "ATIVO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report,description:l10n_br_mis_report.balanco_patrimonial
+msgid "BALANÇO PATRIMONIAL"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report,name:l10n_br_mis_report.balanco_patrimonial
+msgid "BP"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_circulante_ativo
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_passivo_circulante
+msgid "CIRCULANTE"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_caixa
+msgid "Caixa e Equivalentes de Caixa"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_capital_social
+msgid "Capital Social"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_contas_a_pagar
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_contas_a_pagar_longo
+msgid "Contas a Pagar"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_contas_a_receber
+msgid "Contas a Receber"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_custo_vendas
+msgid "Custo dos Produtos, Mercadorias e Serviços"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report,description:l10n_br_mis_report.dre
+msgid "DEMONSTRAÇÃO DO RESULTADO DO EXERCÍCIO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report,name:l10n_br_mis_report.dre
+msgid "DRE"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_despesas_administrativas
+msgid "Despesas Administrativas"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_despesas_vendas
+msgid "Despesas com Vendas"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_emprestimos_financiamentos
+msgid "Empréstimos e Financiamentos"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_estoques
+msgid "Estoques"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_financiamentos_longo
+msgid "Financiamentos"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_fornecedores
+msgid "Fornecedores"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_imobilizado
+msgid "Imobilizado"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_intangivel
+msgid "Intangível"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_investimentos
+msgid "Investimentos"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_lucros_prejuizos
+msgid "Lucros Acumulados"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_nao_circulante_ativo
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_passivo_nao_circulante
+msgid "NÃO CIRCULANTE"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_obrigacoes_fiscais
+msgid "Obrigações Fiscais"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_obrigacoes_trabalhistas_sociais
+msgid "Obrigações Trabalhistas e Sociais"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_despesas_gerais
+msgid "Outras Despesas Gerais"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_outros_creditos
+msgid "Outros Creditos"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_header_2
+msgid "PASSIVO e PATRIMÔNIO LÍQUIDO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_patrimonio_liquido
+msgid "PATRIMÔNIO LÍQUIDO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_provisoes
+msgid "Provisões"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_realizavel_longo_prazo
+msgid "Realizável a Longo Prazo"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_receitas_financeiras
+msgid "Receitas Financeiras"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_reservas_capital
+msgid "Reservas de Capital"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_reservas_lucros
+msgid "Reservas de Lucros"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_total_ativo
+msgid "TOTAL DO ATIVO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.balanco_patrimonial_total_passivo_patrimonio_liq
+msgid "TOTAL DO PASSIVO E PATRIMÔNIO LÍQUIDO"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_header_receita
+msgid "VENDAS DE PRODUTOS, MERCADORIAS E SERVIÇOS"
+msgstr ""
+
+#. module: l10n_br_mis_report
+#: model:mis.report.kpi,description:l10n_br_mis_report.dre_receita_vendas
+msgid "Vendas de Produtos, Mercadorias e Serviços"
+msgstr ""
+
