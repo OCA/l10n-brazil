@@ -6378,7 +6378,7 @@ msgid "Não é permitido faixas sobrepostas!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:216
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:225
 #, python-format
 msgid ""
 "Não é possível realizar esta operação,\n"
@@ -6390,7 +6390,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:142
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:151
 #, python-format
 msgid ""
 "Não é possível retornar o documento para em \n"
