@@ -8,5 +8,10 @@ class Partner(models.Model):
 
     @api.onchange("zip")
     def _onchange_zip(self):
-        super()._onchange_zip()
-        return self.zip_search()
+        res = super()._onchange_zip() or {}
+        try:
+            zip_search = self.zip_search()
+            res.update(zip_search)
+        except Exception as e:
+            pass
+        return res
