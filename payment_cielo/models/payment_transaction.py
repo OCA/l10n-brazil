@@ -116,7 +116,18 @@ class PaymentTransactionCielo(models.Model):
         if type(res) == dict and res.get('ProviderReturnMessage') and res.get(
                 'ProviderReturnMessage') == 'Operation Successful':
             # apply result
+            self.write({
+                'date': fields.datetime.now(),
+                'acquirer_reference': res,
+                })
             self._set_transaction_done()
+            self.execute_callback()
+        else:
+            self.sudo().write({
+                'state_message': res,
+                'acquirer_reference': res,
+                'date': fields.datetime.now(),
+                })
 
     @api.multi
     def cielo_s2s_void_transaction(self):
@@ -132,7 +143,17 @@ class PaymentTransactionCielo(models.Model):
         if type(res) == dict and res.get('ProviderReturnMessage') and res.get(
                 'ProviderReturnMessage') == 'Operation Successful':
             # apply result
+            self.write({
+                'date': fields.datetime.now(),
+                'acquirer_reference': res,
+                })
             self._set_transaction_cancel()
+        else:
+            self.sudo().write({
+                'state_message': res,
+                'acquirer_reference': res,
+                'date': fields.datetime.now(),
+                })
 
     @api.multi
     def _cielo_s2s_validate_tree(self, tree):
