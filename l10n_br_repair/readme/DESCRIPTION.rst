@@ -1,1 +1,1 @@
-This module extends the standard Odoo repair module for Brazil. Especially it deals with the propagation of the fiscal operation and fiscal comment. This module can be used both with or without the "NFe" electronic invoicing so it does not provide the NFe support itself.
+This module extends the Odoo Repair module to adapt it to the Brazilian needs, with this module you have tax data for collection and generation of fiscal documents (NF-e, NFS-e, CF-e, NFC-e and others), calculation Brazilian taxes and contributions (municipal, state and federal).
