@@ -345,3 +345,23 @@ class Document(models.Model):
             )
 
             return _(processador.analisa_retorno_consulta(processo))
+
+    def cancel_document_paulistana(self):
+        doc_dict = {
+            'numero_nfse': self.number,
+            'codigo_verificacao': self.verify_code,
+        }
+
+        for record in self.filtered(fiter_processador_edoc_nfse_paulistana):
+            processador = record._processador_erpbrasil_nfse()
+            processo = processador.cancela_documento(doc_numero=doc_dict)
+
+            status, message =\
+                processador.analisa_retorno_cancelamento_paulistana(processo)
+
+            return status
+
+    def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
+        super(Document, self)._exec_before_SITUACAO_EDOC_CANCELADA(
+            old_state, new_state)
+        return self.cancel_document_paulistana()
