@@ -7,22 +7,25 @@ Brazilian Localization Repair
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+    :target: https://odoo-community.org/page/development-status
+    :alt: Beta
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
-.. |badge2| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
+.. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fl10n--brazil-lightgray.png?logo=github
     :target: https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_repair
     :alt: OCA/l10n-brazil
-.. |badge3| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
+.. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
     :target: https://translation.odoo-community.org/projects/l10n-brazil-12-0/l10n-brazil-12-0-l10n_br_repair
     :alt: Translate me on Weblate
-.. |badge4| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
+.. |badge5| image:: https://img.shields.io/badge/runbot-Try%20me-875A7B.png
     :target: https://runbot.odoo-community.org/runbot/124/12.0
     :alt: Try me on Runbot
 
-|badge1| |badge2| |badge3| |badge4| 
+|badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module extends the standard Odoo repair module for Brazil. Especially it deals with the propagation of the fiscal operation and fiscal comment. This module can be used both with or without the "NFe" electronic invoicing so it does not provide the NFe support itself.
+This module extends the Odoo Repair module to adapt it to the Brazilian needs, with this module you have tax data for collection and generation of fiscal documents (NF-e, NFS-e, CF-e, NFC-e and others), calculation Brazilian taxes and contributions (municipal, state and federal).
 
 **Table of contents**
 
@@ -35,6 +38,7 @@ Installation
 This module depends on:
 
 * l10n_br_account
+* l10n_br_stock
 
 Configuration
 =============
@@ -59,16 +63,9 @@ To use this module, you need to:
 Known issues / Roadmap
 ======================
 
-This module hasn't been tested with *repair_discount* module
-installed, so maybe it's incompatible with it.
+* This module hasn't been tested with *repair_discount* module installed, so maybe it's incompatible with it.
 
-Changelog
-=========
-
-12.0.1.0.0 (2020-07-21)
-~~~~~~~~~~~~~~~~~~~~~~~
-
-* [NEW] First Version
+* Refactor source code of the repair_fee and repair_line model.
 
 Bug Tracker
 ===========
@@ -92,7 +89,6 @@ Contributors
 ~~~~~~~~~~~~
 
 * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
-* Eduardo Aparício <eduardo.aparicio@escodoo.com.br>
 * Renato Lima <renato.lima@akretion.com.br>
 * Luis Felipe Mileo <mileo@kmee.com.br>
 * Raphaël Valyi <raphael.valyi@akretion.com.br>
