@@ -81,30 +81,31 @@ class DocumentWorkflow(models.AbstractModel):
             return (old_state, new_state) in WORKFLOW_DOCUMENTO_NAO_ELETRONICO
 
     def _exec_before_SITUACAO_EDOC_EM_DIGITACAO(self, old_state, new_state):
-        pass
+        return True
 
     def _exec_before_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
         self.document_date()
         self.document_number()
         self.document_check()
+        return True
 
     def _exec_before_SITUACAO_EDOC_ENVIADA(self, old_state, new_state):
-        pass
+        return True
 
     def _exec_before_SITUACAO_EDOC_REJEITADA(self, old_state, new_state):
-        pass
+        return True
 
     def _exec_before_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
-        pass
+        return True
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
-        pass
+        return True
 
     def _exec_before_SITUACAO_EDOC_DENEGADA(self, old_state, new_state):
-        pass
+        return True
 
     def _exec_before_SITUACAO_EDOC_INUTILIZADA(self, old_state, new_state):
-        pass
+        return True
 
     def _before_change_state(self, old_state, new_state):
         """ Hook para realizar alterações depois da alteração do estado do doc.
@@ -117,21 +118,29 @@ class DocumentWorkflow(models.AbstractModel):
         """
         self.ensure_one()
         if new_state == SITUACAO_EDOC_EM_DIGITACAO:
-            self._exec_before_SITUACAO_EDOC_EM_DIGITACAO(old_state, new_state)
+            return self._exec_before_SITUACAO_EDOC_EM_DIGITACAO(
+                old_state, new_state)
         elif new_state == SITUACAO_EDOC_A_ENVIAR:
-            self._exec_before_SITUACAO_EDOC_A_ENVIAR(old_state, new_state)
+            return self._exec_before_SITUACAO_EDOC_A_ENVIAR(
+                old_state, new_state)
         elif new_state == SITUACAO_EDOC_ENVIADA:
-            self._exec_before_SITUACAO_EDOC_ENVIADA(old_state, new_state)
+            return self._exec_before_SITUACAO_EDOC_ENVIADA(
+                old_state, new_state)
         elif new_state == SITUACAO_EDOC_REJEITADA:
-            self._exec_before_SITUACAO_EDOC_REJEITADA(old_state, new_state)
+            return self._exec_before_SITUACAO_EDOC_REJEITADA(
+                old_state, new_state)
         elif new_state == SITUACAO_EDOC_AUTORIZADA:
-            self._exec_before_SITUACAO_EDOC_AUTORIZADA(old_state, new_state)
+            return self._exec_before_SITUACAO_EDOC_AUTORIZADA(
+                old_state, new_state)
         elif new_state == SITUACAO_EDOC_CANCELADA:
-            self._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
+            return self._exec_before_SITUACAO_EDOC_CANCELADA(
+                old_state, new_state)
         elif new_state == SITUACAO_EDOC_DENEGADA:
-            self._exec_before_SITUACAO_EDOC_DENEGADA(old_state, new_state)
+            return self._exec_before_SITUACAO_EDOC_DENEGADA(
+                old_state, new_state)
         elif new_state == SITUACAO_EDOC_INUTILIZADA:
-            self._exec_before_SITUACAO_EDOC_INUTILIZADA(old_state, new_state)
+            return self._exec_before_SITUACAO_EDOC_INUTILIZADA(
+                old_state, new_state)
 
     def _exec_after_SITUACAO_EDOC_EM_DIGITACAO(self, old_state, new_state):
         if self.state_fiscal in SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO:
@@ -219,9 +228,9 @@ class DocumentWorkflow(models.AbstractModel):
                     )
                 )
 
-            record._before_change_state(old_state, new_state)
-            record.state_edoc = new_state
-            record._after_change_state(old_state, new_state)
+            if record._before_change_state(old_state, new_state):
+                record.state_edoc = new_state
+                record._after_change_state(old_state, new_state)
 
     def document_date(self):
         if not self.date:
