@@ -4,3 +4,5 @@
 from . import res_config_settings
 from . import l10n_br_zip
 from . import format_address_mixin
+from . import res_company
+from . import res_partner
