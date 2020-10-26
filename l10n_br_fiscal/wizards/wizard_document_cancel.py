@@ -31,10 +31,6 @@ class DocumentCancelWizard(models.TransientModel):
                 self.env.context["active_id"]
             )
 
-            document_id.cancel_reason = wizard.justificative
-            msg = "Cancelamento: {}".format(wizard.justificative)
-            document_id.message_post(body=msg)
-
             cancel = self.env[
                 'l10n_br_fiscal.document.cancel'].create({
                     'document_id': document_id.id,
