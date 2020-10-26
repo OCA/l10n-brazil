@@ -22,7 +22,8 @@ class DocumentCancel(models.Model):
             if not record.document_id or not record.justificative:
                 continue
 
-            record.document_id._document_cancel(record.justificative)
+            if not record.document_id._document_cancel(record.justificative):
+                continue
 
             event_id.write({
                 'state': 'done',
