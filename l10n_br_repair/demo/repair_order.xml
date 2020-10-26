@@ -5,16 +5,16 @@
 <odoo noupdate="0">
 
     <!-- Main Company Simples Nacional -->
-    <!-- Sale Order with only products test -->
+    <!-- Repair Order with only products test -->
     <record id="main_so_only_products" model="repair.order">
         <field name="address_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')"/>
         <field name="invoice_method">b4repair</field>
-        <field name="product_id" ref="product.product_product_3"/>
+        <field name="product_id" ref="product.product_product_6"/>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_id" ref="stock.stock_location_components"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
@@ -71,16 +71,16 @@
         <value eval="[ref('main_sl_only_products_2_2')]"/>
     </function>
 
-    <!-- Sale Order with only services test -->
+    <!-- Repair Order with only services test -->
     <record id="main_so_only_services" model="repair.order">
         <field name="address_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')"/>
         <field name="invoice_method">b4repair</field>
-        <field name="product_id" ref="product.product_product_3"/>
+        <field name="product_id" ref="product.product_product_6"/>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_id" ref="stock.stock_location_components"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
@@ -138,16 +138,16 @@
         <value eval="[ref('main_sl_only_services_2_2')]"/>
     </function>
 
-    <!-- Sale Order with product and service test -->
+    <!-- Repair Order with product and service test -->
     <record id="main_so_product_service" model="repair.order">
         <field name="address_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')"/>
         <field name="invoice_method">b4repair</field>
-        <field name="product_id" ref="product.product_product_3"/>
+        <field name="product_id" ref="product.product_product_6"/>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_id" ref="stock.stock_location_components"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
@@ -205,16 +205,16 @@
     </function>
 
     <!-- Empresa Simples Nacional -->
-    <!-- Sale Order with only products test -->
+    <!-- Repair Order with only products test -->
     <record id="sn_so_only_products" model="repair.order">
         <field name="address_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')"/>
         <field name="invoice_method">b4repair</field>
-        <field name="product_id" ref="product.product_product_3"/>
+        <field name="product_id" ref="product.product_product_6"/>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="location_id" ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"/>
+        <field name="location_id" ref="l10n_br_stock.stock_location_sn_shelf_1"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
@@ -271,16 +271,16 @@
         <value eval="[ref('sn_sl_only_products_2_2')]"/>
     </function>
 
-    <!-- Sale Order with only services test -->
+    <!-- Repair Order with only services test -->
     <record id="sn_so_only_services" model="repair.order">
         <field name="address_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')"/>
         <field name="invoice_method">b4repair</field>
-        <field name="product_id" ref="product.product_product_3"/>
+        <field name="product_id" ref="product.product_product_6"/>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="location_id" ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"/>
+        <field name="location_id" ref="l10n_br_stock.stock_location_sn_shelf_1"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
@@ -338,16 +338,16 @@
         <value eval="[ref('sn_sl_only_services_2_2')]"/>
     </function>
 
-    <!-- Sale Order with product and service test -->
+    <!-- Repair Order with product and service test -->
     <record id="sn_so_product_service" model="repair.order">
         <field name="address_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')"/>
         <field name="invoice_method">b4repair</field>
-        <field name="product_id" ref="product.product_product_3"/>
+        <field name="product_id" ref="product.product_product_6"/>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="location_id" ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"/>
+        <field name="location_id" ref="l10n_br_stock.stock_location_sn_shelf_1"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
@@ -405,16 +405,16 @@
     </function>
 
     <!-- Empresa Lucro Presumido -->
-    <!-- Sale Order with only products test -->
+    <!-- Repair Order with only products test -->
     <record id="lc_so_only_products" model="repair.order">
         <field name="address_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')"/>
         <field name="invoice_method">b4repair</field>
-        <field name="product_id" ref="product.product_product_3"/>
+        <field name="product_id" ref="product.product_product_6"/>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="location_id" ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"/>
+        <field name="location_id" ref="l10n_br_stock.stock_location_lp_shelf_1"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
@@ -471,16 +471,16 @@
         <value eval="[ref('lc_sl_only_products_2_2')]"/>
     </function>
 
-    <!-- Sale Order with only services test -->
+    <!-- Repair Order with only services test -->
     <record id="lc_so_only_services" model="repair.order">
         <field name="address_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')"/>
         <field name="invoice_method">b4repair</field>
-        <field name="product_id" ref="product.product_product_3"/>
+        <field name="product_id" ref="product.product_product_6"/>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="location_id" ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"/>
+        <field name="location_id" ref="l10n_br_stock.stock_location_lp_shelf_1"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
@@ -538,16 +538,16 @@
         <value eval="[ref('lc_sl_only_services_2_2')]"/>
     </function>
 
-    <!-- Sale Order with product and service test -->
+    <!-- Repair Order with product and service test -->
     <record id="lc_so_product_service" model="repair.order">
         <field name="address_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')"/>
         <field name="invoice_method">b4repair</field>
-        <field name="product_id" ref="product.product_product_3"/>
+        <field name="product_id" ref="product.product_product_6"/>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="location_id" ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"/>
+        <field name="location_id" ref="l10n_br_stock.stock_location_lp_shelf_1"/>
         <field name="pricelist_id" ref="product.list0"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
