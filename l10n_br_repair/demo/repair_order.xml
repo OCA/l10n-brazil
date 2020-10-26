@@ -101,6 +101,10 @@
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402"/>
     </record>
 
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_services_1_2')]"/>
+    </function>
+
     <function model="repair.fee" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_only_services_1_2')]"/>
     </function>
@@ -121,6 +125,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402"/>
     </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_services_2_2')]"/>
+    </function>
 
     <function model="repair.fee" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_only_services_2_2')]"/>
@@ -184,12 +192,16 @@
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402"/>
     </record>
 
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_product_service_2_2')]"/>
+    </function>
+
     <function model="repair.fee" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_only_services_2_2')]"/>
+        <value eval="[ref('main_sl_product_service_2_2')]"/>
     </function>
 
     <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_only_services_2_2')]"/>
+        <value eval="[ref('main_sl_product_service_2_2')]"/>
     </function>
 
     <!-- Empresa Simples Nacional -->
@@ -289,6 +301,10 @@
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402"/>
     </record>
 
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_services_1_2')]"/>
+    </function>
+
     <function model="repair.fee" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_sl_only_services_1_2')]"/>
     </function>
@@ -309,6 +325,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402"/>
     </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_services_2_2')]"/>
+    </function>
 
     <function model="repair.fee" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_sl_only_services_2_2')]"/>
@@ -372,12 +392,16 @@
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402"/>
     </record>
 
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_product_service_2_2')]"/>
+    </function>
+
     <function model="repair.fee" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('sn_sl_only_services_2_2')]"/>
+        <value eval="[ref('sn_sl_product_service_2_2')]"/>
     </function>
 
     <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('sn_sl_only_services_2_2')]"/>
+        <value eval="[ref('sn_sl_product_service_2_2')]"/>
     </function>
 
     <!-- Empresa Lucro Presumido -->
@@ -477,6 +501,10 @@
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402"/>
     </record>
 
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_services_1_2')]"/>
+    </function>
+
     <function model="repair.fee" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lc_sl_only_services_1_2')]"/>
     </function>
@@ -497,6 +525,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico"/>
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402"/>
     </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_services_2_2')]"/>
+    </function>
 
     <function model="repair.fee" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lc_sl_only_services_2_2')]"/>
@@ -560,12 +592,16 @@
         <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402"/>
     </record>
 
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_product_service_2_2')]"/>
+    </function>
+
     <function model="repair.fee" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('lc_sl_only_services_2_2')]"/>
+        <value eval="[ref('lc_sl_product_service_2_2')]"/>
     </function>
 
     <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('lc_sl_only_services_2_2')]"/>
+        <value eval="[ref('lc_sl_product_service_2_2')]"/>
     </function>
 
 </odoo>
