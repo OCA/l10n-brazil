@@ -211,9 +211,10 @@ class DocumentWorkflow(models.AbstractModel):
         alterar o estado da invoice.
 
         :param new_state: Novo estado
-        :return:
+        :return: status: Status da conclusão da mudança de estado
         """
 
+        status = False
         for record in self:
             old_state = record.state_edoc
 
@@ -231,6 +232,9 @@ class DocumentWorkflow(models.AbstractModel):
             if record._before_change_state(old_state, new_state):
                 record.state_edoc = new_state
                 record._after_change_state(old_state, new_state)
+                status = True
+
+        return status
 
     def document_date(self):
         if not self.date:
@@ -286,9 +290,10 @@ class DocumentWorkflow(models.AbstractModel):
 
     def _document_cancel(self, justificative):
         self.cancel_reason = justificative
-        self._change_state(SITUACAO_EDOC_CANCELADA)
-        msg = "Cancelamento: {}".format(justificative)
-        self.message_post(body=msg)
+        if self._change_state(SITUACAO_EDOC_CANCELADA):
+            self.cancel_reason = justificative
+            msg = "Cancelamento: {}".format(justificative)
+            self.message_post(body=msg)
 
     @api.multi
     def action_document_cancel(self):
