@@ -18,7 +18,7 @@ class FiscalPaymentTermAbstract(models.AbstractModel):
 
     forma_pagamento = fields.Selection(
         selection=FORMA_PAGAMENTO,
-        string='Forma de pagamento',
+        string='Tipo pagamento',
         default=FORMA_PAGAMENTO_OUTROS,
     )
     bandeira_cartao = fields.Selection(
