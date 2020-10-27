@@ -224,7 +224,7 @@ class Document(models.Model):
             ) or None,
         )
 
-    def assinatura_rps(self, dados_lote_rps, dados_servico, dados_tomador ):
+    def assinatura_rps(self, dados_lote_rps, dados_servico, dados_tomador):
         assinatura = ''
 
         assinatura += dados_lote_rps['inscricao_municipal'].zfill(8)
@@ -236,9 +236,9 @@ class Document(models.Model):
             dados_lote_rps['natureza_operacao'])
         assinatura += 'N'  # FIXME: Verificar status do RPS
         assinatura += 'N'
-        assinatura += ('%.2f'% dados_lote_rps['total_recebido']).\
+        assinatura += ('%.2f' % dados_lote_rps['total_recebido']).\
             replace('.', '').zfill(15)
-        assinatura += ('%.2f'% dados_lote_rps['carga_tributaria']).\
+        assinatura += ('%.2f' % dados_lote_rps['carga_tributaria']).\
             replace('.', '').zfill(15)
         assinatura += dados_servico['codigo_tributacao_municipio'].zfill(5)
         assinatura += '2'  # FIXME: Manter sempre CNPJ?
@@ -311,8 +311,9 @@ class Document(models.Model):
                                             codigo = erro.find('Codigo').text
                                             descricao = \
                                                 erro.find('Descricao').text
-                                            mensagem_erro += codigo + ' - ' \
-                                                             + descricao + '\n'
+                                            mensagem_erro +=\
+                                                codigo + ' - ' + \
+                                                descricao + '\n'
 
                                         vals['edoc_error_message'] = \
                                             mensagem_erro
