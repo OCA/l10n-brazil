@@ -49,8 +49,7 @@ class PaymentTransactionCielo(models.Model):
             self.payment_token_id.card_brand = 'master'
 
         charge_params = {
-            #  TODO: MerchantOrderId - Numero de identificação do Pedido.
-            "MerchantOrderId": "2014111703",
+            "MerchantOrderId": str(self.id),
             "Customer": {
                 "Name": self.partner_id.name
                 },
@@ -59,10 +58,7 @@ class PaymentTransactionCielo(models.Model):
                 # Charge is in BRL cents -> Multiply by 100
                 "Amount": self.amount * 100,
                 "Installments": 1,
-                # TODO: SoftDescriptor - Texto impresso na fatura bancaria
-                #  comprador. Deve ser preenchido de acordo com os dados do
-                #  sub Merchant.
-                "SoftDescriptor": "123456789ABCD",
+                "SoftDescriptor": self.display_name,
                 "CreditCard": {
                     "CardToken": self.payment_token_id.cielo_token,
                     "Brand": self.payment_token_id.card_brand,
