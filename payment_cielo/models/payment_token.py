@@ -93,6 +93,8 @@ class PaymentTokenCielo(models.Model):
 
          """
         token = self._cielo_tokenize(values)
+        if 'CardToken' not in token:
+            return False
         values['card_token'] = token['CardToken']
 
         if values.get('cc_number'):
