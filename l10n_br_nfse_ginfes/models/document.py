@@ -232,7 +232,10 @@ class Document(models.Model):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.cancela_documento(doc_numero=int(self.number))
 
-            return processador.analisa_retorno_cancelamento(processo)
+            status, message = \
+                processador.analisa_retorno_cancelamento(processo)
+
+            return status
 
     def action_consultar_nfse_rps(self):
         for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
@@ -346,4 +349,4 @@ class Document(models.Model):
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
         super(Document, self)._exec_before_SITUACAO_EDOC_CANCELADA(
             old_state, new_state)
-        self.cancel_document_ginfes()
+        return self.cancel_document_ginfes()
