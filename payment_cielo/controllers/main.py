@@ -103,8 +103,8 @@ class CieloController(http.Controller):
             tx = TX.sudo().search([('reference', '=', post['tx_ref'])])
         if not tx:
             tx_id = (post.get('tx_id') or request.session.get(
-                'sale_transaction_id') or
-                 request.session.get('website_payment_tx_id'))
+                'sale_transaction_id') or request.session.get(
+                'website_payment_tx_id'))
             tx = TX.sudo().browse(int(tx_id))
         if not tx:
             raise werkzeug.exceptions.NotFound()
