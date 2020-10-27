@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fiscal_operation_form" model="ir.ui.view">
+        <field name="name">account.payment.move.form (in l10n_br_account)</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form"/>
+        <field name="arch" type="xml">
+            <group name="main" position="after">
+                <group name="l10n_br_account" string="Dados Brasileiros">
+                    <group name="l10n_br_account_left">
+                        <field name="forma_pagamento"/>
+                        <field name="bandeira_cartao"/>
+                        <field name="integracao_cartao"/>
+                        <field name="partner_card_id"/>
+                        <field name="partner_card_cnpj_cpf"/>
+                    </group>
+                    <group name="l10n_br_account_right">
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+
+</odoo>
