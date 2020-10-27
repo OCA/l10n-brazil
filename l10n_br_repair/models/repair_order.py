@@ -296,7 +296,10 @@ class RepairOrder(models.Model):
         for order in self:
             for line in order.operations:
                 line.discount = order.discount_rate
-                line._onchange_discount()
+                line._onchange_discount_percent()
+            for line in order.fees_lines:
+                line.discount = order.discount_rate
+                line._onchange_discount_percent()
 
     # @api.onchange('fiscal_operation_id')
     # def _onchange_fiscal_operation_id(self):
