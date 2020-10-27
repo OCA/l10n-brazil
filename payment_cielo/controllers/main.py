@@ -25,20 +25,15 @@ class CieloController(http.Controller):
         if not token:
             res = {
                 'result': False,
-            }
+                }
             return res
 
         res = {
             'result': True,
-            # 'id': token.id,
             'short_name': token.short_name,
             '3d_secure': False,
             'verified': False,
-        }
-
-        # if verify_validity != False:
-        #     token.validate()
-        #     res['verified'] = token.verified
+            }
 
         return res
 
@@ -80,7 +75,7 @@ class CieloController(http.Controller):
         if not token:
             res = {
                 'result': False,
-            }
+                }
             return res
 
         res = {
@@ -89,7 +84,7 @@ class CieloController(http.Controller):
             'short_name': token.short_name,
             '3d_secure': False,
             'verified': False,
-        }
+            }
 
         if verify_validity is not False:
             token.validate()
@@ -109,7 +104,7 @@ class CieloController(http.Controller):
         if not tx:
             tx_id = (post.get('tx_id') or request.session.get(
                 'sale_transaction_id') or
-                request.session.get('website_payment_tx_id'))
+                     request.session.get('website_payment_tx_id'))
             tx = TX.sudo().browse(int(tx_id))
         if not tx:
             raise werkzeug.exceptions.NotFound()
@@ -121,7 +116,7 @@ class CieloController(http.Controller):
                 'acquirer_id': tx.acquirer_id.id,
                 'partner_id': tx.partner_id.id,
                 'cielo_token': cielo_token
-            })
+                })
             tx.payment_token_id = payment_token_id
             response = tx._create_cielo_charge(
                 acquirer_ref=payment_token_id.acquirer_ref,
