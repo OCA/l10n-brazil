@@ -63,6 +63,53 @@ class CieloTest(CieloCommon):
         self.assertEqual(tx.state, 'done',
                          'transaction state should be done')
 
+    def test_20_cielo_s2s(self):
+        # Test invalid card
+        self.assertEqual(self.cielo.environment, 'test',
+                         'test without test environment')
+
+        # Add Cielo credentials
+        self.cielo.write({
+            'cielo_merchant_id': 'be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd',
+            'cielo_merchant_key': 'POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE',
+            })
+
+        # Create payment meethod for Cielo
+        try:
+            payment_token = self.env['payment.token'].create({
+                'acquirer_id': self.cielo.id,
+                'partner_id': self.buyer_id,
+                'cc_number': '5324007197691291',
+                'cc_expiry': '02 / 12',
+                'cc_brand': 'visa',
+                'cvc': '111',
+                'cc_holder_name': 'Johndoe',
+                })
+        except Exception as e:
+            print(e)
+
+        # Create transaction
+        try:
+            tx = self.env['payment.transaction'].create({
+                'reference': 'test_ref_%s' % fields.date.today(),
+                'currency_id': self.currency_euro.id,
+                'acquirer_id': self.cielo.id,
+                'partner_id': self.buyer_id,
+                'payment_token_id': payment_token.id,
+                'type': 'server2server',
+                'amount': 115.0
+                })
+        except Exception as e:
+            print(e)
+
+        try:
+            tx.cielo_s2s_do_transaction()
+        except Exception as e:
+            print(e)
+
+        with self.assertRaises(NameError):
+            self.assertEqual(tx, None)
+
     @unittest.skip(
         "as the test is post-install and because payment_strip_sca changes"
         "the code logic and is automatically installed, this test is invalid.")
