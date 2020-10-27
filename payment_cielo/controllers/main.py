@@ -122,8 +122,8 @@ class CieloController(http.Controller):
                 acquirer_ref=payment_token_id.acquirer_ref,
                 email=cielo_token['email'])
         else:
-            response = tx._create_cielo_charge(tokenid=cielo_token['id'],
-                                               email=cielo_token['email'])
+            response = tx._create_cielo_charge(
+                tokenid=cielo_token['id'], email=cielo_token['email'])
         _logger.info('Cielo: entering form_feedback with post data %s',
                      pprint.pformat(response))
         if response:
