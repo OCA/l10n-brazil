@@ -127,6 +127,7 @@ class L10nBrRepairBaseTest(TransactionCase):
     def _run_repair_order_onchanges(self, repair_order):
         repair_order.onchange_partner_id()
         repair_order._onchange_fiscal_operation_id()
+        repair_order.onchange_discount_rate()
 
     def _run_operations_onchanges(self, operations):
         operations._onchange_product_id_fiscal()
@@ -184,6 +185,8 @@ class L10nBrRepairBaseTest(TransactionCase):
             "Error to mapping correct Operation on Repair Order "
             "after change fiscal category.",
         )
+        self.assertEquals(
+            self.so_products.amount_discount, 0, "Error to discount value")
 
         for line in self.so_products.operations:
             self._run_operations_onchanges(line)
@@ -325,6 +328,9 @@ class L10nBrRepairBaseTest(TransactionCase):
             "Error to mapping correct Operation on Repair Order "
             "after change fiscal category.",
         )
+
+        self.assertEquals(
+            self.so_services.amount_discount, 0, "Error to discount value")
 
         for line in self.so_services.fees_lines:
             self._run_fees_lines_onchanges(line)
