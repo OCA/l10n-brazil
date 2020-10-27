@@ -9,7 +9,6 @@ from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
-# TODO: INT_CURRENCIES é necessário?
 INT_CURRENCIES = [
     u'BRL', u'XAF', u'XPF', u'CLP', u'KMF', u'DJF', u'GNF', u'JPY', u'MGA',
     u'PYG', u'RWF', u'KRW',
@@ -37,13 +36,17 @@ class PaymentTransactionCielo(models.Model):
 
     def _create_cielo_charge(self, acquirer_ref=None, tokenid=None,
                              email=None):
+        """Creates the s2s payment.
+
+        Uses credit card token instead of secret info.
+
+        """
         api_url_charge = 'https://%s/1/sales' % (
             self.acquirer_id._get_cielo_api_url())
 
+        # Odoo uses 'mastercard' name, cielo uses 'master'
         if self.payment_token_id.card_brand == 'mastercard':
             self.payment_token_id.card_brand = 'master'
-
-        # self.payment_token_id.cielo_token
 
         charge_params = {
             #  TODO: MerchantOrderId - Numero de identificação do Pedido.
@@ -53,6 +56,7 @@ class PaymentTransactionCielo(models.Model):
                 },
             "Payment": {
                 "Type": "CreditCard",
+                # Charge is in BRL cents -> Multiply by 100
                 "Amount": self.amount * 100,
                 "Installments": 1,
                 # TODO: SoftDescriptor - Texto impresso na fatura bancaria
@@ -68,20 +72,6 @@ class PaymentTransactionCielo(models.Model):
             }
 
         self.payment_token_id.active = False
-
-        # charge_params = {
-        #     'amount': int(self.amount if self.currency_id.name in
-        #     INT_CURRENCIES else float_round(self.amount * 100, 2)),
-        #     'currency': self.currency_id.name,
-        #     'metadata[reference]': self.reference,
-        #     'description': self.reference,
-        # }
-        # if acquirer_ref:
-        #     charge_params['customer'] = acquirer_ref
-        # if tokenid:
-        #     charge_params['card'] = str(tokenid)
-        # if email:
-        #     charge_params['receipt_email'] = email.strip()
 
         _logger.info(
             '_create_cielo_charge: Sending values to URL %s, values:\n%s',
@@ -104,6 +94,7 @@ class PaymentTransactionCielo(models.Model):
 
     @api.multi
     def cielo_s2s_capture_transaction(self):
+        """Captures an authorized transaction."""
         _logger.info(
             'cielo_s2s_capture_transaction: Sending values to URL %s',
             self.cielo_s2s_capture_link)
@@ -131,6 +122,7 @@ class PaymentTransactionCielo(models.Model):
 
     @api.multi
     def cielo_s2s_void_transaction(self):
+        """Voids an authorized transaction."""
         _logger.info(
             'cielo_s2s_void_transaction: Sending values to URL %s',
             self.cielo_s2s_void_link)
@@ -157,6 +149,14 @@ class PaymentTransactionCielo(models.Model):
 
     @api.multi
     def _cielo_s2s_validate_tree(self, tree):
+        """Validates the transaction.
+
+        This method updates the payment.transaction object describing the
+        actual transaction outcome.
+        Also saves get/capture/void links sent by cielo to make it easier to
+        perform the operations.
+
+        """
         self.ensure_one()
         if self.state != 'draft':
             _logger.info(
