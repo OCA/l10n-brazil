@@ -58,7 +58,7 @@ class PaymentTransactionCielo(models.Model):
                 # Charge is in BRL cents -> Multiply by 100
                 "Amount": self.amount * 100,
                 "Installments": 1,
-                "SoftDescriptor": self.display_name,
+                "SoftDescriptor": self.display_name[:13],
                 "CreditCard": {
                     "CardToken": self.payment_token_id.cielo_token,
                     "Brand": self.payment_token_id.card_brand,
