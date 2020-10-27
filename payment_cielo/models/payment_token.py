@@ -4,6 +4,7 @@
 import logging
 import pprint
 import requests
+import datetime
 
 from odoo import api, fields, models
 
@@ -55,8 +56,8 @@ class PaymentTokenCielo(models.Model):
             aquirer_id._get_cielo_api_url())
 
         partner_id = self.env['res.partner'].browse(values['partner_id'])
-        cielo_expiry = str(values['cc_expiry'][:2]) + '/20' + str(
-            values['cc_expiry'][-2:])
+        cielo_expiry = str(values['cc_expiry'][:2]) + '/' + str(
+            datetime.datetime.now().year)[:2] + str(values['cc_expiry'][-2:])
 
         if values['cc_brand'] == 'mastercard':
             values['cc_brand'] = 'master'
@@ -111,7 +112,8 @@ class PaymentTokenCielo(models.Model):
             'name': 'XXXXXXXXXXXX%s - %s' % (
                 values['cc_number'][-4:], customer_params["description"]),
             'card_number': values['cc_number'].replace(' ', ''),
-            'card_exp': str(values['cc_expiry'][:2]) + '/20' + str(
+            'card_exp': str(values['cc_expiry'][:2]) + '/' + str(
+                datetime.datetime.now().year)[:2] + str(
                 values['cc_expiry'][-2:]),
             'card_cvc': values['cvc'],
             'card_holder': values['cc_holder_name'],
