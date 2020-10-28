@@ -1,0 +1,374 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_repair
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-28 01:20+0000\n"
+"PO-Revision-Date: 2020-10-27 22:26-0300\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.4.1\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language: pt_BR\n"
+
+#. module: l10n_br_repair
+#: model:res.groups,name:l10n_br_repair.group_total_discount
+msgid "Allow Amount Discount on Repair Orders"
+msgstr "Permitir desconto de valor em ordens de reparo"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_gross
+msgid "Amount Gross"
+msgstr "Valor Bruto"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__amount_gross
+msgid "Amount without discount."
+msgstr "Valor sem desconto."
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__ind_pres
+msgid "Buyer Presence"
+msgstr "Presença do Comprador"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr "CNPJ/CPF"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__partner_id
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_line__partner_id
+msgid ""
+"Choose partner for whom the order will be invoiced and delivered. You can "
+"find a partner by its Name, TIN, Email or Internal Reference."
+msgstr ""
+"Escolha o parceiro para quem o pedido será faturado e entregue. Você pode "
+"encontrar um parceiro por seu Nome, TIN, E-mail ou Referência Interna."
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__comment_ids
+msgid "Comments"
+msgstr "Comentários"
+
+#. module: l10n_br_repair
+#: model:ir.model,name:l10n_br_repair.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__company_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_repair
+#: model:ir.model,name:l10n_br_repair.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajuste de Configurações"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__copy_repair_quotation_notes
+msgid "Copiar Observação no documentos fiscal"
+msgstr "Copiar Observação nos documentos fiscais"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__copy_repair_quotation_notes
+msgid "Copy Repair quotation notes on invoice"
+msgstr "Copiar notas de cotação de reparo na fatura"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_res_config_settings__copy_repair_quotation_notes
+msgid "Copy repair quotation notes in Fiscal documents"
+msgstr "Copiar notas de cotação de reparo em documentos fiscais"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__currency_id
+msgid "Currency ID"
+msgstr "Moeda"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__client_order_ref
+msgid "Customer Reference"
+msgstr "Referência do Cliente"
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
+msgid "Description"
+msgstr "Descrição"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__discount_rate
+msgid "Discount"
+msgstr "Desconto"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__discount
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__discount
+msgid "Discount (%)"
+msgstr "Desconto (%)"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_discount
+msgid "Discount (-)"
+msgstr "Desconto (-)"
+
+#. module: l10n_br_repair
+#: model:res.groups,name:l10n_br_repair.group_discount_per_value
+msgid "Discount in Repair Orders per Value"
+msgstr "Desconto em Ordens de Reparo por Valor"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_document_count
+msgid "Fiscal Document Count"
+msgstr "Contagem de Documentos Fiscais"
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_order_form_view
+msgid "Fiscal Documents"
+msgstr "Documentos Fiscais"
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
+msgid "Fiscal Quantity"
+msgstr "Quantidade Fiscal"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_tax_ids
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr "Impostos Fiscais"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_freight
+msgid "Freight"
+msgstr "Frete"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_gross
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_gross
+msgid "Gross Amount"
+msgstr "Quantidade Bruta"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_insurance
+msgid "Insurance"
+msgstr "Seguros"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__invoice_count
+msgid "Invoice Count"
+msgstr "Contagem de fatura"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__invoice_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_order_form_view
+msgid "Invoices"
+msgstr "Faturas"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__legal_name
+msgid "Legal Name"
+msgstr "Nome Legal"
+
+#. module: l10n_br_repair
+#: selection:repair.order,ind_pres:0
+msgid "NFC-e entrega em domicílio"
+msgstr "NFC-e entrega em domicílio"
+
+#. module: l10n_br_repair
+#: code:addons/l10n_br_repair/models/repair_order.py:459
+#, python-format
+msgid "No account defined for partner \"%s\"."
+msgstr "Nenhuma conta definida para o parceiro \"%s\"."
+
+#. module: l10n_br_repair
+#: code:addons/l10n_br_repair/models/repair_order.py:486
+#, python-format
+msgid "No product defined on fees."
+msgstr "Nenhum produto definido em serviços."
+
+#. module: l10n_br_repair
+#: selection:repair.order,ind_pres:0
+msgid "Não presencial, internet"
+msgstr "Não presencial, internet"
+
+#. module: l10n_br_repair
+#: selection:repair.order,ind_pres:0
+msgid "Não presencial, outros"
+msgstr "Não presencial, outros"
+
+#. module: l10n_br_repair
+#: selection:repair.order,ind_pres:0
+msgid "Não presencial, teleatendimento"
+msgstr "Não presencial, teleatendimento"
+
+#. module: l10n_br_repair
+#: selection:repair.order,ind_pres:0
+msgid "Não se aplica"
+msgstr "Não se aplica"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_operation_id
+msgid "Operation"
+msgstr "Operação"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_res_company__repair_fiscal_operation_id
+msgid "Operação Fiscal Padrão de Reparos"
+msgstr "Operação Fiscal Padrão de Reparos"
+
+#. module: l10n_br_repair
+#: selection:repair.order,ind_pres:0
+msgid "Operação presencial"
+msgstr "Operação presencial"
+
+#. module: l10n_br_repair
+#: selection:repair.order,ind_pres:0
+msgid "Operação presencial, fora do estabelecimento"
+msgstr "Operação presencial, para um estabelecimento"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_costs
+msgid "Other Costs"
+msgstr "Outros Custos"
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
+msgid "Outros Custos"
+msgstr "Outros Custos"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__quantity
+msgid "Part Quantity"
+msgstr "Quantidade de Peças"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__partner_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__partner_id
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_br_repair
+#: code:addons/l10n_br_repair/models/repair_order.py:366
+#, python-format
+msgid "Please define an accounting sales journal for this company."
+msgstr "Por favor defina um diário contábil de vendas para essa companhia."
+
+#. module: l10n_br_repair
+#: code:addons/l10n_br_repair/models/repair_order.py:359
+#, python-format
+msgid "Please define an default document type for this company."
+msgstr "Por favor, defina um tipo de documento padrão para esta empresa."
+
+#. module: l10n_br_repair
+#: code:addons/l10n_br_repair/models/repair_fee.py:149
+#: code:addons/l10n_br_repair/models/repair_line.py:149
+#, python-format
+msgid ""
+"Please define income account for this product: \"%s\" (id:%d) - or for its "
+"category: \"%s\"."
+msgstr ""
+"Por favor, defina conta de receitas para este produto: \"%s\" (id:%d) - ou "
+"para esta categoria: \"%s\"."
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_tax
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_tax
+msgid "Price Tax"
+msgstr "Imposto sobre preços"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_total
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_total
+msgid "Price Total"
+msgstr "Preço Total"
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.res_company_form_view
+msgid "Repair"
+msgstr "Reparar"
+
+#. module: l10n_br_repair
+#: model:ir.model,name:l10n_br_repair.model_repair_fee
+msgid "Repair Fees"
+msgstr "Serviços de Reparo"
+
+#. module: l10n_br_repair
+#: model:ir.model,name:l10n_br_repair.model_repair_line
+msgid "Repair Line (parts)"
+msgstr "Linha de Reparo (peças)"
+
+#. module: l10n_br_repair
+#: model:ir.model,name:l10n_br_repair.model_repair_order
+msgid "Repair Order"
+msgstr "Ordem de Reparo"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__quantity
+msgid "Service Quantity"
+msgstr "Quantidade de Serviço"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__ie
+msgid "State Tax Number/RG"
+msgstr "Número do Imposto Estadual/RG"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_subtotal
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_subtotal
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__tax_framework
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__tax_framework
+msgid "Tax Framework"
+msgstr "Tax Framework"
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__amount_discount
+msgid "The discount amount."
+msgstr "Valor do desconto."
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__uom_id
+#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__uom_id
+msgid "UOM"
+msgstr "UOM"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__legal_name
+msgid "Used in fiscal documents"
+msgstr "Usado em documentos fiscais"
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__currency_id
+msgid "Utility field to express amount currency"
+msgstr "Campo utilitário para expressar total em moeda"
+
+#. module: l10n_br_repair
+#: code:addons/l10n_br_repair/models/repair_order.py:441
+#, python-format
+msgid "You have to select an invoice address in the repair form."
+msgstr ""
+"Você tem que selecionar um endereço de fatura no formulário de reparo."

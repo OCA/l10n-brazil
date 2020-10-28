@@ -15,7 +15,6 @@
             <xpath expr="//field[@name='fees_lines']/tree" position="attributes">
                 <attribute name="editable"/>
             </xpath>
-<!--            <xpath expr="//field[@name='fees_lines']/tree/field[@name='discount']" position="replace"/>-->
             <xpath expr="//field[@name='fees_lines']/tree/field[@name='tax_id']" position="replace"/>
             <xpath expr="//field[@name='fees_lines']/tree/field[@name='price_unit']" position="after">
                 <field name="discount" groups="!l10n_br_repair.group_discount_per_value"/>
@@ -67,21 +66,12 @@
                 <field name="name"/>
             </xpath>
 
-<!--            <xpath expr="//field[@name='fees_lines']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace"/>-->
-
-
             <xpath expr="//field[@name='fees_lines']/form//field[@name='name']" position="after">
                 <notebook>
                   <page name="fiscal_taxes" string="Taxes"/>
-<!--                  <page string="Invoice Lines" groups="base.group_no_one">-->
-<!--                      <div attrs="{'invisible': [('display_type', '!=', False)]}">-->
-<!--                          <label for="invoice_lines"/>-->
-<!--                          <field name="invoice_lines"/>-->
-<!--                      </div>-->
-<!--                  </page>-->
+
                   <page name="outros" string="Outros Custos">
                       <group>
-<!--                          <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>-->
                           <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"/>
                           <field name="freight_value"/>
                           <field name="insurance_value"/>
@@ -93,7 +83,6 @@
 
         </field>
     </record>
-
 
 
 </odoo>
