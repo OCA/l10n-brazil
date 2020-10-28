@@ -173,6 +173,8 @@ class AccountInvoice(models.Model):
                 if inv.instructions:
                     instructions += inv.instructions + '\n'
                 interval.instructions = instructions
+                # Codigo de Instrução da Remessa - '01 - Remessa*'
+                interval.movement_instruction_code = '01'
 
     @api.multi
     def action_move_create(self):
@@ -250,7 +252,9 @@ class AccountInvoice(models.Model):
         filtered_invoice_ids = self.filtered(lambda s: s.payment_mode_id)
         if filtered_invoice_ids:
             for filtered_invoice_id in filtered_invoice_ids:
-                #  Verifica se gera Ordem de Pagamento
+                # TODO - essa validação já é feita no super, confirmar
+                #  com o teste do modo de pagto q não deve gerar Ordem
+                #  de Pagto, modo Cheque
                 if filtered_invoice_id.payment_mode_id.payment_order_ok:
                     filtered_invoice_id.create_account_payment_line()
         return result
