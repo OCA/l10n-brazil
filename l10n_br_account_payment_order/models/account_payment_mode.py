@@ -279,6 +279,12 @@ class AccountPaymentMode(models.Model):
         help='Conta padrão para a Tarifa Bancaria',
     )
 
+    # Foi preciso criar esse campo pois o CNAB 400 não
+    # parece padronizado (olhar dados na pasta Data),
+    # dessa forma novas implementações
+    # do 400 podem ser feitas atraves de cadastro,
+    # o CNAB 240 parece ser mais padronizado.
+    # TODO - tornar o campo invisivel no caso do 240 ?
     cnab_liq_return_move_code_ids = fields.Many2many(
         comodel_name='cnab.return.move.code',
         relation='cnab_return_liquidity_move_code_rel',
