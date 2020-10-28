@@ -1,4 +1,4 @@
-# Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - www.escodoo.com.br
+# Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, _
@@ -161,7 +161,6 @@ class RepairLine(models.Model):
 
         res = {
             'name': self.name,
-            # 'sequence': self.sequence,
             'origin': self.repair_id.name,
             'account_id': account.id,
             'price_unit': self.price_unit,
@@ -170,9 +169,6 @@ class RepairLine(models.Model):
             'uom_id': self.product_uom.id,
             'product_id': self.product_id.id or False,
             'invoice_line_tax_ids': [(6, 0, self.tax_id.ids)],
-            # 'account_analytic_id': self.repair_id.analytic_account_id.id,
-            # 'analytic_tag_ids': [(6, 0, self.analytic_tag_ids.ids)],
-            # 'display_type': self.display_type,
         }
 
         res.update(self._prepare_br_fiscal_dict())

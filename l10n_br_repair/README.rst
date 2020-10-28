@@ -67,6 +67,8 @@ Known issues / Roadmap
 
 * Refactor source code of the repair_fee and repair_line model.
 
+* Add Fiscal Position Resource
+
 Bug Tracker
 ===========
 
