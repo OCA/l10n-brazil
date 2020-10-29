@@ -6,9 +6,11 @@
     'summary': """
         Payment Acquirer: Cielo Implementation""",
     'version': '12.0.3.2.0',
+    "development_status": "Alpha",
     'license': 'AGPL-3',
     'author': 'KMEE INFORMATICA LTDA,Odoo Community Association (OCA)',
-    'website': 'www.github.com/OCA/l10n-brazil',
+    "maintainers": ["DiegoParadeda"],
+    'website': "https://github.com/OCA/l10n-brazil",
     'depends': ['payment'],
     'data': [
         'views/payment_views.xml',
