@@ -16,11 +16,6 @@
                   <field name="nfe40_vol"/>
               </group>
           </page>
-          <page name="finance" position="inside">
-              <group name="nfe_finance" attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}">
-                  <field name="nfe40_detPag"/>
-              </group>
-          </page>
           <field name="customer_additional_data" position="after">
               <field name="nfe40_infAdic" attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"/>
           </field>
