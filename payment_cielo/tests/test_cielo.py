@@ -10,6 +10,7 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
 class CieloCommon(PaymentAcquirerCommon):
 
     def setUp(self):
