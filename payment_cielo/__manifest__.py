@@ -8,7 +8,7 @@
     'version': '12.0.3.2.0',
     'license': 'AGPL-3',
     'author': 'KMEE INFORMATICA LTDA,Odoo Community Association (OCA)',
-    'website': 'www.kmee.com.br',
+    'website': 'www.github.com/OCA/l10n-brazil',
     'depends': ['payment'],
     'data': [
         'views/payment_views.xml',
