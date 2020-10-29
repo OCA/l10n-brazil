@@ -62,6 +62,8 @@ class NFe(spec_models.StackedModel):
         "nfe.40.infnfe",
         "nfe.40.infadic",
         "nfe.40.exporta",
+        "nfe.40.cobr",
+        "nfe.40.fat",
     ]
     _stacked = "nfe.40.infnfe"
     _stack_skip = "nfe40_veicTransp"
@@ -249,6 +251,46 @@ class NFe(spec_models.StackedModel):
     nfe40_infRespTec = fields.Many2one(
         comodel_name="res.partner", related="company_id.technical_support_id"
     )
+
+    nfe40_detPag = fields.One2many(
+        related='fiscal_payment_ids',
+        comodel_name='l10n_br_fiscal.payment',
+        inverse_name='document_id',
+    )
+
+    nfe40_dup = fields.One2many(
+        related='financial_ids',
+        comodel_name='l10n_br_fiscal.payment.line',
+        inverse_name='document_id',
+    )
+
+    nfe40_vTroco = fields.Monetary(
+        compute='_compute_nfe40_vTroco',
+    )
+
+    nfe40_nFat = fields.Char(related='number')
+
+    nfe40_vLiq = fields.Monetary(
+        related='amount_total'
+    )
+
+    nfe40_vOrig = fields.Monetary(
+        compute='_compute_amount',
+    )
+
+    @api.depends('line_ids')
+    def _compute_amount(self):
+        super()._compute_amount()
+        for record in self:
+            record.nfe40_vOrig = sum(
+                [record.amount_total, record.amount_discount]
+            )
+
+    @api.depends('fiscal_payment_ids')
+    def _compute_nfe40_vTroco(self):
+        for record in self:
+            record.nfe40_vTroco = sum(
+                record.fiscal_payment_ids.mapped('amount_change'))
 
     nfe40_idDest = fields.Selection(
         compute="_compute_nfe40_idDest",
@@ -550,6 +592,8 @@ class NFe(spec_models.StackedModel):
             i += 1
             if class_obj._fields[field_name].comodel_name == "nfe.40.det":
                 field_data.nItem = i
+            if class_obj._fields[field_name].comodel_name == 'nfe.40.dup':
+                field_data.nDup = str(i).zfill(3)
         return res
 
     def _build_attr(self, node, fields, vals, path, attr):
@@ -562,6 +606,10 @@ class NFe(spec_models.StackedModel):
                 .search([("code", "=", value)], limit=1)
                 .id
             )
+
+        if key == 'nfe40_pag' and vals.get('financial_ids'):
+            vals['fiscal_payment_ids'][0][2]['line_ids'] = \
+                vals.pop('financial_ids')
 
         return super(NFe, self)._build_attr(node, fields, vals, path, attr)
 
