@@ -6,7 +6,9 @@ import odoo
 from odoo import fields
 from odoo.addons.payment.tests.common import PaymentAcquirerCommon
 from odoo.tools import mute_logger
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class CieloCommon(PaymentAcquirerCommon):
 
@@ -86,7 +88,7 @@ class CieloTest(CieloCommon):
                 'cc_holder_name': 'Johndoe',
                 })
         except Exception as e:
-            print(e)
+            _logger.warning(e)
 
         # Create transaction
         try:
@@ -100,12 +102,12 @@ class CieloTest(CieloCommon):
                 'amount': 115.0
                 })
         except Exception as e:
-            print(e)
+            _logger.warning(e)
 
         try:
             tx.cielo_s2s_do_transaction()
         except Exception as e:
-            print(e)
+            _logger.warning(e)
 
         with self.assertRaises(NameError):
             self.assertEqual(tx, None)
