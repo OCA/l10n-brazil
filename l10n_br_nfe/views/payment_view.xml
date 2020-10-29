@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_nfe_payment_form_view">
+        <field name="name">l10n_br_fiscal.payment.form (in l10n_br_nfe)</field>
+        <field name="model">l10n_br_fiscal.payment</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.l10n_br_fiscal_payment_form_view"/>
+        <field name="arch" type="xml">
+            <field name="bandeira_cartao" position="after">
+                <field name="autorizacao"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

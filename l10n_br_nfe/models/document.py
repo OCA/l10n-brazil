@@ -54,7 +54,7 @@ class NFe(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document'
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe",
                 "nfe.40.tendereco", "nfe.40.tenderemi",
-                "nfe.40.dest", "nfe.40.emit"]
+                "nfe.40.dest", "nfe.40.emit", "nfe.40.cobr", "nfe.40.fat"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
     _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
@@ -67,9 +67,23 @@ class NFe(spec_models.StackedModel):
     nfe40_finNFe = fields.Selection(
         related='edoc_purpose',
     )
+    nfe40_detPag = fields.One2many(
+        related='fiscal_payment_ids',
+        comodel_name='l10n_br_fiscal.payment',
+        inverse_name='document_id',
+    )
+    nfe40_dup = fields.One2many(
+        related='financial_ids',
+        comodel_name='l10n_br_fiscal.payment.line',
+        inverse_name='document_id',
+    )
+    nfe40_vTroco = fields.Monetary(
+        compute='_compute_nfe40_vTroco',
+    )
 
     nfe40_versao = fields.Char(related='document_version')
     nfe40_nNF = fields.Char(related='number')
+    nfe40_nFat = fields.Char(related='number')
     nfe40_Id = fields.Char(related='key')
 
     # TODO should be done by framework?
@@ -126,6 +140,15 @@ class NFe(spec_models.StackedModel):
 
     nfe40_vNF = fields.Monetary(
         related='amount_total'
+    )
+    nfe40_vLiq = fields.Monetary(
+        related='amount_total'
+    )
+    nfe40_vOrig = fields.Monetary(
+        compute='_compute_amount',
+    )
+    nfe40_vDesc = fields.Monetary(
+        related='amount_discount'
     )
     nfe40_tpAmb = fields.Selection(
         related='nfe_environment'
@@ -225,6 +248,14 @@ class NFe(spec_models.StackedModel):
     partner_phone = fields.Char(string="Telefone")
     partner_is_company = fields.Boolean(string="É uma empresa")
 
+    @api.depends('line_ids')
+    def _compute_amount(self):
+        super()._compute_amount()
+        for record in self:
+            record.nfe40_vOrig = sum(
+                [record.amount_total, record.amount_discount]
+            )
+
     @api.onchange('company_id')
     def _onchange_company_id(self):
         super(NFe, self)._onchange_company_id()
@@ -259,6 +290,12 @@ class NFe(spec_models.StackedModel):
             self.env.cr.execute('select street_number from res_partner '
                                 'where id=%s' % self.partner_id.id)
             [(self.partner_number,)] = self.env.cr.fetchall()
+
+    @api.depends('fiscal_payment_ids')
+    def _compute_nfe40_vTroco(self):
+        for record in self:
+            record.nfe40_vTroco = sum(
+                record.fiscal_payment_ids.mapped('amount_change'))
 
     @api.depends('fiscal_operation_type')
     @api.multi
@@ -716,6 +753,8 @@ class NFe(spec_models.StackedModel):
             i += 1
             if class_obj._fields[field_name].comodel_name == 'nfe.40.det':
                 field_data.nItem = i
+            if class_obj._fields[field_name].comodel_name == 'nfe.40.dup':
+                field_data.nDup = str(i).zfill(3)
         return res
 
     def _build_attr(self, node, fields, vals, path, attr, create_m2o,
@@ -810,6 +849,12 @@ class NFe(spec_models.StackedModel):
                 vals['company_phone'] = value
             if comodel_name == 'nfe.40.enderDest':
                 vals['partner_phone'] = value
+        if key == 'nfe40_pag' and vals.get('financial_ids'):
+            res = super(NFe, self)._build_attr(
+                node, fields, vals, path, attr, create_m2o, defaults)
+            vals['fiscal_payment_ids'][0][2]['line_ids'] = \
+                vals.pop('financial_ids')
+            return res
 
         return super(NFe, self)._build_attr(
             node, fields, vals, path, attr, create_m2o, defaults)

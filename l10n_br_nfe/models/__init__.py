@@ -1,6 +1,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from . import res_company
+from . import payment
+from . import payment_line
 from . import document
 from . import document_line
 from . import res_city

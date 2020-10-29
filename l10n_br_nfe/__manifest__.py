@@ -26,6 +26,7 @@
         "views/res_config_settings_view.xml",
         # Action
         "views/nfe_action.xml",
+        "views/payment_view.xml",
         # Menu
         # "views/nfe_menu.xml",
     ],
