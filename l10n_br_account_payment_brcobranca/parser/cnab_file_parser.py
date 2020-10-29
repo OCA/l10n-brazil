@@ -185,7 +185,6 @@ class CNABFileParser(FileParser):
             for move_code in account_move_line.payment_mode_id.\
                     cnab_liq_return_move_code_ids:
                 cnab_liq_move_code.append(move_code.code)
-
             if cod_ocorrencia in cnab_liq_move_code:
 
                 valor_recebido = valor_desconto = valor_juros_mora =\
@@ -206,130 +205,135 @@ class CNABFileParser(FileParser):
                 if linha_cnab.get('desconto'):
                     valor_desconto = self.cnab_str_to_float(
                         linha_cnab['desconto'])
+                    if valor_desconto > 0.0:
+                        result_row_list.append({
+                            'name': 'Desconto (boleto) ' +
+                                    account_move_line.document_number,
+                            'debit': valor_desconto,
+                            'credit': 0.0,
+                            'account_id': account_move_line.payment_mode_id.
+                            discount_account_id.id,
+                            'type': 'desconto',
+                            'ref': account_move_line.document_number,
+                            'invoice_id': account_move_line.invoice_id.id,
+                        })
 
-                    result_row_list.append({
-                        'name': 'Desconto (boleto) ' +
-                                account_move_line.document_number,
-                        'debit': valor_desconto,
-                        'credit': 0.0,
-                        'account_id': account_move_line.payment_mode_id.
-                        discount_account_id.id,
-                        'type': 'desconto',
-                        'ref': account_move_line.document_number,
-                        'invoice_id': account_move_line.invoice_id.id,
-                    })
-
-                    # Usado para Conciliar a Fatura
-                    # TODO - referente a separação dos valores
-                    #  na reconciliação com a Fatura
-                    '''result_row_list.append({
-                        'name': 'Desconto (boleto) ' +
-                                account_move_line.document_number,
-                        'debit': 0.0,
-                        'credit': valor_desconto,
-                        'type': 'desconto',
-                        'account_id': account_move_line.account_id.id,
-                        'ref': account_move_line.own_number,
-                        'invoice_id': account_move_line.invoice_id.id,
-                        'partner_id': account_move_line.partner_id.id,
-                    })'''
+                        # Usado para Conciliar a Fatura
+                        # TODO - referente a separação dos valores
+                        #  na reconciliação com a Fatura
+                        '''result_row_list.append({
+                            'name': 'Desconto (boleto) ' +
+                                    account_move_line.document_number,
+                            'debit': 0.0,
+                            'credit': valor_desconto,
+                            'type': 'desconto',
+                            'account_id': account_move_line.account_id.id,
+                            'ref': account_move_line.own_number,
+                            'invoice_id': account_move_line.invoice_id.id,
+                            'partner_id': account_move_line.partner_id.id,
+                        })'''
 
                 # Valor Juros Mora - valor de mora e multa pagos pelo sacado
                 if linha_cnab.get('juros_mora'):
                     valor_juros_mora = self.cnab_str_to_float(
                         linha_cnab['juros_mora'])
 
-                    result_row_list.append({
-                        'name': 'Valor Juros Mora (boleto) ' +
-                                account_move_line.document_number,
-                        'debit': 0.0,
-                        'credit': valor_juros_mora,
-                        'type': 'juros_mora',
-                        'account_id': account_move_line.payment_mode_id.
-                        interest_fee_account_id.id,
-                        'ref': account_move_line.document_number,
-                        'invoice_id': account_move_line.invoice_id.id,
-                        'partner_id': account_move_line.partner_id.id,
-                    })
+                    if valor_juros_mora > 0.0:
+                        result_row_list.append({
+                            'name': 'Valor Juros Mora (boleto) ' +
+                                    account_move_line.document_number,
+                            'debit': 0.0,
+                            'credit': valor_juros_mora,
+                            'type': 'juros_mora',
+                            'account_id': account_move_line.payment_mode_id.
+                            interest_fee_account_id.id,
+                            'ref': account_move_line.document_number,
+                            'invoice_id': account_move_line.invoice_id.id,
+                            'partner_id': account_move_line.partner_id.id,
+                        })
 
-                    # Usado para Conciliar a Fatura
-                    # TODO - referente a separação dos valores
-                    #  na reconciliação com a Fatura
-                    '''result_row_list.append({
-                        'name': 'Valor Juros Mora (boleto) ' +
-                                account_move_line.document_number,
-                        'debit': valor_juros_mora,
-                        'credit': 0.0,
-                        'account_id': account_move_line.account_id.id,
-                        'journal_id': account_move_line.journal_id.id,
-                        'type': 'juros_mora',
-                        'ref': account_move_line.own_number,
-                        'invoice_id': account_move_line.invoice_id.id,
-                        'partner_id': account_move_line.partner_id.id,
-                    })'''
+                        # Usado para Conciliar a Fatura
+                        # TODO - referente a separação dos valores
+                        #  na reconciliação com a Fatura
+                        '''result_row_list.append({
+                            'name': 'Valor Juros Mora (boleto) ' +
+                                    account_move_line.document_number,
+                            'debit': valor_juros_mora,
+                            'credit': 0.0,
+                            'account_id': account_move_line.account_id.id,
+                            'journal_id': account_move_line.journal_id.id,
+                            'type': 'juros_mora',
+                            'ref': account_move_line.own_number,
+                            'invoice_id': account_move_line.invoice_id.id,
+                            'partner_id': account_move_line.partner_id.id,
+                        })'''
 
                 # Valor Tarifa
                 if linha_cnab.get('valor_tarifa'):
+                    # TODO - tamanho do campo é um padrão
+                    #  ou pode variar por banco ?
                     valor_tarifa = float(
-                        str(linha_cnab['valor_tarifa'][0:4] + '.' +
-                            linha_cnab['valor_tarifa'][4:]))
+                        str(linha_cnab['valor_tarifa'][0:5] + '.' +
+                            linha_cnab['valor_tarifa'][5:]))
 
-                    # Usado para Conciliar a Fatura
-                    result_row_list.append({
-                        'name': 'Tarifas bancárias (boleto) ' +
-                                account_move_line.document_number,
-                        'debit': 0.0,
-                        'credit': valor_tarifa,
-                        'account_id': account_move_line.account_id.id,
-                        'type': 'tarifa',
-                        'ref': account_move_line.own_number,
-                        'invoice_id': account_move_line.invoice_id.id,
-                        'partner_id': account_move_line.partner_id.id,
-                    })
+                    if valor_tarifa > 0.0:
+                        # Usado para Conciliar a Fatura
+                        result_row_list.append({
+                            'name': 'Tarifas bancárias (boleto) ' +
+                                    account_move_line.document_number,
+                            'debit': 0.0,
+                            'credit': valor_tarifa,
+                            'account_id': account_move_line.account_id.id,
+                            'type': 'tarifa',
+                            'ref': account_move_line.own_number,
+                            'invoice_id': account_move_line.invoice_id.id,
+                            'partner_id': account_move_line.partner_id.id,
+                        })
 
-                    result_row_list.append({
-                        'name': 'Tarifas bancárias (boleto) ' +
-                                account_move_line.document_number,
-                        'debit': valor_tarifa,
-                        'credit': 0.0,
-                        'type': 'tarifa',
-                        'account_id': account_move_line.payment_mode_id.
-                        tariff_charge_account_id.id,
-                        'ref': account_move_line.document_number,
-                        'invoice_id': account_move_line.invoice_id.id,
-                    })
+                        result_row_list.append({
+                            'name': 'Tarifas bancárias (boleto) ' +
+                                    account_move_line.document_number,
+                            'debit': valor_tarifa,
+                            'credit': 0.0,
+                            'type': 'tarifa',
+                            'account_id': account_move_line.payment_mode_id.
+                            tariff_charge_account_id.id,
+                            'ref': account_move_line.document_number,
+                            'invoice_id': account_move_line.invoice_id.id,
+                        })
 
                 # Valor Abatimento
                 if linha_cnab.get('valor_abatimento'):
                     valor_abatimento = self.cnab_str_to_float(
                         linha_cnab['valor_abatimento'])
 
-                    result_row_list.append({
-                        'name': 'Abatimento (boleto) ' +
-                                account_move_line.document_number,
-                        'debit': valor_abatimento,
-                        'credit': 0.0,
-                        'account_id': account_move_line.payment_mode_id.
-                        rebate_account_id.id,
-                        'type': 'abatimento',
-                        'ref': account_move_line.document_number,
-                        'invoice_id': account_move_line.invoice_id.id,
-                    })
+                    if valor_abatimento:
+                        result_row_list.append({
+                            'name': 'Abatimento (boleto) ' +
+                                    account_move_line.document_number,
+                            'debit': valor_abatimento,
+                            'credit': 0.0,
+                            'account_id': account_move_line.payment_mode_id.
+                            rebate_account_id.id,
+                            'type': 'abatimento',
+                            'ref': account_move_line.document_number,
+                            'invoice_id': account_move_line.invoice_id.id,
+                        })
 
-                    # Usado para Conciliar a Fatura
-                    # TODO - referente a separação dos valores
-                    #  na reconciliação com a Fatura
-                    '''result_row_list.append({
-                        'name': 'Abatimento (boleto) ' +
-                                account_move_line.document_number,
-                        'debit': 0.0,
-                        'credit': valor_abatimento,
-                        'type': 'abatimento',
-                        'account_id': account_move_line.account_id.id,
-                        'ref': account_move_line.own_number,
-                        'invoice_id': account_move_line.invoice_id.id,
-                        'partner_id': account_move_line.partner_id.id,
-                    })'''
+                        # Usado para Conciliar a Fatura
+                        # TODO - referente a separação dos valores
+                        #  na reconciliação com a Fatura
+                        '''result_row_list.append({
+                            'name': 'Abatimento (boleto) ' +
+                                    account_move_line.document_number,
+                            'debit': 0.0,
+                            'credit': valor_abatimento,
+                            'type': 'abatimento',
+                            'account_id': account_move_line.account_id.id,
+                            'ref': account_move_line.own_number,
+                            'invoice_id': account_move_line.invoice_id.id,
+                            'partner_id': account_move_line.partner_id.id,
+                        })'''
 
                 # Linha da Fatura a ser reconciliada
                 result_row_list.append({
