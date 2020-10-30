@@ -121,7 +121,7 @@ class AccountJournal(models.Model):
         # Creation of CNAB Return Log
         context = self.env.context
         cnab_return_log = self.env['cnab.return.log'].create({
-            'name': 'Banco ' + parser.bank.name + ' - Conta '
+            'name': 'Banco ' + parser.bank.short_name + ' - Conta '
                     + parser.journal.bank_account_id.acc_number,
             'filename': context.get('file_name'),
             'cnab_date_import': fields.Datetime.now(),
