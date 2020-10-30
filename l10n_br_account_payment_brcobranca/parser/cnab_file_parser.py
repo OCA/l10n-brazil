@@ -140,6 +140,7 @@ class CNABFileParser(FileParser):
             payment_line = self.env['account.payment.line'].search(
                 [('move_line_id', '=', account_move_line.id)]
             )
+
             valor_titulo = self.cnab_str_to_float(
                 linha_cnab['valor_titulo'])
 
@@ -430,7 +431,7 @@ class CNABFileParser(FileParser):
         :return: dict of vals that represent additional infos for the statement
         """
         return {
-            'name': 'Retorno CNAB - Banco ' + self.bank.name + ' - Conta '
+            'name': 'Retorno CNAB - Banco ' + self.bank.short_name + ' - Conta '
                     + self.journal.bank_account_id.acc_number,
             'date': fields.Datetime.now(),
             # TODO  - Campo está sendo preenchido em outro lugar
