@@ -128,3 +128,12 @@ class StockMove(models.Model):
         if self.product_id:
             self.price_unit = self._get_price_unit()
         return result
+
+    @api.model
+    def create(self, vals):
+        res = super(StockMove, self).create(vals)
+        invoice_state = res.fiscal_operation_id.invoice_state
+        res.invoice_state = invoice_state
+        if res.fiscal_price:
+            res.price_unit = res.fiscal_price
+        return res

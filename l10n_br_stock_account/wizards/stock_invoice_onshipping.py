@@ -56,6 +56,25 @@ class StockInvoiceOnshipping(models.TransientModel):
             document_type_id = pick.company_id.document_type_id.id
 
         fiscal_vals['document_type_id'] = document_type_id
+
+        # Get account_id from journal
+        if pick.fiscal_operation_type == 'out':
+            account_id = \
+                pick.fiscal_operation_id.journal_id.default_debit_account_id.id
+            if account_id:
+                fiscal_vals['account_id'] = account_id
+
+        elif pick.fiscal_operation_type == 'in':
+            account_id = \
+                pick.fiscal_operation_id.journal_id.default_credit_account_id.id
+            if account_id:
+                fiscal_vals['account_id'] = account_id
+
+        # Get fiscal position from fiscal operation
+        fiscal_position_id = pick.fiscal_operation_id.fiscal_position_id.id
+        if fiscal_position_id:
+            fiscal_vals['fiscal_position_id'] = fiscal_position_id
+
         document_serie = document_type.get_document_serie(
             pick.company_id, pick.fiscal_operation_id)
         if document_serie:
@@ -63,6 +82,9 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         if pick.fiscal_operation_id and pick.fiscal_operation_id.journal_id:
             fiscal_vals['journal_id'] = pick.fiscal_operation_id.journal_id.id
+
+        if pick.fiscal_operation_id:
+            fiscal_vals['ind_final'] = pick.fiscal_operation_id.ind_final
 
         values.update(fiscal_vals)
         return invoice, values
@@ -77,6 +99,12 @@ class StockInvoiceOnshipping(models.TransientModel):
         """
 
         move = fields.first(moves)
+
+        # Get fiscal position from fiscal operation
+        fiscal_position_id = move.fiscal_operation_id.fiscal_position_id.id
+        if fiscal_position_id:
+            invoice.update({'fiscal_position_id': fiscal_position_id})
+
         values = move._prepare_br_fiscal_dict()
         values.update(
             {
@@ -90,4 +118,5 @@ class StockInvoiceOnshipping(models.TransientModel):
                 values['fiscal_tax_ids'][0][2]
             ).account_taxes().ids)
         ]
+        values['price_unit'] = move.price_unit
         return values
