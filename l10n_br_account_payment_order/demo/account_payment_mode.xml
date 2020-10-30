@@ -86,7 +86,7 @@
         <field name="group_lines">False</field>
         <field name="cnab_liq_return_move_code_ids"
                eval="[(6,0,[ref('unicred_cnab_400-code_01'), ref('unicred_cnab_400-code_06'),
-               ref('unicred_cnab_400-code_07'), ref('unicred_cnab_400-code_09'), ref('unicred_cnab_400-code_10')])]"/>
+               ref('unicred_cnab_400-code_07'), ref('unicred_cnab_400-code_09')])]"/>
         <field name="tariff_charge_account_id" ref="1_account_template_32302_avoid_travis_error"/>
         <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
         <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
