@@ -147,12 +147,16 @@ class CNABFileParser(FileParser):
             data_ocorrencia = datetime.date.today()
             cod_ocorrencia = str(linha_cnab['codigo_ocorrencia'])
             # Cada Banco pode possuir um Codigo de Ocorrencia distinto,
-            # CNAB 400 menos padronizado que o 240
-            cnab_return_move_code = self.env['cnab.return.move.code'].search([
-                ('bank_id', '=', self.bank.id),
-                ('payment_method_code', '=', self.parser_name[4:7]),
-                ('code', '=', cod_ocorrencia)
-            ])
+            # CNAB 400 menos padronizado que o 240 - TODO a confirmar -
+            domain_cnab_return_code = [
+                    ('payment_method_code', '=', self.parser_name[4:7]),
+                    ('code', '=', cod_ocorrencia)
+                ]
+            if self.parser_name[4:7] == '400':
+                domain_cnab_return_code.append(('bank_id', '=', self.bank.id))
+
+            cnab_return_move_code = self.env['cnab.return.move.code'].search(
+                domain_cnab_return_code)
             if cnab_return_move_code:
                 descricao_ocorrencia = \
                     cod_ocorrencia + '-' + cnab_return_move_code.name
