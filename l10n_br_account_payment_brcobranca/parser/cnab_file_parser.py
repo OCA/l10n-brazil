@@ -186,6 +186,7 @@ class CNABFileParser(FileParser):
             for move_code in account_move_line.payment_mode_id.\
                     cnab_liq_return_move_code_ids:
                 cnab_liq_move_code.append(move_code.code)
+
             if cod_ocorrencia in cnab_liq_move_code:
 
                 valor_recebido = valor_desconto = valor_juros_mora =\
@@ -271,11 +272,8 @@ class CNABFileParser(FileParser):
 
                 # Valor Tarifa
                 if linha_cnab.get('valor_tarifa'):
-                    # TODO - tamanho do campo é um padrão
-                    #  ou pode variar por banco ?
-                    valor_tarifa = float(
-                        str(linha_cnab['valor_tarifa'][0:5] + '.' +
-                            linha_cnab['valor_tarifa'][5:]))
+                    valor_tarifa = self.cnab_str_to_float(
+                        linha_cnab['valor_tarifa'])
 
                     if valor_tarifa > 0.0:
                         # Usado para Conciliar a Fatura
@@ -366,8 +364,8 @@ class CNABFileParser(FileParser):
                     if other_credits < 0.0:
                         other_credits *= -1
                     result_row_list.append({
-                        'name': 'Outros Créditos ('
-                                'Desconto + Abatimento - Valor Juros Mora) ' +
+                        'name': 'Outros Créditos (Relação Desconto,'
+                                ' Abatimento, Valor Juros Mora) ' +
                                 account_move_line.document_number,
                         'debit': 0.0,
                         'credit': other_credits,
@@ -420,10 +418,13 @@ class CNABFileParser(FileParser):
         return result_row_list
 
     def cnab_str_to_float(self, value):
-        if len(value) == 13:
-            value_float = float(
-                str(value[0:11] + '.' + value[11:]))
-            return value_float
+        # Até onde vi independente do tamanho do campo os
+        # 2 ultimos caracteres se referem ao decimal
+        decimal_point = len(value) - 2
+        value_float = float(
+            str(value[0:decimal_point] +
+                '.' + value[decimal_point:]))
+        return value_float
 
     def get_move_vals(self):
         """This method return a dict of vals that ca be passed to create method
