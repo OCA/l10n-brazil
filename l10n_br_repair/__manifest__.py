@@ -12,6 +12,7 @@
         'Escodoo, '
         'Odoo Community Association (OCA)',
     'maintainers': ['marcelsavegnago'],
+    'development_status': 'Alpha',
     'website': 'https://github.com/OCA/l10n-brazil',
     'images': ['static/description/banner.png'],
     'conflicts': ['repair_discount'],
