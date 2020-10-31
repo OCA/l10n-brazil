@@ -28,6 +28,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_stock_account',
         'odoo12-addon-l10n_br_website_sale',
         'odoo12-addon-l10n_br_zip',
+        'odoo12-addon-payment_cielo',
     ],
     classifiers=[
         'Programming Language :: Python',
