@@ -96,6 +96,7 @@ addon | version | summary
 [l10n_br_stock_account](l10n_br_stock_account/) | 12.0.1.0.0 | Brazilian Localization WMS Accounting
 [l10n_br_website_sale](l10n_br_website_sale/) | 12.0.1.0.1 | Website sale localização brasileira.
 [l10n_br_zip](l10n_br_zip/) | 12.0.2.0.0 | Brazilian Localisation ZIP Codes
+[payment_cielo](payment_cielo/) | 12.0.3.2.0 | Payment Acquirer: Cielo Implementation
 
 
 Unported addons
