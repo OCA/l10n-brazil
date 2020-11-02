@@ -18,9 +18,7 @@
     'conflicts': ['repair_discount'],
     'depends': [
         'repair',
-        'l10n_br_stock',
-        'l10n_br_account',
-
+        'l10n_br_stock_account',
     ],
     'data': [
         'data/res_company.xml',
