@@ -1,1 +1,4 @@
-* Este módulo tem uma depedencia do pacote python num2words
+Este módulo depende dos pacotes Python:
+
+* num2words
+* erpbrasil.base https://github.com/erpbrasil/erpbrasil.base
