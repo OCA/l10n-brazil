@@ -284,13 +284,24 @@ class AccountPaymentMode(models.Model):
     # dessa forma novas implementações
     # do 400 podem ser feitas atraves de cadastro,
     # o CNAB 240 parece ser mais padronizado.
-    # TODO - tornar o campo invisivel no caso do 240 ?
     cnab_liq_return_move_code_ids = fields.Many2many(
         comodel_name='cnab.return.move.code',
         relation='cnab_return_liquidity_move_code_rel',
         column1='cnab_liq_return_move_code_id',
         column2='payment_mode_id',
-        string='CNAB Liquidity Return Move Code')
+        string='CNAB Liquidity Return Move Code'
+    )
+    # TODO - pode ser melhorado ?
+    # Só foi possível ter um Domain de forma dinamica,
+    #  devido a diferença no caso do 240
+    domain_cnab_liq_return_move_code_ids = fields.Many2many(
+        comodel_name='cnab.return.move.code',
+        relation='domain_cnab_return_liquidity_move_code_rel',
+        column1='domain_cnab_liq_return_move_code_id',
+        column2='payment_mode_id',
+        compute='_get_domain_cnab_liq_return_move_code',
+        store=False,
+    )
 
     _sql_constraints = [(
         "internal_sequence_id_unique",
@@ -353,3 +364,30 @@ class AccountPaymentMode(models.Model):
                record.boleto_discount_perc < 0:
                 raise ValidationError(
                     _('O percentual deve ser um valor entre 0 a 100.'))
+
+    @api.onchange('payment_method_id')
+    def _onchange_payment_method_id(self):
+        # Valores Padrões de Liquidação/Baixa do
+        # CNAB 240, parece ser mais padronizado
+        for record in self:
+            if record.payment_method_id.code == '240':
+                liq_codes = self.env['cnab.return.move.code'].search([
+                    ('payment_method_code', '=', '240'),
+                    ('code', 'in', ['06', '09', '17'])
+                ])
+                record.cnab_liq_return_move_code_ids = liq_codes.ids
+
+    @api.multi
+    @api.depends('payment_method_id', 'bank_code_bc')
+    def _get_domain_cnab_liq_return_move_code(self):
+        for record in self:
+            search_domain = [
+                ('payment_method_code', '=', record.payment_method_id.code)]
+            if record.payment_method_id.code != '240':
+                search_domain.append(
+                    ('bank_code_bc', '=', record.bank_code_bc))
+
+            return_codes = self.env[
+                'cnab.return.move.code'].search(search_domain)
+
+            record.domain_cnab_liq_return_move_code_ids = return_codes.ids
