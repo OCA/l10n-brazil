@@ -13,9 +13,14 @@
                     <notebook colspan="4" name="l10n_br_account_payment_order">
                         <page string="Geral">
                             <group name="l10n_br_account_payment_order-geral">
+                                <field name="code_convetion"/>
                                 <field name="internal_sequence_id"/>
                                 <field name="instructions"/>
                                 <field name="invoice_print"/>
+                                <field name="condition_issuing_paper"/>
+                                <field name="cnab_percent_interest"/>
+                                <field name="cnab_sequence_id"/>
+                                <field name="communication_2"/>
                             </group>
                         </page>
                     </notebook>
@@ -25,17 +30,12 @@
                  <group name="l10n_br_account_payment_taxes" string="Taxas">
                     <field name="product_tax_id"/>
                     <field name="product_tax_account_id" attrs="{'invisible': [('product_tax_id', '=', False)], 'required': [('product_tax_id', '!=', False)]}"/>
+                    <field name="payment_type"/>
                 </group>
             </group>
-            <group name="l10n_br_account_payment_order-geral" position="inside">
-                <field name="condition_issuing_paper"/>
-                <field name="cnab_percent_interest"/>
-                <field name="cnab_sequence_id"/>
-                <field name="communication_2"/>
-            </group>
             <notebook name="l10n_br_account_payment_order" position="inside">
-                <page string="Cobranca">
-                    <group>
+                <page string="Cobranca" attrs="{'invisible': [('payment_type', '!=', 'inbound')]}">
+                    <group string="Configurações Gerais">
                         <field name="bank_code_bc" invisible="1"/>
                         <field name="boleto_type"/>
                         <field name="generate_own_number"/>
@@ -49,22 +49,35 @@
                         <field name="boleto_cnab_code"/>
                         <field name="boleto_accept"/>
                         <field name="boleto_species"/>
-                        <field name="boleto_protest_code"/>
-                        <field name="boleto_days_protest"/>
-                        <field name="boleto_discount_perc"/>
-                        <field name="boleto_byte_idt" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
-                        <field name="boleto_post" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}"/>
                         <field name="payment_method_code" invisible="1"/>
                         <field name="domain_cnab_liq_return_move_code_ids" invisible="1"/>
                         <field name="cnab_liq_return_move_code_ids" widget="many2many_tags"
                                domain="[('id','in', domain_cnab_liq_return_move_code_ids)]"/>
                     </group>
+                    <group name="protesto" string="Configuração do Protesto">
+                        <field name="boleto_protest_code"/>
+                        <field name="boleto_days_protest"/>
+                    </group>
+                    <group name="juros-mora" string="Configuração do Juros Mora">
+                        <field name="boleto_interest_code"/>
+                        <field name="boleto_interest_perc"/>
+                    </group>
+                    <group name="multa" string="Configuração da Multa">
+                        <field name="boleto_fee_code"/>
+                        <field name="boleto_fee_perc"/>
+                    </group>
+                    <group name="desconto" string="Configuração de Desconto">
+                        <field name="boleto_discount_perc"/>
+                    </group>
+                    <group name="outros" string="Outras Configurações" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}">
+                        <field name="boleto_byte_idt"/>
+                        <field name="boleto_post"/>
+                    </group>
                 </page>
-                <page string="Pagamento">
+                <page string="Pagamento" attrs="{'invisible': [('payment_type', '!=', 'outbound')]}">
                     <group>
                         <field name="service_type"/>
                         <field name="release_form"/>
-                        <field name="code_convetion"/>
                         <field name="doc_finality_code"/>
                         <field name="ted_finality_code"/>
                         <field name="complementary_finality_code"/>
