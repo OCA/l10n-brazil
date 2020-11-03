@@ -5,11 +5,11 @@
 from odoo import models, api, fields
 
 
-class CNABReturnMoveCode(models.Model):
+class L10nBrCNABReturnMoveCode(models.Model):
     """
         CNAB return code, each Bank can has a list of Codes
     """
-    _name = 'cnab.return.move.code'
+    _name = 'l10n_br_cnab.return.move.code'
     _description = 'CNAB Return Move Code'
 
     name = fields.Char(
