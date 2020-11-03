@@ -302,6 +302,8 @@ class AccountPaymentMode(models.Model):
         compute='_get_domain_cnab_liq_return_move_code',
         store=False,
     )
+    # Field used to make invisible Inbound or Outbound specifics fields
+    payment_type = fields.Selection(related='payment_method_id.payment_type')
 
     _sql_constraints = [(
         "internal_sequence_id_unique",
