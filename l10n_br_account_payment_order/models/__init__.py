@@ -20,8 +20,8 @@ from . import bank_payment_line
 #  a implementação de outra forma de importação pois tem os metodos que eram
 #  usados pela KMEE e o historico git do arquivo
 # from . import l10n_br_cnab
-from . import l10n_br_cnab_evento
-from . import l10n_br_cnab_lote
+from . import l10n_br_cnab_event
+from . import l10n_br_cnab_lot
 from . import cnab_return_move_code
-from . import cnab_return_log
+from . import l10n_br_cnab_return_log
 from . import ir_attachment
