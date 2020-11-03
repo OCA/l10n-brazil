@@ -285,8 +285,8 @@ class AccountPaymentMode(models.Model):
     # do 400 podem ser feitas atraves de cadastro,
     # o CNAB 240 parece ser mais padronizado.
     cnab_liq_return_move_code_ids = fields.Many2many(
-        comodel_name='cnab.return.move.code',
-        relation='cnab_return_liquidity_move_code_rel',
+        comodel_name='l10n_br_cnab.return.move.code',
+        relation='l10n_br_cnab_return_liquidity_move_code_rel',
         column1='cnab_liq_return_move_code_id',
         column2='payment_mode_id',
         string='CNAB Liquidity Return Move Code'
@@ -295,8 +295,8 @@ class AccountPaymentMode(models.Model):
     # Só foi possível ter um Domain de forma dinamica,
     #  devido a diferença no caso do 240
     domain_cnab_liq_return_move_code_ids = fields.Many2many(
-        comodel_name='cnab.return.move.code',
-        relation='domain_cnab_return_liquidity_move_code_rel',
+        comodel_name='l10n_br_cnab.return.move.code',
+        relation='domain_l10n_br_cnab_return_liquidity_move_code_rel',
         column1='domain_cnab_liq_return_move_code_id',
         column2='payment_mode_id',
         compute='_get_domain_cnab_liq_return_move_code',
@@ -371,7 +371,7 @@ class AccountPaymentMode(models.Model):
         # CNAB 240, parece ser mais padronizado
         for record in self:
             if record.payment_method_id.code == '240':
-                liq_codes = self.env['cnab.return.move.code'].search([
+                liq_codes = self.env['l10n_br_cnab.return.move.code'].search([
                     ('payment_method_code', '=', '240'),
                     ('code', 'in', ['06', '09', '17'])
                 ])
@@ -388,6 +388,6 @@ class AccountPaymentMode(models.Model):
                     ('bank_code_bc', '=', record.bank_code_bc))
 
             return_codes = self.env[
-                'cnab.return.move.code'].search(search_domain)
+                'l10n_br_cnab.return.move.code'].search(search_domain)
 
             record.domain_cnab_liq_return_move_code_ids = return_codes.ids
