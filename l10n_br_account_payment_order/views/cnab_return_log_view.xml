@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="cnab_return_log_tree_view" model="ir.ui.view">
-        <field name="name">cnab.return.log.tree</field>
-        <field name="model">cnab.return.log</field>
+    <record id="l10n_br_cnab_return_log_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.log.tree</field>
+        <field name="model">l10n_br_cnab.return.log</field>
         <field name="arch" type="xml">
             <tree string="CNAB Return Log">
                 <field name="name"/>
@@ -19,9 +19,9 @@
         </field>
     </record>
 
-    <record id="cnab_return_log_form_view" model="ir.ui.view">
-        <field name="name">cnab.return.log.form.view</field>
-        <field name="model">cnab.return.log</field>
+    <record id="l10n_br_cnab_return_log_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.log.form.view</field>
+        <field name="model">l10n_br_cnab.return.log</field>
         <field name="arch" type="xml">
             <form>
                 <h1>
@@ -65,9 +65,9 @@
         </field>
     </record>
 
-    <record id="cnab_return_event_tree_view" model="ir.ui.view">
-        <field name="name">cnab.return.event.tree</field>
-        <field name="model">cnab.return.event</field>
+    <record id="l10n_br_cnab_return_event_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.event.tree</field>
+        <field name="model">l10n_br_cnab.return.event</field>
         <field name="arch" type="xml">
             <tree string="CNAB Return Events">
                 <field name="is_cnab_lot" invisible="1"/>
@@ -92,9 +92,9 @@
         </field>
     </record>
 
-    <record id="cnab_return_lot_form_view" model="ir.ui.view">
-        <field name="name">cnab.return.lot.form.view</field>
-        <field name="model">cnab.return.lot</field>
+    <record id="l10n_br_cnab_return_lot_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.lot.form.view</field>
+        <field name="model">l10n_br_cnab.return.lot</field>
         <field name="arch" type="xml">
             <form string="CNAB Return Log Lot">
                 <sheet>
@@ -107,7 +107,7 @@
                         <field name="operation_service"/>
                         <field name="service_type"/>
                     </group>
-                    <group string="CNAB Return Events" name="cnab.return.log.events">
+                    <group string="CNAB Return Events" name="l10n_br_cnab.return.log.events">
                         <field name="lot_event_ids" nolabel="1" readonly="1"/>
                     </group>
                     <group class="oe_subtotal_footer oe_right" colspan="2" name="cnab_total_lot">
@@ -122,8 +122,8 @@
     </record>
 
     <record id="cnab_return_log_search" model="ir.ui.view">
-        <field name="name">cnab.return.log.search</field>
-        <field name="model">cnab.return.log</field>
+        <field name="name">l10n_br_cnab.return.log.search</field>
+        <field name="model">l10n_br_cnab.return.log</field>
         <field name="priority" eval="20"/>
         <field name="arch" type="xml">
             <search string="Busque CNAB Log">
@@ -140,16 +140,16 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="cnab_return_log_action">
+    <record model="ir.actions.act_window" id="l10n_br_cnab_return_log_action">
         <field name="name">CNAB Return Log</field>
-        <field name="res_model">cnab.return.log</field>
+        <field name="res_model">l10n_br_cnab.return.log</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_cnab_return_log"
+    <menuitem id="menu_l10n_br_cnab_return_log"
           parent="account_payment_order.payment_root"
           name="CNAB Return Log" sequence="999"
-          action="l10n_br_account_payment_order.cnab_return_log_action"/>
+          action="l10n_br_account_payment_order.l10n_br_cnab_return_log_action"/>
 
 </odoo>
