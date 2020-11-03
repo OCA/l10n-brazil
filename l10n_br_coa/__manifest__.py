@@ -3,9 +3,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/lic enses/agpl).
 
 {
-    'name': 'L10n Br Coa',
+    'name': 'Brazilian COA',
     'summary': """
-        Base Brasilian Localization of Chart of Account""",
+        Base Brasilian Localization for the Chart of Accounts""",
     'version': '12.0.2.1.0',
     'license': 'AGPL-3',
     'author': 'Akretion, KMEE, Odoo Community Association (OCA)',
@@ -19,5 +19,6 @@
         'data/account_tax_template.xml',
         'data/account_type_data.xml',
     ],
+    'development_status': 'Production/Stable',
     'installable': True,
 }
