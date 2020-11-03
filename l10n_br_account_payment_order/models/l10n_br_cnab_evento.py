@@ -5,21 +5,23 @@
 from odoo import fields, models
 
 
-class CNABReturnEvent(models.Model):
+class L10nBrCNABReturnEvent(models.Model):
     """
         The class is used to register the Events of CNAB return file.
     """
-    _name = 'cnab.return.event'
+    _name = 'l10n_br_cnab.return.event'
     _description = 'CNAB Return Event'
 
     cnab_return_log_id = fields.Many2one(
-        string='CNAB Return Log', comodel_name='cnab.return.log',
+        string='CNAB Return Log', comodel_name='l10n_br_cnab.return.log',
     )
     # Field used to make invisible/visible fields refer to Lot
     is_cnab_lot = fields.Boolean(string='Is CNAB Lot?')
     # O arquivo de Retorno pode ter ou não Lotes
     lot_id = fields.Many2one(
-        string='Lote', comodel_name='cnab.return.lot', ondelete='cascade'
+        string='Lote',
+        comodel_name='l10n_br_cnab.return.lot',
+        ondelete='cascade'
     )
     bank_payment_line_id = fields.Many2one(
         string='Bank Payment Line', comodel_name='bank.payment.line'
