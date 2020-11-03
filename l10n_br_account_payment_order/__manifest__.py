@@ -55,7 +55,7 @@
         # 'views/l10n_br_payment_cnab.xml',
         # 'views/l10n_br_cobranca_cnab.xml',
         # 'views/l10n_br_cobranca_cnab_lines.xml',
-        'views/cnab_return_log_view.xml',
+        'views/l10n_br_cnab_return_log_view.xml',
         'views/account_invoice.xml',
         'views/account_move_line.xml',
         'views/cnab_return_move_code_view.xml',
