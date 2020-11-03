@@ -13,6 +13,6 @@ class AccountMoveCompletionRule(models.Model):
     _inherit = 'account.move'
 
     cnab_return_log_id = fields.Many2one(
-        string='CNAB Return Log', comodel_name='cnab.return.log',
+        string='CNAB Return Log', comodel_name='l10n_br_cnab.return.log',
         readonly=True, inverse_name='move_id'
     )
