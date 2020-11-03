@@ -80,6 +80,10 @@
         <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
         <field name="boleto_protest_code">2</field>
         <field name="boleto_days_protest">5</field>
+        <field name="boleto_interest_code">2</field>
+        <field name="boleto_interest_perc">2</field>
+        <field name="boleto_fee_code">2</field>
+        <field name="boleto_fee_perc">2</field>
         <field name="code_convetion">72234050</field>
         <field name="generate_move">False</field>
         <field name="post_move">False</field>
