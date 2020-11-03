@@ -14,7 +14,7 @@ class CreditPartnerStatementImporter(models.TransientModel):
     def import_statement(self):
         """This Function import credit card agency statement"""
         moves = self.env['account.move']
-        cnab_logs = self.env['cnab.return.log']
+        cnab_logs = self.env['l10n_br_cnab.return.log']
         for importer in self:
             journal = importer.journal_id
             ftype = importer._check_extension()
@@ -39,12 +39,13 @@ class CreditPartnerStatementImporter(models.TransientModel):
                 action['res_id'] = moves.id if moves else False
             return action
         else:
-            xmlid = ('l10n_br_account_payment_order', 'cnab_return_log_action')
+            xmlid = ('l10n_br_account_payment_order',
+                     'l10n_br_cnab_return_log_action')
             action = self.env['ir.actions.act_window'].for_xml_id(*xmlid)
             if len(cnab_logs) > 1:
                 action['domain'] = [('id', 'in', cnab_logs.id)]
             ref = self.env.ref(
-                'l10n_br_account_payment_order.cnab_return_log_form_view')
+                'l10n_br_account_payment_order.l10n_br_cnab_return_log_form_view')
             action['views'] = [(ref.id, 'form')]
             action['res_id'] = cnab_logs.id if cnab_logs else False
             return action
