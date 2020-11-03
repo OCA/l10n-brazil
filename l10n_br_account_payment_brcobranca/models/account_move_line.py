@@ -77,13 +77,13 @@ class AccountMoveLine(models.Model):
             if move_line.payment_mode_id.boleto_interest_perc > 0.0:
                 valor_juros = round(
                     move_line.debit *
-                    ((move_line.payment_mode_id.boleto_perc_mora / 100)
+                    ((move_line.payment_mode_id.boleto_interest_perc / 100)
                      / 30), precision_account)
                 instrucao_juros = (
                     'APÓS VENCIMENTO COBRAR PERCENTUAL' +
                     ' DE %s %% AO MÊS ( R$ %s AO DIA )'
                     % (('%.2f' %
-                        move_line.payment_mode_id.boleto_perc_mora
+                        move_line.payment_mode_id.boleto_interest_perc
                         ).replace('.', ','),
                        ('%.2f' % valor_juros).replace('.', ',')))
                 boleto_cnab_api_data.update({
