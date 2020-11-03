@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="cnab_return_move_code_tree_view" model="ir.ui.view">
-        <field name="name">cnab.return.move.code.tree</field>
-        <field name="model">cnab.return.move.code</field>
+    <record id="l10n_br_cnab_return_move_code_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.move.code.tree</field>
+        <field name="model">l10n_br_cnab.return.move.code</field>
         <field name="arch" type="xml">
             <tree string="CNAB Return Move Code">
                 <field name="code"/>
@@ -14,9 +14,9 @@
         </field>
     </record>
 
-    <record id="cnab_return_move_code_form_view" model="ir.ui.view">
-        <field name="name">cnab.return.move.code.form.view</field>
-        <field name="model">cnab.return.move.code</field>
+    <record id="l10n_br_cnab_return_move_code_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.move.code.form.view</field>
+        <field name="model">l10n_br_cnab.return.move.code</field>
         <field name="arch" type="xml">
             <form string="CNAB Return Move Code">
                 <sheet>
@@ -31,16 +31,16 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="cnab_return_move_code_action">
+    <record model="ir.actions.act_window" id="l10n_br_cnab_return_move_code_action">
         <field name="name">CNAB Return Move Code</field>
-        <field name="res_model">cnab.return.move.code</field>
+        <field name="res_model">l10n_br_cnab.return.move.code</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <record id="cnab_return_move_code_search" model="ir.ui.view">
-        <field name="name">cnab.return.move.code.search</field>
-        <field name="model">cnab.return.move.code</field>
+    <record id="l10n_br_cnab_return_move_code_search" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.return.move.code.search</field>
+        <field name="model">l10n_br_cnab.return.move.code</field>
         <field name="priority" eval="20"/>
         <field name="arch" type="xml">
             <search string="Busque CNAB de Movimento de Retorno">
@@ -60,9 +60,9 @@
         </field>
     </record>
 
-    <menuitem id="menu_cnab_return_move_code"
+    <menuitem id="menu_l10n_br_cnab_return_move_code"
               parent="account.account_management_menu"
               name="CNAB Return Move Code" sequence="999"
-              action="cnab_return_move_code_action"/>
+              action="l10n_br_cnab_return_move_code_action"/>
 
 </odoo>
