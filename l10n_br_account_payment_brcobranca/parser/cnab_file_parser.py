@@ -155,8 +155,8 @@ class CNABFileParser(FileParser):
             if self.parser_name[4:7] == '400':
                 domain_cnab_return_code.append(('bank_id', '=', self.bank.id))
 
-            cnab_return_move_code = self.env['cnab.return.move.code'].search(
-                domain_cnab_return_code)
+            cnab_return_move_code = self.env[
+                'l10n_br_cnab.return.move.code'].search(domain_cnab_return_code)
             if cnab_return_move_code:
                 descricao_ocorrencia = \
                     cod_ocorrencia + '-' + cnab_return_move_code.name
