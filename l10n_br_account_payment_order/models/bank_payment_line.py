@@ -88,7 +88,7 @@ class BankPaymentLine(models.Model):
 
     event_id = fields.One2many(
         string='Eventos CNAB',
-        comodel_name='cnab.return.event',
+        comodel_name='l10n_br_cnab.return.event',
         inverse_name='bank_payment_line_id',
         readonly=True,
     )

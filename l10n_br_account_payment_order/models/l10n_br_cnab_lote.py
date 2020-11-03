@@ -5,15 +5,15 @@
 from odoo import fields, models
 
 
-class CNABReturnLot(models.Model):
+class L10nBrCNABReturnLot(models.Model):
     """
         The class is used to register the Lots of Events in CNAB return file.
     """
-    _name = 'cnab.return.lot'
+    _name = 'l10n_br_cnab.return.lot'
     _description = 'CNAB Return Lot'
 
     lot_event_ids = fields.One2many(
-        string='Eventos', comodel_name='cnab.return.event',
+        string='Eventos', comodel_name='l10n_br_cnab.return.event',
         inverse_name='lot_id'
     )
     # TODO - deveria ter alguma relação com o objeto cnab.return.log

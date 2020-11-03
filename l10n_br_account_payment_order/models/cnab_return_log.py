@@ -5,11 +5,11 @@
 from odoo import models, fields
 
 
-class CNABReturnLog(models.Model):
+class L10nBrCNABReturnLog(models.Model):
     """
         The class is used to register the LOG of CNAB return file.
     """
-    _name = 'cnab.return.log'
+    _name = 'l10n_br_cnab.return.log'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'CNAB Return Log'
 
@@ -28,7 +28,7 @@ class CNABReturnLog(models.Model):
     cnab_date_file = fields.Date(string='CNAB Date File')
 
     event_ids = fields.One2many(
-        string='Eventos', comodel_name='cnab.return.event',
+        string='Eventos', comodel_name='l10n_br_cnab.return.event',
         inverse_name='cnab_return_log_id'
     )
     amount_total_title = fields.Float(string='Valor Total Títulos')
