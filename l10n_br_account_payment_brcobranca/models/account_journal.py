@@ -74,7 +74,7 @@ class AccountJournal(models.Model):
             (filename, __) = os.path.splitext(filename)
         parser = new_move_parser(self, ftype=ftype, move_ref=filename)
         res_move = self.env["account.move"]
-        res_cnab_log = self.env['cnab.return.log']
+        res_cnab_log = self.env['l10n_br_cnab.return.log']
         for result_row_list in parser.parse(file_stream):
             result = self._move_import(
                 parser,
@@ -120,7 +120,7 @@ class AccountJournal(models.Model):
 
         # Creation of CNAB Return Log
         context = self.env.context
-        cnab_return_log = self.env['cnab.return.log'].create({
+        cnab_return_log = self.env['l10n_br_cnab.return.log'].create({
             'name': 'Banco ' + parser.bank.short_name + ' - Conta '
                     + parser.journal.bank_account_id.acc_number,
             'filename': context.get('file_name'),
@@ -136,7 +136,7 @@ class AccountJournal(models.Model):
                 amount_total_received += \
                     cnab_return_event.get('payment_value')
             cnab_return_event['cnab_return_log_id'] = cnab_return_log.id
-            self.env['cnab.return.event'].create(cnab_return_event)
+            self.env['l10n_br_cnab.return.event'].create(cnab_return_event)
             qty_cnab_return_events += 1
 
         cnab_return_log.number_events = qty_cnab_return_events
@@ -147,7 +147,7 @@ class AccountJournal(models.Model):
             'name': context.get('file_name'),
             'datas': file_stream,
             'datas_fname': context.get('file_name'),
-            'res_model': 'cnab.return.log',
+            'res_model': 'l10n_br_cnab.return.log',
             'res_id': cnab_return_log.id,
         }
         attachment_obj.create(attachment_data)
