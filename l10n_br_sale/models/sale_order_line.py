@@ -107,8 +107,8 @@ class SaleOrderLine(models.Model):
     @api.multi
     def _prepare_invoice_line(self, qty):
         self.ensure_one()
-        result = super()._prepare_invoice_line(qty)
-        result.update(self._prepare_br_fiscal_dict())
+        result = self._prepare_br_fiscal_dict()
+        result.update(super()._prepare_invoice_line(qty))
         return result
 
     @api.onchange('product_uom', 'product_uom_qty')
