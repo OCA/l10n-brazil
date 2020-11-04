@@ -35,59 +35,59 @@ class AccountInvoiceRefund(models.TransientModel):
 
                 if (
                     not self.force_fiscal_operation_id
-                    and not invoice.operation_id
+                    and not invoice.fiscal_operation_id
                 ):
                     raise UserError(_("Document without Operation !"))
 
                 if (
                     not self.force_fiscal_operation_id
-                    and not invoice.operation_id.return_operation_id
+                    and not invoice.fiscal_operation_id.return_operation_id
                 ):
                     raise UserError(
                         _(
                             "Fiscal Operation: There is not Return Operation "
                             "for %s !"
                         )
-                        % invoice.operation_id.name
+                        % invoice.fiscal_operation_id.name
                     )
 
-                invoice.operation_id = (
+                invoice.fiscal_operation_id = (
                     self.force_fiscal_operation_id.id
-                    or invoice.operation_id.return_operation_id.id
+                    or invoice.fiscal_operation_id.return_operation_id.id
                 )
 
                 invoice_values = {
-                    "operation_id": invoice.operation_id.id,
+                    "fiscal_operation_id": invoice.fiscal_operation_id.id,
                 }
 
                 for line in invoice.invoice_line_ids:
                     if (
                         not self.force_fiscal_operation_id
-                        and not line.operation_id
+                        and not line.fiscal_operation_id
                     ):
                         raise UserError(_("Document line without Operation !"))
 
                     if (
                         not self.force_fiscal_operation_id
-                        and not line.operation_id.refund_operation_id
+                        and not line.fiscal_operation_id.refund_operation_id
                     ):
                         raise UserError(
                             _(
                                 "Fiscal Operation: There is not Return "
                                 "Operation for %s !"
                             )
-                            % line.operation_id.name
+                            % line.fiscal_operation_id.name
                         )
 
-                    line.operation_id = (
+                    line.fiscal_operation_id = (
                         self.force_fiscal_operation_id.id
-                        or line.operation_id.return_operation_id
+                        or line.fiscal_operation_id.return_operation_id
                     )
 
                     line._onchange_operation_id()
 
                     line_values = {
-                        "operation_id": line.operation_id.id,
+                        "fiscal_operation_id": line.fiscal_operation_id.id,
                         "fiscal_operation_line_id": line.fiscal_operation_line_id.id,
                     }
                     line.write(line_values)
@@ -104,10 +104,10 @@ class AccountInvoiceRefund(models.TransientModel):
         fiscal_operation_type = REFUND_TO_OPERATION[invoice_type]
         fiscal_type = FISCAL_TYPE_REFUND[fiscal_operation_type]
         eview = etree.fromstring(result["arch"])
-        operation_id = eview.xpath(
+        fiscal_operation_id = eview.xpath(
             "//field[@name='force_fiscal_operation_id']")
 
-        for field in operation_id:
+        for field in fiscal_operation_id:
             field.set(
                 "domain",
                 "[('fiscal_operation_type', '=', '%s'), ('fiscal_type', 'in', %s)]"
