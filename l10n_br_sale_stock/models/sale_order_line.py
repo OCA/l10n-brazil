@@ -10,6 +10,8 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     def _prepare_procurement_values(self, group_id=False):
-        values = super()._prepare_procurement_values(group_id)
-        values.update(self._prepare_br_fiscal_dict())
+        values = self._prepare_br_fiscal_dict()
+        values.update(super()._prepare_procurement_values(group_id))
+        values.update({
+            'invoice_state': self.order_id.fiscal_operation_id.invoice_state})
         return values
