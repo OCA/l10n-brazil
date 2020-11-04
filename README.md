@@ -76,7 +76,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 12.0.2.1.0 | Brazilian Localization Account
+[l10n_br_account](l10n_br_account/) | 12.0.2.1.1 | Brazilian Localization Account
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.1.0.0 | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 12.0.1.0.1 | Customization of base module for implementations in Brazil.
 [l10n_br_coa](l10n_br_coa/) | 12.0.2.1.0 | Base Brasilian Localization of Chart of Account
