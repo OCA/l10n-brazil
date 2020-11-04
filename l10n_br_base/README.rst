@@ -7,9 +7,9 @@ Brazilian Localization Base
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -25,15 +25,19 @@ Brazilian Localization Base
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Este é o módulo base da localização brasileira e implementa adaptações nos modelos básicos do Odoo Parceiros, Empresas e Endereços:
+Este é o módulo raiz da localização brasileira. Ele traz adaptações nos modelos do módulo ``base`` do Odoo como Parceiros, Empresas e Endereços:
 
 * Campo CNPJ e CPF com formatação e validação destes campos;
 * Campo de Inscrição Estadual com validação;
 * Formatação dos campos de endereço;
-* Código do Banco Central e Siscomex para paises;
-* Código do IBGE para estados e municipios;
+* Código do Banco Central e Siscomex para países;
+* Código do IBGE para estados e municípios;
 * Lista dos Bancos brasileiros;
-* Lista dos municipios brasileiros.
+* Lista dos municípios brasileiros.
+
+Se trata de um módulo muito simples e maduro. Existem alguns outros módulos simples que dependem apenas desse módulo ou quase como ``l10n_br_crm`` ou ``l10n_br_portal``.
+
+Mas se você quiser emitir ou apenas gerenciar algum tipo de documento fiscal como NF-e ou NFS-e, o próximo módulo que você deve olhar é o ``l10n_br_fiscal`` que é porém um módulo muito mais complexo.
 
 **Table of contents**
 
@@ -43,7 +47,10 @@ Este é o módulo base da localização brasileira e implementa adaptações nos
 Installation
 ============
 
-* Este módulo tem uma depedencia do pacote python num2words
+Este módulo depende dos pacotes Python:
+
+* num2words
+* erpbrasil.base https://github.com/erpbrasil/erpbrasil.base
 
 Configuration
 =============
@@ -59,6 +66,54 @@ Known issues / Roadmap
 ======================
 
 * Formatação da Inscrição Estadual de acordo com cada UF.
+
+Changelog
+=========
+
+12.0.1.0.0 (2019)
+~~~~~~~~~~~~~~~~~
+
+A partir da versão 12.0 foi extraído o pacote de validações cadastrais ``erpbrasil.base`` no intuito de minimizar o código que depende de uma versão especifica do Odoo e para desenvolver sinergias com outras comunidades de código aberto.
+
+
+11.0 (unreleased)
+~~~~~~~~~~~~~~~~~
+
+Devido ao atraso com a versão 11.0 foi decido de pular a versão 11.0 e trabalhar direitamente para a versão 12.0.
+
+
+10.0.1.0.0 (2017)
+~~~~~~~~~~~~~~~~~
+
+Devido ao trabalho enorme com a reescritura do módulo de contabilidade na versão 9 e a problemas pessoas de um dos autores, essa versão atrasou um pouco para sair.
+
+
+9.0.1.0.0 (2015)
+~~~~~~~~~~~~~~~~
+
+
+8.0.1.0.0 (2014)
+~~~~~~~~~~~~~~~~
+
+
+7.0.1.0.0 (2013)
+~~~~~~~~~~~~~~~~
+
+Mudança do Launchpad para Github. Mudança importante com a unificação das tabelas de parceiros e endereços.
+
+
+6.1.1.0.0 (2012)
+~~~~~~~~~~~~~~~~
+
+
+6.0.1.0.0 (2011)
+~~~~~~~~~~~~~~~~
+
+
+5.0.1.0.0 (2009)
+~~~~~~~~~~~~~~~~
+
+Este módulo foi criado na versão 5.0 do Odoo então chamado OpenERP. Era inicialmente hospedado na plataforma Launchpad.
 
 Bug Tracker
 ===========
