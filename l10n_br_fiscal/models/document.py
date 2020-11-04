@@ -866,6 +866,11 @@ class Document(models.Model):
             }))
         self.document_subsequent_ids = subsequent_documents
 
+    @api.onchange('issuer')
+    def _onchange_issuer(self):
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self.document_type_id = self.company_id.document_type_id
+
     @api.onchange('document_type_id')
     def _onchange_document_type_id(self):
         if self.document_type_id and self.issuer == DOCUMENT_ISSUER_COMPANY:

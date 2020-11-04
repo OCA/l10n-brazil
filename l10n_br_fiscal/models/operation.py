@@ -13,6 +13,8 @@ from ..constants.fiscal import (
     OPERATION_STATE_DEFAULT,
     OPERATION_STATE,
     FISCAL_COMMENT_DOCUMENT,
+    DOCUMENT_ISSUER,
+    DOCUMENT_ISSUER_COMPANY,
 )
 
 
@@ -122,6 +124,13 @@ class Operation(models.Model):
         comodel_name='l10n_br_fiscal.subsequent.operation',
         inverse_name='fiscal_operation_id',
         string='Subsequent Operation')
+
+    issuer = fields.Selection(
+        selection=DOCUMENT_ISSUER,
+        default=DOCUMENT_ISSUER_COMPANY,
+        required=True,
+        string='Issuer',
+    )
 
     _sql_constraints = [(
         "fiscal_operation_code_uniq",

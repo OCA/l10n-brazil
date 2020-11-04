@@ -30,4 +30,5 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
             self.operation_name = self.fiscal_operation_id.name
+            self.issuer = self.fiscal_operation_id.issuer
             self.comment_ids = self.fiscal_operation_id.comment_ids
