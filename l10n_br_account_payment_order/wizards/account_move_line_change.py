@@ -5,8 +5,8 @@ from odoo import api, fields, models
 
 
 class AccountMoveLineChange(models.TransientModel):
-
     _name = 'account.move.line.change'
+    _description = 'Wizard de edição de pagamento'
 
     @api.model
     def default_get(self, fields_list):
