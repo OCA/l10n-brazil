@@ -37,25 +37,17 @@ class BankPaymentLine(models.Model):
             'cidade_sacado':
                 self.partner_id.city_id.name,
             'uf_sacado': self.partner_id.state_id.code,
-            'identificacao_ocorrencia': self.order_id.movement_instruction_code
+            'identificacao_ocorrencia': self.movement_instruction_code
         }
 
     def _prepare_bank_line_unicred(self, payment_mode_id, linhas_pagamentos):
-        # TODO - Verificar se é uma tabela unica por banco ou há padrão
-        # Identificação da Ocorrência:
-        # 01 - Remessa*
-        # 02 - Pedido de Baixa
-        # 04 - Concessão de Abatimento*
-        # 05 - Cancelamento de Abatimento
-        # 06 - Alteração de vencimento
-        # 08 - Alteração de Seu Número
-        # 09 - Protestar*
-        # 11 - Sustar Protesto e Manter em Carteira
-        # 25 - Sustar Protesto e Baixar Título
-        # 26 – Protesto automático
-        # 31 - Alteração de outros dados (Alteração de dados do pagador)
-        # 40 - Alteração de Carteira
-        linhas_pagamentos['identificacao_ocorrencia'] = '01'
+        # TODO - Valores padrões ?
+        #  Estou preenchendo valores que se forem vazios geram erro
+        #  os campos parecem estar usando uma Seleção que é definida
+        #  na Febraban, isso acontece em todos os casos( CNAB 240/400 ) ?
+        #  Isso deveria ser feito para o CNAB de outros Bancos ?
+        #  Na criação dos campos houve a opção de deixa-los com o tipo
+        #  CHAR ao invês de Selection por essa falta de padrão.
         linhas_pagamentos['codigo_protesto'] = \
             payment_mode_id.boleto_protest_code or '3'
         linhas_pagamentos['dias_protesto'] = \
@@ -79,6 +71,8 @@ class BankPaymentLine(models.Model):
         # 0 = Isento
         # 1 = Valor Fixo
         linhas_pagamentos['cod_desconto'] = '0'
+        # TODO - Tamanho do campo tem que ser 10 ao ser enviado
+        #  é preciso tratar isso de uma forma melhor
         # 00000005/01
         linhas_pagamentos['numero'] = str(self.document_number)[1:11]
 
@@ -97,53 +91,62 @@ class BankPaymentLine(models.Model):
         except:
             pass
 
-        if payment_mode_id.boleto_fee_perc:
-            linhas_pagamentos['codigo_multa'] = \
-                payment_mode_id.boleto_fee_code
-            linhas_pagamentos['percentual_multa'] = \
-                payment_mode_id.boleto_fee_perc
+        # Valores incluídos apenas qdo for o
+        # Codigo de Instrução da Remessa - '01 - Remessa*'
+        # TODO - Teriam outros ?
+        #  Validar qdo for feito o
+        #  04 - Concessão de Abatimento*
+        #  09 - Protestar*
+        #  se existe necessidade de informar esses campos
+        if self.movement_instruction_code == '01':
+            if payment_mode_id.boleto_fee_perc:
+                linhas_pagamentos['codigo_multa'] = \
+                    payment_mode_id.boleto_fee_code
+                linhas_pagamentos['percentual_multa'] = \
+                    payment_mode_id.boleto_fee_perc
 
-        precision = self.env['decimal.precision']
-        precision_account = precision.precision_get('Account')
-        if payment_mode_id.boleto_interest_perc:
-            linhas_pagamentos['tipo_mora'] = \
-                payment_mode_id.boleto_interest_perc
-            # TODO - É padrão em todos os bancos ?
-            # Código adotado pela FEBRABAN para identificação do tipo de
-            # pagamento de mora de juros.
-            # Domínio:
-            # ‘1’ = Valor Diário (R$)
-            # ‘2’ = Taxa Mensal (%)
-            # ‘3’= Valor Mensal (R$) *
-            # ‘4’ = Taxa diária (%)
-            # ‘5’ = Isento
-            # *OBSERVAÇÃO:
-            # ‘3’ - Valor Mensal (R$): a CIP não acata valor mensal,
-            # segundo manual. Cógido mantido
-            # para Correspondentes que ainda utilizam.
-            # Isento de Mora caso não exista percentual
-            if payment_mode_id.boleto_interest_code == '1':
-                linhas_pagamentos['valor_mora'] = round(
-                    self.amount_currency *
-                    ((payment_mode_id.boleto_interest_code / 100)
-                     / 30), precision_account)
-            if payment_mode_id.boleto_interest_code == '2':
-                linhas_pagamentos['valor_mora'] = \
+            precision = self.env['decimal.precision']
+            precision_account = precision.precision_get('Account')
+            if payment_mode_id.boleto_interest_perc:
+                linhas_pagamentos['tipo_mora'] = \
                     payment_mode_id.boleto_interest_code
+                # TODO - É padrão em todos os bancos ?
+                # Código adotado pela FEBRABAN para identificação do tipo de
+                # pagamento de mora de juros.
+                # Domínio:
+                # ‘1’ = Valor Diário (R$)
+                # ‘2’ = Taxa Mensal (%)
+                # ‘3’= Valor Mensal (R$) *
+                # ‘4’ = Taxa diária (%)
+                # ‘5’ = Isento
+                # *OBSERVAÇÃO:
+                # ‘3’ - Valor Mensal (R$): a CIP não acata valor mensal,
+                # segundo manual. Cógido mantido
+                # para Correspondentes que ainda utilizam.
+                # Isento de Mora caso não exista percentual
+                if payment_mode_id.boleto_interest_code == '1':
+                    linhas_pagamentos['valor_mora'] = round(
+                        self.amount_currency *
+                        ((payment_mode_id.boleto_interest_perc / 100)
+                         / 30), precision_account)
+                if payment_mode_id.boleto_interest_code == '2':
+                    linhas_pagamentos['valor_mora'] = \
+                        payment_mode_id.boleto_interest_perc
 
-        if payment_mode_id.boleto_discount_perc:
-            linhas_pagamentos['data_desconto'] = \
-                self.date.strftime('%Y/%m/%d')
-            linhas_pagamentos['valor_desconto'] = round(
-                self.amount_currency * (
-                        payment_mode_id.boleto_discount_perc / 100),
-                precision_account)
+            if payment_mode_id.boleto_discount_perc:
+                linhas_pagamentos['data_desconto'] = \
+                    self.date.strftime('%Y/%m/%d')
+                linhas_pagamentos['valor_desconto'] = round(
+                    self.amount_currency * (
+                            payment_mode_id.boleto_discount_perc / 100),
+                    precision_account)
 
-        # Protesto
-        if payment_mode_id.boleto_protest_code:
-            linhas_pagamentos['codigo_protesto'] = \
-                payment_mode_id.boleto_protest_code
-            if payment_mode_id.boleto_days_protest:
-                linhas_pagamentos['dias_protesto'] = \
-                    payment_mode_id.boleto_days_protest
+            # Protesto
+            if payment_mode_id.boleto_protest_code:
+                linhas_pagamentos['codigo_protesto'] = \
+                    payment_mode_id.boleto_protest_code
+                if payment_mode_id.boleto_days_protest:
+                    linhas_pagamentos['dias_protesto'] = \
+                        payment_mode_id.boleto_days_protest
+
         return linhas_pagamentos
