@@ -101,7 +101,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         move = fields.first(moves)
 
         # Get fiscal position from fiscal operation
-        fiscal_position_id = move.fiscal_operation_id.fiscal_position_id.id
+        fiscal_position_id = move.fiscal_position_id.id
         if fiscal_position_id:
             invoice.update({'fiscal_position_id': fiscal_position_id})
 

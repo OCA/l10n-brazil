@@ -10,7 +10,9 @@ from ...l10n_br_fiscal.constants.fiscal import (
 
 class StockMove(models.Model):
     _name = 'stock.move'
-    _inherit = [_name, 'l10n_br_fiscal.document.line.mixin']
+    _inherit = [_name,
+                'l10n_br_fiscal.document.line.mixin',
+                'l10n_br_account.document.line.mixin']
 
     @api.model
     def _default_fiscal_operation(self):
@@ -127,6 +129,13 @@ class StockMove(models.Model):
         result = super()._onchange_product_id_fiscal()
         if self.product_id:
             self.price_unit = self._get_price_unit()
+        return result
+
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        result = super()._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id:
+            self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
         return result
 
     @api.model
