@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-21 19:52+0000\n"
-"PO-Revision-Date: 2020-10-26 19:08+0000\n"
-"Last-Translator: Ananias Filho <ananias@kmee.com.br>\n"
+"PO-Revision-Date: 2020-11-05 07:08+0000\n"
+"Last-Translator: Eder Brito <britoederr@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -20,17 +20,17 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:res.groups,name:l10n_br_sale.group_total_discount
 msgid "Allow Amount Discount on Sales Orders"
-msgstr "Permite Total de Desconto no Pedido de Venda"
+msgstr "Permite o Desconto de Montante em Pedidos de Venda"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_gross
 msgid "Amount Gross"
-msgstr "Total Bruto"
+msgstr "Montante Bruto"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__amount_gross
 msgid "Amount without discount."
-msgstr "Total sem Desconto."
+msgstr "Montante sem desconto."
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ind_pres
@@ -266,12 +266,12 @@ msgstr "Impostos"
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__amount_discount
 msgid "The discount amount."
-msgstr "O desconto total"
+msgstr "O montante de desconto."
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__uom_id
 msgid "UOM"
-msgstr "UOM"
+msgstr "UDM"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,help:l10n_br_sale.field_sale_order__legal_name
