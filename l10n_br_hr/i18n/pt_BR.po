@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2020-06-13 22:19+0000\n"
-"Last-Translator: Maurício Liell <mauricio@liell.com.br>\n"
+"PO-Revision-Date: 2020-11-05 07:08+0000\n"
+"Last-Translator: Eder Brito <britoederr@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -128,9 +128,8 @@ msgstr "Autônomos"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_account_count
-#, fuzzy
 msgid "Bank"
-msgstr "Bancos"
+msgstr "Banco"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
@@ -175,9 +174,8 @@ msgstr "CBO"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cei_code
-#, fuzzy
 msgid "CEI Code"
-msgstr "Código"
+msgstr "Código CEI"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_res_company__cnpj_cei
@@ -203,15 +201,13 @@ msgstr "CPF Invalido!"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_code
-#, fuzzy
 msgid "CRC Code"
-msgstr "Código"
+msgstr "Código CRC"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__crc_state_id
-#, fuzzy
 msgid "CRC State"
-msgstr "Estado"
+msgstr "Estado CRC"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__ctps
@@ -303,9 +299,8 @@ msgstr "Endereço da Cidade"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_civil_certificate_type
-#, fuzzy
 msgid "Civil Certificate Type"
-msgstr "Tipo de certificado civil"
+msgstr "Tipo de Certificado Civil"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -358,7 +353,7 @@ msgstr "Empresas"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ref_company_ids
 msgid "Companies that refers to partner"
-msgstr ""
+msgstr "Empresas que se referem ao parceiro"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__company_id
@@ -382,9 +377,8 @@ msgstr "Tipo de Empresa"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_gid
-#, fuzzy
 msgid "Company database ID"
-msgstr "Nome da Empresa"
+msgstr "ID do banco de dados da Empresa"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contact_address
@@ -403,9 +397,8 @@ msgstr "Contatos"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contracts_count
-#, fuzzy
 msgid "Contracts Count"
-msgstr "Contatos"
+msgstr "Contagem de Contratos"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_ie_dest
@@ -415,7 +408,7 @@ msgstr "Contribuinte do ICMS"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__payment_token_count
 msgid "Count Payment Token"
-msgstr ""
+msgstr "Contagem de Tokens de Pagamento"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_bounce
@@ -463,20 +456,18 @@ msgstr "Moeda"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_customer
-#, fuzzy
 msgid "Customer Location"
-msgstr "Número de ações"
+msgstr "Localização do Cliente"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
-#, fuzzy
 msgid "Customer Payment Mode"
-msgstr "Número de ações"
+msgstr "Modo de Pagamento do Cliente"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_payment_term_id
 msgid "Customer Payment Terms"
-msgstr ""
+msgstr "Condições de Pagamento do Cliente"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_filter
@@ -506,7 +497,6 @@ msgstr "Data de nascimento"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_deficiency
-#, fuzzy
 msgid "Deficiencies"
 msgstr "Deficiência"
 
@@ -539,9 +529,8 @@ msgstr "Dependentes"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_dependent_type
-#, fuzzy
 msgid "Dependents Type"
-msgstr "Dependentes"
+msgstr "Tipos de Dependentes"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__organ_exp
@@ -614,9 +603,8 @@ msgstr "Realização educacional"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_educational_attainment
-#, fuzzy
 msgid "Educational Attainments"
-msgstr "Realização educacional"
+msgstr "Realizações Educacionais"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__educational_attainment
@@ -662,9 +650,8 @@ msgstr "Funcionário"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__employee_id
-#, fuzzy
 msgid "Employee ID"
-msgstr "Funcionário"
+msgstr "ID do Funcionário"
 
 #. module: l10n_br_hr
 #: model:ir.ui.menu,name:l10n_br_hr.menu_hr_employee_register
@@ -693,9 +680,8 @@ msgstr "Escolaridade"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_ethnicity
-#, fuzzy
 msgid "Ethnicities"
-msgstr "Etnia"
+msgstr "Etnias"
 
 #. module: l10n_br_hr
 #: model:ir.actions.act_window,name:l10n_br_hr.action_hr_ethnicity
@@ -727,13 +713,12 @@ msgstr "Primeira Categoria"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__fiscal_profile_id
 msgid "Fiscal Partner Profile"
-msgstr ""
+msgstr "Perfil de Sócio Fiscal"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_account_position_id
-#, fuzzy
 msgid "Fiscal Position"
-msgstr "Cargo"
+msgstr "Posição Fiscal"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_follower_ids
@@ -778,12 +763,12 @@ msgstr "Sexo"
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_data_abstract
 msgid "HR Data Abstract"
-msgstr ""
+msgstr "Resumo de Dados do RH"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__has_unreconciled_entries
 msgid "Has Unreconciled Entries"
-msgstr ""
+msgstr "Têm Entradas Não Reconciliadas"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__have_dependent
@@ -855,7 +840,6 @@ msgstr "Identidade"
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_hr_identity_type
-#, fuzzy
 msgid "Identity Types"
 msgstr "Tipo de Identidade"
 
@@ -887,6 +871,8 @@ msgid ""
 "If set, this Sales Team will be used for sales and assignations related to "
 "this partner"
 msgstr ""
+"Se definido, este Time de Vendas será utilizado para vendas e atribuições "
+"relacionadas a este parceiro"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_blacklisted
@@ -994,9 +980,8 @@ msgstr "Cargo"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__journal_item_count
-#, fuzzy
 msgid "Journal Items"
-msgstr "Jornalista"
+msgstr "Itens de Diário"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__lang
@@ -1019,7 +1004,7 @@ msgstr "Última modificação em"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_website_so_id
 msgid "Last Online Sales Order"
-msgstr ""
+msgstr "Último Pedido de Vendas Online"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__write_uid
@@ -1048,7 +1033,7 @@ msgstr "Última atualização em"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__calendar_last_notif_ack
 msgid "Last notification marked as read from base Calendar"
-msgstr ""
+msgstr "Última notificação marcada como lida a partir do Calendário Base"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__last_time_entries_checked
@@ -1057,6 +1042,10 @@ msgid ""
 "It is set either if there's not at least an unreconciled debit and an "
 "unreconciled credit or if you click the \"Done\" button."
 msgstr ""
+"A última vez que a correspondência de faturas e pagamentos foi realizada "
+"para este parceiro. Ele é definido se não houver pelo menos um débito não "
+"reconciliado e um crédito não reconciliado ou se você clicar no botão \""
+"Concluído\"."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_time_entries_checked
@@ -1081,7 +1070,7 @@ msgstr "Anexo Principal"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cnae_main_id
 msgid "Main CNAE"
-msgstr ""
+msgstr "CNAE Principal"
 
 #. module: l10n_br_hr
 #: selection:hr.employee.dependent,dependent_gender:0
@@ -1132,7 +1121,7 @@ msgstr "Mensagem para Fatura"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn_msg
 msgid "Message for Sales Order"
-msgstr ""
+msgstr "Mensagem para o Pedido de Vendas"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn_msg
@@ -1294,14 +1283,13 @@ msgstr "Parceiro"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contract_ids
-#, fuzzy
 msgid "Partner Contracts"
-msgstr "Contatos"
+msgstr "Contratos de Parceiro"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__debit_limit
 msgid "Payable Limit"
-msgstr ""
+msgstr "Limite de Pagamento"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__payment_token_ids
@@ -1327,7 +1315,7 @@ msgstr "RG"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__rntrc_code
 msgid "RNTRC Code"
-msgstr ""
+msgstr "Código RNTRC"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_ethnicity_form
@@ -1337,7 +1325,7 @@ msgstr "Raça / Cor"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
 msgid "Registration Website"
-msgstr ""
+msgstr "Site de Registro"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__registration
@@ -1374,12 +1362,12 @@ msgstr "Usuário Responsável"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_count
 msgid "Sale Order Count"
-msgstr ""
+msgstr "Contagem de Pedido de Venda"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_ids
 msgid "Sales Order"
-msgstr ""
+msgstr "Pedidos de Venda"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__team_id
@@ -1389,7 +1377,7 @@ msgstr "Time de Vendas"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn
 msgid "Sales Warnings"
-msgstr ""
+msgstr "Avisos de Vendas"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__user_id
@@ -1425,6 +1413,9 @@ msgid ""
 "Selecting \"Blocking Message\" will throw an exception with the message and "
 "block the flow. The Message has to be written in the next field."
 msgstr ""
+"Selecionando a opção \"Aviso\" notificará o usuário com a mensagem, "
+"Selecionando \"Mensagem de Bloqueio\" lançará uma exceção com a mensagem e "
+"bloqueará o fluxo. A mensagem deve ser escrita no próximo campo."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__self
@@ -1519,7 +1510,7 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn
 msgid "Stock Picking"
-msgstr ""
+msgstr "Separação de Estoque"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__street
@@ -1554,7 +1545,7 @@ msgstr "Marcadores"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__tax_framework
 msgid "Tax Framework"
-msgstr ""
+msgstr "Quadro de Impostos"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__vat
@@ -1784,15 +1775,13 @@ msgstr "Campo utilitário para expressar o valor da moeda"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_stock_supplier
-#, fuzzy
 msgid "Vendor Location"
-msgstr "Seção do eleitor"
+msgstr "Localização de Fornecedor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_supplier_payment_term_id
-#, fuzzy
 msgid "Vendor Payment Terms"
-msgstr "Vendedor ambulante"
+msgstr "Condições de Pagamento do Fornecedor"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_form
@@ -1821,9 +1810,8 @@ msgstr "Site"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_message_ids
-#, fuzzy
 msgid "Website Messages"
-msgstr "Mensagens"
+msgstr "Mensagens do Site"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__website_message_ids
