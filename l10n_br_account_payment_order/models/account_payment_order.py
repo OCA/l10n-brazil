@@ -88,6 +88,8 @@ class AccountPaymentOrder(models.Model):
         result['company_title_identification'] =\
             paylines[0].company_title_identification
         result['last_cnab_state'] = paylines[0].move_line_id.cnab_state
+        result['movement_instruction_code'] = \
+            paylines[0].move_line_id.movement_instruction_code
         return result
 
     @api.multi
