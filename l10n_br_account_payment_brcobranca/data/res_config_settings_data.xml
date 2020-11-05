@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<odoo noupdate="1">
 
     <record id="boleto_cnab_api_config_settings" model="res.config.settings">
         <field name="boleto_cnab_api">boleto_cnab_api</field>
