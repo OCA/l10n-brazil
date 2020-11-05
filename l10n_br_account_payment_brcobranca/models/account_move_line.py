@@ -133,7 +133,7 @@ class AccountMoveLine(models.Model):
             if bank_account_id.bank_id.code_bc in ('748', '756'):
                 boleto_cnab_api_data.update({
                     'byte_idt': move_line.payment_mode_id.boleto_byte_idt,
-                    'posto': move_line.payment_mode_id.boleto_posto,
+                    'posto': move_line.payment_mode_id.boleto_post,
                 })
 
             wrapped_boleto_list.append(boleto_cnab_api_data)
