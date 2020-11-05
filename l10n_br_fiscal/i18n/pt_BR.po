@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-07 15:11+0000\n"
-"PO-Revision-Date: 2020-09-18 21:20+0000\n"
-"Last-Translator: Maurício Liell <mauricio@liell.com.br>\n"
+"PO-Revision-Date: 2020-11-05 07:08+0000\n"
+"Last-Translator: Eder Brito <britoederr@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +30,10 @@ msgid ""
 "document_serie} is: ${dict(object.fields_get('state').get('state')."
 "get('selection')).get(object.state, '')}"
 msgstr ""
+"${object.document_type_id.name}: ${object.number} Série: "
+"${object.document_serie} é: "
+"${dict(object.fields_get('state').get('state').get('selection')).get("
+"object.state, '')}"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document.line,icms_origin:0
@@ -37,89 +41,89 @@ msgstr ""
 #: selection:l10n_br_fiscal.operation.line,icms_origin:0
 #: selection:product.template,icms_origin:0
 msgid "0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8"
-msgstr ""
+msgstr "0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "00 - Industrial - Transformação"
-msgstr ""
+msgstr "00 - Industrial - Transformação"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.payment,payment_type:0
 msgid "01 - Dinheiro"
-msgstr ""
+msgstr "01 - Dinheiro"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "01 - Industrial - Beneficiamento"
-msgstr ""
+msgstr "01 - Industrial - Beneficiamento"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.payment,payment_type:0
 msgid "02 - Cheque"
-msgstr ""
+msgstr "02 - Cheque"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "02 - Industrial - Montagem"
-msgstr ""
+msgstr "02 - Industrial - Montagem"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.payment,payment_type:0
 msgid "03 - Cartão de Crédito"
-msgstr ""
+msgstr "03 - Cartão de Crédito"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "03 - Industrial - Acondicionamento ou Reacondicionamento"
-msgstr ""
+msgstr "03 - Industrial - Acondicionamento ou Reacondicionamento"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.payment,payment_type:0
 msgid "04 - Cartão de Débito"
-msgstr ""
+msgstr "04 - Cartão de Débito"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "04 - Industrial - Renovação ou Recondicionamento"
-msgstr ""
+msgstr "04 - Industrial - Renovação ou Recondicionamento"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.payment,payment_type:0
 msgid "05 - Crédito Loja"
-msgstr ""
+msgstr "05 - Crédito Loja"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "05 - Equiparado a industrial - Por opção"
-msgstr ""
+msgstr "05 - Equiparado a industrial - Por opção"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "06 - Equiparado a industrial - Importação Direta"
-msgstr ""
+msgstr "06 - Equiparado a industrial - Importação Direta"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "07 - Equiparado a industrial - Por lei específica"
-msgstr ""
+msgstr "07 - Equiparado a industrial - Por lei específica"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "08 - Equiparado a industrial - Não enquadrado nos códigos 05, 06 ou 07"
-msgstr ""
+msgstr "08 - Equiparado a industrial - Não enquadrado nos códigos 05, 06 ou 07"
 
 #. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "09 - Outros"
-msgstr ""
+msgstr "09 - Outros"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.operation.line,ind_ie_dest:0
 #: selection:l10n_br_fiscal.partner.profile,ind_ie_dest:0
 #: selection:res.partner,ind_ie_dest:0
 msgid "1 - Contribuinte do ICMS"
-msgstr ""
+msgstr "1 - Contribuinte do ICMS"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document.line,icms_origin:0
@@ -127,7 +131,7 @@ msgstr ""
 #: selection:l10n_br_fiscal.operation.line,icms_origin:0
 #: selection:product.template,icms_origin:0
 msgid "1 - Estrangeira – importação direta, exceto a indicada no código 6"
-msgstr ""
+msgstr "1 - Estrangeira – importação direta, exceto a indicada no código 6"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.operation.line,company_tax_framework:0
@@ -135,12 +139,12 @@ msgstr ""
 #: selection:l10n_br_fiscal.partner.profile,tax_framework:0
 #: selection:res.company,tax_framework:0 selection:res.partner,tax_framework:0
 msgid "1 - Simples Nacional"
-msgstr ""
+msgstr "1 - Simples Nacional"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.payment,payment_type:0
 msgid "10 - Vale Alimentação"
-msgstr ""
+msgstr "10 - Vale Alimentação"
 
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_UN1000
