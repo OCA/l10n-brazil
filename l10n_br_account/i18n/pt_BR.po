@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-07 09:02+0000\n"
-"PO-Revision-Date: 2020-10-26 19:08+0000\n"
-"Last-Translator: Ananias Filho <ananias@kmee.com.br>\n"
+"PO-Revision-Date: 2020-11-05 07:08+0000\n"
+"Last-Translator: Eder Brito <britoederr@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr "Conta"
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_account_document_line_mixin
 msgid "Account Document Line Mixin"
-msgstr ""
+msgstr "Mixin de Linha de Documento da Conta"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__journal_id
@@ -69,7 +69,7 @@ msgstr "Anotação de crédito"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome de Exibição"
 
 #. module: l10n_br_account
 #: code:addons/l10n_br_account/wizards/account_invoice_refund.py:68
@@ -143,7 +143,7 @@ msgstr "Forçar Operação Fiscal"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_invoice
@@ -163,22 +163,22 @@ msgstr "Item de Diário"
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última Modificação em"
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "Legal Name"
-msgstr ""
+msgstr "Razão Social"
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_line_form
 msgid "Outros Custos"
-msgstr ""
+msgstr "Outros Custos"
 
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
 msgid "State Tax Number"
-msgstr ""
+msgstr "Número de Imposto Estadual"
 
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_tax
@@ -211,6 +211,8 @@ msgstr "Usado nos documentos fiscais"
 #, python-format
 msgid "You cannot delete a fiscal document which is not draft state."
 msgstr ""
+"Você não pode excluir um documento fiscal que não esteja no estado de "
+"rascunho."
 
 #~ msgid "Tax Account"
 #~ msgstr "Conta de imposto"
