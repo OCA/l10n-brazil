@@ -106,8 +106,12 @@ class AccountMoveLine(models.Model):
         # Codigo de Instrução do Movimento para Remessa
         vals['movement_instruction_code'] = self.movement_instruction_code
 
-        if self.invoice_id.state == 'paid':
+        if self.movement_instruction_code == '02':
             vals['amount_currency'] = self.credit or self.debit
+
+        # TODO - ainda necessário ?
+        # if self.invoice_id.state == 'paid':
+        #    vals['amount_currency'] = self.credit or self.debit
 
         return vals
 
