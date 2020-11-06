@@ -76,6 +76,7 @@ class StockMove(models.Model):
         another picking. This method is designed to be inherited. """
         result = super()._get_new_picking_values()
         result.update({'fiscal_operation_id': self.fiscal_operation_id.id})
+        result.update({'invoice_state': self.invoice_state})
         return result
 
     @api.model
