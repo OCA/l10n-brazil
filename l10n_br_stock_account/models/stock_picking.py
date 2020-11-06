@@ -37,10 +37,6 @@ class StockPicking(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
-    invoice_state = fields.Selection(
-        related='fiscal_operation_id.invoice_state',
-    )
-
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
         relation='stock_picking_comment_rel',
@@ -48,6 +44,12 @@ class StockPicking(models.Model):
         column2='comment_id',
         string='Comments',
     )
+
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        super()._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id:
+            self.invoice_state = self.fiscal_operation_id.invoice_state
 
     @api.multi
     def action_view_document(self):
