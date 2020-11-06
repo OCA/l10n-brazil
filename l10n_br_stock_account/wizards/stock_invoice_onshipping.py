@@ -83,7 +83,7 @@ class StockInvoiceOnshipping(models.TransientModel):
                 key: value for key, value in super()._get_invoice_line_values(
                     moves, invoice_values, invoice
                 ).items() if value
-             }
+            }
         )
         values['invoice_line_tax_ids'] = [
             (6, 0, self.env['l10n_br_fiscal.tax'].browse(
