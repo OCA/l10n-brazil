@@ -696,9 +696,8 @@ msgid "Add to Document Amount?"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__additional_data
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__additional_data
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__additional_data
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__additional_data
 msgid "Additional Data"
 msgstr ""
 
@@ -1649,7 +1648,7 @@ msgid "Cancelar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:926
+#: code:addons/l10n_br_fiscal/models/document.py:896
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -2349,6 +2348,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__custom_tax
 msgid "Custom Tax"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__customer_additional_data
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__customer_additional_data
+msgid "Customer Additional Data"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3169,6 +3174,12 @@ msgid "Fiscal"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_additional_data
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_additional_data
+msgid "Fiscal Additional Data"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_attachment
 msgid "Fiscal Attachment"
 msgstr ""
@@ -3492,7 +3503,7 @@ msgid "Fiscal User"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/constants/fiscal.py:61
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:67
 #: selection:l10n_br_fiscal.document.line,cofins_base_type:0
 #: selection:l10n_br_fiscal.document.line,cofins_wh_base_type:0
 #: selection:l10n_br_fiscal.document.line,cofinsst_base_type:0
@@ -6918,7 +6929,7 @@ msgid "Pending"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/constants/fiscal.py:59
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:65
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__percent_amount
 #: selection:l10n_br_fiscal.document.line,cofins_base_type:0
 #: selection:l10n_br_fiscal.document.line,cofins_wh_base_type:0
@@ -7236,7 +7247,7 @@ msgid "QUILATE"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/constants/fiscal.py:60
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:66
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__quantity
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__quantity
 #: selection:l10n_br_fiscal.document.line,cofins_base_type:0
@@ -7632,7 +7643,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:954
+#: code:addons/l10n_br_fiscal/models/document.py:924
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8415,8 +8426,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:777
-#: code:addons/l10n_br_fiscal/models/document.py:788
+#: code:addons/l10n_br_fiscal/models/document.py:762
+#: code:addons/l10n_br_fiscal/models/document.py:773
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -8433,7 +8444,7 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:717
+#: code:addons/l10n_br_fiscal/models/document.py:702
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
