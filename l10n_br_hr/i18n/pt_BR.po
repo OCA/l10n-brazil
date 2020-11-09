@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-26 11:58+0000\n"
-"PO-Revision-Date: 2020-11-05 07:08+0000\n"
+"PO-Revision-Date: 2020-11-09 03:08+0000\n"
 "Last-Translator: Eder Brito <britoederr@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -185,7 +185,7 @@ msgstr "CNPJ / CEI Tomadora / Obra"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__cnpj_cpf
 msgid "CNPJ/CPF"
-msgstr "CNPJ / CPF"
+msgstr "CNPJ/CPF"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cpf
@@ -253,7 +253,7 @@ msgstr "Características"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_company
 msgid "Check if the contact is a company, otherwise it is a person"
-msgstr "Marque se o contato é uma empresa."
+msgstr "Marque se o contato é uma empresa, caso contrário ele é uma pessoa"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__customer
@@ -548,7 +548,7 @@ msgstr "Órgão expedidor"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__display_name
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__display_name
 msgid "Display Name"
-msgstr "Nome exibido"
+msgstr "Nome de Exibição"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__district
@@ -793,7 +793,7 @@ msgstr "casa"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__street_number
 msgid "House Number"
-msgstr "Nr. da Casa"
+msgstr "Número da Casa"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__id
@@ -806,7 +806,7 @@ msgstr "Nr. da Casa"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_cbo__id
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract__id
 msgid "ID"
-msgstr "EU IRIA"
+msgstr "ID"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__identity_city_id
@@ -928,7 +928,7 @@ msgstr "Data de nascimento inválida para %s dependente"
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_warn
 msgid "Invoice"
-msgstr "Pedido"
+msgstr "Fatura"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_ids
@@ -1233,7 +1233,7 @@ msgstr "Número de mensagens com erro de entrega"
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_unread_counter
 msgid "Number of unread messages"
-msgstr "Quantidade de mensagens não lidas."
+msgstr "Quantidade de mensagens não lidas"
 
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_cbo_filter
@@ -1574,7 +1574,7 @@ msgid ""
 "The Tax Identification Number. Complete it if the contact is subjected to "
 "government taxes. Used in some legal statements."
 msgstr ""
-"O número de identificação fiscal. Conclua se o contato estiver sujeito a "
+"O número de identificação fiscal. Preencha-o se o contato estiver sujeito a "
 "impostos governamentais. Usado em algumas declarações legais."
 
 #. module: l10n_br_hr
@@ -1653,8 +1653,8 @@ msgid ""
 "This field holds the image used as avatar for this contact, limited to "
 "1024x1024px"
 msgstr ""
-"Esta área contém a imagem usada como avatar para este contato, limitado a "
-"1024x1024px."
+"Este campo contém a imagem usada como avatar para este contato, limitado a "
+"1024x1024px"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_supplier_payment_term_id
