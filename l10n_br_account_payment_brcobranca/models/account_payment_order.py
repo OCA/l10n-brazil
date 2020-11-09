@@ -180,6 +180,11 @@ class PaymentOrder(models.Model):
 
         return remessa, self.get_file_name(cnab_type)
 
+    @api.multi
     def generated2uploaded(self):
         super().generated2uploaded()
+        for payment_line in self.payment_line_ids:
+            # Importante para saber a situação do CNAB no caso
+            # de um pagto feito por fora ( dinheiro, deposito, etc)
+            payment_line.move_line_id.cnab_state = 'exported'
         self.action_done()
