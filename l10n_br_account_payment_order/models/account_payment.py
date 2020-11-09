@@ -3,7 +3,7 @@
 #   @author  Hugo Uchôas Borges <hugo.borges@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, models
+from odoo import api, models, fields
 
 
 class AccountPayment(models.Model):
@@ -13,4 +13,4 @@ class AccountPayment(models.Model):
     def post(self):
         super().post()
         for record in self:
-            record.invoice_ids.create_account_payment_line_baixa()
+            record.invoice_ids.create_account_payment_line_baixa(record.amount)
