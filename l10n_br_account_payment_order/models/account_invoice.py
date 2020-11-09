@@ -215,15 +215,15 @@ class AccountInvoice(models.Model):
                 raise UserError(_('No Payment Mode on invoice %s') % inv.number)
 
             result_payorder_ids = []
-            apoo = self.env['account.payment.order']
+            apo = self.env['account.payment.order']
             for payment_mode in payment_modes:
-                payorder = apoo.search([
+                payorder = apo.search([
                     ('payment_mode_id', '=', payment_mode.id),
                     ('state', '=', 'draft')], limit=1)
 
                 new_payorder = False
                 if not payorder:
-                    payorder = apoo.create(
+                    payorder = apo.create(
                         inv._prepare_new_payment_order(payment_mode)
                     )
                     new_payorder = True
@@ -238,21 +238,22 @@ class AccountInvoice(models.Model):
                     # ao valor de uma das Parcelas em aberto ou ao Valor
                     # Total pois até onde vi não há possibilidade de
                     # uma baixa parcial para ser enviada na Remessa CNAB
+
                     if line.debit == amount_payment:
                         line_to_update_cnab |= line
 
                 if not line_to_update_cnab:
-                    # Baixar todas as Parcelas em aberto
+                    # Valor Total ? Baixar todas as Parcelas em aberto
                     if inv.amount_total == amount_payment:
                         line_to_update_cnab |= applicable_lines
                     else:
                         # TODO - existe possibilidade de baixas parciais ?
                         raise UserError(_(
-                            'O valor de Pagamento R$ %d da fatura %s não pode'
-                            ' ser realizado porque é preciso que o valor seja '
-                            'igual a uma das Parcelas ou ao Valor Total da'
-                            ' Fatura para ser possível ser feito o Pedido de Baixa'
-                            ' do Título junto ao Banco via CNAB, não é possível.'
+                            'Payment amount R$ %d of invoice %s can not'
+                            ' be made because the amount must be equal to one'
+                            ' of Installments or the Total amount of Invoice'
+                            ' to be able to make the Request to Write Off the'
+                            ' title with the Bank by CNAB.'
                         ) % (amount_payment, inv.number))
 
                 line_update = False
@@ -268,9 +269,9 @@ class AccountInvoice(models.Model):
                     if line.cnab_state in ('draft', 'added'):
                         line.payment_line_ids.unlink()
                         line.message_post(body=_(
-                            'Removida Linha de Pagamento que seria enviada'
-                            ' ao Banco %s via CNAB porque foi feito o pagamento'
-                            ' de %d antes do envio.') % (
+                            'Removed Payline that would be sent to Bank %s'
+                            ' by CNAB because amount payment of %d was made '
+                            ' before sending.') % (
                             inv.payment_mode_id.fixed_journal_id.bank_id.name,
                             amount_payment))
                     # Atualização do Codigo de Instrução do Movimento
@@ -280,9 +281,8 @@ class AccountInvoice(models.Model):
                         line.movement_instruction_code = '02'
                         line.payment_situation = 'paga'
                         line.message_post(body=_(
-                            'Atualizado o Codigo de Instrução do Movimento'
-                            ' para Pedido de Baixa do Título, motivo pagamento'
-                            'realizado por outra forma.'))
+                            'Movement Instruction Code Updated for Request to'
+                            ' Write Off, because payment done in another way'))
                         line.create_payment_line_from_move_line(payorder)
                         count += 1
 
