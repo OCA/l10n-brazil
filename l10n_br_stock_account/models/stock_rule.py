@@ -43,8 +43,9 @@ class StockRule(models.Model):
             product_id, product_qty, product_uom, location_id, name, origin, values,
             group_id
         )
-        move_values['fiscal_operation_id'] = self.fiscal_operation_id.id
-        move_values['invoice_state'] = self.invoice_state
+        if self.fiscal_operation_id:
+            move_values['fiscal_operation_id'] = self.fiscal_operation_id.id
+            move_values['invoice_state'] = self.invoice_state
         return move_values
 
     def _get_custom_move_fields(self):
