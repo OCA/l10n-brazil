@@ -55,7 +55,11 @@ class SaleOrder(models.Model):
                 for line in record.order_line[:-1]:
                     line.freight_value = amount_freight * (
                         line.price_total / amount_total)
+                todo = record.env.all.todo.copy()
                 record.order_line[-1].freight_value = amount_freight - sum(
                     line.freight_value for line in record.order_line[:-1])
+                record.env.all.todo = todo
             for line in record.order_line:
+                todo = record.env.all.todo.copy()
                 line._onchange_fiscal_taxes()
+                record.env.all.todo = todo
