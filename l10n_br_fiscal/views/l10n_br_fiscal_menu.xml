@@ -7,32 +7,29 @@
     <!-- Fiscal Overview -->
     <menuitem id="overview_menu" name="Overview" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="0"/>
 
-    <!--    # Fiscal Documents-->
-    <!--    <menuitem id="documents_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>-->
+    <!-- Operation Dashboard -->
+    <menuitem id="operation_dashboard_menu" action="operation_dashboard_action" name="Operation Dashboard" parent="overview_menu" sequence="999"/>
 
-    # Fiscal Documents In
-    <menuitem id="document_in_menu" name="Receivement" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
+    <!-- Fiscal Documents-->
+    <menuitem id="document_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
 
-    <menuitem id="document_nfe_in_menu" action="document_nfe_in_action" name="NF-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="10"/>
+    <!-- Sub Menu for All Documents-->
+    <menuitem id="document_sub_menu" name="All Documents" groups="l10n_br_fiscal.group_manager" parent="document_menu" sequence="999"/>
 
-    <menuitem id="document_nfse_recibos_in_menu" action="document_nfse_recibos_in_action" name="NFS-e e Recibos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="15"/>
+    <!-- Incomming Documents -->
+    <menuitem id="document_in_menu" action="document_in_action" name="Incomming Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="10"/>
 
-    <menuitem id="document_cte_in_menu" action="document_cte_in_action" name="CT-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="20"/>
+    <!-- Outgoing Documents -->
+    <menuitem id="document_out_menu" action="document_out_action" name="Outgoing Document" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="20"/>
 
-    <menuitem id="document_all_in_menu" action="document_in_action" name="Todos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_in_menu" sequence="25"/>
+    <!-- All Documents -->
+    <menuitem id="document_all_menu" action="document_all_action" name="All Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="30"/>
 
-    # Fiscal Documents Out
-    <menuitem id="document_out_menu" name="Emission" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="11"/>
+    <!-- Invalidate Number -->
+    <menuitem id="document_invalidate_number_menu" action="document_invalidate_number_action" name="Invalidate Number" parent="document_sub_menu" sequence="40"/>
 
-    <menuitem id="document_nfe_out_menu" action="document_nfe_out_action" name="NF-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="10"/>
-
-    <menuitem id="document_nfse_recibos_out_menu" action="document_nfse_recibos_out_action" name="NFS-e e Recibos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="15"/>
-
-    <menuitem id="document_nfce_cfe_out_menu" action="document_nfce_cfe_out_action" name="NFC-e e CF-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="20"/>
-
-    <menuitem id="document_cte_out_menu" action="document_cte_out_action" name="CT-e" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="25"/>
-
-    <menuitem id="document_all_out_menu" action="document_out_action" name="Todos" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_out_menu" sequence="30"/>
+    <!-- Fiscal Events -->
+    <menuitem id="event_menu" action="document_event_action" name="Fiscal Event" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="document_sub_menu" sequence="50"/>
 
     <!-- Partners -->
     <menuitem id="partners_menu" name="Partners" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="20"/>
@@ -73,16 +70,10 @@
     <!-- Product UOM -->
     <menuitem id="uom_menu" action="uom.product_uom_form_action" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="40"/>
 
-    # Consult DF-e
-    <menuitem action="dfe_action" id="dfe_consult_menu" name="Consult DF-e" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="50"/>
-
-    # MDF-e
-    <menuitem action="l10n_br_fiscal_mdfe_action" id="mdfe_menu" name="Recipient Manifestation" groups="l10n_br_fiscal.group_manager" parent="product_service_menu" sequence="60"/>
-
-    # Configuration Menu
+    <!-- Accountant Menu -->
     <menuitem id="accountant_menu" name="Accountant" groups="l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="900"/>
 
-    # Fiscal Closing
+    <!-- Fiscal Closing -->
     <menuitem id="fiscal_closing_menu" name="Fiscal Closing" parent="accountant_menu" action="fiscal_closing_action" groups="l10n_br_fiscal.group_manager" sequence="99"/>
 
     <!-- Configuration Menu -->
@@ -142,8 +133,14 @@
     <!-- Tax ICMS Regulation -->
     <menuitem id="tax_icms_regulation_menu" action="tax_icms_regulation_action" groups="l10n_br_fiscal.group_manager" parent="tax_icms_config_menu" sequence="20"/>
 
+    <!-- Tax ISSQN Settings -->
+    <menuitem id="tax_issqn_config_menu" name="ISSQN" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="50"/>
+
+    <!-- City Taxation Code-->
+    <menuitem id="city_taxation_code_menu" action="city_taxation_code_action" groups="l10n_br_fiscal.group_manager" parent="tax_issqn_config_menu" sequence="10"/>
+
     <!-- Tax IPI Settings -->
-    <menuitem id="tax_ipi_config_menu" name="IPI" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="50"/>
+    <menuitem id="tax_ipi_config_menu" name="IPI" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="60"/>
 
     <!-- Tax IPI Control Seal -->
     <menuitem id="tax_ipi_control_seal_menu" action="tax_ipi_control_seal_action" groups="l10n_br_fiscal.group_manager" parent="tax_ipi_config_menu" sequence="10"/>
@@ -155,7 +152,7 @@
     <menuitem id="tax_ipi_guideline_class_menu" action="tax_ipi_guideline_class_action" groups="l10n_br_fiscal.group_manager" parent="tax_ipi_config_menu" sequence="30"/>
 
     <!-- Tax PIS COFINS Settings -->
-    <menuitem id="tax_pis_cofins_config_menu" name="PIS/COFINS" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="60"/>
+    <menuitem id="tax_pis_cofins_config_menu" name="PIS/COFINS" groups="l10n_br_fiscal.group_manager" parent="taxes_config_menu" sequence="70"/>
 
     <!-- Tax PIS COFINS -->
     <menuitem id="tax_pis_cofins_menu" action="tax_pis_cofins_action" groups="l10n_br_fiscal.group_manager" parent="tax_pis_cofins_config_menu" sequence="10"/>
@@ -201,8 +198,5 @@
 
     <!-- Subsequent Document -->
     <menuitem id="subsequent_document_menu" action="subsequent_document_action" groups="base.group_no_one" parent="others_config_menu" sequence="60"/>
-
-    <!-- City Taxation Code-->
-    <menuitem id="city_taxation_code_menu" action="city_taxation_code_act_window" groups="l10n_br_fiscal.group_manager" parent="l10n_br_fiscal.others_config_menu" sequence="16"/>
 
 </odoo>
