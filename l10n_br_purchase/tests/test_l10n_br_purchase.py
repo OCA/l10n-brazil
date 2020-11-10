@@ -137,6 +137,21 @@ class L10nBrPurchaseBaseTest(TransactionCase):
         }
 
         invoice_values.update(order._prepare_br_fiscal_dict())
+
+        document_type_id = order._context.get('document_type_id')
+
+        if document_type_id:
+            document_type = self.env['l10n_br_fiscal.document.type'].browse(
+                document_type_id)
+        else:
+            document_type = order.company_id.document_type_id
+            document_type_id = order.company_id.document_type_id.id
+
+        document_serie = document_type.get_document_serie(
+            order.company_id, order.fiscal_operation_id)
+
+        invoice_values['document_serie_id'] = document_serie.id
+        invoice_values['document_type_id'] = document_type_id
         invoice_values['issuer'] = DOCUMENT_ISSUER_PARTNER
         self.invoice = self.env['account.invoice'].create(invoice_values)
         self.invoice.purchase_order_change()
