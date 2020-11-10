@@ -2,10 +2,9 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
 import logging
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 _logger = logging.getLogger(__name__)
 
@@ -15,9 +14,11 @@ except ImportError:
     _logger.info("Biblioteca Num2Words não instalada")
 
 
-class Num2WordsPTBRTest(TransactionCase):
-    def setUp(self):
-        super(Num2WordsPTBRTest, self).setUp()
+class Num2WordsPTBRTest(SavepointCase):
+
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         self.n2w = Num2Word_PT_BR()
 
     def test_01_amount_to_text(self):
