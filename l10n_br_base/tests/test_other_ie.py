@@ -2,20 +2,22 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-
 import logging
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 from odoo.tools import mute_logger
 
 _logger = logging.getLogger(__name__)
 
 
-class OtherIETest(TransactionCase):
-    def setUp(self):
-        super(OtherIETest, self).setUp()
+class OtherIETest(SavepointCase):
+
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         self.company_model = self.env["res.company"]
-        self.company = self.company_model.create(
+        self.company = self.company_model.with_context(
+            tracking_disable=True).create(
             {
                 "name": "Akretion Sao Paulo",
                 "legal_name": "Akretion Sao Paulo",
@@ -24,9 +26,9 @@ class OtherIETest(TransactionCase):
                 "street": "Rua Paulo Dias",
                 "street_number": "586",
                 "district": "Alumínio",
-                "state_id": self.ref("base.state_br_sp"),
-                "city_id": self.ref("l10n_br_base.city_3501152"),
-                "country_id": self.ref("base.br"),
+                "state_id": self.env.ref("base.state_br_sp"),
+                "city_id": self.env.ref("l10n_br_base.city_3501152"),
+                "country_id": self.env.ref("base.br"),
                 "city": "Alumínio",
                 "zip": "18125-000",
                 "phone": "+55 (21) 3010 9965",
@@ -44,7 +46,7 @@ class OtherIETest(TransactionCase):
                         0,
                         0,
                         {
-                            "state_id": self.ref("base.state_br_ba"),
+                            "state_id": self.env.ref("base.state_br_ba").id,
                             "inscr_est": 41902653,
                         },
                     )
@@ -66,7 +68,7 @@ class OtherIETest(TransactionCase):
                             0,
                             0,
                             {
-                                "state_id": self.ref("base.state_br_ba"),
+                                "state_id": self.env.ref("base.state_br_ba").id,
                                 "inscr_est": 67729139,
                             },
                         )
@@ -89,7 +91,7 @@ class OtherIETest(TransactionCase):
                             0,
                             0,
                             {
-                                "state_id": self.ref("base.state_br_am"),
+                                "state_id": self.env.ref("base.state_br_am").id,
                                 "inscr_est": "042933681",
                             },
                         )
@@ -109,7 +111,7 @@ class OtherIETest(TransactionCase):
                             0,
                             0,
                             {
-                                "state_id": self.ref("base.state_br_sp"),
+                                "state_id": self.env.ref("base.state_br_sp").id,
                                 "inscr_est": 692015742119,
                             },
                         )
@@ -131,7 +133,7 @@ class OtherIETest(TransactionCase):
                         0,
                         0,
                         {
-                            "state_id": self.ref("base.state_br_ba"),
+                            "state_id": self.env.ref("base.state_br_ba").id,
                             "inscr_est": 41902653,
                         },
                     )
