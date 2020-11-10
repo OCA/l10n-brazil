@@ -4,12 +4,16 @@
 
 import time
 
-from openerp import models, api, _
+from odoo import models, api, fields, _
 from openerp.exceptions import Warning as UserError
 
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
+
+    amount_freight = fields.Float(
+        inverse='_inverse_amount_freight',
+    )
 
     @api.model
     def _prepare_invoice(self, order, lines):
@@ -62,3 +66,25 @@ class SaleOrder(models.Model):
 
             order.amount_freight = grid.get_price(
                 order, time.strftime('%Y-%m-%d'))[0]
+
+    @api.multi
+    def _inverse_amount_freight(self):
+        for record in self.filtered(lambda so: so.order_line):
+            amount_freight = record.amount_freight
+            if all(record.order_line.mapped('freight_value')):
+                amount_freight_old = sum(
+                    record.order_line.mapped('freight_value'))
+                for line in record.order_line[:-1]:
+                    line.freight_value = amount_freight * (
+                        line.freight_value / amount_freight_old)
+                record.order_line[-1].freight_value = amount_freight - sum(
+                        line.freight_value for line in record.order_line[:-1])
+            else:
+                amount_total = sum(record.order_line.mapped('price_total'))
+                for line in record.order_line[:-1]:
+                    line.freight_value = amount_freight * (
+                        line.price_total / amount_total)
+                record.order_line[-1].freight_value = amount_freight - sum(
+                        line.freight_value for line in record.order_line[:-1])
+            for line in record.order_line:
+                line._onchange_fiscal_taxes()
