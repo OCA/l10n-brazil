@@ -8,7 +8,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
-        <field name="user_id" ref="base.user_demo"/>
+        <field name="user_id" ref="base.user_admin"/>
         <field name="company_id" ref="base.main_company"/>
     </record>
 
@@ -64,7 +64,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
-        <field name="user_id" ref="base.user_demo"/>
+        <field name="user_id" ref="base.user_admin"/>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
     </record>
 
@@ -120,7 +120,7 @@
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="state">draft</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras"/>
-        <field name="user_id" ref="base.user_demo"/>
+        <field name="user_id" ref="base.user_admin"/>
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
     </record>
 
