@@ -7,3 +7,4 @@ from . import delivery
 from . import l10n_br_delivery
 from . import sale
 from . import stock
+from . import document
