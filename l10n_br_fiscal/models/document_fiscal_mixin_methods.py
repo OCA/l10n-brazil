@@ -64,3 +64,29 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         if self.fiscal_operation_id:
             self.operation_name = self.fiscal_operation_id.name
             self.comment_ids = self.fiscal_operation_id.comment_ids
+
+    @api.depends('line_ids.freight_value')
+    def _compute_amount_freight(self):
+        for record in self:
+            record.amount_freight = sum(
+                record.line_ids.mapped('freight_value'))
+
+    @api.multi
+    def _inverse_amount_freight(self):
+        for record in self:
+            if all(record.line_ids.mapped('freight_value')):
+                amount_freight_old = sum(
+                    record.line_ids.mapped('freight_value'))
+                for line in record.line_ids[:-1]:
+                    line.freight_value = record.amount_freight * (
+                        line.freight_value / amount_freight_old)
+                record.line_ids[-1] = record.amount_freight - sum(
+                    line.freight_value for line in record.line_ids[:-1])
+            else:
+                amount_all = sum(line.fiscal_price * line.fiscal_quantity
+                                 for line in record.line_ids)
+                for line in record.line_ids[:-1]:
+                    line.freight_value = record.amount_freight * (
+                        line.fiscal_price * line.fiscal_quantity / amount_all)
+                record.line_ids[-1] = record.amount_freight - sum(
+                    line.freight_value for line in record.line_ids[:-1])

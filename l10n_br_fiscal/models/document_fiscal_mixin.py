@@ -82,6 +82,13 @@ class FiscalDocumentMixin(models.AbstractModel):
         string='Customer Additional Data',
     )
 
+    amount_freight = fields.Monetary(
+        string='Freight Value',
+        default=0.00,
+        compute='_compute_amount_freight',
+        inverse='_inverse_amount_freight',
+    )
+
     ind_final = fields.Selection(
         selection=NFE_IND_FINAL,
         string='Final Consumption Operation',
