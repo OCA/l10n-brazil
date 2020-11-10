@@ -90,3 +90,5 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                         line.fiscal_price * line.fiscal_quantity / amount_all)
                 record.line_ids[-1] = record.amount_freight - sum(
                     line.freight_value for line in record.line_ids[:-1])
+            for line in record.line_ids:
+                line._onchange_fiscal_taxes()
