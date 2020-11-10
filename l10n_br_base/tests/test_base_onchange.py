@@ -2,29 +2,33 @@
 #   Clément Mombereau <clement.mombereau@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class L10nBrBaseOnchangeTest(TransactionCase):
-    def setUp(self):
-        super(L10nBrBaseOnchangeTest, self).setUp()
+class L10nBrBaseOnchangeTest(SavepointCase):
 
-        self.company_01 = self.env["res.company"].create(
-            {
-                "name": "Company Test 1",
-                "cnpj_cpf": "02.960.895/0001-31",
-                "city_id": self.env.ref("l10n_br_base.city_3205002").id,
-                "zip": "29161-695",
-            }
-        )
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
+
+        self.company_01 = self.env["res.company"].with_context(
+            tracking_disable=True).create(
+                {
+                    "name": "Company Test 1",
+                    "cnpj_cpf": "02.960.895/0001-31",
+                    "city_id": self.env.ref("l10n_br_base.city_3205002").id,
+                    "zip": "29161-695",
+                }
+            )
 
         self.bank_01 = self.env["res.bank"].create(
             {"name": "Bank Test 1", "zip": "29161-695"}
         )
 
-        self.partner_01 = self.env["res.partner"].create(
-            {"name": "Partner Test 01", "zip": "29161-695"}
-        )
+        self.partner_01 = self.env["res.partner"].with_context(
+            tracking_disable=True).create(
+                {"name": "Partner Test 01", "zip": "29161-695"}
+            )
 
     def test_onchange(self):
         """
@@ -93,5 +97,6 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         self.assertEquals(
             display_address,
             "Rua Paulo Dias, 586 \nCentro" "\n18125-000 - Alumínio-SP\nBrazil",
-            "The function _display_address with parameter" " without_company failed.",
+            "The function _display_address with parameter"
+            " without_company failed.",
         )
