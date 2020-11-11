@@ -332,8 +332,7 @@ class Document(models.Model):
                         vals['edoc_error_message'] = mensagem_completa
 
                     if processo.resposta.ListaNfse:
-                        xml_file = processador._generateds_to_string_etree(
-                            processo.resposta)[0]
+                        xml_file = processo.retorno
                         record.autorizacao_event_id.set_done(xml_file)
                         for comp in processo.resposta.ListaNfse.CompNfse:
                             vals['number'] = comp.Nfse.InfNfse.Numero
