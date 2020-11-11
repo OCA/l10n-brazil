@@ -9,4 +9,4 @@ from .test_l10n_br_purchase_stock import L10nBrPurchaseStockBase
 class L10nBrPurchaseStockBase(L10nBrPurchaseStockBase):
 
     def setUp(self):
-        pass
+        super().setUp()
