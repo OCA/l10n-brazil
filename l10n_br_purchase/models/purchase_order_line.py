@@ -55,12 +55,6 @@ class PurchaseOrderLine(models.Model):
         string='Tax Framework',
     )
 
-    partner_id = fields.Many2one(
-        comodel_name='res.partner',
-        related='order_id.partner_id',
-        string='Partner',
-    )
-
     @api.depends('product_qty', 'price_unit',  'taxes_id')
     def _compute_amount(self):
         """Compute the amounts of the PO line."""
