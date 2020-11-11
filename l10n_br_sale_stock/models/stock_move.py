@@ -7,6 +7,13 @@ from odoo import api, models
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
+    @api.multi
+    def _get_price_unit_invoice(self, inv_type, partner, qty=1):
+        result = super()._get_price_unit_invoice(inv_type, partner, qty)
+        if self.sale_line_id.price_unit != result:
+            return self.sale_line_id.price_unit
+        return result
+
     def _get_new_picking_values(self):
         values = super()._get_new_picking_values()
         values.update(self.sale_line_id.order_id._prepare_br_fiscal_dict())
