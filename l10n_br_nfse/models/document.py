@@ -7,7 +7,7 @@ import logging
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.transmissao import TransmissaoSOAP
 from erpbrasil.base import misc
-from erpbrasil.edoc.nfse import NFSeFactory
+from erpbrasil.edoc.provedores.cidades import NFSeFactory
 
 from odoo import api, fields, models
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
