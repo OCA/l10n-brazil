@@ -513,4 +513,13 @@
         <field name="factor_inv" eval="1000"/>
         <field name="uom_type">bigger</field>
     </record>
+
+    <record id="UOM_MM" model="uom.uom">
+        <field name="category_id" ref="uom.uom_categ_length"/>
+        <field name="code">MM</field>
+        <field name="name">MM</field>
+        <field name="factor" eval="1000"/>
+        <field name="uom_type">smaller</field>
+    </record>
+
 </odoo>
