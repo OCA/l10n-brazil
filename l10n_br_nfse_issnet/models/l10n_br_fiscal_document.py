@@ -3,7 +3,8 @@
 
 
 import xml.etree.ElementTree as ET
-from nfselib.issnet.v1_00.tipos_complexos import (
+from nfselib.issnet.v1_00.servico_enviar_lote_rps_envio import (
+    EnviarLoteRpsEnvio,
     ListaRpsType,
     tcCpfCnpj,
     tcDadosServico,
@@ -17,8 +18,6 @@ from nfselib.issnet.v1_00.tipos_complexos import (
     tcRps,
     tcValores,
 )
-from nfselib.issnet.v1_00.servico_enviar_lote_rps_envio import \
-    EnviarLoteRpsEnvio
 
 from odoo import models, api, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -31,7 +30,7 @@ from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
 from ..constants.issnet import (
     RECEPCIONAR_LOTE_RPS,
     CONSULTAR_SITUACAO_LOTE_RPS,
-    CANCELAR_NFSE,
+    # CANCELAR_NFSE,
 )
 
 
@@ -54,6 +53,26 @@ class Document(models.Model):
 
     _inherit = 'l10n_br_fiscal.document'
 
+    def convert_type_nfselib(self, class_object, object_filed, value):
+        if value is None:
+            return value
+
+        value_type = ''
+        for field in class_object().member_data_items_:
+            if field.name == object_filed:
+                value_type = field.child_attrs.get('type', '').\
+                    replace('xsd:', '')
+                break
+
+        if value_type in ('int', 'byte', 'nonNegativeInteger'):
+            return int(value)
+        elif value_type == 'decimal':
+            return float(value)
+        elif value_type == 'string':
+            return str(value)
+        else:
+            return value
+
     def _serialize(self, edocs):
         edocs = super(Document, self)._serialize(edocs)
         for record in self.filtered(
@@ -67,28 +86,50 @@ class Document(models.Model):
         dados = self._prepare_dados_servico()
         return tcDadosServico(
             Valores=tcValores(
-                ValorServicos=dados['valor_servicos'],
-                ValorDeducoes=dados['valor_deducoes'],
-                ValorPis=dados['valor_pis'],
-                ValorCofins=dados['valor_cofins'],
-                ValorInss=dados['valor_inss'],
-                ValorIr=dados['valor_ir'],
-                ValorCsll=dados['valor_csll'],
-                IssRetido=dados['iss_retido'],
-                ValorIss=dados['valor_iss'],
-                ValorIssRetido=dados['valor_iss_retido'],
-                OutrasRetencoes=dados['outras_retencoes'],
-                BaseCalculo=dados['base_calculo'],
-                Aliquota=str(float(dados['aliquota'])*100),
-                ValorLiquidoNfse=dados['valor_liquido_nfse'],
+                ValorServicos=self.convert_type_nfselib(
+                    tcValores, 'ValorServicos', dados['valor_servicos']),
+                ValorDeducoes=self.convert_type_nfselib(
+                    tcValores, 'ValorDeducoes', dados['valor_deducoes']),
+                ValorPis=self.convert_type_nfselib(
+                    tcValores, 'ValorPis', dados['valor_pis']),
+                ValorCofins=self.convert_type_nfselib(
+                    tcValores, 'ValorCofins', dados['valor_cofins']),
+                ValorInss=self.convert_type_nfselib(
+                    tcValores, 'ValorInss', dados['valor_inss']),
+                ValorIr=self.convert_type_nfselib(
+                    tcValores, 'ValorIr', dados['valor_ir']),
+                ValorCsll=self.convert_type_nfselib(
+                    tcValores, 'ValorCsll', dados['valor_csll']),
+                IssRetido=self.convert_type_nfselib(
+                    tcValores, 'IssRetido', dados['iss_retido']),
+                ValorIss=self.convert_type_nfselib(
+                    tcValores, 'ValorIss', dados['valor_iss']),
+                ValorIssRetido=self.convert_type_nfselib(
+                    tcValores, 'ValorIssRetido', dados['valor_iss_retido']),
+                OutrasRetencoes=self.convert_type_nfselib(
+                    tcValores, 'OutrasRetencoes', dados['outras_retencoes']),
+                BaseCalculo=self.convert_type_nfselib(
+                    tcValores, 'BaseCalculo', dados['base_calculo']),
+                Aliquota=self.convert_type_nfselib(
+                    tcValores, 'Aliquota', str(float(dados['aliquota'])*100)),
+                ValorLiquidoNfse=self.convert_type_nfselib(
+                    tcValores, 'ValorLiquidoNfse',
+                    dados['valor_liquido_nfse']),
                 DescontoIncondicionado=0,
                 DescontoCondicionado=0,
             ),
-            ItemListaServico=dados['item_lista_servico'],
-            CodigoCnae=dados['codigo_cnae'],
-            CodigoTributacaoMunicipio=dados['codigo_tributacao_municipio'],
-            Discriminacao=dados['discriminacao'],
-            MunicipioPrestacaoServico=dados['codigo_municipio']
+            ItemListaServico=self.convert_type_nfselib(
+                tcDadosServico, 'ItemListaServico',
+                dados['item_lista_servico']),
+            CodigoCnae=self.convert_type_nfselib(
+                tcDadosServico, 'CodigoCnae', dados['codigo_cnae']),
+            CodigoTributacaoMunicipio=self.convert_type_nfselib(
+                tcDadosServico, 'CodigoTributacaoMunicipio',
+                dados['codigo_tributacao_municipio']),
+            Discriminacao=self.convert_type_nfselib(
+                tcDadosServico, 'Discriminacao', dados['discriminacao']),
+            MunicipioPrestacaoServico=self.convert_type_nfselib(
+                tcDadosServico, 'MunicipioPrestacaoServico', dados['codigo_municipio'])
             if self.company_id.nfse_environment == '1'
             else '999',
         )
@@ -98,24 +139,34 @@ class Document(models.Model):
         return tcDadosTomador(
             IdentificacaoTomador=tcIdentificacaoTomador(
                 CpfCnpj=tcCpfCnpj(
-                    Cnpj=dados['cnpj'],
-                    Cpf=dados['cpf'],
+                    Cnpj=self.convert_type_nfselib(
+                        tcCpfCnpj, 'Cnpj', dados['cnpj']),
+                    Cpf=self.convert_type_nfselib(
+                        tcCpfCnpj, 'Cpf', dados['cpf']),
                 ),
-                InscricaoMunicipal=dados['inscricao_municipal']
+                InscricaoMunicipal=self.convert_type_nfselib(
+                    tcIdentificacaoTomador, 'InscricaoMunicipal',
+                    dados['inscricao_municipal'])
                 if dados['codigo_municipio'] == int('%s%s' % (
                     self.company_id.partner_id.state_id.ibge_code,
                     self.company_id.partner_id.city_id.ibge_code
                 )) else None,
             ),
-            RazaoSocial=dados['razao_social'],
+            RazaoSocial=self.convert_type_nfselib(
+                tcDadosTomador, 'RazaoSocial', dados['razao_social']),
             Endereco=tcEndereco(
-                Endereco=dados['endereco'],
-                Numero=dados['numero'],
-                Complemento=dados['complemento'],
-                Bairro=dados['bairro'],
-                Cidade=dados['codigo_municipio'],
-                Estado=dados['uf'],
-                Cep=dados['cep'],
+                Endereco=self.convert_type_nfselib(
+                    tcEndereco, 'Endereco', dados['endereco']),
+                Numero=self.convert_type_nfselib(
+                    tcEndereco, 'Numero', dados['numero']),
+                Complemento=self.convert_type_nfselib(
+                    tcEndereco, 'Complemento', dados['complemento']),
+                Bairro=self.convert_type_nfselib(
+                    tcEndereco, 'Bairro', dados['bairro']),
+                Cidade=self.convert_type_nfselib(
+                    tcEndereco, 'Cidade', dados['codigo_municipio']),
+                Estado=self.convert_type_nfselib(tcEndereco, 'Estado', dados['uf']),
+                Cep=self.convert_type_nfselib(tcEndereco, 'Cep', dados['cep']),
             ) or None,
         )
 
@@ -125,27 +176,46 @@ class Document(models.Model):
             InfRps=tcInfRps(
                 id=dados['id'],
                 IdentificacaoRps=tcIdentificacaoRps(
-                    Numero=dados['numero'],
-                    Serie=dados['serie'],
-                    Tipo=dados['tipo'],
+                    Numero=self.convert_type_nfselib(
+                        tcIdentificacaoRps, 'Numero', dados['numero']),
+                    Serie=self.convert_type_nfselib(
+                        tcIdentificacaoRps, 'Serie', dados['serie']),
+                    Tipo=self.convert_type_nfselib(
+                        tcIdentificacaoRps, 'Tipo', dados['tipo']),
                 ),
-                DataEmissao=dados['data_emissao'],
-                NaturezaOperacao=dados['natureza_operacao'],
-                RegimeEspecialTributacao=dados['regime_especial_tributacao'],
-                OptanteSimplesNacional=dados['optante_simples_nacional'],
-                IncentivadorCultural=dados['incentivador_cultural'],
-                Status=dados['status'],
-                RpsSubstituido=dados['rps_substitiuido'],
+                DataEmissao=self.convert_type_nfselib(
+                    tcInfRps, 'DataEmissao', dados['data_emissao']),
+                NaturezaOperacao=self.convert_type_nfselib(
+                    tcInfRps, 'NaturezaOperacao', dados['natureza_operacao']),
+                RegimeEspecialTributacao=self.convert_type_nfselib(
+                    tcInfRps, 'RegimeEspecialTributacao',
+                    dados['regime_especial_tributacao']),
+                OptanteSimplesNacional=self.convert_type_nfselib(
+                    tcInfRps, 'OptanteSimplesNacional',
+                    dados['optante_simples_nacional']),
+                IncentivadorCultural=self.convert_type_nfselib(
+                    tcInfRps, 'IncentivadorCultural',
+                    dados['incentivador_cultural']),
+                Status=self.convert_type_nfselib(
+                    tcInfRps, 'Status', dados['status']),
+                RpsSubstituido=self.convert_type_nfselib(
+                    tcInfRps, 'RpsSubstituido', dados['rps_substitiuido']),
                 Servico=self._serialize_dados_servico(),
                 Prestador=tcIdentificacaoPrestador(
                     CpfCnpj=tcCpfCnpj(
-                        Cnpj=dados['cnpj'],
+                        Cnpj=self.convert_type_nfselib(
+                            tcCpfCnpj, 'Cnpj', dados['cnpj']),
                     ),
-                    InscricaoMunicipal=dados['inscricao_municipal'],
+                    InscricaoMunicipal=self.convert_type_nfselib(
+                        tcIdentificacaoPrestador, 'InscricaoMunicipal',
+                        dados['inscricao_municipal']),
                 ),
                 Tomador=self._serialize_dados_tomador(),
-                IntermediarioServico=dados['intermediario_servico'],
-                ContrucaoCivil=dados['construcao_civil'],
+                IntermediarioServico=self.convert_type_nfselib(
+                    tcInfRps, 'IntermediarioServico',
+                    dados['intermediario_servico']),
+                ConstrucaoCivil=self.convert_type_nfselib(
+                    tcInfRps, 'ConstrucaoCivil', dados['construcao_civil']),
             )
         )
 
@@ -153,10 +223,12 @@ class Document(models.Model):
         dados = self._prepare_lote_rps()
         return tcLoteRps(
             CpfCnpj=tcCpfCnpj(
-                Cnpj=dados['cnpj'],
+                Cnpj=self.convert_type_nfselib(
+                    tcCpfCnpj, 'Cnpj', dados['cnpj']),
             ),
-            InscricaoMunicipal=dados['inscricao_municipal'],
-            QuantidadeRps='1',
+            InscricaoMunicipal=self.convert_type_nfselib(
+                tcLoteRps, 'InscricaoMunicipal', dados['inscricao_municipal']),
+            QuantidadeRps=1,
             ListaRps=ListaRpsType(
                 Rps=[self._serialize_rps(dados)]
             )
@@ -168,47 +240,24 @@ class Document(models.Model):
         )
         return lote_rps
 
-    def cancelar_documento(self):
+    def cancel_document_issnet(self):
         for record in self.filtered(fiter_processador_edoc_nfse_issnet):
             processador = record._processador_erpbrasil_nfse()
-            processo = processador.cancela_documento(doc_numero=self.number)
+            processo = processador.cancela_documento(doc_numero=int(self.number))
 
-            if processo.webservice in CANCELAR_NFSE:
-                mensagem_completa = ''
-                situacao = True
-                retorno = ET.fromstring(processo.retorno)
+            status, message = \
+                processador.analisa_retorno_cancelamento(processo)
 
-                sucesso = retorno.findall(
-                    ".//{http://www.issnetonline.com.br/webserviceabrasf/vsd/"
-                    "tipos_complexos.xsd}Sucesso")
-                if not sucesso:
-                    mensagem_erro = retorno.findall(
-                        ".//{http://www.issnetonline.com.br/webserviceabrasf/vsd/"
-                        "tipos_complexos.xsd}Mensagem")[
-                        0].text
-                    correcao = retorno.findall(
-                        ".//{http://www.issnetonline.com.br/webserviceabrasf/vsd/"
-                        "tipos_complexos.xsd}Correcao")[
-                        0].text
-                    codigo = retorno.findall(
-                        ".//{http://www.issnetonline.com.br/webserviceabrasf/vsd/"
-                        "tipos_complexos.xsd}Codigo")[
-                        0].text
-                    mensagem_completa += (
-                        codigo + ' - ' +
-                        mensagem_erro +
-                        ' - Correção: ' +
-                        correcao + '\n'
-                    )
-                    situacao = False
-
-                return situacao, mensagem_completa
+            return status
 
     def action_consultar_nfse_rps(self):
         for record in self.filtered(fiter_processador_edoc_nfse_issnet):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
-                self.rps_number, self.document_serie, self.rps_type)
+                rps_number=int(self.rps_number),
+                document_serie=self.document_serie,
+                rps_type=int(self.rps_type)
+            )
 
             return _(
                 processador.analisa_retorno_consulta(
@@ -299,8 +348,7 @@ class Document(models.Model):
                         vals['edoc_error_message'] = mensagem_completa
 
                     if processo.resposta.ListaNfse:
-                        xml_file = processador._generateds_to_string_etree(
-                            processo.resposta)[0]
+                        xml_file = processo.retorno
                         record.autorizacao_event_id.set_done(xml_file)
                         for comp in processo.resposta.ListaNfse.CompNfse:
                             vals['number'] = comp.Nfse.InfNfse.Numero
@@ -312,3 +360,8 @@ class Document(models.Model):
 
                 record.write(vals)
         return
+
+    def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
+        super(Document, self)._exec_before_SITUACAO_EDOC_CANCELADA(
+            old_state, new_state)
+        return self.cancel_document_issnet()
