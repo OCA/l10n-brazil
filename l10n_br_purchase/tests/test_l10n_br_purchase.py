@@ -2,6 +2,8 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from lxml import etree
+
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -133,11 +135,9 @@ class L10nBrPurchaseBaseTest(TransactionCase):
             'purchase_id': order.id,
             'account_id': order.partner_id.property_account_payable_id.id,
             'type': 'in_invoice',
-
         }
 
         invoice_values.update(order._prepare_br_fiscal_dict())
-
         document_type_id = order._context.get('document_type_id')
 
         if document_type_id:
@@ -184,6 +184,12 @@ class L10nBrPurchaseBaseTest(TransactionCase):
                     "Error to included Operation "
                     "Line from Purchase Order Line.",
                 )
+
+        self.invoice_action = order.action_view_invoice()
+        self.assertTrue(
+            self.invoice_action,
+            "Error opening invoice !",
+        )
 
     def test_l10n_br_purchase_products(self):
         """Test brazilian Purchase Order with only Products."""
@@ -304,3 +310,14 @@ class L10nBrPurchaseBaseTest(TransactionCase):
 
         self._invoice_purchase_order(self.po_products)
         self._change_user_company(self.main_company)
+
+    def test_fields_view_get(self):
+        """Test Purchase Order fields_view_get."""
+        view_arch = etree.fromstring(
+            self.po_products.fields_view_get()["arch"])
+
+        self.assertTrue(
+            view_arch.findall(".//field[@name='fiscal_operation_id']"),
+            "Error to included Operation "
+            "Line from Purchase Order Line.",
+        )
