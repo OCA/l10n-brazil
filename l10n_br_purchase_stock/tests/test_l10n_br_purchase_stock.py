@@ -15,8 +15,8 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         )
 
         picking = order.picking_ids[0]
-        # TODO write qty_done with qty ordered
-        picking.move_line_ids.write({'qty_done': 5.0})
+        for move_line in picking.move_line_ids:
+            move_line.write({'qty_done': move_line.move_id.product_uom_qty})
         picking.button_validate()
         self.assertEqual(
             order.order_line.mapped('qty_received'), [4.0, 2.0],
