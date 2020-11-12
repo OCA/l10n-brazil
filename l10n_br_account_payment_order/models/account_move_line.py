@@ -11,6 +11,7 @@ class AccountMoveLine(models.Model):
     _name = 'account.move.line'
     _inherit = ["account.move.line", "mail.thread", "mail.activity.mixin"]
 
+    # TODO - possível tornar um compute ?
     cnab_state = fields.Selection(
         selection=ESTADOS_CNAB,
         string='Estados CNAB',
@@ -19,6 +20,28 @@ class AccountMoveLine(models.Model):
 
     own_number = fields.Char(
         string='Nosso Numero',
+    )
+
+    # No arquivo de retorno do CNAB o campo pode ter um tamanho diferente,
+    # o tamanho do campo é preenchido na totalidade com zeros a esquerda,
+    # e no odoo o tamanho do sequencial pode estar diferente
+    # ex.: retorno cnab 0000000000000201 own_number 0000000201
+    # o campo abaixo foi a forma que encontrei para poder usar o
+    # nosso_numero_cnab_retorno.strip("0") e ter algo:
+    #  ex.: retorno cnab 201 own_number_without_zfill 201
+    # Assim o metodo que faz o retorno do CNAB consegue encontrar
+    # a move line relacionada ao Evento.
+    own_number_without_zfill = fields.Char(
+        compute='_compute_own_number_without_zfill',
+        store=True, copy=False,
+    )
+
+    # Podem existir sequencias do nosso numero/own_number iguais entre bancos
+    # diferentes, porém o Diario/account.journal não pode ser o mesmo.
+    journal_payment_mode_id = fields.Many2one(
+        comodel_name='account.journal',
+        compute='_compute_journal_payment_mode',
+        store=True, copy=False
     )
 
     document_number = fields.Char(
@@ -220,3 +243,20 @@ class AccountMoveLine(models.Model):
             self._change_payment_mode(reason, **kwargs)
         elif change_type == 'baixa':
             self._create_baixa(reason, **kwargs)
+
+    @api.multi
+    @api.depends('own_number')
+    def _compute_own_number_without_zfill(self):
+        for record in self:
+            if record.own_number:
+                record.own_number_without_zfill = record.own_number.strip('0')
+
+    @api.multi
+    @api.depends('payment_mode_id')
+    def _compute_journal_payment_mode(self):
+        for record in self:
+            if record.payment_mode_id:
+                # CNAB usa sempre a opção fixed_journal_id
+                if record.payment_mode_id.fixed_journal_id:
+                    record.journal_payment_mode_id =\
+                        record.payment_mode_id.fixed_journal_id.id
