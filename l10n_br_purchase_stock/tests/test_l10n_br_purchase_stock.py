@@ -17,7 +17,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         picking = order.picking_ids[0]
         for move_line in picking.move_line_ids:
             move_line.write({'qty_done': move_line.move_id.product_uom_qty})
-        picking.button_validate()
+        picking.with_context(tracking_disable=True).button_validate()
         self.assertEqual(
             order.order_line.mapped('qty_received'), [4.0, 2.0],
             'Purchase: all products should be received"')
