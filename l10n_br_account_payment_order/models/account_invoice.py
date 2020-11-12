@@ -266,7 +266,21 @@ class AccountInvoice(models.Model):
                     # garantia de intenção e assim evitar prejuízos por
                     # desistencia ) caso a Ordem de Pagto ainda não tenha sido
                     # enviada ao Banco apagamos a Linha
+
                     if line.cnab_state in ('draft', 'added'):
+                        # Caso o arquivo já esteja criado a linha
+                        # não pode ser atualizada
+                        for payment_line in line.payment_line_ids:
+                            if payment_line.order_id.state == 'generated':
+                                raise UserError(_(
+                                    'There is a CNAB file related to invoice'
+                                    ' %s created, this file should be sent to'
+                                    ' bank, because after that only Payment'
+                                    ' Order in status Exported allows make an'
+                                    ' payment and inform it in another Payment'
+                                    ' Order.'
+                                ) % inv.number)
+
                         line.payment_line_ids.unlink()
                         line.message_post(body=_(
                             'Removed Payline that would be sent to Bank %s'
@@ -282,7 +296,7 @@ class AccountInvoice(models.Model):
                         line.payment_situation = 'paga'
                         line.message_post(body=_(
                             'Movement Instruction Code Updated for Request to'
-                            ' Write Off, because payment done in another way'))
+                            ' Write Off, because payment done in another way.'))
                         line.create_payment_line_from_move_line(payorder)
                         count += 1
 
