@@ -428,6 +428,17 @@ class CNABFileParser(FileParser):
                 })
 
             else:
+                # Nos codigos de retorno cadastrados no Data do modulo
+                # l10n_br_account_payment_order o 02 se refere a
+                # Entrada Confirmada e 03 Entrada Rejeitada.
+                # Estou considerando que seja um padrão, existem
+                # exceções ?
+                if cod_ocorrencia == '02':
+                    account_move_line.cnab_state = 'accepted'
+                elif cod_ocorrencia == '03':
+                    # TODO - algo a mais a ser feito ?
+                    account_move_line.cnab_state = 'not_accepted'
+
                 self.cnab_return_events.append({
                     'occurrences': descricao_ocorrencia,
                     'occurrence_date': data_ocorrencia,
