@@ -97,12 +97,17 @@ class AccountPaymentOrder(models.Model):
         result = super().open2generated()
 
         for record in self:
+            # TODO - exemplos de caso de uso ? Qdo isso ocorre ?
+            #  Já não gera erro ao tentar criar o arquivo ?
             if record.bank_line_error_ids:
                 record.message_post(
                     body=('Erro ao gerar o arquivo, '
                           'verifique a aba Linhas com problemas.')
                 )
+                for payment_line in record.payment_line_ids:
+                    payment_line.move_line_id.cnab_state = 'exporting_error'
                 continue
             else:
                 record.message_post(body='Arquivo gerado com sucesso.')
+
         return result
