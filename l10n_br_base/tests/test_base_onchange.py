@@ -76,11 +76,11 @@ class L10nBrBaseOnchangeTest(TransactionCase):
         )
 
     def test_other_country_display_address(self):
-        partner = self.env.ref("base.res_partner_12")
+        partner = self.env.ref("l10n_br_base.res_partner_exterior")
         display_address = partner._display_address()
         self.assertEquals(
             display_address,
-            "Camptocamp\n3404  Edgewood"
+            "Cliente Exterior\n3404  Edgewood"
             " Road\n\nJonesboro"
             " AR 72401\nUnited States",
             "The function _display_address for other country failed.",
