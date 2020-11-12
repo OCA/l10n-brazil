@@ -3,8 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from lxml import etree
-
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES,
@@ -16,10 +15,11 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 
 
-class L10nBrPurchaseBaseTest(TransactionCase):
+class L10nBrPurchaseBaseTest(SavepointCase):
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         self.main_company = self.env.ref('base.main_company')
         self.company = self.env.ref('base.main_company')
         self.po_products = self.env.ref(
@@ -128,7 +128,7 @@ class L10nBrPurchaseBaseTest(TransactionCase):
         purchase_line._onchange_fiscal_taxes()
 
     def _invoice_purchase_order(self, order):
-        order.button_confirm()
+        order.with_context(tracking_disable=True).button_confirm()
 
         invoice_values = {
             'partner_id': order.partner_id.id,
@@ -153,7 +153,8 @@ class L10nBrPurchaseBaseTest(TransactionCase):
         invoice_values['document_serie_id'] = document_serie.id
         invoice_values['document_type_id'] = document_type_id
         invoice_values['issuer'] = DOCUMENT_ISSUER_PARTNER
-        self.invoice = self.env['account.invoice'].create(invoice_values)
+        self.invoice = self.env['account.invoice'].with_context(
+            tracking_disable=True).create(invoice_values)
         self.invoice.purchase_order_change()
 
         self.assertEqual(
