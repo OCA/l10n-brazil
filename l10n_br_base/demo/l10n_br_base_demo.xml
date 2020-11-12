@@ -486,4 +486,19 @@
         <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_kmee.png"/>
     </record>
 
+    <record id="res_partner_exterior" model="res.partner">
+        <field name="name">Cliente Exterior</field>
+        <field name="supplier">1</field>
+        <field name="customer">1</field>
+        <field name="is_company">1</field>
+        <field name="street">3404  Edgewood Road</field>
+        <field name="city">Jonesboro</field>
+        <field name="state_id" model="res.country.state" search="[('code','ilike','AR')]"/>
+        <field name="zip">72401</field>
+        <field name="phone">(870)-931-0505</field>
+        <field name="country_id" ref="base.us"/>
+        <field name="email">exteior@example.com</field>
+        <field name="website">http://www.exterior.com</field>
+    </record>
+
 </odoo>
