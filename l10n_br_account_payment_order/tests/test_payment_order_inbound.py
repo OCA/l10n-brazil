@@ -46,7 +46,9 @@ class TestPaymentOrderInbound(TransactionCase):
         assert self.invoice_customer_original.move_id,\
             "Move not created for open invoice"
 
-        payment_order = self.env['account.payment.order'].search([])
+        payment_order = self.env['account.payment.order'].search([
+            ('state', '=', 'draft')
+        ])
         # I check creation of Payment Order
         assert payment_order, "Payment Order not created."
         payment_order.draft2open()
