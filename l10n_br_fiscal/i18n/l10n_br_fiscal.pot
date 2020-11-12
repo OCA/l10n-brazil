@@ -5571,6 +5571,11 @@ msgid "MILILITRO"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:uom.uom,name:l10n_br_fiscal.UOM_MM
+msgid "MM"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__icmsst_mva_percent
 msgid "MVA Percent"
 msgstr ""
