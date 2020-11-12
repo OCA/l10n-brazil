@@ -126,28 +126,13 @@ class CNABFileParser(FileParser):
             bank_name_brcobranca = \
                 dict_brcobranca_bank[self.bank.code_bc]
 
-            # Nosso Numero sem o Digito Verificador
-            # TODO - Pode ser melhorado ? Deveria
-            if bank_name_brcobranca == 'bradesco':
-                account_move_line = self.env['account.move.line'].search(
-                    [('own_number', '=', linha_cnab['nosso_numero'][:11])]
-                )
-            elif bank_name_brcobranca == 'unicred':
-                account_move_line = self.env['account.move.line'].search(
-                    [('own_number', '=', linha_cnab['nosso_numero'][6:16])]
-                )
-
-            payment_line = self.env['account.payment.line'].search(
-                [('move_line_id', '=', account_move_line.id)]
-            )
-
             valor_titulo = self.cnab_str_to_float(
                 linha_cnab['valor_titulo'])
 
             data_ocorrencia = datetime.date.today()
             cod_ocorrencia = str(linha_cnab['codigo_ocorrencia'])
             # Cada Banco pode possuir um Codigo de Ocorrencia distinto,
-            # CNAB 400 menos padronizado que o 240 - TODO a confirmar -
+            # CNAB 400 menos padronizado que o 240
             domain_cnab_return_code = [
                     ('payment_method_code', '=', self.parser_name[4:7]),
                     ('code', '=', cod_ocorrencia)
@@ -164,6 +149,7 @@ class CNABFileParser(FileParser):
                 descricao_ocorrencia = \
                     cod_ocorrencia + '-' + 'CÓDIGO DA DESCRIÇÂO NÃO ENCONTRADO'
 
+            # Campo especifico do Bradesco
             if bank_name_brcobranca == 'bradesco':
                 if (linha_cnab['data_ocorrencia'] == '000000' or
                         not linha_cnab['data_ocorrencia']):
@@ -171,6 +157,33 @@ class CNABFileParser(FileParser):
                 else:
                     data_ocorrencia = datetime.datetime.strptime(
                         str(linha_cnab['data_ocorrencia']), "%d%m%y").date()
+
+            # Nosso numero vem com o Digito Verificador
+            # ex.: 00000000000002010
+            nosso_numero_sem_dig = linha_cnab['nosso_numero'][:-1]
+
+            # nosso_numero_sem_dig.strip("0")
+            # ex.: 201
+            nosso_numero_sem_zeros = nosso_numero_sem_dig.strip('0')
+
+            # No arquivo de retorno do CNAB o campo pode ter um tamanho
+            # diferente, o tamanho do campo é preenchido na totalidade
+            # com zeros a esquerda, e no odoo o tamanho do sequencial pode
+            # estar diferente
+            # ex.: retorno cnab 0000000000000201 own_number 0000000201
+            # o campo own_number_without_zfill foi a forma que encontrei
+            # para poder usar o nosso_numero_cnab_retorno.strip("0") e
+            # ter algo:
+            #  ex.: retorno cnab 201 own_number_without_zfill 201
+            # Assim o search consegue encontrar a move line
+            # relacionada ao Evento.
+            # Podem existir sequencias do nosso numero/own_number iguais entre
+            # bancos diferentes, porém os Diario/account.journal
+            # não pode ser o mesmo.
+            account_move_line = self.env['account.move.line'].search([
+                ('own_number_without_zfill', '=', nosso_numero_sem_zeros),
+                ('journal_payment_mode_id', '=', self.journal.id)
+            ])
 
             # Linha não encontrada
             if not account_move_line:
@@ -184,6 +197,10 @@ class CNABFileParser(FileParser):
                     'title_value': valor_titulo,
                 })
                 continue
+
+            payment_line = self.env['account.payment.line'].search(
+                [('move_line_id', '=', account_move_line.id)]
+            )
 
             # Codigos de Movimento de Retorno - Liquidação
             cnab_liq_move_code = []
