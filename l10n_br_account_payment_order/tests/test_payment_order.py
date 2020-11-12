@@ -63,7 +63,9 @@ class TestPaymentOrder(TransactionCase):
             self.assertEqual(
                 line.journal_entry_ref, line.invoice_id.name,
                 "Error with compute field journal_entry_ref")
-            test_balance_value = line.get_balance()
+            # testar com a parcela 700
+            if line.debit == 700.0:
+                test_balance_value = line.get_balance()
 
         # Return the status of Move to Posted
         self.invoice_customer_original.move_id.action_post()
@@ -77,7 +79,9 @@ class TestPaymentOrder(TransactionCase):
             self.assertEquals(
                 line.journal_entry_ref, line.invoice_id.name,
                 "Error with compute field journal_entry_ref")
-            test_balance_value = line.get_balance()
+            # testar com a parcela 700
+            if line.debit == 700.0:
+                test_balance_value = line.get_balance()
 
         self.assertEquals(
             test_balance_value, 700.0,
@@ -103,9 +107,11 @@ class TestPaymentOrder(TransactionCase):
         self.assertEqual(len(payment_order.bank_line_ids), 0)
 
         for line in payment_order.payment_line_ids:
-            line.percent_interest = 1.5
+            # testar com a parcela 700
+            if line.amount_currency == 700.0:
+                line.percent_interest = 1.5
+                test_amount_interest = line.amount_interest
 
-            test_amount_interest = line.amount_interest
         self.assertEquals(
             test_amount_interest, 10.5,
             "Error with compute field amount_interest.")
