@@ -241,7 +241,10 @@ class Document(models.Model):
         for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
-                int(self.rps_number), self.document_serie, int(self.rps_type))
+                rps_number=int(self.rps_number),
+                rps_serie=self.document_serie,
+                rps_type=int(self.rps_type)
+            )
 
             return _(
                 processador.analisa_retorno_consulta(
