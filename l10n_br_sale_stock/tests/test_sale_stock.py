@@ -31,6 +31,9 @@ class TestSaleStock(TransactionCase):
             }
         self.so = self.env['sale.order'].create(so_vals)
 
+        for line in self.so.order_line:
+            line._onchange_product_id_fiscal()
+
         # confirm our standard so, check the picking
         self.so.action_confirm()
         self.assertTrue(self.so.picking_ids,
