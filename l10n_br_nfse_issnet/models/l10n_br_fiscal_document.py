@@ -131,7 +131,7 @@ class Document(models.Model):
             MunicipioPrestacaoServico=self.convert_type_nfselib(
                 tcDadosServico, 'MunicipioPrestacaoServico', dados['codigo_municipio'])
             if self.company_id.nfse_environment == '1'
-            else '999',
+            else 999,
         )
 
     def _serialize_dados_tomador(self):
