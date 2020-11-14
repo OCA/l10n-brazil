@@ -6,46 +6,6 @@ from odoo import models, api, fields
 
 
 class L10nBrCNABReturnMoveCode(models.Model):
-    """
-        CNAB return code, each Bank can has a list of Codes
-    """
     _name = 'l10n_br_cnab.return.move.code'
+    _inherit = 'l10n_br_cnab.data.abstract'
     _description = 'CNAB Return Move Code'
-
-    name = fields.Char(
-        string='Name',
-        index=True,
-    )
-    code = fields.Char(
-        string='Code',
-        index=True,
-    )
-    bank_id = fields.Many2one(
-        string='Bank',
-        comodel_name='res.bank',
-        index=True,
-    )
-    payment_method_id = fields.Many2one(
-        comodel_name='account.payment.method',
-        string='Payment Method',
-        index=True,
-    )
-    # Fields used to create domain
-    bank_code_bc = fields.Char(
-        related='bank_id.code_bc',
-        store=True,
-    )
-    payment_method_code = fields.Char(
-        related='payment_method_id.code',
-        store=True,
-    )
-
-    @api.multi
-    def name_get(self):
-        result = []
-        for record in self:
-            result.append((
-                record.id,  '%s - %s' % (
-                    record.code, record.name)
-            ))
-        return result
