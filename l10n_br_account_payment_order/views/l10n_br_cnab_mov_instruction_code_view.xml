@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_cnab_mov_instruction_code_tree_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.mov.instruction.code.tree</field>
+        <field name="model">l10n_br_cnab.mov.instruction.code</field>
+        <field name="arch" type="xml">
+            <tree string="CNAB Movement Instruction Code">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="bank_id"/>
+                <field name="payment_method_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="l10n_br_cnab_mov_instruction_code_form_view" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.mov.instruction.code.form.view</field>
+        <field name="model">l10n_br_cnab.mov.instruction.code</field>
+        <field name="arch" type="xml">
+            <form string="CNAB Movement Instruction Code">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="bank_id"/>
+                        <field name="payment_method_id"/>
+                        <field name="comment"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_cnab_mov_instruction_code_action">
+        <field name="name">CNAB Movement Instruction Code</field>
+        <field name="res_model">l10n_br_cnab.mov.instruction.code</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="l10n_br_cnab_mov_instruction_code_search" model="ir.ui.view">
+        <field name="name">l10n_br_cnab.mov.instruction.code.search</field>
+        <field name="model">l10n_br_cnab.mov.instruction.code</field>
+        <field name="priority" eval="20"/>
+        <field name="arch" type="xml">
+            <search string="Search for CNAB Movement Instruction Code">
+                <!-- Opções para busca -->
+                <field name="payment_method_id"/>
+                <field name="bank_id"/>
+                <!-- Agrupar -->
+                <group string="Agrupar por">
+                    <filter name="group_by_payment_method_id"
+                            string="Tipo CNAB"
+                            context="{'group_by': 'payment_method_id'}"/>
+                    <filter name="group_by_move_bank_id"
+                            string="Banco"
+                            context="{'group_by': 'bank_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_l10n_br_cnab_mov_instruction_code"
+              parent="account.account_management_menu"
+              name="CNAB Movement Instruction Code" sequence="999"
+              action="l10n_br_cnab_mov_instruction_code_action"/>
+
+</odoo>

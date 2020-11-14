@@ -21,7 +21,7 @@
                     <field name="own_number"/>
                     <field name="document_number"/>
                     <field name="company_title_identification"/>
-                    <field name="movement_instruction_code"/>
+                    <field name="mov_instruction_code_id"/>
                     <field name="doc_finality_code"/>
                     <field name="ted_finality_code"/>
                     <field name="complementary_finality_code"/>
