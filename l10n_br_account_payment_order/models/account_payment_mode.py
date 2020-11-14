@@ -305,6 +305,33 @@ class AccountPaymentMode(models.Model):
     # Field used to make invisible Inbound or Outbound specifics fields
     payment_type = fields.Selection(related='payment_method_id.payment_type')
 
+    # Codigos de Instrução do Movimento podem variar, 240 mais padronizado
+    # TODO - pode ser melhorado ?
+    #  Só foi possível ter um Domain de forma dinamica,
+    #  devido a diferença no caso do 240
+    domain_cnab_mov_instr_code_ids = fields.Many2many(
+        comodel_name='l10n_br_cnab.mov.instruction.code',
+        relation='domain_l10n_br_cnab_instruction_code_rel',
+        column1='domain_cnab_mov_instr_code_id',
+        column2='payment_mode_id',
+        compute='_get_domain_cnab_mov_instr_code',
+        store=False,
+    )
+
+    # Codigo de Remessa/Inclusão de Registro Detalhe Liberado
+    cnab_sending_code_id = fields.Many2one(
+        comodel_name='l10n_br_cnab.mov.instruction.code',
+        string='Movement Instruction Sending Code',
+        help='Movement Instruction Code for Sending CNAB',
+    )
+
+    # Codigo para Título/Pagamento Direto ao Fornecedor -Baixar
+    cnab_write_off_code_id = fields.Many2one(
+        comodel_name='l10n_br_cnab.mov.instruction.code',
+        string='Write Off Movement Instruction Code',
+        help='Write Off Movement Instruction Code',
+    )
+
     _sql_constraints = [(
         "internal_sequence_id_unique",
         "unique(internal_sequence_id)",
@@ -369,15 +396,34 @@ class AccountPaymentMode(models.Model):
 
     @api.onchange('payment_method_id')
     def _onchange_payment_method_id(self):
-        # Valores Padrões de Liquidação/Baixa do
         # CNAB 240, parece ser mais padronizado
         for record in self:
             if record.payment_method_id.code == '240':
+                # Valores Padrões de Liquidação/Baixa
+                # 06 - Liquidação
+                # 09 - Baixa
+                # 17 - Liquidação após Baixa ou Liquidação Título não
+                # Registrado
                 liq_codes = self.env['l10n_br_cnab.return.move.code'].search([
                     ('payment_method_code', '=', '240'),
                     ('code', 'in', ['06', '09', '17'])
                 ])
                 record.cnab_liq_return_move_code_ids = liq_codes.ids
+
+                # Valor Padrão de Remessa
+                # 00 - Inclusão de Registro Detalhe Liberado
+                cnab_sending_code = self.env[
+                    'l10n_br_cnab.mov.instruction.code'].search([
+                        ('payment_method_code', '=', '240'),
+                        ('code', '=', '00')])
+                record.cnab_sending_code_id = cnab_sending_code.id
+                # Valor Padrão de Baixa
+                # 23 - Pagamento Direto ao Fornecedor - Baixar
+                cnab_write_off_code = self.env[
+                    'l10n_br_cnab.mov.instruction.code'].search([
+                        ('payment_method_code', '=', '240'),
+                        ('code', '=', '23')])
+                record.cnab_write_off_code_id = cnab_write_off_code.id
 
     @api.multi
     @api.depends('payment_method_id', 'bank_code_bc')
@@ -393,3 +439,18 @@ class AccountPaymentMode(models.Model):
                 'l10n_br_cnab.return.move.code'].search(search_domain)
 
             record.domain_cnab_liq_return_move_code_ids = return_codes.ids
+
+    @api.multi
+    @api.depends('payment_method_id', 'bank_code_bc')
+    def _get_domain_cnab_mov_instr_code(self):
+        for record in self:
+            search_domain = [
+                ('payment_method_code', '=', record.payment_method_id.code)]
+            if record.payment_method_id.code != '240':
+                search_domain.append(
+                    ('bank_code_bc', '=', record.bank_code_bc))
+
+            codes = self.env[
+                'l10n_br_cnab.mov.instruction.code'].search(search_domain)
+
+            record.domain_cnab_mov_instr_code_ids = codes.ids

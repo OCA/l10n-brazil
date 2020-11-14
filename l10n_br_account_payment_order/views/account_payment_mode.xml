@@ -8,8 +8,15 @@
         <field name="inherit_id" ref="account_payment_order.account_payment_mode_form"/>
         <field name="priority" eval="14"/>
         <field name="arch" type="xml">
+            <group name="main" position="after">
+                 <group name="l10n_br_account_payment_taxes" string="Taxas">
+                    <field name="product_tax_id"/>
+                    <field name="product_tax_account_id" attrs="{'invisible': [('product_tax_id', '=', False)], 'required': [('product_tax_id', '!=', False)]}"/>
+                    <field name="payment_type"/>
+                </group>
+            </group>
             <xpath expr="//form/group[@name='note']" position="before">
-                <group string="Configurações Brasileiras" name='l10n-br-config' col="4">
+                <group string="Configurações Brasileiras - CNAB" name='l10n-br-config' col="4" attrs="{'invisible': [('payment_method_code', 'not in', ('240','400', '500') )]}">
                     <notebook colspan="4" name="l10n_br_account_payment_order">
                         <page string="Geral">
                             <group name="l10n_br_account_payment_order-geral">
@@ -23,77 +30,77 @@
                                 <field name="communication_2"/>
                             </group>
                         </page>
+                        <page string="Cobranca" attrs="{'invisible': [('payment_type', '!=', 'inbound')]}">
+                            <group string="Configurações Gerais">
+                                <field name="bank_code_bc" invisible="1"/>
+                                <field name="boleto_type"/>
+                                <field name="generate_own_number"/>
+                                <field name="own_number_type" invisible="1"/>
+                                <field name="own_number_sequence" attrs="{'invisible': [('own_number_type', '!=', '2')],
+                                 'required': [('own_number_type', '==', '2'), ('payment_order_ok', '==', True)]}"/>
+                                <field name="boleto_convetion"/>
+                                <field name="boleto_wallet"/>
+                                <field name="boleto_modality"/>
+                                <field name="boleto_variation"/>
+                                <field name="boleto_cnab_code"/>
+                                <field name="boleto_accept"/>
+                                <field name="boleto_species"/>
+                                <field name="payment_method_code" invisible="1"/>
+                            </group>
+
+                            <group name="protesto" string="Configuração do Protesto">
+                                <field name="boleto_protest_code"/>
+                                <field name="boleto_days_protest"/>
+                            </group>
+                            <group name="juros-mora" string="Configuração do Juros Mora">
+                                <field name="boleto_interest_code"/>
+                                <field name="boleto_interest_perc"/>
+                            </group>
+                            <group name="multa" string="Configuração da Multa">
+                                <field name="boleto_fee_code"/>
+                                <field name="boleto_fee_perc"/>
+                            </group>
+                            <group name="desconto" string="Configuração de Desconto">
+                                <field name="boleto_discount_perc"/>
+                            </group>
+                            <group name="outros" string="Outras Configurações" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}">
+                                <field name="boleto_byte_idt"/>
+                                <field name="boleto_post"/>
+                            </group>
+                        </page>
+                        <page string="Pagamento" attrs="{'invisible': [('payment_type', '!=', 'outbound')]}">
+                            <group>
+                                <field name="service_type"/>
+                                <field name="release_form"/>
+                                <field name="doc_finality_code"/>
+                                <field name="ted_finality_code"/>
+                                <field name="complementary_finality_code"/>
+                                <field name="favored_warning"/>
+                            </group>
+                        </page>
+                        <page string="Contabilidade">
+                            <group>
+                                <field name="tariff_charge_account_id"/>
+                                <field name="interest_fee_account_id"/>
+                                <field name="discount_account_id"/>
+                                <field name="rebate_account_id"/>
+                            </group>
+                        </page>
+                        <page string="Configuração dos Codigos CNAB"
+                              attrs="{'invisible': [('payment_method_code', 'not in', ('240', '400', '500'))]}">
+                            <group name="codigos_cnab" string="Configuração dos Codigos CNAB">
+                                <field name="domain_cnab_liq_return_move_code_ids" invisible="1"/>
+                                <field name="cnab_liq_return_move_code_ids" widget="many2many_tags"
+                                       domain="[('id','in', domain_cnab_liq_return_move_code_ids)]"/>
+                                <field name="domain_cnab_mov_instr_code_ids" invisible="1"/>
+                                <field name="cnab_sending_code_id" domain="[('id','in', domain_cnab_mov_instr_code_ids)]"/>
+                                <field name="cnab_write_off_code_id" domain="[('id','in', domain_cnab_mov_instr_code_ids)]"/>
+                            </group>
+                        </page>
                     </notebook>
                 </group>
             </xpath>
-            <group name="main" position="after">
-                 <group name="l10n_br_account_payment_taxes" string="Taxas">
-                    <field name="product_tax_id"/>
-                    <field name="product_tax_account_id" attrs="{'invisible': [('product_tax_id', '=', False)], 'required': [('product_tax_id', '!=', False)]}"/>
-                    <field name="payment_type"/>
-                </group>
-            </group>
-            <notebook name="l10n_br_account_payment_order" position="inside">
-                <page string="Cobranca" attrs="{'invisible': [('payment_type', '!=', 'inbound')]}">
-                    <group string="Configurações Gerais">
-                        <field name="bank_code_bc" invisible="1"/>
-                        <field name="boleto_type"/>
-                        <field name="generate_own_number"/>
-                        <field name="own_number_type" invisible="1"/>
-                        <field name="own_number_sequence" attrs="{'invisible': [('own_number_type', '!=', '2')],
-                         'required': [('own_number_type', '==', '2'), ('payment_order_ok', '==', True)]}"/>
-                        <field name="boleto_convetion"/>
-                        <field name="boleto_wallet"/>
-                        <field name="boleto_modality"/>
-                        <field name="boleto_variation"/>
-                        <field name="boleto_cnab_code"/>
-                        <field name="boleto_accept"/>
-                        <field name="boleto_species"/>
-                        <field name="payment_method_code" invisible="1"/>
-                        <field name="domain_cnab_liq_return_move_code_ids" invisible="1"/>
-                        <field name="cnab_liq_return_move_code_ids" widget="many2many_tags"
-                               domain="[('id','in', domain_cnab_liq_return_move_code_ids)]"/>
-                    </group>
-                    <group name="protesto" string="Configuração do Protesto">
-                        <field name="boleto_protest_code"/>
-                        <field name="boleto_days_protest"/>
-                    </group>
-                    <group name="juros-mora" string="Configuração do Juros Mora">
-                        <field name="boleto_interest_code"/>
-                        <field name="boleto_interest_perc"/>
-                    </group>
-                    <group name="multa" string="Configuração da Multa">
-                        <field name="boleto_fee_code"/>
-                        <field name="boleto_fee_perc"/>
-                    </group>
-                    <group name="desconto" string="Configuração de Desconto">
-                        <field name="boleto_discount_perc"/>
-                    </group>
-                    <group name="outros" string="Outras Configurações" attrs="{'invisible': [('bank_code_bc', 'not in', ('748','756') )]}">
-                        <field name="boleto_byte_idt"/>
-                        <field name="boleto_post"/>
-                    </group>
-                </page>
-                <page string="Pagamento" attrs="{'invisible': [('payment_type', '!=', 'outbound')]}">
-                    <group>
-                        <field name="service_type"/>
-                        <field name="release_form"/>
-                        <field name="doc_finality_code"/>
-                        <field name="ted_finality_code"/>
-                        <field name="complementary_finality_code"/>
-                        <field name="favored_warning"/>
-                    </group>
-                </page>
-                <page string="Contabilidade">
-                    <group>
-                        <!-- <field name="default_account_id"/> -->
-                        <field name="tariff_charge_account_id"/>
-                        <field name="interest_fee_account_id"/>
-                        <field name="discount_account_id"/>
-                        <field name="rebate_account_id"/>
-                    </group>
-                </page>
-            </notebook>
+
         </field>
     </record>
 
