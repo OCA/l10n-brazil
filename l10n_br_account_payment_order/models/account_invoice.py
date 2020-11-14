@@ -173,8 +173,10 @@ class AccountInvoice(models.Model):
                 if inv.instructions:
                     instructions += inv.instructions + '\n'
                 interval.instructions = instructions
-                # Codigo de Instrução da Remessa - '01 - Remessa*'
-                interval.movement_instruction_code = '01'
+                # Codigo de Instrução do Movimento pode variar,
+                # 240 mais padronizado
+                interval.mov_instruction_code_id = \
+                    inv.payment_mode_id.cnab_sending_code_id.id
 
     @api.multi
     def action_move_create(self):
@@ -186,9 +188,8 @@ class AccountInvoice(models.Model):
     def create_account_payment_line_baixa(self, amount_payment):
         """
         Em caso de CNAB é preciso verificar e criar linha(s)
-         com Codigo de Instrução do Movimento para Remessa
-         - 02 - Pedido de Baixa
-        :param amount_payment:
+         com Codigo de Instrução do Movimento de Baixa
+        :param amount_payment: Valor Pago
         :return:
         """
 
@@ -289,10 +290,12 @@ class AccountInvoice(models.Model):
                             inv.payment_mode_id.fixed_journal_id.bank_id.name,
                             amount_payment))
                     # Atualização do Codigo de Instrução do Movimento
-                    # para Remessa - 02 - Pedido de Baixa
+                    # para Remessa - Cada banco pode possuir um
+                    # cnab 240 mais padronizado que o 400
                     if line.cnab_state in ('exported', 'accepted'):
                         line_update = True
-                        line.movement_instruction_code = '02'
+                        line.mov_instruction_code_id =\
+                            line.payment_mode_id.cnab_write_off_code_id.id
                         line.payment_situation = 'paga'
                         line.message_post(body=_(
                             'Movement Instruction Code Updated for Request to'
