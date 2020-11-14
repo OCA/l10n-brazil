@@ -82,29 +82,10 @@ class AccountMoveLine(models.Model):
         string="Justificativa",
     )
 
-    # TODO - Mover seleção para o arquivo de Constantes,
-    #  aguardando retorno para saber se existe diferença
-    #  entre os Bancos, o CNAB 400 da Unicred e o 240 da
-    #  Febraban v10.06 estão iguais, a seleção no arquivo
-    #  de constantes está diferente.
-    #  Caso exista diferença vai ser preciso fazer o mesmo
-    #  que foi feito nos Codigos de Retorno
-    movement_instruction_code = fields.Selection(
+    mov_instruction_code_id = fields.Many2one(
+        comodel_name='l10n_br_cnab.mov.instruction.code',
         string='Código da Instrução para Movimento',
         help='Campo G061 do CNAB',
-        selection=[
-            ('01', '01 - Remessa*'),
-            ('02', '02 - Pedido de Baixa'),
-            ('04', '04 - Concessão de Abatimento*'),
-            ('05', '05 - Cancelamento de Abatimento'),
-            ('06', '06 - Alteração de vencimento'),
-            ('08', '08 - Alteração de Seu Número'),
-            ('09', '09 - Protestar*'),
-            ('11', '11 - Sustar Protesto e Manter em Carteira'),
-            ('25', '25 - Sustar Protesto e Baixar Título'),
-            ('26', '26 – Protesto automático'),
-            ('31', '31 - Alteração de outros dados (Alteração de dados do pagador'),
-            ('40', '40 - Alteração de Carteira')]
     )
 
     @api.depends("move_id")
@@ -126,10 +107,15 @@ class AccountMoveLine(models.Model):
         vals['document_number'] = self.document_number
         vals['company_title_identification'] = self.company_title_identification
 
-        # Codigo de Instrução do Movimento para Remessa
-        vals['movement_instruction_code'] = self.movement_instruction_code
+        vals['payment_mode_id'] = self.payment_mode_id.id
 
-        if self.movement_instruction_code == '02':
+        # Codigo de Instrução do Movimento para Remessa
+        vals['mov_instruction_code_id'] = self.mov_instruction_code_id.id
+
+        # Se for uma solicitação de baixa do título é preciso informar o
+        # campo debit o codigo original coloca o amount_residual
+        if self.mov_instruction_code_id.id ==\
+                self.payment_mode_id.cnab_write_off_code_id.id:
             vals['amount_currency'] = self.credit or self.debit
 
         # TODO - ainda necessário ?

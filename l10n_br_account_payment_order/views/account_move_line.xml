@@ -22,7 +22,7 @@
                 <field name="payment_situation"/>
                 <field name="own_number"/>
                 <field name="document_number"/>
-                <field name="movement_instruction_code"/>
+                <field name="mov_instruction_code_id"/>
                 <field name="company_title_identification"/>
                 <field name="instructions"/>
             </field>
