@@ -321,8 +321,8 @@ class AccountPaymentMode(models.Model):
     # Codigo de Remessa/Inclusão de Registro Detalhe Liberado
     cnab_sending_code_id = fields.Many2one(
         comodel_name='l10n_br_cnab.mov.instruction.code',
-        string='Movement Instruction Sending Code',
-        help='Movement Instruction Code for Sending CNAB',
+        string='Sending Movement Instruction Code',
+        help='Sending Movement Instruction Code',
     )
 
     # Codigo para Título/Pagamento Direto ao Fornecedor -Baixar
