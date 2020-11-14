@@ -37,7 +37,7 @@ class BankPaymentLine(models.Model):
             'cidade_sacado':
                 self.partner_id.city_id.name,
             'uf_sacado': self.partner_id.state_id.code,
-            'identificacao_ocorrencia': self.movement_instruction_code
+            'identificacao_ocorrencia': self.mov_instruction_code_id.id
         }
 
     def _prepare_bank_line_unicred(self, payment_mode_id, linhas_pagamentos):
@@ -91,14 +91,10 @@ class BankPaymentLine(models.Model):
         except:
             pass
 
-        # Valores incluídos apenas qdo for o
-        # Codigo de Instrução da Remessa - '01 - Remessa*'
-        # TODO - Teriam outros ?
-        #  Validar qdo for feito o
-        #  04 - Concessão de Abatimento*
-        #  09 - Protestar*
-        #  se existe necessidade de informar esses campos
-        if self.movement_instruction_code == '01':
+        # Cada Banco pode possuir seus Codigos de Instrução,
+        # cnab 240 mais padronizado
+        if self.mov_instruction_code_id.code ==\
+                payment_mode_id.cnab_sending_code_id.code:
             if payment_mode_id.boleto_fee_perc:
                 linhas_pagamentos['codigo_multa'] = \
                     payment_mode_id.boleto_fee_code
