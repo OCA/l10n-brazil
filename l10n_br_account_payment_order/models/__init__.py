@@ -25,3 +25,4 @@ from . import l10n_br_cnab_lot
 from . import l10n_br_cnab_return_move_code
 from . import l10n_br_cnab_return_log
 from . import ir_attachment
+from . import l10n_br_cnab_mov_intruction_code
