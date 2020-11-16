@@ -25,11 +25,29 @@ Brazilian Localization Sales and Warehouse
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
+This module extends the standard Odoo sale stock module for Brazil, specially when selling products with NFe's.
+
+It deals with the propagation of the fiscal operation, fiscal comment and incoterms to invoice created direct from sale
+order or picking.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Installation
+============
+
+This module depends on:
+
+* sale_stock
+* l10n_br_sale
+* l10n_br_stock_account
+
+Configuration
+=============
+
+No configuration required.
 
 Changelog
 =========
@@ -38,6 +56,11 @@ Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * [MIG] Migration to version 12.0
+
+10.0.1.0.0 (2019-09-13)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* [MIG] Migration to version 10.0
 
 Bug Tracker
 ===========
