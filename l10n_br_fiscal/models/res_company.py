@@ -37,6 +37,16 @@ from ..constants.fiscal import (
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    @api.depends('annual_revenue', 'simplifed_tax_range_id')
+    def _compute_simplifed_tax_percent(self):
+        for record in self:
+            if record.annual_revenue and record.simplifed_tax_range_id:
+                record.simplifed_tax_percent = (
+                    ((record.annual_revenue *
+                      record.simplifed_tax_range_id.total_tax_percent) -
+                     record.simplifed_tax_range_id.amount_deduced) /
+                    record.annual_revenue)
+
     @api.multi
     def _compute_l10n_br_data(self):
         """ Read the l10n_br specific functional fields. """
@@ -130,7 +140,8 @@ class ResCompany(models.Model):
     simplifed_tax_percent = fields.Float(
         string="Simplifed Tax Percent",
         default=0.00,
-        related="simplifed_tax_range_id.total_tax_percent",
+        compute='_compute_simplifed_tax_percent',
+        store=True,
         digits=dp.get_precision("Fiscal Tax Percent"))
 
     ibpt_api = fields.Boolean(
