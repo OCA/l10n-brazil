@@ -268,25 +268,6 @@ TIPO_MOVIMENTO = [
     ("9", "9 - Indica EXCLUSÃO"),
 ]
 
-CODIGO_INSTRUCAO_MOVIMENTO = [
-    ("00", "00 - Inclusão de Registro Detalhe Liberado"),
-    ("09", "09 - Inclusão do Registro Detalhe Bloqueado"),
-    ("10", "10 - Alteração do Pagamento Liberado para Bloqueado (Bloqueio)"),
-    ("11", "11 - Alteração do Pagamento Bloqueado para Liberado (Liberação)"),
-    ("17", "17 - Alteração do Valor do Título"),
-    ("19", "19 - Alteração da Data de Pagamento"),
-    ("23", "23 - Pagamento Direto ao Fornecedor - Baixar"),
-    ("25", "25 - Manutenção em Carteira - Não Pagar"),
-    ("27", "27 - Retirada de Carteira - Não Pagar"),
-    (
-        "33",
-        "33 - Estorno por Devolução da Câmara Centralizadora "
-        "(somente para Tipo de Movimento = '3')",
-    ),
-    ("40", "40 - Alegação do Pagador"),
-    ("99", "99 - Exclusão do Registro Detalhe Incluído Anteriormente"),
-]
-
 CODIGO_OCORRENCIAS = [
     ("00", "00 - Crédito ou Débito Efetivado"),
     ("01", "01 - Insuficiência de Fundos - Débito Não Efetuado"),
@@ -516,24 +497,6 @@ TIPO_OPERACAO_CNAB = {
     "R": "Arquivo Remessa",
     "T": "Arquivo Retorno",
 }
-RETORNO_400_CONFIRMADA = [2]
-
-RETORNO_400_REJEITADA = [3]
-
-RETORNO_400_LIQUIDACAO = [
-    6,
-    # 7, TODO: Implementar a baixa parcial;
-    8,
-]
-
-RETORNO_400_BAIXA = [9, 10]
-
-RETORNOS_TRATADOS = [
-    RETORNO_400_CONFIRMADA,
-    RETORNO_400_REJEITADA,
-    RETORNO_400_LIQUIDACAO,
-    RETORNO_400_BAIXA,
-]
 
 # COD_REGISTROS_REJEITADOS_CNAB400 -> USADO QUANDO HA CODIGO DE OCORRENCIA 03
 # NA POSIÇÃO 109-110

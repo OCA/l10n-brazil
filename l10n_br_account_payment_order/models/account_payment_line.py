@@ -101,13 +101,6 @@ class AccountPaymentLine(models.Model):
         track_visibility='onchange',
     )
 
-    # TODO - Mover seleção para o arquivo de Constantes,
-    #  aguardando retorno para saber se existe diferença
-    #  entre os Bancos, o CNAB 400 da Unicred e o 240 da
-    #  Febraban v10.06 estão iguais, a seleção no arquivo
-    #  de constantes está diferente.
-    #  Caso exista diferença vai ser preciso fazer o mesmo
-    #  que foi feito nos Codigos de Retorno
     mov_instruction_code_id = fields.Many2one(
         comodel_name='l10n_br_cnab.mov.instruction.code',
         string='Código da Instrução para Movimento',
