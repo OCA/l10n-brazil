@@ -26,6 +26,9 @@
                         <field name="bank_id"/>
                         <field name="payment_method_id"/>
                     </group>
+                    <div class="oe_chatter">
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </sheet>
             </form>
         </field>
