@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="0">
+<odoo noupdate="1">
 
     <!-- CNAB  Instruction Code -
       Houve a necessidade de criar o objeto pois em um caso especifico CNAB 400
