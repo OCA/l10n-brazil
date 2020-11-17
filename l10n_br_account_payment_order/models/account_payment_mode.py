@@ -396,9 +396,17 @@ class AccountPaymentMode(models.Model):
 
     @api.onchange('payment_method_id')
     def _onchange_payment_method_id(self):
-        # CNAB 240, parece ser mais padronizado
         for record in self:
-            if record.payment_method_id.code == '240':
+            if record.payment_method_code in ('400', '240', '500'):
+                # Campos Default que não devem estar marcados no caso CNAB
+                record.group_lines = False
+                record.generate_move = False
+                record.post_move = False
+                # Selecionavel na Ordem de Pagamento
+                record.payment_order_ok = True
+
+            # CNAB 240, parece ser mais padronizado
+            if record.payment_method_code == '240':
                 # Valores Padrões de Liquidação/Baixa
                 # 06 - Liquidação
                 # 09 - Baixa
