@@ -9,7 +9,6 @@
     <record id="l10n_br_account_payment_order_payment_line_form" model="ir.ui.view">
         <field name="name">l10n_br_account_payment_order.payment.line.form</field>
         <field name="model">account.payment.line</field>
-        <!-- TODO -  é necessário ? <field name="mode">primary</field>-->
         <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='currency_id']" position="after">
@@ -22,9 +21,9 @@
                     <field name="document_number"/>
                     <field name="company_title_identification"/>
                     <field name="mov_instruction_code_id"/>
-                    <field name="doc_finality_code"/>
-                    <field name="ted_finality_code"/>
-                    <field name="complementary_finality_code"/>
+                    <field name="doc_finality_code" attrs="{'invisible': [('payment_type', '=', 'inbound')]}"/>
+                    <field name="ted_finality_code" attrs="{'invisible': [('payment_type', '=', 'inbound')]}"/>
+                    <field name="complementary_finality_code" attrs="{'invisible': [('payment_type', '=', 'inbound')]}"/>
                     <field name="favored_warning"/>
                 </group>
             </xpath>
