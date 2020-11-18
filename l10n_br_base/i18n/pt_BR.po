@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2020-07-08 17:19+0000\n"
-"Last-Translator: Maurício Liell <mauricio@liell.com.br>\n"
+"PO-Revision-Date: 2020-11-18 04:36+0000\n"
+"Last-Translator: Eder Brito <britoederr@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -3847,10 +3847,8 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cei_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cei_code
-#, fuzzy
-#| msgid "BC Code"
 msgid "CEI Code"
-msgstr "Código do BC"
+msgstr "Código CEI"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
@@ -3886,18 +3884,14 @@ msgstr "CPF"
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_code
-#, fuzzy
-#| msgid "BC Code"
 msgid "CRC Code"
-msgstr "Código do BC"
+msgstr "Código CRC"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__crc_state_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__crc_state_id
-#, fuzzy
-#| msgid "State"
 msgid "CRC State"
-msgstr "Estado"
+msgstr "Status CRC"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1300839
@@ -6322,7 +6316,7 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_company
 msgid "Companies"
-msgstr ""
+msgstr "Empresas"
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
@@ -6599,7 +6593,7 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contato"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3118601
@@ -7695,7 +7689,7 @@ msgstr "Desabilitar validação de IE (Inscrição Estadual)"
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__display_name
 msgid "Display Name"
-msgstr "Nome a ser Exibido"
+msgstr "Nome de Exibição"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__district
@@ -11225,7 +11219,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__is_accountant
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__is_accountant
 msgid "Is accountant?"
-msgstr ""
+msgstr "É contador?"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2204907
@@ -13484,7 +13478,7 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers____last_update
 msgid "Last Modified on"
-msgstr "Última Modificação por"
+msgstr "Última Modificação em"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__write_uid
@@ -20054,10 +20048,8 @@ msgstr "RG"
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__rntrc_code
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__rntrc_code
-#, fuzzy
-#| msgid "BC Code"
 msgid "RNTRC Code"
-msgstr "Código do BC"
+msgstr "Código do RNTRC"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2410504
@@ -21078,7 +21070,7 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3544806
 msgid "Sales"
-msgstr ""
+msgstr "Vendas"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3544905
@@ -25321,7 +25313,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__vat
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__vat
 msgid "Tax ID"
-msgstr ""
+msgstr "ID do Imposto"
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1304203
@@ -25513,6 +25505,8 @@ msgid ""
 "The Tax Identification Number. Complete it if the contact is subjected to "
 "government taxes. Used in some legal statements."
 msgstr ""
+"O número de identificação fiscal. Preencha-o se o contato estiver sujeito a "
+"impostos governamentais. Usado em algumas declarações legais."
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1101609
