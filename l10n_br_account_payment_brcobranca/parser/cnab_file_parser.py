@@ -469,6 +469,7 @@ class CNABFileParser(FileParser):
             'date': fields.Datetime.now(),
             # TODO  - Campo está sendo preenchido em outro lugar
             'ref': 'Retorno CNAB',
+            'is_cnab': True,
         }
 
     def get_move_line_vals(self, line, *args, **kwargs):
