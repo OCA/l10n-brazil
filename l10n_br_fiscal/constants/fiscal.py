@@ -1,4 +1,5 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
+# Copyright (C) 2019  Luus Felipe Mileo - KMEE <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _
@@ -166,6 +167,7 @@ PROFIT_CALCULATION = (
 
 PROFIT_CALCULATION_PRESUMED = "presumed"
 
+COEFFICIENT_R = 0.28
 
 INDUSTRY_TYPE = (
     ("00", "00 - Industrial - Transformação"),

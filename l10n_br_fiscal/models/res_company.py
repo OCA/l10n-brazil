@@ -31,21 +31,12 @@ from ..constants.fiscal import (
     TAX_FRAMEWORK_NORMAL,
     TAX_FRAMEWORK_SIMPLES,
     TAX_FRAMEWORK_SIMPLES_ALL,
+    COEFFICIENT_R,
 )
 
 
 class ResCompany(models.Model):
     _inherit = "res.company"
-
-    @api.depends('annual_revenue', 'simplifed_tax_range_id')
-    def _compute_simplifed_tax_percent(self):
-        for record in self:
-            if record.annual_revenue and record.simplifed_tax_range_id:
-                record.simplifed_tax_percent = (
-                    ((record.annual_revenue *
-                      record.simplifed_tax_range_id.total_tax_percent) -
-                     record.simplifed_tax_range_id.amount_deduced) /
-                    record.annual_revenue)
 
     @api.multi
     def _compute_l10n_br_data(self):
@@ -65,19 +56,43 @@ class ResCompany(models.Model):
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
 
-    @api.depends("simplifed_tax_id", "annual_revenue")
-    def _compute_simplifed_tax_range(self):
+    @api.depends(
+        "cnae_main_id", "annual_revenue", "payroll_amount")
+    def _compute_simplifed_tax(self):
         for record in self:
-            tax_range = record.env["l10n_br_fiscal.simplified.tax.range"].search(
-                [
-                    ("inital_revenue", "<=", record.annual_revenue),
-                    ("final_revenue", ">=", record.annual_revenue),
-                ],
-                limit=1,
-            )
+            record.coefficient_r = False
+            if record.payroll_amount and record.annual_revenue:
+                coefficient_r_percent = (
+                    record.payroll_amount / record.annual_revenue
+                )
+                if coefficient_r_percent > COEFFICIENT_R:
+                    record.coefficient_r = True
+                record.coefficient_r_percent = coefficient_r_percent
 
-            if tax_range:
-                record.simplifed_tax_range_id = tax_range.id
+            simplified_tax_id = self.env["l10n_br_fiscal.simplified.tax"].search([
+                ("cnae_ids", "=", record.cnae_main_id.id),
+                ("coefficient_r", "=", record.coefficient_r),
+            ])
+            record.simplifed_tax_id = simplified_tax_id
+
+            if simplified_tax_id:
+                tax_range = record.env["l10n_br_fiscal.simplified.tax.range"].search(
+                    [
+                        ("simplified_tax_id", "=", simplified_tax_id.id),
+                        ("inital_revenue", "<=", record.annual_revenue),
+                        ("final_revenue", ">=", record.annual_revenue),
+                        ("simplified_tax_id.coefficient_r", "=", record.coefficient_r),
+                    ],
+                    limit=1,
+                )
+                record.simplifed_tax_range_id = tax_range
+
+                if record.simplifed_tax_range_id and record.annual_revenue:
+                    record.simplifed_tax_percent = (
+                        ((record.annual_revenue *
+                          record.simplifed_tax_range_id.total_tax_percent / 100) -
+                         record.simplifed_tax_range_id.amount_deduced) /
+                        record.annual_revenue)
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
@@ -126,13 +141,13 @@ class ResCompany(models.Model):
 
     simplifed_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax",
-        domain="[('cnae_ids', '=', cnae_main_id)]",
-        string="Simplified Tax")
+        compute="_compute_simplifed_tax",
+        string="Simplified Tax",
+        readonly=True)
 
     simplifed_tax_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
-        domain="[('simplified_tax_id', '=', simplifed_tax_id)]",
-        compute="_compute_simplifed_tax_range",
+        compute="_compute_simplifed_tax",
         store=True,
         readyonly=True,
         string="Simplified Tax Range")
@@ -140,9 +155,27 @@ class ResCompany(models.Model):
     simplifed_tax_percent = fields.Float(
         string="Simplifed Tax Percent",
         default=0.00,
-        compute='_compute_simplifed_tax_percent',
+        compute='_compute_simplifed_tax',
         store=True,
         digits=dp.get_precision("Fiscal Tax Percent"))
+
+    payroll_amount = fields.Monetary(
+        string="Last Period Payroll Amount",
+        currency_field="currency_id",
+        default=0.00,
+        digits=dp.get_precision("Fiscal Documents"))
+
+    coefficient_r = fields.Boolean(
+        compute='_compute_simplifed_tax',
+        string='Coefficient R',
+        store=True,
+        readonly=True)
+
+    coefficient_r_percent = fields.Float(
+        compute='_compute_simplifed_tax',
+        string='Coefficient R (%)',
+        store=True,
+        readonly=True)
 
     ibpt_api = fields.Boolean(
         string="Use IBPT API",
@@ -291,15 +324,6 @@ class ResCompany(models.Model):
         else:
             self.tax_definition_ids |= self.tax_definition_ids.create(tax_def_values)
 
-    @api.onchange("cnae_main_id")
-    def _onchange_cnae_main_id(self):
-        if self.cnae_main_id:
-            simplified_tax = self.env["l10n_br_fiscal.simplified.tax"].search(
-                [("cnae_ids", "=", self.cnae_main_id.id)], limit=1)
-
-            if simplified_tax:
-                self.simplifed_tax_id = simplified_tax.id
-
     @api.onchange("profit_calculation", "tax_framework")
     def _onchange_profit_calculation(self):
 
@@ -325,7 +349,6 @@ class ResCompany(models.Model):
             self.piscofins_id = pis_cofins_refs.get(self.profit_calculation)
             self.tax_icms_id = False
 
-        self._onchange_cnae_main_id()
         self._onchange_piscofins_id()
         self._onchange_ripi()
         self._onchange_tax_ipi_id()
