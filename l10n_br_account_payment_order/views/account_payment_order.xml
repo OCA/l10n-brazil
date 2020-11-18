@@ -33,7 +33,6 @@
             </field>
             <field name="company_id" position="after">
                 <field name="indicative_form_payment"/>
-                <field name="movement_type"/>
             </field>
             <page name="bank-payment-lines" position="after">
                 <page name="bank-error-lines" string="Problemas"
