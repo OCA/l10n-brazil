@@ -88,11 +88,11 @@ class ResCompany(models.Model):
                 record.simplifed_tax_range_id = tax_range
 
                 if record.simplifed_tax_range_id and record.annual_revenue:
-                    record.simplifed_tax_percent = (
+                    record.simplifed_tax_percent = round((
                         ((record.annual_revenue *
                           record.simplifed_tax_range_id.total_tax_percent / 100) -
                          record.simplifed_tax_range_id.amount_deduced) /
-                        record.annual_revenue)
+                        record.annual_revenue) * 100, record.currency_id.decimal_places)
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
