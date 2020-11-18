@@ -62,6 +62,7 @@
         'views/l10n_br_cnab_return_move_code_view.xml',
         'views/account_payment_views.xml',
         'views/l10n_br_cnab_mov_instruction_code_view.xml',
+        'views/account_move_view.xml'
     ],
     'demo': [
         'demo/res_partner_bank.xml',
