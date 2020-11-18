@@ -2,7 +2,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
     'use strict';
 
     require('web.dom_ready');
-    ajax = require('web.ajax');
+    var ajax = require('web.ajax');
 
     var $checkout_autoformat_selector = $('.checkout_autoformat');
 
@@ -12,23 +12,23 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
     }
 
     if ($('#input_cnpj_cpf').length) {
-        new Cleave('#input_cnpj_cpf', {
+        var cpf_cleave = new Cleave('#input_cnpj_cpf', {
             blocks: [2, 3, 3, 4, 2],
             delimiters: ['.', '.', '-'],
             numericOnly: true,
             onValueChanged: function (e) {
                 if (e.target.rawValue.length > 11) {
-                    this.properties['blocks'] = [2, 3, 3, 4, 2];
-                    this.properties['delimiters'] = ['.', '.', '/', '-'];
+                    this.properties.blocks = [2, 3, 3, 4, 2];
+                    this.properties.delimiters = ['.', '.', '/', '-'];
                 } else {
-                    this.properties['blocks'] = [3, 3, 3, 3];
-                    this.properties['delimiters'] = ['.', '.', '-'];
+                    this.properties.blocks = [3, 3, 3, 3];
+                    this.properties.delimiters = ['.', '.', '-'];
                 }
             },
         });
     }
 
-    new Cleave('.input-zipcode', {
+    var zip_cleave = new Cleave('.input-zipcode', {
         blocks: [5, 3],
         delimiter: '-',
         numericOnly: true,
@@ -39,7 +39,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
             'change',
             "select[name='country_id']",
             function () {
-                let country_id = $("select[name='country_id']") || false;
+                var country_id = $("select[name='country_id']") || false;
                 if (country_id) {
                     if (country_id.val() === 31) {
                         $("input[name='city']").parent('div').hide();
@@ -54,7 +54,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
             'change',
             "select[name='state_id']",
             function () {
-                let state_id_selector = $("#state_id");
+                var state_id_selector = $("#state_id");
                 if (!state_id_selector.val()) {
                     return;
                 }
@@ -62,15 +62,15 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
                     "/shop/state_infos/" + state_id_selector.val(),
                     'call').then(function (data) {
                     // Populate states and display
-                    let city_id_selector = $("select[name='city_id']");
-                    let selectCities = city_id_selector;
-                    let zip_city = city_id_selector[0].val;
+                    var city_id_selector = $("select[name='city_id']");
+                    var selectCities = city_id_selector;
+                    var zip_city = city_id_selector[0].val;
                     // Dont reload state at first loading (done in qweb)
                     if (selectCities.data('init') === 0 || selectCities
                         .find('option').length === 1) {
                         if (data.cities.length) {
                             _.each(data.cities, function (x) {
-                                let opt = $('<option>').text(x[1])
+                                var opt = $('<option>').text(x[1])
                                     .attr('value', x[0])
                                     .attr('data-code', x[2]);
                                 selectCities.append(opt);
@@ -94,7 +94,7 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
             'change',
             "input[name='zip']",
             function () {
-                const vals = {zipcode: $('input[name="zip"]').val()};
+                var vals = {zipcode: $('input[name="zip"]').val()};
                 console.log("Changing ZIP");
                 $('a:contains("Next")').attr('display: none !important;');
                 ajax.jsonRpc("/l10n_br/zip_search_public",
@@ -103,8 +103,8 @@ odoo.define('l10n_br_website_sale.l10n_br_address', function (require) {
                         // Todo: Retornar nos campos error e error_message
                         console.log('Falha ao consultar cep');
                     } else {
-                        let city_id_selector = $('select[name="city_id"]');
-                        let state_id_selector = $('select[name="state_id"]')
+                        var city_id_selector = $('select[name="city_id"]');
+                        var state_id_selector = $('select[name="state_id"]');
                         $('input[name="district"]').val(data.district);
                         $('input[name="street"]').val(data.street);
                         city_id_selector.val(data.city_id);
