@@ -70,6 +70,15 @@ class AccountPaymentOrder(models.Model):
         domain=[('is_export_error', '=', True)],
     )
 
+    # Usados para deixar invisiveis/somente leitura
+    # os campos relacionados ao CNAB
+    payment_method_code = fields.Char(
+        related='payment_method_id.code',
+        readonly=True,
+        store=True,
+        string='Payment Method Code'
+    )
+
     @api.model
     def _prepare_bank_payment_line(self, paylines):
         result = super()._prepare_bank_payment_line(paylines)
