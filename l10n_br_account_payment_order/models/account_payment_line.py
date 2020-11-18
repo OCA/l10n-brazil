@@ -116,6 +116,20 @@ class AccountPaymentLine(models.Model):
         help='Campo G061 do CNAB',
     )
 
+    # Usados para deixar invisiveis/somente leitura
+    # os campos relacionados ao CNAB
+    payment_method_id = fields.Many2one(
+        comodel_name='account.payment.method',
+        related='payment_mode_id.payment_method_id',
+        string='Payment Method',
+    )
+
+    payment_method_code = fields.Char(
+        related='payment_method_id.code',
+        readonly=True, store=True,
+        string='Payment Method Code'
+    )
+
     @api.multi
     @api.depends('percent_interest', 'amount_currency')
     def _compute_interest(self):
