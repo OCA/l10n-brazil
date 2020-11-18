@@ -11,22 +11,54 @@
         <field name="model">account.payment.line</field>
         <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
         <field name="arch" type="xml">
+            <!-- TODO Campos não podem ser alterados aqui, o account.move.line ficaria
+                  diferente, verificar no caso de Pagtos/outbound, principalmente se o
+                  programa irá permitir cadastrar Ordens de Pagto diretamente sem
+                  um "documento de origem" ( parece ser melhor não, p/ evitar
+                  inconsistencias ). E qual seria o sentido de fazer uma Ordem de
+                  Pagto sem relação com uma Fatura ou Lançamento ? Isso não
+                  acabaria gerando um registro avulso sem relação com nada, apenas com
+                   a necessidade de ter um arquivo, quais seriam os casos de uso ? -->
+            <field name="amount_currency" position="attributes">
+                <attribute name="readonly">[('payment_method_code', 'in', ('400', '240', '500'))]</attribute>
+            </field>
+
+            <!-- TODO: Implementação de Títulos com Diferentes Moedas,
+                  CNAB 240 parece pemirtir -->
+            <field name="currency_id" position="attributes">
+                <attribute name="readonly">[('payment_method_code', 'in', ('400', '240', '500'))]</attribute>
+            </field>
+
+            <!-- TODO: Existe necessidade de alteração desse campo aqui ? Qual caso de uso ? -->
+            <field name="move_line_id" position="attributes">
+                <attribute name="readonly">[('payment_method_code', 'not in', ('400', '240', '500'))]</attribute>
+            </field>
+
+            <!-- TODO: Existe a possibilidade de alterar o Partner e ter um diferente
+                  do informado na account.move.line ? Qual seria o caso de uso ? -->
+            <field name="partner_id" position="attributes">
+                <attribute name="readonly">[('payment_method_code', 'not in', ('400', '240', '500'))]</attribute>
+            </field>
+
             <xpath expr="//field[@name='currency_id']" position="after">
                 <field name="percent_interest"/>
                 <field name="amount_interest"/>
             </xpath>
             <xpath expr="//group[@name='right']" position="after">
-                <group name="cnab" string="CNAB">
-                    <field name="own_number"/>
-                    <field name="document_number"/>
-                    <field name="company_title_identification"/>
-                    <field name="mov_instruction_code_id"/>
+                <group name="cnab" string="Informações do CNAB">
+                    <field name="own_number" readonly="1"/>
+                    <field name="document_number" readonly="1"/>
+                    <field name="company_title_identification" readonly="1"/>
+                    <field name="movement_type"/>
+                    <field name="mov_instruction_code_id" readonly="1"/>
                     <field name="doc_finality_code" attrs="{'invisible': [('payment_type', '=', 'inbound')]}"/>
                     <field name="ted_finality_code" attrs="{'invisible': [('payment_type', '=', 'inbound')]}"/>
                     <field name="complementary_finality_code" attrs="{'invisible': [('payment_type', '=', 'inbound')]}"/>
                     <field name="favored_warning"/>
+                    <field name="payment_method_code" invisible="1"/>
                 </group>
             </xpath>
+
         </field>
     </record>
 
