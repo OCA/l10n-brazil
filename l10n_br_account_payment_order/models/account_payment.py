@@ -28,8 +28,8 @@ class AccountPayment(models.Model):
                 #  na tela.
                 #  Testar na migração.
                 raise UserError(_(
-                    'CNAB Payment Method can be used to make'
-                    ' Payments here, just used in Payment Orders,'
+                    "CNAB Payment Method can't be used to make"
+                    ' direct Payments, just used in Payment Orders,'
                     ' choose another one.'))
         super().post()
         for record in self:
