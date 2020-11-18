@@ -15,7 +15,6 @@ from odoo import api, fields, models
 from ..constants import (
     FORMA_LANCAMENTO,
     INDICATIVO_FORMA_PAGAMENTO,
-    TIPO_MOVIMENTO,
     TIPO_SERVICO,
 )
 
@@ -61,13 +60,6 @@ class AccountPaymentOrder(models.Model):
         string='Indicativo de Forma de Pagamento',
         help='Campo P014 do CNAB',
         default='01',
-    )
-
-    movement_type = fields.Selection(
-        selection=TIPO_MOVIMENTO,
-        string='Tipo de Movimento',
-        help='Campo G060 do CNAB',
-        default='0',
     )
 
     bank_line_error_ids = fields.One2many(
