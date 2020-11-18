@@ -9,6 +9,7 @@
                 <sheet>
                     <group>
                         <field name="name"/>
+                        <field name="coefficient_r"/>
                     </group>
                     <notebook>
                         <page string="Simplified Range" name="simplified_tax_range">
