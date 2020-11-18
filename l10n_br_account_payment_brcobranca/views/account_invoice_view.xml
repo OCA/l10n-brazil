@@ -7,7 +7,17 @@
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
             <button name="action_invoice_draft" position="after">
-                <button name="view_boleto_pdf" type="object" string="Imprimir Boleto" class="btn-primary" states="open"/>
+                <field name="payment_method_code" invisible="1"/>
+                <!-- TODO - states="open" não funciona em conjunto com o attrs
+                      o programa ignora, e o attrs abaixo só funciona no caso do
+                      do payment_method_id, dessa forma o botão só é exibido nos
+                      caso CNAB porém em todos os Status, parece ser melhor do que
+                      aparecendo em todas as faturas
+                 -->
+                <button name="view_boleto_pdf" type="object" string="Imprimir Boleto"
+                        class="btn-primary"
+                        attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'), ('state', 'not in', ['open']))]}"
+                />
             </button>
         </field>
     </record>
