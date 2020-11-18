@@ -19,10 +19,13 @@
                             <group name="simples" string="Simples Nacional" attrs="{'invisible': [('tax_framework', '=', '3')]}">
                                 <group>
                                     <field name="annual_revenue"/>
+                                    <field name="payroll_amount"/>
                                 </group>
                                 <group>
                                     <field name="simplifed_tax_id"/>
                                     <field name="simplifed_tax_range_id"/>
+                                    <field name="coefficient_r"/>
+                                    <field name="coefficient_r_percent"/>
                                     <field name="simplifed_tax_percent"/>
                                 </group>
                             </group>
