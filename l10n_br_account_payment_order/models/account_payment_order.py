@@ -52,10 +52,8 @@ class AccountPaymentOrder(models.Model):
     )
 
     code_convetion = fields.Char(
-        string='Código do Convênio no Banco',
-        size=20,
+        related='payment_mode_id.code_convetion',
         help='Campo G007 do CNAB',
-        default='0001222130126',
     )
 
     indicative_form_payment = fields.Selection(
