@@ -228,7 +228,9 @@ class Tax(models.Model):
         if compute_reduction:
             base_amount -= base_reduction
 
-        if not tax.percent_amount and not tax.value_amount:
+        if not tax.percent_amount and not tax.value_amount and \
+            not tax_dict.get('percent_amount') and \
+            not tax_dict.get('value_amount'):
             tax_dict["base"] = 0.00
         else:
             tax_dict["base"] = base_amount
