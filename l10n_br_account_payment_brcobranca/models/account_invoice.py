@@ -22,6 +22,20 @@ class AccountInvoice(models.Model):
         ondelete="restrict",
         copy=False)
 
+    # Usados para deixar invisivel o botão
+    # Imprimir Boleto, quando não for o caso
+    payment_method_id = fields.Many2one(
+        comodel_name='account.payment.method',
+        related='payment_mode_id.payment_method_id',
+        string='Payment Method',
+    )
+
+    payment_method_code = fields.Char(
+        related='payment_method_id.code',
+        readonly=True, store=True,
+        string='Payment Method Code'
+    )
+
     def gera_boleto_pdf(self):
         file_pdf = self.file_boleto_pdf_id
         self.file_boleto_pdf_id = False
