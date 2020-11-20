@@ -464,7 +464,7 @@ class DFe(models.Model):
             raise orm.except_orm(_('Validation!'), _(error_msg))
 
     @staticmethod
-    def send_event(self, company_id, nfe_key, method):
+    def send_event(company_id, nfe_key, method):
         processor = _processador(company_id, force_ambiente=False)
         cnpj_partner = re.sub('[^0-9]', '', company_id.cnpj_cpf)
         result = {}
