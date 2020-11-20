@@ -308,8 +308,30 @@ class Document(models.Model):
                                 protocolo = processo.resposta.Protocolo
 
                         if processo.webservice in CONSULTAR_SITUACAO_LOTE_RPS:
-                            vals['codigo_situacao'] = \
-                                processo.resposta.Situacao
+                            if processo.resposta.Situacao is None:
+                                mensagem_completa = ''
+                                if processo.resposta.ListaMensagemRetorno:
+                                    lista_msgs = processo.resposta. \
+                                        ListaMensagemRetorno
+                                    for mr in lista_msgs.MensagemRetorno:
+
+                                        correcao = ''
+                                        if mr.Correcao:
+                                            correcao = mr.Correcao
+
+                                        mensagem_completa += (
+                                            mr.Codigo + ' - ' +
+                                            mr.Mensagem +
+                                            ' - Correção: ' +
+                                            correcao + '\n'
+                                        )
+                                vals['edoc_error_message'] = \
+                                    mensagem_completa
+                                record.write(vals)
+                                return
+                            else:
+                                vals['codigo_situacao'] = \
+                                    processo.resposta.Situacao
                 else:
                     vals['codigo_situacao'] = 4
 
