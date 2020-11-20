@@ -113,6 +113,11 @@ class NFeLine(spec_models.StackedModel):
         string='Tipo de Tributação do COFINS'
     )
 
+    nfe40_choice10 = fields.Selection(
+        compute='_compute_nfe40_choice10',
+        store=True,
+    )
+
     nfe40_orig = fields.Selection(
         related='icms_origin',
     )
@@ -268,6 +273,14 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_choice16 = 'nfe40_vAliqProd'
 
+    @api.depends('ipi_base_type')
+    def _compute_nfe40_choice10(self):
+        for record in self:
+            if record.tax_icms_or_issqn == 'icms':
+                record.nfe40_choice10 = 'nfe40_ICMS'
+            else:
+                record.nfe40_choice10 = 'nfe40_ISSQN'
+
     def _inverse_uCom(self):
         # TODO need fix in search in l10n_br_fiscal/models/uom_uom.py
         for line in self:
@@ -337,7 +350,14 @@ class NFeLine(spec_models.StackedModel):
         return icms
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
-        if class_obj._name == 'nfe.40.icms':
+        if class_obj._name == 'nfe.40.imposto':
+            xsd_fields = [i for i in xsd_fields]
+            if self.nfe40_choice10 == 'nfe40_ICMS':
+                xsd_fields.remove('nfe40_ISSQN')
+            else:
+                xsd_fields.remove('nfe40_ICMS')
+                xsd_fields.remove('nfe40_II')
+        elif class_obj._name == 'nfe.40.icms':
             xsd_fields = [self.nfe40_choice11]
             icms_tag = self.nfe40_choice11.replace('nfe40_', '')  # FIXME
             binding_module = sys.modules[self._binding_module]
