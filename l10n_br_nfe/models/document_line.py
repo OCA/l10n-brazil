@@ -106,6 +106,9 @@ class NFeLine(spec_models.StackedModel):
     nfe40_vIPI = fields.Monetary(
         related='ipi_value'
     )
+    nfe40_vCredICMSSN = fields.Monetary(
+        related='icmssn_credit_value'
+    )
 
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
@@ -128,6 +131,8 @@ class NFeLine(spec_models.StackedModel):
                 record.nfe40_choice11 = 'nfe40_ICMS70'
             elif record.icms_cst_id.code == '90':
                 record.nfe40_choice11 = 'nfe40_ICMS90'
+            elif record.icms_cst_id.code == '101':
+                record.nfe40_choice11 = 'nfe40_ICMSSN101'
             elif record.icms_cst_id.code == '400':
                 record.nfe40_choice11 = 'nfe40_ICMSSN102'
 
@@ -234,6 +239,7 @@ class NFeLine(spec_models.StackedModel):
         self.nfe40_pCOFINS = self.cofins_percent
         self.nfe40_cEnq = str(self.ipi_guideline_id.code or '999'
                               ).zfill(3)
+        self.nfe40_pCredSN = self.icmssn_percent
 
         if self.document_id.ind_final == '1' and \
                 self.document_id.nfe40_idDest == '2' and \
@@ -282,6 +288,9 @@ class NFeLine(spec_models.StackedModel):
                 return self.pis_cst_id.code
             elif class_obj._name.startswith('nfe.40.cofins'):
                 return self.cofins_cst_id.code
+        elif xsd_field == 'nfe40_CSOSN':
+            if self.nfe40_choice11 == 'nfe40_ICMSSN101':
+                return '101'
         elif xsd_field == 'nfe40_vBC':
             field_name = 'nfe40_vBC'
             if class_obj._name.startswith('nfe.40.icms'):
