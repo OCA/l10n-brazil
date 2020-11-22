@@ -1663,7 +1663,6 @@ msgstr ""
 #: model:res.city,name:l10n_br_base.city_2401107
 #: model:res.city,name:l10n_br_base.city_2800506
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Areia Branca"
 msgstr "Número da Agência"
 
@@ -2052,7 +2051,6 @@ msgstr "Código do BC"
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.view_l10n_br_base_partner_bank_form
 #, fuzzy
-#| msgid "BC Code"
 msgid "BIC/Swift Code"
 msgstr "Código do BC"
 
@@ -3654,7 +3652,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1501782
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Breu Branco"
 msgstr "Número da Agência"
 
@@ -4996,7 +4993,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3112505
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Capim Branco"
 msgstr "Número da Agência"
 
@@ -5470,7 +5466,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3510807
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Casa Branca"
 msgstr "Número da Agência"
 
@@ -5654,7 +5649,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2907558
 #, fuzzy
-#| msgid "Suframa"
 msgid "Caturama"
 msgstr "Suframa"
 
@@ -6107,7 +6101,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3511904
 #, fuzzy
-#| msgid "Complement..."
 msgid "Clementina"
 msgstr "Complemento..."
 
@@ -6479,7 +6472,6 @@ msgstr "Ajustes de Configurações"
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3117876
 #, fuzzy
-#| msgid "Config Settings"
 msgid "Confins"
 msgstr "Ajustes de Configurações"
 
@@ -9313,7 +9305,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4308706
 #, fuzzy
-#| msgid "Suframa"
 msgid "Gaurama"
 msgstr "Suframa"
 
@@ -9796,7 +9787,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4109005
 #, fuzzy
-#| msgid "Suframa"
 msgid "Guapirama"
 msgstr "Suframa"
 
@@ -12031,7 +12021,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3134400
 #, fuzzy
-#| msgid "Suframa"
 msgid "Iturama"
 msgstr "Suframa"
 
@@ -15946,7 +15935,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_country__nationality_code
 #, fuzzy
-#| msgid "Union Entity code"
 msgid "Nationality Code"
 msgstr "Código do Sindicato"
 
@@ -17878,7 +17866,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4118501
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Pato Branco"
 msgstr "Número da Agência"
 
@@ -18088,7 +18075,6 @@ msgstr ""
 #: model:res.city,name:l10n_br_base.city_2310506
 #: model:res.city,name:l10n_br_base.city_2511004
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Pedra Branca"
 msgstr "Número da Agência"
 
@@ -19116,7 +19102,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5106703
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Ponte Branca"
 msgstr "Número da Agência"
 
@@ -21013,7 +20998,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city__siafi_code
 #, fuzzy
-#| msgid "IBGE Code"
 msgid "SIAFI Code"
 msgstr "Código do IBGE"
 
@@ -21272,7 +21256,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3546009
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Santa Branca"
 msgstr "Número da Agência"
 
@@ -22701,7 +22684,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2515500
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Serra Branca"
 msgstr "Número da Agência"
 
@@ -26024,7 +26006,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1721257
 #, fuzzy
-#| msgid "Suframa"
 msgid "Tupirama"
 msgstr "Suframa"
 
@@ -26248,7 +26229,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4128104
 #, fuzzy
-#| msgid "Suframa"
 msgid "Umuarama"
 msgstr "Suframa"
 
@@ -27238,7 +27218,6 @@ msgstr ""
 #: model:res.city,name:l10n_br_base.city_2500106
 #: model:res.city,name:l10n_br_base.city_2700102
 #, fuzzy
-#| msgid "Bank Branch"
 msgid "Água Branca"
 msgstr "Número da Agência"
 
