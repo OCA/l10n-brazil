@@ -106,6 +106,50 @@ class CNABFileParser(FileParser):
         # a Fatura será Reconciliada e a Entrada de Diário será movida
         # para o status Lançado
 
+        #          Valor Recebido diferente do Valor no Odoo
+        # Para que a Fatura/Nota Fiscal no Odoo seja completamente reconciliada
+        # e o seu status seja alterado de Aberto para Pago é preciso que
+        # a soma dos lançamentos(account.move.line) criados sejam iguais ao
+        # valor da account_move_line em aberto.
+        #
+        #                      Valor Menor
+        # Os valores de Desconto e Abatimento estão sendo adicionados na
+        # reconciliação para que o valor total fique igual, exemplo:
+        #        Odoo               Valores arquivo CNAB
+        #    Valor Odoo   | Valor Recebido | Valor Abatimento |Valor Desconto
+        #       100       |     80         |       10         |     10
+        # Caso o valor ainda seja menor nada pode ser feito aqui, pois
+        # significa que o cliente pagou um valor menor sem relação com o
+        # Abatimento e ou Desconto e que ainda está em Aberto junto ao banco.
+        # TODO: Existe a possibilidade de Pagar um valor menor junto ao banco ?
+        # Se for preciso Baixar esse valor o processo deverá ser utilizar o
+        # wizard de atualizações do CNAB, na account.move.line referente,
+        # pedindo a Baixa do Título o que irá gerar um nova Linha/Instrução
+        # CNAB a ser enviada ao Banco.
+        #
+        #                   Valor Maior
+        # Caso comum onde o devido o valor de Juros Mora/Multa faz com que
+        # os valores fiquem diferentes, exemplo:
+        #        Odoo               Valores arquivo CNAB
+        #    Valor Odoo   | Valor Recebido | Juros Mora + Multa*
+        #       100       |     110        |       10
+        #
+        # *valores vem somados no CNAB Unicred 400, seria um padrão ?
+        #
+        # Não é possível relacionar esse lançamento contabil diretamente isso
+        # causa erro, seria preciso "Cancelar o Lançamento" da account.move(
+        # referente a invoice que gerou o CNAB) é criar uma nova linha
+        # assim aumentando o valor original da Fatura, na primeira linha que
+        # fosse recebida esse processo até poderia funcionar mas no caso de uma
+        # segunda, terceira, etc acredito que o programa já não permitiria mais
+        # Cancelar o Lançamento existindo reconciliações parciais.
+        # Por isso Nesse caso é preciso alterar o Valor Recebido
+        # ( Valor Recebido - Valor Juros Mora/Multa )
+        # TODO: Deveria existir uma forma de mostrar o Valor de Juros/Multa na
+        #  tela da Fatura/Invoice, e assim o usuário poder visualizar isso ?
+        # Porque não vai existir um relacionamento direto de conciliação, apenas a
+        # referencia no campo name e invoice_id da account.move.line
+
         # Lista com os dados q poderão ser usados
         # na criação das account move line
         result_row_list = []
@@ -147,7 +191,7 @@ class CNABFileParser(FileParser):
                     cod_ocorrencia + '-' + cnab_return_move_code.name
             else:
                 descricao_ocorrencia = \
-                    cod_ocorrencia + '-' + 'CÓDIGO DA DESCRIÇÂO NÃO ENCONTRADO'
+                    cod_ocorrencia + '-' + 'CÓDIGO DA DESCRIÇÃO NÃO ENCONTRADO'
 
             # Campo especifico do Bradesco
             if bank_name_brcobranca == 'bradesco':
@@ -242,9 +286,8 @@ class CNABFileParser(FileParser):
                         })
 
                         # Usado para Conciliar a Fatura
-                        # TODO - referente a separação dos valores
-                        #  na reconciliação com a Fatura
-                        '''result_row_list.append({
+                        # Write Off necessário para ser possível a conciliação
+                        result_row_list.append({
                             'name': 'Desconto (boleto) ' +
                                     account_move_line.document_number,
                             'debit': 0.0,
@@ -254,7 +297,7 @@ class CNABFileParser(FileParser):
                             'ref': account_move_line.own_number,
                             'invoice_id': account_move_line.invoice_id.id,
                             'partner_id': account_move_line.partner_id.id,
-                        })'''
+                        })
 
                 # Valor Juros Mora - valor de mora e multa pagos pelo sacado
                 if linha_cnab.get('juros_mora'):
@@ -262,34 +305,38 @@ class CNABFileParser(FileParser):
                         linha_cnab['juros_mora'])
 
                     if valor_juros_mora > 0.0:
+
+                        # Usado para Conciliar a Fatura.
+                        # Necessário atualizar o Valor Recebido pois o Odoo
+                        # não aceita a conciliação com um valor maior do que
+                        # o informado.
+                        valor_recebido -= valor_juros_mora
+
                         result_row_list.append({
                             'name': 'Valor Juros Mora (boleto) ' +
                                     account_move_line.document_number,
                             'debit': 0.0,
                             'credit': valor_juros_mora,
                             'type': 'juros_mora',
-                            'account_id': account_move_line.payment_mode_id.
-                            interest_fee_account_id.id,
+                            'account_id': account_move_line.account_id.id,
                             'ref': account_move_line.document_number,
                             'invoice_id': account_move_line.invoice_id.id,
                             'partner_id': account_move_line.partner_id.id,
                         })
 
-                        # Usado para Conciliar a Fatura
-                        # TODO - referente a separação dos valores
-                        #  na reconciliação com a Fatura
-                        '''result_row_list.append({
+                        result_row_list.append({
                             'name': 'Valor Juros Mora (boleto) ' +
                                     account_move_line.document_number,
                             'debit': valor_juros_mora,
                             'credit': 0.0,
-                            'account_id': account_move_line.account_id.id,
+                            'account_id': account_move_line.payment_mode_id.
+                            interest_fee_account_id.id,
                             'journal_id': account_move_line.journal_id.id,
                             'type': 'juros_mora',
-                            'ref': account_move_line.own_number,
+                            'ref': account_move_line.document_number,
                             'invoice_id': account_move_line.invoice_id.id,
                             'partner_id': account_move_line.partner_id.id,
-                        })'''
+                        })
 
                 # Valor Tarifa
                 if linha_cnab.get('valor_tarifa'):
@@ -341,9 +388,8 @@ class CNABFileParser(FileParser):
                         })
 
                         # Usado para Conciliar a Fatura
-                        # TODO - referente a separação dos valores
-                        #  na reconciliação com a Fatura
-                        '''result_row_list.append({
+                        # Write Off necessário para ser possível a conciliação
+                        result_row_list.append({
                             'name': 'Abatimento (boleto) ' +
                                     account_move_line.document_number,
                             'debit': 0.0,
@@ -353,7 +399,7 @@ class CNABFileParser(FileParser):
                             'ref': account_move_line.own_number,
                             'invoice_id': account_move_line.invoice_id.id,
                             'partner_id': account_move_line.partner_id.id,
-                        })'''
+                        })
 
                 # Linha da Fatura a ser reconciliada
                 result_row_list.append({
@@ -369,33 +415,6 @@ class CNABFileParser(FileParser):
                      'account_id': account_move_line.account_id.id,
                      'partner_id': account_move_line.partner_id.id,
                 })
-
-                # Usado para Conciliar a Fatura
-                # TODO - A conciliação da Fatura deve ser com os itens
-                #  separados ?
-                #  Só foi possível unificando os valores, consigo
-                #  adicionar os créditos do Desconto e Abatimento porém o
-                #  Débito do Juros Mora retorna erro na importação:
-                #   Você está tentando conciliar algumas entradas
-                #   que já estão reconciliadas.
-                if valor_desconto > 0.0 or valor_abatimento > 0.0\
-                        or valor_juros_mora > 0.0:
-                    other_credits = \
-                        valor_abatimento + valor_desconto - valor_juros_mora
-                    if other_credits < 0.0:
-                        other_credits *= -1
-                    result_row_list.append({
-                        'name': 'Outros Créditos (Relação Desconto,'
-                                ' Abatimento, Valor Juros Mora) ' +
-                                account_move_line.document_number,
-                        'debit': 0.0,
-                        'credit': other_credits,
-                        'type': 'outros',
-                        'account_id': account_move_line.account_id.id,
-                        'ref': account_move_line.own_number,
-                        'invoice_id': account_move_line.invoice_id.id,
-                        'partner_id': account_move_line.partner_id.id,
-                    })
 
                 # CNAB LOG
                 self.cnab_return_events.append({
@@ -431,8 +450,10 @@ class CNABFileParser(FileParser):
                 # Nos codigos de retorno cadastrados no Data do modulo
                 # l10n_br_account_payment_order o 02 se refere a
                 # Entrada Confirmada e 03 Entrada Rejeitada.
-                # Estou considerando que seja um padrão, existem
-                # exceções ?
+                # TODO: Estou considerando que seja um padrão, existem
+                #  exceções ?
+                #  Caso exista será preciso criar o campo no payment.mode
+                #  para informa-lo como nos outros casos.
                 if cod_ocorrencia == '02':
                     account_move_line.cnab_state = 'accepted'
                 elif cod_ocorrencia == '03':
@@ -495,37 +516,18 @@ class CNABFileParser(FileParser):
             'name': line['name'] or line.get('source'),
             'credit': line['credit'],
             'debit': line['debit'],
-            'already_completed': False,
             'partner_id': None,
             'ref': line['ref'],
             'account_id': line['account_id'],
+            'invoice_id': line['invoice_id'],
+            'already_completed': True,
         }
         if line['type'] in (
                 'liquidado', 'tarifa', 'juros_mora',
-                'outros') and line['credit'] > 0.0:
+                'desconto', 'abatimento') and line['credit'] > 0.0:
             vals.update({
-                'invoice_id': line['invoice_id'],
                 'partner_id': line['partner_id'],
-                'already_completed': True,
                 }
             )
-        elif line['type'] in (
-                'abatimento', 'desconto', 'tarifa') and line['debit'] > 0.0:
-            vals.update({
-                'invoice_id': line['invoice_id'],
-                'already_completed': True,
-                }
-            )
-        # TODO - referente a separação dos valores
-        #  na reconciliação com a Fatura
-        # elif line['type'] == 'juros_mora' and line['debit'] > 0.0:
-        #
-        #    vals.update({
-        #       'invoice_id': line['invoice_id'],
-        #        'partner_id': line['partner_id'],
-        #        'already_completed': True,
-        #        'journal_id': line['journal_id'],
-        #      }
-        #     )
 
         return vals
