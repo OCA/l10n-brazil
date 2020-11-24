@@ -21,29 +21,6 @@ class L10nBrCNABDataAbstract(models.AbstractModel):
         index=True,
         track_visibility='always',
     )
-    bank_id = fields.Many2one(
-        string='Bank',
-        comodel_name='res.bank',
-        index=True,
-        track_visibility='always',
-    )
-    payment_method_id = fields.Many2one(
-        comodel_name='account.payment.method',
-        string='Payment Method',
-        index=True,
-        track_visibility='always',
-    )
-    # Fields used to create domain
-    bank_code_bc = fields.Char(
-        related='bank_id.code_bc',
-        store=True,
-        track_visibility='always',
-    )
-    payment_method_code = fields.Char(
-        related='payment_method_id.code',
-        store=True,
-        track_visibility='always',
-    )
 
     @api.multi
     def name_get(self):
@@ -65,21 +42,15 @@ class L10nBrCNABDataAbstract(models.AbstractModel):
 
             # Mesmo o record que está sendo alterado não ter sido ainda salvo
             # a pesquisa acaba trazendo ele, por isso o filtro 'id'
-            search_domain = [
+            code_already_exist = record.search([
                 ('id', '!=', record.id),
                 ('code', '=', record.code),
-                ('payment_method_code', '=', record.payment_method_code),
-            ]
-            # 240 mais padronizado
-            if record.payment_method_id.code != '240':
-                search_domain.append(
-                    ('bank_code_bc', '=', record.bank_code_bc))
-            code_already_exist = record.search(search_domain)
+                ('payment_method_ids', 'in', record.payment_method_ids.ids),
+                ('bank_ids', 'in', record.bank_ids.ids)
+            ])
             if code_already_exist:
                 code_name_exist = \
                     code_already_exist.code + ' - ' + code_already_exist.name
                 raise ValidationError(_(
-                    'The Code %s already exist %s for Bank %s'
-                    ' and CNAB %s.') % (
-                    record.code, code_name_exist, record.bank_id.name,
-                    record.payment_method_code))
+                    'The Code %s already exist %s for Bank and CNAB type.') % (
+                    record.code, code_name_exist))
