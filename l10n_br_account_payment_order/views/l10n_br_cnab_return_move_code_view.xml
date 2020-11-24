@@ -8,8 +8,8 @@
             <tree string="CNAB Return Move Code">
                 <field name="code"/>
                 <field name="name"/>
-                <field name="bank_id"/>
-                <field name="payment_method_id"/>
+                <field name="bank_ids" widget="many2many_tags"/>
+                <field name="payment_method_ids" widget="many2many_tags"/>
             </tree>
         </field>
     </record>
@@ -23,8 +23,8 @@
                     <group>
                         <field name="code"/>
                         <field name="name"/>
-                        <field name="bank_id"/>
-                        <field name="payment_method_id"/>
+                        <field name="bank_ids" widget="many2many_tags"/>
+                        <field name="payment_method_ids" widget="many2many_tags"/>
                     </group>
                     <div class="oe_chatter">
                         <field name="message_ids" widget="mail_thread"/>
@@ -39,28 +39,6 @@
         <field name="res_model">l10n_br_cnab.return.move.code</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
-    </record>
-
-    <record id="l10n_br_cnab_return_move_code_search" model="ir.ui.view">
-        <field name="name">l10n_br_cnab.return.move.code.search</field>
-        <field name="model">l10n_br_cnab.return.move.code</field>
-        <field name="priority" eval="20"/>
-        <field name="arch" type="xml">
-            <search string="Busque CNAB de Movimento de Retorno">
-                <!-- Opções para busca -->
-                <field name="payment_method_id"/>
-                <field name="bank_id"/>
-                <!-- Agrupar -->
-                <group string="Agrupar por">
-                    <filter name="group_by_payment_method_id"
-                            string="Tipo CNAB"
-                            context="{'group_by': 'payment_method_id'}"/>
-                    <filter name="group_by_move_bank_id"
-                            string="Banco"
-                            context="{'group_by': 'bank_id'}"/>
-                </group>
-            </search>
-        </field>
     </record>
 
     <menuitem id="menu_l10n_br_cnab_return_move_code"
