@@ -21,6 +21,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_hr_contract',
         'odoo12-addon-l10n_br_mis_report',
         'odoo12-addon-l10n_br_nfse',
+        'odoo12-addon-l10n_br_nfse_ginfes',
         'odoo12-addon-l10n_br_portal',
         'odoo12-addon-l10n_br_resource',
         'odoo12-addon-l10n_br_sale',
