@@ -94,7 +94,7 @@ addon | version | summary
 [l10n_br_resource](l10n_br_resource/) | 12.0.1.0.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
 [l10n_br_sale](l10n_br_sale/) | 12.0.1.0.1 | Brazilian Localization Sale
 [l10n_br_stock](l10n_br_stock/) | 12.0.1.0.0 | Brazilian Localization Warehouse
-[l10n_br_stock_account](l10n_br_stock_account/) | 12.0.1.0.0 | Brazilian Localization WMS Accounting
+[l10n_br_stock_account](l10n_br_stock_account/) | 12.0.1.1.0 | Brazilian Localization WMS Accounting
 [l10n_br_website_sale](l10n_br_website_sale/) | 12.0.1.0.1 | Website sale localização brasileira.
 [l10n_br_zip](l10n_br_zip/) | 12.0.2.0.0 | Brazilian Localisation ZIP Codes
 [payment_cielo](payment_cielo/) | 12.0.3.2.0 | Payment Acquirer: Cielo Implementation
