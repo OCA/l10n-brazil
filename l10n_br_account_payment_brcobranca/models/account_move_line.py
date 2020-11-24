@@ -51,7 +51,7 @@ class AccountMoveLine(models.Model):
                   'sacado_documento': move_line.partner_id.cnpj_cpf,
                   'agencia': bank_account_id.bra_number,
                   'conta_corrente': bank_account_id.acc_number,
-                  'convenio': move_line.payment_mode_id.boleto_convetion,
+                  'convenio': move_line.payment_mode_id.code_convetion,
                   'carteira': str(move_line.payment_mode_id.boleto_wallet),
                   'nosso_numero': int(''.join(
                       i for i in move_line.own_number if i.isdigit())),
