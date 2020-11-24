@@ -10,6 +10,7 @@
     'author': 'KMEE, Odoo Community Association (OCA)',
     'maintainers': ['gabrielcardoso21', 'mileo', 'luismalta'],
     'website': 'https://github.com/OCA/l10n-brazil',
+    "development_status": "Alpha",
     'external_dependencies': {
         'python': [
             'erpbrasil.edoc',
