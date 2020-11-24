@@ -127,14 +127,17 @@ class AccountJournal(models.Model):
             'cnab_date_import': fields.Datetime.now(),
             'bank_account_id': parser.journal.bank_account_id.id,
         })
-        qty_cnab_return_events = 0
-        amount_total_title = 0.0
-        amount_total_received = 0.0
+        qty_cnab_return_events = amount_total_title = \
+            amount_total_received = amount_total_tariff_charge = 0.0
+
         for cnab_return_event in parser.cnab_return_events:
             amount_total_title += cnab_return_event.get('title_value')
             if cnab_return_event.get('payment_value'):
                 amount_total_received += \
                     cnab_return_event.get('payment_value')
+            if cnab_return_event.get('tariff_charge'):
+                amount_total_tariff_charge += \
+                    cnab_return_event.get('tariff_charge')
             cnab_return_event['cnab_return_log_id'] = cnab_return_log.id
             self.env['l10n_br_cnab.return.event'].create(cnab_return_event)
             qty_cnab_return_events += 1
@@ -142,6 +145,7 @@ class AccountJournal(models.Model):
         cnab_return_log.number_events = qty_cnab_return_events
         cnab_return_log.amount_total_title = amount_total_title
         cnab_return_log.amount_total_received = amount_total_received
+        cnab_return_log.amount_total_tariff_charge = amount_total_tariff_charge
 
         attachment_data = {
             'name': context.get('file_name'),
