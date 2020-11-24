@@ -4,10 +4,10 @@ workalendar==7.1.1
 erpbrasil.base==2.0.0
 erpbrasil.assinatura==1.0.1
 erpbrasil.transmissao==1.0.0
-erpbrasil.edoc==0.2.0
+erpbrasil.edoc==1.0.0
 erpbrasil.edoc.pdf==0.1.0
+nfselib.ginfes==0.2.0
 xmldiff==2.4
 lxml==4.2.3
 -e git://github.com/erpbrasil/nfelib.git#egg=nfelib
--e git://github.com/erpbrasil/nfselib.git@feature/ginfes2#egg=nfselib
 -e git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
