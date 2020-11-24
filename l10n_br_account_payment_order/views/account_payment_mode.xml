@@ -104,6 +104,11 @@
                     </notebook>
                 </group>
             </xpath>
+            <group name="note" position="after">
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </group>
 
         </field>
     </record>
