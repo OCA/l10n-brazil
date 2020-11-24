@@ -18,7 +18,8 @@ from ..constants import (
 
 
 class AccountPaymentMode(models.Model):
-    _inherit = 'account.payment.mode'
+    _name = 'account.payment.mode'
+    _inherit = ['account.payment.mode', 'mail.thread']
 
     internal_sequence_id = fields.Many2one(
         comodel_name='ir.sequence',
@@ -66,6 +67,7 @@ class AccountPaymentMode(models.Model):
         string='Código do Convênio no Banco',
         size=20,
         help='Campo G007 do CNAB',
+        track_visibility='always',
     )
 
     doc_finality_code = fields.Selection(
@@ -98,26 +100,31 @@ class AccountPaymentMode(models.Model):
     boleto_wallet = fields.Char(
         string='Carteira',
         size=3,
+        track_visibility='always',
     )
 
     boleto_modality = fields.Char(
         string='Modalidade',
         size=2,
+        track_visibility='always',
     )
 
     boleto_convetion = fields.Char(
         string='Codigo convênio',
         size=10,
+        track_visibility='always',
     )
 
     boleto_variation = fields.Char(
         string='Variação',
         size=2,
+        track_visibility='always',
     )
 
     boleto_cnab_code = fields.Char(
         string='Código Cnab',
         size=20,
+        track_visibility='always',
     )
 
     boleto_accept = fields.Selection(
@@ -126,6 +133,7 @@ class AccountPaymentMode(models.Model):
             ('N', 'Não')],
         string='Aceite',
         default='N',
+        track_visibility='always',
     )
 
     boleto_type = fields.Selection(
@@ -137,6 +145,7 @@ class AccountPaymentMode(models.Model):
         selection=BOLETO_ESPECIE,
         string='Espécie do Título',
         default='01',
+        track_visibility='always',
     )
 
     # Na configuração ou implementação de outros campos é
@@ -158,13 +167,15 @@ class AccountPaymentMode(models.Model):
         default='0',
         help='Código adotado pela FEBRABAN para identificar o tipo '
              'de prazo a ser considerado para o protesto.',
+        track_visibility='always',
     )
 
     boleto_days_protest = fields.Char(
         string='Número de Dias para Protesto',
         size=2,
         help='Número de dias decorrentes após a data de vencimento '
-             'para inicialização do processo de cobrança via protesto.'
+             'para inicialização do processo de cobrança via protesto.',
+        track_visibility='always',
     )
 
     generate_own_number = fields.Boolean(
@@ -177,17 +188,20 @@ class AccountPaymentMode(models.Model):
     product_tax_id = fields.Many2one(
         comodel_name='product.product',
         string='Taxa Adicional',
+        track_visibility='always',
     )
 
     product_tax_account_id = fields.Many2one(
         comodel_name='account.account',
         string='Conta de Taxa do Produto',
         help='Conta padrão para a Taxa do Produto',
+        track_visibility='always',
     )
 
     cnab_sequence_id = fields.Many2one(
         comodel_name='ir.sequence',
         string='Sequencia do CNAB',
+        track_visibility='always',
     )
 
     boleto_byte_idt = fields.Char(
@@ -196,6 +210,7 @@ class AccountPaymentMode(models.Model):
         help='Byte de identificação do cedente do bloqueto '
              'utilizado para compor o nosso número, '
              'usado pelos bancos Sicred/Unicred e Sicoob.',
+        track_visibility='always',
     )
 
     boleto_post = fields.Char(
@@ -203,6 +218,7 @@ class AccountPaymentMode(models.Model):
         size=2,
         help='Código do Posto da Cooperativa de Crédito,'
              ' usado pelos bancos Sicred/Unicred e Sicoob.',
+        track_visibility='always',
     )
 
     # Field used to make invisible banks specifics fields
@@ -216,6 +232,7 @@ class AccountPaymentMode(models.Model):
         help='Para usar essa Sequencia é preciso definir o campo Tipo do '
              'Nosso Número como Sequencial Único por Carteira no cadastro da '
              'empresa',
+        track_visibility='always',
     )
 
     # Field used to make invisible own_number_sequence
@@ -228,11 +245,13 @@ class AccountPaymentMode(models.Model):
         size=1,
         help='Código adotado pela FEBRABAN para identificação '
              'do tipo de pagamento de mora de juros.',
+        track_visibility='always',
     )
 
     boleto_interest_perc = fields.Float(
         string='Percentual de Juros de Mora',
         digits=dp.get_precision('Account'),
+        track_visibility='always',
     )
 
     # TODO - criar outro campo para separar a Conta Contabil de Multa ?
@@ -242,6 +261,7 @@ class AccountPaymentMode(models.Model):
         comodel_name='account.account',
         string='Conta Contabil de Juros Mora e Multa',
         help='Conta padrão para Juros Mora',
+        track_visibility='always',
     )
 
     boleto_fee_code = fields.Char(
@@ -249,43 +269,58 @@ class AccountPaymentMode(models.Model):
         size=1,
         help='Código adotado pela FEBRABAN para identificação '
              'do tipo de pagamento de multa.',
+        track_visibility='always',
     )
 
     boleto_fee_perc = fields.Float(
         string='Percentual de Multa',
         digits=dp.get_precision('Account'),
+        track_visibility='always',
     )
 
     boleto_discount_perc = fields.Float(
         string=u"Percentual de Desconto até a Data de Vencimento",
-        digits=dp.get_precision('Account')
+        digits=dp.get_precision('Account'),
+        track_visibility='always',
     )
 
     discount_account_id = fields.Many2one(
         comodel_name='account.account',
         string='Conta Contabil de Desconto',
         help='Conta padrão para Desconto',
+        track_visibility='always',
     )
 
     rebate_account_id = fields.Many2one(
         comodel_name='account.account',
         string='Conta Contabil de Abatimanto',
         help='Conta padrão para Abatimento',
+        track_visibility='always',
     )
 
     tariff_charge_account_id = fields.Many2one(
         comodel_name='account.account',
         string='Conta Contabil Tarifa Bancaria',
         help='Conta padrão para a Tarifa Bancaria',
+        track_visibility='always',
     )
 
+    # TODO: Campos many2many não estão sendo registrados pelo track_visibility.
+    #  Debate no Odoo https://github.com/odoo/odoo/issues/10149
+    #  Modulo na OCA v10 que faria isso
+    #  https://github.com/OCA/social/tree/10.0/mail_improved_tracking_value
+    #  Migração do Modulo ainda para a v11
+    #  https://github.com/OCA/social/pull/254
+    #  Devemos incluir esse modulo nas Dependencias OCA do repo e se necessário
+    #  fazer essa migração da 12 para poder usa-lo aqui.
     # Podem existir diferentes codigos, mesmo no 240
     cnab_liq_return_move_code_ids = fields.Many2many(
         comodel_name='l10n_br_cnab.return.move.code',
         relation='l10n_br_cnab_return_liquidity_move_code_rel',
         column1='cnab_liq_return_move_code_id',
         column2='payment_mode_id',
-        string='CNAB Liquidity Return Move Code'
+        string='CNAB Liquidity Return Move Code',
+        track_visibility='always',
     )
 
     # Codigo de Remessa/Inclusão de Registro Detalhe Liberado
@@ -293,6 +328,7 @@ class AccountPaymentMode(models.Model):
         comodel_name='l10n_br_cnab.mov.instruction.code',
         string='Sending Movement Instruction Code',
         help='Sending Movement Instruction Code',
+        track_visibility='always',
     )
 
     # Codigo para Título/Pagamento Direto ao Fornecedor -Baixar
@@ -300,6 +336,7 @@ class AccountPaymentMode(models.Model):
         comodel_name='l10n_br_cnab.mov.instruction.code',
         string='Write Off Movement Instruction Code',
         help='Write Off Movement Instruction Code',
+        track_visibility='always',
     )
 
     # Field used to make invisible banks specifics fields
