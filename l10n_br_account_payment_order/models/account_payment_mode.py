@@ -37,11 +37,6 @@ class AccountPaymentMode(models.Model):
         default='1',
     )
 
-    cnab_percent_interest = fields.Float(
-        string='Percentual de Juros',
-        digits=dp.get_precision('Account'),
-    )
-
     communication_2 = fields.Char(
         string='Comunicação para o sacador avalista',
     )
@@ -117,11 +112,6 @@ class AccountPaymentMode(models.Model):
         string='Aceite',
         default='N',
         track_visibility='always',
-    )
-
-    boleto_type = fields.Selection(
-        selection=[],
-        string='Boleto',
     )
 
     boleto_species = fields.Selection(
