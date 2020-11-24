@@ -31,11 +31,28 @@ class L10nBrCNABReturnLog(models.Model):
         string='Eventos', comodel_name='l10n_br_cnab.return.event',
         inverse_name='cnab_return_log_id'
     )
-    amount_total_title = fields.Float(string='Valor Total Títulos')
-    amount_total_received = fields.Float(string='Valor Total Recebido')
-    amount_total_tariff_charge = fields.Float(string='Valor Total de Tarifas')
+    amount_total_title = fields.Float(
+        string='Valor Total Títulos'
+    )
+    amount_total_received = fields.Float(
+        string='Valor Total Recebido'
+    )
+    amount_total_tariff_charge = fields.Float(
+        string='Valor Total de Tarifas'
+    )
+    amount_total_rebate = fields.Float(
+        string='Valor Total de Abatimentos'
+    )
+    amount_total_discount = fields.Float(
+        string='Valor Total de Descontos'
+    )
+    amount_total_interest_fee = fields.Float(
+        string='Valor Total de Juros Mora/Multa'
+    )
     # Field used to make invisible/visible fields refer to Lot
-    is_cnab_lot = fields.Boolean(string='Is CNAB Lot?')
+    is_cnab_lot = fields.Boolean(
+        string='Is CNAB Lot?'
+    )
     # The LOG can have or not Journal Entry
     move_id = fields.Many2one(
         string='Journal Entry', comodel_name='account.move'
