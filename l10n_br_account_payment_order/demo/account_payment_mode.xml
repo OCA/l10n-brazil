@@ -51,7 +51,6 @@
         <field name="fixed_journal_id" ref="bradesco_journal"/>
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
-        <field name="boleto_convetion">06</field>
         <field name="boleto_wallet">03</field>
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
@@ -72,7 +71,6 @@
         <field name="fixed_journal_id" ref="unicred_journal"/>
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
-        <field name="boleto_convetion">06</field>
         <field name="boleto_wallet">21</field>
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
@@ -92,7 +90,7 @@
         <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
         <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
         <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
-        <field name="code_convetion">0001222130126</field>
+        <field name="code_convetion">92035760</field>
         <field name="cnab_liq_return_move_code_ids"
                eval="[(6,0,[ref('unicred_cnab_400-mov_return_code_01'), ref('unicred_cnab_400-mov_return_code_06'),
                ref('unicred_cnab_400-mov_return_code_07'), ref('unicred_cnab_400-mov_return_code_09')])]"/>
@@ -109,7 +107,6 @@
         <field name="fixed_journal_id" ref="unicred_journal"/>
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab240"/>
-        <field name="boleto_convetion">06</field>
         <field name="boleto_wallet">3</field>
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
@@ -125,7 +122,6 @@
         <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
         <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
         <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
-        <field name="code_convetion">0001222130126</field>
     </record>
 
     <!-- Modo de Pagamento cobrança Itau 240 -->
@@ -137,7 +133,6 @@
         <field name="fixed_journal_id" ref="itau_journal"/>
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab240"/>
-        <field name="boleto_convetion">06</field>
         <field name="boleto_wallet">3</field>
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
@@ -167,7 +162,6 @@
         <field name="fixed_journal_id" ref="cef_journal"/>
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab240"/>
-        <field name="boleto_convetion">06</field>
         <field name="boleto_wallet">3</field>
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
@@ -198,7 +192,6 @@
         <field name="fixed_journal_id" ref="itau_journal"/>
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
-        <field name="boleto_convetion">06</field>
         <field name="boleto_wallet">175</field>
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
@@ -235,7 +228,6 @@
         <field name="fixed_journal_id" ref="bb_journal"/>
         <field name="payment_order_ok">True</field>
         <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
-        <field name="boleto_convetion">0123456</field>
         <field name="boleto_wallet">18</field>
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
