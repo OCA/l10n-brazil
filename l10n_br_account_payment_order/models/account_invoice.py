@@ -153,19 +153,7 @@ class AccountInvoice(models.Model):
             if not inv.payment_mode_id.payment_order_ok:
                 continue
 
-            # As linhas de cobrança precisam ser criadas conforme a
-            #  sequencia de Data de Vencimentos/date_maturity senão ficam fora
-            #  de ordem:
-            #  ex.: own_number 201 31/12/2020, own_number 202 18/11/2020
-            #  Isso causa confusão pois a primeira
-            #  parcela fica como sendo a segunda
-            # TODO: Teria uma forma melhor de fazer isso ?
-            move_line_order_by_date_maturity = self.env[
-                'account.move.line'].search([
-                    ('id', 'in', inv.move_line_receivable_ids.ids)
-                ], order='date_maturity asc')
-
-            for index, interval in enumerate(move_line_order_by_date_maturity):
+            for index, interval in enumerate(inv.move_line_receivable_ids):
                 inv_number = inv.get_invoice_fiscal_number().split('/')[-1].zfill(8)
                 numero_documento = inv_number + '/' + str(index + 1).zfill(2)
 
@@ -186,7 +174,7 @@ class AccountInvoice(models.Model):
                     instructions += inv.instructions + '\n'
                 interval.instructions = instructions
                 # Codigo de Instrução do Movimento pode variar,
-                # 240 mais padronizado
+                # mesmo no CNAB 240
                 interval.mov_instruction_code_id = \
                     inv.payment_mode_id.cnab_sending_code_id.id
 
