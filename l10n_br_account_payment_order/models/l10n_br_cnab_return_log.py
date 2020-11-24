@@ -33,6 +33,7 @@ class L10nBrCNABReturnLog(models.Model):
     )
     amount_total_title = fields.Float(string='Valor Total Títulos')
     amount_total_received = fields.Float(string='Valor Total Recebido')
+    amount_total_tariff_charge = fields.Float(string='Valor Total de Tarifas')
     # Field used to make invisible/visible fields refer to Lot
     is_cnab_lot = fields.Boolean(string='Is CNAB Lot?')
     # The LOG can have or not Journal Entry
