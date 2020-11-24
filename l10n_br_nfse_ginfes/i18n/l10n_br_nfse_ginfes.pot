@@ -1,0 +1,59 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_nfse_ginfes
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_nfse_ginfes
+#: model:ir.model,name:l10n_br_nfse_ginfes.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
+#: model:ir.model,name:l10n_br_nfse_ginfes.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
+#: selection:res.company,provedor_nfse:0
+msgid "Ginfes"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:307
+#, python-format
+msgid "Lote ainda não processado"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
+#: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_res_company__provedor_nfse
+msgid "NFSe Provider"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:304
+#, python-format
+msgid "Não Recebido"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:310
+#, python-format
+msgid "Procesado com Erro"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:313
+#, python-format
+msgid "Procesado com Sucesso"
+msgstr ""
+
