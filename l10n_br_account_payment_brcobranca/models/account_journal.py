@@ -128,7 +128,9 @@ class AccountJournal(models.Model):
             'bank_account_id': parser.journal.bank_account_id.id,
         })
         qty_cnab_return_events = amount_total_title = \
-            amount_total_received = amount_total_tariff_charge = 0.0
+            amount_total_received = amount_total_tariff_charge \
+            = amount_total_interest_fee = amount_total_discount = \
+            amount_total_rebate = 0.0
 
         for cnab_return_event in parser.cnab_return_events:
             amount_total_title += cnab_return_event.get('title_value')
@@ -138,6 +140,15 @@ class AccountJournal(models.Model):
             if cnab_return_event.get('tariff_charge'):
                 amount_total_tariff_charge += \
                     cnab_return_event.get('tariff_charge')
+            if cnab_return_event.get('rebate_value'):
+                amount_total_rebate += \
+                    cnab_return_event.get('rebate_value')
+            if cnab_return_event.get('discount_value'):
+                amount_total_discount += \
+                    cnab_return_event.get('discount_value')
+            if cnab_return_event.get('interest_fee_value'):
+                amount_total_interest_fee += \
+                    cnab_return_event.get('interest_fee_value')
             cnab_return_event['cnab_return_log_id'] = cnab_return_log.id
             self.env['l10n_br_cnab.return.event'].create(cnab_return_event)
             qty_cnab_return_events += 1
@@ -146,6 +157,9 @@ class AccountJournal(models.Model):
         cnab_return_log.amount_total_title = amount_total_title
         cnab_return_log.amount_total_received = amount_total_received
         cnab_return_log.amount_total_tariff_charge = amount_total_tariff_charge
+        cnab_return_log.amount_total_interest_fee = amount_total_interest_fee
+        cnab_return_log.amount_total_discount = amount_total_discount
+        cnab_return_log.amount_total_rebate = amount_total_rebate
 
         attachment_data = {
             'name': context.get('file_name'),
