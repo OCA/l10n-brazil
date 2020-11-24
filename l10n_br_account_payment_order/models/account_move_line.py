@@ -10,6 +10,11 @@ from ..constants import ESTADOS_CNAB, SITUACAO_PAGAMENTO
 class AccountMoveLine(models.Model):
     _name = 'account.move.line'
     _inherit = ["account.move.line", "mail.thread", "mail.activity.mixin"]
+    # As linhas de cobrança precisam ser criadas conforme sequencia de
+    # Data de Vencimentos/date_maturity senão ficam fora de ordem:
+    #  ex.: own_number 201 31/12/2020, own_number 202 18/11/2020
+    #  Isso causa confusão pois a primeira parcela fica como sendo a segunda.
+    _order = 'date desc, date_maturity ASC, id desc'
 
     # TODO - possível tornar um compute ?
     cnab_state = fields.Selection(
