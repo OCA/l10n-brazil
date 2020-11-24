@@ -50,6 +50,7 @@
 
                 <group class="oe_subtotal_footer oe_right" colspan="2" name="cnab_total">
                     <field name="amount_total_received" widget='monetary' options="{'currency_field': 'currency_id'}" readonly="1"/>
+                    <field name="amount_total_tariff_charge" widget='monetary' options="{'currency_field': 'currency_id'}" readonly="1"/>
                     <div class="oe_subtotal_footer_separator oe_inline o_td_label">
                     <label for="amount_total_title"/>
                     </div>
