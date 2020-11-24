@@ -260,6 +260,12 @@ class CNABFileParser(FileParser):
                     valor_abatimento = valor_tarifa = 0.0
 
                 if linha_cnab['valor_recebido']:
+                    # Campo Valor Recebido vem sem o Valor da Tarifa:
+                    # valor recebido = valor pago - valor da tarifa
+                    # TODO: Isso é um padrão ?  caso não seja será
+                    #  necessário tratar esse caso, pois o valor da
+                    #  Tarifa está sendo informado dentro do Odoo de
+                    #  forma separada tanto na account.move quanto no Log
                     valor_recebido = self.cnab_str_to_float(
                         linha_cnab['valor_recebido'])
 
@@ -307,12 +313,6 @@ class CNABFileParser(FileParser):
                         linha_cnab['juros_mora'])
 
                     if valor_juros_mora > 0.0:
-
-                        # Usado para Conciliar a Fatura.
-                        # Necessário atualizar o Valor Recebido pois o Odoo
-                        # não aceita a conciliação com um valor maior do que
-                        # o informado.
-                        valor_recebido -= valor_juros_mora
 
                         result_row_list.append({
                             'name': 'Valor Juros Mora (boleto) ' +
@@ -403,11 +403,16 @@ class CNABFileParser(FileParser):
                             'partner_id': account_move_line.partner_id.id,
                         })
 
-                # Linha da Fatura a ser reconciliada
+                # Linha da Fatura a ser reconciliada.
+                # Necessário atualizar o Valor Recebido pois o Odoo
+                # não aceita a conciliação com um valor maior do que
+                # o informado.
+                valor_recebido_sem_juros_mora =\
+                    valor_recebido - valor_juros_mora
                 result_row_list.append({
                      'name': account_move_line.invoice_id.number,
                      'debit': 0.0,
-                     'credit': valor_recebido,
+                     'credit': valor_recebido_sem_juros_mora,
                      'move_line': account_move_line,
                      'invoice_id': account_move_line.invoice_id.id,
                      'type': 'liquidado',
@@ -422,6 +427,9 @@ class CNABFileParser(FileParser):
                 self.cnab_return_events.append({
                     'occurrence_date': data_ocorrencia,
                     'real_payment_date': data_credito.strftime("%Y-%m-%d"),
+                    # TODO: Campo Segmento é referente ao CNAB 240, o
+                    #  BRCobranca parece não informar esse campo no retorno,
+                    #  é preciso validar isso nesse caso.
                     # 'segmento': evento.servico_segmento,
                     # 'favorecido_nome':
                     #    obj_account_move_line.company_id.partner_id.name,
