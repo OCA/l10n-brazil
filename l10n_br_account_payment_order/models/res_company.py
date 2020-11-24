@@ -18,6 +18,6 @@ class ResCompany(models.Model):
         default='1',
     )
 
-    own_number_sequence = fields.Many2one(
+    own_number_sequence_id = fields.Many2one(
         comodel_name='ir.sequence', string='Sequência do Nosso Número'
     )
