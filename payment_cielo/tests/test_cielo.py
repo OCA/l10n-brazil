@@ -4,8 +4,10 @@
 import odoo
 from odoo import fields
 from odoo.addons.payment.tests.common import PaymentAcquirerCommon
-import logging
 import time
+import logging
+import vcr
+import os
 
 _logger = logging.getLogger(__name__)
 
@@ -24,6 +26,12 @@ class CieloCommon(PaymentAcquirerCommon):
 @odoo.tests.tagged('post_install', '-at_install')
 class CieloTest(CieloCommon):
 
+    @vcr.use_cassette(os.path.dirname(__file__) +
+                      '/fixtures/test_10_cielo_s2s.yaml',
+                      match_on=['method', 'scheme', 'host', 'port', 'path',
+                                'query', 'body'],
+                      filter_post_data_parameters=['MerchantOrderId',
+                                                   'SoftDescriptor'])
     def test_10_cielo_s2s(self):
         self.assertEqual(self.cielo.environment, 'test',
                          'test without test environment')
@@ -36,7 +44,7 @@ class CieloTest(CieloCommon):
 
         # Create payment meethod for Cielo
         try:
-            payment_token_cielo = self.env['payment.token'].create({
+            payment_token = self.env['payment.token'].create({
                 'acquirer_id': self.cielo.id,
                 'partner_id': self.buyer_id,
                 'cc_number': '4024007197692931',
@@ -45,18 +53,17 @@ class CieloTest(CieloCommon):
                 'cvc': '111',
                 'cc_holder_name': 'Johndoe',
                 })
-            time.sleep(8)
+            time.sleep(2)
             # Create transaction
             tx = self.env['payment.transaction'].create({
                 'reference': 'test_ref_%s' % fields.date.today(),
                 'currency_id': self.currency_euro.id,
                 'acquirer_id': self.cielo.id,
                 'partner_id': self.buyer_id,
-                'payment_token_id': payment_token_cielo.id,
+                'payment_token_id': payment_token.id,
                 'type': 'server2server',
                 'amount': 115.0
                 })
-
         except Exception as e:
             _logger.warning(e)
 
@@ -76,6 +83,7 @@ class CieloTest(CieloCommon):
         # Test invalid card
         self.assertEqual(self.cielo.environment, 'test',
                          'test without test environment')
+
         # Add Cielo credentials
         self.cielo.write({
             'cielo_merchant_id': 'be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd',
@@ -105,7 +113,10 @@ class CieloTest(CieloCommon):
                 'type': 'server2server',
                 'amount': 115.0
                 })
+        except Exception as e:
+            _logger.warning(e)
 
+        try:
             tx.cielo_s2s_do_transaction()
         except Exception as e:
             _logger.warning(e)
