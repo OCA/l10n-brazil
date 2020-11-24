@@ -302,6 +302,11 @@ msgid "Fiscal Document Status"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: selection:res.company,provedor_nfse:0
+msgid "Ginfes"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: selection:l10n_br_fiscal.document,nfse_environment:0
 #: selection:res.company,nfse_environment:0
 msgid "Homologação"
