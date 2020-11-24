@@ -9,7 +9,7 @@ from ..constants import ESTADOS_CNAB, SITUACAO_PAGAMENTO
 
 class AccountMoveLine(models.Model):
     _name = 'account.move.line'
-    _inherit = ["account.move.line", "mail.thread", "mail.activity.mixin"]
+    _inherit = ['account.move.line', 'mail.thread']
     # As linhas de cobrança precisam ser criadas conforme sequencia de
     # Data de Vencimentos/date_maturity senão ficam fora de ordem:
     #  ex.: own_number 201 31/12/2020, own_number 202 18/11/2020
@@ -25,6 +25,7 @@ class AccountMoveLine(models.Model):
 
     own_number = fields.Char(
         string='Nosso Numero',
+        track_visibility='onchange',
     )
 
     # No arquivo de retorno do CNAB o campo pode ter um tamanho diferente,
@@ -51,10 +52,12 @@ class AccountMoveLine(models.Model):
 
     document_number = fields.Char(
         string='Número documento',
+        track_visibility='onchange',
     )
 
     company_title_identification = fields.Char(
         string='Identificação Titulo Empresa',
+        track_visibility='onchange',
     )
 
     payment_situation = fields.Selection(
@@ -91,6 +94,7 @@ class AccountMoveLine(models.Model):
         comodel_name='l10n_br_cnab.mov.instruction.code',
         string='Código da Instrução para Movimento',
         help='Campo G061 do CNAB',
+        track_visibility='onchange',
     )
 
     # Usados para deixar invisiveis/somente leitura
