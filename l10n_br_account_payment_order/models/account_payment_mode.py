@@ -21,11 +21,6 @@ class AccountPaymentMode(models.Model):
     _name = 'account.payment.mode'
     _inherit = ['account.payment.mode', 'mail.thread']
 
-    internal_sequence_id = fields.Many2one(
-        comodel_name='ir.sequence',
-        string='Sequência',
-    )
-
     instructions = fields.Text(
         string='Instruções de cobrança',
     )
@@ -200,7 +195,7 @@ class AccountPaymentMode(models.Model):
 
     cnab_sequence_id = fields.Many2one(
         comodel_name='ir.sequence',
-        string='Sequencia do CNAB',
+        string='Sequencia do Arquivo CNAB',
         track_visibility='always',
     )
 
@@ -226,7 +221,7 @@ class AccountPaymentMode(models.Model):
         related='fixed_journal_id.bank_id.code_bc',
     )
 
-    own_number_sequence = fields.Many2one(
+    own_number_sequence_id = fields.Many2one(
         comodel_name='ir.sequence',
         string='Sequência do Nosso Número',
         help='Para usar essa Sequencia é preciso definir o campo Tipo do '
@@ -235,7 +230,7 @@ class AccountPaymentMode(models.Model):
         track_visibility='always',
     )
 
-    # Field used to make invisible own_number_sequence
+    # Field used to make invisible own_number_sequence_id
     own_number_type = fields.Selection(
         related='fixed_journal_id.company_id.own_number_type',
     )
@@ -344,13 +339,6 @@ class AccountPaymentMode(models.Model):
         related='fixed_journal_id.bank_id',
     )
 
-    _sql_constraints = [(
-        "internal_sequence_id_unique",
-        "unique(internal_sequence_id)",
-        _("Sequência já usada! Crie uma sequência unica para cada modo"),
-        )
-    ]
-
     @api.constrains(
         'boleto_type',
         'boleto_wallet',
@@ -382,13 +370,13 @@ class AccountPaymentMode(models.Model):
     def get_own_number_sequence(self, inv, numero_documento):
         if inv.company_id.own_number_type == '0':
             # SEQUENCIAL_EMPRESA
-            sequence = inv.company_id.own_number_sequence.next_by_id()
+            sequence = inv.company_id.own_number_sequence_id.next_by_id()
         elif inv.company_id.own_number_type == '1':
             # SEQUENCIAL_FATURA
             sequence = numero_documento.replace('/', '')
         elif inv.company_id.own_number_type == '2':
             # SEQUENCIAL_CARTEIRA
-            sequence = inv.payment_mode_id.own_number_sequence.next_by_id()
+            sequence = inv.payment_mode_id.own_number_sequence_id.next_by_id()
         else:
             raise UserError(_(
                 'Favor acessar aba Cobrança da configuração da'
@@ -416,3 +404,16 @@ class AccountPaymentMode(models.Model):
                 record.post_move = False
                 # Selecionavel na Ordem de Pagamento
                 record.payment_order_ok = True
+
+    @api.constrains('own_number_sequence_id')
+    def _check_own_number_sequence_id(self):
+        for record in self:
+            already_in_use = record.search([
+                ('id', '!=', record.id),
+                ('own_number_sequence_id', '=',
+                 record.own_number_sequence_id.id),
+            ])
+            if already_in_use:
+                raise ValidationError(
+                    _('Sequence Own Number already in use by %s.')
+                    % already_in_use.name)
