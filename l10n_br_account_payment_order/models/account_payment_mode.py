@@ -104,21 +104,9 @@ class AccountPaymentMode(models.Model):
         track_visibility='always',
     )
 
-    boleto_convetion = fields.Char(
-        string='Codigo convênio',
-        size=10,
-        track_visibility='always',
-    )
-
     boleto_variation = fields.Char(
         string='Variação',
         size=2,
-        track_visibility='always',
-    )
-
-    boleto_cnab_code = fields.Char(
-        string='Código Cnab',
-        size=20,
         track_visibility='always',
     )
 
@@ -343,7 +331,6 @@ class AccountPaymentMode(models.Model):
         'boleto_type',
         'boleto_wallet',
         'boleto_modality',
-        'boleto_convetion',
         'boleto_variation',
     )
     def boleto_restriction(self):

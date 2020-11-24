@@ -37,11 +37,9 @@
                                 <field name="own_number_type" invisible="1"/>
                                 <field name="own_number_sequence_id" attrs="{'invisible': [('own_number_type', '!=', '2')],
                                  'required': [('own_number_type', '==', '2'), ('payment_order_ok', '==', True)]}"/>
-                                <field name="boleto_convetion"/>
                                 <field name="boleto_wallet"/>
                                 <field name="boleto_modality"/>
                                 <field name="boleto_variation"/>
-                                <field name="boleto_cnab_code"/>
                                 <field name="boleto_accept"/>
                                 <field name="boleto_species"/>
                                 <field name="payment_method_code" invisible="1"/>
