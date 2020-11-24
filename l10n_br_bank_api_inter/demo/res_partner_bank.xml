@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Bank Account for Main Company -->
+    <record id="main_company_bank_inter" model="res.partner.bank">
+        <field name="acc_number">1405431</field>
+        <field name="acc_number_dig">0</field>
+        <field name="bra_number">0001</field>
+        <field name="bra_number_dig">9</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_077"/>
+        <field name="partner_id" ref="base.main_partner"/>
+        <field name="bank_name">BANCO INTERMEDIUM</field>
+    </record>
+
+</odoo>
