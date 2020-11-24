@@ -92,13 +92,11 @@ msgstr ""
 "fiscal: %s !"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__invoice_state
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__invoice_state
 msgid "Invoice Status"
 msgstr "Status da Fatura"
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__invoice_state
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_rule__invoice_state
 msgid ""
 "Invoiced: an invoice already exists\n"
