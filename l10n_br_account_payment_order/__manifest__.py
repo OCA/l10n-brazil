@@ -38,6 +38,7 @@
         'wizards/account_move_line_change.xml',
 
         # Views
+        'views/account_journal.xml',
         'views/account_payment_order.xml',
         'views/account_payment_line.xml',
         'views/account_payment_mode.xml',
