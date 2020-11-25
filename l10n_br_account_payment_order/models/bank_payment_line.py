@@ -1,7 +1,19 @@
 # © 2012 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Copyright 2020 Akretion
+# @author Magno Costa <magno.costa@akretion.com.br>
+
+import logging
 
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.base import misc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
+
 
 from ..constants import (
     AVISO_FAVORECIDO,
@@ -162,3 +174,30 @@ class BankPaymentLine(models.Model):
         #     'bank_id', 'date', 'state']
 
         return same_fields
+
+    # TODO: Implementar métodos para outros tipos cnab.
+    #   _prepare_boleto_bank_line_vals
+    #   _prepare_pagamento_bank_line_vals
+    #   _prepare_debito_automatico_bank_line_vals
+    #   _prepare_[...]_bank_line_vals
+
+    def _prepare_bank_line_vals(self):
+        return {
+            'valor': self.amount_currency,
+            'data_vencimento': self.date.strftime('%Y/%m/%d'),
+            'nosso_numero': self.own_number,
+            'documento_sacado': misc.punctuation_rm(self.partner_id.cnpj_cpf),
+            'nome_sacado':
+                self.partner_id.legal_name.strip()[:40],
+            'numero': str(self.document_number)[:10],
+            'endereco_sacado': str(
+                self.partner_id.street + ', ' + str(
+                    self.partner_id.street_number))[:40],
+            'bairro_sacado':
+                self.partner_id.district.strip(),
+            'cep_sacado': misc.punctuation_rm(self.partner_id.zip),
+            'cidade_sacado':
+                self.partner_id.city_id.name,
+            'uf_sacado': self.partner_id.state_id.code,
+            'identificacao_ocorrencia': self.order_id.movement_instruction_code
+        }
