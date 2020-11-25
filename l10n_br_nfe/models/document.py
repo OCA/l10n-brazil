@@ -54,7 +54,8 @@ class NFe(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document'
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe",
                 "nfe.40.tendereco", "nfe.40.tenderemi",
-                "nfe.40.dest", "nfe.40.emit", "nfe.40.cobr", "nfe.40.fat"]
+                "nfe.40.dest", "nfe.40.emit", "nfe.40.cobr", "nfe.40.fat",
+                "nfe.40.tinfresptec"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
     _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
@@ -594,6 +595,19 @@ class NFe(spec_models.StackedModel):
             self.env.context = dict(self.env.context)
             self.env.context.update({'tpAmb': self[xsd_field]})
 
+        if class_obj._name == 'nfe.40.tinfresptec':
+            if xsd_field == 'nfe40_CNPJ':
+                return self.company_id.technical_support_id.cnpj_cpf.replace(
+                        '.', '').replace('/', '').replace('-', '')
+            if xsd_field == 'nfe40_xContato':
+                return self.company_id.technical_support_id.name
+            if xsd_field == 'nfe40_email':
+                return self.company_id.technical_support_id.email
+            if xsd_field == 'nfe40_fone':
+                return self.company_id.technical_support_id.phone.replace(
+                    ' ', '').replace('(', '').replace(')', '').replace(
+                    '-', '')
+
         if xsd_field == 'nfe40_CNPJ':
             if class_obj._name == 'nfe.40.emit':
                 if self.company_cnpj_cpf:
@@ -726,7 +740,7 @@ class NFe(spec_models.StackedModel):
             if not any(self[f] for f in self[field_name]._fields
                        if self._fields[f]._attrs.get('xsd')) and \
                     field_name not in ['nfe40_PIS', 'nfe40_COFINS',
-                                       'nfe40_enderDest']:
+                                       'nfe40_enderDest', 'nfe40_infRespTec']:
                 return False
         if field_name == 'nfe40_ISSQNtot' and all(
                 t == 'consu' for t in
