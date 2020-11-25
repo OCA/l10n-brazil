@@ -7,14 +7,14 @@ import logging
 
 from odoo import api, fields, models
 
-_logger = logging.getLogger(__name__)
-
 from ..constants import (
     AVISO_FAVORECIDO,
     CODIGO_FINALIDADE_TED,
     COMPLEMENTO_TIPO_SERVICO,
     ESTADOS_CNAB,
 )
+
+_logger = logging.getLogger(__name__)
 
 try:
     from erpbrasil.base import misc
