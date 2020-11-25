@@ -9,18 +9,17 @@ from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from erpbrasil.base import misc
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
-
-
 from ..constants import (
     AVISO_FAVORECIDO,
     CODIGO_FINALIDADE_TED,
     COMPLEMENTO_TIPO_SERVICO,
     ESTADOS_CNAB,
 )
+
+try:
+    from erpbrasil.base import misc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class BankPaymentLine(models.Model):
