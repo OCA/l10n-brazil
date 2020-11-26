@@ -198,5 +198,5 @@ class BankPaymentLine(models.Model):
             'cidade_sacado':
                 self.partner_id.city_id.name,
             'uf_sacado': self.partner_id.state_id.code,
-            'identificacao_ocorrencia': self.order_id.movement_instruction_code
+            'identificacao_ocorrencia': self.mov_instruction_code_id.id
         }
