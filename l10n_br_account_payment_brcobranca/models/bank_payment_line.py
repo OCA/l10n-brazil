@@ -4,41 +4,11 @@
 # @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
-
 from odoo import models, api, fields, _
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class BankPaymentLine(models.Model):
     _inherit = "bank.payment.line"
-
-    def _prepare_bank_line_vals(self):
-        return {
-            'valor': self.amount_currency,
-            'data_vencimento': self.date.strftime('%Y/%m/%d'),
-            'nosso_numero': self.own_number,
-            'documento_sacado': misc.punctuation_rm(self.partner_id.cnpj_cpf),
-            'nome_sacado':
-                self.partner_id.legal_name.strip()[:40],
-            'numero': str(self.document_number)[:10],
-            'endereco_sacado': str(
-                self.partner_id.street + ', ' + str(
-                    self.partner_id.street_number))[:40],
-            'bairro_sacado':
-                self.partner_id.district.strip(),
-            'cep_sacado': misc.punctuation_rm(self.partner_id.zip),
-            'cidade_sacado':
-                self.partner_id.city_id.name,
-            'uf_sacado': self.partner_id.state_id.code,
-            'identificacao_ocorrencia': self.mov_instruction_code_id.id
-        }
 
     def _prepare_bank_line_unicred(self, payment_mode_id, linhas_pagamentos):
         # TODO - Valores padrões ?
