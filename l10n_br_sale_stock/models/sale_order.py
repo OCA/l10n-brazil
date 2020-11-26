@@ -10,6 +10,7 @@ class SaleOrder(models.Model):
     def action_invoice_create(self):
         picking_ids = self.picking_ids.filtered(
             lambda p: p.invoice_state == '2binvoiced' and p.state == 'done')
+        invoices = self.env['account.invoice']
         if picking_ids:
             wizard = self.env['stock.invoice.onshipping'].with_context(
                 active_model='stock.picking',
@@ -19,4 +20,4 @@ class SaleOrder(models.Model):
             wizard._update_picking_invoice_status(
                 invoices.mapped("picking_ids"))
         result = super().action_invoice_create()
-        return result + invoices.ids if invoices else result
+        return result + invoices.ids
