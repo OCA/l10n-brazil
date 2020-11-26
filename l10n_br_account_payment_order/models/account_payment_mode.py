@@ -324,7 +324,7 @@ class AccountPaymentMode(models.Model):
         'boleto_variation',
     )
     def boleto_restriction(self):
-        if self.boleto_type == '6' and not self.boleto_wallet:
+        if self.bank_code_bc == '341' and not self.boleto_wallet:
             raise ValidationError('Carteira no banco Itaú é obrigatória')
         if self.group_lines:
             raise ValidationError(
