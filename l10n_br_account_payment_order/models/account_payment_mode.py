@@ -318,25 +318,34 @@ class AccountPaymentMode(models.Model):
     )
 
     @api.constrains(
-        'boleto_type',
+        'code_convetion',
+        'cnab_sequence_id',
+        'fixed_journal_id',
         'boleto_wallet',
-        'boleto_modality',
-        'boleto_variation',
+        'group_lines',
+        'generate_move',
+        'post_move',
     )
-    def boleto_restriction(self):
-        if self.bank_code_bc == '341' and not self.boleto_wallet:
-            raise ValidationError('Carteira no banco Itaú é obrigatória')
-        if self.group_lines:
-            raise ValidationError(
-                _('The Payment mode can not be used for Boleto/CNAB with the group'
-                  ' lines active. \n Please uncheck it to continue.')
-            )
-        if self.generate_move or self.post_move:
-            raise ValidationError(
-                _('The Payment mode can not be used for Boleto/CNAB with the'
-                  ' generated moves or post moves active. \n Please uncheck it'
-                  ' to continue.')
-            )
+    def _check_cnab_restriction(self):
+        for record in self:
+            if record.payment_method_code not in ('240', '400', '500'):
+                return False
+            fields_forbidden_cnab = []
+            if record.group_lines:
+                fields_forbidden_cnab.append('Group Lines')
+            if record.generate_move:
+                fields_forbidden_cnab.append('Generated Moves')
+            if record.post_move:
+                fields_forbidden_cnab.append('Post Moves')
+
+            for field in fields_forbidden_cnab:
+                raise ValidationError(
+                    _('The Payment Mode can not be used for CNAB with the field'
+                      ' %s active. \n Please uncheck it to continue.') % field
+                )
+
+            if self.bank_code_bc == '341' and not self.boleto_wallet:
+                raise ValidationError('Carteira no banco Itaú é obrigatória')
 
     @api.onchange('product_tax_id')
     def _onchange_product_tax_id(self):
