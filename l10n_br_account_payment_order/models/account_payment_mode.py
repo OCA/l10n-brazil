@@ -403,3 +403,17 @@ class AccountPaymentMode(models.Model):
                 raise ValidationError(
                     _('Sequence Own Number already in use by %s.')
                     % already_in_use.name)
+
+    @api.constrains('cnab_sequence_id')
+    def _check_cnab_sequence_id(self):
+        for record in self:
+            already_in_use = record.search([
+                ('id', '!=', record.id),
+                ('cnab_sequence_id', '=',
+                 record.cnab_sequence_id.id),
+            ])
+
+            if already_in_use:
+                raise ValidationError(
+                    _('Sequence CNAB Sequence already in use by %s.')
+                    % already_in_use.name)
