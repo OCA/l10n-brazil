@@ -14,6 +14,8 @@
         <field name="code_convetion">0001222130126</field>
         <field name="bank_account_link">fixed</field>
         <field name="fixed_journal_id" ref="main_company_bank_journal"/>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_main_company"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_main_company"/>
     </record>
 
     <!-- Account Payment Mode -->
@@ -27,6 +29,8 @@
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_empresa_simples_nacional"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_empresa_simples_nacional"/>
     </record>
 
     <!-- Account Payment Mode -->
@@ -40,6 +44,8 @@
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_empresa_lucro_presumido"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_empresa_lucro_presumido"/>
     </record>
 
     <!-- Modo de Pagamentos Cobrança Bradesco400 -->
@@ -55,11 +61,42 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
-        <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_bradesco_400"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_bradesco_400"/>
         <field name="generate_move">False</field>
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
+    </record>
+
+    <!-- Modo de Pagamento cobrança Bradesco 240 -->
+    <record id="payment_mode_cobranca_bradesco240" model="account.payment.mode">
+        <field name="name">Cobrança Bradesco240</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="instructions">Pagavel em qualquer banco ate o vencimento</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="bradesco_journal"/>
+        <field name="payment_order_ok">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240"/>
+        <field name="boleto_wallet">3</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">S</field>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_bradesco_240"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_bradesco_240"/>
+        <field name="generate_move">False</field>
+        <field name="post_move">False</field>
+        <field name="group_lines">False</field>
+        <field name="tariff_charge_account_id" ref="1_account_template_32302_avoid_travis_error"/>
+        <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
+        <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
+        <field name="code_convetion">0001222130126</field>
+        <field name="cnab_liq_return_move_code_ids"
+               eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09'),
+               ref('cnab_240-mov_return_code_17')])]"/>
+        <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00"/>
+        <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23"/>
     </record>
 
     <!-- Payment Mode Cobrança Unicred 400 -->
@@ -75,14 +112,14 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">N</field>
-        <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_unicred_400"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_unicred_400"/>
         <field name="boleto_protest_code">2</field>
         <field name="boleto_days_protest">5</field>
         <field name="boleto_interest_code">2</field>
         <field name="boleto_interest_perc">2</field>
         <field name="boleto_fee_code">2</field>
         <field name="boleto_fee_perc">2</field>
-        <field name="code_convetion">72234050</field>
         <field name="generate_move">False</field>
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
@@ -90,6 +127,7 @@
         <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
         <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
         <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
+        <!-- Code de Convenio maximo 10 caracteres -->
         <field name="code_convetion">92035760</field>
         <field name="cnab_liq_return_move_code_ids"
                eval="[(6,0,[ref('unicred_cnab_400-mov_return_code_01'), ref('unicred_cnab_400-mov_return_code_06'),
@@ -111,7 +149,8 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">N</field>
-        <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_unicred_240"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_unicred_240"/>
         <field name="boleto_protest_code">2</field>
         <field name="boleto_days_protest">5</field>
         <field name="code_convetion">72234050</field>
@@ -122,6 +161,11 @@
         <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
         <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
         <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
+        <field name="cnab_liq_return_move_code_ids"
+               eval="[(6,0,[ref('unicred_cnab_400-mov_return_code_01'), ref('unicred_cnab_400-mov_return_code_06'),
+               ref('unicred_cnab_400-mov_return_code_07'), ref('unicred_cnab_400-mov_return_code_09')])]"/>
+        <field name="cnab_sending_code_id" ref="unicred_cnab_400-mov_instruction_code_01"/>
+        <field name="cnab_write_off_code_id" ref="unicred_cnab_400-mov_instruction_code_02"/>
     </record>
 
     <!-- Modo de Pagamento cobrança Itau 240 -->
@@ -137,7 +181,8 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
-        <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_itau_240"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_itau_240"/>
         <field name="generate_move">False</field>
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
@@ -146,36 +191,6 @@
         <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
         <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
         <field name="code_convetion">0001222130126</field>
-        <field name="cnab_liq_return_move_code_ids"
-               eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09'),
-               ref('cnab_240-mov_return_code_17')])]"/>
-        <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00"/>
-        <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23"/>
-    </record>
-
-    <!-- Modo de Pagamento cobrança Caixa Economica Federal 240 -->
-    <record id="payment_mode_cobranca_cef240" model="account.payment.mode">
-        <field name="name">Cobrança Caixa Economica Federal 240</field>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="instructions">Pagavel em qualquer banco ate o vencimento</field>
-        <field name="bank_account_link">fixed</field>
-        <field name="fixed_journal_id" ref="cef_journal"/>
-        <field name="payment_order_ok">True</field>
-        <field name="payment_method_id" ref="payment_mode_type_cnab240"/>
-        <field name="boleto_wallet">3</field>
-        <field name="boleto_modality">DM</field>
-        <field name="boleto_variation">19</field>
-        <field name="boleto_accept">S</field>
-        <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
-        <field name="generate_move">False</field>
-        <field name="post_move">False</field>
-        <field name="group_lines">False</field>
-        <field name="tariff_charge_account_id" ref="1_account_template_32302_avoid_travis_error"/>
-        <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
-        <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
-        <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
-        <!-- Code de Convenio maximo 6 caracteres -->
-        <field name="code_convetion">000122</field>
         <field name="cnab_liq_return_move_code_ids"
                eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09'),
                ref('cnab_240-mov_return_code_17')])]"/>
@@ -196,7 +211,8 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
-        <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_itau_400"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_itau_400"/>
         <field name="generate_move">False</field>
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
@@ -205,6 +221,63 @@
         <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
         <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
         <field name="code_convetion">0001222130126</field>
+    </record>
+
+    <!-- Modo de Pagamento cobrança Caixa Economica Federal 240 -->
+    <record id="payment_mode_cobranca_cef240" model="account.payment.mode">
+        <field name="name">Cobrança Caixa Economica Federal 240</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="instructions">Pagavel em qualquer banco ate o vencimento</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="cef_journal"/>
+        <field name="payment_order_ok">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240"/>
+        <field name="boleto_wallet">3</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">S</field>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_cef_240"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_cef_240"/>
+        <field name="generate_move">False</field>
+        <field name="post_move">False</field>
+        <field name="group_lines">False</field>
+        <field name="tariff_charge_account_id" ref="1_account_template_32302_avoid_travis_error"/>
+        <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
+        <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
+        <!-- Code de Convenio maximo 6 caracteres -->
+        <field name="code_convetion">000122</field>
+        <field name="cnab_liq_return_move_code_ids"
+               eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09'),
+               ref('cnab_240-mov_return_code_17')])]"/>
+        <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00"/>
+        <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23"/>
+    </record>
+
+    <!-- Modo de Pagamento cobrança Caixa Economica Federal 400 -->
+    <record id="payment_mode_cobranca_cef400" model="account.payment.mode">
+        <field name="name">Cobrança Caixa Economica Federal 400</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="instructions">Pagavel em qualquer banco ate o vencimento</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="cef_journal"/>
+        <field name="payment_order_ok">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab400"/>
+        <field name="boleto_wallet">3</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">S</field>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_cef_400"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_cef_400"/>
+        <field name="generate_move">False</field>
+        <field name="post_move">False</field>
+        <field name="group_lines">False</field>
+        <field name="tariff_charge_account_id" ref="1_account_template_32302_avoid_travis_error"/>
+        <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
+        <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
+        <!-- Code de Convenio maximo 6 caracteres -->
+        <field name="code_convetion">000122</field>
     </record>
 
     <!-- Produto Taxa -->
@@ -232,7 +305,35 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
-        <field name="cnab_sequence_id" ref="sequence_cnab_number"/>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_bb_400"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_bb_400"/>
+        <field name="product_tax_id" ref="product_tax_boleto"/>
+        <field name="product_tax_account_id" ref="1_account_template_3010101010300_avoid_travis_error"/>
+        <field name="generate_move">False</field>
+        <field name="post_move">False</field>
+        <field name="group_lines">False</field>
+        <field name="tariff_charge_account_id" ref="1_account_template_32302_avoid_travis_error"/>
+        <field name="interest_fee_account_id" ref="1_account_template_31202_avoid_travis_error"/>
+        <field name="discount_account_id" ref="1_account_template_32202_avoid_travis_error"/>
+        <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
+        <field name="code_convetion">0001222130126</field>
+    </record>
+
+    <!-- Payment Mode Cobrança Banco do Brasil 240 -->
+    <record id="payment_mode_cobranca_bb240" model="account.payment.mode">
+        <field name="name">Cobrança Banco do Brasil 240</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="instructions">Pagavel em qualquer banco ate o vencimento</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="bb_journal"/>
+        <field name="payment_order_ok">True</field>
+        <field name="payment_method_id" ref="payment_mode_type_cnab240"/>
+        <field name="boleto_wallet">18</field>
+        <field name="boleto_modality">DM</field>
+        <field name="boleto_variation">19</field>
+        <field name="boleto_accept">S</field>
+        <field name="cnab_sequence_id" ref="sequence_cnab_number_bb_240"/>
+        <field name="own_number_sequence_id" ref="sequence_own_number_bb_240"/>
         <field name="product_tax_id" ref="product_tax_boleto"/>
         <field name="product_tax_account_id" ref="1_account_template_3010101010300_avoid_travis_error"/>
         <field name="generate_move">False</field>
