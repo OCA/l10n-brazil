@@ -18,3 +18,9 @@ class StockMove(models.Model):
         values = super()._get_new_picking_values()
         values.update(self.sale_line_id.order_id._prepare_br_fiscal_dict())
         return values
+
+    def _split(self, qty, restrict_partner_id=False):
+        new_move_id = super()._split(qty, restrict_partner_id)
+        self._onchange_commercial_quantity()
+        self._onchange_fiscal_taxes()
+        return new_move_id
