@@ -18,69 +18,57 @@ msgstr ""
 #. module: l10n_br_sale_stock
 #: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_picking__invoice_state
 msgid "Invoice Status"
-msgstr "Situação do faturamento"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: selection:stock.picking,invoice_state:0
 msgid "Invoiced"
-msgstr "Faturado"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: model:ir.model.fields,help:l10n_br_sale_stock.field_stock_picking__invoice_state
 msgid "Invoiced: an invoice already exists\n"
 "To Be Invoiced: need to be invoiced\n"
 "Not Applicable: no invoice to create"
-msgstr "Faturado: já existe uma fatura\n"
-"A ser faturado: precisa ser faturado\n"
-"Não Aplicável: não precisa ser faturado"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: selection:stock.picking,invoice_state:0
 msgid "Not Applicable"
-msgstr "Não Aplicável"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_sale_order
 msgid "Sale Order"
-msgstr "Pedido de Venda"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Linhas do pedido de vendas"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_stock_invoice_onshipping
 msgid "Stock Invoice Onshipping"
-msgstr "Faturamento ao enviar"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_stock_move
 msgid "Stock Move"
-msgstr "Movimento de estoque"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_stock_rule
 msgid "Stock Rule"
-msgstr "Regra de estoque"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: selection:stock.picking,invoice_state:0
 msgid "To Be Invoiced"
-msgstr "Para faturar"
+msgstr ""
 
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_stock_picking
 msgid "Transfer"
-msgstr "Transferir"
-
-#. module: base
-#: model:ir.module.module,shortdesc:base.module_l10n_br_sale_stock
-msgid "Brazilian Localization Sales and Warehouse"
-msgstr "Localização Brasileira - Módulo de Vendas e Estoque"
-
-#. module: base
-#: model:ir.module.module,description:base.module_l10n_br_sale_stock
-msgid "Brazilian Localization for sale_stock_module"
-msgstr "Localização Brasileira - Integra os módulos de venda e estoque"
+msgstr ""
 
