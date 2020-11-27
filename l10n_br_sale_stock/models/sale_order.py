@@ -19,5 +19,6 @@ class SaleOrder(models.Model):
             invoices = wizard._action_generate_invoices()
             wizard._update_picking_invoice_status(
                 invoices.mapped("picking_ids"))
-        result = super().action_invoice_create()
-        return result + invoices.ids
+        if any(self.order_line.mapped('qty_to_invoice')):
+            return super().action_invoice_create() + invoices.ids
+        return invoices.ids
