@@ -1638,7 +1638,7 @@ msgid "Cancelar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:896
+#: code:addons/l10n_br_fiscal/models/document.py:903
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -1820,6 +1820,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom_alternative__code
 msgid "Code"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__coefficient_r
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__coefficient_r
+msgid "Coefficient R"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__coefficient_r_percent
+msgid "Coefficient R (%)"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3478,7 +3489,7 @@ msgid "Fiscal User"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/constants/fiscal.py:67
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:68
 #: selection:l10n_br_fiscal.document.line,cofins_base_type:0
 #: selection:l10n_br_fiscal.document.line,cofins_wh_base_type:0
 #: selection:l10n_br_fiscal.document.line,cofinsst_base_type:0
@@ -4465,6 +4476,11 @@ msgid "ICMS relief"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_icmssn_value
+msgid "ICMSSN Value"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_attachment__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__id
@@ -5360,6 +5376,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_dfe__last_nsu
 msgid "Last NSU"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__payroll_amount
+msgid "Last Period Payroll Amount"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6888,7 +6909,7 @@ msgid "Pending"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/constants/fiscal.py:65
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:66
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__percent_amount
 #: selection:l10n_br_fiscal.document.line,cofins_base_type:0
 #: selection:l10n_br_fiscal.document.line,cofins_wh_base_type:0
@@ -7206,7 +7227,7 @@ msgid "QUILATE"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/constants/fiscal.py:66
+#: code:addons/l10n_br_fiscal/constants/fiscal.py:67
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__quantity
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__quantity
 #: selection:l10n_br_fiscal.document.line,cofins_base_type:0
@@ -7595,7 +7616,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:924
+#: code:addons/l10n_br_fiscal/models/document.py:931
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8378,8 +8399,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:762
-#: code:addons/l10n_br_fiscal/models/document.py:773
+#: code:addons/l10n_br_fiscal/models/document.py:769
+#: code:addons/l10n_br_fiscal/models/document.py:780
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -8396,7 +8417,7 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:702
+#: code:addons/l10n_br_fiscal/models/document.py:709
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
