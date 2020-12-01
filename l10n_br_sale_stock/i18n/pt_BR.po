@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_sale_stock
+# 	* l10n_br_sale_stock
 #
 msgid ""
 msgstr ""
@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2020-11-27 22:00+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -27,10 +28,12 @@ msgstr "Faturado"
 
 #. module: l10n_br_sale_stock
 #: model:ir.model.fields,help:l10n_br_sale_stock.field_stock_picking__invoice_state
-msgid "Invoiced: an invoice already exists\n"
+msgid ""
+"Invoiced: an invoice already exists\n"
 "To Be Invoiced: need to be invoiced\n"
 "Not Applicable: no invoice to create"
-msgstr "Faturado: já existe uma fatura\n"
+msgstr ""
+"Faturado: já existe uma fatura\n"
 "A ser faturado: precisa ser faturado\n"
 "Não Aplicável: não precisa ser faturado"
 
@@ -74,13 +77,8 @@ msgstr "Para faturar"
 msgid "Transfer"
 msgstr "Transferir"
 
-#. module: base
-#: model:ir.module.module,shortdesc:base.module_l10n_br_sale_stock
-msgid "Brazilian Localization Sales and Warehouse"
-msgstr "Localização Brasileira - Módulo de Vendas e Estoque"
+#~ msgid "Brazilian Localization Sales and Warehouse"
+#~ msgstr "Localização Brasileira - Módulo de Vendas e Estoque"
 
-#. module: base
-#: model:ir.module.module,description:base.module_l10n_br_sale_stock
-msgid "Brazilian Localization for sale_stock_module"
-msgstr "Localização Brasileira - Integra os módulos de venda e estoque"
-
+#~ msgid "Brazilian Localization for sale_stock_module"
+#~ msgstr "Localização Brasileira - Integra os módulos de venda e estoque"
