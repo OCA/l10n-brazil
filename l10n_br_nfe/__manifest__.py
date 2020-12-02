@@ -18,15 +18,18 @@
     "data": [
         # Security
         "security/nfe_security.xml",
+
         # Views
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
         "views/nfe_document_line_view.xml",
         "views/res_config_settings_view.xml",
+
         # Action
         "views/nfe_action.xml",
+
         # Menu
-        # "views/nfe_menu.xml",
+        "views/nfe_menu.xml",
     ],
     "demo": [
         "demo/fiscal_document_demo.xml",
