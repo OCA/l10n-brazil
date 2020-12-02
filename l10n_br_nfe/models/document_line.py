@@ -10,7 +10,7 @@ ICMS_ST_CST_CODES = ['60',]
 
 class NFeLine(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document.line'
-    _inherit = ["l10n_br_fiscal.document.line", "nfe.40.det"]
+    _inherit = ['l10n_br_fiscal.document.line', 'nfe.40.det']
     _stacked = 'nfe.40.det'
     _spec_module = 'odoo.addons.l10n_br_spec_nfe.models.v4_00.leiauteNFe'
     _stack_skip = 'nfe40_det_infNFe_id'
@@ -63,8 +63,9 @@ class NFeLine(spec_models.StackedModel):
         ('nfe40_arma', 'Arma'),
         ('nfe40_comb', 'Combustível'),
         ('nfe40_nRECOPI', 'Número do RECOPI')],
-        "Típo de Produto",
-        default="normal")
+        string='Tipo de Produto',
+        default='normal',
+    )
 
     nfe40_choice11 = fields.Selection(
         compute='_compute_choice11',
@@ -262,20 +263,15 @@ class NFeLine(spec_models.StackedModel):
                 xsd_fields.remove('nfe40_vBC')
                 xsd_fields.remove('nfe40_pCOFINS')
 
-        if self.ncm_id and self.ncm_id.code:
-            self.nfe40_NCM = self.ncm_id.code.replace('.', '') # TODO via _compute
-        else:
-            self.nfe40_NCM = ''
-        self.nfe40_CEST = self.cest_id and \
-            self.cest_id.code.replace('.', '') or False
+        self.nfe40_NCM = self.ncm_id.code_unmasked or False
+        self.nfe40_CEST = self.cest_id and self.cest_id.code_unmasked or False
         self.nfe40_qCom = self.quantity
         self.nfe40_qTrib = self.quantity
         self.nfe40_pICMS = self.icms_percent
         self.nfe40_pIPI = self.ipi_percent
         self.nfe40_pPIS = self.pis_percent
         self.nfe40_pCOFINS = self.cofins_percent
-        self.nfe40_cEnq = str(self.ipi_guideline_id.code or '999'
-                              ).zfill(3)
+        self.nfe40_cEnq = str(self.ipi_guideline_id.code or '999').zfill(3)
 
         if self.document_id.ind_final == '1' and \
                 self.document_id.nfe40_idDest == '2' and \
@@ -431,13 +427,11 @@ class NFeLine(spec_models.StackedModel):
         if key == 'nfe40_vUnCom':
             vals['price_unit'] = float(value)
         if key == 'nfe40_NCM':
-            ncm = '.'.join([value[i:i+2] for i in range(0, len(value), 2)])
             vals['ncm_id'] = self.env['l10n_br_fiscal.ncm'].search([
-                ('code', '=', ncm)], limit=1).id
+                ('code_unmasked', '=', value)], limit=1).id
         if key == 'nfe40_CEST' and value:
-            cest = value[:2] + '.' + value[2:5] + '.' + value[5:]
             vals['cest_id'] = self.env['l10n_br_fiscal.cest'].search([
-                ('code', '=', cest)], limit=1).id
+                ('code_unmasked', '=', value)], limit=1).id
         if key == 'nfe40_qCom':
             vals['quantity'] = float(value)
             vals['fiscal_quantity'] = float(value)
@@ -450,10 +444,9 @@ class NFeLine(spec_models.StackedModel):
         if key == 'nfe40_pCOFINS':
             vals['cofins_percent'] = float(value or 0.00)
         if key == 'nfe40_cEnq':
-            code = str(int(value))
-            vals['ipi_guideline_id'] = \
-                self.env['l10n_br_fiscal.tax.ipi.guideline'].search([
-                    ('code', '=', code)], limit=1).id
+            vals['ipi_guideline_id'] = self.env[
+                'l10n_br_fiscal.tax.ipi.guideline'].search([
+                    ('code_unmasked', '=', value)], limit=1).id
 
         return super()._build_attr(
             node, fields, vals, path, attr, create_m2o, defaults)
