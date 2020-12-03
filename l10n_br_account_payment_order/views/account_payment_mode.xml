@@ -83,11 +83,13 @@
                         </page>
                         <page string="Configuração dos Codigos CNAB"
                               attrs="{'invisible': [('payment_method_code', 'not in', ('240', '400', '500'))]}">
-                            <group name="codigos_cnab" string="Configuração dos Codigos CNAB">
-                                <field name="bank_id" invisible="1"/>
+                            <field name="bank_id" invisible="1"/>
+                            <group name="return_move_code" string="Códigos de Retorno do Movimento">
                                 <field name="cnab_liq_return_move_code_ids" widget="many2many_tags"
                                        domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"/>
+                            </group>
+                            <group name="move_instruction_code" string="Códigos de Instrução do Movimento">
                                 <field name="cnab_sending_code_id"
                                        domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"/>
