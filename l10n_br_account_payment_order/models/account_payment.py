@@ -13,10 +13,8 @@ class AccountPayment(models.Model):
     @api.multi
     def post(self):
 
-        # TODO - Rodando 2 For para não chamar o super em caso do
-        #  metodo de pagto ser CNAB, necessário devido o problema abaixo
-        for rec in self:
-            if rec.payment_method_code in ('240', '400', '500'):
+        for record in self:
+            if record.payment_method_code in ('240', '400', '500'):
                 # TODO - Idealmente isso deveria ser resolvido com um
                 #  domain=[('code', 'not in', ('400','240','500'))]
                 #  no campo payment_method_id, mas mesmo adicionando isso na
@@ -31,6 +29,7 @@ class AccountPayment(models.Model):
                     "CNAB Payment Method can't be used to make"
                     ' direct Payments, just used in Payment Orders,'
                     ' choose another one.'))
-        super().post()
-        for record in self:
-            record.invoice_ids.create_account_payment_line_baixa(record.amount)
+
+            super().post()
+            record.invoice_ids.create_account_payment_line_cnab_baixa(
+                            record.amount)
