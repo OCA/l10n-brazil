@@ -595,18 +595,23 @@ class NFe(spec_models.StackedModel):
             self.env.context = dict(self.env.context)
             self.env.context.update({'tpAmb': self[xsd_field]})
 
-        if class_obj._name == 'nfe.40.tinfresptec':
+        if class_obj._name == 'nfe.40.tinfresptec' and \
+                self.company_id.technical_support_id:
             if xsd_field == 'nfe40_CNPJ':
-                return self.company_id.technical_support_id.cnpj_cpf.replace(
+                if self.company_id.technical_support_id.cnpj_cpf:
+                    return self.company_id.technical_support_id.cnpj_cpf.replace(
                         '.', '').replace('/', '').replace('-', '')
             if xsd_field == 'nfe40_xContato':
-                return self.company_id.technical_support_id.name
+                if self.company_id.technical_support_id.name:
+                    return self.company_id.technical_support_id.name
             if xsd_field == 'nfe40_email':
-                return self.company_id.technical_support_id.email
+                if self.company_id.technical_support_id.email:
+                    return self.company_id.technical_support_id.email
             if xsd_field == 'nfe40_fone':
-                return self.company_id.technical_support_id.phone.replace(
-                    ' ', '').replace('(', '').replace(')', '').replace(
-                    '-', '')
+                if self.company_id.technical_support_id.phone:
+                    return self.company_id.technical_support_id.phone.replace(
+                        ' ', '').replace('(', '').replace(')', '').replace(
+                        '-', '')
 
         if xsd_field == 'nfe40_CNPJ':
             if class_obj._name == 'nfe.40.emit':
