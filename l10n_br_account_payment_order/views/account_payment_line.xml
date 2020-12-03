@@ -49,7 +49,7 @@
                     <field name="own_number" readonly="1"/>
                     <field name="document_number" readonly="1"/>
                     <field name="company_title_identification" readonly="1"/>
-                    <field name="movement_type"/>
+                    <field name="movement_type" attrs="{'invisible': [('payment_method_code', '!=', '240')]}"/>
                     <field name="mov_instruction_code_id" readonly="1"/>
                     <field name="doc_finality_code" attrs="{'invisible': [('payment_type', '=', 'inbound')]}"/>
                     <field name="ted_finality_code" attrs="{'invisible': [('payment_type', '=', 'inbound')]}"/>
