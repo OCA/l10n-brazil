@@ -185,135 +185,140 @@ class AccountInvoice(models.Model):
         return result
 
     @api.multi
-    def create_account_payment_line_baixa(self, amount_payment):
+    def create_account_payment_line_cnab_baixa(self, amount_payment):
         """
         Em caso de CNAB é preciso verificar e criar linha(s)
          com Codigo de Instrução do Movimento de Baixa
         :param amount_payment: Valor Pago
         :return:
         """
-
         for inv in self:
-            if not inv.payment_mode_id.payment_order_ok:
-                # TODO - deveria fazer algo, testar
+            # Se não é CNAB do tipo Recebiveis nada deve ser feito aqui
+            if inv.payment_mode_id.payment_method_code not in\
+                ('240', '400', '500') and \
+                    inv.payment_mode_id.payment_method_id.payment_type\
+                    != 'inbound':
                 return False
 
-            applicable_lines = inv.move_id.line_ids.filtered(
-                lambda x: (
-                    x.payment_mode_id.payment_order_ok
-                    and x.account_id.internal_type in ('receivable', 'payable')
-                ))
+            # Identificar a Linha CNAB que vai ser dado Baixa, é preciso que o
+            # valor que está sendo pago seja igual ao valor de uma das Parcelas
+            # em aberto, a soma de algumas Parcelas Inteiras ou ao Valor Total
+            # pois até onde vi não há possibilidade de uma baixa parcial para
+            # ser enviada na Remessa CNAB e nem o Banco aceita uma pagamento de
+            # valor menor
+            applicable_lines = self.env['account.move.line']
+
+            # Valor Total, baixar todas as Parcelas em Aberto
+            if inv.amount_total == amount_payment:
+                applicable_lines |= inv.move_id.line_ids
+            else:
+                lines_with_same_value = inv.move_id.line_ids.filtered(
+                    lambda x: (
+                        x.debit == amount_payment and
+                        x.payment_situation in ('inicial', 'aberta')
+                    ))
+                for line_with_same_value in lines_with_same_value:
+                    # A primeira linha corresponde a uma Parcela com a
+                    # Data de Vencimento mais proxima a Atual devido ao
+                    # atributo _order com campo Date Maturity
+                    applicable_lines |= line_with_same_value
+                    break
 
             if not applicable_lines:
-                raise UserError(_(
-                    'No Payment Line created for invoice %s because '
-                    "it's internal type isn't receivable or payable."
-                ) % inv.number)
+                # Verificar se é o pagto de mais de uma parcela,
+                # nesse caso a soma do Valor Pago precisa corresponder
+                # a soma das Parcelas em aberto
+                amount_value = 0.0
+                payment_right_sum = False
+                lines_not_paid = inv.move_id.line_ids.filtered(
+                    lambda x: x.debit > 0.0 and
+                    x.payment_situation in ('inicial', 'aberta')
+                )
+                for line in lines_not_paid:
+                    applicable_lines |= line
+                    amount_value += line.debit
+                    if amount_value == amount_payment:
+                        # Valor Pago corresponde as linhas já percorridas
+                        payment_right_sum = True
+                        break
+                if not payment_right_sum:
+                    # TODO - existe possibilidade de baixas parciais ?
+                    raise UserError(_(
+                        'Payment amount R$ %d of invoice %s can not'
+                        ' be made because the amount must be equal to one'
+                        ' of Installments, the sum of parts or Total'
+                        ' amount of Invoice to be able to make the Request'
+                        ' to Write Off the title with the Bank by CNAB.'
+                    ) % (amount_payment, inv.number))
 
-            payment_modes = applicable_lines.mapped('payment_mode_id')
-
-            if not payment_modes:
-                raise UserError(_('No Payment Mode on invoice %s') % inv.number)
-
-            result_payorder_ids = []
+            # Verificar Ordem de Pagto
             apo = self.env['account.payment.order']
-            for payment_mode in payment_modes:
-                payorder = apo.search([
-                    ('payment_mode_id', '=', payment_mode.id),
-                    ('state', '=', 'draft')], limit=1)
+            # Existe a possibilidade de uma Fatura ter diferentes
+            # Modos de Pagto nas linhas no caso CNAB ?
+            payorder = apo.search([
+                ('payment_mode_id', '=', inv.payment_mode_id.id),
+                ('state', '=', 'draft')], limit=1)
+            new_payorder = False
+            if not payorder:
+                payorder = apo.create(
+                    inv._prepare_new_payment_order(inv.payment_mode_id)
+                )
+                new_payorder = True
 
-                new_payorder = False
-                if not payorder:
-                    payorder = apo.create(
-                        inv._prepare_new_payment_order(payment_mode)
-                    )
-                    new_payorder = True
-                result_payorder_ids.append(payorder.id)
+            for line in applicable_lines:
                 count = 0
-                line_to_update_cnab = self.env['account.move.line']
-                for line in applicable_lines.filtered(
-                    lambda x: x.payment_mode_id == payment_mode
-                ):
-                    # Identificar a Linha CNAB que vai ser dado Baixa,
-                    # é preciso que o valor que está sendo pago seja igual
-                    # ao valor de uma das Parcelas em aberto ou ao Valor
-                    # Total pois até onde vi não há possibilidade de
-                    # uma baixa parcial para ser enviada na Remessa CNAB
-
-                    if line.debit == amount_payment:
-                        line_to_update_cnab |= line
-
-                if not line_to_update_cnab:
-                    # Valor Total ? Baixar todas as Parcelas em aberto
-                    if inv.amount_total == amount_payment:
-                        line_to_update_cnab |= applicable_lines
-                    else:
-                        # TODO - existe possibilidade de baixas parciais ?
-                        raise UserError(_(
-                            'Payment amount R$ %d of invoice %s can not'
-                            ' be made because the amount must be equal to one'
-                            ' of Installments or the Total amount of Invoice'
-                            ' to be able to make the Request to Write Off the'
-                            ' title with the Bank by CNAB.'
-                        ) % (amount_payment, inv.number))
-
-                line_update = False
-                for line in line_to_update_cnab:
-                    # TODO - O Banco aceita receber uma instrução parcial ou
-                    #  isso precisa ser resolvido de outra forma ?
-                    # Existe o caso do cliente pagar antecipadamente um valor
-                    # como um "Sinal" ( em vendas de produtos de alto valor
-                    # para garantir a intenção é pedido um pagto como uma
-                    # garantia de intenção e assim evitar prejuízos por
-                    # desistencia ) caso a Ordem de Pagto ainda não tenha sido
-                    # enviada ao Banco apagamos a Linha
-
-                    if line.cnab_state in ('draft', 'added'):
-                        # Caso o arquivo já esteja criado a linha
-                        # não pode ser atualizada
-                        for payment_line in line.payment_line_ids:
-                            if payment_line.order_id.state == 'generated':
-                                raise UserError(_(
-                                    'There is a CNAB file related to invoice'
-                                    ' %s created, this file should be sent to'
-                                    ' bank, because after that only Payment'
-                                    ' Order in status Exported allows make an'
-                                    ' payment and inform it in another Payment'
-                                    ' Order.'
-                                ) % inv.number)
-
+                for payment_line in line.payment_line_ids:
+                    # Verificar qual o status da
+                    # Ordem de Pagto relacionada
+                    if payment_line.order_id.state == 'draft':
+                        # Ordem de Pagto ainda não confirmada
+                        # será apagada a linha
                         line.payment_line_ids.unlink()
+                        line.payment_situation = 'baixa_liquidacao'
+                        # TODO criar um state removed ?
+                        line.cnab_state = 'done'
                         line.message_post(body=_(
                             'Removed Payline that would be sent to Bank %s'
                             ' by CNAB because amount payment of %d was made '
                             ' before sending.') % (
                             inv.payment_mode_id.fixed_journal_id.bank_id.name,
                             amount_payment))
-                    # Atualização do Codigo de Instrução do Movimento
-                    # para Remessa - Cada banco pode possuir um
-                    # cnab 240 mais padronizado que o 400
-                    if line.cnab_state in ('exported', 'accepted'):
-                        line_update = True
-                        line.mov_instruction_code_id =\
+
+                    elif payment_line.order_id.state in ('uploaded', 'done'):
+                        # Arquivo Enviado necessário solicitar a Baixa
+                        # ao Banco enviando a respectiva Instrução do Movimento
+                        line.mov_instruction_code_id = \
                             line.payment_mode_id.cnab_write_off_code_id.id
-                        line.payment_situation = 'paga'
+                        line.payment_situation = 'baixa_liquidacao'
                         line.message_post(body=_(
                             'Movement Instruction Code Updated for Request to'
                             ' Write Off, because payment done in another way.'))
                         line.create_payment_line_from_move_line(payorder)
+                        line.cnab_state = 'added_paid'
                         count += 1
+                    # TODO existe possibilidade de uma Ordem de
+                    #  Pagto CNAB ser cancelada ?
+                    elif payment_line.order_id.state in (
+                            'open', 'generated', 'cancel'):
+                        raise UserError(_(
+                            'There is a CNAB Payment Order %s in status %s'
+                            ' related to invoice %s created, the CNAB file'
+                            ' should be sent to bank, because only after'
+                            ' that it is possible make new Payment Order with'
+                            ' the instruction to Request Writte Off.'
+                        ) % (payment_line.order_id.name,
+                             payment_line.order_id.state, inv.number))
 
-                if line_update:
-                    if new_payorder:
-                        inv.message_post(body=_(
-                            '%d payment lines added to the new draft payment '
-                            'order %s which has been automatically created.'
-                        ) % (count, payorder.name))
-                    else:
-                        inv.message_post(body=_(
-                            '%d payment lines added to the existing draft '
-                            'payment order %s.'
-                        ) % (count, payorder.name))
+            if new_payorder:
+                inv.message_post(body=_(
+                    '%d payment lines added to the new draft payment '
+                    'order %s which has been automatically created.'
+                ) % (count, payorder.name))
+            else:
+                inv.message_post(body=_(
+                    '%d payment lines added to the existing draft '
+                    'payment order %s.'
+                ) % (count, payorder.name))
 
     @api.multi
     def invoice_validate(self):
@@ -321,9 +326,8 @@ class AccountInvoice(models.Model):
         filtered_invoice_ids = self.filtered(lambda s: s.payment_mode_id)
         if filtered_invoice_ids:
             for filtered_invoice_id in filtered_invoice_ids:
-                # TODO - essa validação já é feita no super, confirmar
-                #  com o teste do modo de pagto q não deve gerar Ordem
-                #  de Pagto, modo Cheque
+                # Criando Ordem de Pagto Automaticamente
+                # TODO: deveria ser um parametro ?
                 if filtered_invoice_id.payment_mode_id.payment_order_ok:
                     filtered_invoice_id.create_account_payment_line()
         return result
@@ -331,10 +335,10 @@ class AccountInvoice(models.Model):
     @api.multi
     def assign_outstanding_credit(self, credit_aml_id):
         self.ensure_one()
-
         # TODO - Existe necessidade de ser feito algo nesse metodo ?
-        #  Criar o teste do caso de uso de um Pagto por fora do CNAB
-        #  p/ validar
+        #  O Metodo parece ser chamado apenas no modulo sale
+        #  https://github.com/OCA/OCB/blob/12.0/addons/sale/
+        #  models/account_invoice.py#L68
         # if self.eval_situacao_pagamento in ['paga', 'liquidada',
         # 'baixa_liquidacao']:
         #    raise UserError(
