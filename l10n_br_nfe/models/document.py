@@ -55,7 +55,7 @@ class NFe(spec_models.StackedModel):
     _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe",
                 "nfe.40.tendereco", "nfe.40.tenderemi",
                 "nfe.40.dest", "nfe.40.emit", "nfe.40.cobr", "nfe.40.fat",
-                "nfe.40.tinfresptec"]
+                "nfe.40.tinfresptec", "nfe.40.infadic"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
     _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
@@ -613,6 +613,14 @@ class NFe(spec_models.StackedModel):
                         ' ', '').replace('(', '').replace(')', '').replace(
                         '-', '')
 
+        if class_obj._name == 'nfe.40.infadic':
+            if xsd_field == 'nfe40_infAdFisco':
+                if self.fiscal_additional_data:
+                    return self.fiscal_additional_data.rstrip("\n")
+            if xsd_field == 'nfe40_infCpl':
+                if self.customer_additional_data:
+                    return self.customer_additional_data
+
         if xsd_field == 'nfe40_CNPJ':
             if class_obj._name == 'nfe.40.emit':
                 if self.company_cnpj_cpf:
@@ -745,7 +753,7 @@ class NFe(spec_models.StackedModel):
             if not any(self[f] for f in self[field_name]._fields
                        if self._fields[f]._attrs.get('xsd')) and \
                     field_name not in ['nfe40_PIS', 'nfe40_COFINS',
-                                       'nfe40_enderDest', 'nfe40_infRespTec']:
+                                       'nfe40_enderDest', 'nfe40_infRespTec', 'nfe40_infAdic']:
                 return False
         if field_name == 'nfe40_ISSQNtot' and all(
                 t == 'consu' for t in
