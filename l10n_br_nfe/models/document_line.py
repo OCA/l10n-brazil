@@ -29,6 +29,8 @@ class NFeLine(spec_models.StackedModel):
     nfe40_uTrib = fields.Char(related='product_id.uom_id.code')
     nfe40_vUnCom = fields.Float(related='fiscal_price')  # TODO sure?
     nfe40_vUnTrib = fields.Float(related='fiscal_price')  # TODO sure?
+    nfe40_xPed = fields.Char(related='partner_order')
+    nfe40_nItemPed = fields.Char(related='partner_order_line')
 
     nfe40_choice9 = fields.Selection([
         ('normal', 'Produto Normal'),  # overriden to allow normal product
