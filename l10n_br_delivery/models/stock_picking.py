@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import api, models
 
 
 class StockPicking(models.Model):
@@ -13,4 +13,3 @@ class StockPicking(models.Model):
         # disable this function since, if called, adds a delivery line to
         # order -> strategy no longer used, view amount_freight
         return
-
