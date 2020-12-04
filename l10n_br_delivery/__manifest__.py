@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-# Copyright (C) 2010  Renato Lima - Akretion
+# Copyright (C) 2020  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 {
@@ -10,7 +9,7 @@
     'license': 'AGPL-3',
     'author': 'KMEE INFORMATICA LTDA,Odoo Community Association (OCA)',
     'website': 'kmee.com.br',
-    'version': '"12.0.2.1.0',
+    'version': '12.0.1.1.0',
     'depends': [
         'l10n_br_fiscal',
         'l10n_br_sale_stock',
