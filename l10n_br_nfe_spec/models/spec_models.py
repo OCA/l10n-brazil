@@ -1,11 +1,15 @@
-from odoo import fields, models
+from odoo import models, fields
 
 
 class NfeSpecMixin(models.AbstractModel):
     _description = "Abstract Model"
     _name = 'spec.mixin.nfe'
-    # TODO exact schema version
-    # TODO tab name...
+    _field_prefix = 'nfe40_'
+    _schema_name = 'nfe'
+    _schema_version = '4.0.0'
+    _odoo_module = 'l10n_br_nfe'
+    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
+    _spec_tab_name = 'NFe'
 
     brl_currency_id = fields.Many2one(
         comodel_name='res.currency',
