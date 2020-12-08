@@ -13,6 +13,9 @@ class SaleOrder(models.Model):
         inverse='_inverse_amount_freight',
         )
 
+    amount_insurance = fields.Float(
+        inverse='_inverse_amount_insurance',
+    )
     amount_costs = fields.Float(
         inverse='_inverse_amount_costs',
     )
@@ -58,6 +61,37 @@ class SaleOrder(models.Model):
                 todo = record.env.all.todo.copy()
                 record.order_line[-1].freight_value = amount_freight - sum(
                     line.freight_value for line in record.order_line[:-1])
+                record.env.all.todo = todo
+            for line in record.order_line:
+                todo = record.env.all.todo.copy()
+                line._onchange_fiscal_taxes()
+                record.env.all.todo = todo
+
+    @api.multi
+    def _inverse_amount_insurance(self):
+        for record in self.filtered(lambda so: so.order_line):
+            amount_insurance = record.amount_insurance
+            if all(record.order_line.mapped('insurance_value')):
+                amount_insurance_old = sum(
+                    record.order_line.mapped('insurance_value'))
+                for line in record.order_line[:-1]:
+                    line.insurance_value = amount_insurance * (
+                        line.insurance_value / amount_insurance_old)
+                record.order_line[-1].insurance_value = \
+                    amount_insurance - sum(
+                        line.insurance_value
+                        for line in record.order_line[:-1]
+                    )
+            else:
+                amount_total = sum(record.order_line.mapped('price_total'))
+                for line in record.order_line[:-1]:
+                    line.insurance_value = amount_insurance * (
+                        line.price_total / amount_total)
+                todo = record.env.all.todo.copy()
+                record.order_line[-1].insurance_value = \
+                    amount_insurance - sum(
+                        line.insurance_value
+                        for line in record.order_line[:-1])
                 record.env.all.todo = todo
             for line in record.order_line:
                 todo = record.env.all.todo.copy()
