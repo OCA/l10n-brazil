@@ -5,10 +5,10 @@
     'name': 'L10n Br Website Sale Delivery',
     'summary': """
         Implements Brazilian freight values for delivery.""",
-    'version': '12.0.1.0.0',
+    'version': '12.0.1.1.0',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
-    'website': 'www.kmee.com.br',
+    'website': 'https://github.com/oca/l10n-brazil',
     'depends': [
         'website_sale_delivery',
     ],
@@ -17,4 +17,6 @@
     ],
     'demo': [
     ],
+    'category': 'Localization',
+    'installable': True,
 }
