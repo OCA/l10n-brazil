@@ -13,6 +13,9 @@ class SaleOrder(models.Model):
         inverse='_inverse_amount_freight',
         )
 
+    amount_costs = fields.Float(
+        inverse='_inverse_amount_costs',
+    )
 
     @api.multi
     def set_delivery_line(self):
@@ -55,6 +58,32 @@ class SaleOrder(models.Model):
                 todo = record.env.all.todo.copy()
                 record.order_line[-1].freight_value = amount_freight - sum(
                     line.freight_value for line in record.order_line[:-1])
+                record.env.all.todo = todo
+            for line in record.order_line:
+                todo = record.env.all.todo.copy()
+                line._onchange_fiscal_taxes()
+                record.env.all.todo = todo
+
+    @api.multi
+    def _inverse_amount_costs(self):
+        for record in self.filtered(lambda so: so.order_line):
+            amount_costs = record.amount_costs
+            if all(record.order_line.mapped('other_costs_value')):
+                amount_costs_old = sum(
+                    record.order_line.mapped('other_costs_value'))
+                for line in record.order_line[:-1]:
+                    line.other_costs_value = amount_costs * (
+                        line.other_costs_value / amount_costs_old)
+                record.order_line[-1].other_costs_value = amount_costs - sum(
+                    line.other_costs_value for line in record.order_line[:-1])
+            else:
+                amount_total = sum(record.order_line.mapped('price_total'))
+                for line in record.order_line[:-1]:
+                    line.other_costs_value = amount_costs * (
+                        line.price_total / amount_total)
+                todo = record.env.all.todo.copy()
+                record.order_line[-1].other_costs_value = amount_costs - sum(
+                    line.other_costs_value for line in record.order_line[:-1])
                 record.env.all.todo = todo
             for line in record.order_line:
                 todo = record.env.all.todo.copy()
