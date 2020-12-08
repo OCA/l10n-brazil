@@ -158,3 +158,22 @@ class DocumentLine(models.Model):
         compute='_compute_amount',
         default=0.00,
     )
+
+    # Entry fields
+    product_name = fields.Char(
+        string='Vendor Product Name',
+    )
+    product_code = fields.Char(
+        string='Vendor Product Code',
+    )
+    qty_received = fields.Float(
+        string='Received',
+    )
+    entry_uom_id = fields.Many2one(
+        comodel_name='uom.uom',
+        string="Unit",
+    )
+    billed_cfop_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.cfop',
+        string='In CFOP',
+    )

@@ -19,6 +19,31 @@
           <field name="product_id" context="{'tree_view_ref': 'product_template_tree', 'form_view_ref': 'product.product_template_only_form_view'}"/>
           <field name="name" required="1"/>
         </group>
+        <group attrs="{'invisible': [('fiscal_operation_type', '!=', 'in')]}">
+          <group>
+              <field name="product_code"/>
+          </group>
+          <group>
+              <field name="product_name"/>
+          </group>
+        </group>
+        <div class="oe_slogan" style="background-color:#FFB6C1;" attrs="{'invisible': [('fiscal_operation_type', '!=', 'in')]}">
+            <h2>Entry data</h2>
+            <h3 class="content-group mt16 row">
+                <div class="col-4 oe_inline">
+                    <label for="qty_received" class="col-4 col-lg-4 o_light_label oe_inline"/>
+                    <field name="qty_received" class="oe_inline"/>
+                </div>
+                <div class="col-4 oe_inline">
+                    <label for="entry_uom_id" groups="uom.group_uom" class="col-4 col-lg-4 o_light_label oe_inline"/>
+                    <field name="entry_uom_id" groups="uom.group_uom" class="oe_inline"/>
+                </div>
+                <div class="col-4 oe_inline">
+                    <label for="billed_cfop_id" class="col-4 col-lg-4 o_light_label oe_inline"/>
+                    <field name="billed_cfop_id" class="oe_inline"/>
+                </div>
+            </h3>
+        </div>
         <notebook>
           <page name="general" string="General">
             <group>
