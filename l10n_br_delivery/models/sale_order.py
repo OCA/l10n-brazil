@@ -13,9 +13,6 @@ class SaleOrder(models.Model):
         inverse='_inverse_amount_freight',
         )
 
-    # def get_delivery_price(self):
-    #     super(SaleOrder, self).get_delivery_price()
-    #
 
     @api.multi
     def set_delivery_line(self):
