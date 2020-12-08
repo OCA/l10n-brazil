@@ -34,6 +34,7 @@ class SaleOrderLine(models.Model):
     )
 
     quantity = fields.Float(
+        string='Product Uom Quantity',
         related='product_uom_qty',
         depends=['product_uom_qty'],
     )
