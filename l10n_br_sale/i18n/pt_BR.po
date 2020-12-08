@@ -220,8 +220,8 @@ msgstr "Parceiro"
 
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__quantity
-msgid "Quantity"
-msgstr "Quantidade"
+msgid "Product Uom Quantity"
+msgstr ""
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
@@ -283,6 +283,9 @@ msgstr "Usado nos documentos fiscais"
 msgid "You can find a customer by its Name, TIN, Email or Internal Reference."
 msgstr ""
 "Você pode encontrar um cliente pelo Nome, TIN, EMAIL ou Referencia Interna."
+
+#~ msgid "Quantity"
+#~ msgstr "Quantidade"
 
 #~ msgid "COFINS"
 #~ msgstr "COFINS"
