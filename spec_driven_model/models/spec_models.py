@@ -20,6 +20,10 @@ class SpecModel(models.AbstractModel):
     Because of this field mutation logic in _build_model, SpecModel should be
     inherited the Python way YourModel(spec_models.SpecModel)
     and not through _inherit.
+
+    xsd generated spec mixins do not need to depend on this opinionated module,
+    that's why the spec.mixin is dynamically inject as a class parent
+    inside the_build_model method.
     """
     _inherit = 'spec.mixin'
     _auto = True                # automatically create database backend
@@ -57,8 +61,26 @@ class SpecModel(models.AbstractModel):
         relational fields pointing to such mixins should be remapped to the
         proper concrete models where these mixins are injected."""
         ModelClass = super(SpecModel, cls)._build_model(pool, cr)
+        ModelClass._inject_spec_mixin(pool, cr)
         ModelClass._mutate_relational_fields(pool, cr)
         return ModelClass
+
+    @classmethod
+    def _inject_spec_mixin(cls, pool, cr):
+        parents = cls._inherit
+        parents = [parents] if isinstance(parents, str) else (parents or [])
+        for parent in parents:
+            super_parents = pool[parent]._inherit
+            if isinstance(super_parents, str):
+                super_parents = [super_parents]
+            else:
+                super_parents = super_parents or []
+            for super_parent in super_parents:
+                if 'spec.mixin' in super_parent\
+                        and not hasattr(pool[parent], 'build'):
+                    pool[parent]._inherit = super_parents + ['spec.mixin']
+                    pool[parent].__bases__ = ((pool['spec.mixin'],)
+                                              + pool[parent].__bases__)
 
     @classmethod
     def _mutate_relational_fields(cls, pool, cr):
