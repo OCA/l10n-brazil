@@ -13,7 +13,8 @@
         'website_sale_delivery',
     ],
     'data': [
-        'views/website_sale_delivery_templates.xml'
+        'views/website_sale_delivery_templates.xml',
+        'views/assets.xml'
     ],
     'demo': [
     ],
