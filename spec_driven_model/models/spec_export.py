@@ -27,11 +27,11 @@ class AbstractSpecMixin(models.AbstractModel):
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         # FIXME: Remove all references of nfe, make it generic!
         ds_class = self._get_ds_class(class_obj)
-        ds_class_sepc = {i.name: i for i in ds_class.member_data_items_}
+        ds_class_spec = {i.name: i for i in ds_class.member_data_items_}
 
         for xsd_field in xsd_fields:
-            field_spec_name = xsd_field.replace(self._field_prefix, '')
-            member_spec = ds_class_sepc[field_spec_name]
+            field_spec_name = xsd_field.replace(class_obj._field_prefix, '')
+            member_spec = ds_class_spec[field_spec_name]
             field_data = self._export_field(xsd_field, class_obj, member_spec)
 
             if not self[xsd_field] and not field_data:
