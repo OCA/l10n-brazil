@@ -112,6 +112,16 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if view_type == 'form':
             model_view["arch"] = self.fiscal_form_view(model_view["arch"])
 
+        View = self.env['ir.ui.view']
+        # Override context for postprocessing
+        if view_id and model_view.get('base_model', self._name) != self._name:
+            View = View.with_context(base_model_name=model_view['base_model'])
+
+        # Apply post processing, groups and modifiers etc...
+        xarch, xfields = View.postprocess_and_fields(
+            self._name, etree.fromstring(model_view['arch']), view_id)
+        model_view['arch'] = xarch
+        model_view['fields'] = xfields
         return model_view
 
     def _compute_taxes(self, taxes, cst=None):
@@ -316,6 +326,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 company=self.company_id,
                 partner=self.partner_id,
                 product=self.product_id)
+
+            self._onchange_fiscal_operation_line_id()
 
     @api.onchange("fiscal_operation_line_id")
     def _onchange_fiscal_operation_line_id(self):
