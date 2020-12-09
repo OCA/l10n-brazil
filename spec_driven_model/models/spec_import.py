@@ -15,8 +15,7 @@ class AbstractSpecMixin(models.AbstractModel):
     _inherit = 'spec.mixin'
 
     @api.model
-    def build(self, node, defaults=False):
-
+    def build(self, node, defaults=False, create=True):
         if not defaults:
             defaults = dict()
 
@@ -24,8 +23,11 @@ class AbstractSpecMixin(models.AbstractModel):
         # TODO ability to match existing record here
         model_name = SpecModel._get_concrete(self._name) or self._name
         model = self.env[model_name]
-        attrs = model.build_attrs(node, create_m2o=True, defaults=defaults)
-        return model.create(attrs)
+        attrs = model.build_attrs(node, create_m2o=create, defaults=defaults)
+        if create:
+            return model.create(attrs)
+        else:
+            return model.new(attrs)
 
     @api.model
     def build_attrs(self, node, create_m2o=False, path='', defaults=False):
