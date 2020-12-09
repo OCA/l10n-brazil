@@ -15,9 +15,11 @@ class SaleOrder(models.Model):
 
     amount_insurance = fields.Float(
         inverse='_inverse_amount_insurance',
+        readonly=False,
     )
     amount_costs = fields.Float(
         inverse='_inverse_amount_costs',
+        readonly=False,
     )
 
     @api.multi
