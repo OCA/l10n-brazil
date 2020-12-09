@@ -9,10 +9,7 @@ try:
 except ImportError:
     pass
 
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
+from io import StringIO
 
 _logger = logging.getLogger(__name__)
 
