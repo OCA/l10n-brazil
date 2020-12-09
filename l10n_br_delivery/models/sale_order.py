@@ -58,14 +58,17 @@ class SaleOrder(models.Model):
                 for line in record.order_line[:-1]:
                     line.freight_value = amount_freight * (
                         line.price_total / amount_total)
-                todo = record.env.all.todo.copy()
                 record.order_line[-1].freight_value = amount_freight - sum(
                     line.freight_value for line in record.order_line[:-1])
-                record.env.all.todo = todo
             for line in record.order_line:
-                todo = record.env.all.todo.copy()
                 line._onchange_fiscal_taxes()
-                record.env.all.todo = todo
+            record._fields['amount_total'].compute_value(record)
+            record.write({
+                name: value
+                for name, value in record._cache.items()
+                if record._fields[name].compute == '_amount_all' and
+                not record._fields[name].inverse
+            })
 
     @api.multi
     def _inverse_amount_insurance(self):
@@ -87,16 +90,19 @@ class SaleOrder(models.Model):
                 for line in record.order_line[:-1]:
                     line.insurance_value = amount_insurance * (
                         line.price_total / amount_total)
-                todo = record.env.all.todo.copy()
                 record.order_line[-1].insurance_value = \
                     amount_insurance - sum(
                         line.insurance_value
                         for line in record.order_line[:-1])
-                record.env.all.todo = todo
             for line in record.order_line:
-                todo = record.env.all.todo.copy()
                 line._onchange_fiscal_taxes()
-                record.env.all.todo = todo
+            record._fields['amount_total'].compute_value(record)
+            record.write({
+                name: value
+                for name, value in record._cache.items()
+                if record._fields[name].compute == '_amount_all' and
+                not record._fields[name].inverse
+            })
 
     @api.multi
     def _inverse_amount_costs(self):
@@ -115,11 +121,14 @@ class SaleOrder(models.Model):
                 for line in record.order_line[:-1]:
                     line.other_costs_value = amount_costs * (
                         line.price_total / amount_total)
-                todo = record.env.all.todo.copy()
                 record.order_line[-1].other_costs_value = amount_costs - sum(
                     line.other_costs_value for line in record.order_line[:-1])
-                record.env.all.todo = todo
             for line in record.order_line:
-                todo = record.env.all.todo.copy()
                 line._onchange_fiscal_taxes()
-                record.env.all.todo = todo
+            record._fields['amount_total'].compute_value(record)
+            record.write({
+                name: value
+                for name, value in record._cache.items()
+                if record._fields[name].compute == '_amount_all' and
+                not record._fields[name].inverse
+            })
