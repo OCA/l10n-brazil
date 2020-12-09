@@ -89,6 +89,8 @@ class AbstractSpecMixin(models.AbstractModel):
                 comodel_name = "nfe.40.%s" % (clean_type,)  # TODO clean
 
             comodel = self.get_concrete_model(comodel_name)
+            if comodel is None:  # example skip ICMS100 class
+                return
 
             if attr.get_container() == 0:
                 # m2o
@@ -131,7 +133,7 @@ class AbstractSpecMixin(models.AbstractModel):
                 is not None:
             return self.env[models.MetaModel.mixin_mappings[comodel_name]]
         else:
-            return self.env[comodel_name]
+            return self.env.get(comodel_name)
 
     @api.model
     def _extract_related_values(self, vals, key):
