@@ -104,7 +104,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
                 new_value.update(child_defaults)
                 self._build_many2one(comodel, vals, new_value, key,
-                                     create_m2o)
+                                     create_m2o, value, child_path)
             elif attr.get_container() == 1:
                 # o2m
                 lines = []
@@ -119,7 +119,8 @@ class AbstractSpecMixin(models.AbstractModel):
     def _build_string_not_simple_type(self, key, vals, value, node):
         vals[key] = value
 
-    def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
+    def _build_many2one(self, comodel, vals, new_value, key, create_m2o,
+                        value, path):
         if comodel._name == self._name:
             # stacked m2o
             vals.update(new_value)
@@ -156,7 +157,9 @@ class AbstractSpecMixin(models.AbstractModel):
 
     @api.model
     def _prepare_import_dict(self, vals, defaults=False):
-        """NOTE: this is debatable if we could use an api multi with values in
+        """
+        Set non computed field values based on XML values if required.
+        NOTE: this is debatable if we could use an api multi with values in
         self instead of the vals dict. Then that would be like when new()
         is used in account_invoice or sale_order before playing some onchanges
         """
