@@ -6,10 +6,6 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-FIELD_PREFIX = "nfe40_"
-# TODO use schema name as default root key unless a key is provided in the
-#  class
-
 
 class SpecModel(models.AbstractModel):
     """When you inherit this Model, then your model becomes concrete just like
@@ -31,9 +27,9 @@ class SpecModel(models.AbstractModel):
     _abstract = False
     _transient = False
     _spec_module = 'override.with.your.python.module'
-    _field_prefix = 'nfe40_'  # TODO in inherit / autoload hook
-    _schema_name = 'nfe'
-    _tab_name = 'NFe'
+    _odoo_module = 'your Odoo module'
+    _field_prefix = 'your_field_prefix_'
+    _schema_name = 'your_schema_name'
     _spec_module_classes = None  # a cache storing spec classes
 
     # TODO generic onchange method that check spec field simple type formats
@@ -89,9 +85,9 @@ class SpecModel(models.AbstractModel):
         remap the comodel to the proper concrete model."""
         # mutate o2m and o2m related to m2o comodel to target proper
         # concrete implementation
+        env = api.Environment(cr, SUPERUSER_ID, {})
         if len(cls._inherit) > 1:  # only debug non automatic models
-            # _logger.info("\n==== BUILDING SpecModel %s %s" % (cls._name, cls))
-            env = api.Environment(cr, SUPERUSER_ID, {})
+            # _logger.info("\n==== BUILDING SpecModel %s %s" % (cls._name, cls)
             env[cls._name]._prepare_setup()
             env[cls._name]._setup_base()
 
@@ -99,7 +95,7 @@ class SpecModel(models.AbstractModel):
             if not hasattr(klass, '_name')\
                     or not hasattr(klass, '_fields')\
                     or klass._name is None\
-                    or not klass._name.startswith(cls._schema_name):
+                    or not klass._name.startswith(env[cls._name]._schema_name):
                 continue
             if klass._name != cls._name:
                 cls._map_concrete(klass._name, cls._name)
@@ -187,9 +183,7 @@ class SpecModel(models.AbstractModel):
         if not hasattr(self.env.registry, '_spec_loaded'):  # TODO schema wise
             # _logger.info("HHHHHHHHHHHHHHHOOK %s", self._module)
             from .. import hooks  # importing here avoids loop
-            hooks.register_hook(
-                self.env, 'l10n_br_nfe',
-                'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe')
+            hooks.register_hook(self.env, self._odoo_module, self._spec_module)
             self.env.registry._spec_loaded = True
         return res
 
@@ -294,7 +288,7 @@ class StackedModel(SpecModel):
             if child is None:  # Not a spec field
                 continue
             child_concrete = SpecModel._get_concrete(child._name)
-            field_path = name.replace(cls._field_prefix, '')
+            field_path = name.replace(registry[node._name]._field_prefix, '')
             if f['type'] == 'one2many':
                 # _logger.info("%s    \u2261 <%s> %s" % (
                 #     indent, field_path, child_concrete or child._name))
