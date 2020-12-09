@@ -141,7 +141,7 @@ class SpecModel(models.AbstractModel):
         if not hasattr(models.MetaModel, 'mixin_mappings'):
             models.MetaModel.mixin_mappings = {}
         if not quiet:
-            _logger.debug(key, "--->", target)
+            _logger.debug(str(key), "--->", str(target))
         models.MetaModel.mixin_mappings[key] = target
 
     @classmethod
@@ -202,7 +202,7 @@ class StackedModel(SpecModel):
         "inject all stacked m2o as inherited classes"
         # inject all stacked m2o as inherited classes
         if cls._stacked:
-            # _logger.info("\n\n====  BUILDING StackedModel %s %s\n" % (cls._name, cls))
+            _logger.info("\n\n====  BUILDING StackedModel %s %s\n" % (cls._name, cls))
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
             classes = set()
             cls._visit_stack(node, classes, cls._stacked.split('.')[-1], pool,
