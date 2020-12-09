@@ -101,8 +101,10 @@ def register_hook(env, module_name, spec_module):
         spec_class._module = "fiscal"  # TODO use python_module ?
         c = type(name, (SpecModel, spec_class),
                  {'_name': spec_class._name,
-                  '_inherit': ['spec.mixin.nfe'],
+                  '_inherit': [spec_class._inherit, 'spec.mixin'],
                   '_original_module': "fiscal",
+                  '_odoo_module': module_name,
+                  '_spec_module': spec_module,
                   '_rec_name': spec_class._concrete_rec_name})
         models.MetaModel.module_to_models[module_name] += [c]
 
