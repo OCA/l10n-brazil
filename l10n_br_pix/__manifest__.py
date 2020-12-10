@@ -15,6 +15,8 @@
         'account'
     ],
     'data': [
+        'security/l10n_br_pix_cob.xml',
+        'views/l10n_br_pix_cob.xml',
         'security/l10n_br_pix_key.xml',
         'security/l10n_br_pix_config.xml',
 
@@ -27,6 +29,7 @@
     'demo': [
         'demo/l10n_br_pix_config.xml',
         'demo/l10n_br_pix_key.xml',
+        # 'demo/l10n_br_pix_cob.xml',
         # 'demo/account_journal.xml',
     ],
 }

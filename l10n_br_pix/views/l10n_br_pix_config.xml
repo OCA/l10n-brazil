@@ -43,7 +43,6 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
-                <field name="journal_id"/>
             </search>
         </field>
     </record>
@@ -54,7 +53,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="journal_id"/>
+                <field name="environment"/>
             </tree>
         </field>
     </record>

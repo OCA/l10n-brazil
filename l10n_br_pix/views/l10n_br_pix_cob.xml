@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_pix_cob_form_view">
+        <field name="name">l10n_br_pix.cob.form (in l10n_br_pix)</field>
+        <field name="model">l10n_br_pix.cob</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="criar_cobranca" string="Criar Cobrança" type="object"/>
+                    <button name="consultar_cobranca" string="Consultar Cobrança" type="object"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="br_code_text"/>
+                        <field name="br_code_image" widget="image"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="pix_key_id"/>
+                            <field name="chave"/>
+                            <field name="valor_original"/>
+                            <field name="revisao"/>
+                        </group>
+                        <group>
+                            <field name="pix_config_id"/>
+                            <field name="calendario_criacao"/>
+                            <field name="calendario_expiracao"/>
+                            <field name="location"/>
+                            <field name="status"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Devedor">
+                            <group>
+                                <field name="devedor_cnpj_cpf"/>
+                                <field name="devedor_nome"/>
+                                <field name="devedor_id"/>
+                            </group>
+                        </page>
+                        <page string="Informações Adicionais">
+                            <group>
+                                <field name="info_adicionais"/>
+                            </group>
+                        </page>
+                        <page string="Raw Response">
+                            <group>
+                                <field name="raw_response"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_pix_cob_search_view">
+        <field name="name">l10n_br_pix.cob.search (in l10n_br_pix)</field>
+        <field name="model">l10n_br_pix.cob</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_pix_cob_tree_view">
+        <field name="name">l10n_br_pix.cob.tree (in l10n_br_pix)</field>
+        <field name="model">l10n_br_pix.cob</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="valor_original"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_pix_cob_act_window">
+        <field name="name">Cobrança</field>
+        <field name="res_model">l10n_br_pix.cob</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_pix_cob_menu">
+        <field name="name">Cobrança PIX</field>
+        <field name="parent_id" ref="l10n_br_pix_menu"/>
+        <field name="action" ref="l10n_br_pix_cob_act_window"/>
+        <field name="sequence" eval="16"/>
+    </record>
+
+</odoo>
