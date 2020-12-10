@@ -16,10 +16,6 @@ class SpecModel(models.AbstractModel):
     Because of this field mutation logic in _build_model, SpecModel should be
     inherited the Python way YourModel(spec_models.SpecModel)
     and not through _inherit.
-
-    xsd generated spec mixins do not need to depend on this opinionated module,
-    that's why the spec.mixin is dynamically inject as a class parent
-    inside the_build_model method.
     """
     _inherit = 'spec.mixin'
     _auto = True                # automatically create database backend
@@ -63,6 +59,12 @@ class SpecModel(models.AbstractModel):
 
     @classmethod
     def _inject_spec_mixin(cls, pool, cr):
+        """
+        xsd generated spec mixins do not need to depend on this opinionated
+        module. That's why the spec.mixin is dynamically injected as a parent
+        class as long as generated class inherit from some
+        spec.mixin.<schema_name> mixin.
+        """
         parents = cls._inherit
         parents = [parents] if isinstance(parents, str) else (parents or [])
         for parent in parents:
@@ -72,11 +74,12 @@ class SpecModel(models.AbstractModel):
             else:
                 super_parents = super_parents or []
             for super_parent in super_parents:
-                if 'spec.mixin' in super_parent\
-                        and not hasattr(pool[parent], 'build'):
-                    pool[parent]._inherit = super_parents + ['spec.mixin']
-                    pool[parent].__bases__ = ((pool['spec.mixin'],)
-                                              + pool[parent].__bases__)
+                if super_parent.startswith('spec.mixin.'):
+                    cls._map_concrete(parent, cls._name)
+                    if not hasattr(pool[parent], 'build'):
+                        pool[parent]._inherit = super_parents + ['spec.mixin']
+                        pool[parent].__bases__ = ((pool['spec.mixin'],)
+                                                  + pool[parent].__bases__)
 
     @classmethod
     def _mutate_relational_fields(cls, pool, cr):
@@ -159,7 +162,7 @@ class SpecModel(models.AbstractModel):
         if not hasattr(models.MetaModel, 'mixin_mappings'):
             models.MetaModel.mixin_mappings = {}
         if not quiet:
-            _logger.debug(str(key), "--->", str(target))
+            _logger.debug("%s ---> %s" % (key, target))
         models.MetaModel.mixin_mappings[key] = target
 
     @classmethod
@@ -181,7 +184,6 @@ class SpecModel(models.AbstractModel):
     def _register_hook(self):
         res = super(SpecModel, self)._register_hook()
         if not hasattr(self.env.registry, '_spec_loaded'):  # TODO schema wise
-            # _logger.info("HHHHHHHHHHHHHHHOOK %s", self._module)
             from .. import hooks  # importing here avoids loop
             hooks.register_hook(self.env, self._odoo_module, self._spec_module)
             self.env.registry._spec_loaded = True
