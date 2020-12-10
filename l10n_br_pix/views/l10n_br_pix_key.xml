@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_pix_key_form_view">
+        <field name="name">l10n_br_pix.key.form (in l10n_br_pix)</field>
+        <field name="model">l10n_br_pix.key</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- TODO -->
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="pix_key_type"/>
+                        <field name="pix_key"/>
+                        <field name="pix_config_id"/>
+                        <field name="journal_id"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_pix_key_search_view">
+        <field name="name">l10n_br_pix.key.search (in l10n_br_pix)</field>
+        <field name="model">l10n_br_pix.key</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="pix_key_type"/>
+                <field name="pix_key"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="l10n_br_pix_key_tree_view">
+        <field name="name">l10n_br_pix.key.tree (in l10n_br_pix)</field>
+        <field name="model">l10n_br_pix.key</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="pix_key_type"/>
+                <field name="pix_config_id" readonly="1"/>
+                <field name="journal_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="l10n_br_pix_key_act_window">
+        <field name="name">L10n_br_pix Key</field> <!-- TODO -->
+        <field name="res_model">l10n_br_pix.key</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="l10n_br_pix_key_menu">
+        <field name="name">Key</field>
+        <field name="parent_id" ref="l10n_br_pix_menu"/>
+        <field name="action" ref="l10n_br_pix_key_act_window"/>
+        <field name="sequence" eval="100"/>
+    </record>
+
+</odoo>

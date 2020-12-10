@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+    <record model="ir.ui.menu" id="l10n_br_pix_menu">
+        <field name="name">PIX</field>
+        <field name="parent_id" ref="account.menu_finance_configuration"/>
+        <field name="sequence" eval="300"/>
+    </record>
+
+</odoo>
