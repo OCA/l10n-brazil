@@ -5,8 +5,9 @@ from odoo.tests.common import SavepointCase, Form
 
 
 class TestDeliveryInverseAmount(SavepointCase):
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(self):
+        super(TestDeliveryInverseAmount, self).setUpClass()
 
         # Create two sale orders
         sale_order_form_total = Form(self.env['sale.order'], 'sale.view_order_form')
@@ -43,13 +44,18 @@ class TestDeliveryInverseAmount(SavepointCase):
         # sale_order_lines_id lines
         with Form(self.sale_order_line_id) as so:
             with so.order_line.edit(0) as line:
-                line.freight_value = 80.00
-                line.insurance_value = 80.00
-                line.other_costs_value = 80.00
+                line.freight_value = 70.00
+                line.insurance_value = 70.00
+                line.other_costs_value = 70.00
             with so.order_line.edit(1) as line:
-                line.freight_value = 20.00
-                line.insurance_value = 20.00
-                line.other_costs_value = 20.00
+                line.freight_value = 10.00
+                line.insurance_value = 10.00
+                line.other_costs_value = 10.00
+
+        with Form(self.sale_order_line_id) as so:
+            so.amount_freight = 100.0
+            so.amount_insurance = 100.0
+            so.amount_costs = 100.0
 
         # Confirm and create invoices for the sale orders
         self.sale_order_total_id.action_confirm()
@@ -157,6 +163,21 @@ class TestDeliveryInverseAmount(SavepointCase):
                     "Unexpected value for the field freight_value from "
                     "Fiscal Document line")
 
+        with Form(fiscal_document_id) as doc:
+            doc.amount_freight_value = 10.0
+
+        for line in fiscal_document_id.line_ids:
+            if line.name == '[FURN_7777] Office Chair':
+                self.assertEqual(
+                    line.freight_value, 6.36,
+                    "Unexpected value for the field freight_value from "
+                    "Fiscal Document line")
+            if line.name == '[FURN_8888] Office Lamp':
+                self.assertEqual(
+                    line.freight_value, 3.64,
+                    "Unexpected value for the field freight_value from "
+                    "Fiscal Document line")
+
     def test_inverse_amount_freight_line(self):
         """Check Fiscal Document freight values for lines"""
         fiscal_document_id = \
@@ -169,12 +190,27 @@ class TestDeliveryInverseAmount(SavepointCase):
         for line in fiscal_document_id.line_ids:
             if line.name == '[FURN_7777] Office Chair':
                 self.assertEqual(
-                    line.freight_value, 80,
+                    line.freight_value, 87.5,
                     "Unexpected value for the field freight_value from "
                     "Fiscal Document line")
             if line.name == '[FURN_8888] Office Lamp':
                 self.assertEqual(
-                    line.freight_value, 20,
+                    line.freight_value, 12.5,
+                    "Unexpected value for the field freight_value from "
+                    "Fiscal Document line")
+
+        with Form(fiscal_document_id) as doc:
+            doc.amount_freight_value = 10.0
+
+        for line in fiscal_document_id.line_ids:
+            if line.name == '[FURN_7777] Office Chair':
+                self.assertEqual(
+                    line.freight_value, 8.75,
+                    "Unexpected value for the field freight_value from "
+                    "Fiscal Document line")
+            if line.name == '[FURN_8888] Office Lamp':
+                self.assertEqual(
+                    line.freight_value, 1.25,
                     "Unexpected value for the field freight_value from "
                     "Fiscal Document line")
 
@@ -199,6 +235,21 @@ class TestDeliveryInverseAmount(SavepointCase):
                     "Unexpected value for the field insurance_value from "
                     "Fiscal Document line")
 
+        with Form(fiscal_document_id) as doc:
+            doc.amount_insurance_value = 10.0
+
+        for line in fiscal_document_id.line_ids:
+            if line.name == '[FURN_7777] Office Chair':
+                self.assertEqual(
+                    line.insurance_value, 6.36,
+                    "Unexpected value for the field insurance_value from "
+                    "Fiscal Document line")
+            if line.name == '[FURN_8888] Office Lamp':
+                self.assertEqual(
+                    line.insurance_value, 3.64,
+                    "Unexpected value for the field insurance_value from "
+                    "Fiscal Document line")
+
     def test_inverse_amount_insurance_line(self):
         """Check Fiscal Document insurance values for lines"""
         fiscal_document_id = \
@@ -211,12 +262,27 @@ class TestDeliveryInverseAmount(SavepointCase):
         for line in fiscal_document_id.line_ids:
             if line.name == '[FURN_7777] Office Chair':
                 self.assertEqual(
-                    line.insurance_value, 80,
+                    line.insurance_value, 87.5,
                     "Unexpected value for the field insurance_value from "
                     "Fiscal Document line")
             if line.name == '[FURN_8888] Office Lamp':
                 self.assertEqual(
-                    line.insurance_value, 20,
+                    line.insurance_value, 12.5,
+                    "Unexpected value for the field insurance_value from "
+                    "Fiscal Document line")
+
+        with Form(fiscal_document_id) as doc:
+            doc.amount_insurance_value = 10.0
+
+        for line in fiscal_document_id.line_ids:
+            if line.name == '[FURN_7777] Office Chair':
+                self.assertEqual(
+                    line.insurance_value, 8.75,
+                    "Unexpected value for the field insurance_value from "
+                    "Fiscal Document line")
+            if line.name == '[FURN_8888] Office Lamp':
+                self.assertEqual(
+                    line.insurance_value, 1.25,
                     "Unexpected value for the field insurance_value from "
                     "Fiscal Document line")
 
@@ -241,6 +307,21 @@ class TestDeliveryInverseAmount(SavepointCase):
                     "Unexpected value for the field other_costs_value from "
                     "Fiscal Document line")
 
+        with Form(fiscal_document_id) as doc:
+            doc.amount_other_costs_value = 10.0
+
+        for line in fiscal_document_id.line_ids:
+            if line.name == '[FURN_7777] Office Chair':
+                self.assertEqual(
+                    line.other_costs_value, 6.36,
+                    "Unexpected value for the field other_costs_value from "
+                    "Fiscal Document line")
+            if line.name == '[FURN_8888] Office Lamp':
+                self.assertEqual(
+                    line.other_costs_value, 3.64,
+                    "Unexpected value for the field other_costs_value from "
+                    "Fiscal Document line")
+
     def test_inverse_amount_other_costs_line(self):
         """Check Fiscal Document other costs values for lines"""
         fiscal_document_id = \
@@ -253,11 +334,26 @@ class TestDeliveryInverseAmount(SavepointCase):
         for line in fiscal_document_id.line_ids:
             if line.name == '[FURN_7777] Office Chair':
                 self.assertEqual(
-                    line.other_costs_value, 80,
+                    line.other_costs_value, 87.5,
                     "Unexpected value for the field other_costs_value from "
                     "Fiscal Document line")
             if line.name == '[FURN_8888] Office Lamp':
                 self.assertEqual(
-                    line.other_costs_value, 20,
+                    line.other_costs_value, 12.5,
+                    "Unexpected value for the field other_costs_value from "
+                    "Fiscal Document line")
+
+        with Form(fiscal_document_id) as doc:
+            doc.amount_other_costs_value = 10.0
+
+        for line in fiscal_document_id.line_ids:
+            if line.name == '[FURN_7777] Office Chair':
+                self.assertEqual(
+                    line.other_costs_value, 8.75,
+                    "Unexpected value for the field other_costs_value from "
+                    "Fiscal Document line")
+            if line.name == '[FURN_8888] Office Lamp':
+                self.assertEqual(
+                    line.other_costs_value, 1.25,
                     "Unexpected value for the field other_costs_value from "
                     "Fiscal Document line")
