@@ -12,7 +12,7 @@ class ContractLine(models.Model):
     def _prepare_invoice_line(self, invoice_id=False, invoice_values=False):
         invoice_line_vals = super()._prepare_invoice_line(invoice_id,
                                                           invoice_values)
-        invoice_line_vals['fiscal_operation_id'] = \
-            self.env.ref('l10n_br_fiscal.fo_venda').id
+        invoice_line_vals['fiscal_operation_id'] =\
+            self.contract_id.fiscal_operation_id.id
         invoice_line_vals['contract_line_id'] = self.id
         return invoice_line_vals
