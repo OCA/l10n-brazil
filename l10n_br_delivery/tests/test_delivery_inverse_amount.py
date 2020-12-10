@@ -35,7 +35,7 @@ class TestDeliveryInverseAmount(TransactionCase):
             move.quantity_done = move.product_uom_qty
 
         for picking in self.sale_order_id.picking_ids.filtered(
-                lambda p: p.state == 'assigned'):
+                lambda p: p.state == 'confirmed'):
             picking.button_validate()
 
         wizard = self.env['sale.advance.payment.inv'].with_context(
