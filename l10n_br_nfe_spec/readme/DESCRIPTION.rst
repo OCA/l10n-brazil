@@ -3,7 +3,7 @@ Este módulo contem a estrutura de dados da Nota Fiscal Electrônica (NF-e)
 Geração
 ~~~~~~~
 
-O codigo dos mixins Odoo desse módulo é 100% gerido a partir dos ultimos esquemas XSD da Fazenda usando generateDS e essa extensão dele:
+O código dos mixins Odoo desse módulo é 100% gerado a partir dos últimos esquemas XSD da Fazenda usando generateDS e essa extensão dele:
 
 https://github.com/akretion/generateds-odoo
 
