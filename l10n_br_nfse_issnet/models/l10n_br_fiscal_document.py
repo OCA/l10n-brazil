@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-import xml.etree.ElementTree as ET
+# import xml.etree.ElementTree as ET
 from nfselib.issnet.v1_00.servico_enviar_lote_rps_envio import (
     EnviarLoteRpsEnvio,
     ListaRpsType,
