@@ -4,7 +4,7 @@
 from odoo import api, fields, models, _
 
 
-class L10n_br_pixConfig(models.Model):
+class L10nBrPixConfig(models.Model):
 
     _name = 'l10n_br_pix.config'
     _description = 'Pix Configuration'
@@ -21,12 +21,9 @@ class L10n_br_pixConfig(models.Model):
         string='Name'
     )
     active = fields.Boolean(
-        string='Active'
-    )
-    journal_id = fields.Many2one(
-        string='Bank',
-        comodel_name='account.journal',
-        domain=[('type', '=', 'bank')],
+        string='Active',
+        default=True,
+        required=True,
     )
     pix_key_ids = fields.One2many(
         string='Keys',
@@ -60,3 +57,6 @@ class L10n_br_pixConfig(models.Model):
         readonly=True,
         store=True,
     )
+
+    def autenticate(self):
+        self.ensure_one()

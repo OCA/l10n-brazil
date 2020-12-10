@@ -9,9 +9,6 @@
         <field name="model">l10n_br_pix.key</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                    <!-- TODO -->
-                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="toggle_active" type="object"
@@ -22,10 +19,17 @@
                     </div>
                     <group>
                         <field name="name"/>
-                        <field name="pix_key_type"/>
                         <field name="pix_key"/>
-                        <field name="pix_config_id"/>
-                        <field name="journal_id"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field nolabel="1" name="qr_code" widget='image'/>
+                        </group>
+                        <group>
+                            <field name="pix_key_type"/>
+                            <field name="pix_config_id"/>
+                            <field name="journal_id"/>
+                        </group>
                     </group>
                 </sheet>
                 <div class="oe_chatter"></div>
@@ -59,7 +63,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="l10n_br_pix_key_act_window">
-        <field name="name">L10n_br_pix Key</field> <!-- TODO -->
+        <field name="name">Pix Key</field>
         <field name="res_model">l10n_br_pix.key</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[]</field>

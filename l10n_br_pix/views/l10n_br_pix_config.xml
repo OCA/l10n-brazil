@@ -22,7 +22,6 @@
                     </div>
                     <group>
                         <field name="name"/>
-                        <field name="journal_id"/>
                     </group>
                     <group>
                         <field name="pix_auth_cert"/>
@@ -61,7 +60,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="l10n_br_pix_config_act_window">
-        <field name="name">L10n_br_pix Config</field> <!-- TODO -->
+        <field name="name">Pix Config</field>
         <field name="res_model">l10n_br_pix.config</field>
         <field name="view_mode">tree,form</field>
         <field name="domain">[]</field>

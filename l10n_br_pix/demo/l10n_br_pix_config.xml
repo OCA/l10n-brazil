@@ -4,10 +4,13 @@
 
 <odoo noupdate="1">
 
-    <!-- TODO
-    <record model="l10n_br_pix.config" id="l10n_br_pix_config_demo_1">
-       <field name="name">...</field>
+    <record model="l10n_br_pix.config" id="l10n_br_pix_config_demo_pag_seguro">
+       <field name="name">PagSeguro</field>
+       <field name="pix_auth_cert">PagSeguro</field>
+       <field name="pix_auth_key">PagSeguro</field>
+       <field name="environment">test</field>
+       <field name="production_endpoint">https://secure.api.pagseguro.com/instant-payments</field>
+       <field name="test_endpoint">	https://secure.sandbox.api.pagseguro.com/instant-payments</field>
     </record>
-    -->
 
 </odoo>

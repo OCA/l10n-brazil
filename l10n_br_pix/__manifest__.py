@@ -18,15 +18,15 @@
         'security/l10n_br_pix_key.xml',
         'security/l10n_br_pix_config.xml',
 
-        'views/l10n_br_menu.xml',
+        'views/l10n_br_pix_menu.xml',
         'views/l10n_br_pix_key.xml',
         'views/l10n_br_pix_config.xml',
 
         'views/account_journal.xml',
     ],
     'demo': [
-        # 'demo/l10n_br_pix_key.xml',
-        # 'demo/l10n_br_pix_config.xml',
+        'demo/l10n_br_pix_config.xml',
+        'demo/l10n_br_pix_key.xml',
         # 'demo/account_journal.xml',
     ],
 }
