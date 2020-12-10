@@ -9,6 +9,12 @@ class ContractContract(models.Model):
     _inherit = 'contract.contract'
     document_count = fields.Integer(compute="_compute_document_count")
 
+    fiscal_operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
+        string='Fiscal Operation',
+        default=lambda self: self.env.user.company_id,
+        required=False)
+
     @api.multi
     def _compute_document_count(self):
         for rec in self:
