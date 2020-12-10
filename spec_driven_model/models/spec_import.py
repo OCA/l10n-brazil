@@ -256,7 +256,8 @@ class AbstractSpecMixin(models.AbstractModel):
             rec_id = self.match_record(rec_dict, parent_dict, model)
         if not rec_id:
             if create_m2o:
-                r = model.create(rec_dict)
+                rec_dict = self._prepare_import_dict(rec_dict)
+                r = model.with_context(parent_dict=parent_dict).create(rec_dict)
                 # _logger.info('r %s', r)
                 rec_id = r.id
             else:  # do we use it?
