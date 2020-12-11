@@ -11,7 +11,7 @@ from erpbrasil.base import misc
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
-from nfelib.v4_00 import leiauteNFe
+from nfelib.v4_00 import retEnviNFe as leiauteNFe
 
 from odoo import _, api, fields
 
@@ -63,7 +63,12 @@ class NFe(spec_models.StackedModel):
                 "nfe.40.dest", "nfe.40.emit"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
-    _spec_module = 'odoo.addons.l10n_br_spec_nfe.models.v4_00.leiauteNFe'
+    _field_prefix = 'nfe40_'
+    _schema_name = 'nfe'
+    _schema_version = '4.0.0'
+    _odoo_module = 'l10n_br_nfe'
+    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
+    _spec_tab_name = 'NFe'
 #    _concrete_skip = ('nfe.40.det',) # will be mixed in later
     _nfe_search_keys = ['nfe40_Id']
 
