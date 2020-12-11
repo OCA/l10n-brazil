@@ -20,18 +20,19 @@ RAW_RESPONSE = json.loads("""{
         "expiracao": "86400"
       },
       "location": "sandbox.api.pagseguro.com/pix/0DB83D71-36E7-41A0-8C6B-4D58E23C1FBB",
-      "txid": "123BAJDH1JASHjvkae123kejascj1231",
       "revisao": 0,
       "devedor": {
         "cnpj": "12345678000195",
         "nome": "Empresa de Serviços SA"
       },
-      "valor": {
-        "original": "37.00"
-      },
       "chave": "73fa7d23-4d83-4f44-b4eb-9eeec083b1ee",
       "infoAdicionais": []
 }""")
+
+# "txid": "123BAJDH1JASHjvkae123kejascj1231",
+# "valor": {
+#     "original": "37.00"
+# },
 
 RAW_RESPONSE_PAGA = json.loads("""{
       "status": "CONCLUIDA",
@@ -40,14 +41,10 @@ RAW_RESPONSE_PAGA = json.loads("""{
         "expiracao": "86400"
       },
       "location": "sandbox.api.pagseguro.com/pix/0DB83D71-36E7-41A0-8C6B-4D58E23C1FBB",
-      "txid": "123BAJDH1JASHjvkae123kejascj1231",
       "revisao": 0,
       "devedor": {
         "cnpj": "12345678000195",
         "nome": "Empresa de Serviços SA"
-      },
-      "valor": {
-        "original": "37.00"
       },
       "chave": "73fa7d23-4d83-4f44-b4eb-9eeec083b1ee",
       "infoAdicionais": []
@@ -217,7 +214,7 @@ class L10nBrPixCob(models.Model):
                 int(response.get('calendario').get('expiracao')) or False
             ),
             'location': response.get('location'),
-            'name': response.get('txid'),
+            # 'name': response.get('txid'),
             'revisao': response.get('revisao'),
             'devedor_cnpj_cpf': (
                 response.get('devedor') and
@@ -229,10 +226,10 @@ class L10nBrPixCob(models.Model):
                 response.get('devedor') and
                 response.get('devedor').get('nome') or False
             ),
-            'valor_original': (
-                response.get('valor') and
-                response.get('valor').get('original') or False
-            ),
+            # 'valor_original': (
+            #     response.get('valor') and
+            #     response.get('valor').get('original') or False
+            # ),
             'chave': response.get('chave'),
             'raw_response': response
         }
@@ -247,5 +244,7 @@ class L10nBrPixCob(models.Model):
         # TODO: Call API
         self.update(self._process_response(RAW_RESPONSE_PAGA))
 
-    def webhook_notification(self, key):
-        self.ensure_one()
+    def sandbox(self):
+        ativas = self.search([('status', '=', 'ATIVA')])
+        for record in ativas:
+            record.consultar_cobranca()

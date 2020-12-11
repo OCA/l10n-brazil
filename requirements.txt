@@ -11,3 +11,4 @@ xmldiff==2.4
 lxml==4.2.3
 -e git://github.com/erpbrasil/nfelib.git#egg=nfelib
 -e git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
+starkbank-brcode==1.0.1
