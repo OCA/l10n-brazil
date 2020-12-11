@@ -86,6 +86,17 @@ class DocumentLine(models.Model):
                 model_view["arch"] = etree.tostring(doc, encoding='unicode')
             except Exception:
                 return model_view
+
+        View = self.env['ir.ui.view']
+        # Override context for postprocessing
+        if view_id and model_view.get('base_model', self._name) != self._name:
+            View = View.with_context(base_model_name=model_view['base_model'])
+
+        # Apply post processing, groups and modifiers etc...
+        xarch, xfields = View.postprocess_and_fields(
+            self._name, etree.fromstring(model_view['arch']), view_id)
+        model_view['arch'] = xarch
+        model_view['fields'] = xfields
         return model_view
 
     def prepare_line_servico(self):
