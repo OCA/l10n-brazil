@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="l10n_br_pix_cob_form_view">
+        <field name="name">l10n_br_pix.cob.form (in l10n_br_pos_pix)</field>
+        <field name="model">l10n_br_pix.cob</field>
+        <field name="inherit_id" ref="l10n_br_pix.l10n_br_pix_cob_form_view"/>
+        <field name="arch" type="xml">
+            <button name="consultar_cobranca" position="after">
+                <button name="informar_pagamento" type="object" string="Simular Pagamento"/>
+            </button>
+            <field name="info_adicionais" position="before">
+                <field name="pos_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
