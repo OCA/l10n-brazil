@@ -15,12 +15,12 @@
         'account'
     ],
     'data': [
-        'security/l10n_br_pix_cob.xml',
-        'views/l10n_br_pix_cob.xml',
         'security/l10n_br_pix_key.xml',
+        'security/l10n_br_pix_cob.xml',
         'security/l10n_br_pix_config.xml',
 
         'views/l10n_br_pix_menu.xml',
+        'views/l10n_br_pix_cob.xml',
         'views/l10n_br_pix_key.xml',
         'views/l10n_br_pix_config.xml',
 
@@ -32,4 +32,5 @@
         # 'demo/l10n_br_pix_cob.xml',
         # 'demo/account_journal.xml',
     ],
+    # 'external_dependencies': {'python': ['starkbank-brcode']},
 }

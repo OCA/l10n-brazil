@@ -4,10 +4,15 @@
 
 <odoo noupdate="1">
 
-    <!-- TODO
-    <record model="l10n_br_pix.cob" id="l10n_br_pix_cob_demo_1">
-       <field name="name">...</field>
+    <record model="l10n_br_pix.cob" id="l10n_br_pix_cob_kmee_static_demo_1">
+        <field name="name">Estático - KMEE - 1</field>
+        <field name="br_code_text">00020101021126640014br.gov.bcb.pix0114231309350001980224Solicitacao de pagamento52040000530398654030.05802BR5904KMEE6007Itajuba62130509Githubpix63046AF5</field>
     </record>
-    -->
+
+    <record model="l10n_br_pix.cob" id="l10n_br_pix_cob_kmee_dynamic_demo_1">
+        <field name="name">Dinámico - KMEE - 1</field>
+        <field name="br_code_text">00020101021226870014BR.GOV.BCB.PIX2565spi-qrcode.bancointer.com.br/spi/21dabb3715d6421abb3f6a9c33374be55204000053039865402105802BR5904KMEE6007Itajuba623905351607682733Uao9ywO1DbvkOBQUIthKEDcEZ63044BD5</field>
+    </record>
+
 
 </odoo>

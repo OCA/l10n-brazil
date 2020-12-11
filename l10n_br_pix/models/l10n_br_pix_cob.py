@@ -1,11 +1,16 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+import io
+
 import json
 import base64
-
 from odoo import api, fields, models, _
 
+from PIL import Image
+
+from pyzbar import pyzbar
 from brcode.dynamic import fromJson
+from brcode.utils.brcodeId import jsonFromBrcode
 
 
 RAW_RESPONSE = json.loads("""{
@@ -60,7 +65,7 @@ class L10nBrPixCob(models.Model):
         for record in self:
             if record.status == 'ATIVA':
                 record.state = 'open'
-            elif record.state == 'CONCLUIDA':
+            elif record.status == 'CONCLUIDA':
                 record.state = 'done'
             else:
                 record.state = 'cancel'
@@ -76,6 +81,11 @@ class L10nBrPixCob(models.Model):
                     "url": record.location,
                 }
                 record.br_code_text = fromJson(json)
+
+    @api.depends('br_code_text')
+    def _compute_br_code_image(self):
+        for record in self:
+            if record.br_code_text:
                 record.br_code_image = base64.b64encode(
                     self.env['ir.actions.report'].barcode(
                         'QR',
@@ -83,6 +93,35 @@ class L10nBrPixCob(models.Model):
                         width='300',
                         height='300',
                     ))
+
+    def _inverse_br_code_image(self):
+        for record in self:
+            if record.br_code_image:
+                img = Image.open(io.BytesIO(base64.b64decode(record.br_code_image)))
+                decoded = pyzbar.decode(img)
+                if decoded:
+                    record.br_code_text = decoded[0].data
+
+    def _inverse_br_code_text(self):
+        """ Por padrão o correto é sempre consultar o location para obter os dados,
+        isso mantem o paylod e o qr menores. Por isso alguns deles são enviados, com
+        o txid='***'
+
+         """
+        for record in self:
+            if record.br_code_text:
+                br_code_json = jsonFromBrcode(record.br_code_text)
+                for item in br_code_json:
+                    if item == '26':
+                        for arranjo in br_code_json[item]:
+                            if arranjo == '25':
+                                record.location = br_code_json[item][arranjo]
+                    elif item == '62':
+                        for txid in br_code_json[item]:
+                            if txid == '05':  ## TODO: Verificar a questão dos 3 - ***
+                                record.name = br_code_json[item][txid]
+            if not record.br_code_image:
+                record._compute_br_code_image()
 
     name = fields.Char(
         string='Transaction ID (TXID)',
@@ -113,7 +152,8 @@ class L10nBrPixCob(models.Model):
             ('CONCLUIDA', 'CONCLUIDA'),
             ('REMOVIDA_PELO_USUARIO_RECEBEDOR', 'REMOVIDA PELO USUARIO RECEBEDOR'),
             ('REMOVIDA_PELO_PSP', 'REMOVIDA PELO PSP'),
-        ]
+        ],
+        # default='ATIVA',
     )
     calendario_criacao = fields.Datetime(
         string='Calendário Criacao',
@@ -149,13 +189,20 @@ class L10nBrPixCob(models.Model):
     )
     br_code_text = fields.Char(
         compute='_compute_br_code',
+        inverse='_inverse_br_code_text',
         string='BR CODE',
         store=True,
+        readonly=False,
     )
     br_code_image = fields.Binary(
-        compute='_compute_br_code',
+        compute='_compute_br_code_image',
+        inverse='_inverse_br_code_image',
         string='BR CODE',
         store=True,
+        readonly=False,
+    )
+    journal_id = fields.Many2one(
+        comodel_name='account.journal'
     )
 
     def _process_response(self, response):
@@ -200,4 +247,5 @@ class L10nBrPixCob(models.Model):
         # TODO: Call API
         self.update(self._process_response(RAW_RESPONSE_PAGA))
 
-
+    def webhook_notification(self, key):
+        self.ensure_one()

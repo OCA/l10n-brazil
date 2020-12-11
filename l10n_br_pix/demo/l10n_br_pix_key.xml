@@ -4,10 +4,10 @@
 
 <odoo noupdate="1">
 
-    <!-- TODO
-    <record model="l10n_br_pix.key" id="l10n_br_pix_key_demo_1">
-       <field name="name">...</field>
+    <record model="l10n_br_pix.key" id="l10n_br_pix_key_kmee_pagbank_random">
+       <field name="name">KMEE - PAGBANK - Aleatória</field>
+       <field name="pix_key_type">random</field>
+       <field name="pix_key">c66a13f5-78a2-4129-baa5-6506e8143f89</field>
     </record>
-    -->
 
 </odoo>

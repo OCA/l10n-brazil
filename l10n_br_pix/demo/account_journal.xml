@@ -4,10 +4,18 @@
 
 <odoo noupdate="1">
 
-    <!-- TODO
+    <record id="main_company_bank_pagbank" model="res.partner.bank">
+        <field name="acc_number">5384</field>
+        <field name="acc_number_dig">8</field>
+        <field name="bra_number">7030</field>
+        <field name="bra_number_dig">8</field>
+        <field name="bank_id" ref="l10n_br_base.res_bank_001"/>
+        <field name="partner_id" ref="base.main_partner"/>
+        <field name="bank_name">BANCO DO BRASIL S.A.</field>
+    </record>
+
     <record model="account.journal" id="account_journal_demo_1">
        <field name="name">...</field>
     </record>
-    -->
 
 </odoo>
