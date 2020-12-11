@@ -25,8 +25,8 @@ class ProductProduct(models.Model):
             values['list_price'] = parent_dict.get('nfe40_vUnCom')
 
         # Barcode
-        if (parent_dict.get('nfe40_cEAN') and
-                parent_dict['nfe40_cEAN'] != 'SEM GTIN'):
+        if (parent_dict.get('nfe40_cEAN')
+                and parent_dict['nfe40_cEAN'] != 'SEM GTIN'):
             values['barcode'] = parent_dict['nfe40_cEAN']
 
         # NCM
@@ -36,7 +36,7 @@ class ProductProduct(models.Model):
 
             values['ncm_id'] = ncm.id
 
-            if not ncm: # FIXME should not happen with prod data
+            if not ncm:  # FIXME should not happen with prod data
                 ncm = self.env['l10n_br_fiscal.ncm'].sudo().create(
                     {'name': parent_dict['nfe40_NCM'],
                      'code': parent_dict['nfe40_NCM']})
