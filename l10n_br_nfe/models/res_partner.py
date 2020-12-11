@@ -14,19 +14,17 @@ class ResPartner(spec_models.SpecModel):
     # can we use related fields and context views to avoid troubles?
     _name = 'res.partner'
     _inherit = ['res.partner', 'nfe.40.tendereco',
-                'nfe.40.tlocal', 'nfe.40.dest']
+                'nfe.40.tlocal', 'nfe.40.dest', 'nfe.40.tenderemi']
     _nfe_search_keys = ['nfe40_CNPJ', 'nfe40_CPF', 'nfe40_xNome']
 
     @api.model
     def _prepare_import_dict(self, values, defaults={}):
-        vals = super()._prepare_import_dict(values)
+        values = super()._prepare_import_dict(values)
         if not values.get('name') and values.get('legal_name'):
             values['name'] = values['legal_name']
         return values
 
-# TODO deal with nfe40_enderDest. Item can be the address with dest on the parent...
-
-    # nfe.40.tlocal
+    # nfe.40.tlocal / nfe.40.enderEmit / 'nfe.40.enderDest
     nfe40_CNPJ = fields.Char(compute='_compute_nfe_data',
                              inverse='_inverse_nfe40_CNPJ',
                              store=True)
@@ -34,10 +32,10 @@ class ResPartner(spec_models.SpecModel):
     nfe40_CPF = fields.Char(compute='_compute_nfe_data',
                             inverse='_inverse_nfe40_CNPJ',
                             store=True)
-    nfe40_xLgr = fields.Char(related='street')
-    nfe40_nro = fields.Char(related='street_number')
-    nfe40_xCpl = fields.Char(related='street2')
-    nfe40_xBairro = fields.Char(related='district')
+    nfe40_xLgr = fields.Char(related='street', readonly=False)
+    nfe40_nro = fields.Char(related='street_number', readonly=False)
+    nfe40_xCpl = fields.Char(related='street2', readonly=False)
+    nfe40_xBairro = fields.Char(related='district', readonly=False)
     nfe40_cMun = fields.Char(compute='_compute_nfe_data',
                              inverse='_inverse_nfe40_cMun')
     nfe40_xMun = fields.Char(related='city_id.name')
@@ -45,17 +43,18 @@ class ResPartner(spec_models.SpecModel):
     nfe40_UF = fields.Char(related='state_id.code')
 
     # nfe.40.tendereco
-    nfe40_CEP = fields.Char(related='zip')
+    nfe40_CEP = fields.Char(related='zip', readonly=False)
     nfe40_cPais = fields.Char(related='country_id.ibge_code')
     nfe40_xPais = fields.Char(related='country_id.name')
-    nfe40_fone = fields.Char(related='phone') # TODO or mobile?
+    nfe40_fone = fields.Char(related='phone', readonly=False)  # TODO mobile?
 
     # nfe.40.dest
 #    nfe40_idEstrangeiro = fields.Char(
     nfe40_xNome = fields.Char(related='legal_name')
     nfe40_enderDest = fields.Many2one('res.partner',
                                       compute='_compute_nfe40_enderDest')
-#    nfe40_IE = fields.Char(related='') TODO
+    nfe40_indIEDest = fields.Selection(related='ind_ie_dest')
+    nfe40_IE = fields.Char(related='inscr_est')
     nfe40_ISUF = fields.Char(related='suframa')
     nfe40_email = fields.Char(related='email')
 
