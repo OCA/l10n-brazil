@@ -52,8 +52,8 @@ class SpecModel(models.AbstractModel):
         existing concrete Odoo models. In that last case, the comodels of the
         relational fields pointing to such mixins should be remapped to the
         proper concrete models where these mixins are injected."""
+        cls._inject_spec_mixin(pool, cr)
         ModelClass = super(SpecModel, cls)._build_model(pool, cr)
-        ModelClass._inject_spec_mixin(pool, cr)
         ModelClass._mutate_relational_fields(pool, cr)
         return ModelClass
 
