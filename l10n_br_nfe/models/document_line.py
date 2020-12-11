@@ -10,9 +10,14 @@ ICMS_ST_CST_CODES = ['60',]
 
 class NFeLine(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document.line'
-    _inherit = ['l10n_br_fiscal.document.line', 'nfe.40.det']
+    _inherit = ["l10n_br_fiscal.document.line", "nfe.40.det"]
     _stacked = 'nfe.40.det'
-    _spec_module = 'odoo.addons.l10n_br_spec_nfe.models.v4_00.leiauteNFe'
+    _field_prefix = 'nfe40_'
+    _schema_name = 'nfe'
+    _schema_version = '4.0.0'
+    _odoo_module = 'l10n_br_nfe'
+    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
+    _spec_tab_name = 'NFe'
     _stack_skip = 'nfe40_det_infNFe_id'
     # all m2o below this level will be stacked even if not required:
     _force_stack_paths = ('det.imposto',)
