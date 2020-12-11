@@ -22,10 +22,6 @@ class SpecModel(models.AbstractModel):
     _register = False           # not visible in ORM registry
     _abstract = False
     _transient = False
-    _spec_module = 'override.with.your.python.module'
-    _odoo_module = 'your Odoo module'
-    _field_prefix = 'your_field_prefix_'
-    _schema_name = 'your_schema_name'
     _spec_module_classes = None  # a cache storing spec classes
 
     # TODO generic onchange method that check spec field simple type formats
