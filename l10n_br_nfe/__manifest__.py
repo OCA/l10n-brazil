@@ -13,7 +13,8 @@
     "version": "12.0.1.0.0",
     "depends": [
         "l10n_br_fiscal",
-        "l10n_br_spec_nfe",
+        "l10n_br_nfe_spec",
+        "spec_driven_model",
     ],
     "data": [
         # Security
