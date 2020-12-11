@@ -18,8 +18,21 @@ PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, 'erpbrasil.edoc')]
 
 
 class ResCompany(spec_models.SpecModel):
-    _inherit = 'res.company'
+    _name = 'res.company'
+    _inherit = ['res.company', 'nfe.40.emit']
     _nfe_search_keys = ['nfe40_CNPJ', 'nfe40_xNome', 'nfe40_xFant']
+
+    def _compute_nfe_data(self):
+        # compute because a simple related field makes the match_record fail
+        for rec in self:
+            rec.is_company = True
+            rec.nfe40_CNPJ = rec.partner_id.cnpj_cpf
+
+    nfe40_CNPJ = fields.Char(compute='_compute_nfe_data')
+    nfe40_xNome = fields.Char(related='partner_id.legal_name')
+    nfe40_IE = fields.Char(related='partner_id.inscr_est')
+    nfe40_CRT = fields.Selection(related='tax_framework')
+    nfe40_enderEmit = fields.Many2one('res.partner', related='partner_id')
 
     processador_edoc = fields.Selection(
         selection_add=PROCESSADOR,
