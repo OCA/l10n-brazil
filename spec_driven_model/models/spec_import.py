@@ -42,7 +42,8 @@ class AbstractSpecMixin(models.AbstractModel):
         fields = self.fields_get()
         # no default image for easier debugging
         vals = self.default_get([f for f, v in fields.items()
-                                 if v['type'] not in ['binary', 'integer', 'float', 'monetary']])
+                                 if v['type'] not in ['binary', 'integer',
+                                                      'float', 'monetary']])
         if path == '':
             vals.update(defaults)
         # we sort attrs to be able to define m2o related values
@@ -103,6 +104,7 @@ class AbstractSpecMixin(models.AbstractModel):
                 child_defaults = self._extract_related_values(vals, key)
 
                 new_value.update(child_defaults)
+                # FIXME comodel._build_many2one
                 self._build_many2one(comodel, vals, new_value, key,
                                      create_m2o, value, child_path)
             elif attr.get_container() == 1:
