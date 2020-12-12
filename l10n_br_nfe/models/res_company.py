@@ -55,10 +55,24 @@ class ResCompany(spec_models.SpecModel):
         string='NF-e Default Serie',
     )
 
+    def _build_attr(self, node, fields, vals, path, attr, create_m2o,
+                    defaults):
+        if attr.get_name() == 'enderEmit'\
+                and self.env.context.get('edoc_type') == 'in':
+            # we don't want to try build a related partner_id for enderEmit
+            # when importing an NFe
+            # instead later the emit tag will be imported as the
+            # document partner_id (dest) and the enderEmit data will be
+            # injected in the same res.partner record.
+            return
+        return super()._build_attr(
+            node, fields, vals, path, attr, create_m2o, defaults)
+
     @api.model
-    def _prepare_import_dict(self, values, defaults={}):
-        values = super()._prepare_import_dict(values)
+    def _prepare_import_dict(self, values, defaults={}, create_m2o=True):
+        # we disable enderEmit related creation with create_m2o=False
+        values = super()._prepare_import_dict(values, defaults, False)
         if not values.get('name'):
-            values['name'] = (values.get('nfe40_xFant') or
-                              values.get('nfe40_xNome'))
+            values['name'] = (values.get('nfe40_xNome')
+                              or values.get('nfe40_xFant'))
         return values
