@@ -1,7 +1,7 @@
 # Copyright (C) 2019 - Raphael Valyi Akretion
-# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-import logging
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+import logging
 import sys
 import inspect
 from odoo import api, models, SUPERUSER_ID
