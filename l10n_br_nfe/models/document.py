@@ -58,9 +58,7 @@ def filter_processador_edoc_nfe(record):
 
 class NFe(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document'
-    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe",
-                "nfe.40.tendereco", "nfe.40.tenderemi",
-                "nfe.40.dest", "nfe.40.emit"]
+    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
     _field_prefix = 'nfe40_'
@@ -74,6 +72,23 @@ class NFe(spec_models.StackedModel):
 
     # all m2o at this level will be stacked even if not required:
     _force_stack_paths = ('infnfe.total',)
+
+    def _get_emit(self):
+        for doc in self: # TODO if out
+            doc.nfe40_emit = doc.company_id
+
+    # emit and dest are not related fields as their related fields
+    # can change depending if it's and incoming our outgoing NFe
+    # specially when importing (ERP NFe migration vs supplier Nfe).
+    nfe40_emit = fields.Many2one('res.company', compute='_get_emit',
+        readonly=True, string="Emit")
+
+    def _get_dest(self):
+        for doc in self: # TODO if out
+            doc.nfe40_dest = doc.partner_id
+
+    nfe40_dest = fields.Many2one('res.partner', compute='_get_dest',
+        readonly=True, string="Dest")
 
     processador_edoc = fields.Selection(
         selection_add=PROCESSADOR,
@@ -765,9 +780,27 @@ class NFe(spec_models.StackedModel):
         return super(NFe, self)._build_attr(
             node, fields, vals, path, attr, create_m2o, defaults)
 
-    def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
-        if self._name == 'account.invoice' and \
-                comodel._name == 'l10n_br_fiscal.document':
+    def _build_many2one(self, comodel, vals, new_value, key, create_m2o,
+                        value, path):
+        if key == 'nfe40_emit' and self.env.context.get('edoc_type') == 'in':
+            enderEmit_value = self.env['res.partner'].build_attrs(value.enderEmit,
+                                               create_m2o=create_m2o,
+                                               path=path,
+                                               defaults={})
+            new_value.update(enderEmit_value)
+            new_value['is_company'] = True
+            new_value['cnpj_cpf'] = new_value.get('nfe40_CNPJ')
+            super(NFe, self)._build_many2one(self.env['res.partner'],
+                                             vals, new_value,
+                                             'partner_id', create_m2o, value, path)
+            partner = self.env['res.partner'].browse(vals['partner_id'])
+        elif self.env.context.get('edoc_type') == 'in'\
+                and key in ['nfe40_dest', 'nfe40_enderDest']:
+            # this would be the emit/company data, but we won't update it on
+            # NFe import so just do nothing
+            return
+        elif self._name == 'account.invoice' and \
+                comodel._name == 'l10n_br_fiscal.document': # module l10n_br_account_nfe
             # stacked m2o
             vals.update(new_value)
         else:
