@@ -1,5 +1,4 @@
 import logging
-
 import re
 from datetime import datetime
 from odoo import api, models
@@ -158,7 +157,7 @@ class AbstractSpecMixin(models.AbstractModel):
         return key_vals
 
     @api.model
-    def _prepare_import_dict(self, vals, defaults=False):
+    def _prepare_import_dict(self, vals, defaults=False, create_m2o=True):
         """
         Set non computed field values based on XML values if required.
         NOTE: this is debatable if we could use an api multi with values in
@@ -193,6 +192,7 @@ class AbstractSpecMixin(models.AbstractModel):
                         related_many2ones[related_m2o] = key_vals
 
         # now we deal with the related m2o with compound related
+        # (example: create Nfe lines product)
         for related_m2o, sub_val in related_many2ones.items():
             comodel_name = fields[related_m2o]['relation']
             comodel = self.get_concrete_model(comodel_name)
@@ -200,10 +200,10 @@ class AbstractSpecMixin(models.AbstractModel):
                 self._verify_related_many2ones(related_many2ones)
             if hasattr(comodel, 'match_or_create_m2o'):
                 vals[related_m2o] = comodel.match_or_create_m2o(sub_val, vals,
-                                                                True)
-            else:  # res.country for instance
+                                                                create_m2o)
+            else:  # search res.country with Brasil for instance
                 vals[related_m2o] = self.match_or_create_m2o(sub_val, vals,
-                                                             True, comodel)
+                                                             create_m2o, comodel)
         return vals
 
     def _verify_related_many2ones(self, related_many2ones):
