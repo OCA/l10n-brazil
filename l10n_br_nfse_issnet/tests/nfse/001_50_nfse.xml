@@ -29,19 +29,20 @@
                             <tc:ValorIr>0</tc:ValorIr>
                             <tc:ValorCsll>0</tc:ValorCsll>
                             <tc:IssRetido>2</tc:IssRetido>
-                            <tc:ValorIss>0</tc:ValorIss>
+                            <tc:ValorIss>5</tc:ValorIss>
                             <tc:ValorIssRetido>0</tc:ValorIssRetido>
                             <tc:OutrasRetencoes>0</tc:OutrasRetencoes>
                             <tc:BaseCalculo>100</tc:BaseCalculo>
-                            <tc:Aliquota>2</tc:Aliquota>
+                            <tc:Aliquota>5</tc:Aliquota>
                             <tc:ValorLiquidoNfse>100</tc:ValorLiquidoNfse>
                             <tc:DescontoIncondicionado>0</tc:DescontoIncondicionado>
                             <tc:DescontoCondicionado>0</tc:DescontoCondicionado>
                         </tc:Valores>
                         <tc:ItemListaServico>105</tc:ItemListaServico>
+                        <tc:CodigoCnae>3101200</tc:CodigoCnae>
                         <tc:CodigoTributacaoMunicipio>6311900</tc:CodigoTributacaoMunicipio>
                         <tc:Discriminacao>[ODOO_DEV] Customized Odoo Development</tc:Discriminacao>
-                        <tc:MunicipioPrestacaoServico>3132404</tc:MunicipioPrestacaoServico>
+                        <tc:MunicipioPrestacaoServico>999</tc:MunicipioPrestacaoServico>
                     </tc:Servico>
                     <tc:Prestador>
                         <tc:CpfCnpj>
