@@ -33,9 +33,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.spec_driven_model.models import spec_models
 from odoo.exceptions import UserError
 from ..constants.nfe import (
-    NFE_ENVIRONMENT_DEFAULT,
     NFE_ENVIRONMENTS,
-    NFE_VERSION_DEFAULT,
     NFE_VERSIONS,
 )
 
@@ -47,8 +45,8 @@ _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfe(record):
-    if (record.processador_edoc == PROCESSADOR_ERPBRASIL_EDOC and
-            record.document_type_id.code in [
+    if (record.processador_edoc == PROCESSADOR_ERPBRASIL_EDOC
+        and record.document_type_id.code in [
                 MODELO_FISCAL_NFE,
                 MODELO_FISCAL_NFCE,
             ]):
@@ -74,21 +72,21 @@ class NFe(spec_models.StackedModel):
     _force_stack_paths = ('infnfe.total',)
 
     def _get_emit(self):
-        for doc in self: # TODO if out
+        for doc in self:  # TODO if out
             doc.nfe40_emit = doc.company_id
 
     # emit and dest are not related fields as their related fields
     # can change depending if it's and incoming our outgoing NFe
     # specially when importing (ERP NFe migration vs supplier Nfe).
     nfe40_emit = fields.Many2one('res.company', compute='_get_emit',
-        readonly=True, string="Emit")
+                                 readonly=True, string="Emit")
 
     def _get_dest(self):
-        for doc in self: # TODO if out
+        for doc in self:  # TODO if out
             doc.nfe40_dest = doc.partner_id
 
     nfe40_dest = fields.Many2one('res.partner', compute='_get_dest',
-        readonly=True, string="Dest")
+                                 readonly=True, string="Dest")
 
     processador_edoc = fields.Selection(
         selection_add=PROCESSADOR,
@@ -195,7 +193,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_verProc = fields.Char(
-        default='Odoo Brasil v12.0', # Shound be a ir.parameter?
+        default='Odoo Brasil v12.0',  # Shound be an ir.parameter?
     )
 
     nfe40_CRT = fields.Selection(
@@ -227,8 +225,8 @@ class NFe(spec_models.StackedModel):
         if self.document_type_id.code == MODELO_FISCAL_NFE:
             # TODO Deveria estar no erpbrasil.base.fiscal
             company = self.company_id.partner_id
-            chave = str(company.state_id and
-                        company.state_id.ibge_code or "").zfill(2)
+            chave = str(company.state_id
+                        and company.state_id.ibge_code or "").zfill(2)
 
             chave += self.date.strftime("%y%m").zfill(4)
 
@@ -292,8 +290,8 @@ class NFe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.with_context(
-            {'lang': 'pt_BR'}).filtered(filter_processador_edoc_nfe):
+        for record in (self.with_context(
+                       {'lang': 'pt_BR'}).filtered(filter_processador_edoc_nfe)):
             inf_nfe = record.export_ds()[0]
 
             tnfe = leiauteNFe.TNFe(
@@ -522,131 +520,6 @@ class NFe(spec_models.StackedModel):
         if xsd_field == 'nfe40_tpAmb':
             self.env.context = dict(self.env.context)
             self.env.context.update({'tpAmb': self[xsd_field]})
-
-        if xsd_field == 'nfe40_CNPJ':
-            if class_obj._name == 'nfe.40.emit':
-                if self.company_cnpj_cpf:
-                    return self.company_cnpj_cpf.replace(
-                        '.', '').replace('/', '').replace('-', '')
-            elif class_obj._name == 'nfe.40.dest' and self.partner_is_company:
-                if self.partner_cnpj_cpf:
-                    return self.partner_cnpj_cpf.replace(
-                        '.', '').replace('/', '').replace('-', '')
-        if xsd_field == 'nfe40_CPF':
-            if class_obj._name == 'nfe.40.dest' and \
-                    not self.partner_is_company:
-                if self.partner_cnpj_cpf:
-                    return self.partner_cnpj_cpf.replace(
-                        '.', '').replace('/', '').replace('-', '')
-        if xsd_field == 'nfe40_xNome':
-            if class_obj._name == 'nfe.40.emit':
-                if self.company_legal_name:
-                    return self.company_legal_name
-            if class_obj._name == 'nfe.40.dest':
-                if self.nfe40_tpAmb == '2':
-                    return 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO ' \
-                           '- SEM VALOR FISCAL'
-                if self.partner_legal_name:
-                    return self.partner_legal_name
-        if xsd_field == 'nfe40_IE':
-            if class_obj._name == 'nfe.40.emit':
-                if self.company_inscr_est:
-                    return self.company_inscr_est.replace('.', '')
-            if class_obj._name == 'nfe.40.dest':
-                if self.partner_inscr_est:
-                    return self.partner_inscr_est.replace('.', '')
-        if xsd_field == 'nfe40_ISUF':
-            if class_obj._name == 'nfe.40.emit':
-                if self.company_suframa:
-                    return self.company_suframa
-            if class_obj._name == 'nfe.40.dest':
-                if self.partner_suframa:
-                    return self.partner_suframa
-
-        if xsd_field == 'nfe40_xLgr':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_street:
-                    return self.company_street
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_street:
-                    return self.partner_street
-        if xsd_field == 'nfe40_nro':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_number:
-                    return self.company_number
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_number:
-                    return self.partner_number
-        if xsd_field == 'nfe40_xCpl':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_street2:
-                    return self.company_street2
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_street2:
-                    return self.partner_street2
-        if xsd_field == 'nfe40_xBairro':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_district:
-                    return self.company_district
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_district:
-                    return self.partner_district
-        if xsd_field == 'nfe40_cMun':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_state_id and self.company_city_id:
-                    return '%s%s' % (self.company_state_id.ibge_code,
-                                     self.company_city_id.ibge_code)
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_state_id and self.partner_city_id:
-                    return '%s%s' % (self.partner_state_id.ibge_code,
-                                     self.partner_city_id.ibge_code)
-        if xsd_field == 'nfe40_xMun':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_city_id.name:
-                    return self.company_city_id.name
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_city_id.name:
-                    return self.partner_city_id.name
-        if xsd_field == 'nfe40_UF':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_state_id.code:
-                    return self.company_state_id.code
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_state_id.code:
-                    return self.partner_state_id.code
-        if xsd_field == 'nfe40_CEP':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_zip:
-                    return self.company_zip.replace('-', '')
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_zip:
-                    return self.partner_zip.replace('-', '')
-        if xsd_field == 'nfe40_cPais':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_country_id.ibge_code:
-                    return self.company_country_id.ibge_code
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_country_id.ibge_code:
-                    return self.partner_country_id.ibge_code
-        if xsd_field == 'nfe40_xPais':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_country_id.name:
-                    return self.company_country_id.name
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_country_id.name:
-                    return self.partner_country_id.name
-        if xsd_field == 'nfe40_fone':
-            if class_obj._name == 'nfe.40.tenderemi':
-                if self.company_phone:
-                    return self.company_phone.replace('(', '').replace(
-                        ')', '').replace(' ', '').replace(
-                        '-', '').replace('+', '')
-            if class_obj._name == 'nfe.40.tendereco':
-                if self.partner_phone:
-                    return self.partner_phone.replace('(', '').replace(
-                        ')', '').replace(' ', '').replace(
-                        '-', '').replace('+', '')
-
         return super(NFe, self)._export_field(
             xsd_field, class_obj, member_spec)
 
@@ -688,7 +561,6 @@ class NFe(spec_models.StackedModel):
                     defaults):
         key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
         value = getattr(node, attr.get_name())
-        comodel_name = "nfe.40.%s" % (node.original_tagname_,)
 
         if key == 'nfe40_mod':
             vals['document_section'] = 'nfe' if value == '55' else False
@@ -696,116 +568,35 @@ class NFe(spec_models.StackedModel):
                 self.env['l10n_br_fiscal.document.type'].search([
                     ('code', '=', value)], limit=1).id
 
-        if key == 'nfe40_CNPJ':
-            if comodel_name == 'nfe.40.emit':
-                vals['company_cnpj_cpf'] = value
-            elif comodel_name == 'nfe.40.dest':
-                vals['partner_is_company'] = True
-                vals['partner_cnpj_cpf'] = value
-        if key == 'nfe40_CPF':
-            if comodel_name == 'nfe.40.dest':
-                vals['partner_is_company'] = False
-                vals['partner_cnpj_cpf'] = value
-        if key == 'nfe40_xNome':
-            if comodel_name == 'nfe.40.emit':
-                vals['company_legal_name'] = value
-            if comodel_name == 'nfe.40.dest':
-                vals['partner_legal_name'] = value
-        if key == 'nfe40_IE':
-            if comodel_name == 'nfe.40.emit':
-                vals['company_inscr_est'] = value
-            if comodel_name == 'nfe.40.dest':
-                vals['partner_inscr_est'] = value
-        if key == 'nfe40_ISUF':
-            if comodel_name == 'nfe.40.emit':
-                vals['company_suframa'] = value
-            if comodel_name == 'nfe.40.dest':
-                vals['partner_suframa'] = value
-
-        if key == 'nfe40_xLgr':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_street'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_street'] = value
-        if key == 'nfe40_nro':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_number'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_number'] = value
-        if key == 'nfe40_xCpl':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_street2'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_street2'] = value
-        if key == 'nfe40_xBairro':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_district'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_district'] = value
-        if key == 'nfe40_cMun':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_state_id'] = \
-                    self.env['res.country.state'].search([
-                        ('ibge_code', '=', value[:2])], limit=1).id
-                vals['company_city_id'] = \
-                    self.env['res.city'].search([
-                        ('ibge_code', '=', value[2:])], limit=1).id
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_state_id'] = \
-                    self.env['res.country.state'].search([
-                        ('ibge_code', '=', value[:2])], limit=1).id
-                vals['partner_city_id'] = \
-                    self.env['res.city'].search([
-                        ('ibge_code', '=', value[2:])], limit=1).id
-        if key == 'nfe40_CEP':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_zip'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_zip'] = value
-        if key == 'nfe40_cPais':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_country_id'] = \
-                    self.env['res.country'].search([
-                        ('ibge_code', '=', value)], limit=1).id
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_country_id'] = \
-                    self.env['res.country'].search([
-                        ('ibge_code', '=', value)], limit=1).id
-        if key == 'nfe40_fone':
-            if comodel_name == 'nfe.40.enderEmit':
-                vals['company_phone'] = value
-            if comodel_name == 'nfe.40.enderDest':
-                vals['partner_phone'] = value
-
         return super(NFe, self)._build_attr(
             node, fields, vals, path, attr, create_m2o, defaults)
 
     def _build_many2one(self, comodel, vals, new_value, key, create_m2o,
                         value, path):
         if key == 'nfe40_emit' and self.env.context.get('edoc_type') == 'in':
-            enderEmit_value = self.env['res.partner'].build_attrs(value.enderEmit,
-                                               create_m2o=create_m2o,
-                                               path=path,
-                                               defaults={})
+            enderEmit_value = (self.env['res.partner'].build_attrs(value.enderEmit,
+                               create_m2o=create_m2o,
+                               path=path,
+                               defaults={}))
             new_value.update(enderEmit_value)
             new_value['is_company'] = True
             new_value['cnpj_cpf'] = new_value.get('nfe40_CNPJ')
-            super(NFe, self)._build_many2one(self.env['res.partner'],
-                                             vals, new_value,
-                                             'partner_id', create_m2o, value, path)
-            partner = self.env['res.partner'].browse(vals['partner_id'])
+            super()._build_many2one(self.env['res.partner'],
+                                    vals, new_value,
+                                    'partner_id', create_m2o, value, path)
         elif self.env.context.get('edoc_type') == 'in'\
                 and key in ['nfe40_dest', 'nfe40_enderDest']:
             # this would be the emit/company data, but we won't update it on
             # NFe import so just do nothing
             return
-        elif self._name == 'account.invoice' and \
-                comodel._name == 'l10n_br_fiscal.document': # module l10n_br_account_nfe
+        elif self._name == 'account.invoice'\
+                and comodel._name == 'l10n_br_fiscal.document':
+            # module l10n_br_account_nfe
             # stacked m2o
             vals.update(new_value)
         else:
             super(NFe, self)._build_many2one(comodel, vals, new_value,
-                                             key, create_m2o)
+                                             key, create_m2o, value, path)
 
     def gera_pdf(self):
         file_pdf = self.file_pdf_id
