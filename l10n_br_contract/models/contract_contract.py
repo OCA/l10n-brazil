@@ -112,7 +112,7 @@ class ContractContract(models.Model):
                         inv_line[2].get('fiscal_operation_line_id'))
 
                 fiscal_document_type = \
-                   operation_line_id.get_document_type(self.company_id)
+                    operation_line_id.get_document_type(self.company_id)
 
                 if fiscal_document_type.id not in document_type_list:
                     document_type_list.append(fiscal_document_type.id)
