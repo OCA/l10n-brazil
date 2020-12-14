@@ -34,5 +34,4 @@
     ],
     'installable': True,
     'auto_install': True,
-    'external_dependencies': {'python': ['erpbrasil.base']}
 }
