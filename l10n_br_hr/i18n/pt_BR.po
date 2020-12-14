@@ -518,6 +518,11 @@ msgid "Degree of trust you have in this debtor"
 msgstr "Grau de confiança que você tem neste devedor"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
+msgid "Delivery Method"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "Dependent Infos"
 msgstr "Informações dependentes"
@@ -1044,8 +1049,8 @@ msgid ""
 msgstr ""
 "A última vez que a correspondência de faturas e pagamentos foi realizada "
 "para este parceiro. Ele é definido se não houver pelo menos um débito não "
-"reconciliado e um crédito não reconciliado ou se você clicar no botão \""
-"Concluído\"."
+"reconciliado e um crédito não reconciliado ou se você clicar no botão "
+"\"Concluído\"."
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_time_entries_checked
@@ -1646,6 +1651,11 @@ msgid ""
 "account for the current partner"
 msgstr ""
 "Essa conta a receber será usada para o parceiro atual, substituindo a padrão"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
+msgid "This delivery method will be used when invoicing from picking."
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__image
