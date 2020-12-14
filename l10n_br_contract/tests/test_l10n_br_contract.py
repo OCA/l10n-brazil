@@ -1,58 +1,101 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase, Form
 
 
-class TestL10nBrContract(TransactionCase):
-    def setUp(self):
-        super(TestL10nBrContract, self).setUp()
+class TestL10nBrContract(SavepointCase):
+    @classmethod
+    def setUpClass(self):
+        super(TestL10nBrContract, self).setUpClass()
 
-        self.today = fields.Date.today()
-        self.partner = self.env.ref('base.res_partner_2')
-        self.product = self.env.ref('product.product_product_3')
+        # Create contract with 3 lines, two resale products and one service
+        contract_form = Form(self.env['contract.contract'])
+        contract_form.name = 'Test Contract'
+        contract_form.partner_id = self.env.ref(
+            'l10n_br_base.res_partner_kmee')
 
-        self.contract = self.env['contract.contract'].create(
-            {
-                'name': 'Test Contract',
-                'partner_id': self.partner.id,
-                'contract_type': 'sale',
-                'contract_line_ids': [
-                    (
-                        0,
-                        0,
-                        {
-                            'product_id': self.product.id,
-                            'name': 'Desk Combination',
-                            'quantity': 1,
-                            'uom_id': self.product.uom_id.id,
-                            'recurring_rule_type': 'monthly',
-                            'recurring_interval': 1,
-                            'date_start': '2020-09-29',
-                            'recurring_next_date': '2020-10-29',
-                        },
-                    )
-                ],
-            }
-        )
+        self.contract_id = contract_form.save()
 
-    def test_create_document(self):
-        self.contract.recurring_create_invoice()
-        for invoice in self.contract._get_related_invoices():
+        with Form(self.contract_id) as contract:
+            with contract.contract_line_ids.new() as line:
+                line.product_id = self.env.ref('product.product_delivery_01')
+            with contract.contract_line_ids.new() as line:
+                line.product_id = self.env.ref('product.product_delivery_02')
+            with contract.contract_line_ids.new() as line:
+                line.product_id = self.env.ref(
+                    'l10n_br_fiscal.customized_development_sale')
+
+        # Create Invoice and Fiscal Documents related to the contract
+        self.contract_id.recurring_create_invoice()
+
+    def test_created_fiscal_documents(self):
+        """
+        Checks if the Fiscal Documents created from a contract have the correct
+        products according to the Fiscal Operation of their lines
+        """
+        for invoice in self.contract_id._get_related_invoices():
             document_id = invoice.fiscal_document_id
 
-            self.assertTrue(document_id, 'Fiscal Document was not created for'
-                                         ' Contract Invoice')
+            if len(document_id.line_ids) == 1:
+                service_product_id = self.env.ref(
+                    'l10n_br_fiscal.customized_development_sale')
+                document_type_id = self.env.ref('l10n_br_fiscal.document_SE')
 
-            self.assertEqual(self.contract.partner_id.id,
-                             document_id.partner_id.id,
-                             'Fiscal Document Created with different Partner')
+                self.assertEqual(document_type_id.id,
+                                 document_id.document_type_id.id,
+                                 'The Fiscal Document Type is not Nota Fiscal '
+                                 'de Serviço Eletrônica')
 
-            self.assertEqual(len(document_id.line_ids), 1,
-                             'Fiscal Document created with different number '
-                             'of products')
+                self.assertEqual(service_product_id.id,
+                                 document_id.line_ids[0].product_id.id,
+                                 'The product of the Fiscal Document does not '
+                                 'correspond with the expected')
 
-            self.assertEqual(self.product.id,
-                             document_id.line_ids[0].product_id.id,
-                             'Fiscal Document created with different product')
+            else:
+                product_1_id = self.env.ref('product.product_delivery_01')
+                product_2_id = self.env.ref('product.product_delivery_02')
+                document_type_id = self.env.ref('l10n_br_fiscal.document_55')
+
+                products_ids = []
+                for line in document_id.line_ids:
+                    products_ids.append(line.product_id.id)
+
+                self.assertEqual(document_type_id.id,
+                                 document_id.document_type_id.id,
+                                 'The Fiscal Document Type is not Nota Fiscal '
+                                 'Eletrônica')
+
+                self.assertEqual([product_1_id.id, product_2_id.id],
+                                 products_ids,
+                                 'The products of the Fiscal Document does not'
+                                 ' correspond with the expected')
+
+    def test_created_invoices(self):
+        """
+        Checks if invoices created from a contract have the correct products
+        according to the Fiscal Operation of their lines
+        """
+        for invoice in self.contract_id._get_related_invoices():
+
+            if len(invoice.invoice_line_ids) == 1:
+                service_product_id = self.env.ref(
+                    'l10n_br_fiscal.customized_development_sale')
+
+                self.assertEqual(service_product_id.id,
+                                 invoice.invoice_line_ids[0].product_id.id,
+                                 'The product of the Fiscal Document does not '
+                                 'correspond with the expected')
+
+            else:
+                product_1_id = self.env.ref('product.product_delivery_01')
+                product_2_id = self.env.ref('product.product_delivery_02')
+
+                products_ids = []
+                for line in invoice.invoice_line_ids:
+                    products_ids.append(line.product_id.id)
+
+                self.assertEqual([product_1_id.id, product_2_id.id],
+                                 products_ids,
+                                 'The products of the Fiscal Document does not'
+                                 ' correspond with the expected')
