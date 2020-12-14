@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-23 01:40+0000\n"
-"PO-Revision-Date: 2020-11-18 04:36+0000\n"
+"PO-Revision-Date: 2020-12-14 02:19+0000\n"
 "Last-Translator: Eder Brito <britoederr@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_br_base
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city__anp_code
@@ -27217,9 +27217,8 @@ msgstr ""
 #: model:res.city,name:l10n_br_base.city_2200202
 #: model:res.city,name:l10n_br_base.city_2500106
 #: model:res.city,name:l10n_br_base.city_2700102
-#, fuzzy
 msgid "Água Branca"
-msgstr "Número da Agência"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5000203
