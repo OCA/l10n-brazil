@@ -495,6 +495,11 @@ msgid "Degree of trust you have in this debtor"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
+msgid "Delivery Method"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "Dependent Infos"
 msgstr ""
@@ -1548,6 +1553,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_account_receivable_id
 msgid "This account will be used instead of the default one as the receivable account for the current partner"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
+msgid "This delivery method will be used when invoicing from picking."
 msgstr ""
 
 #. module: l10n_br_hr
