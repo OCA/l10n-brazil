@@ -8,8 +8,7 @@ class ResCompany(models.Model):
 
     _inherit = 'res.company'
 
-    # TODO: Verificar se campo já existe
-    fiscal_operation_id = fields.Many2one(
+    contract_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Default Fiscal Operation',
         required=False)
