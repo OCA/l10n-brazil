@@ -10,7 +10,7 @@
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
             <field name="document_type_id" position="after">
-                <field name="fiscal_operation_id"/>
+                <field name="contract_fiscal_operation_id"/>
             </field>
         </field>
     </record>
