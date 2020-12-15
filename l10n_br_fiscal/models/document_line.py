@@ -63,6 +63,14 @@ class DocumentLine(models.Model):
                 record.amount_tax_withholding
             )
 
+    @api.depends('fiscal_operation_type')
+    def _compute_tax_framework(self):
+        for record in self:
+            if record.fiscal_operation_type == 'out':
+                record.tax_framework = record.company_id.tax_framework
+            elif record.fiscal_operation_type == 'in':
+                record.tax_framework = record.partner_id.tax_framework
+
     @api.model
     def _operation_domain(self):
         domain = [('state', '=', 'approved')]
@@ -97,8 +105,8 @@ class DocumentLine(models.Model):
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        related='company_id.tax_framework',
         string='Tax Framework',
+        compute='_compute_tax_framework',
     )
 
     partner_id = fields.Many2one(
