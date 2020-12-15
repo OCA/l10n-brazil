@@ -39,8 +39,8 @@
                     <field name="entry_uom_id" groups="uom.group_uom" class="oe_inline"/>
                 </div>
                 <div class="col-4 oe_inline">
-                    <label for="billed_cfop_id" class="col-4 col-lg-4 o_light_label oe_inline"/>
-                    <field name="billed_cfop_id" class="oe_inline"/>
+                    <label for="entry_cfop_id" class="col-4 col-lg-4 o_light_label oe_inline"/>
+                    <field name="entry_cfop_id" class="oe_inline"/>
                 </div>
             </h3>
         </div>

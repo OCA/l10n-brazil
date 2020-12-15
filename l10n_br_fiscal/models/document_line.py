@@ -181,7 +181,7 @@ class DocumentLine(models.Model):
         comodel_name='uom.uom',
         string="Unit",
     )
-    billed_cfop_id = fields.Many2one(
+    entry_cfop_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cfop',
         string='In CFOP',
     )
