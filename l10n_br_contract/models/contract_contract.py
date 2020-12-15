@@ -52,16 +52,7 @@ class ContractContract(models.Model):
         self.ensure_one()
         invoice_vals = self._prepare_br_fiscal_dict()
         invoice_vals.update(super()._prepare_invoice(date_invoice, journal))
-        invoice_vals['document_type_id'] = self.company_id.document_type_id.id
-        if invoice_vals['document_type_id'] == \
-            self.env['l10n_br_fiscal.document.type'].search([
-                ('code', '=', 'SE')], limit=1).id:
-            invoice_vals['document_section'] = 'nfse_recibos'
-        invoice_vals['document_serie_id'] = \
-            self.env['l10n_br_fiscal.document.serie'].search([
-                ('document_type_id', '=', invoice_vals['document_type_id']),
-                ('company_id', '=', self.company_id.id),
-            ], limit=1).id
+
         return invoice_vals
 
     @api.model
@@ -99,8 +90,14 @@ class ContractContract(models.Model):
         if not isinstance(super_inv_id, list):
             super_inv_id = [super_inv_id]
 
-        document_type_list = []
         inv_ids = []
+        document_type_list = []
+        document_type = {
+            '55': 'nfe',
+            'SE': 'nfse_recibos',
+            '59': 'nfce_cfe',
+            '57': 'cte'
+        }
 
         for invoice_id in super_inv_id:
 
@@ -119,6 +116,14 @@ class ContractContract(models.Model):
                     inv_to_append = invoice_id.copy()
                     inv_to_append['invoice_line_ids'] = [inv_line]
                     inv_to_append['document_type_id'] = fiscal_document_type.id
+                    inv_to_append['document_section'] = document_type.get(
+                        inv_to_append['document_type_id'], False)
+                    inv_to_append['document_serie_id'] = \
+                        self.env['l10n_br_fiscal.document.serie'].search([
+                            ('document_type_id', '=',
+                             inv_to_append['document_type_id']),
+                            ('company_id', '=', self.company_id.id),
+                        ], limit=1).id
                     inv_ids.append(inv_to_append)
                 else:
                     index = document_type_list.index(fiscal_document_type.id)
