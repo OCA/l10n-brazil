@@ -55,6 +55,7 @@
                     <field name="fiscal_operation_line_id" required="1"/>
                     <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '=', '00'), ('cfop_id', '!=', False)]}"/>
                     <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '=', False)]}"/>
+                    <field name="lot_id" domain="[('product_id', '=', product_id)]" context="{'default_product_id': product_id}" groups="stock.group_production_lot"/>
                     <field name="cfop_destination" invisible="1"/>
                     <field name="price_total" invisible="1"/>
                     <field name="price_subtotal" invisible="1"/>
