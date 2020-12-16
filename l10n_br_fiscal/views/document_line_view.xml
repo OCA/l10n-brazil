@@ -102,6 +102,38 @@
             </group>
           </page>
           <page name="fiscal_line_extra_info" string="Extra Info"/>
+          <page name="inventory_cost" string="Inventory Cost">
+              <group>
+                <group>
+                  <field name="exclude_icms"/>
+                  <field name="exclude_icms_st"/>
+                  <field name="exclude_ipi"/>
+                  <field name="exclude_insurance"/>
+                </group>
+                <group>
+                  <field name="exclude_pis"/>
+                  <field name="exclude_cofins"/>
+                  <field name="exclude_freight"/>
+                  <field name="exclude_other_costs"/>
+                </group>
+              </group>
+              <group>
+                  <label for="amount_total_cost"/>
+                  <div>
+                      <field name="amount_total_cost"/>
+                  </div>
+              </group>
+          </page>
+          <page name="extra_info" string="Extra Info">
+            <group>
+                <field name="partner_order"/>
+                <field name="partner_order_line"/>
+            </group>
+            <group>
+                <field name="comment_ids" widget="many2many_tags" domain="[('object','=','l10n_br_fiscal.document.line')]"/>
+                <field name="additional_data"/>
+            </group>
+          </page>
         </notebook>
       </form>
     </field>

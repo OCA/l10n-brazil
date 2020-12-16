@@ -71,6 +71,39 @@ class DocumentLine(models.Model):
             elif record.fiscal_operation_type == 'in':
                 record.tax_framework = record.partner_id.tax_framework
 
+    @api.depends(
+        'exclude_icms',
+        'exclude_icms_st',
+        'exclude_ipi',
+        'exclude_insurance',
+        'exclude_pis',
+        'exclude_cofins',
+        'exclude_freight',
+        'exclude_other_costs',
+        'amount_total')
+    def _compute_amount_total_cost(self):
+        for record in self:
+            record.amount_total_cost = record.amount_total
+
+            if record.exclude_icms:
+                record.amount_total_cost -= record.icms_value
+            if record.exclude_icms_st:
+                record.amount_total_cost -= record.icmsst_value
+            if record.exclude_ipi:
+                record.amount_total_cost -= record.ipi_value
+            if record.exclude_insurance:
+                record.amount_total_cost -= record.insurance_value
+            if record.exclude_pis:
+                record.amount_total_cost -= record.pis_value
+            if record.exclude_cofins:
+                record.amount_total_cost -= record.cofins_value
+            if record.exclude_freight:
+                record.amount_total_cost -= record.freight_value
+            if record.exclude_other_costs:
+                record.amount_total_cost -= record.other_costs_value
+
+            record.amount_total_cost /= record.quantity
+
     @api.model
     def _operation_domain(self):
         domain = [('state', '=', 'approved')]
@@ -184,4 +217,35 @@ class DocumentLine(models.Model):
     entry_cfop_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.cfop',
         string='In CFOP',
+    )
+
+    # CMC
+    exclude_icms = fields.Boolean(
+        string='Exclude ICMS'
+    )
+    exclude_icms_st = fields.Boolean(
+        string='Exclude ICMS ST'
+    )
+    exclude_ipi = fields.Boolean(
+        string='Exclude IPI'
+    )
+    exclude_insurance = fields.Boolean(
+        string='Exclude Insurance'
+    )
+    exclude_pis = fields.Boolean(
+        string='Exclude PIS'
+    )
+    exclude_cofins = fields.Boolean(
+        string='Exclude COFINS'
+    )
+    exclude_freight = fields.Boolean(
+        string='Exclude Freight'
+    )
+    exclude_other_costs = fields.Boolean(
+        string='Exclude Other Costs'
+    )
+    amount_total_cost = fields.Monetary(
+        string='Entry Cost',
+        compute='_compute_amount_total_cost',
+        default=0.00,
     )
