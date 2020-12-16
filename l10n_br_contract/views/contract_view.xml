@@ -17,6 +17,9 @@
             <field name="fiscal_position_id" position="after">
                 <field name="fiscal_operation_id" required="1"/>
             </field>
+            <xpath expr="//field[@name='contract_line_ids']" position="attributes">
+                <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id}</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>

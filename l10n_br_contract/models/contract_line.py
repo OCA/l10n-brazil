@@ -15,13 +15,6 @@ class ContractLine(models.Model):
         default=lambda self: self.contract_id.company_id,
     )
 
-    @api.model
-    def create(self, vals):
-        res = super(ContractLine, self).create(vals)
-        res.fiscal_operation_id = res.contract_id.fiscal_operation_id
-        res._onchange_fiscal_operation_id()
-        return res
-
     @api.multi
     def _prepare_invoice_line(self, invoice_id=False, invoice_values=False):
         invoice_line_vals = self._prepare_br_fiscal_dict()
