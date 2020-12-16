@@ -16,6 +16,7 @@
         'views/res_company.xml',
         'views/contract_view.xml',
         'views/contract_line.xml',
+        'demo/contract_demo.xml',
     ],
     'demo': [
     ],
