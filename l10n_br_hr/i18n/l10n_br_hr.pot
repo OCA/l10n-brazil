@@ -373,6 +373,11 @@ msgid "Contacts"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contract_ids
+msgid "Contracts"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contracts_count
 msgid "Contracts Count"
 msgstr ""
@@ -1237,11 +1242,6 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contract_ids
-msgid "Partner Contracts"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__debit_limit
 msgid "Payable Limit"
 msgstr ""
@@ -1259,6 +1259,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_product_pricelist
 msgid "Pricelist"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_contract_count
+msgid "Purchase Contracts"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1312,6 +1317,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_contract_count
+msgid "Sale Contracts"
 msgstr ""
 
 #. module: l10n_br_hr
