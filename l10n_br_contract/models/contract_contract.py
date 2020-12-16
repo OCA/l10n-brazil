@@ -9,13 +9,19 @@ class ContractContract(models.Model):
     _name = 'contract.contract'
     _inherit = [_name, 'l10n_br_fiscal.document.mixin']
 
+    @api.model
+    def _fiscal_operation_domain(self):
+        domain = [('state', '=', 'approved')]
+        return domain
+
     document_count = fields.Integer(compute="_compute_document_count")
 
     fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Fiscal Operation',
         default=lambda self: self.env.user.company_id,
-        required=False)
+        domain=lambda self: self._fiscal_operation_domain(),
+    )
 
     @api.multi
     def _compute_document_count(self):
