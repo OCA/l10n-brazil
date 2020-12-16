@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+    <record id="contract_line_form_view" model="ir.ui.view">
+        <field name="name">contract.line form view (in contract)</field>
+        <field name="model">contract.line</field>
+        <field name="inherit_id" ref="contract.contract_line_form_view"/>
+        <field name="arch" type="xml">
+             <xpath expr="//field[@name='discount']/.." position="after">
+                 <group name="fiscal">
+                     <field name="fiscal_operation_id" required="1"/>
+                     <field name="fiscal_operation_line_id" required="1"/>
+                 </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

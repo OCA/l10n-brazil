@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="contract_contract_form_view" model="ir.ui.view">
+        <field name="name">contract.contract form view (in l10n_br_contract)</field>
+        <field name="model">contract.contract</field>
+        <field name="inherit_id" ref="contract.contract_contract_form_view"/>
+        <field name="arch" type="xml">
+            <button name="action_show_invoices" position="after">
+                <button name="action_show_documents"
+                        type="object" icon="fa-list"
+                        class="oe_stat_button">
+                    <field string="Documents"
+                           name="document_count"
+                           widget="statinfo"/>
+                </button>
+            </button>
+            <field name="fiscal_position_id" position="after">
+                <field name="fiscal_operation_id" required="1"/>
+            </field>
+            <xpath expr="//field[@name='contract_line_ids']" position="attributes">
+                <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id}</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
