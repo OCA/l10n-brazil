@@ -15,7 +15,7 @@
                 </button>
             </button>
             <field name="fiscal_position_id" position="after">
-                <field name="fiscal_operation_id"/>
+                <field name="fiscal_operation_id" required="1"/>
             </field>
         </field>
     </record>
