@@ -396,6 +396,11 @@ msgid "Contacts"
 msgstr "Contatos"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contract_ids
+msgid "Contracts"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contracts_count
 msgid "Contracts Count"
 msgstr "Contagem de Contratos"
@@ -1287,11 +1292,6 @@ msgid "Partner"
 msgstr "Parceiro"
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__contract_ids
-msgid "Partner Contracts"
-msgstr "Contratos de Parceiro"
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__debit_limit
 msgid "Payable Limit"
 msgstr "Limite de Pagamento"
@@ -1310,6 +1310,11 @@ msgstr "Telefone"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_product_pricelist
 msgid "Pricelist"
 msgstr "Lista de Preços"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_contract_count
+msgid "Purchase Contracts"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg
@@ -1363,6 +1368,11 @@ msgstr "Reservista"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__activity_user_id
 msgid "Responsible User"
 msgstr "Usuário Responsável"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_contract_count
+msgid "Sale Contracts"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_count
@@ -1842,6 +1852,9 @@ msgstr "XXX.XXXXX.XX-X"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__zip
 msgid "Zip"
 msgstr "CEP"
+
+#~ msgid "Partner Contracts"
+#~ msgstr "Contratos de Parceiro"
 
 #, fuzzy
 #~ msgid "Dependent name"
