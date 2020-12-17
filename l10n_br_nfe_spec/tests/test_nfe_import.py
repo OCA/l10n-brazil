@@ -7,7 +7,7 @@ import re
 import nfelib
 from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
 from odoo.tests import SavepointCase
-from odoo import api, models
+from odoo import api
 from ..models import spec_models
 
 
@@ -51,11 +51,8 @@ def build_attrs_fake(self, node, create_m2o=False):
             else:
                 clean_type = attr.get_child_attrs(
                     )['type'].replace('Type', '').lower()
-                comodel_name = "nfe.40.%s" % (clean_type,)  # TODO clean
-
-            comodel = self.get_field_comodel_fake(comodel_name)
-            if comodel is None:
-                continue
+                comodel_name = "nfe.40.%s" % (clean_type,)
+            comodel = self.env.get(comodel_name)
 
             if attr.get_container() == 0:
                 # m2o
@@ -90,24 +87,12 @@ def build_attrs_fake(self, node, create_m2o=False):
 
 
 @api.model
-def get_field_comodel_fake(self, comodel_name):
-    if (
-        hasattr(models.MetaModel, "mixin_mappings")
-        and models.MetaModel.mixin_mappings.get(comodel_name) is not None
-    ):
-        return self.env[models.MetaModel.mixin_mappings[comodel_name]]
-    else:
-        return self.env.get(comodel_name)
-
-
-@api.model
 def match_or_create_m2o_fake(self, comodel, new_value, create_m2o=False):
     return comodel.new(new_value).id
 
 
 spec_models.NfeSpecMixin.build_fake = build_fake
 spec_models.NfeSpecMixin.build_attrs_fake = build_attrs_fake
-spec_models.NfeSpecMixin.get_field_comodel_fake = get_field_comodel_fake
 spec_models.NfeSpecMixin.match_or_create_m2o_fake = match_or_create_m2o_fake
 
 
