@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-17 04:38+0000\n"
+"PO-Revision-Date: 2020-12-17 05:50+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -3318,7 +3318,7 @@ msgstr "Faturas canceladas"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_closing_form
 msgid "Fazer o download:"
-msgstr "Faça o download:"
+msgstr "Fazer o download:"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_closing_form
@@ -3392,7 +3392,7 @@ msgstr "Movimentos financeiros?"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_template_form
 #: selection:l10n_br_fiscal.comment,comment_type:0
 msgid "Fiscal"
-msgstr "Informação Fiscal"
+msgstr "Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_additional_data
@@ -3458,12 +3458,12 @@ msgstr "Resumo do Produto de Dados Fiscais"
 #: selection:l10n_br_fiscal.comment,object:0
 #: selection:l10n_br_fiscal.comment,object_id:0
 msgid "Fiscal Document"
-msgstr "Contagem de Documentos Fiscais"
+msgstr "Documentos Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_cancel
 msgid "Fiscal Document Cancel Record"
-msgstr "Registro de cancelamento de documentos fiscais"
+msgstr "Registro de Cancelamento de Documento Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_cancel_wizard
@@ -3491,7 +3491,7 @@ msgstr "Modelo de e-mail de documentos fiscais"
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_email_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_email_form
 msgid "Fiscal Document Email"
-msgstr "E-mail de documentos fiscais"
+msgstr "E-mail de Documentos Fiscais"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_event
@@ -3502,7 +3502,7 @@ msgstr "Evento de Documento Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_status_wizard_action
 msgid "Fiscal Document Inquiry"
-msgstr "Inquérito de Documentos Fiscais"
+msgstr "Consulta de Documentos Fiscais"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_status_wizard_form
@@ -3542,7 +3542,7 @@ msgstr "Série de Documentos Fiscais"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_status_wizard
 msgid "Fiscal Document Status"
-msgstr "Status do Documento Fiscal"
+msgstr "Situação do Documento Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_type
@@ -3566,7 +3566,7 @@ msgstr "Documentos Fiscais"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_electronic
 msgid "Fiscal Eletronic Document"
-msgstr "Documento Eletronic Fiscal"
+msgstr "Documento Fiscal Eletrônico"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_event_action
@@ -3577,7 +3577,7 @@ msgstr "Evento Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_product_genre
 msgid "Fiscal Fiscal Product Genre"
-msgstr "Gênero de Produto Fiscal Fiscal"
+msgstr "Gênero Fiscal do Produto"
 
 #. module: l10n_br_fiscal
 #: model:res.groups,name:l10n_br_fiscal.group_manager
@@ -3638,7 +3638,7 @@ msgstr "Operação Fiscal já existe com este código !"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_profile_search
 msgid "Fiscal Partner Profile"
-msgstr "Perfil do Parceiro Fiscal"
+msgstr "Perfil Fiscal do Parceiro"
 
 #. module: l10n_br_fiscal
 #: sql_constraint:l10n_br_fiscal.partner.profile:0
@@ -3666,7 +3666,7 @@ msgstr "Preço Fiscal"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_genre_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_genre_search
 msgid "Fiscal Product Genre"
-msgstr "Gênero produto fiscal"
+msgstr "Gênero Fiscal do Produto"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__fiscal_genre_code
@@ -3674,7 +3674,7 @@ msgstr "Gênero produto fiscal"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__fiscal_genre_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__fiscal_genre_code
 msgid "Fiscal Product Genre Code"
-msgstr "Código de Gênero de Produto Fiscal"
+msgstr "Código do Gênero Fiscal do Produto"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.partner_form
@@ -3695,7 +3695,7 @@ msgstr "Imposto Fiscal"
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_estimate
 msgid "Fiscal Tax Estimate"
-msgstr "Estimativa fiscal"
+msgstr "Estimativa de Impostos Fiscais"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cst__tax_group_id
