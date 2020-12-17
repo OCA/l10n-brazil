@@ -6,20 +6,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2020-12-17 04:48+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__zip_code
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__zip
 msgid "CEP"
-msgstr ""
+msgstr "CEP"
 
 #. module: l10n_br_zip
 #: model:ir.actions.act_window,name:l10n_br_zip.l10n_br_zip_action
@@ -27,185 +29,185 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_tree
 msgid "CEPs"
-msgstr ""
+msgstr "CEPs"
 
 #. module: l10n_br_zip
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_search_form
 msgid "Cancelar"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__city_id
 msgid "Cidade"
-msgstr ""
+msgstr "Cidade"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__city_id
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
+msgstr "Ajuste de Configurações"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__country_id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__country_id
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__create_uid
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Criado por"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__create_date
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Criado em"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__cep_update_days
 msgid "Days to Update CEP"
-msgstr ""
+msgstr "Dias para atualizar CEP"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__display_name
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome Exibido"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__district
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__district
 msgid "District"
-msgstr ""
+msgstr "Distrito"
 
 #. module: l10n_br_zip
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:166
 #, python-format
 msgid "Erro a Carregar Atributo: "
-msgstr ""
+msgstr "Erro a Carga a Atributo: "
 
 #. module: l10n_br_zip
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:124
 #, python-format
 msgid "Erro no PyCEP-Correios : "
-msgstr ""
+msgstr "Erro no PyCEP-Correios : "
 
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_format_address_mixin
 msgid "Fomat Address"
-msgstr ""
+msgstr "Endereço fomat"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__address_id
 msgid "Id do objeto"
-msgstr ""
+msgstr "Id do objeto"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip____last_update
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última atualização em"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__write_uid
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última atualização por"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__write_date
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Atualizado pela última vez em"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__street
 msgid "Logradouro"
-msgstr ""
+msgstr "Logradouro"
 
 #. module: l10n_br_zip
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:73
 #, python-format
 msgid "Necessário informar Estado, município e logradouro"
-msgstr ""
+msgstr "Necessário informar Estado, município e logradouro"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__object_name
 msgid "Nome do Objeto"
-msgstr ""
+msgstr "Nome do Objeto"
 
 #. module: l10n_br_zip
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_search_form
 msgid "Nova Pesquisa"
-msgstr ""
+msgstr "Nova Pesquisa"
 
 #. module: l10n_br_zip
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_search_form
 msgid "Pesquisar"
-msgstr ""
+msgstr "Pesquisar"
 
 #. module: l10n_br_zip
 #: model:ir.actions.act_window,name:l10n_br_zip.l10n_br_zip_search_action
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_res_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_search_form
 msgid "Pesquisar CEP"
-msgstr ""
+msgstr "Pesquisar CEP"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__zip_complement
 msgid "Range"
-msgstr ""
+msgstr "Intervalo"
 
 #. module: l10n_br_zip
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_zip_tree
 msgid "Selecionar"
-msgstr ""
+msgstr "Selecionar"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__state_id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__state_id
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_type
 msgid "Street Type"
-msgstr ""
+msgstr "Tipo de Rua"
 
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_l10n_br_zip_search
 msgid "Zipcode Search"
-msgstr ""
+msgstr "Pesquisa de código zipcode"
 
 #. module: l10n_br_zip
 #: model_terms:ir.ui.view,arch_db:l10n_br_zip.l10n_br_base_res_config_settings_form
 msgid "days"
-msgstr ""
+msgstr "dias"
 
 #. module: l10n_br_zip
 #: selection:l10n_br.zip.search,state:0
 msgid "done"
-msgstr ""
+msgstr "concluído"
 
 #. module: l10n_br_zip
 #: selection:l10n_br.zip.search,state:0
 msgid "init"
-msgstr ""
+msgstr "init"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__state
 msgid "state"
-msgstr ""
+msgstr "estado"
