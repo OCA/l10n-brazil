@@ -31,7 +31,6 @@ class TestNFeExport(TransactionCase):
                         'company_number': 3,
                         'processador_edoc': 'erpbrasil_edoc',
                         })
-        self.nfe.company_id.country_id.name = 'Brasil'
         self.nfe.company_id.processador_edoc = 'erpbrasil_edoc'
         if self.nfe.state != 'em_digitacao': # 2nd test run
             self.nfe.action_document_back2draft()
@@ -115,7 +114,7 @@ class TestNFeExport(TransactionCase):
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
         self.nfe.date_in_out = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
-        self.nfe._document_export()
+        self.nfe.with_context(lang='pt_BR')._document_export()
         output = os.path.join(config['data_dir'], 'filestore',
                               self.cr.dbname, self.nfe.file_xml_id.store_fname)
         _logger.info("XML file saved at %s" % (output,))
