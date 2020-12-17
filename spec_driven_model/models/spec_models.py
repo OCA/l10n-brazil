@@ -201,7 +201,7 @@ class StackedModel(SpecModel):
     stacked in a denormalized way inside these two tables only.
     Because StackedModel has its _build_method overriden to do some magic
     during module loading it should be inherited the Python way
-    with MyObject(spec_models.StackedModel).
+    with MyModel(spec_models.StackedModel).
     """
     _register = False  # forces you to inherit StackeModel properly
 
