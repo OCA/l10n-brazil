@@ -507,7 +507,7 @@ class NFe(spec_models.StackedModel):
             record.autorizacao_event_id = record._gerar_evento(
                 processador._generateds_to_string_etree(
                     record.serialize()[0]
-                )[0].decode('utf-8'), event_type="0"
+                )[0], event_type="0"
             )
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
