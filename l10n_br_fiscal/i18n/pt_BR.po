@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-17 04:32+0000\n"
+"PO-Revision-Date: 2020-12-17 04:38+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -5329,7 +5329,7 @@ msgstr "Modo de Inclusão"
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_in_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_in_menu
 msgid "Incomming Document"
-msgstr "Documento de Comunicação"
+msgstr "Documento de Entrada"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_correction__sequencia
@@ -6778,7 +6778,7 @@ msgstr "Fora"
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_out_action
 #: model:ir.ui.menu,name:l10n_br_fiscal.document_out_menu
 msgid "Outgoing Document"
-msgstr "Documento de saída"
+msgstr "Documento de Saída"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.cfop_search
