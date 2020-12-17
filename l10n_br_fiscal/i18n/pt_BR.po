@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-17 06:01+0000\n"
+"PO-Revision-Date: 2020-12-17 06:11+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -657,7 +657,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_dashboard_kanban
 msgid "A enviar"
-msgstr "Um enviar"
+msgstr "A enviar"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.certificate,subtype:0
@@ -2157,7 +2157,7 @@ msgstr "País da Empresa"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_district
 msgid "Company District"
-msgstr "Distrito da Empresa"
+msgstr "Bairro da Empresa"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_legal_name
@@ -2411,7 +2411,7 @@ msgstr "Criar um novo documento"
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.partner_profile_action
 msgid "Create a new Fiscal Partner Profile"
-msgstr "Crie um novo Perfil de Parceiro Fiscal"
+msgstr "Crie um novo Perfil Fiscal de Parceiro"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.subsequent_document_action
@@ -7082,7 +7082,7 @@ msgstr "Parceiro"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_city_id
 msgid "Partner City"
-msgstr "Cidade Parceira"
+msgstr "Cidade do Parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_country_id
@@ -7092,12 +7092,12 @@ msgstr "País Parceiro"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_district
 msgid "Partner District"
-msgstr "Distrito de Parceiros"
+msgstr "Bairro do Parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_is_company
 msgid "Partner Is Company?"
-msgstr "Sócio é companhia?"
+msgstr "Parceiro é Empresa?"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_number
@@ -7136,22 +7136,22 @@ msgstr "Quantidade de Parceiros"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_state_id
 msgid "Partner State"
-msgstr "Estado parceiro"
+msgstr "Estado do Parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_street
 msgid "Partner Street"
-msgstr "Rua Partner"
+msgstr "Rua do Parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_street2
 msgid "Partner Street2"
-msgstr "Rua Parceiro2"
+msgstr "Rua2 do Parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__partner_tax_framework
 msgid "Partner Tax Framework"
-msgstr "Marco fiscal de parceiros"
+msgstr "Framework Fiscal do Parceiro"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_zip
