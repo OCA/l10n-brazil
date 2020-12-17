@@ -1,0 +1,77 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_delivery
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__amount_freight
+msgid "Freight"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_invoice__amount_freight_value
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__amount_freight_value
+msgid "Freight Value"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__amount_insurance
+msgid "Insurance"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_invoice__amount_insurance_value
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__amount_insurance_value
+msgid "Insurance Value"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: code:addons/l10n_br_delivery/models/sale_order.py:36
+#, python-format
+msgid "No carrier set for this order."
+msgstr ""
+
+#. module: l10n_br_delivery
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_account_invoice__amount_other_costs_value
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_fiscal_document__amount_other_costs_value
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_sale_order__amount_costs
+msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: code:addons/l10n_br_delivery/models/sale_order.py:38
+#, python-format
+msgid "Please use \"Check price\" in order to compute a shipping price for this quotation."
+msgstr ""
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_sale_order
+msgid "Sale Order"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_br_delivery
+#: code:addons/l10n_br_delivery/models/sale_order.py:32
+#, python-format
+msgid "You can add delivery price only on unconfirmed quotations."
+msgstr ""
