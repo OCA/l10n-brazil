@@ -15,6 +15,7 @@ import logging
 
 from odoo.tests.common import TransactionCase
 from odoo.addons import l10n_br_nfe
+from odoo.addons.spec_driven_model import hooks
 
 _logger = logging.getLogger(__name__)
 
@@ -22,6 +23,8 @@ _logger = logging.getLogger(__name__)
 class TestNFeExport(TransactionCase):
     def setUp(self):
         super(TestNFeExport, self).setUp()
+        hooks.register_hook(self.env, 'l10n_br_nfe',
+            'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe')
         self.nfe = self.env.ref('l10n_br_nfe.demo_nfe_same_state')
         self.nfe.write({'document_type_id': self.env.ref('l10n_br_fiscal.document_55').id,
                         'company_id': self.env.ref('l10n_br_fiscal.empresa_lucro_presumido').id,
