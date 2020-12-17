@@ -409,10 +409,9 @@ class NFe(spec_models.StackedModel):
                 for p in processador.processar_documento(edoc):
                     processo = p
                     if processo.webservice == 'nfeAutorizacaoLote':
-                        event_id = self._gerar_evento(
-                            processo.envio_xml.decode('utf-8'),
-                            event_type="0")
-                        record.autorizacao_event_id = event_id
+                        self.autorizacao_event_id._grava_anexo(
+                            processo.envio_xml.decode('utf-8'), "xml"
+                        )
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ['100']:
                 protocolos = processo.resposta.protNFe
@@ -502,6 +501,14 @@ class NFe(spec_models.StackedModel):
             record.date_in_out = fields.Datetime.now()
 
         super(NFe, self).action_document_confirm()
+
+        for record in self:
+            processador = record._processador()
+            record.autorizacao_event_id = record._gerar_evento(
+                processador._generateds_to_string_etree(
+                    record.serialize()[0]
+                )[0].decode('utf-8'), event_type="0"
+            )
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if self.company_id.partner_id.state_id.ibge_code:
