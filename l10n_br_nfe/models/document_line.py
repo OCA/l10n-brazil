@@ -2,6 +2,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import sys
 from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -115,9 +116,10 @@ class NFeLine(spec_models.StackedModel):
         related='icms_base_type',
     )
 
-    nfe40_vBC = fields.Monetary(
-        related='icms_base',
-    )
+    # otherwise the one of ICMS can be overriden by the one from say PIS
+    # nfe40_vBC = fields.Monetary(
+    #    related='icms_base', readonly=False
+    # )
 
     nfe40_vICMS = fields.Monetary(
         related='icms_value',
@@ -235,6 +237,24 @@ class NFeLine(spec_models.StackedModel):
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
             xsd_fields = [self.nfe40_choice11]
+            icms_tag = self.nfe40_choice11.replace('nfe40_', '')  # FIXME
+            binding_module = sys.modules[self._binding_module]
+            icms_binding = getattr(binding_module, icms_tag + "Type")
+            icms_dict = {
+                'orig': self.nfe40_orig,
+                'CST': self.icms_cst_id.code,
+                'modBC': self.nfe40_modBC,
+                'vBC': str("%.02f" % self.icms_base),
+                'pICMS': str("%.04f" % self.nfe40_pICMS),
+                'vICMS': str("%.02f" % self.nfe40_vICMS),
+                # TODO complete the dict with other ICMS values
+            }
+            export_dict[icms_tag] = icms_binding(**icms_dict)
+        elif class_obj._name == 'nfe.40.icmssn':
+            pass
+            # TODO ICMSSN mixins are not generated to avoid
+            # field collision. Do the same kind of thing
+            # as we did as for the ICMS
         elif class_obj._name == 'nfe.40.tipi':
             xsd_fields = [f for f in xsd_fields if f not in [
                 i[0] for i in class_obj._fields['nfe40_choice3'].selection]]
