@@ -1,15 +1,10 @@
 # Copyright 2019 KMEE
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
+from io import StringIO
 import logging
-
+import sys
 from odoo import models, fields
 
-try:
-    from nfelib.v4_00 import leiauteNFe  # FIXME: Move me to my module!
-except ImportError:
-    pass
-
-from io import StringIO
 
 _logger = logging.getLogger(__name__)
 
@@ -18,8 +13,8 @@ class AbstractSpecMixin(models.AbstractModel):
     _inherit = 'spec.mixin'
 
     def _get_ds_class(self, class_obj):
-        #  FIXME: leiauteNFe hardcoded
-        return getattr(leiauteNFe, class_obj._generateds_type)
+        binding_module = sys.modules[self._binding_module]
+        return getattr(binding_module, class_obj._generateds_type)
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         # FIXME: Remove all references of nfe, make it generic!
@@ -111,7 +106,7 @@ class AbstractSpecMixin(models.AbstractModel):
         for c in set(classes):
             if c is None:
                 continue
-            if 'nfe.' not in c:  # make generic brittle
+            if not c.startswith("%s." % (self._schema_name,)):
                 continue
             # the following filter to fields to show
             # when several XSD class are injected in the same object
@@ -133,8 +128,9 @@ class AbstractSpecMixin(models.AbstractModel):
             return
 
         xsd_fields = (
-            i for i in self.env[class_name]._fields if
-            self.env[class_name]._fields[i]._attrs.get('xsd')
+            i for i in class_obj._fields if
+            class_obj._fields[i].name.startswith(class_obj._field_prefix)
+            and "_choice" not in class_obj._fields[i].name
         )
 
         kwargs = {}
