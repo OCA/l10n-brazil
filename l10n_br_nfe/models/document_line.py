@@ -5,7 +5,7 @@
 from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
-ICMS_ST_CST_CODES = ['60',]
+ICMS_ST_CST_CODES = ['60']
 
 
 class NFeLine(spec_models.StackedModel):
@@ -492,7 +492,8 @@ class NFeLine(spec_models.StackedModel):
             # stacked m2o
             vals.update(new_value)
         else:
-            super()._build_many2one(comodel, vals, new_value, key, create_m2o)
+            super()._build_many2one(comodel, vals, new_value, key, create_m2o,
+                                    value, path)
 
     def _verify_related_many2ones(self, related_many2ones):
         if related_many2ones.get('product_id', {}).get('barcode') and \
