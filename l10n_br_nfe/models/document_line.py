@@ -234,6 +234,16 @@ class NFeLine(spec_models.StackedModel):
                 if uom_ids:
                     line.uom_id = uom_ids[0]
 
+    @api.model
+    def _prepare_import_dict(self, values, defaults={}, create_m2o=True):
+        values = super()._prepare_import_dict(values, defaults, create_m2o)
+        if not values.get('name'):
+            values['name'] = values.get('nfe40_xProd')
+            if values.get('product_id'):
+                values['ncm_id'] = self.env['product.product'].browse(
+                    values['product_id']).ncm_id.id
+        return values
+
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
             xsd_fields = [self.nfe40_choice11]
@@ -505,7 +515,114 @@ class NFeLine(spec_models.StackedModel):
         elif key == 'nfe40_modBC':
             vals['icms_base_type'] = value
 
-    def _build_many2one(self, comodel, vals, new_value, key, create_m2o):
+    def _build_many2one(self, comodel, vals, new_value, key, create_m2o,
+                        value, path):
+        ICMS_TAGS = ['ICMS00', 'ICMS10', 'ICMS20', 'ICMS30', 'ICMS40',
+                     'ICMS51', 'ICMS60', 'ICMS70', 'ICMS90',
+                     'ICMSPart', 'ICMSST',
+                     'ICMSSN101', 'ICMSSN102', 'ICMSSN500', 'ICMSSN900']
+
+        if key == 'nfe40_ISSQN':
+            pass
+            # TODO ISSQN Fields
+        elif key == 'nfe40_ICMS':
+            # TODO extract method
+            icms_vals = {}
+            for tag in ICMS_TAGS:
+                if getattr(value, tag) is not None:
+                    icms = getattr(value, tag)
+
+                    # ICMSxx fields
+                    # TODO map icms_tax_id
+                    if hasattr(icms, 'CST') and icms.CST is not None:
+                        icms_vals['icms_cst_id'] = self.env.ref(
+                            'l10n_br_fiscal.cst_icms_%s' % (icms.CST,)).id
+                        # TODO search + log if not found
+                    if hasattr(icms, 'modBC'):
+                        icms_vals['icms_base_type'] = icms.modBC
+                    if hasattr(icms, 'orig'):
+                        icms_vals['icms_origin'] = icms.orig
+                    if hasattr(icms, 'vBC'):
+                        icms_vals['icms_base'] = float(icms.vBC)
+                    if hasattr(icms, 'pICMS'):
+                        icms_vals['icms_percent'] = float(icms.pICMS)
+                    if hasattr(icms, 'vICMS'):
+                        icms_vals['icms_value'] = float(icms.vICMS)
+                    if hasattr(icms, 'pRedBC'):
+                        icms_vals['icms_reduction'] = float(icms.pRedBC)
+                    if hasattr(icms, 'motDesICMS') and icms.motDesICMS is not None:
+                        icms_vals['icms_relief_id'] = self.env.ref(
+                            'l10n_br_fiscal.icms_relief_%s' % (icms.motDesICMS,)).id
+                    if hasattr(icms, 'vICMSDeson') and icms.vICMSDeson is not None:
+                        icms_vals['icms_relief_value'] = float(icms.vICMSDeson)
+
+                    # ICMS ST fields
+                    # TODO map icmsst_tax_id
+                    if hasattr(icms, 'modBCST'):
+                        icms_vals['icmsst_base_type'] = float(icms.modBCST)
+                    if hasattr(icms, 'pMVAST'):
+                        icms_vals['icmsst_mva_percent'] = float(icms.pMVAST)
+                    if hasattr(icms, 'pRedBCST'):
+                        icms_vals['icmsst_reduction'] = float(icms.pRedBCST)
+                    if hasattr(icms, 'vBCST'):
+                        icms_vals['icmsst_base'] = float(icms.vBCST)
+                    if hasattr(icms, 'pICMSST'):
+                        icms_vals['icmsst_percent'] = float(icms.pICMSST)
+                    if hasattr(icms, 'vICMSST'):
+                        icms_vals['icmsst_value'] = float(icms.vICMSST)
+                    if hasattr(icms, 'vBCSTRet'):
+                        icms_vals['icmsst_wh_base'] = float(icms.vBCSTRet)
+                    if hasattr(icms, 'vICMSSTRet'):
+                        icms_vals['icmsst_wh_value'] = float(icms.vICMSSTRet)
+
+                    # ICMS FCP Fields
+                    # TODO map icmsfcp_tax_id
+                    if hasattr(icms, 'pFCPUFDest'):
+                        icms_vals['icmsfcp_percent'] = float(icms.pFCPUFDest)
+                    if hasattr(icms, 'vFCPUFDest'):
+                        icms_vals['icmsfcp_value'] = float(icms.vFCPUFDest)
+
+                    # ICMS DIFAL Fields
+                    if hasattr(icms, 'vBCUFDest'):
+                        icms_vals['icms_destination_base'] = float(icms.vBCUFDest)
+                    if hasattr(icms, 'pICMSUFDest'):
+                        icms_vals['icms_origin_percent'] = float(icms.pICMSUFDest)
+                    if hasattr(icms, 'pICMSInter'):
+                        icms_vals['icms_destination_percent'] = float(icms.pICMSInter)
+
+                    if hasattr(icms, 'pICMSInterPart'):
+                        icms_vals['icms_sharing_percent'] = float(icms.pICMSInterPart)
+                    if hasattr(icms, 'vICMSUFRemet'):
+                        icms_vals['icms_origin_value'] = float(icms.vICMSUFRemet)
+                    if hasattr(icms, 'vICMSUFDest'):
+                        icms_vals['icms_destination_value'] = float(icms.vICMSUFDest)
+
+                    # ICMS Simples Nacional Fields
+                    # TODO map icmssn_tax_id using CSOSN
+                    if hasattr(icms, 'pCredSN'):
+                        icms_vals['icmssn_percent'] = float(icms.pCredSN)
+                    if hasattr(icms, 'vCredICMSSN'):
+                        icms_vals['icmssn_credit_value'] = float(icms.vCredICMSSN)
+            new_value.update(icms_vals)
+        elif key == 'nfe40_IPI':
+            pass
+                    # IPI Fields
+
+                    # II Fields
+
+                    # COFINS
+
+                    # COFINS ST
+
+                    # PIS
+
+                    # PIS ST
+
+                    # ICMSPart fields
+
+                    # ICMSSN fields
+
+                    # TODO
         if self._name == 'account.invoice.line' and \
                 comodel._name == 'l10n_br_fiscal.document.line':
             # TODO do not hardcode!!
