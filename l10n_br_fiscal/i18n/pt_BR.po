@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-17 06:11+0000\n"
+"PO-Revision-Date: 2020-12-17 06:17+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -1810,7 +1810,7 @@ msgstr "Cancelar"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_electronic__cancel_reason
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_workflow__cancel_reason
 msgid "Cancel Reason"
-msgstr "Cancelar Motivo"
+msgstr "Motivo do Cancelamento"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,state_edoc:0
@@ -1961,7 +1961,7 @@ msgstr "Verifique as permissões de gravação na pasta temporária do sistema"
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.service_type_form
 msgid "Child Service Type"
-msgstr "Tipo de serviço infantil"
+msgstr "Tipo de Serviço Filho"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cnae__child_ids
@@ -2606,7 +2606,7 @@ msgstr "DF-e"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.dfe_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.dfe_tree
 msgid "DF-e Consult"
-msgstr "DF-e Consultar"
+msgstr "Consultar DF-e"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_dfe_xml
@@ -7059,7 +7059,7 @@ msgstr "CNAE pai"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__parent_id
 msgid "Parent Service Type"
-msgstr "Tipo de serviço dos pais"
+msgstr "Tipo de Serviço Pai"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.partner_action
@@ -7969,7 +7969,7 @@ msgstr "Tipo de Serviço"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__child_ids
 msgid "Service Type Child"
-msgstr "Criança tipo serviço"
+msgstr "Tipo de Serviço Filho"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.service_type_action
@@ -7982,7 +7982,7 @@ msgstr "Criança tipo serviço"
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_template_search
 msgid "Service Type LC 166"
-msgstr "Tipo de serviço LC 166"
+msgstr "Tipo de Serviço LC 166"
 
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.service_action
