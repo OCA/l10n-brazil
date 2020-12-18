@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-17 06:21+0000\n"
+"PO-Revision-Date: 2020-12-18 21:45+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -2880,7 +2880,7 @@ msgstr "Arquivo de despacho"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_wizard_document_invalidate__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom_alternative__display_name
 msgid "Display Name"
-msgstr "Nome Exibido"
+msgstr "Nome de Exibição"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document.event,type:0
@@ -3458,7 +3458,7 @@ msgstr "Resumo do Produto de Dados Fiscais"
 #: selection:l10n_br_fiscal.comment,object:0
 #: selection:l10n_br_fiscal.comment,object_id:0
 msgid "Fiscal Document"
-msgstr "Documentos Fiscal"
+msgstr "Documento Fiscal"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_cancel
@@ -5744,7 +5744,7 @@ msgstr "Última consulta"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_legal_name
 msgid "Legal Name"
-msgstr "Nome Legal"
+msgstr "Razão Social"
 
 #. module: l10n_br_fiscal
 #: selection:uom.category,measure_type:0
@@ -8949,7 +8949,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_legal_name
 msgid "Used in fiscal documents"
-msgstr "Usado em documentos fiscais"
+msgstr "Usado nos documentos fiscais"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__user_id
