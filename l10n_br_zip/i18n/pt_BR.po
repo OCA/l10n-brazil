@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2020-12-17 04:48+0000\n"
+"PO-Revision-Date: 2020-12-18 21:45+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
 "Language-Team: none\n"
 "Language: pt_BR\n"
@@ -78,13 +78,13 @@ msgstr "Dias para atualizar CEP"
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__display_name
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__display_name
 msgid "Display Name"
-msgstr "Nome Exibido"
+msgstr "Nome de Exibição"
 
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__district
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__district
 msgid "District"
-msgstr "Distrito"
+msgstr "Bairro"
 
 #. module: l10n_br_zip
 #: code:addons/l10n_br_zip/models/l10n_br_zip.py:166
