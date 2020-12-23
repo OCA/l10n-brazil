@@ -81,4 +81,5 @@ class PurchaseOrderLine(models.Model):
 
     @api.onchange('fiscal_tax_ids')
     def _onchange_fiscal_tax_ids(self):
-        self.taxes_id |= self.fiscal_tax_ids.account_taxes()
+        self.taxes_id |= self.fiscal_tax_ids.account_taxes(
+            user_type='purchase')
