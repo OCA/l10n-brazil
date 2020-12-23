@@ -59,8 +59,8 @@ class DocumentLine(models.Model):
             )
 
             record.amount_financial = (
-                record.amount_total
-                # - Valor Rentenções
+                record.amount_total -
+                record.amount_tax_withholding
             )
 
     @api.model
