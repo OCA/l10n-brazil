@@ -19,6 +19,7 @@
     ],
     'demo': [
         'demo/res_partner_bank.xml',
+        'demo/ir_sequence.xml',
         'demo/account_journal.xml',
         'demo/account_payment_mode.xml',
         'demo/account_invoice.xml',
