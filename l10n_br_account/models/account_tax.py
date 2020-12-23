@@ -64,6 +64,8 @@ class AccountTax(models.Model):
         if not fiscal_taxes:
             fiscal_taxes = self.env['l10n_br_fiscal.tax']
 
+        product = product or self.env['product.product']
+
         # FIXME Should get company from document?
         fiscal_taxes_results = fiscal_taxes.compute_taxes(
             company=self.env.user.company_id,
