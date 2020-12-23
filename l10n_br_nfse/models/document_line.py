@@ -120,6 +120,6 @@ class DocumentLine(models.Model):
                 self.service_type_id.code.replace('.', ''),
             'codigo_tributacao_municipio':
                 self.city_taxation_code_id.code or '',
-            'discriminacao': str(self.name[:120] or ''),
+            'discriminacao': str(self.name[:2000] or ''),
             'codigo_cnae': misc.punctuation_rm(self.cnae_id.code) or None,
         }
