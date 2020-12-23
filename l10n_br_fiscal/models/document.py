@@ -118,6 +118,10 @@ class Document(models.Model):
                 line.freight_value for line in record.line_ids)
             record.amount_total = sum(
                 line.amount_total for line in record.line_ids)
+            record.amount_financial = sum(
+                line.amount_financial for line in record.line_ids)
+            record.amount_tax_withholding = sum(
+                line.amount_tax_withholding for line in record.line_ids)
 
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
@@ -585,6 +589,15 @@ class Document(models.Model):
 
     amount_total = fields.Monetary(
         string='Amount Total',
+        compute='_compute_amount',
+    )
+
+    amount_tax_withholding = fields.Monetary(
+        string="Amount Tax Withholding",
+        compute='_compute_amount')
+
+    amount_financial = fields.Monetary(
+        string='Amount Financial',
         compute='_compute_amount',
     )
 
