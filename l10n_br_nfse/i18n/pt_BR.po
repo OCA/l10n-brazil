@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_nfse
+# 	* l10n_br_nfse
 #
 msgid ""
 msgstr ""
@@ -83,8 +83,11 @@ msgstr "1 - Sim"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo Tomador dos Serviços.<br/>\n"
-"                    2- A autenticidade desta Nota Fiscal poderá ser verificada no site,"
+msgid ""
+"1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo "
+"Tomador dos Serviços.<br/>\n"
+"                    2- A autenticidade desta Nota Fiscal poderá ser "
+"verificada no site,"
 msgstr ""
 "1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo "
 "Tomador dos Serviços.<br/>\n"
@@ -103,22 +106,21 @@ msgstr "2 - Não"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "3 - Documento emitido por ME ou EPP optante pelo Simples Nacional.Não gera direito a crédito fiscal de ISS e IPI."
+msgid ""
+"3 - Documento emitido por ME ou EPP optante pelo Simples Nacional.Não gera "
+"direito a crédito fiscal de ISS e IPI."
 msgstr ""
 "3 - Documento emitido por ME ou EPP optante pelo Simples Nacional.Não gera "
 "direito a crédito fiscal de ISS e IPI."
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "<br/>\n"
-"                    Secretaria Municipal da Fazenda\n"
-"                    <br/>\n"
-"                    NOTA FISCAL ELETRÔNICA DE SERVIÇO -"
-msgstr ""
+msgid ""
 "<br/>\n"
 "                    Secretaria Municipal da Fazenda\n"
 "                    <br/>\n"
-"                    NOTA FISCAL ELETRÔNICA DE SERVIÇO -"
+"                    NOTA FISCAL ELETRÔNICA DE SERVIÇO"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -157,8 +159,8 @@ msgstr "COFINS"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "CSLL(R$)"
-msgstr "CSLL(R$)"
+msgid "CSLL"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__city_taxation_code_id
@@ -204,11 +206,6 @@ msgstr "Cupom"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Cálculo do ISSQN devido no Município"
-msgstr "Cálculo do ISSQN devido no Município"
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Código ART"
 msgstr "Código ART"
 
@@ -246,11 +243,6 @@ msgstr "Data e Hora da Emissão"
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Detalhamento Específico da Construção Civil"
 msgstr "Detalhamento Específico da Construção Civil"
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Detalhamento de Valores - Prestador dos Serviços"
-msgstr "Detalhamento de Valores - Prestador dos Serviços"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -327,13 +319,13 @@ msgstr "Homologação"
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "INSS(R$)"
-msgstr "INSS(R$)"
+msgid "INSS"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "IR(R$)"
-msgstr "IR(R$)"
+msgid "IR"
+msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
@@ -572,3 +564,29 @@ msgstr "com a utilização do Código de Verificação.<br/>"
 #: selection:res.company,processador_edoc:0
 msgid "erpbrasil.edoc"
 msgstr "erpbrasil.edoc"
+
+#~ msgid ""
+#~ "<br/>\n"
+#~ "                    Secretaria Municipal da Fazenda\n"
+#~ "                    <br/>\n"
+#~ "                    NOTA FISCAL ELETRÔNICA DE SERVIÇO -"
+#~ msgstr ""
+#~ "<br/>\n"
+#~ "                    Secretaria Municipal da Fazenda\n"
+#~ "                    <br/>\n"
+#~ "                    NOTA FISCAL ELETRÔNICA DE SERVIÇO -"
+
+#~ msgid "CSLL(R$)"
+#~ msgstr "CSLL(R$)"
+
+#~ msgid "Cálculo do ISSQN devido no Município"
+#~ msgstr "Cálculo do ISSQN devido no Município"
+
+#~ msgid "Detalhamento de Valores - Prestador dos Serviços"
+#~ msgstr "Detalhamento de Valores - Prestador dos Serviços"
+
+#~ msgid "INSS(R$)"
+#~ msgstr "INSS(R$)"
+
+#~ msgid "IR(R$)"
+#~ msgstr "IR(R$)"
