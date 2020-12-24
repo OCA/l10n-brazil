@@ -397,8 +397,7 @@
                     (-) Retenções Federais
                 </div>
                 <div class="col-2 linha br centro">
-<!--                    <span t-field="doc.retencoes_federais" />-->
-                    0,00
+                    <span t-field="doc.amount_tax_withholding" />
                 </div>
                 <div class="col-2 linha br centro">
                     0 - Nenhum
