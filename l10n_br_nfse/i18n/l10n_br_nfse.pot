@@ -104,7 +104,7 @@ msgstr ""
 msgid "<br/>\n"
 "                    Secretaria Municipal da Fazenda\n"
 "                    <br/>\n"
-"                    NOTA FISCAL ELETRÔNICA DE SERVIÇO -"
+"                    NOTA FISCAL ELETRÔNICA DE SERVIÇO"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -144,7 +144,7 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "CSLL(R$)"
+msgid "CSLL"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -191,11 +191,6 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Cálculo do ISSQN devido no Município"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Código ART"
 msgstr ""
 
@@ -232,11 +227,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Detalhamento Específico da Construção Civil"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Detalhamento de Valores - Prestador dos Serviços"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -314,12 +304,12 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "INSS(R$)"
+msgid "INSS"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "IR(R$)"
+msgid "IR"
 msgstr ""
 
 #. module: l10n_br_nfse
