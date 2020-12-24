@@ -114,7 +114,7 @@ class DocumentLine(models.Model):
             'outras_retencoes': float(self.other_retentions_value),
             'base_calculo': float(self.issqn_base),
             'aliquota': float(self.issqn_percent / 100),
-            'valor_liquido_nfse': float(self.amount_total),
+            'valor_liquido_nfse': float(self.amount_financial),
             'item_lista_servico':
                 self.service_type_id.code and
                 self.service_type_id.code.replace('.', ''),

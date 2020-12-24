@@ -352,7 +352,7 @@
                     Valor dos Serviços R$
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.line_ids[0].fiscal_price" />
+                    <span t-field="doc.amount_total" />
                 </div>
             </div>
 
@@ -462,7 +462,7 @@
                     (=) Valor Líquido R$
                 </div>
                 <div class="col-2 linha br centro">
-                    <span t-field="doc.amount_total" />
+                    <span t-field="doc.amount_financial" />
                 </div>
                 <div class="col-2 rotulo br">
                     Incentivador Cultural: 2 - Não
