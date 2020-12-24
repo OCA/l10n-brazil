@@ -336,16 +336,16 @@ class Document(models.Model):
                     vals['codigo_situacao'] = 4
 
                 if vals.get('codigo_situacao') == 1:
-                    vals['motivo_situacao'] = _('Não Recebido')
+                    vals['motivo_situacao'] = _('Not received')
 
                 elif vals.get('codigo_situacao') == 2:
-                    vals['motivo_situacao'] = _('Lote ainda não processado')
+                    vals['motivo_situacao'] = _('Batch not yet processed')
 
                 elif vals.get('codigo_situacao') == 3:
-                    vals['motivo_situacao'] = _('Procesado com Erro')
+                    vals['motivo_situacao'] = _('Processed with Error')
 
                 elif vals.get('codigo_situacao') == 4:
-                    vals['motivo_situacao'] = _('Procesado com Sucesso')
+                    vals['motivo_situacao'] = _('Successfully Processed')
                     vals['protocolo_autorizacao'] = protocolo
 
                 if vals.get('codigo_situacao') in (3, 4):
