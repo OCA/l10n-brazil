@@ -4,6 +4,7 @@
 import os
 import logging
 import tempfile
+import base64
 
 from odoo import _, api, fields, models
 
@@ -40,14 +41,16 @@ class ArquivoCertificado(object):
         self.cert_fd, self.cert_path = tempfile.mkstemp()
 
         if journal_id.bank_inter_cert:
-            cert = journal_id.bank_inter_cert.decode()
-            tmp = os.fdopen(self.key_fd, 'w')
+            cert = base64.b64decode(journal_id.bank_inter_cert)
+            tmp = os.fdopen(self.cert_fd, 'w')
             tmp.write(cert.decode())
+            tmp.close()
 
         if journal_id.bank_inter_key:
-            key = journal_id.bank_inter_key.decode()
-            tmp = os.fdopen(self.cert_fd, 'w')
+            key = base64.b64decode(journal_id.bank_inter_key)
+            tmp = os.fdopen(self.key_fd, 'w')
             tmp.write(key.decode())
+            tmp.close()
 
     def __enter__(self):
         return self.key_path, self.cert_path
