@@ -107,6 +107,10 @@ class AccountPaymentOrder(models.Model):
                     payment_line.move_line_id.cnab_state = 'exporting_error'
                 continue
             else:
+                for line in self.payment_line_ids:
+                    if line.move_line_id:
+                        line.move_line_id.bank_payment_line_id = \
+                            line.bank_line_id
                 record.message_post(body='Arquivo gerado com sucesso.')
 
         return result
