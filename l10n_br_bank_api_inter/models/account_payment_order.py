@@ -151,3 +151,17 @@ class AccountPaymentOrder(models.Model):
             return self._gererate_bank_inter_api()
         else:
             return super().generate_payment_file()
+
+    def generate_pdf_boleto(self, nosso_numero):
+        """
+        Inter API call to generate boleto PDF
+        :param nosso_numero:
+        :return: Boleto PDF in binary
+        """
+        with ArquivoCertificado(self.journal_id, 'w') as (key, cert):
+            self.api = ApiInter(
+                cert=(cert, key),
+                conta_corrente=(self.company_partner_bank_id.acc_number +
+                                self.company_partner_bank_id.acc_number_dig)
+            )
+            return self.api.boleto_pdf(nosso_numero)
