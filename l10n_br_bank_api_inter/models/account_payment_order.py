@@ -82,15 +82,18 @@ class AccountPaymentOrder(models.Model):
                 identifier=misc.punctuation_rm(
                     line.partner_id.cnpj_cpf
                 ),
-                email=line.partner_id.email or None,
-                personType="FISICA",
-                phone=line.partner_id.phone,
+                email=line.partner_id.email or '',
+                personType=(
+                    "FISICA" if line.partner_id.company_type == 'person'
+                    else 'JURIDICA'),
+                phone=misc.punctuation_rm(
+                    line.partner_id.phone).replace(" ", ""),
                 address=UserAddress(
                     streetLine1=line.partner_id.street or '',
                     district=line.partner_id.district or '',
-                    city=line.partner_id.city or '',
+                    city=line.partner_id.city_id.name or '',
                     stateCode=line.partner_id.state_id.code or '',
-                    zipCode=line.partner_id.zip,
+                    zipCode=misc.punctuation_rm(line.partner_id.zip),
                     streetNumber=line.partner_id.street_number,
                 )
             )
@@ -115,7 +118,8 @@ class AccountPaymentOrder(models.Model):
         with ArquivoCertificado(self.journal_id, 'w') as (key, cert):
             self.api = ApiInter(
                 cert=(cert, key),
-                conta_corrente=self.company_partner_bank_id.acc_number
+                conta_corrente=(self.company_partner_bank_id.acc_number +
+                                self.company_partner_bank_id.acc_number_dig)
             )
             data = self._generate_bank_inter_boleto_data()
             for item in data:
