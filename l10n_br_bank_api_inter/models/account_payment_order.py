@@ -99,7 +99,7 @@ class AccountPaymentOrder(models.Model):
             )
             slip = BoletoInter(
                 sender=myself,
-                amount_in_cents=line.amount_currency * 100,
+                amount=line.amount_currency,
                 payer=payer,
                 issue_date=line.create_date,
                 due_date=line.date,
