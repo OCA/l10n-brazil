@@ -2,12 +2,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Edoc Nfse ISSNet',
+    'name': 'NFS-e (ISSNet)',
     'summary': """
         NFS-e (ISSNet)""",
     'version': '12.0.1.0.0',
     'license': 'AGPL-3',
-    'author': 'Escodoo,Odoo Community Association (OCA)',
+    'author': 'Escodoo, Odoo Community Association (OCA)',
     'website': 'https://github.com/OCA/l10n-brazil',
     'external_dependencies': {
         'python': [
