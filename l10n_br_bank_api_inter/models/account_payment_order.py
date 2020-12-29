@@ -6,7 +6,7 @@ import logging
 import tempfile
 import base64
 
-from odoo import _, api, fields, models
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
