@@ -97,10 +97,9 @@ class InvalidateNumber(models.Model):
 
     @api.multi
     def unlink(self):
-        invalid_number_draft = self.filtered(lambda n: n.state == 'draft')
-        if invalid_number_draft:
+        if self.filtered(lambda n: not n.state == 'draft'):
             raise UserError(
-                _('You cannot unlink a done Invalidate Number Range.'))
+                _('You can delete only draft Invalidate Number Range !'))
         return super().unlink()
 
     @api.multi
@@ -116,7 +115,7 @@ class InvalidateNumber(models.Model):
             })
             record.invalidate(event_id)
 
-    def invalidate(self, event_id):
+    def invalidate(self):
         for record in self:
             event_id.state = 'done'
             record.state = 'done'
