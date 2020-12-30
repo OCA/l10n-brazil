@@ -5664,7 +5664,7 @@ msgid "Inutilização"
 msgstr "Inutilização"
 
 #. module: l10n_br_fiscal
-#: model:ir.actions.act_window,name:l10n_br_fiscal.wizard_document_invalidate_action
+#: model:ir.actions.act_window,name:l10n_br_fiscal.invalidate_number_wizard_action
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.wizard_document_invalidate_form
 msgid "Inutilização de documento fiscal"
 msgstr "Inutilização de documento fiscal"
