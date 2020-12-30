@@ -101,20 +101,20 @@ class DocumentLine(models.Model):
 
     def prepare_line_servico(self):
         return {
-            'valor_servicos': float(self.fiscal_price),
-            'valor_deducoes': float(self.fiscal_deductions_value),
-            'valor_pis': float(self.pis_value),
-            'valor_cofins': float(self.cofins_value),
-            'valor_inss': float(self.inss_value),
-            'valor_ir': float(self.irpj_value),
-            'valor_csll': float(self.csll_value),
+            'valor_servicos': round(float(self.fiscal_price), 2),
+            'valor_deducoes': round(float(self.fiscal_deductions_value), 2),
+            'valor_pis': round(float(self.pis_value), 2),
+            'valor_cofins': round(float(self.cofins_value), 2),
+            'valor_inss': round(float(self.inss_value), 2),
+            'valor_ir': round(float(self.irpj_value), 2),
+            'valor_csll': round(float(self.csll_value), 2),
             'iss_retido': '1' if self.issqn_wh_value else '2',
-            'valor_iss': float(self.issqn_value),
-            'valor_iss_retido': float(self.issqn_wh_value),
-            'outras_retencoes': float(self.other_retentions_value),
-            'base_calculo': float(self.issqn_base),
+            'valor_iss': round(float(self.issqn_value), 2),
+            'valor_iss_retido': round(float(self.issqn_wh_value), 2),
+            'outras_retencoes': round(float(self.other_retentions_value), 2),
+            'base_calculo': round(float(self.issqn_base), 2),
             'aliquota': float(self.issqn_percent / 100),
-            'valor_liquido_nfse': float(self.amount_total),
+            'valor_liquido_nfse': round(float(self.amount_total), 2),
             'item_lista_servico':
                 self.service_type_id.code and
                 self.service_type_id.code.replace('.', ''),
