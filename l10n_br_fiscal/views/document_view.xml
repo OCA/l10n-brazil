@@ -53,8 +53,8 @@
             <button name="action_document_back2draft"    type="object" string="Voltar p/ Em Digitação"      groups="l10n_br_fiscal.group_user"    states="a_enviar,rejeitada" class="btn-secondary"/>
             <button name="view_pdf" type="object" string="Visualizar PDF" groups="l10n_br_fiscal.group_user" states="a_enviar,enviada,autorizada,rejeitada,cancelada" class="btn-primary"/>
             <button name="view_xml" type="object" string="Visualizar XML" groups="l10n_br_fiscal.group_user" states="a_enviar,enviada,autorizada,rejeitada,cancelada" class="btn-primary"/>
-            <button name="action_document_cancel"  type="object" string="Cancelar"    groups="l10n_br_fiscal.group_user"    states="em_digitacao,a_enviar,enviada,rejeitada,autorizada"/>
-            <button name="action_document_invalidate"  type="object" string="Invalidar"    groups="l10n_br_fiscal.group_user"/>
+            <button name="action_document_cancel" type="object" string="Cancelar" groups="l10n_br_fiscal.group_user" states="autorizada"/>
+            <button name="action_document_invalidate" type="object" string="Invalidar Numeração" groups="l10n_br_fiscal.group_user"/>
             <button name="action_document_correction" type="object" string="Carta de correção" groups="l10n_br_fiscal.group_user" states="autorizada"/>
             <button name="action_create_return" type="object" string="Devolver" groups="l10n_br_fiscal.group_user" states="autorizada"/>
             <button name="action_send_email" type="object" string="Send Email" attrs="{'invisible': [('state', 'not in', ('autorizada', 'cancelada', 'denegada'))]}"/>
