@@ -9,14 +9,16 @@
         <field name="model">l10n_br_fiscal.invalidate.number.wizard</field>
         <field name="arch" type="xml">
             <form string="Inutilização de documento fiscal">
+                <group>
+                    <field name="invalidate_mode" widget="radio"/>
+                    <field name="document_id" force_save="1" readonly="1" attrs="{'invisible': [('invalidate_mode', '=', 'range_numbers')], 'required': [('invalidate_mode', '=', 'one_number')]}"/>
+                    <field name="number_start" attrs="{'invisible': [('invalidate_mode', '=', 'one_number')], 'required': [('invalidate_mode', '=', 'range_numbers')]}"/>
+                    <field name="number_end" attrs="{'invisible': [('invalidate_mode', '=', 'one_number')], 'required': [('invalidate_mode', '=', 'range_numbers')]}"/>
+                    <field name="justification"/>
+                </group>
                 <footer>
-                    <button name="doit"
-                            string="OK"
-                            class="btn-primary"
-                            type="object"/>
-                    <button string="Cancel"
-                            class="btn-default"
-                            special="cancel"/>
+                    <button name="doit" string="OK" class="btn-primary" type="object"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
                 </footer>
             </form>
         </field>
