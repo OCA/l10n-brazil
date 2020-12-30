@@ -78,3 +78,7 @@ class BaseWizardMixin(models.TransientModel):
             'target': 'new',
             'nodestroy': True
         }
+
+    @api.multi
+    def _close(self):
+        return {'type': 'ir.actions.act_window_close'}
