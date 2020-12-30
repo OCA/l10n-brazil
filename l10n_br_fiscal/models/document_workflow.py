@@ -338,7 +338,7 @@ class DocumentWorkflow(models.AbstractModel):
     @api.multi
     def action_document_invalidate(self):
         result = self.env["ir.actions.act_window"].for_xml_id(
-            "l10n_br_fiscal", "wizard_document_invalidate_action"
+            "l10n_br_fiscal", "invalidate_number_wizard_action"
         )
         return result
 
