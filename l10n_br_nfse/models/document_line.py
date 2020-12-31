@@ -7,6 +7,7 @@ from lxml import etree
 from erpbrasil.base import misc
 
 from odoo import api, fields, models
+from odoo.tools.float_utils import float_round as round
 
 
 class DocumentLine(models.Model):
