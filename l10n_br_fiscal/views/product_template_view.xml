@@ -37,7 +37,7 @@
         <field name="inherit_id" ref="product.product_template_only_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='variants']" position="after">
-                <page name="fiscal" string="Fiscal" groups="l10n_br_fiscal.group_manager">
+                <page name="fiscal" string="Fiscal" groups="l10n_br_fiscal.group_user">
                     <group>
                         <group>
                             <field name="fiscal_type" required="1"/>
