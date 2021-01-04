@@ -76,7 +76,7 @@
           </group>
           <group>
             <field name="issuer"/>
-            <field name="document_type_id"/>
+            <field name="document_type_id" required="1"/>
             <label for="key" attrs="{'invisible': [('document_electronic', '=', False)]}"/>
             <div class="o_row" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}">
               <field name="key" force_save="1" class="oe_inline"/>
