@@ -21,7 +21,6 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name"/>
-                <field name="sequence"/>
                 <field name="tax_domain"/>
             </tree>
         </field>
@@ -37,6 +36,7 @@
                         <field name="name"/>
                         <field name="tax_domain"/>
                         <field name="sequence"/>
+                        <field name="compute_sequence" groups="l10n_br_fiscal.group_data_maintenance"/>
                         <field name="tax_include"/>
                         <field name="tax_withholding"/>
                         <field name="tax_scope"/>
