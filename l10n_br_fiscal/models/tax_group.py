@@ -22,6 +22,17 @@ class TaxGroup(models.Model):
         help="The sequence field is used to define "
              "order in which the tax lines are applied.")
 
+    tax_scope = fields.Selection(
+        selection=[
+            ('city', _('City')),
+            ('state', _('State')),
+            ('federal', _('Federal')),
+            ('other', _('Other')),
+        ],
+        string='Tax Scope',
+        required=True,
+    )
+
     tax_domain = fields.Selection(
         selection=TAX_DOMAIN,
         string='Tax Domain',
