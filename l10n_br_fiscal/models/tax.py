@@ -261,6 +261,11 @@ class Tax(models.Model):
         operation_line = kwargs.get("operation_line")
         remove_from_base = [discount_value]
 
+        if tax.tax_group_id.base_without_icms:
+            # Get Computed ICMS Tax
+            tax_dict_icms = taxes_dict.get("icms", {})
+            remove_from_base.append(tax_dict_icms.get('tax_value', 0.00))
+
         kwargs.update({
             'remove_from_base': sum(remove_from_base),
         })
@@ -574,7 +579,8 @@ class Tax(models.Model):
             icmssn_range
         """
         taxes = {}
-        for tax in self.sorted(lambda t: t.tax_domain == TAX_DOMAIN_ICMS):
+
+        for tax in self.sorted(key=lambda t: t.sequence):
             tax_dict = TAX_DICT_VALUES.copy()
             taxes[tax.tax_domain] = tax_dict
             try:
