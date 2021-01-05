@@ -62,10 +62,14 @@ class Tax(models.Model):
     sequence = fields.Integer(
         string="Sequence",
         related="tax_group_id.sequence",
-        default=10,
-        required=True,
         help="The sequence field is used to define "
-             "order in which the tax lines are applied.")
+             "order in which the tax lines are applied.",
+    )
+
+    tax_scope = fields.Selection(
+        related="tax_group_id.tax_scope",
+        store=True,
+    )
 
     tax_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
