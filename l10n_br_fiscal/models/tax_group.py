@@ -19,8 +19,17 @@ class TaxGroup(models.Model):
         string='Sequence',
         default=10,
         required=True,
+        help="The sequence field is used to define the "
+             "order in which taxes are displayed.",
+    )
+
+    compute_sequence = fields.Integer(
+        string='Compute Sequence',
+        default=10,
+        required=True,
         help="The sequence field is used to define "
-             "order in which the tax lines are applied.")
+             "order in which the tax lines are applied.",
+    )
 
     tax_scope = fields.Selection(
         selection=[

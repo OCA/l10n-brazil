@@ -62,6 +62,13 @@ class Tax(models.Model):
     sequence = fields.Integer(
         string="Sequence",
         related="tax_group_id.sequence",
+        help="The sequence field is used to define the "
+             "order in which taxes are displayed.",
+    )
+
+    compute_sequence = fields.Integer(
+        string="Compute Sequence",
+        related="tax_group_id.compute_sequence",
         help="The sequence field is used to define "
              "order in which the tax lines are applied.",
     )
@@ -584,7 +591,7 @@ class Tax(models.Model):
         """
         taxes = {}
 
-        for tax in self.sorted(key=lambda t: t.sequence):
+        for tax in self.sorted(key=lambda t: t.compute_sequence):
             tax_dict = TAX_DICT_VALUES.copy()
             taxes[tax.tax_domain] = tax_dict
             try:
