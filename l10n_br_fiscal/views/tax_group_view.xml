@@ -8,6 +8,9 @@
             <search string="Tax">
                 <field name="name"/>
                 <field name="tax_domain"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_tax_scope" string="Tax Scope" context="{'group_by':'tax_scope'}"/>
+                </group>
             </search>
         </field>
     </record>
@@ -36,6 +39,7 @@
                         <field name="sequence"/>
                         <field name="tax_include"/>
                         <field name="tax_withholding"/>
+                        <field name="tax_scope"/>
                         <field name="base_without_icms" attrs="{'invisible': [('tax_domain', 'not in', ('pis', 'cofins', 'pisst', 'cofinsst', 'pis_wh', 'cofins_wh'))]}"/>
                     </group>
                     <notebook>
