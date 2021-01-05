@@ -96,11 +96,6 @@ msgid "Discount in Sales Orders per Value"
 msgstr "Desconto no Pedido de Vendas por Valor"
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_document_count
-msgid "Fiscal Document Count"
-msgstr "Contagem de Documento Fiscal"
-
-#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Fiscal Documents"
 msgstr "Documentos Fiscais"
