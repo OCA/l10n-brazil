@@ -108,12 +108,6 @@ class SaleOrder(models.Model):
         digits=dp.get_precision('Account'),
     )
 
-    fiscal_document_count = fields.Integer(
-        string='Fiscal Document Count',
-        related='invoice_count',
-        readonly=True,
-    )
-
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
         relation='sale_order_comment_rel',
@@ -190,29 +184,6 @@ class SaleOrder(models.Model):
     def _onchange_fiscal_operation_id(self):
         super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
-
-    @api.multi
-    def action_view_document(self):
-        invoices = self.mapped('invoice_ids')
-        action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
-        if len(invoices) > 1:
-            action['domain'] = [
-                ('id', 'in', invoices.mapped('fiscal_document_id').ids),
-            ]
-        elif len(invoices) == 1:
-            form_view = [
-                (self.env.ref('l10n_br_fiscal.document_form').id, 'form'),
-            ]
-            if 'views' in action:
-                action['views'] = form_view + [(state, view) for state, view
-                                               in action['views'] if
-                                               view != 'form']
-            else:
-                action['views'] = form_view
-            action['res_id'] = invoices.fiscal_document_id.id
-        else:
-            action = {'type': 'ir.actions.act_window_close'}
-        return action
 
     @api.multi
     def _prepare_invoice(self):
