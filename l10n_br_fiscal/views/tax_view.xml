@@ -10,7 +10,8 @@
                 <field name="tax_domain"/>
                 <separator/>
                 <group expand='0' string='Group By...'>
-                    <filter string='Tax Group' name="tax_group_id" domain="[]" context="{'group_by' : 'tax_group_id'}"/>
+                    <filter string='Tax Group' name="tax_group_id" context="{'group_by' : 'tax_group_id'}"/>
+                    <filter string='Tax Scope' name="tax_scope" context="{'group_by' : 'tax_scope'}"/>
                 </group>
             </search>
         </field>
