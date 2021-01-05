@@ -35,6 +35,12 @@ class TaxGroup(models.Model):
         string='Tax Withholding',
         default=False)
 
+    # PIS / COFINS
+    base_without_icms = fields.Boolean(
+        string="Remove ICMS value from Base",
+        default=False,
+    )
+
     tax_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax',
         inverse_name='tax_group_id',
