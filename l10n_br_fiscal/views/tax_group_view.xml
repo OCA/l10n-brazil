@@ -36,6 +36,7 @@
                         <field name="sequence"/>
                         <field name="tax_include"/>
                         <field name="tax_withholding"/>
+                        <field name="base_without_icms" attrs="{'invisible': [('tax_domain', 'not in', ('pis', 'cofins', 'pisst', 'cofinsst', 'pis_wh', 'cofins_wh'))]}"/>
                     </group>
                     <notebook>
                         <page name="taxes" string="Taxes">
