@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import odoo
-from odoo import fields
 from odoo.addons.payment.tests.common import PaymentAcquirerCommon
 import time
 import logging
@@ -56,7 +55,7 @@ class CieloTest(CieloCommon):
             time.sleep(2)
             # Create transaction
             tx = self.env['payment.transaction'].create({
-                'reference': 'test_ref_%s' % fields.date.today(),
+                'reference': 'test_ref_10_c',
                 'currency_id': self.currency_euro.id,
                 'acquirer_id': self.cielo.id,
                 'partner_id': self.buyer_id,
@@ -105,7 +104,7 @@ class CieloTest(CieloCommon):
 
         # Create transaction todo test
             tx = self.env['payment.transaction'].create({
-                'reference': 'test_ref_%s' % fields.date.today(),
+                'reference': 'test_ref_10_c',
                 'currency_id': self.currency_euro.id,
                 'acquirer_id': self.cielo.id,
                 'partner_id': self.buyer_id,
