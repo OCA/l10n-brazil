@@ -206,6 +206,10 @@ class NFe(spec_models.StackedModel):
         related='company_tax_framework',
     )
 
+    nfe40_vFrete = fields.Monetary(
+        related='amount_freight_value',
+    )
+
     @api.multi
     @api.depends('fiscal_operation_type')
     def _compute_nfe_data(self):
