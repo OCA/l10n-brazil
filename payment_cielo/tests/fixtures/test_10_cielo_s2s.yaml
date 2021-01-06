@@ -59,7 +59,7 @@ interactions:
 - request:
     body: '{"MerchantOrderId": "37", "Customer": {"Name": "Norbert Buyer"}, "Payment":
       {"Type": "CreditCard", "Amount": 11500.0, "Installments": 1, "SoftDescriptor":
-      "test_ref_2020", "CreditCard": {"CardToken": "905ffdbd-ddc1-49f5-b9b8-9e512ba9917e",
+      "test_ref_10_c", "CreditCard": {"CardToken": "905ffdbd-ddc1-49f5-b9b8-9e512ba9917e",
       "Brand": "visa", "SaveCard": "true"}}}'
     headers:
       Accept:
@@ -82,7 +82,7 @@ interactions:
     uri: https://apisandbox.cieloecommerce.cielo.com.br/1/sales
   response:
     body:
-      string: '{"MerchantOrderId":"37","Customer":{"Name":"Norbert Buyer"},"Payment":{"ServiceTaxAmount":0,"Installments":1,"Interest":0,"Capture":false,"Authenticate":false,"Recurrent":false,"CreditCard":{"SaveCard":true,"CardToken":"905ffdbd-ddc1-49f5-b9b8-9e512ba9917e","Brand":"Visa"},"Tid":"1124020251914","ProofOfSale":"170380","AuthorizationCode":"189477","SoftDescriptor":"test_ref_2020","Provider":"Simulado","IsQrCode":false,"Amount":11500,"ReceivedDate":"2020-11-24
+      string: '{"MerchantOrderId":"37","Customer":{"Name":"Norbert Buyer"},"Payment":{"ServiceTaxAmount":0,"Installments":1,"Interest":0,"Capture":false,"Authenticate":false,"Recurrent":false,"CreditCard":{"SaveCard":true,"CardToken":"905ffdbd-ddc1-49f5-b9b8-9e512ba9917e","Brand":"Visa"},"Tid":"1124020251914","ProofOfSale":"170380","AuthorizationCode":"189477","SoftDescriptor":"test_ref_10_c","Provider":"Simulado","IsQrCode":false,"Amount":11500,"ReceivedDate":"2020-11-24
         14:02:51","Status":1,"IsSplitted":false,"ReturnMessage":"Operation Successful","ReturnCode":"4","PaymentId":"42e731d0-8cef-4716-921e-62991244b788","Type":"CreditCard","Currency":"BRL","Country":"BRA","Links":[{"Method":"GET","Rel":"self","Href":"https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788"},{"Method":"PUT","Rel":"capture","Href":"https://apisandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788/capture"},{"Method":"PUT","Rel":"void","Href":"https://apisandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788/void"}]}}'
     headers:
       Access-Control-Expose-Headers:
