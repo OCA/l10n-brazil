@@ -157,6 +157,10 @@ class NFeLine(spec_models.StackedModel):
         related='partner_order_line',
     )
 
+    nfe40_vFrete = fields.Monetary(
+        related='freight_value',
+    )
+
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
         for record in self:
