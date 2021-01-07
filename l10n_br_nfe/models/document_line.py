@@ -200,6 +200,9 @@ class NFeLine(spec_models.StackedModel):
     nfe40_vCredICMSSN = fields.Monetary(
         related='icmssn_credit_value'
     )
+    nfe40_vDesc = fields.Monetary(
+        related='discount_value'
+    )
 
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
