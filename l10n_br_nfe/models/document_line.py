@@ -273,7 +273,7 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_choice16 = 'nfe40_vAliqProd'
 
-    @api.depends('ipi_base_type')
+    @api.depends('tax_icms_or_issqn')
     def _compute_nfe40_choice10(self):
         for record in self:
             if record.tax_icms_or_issqn == 'icms':
