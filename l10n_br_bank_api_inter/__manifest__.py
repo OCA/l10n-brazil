@@ -27,4 +27,7 @@
         'demo/account_invoice.xml',
         'demo/account_payment_order.xml',
     ],
+    "external_dependencies": {"python": [
+        "erpbrasil.bank.inter",
+    ]},
 }
