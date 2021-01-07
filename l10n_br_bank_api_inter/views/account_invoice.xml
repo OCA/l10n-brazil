@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2021 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="account_invoice_form_view">
+        <field name="name">account.invoice.form (in l10n_br_bank_api_inter)</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account_payment_order.invoice_form"/>
+        <field name="arch" type="xml">
+            <button name="preview_invoice" position="after">
+                <button name="action_pdf_boleto" type="object" string="PDFs Boletos" />
+            </button>
+        </field>
+    </record>
+
+
+</odoo>

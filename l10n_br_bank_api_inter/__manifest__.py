@@ -15,6 +15,7 @@
         'l10n_br_account_payment_order',
     ],
     'data': [
+        'views/account_invoice.xml',
         'views/account_move_line.xml',
         'views/account_journal.xml',
     ],
