@@ -89,12 +89,11 @@ class AccountPaymentOrder(models.Model):
             data = self._generate_bank_inter_boleto_data()
             for item in data:
                 resposta = self.api.boleto_inclui(item._emissao_data())
-                bank_line_id = self.bank_line_ids.filtered(
-                    lambda line: line.document_number == item._identifier)
                 payment_line_id = self.payment_line_ids.filtered(
                     lambda line: line.document_number == item._identifier)
-                bank_line_id.own_number = resposta['nossoNumero']
-                payment_line_id.own_number = resposta['nossoNumero']
+                if payment_line_id:
+                    payment_line_id.move_line_id.own_number = \
+                        resposta['nossoNumero']
                 # bank_line_id.seu_numero = resposta['seuNumero']
                 # bank_line_id.linha_digitavel = resposta['linhaDigitavel']
                 # bank_line_id.barcode = resposta['codigoBarras']
