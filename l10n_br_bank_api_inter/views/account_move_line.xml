@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2021 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="account_move_line_form_view">
+        <field name="name">account.move.line.form (in l10n_br_bank_api_inter)</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="l10n_br_account_payment_order.cnab_view_move_line_form_inherit"/>
+        <field name="arch" type="xml">
+            <field name="payment_method_code" position="after">
+                <button name="print_pdf_boleto" type="object" string="PDF Boleto" class="oe_highlight" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
