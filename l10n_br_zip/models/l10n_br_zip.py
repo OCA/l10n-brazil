@@ -119,7 +119,18 @@ class L10nBrZip(models.Model):
     def _consultar_cep(self, zip_code):
         zip_str = misc.punctuation_rm(zip_code)
         try:
-            cep = get_address_from_cep(zip_str, WebService.CORREIOS)
+            cep_ws_providers = {
+                'apicep': WebService.APICEP,
+                'viacep': WebService.VIACEP,
+                'correios': WebService.CORREIOS,
+            }
+            cep_ws_provide = str(
+                self.env["ir.config_parameter"]
+                .sudo()
+                .get_param("l10n_zip.cep_ws_provider", default="correios")
+            )
+            cep = get_address_from_cep(
+                zip_str, webservice=cep_ws_providers.get(cep_ws_provide))
         except Exception as e:
             raise UserError(_("Erro no PyCEP-Correios : ") + str(e))
 
