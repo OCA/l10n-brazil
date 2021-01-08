@@ -7,6 +7,7 @@
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Akretion, " "Odoo Community Association (OCA)",
+    "maintainers": ["renatonlima"],
     "website": "http://odoo-brasil.org",
     "version": "12.0.3.0.0",
     "depends": ["l10n_br_base"],
@@ -18,5 +19,6 @@
         "security/ir.model.access.csv",
     ],
     "installable": True,
+    "development_status": "Mature",
     "external_dependencies": {"python": ["pycep_correios"]},
 }
