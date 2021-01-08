@@ -41,7 +41,8 @@ class AccountInvoiceRefund(models.TransientModel):
 
                 if (
                     not self.force_fiscal_operation_id
-                    and not invoice.fiscal_operation_id.return_operation_id
+                    and
+                    not invoice.fiscal_operation_id.return_fiscal_operation_id
                 ):
                     raise UserError(
                         _(
@@ -53,7 +54,8 @@ class AccountInvoiceRefund(models.TransientModel):
 
                 invoice.fiscal_operation_id = (
                     self.force_fiscal_operation_id.id
-                    or invoice.fiscal_operation_id.return_operation_id.id
+                    or
+                    invoice.fiscal_operation_id.return_fiscal_operation_id.id
                 )
 
                 invoice_values = {
@@ -81,7 +83,8 @@ class AccountInvoiceRefund(models.TransientModel):
 
                     line.fiscal_operation_id = (
                         self.force_fiscal_operation_id.id
-                        or line.fiscal_operation_id.return_operation_id
+                        or
+                        line.fiscal_operation_id.return_fiscal_operation_id
                     )
 
                     line._onchange_operation_id()
