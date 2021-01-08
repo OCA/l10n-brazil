@@ -5,7 +5,7 @@ erpbrasil.base==2.0.0
 erpbrasil.assinatura==1.0.2
 erpbrasil.transmissao==1.0.0
 erpbrasil.edoc==1.0.0
-erpbrasil.edoc.pdf==0.1.0
+erpbrasil.edoc.pdf==0.1.1
 nfselib.ginfes==0.2.0
 xmldiff==2.4
 lxml==4.2.3
