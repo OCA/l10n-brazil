@@ -16,7 +16,7 @@ except ImportError:
 _logger = logging.getLogger(__name__)
 
 try:
-    import pycep_correios
+    from pycep_correios import get_address_from_cep, WebService
 except ImportError:
     _logger.warning("Library PyCEP-Correios not installed !")
 
@@ -119,7 +119,7 @@ class L10nBrZip(models.Model):
     def _consultar_cep(self, zip_code):
         zip_str = misc.punctuation_rm(zip_code)
         try:
-            cep = pycep_correios.get_address_from_cep(zip_str)
+            cep = get_address_from_cep(zip_str, WebService.CORREIOS)
         except Exception as e:
             raise UserError(_("Erro no PyCEP-Correios : ") + str(e))
 
