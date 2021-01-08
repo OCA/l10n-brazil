@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_zip
+#: selection:res.config.settings,cep_ws_provider:0
+msgid "API CEP"
+msgstr ""
+
+#. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__zip_code
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__zip
@@ -46,6 +51,11 @@ msgstr ""
 #. module: l10n_br_zip
 #: model:ir.model,name:l10n_br_zip.model_res_config_settings
 msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_br_zip
+#: selection:res.config.settings,cep_ws_provider:0
+msgid "Correios"
 msgstr ""
 
 #. module: l10n_br_zip
@@ -84,13 +94,13 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:166
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:177
 #, python-format
 msgid "Erro a Carregar Atributo: "
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:124
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:135
 #, python-format
 msgid "Erro no PyCEP-Correios : "
 msgstr ""
@@ -182,6 +192,16 @@ msgstr ""
 #. module: l10n_br_zip
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_type
 msgid "Street Type"
+msgstr ""
+
+#. module: l10n_br_zip
+#: selection:res.config.settings,cep_ws_provider:0
+msgid "VIA CEP"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__cep_ws_provider
+msgid "ZIP Search Provider"
 msgstr ""
 
 #. module: l10n_br_zip
