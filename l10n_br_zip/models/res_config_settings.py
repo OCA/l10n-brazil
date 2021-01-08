@@ -12,3 +12,15 @@ class ResConfigSettings(models.TransientModel):
         default=365,
         string="Days to Update CEP",
     )
+
+    cep_ws_provider = fields.Selection(
+        selection=[
+            ("apicep", 'API CEP'),
+            ("viacep", 'VIA CEP'),
+            ("correios", "Correios"),
+        ],
+        string="ZIP Search Provider",
+        required=True,
+        default='correios',
+        config_parameter='l10n_zip.cep_ws_provider'
+    )
