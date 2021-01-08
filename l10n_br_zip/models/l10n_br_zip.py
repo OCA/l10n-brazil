@@ -1,4 +1,4 @@
-# Copyright (C) 2012  Renato Lima (Akretion)                                  #
+# Copyright (C) 2012  Renato Lima (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
@@ -16,7 +16,7 @@ except ImportError:
 _logger = logging.getLogger(__name__)
 
 try:
-    import pycep_correios
+    from pycep_correios import get_address_from_cep, WebService
 except ImportError:
     _logger.warning("Library PyCEP-Correios not installed !")
 
@@ -119,7 +119,18 @@ class L10nBrZip(models.Model):
     def _consultar_cep(self, zip_code):
         zip_str = misc.punctuation_rm(zip_code)
         try:
-            cep = pycep_correios.get_address_from_cep(zip_str)
+            cep_ws_providers = {
+                'apicep': WebService.APICEP,
+                'viacep': WebService.VIACEP,
+                'correios': WebService.CORREIOS,
+            }
+            cep_ws_provide = str(
+                self.env["ir.config_parameter"]
+                .sudo()
+                .get_param("l10n_zip.cep_ws_provider", default="correios")
+            )
+            cep = get_address_from_cep(
+                zip_str, webservice=cep_ws_providers.get(cep_ws_provide))
         except Exception as e:
             raise UserError(_("Erro no PyCEP-Correios : ") + str(e))
 

@@ -7,9 +7,9 @@ Brazilian Localisation ZIP Codes
    !! changes will be overwritten.                   !!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -25,6 +25,13 @@ Brazilian Localisation ZIP Codes
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
+Permite consultar o endereço através do CEP e preencher o campos do endereço com as informações consultadas, esse módulo também permite utilizar os seguintes serviços para consulta de CEP:
+
+* [API CEP](https://apicep.com/api-de-consulta/)
+* [Via CEP](https://viacep.com.br/)
+* [Correios](http://www.buscacep.correios.com.br/sistemas/buscacep/buscaCepEndereco.cfm)
+
+Para otimizar as buscas este módulo salva o resultado das consultas de cep na tabela l10n_br_zip, por padrão a cada 365 dias o registro de cep na tabela é atualizado em uma nova consulta de cep nos cadastros do Odoo.
 
 **Table of contents**
 
@@ -39,7 +46,16 @@ Este módulo depende do l10n_br_base e da biblioteca PyCEP-Correios.
 Configuration
 =============
 
-Ao ser instalado o módulo de CEP deve ser populado a tabela l10n_br.zip ou quando o CEP não for encontrado ele será consultado no serviço dos Correios utilizando a biblioteca PyCEP-Correios.
+Nas configurações gerais no grupo de  **Localização Brasileira** pode ser habilitada ou desabilitada a busca de CEP
+
+.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/l10n_br_zip/static/description/l10n_br_zip_1.png
+    :alt: Configuração de busca de CEP
+    :width: 600 px
+
+Ao habilitar a busca de CEP existe as configurações:
+
+* Provedor de Busca de CEP;
+* Periodo para um registro na l10n_br_zip ser atualizado em uma nova consulta.
 
 Usage
 =====
@@ -53,6 +69,12 @@ Changelog
 ~~~~~~~~~~~~~~~~~~~~~~~
 
  * [REF] Incluida pesquisa e dependência da biblioteca PyCEP-Correios.
+
+12.0.3.0.0 (2021-01-08)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+  * Atualizada a biblioteca pycep-correios para a versão 5.0.0
+  * [ADD] Adicionado a opção para selecionar o provedor do serviço de busca de CEP.
 
 Bug Tracker
 ===========
@@ -91,6 +113,14 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-renatonlima| image:: https://github.com/renatonlima.png?size=40px
+    :target: https://github.com/renatonlima
+    :alt: renatonlima
+
+Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-renatonlima| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_zip>`_ project on GitHub.
 

@@ -1,1 +1,10 @@
-Ao ser instalado o módulo de CEP deve ser populado a tabela l10n_br.zip ou quando o CEP não for encontrado ele será consultado no serviço dos Correios utilizando a biblioteca PyCEP-Correios.
+Nas configurações gerais no grupo de  **Localização Brasileira** pode ser habilitada ou desabilitada a busca de CEP
+
+.. figure:: ../static/description/l10n_br_zip_1.png
+    :alt: Configuração de busca de CEP
+    :width: 600 px
+
+Ao habilitar a busca de CEP existe as configurações:
+
+* Provedor de Busca de CEP;
+* Periodo para um registro na l10n_br_zip ser atualizado em uma nova consulta.
