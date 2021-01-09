@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+         <!--We complete the declaration of the chart of account here.
+        These data are to be created once the accounts have been created in database,
+        they finish "linking" the CoA to them.-->
+      <record id="l10n_br_coa_complete_template" model="account.chart.template">
+        <field name="property_account_receivable_id" ref="account_template_101030101"/>
+        <field name="property_account_payable_id" ref="account_template_201010101" />
+        <field name="property_account_expense_categ_id" ref="account_template_401010499"/>
+        <field name="property_account_income_categ_id" ref="account_template_301010102"/>
+        <field name="income_currency_exchange_account_id" ref="account_template_402010114"/>
+        <field name="expense_currency_exchange_account_id" ref="account_template_402010114"/>
+      </record>
+
+    <data noupdate="1">
+        <function model="account.chart.template" name="try_loading_for_current_company">
+            <value eval="[ref('l10n_br_coa_complete.l10n_br_coa_complete_template')]"/>
+        </function>
+    </data>
+
+</odoo>
