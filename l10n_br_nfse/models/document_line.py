@@ -101,8 +101,8 @@ class DocumentLine(models.Model):
 
     def prepare_line_servico(self):
         return {
-            'valor_servicos': float(self.fiscal_price),
-            'valor_deducoes': float(self.fiscal_deductions_value),
+            'valor_servicos': self.fiscal_price,
+            'valor_deducoes': self.fiscal_deductions_value,
             'valor_pis': round(self.pis_value, 2),
             'valor_pis_retido': round(self.pis_wh_value, 2),
             'valor_cofins': round(self.cofins_value, 2),
@@ -116,10 +116,10 @@ class DocumentLine(models.Model):
             'iss_retido': '1' if self.issqn_wh_value else '2',
             'valor_iss': round(self.issqn_value, 2),
             'valor_iss_retido': round(self.issqn_wh_value, 2),
-            'outras_retencoes': float(self.other_retentions_value),
-            'base_calculo': float(self.issqn_base),
-            'aliquota': float(self.issqn_percent / 100),
-            'valor_liquido_nfse': float(self.amount_financial),
+            'outras_retencoes': self.other_retentions_value,
+            'base_calculo': self.issqn_base,
+            'aliquota': self.issqn_percent / 100,
+            'valor_liquido_nfse': self.amount_financial,
             'item_lista_servico':
                 self.service_type_id.code and
                 self.service_type_id.code.replace('.', ''),
