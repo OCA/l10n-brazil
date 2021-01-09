@@ -11,7 +11,6 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
     TAX_DOMAIN,
-    TAX_DOMAIN_ICMS,
     NFE_IND_FINAL_DEFAULT,
     NFE_IND_IE_DEST_1,
     NFE_IND_IE_DEST_2,
