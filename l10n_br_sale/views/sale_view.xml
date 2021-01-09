@@ -39,12 +39,12 @@
                 <field name="fiscal_operation_id" required="True"/>
                 <field name="ind_pres" required="True"/>
             </field>
-            <field name="note" position="before">
+            <field name="note" position="replace">
                 <group>
-                    <label for="copy_note"/>
-                    <div>
-                        <field name="copy_note"/>
-                    </div>
+                    <field name="copy_note"/>
+                    <field name="note" placeholder="Terms and conditions... (note: you can setup default ones in the Configuration menu)"/>
+                    <field name="customer_additional_data"/>
+                    <field name="fiscal_additional_data"/>
                 </group>
             </field>
             <xpath expr="//field[@name='order_line']" position="attributes">
@@ -100,12 +100,17 @@
                           <field name="invoice_lines"/>
                       </div>
                   </page>
-                  <page name="outros" string="Outros Custos">
+                  <page name="others" string="Others">
                       <group>
-                        <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
                           <field name="freight_value"/>
                           <field name="insurance_value"/>
                           <field name="other_costs_value"/>
+                      </group>
+                  </page>
+                  <page name="fiscal_line_extra_info" string="Extra Info"/>
+                  <page name="accounting" string="Accounting">
+                      <group>
+                          <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]" attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
                       </group>
                   </page>
                 </notebook>
