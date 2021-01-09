@@ -76,26 +76,31 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def fiscal_form_view(self, form_view_arch):
         try:
+
             fiscal_view = self.env.ref(
                 "l10n_br_fiscal.document_fiscal_line_mixin_form")
 
-            # Get template tags
-            fsc_doc = etree.fromstring(fiscal_view["arch"])
-            group_node = fsc_doc.xpath("//group[@name='fiscal_fields']")[0]
-            page_node = fsc_doc.xpath("//page[@name='fiscal_taxes']")[0]
+            view_template_tags = {
+                'group': ['fiscal_fields'],
+                'page': ['fiscal_taxes', 'fiscal_line_extra_info'],
+            }
 
+            fsc_doc = etree.fromstring(fiscal_view["arch"])
             doc = etree.fromstring(form_view_arch)
 
-            # Replace group
-            doc_group_node = doc.xpath("//group[@name='fiscal_fields']")[0]
-            setup_modifiers(group_node)
-            doc_group_node.getparent().replace(doc_group_node, group_node)
+            for tag, tag_names in view_template_tags.items():
+                for tag_name in tag_names:
+                    fiscal_node = fsc_doc.xpath(
+                        "//{0}[@name='{1}']".format(tag, tag_name))[0]
 
-            # Replace page
-            doc_page_node = doc.xpath("//page[@name='fiscal_taxes']")[0]
-            for n in page_node.getiterator():
-                setup_modifiers(n)
-            doc_page_node.getparent().replace(doc_page_node, page_node)
+                    doc_node = doc.xpath(
+                        "//{0}[@name='{1}']".format(tag, tag_name))[0]
+
+                    setup_modifiers(doc_node)
+                    for n in doc_node.getiterator():
+                        setup_modifiers(n)
+
+                    doc_node.getparent().replace(doc_node, fiscal_node)
 
             form_view_arch = etree.tostring(doc, encoding='unicode')
         except Exception:
