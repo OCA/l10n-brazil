@@ -308,31 +308,56 @@
                     PIS
                 </div>
                 <div class="col-1 linha br centro">
-                    <span t-field="doc.line_ids[0].pis_wh_value" />
+                    <t t-if="doc.amount_pis_value">
+                       <span t-field="doc.amount_pis_value" />
+                    </t>
+                    <t t-else="">
+                       <span t-field="doc.amount_pis_ret_value" />
+                    </t>
                 </div>
                 <div class="col-1 rotulo br">
                     COFINS
                 </div>
                 <div class="col-1 linha br centro">
-                    <span t-field="doc.line_ids[0].cofins_wh_value" />
+                    <t t-if="doc.amount_cofins_value">
+                       <span t-field="doc.amount_cofins_value" />
+                    </t>
+                    <t t-else="">
+                       <span t-field="doc.amount_cofins_ret_value" />
+                    </t>
                 </div>
                 <div class="col-1 rotulo br">
                     CSLL
                 </div>
                 <div class="col-1 linha br centro">
-                    <span t-field="doc.line_ids[0].csll_wh_value" />
+                    <t t-if="doc.amount_csll_value">
+                       <span t-field="doc.amount_csll_value" />
+                    </t>
+                    <t t-else="">
+                       <span t-field="doc.amount_csll_ret_value" />
+                    </t>
                 </div>
                 <div class="col-1 rotulo br">
                     IR
                 </div>
                 <div class="col-1 linha br centro">
-                    <span t-field="doc.line_ids[0].irpj_wh_value" />
+                    <t t-if="doc.amount_csll_value">
+                       <span t-field="doc.amount_csll_value" />
+                    </t>
+                    <t t-else="">
+                       <span t-field="doc.amount_csll_ret_value" />
+                    </t>
                 </div>
                 <div class="col-1 rotulo br">
                     INSS
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.line_ids[0].inss_wh_value" />
+                    <t t-if="doc.amount_inss_value">
+                       <span t-field="doc.amount_inss_value" />
+                    </t>
+                    <t t-else="">
+                       <span t-field="doc.amount_inss_ret_value" />
+                    </t>
                 </div>
             </div>
 
@@ -352,7 +377,7 @@
                     Valor dos Serviços R$
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.line_ids[0].fiscal_price" />
+                    <span t-field="doc.amount_total" />
                 </div>
             </div>
 
@@ -397,8 +422,7 @@
                     (-) Retenções Federais
                 </div>
                 <div class="col-2 linha br centro">
-<!--                    <span t-field="doc.retencoes_federais" />-->
-                    0,00
+                    <span t-field="doc.amount_tax_withholding" />
                 </div>
                 <div class="col-2 linha br centro">
                     0 - Nenhum
@@ -462,7 +486,7 @@
                     (=) Valor Líquido R$
                 </div>
                 <div class="col-2 linha br centro">
-                    <span t-field="doc.amount_total" />
+                    <span t-field="doc.amount_financial" />
                 </div>
                 <div class="col-2 rotulo br">
                     Incentivador Cultural: 2 - Não
