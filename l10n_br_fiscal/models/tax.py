@@ -11,7 +11,6 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
     TAX_DOMAIN,
-    TAX_DOMAIN_ICMS,
     NFE_IND_FINAL_DEFAULT,
     NFE_IND_IE_DEST_1,
     NFE_IND_IE_DEST_2,
@@ -62,10 +61,21 @@ class Tax(models.Model):
     sequence = fields.Integer(
         string="Sequence",
         related="tax_group_id.sequence",
-        default=10,
-        required=True,
+        help="The sequence field is used to define the "
+             "order in which taxes are displayed.",
+    )
+
+    compute_sequence = fields.Integer(
+        string="Compute Sequence",
+        related="tax_group_id.compute_sequence",
         help="The sequence field is used to define "
-             "order in which the tax lines are applied.")
+             "order in which the tax lines are applied.",
+    )
+
+    tax_scope = fields.Selection(
+        related="tax_group_id.tax_scope",
+        store=True,
+    )
 
     tax_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
@@ -260,6 +270,11 @@ class Tax(models.Model):
         # cest = kwargs.get("cest")
         operation_line = kwargs.get("operation_line")
         remove_from_base = [discount_value]
+
+        if tax.tax_group_id.base_without_icms:
+            # Get Computed ICMS Tax
+            tax_dict_icms = taxes_dict.get("icms", {})
+            remove_from_base.append(tax_dict_icms.get('tax_value', 0.00))
 
         kwargs.update({
             'remove_from_base': sum(remove_from_base),
@@ -574,7 +589,8 @@ class Tax(models.Model):
             icmssn_range
         """
         taxes = {}
-        for tax in self.sorted(lambda t: t.tax_domain == TAX_DOMAIN_ICMS):
+
+        for tax in self.sorted(key=lambda t: t.compute_sequence):
             tax_dict = TAX_DICT_VALUES.copy()
             taxes[tax.tax_domain] = tax_dict
             try:

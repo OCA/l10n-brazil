@@ -19,8 +19,28 @@ class TaxGroup(models.Model):
         string='Sequence',
         default=10,
         required=True,
+        help="The sequence field is used to define the "
+             "order in which taxes are displayed.",
+    )
+
+    compute_sequence = fields.Integer(
+        string='Compute Sequence',
+        default=10,
+        required=True,
         help="The sequence field is used to define "
-             "order in which the tax lines are applied.")
+             "order in which the tax lines are applied.",
+    )
+
+    tax_scope = fields.Selection(
+        selection=[
+            ('city', _('City')),
+            ('state', _('State')),
+            ('federal', _('Federal')),
+            ('other', _('Other')),
+        ],
+        string='Tax Scope',
+        required=True,
+    )
 
     tax_domain = fields.Selection(
         selection=TAX_DOMAIN,
@@ -34,6 +54,12 @@ class TaxGroup(models.Model):
     tax_withholding = fields.Boolean(
         string='Tax Withholding',
         default=False)
+
+    # PIS / COFINS
+    base_without_icms = fields.Boolean(
+        string="Remove ICMS value from Base",
+        default=False,
+    )
 
     tax_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.tax',
