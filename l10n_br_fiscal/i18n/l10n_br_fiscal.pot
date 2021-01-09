@@ -1754,8 +1754,11 @@ msgid "Cimentos"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/tax_group.py:36
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_city_taxation_code__city_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.city_menu
+#: selection:l10n_br_fiscal.tax.group,tax_scope:0
+#, python-format
 msgid "City"
 msgstr ""
 
@@ -2018,6 +2021,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__end_date
 msgid "Completion Date"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__compute_sequence
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__compute_sequence
+msgid "Compute Sequence"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3092,6 +3101,13 @@ msgid "Fechamento"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/tax_group.py:38
+#: selection:l10n_br_fiscal.tax.group,tax_scope:0
+#, python-format
+msgid "Federal"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.cest,segment:0
 msgid "Ferramentas"
 msgstr ""
@@ -3610,6 +3626,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_ipi_guideline__cst_group
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_ipi_guideline_search
 msgid "Group"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_search
+msgid "Group By"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6460,8 +6481,11 @@ msgid "Origin operation"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/tax_group.py:39
 #: selection:l10n_br_fiscal.cfop,type_move:0
 #: selection:l10n_br_fiscal.operation,fiscal_type:0
+#: selection:l10n_br_fiscal.tax.group,tax_scope:0
+#, python-format
 msgid "Other"
 msgstr ""
 
@@ -7408,6 +7432,11 @@ msgid "Related operation"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__base_without_icms
+msgid "Remove ICMS value from Base"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/closing.py:301
 #, python-format
 msgid "Replication failed: document attachments [id =% s] is not present in the database."
@@ -7839,6 +7868,7 @@ msgid "Start Date"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/tax_group.py:37
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_city_taxation_code__state_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__state
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__state_id
@@ -7850,6 +7880,8 @@ msgstr ""
 #: model:ir.ui.menu,name:l10n_br_fiscal.state_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.view_l10n_br_fiscal_mdfe_filter
+#: selection:l10n_br_fiscal.tax.group,tax_scope:0
+#, python-format
 msgid "State"
 msgstr ""
 
@@ -8143,7 +8175,7 @@ msgid "Tax Group"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_group.py:51
+#: code:addons/l10n_br_fiscal/models/tax_group.py:77
 #: sql_constraint:l10n_br_fiscal.tax.group:0
 #, python-format
 msgid "Tax Group already exists with this name !"
@@ -8323,6 +8355,14 @@ msgid "Tax Retention at place of provision"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax__tax_scope
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__tax_scope
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_group_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_search
+msgid "Tax Scope"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.product_template_form
 msgid "Tax UOM"
@@ -8408,9 +8448,15 @@ msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax__compute_sequence
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__compute_sequence
+msgid "The sequence field is used to define order in which the tax lines are applied."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax__sequence
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__sequence
-msgid "The sequence field is used to define order in which the tax lines are applied."
+msgid "The sequence field is used to define the order in which taxes are displayed."
 msgstr ""
 
 #. module: l10n_br_fiscal
