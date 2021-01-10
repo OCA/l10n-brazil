@@ -145,6 +145,10 @@ class NFeLine(spec_models.StackedModel):
         related='ipi_value',
     )
 
+    nfe40_infAdProd = fields.Char(
+        related='additional_data',
+    )
+
     nfe40_xPed = fields.Char(
         related="partner_order",
     )
