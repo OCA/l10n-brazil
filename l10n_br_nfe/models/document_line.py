@@ -6,6 +6,11 @@ import sys
 from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
+from odoo.addons.l10n_br_fiscal.constants.icms import (
+    ICMS_CST,
+    ICMS_SN_CST,
+)
+
 ICMS_ST_CST_CODES = ['60']
 
 
@@ -116,11 +121,6 @@ class NFeLine(spec_models.StackedModel):
         related='icms_base_type',
     )
 
-    # otherwise the one of ICMS can be overriden by the one from say PIS
-    # nfe40_vBC = fields.Monetary(
-    #    related='icms_base', readonly=False
-    # )
-
     nfe40_vICMS = fields.Monetary(
         related='icms_value',
     )
@@ -160,26 +160,18 @@ class NFeLine(spec_models.StackedModel):
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
         for record in self:
-            if record.icms_cst_id.code == '00':
-                record.nfe40_choice11 = 'nfe40_ICMS00'
-            elif record.icms_cst_id.code == '10':
-                record.nfe40_choice11 = 'nfe40_ICMS10'
-            elif record.icms_cst_id.code == '20':
-                record.nfe40_choice11 = 'nfe40_ICMS20'
-            elif record.icms_cst_id.code == '30':
-                record.nfe40_choice11 = 'nfe40_ICMS30'
-            elif record.icms_cst_id.code in ['40', '41', '50']:
-                record.nfe40_choice11 = 'nfe40_ICMS40'
-            elif record.icms_cst_id.code == '51':
-                record.nfe40_choice11 = 'nfe40_ICMS51'
-            elif record.icms_cst_id.code == '60':
-                record.nfe40_choice11 = 'nfe40_ICMS60'
-            elif record.icms_cst_id.code == '70':
-                record.nfe40_choice11 = 'nfe40_ICMS70'
-            elif record.icms_cst_id.code == '90':
-                record.nfe40_choice11 = 'nfe40_ICMS90'
-            elif record.icms_cst_id.code == '400':
-                record.nfe40_choice11 = 'nfe40_ICMSSN102'
+            icms_choice = ''
+            if record.icms_cst_id.code in ICMS_CST:
+                if record.icms_cst_id.code in ['40', '41', '50']:
+                    icms_choice = 'nfe40_ICMS40'
+                else:
+                    icms_choice = '{0}{1}'.format(
+                        'nfe40_ICMS', record.icms_cst_id.code)
+            if record.icms_cst_id.code in ICMS_SN_CST:
+                icms_choice = '{0}{1}'.format(
+                    'nfe40_ICMSSN', record.icms_cst_id.code)
+
+            record.nfe40_choice11 = icms_choice
 
     @api.depends('pis_cst_id')
     def _compute_choice12(self):
@@ -256,21 +248,64 @@ class NFeLine(spec_models.StackedModel):
                     values['product_id']).ncm_id.id
         return values
 
+    def _export_fields_icms(self):
+        icms = {
+            # ICMS Proprio
+            'orig': self.nfe40_orig,
+            'CST': self.icms_cst_id.code,
+            'modBC': self.icms_base_type,
+            'vBC': str("%.02f" % self.icms_base),
+            'pRedBC': str("%.04f" % self.icms_reduction),
+            'pICMS': str("%.04f" % self.nfe40_pICMS),
+            'vICMS': str("%.02f" % self.nfe40_vICMS),
+
+            # ICMS ST
+            'modBCST': self.icmsst_base_type,
+            'pMVAST': str("%.04f" % self.icmsst_mva_percent),
+            'pRedBCST': str("%.04f" % self.icmsst_reduction),
+            'vBCST': str("%.02f" % self.icmsst_base),
+            'pICMSST': str("%.04f" % self.icmsst_percent),
+            'vICMSST': str("%.02f" % self.icmsst_value),
+            # 'pBCOp': '',
+            'UFST': self.partner_id.state_id.code,
+
+            # ICMS ST Dest
+            'orig': '',
+            'CST': '',
+            'vBCSTRet': '',
+            'pST': '',
+            'vICMSSubstituto': '',
+            'vICMSSTRet': '',
+            'vBCFCPSTRet': '',
+            'pFCPSTRet': '',
+            'vFCPSTRet': '',
+            'vBCSTDest': '',
+            'vICMSSTDest': '',
+            'pRedBCEfet': '',
+            'vBCEfet': '',
+            'pICMSEfet': '',
+            'vICMSEfet': '',
+
+            # DIFAL
+            'vBCUFDest': str("%.02f" % self.icms_destination_base),
+            # 'vBCFCPUFDest': str("%.02f" % ),
+            'pFCPUFDest': str("%.04f" % self.icmsfcp_percent),
+            'pICMSUFDest': str("%.04f" % self.icms_origin_percent),
+            'pICMSInter': str("%.04f" % self.icms_destination_percent),
+            'pICMSInterPart': str("%.04f" % self.icms_sharing_percent),
+            'vFCPUFDest': str("%.02f" % self.icmsfcp_value),
+            'vICMSUFDest': str("%.02f" % self.icms_destination_value),
+            'vICMSUFRemet': str("%.02f" % self.icms_origin_value),
+        }
+        return icms
+
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == 'nfe.40.icms':
             xsd_fields = [self.nfe40_choice11]
             icms_tag = self.nfe40_choice11.replace('nfe40_', '')  # FIXME
             binding_module = sys.modules[self._binding_module]
             icms_binding = getattr(binding_module, icms_tag + "Type")
-            icms_dict = {
-                'orig': self.nfe40_orig,
-                'CST': self.icms_cst_id.code,
-                'modBC': self.nfe40_modBC,
-                'vBC': str("%.02f" % self.icms_base),
-                'pICMS': str("%.04f" % self.nfe40_pICMS),
-                'vICMS': str("%.02f" % self.nfe40_vICMS),
-                # TODO complete the dict with other ICMS values
-            }
+            icms_dict = self._export_fields_icms()
             export_dict[icms_tag] = icms_binding(**icms_dict)
         elif class_obj._name == 'nfe.40.icmssn':
             pass
@@ -319,38 +354,6 @@ class NFeLine(spec_models.StackedModel):
         self.nfe40_pPIS = self.pis_percent
         self.nfe40_pCOFINS = self.cofins_percent
         self.nfe40_cEnq = str(self.ipi_guideline_id.code or '999').zfill(3)
-
-        if self.document_id.ind_final == '1' and \
-                self.document_id.nfe40_idDest == '2' and \
-                self.document_id.nfe40_indIEDest == '9':
-            self.nfe40_vBCUFDest = self.nfe40_vBC
-            if self.document_id.partner_id.state_id.code in [
-                    'AC', 'CE', 'ES', 'GO', 'MT', 'MS', 'PA', 'PI', 'RR', 'SC'
-            ]:
-                self.nfe40_pICMSUFDest = 17.0
-            elif self.document_id.partner_id.state_id.code == 'RO':
-                self.nfe40_pICMSUFDest = 17.5
-            elif self.document_id.partner_id.state_id.code in [
-                    'AM', 'AP', 'BA', 'DF', 'MA', 'MG', 'PB', 'PR', 'PE',
-                    'RN', 'RS', 'SP', 'SE', 'TO'
-            ]:
-                self.nfe40_pICMSUFDest = 18.0
-            elif self.document_id.partner_id.state_id.code == 'RJ':
-                self.nfe40_pICMSUFDest = 20.0
-            self.nfe40_pICMSInter = '7.00'
-            self.nfe40_pICMSInterPart = 100.0
-            self.nfe40_vICMSUFDest = (
-                self.nfe40_vBCUFDest * (
-                    (self.nfe40_pICMSUFDest - float(
-                        self.nfe40_pICMSInter)
-                     ) / 100) * (self.nfe40_pICMSInterPart / 100))
-            self.nfe40_vICMSUFRemet = (
-                self.nfe40_vBCUFDest * (
-                    (self.nfe40_pICMSUFDest - float(
-                        self.nfe40_pICMSInter)
-                     ) / 100) * ((100 - self.nfe40_pICMSInterPart
-                                  ) / 100))
-
         return super()._export_fields(xsd_fields, class_obj, export_dict)
 
     def _export_field(self, xsd_field, class_obj, member_spec):
