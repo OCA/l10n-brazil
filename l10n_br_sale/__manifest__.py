@@ -26,6 +26,7 @@
 
         # Report
         "report/sale_report_view.xml",
+        "report/sale_report_templates.xml",
     ],
     "demo": [
         # Demo
