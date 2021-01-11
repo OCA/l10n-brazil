@@ -29,6 +29,11 @@ msgid "Ginfes"
 msgstr ""
 
 #. module: l10n_br_nfse_ginfes
+#: selection:res.company,provedor_nfse:0
+msgid "ISSNet / Nota Control"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
 #: code:addons/l10n_br_nfse_ginfes/models/document.py:307
 #, python-format
 msgid "Lote ainda não processado"
