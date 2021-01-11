@@ -11,7 +11,6 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
     TAX_DOMAIN,
-    TAX_DOMAIN_ICMS,
     FINAL_CUSTOMER_YES,
     NFE_IND_IE_DEST_1,
     NFE_IND_IE_DEST_2,
@@ -353,18 +352,21 @@ class Tax(models.Model):
             'icms_base_type': tax.icms_base_type})
 
         # DIFAL
+        # TODO
+        # and operation_line.ind_final == FINAL_CUSTOMER_YES):
         if (company.state_id != partner.state_id
                 and operation_line.fiscal_operation_type == FISCAL_OUT
-                and not partner.ind_ie_dest == NFE_IND_IE_DEST_9
-                and operation_line.ind_final == FINAL_CUSTOMER_YES):
+                and partner.ind_ie_dest == NFE_IND_IE_DEST_9):
             tax_icms_difal = company.icms_regulation_id.map_tax_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line)
             tax_icmsfcp_difal = company.icms_regulation_id.map_tax_icmsfcp(
                 company, partner, product, ncm, nbm, cest, operation_line)
 
             # Difal - Origin Percent
-            icms_origin_perc = taxes_dict[tax.tax_domain].get(
-                'percent_amount')
+            icms_origin_perc = taxes_dict[tax.tax_domain].get('percent_amount')
+
+            # Difal - Origin Value
+            icms_origin_value = taxes_dict[tax.tax_domain].get('tax_value')
 
             # Difal - Destination Percent
             icms_dest_perc = 0.00
@@ -389,16 +391,14 @@ class Tax(models.Model):
 
             if partner.state_id.code in ICMS_DIFAL_DOUBLE_BASE:
                 difal_icms_base = round(
-                    (icms_base - dest_value) / (1 - (
+                    (icms_base - icms_dest_value) / (1 - (
                         (icms_dest_perc + icmsfcp_perc) / 100)),
                     precision)
 
-            origin_value = round(
-                difal_icms_base * (icms_origin_perc / 100), precision)
-            dest_value = round(
-                difal_icms_base * (icms_dest_perc / 100), precision)
+                icms_origin_value = round(
+                    difal_icms_base * (icms_origin_perc / 100), precision)
 
-            difal_value = dest_value - origin_value
+            difal_value = icms_dest_value - icms_origin_value
 
             # Difal - Sharing Percent
             date_year = fields.Date.today().year
