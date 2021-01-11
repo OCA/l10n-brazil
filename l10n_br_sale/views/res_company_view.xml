@@ -11,6 +11,7 @@
                     <group>
                         <group>
                             <field name="sale_fiscal_operation_id"/>
+                            <field name="sale_final_consumption_fiscal_operation_id"/>
                             <field name="copy_note"/>
                         </group>
                     </group>
