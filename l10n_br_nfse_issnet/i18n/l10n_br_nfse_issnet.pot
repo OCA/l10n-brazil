@@ -6,14 +6,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-24 05:42+0000\n"
-"PO-Revision-Date: 2020-12-24 05:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_br_nfse_issnet
+#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:342
+#, python-format
+msgid "Batch not yet processed"
+msgstr ""
 
 #. module: l10n_br_nfse_issnet
 #: model:ir.model,name:l10n_br_nfse_issnet.model_res_company
@@ -33,12 +37,6 @@ msgstr ""
 #. module: l10n_br_nfse_issnet
 #: selection:res.company,provedor_nfse:0
 msgid "ISSNet / Nota Control"
-msgstr ""
-
-#. module: l10n_br_nfse_issnet
-#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:342
-#, python-format
-msgid "Batch not yet processed"
 msgstr ""
 
 #. module: l10n_br_nfse_issnet
