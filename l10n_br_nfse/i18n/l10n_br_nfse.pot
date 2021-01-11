@@ -318,6 +318,11 @@ msgid "ISS a reter:"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: selection:res.company,provedor_nfse:0
+msgid "ISSNet / Nota Control"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: selection:l10n_br_fiscal.document,operation_nature:0
 msgid "Imune"
 msgstr ""
