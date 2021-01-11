@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Accounting"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:res.groups,name:l10n_br_sale.group_total_discount
 msgid "Allow Amount Discount on Sales Orders"
 msgstr ""
@@ -89,6 +94,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:res.groups,name:l10n_br_sale.group_discount_per_value
 msgid "Discount in Sales Orders per Value"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Extra Info"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -213,7 +223,7 @@ msgstr ""
 
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
-msgid "Outros Custos"
+msgid "Others"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -264,6 +274,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Terms and conditions... (note: you can setup default ones in the Configuration menu)"
 msgstr ""
 
 #. module: l10n_br_sale
