@@ -68,7 +68,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:68
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:70
 #, python-format
 msgid "Document line without Operation !"
 msgstr ""
@@ -101,8 +101,8 @@ msgid "Fiscal Operation Line"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:47
-#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:75
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:48
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:77
 #, python-format
 msgid "Fiscal Operation: There is not Return Operation for %s !"
 msgstr ""
