@@ -440,11 +440,22 @@ class Tax(models.Model):
         return taxes_dict
 
     def _compute_icmsfcp(self, tax, taxes_dict, **kwargs):
-        # Get Computed ICMS DIFAL Base
-        icms = taxes_dict.get('icms', {})
-        icms_dest_base = icms.get('icms_dest_base', 0.00)
-        taxes_dict[tax.tax_domain].update({'base': icms_dest_base})
-        return self._compute_tax(tax, taxes_dict, **kwargs)
+        """Compute ICMS FCP"""
+        company = kwargs.get("company")
+        currency = kwargs.get("currency", company.currency_id)
+        precision = currency.decimal_places
+
+        tax_dict_icms = taxes_dict.get('icms')
+        icmsfcp_base = tax_dict_icms.get('icms_dest_base', 0.0)
+        icmsfcp_perc = tax.percent_amount
+        icmsfcp_value = round(icmsfcp_base * icmsfcp_perc, precision)
+        taxes_dict[tax.tax_domain].update({
+            'tax_value': icmsfcp_value,
+            'percent_amount': icmsfcp_perc,
+            'base': icmsfcp_base,
+        })
+
+        return taxes_dict
 
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
         # partner = kwargs.get("partner")
