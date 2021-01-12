@@ -593,8 +593,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         pass
 
     def _set_fields_icmsfcp(self, tax_dict):
-        self.icmsfcp_percent = tax_dict.get("percent_amount")
-        self.icmsfcp_value = tax_dict.get("tax_value")
+        self.icmsfcp_base = tax_dict.get("base", 0.0)
+        self.icmsfcp_percent = tax_dict.get("percent_amount", 0.0)
+        self.icmsfcp_value = tax_dict.get("tax_value", 0.0)
 
     @api.onchange(
         "icmsfcp_percent",
