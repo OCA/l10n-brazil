@@ -440,10 +440,9 @@ class Tax(models.Model):
         return taxes_dict
 
     def _compute_icmsfcp(self, tax, taxes_dict, **kwargs):
-
         # Get Computed ICMS DIFAL Base
-        tax_dict_icms = taxes_dict.get('icms', {})
-        icms_dest_base = tax_dict_icms.get('icms_dest_base', 0.00)
+        icms = taxes_dict.get('icms', {})
+        icms_dest_base = icms.get('icms_dest_base', 0.00)
         taxes_dict[tax.tax_domain].update({'base': icms_dest_base})
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
