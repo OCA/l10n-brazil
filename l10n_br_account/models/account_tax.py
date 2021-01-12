@@ -20,7 +20,7 @@ class AccountTax(models.Model):
         self,
         price_unit,
         currency=None,
-        quantity=None,
+        quantity=1.0,
         product=None,
         partner=None,
         fiscal_taxes=None,
