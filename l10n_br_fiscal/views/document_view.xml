@@ -193,6 +193,8 @@
             </page>
             <page name="finance" string="Finance">
             </page>
+            <page name="delivery" string="Delivery">
+            </page>
             <page name="others" string="Others">
                 <group>
                     <field name="operation_name"/>
