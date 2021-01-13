@@ -23,24 +23,25 @@ class StockReturnPicking(models.TransientModel):
          @param self: The object pointer.
          @return: A dictionary which of fields with values.
         """
-        picking_obj = self.env['stock.picking']
-        move_obj = self.env['stock.move']
-
-        origin_picking = self.env['stock.picking'].browse(
-            self.env.context['active_id'])
-        refund_fiscal_operation = (
-            origin_picking.fiscal_operation_id.return_fiscal_operation_id)
-
-        if not refund_fiscal_operation:
-            raise UserError(
-                _('This Fiscal Operation does not has Fiscal'
-                  ' Operation for Returns!')
-            )
-
         new_picking_id, pick_type_id = super()._create_returns()
-        picking = picking_obj.browse(new_picking_id)
 
         if self.invoice_state == '2binvoiced':
+
+            picking_obj = self.env['stock.picking']
+            move_obj = self.env['stock.move']
+
+            origin_picking = self.env['stock.picking'].browse(
+                self.env.context['active_id'])
+            refund_fiscal_operation = (
+                origin_picking.fiscal_operation_id.return_fiscal_operation_id)
+
+            if not refund_fiscal_operation:
+                raise UserError(
+                    _('This Fiscal Operation does not has Fiscal'
+                      ' Operation for Returns!')
+                )
+
+            picking = picking_obj.browse(new_picking_id)
 
             values = {
                 'fiscal_operation_id': refund_fiscal_operation.id,
