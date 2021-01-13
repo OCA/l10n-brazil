@@ -77,11 +77,20 @@
                   <page name="outros" string="Outros Custos">
                       <group>
                           <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}"/>
+                      </group>
+                  </page>
+                  <page name="outros" string="Outros Custos">
+                      <group>
                           <field name="insurance_value"/>
                           <field name="other_costs_value"/>
                           <field name="freight_value"/>
                       </group>
                   </page>
+              </xpath>
+              <xpath expr="//field[@name='amount_untaxed']" position="after">
+                  <field name="amount_freight" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                  <field name="amount_insurance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                  <field name="amount_costs" widget="monetary" options="{'currency_field': 'currency_id'}"/>
               </xpath>
           </field>
       </record>
