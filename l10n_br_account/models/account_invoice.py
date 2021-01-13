@@ -86,6 +86,8 @@ class AccountInvoice(models.Model):
     @api.model
     def create(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        if values.get('document_type_id'):
+            values.update({'fiscal_document_id': False})
         invoice = super().create(values)
         if invoice.fiscal_document_id != dummy_doc:
             shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
