@@ -5,6 +5,7 @@
 from lxml import etree
 
 from odoo import api, fields, models
+from odoo.addons import decimal_precision as dp
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
@@ -53,6 +54,34 @@ class PurchaseOrder(models.Model):
         string='Fiscal Document Count',
         related='invoice_count',
         readonly=True,
+    )
+    
+    amount_freight = fields.Float(
+        compute='_amount_all',
+        store=True,
+        string='Freight',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'),
+        states={'draft': [('readonly', False)]},
+    )
+
+    amount_insurance = fields.Float(
+        compute='_amount_all',
+        store=True,
+        string='Insurance',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'),
+    )
+
+    amount_costs = fields.Float(
+        compute='_amount_all',
+        store=True,
+        string='Other Costs',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'),
     )
 
     @api.model
@@ -141,3 +170,25 @@ class PurchaseOrder(models.Model):
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
+
+    @api.depends('order_line.price_total')
+    def _amount_all(self):
+        for order in self:
+            amount_untaxed = amount_tax = amount_freight = \
+                amount_costs = amount_insurance = 0.0
+            for line in order.order_line:
+                amount_untaxed += line.price_subtotal
+                amount_tax += line.price_tax
+                amount_freight += line.freight_value
+                amount_costs += line.other_costs_value
+                amount_insurance += line.insurance_value
+
+            order.update({
+                'amount_untaxed': order.currency_id.round(amount_untaxed),
+                'amount_freight': amount_freight,
+                'amount_costs': amount_costs,
+                'amount_insurance': amount_insurance,
+                'amount_tax': order.currency_id.round(amount_tax),
+                'amount_total': amount_untaxed + amount_tax + amount_freight
+                                + amount_costs + amount_insurance,
+            })
