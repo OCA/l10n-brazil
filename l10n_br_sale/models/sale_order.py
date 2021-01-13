@@ -80,7 +80,7 @@ class SaleOrder(models.Model):
         help="The discount amount.",
     )
 
-    amount_freight = fields.Float(
+    amount_freight = fields.Monetary(
         compute='_amount_all',
         store=True,
         string='Freight',
@@ -90,7 +90,7 @@ class SaleOrder(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
-    amount_insurance = fields.Float(
+    amount_insurance = fields.Monetary(
         compute='_amount_all',
         store=True,
         string='Insurance',
@@ -99,7 +99,7 @@ class SaleOrder(models.Model):
         digits=dp.get_precision('Account'),
     )
 
-    amount_costs = fields.Float(
+    amount_costs = fields.Monetary(
         compute='_amount_all',
         store=True,
         string='Other Costs',
