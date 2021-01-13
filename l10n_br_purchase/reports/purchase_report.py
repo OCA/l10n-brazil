@@ -4,7 +4,7 @@
 from odoo import fields, models
 
 
-class SaleReport(models.Model):
+class PurchaseReport(models.Model):
     _inherit = 'purchase.report'
 
     fiscal_operation_id = fields.Many2one(
