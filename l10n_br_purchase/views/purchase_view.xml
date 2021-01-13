@@ -36,12 +36,6 @@
                   <attribute name="editable"/>
               </xpath>
               <xpath expr="//field[@name='order_line']/tree/field[@name='company_id']" position="replace"/>
-              <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="attributes">
-                  <attribute name="invisible">1</attribute>
-              </xpath>
-              <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="before">
-                  <field name="fiscal_tax_ids" widget="many2many_tags" options="{'no_create': True}"/>
-              </xpath>
               <!-- Edit order_line Form view -->
               <xpath expr="//field[@name='order_line']/form//field[@name='taxes_id']" position="replace">
                   <field name="fiscal_operation_id" required="1"/>
@@ -54,15 +48,23 @@
                   </group>
               </xpath>
               <xpath expr="//field[@name='order_line']/form//notebook/page[1]" position="before">
-                  <page name="fiscal_taxes" string="Taxes"/>
-                  <page name="outros" string="Outros Custos">
+                  <page name="fiscal_taxes" string="Taxes">
                       <group>
                           <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}"/>
+                      </group>
+                  </page>
+                  <page name="outros" string="Outros Custos">
+                      <group>
                           <field name="insurance_value"/>
                           <field name="other_costs_value"/>
                           <field name="freight_value"/>
                       </group>
                   </page>
+              </xpath>
+              <xpath expr="//field[@name='amount_untaxed']" position="after">
+                  <field name="amount_freight" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                  <field name="amount_insurance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                  <field name="amount_costs" widget="monetary" options="{'currency_field': 'currency_id'}"/>
               </xpath>
           </field>
       </record>
