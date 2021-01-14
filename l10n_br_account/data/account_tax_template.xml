@@ -115,19 +115,35 @@
         <field name="fiscal_tax_ids" search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_issqn_wh').id)]"/>
     </record>
 
-    <record id="l10n_br_coa.tax_template_irpj" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_irpj" model="account.tax.template">
         <field name="fiscal_tax_ids" search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_irpj').id)]"/>
     </record>
 
-    <record id="l10n_br_coa.tax_template_irpj_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_irpj_wh" model="account.tax.template">
         <field name="fiscal_tax_ids" search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_irpj_wh').id)]"/>
     </record>
 
-    <record id="l10n_br_coa.tax_template_csll" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_in_irpj" model="account.tax.template">
+        <field name="fiscal_tax_ids" search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_irpj').id)]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_irpj_wh" model="account.tax.template">
+        <field name="fiscal_tax_ids" search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_irpj_wh').id)]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_out_csll" model="account.tax.template">
         <field name="fiscal_tax_ids" search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_csll').id)]"/>
     </record>
 
-    <record id="l10n_br_coa.tax_template_csll_wh" model="account.tax.template">
+    <record id="l10n_br_coa.tax_template_out_csll_wh" model="account.tax.template">
+        <field name="fiscal_tax_ids" search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_csll_wh').id)]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_csll" model="account.tax.template">
+        <field name="fiscal_tax_ids" search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_csll').id)]"/>
+    </record>
+
+    <record id="l10n_br_coa.tax_template_in_csll_wh" model="account.tax.template">
         <field name="fiscal_tax_ids" search="[('tax_group_id','=',obj().env.ref('l10n_br_fiscal.tax_group_csll_wh').id)]"/>
     </record>
 
