@@ -60,7 +60,7 @@ class PurchaseOrder(models.Model):
         readonly=True,
     )
 
-    amount_freight = fields.Float(
+    amount_freight = fields.Monetary(
         compute='_amount_all',
         store=True,
         string='Freight',
@@ -70,7 +70,7 @@ class PurchaseOrder(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
-    amount_insurance = fields.Float(
+    amount_insurance = fields.Monetary(
         compute='_amount_all',
         store=True,
         string='Insurance',
@@ -79,7 +79,7 @@ class PurchaseOrder(models.Model):
         digits=dp.get_precision('Account'),
     )
 
-    amount_costs = fields.Float(
+    amount_costs = fields.Monetary(
         compute='_amount_all',
         store=True,
         string='Other Costs',
