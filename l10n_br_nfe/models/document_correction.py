@@ -26,8 +26,7 @@ class DocumentCorrection(models.Model):
             )
 
             for retevento in processo.resposta.retEvento:
-                if not retevento.infEvento.chNFe == \
-                       record.document_id.key[3:]:
+                if not retevento.infEvento.chNFe == record.document_id.key[3:]:
                     continue
 
                 if retevento.infEvento.cStat not in ('135', '136'):
