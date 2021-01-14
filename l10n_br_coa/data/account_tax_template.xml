@@ -413,7 +413,7 @@
          <field name="description">ISSQN</field>
          <field name="name">ISSQN Saida</field>
          <field name="amount">0.00</field>
-         <field name="type_tax_use">none</field>
+         <field name="type_tax_use">sale</field>
          <field eval="0" name="price_include"/>
          <field eval="0" name="deductible"/>
          <field name="tax_group_id" ref="tax_group_issqn"/>
@@ -425,7 +425,7 @@
          <field name="description">ISSQN WH</field>
          <field name="name">ISSQN WH Saida</field>
          <field name="amount">0.00</field>
-         <field name="type_tax_use">none</field>
+         <field name="type_tax_use">sale</field>
          <field eval="0" name="price_include"/>
          <field eval="0" name="deductible"/>
          <field name="tax_group_id" ref="tax_group_issqn_wh"/>
@@ -437,7 +437,7 @@
          <field name="description">ISSQN</field>
          <field name="name">ISSQN Entrada</field>
          <field name="amount">0.00</field>
-         <field name="type_tax_use">none</field>
+         <field name="type_tax_use">purchase</field>
          <field eval="0" name="price_include"/>
          <field eval="0" name="deductible"/>
          <field name="tax_group_id" ref="tax_group_issqn"/>
@@ -449,7 +449,7 @@
          <field name="description">ISSQN WH</field>
          <field name="name">ISSQN WH Entrada</field>
          <field name="amount">0.00</field>
-         <field name="type_tax_use">none</field>
+         <field name="type_tax_use">purchase</field>
          <field eval="0" name="price_include"/>
          <field eval="0" name="deductible"/>
          <field name="tax_group_id" ref="tax_group_issqn_wh"/>
@@ -457,11 +457,11 @@
          <field name="tag_ids" eval="[(6, False, [ref('tax_tag_issqn_wh')])]"/>
      </record>
 
-    <record id="tax_template_irpj" model="account.tax.template">
+    <record id="tax_template_out_irpj" model="account.tax.template">
         <field name="description">IRPJ</field>
         <field name="name">IRPJ</field>
         <field name="amount">0.00</field>
-        <field name="type_tax_use">none</field>
+        <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_irpj"/>
@@ -469,11 +469,11 @@
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj')])]"/>
     </record>
 
-    <record id="tax_template_irpj_wh" model="account.tax.template">
+    <record id="tax_template_out_irpj_wh" model="account.tax.template">
         <field name="description">IRPJ WH</field>
         <field name="name">IRPJ WH</field>
         <field name="amount">0.00</field>
-        <field name="type_tax_use">none</field>
+        <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_irpj_wh"/>
@@ -481,11 +481,35 @@
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj_wh')])]"/>
     </record>
 
-    <record id="tax_template_csll" model="account.tax.template">
+    <record id="tax_template_in_irpj" model="account.tax.template">
+        <field name="description">IRPJ</field>
+        <field name="name">IRPJ</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_irpj"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj')])]"/>
+    </record>
+
+    <record id="tax_template_in_irpj_wh" model="account.tax.template">
+        <field name="description">IRPJ WH</field>
+        <field name="name">IRPJ WH</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_irpj_wh"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_irpj_wh')])]"/>
+    </record>
+
+    <record id="tax_template_out_csll" model="account.tax.template">
         <field name="description">CSLL</field>
         <field name="name">CSLL</field>
         <field name="amount">0.00</field>
-        <field name="type_tax_use">none</field>
+        <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_csll"/>
@@ -493,11 +517,35 @@
         <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll')])]"/>
     </record>
 
-    <record id="tax_template_csll_wh" model="account.tax.template">
+    <record id="tax_template_out_csll_wh" model="account.tax.template">
         <field name="description">CSLL WH</field>
         <field name="name">CSLL WH</field>
         <field name="amount">0.00</field>
-        <field name="type_tax_use">none</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_csll_wh"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll_wh')])]"/>
+    </record>
+
+    <record id="tax_template_in_csll" model="account.tax.template">
+        <field name="description">CSLL</field>
+        <field name="name">CSLL</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include"/>
+        <field eval="0" name="deductible"/>
+        <field name="tax_group_id" ref="tax_group_csll"/>
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_csll')])]"/>
+    </record>
+
+    <record id="tax_template_in_csll_wh" model="account.tax.template">
+        <field name="description">CSLL WH</field>
+        <field name="name">CSLL WH</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
         <field eval="0" name="price_include"/>
         <field eval="0" name="deductible"/>
         <field name="tax_group_id" ref="tax_group_csll_wh"/>
@@ -524,9 +572,9 @@
         <field name="type_tax_use">sale</field>
         <field eval="0" name="price_include"/>
         <field eval="0" name="deductible"/>
-        <field name="tax_group_id" ref="tax_group_inss"/>
+        <field name="tax_group_id" ref="tax_group_inss_wh"/>
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template"/>
-        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss')])]"/>
+        <field name="tag_ids" eval="[(6, False, [ref('tax_tag_inss_wh')])]"/>
     </record>
 
     <record id="tax_template_in_inss" model="account.tax.template">
