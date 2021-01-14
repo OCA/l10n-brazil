@@ -3,17 +3,6 @@
 
     <template id="report_purchaseorder_document_l10n_br_purchase" inherit_id="purchase.report_purchaseorder_document">
 
-        <!-- Inclusão das Taxas usadas no Brasil
-        <xpath expr="//div[hasclass('page')]//table/thead/tr/th[hasclass('text-right')]" position="after">
-            <th class="text-right"><strong>Taxes</strong></th>
-        </xpath>
-
-        <xpath expr="//div[hasclass('page')]//tbody/tr/td[hasclass('text-right')]" position="after">
-            <td name="td_taxes" class="text-right">
-                <span t-esc="', '.join(map(lambda x: x.name, line.fiscal_tax_ids))"/>
-            </td>
-        </xpath>-->
-
         <!-- Inclusão de outros Totais usados no Brasil -->
         <xpath expr="//div[@id='total']/div/table/tr[hasclass('border-black')]" position="after">
             <tr>
