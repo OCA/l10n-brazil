@@ -201,7 +201,7 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:36
+#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:40
 #, python-format
 msgid "This Fiscal Operation does not has Fiscal Operation for Returns!"
 msgstr ""
