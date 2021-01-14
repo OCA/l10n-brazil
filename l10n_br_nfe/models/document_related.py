@@ -54,7 +54,7 @@ class DocumentRelated(spec_models.SpecModel):
         """Set schema data which are not just related fields"""
         for rec in self:
             if rec.document_type_id:
-                if rec.document_type_id.code == '55': # TODO Enumerate
+                if rec.document_type_id.code == '55':  # TODO Enumerate
                     rec.nfe40_choice4 = 'nfe40_refNFe'
                     rec.nfe40_refNFe = rec.document_key
 

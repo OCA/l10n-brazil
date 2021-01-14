@@ -24,8 +24,7 @@ class DocumentCancel(models.Model):
 
             evento = processador.cancela_documento(
                 chave=record.document_id.key[3:],
-                protocolo_autorizacao=
-                record.document_id.protocolo_autorizacao,
+                protocolo_autorizacao=record.document_id.protocolo_autorizacao,
                 justificativa=record.justificative
             )
             processo = processador.enviar_lote_evento(
@@ -33,8 +32,7 @@ class DocumentCancel(models.Model):
             )
 
             for retevento in processo.resposta.retEvento:
-                if not retevento.infEvento.chNFe == \
-                       record.document_id.key[3:]:
+                if not retevento.infEvento.chNFe == record.document_id.key[3:]:
                     continue
 
                 if retevento.infEvento.cStat not in CANCELADO:
