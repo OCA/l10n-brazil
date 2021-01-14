@@ -24,15 +24,17 @@ class TestNFeExport(TransactionCase):
     def setUp(self):
         super(TestNFeExport, self).setUp()
         hooks.register_hook(self.env, 'l10n_br_nfe',
-            'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe')
+                            'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe')
         self.nfe = self.env.ref('l10n_br_nfe.demo_nfe_same_state')
-        self.nfe.write({'document_type_id': self.env.ref('l10n_br_fiscal.document_55').id,
-                        'company_id': self.env.ref('l10n_br_base.empresa_lucro_presumido').id,
+        self.nfe.write({'document_type_id': self.env.ref(
+            'l10n_br_fiscal.document_55').id,
+                        'company_id': self.env.ref(
+                            'l10n_br_base.empresa_lucro_presumido').id,
                         'company_number': 3,
                         'processador_edoc': 'erpbrasil_edoc',
                         })
         self.nfe.company_id.processador_edoc = 'erpbrasil_edoc'
-        if self.nfe.state != 'em_digitacao': # 2nd test run
+        if self.nfe.state != 'em_digitacao':  # 2nd test run
             self.nfe.action_document_back2draft()
 
         for line in self.nfe.line_ids:
@@ -118,8 +120,8 @@ class TestNFeExport(TransactionCase):
         output = os.path.join(config['data_dir'], 'filestore',
                               self.cr.dbname, self.nfe.file_xml_id.store_fname)
         _logger.info("XML file saved at %s" % (output,))
-        self.nfe.company_id.country_id.name = 'Brazil' # clean mess
+        self.nfe.company_id.country_id.name = 'Brazil'  # clean mess
         # FIXME
         diff = main.diff_files(xml_path, output)
         _logger.info("Diff with expected XML (if any): %s" % (diff,))
-        #assert len(diff) == 0 TODO enable back
+        # assert len(diff) == 0  # TODO enable back
