@@ -356,7 +356,7 @@
                        <span t-field="doc.amount_inss_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_inss_ret_value" />
+                       <span t-field="doc.amount_inss_wh_value" />
                     </t>
                 </div>
             </div>
