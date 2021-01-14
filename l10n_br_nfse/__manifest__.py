@@ -5,7 +5,7 @@
     'name': 'NFS-e',
     'summary': """
         NFS-e""",
-    'version': '12.0.1.5.1',
+    'version': '12.0.1.5.2',
     'license': 'AGPL-3',
     'author': 'KMEE, Odoo Community Association (OCA)',
     'maintainers': ['gabrielcardoso21', 'mileo', 'luismalta'],
