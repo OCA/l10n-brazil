@@ -7,8 +7,8 @@ from erpbrasil.assinatura import certificado as cert
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
 
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo import _, api, models
+from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_INUTILIZADA,
 )
