@@ -51,11 +51,11 @@
                       </group>
                   </group>
               </page>
-              <page name="pag" string="Pagamento">
-                  <group>
-                      <field name="nfe40_detPag"/>
-                  </group>
-              </page>
+          </page>
+          <page name="finance" position="inside">
+              <group>
+                  <field name="nfe40_detPag"/>
+              </group>
           </page>
           <field name="state_fiscal" position="after">
               <field name="nfe40_infAdic"/>
