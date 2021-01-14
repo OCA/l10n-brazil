@@ -6,14 +6,23 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 
-class DocumentRelated(spec_models.SpecModel):
+class NFeRelated(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document.related'
     _inherit = ['l10n_br_fiscal.document.related', 'nfe.40.nfref']
-    # _nfe_search_keys = ['nfe40_CNPJ', 'nfe40_CPF', 'nfe40_xNome']
+    _stacked = 'nfe.40.nfref'
+    _field_prefix = 'nfe40_'
+    _schema_name = 'nfe'
+    _schema_version = '4.0.0'
+    _odoo_module = 'l10n_br_nfe'
+    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
+    _spec_tab_name = 'NFe'
+    _stack_skip = 'nfe40_NFref_ide_id'
+    # all m2o below this level will be stacked even if not required:
+    _rec_name = 'nfe40_refNFe'
 
     # @api.model
     # def _prepare_import_dict(self, values, defaults={}):
-    #     vals = super()._prepare_import_dict(values)
+    #     values = super()._prepare_import_dict(values)
     #     if not values.get('name') and values.get('legal_name'):
     #         values['name'] = values['legal_name']
     #     return values
@@ -21,13 +30,11 @@ class DocumentRelated(spec_models.SpecModel):
     nfe40_choice4 = fields.Selection(
         compute='_compute_nfe_data',
         inverse='_inverse_nfe40_choice4',
-        store=True,
     )
 
     nfe40_refNFe = fields.Char(
         compute='_compute_nfe_data',
         inverse='_inverse_nfe40_refNFe',
-        store=True,
     )
 
     # TODO
@@ -59,7 +66,6 @@ class DocumentRelated(spec_models.SpecModel):
                     rec.nfe40_refNFe = rec.document_key
 
     def _inverse_nfe40_choice4(self):
-
         for rec in self:
             if rec.nfe40_choice4 == 'nfe40_refNFe':
                 rec.document_type_id = self.env.ref(
