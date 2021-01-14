@@ -39,18 +39,14 @@
               <button name="view_pdf" type="object" string="Visualizar PDF" groups="l10n_br_fiscal.group_user" states="autorizada" class="btn-primary"/>
               <button name="gera_pdf" type="object" string="Gerar PDF" groups="l10n_br_fiscal.group_user" states="autorizada" class="btn-primary"/>
           </button>
-          <page name="amounts" position="after">
-              <page name="transp" string="Transporte">
-                  <group>
-                      <group>
-                          <field name="nfe40_modFrete"/>
-                          <field name="nfe40_transporta"/>
-                      </group>
-                      <group>
-                          <field name="nfe40_vol"/>
-                      </group>
-                  </group>
-              </page>
+          <page name="delivery" position="inside">
+              <group>
+                  <field name="nfe40_modFrete"/>
+                  <field name="nfe40_transporta"/>
+              </group>
+              <group>
+                  <field name="nfe40_vol"/>
+              </group>
           </page>
           <page name="finance" position="inside">
               <group>
