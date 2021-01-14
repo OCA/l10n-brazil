@@ -25,8 +25,8 @@ class SpecMixin(models.AbstractModel):
             'xsd_type', '') and \
                 self[xsd_field] is not False:
             return self[xsd_field].replace('(', '').replace(
-                                    ')', '').replace(' ', '').replace(
-                                    '-', '').replace('+', '')
+                ')', '').replace(' ', '').replace(
+                '-', '').replace('+', '')
         elif 'CEPType' in class_obj._fields[xsd_field]._attrs.get(
             'xsd_type', '') and \
                 self[xsd_field] is not False:
