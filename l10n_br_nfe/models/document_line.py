@@ -367,7 +367,8 @@ class NFeLine(spec_models.StackedModel):
     def _export_field(self, xsd_field, class_obj, member_spec):
         # ISSQN
         if xsd_field == 'nfe40_cMunFG':
-            return self.issqn_fg_city_id.state_id.ibge_code + self.issqn_fg_city_id.ibge_code
+            return self.issqn_fg_city_id.state_id.ibge_code + \
+                   self.issqn_fg_city_id.ibge_code
         if xsd_field == 'nfe40_cListServ':
             return self.service_type_id.code
         if xsd_field == 'nfe40_vDeducao':
@@ -383,13 +384,13 @@ class NFeLine(spec_models.StackedModel):
         if xsd_field == 'nfe40_indISS':
             return self.issqn_eligibility
         if xsd_field == 'nfe40_cServico':
-            return '' # TODO
+            return ''  # TODO
         if xsd_field == 'nfe40_cMun':
             return self.issqn_fg_city_id.state_id.ibge_code + self.issqn_fg_city_id.ibge_code  # TODO
         if xsd_field == 'nfe40_cPais':
-            return self.issqn_fg_city_id.state_id.country_id.bc_code[1:] # TODO
+            return self.issqn_fg_city_id.state_id.country_id.bc_code[1:]  # TODO
         if xsd_field == 'nfe40_nProcesso':
-            return '' # TODO
+            return ''  # TODO
         if xsd_field == 'nfe40_indIncentivo':
             return self.issqn_incentive
         if xsd_field == 'nfe40_xProd':
@@ -435,11 +436,11 @@ class NFeLine(spec_models.StackedModel):
                     field_name not in ['nfe40_PIS', 'nfe40_COFINS']:
                 return False
         if field_name == 'nfe40_ISSQN' and \
-                not self.service_type_id: # TODO
+                not self.service_type_id:  # TODO
             self[field_name] = False
             return False
         if field_name == 'nfe40_ICMS' and \
-                self.service_type_id: # TODO
+                self.service_type_id:  # TODO
             self[field_name] = False
             return False
         if field_name in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
@@ -629,23 +630,23 @@ class NFeLine(spec_models.StackedModel):
             new_value.update(icms_vals)
         elif key == 'nfe40_IPI':
             pass
-                    # IPI Fields
+            # IPI Fields
 
-                    # II Fields
+            # II Fields
 
-                    # COFINS
+            # COFINS
 
-                    # COFINS ST
+            # COFINS ST
 
-                    # PIS
+            # PIS
 
-                    # PIS ST
+            # PIS ST
 
-                    # ICMSPart fields
+            # ICMSPart fields
 
-                    # ICMSSN fields
+            # ICMSSN fields
 
-                    # TODO
+            # TODO
         if self._name == 'account.invoice.line' and \
                 comodel._name == 'l10n_br_fiscal.document.line':
             # TODO do not hardcode!!
