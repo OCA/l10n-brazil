@@ -41,7 +41,7 @@ This module also depends on external python libraries:
 * erpbrasil.assinatura
 * erpbrasil.transmissao
 * erpbrasil.base
-* nfselib
+* nfselib.issnet
 
 Configuration
 =============
