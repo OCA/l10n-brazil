@@ -21,7 +21,4 @@ class FiscalDocument(models.Model):
             UserError(_("You cannot delete a fiscal document "
                         "which is not draft state."))
 
-        invoices = self.env['account.invoice'].search(
-            [('fiscal_document_id', 'in', self.ids)])
-        invoices.unlink()
         return super().unlink()

@@ -4,6 +4,10 @@
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    SITUACAO_EDOC_EM_DIGITACAO,
+)
+
 # These fields that have the same name in account.invoice.line
 # and l10n_br_fiscal.document.line.mixin. So they won't be updated
 # by the _inherits system. An alternative would be changing their name
@@ -18,8 +22,7 @@ SHADOWED_FIELDS = ['name', 'partner_id', 'company_id', 'currency_id',
 class AccountInvoiceLine(models.Model):
     _name = 'account.invoice.line'
     _inherit = ['account.invoice.line',
-                'l10n_br_fiscal.document.line.mixin.methods',
-                'l10n_br_account.document.line.mixin']
+                'l10n_br_fiscal.document.line.mixin.methods']
     _inherits = {'l10n_br_fiscal.document.line': 'fiscal_document_line_id'}
 
     # initial account.invoice.line inherits on fiscal.document.line that are
@@ -39,9 +42,8 @@ class AccountInvoiceLine(models.Model):
         comodel_name='l10n_br_fiscal.document.line',
         string='Fiscal Document Line',
         required=True,
+        copy=False,
         ondelete='cascade',
-        default=lambda self: self.env.ref(
-            'l10n_br_fiscal.fiscal_document_line_dummy'),
     )
 
     @api.one
@@ -129,12 +131,15 @@ class AccountInvoiceLine(models.Model):
 
     @api.model
     def create(self, values):
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        if self.env['account.invoice'].browse(
-                values['invoice_id']).fiscal_document_id != dummy_doc:
-            values['fiscal_document_line_id'] = False
+        dummy_doc_line_id = self.env.ref(
+            'l10n_br_fiscal.fiscal_document_line_dummy').id
+        dummy_doc_id = self.env.ref('l10n_br_fiscal.fiscal_document_dummy').id
+        fiscal_doc_id = self.env['account.invoice'].browse(
+            values['invoice_id']).fiscal_document_id.id
+        if dummy_doc_id == fiscal_doc_id:
+            values['fiscal_document_line_id'] = dummy_doc_line_id
         line = super().create(values)
-        if line.invoice_id.fiscal_document_id != dummy_doc:
+        if dummy_doc_id != fiscal_doc_id:
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.invoice_id.fiscal_document_id.id
             shadowed_fiscal_vals['document_id'] = doc_id
@@ -145,14 +150,27 @@ class AccountInvoiceLine(models.Model):
     def write(self, values):
         dummy_doc_line = self.env.ref(
             'l10n_br_fiscal.fiscal_document_line_dummy')
-        if values.get('invoice_id'):
-            values['document_id'] = self.env[
-                "account.invoice"].browse(values['invoice_id']).fiscal_document_id.id
         result = super().write(values)
         for line in self:
             if line.fiscal_document_line_id != dummy_doc_line:
                 shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
                 line.fiscal_document_line_id.write(shadowed_fiscal_vals)
+        return result
+
+    @api.multi
+    def unlink(self):
+        dummy_doc_line = self.env.ref(
+            'l10n_br_fiscal.fiscal_document_line_dummy')
+        document_lines = self.filtered(
+            lambda d: d.fiscal_document_line_id != dummy_doc_line)
+        to_unlink = document_lines.mapped('fiscal_document_line_id')
+        result = super().unlink()
+        if to_unlink:
+            if any(d.document_id.state != SITUACAO_EDOC_EM_DIGITACAO for d in to_unlink):
+                UserError(_("You cannot delete a fiscal document "
+                            "which is not draft state."))
+            else:
+                to_unlink.unlink()
         return result
 
     @api.onchange('fiscal_tax_ids')

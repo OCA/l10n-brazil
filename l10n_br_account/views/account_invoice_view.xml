@@ -75,14 +75,15 @@
                     <field name="edoc_purpose" invisible="1"/>
                     <field name="ind_final" invisible="1"/>
                     <field name="ind_pres" invisible="1"/>
+                    <field name="fiscal_document_id" required="0" invisible="1"/>
                 </group>
             </xpath>
             <field name="payment_term_id" position="after">
-                <field name="document_type_id"/>
+                <field name="document_type_id" attrs="{'invisible': [('fiscal_document_id', '=', %(l10n_br_fiscal.fiscal_document_dummy)d)]}"/>
                 <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
                 <field name="issuer" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
-                <field name="document_serie_id" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')]}"/>
-                <field name="document_serie" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
+                <field name="document_serie_id" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)]}"/>
+                <field name="document_serie" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)]}"/>
                 <field name="number" readonly="0" force_sale="1" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')]}"/>
                 <field name="key" attrs="{'invisible': [('document_electronic', '=', False)]}"/>
             </field>
@@ -102,8 +103,8 @@
         <field name="arch" type="xml">
             <field name="invoice_line_tax_ids" position="replace">
                 <group>
-                    <field name="fiscal_operation_id" required="1"/>
-                    <field name="fiscal_operation_line_id" required="1"/>
+                    <field name="fiscal_operation_id"/>
+                    <field name="fiscal_operation_line_id"/>
                     <field name="cfop_id" invisible="1"/>
                 </group>
                 <group name="fiscal_fields" invisible="1">

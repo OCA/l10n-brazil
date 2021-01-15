@@ -64,9 +64,8 @@ class AccountInvoice(models.Model):
         comodel_name='l10n_br_fiscal.document',
         string='Fiscal Document',
         required=True,
+        copy=False,
         ondelete='cascade',
-        default=lambda self: self.env.ref(
-            'l10n_br_fiscal.fiscal_document_dummy'),
     )
 
     @api.model
@@ -86,8 +85,8 @@ class AccountInvoice(models.Model):
     @api.model
     def create(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        if values.get('document_type_id'):
-            values.update({'fiscal_document_id': False})
+        if not values.get('document_type_id'):
+            values.update({'fiscal_document_id': dummy_doc.id})
         invoice = super().create(values)
         if invoice.fiscal_document_id != dummy_doc:
             shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
@@ -114,6 +113,7 @@ class AccountInvoice(models.Model):
         'date_invoice',
         'type')
     def _compute_amount(self):
+        self.fiscal_document_id._compute_amount()
         for inv_line in self.invoice_line_ids:
             if inv_line.cfop_id:
                 if inv_line.cfop_id.finance_move:
@@ -123,7 +123,9 @@ class AccountInvoice(models.Model):
                 self.amount_untaxed += inv_line.price_subtotal
                 self.amount_tax += inv_line.price_tax
 
-        self.amount_total = self.amount_untaxed + self.amount_tax
+        self.amount_total = (
+            self.amount_untaxed + self.amount_tax -
+            self.amount_tax_withholding)
         amount_total_company_signed = self.amount_total
         amount_untaxed_signed = self.amount_untaxed
         if (self.currency_id and self.company_id and
