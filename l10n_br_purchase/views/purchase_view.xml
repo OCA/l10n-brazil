@@ -53,11 +53,17 @@
                           <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}"/>
                       </group>
                   </page>
-                  <page name="outros" string="Outros Custos">
+                  <page name="fiscal_line_extra_info" string="Extra Info"/>
+                  <page name="others" string="Outros Custos">
                       <group>
                           <field name="insurance_value"/>
                           <field name="other_costs_value"/>
                           <field name="freight_value"/>
+                      </group>
+                  </page>
+                  <page name="accounting" string="Accounting">
+                      <group>
+                          <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','purchase'),('company_id','=',parent.company_id)]"/>
                       </group>
                   </page>
               </xpath>
