@@ -55,7 +55,7 @@ class PurchaseOrder(models.Model):
         related='invoice_count',
         readonly=True,
     )
-    
+
     amount_freight = fields.Float(
         compute='_amount_all',
         store=True,
