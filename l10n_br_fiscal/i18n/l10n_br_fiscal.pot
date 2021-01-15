@@ -2526,6 +2526,11 @@ msgid "Default Taxes"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "Delivery"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,state_edoc:0
 #: selection:l10n_br_fiscal.document.electronic,state_edoc:0
 #: selection:l10n_br_fiscal.document.email,state_edoc:0
