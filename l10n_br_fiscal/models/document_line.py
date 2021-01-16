@@ -63,6 +63,14 @@ class DocumentLine(models.Model):
                 record.amount_tax_withholding
             )
 
+            # Amount Estimate Tax
+            if record.product_id.icms_origin in ['1', '2', '6', '7']:
+                record.amount_estimate_tax = record.amount_total * \
+                                             (record.ncm_id.estimate_tax_imported / 100)
+            else:
+                record.amount_estimate_tax = record.amount_total * \
+                                             (record.ncm_id.estimate_tax_national / 100)
+
     @api.model
     def _operation_domain(self):
         domain = [('state', '=', 'approved')]
@@ -118,7 +126,7 @@ class DocumentLine(models.Model):
 
     # Amount Fields
     amount_estimate_tax = fields.Monetary(
-        string='Amount Estimate Total',
+        string='Amount Estimate Tax',
         compute='_compute_amount',
         default=0.00,
     )
