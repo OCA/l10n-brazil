@@ -122,6 +122,8 @@ class Document(models.Model):
                 line.amount_financial for line in record.line_ids)
             record.amount_tax_withholding = sum(
                 line.amount_tax_withholding for line in record.line_ids)
+            record.amount_estimate_tax = sum(
+                line.amount_estimate_tax for line in record.line_ids)
 
     # used mostly to enable _inherits of account.invoice on
     # fiscal_document when existing invoices have no fiscal document.
@@ -579,6 +581,12 @@ class Document(models.Model):
     amount_inss_wh_value = fields.Monetary(
         string='INSS Ret Value',
         compute='_compute_amount',
+    )
+
+    amount_estimate_tax = fields.Monetary(
+        string='Amount Estimate Tax',
+        compute='_compute_amount',
+        default=0.00,
     )
 
     amount_tax = fields.Monetary(
