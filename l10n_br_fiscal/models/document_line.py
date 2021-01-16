@@ -65,11 +65,11 @@ class DocumentLine(models.Model):
 
             # Amount Estimate Tax
             if record.product_id.icms_origin in ['1', '2', '6', '7']:
-                record.amount_estimate_tax = record.amount_total * \
-                                             (record.ncm_id.estimate_tax_imported / 100)
+                record.amount_estimate_tax = \
+                    record.amount_total * (record.ncm_id.estimate_tax_imported / 100)
             else:
-                record.amount_estimate_tax = record.amount_total * \
-                                             (record.ncm_id.estimate_tax_national / 100)
+                record.amount_estimate_tax = \
+                    record.amount_total * (record.ncm_id.estimate_tax_national / 100)
 
     @api.model
     def _operation_domain(self):
