@@ -161,6 +161,10 @@ class NFeLine(spec_models.StackedModel):
         related='freight_value',
     )
 
+    nfe40_vTotTrib = fields.Monetary(
+        related='amount_estimate_tax',
+    )
+
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
         for record in self:
