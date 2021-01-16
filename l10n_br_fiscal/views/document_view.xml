@@ -280,6 +280,7 @@
                     <field name="amount_insurance_value"/>
                     <field name="amount_other_costs_value"/>
                     <field name="amount_freight_value"/>
+                    <field name="amount_estimate_tax"/>
                     <field name="amount_tax"/>
                     <field name="amount_total"/>
                     <field name="amount_tax_withholding"/>
