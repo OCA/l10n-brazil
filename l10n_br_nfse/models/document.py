@@ -90,7 +90,8 @@ class Document(models.Model):
                     if not record.rps_number and record.date:
                         record.rps_number = record.document_serie_id.\
                             next_seq_number()
-        super(Document, self).document_number()
+        super(Document, self - self.filtered(fiter_processador_edoc_nfse)
+              ).document_number()
 
     def _generate_key(self):
         remaining = self - self.filtered(fiter_processador_edoc_nfse)
