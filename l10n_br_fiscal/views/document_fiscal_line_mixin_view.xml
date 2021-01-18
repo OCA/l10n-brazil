@@ -24,6 +24,7 @@
           <field name="cest_id" force_save="1" invisible="1"/>
           <field name="nbs_id" force_save="1" invisible="1"/>
           <field name="service_type_id" force_save="1" invisible="1"/>
+          <field name="city_taxation_code_id" force_save="1" invisible="1"/>
           <field name="uot_id" force_save="1" invisible="1"/>
           <field name="fiscal_price" force_save="1" invisible="1"/>
           <field name="fiscal_quantity" force_save="1" invisible="1"/>
