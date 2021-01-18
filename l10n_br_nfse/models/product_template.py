@@ -10,7 +10,3 @@ class ProductTemplate(models.Model):
         string='Fiscal Deductions',
         default=0.00,
     )
-    city_taxation_code_id = fields.Many2many(
-        string='City Taxation Code',
-        comodel_name='l10n_br_fiscal.city.taxation.code'
-    )
