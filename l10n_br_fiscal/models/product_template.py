@@ -58,6 +58,10 @@ class ProductTemplate(models.Model):
         string='Service Type LC 166',
         domain="[('internal_type', '=', 'normal')]")
 
+    city_taxation_code_id = fields.Many2many(
+        comodel_name='l10n_br_fiscal.city.taxation.code',
+        string='City Taxation Code')
+
     fiscal_genre_code = fields.Char(
         related='fiscal_genre_id.code',
         store=True,
