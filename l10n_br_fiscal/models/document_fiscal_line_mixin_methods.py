@@ -375,6 +375,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.fiscal_genre_id = self.product_id.fiscal_genre_id
             self.service_type_id = self.product_id.service_type_id
             self.uot_id = self.product_id.uot_id or self.product_id.uom_id
+            if self.product_id.city_taxation_code_id:
+                company_city_id = self.company_id.city_id
+                city_id = self.product_id.city_taxation_code_id.filtered(
+                    lambda r: r.city_id == company_city_id)
+                if city_id:
+                    self.city_taxation_code_id = city_id
         else:
             self.name = False
             self.fiscal_type = False
@@ -387,6 +393,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.nbs_id = False
             self.fiscal_genre_id = False
             self.service_type_id = False
+            self.city_taxation_code_id = False
             self.uot_id = False
 
         self._get_product_price()
@@ -797,3 +804,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.onchange('fiscal_tax_ids')
     def _onchange_fiscal_tax_ids(self):
         self._update_taxes()
+
+    @api.onchange("city_taxation_code_id")
+    def _onchange_city_taxation_code_id(self):
+        if self.city_taxation_code_id:
+            self.cnae_id = self.city_taxation_code_id.cnae_id
