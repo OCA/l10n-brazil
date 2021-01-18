@@ -79,6 +79,7 @@
                 <field name="price_total" invisible="1"/>
                 <field name="price_subtotal" invisible="1"/>
                 <field name="service_type_id" options="{'no_create': True}" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"/>
+                <field name="city_taxation_code_id" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//field[@name='tax_id']" position="replace"/>
             <xpath expr="//field[@name='order_line']/form/div[@groups='base.group_no_one' and field/@name='invoice_lines']" position="replace"/>
