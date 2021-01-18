@@ -3,11 +3,11 @@
 
     <!-- Configure Users -->
     <record id="base.user_admin" model="res.users">
-        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('l10n_br_base.empresa_simples_nacional'), ref('l10n_br_base.empresa_lucro_presumido')])]"/>
+	<field name="company_ids" eval="[(4, ref('base.main_company')), (4, ref('l10n_br_base.empresa_simples_nacional')), (4, ref('l10n_br_base.empresa_lucro_presumido'))]"/>
     </record>
 
     <record id="base.user_demo" model="res.users">
-        <field name="company_ids" eval="[(6, 0, [ref('base.main_company'), ref('l10n_br_base.empresa_simples_nacional'), ref('l10n_br_base.empresa_lucro_presumido')])]"/>
+	<field name="company_ids" eval="[(4, ref('base.main_company')), (4, ref('l10n_br_base.empresa_simples_nacional')), (4, ref('l10n_br_base.empresa_lucro_presumido'))]"/>
     </record>
 
     <record id="partner_demo_simples" model="res.partner">
