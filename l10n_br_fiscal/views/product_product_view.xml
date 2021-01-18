@@ -44,6 +44,15 @@
                             <field name="ncm_id" required="1"/>
                             <field name="tax_icms_or_issqn" required="1"/>
                             <field name="service_type_id" attrs="{'invisible': [('fiscal_type', '!=', '09')]}"/>
+                            <field name="city_taxation_code_id" attrs="{'invisible': [('fiscal_type', '!=', '09')]}" context="{'default_service_type_id': service_type_id}">
+                                <tree editable="bottom">
+                                    <field name="code" />
+                                    <field name="name" />
+                                    <field name="service_type_id" />
+                                    <field name="state_id" />
+                                    <field name="city_id" />
+                                </tree>
+                            </field>
                         </group>
                         <group>
                             <field name="fiscal_genre_id" required="1"/>
