@@ -212,6 +212,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Service Type LC 166",
         domain="[('internal_type', '=', 'normal')]")
 
+    city_taxation_code_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.city.taxation.code',
+        string='City Taxation Code')
+
     partner_order = fields.Char(
         string='Partner Order (xPed)',
         size=15)
