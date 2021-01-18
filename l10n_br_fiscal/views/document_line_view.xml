@@ -47,6 +47,7 @@
                 <field name="cest_id"/>
                 <field name="nbs_id"/>
                 <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"/>
+                <field name="city_taxation_code_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '!=', False)]}"/>
               </group>
               <group name="l10n_br_fiscal" string="Operation">
                 <field name="fiscal_operation_type" invisible="1" readonly="1"/>
