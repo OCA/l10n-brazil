@@ -3,17 +3,9 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from lxml import etree
-
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
-
-from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    DOCUMENT_ISSUER_PARTNER,
-)
-
-from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    DOCUMENT_ISSUER_PARTNER,
-)
+from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
 
 
 class PurchaseOrder(models.Model):
@@ -193,6 +185,6 @@ class PurchaseOrder(models.Model):
                 'amount_costs': amount_costs,
                 'amount_insurance': amount_insurance,
                 'amount_tax': order.currency_id.round(amount_tax),
-                'amount_total': amount_untaxed + amount_tax + amount_freight
-                                + amount_costs + amount_insurance,
+                'amount_total': (amount_untaxed + amount_tax + amount_freight
+                                 + amount_costs + amount_insurance),
             })
