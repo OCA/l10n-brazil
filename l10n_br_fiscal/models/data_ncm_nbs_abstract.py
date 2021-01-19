@@ -53,7 +53,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
     def _compute_amount(self):
         for record in self:
             last_estimated = record.env['l10n_br_fiscal.tax.estimate'].search([
-                '|', ('ncm_id', '=', record.id),('nbs_id', '=', record.id),
+                '|', ('ncm_id', '=', record.id), ('nbs_id', '=', record.id),
                 ('company_id', '=', record.env.user.company_id.id)],
                 order='create_date DESC',
                 limit=1)
