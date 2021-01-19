@@ -145,6 +145,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             other_costs_value=self.other_costs_value,
             freight_value=self.freight_value,
             ncm=self.ncm_id,
+            nbs=self.nbs_id,
             nbm=self.nbm_id,
             cest=self.cest_id,
             operation_line=self.fiscal_operation_line_id,
