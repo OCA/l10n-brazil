@@ -3,8 +3,14 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import TAX_FRAMEWORK
+from ..constants.fiscal import (
+    TAX_FRAMEWORK,
+    TAX_DOMAIN_ISSQN
+)
 
+from ..constants.icms import (
+    ICMS_ORIGIN_TAX_IMPORTED
+)
 
 class DocumentLine(models.Model):
     _name = 'l10n_br_fiscal.document.line'
@@ -64,12 +70,16 @@ class DocumentLine(models.Model):
             )
 
             # Amount Estimate Tax
-            if record.product_id.icms_origin in ['1', '2', '6', '7']:
+            if record.tax_icms_or_issqn == TAX_DOMAIN_ISSQN:
                 record.amount_estimate_tax = \
-                    record.amount_total * (record.ncm_id.estimate_tax_imported / 100)
+                    record.amount_total * (record.nbs_id.estimate_tax_national / 100)
             else:
-                record.amount_estimate_tax = \
-                    record.amount_total * (record.ncm_id.estimate_tax_national / 100)
+                if record.icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
+                    record.amount_estimate_tax = \
+                        record.amount_total * (record.ncm_id.estimate_tax_imported / 100)
+                else:
+                    record.amount_estimate_tax = \
+                        record.amount_total * (record.ncm_id.estimate_tax_national / 100)
 
     @api.model
     def _operation_domain(self):
