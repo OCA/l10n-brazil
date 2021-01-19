@@ -93,7 +93,7 @@ class AccountTax(models.Model):
             account_taxes_by_domain.update({tax.id: tax_domain})
 
         for account_tax in taxes_results['taxes']:
-            fiscal_tax = fiscal_taxes_results.get(
+            fiscal_tax = fiscal_taxes_results['taxes'].get(
                 account_taxes_by_domain.get(account_tax.get('id'))
             )
 
