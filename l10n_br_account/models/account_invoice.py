@@ -188,6 +188,7 @@ class AccountInvoice(models.Model):
                 fiscal_taxes=line.fiscal_tax_ids,
                 operation_line=line.fiscal_operation_line_id,
                 ncm=line.ncm_id,
+                nbs=line.nbs_id,
                 nbm=line.nbm_id,
                 cest=line.cest_id,
                 discount_value=line.discount_value,
