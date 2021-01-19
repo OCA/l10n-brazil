@@ -15,6 +15,7 @@
           <field name="partner_company_type" force_save="1" invisible="1"/>
           <field name="tax_framework" force_save="1" invisible="1"/>
           <field name="amount_tax_not_included" force_save="1" invisible="1"/>
+          <field name="amount_tax_withholding" force_save="1" invisible="1"/>
           <field name="cfop_destination" force_save="1" invisible="1"/>
           <field name="fiscal_genre_id" force_save="1" invisible="1"/>
           <field name="fiscal_genre_code" force_save="1" invisible="1"/>
