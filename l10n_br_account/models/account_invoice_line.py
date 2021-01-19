@@ -70,6 +70,7 @@ class AccountInvoiceLine(models.Model):
                 fiscal_taxes=self.fiscal_tax_ids,
                 operation_line=self.fiscal_operation_line_id,
                 ncm=self.ncm_id,
+                nbs=self.nbs_id,
                 nbm=self.nbm_id,
                 cest=self.cest_id,
                 discount_value=self.discount_value,
