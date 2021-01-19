@@ -603,7 +603,20 @@ class Tax(models.Model):
             cest,
             operation_line,
             icmssn_range
+        return
+            {
+                'amount_included': float
+                'amount_not_included': float
+                'amount_withholding': float
+                'taxes': dict
+            }
         """
+        result_amounts = {
+            'amount_included': 0.00,
+            'amount_not_included': 0.00,
+            'amount_withholding': 0.00,
+            'taxes': {},
+        }
         taxes = {}
 
         for tax in self.sorted(key=lambda t: t.compute_sequence):
@@ -620,13 +633,25 @@ class Tax(models.Model):
                 taxes[tax.tax_domain].update(
                     compute_method(tax, taxes, **kwargs)
                 )
+                if taxes[tax.tax_domain]['tax_include']:
+                    result_amounts['amount_included'] += taxes[
+                        tax.tax_domain].get('tax_value', 0.00)
+                else:
+                    result_amounts['amount_not_included'] += taxes[
+                        tax.tax_domain].get('tax_value', 0.00)
+
+                if taxes[tax.tax_domain]['tax_withholding']:
+                    result_amounts['amount_withholding'] += taxes[
+                        tax.tax_domain].get('tax_value', 0.00)
+
             except AttributeError:
                 taxes[tax.tax_domain].update(
                     tax._compute_generic(tax, taxes, **kwargs))
                 # Caso não exista campos especificos dos impostos
                 # no documento fiscal, os mesmos são calculados.
                 continue
-        return taxes
+        result_amounts['taxes'] = taxes
+        return result_amounts
 
     @api.onchange('icmsst_base_type')
     def _onchange_icmsst_base_type(self):
