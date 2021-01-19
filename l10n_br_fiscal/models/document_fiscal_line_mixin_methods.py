@@ -219,20 +219,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.multi
     def _update_taxes(self):
         for l in self:
-            computed_taxes = self._compute_taxes(l.fiscal_tax_ids)
-            l.amount_tax_not_included = 0.0
-            l.amount_tax_withholding = 0.0
+            compute_result = self._compute_taxes(l.fiscal_tax_ids)
+            computed_taxes = compute_result.get('taxes', {})
+            l.amount_tax_not_included = compute_result.get(
+                'amount_not_included', 0.0)
+            l.amount_tax_withholding = compute_result.get(
+                'amount_withholding', 0.0)
             for tax in l.fiscal_tax_ids:
 
-                computed_tax = computed_taxes.get(tax.tax_domain)
-
-                if computed_tax:
-                    if not computed_tax.get("tax_include"):
-                        l.amount_tax_not_included = computed_tax.get(
-                            "tax_value", 0.00)
-                    if computed_tax.get("tax_withholding"):
-                        l.amount_tax_withholding += computed_tax.get(
-                            "tax_value", 0.00)
+                computed_tax = computed_taxes.get(tax.tax_domain, {})
 
                 if tax.tax_domain == TAX_DOMAIN_IPI:
                     l.ipi_tax_id = tax
