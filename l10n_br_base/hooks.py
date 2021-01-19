@@ -3,6 +3,8 @@
 
 import logging
 
+from odoo import SUPERUSER_ID, api
+
 _logger = logging.getLogger(__name__)
 
 
@@ -17,10 +19,26 @@ def pre_init_hook(cr):
     WHERE name='res.country,name' AND
     lang='pt_BR'""")
     if not cr.fetchone():
-        cr.execute(
-            """
-            INSERT INTO ir_translation
-            (name, res_id, lang, type, src, value, module, state)
-            VALUES ('res.country,name', 31, 'pt_BR', 'model',
-            'Brazil', 'Brasil', 'base', 'translated');
-            """)
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        brazil_country_id = env.ref("base.br").id
+        sql_query = """
+        INSERT INTO ir_translation (
+            name,
+            res_id,
+            lang,
+            type,
+            src,
+            value,
+            module,
+            state)
+        VALUES (
+            'res.country,name',
+            {0},
+            'pt_BR',
+            'model',
+            'Brazil',
+            'Brasil',
+            'base',
+            'translated');
+        """.format(brazil_country_id)
+        cr.execute(sql_query)
