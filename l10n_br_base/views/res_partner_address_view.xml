@@ -14,8 +14,8 @@
                     <field name="street2" placeholder="Complement..." class="o_address_street"/>
                     <field name="district" placeholder="District..." class="o_address_street"/>
                     <field name="state_id" domain="[('country_id', '=', country_id)]" placeholder="State..." class="o_address_state" options='{"no_open": True, "no_create": True}'/>
-                    <field name="city_id" placeholder="City..." class="o_address_city" options='{"no_open": True, "no_create": True}'/>
-                    <field name="city" invisible="1"/>
+                    <field name="city_id" placeholder="City..." class="o_address_city" options='{"no_open": True, "no_create": True}' attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"/>
+                    <field name="city" placeholder="City..." class="o_address_city" force_save="True" attrs="{'invisible': [('country_id', '=', %(base.br)d)]}"/>
                     <field name="country_id" placeholder="Country..." class="o_address_country" options='{"no_open": True, "no_create": True}'/>
                 </div>
             </form>
