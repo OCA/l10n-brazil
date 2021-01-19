@@ -12,6 +12,7 @@ from ..constants.icms import (
     ICMS_ORIGIN_TAX_IMPORTED
 )
 
+
 class DocumentLine(models.Model):
     _name = 'l10n_br_fiscal.document.line'
     _inherit = 'l10n_br_fiscal.document.line.mixin'
@@ -72,14 +73,17 @@ class DocumentLine(models.Model):
             # Amount Estimate Tax
             if record.tax_icms_or_issqn == TAX_DOMAIN_ISSQN:
                 record.amount_estimate_tax = \
-                    record.amount_total * (record.nbs_id.estimate_tax_national / 100)
+                    record.amount_total * (
+                        record.nbs_id.estimate_tax_national / 100)
             else:
                 if record.icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
                     record.amount_estimate_tax = \
-                        record.amount_total * (record.ncm_id.estimate_tax_imported / 100)
+                        record.amount_total * (
+                            record.ncm_id.estimate_tax_imported / 100)
                 else:
                     record.amount_estimate_tax = \
-                        record.amount_total * (record.ncm_id.estimate_tax_national / 100)
+                        record.amount_total * (
+                            record.ncm_id.estimate_tax_national / 100)
 
     @api.model
     def _operation_domain(self):
