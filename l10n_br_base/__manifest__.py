@@ -33,6 +33,7 @@
         "demo/res_users_demo.xml",
     ],
     "installable": True,
+    'pre_init_hook': 'pre_init_hook',
     "development_status": "Mature",
     "external_dependencies": {"python": ["num2words", "erpbrasil.base"]},
 }
