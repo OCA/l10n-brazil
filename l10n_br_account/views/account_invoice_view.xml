@@ -14,10 +14,20 @@
         </field>
     </record>
 
-    <!-- Customer Invoice views -->
-    <record id="account.action_invoice_tree1" model="ir.actions.act_window">
-        <field name="context">{'type':'out_invoice', 'journal_type': 'sale'}</field>
-    </record>
+    <!--
+    <record id="l10n_br_account_invoice_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                <field name="fiscal_document_code" invisible="1"/>
+                <button class="oe_inline" type="object"
+                    attrs="{'invisible': [('fiscal_document_code', '=', False)]}"
+                    name="open_fiscal_document" icon="STOCK_REDO" help="Abrir documento fiscal"/>
+            </field>
+        </field>
+    </record> -->
 
     <record id="invoice_form" model="ir.ui.view">
         <field name="name">l10n_br_account.invoice.form</field>
@@ -41,25 +51,7 @@
         </field>
     </record>
 
-    <!--
-    <record id="l10n_br_account_invoice_tree" model="ir.ui.view">
-        <field name="name">l10n_br_account.invoice.tree</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_tree"/>
-        <field name="arch" type="xml">
-            <field name="type" position="after">
-                <field name="fiscal_document_code" invisible="1"/>
-                <button class="oe_inline" type="object"
-                    attrs="{'invisible': [('fiscal_document_code', '=', False)]}"
-                    name="open_fiscal_document" icon="STOCK_REDO" help="Abrir documento fiscal"/>
-            </field>
-        </field>
-    </record> -->
-
-    <record id="account.action_vendor_bill_template" model="ir.actions.act_window">
-        <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase', 'default_issuer': 'partner', 'default_fiscal_operation_type': 'in'}</field>
-    </record>
-
+    <!-- Vendor Bill -->
     <record id="invoice_supplier_form" model="ir.ui.view">
         <field name="name">l10n_br_account.invoice.supplier.form</field>
         <field name="model">account.invoice</field>
@@ -78,7 +70,8 @@
                     <field name="fiscal_document_id" required="0" invisible="1"/>
                 </group>
             </xpath>
-            <field name="payment_term_id" position="after">
+            <field name="vendor_bill_id" position="after">
+                <field name="move_name"/>
                 <field name="document_type_id" attrs="{'invisible': [('fiscal_document_id', '=', %(l10n_br_fiscal.fiscal_document_dummy)d)]}"/>
                 <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
                 <field name="issuer" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
@@ -91,48 +84,8 @@
                 <attribute name="editable"/>
             </xpath>
             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
-                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id}</attribute>
+                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
             </xpath>
-        </field>
-    </record>
-
-    <record id="invoice_line_form" model="ir.ui.view">
-        <field name="name">l10n_br_account.invoice.line.form</field>
-        <field name="model">account.invoice.line</field>
-        <field name="inherit_id" ref="account.view_invoice_line_form"/>
-        <field name="arch" type="xml">
-            <field name="invoice_line_tax_ids" position="replace">
-                <group>
-                    <field name="fiscal_operation_id"/>
-                    <field name="fiscal_operation_line_id"/>
-                    <field name="cfop_id" invisible="1"/>
-                </group>
-                <group name="fiscal_fields" invisible="1">
-                    <field name="fiscal_operation_type" invisible="1" readonly="1"/>
-                    <field name="fiscal_genre_code" invisible="1"/>
-                    <field name="tax_framework" invisible="1"/>
-                    <field name="partner_id" invisible="1"/>
-                    <field name="company_id" invisible="1"/>
-                </group>
-            </field>
-            <field name="name" position="after">
-                <notebook>
-                    <page name="fiscal_taxes" string="Taxes"/>
-                    <page name="others" string="Others">
-                        <group>
-                            <field name="freight_value"/>
-                            <field name="insurance_value"/>
-                            <field name="other_costs_value"/>
-                        </group>
-                    </page>
-                    <page name="fiscal_line_extra_info" string="Extra Info"/>
-                    <page name="accounting" string="Accounting">
-                        <group>
-                            <field name="invoice_line_tax_ids" context="{'type': invoice_type}" domain="[('type_tax_use','!=','none'),('company_id', '=', company_id)]" widget="many2many_tags" options="{'no_create': True}"/>
-                        </group>
-                    </page>
-                </notebook>
-            </field>
         </field>
     </record>
 
