@@ -22,14 +22,15 @@ class AbstractSpecMixin(models.AbstractModel):
         ds_class_spec = {i.name: i for i in ds_class.member_data_items_}
 
         for xsd_field in xsd_fields:
-            field_spec_name = xsd_field.replace(class_obj._field_prefix, '')
-            member_spec = ds_class_spec[field_spec_name]
-            field_data = self._export_field(xsd_field, class_obj, member_spec)
+            if xsd_field[-3:] != '_id':
+                field_spec_name = xsd_field.replace(class_obj._field_prefix, '')
+                member_spec = ds_class_spec[field_spec_name]
+                field_data = self._export_field(xsd_field, class_obj, member_spec)
 
-            if not self[xsd_field] and not field_data:
-                continue
+                if not self[xsd_field] and not field_data:
+                    continue
 
-            export_dict[field_spec_name] = field_data
+                export_dict[field_spec_name] = field_data
 
     def _export_field(self, xsd_field, class_obj, member_spec):
         # TODO: Export number required fields with Zero.
