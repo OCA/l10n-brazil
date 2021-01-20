@@ -26,13 +26,12 @@ class TestNFeExport(TransactionCase):
         hooks.register_hook(self.env, 'l10n_br_nfe',
                             'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe')
         self.nfe = self.env.ref('l10n_br_nfe.demo_nfe_same_state')
-        self.nfe.write({'document_type_id': self.env.ref(
-            'l10n_br_fiscal.document_55').id,
-                        'company_id': self.env.ref(
-                            'l10n_br_base.empresa_lucro_presumido').id,
-                        'company_number': 3,
-                        'processador_edoc': 'erpbrasil_edoc',
-                        })
+        self.nfe.write(
+            {'document_type_id': self.env.ref('l10n_br_fiscal.document_55').id,
+             'company_id': self.env.ref('l10n_br_base.empresa_lucro_presumido').id,
+             'company_number': 3,
+             'processador_edoc': 'erpbrasil_edoc',
+             })
         self.nfe.company_id.processador_edoc = 'erpbrasil_edoc'
         if self.nfe.state != 'em_digitacao':  # 2nd test run
             self.nfe.action_document_back2draft()
