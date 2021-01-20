@@ -50,7 +50,9 @@ from . import document_serie
 from . import payment
 from . import product_genre
 from . import certificate
+from . import product_mixin
 from . import product_template
+from . import product_product
 from . import simplified_tax
 from . import simplified_tax_range
 from . import operation
