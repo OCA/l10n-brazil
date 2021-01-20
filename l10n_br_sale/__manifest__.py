@@ -23,6 +23,7 @@
         "views/res_config_settings_view.xml",
         "views/res_company_view.xml",
         "views/sale_view.xml",
+        "views/account_invoice_view.xml",
 
         # Report
         "report/sale_report_view.xml",

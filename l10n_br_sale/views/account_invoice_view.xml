@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="context">{'type':'out_invoice', 'journal_type': 'sale', 'default_fiscal_operation_type': 'out'}</field>
+        </record>
+
+        <record id="account.action_invoice_out_refund" model="ir.actions.act_window">
+            <field name="context">{'default_type': 'out_refund', 'type': 'out_refund', 'journal_type': 'sale', 'default_fiscal_operation_type':'out'}</field>
+        </record>
+
+</odoo>
