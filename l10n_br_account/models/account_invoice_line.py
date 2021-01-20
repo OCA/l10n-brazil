@@ -6,6 +6,8 @@ from odoo import api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_EM_DIGITACAO,
+    TAX_FRAMEWORK,
+    FISCAL_IN_OUT,
 )
 
 # These fields that have the same name in account.invoice.line
@@ -21,8 +23,7 @@ SHADOWED_FIELDS = ['name', 'partner_id', 'company_id', 'currency_id',
 
 class AccountInvoiceLine(models.Model):
     _name = 'account.invoice.line'
-    _inherit = ['account.invoice.line',
-                'l10n_br_fiscal.document.line.mixin.methods']
+    _inherit = [_name, 'l10n_br_fiscal.document.line.mixin.methods']
     _inherits = {'l10n_br_fiscal.document.line': 'fiscal_document_line_id'}
 
     # initial account.invoice.line inherits on fiscal.document.line that are
@@ -44,6 +45,73 @@ class AccountInvoiceLine(models.Model):
         required=True,
         copy=False,
         ondelete='cascade',
+    )
+
+    document_type_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.document.type',
+        related='invoice_id.document_type_id',
+    )
+
+    tax_framework = fields.Selection(
+        selection=TAX_FRAMEWORK,
+        related='invoice_id.company_id.tax_framework',
+        string='Tax Framework',
+    )
+
+    fiscal_operation_type = fields.Selection(
+        selection=FISCAL_IN_OUT,
+        related="fiscal_operation_id.fiscal_operation_type",
+        string="Fiscal Operation Type",
+    )
+
+    cfop_destination = fields.Selection(
+        related="cfop_id.destination",
+        string="CFOP Destination"
+    )
+
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        related='invoice_id.partner_id',
+        string='Partner',
+    )
+
+    partner_company_type = fields.Selection(
+        related="partner_id.company_type"
+    )
+
+    fiscal_genre_code = fields.Char(
+        related="fiscal_genre_id.code",
+        string="Fiscal Product Genre Code",
+    )
+
+    icms_cst_code = fields.Char(
+        related="icms_cst_id.code",
+        string="ICMS CST Code",
+    )
+
+    ipi_cst_code = fields.Char(
+        related="ipi_cst_id.code",
+        string="IPI CST Code",
+    )
+
+    cofins_cst_code = fields.Char(
+        related="cofins_cst_id.code",
+        string="COFINS CST Code",
+    )
+
+    cofinsst_cst_code = fields.Char(
+        related="cofinsst_cst_id.code",
+        string="COFINS ST CST Code",
+    )
+
+    pis_cst_code = fields.Char(
+        related="pis_cst_id.code",
+        string="PIS CST Code",
+    )
+
+    pisst_cst_code = fields.Char(
+        related="pisst_cst_id.code",
+        string="PIS ST CST Code",
     )
 
     @api.one
@@ -114,6 +182,12 @@ class AccountInvoiceLine(models.Model):
     def _get_price_tax(self):
         for l in self:
             l.price_tax = l.price_total - l.price_subtotal
+
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        inv_type = self.env.context.get('type', 'out_invoice')
+        return defaults
 
     @api.model
     def _shadowed_fields(self):

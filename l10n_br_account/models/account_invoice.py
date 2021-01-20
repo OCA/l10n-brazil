@@ -4,6 +4,8 @@
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_OUT
+
 INVOICE_TO_OPERATION = {
     'out_invoice': 'out',
     'in_invoice': 'in',
@@ -28,7 +30,7 @@ SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id']
 
 class AccountInvoice(models.Model):
     _name = 'account.invoice'
-    _inherit = 'account.invoice'
+    _inherit = [_name, 'l10n_br_fiscal.document.mixin.methods']
     _inherits = {'l10n_br_fiscal.document': 'fiscal_document_id'}
     _order = 'date_invoice DESC, number DESC'
 
@@ -67,6 +69,17 @@ class AccountInvoice(models.Model):
         copy=False,
         ondelete='cascade',
     )
+
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        invoice_type = self.env.context.get('type', 'out_invoice')
+        defaults['fiscal_operation_type'] = INVOICE_TO_OPERATION[invoice_type]
+        if defaults['fiscal_operation_type'] == FISCAL_OUT:
+            defaults['issuer'] = 'company'
+        else:
+            defaults['issuer'] = 'partner'
+        return defaults
 
     @api.model
     def _shadowed_fields(self):
