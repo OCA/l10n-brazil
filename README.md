@@ -78,7 +78,7 @@ addon | version | summary
 --- | --- | ---
 [l10n_br_account](l10n_br_account/) | 12.0.2.1.1 | Brazilian Localization Account
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.1.0.0 | Brazilian Payment Order
-[l10n_br_base](l10n_br_base/) | 12.0.1.0.1 | Customization of base module for implementations in Brazil.
+[l10n_br_base](l10n_br_base/) | 12.0.1.0.2 | Customization of base module for implementations in Brazil.
 [l10n_br_coa](l10n_br_coa/) | 12.0.2.1.0 | Base Brasilian Localization for the Chart of Accounts
 [l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.2.1.0 | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 12.0.2.1.0 | Brazilian Simple Chart of Account
@@ -101,7 +101,7 @@ addon | version | summary
 [l10n_br_stock_account](l10n_br_stock_account/) | 12.0.1.1.1 | Brazilian Localization WMS Accounting
 [l10n_br_website_sale](l10n_br_website_sale/) | 12.0.1.0.1 | Website sale localização brasileira.
 [l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 12.0.1.1.0 | Implements Brazilian freight values for delivery.
-[l10n_br_zip](l10n_br_zip/) | 12.0.3.0.0 | Brazilian Localisation ZIP Codes
+[l10n_br_zip](l10n_br_zip/) | 12.0.3.0.1 | Brazilian Localisation ZIP Codes
 [payment_cielo](payment_cielo/) | 12.0.3.2.0 | Payment Acquirer: Cielo Implementation
 [spec_driven_model](spec_driven_model/) | 12.0.1.0.0 | Tools from specifications driven mixins (from xsd for instance)
 
