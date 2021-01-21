@@ -30,6 +30,7 @@ class ResCompany(spec_models.SpecModel):
 
     nfe40_CNPJ = fields.Char(compute='_compute_nfe_data')
     nfe40_xNome = fields.Char(related='partner_id.legal_name')
+    nfe40_xFant = fields.Char(related='partner_id.name')
     nfe40_IE = fields.Char(related='partner_id.inscr_est')
     nfe40_CRT = fields.Selection(related='tax_framework')
     nfe40_enderEmit = fields.Many2one('res.partner', related='partner_id')
