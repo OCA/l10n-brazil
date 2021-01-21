@@ -25,7 +25,7 @@ FISCAL_TYPE_REFUND = {
     'in': ['sale_return', 'out_return'],
 }
 
-SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id']
+SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id', 'number']
 
 
 class AccountInvoice(models.Model):
@@ -58,6 +58,14 @@ class AccountInvoice(models.Model):
         related='partner_id.inscr_est',
     )
 
+    document_electronic = fields.Boolean(
+        related='document_type_id.electronic',
+    )
+
+    number = fields.Char(
+        related=False,
+        readonly=False,
+    )
     # this default should be overwritten to False in a module pretending to
     # create fiscal documents from the invoices. But this default here
     # allows to install the l10n_br_account module without creating issues
@@ -69,6 +77,12 @@ class AccountInvoice(models.Model):
         copy=False,
         ondelete='cascade',
     )
+
+    _sql_constraints = [(
+        'number_uniq',
+        'unique(number, company_id, journal_id, type, partner_id)',
+        'Invoice Number must be unique per Company!'),
+    ]
 
     @api.model
     def default_get(self, fields_list):
@@ -154,6 +168,20 @@ class AccountInvoice(models.Model):
         self.amount_total_company_signed = amount_total_company_signed * sign
         self.amount_total_signed = self.amount_total * sign
         self.amount_untaxed_signed = amount_untaxed_signed * sign
+
+    @api.multi
+    def finalize_invoice_move_lines(self, move_lines):
+        lines = super().finalize_invoice_move_lines(move_lines)
+        financial_lines = [
+            l for l in lines if l[2]['account_id'] == self.account_id.id]
+
+        count = 1
+        for l in financial_lines:
+            if l[2]['debit'] or l[2]['credit']:
+                l[2]['name'] = '{}/{}-{}'.format(
+                    self.number, count, len(financial_lines))
+                count += 1
+        return lines
 
     @api.model
     def invoice_line_move_line_get(self):
