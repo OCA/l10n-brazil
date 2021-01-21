@@ -16,7 +16,7 @@
                     <field name="tax_icms_or_issqn" invisible="1"/>
                 </group>
                 <group attrs="{'invisible': [('document_type_id', '=', False)]}">
-                    <field name="fiscal_operation_id"/>
+                    <field name="fiscal_operation_id" domain="[('state', '=', 'approved'), ('fiscal_operation_type', '=', fiscal_operation_type)]"/>
                     <field name="fiscal_operation_line_id"/>
                     <field name="cfop_id" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
                     <field name="document_type_id" invisible="1"/>
