@@ -102,7 +102,7 @@
     </record>
 
     <record id="tax_tag_inss_wh" model="account.account.tag">
-        <field name="name">INSS</field>
+        <field name="name">INSS WH</field>
         <field name="applicability">taxes</field>
     </record>
 
