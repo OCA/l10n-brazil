@@ -26,6 +26,7 @@ class AccountTax(models.Model):
         fiscal_taxes=None,
         operation_line=False,
         ncm=None,
+        nbs=None,
         nbm=None,
         cest=None,
         discount_value=None,
@@ -78,6 +79,7 @@ class AccountTax(models.Model):
             fiscal_quantity=fiscal_quantity or quantity,
             uot_id=uot or product.uot_id,
             ncm=ncm or product.ncm_id,
+            nbs=nbs or product.nbs_id,
             nbm=nbm or product.nbm_id,
             cest=cest or product.cest_id,
             discount_value=discount_value,
@@ -93,7 +95,7 @@ class AccountTax(models.Model):
             account_taxes_by_domain.update({tax.id: tax_domain})
 
         for account_tax in taxes_results['taxes']:
-            fiscal_tax = fiscal_taxes_results.get(
+            fiscal_tax = fiscal_taxes_results['taxes'].get(
                 account_taxes_by_domain.get(account_tax.get('id'))
             )
 
