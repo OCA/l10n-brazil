@@ -14,7 +14,7 @@
     <record id="contract_line_only_product_1" model="contract.line">
         <field name="contract_id" ref="contract_only_product"/>
         <field name="name">[FURN_7777] Office Chair</field>
-        <field name="recurring_next_date">2021-01-20</field>
+        <field name="recurring_next_date" eval="(datetime.today() + relativedelta(months=1)).strftime('%Y-%m-%d')"/>
         <field name="product_id" ref="product.product_delivery_01"/>
         <field name="quantity">1</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
@@ -29,7 +29,7 @@
     <record id="contract_line__only_product_2" model="contract.line">
         <field name="contract_id" ref="contract_only_product"/>
         <field name="name">[FURN_8888] Office Lamp</field>
-        <field name="recurring_next_date">2021-01-20</field>
+        <field name="recurring_next_date" eval="(datetime.today() + relativedelta(months=1)).strftime('%Y-%m-%d')"/>
         <field name="product_id" ref="product.product_delivery_02"/>
         <field name="quantity">1</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
@@ -55,7 +55,7 @@
     <record id="contract_line_only_service" model="contract.line">
         <field name="contract_id" ref="contract_only_service"/>
         <field name="name">[ODOO_DEV] Customized Odoo Development</field>
-        <field name="recurring_next_date">2021-01-20</field>
+        <field name="recurring_next_date" eval="(datetime.today() + relativedelta(months=1)).strftime('%Y-%m-%d')"/>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
         <field name="quantity">1</field>
         <field name="uom_id" ref="uom.product_uom_hour"/>
@@ -81,7 +81,7 @@
     <record id="contract_line_product_1" model="contract.line">
         <field name="contract_id" ref="contract_product_service"/>
         <field name="name">[FURN_7777] Office Chair</field>
-        <field name="recurring_next_date">2021-01-20</field>
+        <field name="recurring_next_date" eval="(datetime.today() + relativedelta(months=1)).strftime('%Y-%m-%d')"/>
         <field name="product_id" ref="product.product_delivery_01"/>
         <field name="quantity">1</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
@@ -96,7 +96,7 @@
     <record id="contract_line_product_2" model="contract.line">
         <field name="contract_id" ref="contract_product_service"/>
         <field name="name">[FURN_8888] Office Lamp</field>
-        <field name="recurring_next_date">2021-01-20</field>
+        <field name="recurring_next_date" eval="(datetime.today() + relativedelta(months=1)).strftime('%Y-%m-%d')"/>
         <field name="product_id" ref="product.product_delivery_02"/>
         <field name="quantity">1</field>
         <field name="uom_id" ref="uom.product_uom_unit"/>
@@ -111,7 +111,7 @@
     <record id="contract_line_service" model="contract.line">
         <field name="contract_id" ref="contract_product_service"/>
         <field name="name">[ODOO_DEV] Customized Odoo Development</field>
-        <field name="recurring_next_date">2021-01-20</field>
+        <field name="recurring_next_date" eval="(datetime.today() + relativedelta(months=1)).strftime('%Y-%m-%d')"/>
         <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
         <field name="quantity">1</field>
         <field name="uom_id" ref="uom.product_uom_hour"/>
