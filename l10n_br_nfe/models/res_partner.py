@@ -43,7 +43,7 @@ class ResPartner(spec_models.SpecModel):
 
     # nfe.40.tendereco
     nfe40_CEP = fields.Char(related='zip', readonly=False)
-    nfe40_cPais = fields.Char(related='country_id.ibge_code')
+    nfe40_cPais = fields.Char(related='country_id.bc_code')
     nfe40_xPais = fields.Char(related='country_id.name')
     nfe40_fone = fields.Char(related='phone', readonly=False)  # TODO mobile?
 
