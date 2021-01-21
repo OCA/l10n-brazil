@@ -5,7 +5,8 @@ from odoo import api, fields, models
 
 from ..constants.fiscal import (
     TAX_FRAMEWORK,
-    TAX_DOMAIN_ISSQN
+    TAX_DOMAIN_ISSQN,
+    FISCAL_OUT
 )
 
 from ..constants.icms import (
@@ -71,19 +72,21 @@ class DocumentLine(models.Model):
             )
 
             # Amount Estimate Tax
-            if record.tax_icms_or_issqn == TAX_DOMAIN_ISSQN:
-                record.amount_estimate_tax = \
-                    record.amount_total * (
-                        record.nbs_id.estimate_tax_national / 100)
-            else:
-                if record.icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
+            if record.fiscal_operation_type == FISCAL_OUT and \
+                    record.fiscal_operation_id.fiscal_type == 'sale':
+                if record.tax_icms_or_issqn == TAX_DOMAIN_ISSQN:
                     record.amount_estimate_tax = \
                         record.amount_total * (
-                            record.ncm_id.estimate_tax_imported / 100)
+                            record.nbs_id.estimate_tax_national / 100)
                 else:
-                    record.amount_estimate_tax = \
-                        record.amount_total * (
-                            record.ncm_id.estimate_tax_national / 100)
+                    if record.icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
+                        record.amount_estimate_tax = \
+                            record.amount_total * (
+                                record.ncm_id.estimate_tax_imported / 100)
+                    else:
+                        record.amount_estimate_tax = \
+                            record.amount_total * (
+                                record.ncm_id.estimate_tax_national / 100)
 
     @api.model
     def _operation_domain(self):
@@ -141,7 +144,6 @@ class DocumentLine(models.Model):
     # Amount Fields
     amount_estimate_tax = fields.Monetary(
         string='Amount Estimate Tax',
-        compute='_compute_amount',
         default=0.00,
     )
 
