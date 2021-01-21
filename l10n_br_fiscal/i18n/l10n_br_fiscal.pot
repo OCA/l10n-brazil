@@ -2646,6 +2646,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__display_name
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__display_name
@@ -3462,6 +3463,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__fiscal_genre_code
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__fiscal_genre_code
 msgid "Fiscal Product Genre Code"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_product_mixin
+msgid "Fiscal Product Mixin"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -4556,6 +4562,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range__id
@@ -5382,6 +5389,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre____last_update
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax_range____last_update
@@ -7060,6 +7068,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/tax_pis_cofins.py:32
+#: model:ir.model,name:l10n_br_fiscal.model_product_product
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__product_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__product_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
