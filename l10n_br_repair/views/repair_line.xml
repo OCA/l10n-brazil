@@ -69,15 +69,20 @@
 
             <xpath expr="//field[@name='operations']/form//field[@name='name']" position="after">
                 <notebook>
-                  <page name="fiscal_taxes" string="Taxes"/>
-                  <page name="outros" string="Outros Custos">
-                      <group>
-                          <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"/>
-                          <field name="freight_value"/>
-                          <field name="insurance_value"/>
-                          <field name="other_costs_value"/>
-                      </group>
-                  </page>
+                    <page name="fiscal_taxes" string="Taxes"/>
+                    <page name="others" string="Others">
+                        <group>
+                            <field name="freight_value"/>
+                            <field name="insurance_value"/>
+                            <field name="other_costs_value"/>
+                        </group>
+                    </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info"/>
+                    <page name="accounting" string="Accounting">
+                        <group>
+                            <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"/>
+                        </group>
+                    </page>
                 </notebook>
             </xpath>
 
