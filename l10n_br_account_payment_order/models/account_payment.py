@@ -31,5 +31,5 @@ class AccountPayment(models.Model):
                     ' choose another one.'))
 
             super().post()
-            record.invoice_ids.create_account_payment_line_cnab_baixa(
-                            record.amount)
+            record.invoice_ids.\
+                create_account_payment_line_cnab_baixa(record.amount)
