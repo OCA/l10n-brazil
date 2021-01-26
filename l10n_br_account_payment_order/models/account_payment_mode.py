@@ -398,7 +398,7 @@ class AccountPaymentMode(models.Model):
                 ('id', '!=', record.id),
                 ('own_number_sequence_id', '=',
                  record.own_number_sequence_id.id),
-            ])
+            ], limit=1)
             if already_in_use:
                 raise ValidationError(
                     _('Sequence Own Number already in use by %s.')
