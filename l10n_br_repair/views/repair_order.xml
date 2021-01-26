@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2020 - TODAY, Escodoo
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 
 <odoo>
@@ -8,6 +8,7 @@
         <field name="name">repair.order.form (in l10n_br_repair)</field>
         <field name="model">repair.order</field>
         <field name="inherit_id" ref="repair.view_repair_order_form"/>
+        <field name="priority">99</field>
         <field name="arch" type="xml">
             <button name="action_created_invoice" position="replace">
                 <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('invoice_count', '=', 0)]}">
@@ -17,13 +18,6 @@
                     <field name="fiscal_document_count" widget="statinfo" string="Fiscal Documents" modifiers="{'readonly':true}"/>
                 </button>
             </button>
-            <field name="invoice_method" position="after" >
-                <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>
-<!--                <field name="fiscal_position_id" options="{'no_create': True}" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>-->
-                <field name="ind_pres" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>
-            </field>
-
-
             <field name="amount_untaxed" position="before" >
                 <field name="amount_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                  <field name="amount_discount" groups="l10n_br_repair.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
@@ -33,18 +27,21 @@
                  <field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
                  <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
              </field>
-
+            <field name="invoice_method" position="after" >
+                <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>
+<!--                <field name="fiscal_position_id" options="{'no_create': True}" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>-->
+                <field name="ind_pres" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>
+            </field>
             <field name="quotation_notes" position="after">
                 <group>
-                    <label for="copy_repair_quotation_notes"/>
-                    <div>
-                        <field name="copy_repair_quotation_notes"/>
-                    </div>
+                    <field name="copy_repair_quotation_notes"/>
+                    <!--<field name="note" placeholder="Terms and conditions... (note: you can setup default ones in the Configuration menu)"/>-->
+                    <field name="customer_additional_data"/>
+                    <field name="fiscal_additional_data"/>
                 </group>
             </field>
 
         </field>
-
     </record>
 
 </odoo>
