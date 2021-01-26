@@ -180,21 +180,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Fiscal Quantity",
         digits=dp.get_precision("Product Unit of Measure"))
 
-    discount_value = fields.Monetary(
-        string="Discount Value",
-        default=0.00)
+    discount_value = fields.Monetary(string="Discount Value")
 
-    insurance_value = fields.Monetary(
-        string='Insurance Value',
-        default=0.00)
+    insurance_value = fields.Monetary(string="Insurance Value")
 
-    other_costs_value = fields.Monetary(
-        string='Other Costs',
-        default=0.00)
+    other_costs_value = fields.Monetary(string="Other Costs")
 
-    freight_value = fields.Monetary(
-        string='Freight Value',
-        default=0.00)
+    freight_value = fields.Monetary(string="Freight Value")
 
     fiscal_tax_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax',
@@ -203,13 +195,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         column2='fiscal_tax_id',
         string="Fiscal Taxes")
 
-    amount_tax_not_included = fields.Monetary(
-        string="Amount Tax not Included",
-        default=0.00)
+    amount_tax_not_included = fields.Monetary(string="Amount Tax not Included")
 
-    amount_tax_withholding = fields.Monetary(
-        string="Amount Tax Withholding",
-        default=0.00)
+    amount_tax_withholding = fields.Monetary(string="Amount Tax Withholding")
 
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre",
@@ -244,28 +232,16 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     # vDeducao
-    issqn_deduction_amount = fields.Monetary(
-        string='ISSQN Deduction Value',
-        default=0.00,
-    )
+    issqn_deduction_amount = fields.Monetary(string="ISSQN Deduction Value")
 
     # vOutro
-    issqn_other_amount = fields.Monetary(
-        string='ISSQN Other Value',
-        default=0.00,
-    )
+    issqn_other_amount = fields.Monetary(string="ISSQN Other Value")
 
     # vDescIncond
-    issqn_desc_incond_amount = fields.Monetary(
-        string='ISSQN Discount Incond',
-        default=0.00,
-    )
+    issqn_desc_incond_amount = fields.Monetary(string="ISSQN Discount Incond")
 
     # vDescCond
-    issqn_desc_cond_amount = fields.Monetary(
-        string='ISSQN Discount Cond',
-        default=0.00,
-    )
+    issqn_desc_cond_amount = fields.Monetary(string="ISSQN Discount Cond")
 
     # indISS
     issqn_eligibility = fields.Selection(
@@ -281,43 +257,26 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=ISSQN_INCENTIVE_DEFAULT,
     )
 
-    issqn_base = fields.Monetary(
-        string="ISSQN Base",
-        default=0.00,
-    )
+    issqn_base = fields.Monetary(string="ISSQN Base")
 
-    issqn_percent = fields.Float(
-        string="ISSQN %",
-        default=0.00)
+    issqn_percent = fields.Float(string="ISSQN %")
 
-    issqn_reduction = fields.Float(
-        string="ISSQN % Reduction",
-        default=0.00)
+    issqn_reduction = fields.Float(string="ISSQN % Reduction")
 
-    issqn_value = fields.Monetary(
-        string="ISSQN Value",
-        default=0.00)
+    issqn_value = fields.Monetary(string="SSQN Value")
 
     issqn_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ISSQN RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN_WH)])
 
-    issqn_wh_base = fields.Monetary(
-        string="ISSQN RET Base",
-        default=0.00)
+    issqn_wh_base = fields.Monetary(string="ISSQN RET Base")
 
-    issqn_wh_percent = fields.Float(
-        string="ISSQN RET %",
-        default=0.00)
+    issqn_wh_percent = fields.Float(string="ISSQN RET %")
 
-    issqn_wh_reduction = fields.Float(
-        string="ISSQN RET % Reduction",
-        default=0.00)
+    issqn_wh_reduction = fields.Float(string="ISSQN RET % Reduction")
 
-    issqn_wh_value = fields.Monetary(
-        string="ISSQN RET Value",
-        default=0.00)
+    issqn_wh_value = fields.Monetary(string="ISSQN RET Value")
 
     # ICMS Fields
     icms_tax_id = fields.Many2one(
@@ -346,21 +305,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="ICMS Origin",
         default=ICMS_ORIGIN_DEFAULT)
 
-    icms_base = fields.Monetary(
-        string="ICMS Base",
-        default=0.00)
+    icms_base = fields.Monetary(string="ICMS Base")
 
-    icms_percent = fields.Float(
-        string="ICMS %",
-        default=0.00)
+    icms_percent = fields.Float(string="ICMS %")
 
-    icms_reduction = fields.Float(
-        string="ICMS % Reduction",
-        default=0.00)
+    icms_reduction = fields.Float(string="ICMS % Reduction")
 
-    icms_value = fields.Monetary(
-        string="ICMS Value",
-        default=0.00)
+    icms_value = fields.Monetary(string="ICMS Value")
 
     # motDesICMS - Motivo da desoneração do ICMS
     icms_relief_id = fields.Many2one(
@@ -368,9 +319,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="ICMS Relief")
 
     # vICMSDeson - Valor do ICMS desonerado
-    icms_relief_value = fields.Monetary(
-        string="ICMS Relief Value",
-        default=0.00)
+    icms_relief_value = fields.Monetary(string="ICMS Relief Value")
 
     # ICMS ST Fields
     icmsst_tax_id = fields.Many2one(
@@ -386,37 +335,23 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=ICMS_ST_BASE_TYPE_DEFAULT)
 
     # pMVAST - Percentual da margem de valor Adicionado do ICMS ST
-    icmsst_mva_percent = fields.Float(
-        string="ICMS ST MVA %",
-        default=0.00)
+    icmsst_mva_percent = fields.Float(string="ICMS ST MVA %")
 
     # pRedBCST - Percentual da Redução de BC do ICMS ST
-    icmsst_reduction = fields.Float(
-        string="ICMS ST % Reduction",
-        default=0.00)
+    icmsst_reduction = fields.Float(string="ICMS ST % Reduction")
 
     # vBCST - Valor da BC do ICMS ST
-    icmsst_base = fields.Monetary(
-        string="ICMS ST Base",
-        default=0.00)
+    icmsst_base = fields.Monetary(string="ICMS ST Base")
 
     # pICMSST - Alíquota do imposto do ICMS ST
-    icmsst_percent = fields.Float(
-        string="ICMS ST %",
-        default=0.00)
+    icmsst_percent = fields.Float(string="ICMS ST %")
 
     # vICMSST - Valor do ICMS ST
-    icmsst_value = fields.Monetary(
-        string="ICMS ST Value",
-        default=0.00)
+    icmsst_value = fields.Monetary(string="ICMS ST Value")
 
-    icmsst_wh_base = fields.Monetary(
-        string="ICMS ST WH Base",
-        default=0.00)
+    icmsst_wh_base = fields.Monetary(string="ICMS ST WH Base")
 
-    icmsst_wh_value = fields.Monetary(
-        string="ICMS ST WH Value",
-        default=0.00)
+    icmsst_wh_value = fields.Monetary(string="ICMS ST WH Value")
 
     # ICMS FCP Fields
     icmsfcp_tax_id = fields.Many2one(
@@ -426,46 +361,30 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     # pFCPUFDest - Percentual do ICMS relativo ao Fundo de
     # Combate à Pobreza (FCP) na UF de destino
-    icmsfcp_percent = fields.Float(
-        string="ICMS FCP %",
-        default=0.00)
+    icmsfcp_percent = fields.Float(string="ICMS FCP %")
 
     # vFCPUFDest - Valor do ICMS relativo ao Fundo
     # de Combate à Pobreza (FCP) da UF de destino
-    icmsfcp_value = fields.Monetary(
-        string="ICMS FCP Value",
-        default=0.00)
+    icmsfcp_value = fields.Monetary(string="ICMS FCP Value")
 
     # ICMS DIFAL Fields
     # vBCUFDest - Valor da BC do ICMS na UF de destino
-    icms_destination_base = fields.Monetary(
-        string="ICMS Destination Base",
-        default=0.00)
+    icms_destination_base = fields.Monetary(string="ICMS Destination Base")
 
     # pICMSUFDest - Alíquota interna da UF de destino
-    icms_origin_percent = fields.Float(
-        string="ICMS Internal %",
-        default=0.00)
+    icms_origin_percent = fields.Float(string="ICMS Internal %")
 
     # pICMSInter - Alíquota interestadual das UF envolvidas
-    icms_destination_percent = fields.Float(
-        string="ICMS External %",
-        default=0.00)
+    icms_destination_percent = fields.Float(string="ICMS External %")
 
     # pICMSInterPart - Percentual provisório de partilha do ICMS Interestadual
-    icms_sharing_percent = fields.Float(
-        string="ICMS Sharing %",
-        default=0.00)
+    icms_sharing_percent = fields.Float(string="ICMS Sharing %")
 
     # vICMSUFRemet - Valor do ICMS Interestadual para a UF do remetente
-    icms_origin_value = fields.Monetary(
-        string="ICMS Origin Value",
-        default=0.00)
+    icms_origin_value = fields.Monetary(string="ICMS Origin Value")
 
     # vICMSUFDest - Valor do ICMS Interestadual para a UF de destino
-    icms_destination_value = fields.Monetary(
-        string="ICMS Dest. Value",
-        default=0.00)
+    icms_destination_value = fields.Monetary(string="ICMS Dest. Value")
 
     # ICMS Simples Nacional Fields
     icmssn_range_id = fields.Many2one(
@@ -478,21 +397,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Tax ICMS SN",
         domain=[('tax_domain', '=', TAX_DOMAIN_ICMS_SN)])
 
-    icmssn_base = fields.Monetary(
-        string="ICMS SN Base",
-        default=0.00)
+    icmssn_base = fields.Monetary(string="ICMS SN Base")
 
-    icmssn_reduction = fields.Monetary(
-        string="ICMS SN Reduction",
-        default=0.00)
+    icmssn_reduction = fields.Monetary(string="ICMS SN Reduction")
 
-    icmssn_percent = fields.Float(
-        string="ICMS SN %",
-        default=0.00)
+    icmssn_percent = fields.Float(string="ICMS SN %")
 
-    icmssn_credit_value = fields.Monetary(
-        string="ICMS SN Credit",
-        default=0.00)
+    icmssn_credit_value = fields.Monetary(string="ICMS SN Credit")
 
     # IPI Fields
     ipi_tax_id = fields.Many2one(
@@ -516,17 +427,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="IPI Base Type",
         default=TAX_BASE_TYPE_PERCENT)
 
-    ipi_base = fields.Monetary(
-        string="IPI Base")
+    ipi_base = fields.Monetary(string="IPI Base")
 
-    ipi_percent = fields.Float(
-        string="IPI %")
+    ipi_percent = fields.Float(string="IPI %")
 
-    ipi_reduction = fields.Float(
-        string="IPI % Reduction")
+    ipi_reduction = fields.Float(string="IPI % Reduction")
 
-    ipi_value = fields.Monetary(
-        string="IPI Value")
+    ipi_value = fields.Monetary(string="IPI Value")
 
     ipi_guideline_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.ipi.guideline",
@@ -542,30 +449,21 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     ii_base = fields.Float(
         string='II Base',
-        required=True,
-        digits=dp.get_precision('Account'),
-        default=0.00)
+        digits=dp.get_precision('Account'))
 
-    ii_percent = fields.Float(
-        string="II %")
+    ii_percent = fields.Float(string="II %")
 
     ii_value = fields.Float(
         string='II Value',
-        required=True,
-        digits=dp.get_precision('Account'),
-        default=0.00)
+        digits=dp.get_precision('Account'))
 
     ii_iof_value = fields.Float(
         string='IOF Value',
-        required=True,
-        digits=dp.get_precision('Account'),
-        default=0.00)
+        digits=dp.get_precision('Account'))
 
     ii_customhouse_charges = fields.Float(
         string='Despesas Aduaneiras',
-        required=True,
-        digits=dp.get_precision('Account'),
-        default=0.00)
+        digits=dp.get_precision('Account'))
 
     # PIS/COFINS Fields
     # COFINS
@@ -592,17 +490,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         required=True)
 
-    cofins_base = fields.Monetary(
-        string="COFINS Base")
+    cofins_base = fields.Monetary(string="COFINS Base")
 
-    cofins_percent = fields.Float(
-        string="COFINS %")
+    cofins_percent = fields.Float(string="COFINS %")
 
-    cofins_reduction = fields.Float(
-        string="COFINS % Reduction")
+    cofins_reduction = fields.Float(string="COFINS % Reduction")
 
-    cofins_value = fields.Monetary(
-        string="COFINS Value")
+    cofins_value = fields.Monetary(string="COFINS Value")
 
     cofins_base_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.pis.cofins.base",
@@ -636,17 +530,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         required=True)
 
-    cofinsst_base = fields.Monetary(
-        string="COFINS ST Base")
+    cofinsst_base = fields.Monetary(string="COFINS ST Base")
 
-    cofinsst_percent = fields.Float(
-        string="COFINS ST %")
+    cofinsst_percent = fields.Float(string="COFINS ST %")
 
-    cofinsst_reduction = fields.Float(
-        string="COFINS ST % Reduction")
+    cofinsst_reduction = fields.Float(string="COFINS ST % Reduction")
 
-    cofinsst_value = fields.Monetary(
-        string="COFINS ST Value")
+    cofinsst_value = fields.Monetary(string="COFINS ST Value")
 
     cofins_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
@@ -659,21 +549,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         required=True)
 
-    cofins_wh_base = fields.Monetary(
-        string="COFINS RET Base",
-        default=0.00)
+    cofins_wh_base = fields.Monetary(string="COFINS RET Base")
 
-    cofins_wh_percent = fields.Float(
-        string="COFINS RET %",
-        default=0.00)
+    cofins_wh_percent = fields.Float(string="COFINS RET %")
 
-    cofins_wh_reduction = fields.Float(
-        string="COFINS RET % Reduction",
-        default=0.00)
+    cofins_wh_reduction = fields.Float(string="COFINS RET % Reduction")
 
-    cofins_wh_value = fields.Monetary(
-        string="COFINS RET Value",
-        default=0.00)
+    cofins_wh_value = fields.Monetary(string="COFINS RET Value")
 
     # PIS
     pis_tax_id = fields.Many2one(
@@ -699,17 +581,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         required=True)
 
-    pis_base = fields.Monetary(
-        string="PIS Base")
+    pis_base = fields.Monetary(string="PIS Base")
 
-    pis_percent = fields.Float(
-        string="PIS %")
+    pis_percent = fields.Float(string="PIS %")
 
-    pis_reduction = fields.Float(
-        string="PIS % Reduction")
+    pis_reduction = fields.Float(string="PIS % Reduction")
 
-    pis_value = fields.Monetary(
-        string="PIS Value")
+    pis_value = fields.Monetary(string="PIS Value")
 
     pis_base_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.pis.cofins.base",
@@ -743,14 +621,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         required=True)
 
-    pisst_base = fields.Monetary(
-        string="PIS ST Base")
+    pisst_base = fields.Monetary(string="PIS ST Base")
 
-    pisst_percent = fields.Float(
-        string="PIS ST %")
+    pisst_percent = fields.Float(string="PIS ST %")
 
-    pisst_reduction = fields.Float(
-        string="PIS ST % Reduction")
+    pisst_reduction = fields.Float(string="PIS ST % Reduction")
 
     pisst_value = fields.Monetary(
         string="PIS ST Value")
@@ -766,21 +641,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_BASE_TYPE_PERCENT,
         required=True)
 
-    pis_wh_base = fields.Monetary(
-        string="PIS RET Base",
-        default=0.00)
+    pis_wh_base = fields.Monetary(string="PIS RET Base")
 
-    pis_wh_percent = fields.Float(
-        string="PIS RET %",
-        default=0.00)
+    pis_wh_percent = fields.Float(string="PIS RET %")
 
-    pis_wh_reduction = fields.Float(
-        string="PIS RET % Reduction",
-        default=0.00)
+    pis_wh_reduction = fields.Float(string="PIS RET % Reduction")
 
-    pis_wh_value = fields.Monetary(
-        string="PIS RET Value",
-        default=0.00)
+    pis_wh_value = fields.Monetary(string="PIS RET Value")
 
     # CSLL Fields
     csll_tax_id = fields.Many2one(
@@ -788,134 +655,83 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Tax CSLL",
         domain=[('tax_domain', '=', TAX_DOMAIN_CSLL)])
 
-    csll_base = fields.Monetary(
-        string="CSLL Base",
-        default=0.00)
+    csll_base = fields.Monetary(string="CSLL Base")
 
-    csll_percent = fields.Float(
-        string="CSLL %",
-        default=0.00)
+    csll_percent = fields.Float(string="CSLL %")
 
-    csll_reduction = fields.Float(
-        string="CSLL % Reduction",
-        default=0.00)
+    csll_reduction = fields.Float(string="CSLL % Reduction")
 
-    csll_value = fields.Monetary(
-        string="CSLL Value",
-        default=0.00)
+    csll_value = fields.Monetary(string="CSLL Value")
 
     csll_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax CSLL RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_CSLL_WH)])
 
-    csll_wh_base = fields.Monetary(
-        string="CSLL RET Base",
-        default=0.00)
+    csll_wh_base = fields.Monetary(string="CSLL RET Base")
 
-    csll_wh_percent = fields.Float(
-        string="CSLL RET %",
-        default=0.00)
+    csll_wh_percent = fields.Float(string="CSLL RET %")
 
-    csll_wh_reduction = fields.Float(
-        string="CSLL RET % Reduction",
-        default=0.00)
+    csll_wh_reduction = fields.Float(string="CSLL RET % Reduction")
 
-    csll_wh_value = fields.Monetary(
-        string="CSLL RET Value",
-        default=0.00)
+    csll_wh_value = fields.Monetary(string="CSLL RET Value")
 
     irpj_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IRPJ",
         domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ)])
 
-    irpj_base = fields.Monetary(
-        string="IRPJ Base",
-        default=0.00)
+    irpj_base = fields.Monetary(string="IRPJ Base")
 
-    irpj_percent = fields.Float(
-        string="IRPJ %",
-        default=0.00)
+    irpj_percent = fields.Float(string="IRPJ %")
 
-    irpj_reduction = fields.Float(
-        string="IRPJ % Reduction",
-        default=0.00)
+    irpj_reduction = fields.Float(string="IRPJ % Reduction")
 
-    irpj_value = fields.Monetary(
-        string="IRPJ Value",
-        default=0.00)
+    irpj_value = fields.Monetary(string="IRPJ Value")
 
     irpj_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IRPJ RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ_WH)])
 
-    irpj_wh_base = fields.Monetary(
-        string="IRPJ RET Base",
-        default=0.00)
+    irpj_wh_base = fields.Monetary(string="RPJ RET Base")
 
-    irpj_wh_percent = fields.Float(
-        string="IRPJ RET %",
-        default=0.00)
+    irpj_wh_percent = fields.Float(string="IRPJ RET %")
 
-    irpj_wh_reduction = fields.Float(
-        string="IRPJ RET % Reduction",
-        default=0.00)
+    irpj_wh_reduction = fields.Float(string="IRPJ RET % Reduction")
 
-    irpj_wh_value = fields.Monetary(
-        string="IRPJ RET Value",
-        default=0.00)
+    irpj_wh_value = fields.Monetary(string="IRPJ RET Value")
 
     inss_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax INSS",
         domain=[('tax_domain', '=', TAX_DOMAIN_INSS)])
 
-    inss_base = fields.Monetary(
-        string="INSS Base",
-        default=0.00)
+    inss_base = fields.Monetary(string="INSS Base")
 
-    inss_percent = fields.Float(
-        string="INSS %",
-        default=0.00)
+    inss_percent = fields.Float(string="INSS %")
 
-    inss_reduction = fields.Float(
-        string="INSS % Reduction",
-        default=0.00)
+    inss_reduction = fields.Float(string="INSS % Reduction")
 
-    inss_value = fields.Monetary(
-        string="INSS Value",
-        default=0.00)
+    inss_value = fields.Monetary(string="INSS Value")
 
     inss_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax INSS RET",
         domain=[('tax_domain', '=', TAX_DOMAIN_INSS_WH)])
 
-    inss_wh_base = fields.Monetary(
-        string="INSS RET Base",
-        default=0.00)
+    inss_wh_base = fields.Monetary(string="INSS RET Base")
 
-    inss_wh_percent = fields.Float(
-        string="INSS RET %",
-        default=0.00)
+    inss_wh_percent = fields.Float(string="INSS RET %")
 
-    inss_wh_reduction = fields.Float(
-        string="INSS RET % Reduction",
-        default=0.00)
+    inss_wh_reduction = fields.Float(string="INSS RET % Reduction")
 
-    inss_wh_value = fields.Monetary(
-        string="INSS RET Value",
-        default=0.00)
+    inss_wh_value = fields.Monetary(string="INSS RET Value")
 
-    simple_value = fields.Monetary(
-        string="National Simple Taxes",
-        default=0.00)
+    simple_value = fields.Monetary(string="National Simple Taxes")
 
     simple_without_icms_value = fields.Monetary(
-        string="National Simple Taxes without ICMS",
-        default=0.00)
+        string="National Simple Taxes without ICMS")
 
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
@@ -926,6 +742,4 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[('object', '=', FISCAL_COMMENT_LINE)],
     )
 
-    additional_data = fields.Char(
-        string='Additional Data',
-    )
+    additional_data = fields.Char(string='Additional Data')
