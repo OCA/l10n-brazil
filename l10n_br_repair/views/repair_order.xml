@@ -29,13 +29,11 @@
              </field>
             <field name="invoice_method" position="after" >
                 <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>
-<!--                <field name="fiscal_position_id" options="{'no_create': True}" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>-->
                 <field name="ind_pres" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>
             </field>
             <field name="quotation_notes" position="after">
                 <group>
                     <field name="copy_repair_quotation_notes"/>
-                    <!--<field name="note" placeholder="Terms and conditions... (note: you can setup default ones in the Configuration menu)"/>-->
                     <field name="customer_additional_data"/>
                     <field name="fiscal_additional_data"/>
                 </group>
