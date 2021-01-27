@@ -1,4 +1,6 @@
-Este módulo contem a estrutura de dados da Nota Fiscal Electrônica (NF-e)
+Este módulo contem a estrutura de dados da Nota Fiscal Electrônica (NF-e).
+Um módulo que usa ele é o módulo `l10n_br_nfe` que permite transmitir as NF-e's.
+
 
 Geração
 ~~~~~~~
@@ -14,7 +16,22 @@ Depois de baixar os esquemas na pasta /tmp/generated/schemas/nfe/v4_00 basta faz
    python gends_run_gen_odoo.py -f -l nfe -x 4_00 -e '^ICMS\d+|^ICMSSN\d+' -d . -v /tmp/generated/schemas/nfe/v4_00/leiauteNFe_v4.00.xsd
 
 
-casos das tags de ICMS e ICMSSN
+Prefixo dos campos e versão
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Com até uns 800 campos fiscais apenas na NF-e, com uma meia dúzia de documentos fiscais complexos,
+com 3000 módulos OCA, existiria um risco real de conflito com os nomes de campos vindo dos esquemas.
+Além disso, temos várias versões da NFe, a 3.1, a 4.0 etc...
+
+Nisso foi decidido que cada campo tem um prefixo composto do nome do schema
+e de alguns dígitos da versão do esquema. No caso `nfe40_`. A escolha de 2 dígitos permite
+que uma atualização menor do esquema use os mesmos campos (e dados no banco então) e que um simples
+update Odoo (--update=...) consiga resolver a migração. Enquanto que para uma mudança maior
+como de 3.1 para 4.0, seria assumido de usar novos campos e novas tabelas (para os objetos não Odoo)
+e que a lib nfelib iria trabalhar com os campos da versão maior do documento fiscal considerado.
+
+
+Casos das tags de ICMS e ICMSSN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Para facilitar a validação das tags de ICMS e ICMSSN, o esquema contem tags especificas para cada tipo desses impostos.
