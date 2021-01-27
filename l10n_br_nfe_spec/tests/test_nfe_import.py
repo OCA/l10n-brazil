@@ -53,12 +53,16 @@ def build_attrs_fake(self, node, create_m2o=False):
                     )['type'].replace('Type', '').lower()
                 comodel_name = "nfe.40.%s" % (clean_type,)
             comodel = self.env.get(comodel_name)
+            if comodel is None:  # example skip ICMS100 class
+                continue
 
             if attr.get_container() == 0:
                 # m2o
                 new_value = comodel.build_attrs_fake(
                     value, create_m2o=create_m2o,
                 )
+                if new_value is None:
+                    continue
                 if comodel._name == self._name:  # stacked m2o
                     vals.update(new_value)
                 else:
