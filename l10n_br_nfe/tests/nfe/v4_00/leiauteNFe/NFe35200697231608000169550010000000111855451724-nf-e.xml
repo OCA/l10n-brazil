@@ -65,7 +65,7 @@
       <prod>
         <cProd>E-COM07</cProd>
         <cEAN>SEM GTIN</cEAN>
-        <xProd>Large Cabinet</xProd>
+        <xProd>[E-COM07] Large Cabinet</xProd>
         <NCM>94033000</NCM>
         <CFOP>5102</CFOP>
         <uCom>UNID</uCom>
@@ -118,7 +118,7 @@
       <prod>
         <cProd>FURN_8855</cProd>
         <cEAN>SEM GTIN</cEAN>
-        <xProd>Drawer</xProd>
+        <xProd>[FURN_8855] Drawer</xProd>
         <NCM>94033000</NCM>
         <CFOP>5101</CFOP>
         <uCom>UNID</uCom>
@@ -169,7 +169,8 @@
           </COFINSAliq>
         </COFINS>
       </imposto>
-      <infAdProd>Val Aprox Tributos Federal R$ 182.25</infAdProd>
+      <infAdProd>Val Aprox Tributos Federal R$ 182.25
+</infAdProd>
     </det>
     <total>
       <ICMSTot>
