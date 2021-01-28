@@ -362,7 +362,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # vBCFCPUFDest
     icmsfcp_base = fields.Monetary(
         string="ICMS FCP Base",
-        default=0.00,
     )
 
     # pFCPUFDest - Percentual do ICMS relativo ao Fundo de
