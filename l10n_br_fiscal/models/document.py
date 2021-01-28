@@ -586,7 +586,6 @@ class Document(models.Model):
     amount_estimate_tax = fields.Monetary(
         string='Amount Estimate Tax',
         compute='_compute_amount',
-        default=0.00,
     )
 
     amount_tax = fields.Monetary(
