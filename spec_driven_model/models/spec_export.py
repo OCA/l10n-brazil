@@ -17,12 +17,16 @@ class AbstractSpecMixin(models.AbstractModel):
         return getattr(binding_module, class_obj._generateds_type)
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
-        # FIXME: Remove all references of nfe, make it generic!
         ds_class = self._get_ds_class(class_obj)
         ds_class_spec = {i.name: i for i in ds_class.member_data_items_}
 
         for xsd_field in xsd_fields:
+            if not xsd_field or not self._fields.get(xsd_field):
+                continue
             field_spec_name = xsd_field.replace(class_obj._field_prefix, '')
+            if not ds_class_spec.get(field_spec_name):
+                # this can happen with a o2m generated foreign key for instance
+                continue
             member_spec = ds_class_spec[field_spec_name]
             field_data = self._export_field(xsd_field, class_obj, member_spec)
 
