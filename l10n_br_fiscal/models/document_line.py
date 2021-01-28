@@ -144,7 +144,6 @@ class DocumentLine(models.Model):
     # Amount Fields
     amount_estimate_tax = fields.Monetary(
         string='Amount Estimate Tax',
-        default=0.00,
     )
 
     amount_untaxed = fields.Monetary(
