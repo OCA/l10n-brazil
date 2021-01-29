@@ -3,15 +3,7 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import (
-    TAX_FRAMEWORK,
-    TAX_DOMAIN_ISSQN,
-    FISCAL_OUT
-)
-
-from ..constants.icms import (
-    ICMS_ORIGIN_TAX_IMPORTED
-)
+from ..constants.fiscal import (TAX_FRAMEWORK)
 
 
 class DocumentLine(models.Model):
