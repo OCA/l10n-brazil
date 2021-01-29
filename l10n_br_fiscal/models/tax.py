@@ -322,18 +322,18 @@ class Tax(models.Model):
         amount_total = round(fiscal_price * fiscal_quantity, precision)
 
         if op_line and (op_line.fiscal_operation_type == FISCAL_OUT
-                and op_line.fiscal_operation_id.fiscal_type == 'sale'):
+                        and op_line.fiscal_operation_id.fiscal_type == 'sale'):
             if nbs:
-                amount_estimate_tax =  round(amount_total * (
-                        record.nbs_id.estimate_tax_national / 100), precision)
+                amount_estimate_tax = round(amount_total * (
+                    nbs.estimate_tax_national / 100), precision)
             else:
                 if ncm:
                     if icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
                         amount_estimate_tax = round(amount_total * (
-                                ncm.estimate_tax_imported / 100), precision)
+                            ncm.estimate_tax_imported / 100), precision)
                     else:
                         amount_estimate_tax = round(amount_total * (
-                                ncm.estimate_tax_national / 100), precision)
+                            ncm.estimate_tax_national / 100), precision)
 
         return amount_estimate_tax
 
