@@ -326,14 +326,13 @@ class Tax(models.Model):
             if nbs:
                 amount_estimate_tax = round(amount_total * (
                     nbs.estimate_tax_national / 100), precision)
-            else:
-                if ncm:
-                    if icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
-                        amount_estimate_tax = round(amount_total * (
-                            ncm.estimate_tax_imported / 100), precision)
-                    else:
-                        amount_estimate_tax = round(amount_total * (
-                            ncm.estimate_tax_national / 100), precision)
+            elif ncm:
+                if icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
+                    amount_estimate_tax = round(amount_total * (
+                        ncm.estimate_tax_imported / 100), precision)
+                else:
+                    amount_estimate_tax = round(amount_total * (
+                        ncm.estimate_tax_national / 100), precision)
 
         return amount_estimate_tax
 
