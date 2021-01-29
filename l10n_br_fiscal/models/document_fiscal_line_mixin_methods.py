@@ -149,7 +149,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             nbm=self.nbm_id,
             cest=self.cest_id,
             operation_line=self.fiscal_operation_line_id,
-            icmssn_range=self.icmssn_range_id)
+            icmssn_range=self.icmssn_range_id,
+            icms_origin=self.icms_origin)
 
     @api.multi
     def _prepare_br_fiscal_dict(self, default=False):
@@ -226,6 +227,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 'amount_not_included', 0.0)
             l.amount_tax_withholding = compute_result.get(
                 'amount_withholding', 0.0)
+            l.amount_estimate_tax = compute_result.get(
+                'amount_estimate_tax', 0.0)
             for tax in l.fiscal_tax_ids:
 
                 computed_tax = computed_taxes.get(tax.tax_domain, {})
@@ -366,6 +369,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.ncm_id = self.product_id.ncm_id
             self.nbm_id = self.product_id.nbm_id
             self.tax_icms_or_issqn = self.product_id.tax_icms_or_issqn
+            self.icms_origin = self.product_id.icms_origin
             self.cest_id = self.product_id.cest_id
             self.nbs_id = self.product_id.nbs_id
             self.fiscal_genre_id = self.product_id.fiscal_genre_id
@@ -378,6 +382,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.ncm_id = False
             self.nbm_id = False
             self.tax_icms_or_issqn = False
+            self.icms_origin = False
             self.cest_id = False
             self.nbs_id = False
             self.fiscal_genre_id = False

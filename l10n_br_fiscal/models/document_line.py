@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import TAX_FRAMEWORK
+from ..constants.fiscal import (TAX_FRAMEWORK)
 
 
 class DocumentLine(models.Model):
@@ -117,12 +117,6 @@ class DocumentLine(models.Model):
     )
 
     # Amount Fields
-    amount_estimate_tax = fields.Monetary(
-        string='Amount Estimate Total',
-        compute='_compute_amount',
-        default=0.00,
-    )
-
     amount_untaxed = fields.Monetary(
         string='Amount Untaxed',
         compute='_compute_amount',
