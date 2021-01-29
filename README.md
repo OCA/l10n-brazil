@@ -90,6 +90,7 @@ addon | version | summary
 [l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.0.0 | Brazilian Localization HR Contract
 [l10n_br_mis_report](l10n_br_mis_report/) | 12.0.1.1.0 | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
+[l10n_br_nfe_spec](l10n_br_nfe_spec/) | 12.0.1.0.0 | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 12.0.1.5.2 | NFS-e
 [l10n_br_nfse_ginfes](l10n_br_nfse_ginfes/) | 12.0.1.1.0 | NFS-e (Ginfes)
 [l10n_br_nfse_issnet](l10n_br_nfse_issnet/) | 12.0.1.0.0 | NFS-e (ISSNet)
