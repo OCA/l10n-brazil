@@ -25,7 +25,8 @@ from ..constants.icms import (
     ICMS_SN_CST_WITH_CREDIT,
     ICMS_DIFAL_PARTITION,
     ICMS_DIFAL_UNIQUE_BASE,
-    ICMS_DIFAL_DOUBLE_BASE
+    ICMS_DIFAL_DOUBLE_BASE,
+    ICMS_ORIGIN_TAX_IMPORTED,
 )
 
 
@@ -305,6 +306,36 @@ class Tax(models.Model):
                 precision)
 
         return tax_dict
+
+    def _compute_estimate_taxes(self, **kwargs):
+        company = kwargs.get("company")
+        product = kwargs.get("product")
+        fiscal_price = kwargs.get("fiscal_price")
+        fiscal_quantity = kwargs.get("fiscal_quantity")
+        currency = kwargs.get("currency", company.currency_id)
+        precision = currency.decimal_places
+        ncm = kwargs.get("ncm") or product.ncm_id
+        nbs = kwargs.get("nbs") or product.nbs_id
+        icms_origin = kwargs.get("icms_origin") or product.icms_origin
+        op_line = kwargs.get("operation_line")
+        amount_estimate_tax = 0.00
+        amount_total = round(fiscal_price * fiscal_quantity, precision)
+
+        if op_line and (op_line.fiscal_operation_type == FISCAL_OUT
+                and op_line.fiscal_operation_id.fiscal_type == 'sale'):
+            if nbs:
+                amount_estimate_tax =  round(amount_total * (
+                        record.nbs_id.estimate_tax_national / 100), precision)
+            else:
+                if ncm:
+                    if icms_origin in ICMS_ORIGIN_TAX_IMPORTED:
+                        amount_estimate_tax = round(amount_total * (
+                                ncm.estimate_tax_imported / 100), precision)
+                    else:
+                        amount_estimate_tax = round(amount_total * (
+                                ncm.estimate_tax_national / 100), precision)
+
+        return amount_estimate_tax
 
     def _compute_icms(self, tax, taxes_dict, **kwargs):
         partner = kwargs.get("partner")
@@ -609,7 +640,8 @@ class Tax(models.Model):
             nbm,
             cest,
             operation_line,
-            icmssn_range
+            icmssn_range,
+            icms_origin,
         return
             {
                 'amount_included': float
@@ -622,6 +654,7 @@ class Tax(models.Model):
             'amount_included': 0.00,
             'amount_not_included': 0.00,
             'amount_withholding': 0.00,
+            'amount_estimate_tax': 0.00,
             'taxes': {},
         }
         taxes = {}
@@ -657,6 +690,10 @@ class Tax(models.Model):
                 # Caso não exista campos especificos dos impostos
                 # no documento fiscal, os mesmos são calculados.
                 continue
+
+        # Estimate taxes
+        result_amounts['amount_estimate_tax'] = self._compute_estimate_taxes(
+            **kwargs)
         result_amounts['taxes'] = taxes
         return result_amounts
 
