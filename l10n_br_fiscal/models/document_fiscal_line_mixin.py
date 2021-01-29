@@ -359,6 +359,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="Tax ICMS FCP",
         domain=[('tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
 
+    # vBCFCPUFDest
+    icmsfcp_base = fields.Monetary(
+        string="ICMS FCP Base",
+    )
+
     # pFCPUFDest - Percentual do ICMS relativo ao Fundo de
     # Combate à Pobreza (FCP) na UF de destino
     icmsfcp_percent = fields.Float(string="ICMS FCP %")

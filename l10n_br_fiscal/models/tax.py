@@ -11,7 +11,7 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
     TAX_DOMAIN,
-    NFE_IND_FINAL_DEFAULT,
+    FINAL_CUSTOMER_YES,
     NFE_IND_IE_DEST_1,
     NFE_IND_IE_DEST_2,
     NFE_IND_IE_DEST_9
@@ -201,14 +201,6 @@ class Tax(models.Model):
         remove_from_base = kwargs.get("remove_from_base", 0.00)
         compute_reduction = kwargs.get("compute_reduction", True)
 
-        tax_dict["name"] = tax.name
-        tax_dict["base_type"] = tax.tax_base_type
-        tax_dict["tax_include"] = tax.tax_group_id.tax_include
-        tax_dict["tax_withholding"] = tax.tax_group_id.tax_withholding
-        tax_dict["fiscal_tax_id"] = tax.id
-        tax_dict["tax_domain"] = tax.tax_domain
-        tax_dict["percent_reduction"] = tax.percent_reduction
-
         base = 0.00
 
         if not tax_dict.get("percent_amount") and tax.percent_amount:
@@ -250,6 +242,14 @@ class Tax(models.Model):
     def _compute_tax(self, tax, taxes_dict, **kwargs):
 
         tax_dict = taxes_dict.get(tax.tax_domain)
+        tax_dict["name"] = tax.name
+        tax_dict["base_type"] = tax.tax_base_type
+        tax_dict["tax_include"] = tax.tax_group_id.tax_include
+        tax_dict["tax_withholding"] = tax.tax_group_id.tax_withholding
+        tax_dict["fiscal_tax_id"] = tax.id
+        tax_dict["tax_domain"] = tax.tax_domain
+        tax_dict["percent_reduction"] = tax.percent_reduction
+        tax_dict["percent_amount"] = tax.percent_amount
 
         company = kwargs.get("company", tax.env.user.company_id)
         # partner = kwargs.get("partner")
@@ -280,7 +280,9 @@ class Tax(models.Model):
             'remove_from_base': sum(remove_from_base),
         })
 
-        tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
+        # TODO futuramente levar em consideração outros tipos de base de calculo
+        if tax_dict.get("base", 0.00) == 0.00:
+            tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
 
         fiscal_operation_type = (operation_line.fiscal_operation_type
                                  or FISCAL_OUT)
@@ -327,7 +329,7 @@ class Tax(models.Model):
 
         if partner.ind_ie_dest in (NFE_IND_IE_DEST_2, NFE_IND_IE_DEST_9) or \
                 (operation_line.fiscal_operation_id.ind_final ==
-                 NFE_IND_FINAL_DEFAULT):
+                 FINAL_CUSTOMER_YES):
             # Add IPI in ICMS Base
             add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
 
@@ -352,17 +354,22 @@ class Tax(models.Model):
             'icms_base_type': tax.icms_base_type})
 
         # DIFAL
+        # TODO
+        # and operation_line.ind_final == FINAL_CUSTOMER_YES):
         if (company.state_id != partner.state_id
                 and operation_line.fiscal_operation_type == FISCAL_OUT
-                and not partner.is_company):
+                and partner.ind_ie_dest == NFE_IND_IE_DEST_9
+                and taxes_dict[tax.tax_domain].get('tax_value')):
             tax_icms_difal = company.icms_regulation_id.map_tax_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line)
             tax_icmsfcp_difal = company.icms_regulation_id.map_tax_icmsfcp(
                 company, partner, product, ncm, nbm, cest, operation_line)
 
             # Difal - Origin Percent
-            icms_origin_perc = taxes_dict[tax.tax_domain].get(
-                'percent_amount')
+            icms_origin_perc = taxes_dict[tax.tax_domain].get('percent_amount')
+
+            # Difal - Origin Value
+            icms_origin_value = taxes_dict[tax.tax_domain].get('tax_value')
 
             # Difal - Destination Percent
             icms_dest_perc = 0.00
@@ -378,24 +385,23 @@ class Tax(models.Model):
             icms_base = taxes_dict[tax.tax_domain].get('base')
             difal_icms_base = 0.00
 
-            if partner.state_id.code in ICMS_DIFAL_UNIQUE_BASE:
-                difal_icms_base = round(
-                    icms_base / (1 - (
-                        (icms_origin_perc + icmsfcp_perc) / 100)),
-                    precision)
+            # Difal - ICMS Dest Value
+            icms_dest_value = round(
+                icms_base * (icms_dest_perc / 100), precision)
 
-            if partner.state_id.code in ICMS_DIFAL_DOUBLE_BASE:
+            if company.state_id.code in ICMS_DIFAL_UNIQUE_BASE:
+                difal_icms_base = icms_base
+
+            if company.state_id.code in ICMS_DIFAL_DOUBLE_BASE:
                 difal_icms_base = round(
-                    icms_base / (1 - (
+                    (icms_base - icms_dest_value) / (1 - (
                         (icms_dest_perc + icmsfcp_perc) / 100)),
                     precision)
 
-            origin_value = round(
-                difal_icms_base * (icms_origin_perc / 100), precision)
-            dest_value = round(
-                difal_icms_base * (icms_dest_perc / 100), precision)
+                icms_origin_value = round(
+                    difal_icms_base * (icms_origin_perc / 100), precision)
 
-            difal_value = dest_value - origin_value
+            difal_value = icms_dest_value - icms_origin_value
 
             # Difal - Sharing Percent
             date_year = fields.Date.today().year
@@ -437,11 +443,11 @@ class Tax(models.Model):
         return taxes_dict
 
     def _compute_icmsfcp(self, tax, taxes_dict, **kwargs):
-
-        # Get Computed ICMS DIFAL Base
-        tax_dict_icms = taxes_dict.get('icms', {})
-        icms_dest_base = tax_dict_icms.get('icms_dest_base', 0.00)
-        taxes_dict[tax.tax_domain].update({'base': icms_dest_base})
+        """Compute ICMS FCP"""
+        tax_dict_icms = taxes_dict.get('icms')
+        taxes_dict[tax.tax_domain].update({
+            'base': tax_dict_icms.get('icms_dest_base', 0.0),
+        })
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
