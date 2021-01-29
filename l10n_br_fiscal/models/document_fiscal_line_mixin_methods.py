@@ -149,7 +149,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             nbm=self.nbm_id,
             cest=self.cest_id,
             operation_line=self.fiscal_operation_line_id,
-            icmssn_range=self.icmssn_range_id)
+            icmssn_range=self.icmssn_range_id,
+            icms_origin=self.icms_origin)
 
     @api.multi
     def _prepare_br_fiscal_dict(self, default=False):
@@ -226,6 +227,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 'amount_not_included', 0.0)
             l.amount_tax_withholding = compute_result.get(
                 'amount_withholding', 0.0)
+            l.amount_estimate_tax = compute_result.get(
+                'amount_estimate_tax', 0.0)
             for tax in l.fiscal_tax_ids:
 
                 computed_tax = computed_taxes.get(tax.tax_domain, {})
