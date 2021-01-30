@@ -13,7 +13,7 @@
 
     <record id="partner_fiscal_profile_snn" model="l10n_br_fiscal.partner.profile">
         <field name="code">SNN</field>
-        <field name="name">	Simples Nacional Não Contribuinte</field>
+        <field name="name">Simples Nacional Não Contribuinte</field>
         <field name="is_company" eval="True"/>
         <field name="default" eval="False"/>
         <field name="ind_ie_dest">9</field>
