@@ -42,11 +42,13 @@ class PurchaseOrderLine(models.Model):
     quantity = fields.Float(
         string='Mixin Quantity',
         related='product_uom_qty',
+        depends=['product_uom_qty'],
     )
 
     uom_id = fields.Many2one(
         string='Mixin UOM',
         related='product_uom',
+        depends=['product_uom'],
     )
 
     tax_framework = fields.Selection(
@@ -55,7 +57,12 @@ class PurchaseOrderLine(models.Model):
         string='Tax Framework',
     )
 
-    @api.depends('product_qty', 'price_unit',  'taxes_id')
+    @api.depends(
+        'product_qty',
+        'price_unit',
+        'taxes_id',
+        'fiscal_price',
+        'fiscal_quantity')
     def _compute_amount(self):
         """Compute the amounts of the PO line."""
         super()._compute_amount()
@@ -79,7 +86,15 @@ class PurchaseOrderLine(models.Model):
         super()._onchange_quantity()
         self._onchange_commercial_quantity()
 
+    @api.multi
+    def _compute_tax_id(self):
+        super()._compute_tax_id()
+        for line in self:
+            line.taxes_id |= line.fiscal_tax_ids.account_taxes(
+                user_type='purchase')
+
     @api.onchange('fiscal_tax_ids')
     def _onchange_fiscal_tax_ids(self):
+        super()._onchange_fiscal_tax_ids()
         self.taxes_id |= self.fiscal_tax_ids.account_taxes(
             user_type='purchase')
