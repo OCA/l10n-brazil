@@ -139,4 +139,4 @@ class SaleOrderLine(models.Model):
     @api.onchange('fiscal_tax_ids')
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
-        self.tax_id |= self.fiscal_tax_ids.account_taxes()
+        self.tax_id |= self.fiscal_tax_ids.account_taxes(user_type='sale')
