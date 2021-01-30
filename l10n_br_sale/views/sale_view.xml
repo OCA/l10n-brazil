@@ -59,25 +59,24 @@
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                 <field name="discount" groups="!l10n_br_sale.group_discount_per_value"/>
                 <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
-                <field name="fiscal_tax_ids" widget="many2many_tags"/>
+                <field name="fiscal_tax_ids" widget="many2many_tags" options="{'no_create': True}"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
                 <field name="price_total" invisible="1"/>
             </xpath>
-            <xpath expr="//field[@name='order_line']/form//field[@name='sequence']" position="after">
+            <xpath expr="//field[@name='order_line']/form" position="inside">
                 <group name="fiscal_fields" invisible="1">
                     <field name="fiscal_operation_type" invisible="1" readonly="1"/>
                     <field name="fiscal_genre_code" invisible="1"/>
                     <field name="tax_framework" invisible="1"/>
+                    <field name="tax_icms_or_issqn" invisible="1"/>
                 </group>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//label[@for='customer_lead']" position="before">
-                <field name="fiscal_type" force_save="1" invisible="1" readonly="1"/>
-                <field name="fiscal_operation_id" required="1"/>
-                <field name="fiscal_operation_line_id" required="1"/>
-                <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '=', '00'), ('cfop_id', '!=', False)]}"/>
-                <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '=', False)]}"/>
-                <field name="cfop_destination" invisible="1"/>
+                <field name="fiscal_operation_id" required="1" options="{'no_create': True}"/>
+                <field name="fiscal_operation_line_id" required="1" options="{'no_create': True}"/>
+                <field name="cfop_id" options="{'no_create': True}" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
+                <field name="service_type_id" options="{'no_create': True}" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"/>
                 <field name="price_total" invisible="1"/>
                 <field name="price_subtotal" invisible="1"/>
             </xpath>
