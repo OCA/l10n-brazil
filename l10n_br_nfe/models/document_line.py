@@ -278,8 +278,6 @@ class NFeLine(spec_models.StackedModel):
             'UFST': self.partner_id.state_id.code,
 
             # ICMS ST Dest
-            'orig': '',
-            'CST': '',
             'vBCSTRet': '',
             'pST': '',
             'vICMSSubstituto': '',
