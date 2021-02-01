@@ -20,10 +20,6 @@ class DocumentLine(models.Model):
         string='Other Retentions',
         default=0.00,
     )
-    city_taxation_code_id = fields.Many2one(
-        string='City Taxation Code',
-        comodel_name='l10n_br_fiscal.city.taxation.code'
-    )
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
@@ -43,23 +39,12 @@ class DocumentLine(models.Model):
                "('id', '=', cnae_main_id)]",
     )
 
-    @api.onchange("city_taxation_code_id")
-    def _onchange_city_taxation_code_id(self):
-        if self.city_taxation_code_id:
-            self.cnae_id = self.city_taxation_code_id.cnae_id
-
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
         super(DocumentLine, self)._onchange_product_id_fiscal()
         if self.product_id and self.product_id.fiscal_deductions_value:
             self.fiscal_deductions_value = \
                 self.product_id.fiscal_deductions_value
-        if self.product_id and self.product_id.city_taxation_code_id:
-            company_city_id = self.document_id.company_id.city_id
-            city_id = self.product_id.city_taxation_code_id.filtered(
-                lambda r: r.city_id == company_city_id)
-            if city_id:
-                self.city_taxation_code_id = city_id
 
     def _compute_taxes(self, taxes, cst=None):
         discount_value = self.discount_value
