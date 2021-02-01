@@ -17,4 +17,7 @@ class PurchaseOrderLine(models.Model):
         values = super()._prepare_stock_moves(picking)
         for v in values:
             v.update(self._prepare_br_fiscal_dict())
+            if (self.env.user.company_id.purchase_create_invoice_policy
+                    == 'stock_picking'):
+                v['invoice_state'] = '2binvoiced'
         return values
