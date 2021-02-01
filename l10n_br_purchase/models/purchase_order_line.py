@@ -41,8 +41,8 @@ class PurchaseOrderLine(models.Model):
 
     quantity = fields.Float(
         string='Mixin Quantity',
-        related='product_uom_qty',
-        depends=['product_uom_qty'],
+        related='product_qty',
+        depends=['product_qty'],
     )
 
     uom_id = fields.Many2one(
