@@ -1767,6 +1767,10 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.actions.act_window,name:l10n_br_fiscal.city_taxation_code_action
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_city_taxation_code
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__city_taxation_code_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__city_taxation_code_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__city_taxation_code_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__city_taxation_code_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.city_taxation_code_menu
 msgid "City Taxation Code"
 msgstr ""
