@@ -46,16 +46,11 @@ class StockInvoiceOnshipping(models.TransientModel):
         pick = fields.first(pickings)
         fiscal_vals = pick._prepare_br_fiscal_dict()
 
-        document_type_id = self._context.get('document_type_id')
-
-        if document_type_id:
-            document_type = self.env['l10n_br_fiscal.document.type'].browse(
-                document_type_id)
-        else:
-            document_type = pick.company_id.document_type_id
-            document_type_id = pick.company_id.document_type_id.id
+        document_type = pick.company_id.document_type_id
+        document_type_id = pick.company_id.document_type_id.id
 
         fiscal_vals['document_type_id'] = document_type_id
+
         document_serie = document_type.get_document_serie(
             pick.company_id, pick.fiscal_operation_id)
         if document_serie:
@@ -64,8 +59,13 @@ class StockInvoiceOnshipping(models.TransientModel):
         if pick.fiscal_operation_id and pick.fiscal_operation_id.journal_id:
             fiscal_vals['journal_id'] = pick.fiscal_operation_id.journal_id.id
 
-        values.update(fiscal_vals)
-        return invoice, values
+        # Endereço de Entrega diferente do Endereço de Faturamento
+        if fiscal_vals['partner_id'] != values['partner_id']:
+            values['partner_shipping_id'] = fiscal_vals['partner_id']
+        fiscal_vals.update(values)
+        fiscal_vals['fiscal_document_id'] = False
+
+        return invoice, fiscal_vals
 
     @api.multi
     def _get_invoice_line_values(self, moves, invoice_values, invoice):
