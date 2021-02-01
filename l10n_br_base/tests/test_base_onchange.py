@@ -63,7 +63,8 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         display_address = partner._display_address()
         self.assertEquals(
             display_address,
-            "Rua Paulo Dias, 586 \nCentro" "\n18125-000 - Alumínio-SP\nBrazil",
+            "Avenida Paulista, 807 CJ 2315\nCentro"
+            "\n01311-915 - São Paulo-SP\nBrazil",
             "The function _display_address failed.",
         )
 
@@ -96,7 +97,8 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         display_address = partner._display_address(without_company=False)
         self.assertEquals(
             display_address,
-            "Rua Paulo Dias, 586 \nCentro" "\n18125-000 - Alumínio-SP\nBrazil",
+            "Avenida Paulista, 807 CJ 2315\nCentro"
+            "\n01311-915 - São Paulo-SP\nBrazil",
             "The function _display_address with parameter"
             " without_company failed.",
         )
