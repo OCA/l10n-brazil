@@ -148,13 +148,6 @@ msgid "CSLL"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__city_taxation_code_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_product__city_taxation_code_id
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_product_template__city_taxation_code_id
-msgid "City Taxation Code"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_res_company
 msgid "Companies"
 msgstr ""
