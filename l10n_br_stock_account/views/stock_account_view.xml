@@ -49,13 +49,15 @@
                         <field name="tax_framework" invisible="1"/>
                     </group>
                     <page name="fiscal_taxes" string="Taxes"/>
-                    <page name="outros" string="Outros Custos">
+                    <page name="others" string="Others">
                         <group>
+                            <field name="freight_value"/>
                             <field name="insurance_value"/>
                             <field name="other_costs_value"/>
-                            <field name="freight_value"/>
                         </group>
                     </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info"/>
+                    <page name="accounting" string="Accounting"/>
                 </notebook>
             </group>
         </field>
