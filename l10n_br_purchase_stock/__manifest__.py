@@ -12,6 +12,11 @@
         'l10n_br_purchase',
         'l10n_br_stock_account',
     ],
+    'data': [
+        # Views
+        'views/purchase_order.xml',
+        'views/res_config_settings.xml',
+    ],
     'installable': True,
     'auto_install': True,
 }
