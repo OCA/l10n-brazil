@@ -45,12 +45,6 @@ class StockPicking(models.Model):
         string='Comments',
     )
 
-    @api.onchange('fiscal_operation_id')
-    def _onchange_fiscal_operation_id(self):
-        super()._onchange_fiscal_operation_id()
-        if self.fiscal_operation_id:
-            self.invoice_state = self.fiscal_operation_id.invoice_state
-
     @api.multi
     def action_view_document(self):
         invoices = self.mapped('invoice_ids')
