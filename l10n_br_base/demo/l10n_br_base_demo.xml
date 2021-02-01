@@ -387,12 +387,13 @@
         <field name="legal_name">AKRETION LTDA</field>
         <field name="name">Akretion Sao Paulo</field>
         <field name="district">Centro</field>
-        <field name="zip">18125-000</field>
+        <field name="zip">01311-915</field>
         <field name="country_id" ref="base.br"/>
-        <field name="street_number">586</field>
-        <field name="phone">(21) 3010 9965</field>
-        <field name="street">Rua Paulo Dias</field>
-        <field name="city_id" ref="l10n_br_base.city_3501152"/>
+        <field name="street_number">807</field>
+        <field name="phone">(11) 9999-9999</field>
+        <field name="street">Avenida Paulista</field>
+        <field name="street2">CJ 2315</field>
+        <field name="city_id" ref="l10n_br_base.city_3550308"/>
         <field name="state_id" ref="base.state_br_sp"/>
         <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_akretion-image.jpg"/>
     </record>
@@ -413,11 +414,36 @@
         <field name="type">other</field>
         <field name="country_id" ref="base.br"/>
         <field name="street_number">47</field>
-        <field name="phone">(21) 2516-2954</field>
+        <field name="phone">(21) 9999-9999</field>
         <field name="street">Rua Acre</field>
         <field name="street2">sala 1310</field>
         <field name="website">http://www.akretion.com</field>
         <field name="state_id" ref="base.state_br_rj"/>
+        <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_akretion-image.jpg"/>
+    </record>
+
+    <record id="res_partner_address_ak3" model="res.partner">
+        <field name="title" ref="res_partner_title_pvt_ltd"/>
+        <field name="cnpj_cpf">11.034.414/0003-10</field>
+        <field name="inscr_mun">1448</field>
+        <field eval="0" name="employee"/>
+        <field eval="1" name="customer"/>
+        <field eval="1" name="supplier"/>
+        <field eval="1" name="active"/>
+        <field name="is_company" eval="1"/>
+        <field name="legal_name">AKRETION LTDA</field>
+        <field name="name">Akretion Aluminio - SP</field>
+        <field name="parent_id" ref="res_partner_akretion"/>
+        <field name="district">Centro</field>
+        <field name="city_id" ref="l10n_br_base.city_3501152"/>
+        <field name="zip">18125-000</field>
+        <field name="type">other</field>
+        <field name="country_id" ref="base.br"/>
+        <field name="street_number">586</field>
+        <field name="phone">(11) 9999-9999</field>
+        <field name="street">Rua Paulo Dias</field>
+        <field name="website">http://www.akretion.com</field>
+        <field name="state_id" ref="base.state_br_sp"/>
         <field name="image" type="base64" file="l10n_br_base/static/img/res_partner_akretion-image.jpg"/>
     </record>
 
