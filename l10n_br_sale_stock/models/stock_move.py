@@ -15,6 +15,12 @@ class StockMove(models.Model):
         return result
 
     def _get_new_picking_values(self):
-        values = super()._get_new_picking_values()
-        values.update(self.sale_line_id.order_id._prepare_br_fiscal_dict())
+        # IMPORTANTE: a sequencia de update dos dicionarios quando o
+        # partner_shipping_id é diferente, o metodo do fiscal está
+        # sobre escrevendo o partner_id e acaba criando um picking
+        # sem o partner_id caso esse dict atualize o do super
+        values = self.sale_line_id.order_id._prepare_br_fiscal_dict()
+        values.update(super()._get_new_picking_values())
+        # Remover o dummy
+        values.pop('fiscal_document_id')
         return values
