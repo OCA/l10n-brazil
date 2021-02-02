@@ -1,0 +1,167 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_purchase
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Accounting"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__cnpj_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_res_company__purchase_fiscal_operation_id
+msgid "Default Fiscal Operation for Purchase"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Documents"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Extra Info"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_document_count
+msgid "Fiscal Document Count"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_operation_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_operation_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "Fiscal Operation Line"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_freight
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
+msgid "Freight"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
+msgid "Inscr. Estadual"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_insurance
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
+msgid "Insurance"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__legal_name
+msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__quantity
+msgid "Mixin Quantity"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__uom_id
+msgid "Mixin UOM"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_id
+msgid "Operation"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_costs
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
+msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Outros Custos"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_purchase_report
+msgid "Purchase Report"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_res_company_form
+msgid "Purchases"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
+msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__ie
+msgid "State Tax Number/RG"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__tax_framework
+msgid "Tax Framework"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__legal_name
+msgid "Used in fiscal documents"
+msgstr ""
+
