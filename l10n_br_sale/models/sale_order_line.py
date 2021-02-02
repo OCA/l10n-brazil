@@ -147,3 +147,13 @@ class SaleOrderLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
         self.tax_id |= self.fiscal_tax_ids.account_taxes(user_type='sale')
+
+    @api.onchange("product_id")
+    def _onchange_product_id_fiscal(self):
+        super()._onchange_product_id_fiscal()
+        if self.product_id and self.product_id.city_taxation_code_id:
+            company_city_id = self.order_id.company_id.city_id
+            city_id = self.product_id.city_taxation_code_id.filtered(
+                lambda r: r.city_id == company_city_id)
+            if city_id:
+                self.issqn_fg_city_id = company_city_id
