@@ -8,7 +8,7 @@ from odoo.exceptions import UserError
 class RepairLineMixinMethods(models.AbstractModel):
     _name = 'l10n_br_repair.repair.line.mixin.methods'
     _inherit = ['l10n_br_fiscal.document.line.mixin']
-    _description = 'Repair Line Mixin Methods'
+    _description = 'Repair Line and Fee Mixin Methods'
 
     @api.model
     def _fiscal_operation_domain(self):
