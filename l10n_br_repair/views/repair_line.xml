@@ -32,6 +32,7 @@
                     <field name="fiscal_genre_id" invisible="1"/>
                     <field name="fiscal_genre_code" invisible="1"/>
                     <field name="tax_framework" invisible="1"/>
+                    <field name="tax_icms_or_issqn" invisible="1"/>
                 </group>
             </xpath>
 
@@ -53,8 +54,9 @@
                     <field name="fiscal_type" force_save="1" invisible="1"  readonly="1"/>
                     <field name="fiscal_operation_id" required="1"/>
                     <field name="fiscal_operation_line_id" required="1"/>
-                    <field name="cfop_id" attrs="{'invisible': [('fiscal_genre_code', '=', '00'), ('cfop_id', '!=', False)]}"/>
-                    <field name="service_type_id" attrs="{'invisible': [('fiscal_genre_code', '!=', '00'), ('cfop_id', '=', False)]}"/>
+                    <field name="cfop_id" options="{'no_create': True}" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
+                    <field name="service_type_id" options="{'no_create': True}" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"/>
+                    <field name="city_taxation_code_id" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"/>
                     <field name="lot_id" domain="[('product_id', '=', product_id)]" context="{'default_product_id': product_id}" groups="stock.group_production_lot"/>
                     <field name="cfop_destination" invisible="1"/>
                     <field name="price_total" invisible="1"/>
