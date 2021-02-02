@@ -2,9 +2,9 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 {
-    'name': 'Plano de Contas Genérico',
+    'name': 'Plano de Contas Completo',
     'summary': """
-        Plano de Contas Genérico para empresas Simples,
+        Plano de Contas Completo para empresas Simples,
         Presumido, Real, SA, Consolidação""",
     'version': '12.0.1.0.0',
     'license': 'LGPL-3',
