@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_br_sale_stock_res_config_settings_form" model="ir.ui.view">
+        <field name="name">l10n_br_sale_stock.res.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="l10n_br_sale.l10n_br_sale_res_config_settings_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='sales_settings_invoicing_policy']" position="after">
+                <div id="sales_settings_create_invoice_policy"
+                     class="col-12 col-lg-6 o_setting_box"
+                     title="This default value is applied to creation of Invoice.">
+                    <div class="o_setting_right_pane">
+                        <label for="sale_create_invoice_policy"/>
+                        <div class="text-muted">
+                            Define if Invoice should be create from Sale Order or Stock Picking
+                        </div>
+                        <div class="content-group">
+                            <div class="mt16">
+                                <field name="sale_create_invoice_policy" class="o_light_label"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
