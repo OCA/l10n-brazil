@@ -12,6 +12,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_account_payment_order',
         'odoo12-addon-l10n_br_base',
         'odoo12-addon-l10n_br_coa',
+        'odoo12-addon-l10n_br_coa_complete',
         'odoo12-addon-l10n_br_coa_generic',
         'odoo12-addon-l10n_br_coa_simple',
         'odoo12-addon-l10n_br_contract',
