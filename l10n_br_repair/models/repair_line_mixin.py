@@ -7,7 +7,8 @@ import odoo.addons.decimal_precision as dp
 
 class RepairLineMixin(models.AbstractModel):
     _name = 'l10n_br_repair.repair.line.mixin'
-    _inherit = ['l10n_br_repair.repair.line.mixin.methods','l10n_br_fiscal.document.line.mixin']
+    _inherit = ['l10n_br_repair.repair.line.mixin.methods',
+                'l10n_br_fiscal.document.line.mixin']
     _description = 'Repair Line and Fee Mixin'
 
     @api.model
