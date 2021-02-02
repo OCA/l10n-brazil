@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="res_company_form_view">
+        <field name="name">res.company.form (in l10n_br_repair)</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='certificate']" position="after">
+                <page name="l10n_br_repair" string="Repair">
+                    <group>
+                        <group>
+                            <field name="repair_fiscal_operation_id"/>
+                            <field name="copy_repair_quotation_notes"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>

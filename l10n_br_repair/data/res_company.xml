@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <!-- Main Company -->
+    <record id="base.main_company" model="res.company">
+        <field name="repair_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+    </record>
+
+</odoo>
