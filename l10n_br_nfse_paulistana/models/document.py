@@ -147,7 +147,7 @@ class Document(models.Model):
                 dados_servico['codigo_tributacao_municipio']),
             AliquotaServicos=self.convert_type_nfselib(
                 tpRPS, 'AliquotaServicos', dados_servico['aliquota']),
-            ISSRetido=dados_servico['iss_retido'],  # FIXME: Hardcoded
+            ISSRetido='true' if dados_servico['iss_retido'] == '1' else 'false',  # FIXME: Hardcoded
             CPFCNPJTomador=self.convert_type_nfselib(
                 tpRPS, 'CPFCNPJTomador', tpCPFCNPJ(CNPJ=dados_tomador['cnpj'])),
             InscricaoMunicipalTomador=self.convert_type_nfselib(
