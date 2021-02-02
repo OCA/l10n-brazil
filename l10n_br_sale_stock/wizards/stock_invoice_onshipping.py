@@ -24,3 +24,21 @@ class StockInvoiceOnshipping(models.TransientModel):
         new_values.update(line._convert_to_write(line._cache))
         values.update(new_values)
         return values
+
+    @api.multi
+    def _build_invoice_values_from_pickings(self, pickings):
+        """
+        Build dict to create a new invoice from given pickings
+        :param pickings: stock.picking recordset
+        :return: dict
+        """
+        invoice, values = super()._build_invoice_values_from_pickings(pickings)
+
+        pick = fields.first(pickings)
+        if pick.sale_id:
+            if pick.sale_id.payment_term_id.id != values['payment_term_id']:
+                values.update({
+                    'payment_term_id': pick.sale_id.payment_term_id.id,
+                })
+
+        return invoice, values
