@@ -1,7 +1,7 @@
 # Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 
