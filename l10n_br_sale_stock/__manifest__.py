@@ -15,7 +15,11 @@
         'l10n_br_sale',
         'l10n_br_stock_account',
     ],
-    'data': [],
+    'data': [
+        'views/res_company_view.xml',
+        'views/res_config_settings_view.xml',
+        'views/sale_order_view.xml',
+    ],
     'demo': [
         'demo/l10n_br_sale_stock_demo.xml',
     ],
