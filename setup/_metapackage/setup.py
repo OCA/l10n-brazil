@@ -30,6 +30,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_portal',
         'odoo12-addon-l10n_br_purchase',
         'odoo12-addon-l10n_br_purchase_stock',
+        'odoo12-addon-l10n_br_repair',
         'odoo12-addon-l10n_br_resource',
         'odoo12-addon-l10n_br_sale',
         'odoo12-addon-l10n_br_sale_stock',
