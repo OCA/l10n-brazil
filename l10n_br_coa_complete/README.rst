@@ -25,9 +25,6 @@ Plano de Contas Completo
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Plano de Contas Completo
-========================
-
 Tipos de Empresas
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
