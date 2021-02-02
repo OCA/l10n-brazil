@@ -33,5 +33,4 @@
         'demo/repair_order.xml'
     ],
     'installable': True,
-    'auto_install': True,
 }
