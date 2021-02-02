@@ -97,7 +97,7 @@ addon | version | summary
 [l10n_br_nfse_issnet](l10n_br_nfse_issnet/) | 12.0.1.0.0 | NFS-e (ISSNet)
 [l10n_br_portal](l10n_br_portal/) | 12.0.1.0.0 | Campos Brasileiros no Portal
 [l10n_br_purchase](l10n_br_purchase/) | 12.0.1.0.0 | Brazilian Localization Purchase
-[l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.1.0.0 | Brazilian Localization Purchase Stock
+[l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.1.1.0 | Brazilian Localization Purchase Stock
 [l10n_br_resource](l10n_br_resource/) | 12.0.1.0.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
 [l10n_br_sale](l10n_br_sale/) | 12.0.1.3.0 | Brazilian Localization Sale
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 12.0.1.0.0 | Brazilian Localization Sales and Warehouse
