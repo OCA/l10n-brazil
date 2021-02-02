@@ -4,7 +4,7 @@
          <!--We complete the declaration of the chart of account here.
         These data are to be created once the accounts have been created in database,
         they finish "linking" the CoA to them.-->
-      <record id="l10n_br_coa_complete_template" model="account.chart.template">
+      <record id="l10n_br_coa_complete_template_post" model="account.chart.template">
         <field name="property_account_receivable_id" ref="account_template_101030101"/>
         <field name="property_account_payable_id" ref="account_template_201010101" />
         <field name="property_account_expense_categ_id" ref="account_template_401010499"/>
