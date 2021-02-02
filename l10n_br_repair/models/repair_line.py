@@ -7,7 +7,7 @@ from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 class RepairLine(models.Model):
     _name = 'repair.line'
-    _inherit = [_name, 'l10n_br_repair.repair.line.mixin']
+    _inherit = [_name, 'l10n_br_repair.fiscal.line.mixin']
 
     # Adapt Mixin's fields
     fiscal_tax_ids = fields.Many2many(
