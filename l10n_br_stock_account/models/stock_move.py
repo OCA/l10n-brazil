@@ -122,3 +122,9 @@ class StockMove(models.Model):
         if self.product_id:
             self.price_unit = self._get_price_unit()
         return result
+
+    def _split(self, qty, restrict_partner_id=False):
+        new_move_id = super()._split(qty, restrict_partner_id)
+        self._onchange_commercial_quantity()
+        self._onchange_fiscal_taxes()
+        return new_move_id
