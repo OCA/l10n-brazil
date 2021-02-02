@@ -24,12 +24,3 @@ class StockInvoiceOnshipping(models.TransientModel):
         new_values.update(line._convert_to_write(line._cache))
         values.update(new_values)
         return values
-
-    @api.multi
-    def _get_invoice_line_values(self, moves, invoice_values, invoice):
-        move = fields.first(moves)
-        values = super()._get_invoice_line_values(
-            moves, invoice_values, invoice
-        )
-        values['sale_line_ids'] = [(6, 0, move.sale_line_id.ids)]
-        return values
