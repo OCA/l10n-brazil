@@ -29,7 +29,7 @@
                   <field name="fiscal_operation_id" required="1"/>
               </xpath>
               <xpath expr="//field[@name='order_line']" position="attributes">
-                  <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id}</attribute>
+                  <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id}</attribute>
               </xpath>
               <!-- Edit order_line Tree view -->
               <xpath expr="//field[@name='order_line']/tree" position="attributes">
