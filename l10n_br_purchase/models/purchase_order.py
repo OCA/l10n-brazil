@@ -3,9 +3,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from lxml import etree
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.addons import decimal_precision as dp
 from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
+from odoo.exceptions import UserError
 
 
 class PurchaseOrder(models.Model):
@@ -139,12 +140,15 @@ class PurchaseOrder(models.Model):
         fiscal_dict = self._prepare_br_fiscal_dict(default=True)
 
         document_type_id = self._context.get('document_type_id')
-
         if document_type_id:
             document_type = self.env['l10n_br_fiscal.document.type'].browse(
                 document_type_id)
         else:
             document_type = self.company_id.document_type_id
+            if not document_type:
+                raise UserError(_("You should first set the default fiscal "
+                                  "document for the company %s")
+                                % (self.company_id.name,))
             document_type_id = self.company_id.document_type_id.id
 
         fiscal_dict['default_document_type_id'] = document_type_id
