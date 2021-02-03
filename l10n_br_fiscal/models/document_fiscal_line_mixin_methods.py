@@ -381,6 +381,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     lambda r: r.city_id == company_city_id)
                 if city_id:
                     self.city_taxation_code_id = city_id
+                    self.issqn_fg_city_id = company_city_id
         else:
             self.name = False
             self.fiscal_type = False
