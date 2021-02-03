@@ -110,13 +110,6 @@ class SaleOrderLine(models.Model):
         self.ensure_one()
         result = self._prepare_br_fiscal_dict()
         result.update(super()._prepare_invoice_line(qty))
-        if self.product_id and self.product_id.city_taxation_code_id:
-            company_city_id = self.order_id.company_id.city_id
-            taxation_id = self.product_id.city_taxation_code_id.filtered(
-                lambda r: r.city_id == company_city_id)
-            if taxation_id:
-                result['city_taxation_code_id'] = taxation_id.id
-                result['issqn_fg_city_id'] = company_city_id.id
         return result
 
     @api.onchange('product_uom', 'product_uom_qty')
