@@ -19,7 +19,7 @@ class ContractContract(models.Model):
     fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Fiscal Operation',
-        default=lambda self: self.env.user.company_id,
+        default=lambda self: self.env.user.company_id.contract_fiscal_operation_id,
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
