@@ -26,8 +26,15 @@ class ContractContract(models.Model):
     @api.multi
     def _compute_document_count(self):
         for rec in self:
-            rec.document_count = len(rec._get_related_invoices().mapped(
-                'fiscal_document_id'))
+            rec.document_count = len(
+                rec._get_related_invoices().mapped(
+                    'fiscal_document_id'
+                ).filtered(
+                    lambda d: d != self.env.ref(
+                         'l10n_br_fiscal.fiscal_document_dummy'
+                    )
+                )
+            )
 
     @api.multi
     def action_show_documents(self):
@@ -47,7 +54,11 @@ class ContractContract(models.Model):
             'view_type': 'form',
             'view_mode': 'tree,kanban,form,calendar,pivot,graph,activity',
             'domain': [('id', 'in', self._get_related_invoices().mapped(
-                'fiscal_document_id').ids)],
+                'fiscal_document_id').filtered(
+                    lambda d: d != self.env.ref(
+                     'l10n_br_fiscal.fiscal_document_dummy'
+                    )
+                ).ids)],
         }
         if tree_view and form_view:
             action['views'] = [(tree_view.id, 'tree'), (form_view.id, 'form')]
