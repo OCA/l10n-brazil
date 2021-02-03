@@ -46,7 +46,8 @@
                     <field name="uot_id" force_save="1" groups="uom.group_uom" class="oe_inline oe_no_button" attrs="{'invisible': 1}"/>
                 </div>
                 <field name="fiscal_price"/>
-                <field name="discount"/>
+                <field name="discount" groups="!l10n_br_repair.group_discount_per_value"/>
+                <field name="discount_value" groups="l10n_br_repair.group_discount_per_value"/>
             </xpath>
 
             <xpath expr="//field[@name='operations']/form/notebook/page//group" position="inside">
