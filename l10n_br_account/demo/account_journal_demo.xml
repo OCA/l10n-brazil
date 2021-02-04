@@ -1,61 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Account Journal -->
-    <record id="l10n_br_account_journal_venda" model="account.journal">
-        <field name="name">Venda</field>
-        <field name="type">sale</field>
-        <field name="code">VND</field>
-        <!-- <field name="default_credit_account_id" ref=""/>
-        <field name="default_debit_account_id" ref=""/> -->
-    </record>
-
-    <record id="l10n_br_account_journal_bonificacao" model="account.journal">
-        <field name="name">Bonificação</field>
-        <field name="type">sale</field>
-        <field name="code">BON</field>
-        <!-- <field name="default_credit_account_id" ref=""/>
-        <field name="default_debit_account_id" ref=""/> -->
-    </record>
-
-    <record id="l10n_br_account_journal_devolucao_venda" model="account.journal">
-        <field name="name">Devolução de Vendas</field>
-        <field name="type">sale</field>
-        <field name="code">DEV</field>
-        <!-- <field name="default_credit_account_id" ref=""/>
-        <field name="default_debit_account_id" ref=""/> -->
-    </record>
-
-    <record id="l10n_br_account_journal_outras_saidas" model="account.journal">
-        <field name="name">Outras Saidas</field>
-        <field name="type">sale</field>
-        <field name="code">OEN</field>
-        <!-- <field name="default_credit_account_id" ref=""/>
-        <field name="default_debit_account_id" ref=""/> -->
-    </record>
-
-    <record id="l10n_br_account_journal_compras" model="account.journal">
-        <field name="name">Compras</field>
-        <field name="type">purchase</field>
-        <field name="code">CMP</field>
-        <!-- <field name="default_credit_account_id" ref=""/>
-        <field name="default_debit_account_id" ref=""/> -->
-    </record>
-
-    <record id="l10n_br_account_journal_devolucao_compras" model="account.journal">
-        <field name="name">Devolução de Compras</field>
-        <field name="type">purchase</field>
-        <field name="code">DEC</field>
-        <!-- <field name="default_credit_account_id" ref=""/>
-        <field name="default_debit_account_id" ref=""/> -->
-    </record>
-
-    <record id="l10n_br_account_journal_outras_entradas" model="account.journal">
-        <field name="name">Outras Entradas</field>
-        <field name="type">purchase</field>
-        <field name="code">OEN</field>
-        <!-- <field name="default_credit_account_id" ref=""/>
-        <field name="default_debit_account_id" ref=""/> -->
-    </record>
+    <!-- Account Journal xml ref -->
+    <function model="ir.model.data" name="_update_xmlids">
+        <value model="base" eval="[{
+                'xml_id': 'l10n_br_account.sale_journal_main_company',
+                'record': obj().env['account.journal'].sudo().search([('code', '=', 'INV'), ('company_id', '=', obj().env.ref('base.main_company').id)], limit=1),
+                'noupdate': True,
+            },
+            {
+                'xml_id': 'l10n_br_account.sale_journal_empresa_sn',
+                'record': obj().env['account.journal'].sudo().search([('code', '=', 'INV'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_simples_nacional').id)], limit=1),
+                'noupdate': True,
+            },
+            {
+                'xml_id': 'l10n_br_account.sale_journal_empresa_lp',
+                'record': obj().env['account.journal'].sudo().search([('code', '=', 'INV'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_lucro_presumido').id)], limit=1),
+                'noupdate': True,
+            },
+            {
+                'xml_id': 'l10n_br_account.purchase_journal_main_company',
+                'record': obj().env['account.journal'].sudo().search([('code', '=', 'BILL'), ('company_id', '=', obj().env.ref('base.main_company').id)], limit=1),
+                'noupdate': True,
+            },
+            {
+                'xml_id': 'l10n_br_account.purchase_journal_empresa_sn',
+                'record': obj().env['account.journal'].sudo().search([('code', '=', 'BILL'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_simples_nacional').id)], limit=1),
+                'noupdate': True,
+            },
+            {
+                'xml_id': 'l10n_br_account.purchase_journal_empresa_lp',
+                'record': obj().env['account.journal'].sudo().search([('code', '=', 'BILL'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_lucro_presumido').id)], limit=1),
+                'noupdate': True,
+            },
+            {
+                'xml_id': 'l10n_br_account.general_journal_main_company',
+                'record': obj().env['account.journal'].sudo().search([('code', '=', 'MISC'), ('company_id', '=', obj().env.ref('base.main_company').id)], limit=1),
+                'noupdate': True,
+            },
+            {
+                'xml_id': 'l10n_br_account.general_journal_empresa_sn',
+                'record': obj().env['account.journal'].sudo().search([('code', '=', 'MISC'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_simples_nacional').id)], limit=1),
+                'noupdate': True,
+            },
+            {
+                'xml_id': 'l10n_br_account.general_journal_empresa_lp',
+                'record': obj().env['account.journal'].sudo().search([('code', '=', 'MISC'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_lucro_presumido').id)], limit=1),
+                'noupdate': True,
+            },]"/>
+    </function>
 
 </odoo>
