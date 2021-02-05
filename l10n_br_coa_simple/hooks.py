@@ -25,4 +25,16 @@ def post_init_hook(cr, registry):
             user_admin.company_id = company
             coa_simple_tmpl.sudo(
                 user=user_admin.id).try_loading_for_current_company()
+
+            tools.convert_file(
+                cr,
+                "l10n_br_coa_simple",
+                "demo/account_journal.xml",
+                None,
+                mode="init",
+                noupdate=True,
+                kind="init",
+                report=None,
+            )
+
             user_admin.company_id = env.ref('base.main_company')
