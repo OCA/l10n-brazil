@@ -5,7 +5,6 @@ from odoo import api, fields, models, _
 
 
 class ContractContract(models.Model):
-
     _name = 'contract.contract'
     _inherit = [_name, 'l10n_br_fiscal.document.mixin']
 
@@ -69,8 +68,8 @@ class ContractContract(models.Model):
             invoice.fiscal_document_id._onchange_document_serie_id()
             invoice.fiscal_document_id._onchange_company_id()
 
-            if hasattr(invoice.fiscal_document_id, 'rps_number') and \
-                    invoice.fiscal_document_id.number:
+            if (hasattr(invoice.fiscal_document_id, 'rps_number') and
+                    invoice.fiscal_document_id.number):
                 invoice.fiscal_document_id.rps_number = \
                     invoice.fiscal_document_id.number
                 invoice.fiscal_document_id.number = False
@@ -149,7 +148,6 @@ class ContractContract(models.Model):
                     'Contract manually invoiced: '
                     '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
                     '</a>'
-                )
-                % (invoice._name, invoice.id)
+                ) % (invoice._name, invoice.id)
             )
         return invoices
