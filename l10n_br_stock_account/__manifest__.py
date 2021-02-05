@@ -36,6 +36,7 @@
         # Demo
         'demo/company_demo.xml',
         'demo/l10n_br_stock_account_demo.xml',
+        'demo/fiscal_operation.xml',
     ],
     'installable': True,
     'auto_install': True,
