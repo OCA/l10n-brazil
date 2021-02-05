@@ -335,7 +335,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmsst_base_type = fields.Selection(
         selection=ICMS_ST_BASE_TYPE,
         string="ICMS ST Base Type",
-        required=True,
         default=ICMS_ST_BASE_TYPE_DEFAULT)
 
     # pMVAST - Percentual da margem de valor Adicionado do ICMS ST
@@ -496,8 +495,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofins_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
-        required=True)
+        default=TAX_BASE_TYPE_PERCENT)
 
     cofins_base = fields.Monetary(string="COFINS Base")
 
@@ -536,8 +534,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofinsst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS ST Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
-        required=True)
+        default=TAX_BASE_TYPE_PERCENT)
 
     cofinsst_base = fields.Monetary(string="COFINS ST Base")
 
@@ -555,8 +552,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofins_wh_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS WH Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
-        required=True)
+        default=TAX_BASE_TYPE_PERCENT)
 
     cofins_wh_base = fields.Monetary(string="COFINS RET Base")
 
@@ -587,8 +583,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pis_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
-        required=True)
+        default=TAX_BASE_TYPE_PERCENT)
 
     pis_base = fields.Monetary(string="PIS Base")
 
@@ -627,8 +622,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pisst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS ST Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
-        required=True)
+        default=TAX_BASE_TYPE_PERCENT)
 
     pisst_base = fields.Monetary(string="PIS ST Base")
 
@@ -647,8 +641,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pis_wh_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS WH Base Type",
-        default=TAX_BASE_TYPE_PERCENT,
-        required=True)
+        default=TAX_BASE_TYPE_PERCENT)
 
     pis_wh_base = fields.Monetary(string="PIS RET Base")
 
