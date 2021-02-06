@@ -17,12 +17,12 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-def formata_data(doc, data):	
+def formata_data(doc, data):
     return Datetime.context_timestamp(doc, Datetime.from_string(data))
 
 
 @api.model
-@py3o_report_extender('sped_cfe.action_report_sped_documento_cfe')
+@py3o_report_extender('l10n_br_cfe.action_report_sped_documento_cfe')
 def report_sped_documento_cfe(session, local_context):
     data = {
         'ChaveCFeSAT': ChaveCFeSAT,

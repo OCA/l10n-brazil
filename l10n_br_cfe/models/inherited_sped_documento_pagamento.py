@@ -173,7 +173,7 @@ class SpedDocumentoPagamento(models.Model):
             'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'sped.documento.pagamento',
-            'view_id': self.env.ref('sped_cfe.view_enviar_pagamento').id,
+            'view_id': self.env.ref('l10n_br_cfe.view_enviar_pagamento').id,
             'target': 'new',
             'views': False,
             'type': 'ir.actions.act_window',

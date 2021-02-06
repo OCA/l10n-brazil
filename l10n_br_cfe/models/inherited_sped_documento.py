@@ -855,7 +855,7 @@ class SpedDocumento(models.Model):
 
         context = self.env.context.copy()
         reportname = 'report_sped_documento_cfe'
-        action_py3o_report = self.env.ref('sped_cfe.action_report_sped_documento_cfe')
+        action_py3o_report = self.env.ref('l10n_br_cfe.action_report_sped_documento_cfe')
 
         if not action_py3o_report:
             raise UserError(
