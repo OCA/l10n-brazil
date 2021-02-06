@@ -63,7 +63,7 @@ class SpedDocumentoItem(models.Model):
 
         descricao = descricao.replace('—', '-').replace('–', '-')
         descricao = descricao.replace('”', '"').replace('“', '"')
-        descricao = descricao.replace('’', u"'").replace('‘', u"'")
+        descricao = descricao.replace('’', "'").replace('‘', "'")
         descricao = descricao.replace('—', '-').replace('–', '-')
 
         if self.produto_id.ncm_id:

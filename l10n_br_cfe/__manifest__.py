@@ -6,10 +6,10 @@
 #
 
 {
-    'name': u'SPED - CF-E - MFE e SAT',
+    'name': 'SPED - CF-E - MFE e SAT',
     'version': '10.0.1.0.0',
-    'author': u'KMEE,Odoo Community Association (OCA)',
-    'category': u'Fiscal',
+    'author': 'KMEE,Odoo Community Association (OCA)',
+    'category': 'Fiscal',
     'depends': [
         'sped_nfe',
         'report_py3o',

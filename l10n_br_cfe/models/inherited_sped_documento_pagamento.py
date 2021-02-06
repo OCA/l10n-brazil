@@ -24,21 +24,21 @@ class SpedDocumentoPagamento(models.Model):
     _inherit = 'sped.documento.pagamento'
 
     id_pagamento = fields.Char(
-        string=u'Id Pagamento'
+        string='Id Pagamento'
     )
     nsu = fields.Char(
-        string=u'NSU',
+        string='NSU',
     )
     numero_aprovacao = fields.Char(
-        string=u'Nº aprovação',
+        string='Nº aprovação',
     )
 
     serial_pos = fields.Char(
-        string=u'Serial POS'
+        string='Serial POS'
     )
 
     estabecimento = fields.Integer(
-        string=u'Estabelecimento',
+        string='Estabelecimento',
     )
 
     forma_pagamento = fields.Selection(
@@ -48,10 +48,10 @@ class SpedDocumentoPagamento(models.Model):
     )
 
     id_fila = fields.Char(
-        string=u'Id Fila'
+        string='Id Fila'
     )
     pagamento_valido = fields.Boolean(
-        string=u'Pagamento Válido'
+        string='Pagamento Válido'
     )
 
     def monta_cfe(self):

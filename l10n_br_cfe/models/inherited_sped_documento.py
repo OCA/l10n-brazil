@@ -5,7 +5,7 @@
 
 import logging
 import base64
-from StringIO import StringIO
+from io import StringIO
 import qrcode
 from lxml import etree
 from dateutil.relativedelta import relativedelta
@@ -147,13 +147,13 @@ class SpedDocumento(models.Model):
                     buffer.getvalue())
 
     configuracoes_pdv = fields.Many2one(
-        string=u"Configurações PDV",
+        string="Configurações PDV",
         comodel_name="pdv.config",
         compute='_buscar_configuracoes_pdv',
     )
 
     pagamento_autorizado_cfe = fields.Boolean(
-        string=u"Pagamento Autorizado",
+        string="Pagamento Autorizado",
         readonly=True,
         default=False,
         compute=_verificar_pagamentos_cfe
@@ -170,10 +170,10 @@ class SpedDocumento(models.Model):
         readonly=True,
     )
     codigo_rejeicao_cfe = fields.Char(
-        string=u'Código Rejeição CFe'
+        string='Código Rejeição CFe'
     )
 
-    id_fila_validador = fields.Char(string=u'ID Fila Validador')
+    id_fila_validador = fields.Char(string='ID Fila Validador')
 
     cfe_code128 = fields.Binary(
         string='Imagem cfe code 128',
@@ -202,7 +202,7 @@ class SpedDocumento(models.Model):
         compute='_compute_cfe_cancel_image',
     )
     numero_identificador_sessao = fields.Char(
-        string=u'Numero identificador sessao'
+        string='Numero identificador sessao'
     )
 
     def executa_depois_autorizar(self):
@@ -627,7 +627,7 @@ class SpedDocumento(models.Model):
         cnpj_software_house, assinatura, numero_caixa = \
             self._monta_cfe_identificacao()
         return CFeCancelamento(
-            chCanc=u'CFe' + self.chave,
+            chCanc='CFe' + self.chave,
             CNPJ=limpa_formatacao(cnpj_software_house),
             signAC=assinatura,
             numeroCaixa=int(numero_caixa),
@@ -789,8 +789,8 @@ class SpedDocumento(models.Model):
                        resposta.EEEEE
             mensagem += '\nMensagem: ' + \
                         resposta.mensagem
-            if resposta.resposta.mensagem == u'Erro interno' and \
-                    resposta.resposta.mensagemSEFAZ == u'ERRO' and not \
+            if resposta.resposta.mensagem == 'Erro interno' and \
+                    resposta.resposta.mensagemSEFAZ == 'ERRO' and not \
                     self.numero_identificador_sessao:
                 self.numero_identificador_sessao = \
                     resposta.resposta.numeroSessao
@@ -799,8 +799,8 @@ class SpedDocumento(models.Model):
         except Exception as resposta:
             if hasattr(resposta, 'resposta'):
                 self.codigo_rejeicao_cfe = resposta.resposta.EEEEE
-            if resposta.resposta.mensagem == u'Erro interno' and \
-                    resposta.resposta.mensagemSEFAZ == u'ERRO' and not \
+            if resposta.resposta.mensagem == 'Erro interno' and \
+                    resposta.resposta.mensagemSEFAZ == 'ERRO' and not \
                     self.numero_identificador_sessao:
                 self.numero_identificador_sessao = \
                     resposta.resposta.numeroSessao

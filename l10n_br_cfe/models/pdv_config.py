@@ -8,24 +8,24 @@ from odoo import models, fields
 class ConfiguracaoPDV(models.Model):
     _name = 'pdv.config'
     name = fields.Char(
-        String=u"Nome do PDV",
+        String="Nome do PDV",
         required=True
     )
 
     vendedor = fields.Many2one(
         comodel_name='res.users',
-        string=u'Vendedor',
+        string='Vendedor',
     )
 
     loja = fields.Many2one(
         comodel_name='sped.empresa',
-        string=u'Loja',
+        string='Loja',
     )
 
-    numero_caixa = fields.Char(string=u'Número de caixa')
+    numero_caixa = fields.Char(string='Número de caixa')
 
     tipo = fields.Selection([('SAT', 'SAT'),
-                             ], string=u'Tipo')
+                             ], string='Tipo')
 
     impressora = fields.Many2one(
         'impressora.config',
@@ -36,47 +36,47 @@ class ConfiguracaoPDV(models.Model):
         ('local', 'Local'),
         ('rede_interna', 'Rede Interna'),
         ('remoto', 'Remoto'),
-    ], string=u'Tipo SAT')
+    ], string='Tipo SAT')
 
     path_integrador = fields.Char(
-        string=u'Caminho do Integrador'
+        string='Caminho do Integrador'
     )
 
-    ip = fields.Char(string=u'IP')
+    ip = fields.Char(string='IP')
 
     porta = fields.Char(
-        string=u'Porta'
+        string='Porta'
     )
 
     ambiente = fields.Selection([
         ('producao', 'Produção'),
         ('homologacao', 'Homologação'),
-    ], string=u'Ambiente')
+    ], string='Ambiente')
 
-    codigo_ativacao = fields.Char(string=u'Código de Ativação')
+    codigo_ativacao = fields.Char(string='Código de Ativação')
 
-    cnpjsh = fields.Char(string=u'CNPJ Homologação')
+    cnpjsh = fields.Char(string='CNPJ Homologação')
 
-    ie = fields.Char(string=u'Inscrição Estadual Homologação')
+    ie = fields.Char(string='Inscrição Estadual Homologação')
 
-    chave_ativacao = fields.Char(string=u'Chave de Ativação')
+    chave_ativacao = fields.Char(string='Chave de Ativação')
 
     cnpj_software_house = fields.Char(
-        string=u"CNPJ Software House"
+        string="CNPJ Software House"
     )
 
     assinatura = fields.Char(
-        string=u"Assinatura"
+        string="Assinatura"
     )
 
     site_consulta_qrcode = fields.Char(
-        string=u"Site Sefaz"
+        string="Site Sefaz"
     )
 
     chave_acesso_validador = fields.Char(
-        string=u'Chave Acesso Validador',
+        string='Chave Acesso Validador',
     )
-    chave_requisicao = fields.Char(string=u'Chave de Requisição')
-    estabelecimento = fields.Char(string=u'Estabelecimento')
-    multiplos_pag = fields.Boolean(string=u'Habilitar Múltiplos Pagamentos')
-    anti_fraude = fields.Boolean(string=u'Habilitar Anti-Fraude')
+    chave_requisicao = fields.Char(string='Chave de Requisição')
+    estabelecimento = fields.Char(string='Estabelecimento')
+    multiplos_pag = fields.Boolean(string='Habilitar Múltiplos Pagamentos')
+    anti_fraude = fields.Boolean(string='Habilitar Anti-Fraude')

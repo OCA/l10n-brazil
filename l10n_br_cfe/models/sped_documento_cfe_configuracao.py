@@ -7,10 +7,10 @@
 from odoo import fields, models
 
 PRINTER = [
-    ('epson-tm-t20', u'Epson TM-T20'),
-    ('bematech-mp4200th', u'Bematech MP4200TH'),
-    ('daruma-dr700', u'Daruma DR700'),
-    ('elgin-i9', u'Elgin I9'),
+    ('epson-tm-t20', 'Epson TM-T20'),
+    ('bematech-mp4200th', 'Bematech MP4200TH'),
+    ('daruma-dr700', 'Daruma DR700'),
+    ('elgin-i9', 'Elgin I9'),
 ]
 
 
@@ -28,22 +28,22 @@ class SpedDocumentoCfeConfiguracao(models.Model):
     )
 
     cnpj_homologacao = fields.Char(
-        string=u'CNPJ homologação',
+        string='CNPJ homologação',
         size=18
     )
 
     ie_homologacao = fields.Char(
-        string=u'IE homologação',
+        string='IE homologação',
         size=16
     )
 
     cnpj_software_house = fields.Char(
-        string=u'CNPJ software house',
+        string='CNPJ software house',
         size=18
     )
 
     sat_ambiente = fields.Selection(
-        string=u'Ambiente SAT',
+        string='Ambiente SAT',
         selection=[
             ('hologacao', 'Hologação'),
             ('producao', 'Produção')
@@ -52,30 +52,30 @@ class SpedDocumentoCfeConfiguracao(models.Model):
     )
 
     sat_path = fields.Char(
-        string=u'SAT path'
+        string='SAT path'
     )
 
     numero_caixa = fields.Integer(
-        string=u'Número do Caixa',
+        string='Número do Caixa',
         copy=False
     )
 
     cod_ativacao = fields.Char(
-        string=u'Código de ativação',
+        string='Código de ativação',
     )
 
     impressora = fields.Selection(
         selection=PRINTER,
-        string=u'Impressora',
+        string='Impressora',
     )
 
     printer_params = fields.Char(
-        string=u'Printer parameters'
+        string='Printer parameters'
     )
 
     fiscal_category_id = fields.Many2one(
         comodel_name='l10n_br_account.fiscal.category',
-        string=u'Fiscal Category'
+        string='Fiscal Category'
     )
 
     assinatura_sat = fields.Char(

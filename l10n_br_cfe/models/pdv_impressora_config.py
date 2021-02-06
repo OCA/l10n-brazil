@@ -22,14 +22,14 @@ class ConfiguracaoImpressora(models.Model):
         ('elgini7', 'Elgin I7'),
         ('epson', 'Epson TM-T20'),
 
-    ], string=u'Modelo')
+    ], string='Modelo')
     forma = fields.Selection([
         ('usb', 'USB'),
         ('file', 'File'),
         ('rede', 'Rede'),
         ('serial', 'Serial'),
         ('dummy', 'Dummy')
-    ], string=u'Forma de Impressão')
-    conexao = fields.Char(string=u'Conexão')
+    ], string='Forma de Impressão')
+    conexao = fields.Char(string='Conexão')
 
-    nome = fields.Char(string=u'Nome')
+    nome = fields.Char(string='Nome')
