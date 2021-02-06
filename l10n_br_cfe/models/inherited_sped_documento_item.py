@@ -1,11 +1,7 @@
-# -*- coding: utf-8 -*-
-#
 # Copyright 2017 KMEE INFORMATICA LTDA
 #   Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
-#
 
-from __future__ import division, print_function, unicode_literals
 
 import logging
 
