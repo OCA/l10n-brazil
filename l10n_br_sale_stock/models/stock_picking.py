@@ -12,5 +12,5 @@ class StockPicking(models.Model):
         self.ensure_one()
         partner = self.partner_id
         if self.sale_id:
-           partner = self.sale_id.partner_invoice_id
+            partner = self.sale_id.partner_invoice_id
         return partner.address_get(['invoice']).get('invoice')
