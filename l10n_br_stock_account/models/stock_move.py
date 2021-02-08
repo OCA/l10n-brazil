@@ -86,7 +86,7 @@ class StockMove(models.Model):
         # HACK: using hasattr for not depending on Sale
         if hasattr(self, 'sale_line_id'):
             if not self.sale_line_id and \
-                self.fiscal_operation_id.fiscal_operation_type == 'out':
+                    self.fiscal_operation_id.fiscal_operation_type == 'out':
                 self.price_unit = self.product_id.standard_price
 
     def _get_new_picking_values(self):
@@ -134,7 +134,7 @@ class StockMove(models.Model):
         # HACK: using hasattr for not depending on Sale
         if hasattr(self, 'sale_line_id'):
             if not self.sale_line_id and \
-                inv_type in ('out_invoice', 'out_refund'):
+                    inv_type in ('out_invoice', 'out_refund'):
                 result = self.product_id.standard_price
 
         return result
@@ -149,7 +149,7 @@ class StockMove(models.Model):
         # HACK: using hasattr for not depending on Sale
         if hasattr(self, 'sale_line_id'):
             if not self.sale_line_id and \
-                self.fiscal_operation_id.fiscal_operation_type == 'out':
+                    self.fiscal_operation_id.fiscal_operation_type == 'out':
                 result = self.product_id.standard_price
 
         return result
