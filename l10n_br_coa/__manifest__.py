@@ -10,7 +10,7 @@
     'license': 'AGPL-3',
     'author': 'Akretion, KMEE, Odoo Community Association (OCA)',
     'website': 'https://github.com/oca/l10n-brazil',
-    'depends': ['account', 'l10n_br_base'],
+    'depends': ['account'],
     'data': [
         # Data
         'data/l10n_br_coa_template.xml',
