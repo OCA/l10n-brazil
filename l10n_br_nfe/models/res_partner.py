@@ -58,6 +58,11 @@ class ResPartner(spec_models.SpecModel):
     nfe40_ISUF = fields.Char(related='suframa')
     nfe40_email = fields.Char(related='email')
 
+    nfe40_choice2 = fields.Selection([
+        ('nfe40_CNPJ', 'CNPJ'),
+        ('nfe40_CPF', 'CPF')],
+        "CNPJ/CPF do Parceiro")
+
     @api.multi
     def _compute_nfe40_enderDest(self):
         for rec in self:
