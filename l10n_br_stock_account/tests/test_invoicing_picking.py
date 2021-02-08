@@ -10,13 +10,14 @@ class InvoicingPickingTest(TransactionCase):
 
     def setUp(self):
         super(InvoicingPickingTest, self).setUp()
-        # self.env = self.env(user=self.env.ref('l10n_br_base.user_demo_presumido'))
         self.stock_picking = self.env['stock.picking']
         self.invoice_model = self.env['account.invoice']
-        self.stock_invoice_onshipping = self.env['stock.invoice.onshipping']
+        self.invoice_wizard = self.env['stock.invoice.onshipping']
         self.stock_return_picking = self.env['stock.return.picking']
         self.stock_picking_sp = self.env.ref(
-            'l10n_br_stock_account.demo_l10n_br_stock_account-picking-1')
+            'l10n_br_stock_account.demo_main_l10n_br_stock_account-picking-1')
+        self.partner = self.env.ref('l10n_br_base.res_partner_cliente1_sp')
+        self.company = self.env.ref('l10n_br_base.empresa_lucro_presumido')
 
     def _run_fiscal_onchanges(self, record):
         record._onchange_fiscal_operation_id()
@@ -30,10 +31,12 @@ class InvoicingPickingTest(TransactionCase):
     def test_invoicing_picking(self):
         """Test Invoicing Picking"""
 
+        nb_invoice_before = self.invoice_model.search_count([])
         self._run_fiscal_onchanges(self.stock_picking_sp)
 
         for line in self.stock_picking_sp.move_lines:
             self._run_fiscal_line_onchanges(line)
+            line._onchange_product_quantity()
 
         self.stock_picking_sp.action_confirm()
         self.stock_picking_sp.action_assign()
@@ -41,23 +44,35 @@ class InvoicingPickingTest(TransactionCase):
         # Force product availability
         for move in self.stock_picking_sp.move_ids_without_package:
             move.quantity_done = move.product_uom_qty
-
         self.stock_picking_sp.button_validate()
-
         self.assertEquals(
             self.stock_picking_sp.state, 'done',
             'Change state fail.'
         )
+        # Verificar os Valores de Preço pois isso é usado na Valorização do
+        # Estoque, o metodo do core é chamado pelo botão Validate
 
-        wizard_obj = self.stock_invoice_onshipping.with_context(
-            active_ids=[self.stock_picking_sp.id],
+        for line in self.stock_picking_sp.move_lines:
+            # No Brasil o caso de Ordens de Entrega que não tem ligação com
+            # Pedido de Venda precisam informar o Preço de Custo e não o de
+            # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
+            # Teria algum caso que não deve usar ?
+
+            # Os metodos do stock/core alteram o valor p/
+            # negativo por isso o abs
+            self.assertEqual(
+                abs(line.price_unit), line.product_id.standard_price)
+            # O Campo fiscal_price precisa ser um espelho do price_unit,
+            # apesar do onchange p/ preenche-lo sem incluir o compute no campo
+            # ele traz o valor do lst_price e falha no teste abaixo
+            # TODO - o fiscal_price aqui tbm deve ter um valor negativo ?
+            self.assertEqual(line.fiscal_price, line.price_unit)
+
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=self.stock_picking_sp.ids,
             active_model=self.stock_picking_sp._name,
             active_id=self.stock_picking_sp.id,
-        ).create({
-            'group': 'picking',
-            'journal_type': 'sale'
-        })
-
+        )
         fields_list = wizard_obj.fields_get().keys()
         wizard_values = wizard_obj.default_get(fields_list)
         wizard = wizard_obj.create(wizard_values)
@@ -67,6 +82,13 @@ class InvoicingPickingTest(TransactionCase):
         invoice = self.invoice_model.search(domain)
 
         self.assertTrue(invoice, 'Invoice is not created.')
+        self.assertEqual(self.stock_picking_sp.invoice_state, 'invoiced')
+        self.assertEqual(invoice.partner_id, self.partner)
+        self.assertIn(invoice, self.stock_picking_sp.invoice_ids)
+        self.assertIn(self.stock_picking_sp, invoice.picking_ids)
+        nb_invoice_after = self.invoice_model.search_count([])
+        self.assertEquals(nb_invoice_before, nb_invoice_after - len(invoice))
+        assert invoice.invoice_line_ids, 'Error to create invoice line.'
         for line in invoice.picking_ids:
             self.assertEquals(
                 line.id, self.stock_picking_sp.id,
@@ -76,10 +98,12 @@ class InvoicingPickingTest(TransactionCase):
                 line.invoice_line_tax_ids,
                 'Taxes in invoice lines are missing.'
             )
-        # tax_line_ids is not created if all the taxes have value 0
-        # self.assertTrue(
-        #     invoice.tax_line_ids, 'Total of Taxes in Invoice are missing.'
-        # )
+            # No Brasil o caso de Ordens de Entrega que não tem ligação com
+            # Pedido de Venda precisam informar o Preço de Custo e não o de
+            # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
+            # Aqui o campo não pode ser negativo
+            self.assertEqual(line.price_unit, line.product_id.standard_price)
+
         self.assertTrue(
             invoice.fiscal_operation_id,
             'Mapping fiscal operation on wizard to create invoice fail.'
