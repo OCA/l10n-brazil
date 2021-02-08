@@ -95,7 +95,7 @@ class NFe(spec_models.StackedModel):
     fiscal_document_event_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.document.event',
         inverse_name='fiscal_document_id',
-        string='Events',
+        string='Fiscal Events',
         copy=False,
     )
 
@@ -174,6 +174,7 @@ class NFe(spec_models.StackedModel):
 
     nfe40_indIEDest = fields.Selection(
         related='partner_ind_ie_dest',
+        string='Contribuinte do ICMS (NFe)'
     )
 
     nfe40_tpNF = fields.Selection(
@@ -203,6 +204,8 @@ class NFe(spec_models.StackedModel):
 
     nfe40_CRT = fields.Selection(
         related='company_tax_framework',
+        string='Código de Regime Tributário (NFe)',
+
     )
 
     nfe40_vFrete = fields.Monetary(
