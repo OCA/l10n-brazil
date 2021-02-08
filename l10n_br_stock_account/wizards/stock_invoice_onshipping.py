@@ -25,7 +25,6 @@ class StockInvoiceOnshipping(models.TransientModel):
         :return: account.journal recordset
         """
         self.ensure_one()
-        journal = self.env['account.journal']
         if self.fiscal_operation_journal:
             pickings = self._load_pickings()
             picking = fields.first(pickings)
@@ -60,12 +59,17 @@ class StockInvoiceOnshipping(models.TransientModel):
             fiscal_vals['journal_id'] = pick.fiscal_operation_id.journal_id.id
 
         # Endereço de Entrega diferente do Endereço de Faturamento
+        # TODO - Endereço de Entrega deve ser informado em todos
+        #  os casos da NFe ?
         if fiscal_vals['partner_id'] != values['partner_id']:
             values['partner_shipping_id'] = fiscal_vals['partner_id']
-        fiscal_vals.update(values)
-        fiscal_vals['fiscal_document_id'] = False
+        # Ser for feito o update como abaixo o campo
+        # fiscal_operation_id vai vazio
+        # fiscal_vals.update(values)
+        values.update(fiscal_vals)
+        values['fiscal_document_id'] = False
 
-        return invoice, fiscal_vals
+        return invoice, values
 
     @api.multi
     def _get_invoice_line_values(self, moves, invoice_values, invoice):
@@ -76,18 +80,19 @@ class StockInvoiceOnshipping(models.TransientModel):
         :return: dict
         """
 
+        values = super()._get_invoice_line_values(
+            moves, invoice_values, invoice)
         move = fields.first(moves)
-        values = move._prepare_br_fiscal_dict()
-        values.update(
-            {
-                key: value for key, value in super()._get_invoice_line_values(
-                    moves, invoice_values, invoice
-                ).items() if value
-            }
-        )
-        values['invoice_line_tax_ids'] = [
+        fiscal_values = move._prepare_br_fiscal_dict()
+        # IMPORTANTE: se for feito o
+        # values.update(fiscal_values)
+        # o campo price_unit fica negativo na fatura criada
+        fiscal_values.update(values)
+
+        fiscal_values['invoice_line_tax_ids'] = [
             (6, 0, self.env['l10n_br_fiscal.tax'].browse(
-                values['fiscal_tax_ids'][0][2]
+                fiscal_values['fiscal_tax_ids'][0][2]
             ).account_taxes().ids)
         ]
-        return values
+
+        return fiscal_values
