@@ -61,6 +61,15 @@ class StockMove(models.Model):
         string='Comments',
     )
 
+    # TODO - O price_unit fica negativo por metodos do core
+    #  durante o processo chamado pelo botão Validate p/
+    #  valorização de estoque, sem o compute o valor permance positivo,
+    #  o fiscal_price deve ser um espelho ?
+    #  A Fatura é criada com os dois valores positivos
+    fiscal_price = fields.Float(
+        compute='_compute_fiscal_price'
+    )
+
     @api.onchange(
         'product_id',
         'product_uom',
@@ -70,6 +79,15 @@ class StockMove(models.Model):
         """To call the method in the mixin to update
         the price and fiscal quantity."""
         self._onchange_commercial_quantity()
+        # No Brasil o caso de Ordens de Entrega que não tem ligação com
+        # Pedido de Venda precisam informar o Preço de Custo e não o de
+        # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
+        # Teria algum caso que não deve usar ?
+        # HACK: using hasattr for not depending on Sale
+        if hasattr(self, 'sale_line_id'):
+            if not self.sale_line_id and \
+                self.fiscal_operation_id.fiscal_operation_type == 'out':
+                self.price_unit = self.product_id.standard_price
 
     def _get_new_picking_values(self):
         """ Prepares a new picking for this move as it could not be assigned to
@@ -109,11 +127,31 @@ class StockMove(models.Model):
     @api.multi
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
+        # No Brasil o caso de Ordens de Entrega que não tem ligação com
+        # Pedido de Venda precisam informar o Preço de Custo e não o de
+        # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
+        # Teria algum caso que não deve usar ?
+        # HACK: using hasattr for not depending on Sale
+        if hasattr(self, 'sale_line_id'):
+            if not self.sale_line_id and \
+                inv_type in ('out_invoice', 'out_refund'):
+                result = self.product_id.standard_price
+
         return result
 
     def _get_price_unit(self):
         """ Returns the unit price to store on the quant """
         result = super()._get_price_unit()
+        # No Brasil o caso de Ordens de Entrega que não tem ligação com
+        # Pedido de Venda precisam informar o Preço de Custo e não o de
+        # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
+        # Teria algum caso que não deve usar ?
+        # HACK: using hasattr for not depending on Sale
+        if hasattr(self, 'sale_line_id'):
+            if not self.sale_line_id and \
+                self.fiscal_operation_id.fiscal_operation_type == 'out':
+                result = self.product_id.standard_price
+
         return result
 
     @api.onchange('product_id')
@@ -128,3 +166,9 @@ class StockMove(models.Model):
         self._onchange_commercial_quantity()
         self._onchange_fiscal_taxes()
         return new_move_id
+
+    @api.multi
+    @api.depends('price_unit')
+    def _compute_fiscal_price(self):
+        for record in self:
+            record.fiscal_price = record.price_unit
