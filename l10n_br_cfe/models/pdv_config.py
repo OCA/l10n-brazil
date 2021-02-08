@@ -18,7 +18,7 @@ class ConfiguracaoPDV(models.Model):
     )
 
     loja = fields.Many2one(
-        comodel_name='sped.empresa',
+        comodel_name='res.company',
         string='Loja',
     )
 

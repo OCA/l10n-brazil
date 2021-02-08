@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <menuitem
+        parent="l10n_br_fiscal.configuration_menu"
+        sequence="90"
+        id="l10n_br_cfe_menu_config"
+        name="Ponto de Venda"
+    />
+
+</odoo>

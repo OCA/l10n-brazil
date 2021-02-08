@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA - Luis Felipe Mileo <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="cfe_res_company_form" >
+        <field name="name">l10n_br_cfe.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <page name="edoc" position="after">
+                <page string="CF-E - MFE/SAT">
+                    <group col="4">
+                        <separator string="Ambiente" colspan="4" />
+                        <field name="ambiente_cfe" string="Ambiente" />
+                        <field name="tipo_emissao_cfe" string="Tipo de emissão" />
+                        <newline />
+                        <separator string="Emissão normal" colspan="4" />
+                        <separator string="Produção" colspan="2" />
+                        <separator string="Homologação" colspan="2" />
+                        <field name="serie_cfe_producao" string="Série" />
+                        <field name="serie_cfe_homologacao" string="Série" />
+                        <newline />
+                        <separator string="Emissão em contingência" colspan="4" />
+                        <field name="tipo_emissao_cfe_contingencia" string="Tipo de emissão" />
+                        <newline />
+                        <separator string="Produção" colspan="2" />
+                        <separator string="Homologação" colspan="2" />
+                        <field name="serie_cfe_contingencia_producao" string="Série" />
+                        <field name="serie_cfe_contingencia_homologacao" string="Série" />
+                        <newline />
+                        <separator string="Extrato CF-E" colspan="4" />
+                        <field name="logo_cfe" colspan="4" />
+                        <newline />
+                        <separator string="Modelos de email" colspan="4" />
+                        <field name="mail_template_cfe_autorizada_id" colspan="4" string="Autorização" />
+                        <field name="mail_template_cfe_cancelada_id" colspan="4" string="Cancelamento" />
+                        <field name="mail_template_cfe_denegada_id" colspan="4" string="Denegação" />
+                        <field name="mail_template_cfe_cce_id" colspan="4" string="Carta de correção" />
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>

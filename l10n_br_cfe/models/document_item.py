@@ -6,8 +6,8 @@
 import logging
 
 from odoo import models
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    REGIME_TRIBUTARIO_SIMPLES,
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    TAX_FRAMEWORK_SIMPLES,
     MODELO_FISCAL_CFE,
 )
 
@@ -39,8 +39,8 @@ except (ImportError, IOError) as err:
     _logger.debug(err)
 
 
-class SpedDocumentoItem(models.Model):
-    _inherit = 'sped.documento.item'
+class FiscalDocumentLine(models.Model):
+    _inherit = 'l10n_br_fiscal.document.line'
 
     def monta_cfe(self):
         """
@@ -76,7 +76,7 @@ class SpedDocumentoItem(models.Model):
 
         icms = pis = cofins = None
 
-        if self.regime_tributario == REGIME_TRIBUTARIO_SIMPLES:
+        if self.regime_tributario == TAX_FRAMEWORK_SIMPLES:
             if self.cst_icms_sn in ['102', '300', '500']:
                 icms = ICMSSN102(
                     Orig=self.org_icms,
@@ -200,9 +200,7 @@ class SpedDocumentoItem(models.Model):
         self.ensure_one()
 
         if self.documento_id.modelo != MODELO_FISCAL_CFE:
-            return super(
-                SpedDocumentoItem, self
-            )._monta_informacoes_adicionais()
+            return super()._monta_informacoes_adicionais()
 
         infcomplementar = self.infcomplementar
 

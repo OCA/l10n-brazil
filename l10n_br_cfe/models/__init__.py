@@ -3,12 +3,11 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 
-from . import inherited_sped_documento
-from . import inherited_sped_documento_item
-from . import inherited_sped_documento_pagamento
-from . import sped_documento_cfe_configuracao
+from . import document
+from . import document_item
+from . import payment
 from . import pdv_config
 from . import pdv_impressora_config
-from . import inherited_res_users
-from . import inherited_sped_participante
-from . import inherited_sped_empresa
+from . import res_users
+from . import res_partner
+from . import res_company

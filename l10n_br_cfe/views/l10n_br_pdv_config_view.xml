@@ -89,16 +89,10 @@
     </record>
 
     <menuitem
-        parent="l10n_br_base.menu_fiscal_configuracao"
-        sequence="90"
-        id="pdv_config_menu"
-        name="Ponto de Venda"
-    />
-    <menuitem
         id="pdv_config_menuitem"
         sequence="1"
         name="PDV Configuração"
-        parent="pdv_config_menu"
+        parent="l10n_br_cfe_menu_config"
         action="pdv_config_action"
     />
 

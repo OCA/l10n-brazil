@@ -4,10 +4,14 @@
 
 import logging
 from odoo import api, models, fields, _
-from odoo.addons.l10n_br_base.constante_tributaria import (
-    MODELO_FISCAL_CFE,
+
+from odoo.addons.l10n_br_fiscal.constants.payment import (
     FORMA_PAGAMENTO_CARTOES,
     FORMA_PAGAMENTO,
+)
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    MODELO_FISCAL_CFE,
 )
 
 _logger = logging.getLogger(__name__)
@@ -21,7 +25,7 @@ except (ImportError, IOError) as err:
 
 
 class SpedDocumentoPagamento(models.Model):
-    _inherit = 'sped.documento.pagamento'
+    _inherit = 'l10n_br_fiscal.payment'
 
     id_pagamento = fields.Char(
         string='Id Pagamento'
@@ -41,11 +45,11 @@ class SpedDocumentoPagamento(models.Model):
         string='Estabelecimento',
     )
 
-    forma_pagamento = fields.Selection(
-        selection=FORMA_PAGAMENTO,
-        related='condicao_pagamento_id.forma_pagamento',
-        string='Condição de Pagamento'
-    )
+    # forma_pagamento = fields.Selection(
+    #     selection=FORMA_PAGAMENTO,
+    #     related='payment_term_id.forma_pagamento',
+    #     string='Condição de Pagamento'
+    # )
 
     id_fila = fields.Char(
         string='Id Fila'
@@ -62,7 +66,7 @@ class SpedDocumentoPagamento(models.Model):
         if self.documento_id.modelo != MODELO_FISCAL_CFE:
             return
 
-        if self.forma_pagamento in FORMA_PAGAMENTO_CARTOES:
+        if self.payment_mode in FORMA_PAGAMENTO_CARTOES:
             # pag.card.CNPJ.valor = limpa_formatacao(self.cnpj_cpf or '')
             # pag.card.tBand.valor = self.bandeira_cartao
 
@@ -73,7 +77,7 @@ class SpedDocumentoPagamento(models.Model):
                 codigo_administradora_cartao
 
         pagamento = MeioPagamento(
-            cMP=self.forma_pagamento,
+            cMP=self.payment_mode,
             vMP=D(self.valor).quantize(D('0.01')),
             **kwargs
         )
@@ -83,7 +87,7 @@ class SpedDocumentoPagamento(models.Model):
 
     def envia_pagamento(self):
         self.ensure_one()
-        if self.forma_pagamento not in FORMA_PAGAMENTO_CARTOES:
+        if self.payment_mode not in FORMA_PAGAMENTO_CARTOES:
             self.pagamento_valido = True
             return
         else:

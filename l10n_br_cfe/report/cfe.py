@@ -45,7 +45,7 @@ class report_custom(report_int):
             context = dict()
         env = odoo.api.Environment(cr, uid, context)
         datas['ids'] = ids
-        records = env['sped.documento'].browse(ids)
+        records = env['l10n_br_fiscal.document'].browse(ids)
         pdf = records.gera_pdf()
         return pdf, 'pdf'
 

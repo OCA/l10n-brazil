@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
-    <record model="ir.ui.view" id="sped_documento_pagamento_cfe_form">
-        <field name="name">sped.documento.pagamento.cfe.form</field>
-        <field name="model">sped.documento.pagamento</field>
-        <field name="inherit_id" ref="sped.sped_documento_pagamento_form" />
+    <record model="ir.ui.view" id="fiscal_payment_cfe_form">
+        <field name="name">l10n_br_fiscal.payment.form</field>
+        <field name="model">l10n_br_fiscal.payment</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.l10n_br_fiscal_payment_form_view" />
         <field name="arch" type="xml">
-            <field name="condicao_pagamento_id" position="attributes">
-                <attribute name="attrs">{'required': True}</attribute>
-            </field>
-            <group name="condicao_pagamento" position="after">
+<!--            <field name="condicao_pagamento_id" position="attributes">-->
+<!--                <attribute name="attrs">{'required': True}</attribute>-->
+<!--            </field>-->
+            <group name="payment_mode" position="after">
                 <group>
                     <field name="pagamento_valido" readonly="1"/>
                 </group>
@@ -21,19 +21,20 @@
                     <field name="estabecimento" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
                     <field name="serial_pos" attrs="{'required': [('forma_pagamento', 'in', ['03','04','10'])]}"/>
                 </group>
-                <group name="status_cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ['03','04','10'])]}" groups="l10n_br_base.GRUPO_SUPORTE">
+                <group name="status_cartao" attrs="{'invisible': [('forma_pagamento', 'not in', ['03','04','10'])]}" >
+                    <!--  groups="l10n_br_base.GRUPO_SUPORTE"-->
                     <field name="id_pagamento" readonly="1"/>
                     <field name="id_fila" readonly="1"/>
                 </group>
             </group>
         </field>
     </record>
-    <record model="ir.ui.view" id="sped_documento_pagamento_cfe_tree">
-        <field name="name">sped.documento.pagamento.cfe.tree</field>
-        <field name="model">sped.documento.pagamento</field>
-        <field name="inherit_id" ref="sped.sped_documento_pagamento_tree" />
+    <record model="ir.ui.view" id="fiscal_payment_cfe_tree">
+        <field name="name">l10n_br_fiscal.payment.tree</field>
+        <field name="model">l10n_br_fiscal.payment</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.l10n_br_fiscal_payment_tree_view" />
         <field name="arch" type="xml">
-            <field name="condicao_pagamento_id" position="after">
+            <field name="payment_term_id" position="after">
                     <field name="numero_aprovacao"/>
             </field>
         </field>

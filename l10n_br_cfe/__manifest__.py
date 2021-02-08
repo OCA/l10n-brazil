@@ -11,32 +11,37 @@
     'author': 'KMEE,Odoo Community Association (OCA)',
     'category': 'Fiscal',
     'depends': [
-        'sped_nfe',
-        'report_py3o',
+        'l10n_br_fiscal',
+        # 'report_py3o',
     ],
     'installable': True,
     'application': False,
     'license': 'AGPL-3',
     'data': [
-        'report/cfe_report.xml',
-        'wizard/sped_documento_pagamento.xml',
-        'security/ir.model.access.csv',
-        'views/pdv_config.xml',
-        'views/pdv_impressora_config.xml',
-        'views/sped_documento_emissao_cfe_view.xml',
-        'views/sped_operacao_emissao_cfe_view.xml',
+        # 'security/ir.model.access.csv',
+
+        # 'report/cfe_report.xml',
+
+        'wizard/wizard_document_payment_view.xml',
+
+        'views/l10n_br_cfe_menu_view.xml',
+        'views/l10n_br_pdv_config_view.xml',
+        'views/l10n_br_pdv_impressora_config_view.xml',
+        'views/document_emissao_cfe_view.xml',
+        'views/res_partner_view.xml',
+        'views/res_company_view.xml',
+        'views/document_payment_view.xml',
+
+        # 'views/fiscal_operation_cfe_.xml.xml',
         # 'views/web_asset_backend_template.xml',
-        'views/sped_documento_pagamento_view.xml',
-        'views/sped_participante_administradora_cartao_view.xml',
-        'views/inherited_sped_empresa_view.xml',
     ],
     'qweb': [
         # 'static/src/xml/*.xml',
     ],
     'external_dependencies': {
-        'python': [
-            'satcfe',
-            'pybrasil',
-        ],
+        # 'python': [
+        #     'satcfe',
+        #     'pybrasil',
+        # ],
     }
 }
