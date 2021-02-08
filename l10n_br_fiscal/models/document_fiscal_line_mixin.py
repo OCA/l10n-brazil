@@ -112,7 +112,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     quantity = fields.Float(
         string="Quantity",
-        digits=dp.get_precision("Product Unit of Measure"))
+        digits=dp.get_precision("Product Unit of Measure"),
+        default=1.0,
+    )
 
     fiscal_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
