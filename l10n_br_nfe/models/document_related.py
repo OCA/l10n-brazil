@@ -37,6 +37,11 @@ class NFeRelated(spec_models.StackedModel):
         inverse='_inverse_nfe40_refNFe',
     )
 
+    nfe40_choice5 = fields.Selection([
+        ('nfe40_CNPJ', 'CNPJ'),
+        ('nfe40_CPF', 'CPF')],
+        "CNPJ/CPF do Produtor")
+
     # TODO
     # nfe40_refNF = fields.Many2one(
     #     compute='_compute_nfe_data',
