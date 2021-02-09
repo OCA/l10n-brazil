@@ -10,7 +10,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     codigo_administradora_cartao = fields.Char(
-        string="Código da Administradora"
+        string="Código da Administradora",
     )
 
     eh_administradora_cartao = fields.Boolean(

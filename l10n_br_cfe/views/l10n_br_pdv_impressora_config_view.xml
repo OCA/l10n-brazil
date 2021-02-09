@@ -5,17 +5,18 @@
 -->
 <odoo>
     <record id='impressora_config_form' model='ir.ui.view'>
-        <field name='name'>impressora.config.form</field>
-        <field name='model'>impressora.config</field>
+        <field name='name'>l10n_br_fiscal.pos_printer_config.form</field>
+        <field name='model'>l10n_br_fiscal.pos_printer_config</field>
         <field name="priority">1</field>
         <field name='arch' type='xml'>
             <form string='Impressora'>
                 <sheet>
                     <group string="Configuração da Impressora">
-                        <field name="nome"/>
-                        <field name="modelo"/>
-                        <field name="forma"/>
-                        <field name="conexao"/>
+                        <field name="name"/>
+                        <field name="printer_model"/>
+                        <field name="printer_method"/>
+                        <field name="printer_string"/>
+                        <field name="pos_config_ids" widget="many2many_tags"/>
                     </group>
                 </sheet>
             </form>

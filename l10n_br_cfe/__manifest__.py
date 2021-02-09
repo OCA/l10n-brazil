@@ -10,6 +10,7 @@
     'depends': [
         'l10n_br_fiscal',
         'report_py3o',
+        'base',
     ],
     'installable': True,
     'application': False,
@@ -24,13 +25,19 @@
         'views/l10n_br_cfe_menu_view.xml',
         'views/l10n_br_pdv_config_view.xml',
         'views/l10n_br_pdv_impressora_config_view.xml',
-        'views/document_emissao_cfe_view.xml',
+
+        'views/res_user_view.xml',
         'views/res_partner_view.xml',
         'views/res_company_view.xml',
+
+        'views/document_emissao_cfe_view.xml',
         'views/document_payment_view.xml',
 
         # 'views/fiscal_operation_cfe_.xml.xml',
         # 'views/web_asset_backend_template.xml',
+    ],
+    'demo': [
+        'demo/pos_config_demo.xml',
     ],
     'qweb': [
         # 'static/src/xml/*.xml',

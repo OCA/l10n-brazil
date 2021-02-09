@@ -17,7 +17,7 @@
             </xpath>
             <field name="company_id" position="after">
                 <field name="pagamento_autorizado_cfe" />
-                <field name="configuracoes_pdv" />
+                <field name="configuracao_pdv_id" />
             </field>
             <field name="document_serie_id" position="replace">
                 <field name="document_serie" readonly="1"/>

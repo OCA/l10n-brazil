@@ -5,40 +5,38 @@
 -->
 <odoo>
     <record id='pdv_config_form' model='ir.ui.view'>
-        <field name='name'>pdv.config.form</field>
-        <field name='model'>pdv.config</field>
+        <field name='name'>l10n_br_fiscal.pos_config.form</field>
+        <field name='model'>l10n_br_fiscal.pos_config</field>
         <field name="priority">1</field>
         <field name='arch' type='xml'>
             <form string='Configuração'>
                 <sheet>
                     <group string="Configuração do Ponto de Venda">
                         <field name="name" />
-                        <field name="numero_caixa"/>
-                        <field name="vendedor"/>
-                        <field name="loja"/>
+                        <field name="code"/>
+                        <field name="company_id"/>
+                        <field name="company_state_code"/>
+                        <field name="printer_config_id"/>
                         <field name="tipo"/>
-                        <field name="impressora" widget="many2one"/>
+                        <field name="pos_user_ids" widget="many2many_tags"/>
                     </group>
-                    <group string="Configurações SAT"
-                    attrs="{'invisible': [('tipo', '!=', 'SAT') ] }">
+                    <group string="Configurações SAT" attrs="{'invisible': [('tipo', '!=', 'SAT')]}">
                         <field name="tipo_sat"/>
-                        <field name="path_integrador" attrs="{'invisible': [('tipo_sat', '!=', 'local')]}"/>
-                        <field name="ip" attrs="{'invisible': [('tipo_sat', '!=', 'rede_interna')]}"/>
-                        <field name="porta" attrs="{'invisible': [('tipo_sat', '!=', 'rede_interna')]}"/>
-                        <field name="ambiente"/>
-                        <field name="codigo_ativacao"/>
-                        <field name="cnpjsh"/>
-                        <field name="ie"/>
-                        <field name="chave_ativacao"/>
-                        <field name="cnpj_software_house"/>
-                        <field name="assinatura"/>
+                        <field name="retaguarda_dll_caminho" attrs="{'invisible': [('tipo_sat', '!=', 'local')]}"/>
+                        <field name="retaguarda_ip" attrs="{'invisible': [('tipo_sat', '!=', 'rede_interna')]}"/>
+                        <field name="retaguarda_porta" attrs="{'invisible': [('tipo_sat', '!=', 'rede_interna')]}"/>
+                        <field name="sat_codigo_ativacao"/>
+                        <field name="sat_cnpj_empresa_dev"/>
+                        <field name="sat_ie_empresa_dev"/>
+                        <field name="sat_cnpj_software_house"/>
+                        <field name="sat_assinatura"/>
                         <field name="site_consulta_qrcode"/>
                     </group>
-                    <group string="Configurações de pagamento">
-                        <field name="chave_acesso_validador"/>
-                        <field name="chave_requisicao"/>
-                        <field name="multiplos_pag"/>
-                        <field name="anti_fraude"/>
+                    <group string="Configurações de pagamento" attrs="{'invisible': [('tipo', '!=', 'SAT'),('company_state_code', '!=', 'CE')]}">
+                        <field name="integrador_chave_acesso_validador"/>
+                        <field name="integrador_chave_requisicao"/>
+                        <field name="integrador_multiplos_pag"/>
+                        <field name="integrador_anti_fraude"/>
                     </group>
                 </sheet>
 
@@ -46,26 +44,26 @@
         </field>
     </record>
     <record id="pdv_config_tree" model="ir.ui.view">
-        <field name="name">pdv.config.tree</field>
-        <field name="model">pdv.config</field>
+        <field name="name">l10n_br_fiscal.pos_config.tree</field>
+        <field name="model">l10n_br_fiscal.pos_config</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" />
-                <field name="numero_caixa"/>
-                <field name="vendedor"/>
+                <field name="code" />
+                <field name="name"/>
+                <field name="pos_user_ids" widget="many2many_tags"/>
             </tree>
         </field>
     </record>
 
     <record model="ir.ui.view" id="pdv_config_search">
-        <field name="name">pdv.config.search</field>
-        <field name="model">pdv.config</field>
+        <field name="name">l10n_br_fiscal.pos_config.search</field>
+        <field name="model">l10n_br_fiscal.pos_config</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <search string="Configuração do Ponto de Venda">
                 <field name="name" />
-                <field name="numero_caixa" />
+                <field name="code" />
             </search>
         </field>
     </record>
@@ -74,7 +72,7 @@
         <field name="name">Configuração do Ponto de Venda</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
-        <field name="res_model">pdv.config</field>
+        <field name="res_model">l10n_br_fiscal.pos_config</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>

@@ -13,6 +13,7 @@ TIPO_EMISSAO_CFE = (
     ('9', 'Contingência offline NFC-e'),
     ('10', 'Contingência online NFC-e'),
 )
+
 TIPO_EMISSAO_CFE_DICT = dict(TIPO_EMISSAO_CFE)
 
 TIPO_EMISSAO_CFE_NORMAL = '1'

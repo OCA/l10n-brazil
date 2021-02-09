@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2021 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="view_users_form_pos" model="ir.ui.view">
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='email']" position="after">
+                <field name="l10n_br_pos_config_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

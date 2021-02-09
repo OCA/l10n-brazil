@@ -34,26 +34,6 @@ class ResCompany(models.Model):
         selection=TIPO_EMISSAO_CFE,
         string='Tipo de emissão CF-e'
     )
-    serie_cfe_producao = fields.Char(
-        selection='Série em produção',
-        size=3,
-        default='1'
-    )
-    serie_cfe_homologacao = fields.Char(
-        string='Série em homologação',
-        size=3,
-        default='100'
-    )
-    serie_cfe_contingencia_producao = fields.Char(
-        string='Série em homologação',
-        size=3,
-        default='900'
-    )
-    serie_cfe_contingencia_homologacao = fields.Char(
-        string='Série em produção',
-        size=3,
-        default='999'
-    )
     tipo_emissao_cfe_contingencia = fields.Selection(
         selection=TIPO_EMISSAO_CFE,
         string='Tipo de emissão CF-e contingência'
@@ -61,22 +41,6 @@ class ResCompany(models.Model):
     logo_cfe = fields.Binary(
         string='Logo no CF-E',
         attachment=True,
-    )
-    mail_template_cfe_autorizada_id = fields.Many2one(
-        comodel_name='mail.template',
-        string='Modelo de email para cfe autorizada',
-    )
-    mail_template_cfe_cancelada_id = fields.Many2one(
-        comodel_name='mail.template',
-        string='Modelo de email para cfe cancelada',
-    )
-    mail_template_cfe_denegada_id = fields.Many2one(
-        comodel_name='mail.template',
-        string='Modelo de email para cfe denegada',
-    )
-    mail_template_cfe_cce_id = fields.Many2one(
-        comodel_name='mail.template',
-        string='Modelo de email para CC-e',
     )
     tipo_processador_cfe = fields.Selection(
         string="Tipo instalação SAT",

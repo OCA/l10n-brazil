@@ -9,8 +9,7 @@ from odoo import models, fields
 class ResUsers(models.Model):
     _inherit = 'res.users'
 
-    configuracoes_sat_cfe = fields.One2many(
-        string="Configurações Sat CFe",
-        comodel_name="pdv.config",
-        inverse_name="vendedor"
+    l10n_br_pos_config_id = fields.Many2one(
+        string="Terminal POS",
+        comodel_name="l10n_br_fiscal.pos_config",
     )

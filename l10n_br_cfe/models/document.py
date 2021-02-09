@@ -59,25 +59,49 @@ def filter_processador_edoc_cfe(record):
 class FiscalDocument(models.Model):
     _inherit = 'l10n_br_fiscal.document'
 
-    @api.multi
-    def _buscar_configuracoes_pdv(self):
+    def _compute_cfe_code128(self, key):
+        report = self.env['report']
+        return base64.b64encode(report.barcode(
+            'Code128',
+            key,
+            width=600,
+            height=40,
+            humanreadable=False,
+        ))
+
+    def _compute_cfe_qrcode(self, atttachment):
+        datas = atttachment.datas.decode('base64')
+        root = etree.fromstring(datas)
+        tree = etree.ElementTree(root)
+        image = qrcode.make(dados_qrcode(tree))
+        buffer = StringIO()
+        image.save(buffer, format="png")
+        return base64.b64encode(buffer.getvalue())
+
+    @api.depends('company_id', 'user_id')
+    def compute_pos_config(self):
+        """ Localiza o POS correto para o usuário,
+        pois vários usuários podem compartilhar
+        o mesmo SAT ou impressora.
+        :return:
+        """
         for record in self.filtered(filter_processador_edoc_cfe):
-            configuracoes_pdv = self.env['pdv.config'].search(
-                [
-                    ('vendedor', '=', self.env.user.id),
-                    ('loja', '=', self.env.user.company_id.id)
-                ]
-            )
-            if not configuracoes_pdv:
-                configuracoes_pdv = self.env['pdv.config'].search(
-                    [
-                        ('loja', '=', self.env.user.company_id.id)
-                    ]
-                )
-            record.configuracoes_pdv = configuracoes_pdv
+            if record.user_id.l10n_br_pos_config_id:
+                record.configuracao_pdv_id = record.user_id.l10n_br_pos_config_id
+            else:
+                configuracao_pdv_id = record.configuracao_pdv_id.search([
+                    '|',
+                    ('company_id', '=', record.company_id.id),
+                    ('company_id', '=', False)
+                ], limit=1, order='company_id')
+                record.configuracao_pdv_id = configuracao_pdv_id
 
     @api.multi
     def _verificar_pagamentos_cfe(self):
+        """ Função Específica do Ceará / MF-e onde é necessário
+        validar os pagamentos no integrador
+        :return:
+        """
         for record in self.filtered(filter_processador_edoc_cfe):
             pagamentos_validados = True
             for pagamento in record.fiscal_payment_ids:
@@ -88,59 +112,38 @@ class FiscalDocument(models.Model):
                 pagamentos_validados = False
             record.pagamento_autorizado_cfe = pagamentos_validados
 
-    # @api.depends('key', 'arquivo_xml_autorizacao_id')
+    @api.depends('key', 'autorizacao_event_id', 'state_edoc')
     def _compute_cfe_image(self):
         for record in self.filtered(filter_processador_edoc_cfe):
+            if not record.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+                return
             if record.key:
-                report = self.env['report']
-                record.cfe_code128 = base64.b64encode(report.barcode(
-                    'Code128',
-                    record.key,
-                    width=600,
-                    height=40,
-                    humanreadable=False,
-                ))
+                record.cfe_code128 = self._compute_cfe_code128(record.key)
             if record.arquivo_xml_autorizacao_id:
-                datas = record.arquivo_xml_autorizacao_id.datas.decode('base64')
-                root = etree.fromstring(datas)
-                tree = etree.ElementTree(root)
-                image = qrcode.make(dados_qrcode(tree))
-                buffer = StringIO()
-                image.save(buffer, format="png")
-                record.cfe_qrcode = base64.b64encode(buffer.getvalue())
+                record.cfe_qrcode = self._compute_cfe_qrcode(
+                    record.autorizacao_event_id.xml_returned_id
+                )
 
-    # FIXME: v12
-    # @api.depends('chave_cancelamento',
-    #              'arquivo_xml_autorizacao_cancelamento_id')
+    @api.depends('chave_cancelamento', 'cancel_document_event_id', 'state_edoc')
     def _compute_cfe_cancel_image(self):
         for record in self.filtered(filter_processador_edoc_cfe):
+            if not record.state_edoc == SITUACAO_EDOC_CANCELADA:
+                return
             if record.chave_cancelamento:
                 record.num_cfe_cancelamento = int(
                     record.chave_cancelamento[31:37])
-                report = self.env['report']
-                record.cfe_cancelamento_code128 = base64.b64encode(
-                    report.barcode(
-                        'Code128',
-                        record.chave_cancelamento,
-                        width=600,
-                        height=40,
-                        humanreadable=False,
-                    ))
+                record.cfe_cancelamento_code128 = self._compute_cfe_code128(
+                    record.chave_cancelamento
+                )
             if record.arquivo_xml_autorizacao_cancelamento_id:
-                datas = record.arquivo_xml_autorizacao_cancelamento_id.datas.\
-                    decode('base64')
-                root = etree.fromstring(datas)
-                tree = etree.ElementTree(root)
-                image = qrcode.make(dados_qrcode(tree))
-                buffer = StringIO()
-                image.save(buffer, format="png")
-                record.cfe_cancelamento_qrcode = base64.b64encode(
-                    buffer.getvalue())
+                record.cfe_cancelamento_qrcode = self._compute_cfe_qrcode(
+                    record.arquivo_xml_autorizacao_cancelamento_id.xml_returned_id
+                )
 
-    configuracoes_pdv = fields.Many2one(
+    configuracao_pdv_id = fields.Many2one(
         string="Configurações PDV",
-        comodel_name="pdv.config",
-        compute='_buscar_configuracoes_pdv',
+        comodel_name="l10n_br_fiscal.pos_config",
+        compute='compute_pos_config',
     )
 
     pagamento_autorizado_cfe = fields.Boolean(
@@ -190,86 +193,6 @@ class FiscalDocument(models.Model):
     numero_identificador_sessao = fields.Char(
         string='Numero identificador sessao'
     )
-
-    def processador_cfe(self):
-        """
-        Busca classe do processador do cadastro da empresa, onde podemos ter
-        três tipos de processamento dependendo
-        de onde o equipamento esta instalado:
-
-        - Instalado no mesmo servidor que o Odoo;
-        - Instalado na mesma rede local do servidor do Odoo;
-        - Instalado em um local remoto onde o browser vai ser responsável
-         por se comunicar com o equipamento
-
-        :return:
-        """
-        self.ensure_one()
-        if not self.filtered(filter_processador_edoc_cfe):
-            return
-
-        cliente = None
-
-        if self.configuracoes_pdv.tipo_sat == 'local':
-            from satcfe.clientelocal import ClienteSATLocal
-            from satcfe import BibliotecaSAT
-            cliente = ClienteSATLocal(
-                BibliotecaSAT(self.configuracoes_pdv.path_integrador),
-                codigo_ativacao=self.configuracoes_pdv.codigo_ativacao
-            )
-        elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
-            from satcfe.clientesathub import ClienteSATHub
-            cliente = ClienteSATHub(
-                self.configuracoes_pdv.ip,
-                self.configuracoes_pdv.porta,
-                numero_caixa=int(self.configuracoes_pdv.numero_caixa)
-            )
-        elif self.configuracoes_pdv.tipo_sat == 'remoto':
-            cliente = None
-            # NotImplementedError
-
-        return cliente
-
-    def processador_vfpe(self):
-        """
-        Busca classe do processador do cadastro da empresa, onde podemos
-        ter três tipos de processamento dependendo
-        de onde o equipamento esta instalado:
-
-        - Instalado no mesmo servidor que o Odoo;
-        - Instalado na mesma rede local do servidor do Odoo;
-        - Instalado em um local remoto onde o browser vai ser responsável
-        por se comunicar com o equipamento
-
-        :return:
-        """
-        self.ensure_one()
-        if not self.filtered(filter_processador_edoc_cfe):
-            return
-
-        cliente = None
-
-        if self.configuracoes_pdv.tipo_sat == 'local':
-            from mfecfe import BibliotecaSAT
-            from mfecfe import ClienteVfpeLocal
-
-            key = self.configuracoes_pdv.chave_acesso_validador
-            cliente = ClienteVfpeLocal(
-                BibliotecaSAT(
-                    self.configuracoes_pdv.path_integrador),
-                chave_acesso_validador=key,
-            )
-        elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
-            from mfecfe.clientesathub import ClienteVfpeHub
-            cliente = ClienteVfpeHub(
-                self.configuracoes_pdv.ip,
-                self.configuracoes_pdv.porta,
-                numero_caixa=int(self.configuracoes_pdv.numero_caixa)
-            )
-        elif self.configuracoes_pdv.tipo_sat == 'remoto':
-            raise NotImplementedError
-
-        return cliente
 
     # def _monta_cfe_informacoes_adicionais(self):
     #
@@ -343,11 +266,11 @@ class FiscalDocument(models.Model):
         ambiente = self.company_id.ambiente_cfe or AMBIENTE_CFE_HOMOLOGACAO
 
         if ambiente == AMBIENTE_CFE_HOMOLOGACAO:
-            cnpj = self.configuracoes_pdv.cnpjsh
-            ie = self.configuracoes_pdv.ie
+            cnpj = self.configuracao_pdv_id.sat_cnpj_empresa_dev
+            ie = self.configuracao_pdv_id.sat_ie_empresa_dev
         else:
-            cnpj = self.company_id.cnpj_cpf
-            ie = self.company_id.ie
+            cnpj = self.company_cnpj_cpf
+            ie = self.company_inscr_est
 
         emitente = Emitente(
             CNPJ=punctuation_rm(cnpj),
@@ -356,13 +279,6 @@ class FiscalDocument(models.Model):
         )
         emitente.validar()
         return emitente
-
-    def _monta_cfe_identificacao(self):
-        # FIXME: Buscar dados do cadastro da empresa / cadastro do caixa
-        cnpj_software_house = self.configuracoes_pdv.cnpj_software_house
-        assinatura = self.configuracoes_pdv.assinatura
-        numero_caixa = self.configuracoes_pdv.numero_caixa
-        return cnpj_software_house, assinatura, numero_caixa
 
     def _monta_cfe_pagamentos(self, pag):
         if not self.filtered(filter_processador_edoc_cfe):
@@ -379,7 +295,7 @@ class FiscalDocument(models.Model):
         # Identificação da CF-E
         #
         cnpj_software_house, assinatura, numero_caixa = \
-            self._monta_cfe_identificacao()
+            self.configuracao_pdv_id._monta_cfe_identificacao()
 
         #
         # Emitente
@@ -412,7 +328,7 @@ class FiscalDocument(models.Model):
         cfe_venda = CFeVenda(
             CNPJ=punctuation_rm(cnpj_software_house),
             signAC=assinatura,
-            numeroCaixa=2,
+            numeroCaixa=numero_caixa,
             emitente=emitente,
             detalhamentos=detalhamentos,
             pagamentos=pagamentos,
@@ -448,23 +364,19 @@ class FiscalDocument(models.Model):
             # if not record.pagamento_autorizado_cfe:
             #     raise Warning('Pagamento(s) não autorizado(s)!')
             # TODO: VPFE - Ceará
-            # impressao = record.configuracoes_pdv.impressora
+            # impressao = record.configuracao_pdv_id.impressora
 
-            cliente = record.processador_cfe()
+            cliente = record.configuracao_pdv_id.processador_cfe()
             cfe = record._serialize_cfe()
             #
             # Processa resposta
             #
             try:
-                if self.configuracoes_pdv.tipo_sat == 'local':
+                if self.configuracao_pdv_id.tipo_sat == 'local':
                     resposta = cliente.enviar_dados_venda(cfe)
-                elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
+                elif self.configuracao_pdv_id.tipo_sat == 'rede_interna':
                     resposta = cliente.enviar_dados_venda(
                         dados_venda=cfe,
-                        # numero_caixa=1
-                        # self.configuracoes_pdv.codigo_ativacao,
-                        # self.configuracoes_pdv.path_integrador,
-                        # self.numero_identificador_sessao
                     )
                 else:
                     resposta = None
@@ -492,10 +404,10 @@ class FiscalDocument(models.Model):
                                         '06005', '06006', '06007', '06008',
                                         '06009', '06010', '06098', '06099'):
                     self.codigo_rejeicao_cfe = resposta.EEEEE
-                    self.executa_antes_denegar()
+                    # self.executa_antes_denegar()
                     self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
                     self.situacao_nfe = SITUACAO_EDOC_DENEGADA
-                    self.executa_depois_denegar()
+                    # self.executa_depois_denegar()
             except (ErroRespostaSATInvalida, ExcecaoRespostaSAT) as resposta:
                 self.codigo_rejeicao_cfe = resposta.EEEEE
                 mensagem = 'Código de retorno: ' + \
@@ -517,14 +429,8 @@ class FiscalDocument(models.Model):
                         self.numero_identificador_sessao:
                     self.numero_identificador_sessao = \
                         resposta.resposta.numeroSessao
-                self.mensagem_nfe = "Falha na conexão com SATHUB"
+                self.mensagem_nfe = "Falha na conexão com a retaguarda"
                 self.situacao_nfe = SITUACAO_EDOC_REJEITADA
-
-    @api.multi
-    def action_document_confirm(self):
-        super().action_document_confirm()
-        for record in self.filtered(filter_processador_edoc_cfe):
-            pass
 
     @api.multi
     def cancel_invoice_online(self, justificative):
@@ -686,17 +592,17 @@ class FiscalDocument(models.Model):
     #     try:
     #         cancelamento = self._monta_cancelamento()
     #
-    #         if self.configuracoes_pdv.tipo_sat == 'local':
+    #         if self.configuracao_pdv_id.tipo_sat == 'local':
     #             processo = processador.cancelar_ultima_venda(
     #                 cancelamento.chCanc,
     #                 cancelamento
     #             )
-    #         elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
+    #         elif self.configuracao_pdv_id.tipo_sat == 'rede_interna':
     #             processo = processador.cancelar_ultima_venda(
     #                 cancelamento.chCanc,
     #                 cancelamento,
-    #                 self.configuracoes_pdv.codigo_ativacao,
-    #                 self.configuracoes_pdv.path_integrador
+    #                 self.configuracao_pdv_id.codigo_ativacao,
+    #                 self.configuracao_pdv_id.path_integrador
     #             )
     #         else:
     #             processo = None
@@ -858,7 +764,7 @@ class FiscalDocument(models.Model):
     #     if not self.modelo == MODELO_FISCAL_CFE:
     #         return super().imprimir_documento()
     #     self.ensure_one()
-    #     impressao = self.configuracoes_pdv.impressora
+    #     impressao = self.configuracao_pdv_id.impressora
     #     if impressao:
     #         try:
     #             cliente = self.processador_cfe()
@@ -867,7 +773,7 @@ class FiscalDocument(models.Model):
     #                 resposta,
     #                 impressao.modelo,
     #                 impressao.conexao,
-    #                 self.configuracoes_pdv.site_consulta_qrcode.encode("utf-8")
+    #                 self.configuracao_pdv_id.site_consulta_qrcode.encode("utf-8")
     #             )
     #         except Exception as e:
     #             _logger.error("Erro ao imprimir o cupom")
@@ -915,12 +821,12 @@ class FiscalDocument(models.Model):
             self.pagamento_autorizado_cfe = True
         else:
             pagamentos_autorizados = True
-            config = self.configuracoes_pdv
+            config = self.configuracao_pdv_id
             cliente = self.processador_vfpe()
 
             for duplicata in pagamentos_cartoes:
                 if not duplicata.id_pagamento:
-                    if self.configuracoes_pdv.tipo_sat == 'local':
+                    if self.configuracao_pdv_id.tipo_sat == 'local':
                         resposta = cliente.enviar_pagamento(
                             config.chave_requisicao, duplicata.estabecimento,
                             duplicata.serial_pos, config.cnpjsh,
@@ -931,7 +837,7 @@ class FiscalDocument(models.Model):
                             'BRL',
                             int(config.numero_caixa),
                         )
-                    elif self.configuracoes_pdv.tipo_sat == 'rede_interna':
+                    elif self.configuracao_pdv_id.tipo_sat == 'rede_interna':
                         resposta = cliente.enviar_pagamento(
                             config.chave_requisicao,
                             duplicata.estabecimento,
