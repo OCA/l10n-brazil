@@ -61,7 +61,7 @@ class SaleOrder(models.Model):
     discount_rate = fields.Float(
         string='Discount',
         readonly=True,
-        states={'draft': [('readonly', False)]},
+        states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
     )
 
     amount_gross = fields.Monetary(
