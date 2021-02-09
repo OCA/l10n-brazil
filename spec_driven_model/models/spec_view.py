@@ -78,16 +78,13 @@ class SpecViewMixin(models.AbstractModel):
                 if not self.fields_get().get(field_name):
                     continue
                 field = self.fields_get()[field_name]
-                # print("----", field_name, field)
-                res['fields'][field_name] = field
-                # print("looking for", field_name)
-                field_node = doc.xpath("//field[@name='%s']" % (field_name,))
                 if field['type'] in ['one2many', 'many2one']:
                     field['views'] = {}  # no inline views
-                field_node = doc.xpath("//field[@name='%s']" %
-                                       (field_name,))
-                if field_node:
-                    setup_modifiers(field_node[0], field)
+                res['fields'][field_name] = field
+                field_nodes = doc.xpath("//field[@name='%s']" %
+                                        (field_name,))
+                for field_node in field_nodes:
+                    setup_modifiers(field_node, field)
 
             res['arch'] = etree.tostring(doc)
         return res
