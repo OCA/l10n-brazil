@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2017 KMEE INFORMATICA LTDA <mileo@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+    <record model="l10n_br_fiscal.pos_config" id="sat_dev_tanca">
+        <field name="name">SAT DEV Tanca</field>
+        <field name="code">T001</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
+        <field name="tipo">SAT</field>
+        <field name="tipo_sat">rede_interna</field>
+        <field name="retaguarda_dll_caminho">rede_interna</field>
+        <field name="retaguarda_ip">sathub.localhost</field>
+        <field name="retaguarda_porta">80</field>
+        <field name="sat_codigo_ativacao">12345678</field>
+        <field name="sat_cnpj_empresa_dev">08.723.218/0001-86</field>
+        <field name="sat_ie_empresa_dev">149.626.224.113</field>
+        <field name="sat_cnpj_software_house">16.716.114/0001-72</field>
+        <field name="sat_assinatura">SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT</field>
+    </record>
+
+</odoo>
