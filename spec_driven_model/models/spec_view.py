@@ -93,15 +93,15 @@ class SpecViewMixin(models.AbstractModel):
     def _build_spec_fragment(self, container=None):
         if container is None:
             container = E.group()
+#            an export button that can help debug but messes views
+#            view_child = E.group()
+#            view_child.append(E.button(
+#                name='export_xml',
+#                type='object',
+#                string='Export',
+#            ))
 
-            view_child = E.group()
-            view_child.append(E.button(
-                name='export_xml',
-                type='object',
-                string='Export',
-            ))
-
-        container.append(view_child)
+#        container.append(view_child)
         fields = []
         if hasattr(type(self), '_stacked') and type(self)._stacked:
             # we want the root of what is stacked to recreate the hierarchy
