@@ -82,6 +82,10 @@ class SpecViewMixin(models.AbstractModel):
                 res['fields'][field_name] = field
                 # print("looking for", field_name)
                 field_node = doc.xpath("//field[@name='%s']" % (field_name,))
+                if field['type'] in ['one2many', 'many2one']:
+                    field['views'] = {}  # no inline views
+                field_node = doc.xpath("//field[@name='%s']" %
+                                       (field_name,))
                 if field_node:
                     setup_modifiers(field_node[0], field)
 
@@ -190,10 +194,8 @@ class SpecViewMixin(models.AbstractModel):
                     # be optional too
                 else:  # assume dynamically required via attrs
                     required = False
-
                 if selector_name is not None:
-                    invisible = "[('%s','!=','%s')]" % (selector_name,
-                                                        field_name)
+                    invisible = [('%s' % (selector_name,), '!=', field_name)]
                     attrs = {'invisible': invisible}
                 else:
                     attrs = False
