@@ -182,7 +182,7 @@ class SpecModel(models.AbstractModel):
 
     def _register_hook(self):
         res = super(SpecModel, self)._register_hook()
-        if not hasattr(self.env.registry, '_spec_loaded'):  # TODO schema wise
+        if not hasattr(self.env.registry, '_spec_loaded'):
             from .. import hooks  # importing here avoids loop
             hooks.register_hook(self.env, self._odoo_module, self._spec_module)
             self.env.registry._spec_loaded = True
