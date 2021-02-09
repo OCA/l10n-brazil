@@ -9,7 +9,7 @@
     'category': 'Fiscal',
     'depends': [
         'l10n_br_fiscal',
-        # 'report_py3o',
+        'report_py3o',
     ],
     'installable': True,
     'application': False,
@@ -17,7 +17,7 @@
     'data': [
         'security/ir.model.access.csv',  # FIXME
 
-        # 'report/cfe_report.xml',
+        'report/cfe_report.xml',
 
         'wizard/wizard_document_payment_view.xml',
 
