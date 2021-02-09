@@ -10,12 +10,6 @@ from odoo.osv.orm import setup_modifiers
 
 _logger = logging.getLogger(__name__)
 
-TAB_NAME = "NFe"  # TODO dynamic
-FIELD_PREFIX = "nfe40_"
-CHOICE_PREFIX = "nfe40_choice"
-# TODO use schema name as default root key unless a key is provided in the
-#  class
-
 
 # TODO use MetaModel._get_concrete
 
@@ -44,13 +38,13 @@ class SpecViewMixin(models.AbstractModel):
                 arch, fields = self._build_spec_fragment()
                 # arch.set("col", "4") TODO ex res.partner
                 node = doc.xpath("//notebook")[0]
-                page = E.page(string=TAB_NAME)
+                page = E.page(string=self._spec_tab_name)
                 page.append(arch)
                 node.insert(1000, page)
             elif len(doc.xpath("//sheet")) > 0:
                 arch, fields = self._build_spec_fragment()
                 node = doc.xpath("//sheet")[0]
-                arch.set("string", TAB_NAME)
+                arch.set("string", self._spec_tab_name)
                 arch.set("col", "2")  # TODO ex fleet
                 if res['name'] == 'default':
                     # we replace the default view by our own
@@ -68,7 +62,7 @@ class SpecViewMixin(models.AbstractModel):
             elif len(doc.xpath("//form")) > 0:  # ex invoice.line
                 arch, fields = self._build_spec_fragment()
                 node = doc.xpath("//form")[0]
-                arch.set("string", TAB_NAME)
+                arch.set("string", self._spec_tab_name)
                 arch.set("col", "2")
                 node.insert(1000, arch)
 
@@ -118,9 +112,7 @@ class SpecViewMixin(models.AbstractModel):
                        for x in type(lib_model).mro()]
             # _logger.info("#####", lib_model, classes)
             for c in set(classes):
-                if c is None:
-                    continue
-                if 'nfe.' not in c:  # make generic brittle
+                if c is None or not c.startswith("%s." % (self._schema_name,)):
                     continue
                 # the following filter to fields to show
                 # when several XSD class are injected in the same object
@@ -156,9 +148,10 @@ class SpecViewMixin(models.AbstractModel):
             # skip automatic m2 fields, non xsd fields
             # and display choice selector only where it is used
             # (possibly later)
+            choice_prefix = "%schoice" % (self._field_prefix,)
             if '_id' in field_name\
-                    or FIELD_PREFIX not in field_name\
-                    or CHOICE_PREFIX in field_name:
+                    or self._field_prefix not in field_name\
+                    or choice_prefix in field_name:
                 continue
 
             # Odoo expects fields nested in 2 levels of group tags
@@ -169,7 +162,7 @@ class SpecViewMixin(models.AbstractModel):
             # should we create a choice block?
             if hasattr(field, 'choice'):
                 choice = getattr(field, 'choice')
-                selector_name = "%s%s" % (CHOICE_PREFIX, choice,)
+                selector_name = "%s%s" % (choice_prefix, choice,)
                 if choice not in choices:
                     choices.add(choice)
                     fields.append(selector_name)
