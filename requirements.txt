@@ -13,3 +13,10 @@ lxml==4.6.2
 -e git://github.com/akretion/nfelib.git@master_gen_v4_00#egg=nfelib
 -e git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
 vcrpy
+
+# SAT
+cerberus==1.3.2
+future==0.18.2
+satcfe==2.1
+satcomum==2.1
+unidecode==1.2.0

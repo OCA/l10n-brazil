@@ -3,6 +3,7 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
 import logging
+from decimal import Decimal as D
 from odoo import api, models, fields, _
 
 from odoo.addons.l10n_br_fiscal.constants.payment import (
@@ -17,7 +18,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 _logger = logging.getLogger(__name__)
 
 try:
-    from pybrasil.valor.decimal import Decimal as D
     from satcfe.entidades import MeioPagamento
 
 except (ImportError, IOError) as err:
@@ -58,13 +58,13 @@ class SpedDocumentoPagamento(models.Model):
         string='Pagamento Válido'
     )
 
-    def monta_cfe(self):
+    def _serialize_cfe(self):
         self.ensure_one()
 
         kwargs = {}
 
-        if self.documento_id.modelo != MODELO_FISCAL_CFE:
-            return
+        # if self.documento_id.modelo != MODELO_FISCAL_CFE:
+        #     return
 
         if self.payment_mode in FORMA_PAGAMENTO_CARTOES:
             # pag.card.CNPJ.valor = limpa_formatacao(self.cnpj_cpf or '')
@@ -73,12 +73,11 @@ class SpedDocumentoPagamento(models.Model):
             # Lembrete integracao_cartao esta com valores errados
             # das constantes
             # kwargs['cAdmC'] = '00' + self.integracao_cartao
-            kwargs['cAdmC'] = self.condicao_pagamento_id.participante_id. \
-                codigo_administradora_cartao
+            kwargs['cAdmC'] = self.partner_card_id.codigo_administradora_cartao
 
         pagamento = MeioPagamento(
             cMP=self.payment_mode,
-            vMP=D(self.valor).quantize(D('0.01')),
+            vMP=D(self.amount).quantize(D('0.01')),
             **kwargs
         )
         pagamento.validar()
@@ -91,8 +90,8 @@ class SpedDocumentoPagamento(models.Model):
             self.pagamento_valido = True
             return
         else:
-            config = self.documento_id.configuracoes_pdv
-            cliente = self.documento_id.processador_vfpe()
+            config = self.document_id.configuracoes_pdv
+            cliente = self.document_id.processador_vfpe()
 
             if config.tipo_sat == 'local':
                 resposta = cliente.enviar_pagamento(
@@ -149,11 +148,11 @@ class SpedDocumentoPagamento(models.Model):
         if the order is paid print ticket.
         """
         self.ensure_one()
-        documento = self.env['sped.documento'].browse(
+        documento = self.env['l10n_br_fiscal.document'].browse(
             self.env.context.get('active_id', False))
         if not self.pagamento_valido:
             self.envia_pagamento()
-        if documento.vr_total_residual <= 0:
+        if documento.amount_missing_payment_value <= 0:
             return {'type': 'ir.actions.act_window_close'}
         # data = self.read()[0]
 
@@ -171,7 +170,7 @@ class SpedDocumentoPagamento(models.Model):
             'name': _('Payment'),
             'view_type': 'form',
             'view_mode': 'form',
-            'res_model': 'sped.documento.pagamento',
+            'res_model': 'l10n_br_fiscal.payment',
             'view_id': self.env.ref('l10n_br_cfe.view_enviar_pagamento').id,
             'target': 'new',
             'views': False,

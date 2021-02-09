@@ -1,13 +1,10 @@
-# -*- coding: utf-8 -*-
-#
 # Copyright 2017 KMEE INFORMATICA LTDA
 #   Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
-#
 
 {
-    'name': 'SPED - CF-E - MFE e SAT',
-    'version': '10.0.1.0.0',
+    'name': 'CF-E - MFE e SAT',
+    'version': '12.0.1.0.0',
     'author': 'KMEE,Odoo Community Association (OCA)',
     'category': 'Fiscal',
     'depends': [
@@ -18,7 +15,7 @@
     'application': False,
     'license': 'AGPL-3',
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',  # FIXME
 
         # 'report/cfe_report.xml',
 
@@ -39,9 +36,9 @@
         # 'static/src/xml/*.xml',
     ],
     'external_dependencies': {
-        # 'python': [
-        #     'satcfe',
-        #     'pybrasil',
-        # ],
+        'python': [
+            'erpbrasil.base',
+            'satcfe',
+        ],
     }
 }

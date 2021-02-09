@@ -19,9 +19,9 @@
                 <field name="pagamento_autorizado_cfe" />
                 <field name="configuracoes_pdv" />
             </field>
-<!--            <field name="document_serie" position="replace">-->
-<!--                <field name="document_serie" readonly="1"/>-->
-<!--            </field>-->
+            <field name="document_serie_id" position="replace">
+                <field name="document_serie" readonly="1"/>
+            </field>
             <page name="recipient" position="attributes">
                 <attribute name="string">Consumidor</attribute>
             </page>
@@ -121,8 +121,12 @@
 
     <record model="ir.actions.act_window" id="fiscal_document_emissao_cfe_acao">
         <field name="name">Emissão de CF-e</field>
-<!--        <field name="domain">[('emissao', '=', '0'), ('modelo', '=', '59')]</field>-->
-<!--        <field name="context">{'default_emissao': '0', 'default_modelo': '59'}</field>-->
+        <field name="context" eval="{
+            'default_issuer': 'company',
+            'default_fiscal_operation_type': 'out',
+            'default_document_type_id': ref('l10n_br_fiscal.document_59')
+            }"/>
+        <field name="domain" eval="[('fiscal_operation_type', '=', 'out'),('document_type_id','=',ref('l10n_br_fiscal.document_59'))]"/>
         <field name="res_model">l10n_br_fiscal.document</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>

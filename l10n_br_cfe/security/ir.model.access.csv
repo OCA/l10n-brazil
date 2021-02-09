@@ -1,1 +1,3 @@
 group_id/id,model_id/id,name,id,perm_read,perm_create,perm_write,perm_unlink
+access_pdv_config,access_pdv_config,model_pdv_config,base.group_user,1,1,1,1
+access_impressora_config,access_impressora_config,model_impressora_config,base.group_user,1,1,1,1

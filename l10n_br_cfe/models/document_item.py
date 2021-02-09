@@ -4,6 +4,7 @@
 
 
 import logging
+from decimal import Decimal as D
 
 from odoo import models
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -33,7 +34,6 @@ try:
         ICMSSN900,
         ICMSSN102,
     )
-    from pybrasil.valor.decimal import Decimal as D
 
 except (ImportError, IOError) as err:
     _logger.debug(err)
@@ -42,9 +42,10 @@ except (ImportError, IOError) as err:
 class FiscalDocumentLine(models.Model):
     _inherit = 'l10n_br_fiscal.document.line'
 
-    def monta_cfe(self):
+    def _serialize_cfe(self):
         """
         FIXME: Impostos
+        FIXME: Caso de saída
         :return:
         """
         self.ensure_one()
@@ -52,55 +53,52 @@ class FiscalDocumentLine(models.Model):
         kwargs = {}
         kwargs_detalhamento = {}
 
-        if self.documento_id.modelo != MODELO_FISCAL_CFE:
-            return
+        # if self.documento_id.modelo != MODELO_FISCAL_CFE:
+        #     return
 
-        # if self.produto_descricao:
-        #     descricao = self.produto_descricao
-        # else:
-        #     descricao = self.produto_id.nome
-        descricao = self.produto_id.nome
+        if self.name:
+            descricao = self.name
+        else:
+            descricao = self.product_id.name
 
         descricao = descricao.replace('—', '-').replace('–', '-')
         descricao = descricao.replace('”', '"').replace('“', '"')
         descricao = descricao.replace('’', "'").replace('‘', "'")
-        descricao = descricao.replace('—', '-').replace('–', '-')
 
-        if self.produto_id.ncm_id:
-            ncm = self.produto_id.ncm_id.codigo
-            # ncm_extipi = self.produto_id.ncm_id.ex
+        if self.product_id.ncm_id:
+            ncm = self.product_id.ncm_id.code_unmasked
+            # ncm_extipi = self.product_id.ncm_id.ex
         else:
             ncm = ''
 
-        al_icms_proprio = D(self.al_efetiva_icms_proprio).quantize(D('0.01'))
-
         icms = pis = cofins = None
 
-        if self.regime_tributario == TAX_FRAMEWORK_SIMPLES:
-            if self.cst_icms_sn in ['102', '300', '500']:
+        if self.document_id.company_tax_framework == TAX_FRAMEWORK_SIMPLES:
+            if self.icms_cst_code in ['102', '300', '500']:
                 icms = ICMSSN102(
-                    Orig=self.org_icms,
-                    CSOSN=self.cst_icms_sn,
+                    Orig=self.icms_origin,
+                    CSOSN=self.icms_cst_code,
                 )
             else:
                 icms = ICMSSN900(
-                    Orig=self.org_icms,
-                    CSOSN=self.cst_icms,
-                    pICMS=al_icms_proprio,
+                    Orig=self.icms_origin,
+                    CSOSN=self.icms_cst_code,
+                    pICMS=D(self.icmssn_percent).quantize(D('0.01')),
                 )
 
-            pis = PISSN(CST=self.cst_pis)
-            cofins = COFINSSN(CST=self.cst_cofins)
+            pis = PISSN(CST=self.pis_cst_code)
+            cofins = COFINSSN(CST=self.cofins_cst_code)
         else:
             if self.cst_icms in ['00', '20', '90']:
                 icms = ICMS00(
-                    Orig=self.org_icms,
+                    Orig=self.icms_origin,
                     CST=self.cst_icms,
-                    pICMS=al_icms_proprio,
+                    pICMS=D(self.al_efetiva_icms_proprio).quantize(D('0.01')),
+                    # TODO: Implementar al_efetiva_icms_proprio
                 )
             elif self.cst_icms in ['40', '41', '50', '60']:
                 icms = ICMS40(
-                    Orig=self.org_icms,
+                    Orig=self.icms_origin,
                     CST=self.cst_icms
                 )
             #
@@ -109,25 +107,25 @@ class FiscalDocumentLine(models.Model):
 
             al_pis_proprio = D(self.al_pis_proprio / 100).quantize(D('0.0001'))
 
-            if self.cst_pis in ['01', '02', '05']:
+            if self.pis_cst_code in ['01', '02', '05']:
                 pis = PISAliq(
-                    CST=self.cst_pis,
+                    CST=self.pis_cst_code,
                     vBC=D(self.bc_pis_proprio).quantize(D('0.01')),
                     pPIS=al_pis_proprio,
                 )
-            elif self.cst_pis in ['04', '06', '07', '08', '09']:
+            elif self.pis_cst_code in ['04', '06', '07', '08', '09']:
                 pis = PISNT(
-                    CST=self.cst_pis
+                    CST=self.pis_cst_code
                 )
-            elif self.cst_pis == '03':
+            elif self.pis_cst_code == '03':
                 pis = PISQtde(
-                    CST=self.cst_pis,
+                    CST=self.pis_cst_code,
                     qBCProd=D(self.quantidade).quantize(D('0.01')),
                     vAliqProd=D(self.vr_pis_proprio).quantize(D('0.01'))
                 )
-            elif self.cst_pis == '99':
+            elif self.pis_cst_code == '99':
                 pis = PISOutr(
-                    CST=self.cst_pis,
+                    CST=self.pis_cst_code,
                     vBC=D(self.bc_pis_proprio).quantize(D('0.01')),
                     pPIS=al_pis_proprio,
                 )
@@ -139,51 +137,52 @@ class FiscalDocumentLine(models.Model):
             al_cofins_proprio = D(
                 self.al_cofins_proprio / 100).quantize(D('0.0001'))
 
-            if self.cst_cofins in ['01', '02', '05']:
+            if self.cofins_cst_code in ['01', '02', '05']:
                 cofins = COFINSAliq(
-                    CST=self.cst_cofins,
+                    CST=self.cofins_cst_code,
                     vBC=D(self.bc_cofins_proprio).quantize(D('0.01')),
                     pCOFINS=al_cofins_proprio,
                 )
-            elif self.cst_cofins in ['04', '06', '07', '08', '09']:
+            elif self.cofins_cst_code in ['04', '06', '07', '08', '09']:
                 cofins = COFINSNT(
-                    CST=self.cst_cofins
+                    CST=self.cofins_cst_code
                 )
-            elif self.cst_cofins == '03':
+            elif self.cofins_cst_code == '03':
                 cofins = COFINSQtde(
-                    CST=self.cst_cofins,
+                    CST=self.cofins_cst_code,
                     qBCProd=D(self.quantidade).quantize(D('0.01')),
                     vAliqProd=D(self.vr_cofins_proprio).quantize(D('0.01'))
                 )
-            elif self.cst_cofins == '99':
+            elif self.cofins_cst_code == '99':
                 cofins = COFINSOutr(
-                    CST=self.cst_cofins,
+                    CST=self.cofins_cst_code,
                     vBC=D(self.bc_cofins_proprio).quantize(D('0.01')),
                     pCOFINS=al_cofins_proprio,
                 )
 
         imposto = Imposto(
-            vItem12741=D(self.vr_ibpt).quantize(D('0.01')),
+            vItem12741=D(self.amount_estimate_tax).quantize(D('0.01')),
             icms=icms,
             pis=pis,
             cofins=cofins,
         )
         imposto.validar()
 
-        if self.infcomplementar:
-            kwargs_detalhamento['infAdProd'] = self._monta_informacoes_adicionais()
+        # TODO: REFACTOR
+        # if self.infcomplementar:
+        #     kwargs_detalhamento['infAdProd'] = self._monta_informacoes_adicionais()
 
-        if self.vr_desconto:
-            kwargs['vDesc'] = D(self.vr_desconto).quantize(D('0.01'))
+        if self.discount_value:
+            kwargs['vDesc'] = D(self.discount_value).quantize(D('0.01'))
 
         detalhe = Detalhamento(
             produto=ProdutoServico(
-                cProd=self.produto_id.codigo or str(self.produto_id.id),
+                cProd=self.product_id.code or str(self.product_id.id),
                 xProd=descricao.strip(),
-                CFOP=self.cfop_id.codigo,
-                uCom=self.unidade_id.codigo,
-                qCom=D(self.quantidade).quantize(D('0.0001')),
-                vUnCom=D(self.vr_unitario).quantize(D(10 * 10 ** -3)),
+                CFOP=self.cfop_id.code,
+                uCom=self.uom_id.code,
+                qCom=D(self.quantity).quantize(D('0.0001')),
+                vUnCom=D(self.price_unit).quantize(D('0.01')),
                 indRegra='A',
                 NCM=ncm,
                 **kwargs
