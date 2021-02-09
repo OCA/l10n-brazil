@@ -169,6 +169,24 @@ class NFeLine(spec_models.StackedModel):
         related='amount_estimate_tax',
     )
 
+    nfe40_PISAliq = fields.Many2one(
+        "nfe.40.pisaliq",
+        string="Código de Situação Tributária do PIS (Alíquota)",
+        help="Código de Situação Tributária do PIS."
+        "\n01 – Operação Tributável - Base de Cálculo = Valor da Operação"
+        "\nAlíquota Normal (Cumulativo/Não Cumulativo);"
+        "\n02 - Operação Tributável - Base de Calculo = Valor da Operação"
+        "\n(Alíquota Diferenciada);")
+
+    nfe40_COFINSAliq = fields.Many2one(
+        "nfe.40.cofinsaliq",
+        string="Código de Situação Tributária do COFINS (Alíquota)",
+        help="Código de Situação Tributária do COFINS."
+             "\n01 – Operação Tributável - Base de Cálculo = Valor da Operação"
+             "\nAlíquota Normal (Cumulativo/Não Cumulativo);"
+             "\n02 - Operação Tributável - Base de Calculo = Valor da Operação"
+             "\n(Alíquota Diferenciada);")
+
     # Todo: Calcular
     nfe40_vFCPUFDest = fields.Monetary(
         string='Valor total do ICMS relativo ao Fundo de Combate à Pobreza',
