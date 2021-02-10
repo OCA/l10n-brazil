@@ -177,7 +177,10 @@ class FiscalDocument(models.Model):
         string='Imagem cfe QRCODE',
         compute='_compute_cfe_image',
     )
-
+    #
+    # Pode parecer estranho, mas o cancelamento tem vários
+    # campos iguais a um CF-E normal
+    #
     cfe_cancel_number = fields.Char(
         string='Número Cancelamento',
         index=True,
@@ -221,55 +224,39 @@ class FiscalDocument(models.Model):
     #     return self._renderizar_informacoes_template(
     #         dados_infcomplementar, infcomplementar)
     #
-    # def _monta_cfe_destinatario(self,):
-    #
-    #     participante = self.participante_id
-    #
-    #     #
-    #     # Trata a possibilidade de ausência do destinatário na NFC-e
-    #     #
-    #     if self.modelo == MODELO_FISCAL_CFE and not participante.cnpj_cpf:
-    #         return
-    #
-    #     #
-    #     # Participantes estrangeiros tem a ID de estrangeiro sempre começando
-    #     # com EX
-    #     #
-    #     if participante.cnpj_cpf.startswith('EX'):
-    #         # TODO:
-    #         pass
-    #         # dest.idEstrangeiro.valor = \
-    #         #     limpa_formatacao(participante.cnpj_cpf or '')
-    #
-    #     elif len(participante.cnpj_cpf or '') == 14:
-    #         return Destinatario(
-    #             CPF=limpa_formatacao(participante.cnpj_cpf),
-    #             xNome=participante.nome
-    #         )
-    #
-    #     elif len(participante.cnpj_cpf or '') == 18:
-    #         return Destinatario(
-    #             CNPJ=limpa_formatacao(participante.cnpj_cpf),
-    #             xNome=participante.nome
-    #         )
-    #
-    # def _monta_cfe_entrega(self,):
-    #
-    #     participante = self.participante_id
-    #
-    #     if self.modelo == MODELO_FISCAL_CFE and not participante.cnpj_cpf:
-    #         return
-    #
-    #     entrega = LocalEntrega(
-    #         xLgr=participante.endereco,
-    #         nro=participante.numero,
-    #         xBairro=participante.bairro,
-    #         xMun=participante.municipio_id.nome,
-    #         UF=participante.municipio_id.estado
-    #     )
-    #     entrega.validar()
-    #
-    #     return entrega
+
+    def _monta_cfe_destinatario(self,):
+        #
+        # Trata a possibilidade de ausência do destinatário na NFC-e
+        #
+        if self.model == MODELO_FISCAL_CFE and not self.partner_cnpj_cpf:
+            return
+        if not self.partner_country_id.code == 'BR':
+            # TODO: Extrangeiro
+            raise NotImplementedError
+        elif len(self.partner_cnpj_cpf or '') == 14:
+            return Destinatario(
+                CPF=punctuation_rm(self.partner_cnpj_cpf),
+                xNome=self.partner_legal_name
+            )
+        elif len(self.partner_cnpj_cpf or '') == 18:
+            return Destinatario(
+                CNPJ=punctuation_rm(self.partner_cnpj_cpf),
+                xNome=self.partner_legal_name
+            )
+
+    def _monta_cfe_entrega(self,):
+        if self.model == MODELO_FISCAL_CFE and not self.partner_cnpj_cpf:
+            return
+        entrega = LocalEntrega(
+            xLgr=self.partner_street,
+            nro=self.partner_number,
+            xBairro=self.partner_district,
+            xMun=self.partner_city_id.name,
+            UF=self.partner_state_id.code,
+        )
+        entrega.validar()
+        return entrega
 
     def _monta_cfe_emitente(self):
         ambiente = self.company_id.ambiente_cfe or AMBIENTE_CFE_HOMOLOGACAO
@@ -314,9 +301,9 @@ class FiscalDocument(models.Model):
         #
         # Destinatário
         #
-        # if self.participante_id and self.participante_id.cnpj_cpf:
-        #     kwargs['destinatario'] = self._monta_cfe_destinatario()
-        #     kwargs['entrega'] = self._monta_cfe_entrega()
+        if self.partner_id and self.partner_id.cnpj_cpf:
+            kwargs['destinatario'] = self._monta_cfe_destinatario()
+            kwargs['entrega'] = self._monta_cfe_entrega()
 
         #
         # Itens
@@ -653,74 +640,74 @@ class FiscalDocument(models.Model):
     # Tem alguns detalhes referentes a validação das vendas com
     # cartão de crédito via maquina 3G que estão faltando.
     #################################################################
-    #
-    # @api.multi
-    # def _verificar_formas_pagamento(self):
-    #     pagamentos_cartoes = []
-    #     for pagamento in self.fiscal_payment_ids:
-    #         if pagamento.condicao_pagamento_id.forma_pagamento in ["03", "04"]:
-    #             pagamentos_cartoes.append(pagamento)
-    #
-    #     return pagamentos_cartoes
-    #
-    # def envia_pagamento(self):
-    #     self.ensure_one()
-    #     pagamentos_cartoes = self._verificar_formas_pagamento()
-    #     if not pagamentos_cartoes:
-    #         self.pagamento_autorizado_cfe = True
-    #     else:
-    #         pagamentos_autorizados = True
-    #         config = self.configuracao_pdv_id
-    #         cliente = self.processador_vfpe()
-    #
-    #         for duplicata in pagamentos_cartoes:
-    #             if not duplicata.id_pagamento:
-    #                 if self.configuracao_pdv_id.tipo_sat == 'local':
-    #                     resposta = cliente.enviar_pagamento(
-    #                         config.chave_requisicao, duplicata.estabecimento,
-    #                         duplicata.serial_pos, config.cnpjsh,
-    #                         self.bc_icms_proprio,
-    #                         duplicata.valor,
-    #                         config.multiplos_pag,
-    #                         config.anti_fraude,
-    #                         'BRL',
-    #                         int(config.numero_caixa),
-    #                     )
-    #                 elif self.configuracao_pdv_id.tipo_sat == 'rede_interna':
-    #                     resposta = cliente.enviar_pagamento(
-    #                         config.chave_requisicao,
-    #                         duplicata.estabecimento,
-    #                         duplicata.serial_pos,
-    #                         config.cnpjsh,
-    #                         self.bc_icms_proprio,
-    #                         duplicata.valor,
-    #                         config.multiplos_pag,
-    #                         config.anti_fraude,
-    #                         'BRL',
-    #                         int(config.numero_caixa),
-    #                         config.chave_acesso_validador,
-    #                         config.path_integrador,
-    #                         self.numero_identificador_sessao
-    #                     )
-    #                 resposta_pagamento = resposta.split('|')
-    #                 if len(resposta_pagamento[0]) >= 7:
-    #                     duplicata.id_pagamento = resposta_pagamento[0]
-    #                     duplicata.id_fila = resposta_pagamento[1]
-    #                 else:
-    #                     pagamentos_autorizados = False
-    #             # FIXME status sempre vai ser negativo na homologacao
-    #             # resposta_status_pagamento =
-    #                     # cliente.verificar_status_validador(
-    #             #     config.cnpjsh, duplicata.id_fila_status
-    #             # )
-    #             #
-    #             # resposta_status_pagamento =
-    #                     # cliente.verificar_status_validador(
-    #             #     config.cnpjsh, '214452'
-    #             # )
-    #             # if resposta_status_pagamento.ValorPagamento
-    #                     # == '0' and resposta_status_pagamento.IdFila == '0':
-    #             #     pagamentos_autorizados = False
-    #             #     break
-    #
-    #         self.pagamento_autorizado_cfe = pagamentos_autorizados
+
+    @api.multi
+    def _verificar_formas_pagamento(self):
+        pagamentos_cartoes = []
+        for pagamento in self.fiscal_payment_ids:
+            if pagamento.condicao_pagamento_id.forma_pagamento in ["03", "04"]:
+                pagamentos_cartoes.append(pagamento)
+
+        return pagamentos_cartoes
+
+    def envia_pagamento(self):
+        self.ensure_one()
+        pagamentos_cartoes = self._verificar_formas_pagamento()
+        if not pagamentos_cartoes:
+            self.pagamento_autorizado_cfe = True
+        else:
+            pagamentos_autorizados = True
+            config = self.configuracao_pdv_id
+            cliente = self.processador_vfpe()
+
+            for duplicata in pagamentos_cartoes:
+                if not duplicata.id_pagamento:
+                    if self.configuracao_pdv_id.tipo_sat == 'local':
+                        resposta = cliente.enviar_pagamento(
+                            config.chave_requisicao, duplicata.estabecimento,
+                            duplicata.serial_pos, config.cnpjsh,
+                            self.bc_icms_proprio,
+                            duplicata.valor,
+                            config.multiplos_pag,
+                            config.anti_fraude,
+                            'BRL',
+                            int(config.numero_caixa),
+                        )
+                    elif self.configuracao_pdv_id.tipo_sat == 'rede_interna':
+                        resposta = cliente.enviar_pagamento(
+                            config.chave_requisicao,
+                            duplicata.estabecimento,
+                            duplicata.serial_pos,
+                            config.cnpjsh,
+                            self.bc_icms_proprio,
+                            duplicata.valor,
+                            config.multiplos_pag,
+                            config.anti_fraude,
+                            'BRL',
+                            int(config.numero_caixa),
+                            config.chave_acesso_validador,
+                            config.path_integrador,
+                            self.numero_identificador_sessao
+                        )
+                    resposta_pagamento = resposta.split('|')
+                    if len(resposta_pagamento[0]) >= 7:
+                        duplicata.id_pagamento = resposta_pagamento[0]
+                        duplicata.id_fila = resposta_pagamento[1]
+                    else:
+                        pagamentos_autorizados = False
+                # FIXME status sempre vai ser negativo na homologacao
+                # resposta_status_pagamento =
+                        # cliente.verificar_status_validador(
+                #     config.cnpjsh, duplicata.id_fila_status
+                # )
+                #
+                # resposta_status_pagamento =
+                        # cliente.verificar_status_validador(
+                #     config.cnpjsh, '214452'
+                # )
+                # if resposta_status_pagamento.ValorPagamento
+                        # == '0' and resposta_status_pagamento.IdFila == '0':
+                #     pagamentos_autorizados = False
+                #     break
+
+            self.pagamento_autorizado_cfe = pagamentos_autorizados
