@@ -78,11 +78,10 @@ class SpecViewMixin(models.AbstractModel):
                 if not self.fields_get().get(field_name):
                     continue
                 field = self.fields_get()[field_name]
-#                print("----", field_name, field)
+                # print("----", field_name, field)
                 res['fields'][field_name] = field
                 # print("looking for", field_name)
-                field_node = doc.xpath("//field[@name='%s']" %
-                                       (field_name,))
+                field_node = doc.xpath("//field[@name='%s']" % (field_name,))
                 if field_node:
                     setup_modifiers(field_node[0], field)
 
@@ -148,7 +147,7 @@ class SpecViewMixin(models.AbstractModel):
         inside_notebook = False
         stacked_classes = [getattr(x, '_name', None) for x in type(self).mro()]
 
-#        for spec in lib_node.member_data_items_:
+        # for spec in lib_node.member_data_items_:
         for field_name, field in lib_node._fields.items():
             # _logger.info("   field", field_name)
             # import pudb; pudb.set_trace()
@@ -213,10 +212,10 @@ class SpecViewMixin(models.AbstractModel):
                     lib_child = self.env[field.comodel_name]
 
                 child_string = field.string
-#                if isinstance(child_string, str):
-#                    child_string = child_string  # .decode('utf-8')
-#                if hasattr(lib_child, '_stack_path'): # TODO
-#                    child_string = lib_child._stack_path
+                # if isinstance(child_string, str):
+                #     child_string = child_string  # .decode('utf-8')
+                # if hasattr(lib_child, '_stack_path'): # TODO
+                #     child_string = lib_child._stack_path
                 if depth == 0:
                     view_child = E.group(string=child_string)
                     if attrs:
