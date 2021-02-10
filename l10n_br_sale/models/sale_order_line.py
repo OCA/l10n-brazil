@@ -132,7 +132,7 @@ class SaleOrderLine(models.Model):
         """Update discount percent"""
         if self.env.user.has_group('l10n_br_sale.group_discount_per_value'):
             self.discount = ((self.discount_value * 100) /
-                             (self.product_uom_qty * self.price_unit))
+                             (self.product_uom_qty * self.price_unit or 1))
 
     @api.onchange('fiscal_tax_ids')
     def _onchange_fiscal_tax_ids(self):
