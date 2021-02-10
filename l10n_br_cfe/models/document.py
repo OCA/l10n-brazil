@@ -206,24 +206,24 @@ class FiscalDocument(models.Model):
         compute='_compute_cfe_cancel_image',
     )
 
-    # def _monta_cfe_informacoes_adicionais(self):
-    #
-    #     dados_informacoes_venda = InformacoesAdicionais()
-    #     dados_informacoes_venda.infCpl = self._monta_informacoes_adicionais()
-    #     dados_informacoes_venda.validar()
-    #
-    #     return dados_informacoes_venda
-    #
-    # def _monta_informacoes_adicionais(self):
-    #     infcomplementar = self.infcomplementar or ''
-    #
-    #     dados_infcomplementar = {
-    #         'nf': self,
-    #     }
-    #
-    #     return self._renderizar_informacoes_template(
-    #         dados_infcomplementar, infcomplementar)
-    #
+    def _monta_cfe_informacoes_adicionais(self):
+
+        dados_informacoes_venda = InformacoesAdicionais()
+        dados_informacoes_venda.infCpl = self._monta_informacoes_adicionais()
+        dados_informacoes_venda.validar()
+
+        return dados_informacoes_venda
+
+    def _monta_informacoes_adicionais(self):
+        infcomplementar = self.infcomplementar or ''
+
+        dados_infcomplementar = {
+            'nf': self,
+        }
+
+        return self._renderizar_informacoes_template(
+            dados_infcomplementar, infcomplementar)
+
 
     def _monta_cfe_destinatario(self,):
         #

@@ -8,4 +8,4 @@
 - Alguns impostos não estão implementados;
 - Implementar al_efetiva_icms_proprio;
 - Refatorar as informações adicionais;
-- Implementar testes
+- Implementar testes;

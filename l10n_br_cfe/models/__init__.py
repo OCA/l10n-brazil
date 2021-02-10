@@ -2,7 +2,6 @@
 #   Luis Felipe Miléo <mileo@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 
-
 from . import document
 from . import document_item
 from . import payment
