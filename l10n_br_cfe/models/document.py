@@ -7,9 +7,10 @@ import logging
 import base64
 from io import StringIO
 import qrcode
+from dateutil.relativedelta import relativedelta
 from decimal import Decimal as D
 from lxml import etree
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     MODELO_FISCAL_CFE,
@@ -124,16 +125,14 @@ class FiscalDocument(models.Model):
                     record.autorizacao_event_id.xml_returned_id
                 )
 
-    @api.depends('chave_cancelamento', 'cancel_document_event_id', 'state_edoc')
+    @api.depends('cfe_cancel_key', 'cancel_document_event_id', 'state_edoc')
     def _compute_cfe_cancel_image(self):
         for record in self.filtered(filter_processador_edoc_cfe):
             if not record.state_edoc == SITUACAO_EDOC_CANCELADA:
                 return
-            if record.chave_cancelamento:
-                record.num_cfe_cancelamento = int(
-                    record.chave_cancelamento[31:37])
+            if record.cfe_cancel_key:
                 record.cfe_cancelamento_code128 = self._compute_cfe_code128(
-                    record.chave_cancelamento
+                    record.cfe_cancel_key
                 )
             if record.arquivo_xml_autorizacao_cancelamento_id:
                 record.cfe_cancelamento_qrcode = self._compute_cfe_qrcode(
@@ -158,11 +157,16 @@ class FiscalDocument(models.Model):
         size=44,
         readonly=True,
     )
-    codigo_rejeicao_cfe = fields.Char(
-        string='Código Rejeição CFe'
+
+    id_fila_validador = fields.Char(
+        string='ID Fila Validador',
+        copy=False,
     )
 
-    id_fila_validador = fields.Char(string='ID Fila Validador')
+    numero_identificador_sessao = fields.Char(
+        string='Numero identificador sessao',
+        copy=False,
+    )
 
     cfe_code128 = fields.Binary(
         string='Imagem cfe code 128',
@@ -174,6 +178,21 @@ class FiscalDocument(models.Model):
         compute='_compute_cfe_image',
     )
 
+    cfe_cancel_number = fields.Char(
+        string='Número Cancelamento',
+        index=True,
+        copy=False,
+    )
+    cfe_cancel_serie = fields.Char(
+        string='Série Cancelamento',
+        index=True,
+        copy=False,
+    )
+    cfe_cancel_key = fields.Char(
+        string='Chave Cancelamento',
+        index=True,
+        copy=False,
+    )
     cfe_cancelamento_code128 = fields.Binary(
         string='Cfe code 128 cancelamento',
         compute='_compute_cfe_cancel_image',
@@ -182,16 +201,6 @@ class FiscalDocument(models.Model):
     cfe_cancelamento_qrcode = fields.Binary(
         string='Cfe QRCODE cancelamento',
         compute='_compute_cfe_cancel_image',
-    )
-
-    num_cfe_cancelamento = fields.Integer(
-        string='Número',
-        index=True,
-        copy=False,
-        compute='_compute_cfe_cancel_image',
-    )
-    numero_identificador_sessao = fields.Char(
-        string='Numero identificador sessao'
     )
 
     # def _monta_cfe_informacoes_adicionais(self):
@@ -357,40 +366,36 @@ class FiscalDocument(models.Model):
 
     @api.multi
     def _eletronic_document_send(self):
+        """
+        :return:
+        """
+        # TODO: VPFE - Ceará / Verificar se o valor pago é mair do que Zero.
+        # if not record.pagamento_autorizado_cfe:
+        #     raise Warning('Pagamento(s) não autorizado(s)!')
+        # TODO: VPFE - Ceará
+        # impressao = record.configuracao_pdv_id.impressora
+
         super()._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_cfe):
-
-            # TODO: VPFE - Ceará
-            # if not record.pagamento_autorizado_cfe:
-            #     raise Warning('Pagamento(s) não autorizado(s)!')
-            # TODO: VPFE - Ceará
-            # impressao = record.configuracao_pdv_id.impressora
-
             cliente = record.configuracao_pdv_id.processador_cfe()
-            cfe = record._serialize_cfe()
-            #
-            # Processa resposta
-            #
             try:
-                if self.configuracao_pdv_id.tipo_sat == 'local':
-                    resposta = cliente.enviar_dados_venda(cfe)
-                elif self.configuracao_pdv_id.tipo_sat == 'rede_interna':
-                    resposta = cliente.enviar_dados_venda(
-                        dados_venda=cfe,
+                if self.numero_identificador_sessao:
+                    resposta = cliente.consultar_numero_sessao(
+                        self.numero_identificador_sessao
                     )
+                    #  Este método ainda tem um problema que não foi resolvido,
+                    #  caso haja alguma falha na comunicação é necessário
+                    #  verificar se o cupom foi emitido através da consulta
+                    #  do número de sessão.
                 else:
-                    resposta = None
+                    cfe = record._serialize_cfe()
+                    resposta = cliente.enviar_dados_venda(cfe)
                 if resposta.EEEEE in '06000':
-                    # self.executa_antes_autorizar() TODO: executa_antes_autorizar
-                    # self.executa_depois_autorizar() TODO: executa_depois_autorizar
                     key = ChaveCFeSAT(resposta.chaveConsulta)
                     self.data_hora_autorizacao = fields.Datetime.now()
                     self.number = key.numero_cupom_fiscal
                     self.document_serie = key.numero_serie
                     self.key = resposta.chaveConsulta[3:]
-
-                    self.state_fiscal = SITUACAO_FISCAL_REGULAR
-                    self.state_edoc = SITUACAO_EDOC_AUTORIZADA
                     self.autorizacao_event_id.set_done(resposta.xml())
                     self.codigo_situacao = resposta.EEEEE
                     motivo_situacao = '{} {}'.format(
@@ -398,18 +403,16 @@ class FiscalDocument(models.Model):
                         resposta.mensagemSEFAZ or ''
                     )
                     self.motivo_situacao = motivo_situacao
+                    self.numero_identificador_sessao = resposta.numeroSessao
                     # self.id_fila_validador = resposta.id_fila # TODO: Ceará
-
+                    self._change_state(SITUACAO_EDOC_AUTORIZADA)
                 elif resposta.EEEEE in ('06001', '06002', '06003', '06004',
                                         '06005', '06006', '06007', '06008',
                                         '06009', '06010', '06098', '06099'):
-                    self.codigo_rejeicao_cfe = resposta.EEEEE
-                    # self.executa_antes_denegar()
-                    self.situacao_fiscal = SITUACAO_FISCAL_DENEGADO
-                    self.situacao_nfe = SITUACAO_EDOC_DENEGADA
-                    # self.executa_depois_denegar()
+                    self.codigo_situacao = resposta.EEEEE
+                    self._change_state(SITUACAO_EDOC_DENEGADA)
             except (ErroRespostaSATInvalida, ExcecaoRespostaSAT) as resposta:
-                self.codigo_rejeicao_cfe = resposta.EEEEE
+                self.codigo_situacao = resposta.EEEEE
                 mensagem = 'Código de retorno: ' + \
                            resposta.EEEEE
                 mensagem += '\nMensagem: ' + \
@@ -419,96 +422,173 @@ class FiscalDocument(models.Model):
                         self.numero_identificador_sessao:
                     self.numero_identificador_sessao = \
                         resposta.resposta.numeroSessao
-                self.mensagem_nfe = mensagem
-                self.situacao_nfe = SITUACAO_EDOC_REJEITADA
+                self.motivo_situacao = mensagem
+                self._change_state(SITUACAO_EDOC_REJEITADA)
             except Exception as resposta:
                 if hasattr(resposta, 'resposta'):
-                    self.codigo_rejeicao_cfe = resposta.resposta.EEEEE
+                    self.codigo_situacao = resposta.resposta.EEEEE
                 if resposta.resposta.mensagem == 'Erro interno' and \
                         resposta.resposta.mensagemSEFAZ == 'ERRO' and not \
                         self.numero_identificador_sessao:
                     self.numero_identificador_sessao = \
                         resposta.resposta.numeroSessao
-                self.mensagem_nfe = "Falha na conexão com a retaguarda"
-                self.situacao_nfe = SITUACAO_EDOC_REJEITADA
+                self.motivo_situacao = "Falha na conexão com a retaguarda"
+                self._change_state(SITUACAO_EDOC_REJEITADA)
 
-    @api.multi
-    def cancel_invoice_online(self, justificative):
-        super().cancel_invoice_online(justificative)
-        for record in self.filtered(filter_processador_edoc_cfe):
-            pass
+    #
+    #  Fluxo de Cancelamento
+    #
 
-    # def executa_depois_autorizar(self):
-    #     #
-    #     # Este método deve ser alterado por módulos integrados, para realizar
-    #     # tarefas de integração necessárias depois de autorizar uma NF-e,
-    #     # por exemplo, criar lançamentos financeiros, movimentações de
-    #     # estoque etc.
-    #     #
+    def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
+        super()._exec_before_SITUACAO_EDOC_CANCELADA(
+            old_state, new_state)
+        if self.filtered(filter_processador_edoc_cfe):
+            self.cancel_document_cfe()
+
+    def _monta_cancelamento(self):
+        if not self.filtered(filter_processador_edoc_cfe):
+            return
+        cnpj_software_house, assinatura, numero_caixa = \
+            self.configuracao_pdv_id._monta_cfe_identificacao()
+        return CFeCancelamento(
+            chCanc='CFe' + self.key,
+            CNPJ=punctuation_rm(cnpj_software_house),
+            signAC=assinatura,
+            numeroCaixa=numero_caixa,
+        )
+
+    def cancel_document_cfe(self):
+        self.ensure_one()
+        if not self.filtered(filter_processador_edoc_cfe):
+            return
+        if not fields.Datetime.now() < (
+                self.data_hora_autorizacao + relativedelta(minutes=29)):
+            raise UserError(_(
+                "Cupom Fiscal não pode ser cancelado após passados 30 minutos."
+            ))
+
+        processador = self.configuracao_pdv_id.processador_cfe()
+
+        try:
+            cancelamento = self._monta_cancelamento()
+            xml_file = cancelamento.documento()
+            event_id = self._gerar_evento(xml_file, event_type="2")
+            _logger.debug(xml_file)
+            self.cancel_document_event_id = event_id
+
+            processo = processador.cancelar_ultima_venda(
+                cancelamento.chCanc,
+                cancelamento
+            )
+            #
+            # O cancelamento foi aceito e vinculado à CF-E
+            #
+            if processo.EEEEE in '07000':
+                #
+                # Grava o protocolo de cancelamento
+                #
+                key = ChaveCFeSAT(processo.chaveConsulta)
+                # self.data_hora_cancelamento = fields.Datetime.now()
+                self.cfe_cancel_number = key.numero_cupom_fiscal
+                self.cfe_cancel_serie = key.numero_serie
+                self.cfe_cancel_key = key.chaveConsulta[3:]
+                self.cancel_document_event_id.set_done(processo.xml())
+
+                self.codigo_situacao = processo.EEEEE
+                motivo_situacao = '{} {}'.format(
+                    processo.mensagem or '',
+                    processo.mensagemSEFAZ or ''
+                )
+                self.motivo_situacao = motivo_situacao
+                self.numero_identificador_sessao = processo.numeroSessao
+
+        except ExcecaoRespostaSAT as e:
+            self.codigo_situacao = e.resposta.EEEEE
+            motivo_situacao = '{} {}'.format(
+                e.resposta.mensagem or '',
+                e.resposta.mensagemSEFAZ or ''
+            )
+            self.motivo_situacao = motivo_situacao
+        except ErroRespostaSATInvalida as resposta:
+            mensagem = 'Erro no cancelamento'
+            mensagem += '\nCódigo: ' + resposta.EEEEE
+            mensagem += '\nMotivo: ' + resposta.mensagem
+            raise UserError(mensagem)
+        except Exception as resposta:
+            if not hasattr(resposta, 'resposta'):
+                mensagem = 'Erro no cancelamento'
+                mensagem += '\nMotivo: ' + resposta.message
+                raise UserError(mensagem)
+            mensagem = 'Erro no cancelamento'
+            mensagem += '\nCódigo: ' + resposta.resposta.EEEEE
+            mensagem += '\nMotivo: ' + resposta.resposta.mensagem
+            raise UserError(mensagem)
+
+    # TODO: Implementar impressão após a autorização da nota e após o cancelamento
+    # Verificar código abaixo
+    # @api.multi
+    # def imprimir_documento(self):
+    #     """ Print the invoice and mark it as sent, so that we can see more
+    #         easily the next step of the workflow
+    #     """
     #     self.ensure_one()
-    #     super().executa_depois_autorizar()
-    #
-    #     if self.modelo != MODELO_FISCAL_CFE:
-    #         super()._compute_permite_cancelamento()
-    #         return
-    #
-    #     if self.emissao != DOCUMENT_ISSUER_COMPANY:
-    #         super()._compute_permite_cancelamento()
-    #         return
-    #
-    #     #
-    #     # Envia o email da nota para o cliente
-    #     #
-    #     mail_template = None
-    #     if self.operacao_id.mail_template_id:
-    #         mail_template = self.operacao_id.mail_template_id
+    #     if not self.modelo == MODELO_FISCAL_CFE:
+    #         return super().imprimir_documento()
+    #     self.sudo().write({'documento_impresso': True})
+    #     return self.env['report'].get_action(self, 'report_sped_documento_cfe')
+
+    # @api.multi
+    # def imprimir_documento(self):
+    #     # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
+    #     if not self.modelo == MODELO_FISCAL_CFE:
+    #         return super().imprimir_documento()
+    #     self.ensure_one()
+    #     impressao = self.configuracao_pdv_id.impressora
+    #     if impressao:
+    #         try:
+    #             cliente = self.processador_cfe()
+    #             resposta = self.arquivo_xml_autorizacao_id.datas
+    #             cliente.imprimir_cupom_venda(
+    #                 resposta,
+    #                 impressao.modelo,
+    #                 impressao.conexao,
+    #                 self.configuracao_pdv_id.site_consulta_qrcode.encode("utf-8")
+    #             )
+    #         except Exception as e:
+    #             _logger.error("Erro ao imprimir o cupom")
     #     else:
-    #         if self.modelo == MODELO_FISCAL_NFE and \
-    #                 self.empresa_id.mail_template_nfe_autorizada_id:
-    #             mail_template = \
-    #                 self.empresa_id.mail_template_nfe_autorizada_id
-    #         elif self.modelo == MODELO_FISCAL_NFCE and \
-    #                 self.empresa_id.mail_template_nfce_autorizada_id:
-    #             mail_template = \
-    #                 self.empresa_id.mail_template_nfce_autorizada_id
-    #
-    #     if mail_template is None:
-    #         return
-    #
-    #     self.envia_email(mail_template)
+    #         raise Warning("Não existem configurações para impressão no PDV!")
 
-    # def grava_cfe(self, cfe):
-    #     self.ensure_one()
-    #     nome_arquivo = 'envio-cfe.xml'
-    #     conteudo = cfe.documento().encode('utf-8')
-    #     self.arquivo_xml_id = False
-    #     self.arquivo_xml_id = self._grava_anexo(nome_arquivo, conteudo).id
+    # def gera_pdf(self):
+    #     for record in self:
+    #         if record.modelo not in (MODELO_FISCAL_CFE):
+    #             return super().gera_pdf()
     #
-    # def grava_cfe_autorizacao(self, cfe):
-    #     self.ensure_one()
-    #     nome_arquivo = self.key + '-proc-nfe.xml'
-    #     self.arquivo_xml_autorizacao_id = False
-    #     self.arquivo_xml_autorizacao_id = \
-    #         self._grava_anexo(nome_arquivo, cfe).id
+    #         if record.issuer != DOCUMENT_ISSUER_COMPANY:
+    #             return
     #
-    # def grava_cfe_cancelamento(self, key, canc):
-    #     self.ensure_one()
-    #     nome_arquivo = self.key + '-01-can.xml'
-    #     conteudo = canc.documento().encode('utf-8')
-    #     self.arquivo_xml_cancelamento_id = False
-    #     self.arquivo_xml_cancelamento_id = \
-    #         self._grava_anexo(nome_arquivo, conteudo).id
+    #     context = self.env.context.copy()
+    #     reportname = 'report_sped_documento_cfe'
+    #     action_py3o_report = self.env.ref('l10n_br_cfe.action_report_sped_documento_cfe')
     #
-    # def grava_cfe_autorizacao_cancelamento(self, key, canc):
-    #     self.ensure_one()
-    #     nome_arquivo = key + '-01-proc-can.xml'
-    #     conteudo = canc.encode('utf-8')
-    #     self.arquivo_xml_autorizacao_cancelamento_id = False
-    #     self.arquivo_xml_autorizacao_cancelamento_id = \
-    #         self._grava_anexo(nome_arquivo, conteudo).id
+    #     if not action_py3o_report:
+    #         raise UserError(
+    #             'Py3o action report not found for report_name')
+    #
+    #     context['report_name'] = reportname
+    #
+    #     py3o_report = self.env['py3o.report'].create({
+    #         'ir_actions_report_xml_id': action_py3o_report.id
+    #     }).with_context(context)
+    #
+    #     res, filetype = py3o_report.create_report(self.ids, {})
+    #     return res
 
-    #
-    #
+    ########################################################################
+    # Os métodos comentados abaixo são referentes a conexão com o SAT através
+    # de websockets. E podem ser refatorados em uma seguna versão
+    ########################################################################
+
     # def resposta_cfe(self, resposta):
     #     """
     #
@@ -565,313 +645,82 @@ class FiscalDocument(models.Model):
     # def processar_resposta_cfe(self, venda_id, resposta):
     #     venda = self.browse(venda_id)
     #     return venda.resposta_cfe(resposta)
-    #
-    # def _monta_cancelamento(self):
-    #     cnpj_software_house, assinatura, numero_caixa = \
-    #         self._monta_cfe_identificacao()
-    #     return CFeCancelamento(
-    #         chCanc='CFe' + self.key,
-    #         CNPJ=limpa_formatacao(cnpj_software_house),
-    #         signAC=assinatura,
-    #         numeroCaixa=int(numero_caixa),
-    #     )
-    #
-    # def cancela_nfe(self):
-    #     self.ensure_one()
-    #     result = super().cancela_nfe()
-    #     if not self.modelo == MODELO_FISCAL_CFE:
-    #         return result
-    #     if not fields.Datetime.from_string(fields.Datetime.now()) < \
-    #         fields.Datetime.from_string(
-    #             self.data_hora_emissao) + relativedelta(minutes=29):
-    #         raise UserError("Cupom Fiscal não pode ser cancelado após "
-    #                         "passados 30 minutos.")
-    #
-    #     processador = self.processador_cfe()
-    #
-    #     try:
-    #         cancelamento = self._monta_cancelamento()
-    #
-    #         if self.configuracao_pdv_id.tipo_sat == 'local':
-    #             processo = processador.cancelar_ultima_venda(
-    #                 cancelamento.chCanc,
-    #                 cancelamento
-    #             )
-    #         elif self.configuracao_pdv_id.tipo_sat == 'rede_interna':
-    #             processo = processador.cancelar_ultima_venda(
-    #                 cancelamento.chCanc,
-    #                 cancelamento,
-    #                 self.configuracao_pdv_id.codigo_ativacao,
-    #                 self.configuracao_pdv_id.path_integrador
-    #             )
-    #         else:
-    #             processo = None
-    #
-    #         #
-    #         # O cancelamento foi aceito e vinculado à CF-E
-    #         #
-    #         if processo.EEEEE in '07000':
-    #             #
-    #             # Grava o protocolo de cancelamento
-    #             #
-    #             self.grava_cfe_cancelamento(self.key, cancelamento)
-    #             self.grava_cfe_autorizacao_cancelamento(
-    #                 self.key, processo.xml())
-    #             self.chave_cancelamento = processo.chaveConsulta[3:]
-    #
-    #  #           dh_cancelamento = UTC.normalize(processo.timeStamp)
-    #  #           self.data_hora_cancelamento = dh_cancelamento
-    #
-    #             # if impressao:
-    #             #     processador.imprimir_cupom_cancelamento(
-    #             #         self.arquivo_xml_autorizacao_id.datas,
-    #             #         processo.arquivoCFeBase64,
-    #             #         impressao.modelo,
-    #             #         impressao.conexao
-    #             #     )
-    #
-    #             # data_cancelamento = retevento.infEvento.dhRegEvento.valor
-    #             # data_cancelamento = UTC.normalize(data_cancelamento)
-    #             # self.protocolo_cancelamento = \
-    #             #     procevento.retEvento.infEvento.nProt.valor
-    #
-    #             #
-    #             # Cancelamento extemporâneo
-    #             #
-    #             self.executa_antes_cancelar()
-    #
-    #             if processo.EEEEE != '07000':
-    #                 # FIXME: Verificar se da para cancelar fora do prazo
-    #                 self.situacao_fiscal = \
-    #                     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-    #                 self.situacao_nfe = SITUACAO_EDOC_CANCELADA
-    #             elif processo.EEEEE == '07000':
-    #                 self.situacao_fiscal = SITUACAO_FISCAL_CANCELADO
-    #                 self.situacao_nfe = SITUACAO_EDOC_CANCELADA
-    #
-    #             self.executa_depois_cancelar()
-    #             return self.imprimir_documento()
-    #
-    #     except (ErroRespostaSATInvalida, ExcecaoRespostaSAT) as resposta:
-    #         mensagem = 'Erro no cancelamento'
-    #         mensagem += '\nCódigo: ' + resposta.EEEEE
-    #         mensagem += '\nMotivo: ' + resposta.mensagem
-    #         raise UserError(mensagem)
-    #     except Exception as resposta:
-    #
-    #         if not hasattr(resposta, 'resposta'):
-    #             mensagem = 'Erro no cancelamento'
-    #             mensagem += '\nMotivo: ' + resposta.message
-    #             raise UserError(mensagem)
-    #
-    #         mensagem = 'Erro no cancelamento'
-    #         mensagem += '\nCódigo: ' + resposta.resposta.EEEEE
-    #         mensagem += '\nMotivo: ' + resposta.resposta.mensagem
-    #         raise UserError(mensagem)
+
+    ################# FIM websockets ##############################
+
+    ##################################################################
+    # Código do Ceará, testar com calma depois e refatorar
+    # Tem alguns detalhes referentes a validação das vendas com
+    # cartão de crédito via maquina 3G que estão faltando.
+    #################################################################
     #
     # @api.multi
-    # def imprimir_documento(self):
-    #     """ Print the invoice and mark it as sent, so that we can see more
-    #         easily the next step of the workflow
-    #     """
+    # def _verificar_formas_pagamento(self):
+    #     pagamentos_cartoes = []
+    #     for pagamento in self.fiscal_payment_ids:
+    #         if pagamento.condicao_pagamento_id.forma_pagamento in ["03", "04"]:
+    #             pagamentos_cartoes.append(pagamento)
+    #
+    #     return pagamentos_cartoes
+    #
+    # def envia_pagamento(self):
     #     self.ensure_one()
-    #     if not self.modelo == MODELO_FISCAL_CFE:
-    #         return super().imprimir_documento()
-    #     self.sudo().write({'documento_impresso': True})
-    #     return self.env['report'].get_action(self, 'report_sped_documento_cfe')
-
-
-    #
-    #  Código antigo - v10 - apagar
-    #
-
-    # @api.multi
-    # def _compute_total_a_pagar(self):
-    #     for record in self:
-    #         valor = record.amount_financial
-    #         for pagamento in record.fiscal_payment_ids:
-    #             valor -= pagamento.valor
-    #         record.vr_total_residual = valor
-    #
-    # vr_total_residual = fields.Monetary(
-    #     string='Total Residual',
-    #     compute='_compute_total_a_pagar',
-    # )
-    #
-    # # @api.depends('modelo', 'issuer', 'importado_xml', 'situacao_nfe')
-    # def _compute_permite_alteracao(self):
-    #     super()._compute_permite_alteracao()
-    #
-    #     for documento in self:
-    #         if not documento.modelo == MODELO_FISCAL_CFE:
-    #             super()._compute_permite_alteracao()
-    #             continue
-    #
-    #         if documento.issuer != DOCUMENT_ISSUER_COMPANY:
-    #             super()._compute_permite_alteracao()
-    #             continue
-    #
-    #         #
-    #         # É emissão própria de NF-e ou NFC-e, permite alteração
-    #         # somente quando estiver em digitação ou rejeitada
-    #         #
-    #         documento.permite_alteracao = documento.permite_alteracao or \
-    #             documento.situacao_nfe in (SITUACAO_EDOC_EM_DIGITACAO,
-    #                                        SITUACAO_EDOC_REJEITADA)
-    #
-    # def _check_permite_alteracao(self, operacao='create', dados={},
-    #                              campos_proibidos=[]):
-    #
-    #     CAMPOS_PERMITIDOS = [
-    #         'message_follower_ids',
-    #         'justificativa',
-    #         'chave_cancelamento',
-    #     ]
-    #     for documento in self:
-    #         if documento.modelo != MODELO_FISCAL_CFE:
-    #             super()._check_permite_alteracao(
-    #                 operacao,
-    #                 dados,
-    #             )
-    #             continue
-    #
-    #         if documento.issuer != DOCUMENT_ISSUER_COMPANY:
-    #             super()._check_permite_alteracao(
-    #                 operacao,
-    #                 dados,
-    #             )
-    #             continue
-    #
-    #         if documento.permite_alteracao:
-    #             continue
-    #
-    #         permite_alteracao = False
-    #
-    #         if documento.situacao_nfe == SITUACAO_EDOC_AUTORIZADA:
-    #             for campo in dados:
-    #                 if campo in CAMPOS_PERMITIDOS:
-    #                     permite_alteracao = True
-    #                     break
-    #                 elif campo not in campos_proibidos:
-    #                     campos_proibidos.append(campo)
-    #
-    #         if permite_alteracao:
-    #             continue
-    #
-    # @api.multi
-    # def imprimir_documento(self):
-    #     # TODO: Reimprimir cupom de cancelamento caso houver com o normal.
-    #     if not self.modelo == MODELO_FISCAL_CFE:
-    #         return super().imprimir_documento()
-    #     self.ensure_one()
-    #     impressao = self.configuracao_pdv_id.impressora
-    #     if impressao:
-    #         try:
-    #             cliente = self.processador_cfe()
-    #             resposta = self.arquivo_xml_autorizacao_id.datas
-    #             cliente.imprimir_cupom_venda(
-    #                 resposta,
-    #                 impressao.modelo,
-    #                 impressao.conexao,
-    #                 self.configuracao_pdv_id.site_consulta_qrcode.encode("utf-8")
-    #             )
-    #         except Exception as e:
-    #             _logger.error("Erro ao imprimir o cupom")
+    #     pagamentos_cartoes = self._verificar_formas_pagamento()
+    #     if not pagamentos_cartoes:
+    #         self.pagamento_autorizado_cfe = True
     #     else:
-    #         raise Warning("Não existem configurações para impressão no PDV!")
-
-    def gera_pdf(self):
-        for record in self:
-            if record.modelo not in (MODELO_FISCAL_CFE):
-                return super().gera_pdf()
-
-            if record.issuer != DOCUMENT_ISSUER_COMPANY:
-                return
-
-        context = self.env.context.copy()
-        reportname = 'report_sped_documento_cfe'
-        action_py3o_report = self.env.ref('l10n_br_cfe.action_report_sped_documento_cfe')
-
-        if not action_py3o_report:
-            raise UserError(
-                'Py3o action report not found for report_name')
-
-        context['report_name'] = reportname
-
-        py3o_report = self.env['py3o.report'].create({
-            'ir_actions_report_xml_id': action_py3o_report.id
-        }).with_context(context)
-
-        res, filetype = py3o_report.create_report(self.ids, {})
-        return res
-
-    @api.multi
-    def _verificar_formas_pagamento(self):
-        pagamentos_cartoes = []
-        for pagamento in self.fiscal_payment_ids:
-            if pagamento.condicao_pagamento_id.forma_pagamento in ["03", "04"]:
-                pagamentos_cartoes.append(pagamento)
-
-        return pagamentos_cartoes
-
-    def envia_pagamento(self):
-        self.ensure_one()
-        pagamentos_cartoes = self._verificar_formas_pagamento()
-        if not pagamentos_cartoes:
-            self.pagamento_autorizado_cfe = True
-        else:
-            pagamentos_autorizados = True
-            config = self.configuracao_pdv_id
-            cliente = self.processador_vfpe()
-
-            for duplicata in pagamentos_cartoes:
-                if not duplicata.id_pagamento:
-                    if self.configuracao_pdv_id.tipo_sat == 'local':
-                        resposta = cliente.enviar_pagamento(
-                            config.chave_requisicao, duplicata.estabecimento,
-                            duplicata.serial_pos, config.cnpjsh,
-                            self.bc_icms_proprio,
-                            duplicata.valor,
-                            config.multiplos_pag,
-                            config.anti_fraude,
-                            'BRL',
-                            int(config.numero_caixa),
-                        )
-                    elif self.configuracao_pdv_id.tipo_sat == 'rede_interna':
-                        resposta = cliente.enviar_pagamento(
-                            config.chave_requisicao,
-                            duplicata.estabecimento,
-                            duplicata.serial_pos,
-                            config.cnpjsh,
-                            self.bc_icms_proprio,
-                            duplicata.valor,
-                            config.multiplos_pag,
-                            config.anti_fraude,
-                            'BRL',
-                            int(config.numero_caixa),
-                            config.chave_acesso_validador,
-                            config.path_integrador,
-                            self.numero_identificador_sessao
-                        )
-                    resposta_pagamento = resposta.split('|')
-                    if len(resposta_pagamento[0]) >= 7:
-                        duplicata.id_pagamento = resposta_pagamento[0]
-                        duplicata.id_fila = resposta_pagamento[1]
-                    else:
-                        pagamentos_autorizados = False
-                # FIXME status sempre vai ser negativo na homologacao
-                # resposta_status_pagamento =
-                        # cliente.verificar_status_validador(
-                #     config.cnpjsh, duplicata.id_fila_status
-                # )
-                #
-                # resposta_status_pagamento =
-                        # cliente.verificar_status_validador(
-                #     config.cnpjsh, '214452'
-                # )
-                # if resposta_status_pagamento.ValorPagamento
-                        # == '0' and resposta_status_pagamento.IdFila == '0':
-                #     pagamentos_autorizados = False
-                #     break
-
-            self.pagamento_autorizado_cfe = pagamentos_autorizados
+    #         pagamentos_autorizados = True
+    #         config = self.configuracao_pdv_id
+    #         cliente = self.processador_vfpe()
+    #
+    #         for duplicata in pagamentos_cartoes:
+    #             if not duplicata.id_pagamento:
+    #                 if self.configuracao_pdv_id.tipo_sat == 'local':
+    #                     resposta = cliente.enviar_pagamento(
+    #                         config.chave_requisicao, duplicata.estabecimento,
+    #                         duplicata.serial_pos, config.cnpjsh,
+    #                         self.bc_icms_proprio,
+    #                         duplicata.valor,
+    #                         config.multiplos_pag,
+    #                         config.anti_fraude,
+    #                         'BRL',
+    #                         int(config.numero_caixa),
+    #                     )
+    #                 elif self.configuracao_pdv_id.tipo_sat == 'rede_interna':
+    #                     resposta = cliente.enviar_pagamento(
+    #                         config.chave_requisicao,
+    #                         duplicata.estabecimento,
+    #                         duplicata.serial_pos,
+    #                         config.cnpjsh,
+    #                         self.bc_icms_proprio,
+    #                         duplicata.valor,
+    #                         config.multiplos_pag,
+    #                         config.anti_fraude,
+    #                         'BRL',
+    #                         int(config.numero_caixa),
+    #                         config.chave_acesso_validador,
+    #                         config.path_integrador,
+    #                         self.numero_identificador_sessao
+    #                     )
+    #                 resposta_pagamento = resposta.split('|')
+    #                 if len(resposta_pagamento[0]) >= 7:
+    #                     duplicata.id_pagamento = resposta_pagamento[0]
+    #                     duplicata.id_fila = resposta_pagamento[1]
+    #                 else:
+    #                     pagamentos_autorizados = False
+    #             # FIXME status sempre vai ser negativo na homologacao
+    #             # resposta_status_pagamento =
+    #                     # cliente.verificar_status_validador(
+    #             #     config.cnpjsh, duplicata.id_fila_status
+    #             # )
+    #             #
+    #             # resposta_status_pagamento =
+    #                     # cliente.verificar_status_validador(
+    #             #     config.cnpjsh, '214452'
+    #             # )
+    #             # if resposta_status_pagamento.ValorPagamento
+    #                     # == '0' and resposta_status_pagamento.IdFila == '0':
+    #             #     pagamentos_autorizados = False
+    #             #     break
+    #
+    #         self.pagamento_autorizado_cfe = pagamentos_autorizados
