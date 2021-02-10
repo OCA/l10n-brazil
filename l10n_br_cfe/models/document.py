@@ -5,7 +5,7 @@
 
 import logging
 import base64
-from io import StringIO
+from io import StringIO,BytesIO
 import qrcode
 from dateutil.relativedelta import relativedelta
 from decimal import Decimal as D
@@ -61,7 +61,7 @@ class FiscalDocument(models.Model):
     _inherit = 'l10n_br_fiscal.document'
 
     def _compute_cfe_code128(self, key):
-        report = self.env['report']
+        report = self.env['ir.actions.report']
         return base64.b64encode(report.barcode(
             'Code128',
             key,
@@ -71,11 +71,11 @@ class FiscalDocument(models.Model):
         ))
 
     def _compute_cfe_qrcode(self, atttachment):
-        datas = atttachment.datas.decode('base64')
+        datas = base64.b64decode(atttachment.datas.decode())
         root = etree.fromstring(datas)
         tree = etree.ElementTree(root)
         image = qrcode.make(dados_qrcode(tree))
-        buffer = StringIO()
+        buffer = BytesIO()
         image.save(buffer, format="png")
         return base64.b64encode(buffer.getvalue())
 
@@ -120,7 +120,7 @@ class FiscalDocument(models.Model):
                 return
             if record.key:
                 record.cfe_code128 = self._compute_cfe_code128(record.key)
-            if record.arquivo_xml_autorizacao_id:
+            if record.autorizacao_event_id:
                 record.cfe_qrcode = self._compute_cfe_qrcode(
                     record.autorizacao_event_id.xml_returned_id
                 )
@@ -215,6 +215,8 @@ class FiscalDocument(models.Model):
         return dados_informacoes_venda
 
     def _monta_informacoes_adicionais(self):
+        """ Função Usada pelo relatório"""
+        return ''
         infcomplementar = self.infcomplementar or ''
 
         dados_infcomplementar = {
