@@ -216,7 +216,6 @@ class StackedModel(SpecModel):
 
     @classmethod
     def _build_model(cls, pool, cr):
-        "inject all stacked m2o as inherited classes"
         # inject all stacked m2o as inherited classes
         if cls._stacked:
             _logger.info("\n\n====  BUILDING StackedModel %s %s\n" % (cls._name, cls))
@@ -303,7 +302,7 @@ class StackedModel(SpecModel):
                 # then we will STACK the child in the current class
                 # TODO if model not used in any other field!!
                 child._stack_path = path
-#                field.args['_stack_path'] = path  TODO
+                # field.args['_stack_path'] = path  TODO
                 child_path = "%s.%s" % (path, field_path)
                 cls._visit_stack(child, classes, child_path, registry, cr)
             # else:
