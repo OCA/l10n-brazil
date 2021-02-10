@@ -1,0 +1,11 @@
+- Verificar se é possível emitir SAT para cliente extrangeiro;
+- Revisar e refatorar rotinas do Ceará:
+    - Validador Fiscal;
+    - Validador de Pagamentos;
+- Implementar a consulta de sessão
+- Reimplementar fluxo de impressão, opós a autorização e o cancelamento;
+- Enviar dados do Cupom por email caso o cliente esteja identificado;
+- Alguns impostos não estão implementados;
+- Implementar al_efetiva_icms_proprio;
+- Refatorar as informações adicionais;
+- Implementar testes

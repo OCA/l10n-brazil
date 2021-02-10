@@ -16,7 +16,7 @@
     'application': False,
     'license': 'AGPL-3',
     'data': [
-        'security/ir.model.access.csv',  # FIXME
+        'security/ir.model.access.csv',
 
         'report/cfe_report.xml',
 
