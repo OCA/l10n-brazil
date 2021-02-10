@@ -1,0 +1,642 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_cfe
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-10 03:08+0000\n"
+"PO-Revision-Date: 2021-02-10 03:08+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_cfe
+#: model:ir.actions.act_window,name:l10n_br_cfe.res_partner_administradora_acao
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.res_partner_administradora_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.res_partner_administradora_search
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.res_partner_administradora_tree
+msgid "Administradora"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.ui.menu,name:l10n_br_cfe.menu_res_partner_administradora_cartao
+msgid "Administradora Cartão"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.cfe_res_company_form
+msgid "Ambiente"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_company__ambiente_cfe
+msgid "Ambiente NFC-e"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__sat_assinatura
+msgid "Assinatura"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_model:0
+msgid "Bematech MP-4200 TH"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.actions.report,name:l10n_br_cfe.action_report_sped_documento_cfe
+msgid "CF-E"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.cfe_res_company_form
+msgid "CF-E - MFE/SAT"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.ui.menu,name:l10n_br_cfe.document_sub_menu
+msgid "CF-e"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__sat_cnpj_empresa_dev
+msgid "CNPJ Homologação"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__sat_cnpj_software_house
+msgid "CNPJ Software House"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.view_enviar_pagamento
+msgid "Cancelar"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__cfe_cancelamento_qrcode
+msgid "Cfe QRCODE cancelamento"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__cfe_cancelamento_code128
+msgid "Cfe code 128 cancelamento"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__integrador_chave_acesso_validador
+msgid "Chave Acesso Validador"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__cfe_cancel_key
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__chave_cancelamento
+msgid "Chave Cancelamento"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__integrador_chave_requisicao
+msgid "Chave de Requisição"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:res.company,tipo_processador_cfe:0
+msgid "Conectado em rede local/vpn"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:res.company,tipo_processador_cfe:0
+msgid "Conectado na porta USB"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__printer_string
+msgid "Conexão"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:res.company,tipo_processador_cfe:0
+msgid "Conexão via navegador"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.pdv_config_form
+msgid "Configuração"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_l10n_br_fiscal_pos_config
+msgid "Configuração Impressão"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.impressora_config_form
+msgid "Configuração da Impressora"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.actions.act_window,name:l10n_br_cfe.pdv_config_action
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.pdv_config_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.pdv_config_search
+msgid "Configuração do Ponto de Venda"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__configuracao_pdv_id
+msgid "Configurações PDV"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.pdv_config_form
+msgid "Configurações SAT"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.pdv_config_form
+msgid "Configurações de pagamento"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.fiscal_document_emissao_cfe_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.fiscal_document_emissao_cfe_tree
+msgid "Consumidor"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:res.company,tipo_emissao_cfe:0
+#: selection:res.company,tipo_emissao_cfe_contingencia:0
+msgid "Contingência offline NFC-e"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:res.company,tipo_emissao_cfe:0
+#: selection:res.company,tipo_emissao_cfe_contingencia:0
+msgid "Contingência online NFC-e"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.actions.act_window,help:l10n_br_cfe.fiscal_document_emissao_cfe_acao
+msgid "Create a new document"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__create_uid
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__create_date
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: code:addons/l10n_br_cfe/models/document.py:452
+#, python-format
+msgid "Cupom Fiscal não pode ser cancelado após passados 30 minutos."
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_partner__codigo_administradora_cartao
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_users__codigo_administradora_cartao
+msgid "Código da Administradora"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__sat_codigo_ativacao
+msgid "Código de Ativação"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_model:0
+msgid "Daruma DR700"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__display_name
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_method:0
+msgid "Dummy"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_model:0
+msgid "Elgin I7"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_model:0
+msgid "Elgin I9"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.ui.menu,name:l10n_br_cfe.menu_fiscal_document_emissao_cfe
+msgid "Emissão"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.actions.act_window,name:l10n_br_cfe.fiscal_document_emissao_cfe_acao
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.fiscal_document_emissao_cfe_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.fiscal_document_emissao_cfe_tree
+msgid "Emissão de CF-e"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.cfe_res_company_form
+msgid "Emissão em contingência"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.fiscal_document_emissao_cfe_form
+msgid "Envia CF-e"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.fiscal_document_emissao_cfe_form
+msgid "Enviar email"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_model:0
+msgid "Epson TM-T20"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_payment__estabecimento
+msgid "Estabelecimento"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.cfe_res_company_form
+msgid "Extrato CF-E"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_method:0
+msgid "File"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_l10n_br_fiscal_document
+msgid "Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_l10n_br_fiscal_document_line
+msgid "Fiscal Document Line"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_l10n_br_fiscal_payment
+msgid "Fiscal Payment"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__printer_method
+msgid "Forma de Impressão"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__integrador_anti_fraude
+msgid "Habilitar Anti-Fraude"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__integrador_multiplos_pag
+msgid "Habilitar Múltiplos Pagamentos"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:res.company,ambiente_cfe:0
+msgid "Homologação"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__id
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__id_fila_validador
+msgid "ID Fila Validador"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_payment__id_fila
+msgid "Id Fila"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_payment__id_pagamento
+msgid "Id Pagamento"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__cfe_qrcode
+msgid "Imagem cfe QRCODE"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__cfe_code128
+msgid "Imagem cfe code 128"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__printer_config_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.impressora_config_form
+msgid "Impressora"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__sat_ie_empresa_dev
+msgid "Inscrição Estadual Homologação"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:res.company,tipo_emissao_cfe:0
+#: selection:res.company,tipo_emissao_cfe_contingencia:0
+msgid "Integrador Fiscal"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config____last_update
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__write_uid
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__write_date
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_config,tipo_sat:0
+msgid "Local"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_company__logo_cfe
+msgid "Logo no CF-E"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__printer_model
+msgid "Modelo"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_payment__nsu
+msgid "NSU"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__name
+msgid "Nome"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:res.company,tipo_emissao_cfe:0
+#: selection:res.company,tipo_emissao_cfe_contingencia:0
+msgid "Normal"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__numero_identificador_sessao
+msgid "Numero identificador sessao"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_payment__numero_aprovacao
+msgid "Nº aprovação"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__cfe_cancel_number
+msgid "Número Cancelamento"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__code
+msgid "Número de caixa"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.ui.menu,name:l10n_br_cfe.pdv_config_menuitem
+msgid "PDV Configuração"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.actions.act_window,name:l10n_br_cfe.action_enviar_pagamento
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.fiscal_document_emissao_cfe_form
+msgid "Pagamento"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__pagamento_autorizado_cfe
+msgid "Pagamento Autorizado"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_payment__pagamento_valido
+msgid "Pagamento Válido"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.view_enviar_pagamento
+msgid "Pagar"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: code:addons/l10n_br_cfe/models/payment.py:170
+#, python-format
+msgid "Payment"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.ui.menu,name:l10n_br_cfe.l10n_br_cfe_menu_config
+msgid "Ponto de Venda"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_printer_config__pos_config_ids
+msgid "Pontos de Venda"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:res.company,ambiente_cfe:0
+msgid "Produção"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_method:0
+msgid "Rede"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_config,tipo_sat:0
+msgid "Rede Interna"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_config,tipo_sat:0
+msgid "Remoto"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__retaguarda_dll_caminho
+msgid "Retaguarda Caminho DLL/Integrador"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__retaguarda_ip
+msgid "Retaguarda IP"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__retaguarda_porta
+msgid "Retaguarda Porta"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_config,tipo:0
+msgid "SAT"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_method:0
+msgid "Serial"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_payment__serial_pos
+msgid "Serial POS"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__site_consulta_qrcode
+msgid "Site Sefaz"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_document__cfe_cancel_serie
+msgid "Série Cancelamento"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_l10n_br_fiscal_pos_printer_config
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_users__l10n_br_pos_config_id
+msgid "Terminal POS"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,help:l10n_br_cfe.field_l10n_br_fiscal_pos_config__company_state_code
+msgid "The state code."
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__tipo
+msgid "Tipo"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__tipo_sat
+msgid "Tipo SAT"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_cfe.cfe_res_company_form
+msgid "Tipo de emissão"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_company__tipo_emissao_cfe
+msgid "Tipo de emissão CF-e"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_company__tipo_emissao_cfe_contingencia
+msgid "Tipo de emissão CF-e contingência"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_company__tipo_processador_cfe
+msgid "Tipo instalação SAT"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__company_state_code
+msgid "UF"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: selection:l10n_br_fiscal.pos_printer_config,printer_method:0
+msgid "USB"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_res_users
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_l10n_br_fiscal_pos_config__pos_user_ids
+msgid "Users"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_impressora_config
+msgid "impressora.config"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model,name:l10n_br_cfe.model_pdv_config
+msgid "pdv.config"
+msgstr ""
+
+#. module: l10n_br_cfe
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_partner__eh_administradora_cartao
+#: model:ir.model.fields,field_description:l10n_br_cfe.field_res_users__eh_administradora_cartao
+msgid "É Administradora de Cartão?"
+msgstr ""
+
+#. module: l10n_br_cfe
+#. openerp-web
+#: code:addons/l10n_br_cfe/static/src/xml/cfe_sat.xml:5
+#, python-format
+msgid "◉ Cfe-Sat"
+msgstr ""
+
