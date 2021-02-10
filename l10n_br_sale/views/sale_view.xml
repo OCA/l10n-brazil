@@ -35,6 +35,10 @@
                 <field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
                 <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
             </field>
+            <field name="amount_tax" position="before">
+                <field name="amount_ipi" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <field name="amount_icmsst" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+            </field>
             <field name="validity_date" position="after">
                 <field name="fiscal_operation_id" required="True"/>
                 <field name="ind_pres" required="True"/>

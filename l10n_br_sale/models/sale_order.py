@@ -109,6 +109,22 @@ class SaleOrder(models.Model):
         digits=dp.get_precision('Account'),
     )
 
+    amount_icmsst = fields.Float(
+        compute='_amount_all',
+        string='ICMS ST',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'),
+    )
+
+    amount_ipi = fields.Float(
+        compute='_amount_all',
+        string='IPI',
+        readonly=True,
+        default=0.00,
+        digits=dp.get_precision('Account'),
+    )
+
     fiscal_document_count = fields.Integer(
         string='Fiscal Document Count',
         related='invoice_count',
@@ -150,6 +166,12 @@ class SaleOrder(models.Model):
 
             order.amount_insurance = sum(
                 line.insurance_value for line in order.order_line)
+
+            order.amount_icmsst = sum(
+                line.icmsst_value for line in order.order_line)
+
+            order.amount_ipi = sum(
+                line.ipi_value for line in order.order_line)
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
