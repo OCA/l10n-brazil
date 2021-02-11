@@ -38,6 +38,7 @@
         "data/l10n_br_fiscal_server_action.xml",
         "data/ir_cron.xml",
         "data/l10n_br_fiscal_comment_data.xml",
+        "data/res_partner_data.xml",
 
         # Views
         "views/cnae_view.xml",
