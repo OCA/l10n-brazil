@@ -26,6 +26,9 @@
                     <field name="fiscal_document_count" widget="statinfo" string="Fiscal Documents" modifiers="{'readonly':true}"/>
                 </button>
             </button>
+            <button name="action_done" position="after">
+                <button name="recompute_lines_taxes" icon="fa-repeat" type="object" string="Recompute Lines Taxes" states="draft,sent"/>
+            </button>
             <field name="amount_untaxed" position="before">
                 <field name="amount_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                 <field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
@@ -64,6 +67,10 @@
                 <field name="discount" groups="!l10n_br_sale.group_discount_per_value"/>
                 <field name="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
                 <field name="fiscal_tax_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                <button name="recompute_taxes"
+                        icon="fa-repeat"
+                        type="object"
+                />
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
                 <field name="price_total" invisible="1"/>

@@ -360,3 +360,8 @@ class SaleOrder(models.Model):
                             inv_line.invoice_id = invoice.id
 
         return inv_ids
+
+    def recompute_lines_taxes(self):
+        if self.env.user.has_group('l10n_br_sale.group_total_discount'):
+            self.onchange_discount_rate()
+        self.mapped('order_line').recompute_taxes()
