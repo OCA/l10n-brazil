@@ -1,5 +1,5 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
-# Copyright (C) 2019  Luus Felipe Mileo - KMEE <mileo@kmee.com.br>
+# Copyright (C) 2019  Luis Felipe Mileo - KMEE <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import _
@@ -458,10 +458,12 @@ WORKFLOW_EDOC = WORKFLOW_DOCUMENTO_NAO_ELETRONICO + [
 ]
 
 PROCESSADOR_NENHUM = 'nenhum'
+PROCESSADOR_OCA = 'oca'
 
-PROCESSADOR = [(
-    PROCESSADOR_NENHUM, 'Nenhum'
-)]
+PROCESSADOR = [
+    (PROCESSADOR_NENHUM, 'Sem Integração'),
+    (PROCESSADOR_OCA, 'Odoo Community')
+]
 
 FISCAL_COMMENT_OBJECTS = [
     ('l10n_br_fiscal.document.mixin', 'Fiscal Document'),
