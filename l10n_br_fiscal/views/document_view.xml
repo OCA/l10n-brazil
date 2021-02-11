@@ -30,6 +30,7 @@
         <field name="amount_tax"/>
         <field name="amount_total"/>
         <field name="state"/>
+        <field name="state_fiscal"/>
       </tree>
     </field>
   </record>
