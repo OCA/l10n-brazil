@@ -848,7 +848,7 @@ class Document(models.Model):
                 self.fiscal_operation_id.fiscal_operation_type)
             self.ind_final = self.fiscal_operation_id.ind_final
 
-        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+        if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
             self.document_type_id = self.company_id.document_type_id
 
         subsequent_documents = [(6, 0, {})]
