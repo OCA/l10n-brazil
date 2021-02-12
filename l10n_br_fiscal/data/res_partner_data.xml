@@ -6,7 +6,7 @@
         <field name="legal_name">Consumidor Anonônimo</field>
         <field name="fiscal_profile_id" ref="l10n_br_fiscal.partner_fiscal_profile_pfnc"/>
         <field name="ind_ie_dest">9</field>
-        <field name="is_customer">True</field>
+        <field name="customer">True</field>
     </record>
 
 </odoo>
