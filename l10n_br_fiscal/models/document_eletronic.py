@@ -151,7 +151,7 @@ class DocumentEletronic(models.AbstractModel):
         vals = {
             "type": event_type,
             "company_id": self.company_id.id,
-            "origin": self.document_type_id.code + "/" + self.number,
+            "origin": self.document_type_id.code + "-" + (self.number or 'N/A'),
             "create_date": fields.Datetime.now(),
             "fiscal_document_id": self.id,
         }

@@ -10,7 +10,12 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools import config
 
-CODIGO_NOME = {"55": "nf-e", "SE": "nfs-e", "65": "nfc-e"}
+CODIGO_NOME = {
+    "55": "nf-e",
+    "59": "cf-e",
+    "SE": "nfs-e",
+    "65": "nfc-e"
+}
 
 
 def caminho_empresa(company_id, document):
@@ -192,6 +197,7 @@ class DocumentEvent(models.Model):
             chave=(
                 self.fiscal_document_id.key
                 or self.fiscal_document_id.number
+                or str(self.fiscal_document_id.id)
             ),  # FIXME:
         )
         file_path = os.path.join(save_dir, file_name)
@@ -220,7 +226,9 @@ class DocumentEvent(models.Model):
 
         file_name = ""
         file_name += (
-            self.fiscal_document_id.key or self.fiscal_document_id.number
+            self.fiscal_document_id.key or
+            self.fiscal_document_id.number or
+            ('ID' + str(self.id))
         )  # FIXME:
         file_name += "-"
         if autorizacao:
