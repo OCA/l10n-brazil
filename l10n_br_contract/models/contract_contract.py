@@ -108,7 +108,8 @@ class ContractContract(models.Model):
 
             # Identify how many Document Types exist
             for inv_line in invoice_id.get('invoice_line_ids'):
-
+                if type(inv_line[2]) == list:
+                    continue
                 operation_line_id = \
                     self.env['l10n_br_fiscal.operation.line'].browse(
                         inv_line[2].get('fiscal_operation_line_id'))
