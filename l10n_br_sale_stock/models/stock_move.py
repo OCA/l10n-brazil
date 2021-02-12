@@ -10,8 +10,13 @@ class StockMove(models.Model):
     @api.multi
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
-        if self.sale_line_id.price_unit != result:
-            return self.sale_line_id.price_unit
+        # Caso tenha Sale Line já vem desagrupado aqui devido ao KEY
+        if len(self) == 1:
+            # Caso venha apenas uma linha porem sem
+            # sale_line_id é preciso ignora-la
+            if self.sale_line_id and self.sale_line_id.price_unit != result:
+                result = self.sale_line_id.price_unit
+
         return result
 
     def _get_new_picking_values(self):
@@ -21,6 +26,9 @@ class StockMove(models.Model):
         # sem o partner_id caso esse dict atualize o do super
         values = self.sale_line_id.order_id._prepare_br_fiscal_dict()
         values.update(super()._get_new_picking_values())
+        # TODO - remover o pop abaixo depois do merge
+        #  https://github.com/OCA/l10n-brazil/pull/1099
+        #  , não é necessário
         # Remover o dummy
         values.pop('fiscal_document_id')
         return values
