@@ -9,17 +9,18 @@ class StockInvoiceOnshipping(models.TransientModel):
     _inherit = 'stock.invoice.onshipping'
 
     @api.multi
-    def _simulate_invoice_line_onchange(self, values):
+    def _simulate_invoice_line_onchange(self, values, price_unit=None):
         """
         Simulate onchange for invoice line
         :param values: dict
         :return: dict
         """
-        price_unit = values.pop('price_unit')
-        new_values = super()._simulate_invoice_line_onchange(values.copy())
+        new_values = super()._simulate_invoice_line_onchange(
+            values.copy(), price_unit=price_unit)
         line = self.env['account.invoice.line'].new(new_values.copy())
-        line.price_unit = price_unit
-        line._compute_price()
+        if price_unit:
+            line.price_unit = price_unit
+            line._compute_price()
         new_values.update(line._convert_to_write(line._cache))
         values.update(new_values)
         return values
