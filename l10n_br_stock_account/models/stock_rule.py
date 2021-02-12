@@ -57,11 +57,3 @@ class StockRule(models.Model):
             'l10n_br_fiscal.document.line.mixin']._fields.keys()]
         custom_move_fields += ['invoice_state']
         return custom_move_fields
-
-    @api.model
-    def run(self, product_id, product_qty, product_uom,
-            location_id, name, origin, values):
-        result = super().run(
-            product_id, product_qty, product_uom,
-            location_id, name, origin, values)
-        return result
