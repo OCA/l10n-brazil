@@ -59,8 +59,7 @@ class StockInvoiceOnshipping(models.TransientModel):
             fiscal_vals['journal_id'] = pick.fiscal_operation_id.journal_id.id
 
         # Endereço de Entrega diferente do Endereço de Faturamento
-        # TODO - Endereço de Entrega deve ser informado em todos
-        #  os casos da NFe ?
+        # so informado quando é diferente
         if fiscal_vals['partner_id'] != values['partner_id']:
             values['partner_shipping_id'] = fiscal_vals['partner_id']
         # Ser for feito o update como abaixo o campo
@@ -96,3 +95,23 @@ class StockInvoiceOnshipping(models.TransientModel):
         ]
 
         return fiscal_values
+
+    @api.multi
+    def _get_move_key(self, move):
+        """
+        Get the key based on the given move
+        :param move: stock.move recordset
+        :return: key
+        """
+        key = super()._get_move_key(move)
+        if move.fiscal_operation_line_id:
+            # Linhas de Operações Fiscais diferentes
+            # não podem ser agrupadas
+            if type(key) is tuple:
+                key = key + (move.fiscal_operation_line_id,)
+            else:
+                # TODO - seria melhor identificar o TYPE para saber se
+                #  o KEY realmente é um objeto nesse caso
+                key = (key, move.fiscal_operation_line_id)
+
+        return key
