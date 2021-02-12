@@ -44,7 +44,7 @@
 
     <record id="main_sl_l10n_br_sale_stock_1_1" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_1"/>
-        <field name="name">Laptop Customized</field>
+        <field name="name">[FURN_8855] Gaveta</field>
         <field name="product_id" ref="product.product_product_27"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
@@ -64,7 +64,7 @@
 
     <record id="main_sl_l10n_br_sale_stock_1_2" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_1"/>
-        <field name="name">Mouse, Wireless</field>
+        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
         <field name="product_id" ref="product.product_product_12"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
@@ -80,6 +80,26 @@
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]"/>
+    </function>
+
+    <record id="main_sl_l10n_br_sale_stock_1_3" model="sale.order.line">
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_1"/>
+        <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
+        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_uom_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="price_unit">50</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_bonificacao_bonificacao"/>
+    </record>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]"/>
+    </function>
+
+    <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]"/>
     </function>
 
     <!-- Pedido de Venda com Produto e Serviço -->
@@ -103,7 +123,7 @@
 
     <record id="main_sl_l10n_br_sale_stock_2_1" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_2"/>
-        <field name="name">Laptop Customized</field>
+        <field name="name">[FURN_8855] Gaveta</field>
         <field name="product_id" ref="product.product_product_27"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
