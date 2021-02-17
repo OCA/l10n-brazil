@@ -274,6 +274,9 @@ class SpecViewMixin(models.AbstractModel):
                     field_tag.set('required', 'True')
 
                 if field.type in ('one2many', 'many2many', 'text', 'html'):
+                    if self.fields_get(field_name)[field_name].get('related'):
+                        # avoid cluttering the view with large related fields
+                        continue
                     field_tag.set('colspan', '4')
                     view_node.append(E.newline())
                     if wrapper_group is not None:
