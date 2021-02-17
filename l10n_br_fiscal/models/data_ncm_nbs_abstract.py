@@ -52,8 +52,9 @@ class DataNcmNbsAbstract(models.AbstractModel):
     @api.depends('tax_estimate_ids')
     def _compute_amount(self):
         for record in self:
+            object_field = OBJECT_FIELDS.get(record._name)
             last_estimated = record.env['l10n_br_fiscal.tax.estimate'].search([
-                '|', ('ncm_id', '=', record.id), ('nbs_id', '=', record.id),
+                (object_field, '=', record.id),
                 ('company_id', '=', record.env.user.company_id.id)],
                 order='create_date DESC',
                 limit=1)
