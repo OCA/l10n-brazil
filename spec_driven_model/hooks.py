@@ -117,5 +117,8 @@ def register_hook(env, module_name, spec_module):
         env[name]._setup_fields()
         env[name]._setup_complete()
 
-    # TODO only in update mode!
-    env.registry.init_models(env.cr, remaining_models, {'module': module_name})
+    hook_key = '_%s_need_hook' % (module_name,)
+    if hasattr(env.registry, hook_key) and getattr(env.registry, hook_key):
+        env.registry.init_models(env.cr, remaining_models,
+                                 {'module': module_name})
+        env.registry._l10n_br_nfe_need_hook = False

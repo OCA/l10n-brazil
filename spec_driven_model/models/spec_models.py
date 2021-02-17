@@ -1,4 +1,4 @@
-# Copyright 2019-2020 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import sys
@@ -74,6 +74,14 @@ class SpecModel(models.AbstractModel):
                 super_parents = super_parents or []
             for super_parent in super_parents:
                 if super_parent.startswith('spec.mixin.'):
+                    cr.execute("SELECT name FROM ir_module_module "
+                               "WHERE name='%s' "
+                               "AND state in ('to install', 'to upgrade')"
+                               % (pool[super_parent]._odoo_module))
+                    if cr.fetchall():
+                        setattr(pool, '_%s_need_hook'
+                                % (pool[super_parent]._odoo_module,), True)
+
                     cls._map_concrete(parent, cls._name)
                     if not hasattr(pool[parent], 'build'):
                         pool[parent]._inherit = super_parents + ['spec.mixin']
@@ -170,7 +178,7 @@ class SpecModel(models.AbstractModel):
             models.MetaModel.mixin_mappings = {}
         return models.MetaModel.mixin_mappings.get(key)
 
-    @classmethod  # TODO rename with _
+    @classmethod
     def _odoo_name_to_class(cls, odoo_name, spec_module):
         if cls._spec_module_classes is None:  # caching to make it fast
             cls._spec_module_classes = getmembers(
@@ -182,10 +190,11 @@ class SpecModel(models.AbstractModel):
 
     def _register_hook(self):
         res = super(SpecModel, self)._register_hook()
-        if not hasattr(self.env.registry, '_spec_loaded'):
+        load_key = "_%s_loaded" % (self._spec_module,)
+        if not hasattr(self.env.registry, load_key):
             from .. import hooks  # importing here avoids loop
             hooks.register_hook(self.env, self._odoo_module, self._spec_module)
-            self.env.registry._spec_loaded = True
+            self.env.registry.load_key = True
         return res
 
 
