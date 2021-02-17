@@ -148,3 +148,152 @@ class InvoicingPickingTest(TransactionCase):
             self.stock_picking_sp.state, 'done',
             'Change state fail.'
         )
+
+    def test_picking_invoicing_by_product2(self):
+        """
+        Test the invoice generation grouped by partner/product with 2
+        picking and 3 moves per picking.
+        We use same partner for 2 picking so we should have 1 invoice with 3
+        lines (and qty 2)
+        :return:
+        """
+        nb_invoice_before = self.invoice_model.search_count([])
+        self.partner.write({'type': 'invoice'})
+        picking = self.env.ref(
+            'l10n_br_stock_account.demo_main_l10n_br_stock_account-picking-1')
+        picking.action_confirm()
+        # Check product availability
+        picking.action_assign()
+        # Force product availability
+        for move in picking.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
+        picking2 = self.env.ref(
+            'l10n_br_stock_account.demo_main_l10n_br_stock_account-picking-2')
+        # Check product availability
+        picking2.action_assign()
+        # Force product availability
+        for move in picking2.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking2.button_validate()
+        self.assertEqual(picking.state, 'done')
+        self.assertEqual(picking2.state, 'done')
+        pickings = picking | picking2
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=pickings.ids,
+            active_model=pickings._name,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        # One invoice per partner but group products
+        wizard_values.update({
+            'group': 'partner_product',
+        })
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+        domain = [('picking_ids', '=', picking.id)]
+        invoice = self.invoice_model.search(domain)
+        self.assertEquals(len(invoice), 1)
+        self.assertEqual(picking.invoice_state, 'invoiced')
+        self.assertEqual(picking2.invoice_state, 'invoiced')
+        self.assertEqual(invoice.partner_id, self.partner)
+        self.assertIn(invoice, picking.invoice_ids)
+        self.assertIn(invoice, picking2.invoice_ids)
+        self.assertIn(picking, invoice.picking_ids)
+        self.assertIn(picking2, invoice.picking_ids)
+        for inv_line in invoice.invoice_line_ids:
+            # qty = 3 because 1 move + duplicate one + 1 new
+            self.assertAlmostEqual(inv_line.quantity, 3)
+            self.assertTrue(
+                inv_line.invoice_line_tax_ids,
+                'Error to map Sale Tax in invoice.line.')
+        # Now test behaviour if the invoice is delete
+        invoice.unlink()
+        for picking in pickings:
+            self.assertEquals(picking.invoice_state, '2binvoiced')
+        nb_invoice_after = self.invoice_model.search_count([])
+        # Should be equals because we delete the invoice
+        self.assertEquals(nb_invoice_before, nb_invoice_after)
+
+    def test_picking_invoicing_by_product2(self):
+        """
+        Test the invoice generation grouped by partner/product with 2
+        picking and 3 moves per picking, but 1 picking are the one
+        address of the other partner so we should have 2 invoicies
+        with 3 lines (and qty 2)
+        :return:
+        """
+        nb_invoice_before = self.invoice_model.search_count([])
+        self.partner.write({'type': 'invoice'})
+        picking = self.env.ref(
+            'l10n_br_stock_account.demo_main_l10n_br_stock_account-picking-3')
+        picking.action_confirm()
+        # Check product availability
+        picking.action_assign()
+        # Force product availability
+        for move in picking.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
+        picking2 = self.env.ref(
+            'l10n_br_stock_account.demo_main_l10n_br_stock_account-picking-4')
+        # Check product availability
+        picking2.action_assign()
+        # Force product availability
+        for move in picking2.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking2.button_validate()
+        self.assertEqual(picking.state, 'done')
+        self.assertEqual(picking2.state, 'done')
+        pickings = picking | picking2
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=pickings.ids,
+            active_model=pickings._name,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        # One invoice per partner but group products
+        wizard_values.update({
+            'group': 'partner_product',
+        })
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+        domain = [('picking_ids', 'in', (picking.id, picking2.id))]
+        invoicies = self.invoice_model.search(domain)
+        self.assertEquals(len(invoicies), 2)
+        self.assertEqual(picking.invoice_state, 'invoiced')
+        self.assertEqual(picking2.invoice_state, 'invoiced')
+        invoice_pick_1 = invoicies.filtered(
+            lambda t: t.partner_id == picking.partner_id)
+        # TODO - está trazendo o mesmo Partner apesar de ser um endereço do
+        #  de outro principal, o metodo address_get chamado pelo
+        #  get_invoice_partner está trazendo o primeiro is_company. Isso
+        #  significa que no caso de uso de ter um Picking para ser Faturado
+        #  sem relação com um Pedido de Venda/Compras a opção de ter um
+        #  Endereço de Entrega diferente do de Faturamento precirá ser
+        #  feita manualmente na Fatura/Doc Fiscal criados.
+        self.assertEqual(invoice_pick_1.partner_id, picking.partner_id)
+        self.assertIn(invoice_pick_1, picking.invoice_ids)
+        self.assertIn(picking, invoice_pick_1.picking_ids)
+
+        invoice_pick_2 = invoicies.filtered(
+            lambda t: t.partner_id == picking2.partner_id)
+        self.assertIn(invoice_pick_2, picking2.invoice_ids)
+
+        self.assertIn(picking2, invoice_pick_2.picking_ids)
+
+        # Not grouping products with different Operation Fiscal Line
+        self.assertEquals(len(invoice_pick_1.invoice_line_ids), 3)
+        for inv_line in invoice_pick_1.invoice_line_ids:
+            self.assertTrue(
+                inv_line.invoice_line_tax_ids,
+                'Error to map Sale Tax in invoice.line.')
+        # Now test behaviour if the invoice is delete
+        invoice_pick_1.unlink()
+        invoice_pick_2.unlink()
+        for picking in pickings:
+            self.assertEquals(picking.invoice_state, '2binvoiced')
+        nb_invoice_after = self.invoice_model.search_count([])
+        # Should be equals because we delete the invoice
+        self.assertEquals(nb_invoice_before, nb_invoice_after)
