@@ -235,10 +235,240 @@
     <function model="stock.move" name="_onchange_fiscal_operation_line_id">
         <value eval="[ref('demo_main_l10n_br_stock_account-move_2_3')]"/>
     </function>
-  
-    <!-- Dados demo com a empresa Lucro Presumido para validar os impostos
-         OBS.: necessário alterar a empresa do usuario para visualizar o Picking-->
 
+    <!-- Teste Agrupamento - Endereço de Entrega diferente do Faturamento -->
+    <!-- TODO - No caso de uso de ter um Picking para ser Faturado sem
+          relação com um Pedido de Venda/Compras a opção de ter um Endereço
+          de Entrega diferente do de Faturamento precirá ser feita manualmente
+          na Fatura/Doc Fiscal criados.-->
+    <record model="stock.picking" id="demo_main_l10n_br_stock_account-picking-3">
+        <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3"/>
+        <field name="picking_type_id" ref="stock.picking_type_out"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="origin">Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
+        <!-- TODO - Usar outra Operação Fiscal ex.: Simples Remessa( não tem linha de operação nos dados ),
+              Remessa p/ Industrilização para ter algo mais real.
+        -->
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record model="stock.move" id="demo_main_l10n_br_stock_account-move_3_1">
+        <field name="name">Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
+        <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
+        <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3"/>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-3"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="freight_value">100</field>
+        <field name="insurance_value">100</field>
+        <field name="other_costs_value">100</field>
+    </record>
+
+    <function model="stock.move" name="_onchange_product_id_fiscal">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_3_1')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_3_1')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_3_1')]"/>
+    </function>
+
+    <record model="stock.move" id="demo_main_l10n_br_stock_account-move_3_2">
+        <field name="name">Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
+        <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
+        <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3"/>
+        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-3"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="freight_value">100</field>
+        <field name="insurance_value">100</field>
+        <field name="other_costs_value">100</field>
+    </record>
+
+    <function model="stock.move" name="_onchange_product_id_fiscal">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_3_2')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_3_2')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_3_2')]"/>
+    </function>
+
+    <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
+    <record model="stock.move" id="demo_main_l10n_br_stock_account-move_3_3">
+        <field name="name">Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
+        <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
+        <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3"/>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_uom_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-3"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_bonificacao_bonificacao"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="freight_value">100</field>
+        <field name="insurance_value">100</field>
+        <field name="other_costs_value">100</field>
+    </record>
+
+    <function model="stock.move" name="_onchange_product_id_fiscal">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_3_3')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_3_3')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_3_3')]"/>
+    </function>
+
+    <!-- Teste Agrupamento - Endereço de Entrega diferente do Faturamento 2-->
+    <record model="stock.picking" id="demo_main_l10n_br_stock_account-picking-4">
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="picking_type_id" ref="stock.picking_type_out"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="origin">Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
+        <!-- TODO - Usar outra Operação Fiscal ex.: Simples Remessa( não tem linha de operação nos dados ),
+              Remessa p/ Industrilização para ter algo mais real.
+        -->
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record model="stock.move" id="demo_main_l10n_br_stock_account-move_4_1">
+        <field name="name">Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
+        <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-4"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="freight_value">100</field>
+        <field name="insurance_value">100</field>
+        <field name="other_costs_value">100</field>
+    </record>
+
+    <function model="stock.move" name="_onchange_product_id_fiscal">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_4_1')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_4_1')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_4_1')]"/>
+    </function>
+
+    <record model="stock.move" id="demo_main_l10n_br_stock_account-move_4_2">
+        <field name="name">Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
+        <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-4"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="freight_value">100</field>
+        <field name="insurance_value">100</field>
+        <field name="other_costs_value">100</field>
+    </record>
+
+    <function model="stock.move" name="_onchange_product_id_fiscal">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_4_2')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_4_2')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_4_2')]"/>
+    </function>
+
+    <!-- usado para o teste de não agrupar qdo operação fiscal for diferente -->
+    <record model="stock.move" id="demo_main_l10n_br_stock_account-move_4_3">
+        <field name="name">Teste - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
+        <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_uom_qty">1</field>
+        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-4"/>
+        <field name="location_id" ref="stock.stock_location_stock"/>
+        <field name="location_dest_id" ref="stock.stock_location_customers"/>
+        <field name="invoice_state">2binvoiced</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_bonificacao_bonificacao"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="freight_value">100</field>
+        <field name="insurance_value">100</field>
+        <field name="other_costs_value">100</field>
+    </record>
+
+    <function model="stock.move" name="_onchange_product_id_fiscal">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_4_3')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_4_3')]"/>
+    </function>
+
+    <function model="stock.move" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('demo_main_l10n_br_stock_account-move_4_3')]"/>
+    </function>
+
+    <!-- Dados demo com a empresa Lucro Presumido para validar os impostos
+         OBS.: necessário alterar a empresa do usuario para visualizar o Picking -->
+
+    <!-- TODO: ocorre erro ao tentar instalar o modulo l10n_br_stock_account diretamente com os dados abaixo
+          só funciona instalando antes o l10n_br_account, o erro acontece porque o account.journal não é
+          encontrado em
+          obj().env['account.journal'].sudo().search([('type', '=', 'sale'), logo abaixo:
+          odoo.tools.convert.ParseError: "column "res_id" is of type integer but expression is of type boolean
+           LINE 3: ...tock_account', 'sale_journal', 'account.journal', false, tru...
+           TESTAR depois do merge do https://github.com/OCA/l10n-brazil/pull/1123
+         -->
     <!-- É preciso preencher o Diario na Operação -->
     <function model="ir.model.data" name="_update_xmlids">
         <value model="base" eval="[{
