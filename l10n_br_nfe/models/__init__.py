@@ -8,7 +8,6 @@ from . import document_related
 from . import document
 from . import document_line
 from . import res_city
-from . import res_country_state
 from . import res_config_settings
 from . import cfop
 from . import document_cancel
