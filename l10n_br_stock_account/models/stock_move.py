@@ -159,6 +159,11 @@ class StockMove(models.Model):
         new_move_id = super()._split(qty, restrict_partner_id)
         self._onchange_commercial_quantity()
         self._onchange_fiscal_taxes()
+
+        new_move_obj = self.env['stock.move'].browse(new_move_id)
+        new_move_obj._onchange_commercial_quantity()
+        new_move_obj._onchange_fiscal_taxes()
+
         return new_move_id
 
     @api.multi
