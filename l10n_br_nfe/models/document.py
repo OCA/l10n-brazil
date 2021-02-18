@@ -573,8 +573,7 @@ class NFe(spec_models.StackedModel):
                 field_data.nItem = i
         return res
 
-    def _build_attr(self, node, fields, vals, path, attr, create_m2o,
-                    defaults):
+    def _build_attr(self, node, fields, vals, path, attr, create_m2o):
         key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
         value = getattr(node, attr.get_name())
 
@@ -585,15 +584,14 @@ class NFe(spec_models.StackedModel):
                     ('code', '=', value)], limit=1).id
 
         return super(NFe, self)._build_attr(
-            node, fields, vals, path, attr, create_m2o, defaults)
+            node, fields, vals, path, attr, create_m2o)
 
     def _build_many2one(self, comodel, vals, new_value, key, create_m2o,
                         value, path):
         if key == 'nfe40_emit' and self.env.context.get('edoc_type') == 'in':
             enderEmit_value = (self.env['res.partner'].build_attrs(value.enderEmit,
                                create_m2o=create_m2o,
-                               path=path,
-                               defaults={}))
+                               path=path))
             new_value.update(enderEmit_value)
             new_value['is_company'] = True
             new_value['cnpj_cpf'] = new_value.get('nfe40_CNPJ')
