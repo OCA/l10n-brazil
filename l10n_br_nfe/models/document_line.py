@@ -279,8 +279,8 @@ class NFeLine(spec_models.StackedModel):
                     line.uom_id = uom_ids[0]
 
     @api.model
-    def _prepare_import_dict(self, values, defaults={}, create_m2o=True):
-        values = super()._prepare_import_dict(values, defaults, create_m2o)
+    def _prepare_import_dict(self, values, create_m2o=True):
+        values = super()._prepare_import_dict(values, create_m2o)
         if not values.get('name'):
             values['name'] = values.get('nfe40_xProd')
             if values.get('product_id'):
@@ -494,8 +494,7 @@ class NFeLine(spec_models.StackedModel):
         return super()._export_float_monetary(
             field_name, member_spec, class_obj, xsd_required)
 
-    def _build_attr(self, node, fields, vals, path, attr, create_m2o,
-                    defaults):
+    def _build_attr(self, node, fields, vals, path, attr, create_m2o):
         key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
         value = getattr(node, attr.get_name())
 
@@ -538,8 +537,7 @@ class NFeLine(spec_models.StackedModel):
                 'l10n_br_fiscal.tax.ipi.guideline'].search([
                     ('code_unmasked', '=', value)], limit=1).id
 
-        return super()._build_attr(
-            node, fields, vals, path, attr, create_m2o, defaults)
+        return super()._build_attr(node, fields, vals, path, attr, create_m2o)
 
     def _build_string_not_simple_type(self, key, vals, value, node):
         if key not in ['nfe40_CST', 'nfe40_modBC', 'nfe40_CSOSN']:
