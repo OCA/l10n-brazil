@@ -12,7 +12,6 @@ from odoo.addons.spec_driven_model import hooks
 _logger = logging.getLogger(__name__)
 
 
-
 def post_init_hook(cr, registry):
     env = api.Environment(cr, SUPERUSER_ID, {})
     hooks.register_hook(env, 'l10n_br_nfe',
