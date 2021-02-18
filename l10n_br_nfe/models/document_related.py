@@ -20,13 +20,6 @@ class NFeRelated(spec_models.StackedModel):
     # all m2o below this level will be stacked even if not required:
     _rec_name = 'nfe40_refNFe'
 
-    # @api.model
-    # def _prepare_import_dict(self, values, defaults={}):
-    #     values = super()._prepare_import_dict(values)
-    #     if not values.get('name') and values.get('legal_name'):
-    #         values['name'] = values['legal_name']
-    #     return values
-
     nfe40_choice4 = fields.Selection(
         compute='_compute_nfe_data',
         inverse='_inverse_nfe40_choice4',
