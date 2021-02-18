@@ -7618,13 +7618,13 @@ msgid "Saída"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:164
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:165
 #, python-format
 msgid "Scheduled {} estimate taxes update complete."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:124
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:125
 #, python-format
 msgid "Scheduled {} estimate taxes update..."
 msgstr ""
@@ -8991,7 +8991,7 @@ msgid "state"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:112
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:113
 #, python-format
 msgid "{0} Tax Estimate Failure: {1}"
 msgstr ""
@@ -9003,14 +9003,14 @@ msgid "{} Invalid!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:115
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:116
 #, python-format
 msgid "{} Tax Estimate Failure"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:107
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:108
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:109
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr ""
