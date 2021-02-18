@@ -297,3 +297,46 @@ class InvoicingPickingTest(TransactionCase):
         nb_invoice_after = self.invoice_model.search_count([])
         # Should be equals because we delete the invoice
         self.assertEquals(nb_invoice_before, nb_invoice_after)
+
+    def test_picking_split(self):
+        """Test Picking Split created with Fiscal Values."""
+
+        picking2 = self.env.ref(
+            'l10n_br_stock_account.demo_main_l10n_br_stock_account-picking-2')
+
+        self._run_fiscal_onchanges(picking2)
+
+        for line in picking2.move_lines:
+            self._run_fiscal_line_onchanges(line)
+            line._onchange_product_quantity()
+
+        picking2.action_confirm()
+        picking2.action_assign()
+
+        for move in picking2.move_ids_without_package:
+            # Force Split
+            move.quantity_done = 1
+
+        res_dict_for_back_order = picking2.button_validate()
+        backorder_wizard = self.env[
+            (res_dict_for_back_order.get('res_model'))].browse(
+                res_dict_for_back_order.get('res_id'))
+        backorder_wizard.process()
+        backorder = self.env['stock.picking'].search([
+            ('backorder_id', '=', picking2.id)])
+
+        self.assertEqual(backorder.invoice_state, '2binvoiced')
+        self.assertTrue(backorder.fiscal_operation_id)
+
+        for line in backorder.move_lines:
+            self.assertTrue(line.fiscal_operation_id)
+            self.assertTrue(line.fiscal_operation_line_id)
+            self.assertEqual(line.invoice_state, '2binvoiced')
+            self.assertTrue(
+                line.fiscal_tax_ids,
+                'Taxes in Split Picking are missing.'
+            )
+
+        backorder.action_confirm()
+        backorder.action_assign()
+        backorder.button_validate()
