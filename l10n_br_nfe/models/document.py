@@ -70,21 +70,21 @@ class NFe(spec_models.StackedModel):
     # all m2o at this level will be stacked even if not required:
     _force_stack_paths = ('infnfe.total',)
 
-    def _get_emit(self):
+    def _compute_emit(self):
         for doc in self:  # TODO if out
             doc.nfe40_emit = doc.company_id
 
     # emit and dest are not related fields as their related fields
     # can change depending if it's and incoming our outgoing NFe
     # specially when importing (ERP NFe migration vs supplier Nfe).
-    nfe40_emit = fields.Many2one('res.company', compute='_get_emit',
+    nfe40_emit = fields.Many2one('res.company', compute='_compute_emit',
                                  readonly=True, string="Emit")
 
-    def _get_dest(self):
+    def _compute_dest(self):
         for doc in self:  # TODO if out
             doc.nfe40_dest = doc.partner_id
 
-    nfe40_dest = fields.Many2one('res.partner', compute='_get_dest',
+    nfe40_dest = fields.Many2one('res.partner', compute='_compute_dest',
                                  readonly=True, string="Dest")
 
     processador_edoc = fields.Selection(
