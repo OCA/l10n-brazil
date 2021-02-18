@@ -17,50 +17,42 @@ class AbstractSpecMixin(models.AbstractModel):
     _inherit = 'spec.mixin'
 
     @api.model
-    def build(self, node, defaults=False, create=True):
-        if not defaults:
-            defaults = dict()
-
+    def build(self, node, create=True):
         # TODO new or create choice
         # TODO ability to match existing record here
         model_name = SpecModel._get_concrete(self._name) or self._name
         model = self.env[model_name]
-        attrs = model.build_attrs(node, create_m2o=create, defaults=defaults)
+        attrs = model.build_attrs(node, create_m2o=create)
         if create:
             return model.create(attrs)
         else:
             return model.new(attrs)
 
     @api.model
-    def build_attrs(self, node, create_m2o=False, path='', defaults=False):
+    def build_attrs(self, node, create_m2o=False, path=''):
         """A recursive Odoo object builder that works along with the
         GenerateDS object builder from the parsed XML.
         Here we take into account the concrete Odoo objects where the schema
         mixins where injected and possible matcher or builder overrides."""
-
-        if not defaults:
-            defaults = dict()
-
         fields = self.fields_get()
         # no default image for easier debugging
         vals = self.default_get([f for f, v in fields.items()
                                  if v['type'] not in ['binary', 'integer',
                                                       'float', 'monetary']])
-        if path == '':
-            vals.update(defaults)
+        # TODO deal with default values but take them from self._context
+        # if path == '':
+        #    vals.update(defaults)
         # we sort attrs to be able to define m2o related values
         sorted_attrs = sorted(node.member_data_items_,
                               key=lambda a: a.get_container() in [0, 1],
                               reverse=True)
         for attr in sorted_attrs:
-            self._build_attr(node, fields, vals, path, attr, create_m2o,
-                             defaults)
+            self._build_attr(node, fields, vals, path, attr, create_m2o)
 
-        vals = self._prepare_import_dict(vals, defaults=defaults)
+        vals = self._prepare_import_dict(vals)
         return vals
 
-    def _build_attr(self, node, fields, vals, path, attr, create_m2o,
-                    defaults):
+    def _build_attr(self, node, fields, vals, path, attr, create_m2o):
         value = getattr(node, attr.get_name())
         if value is None or value == []:
             return False
@@ -101,8 +93,7 @@ class AbstractSpecMixin(models.AbstractModel):
                 # m2o
                 new_value = comodel.build_attrs(value,
                                                 create_m2o=create_m2o,
-                                                path=child_path,
-                                                defaults=defaults)
+                                                path=child_path)
                 child_defaults = self._extract_related_values(vals, key)
 
                 new_value.update(child_defaults)
@@ -115,8 +106,7 @@ class AbstractSpecMixin(models.AbstractModel):
                 for line in [l for l in value if l]:
                     line_vals = comodel.build_attrs(line,
                                                     create_m2o=create_m2o,
-                                                    path=child_path,
-                                                    defaults=defaults)
+                                                    path=child_path)
                     lines.append((0, 0, line_vals))
                 vals[key] = lines
 
@@ -160,17 +150,13 @@ class AbstractSpecMixin(models.AbstractModel):
         return key_vals
 
     @api.model
-    def _prepare_import_dict(self, vals, defaults=False, create_m2o=True):
+    def _prepare_import_dict(self, vals, create_m2o=True):
         """
         Set non computed field values based on XML values if required.
         NOTE: this is debatable if we could use an api multi with values in
         self instead of the vals dict. Then that would be like when new()
         is used in account_invoice or sale_order before playing some onchanges
         """
-
-        if not defaults:
-            defaults = dict()  # FIXME: default not used
-
         related_many2ones = {}
         fields = self.fields_get()
         for k, v in fields.items():
