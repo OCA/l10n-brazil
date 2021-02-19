@@ -45,11 +45,10 @@ class StockPicking(models.Model):
         string='Comments',
     )
 
-    @api.onchange('fiscal_operation_id')
-    def _onchange_fiscal_operation_id(self):
-        super()._onchange_fiscal_operation_id()
-        if self.fiscal_operation_id:
-            self.invoice_state = self.fiscal_operation_id.invoice_state
+    # Criação da BackOrder com o invoice_state igual ao picking dividido
+    invoice_state = fields.Selection(
+        copy=True,
+    )
 
     @api.multi
     def action_view_document(self):

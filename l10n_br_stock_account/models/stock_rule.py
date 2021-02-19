@@ -53,17 +53,7 @@ class StockRule(models.Model):
         easily add fields from procurement 'values' argument to move data.
         """
         custom_move_fields = super()._get_custom_move_fields()
-        custom_move_fields += [
-            'invoice_state',
-            'fiscal_operation_id',
-            'fiscal_operation_line_id',
-        ]
+        custom_move_fields += [key for key in self.env[
+            'l10n_br_fiscal.document.line.mixin']._fields.keys()]
+        custom_move_fields += ['invoice_state']
         return custom_move_fields
-
-    @api.model
-    def run(self, product_id, product_qty, product_uom,
-            location_id, name, origin, values):
-        result = super().run(
-            product_id, product_qty, product_uom,
-            location_id, name, origin, values)
-        return result

@@ -25,7 +25,6 @@ class StockInvoiceOnshipping(models.TransientModel):
         :return: account.journal recordset
         """
         self.ensure_one()
-        journal = self.env['account.journal']
         if self.fiscal_operation_journal:
             pickings = self._load_pickings()
             picking = fields.first(pickings)
@@ -46,16 +45,11 @@ class StockInvoiceOnshipping(models.TransientModel):
         pick = fields.first(pickings)
         fiscal_vals = pick._prepare_br_fiscal_dict()
 
-        document_type_id = self._context.get('document_type_id')
-
-        if document_type_id:
-            document_type = self.env['l10n_br_fiscal.document.type'].browse(
-                document_type_id)
-        else:
-            document_type = pick.company_id.document_type_id
-            document_type_id = pick.company_id.document_type_id.id
+        document_type = pick.company_id.document_type_id
+        document_type_id = pick.company_id.document_type_id.id
 
         fiscal_vals['document_type_id'] = document_type_id
+
         document_serie = document_type.get_document_serie(
             pick.company_id, pick.fiscal_operation_id)
         if document_serie:
@@ -64,7 +58,16 @@ class StockInvoiceOnshipping(models.TransientModel):
         if pick.fiscal_operation_id and pick.fiscal_operation_id.journal_id:
             fiscal_vals['journal_id'] = pick.fiscal_operation_id.journal_id.id
 
+        # Endereço de Entrega diferente do Endereço de Faturamento
+        # so informado quando é diferente
+        if fiscal_vals['partner_id'] != values['partner_id']:
+            values['partner_shipping_id'] = fiscal_vals['partner_id']
+        # Ser for feito o update como abaixo o campo
+        # fiscal_operation_id vai vazio
+        # fiscal_vals.update(values)
         values.update(fiscal_vals)
+        values['fiscal_document_id'] = False
+
         return invoice, values
 
     @api.multi
@@ -76,18 +79,39 @@ class StockInvoiceOnshipping(models.TransientModel):
         :return: dict
         """
 
+        values = super()._get_invoice_line_values(
+            moves, invoice_values, invoice)
         move = fields.first(moves)
-        values = move._prepare_br_fiscal_dict()
-        values.update(
-            {
-                key: value for key, value in super()._get_invoice_line_values(
-                    moves, invoice_values, invoice
-                ).items() if value
-            }
-        )
-        values['invoice_line_tax_ids'] = [
+        fiscal_values = move._prepare_br_fiscal_dict()
+        # IMPORTANTE: se for feito o
+        # values.update(fiscal_values)
+        # o campo price_unit fica negativo na fatura criada
+        fiscal_values.update(values)
+
+        fiscal_values['invoice_line_tax_ids'] = [
             (6, 0, self.env['l10n_br_fiscal.tax'].browse(
-                values['fiscal_tax_ids'][0][2]
+                fiscal_values['fiscal_tax_ids'][0][2]
             ).account_taxes().ids)
         ]
-        return values
+
+        return fiscal_values
+
+    @api.multi
+    def _get_move_key(self, move):
+        """
+        Get the key based on the given move
+        :param move: stock.move recordset
+        :return: key
+        """
+        key = super()._get_move_key(move)
+        if move.fiscal_operation_line_id:
+            # Linhas de Operações Fiscais diferentes
+            # não podem ser agrupadas
+            if type(key) is tuple:
+                key = key + (move.fiscal_operation_line_id,)
+            else:
+                # TODO - seria melhor identificar o TYPE para saber se
+                #  o KEY realmente é um objeto nesse caso
+                key = (key, move.fiscal_operation_line_id)
+
+        return key
