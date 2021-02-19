@@ -9,7 +9,7 @@
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://github.com/OCA/l10n-brazil',
     'maintainers': ['gabrielcardoso21'],
-    'version': '12.0.1.0.1',
+    'version': '12.0.2.0.0',
     'depends': [
         'sale_stock',
         'l10n_br_sale',
