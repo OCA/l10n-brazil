@@ -174,6 +174,11 @@ class SaleOrder(models.Model):
 
             order.amount_ipi = sum(
                 line.ipi_value for line in order.order_line)
+            if order.order_line and all(
+                line.discount == order.order_line[0].discount
+                for line in order.order_line
+            ):
+                order.discount_rate = order.order_line[0].discount
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
