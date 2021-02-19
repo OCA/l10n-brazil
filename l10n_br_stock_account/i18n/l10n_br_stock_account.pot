@@ -24,6 +24,11 @@ msgid "Account Jornal from Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_from
+msgid "Accounting"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__comment_ids
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__comment_ids
 msgid "Comments"
@@ -45,10 +50,19 @@ msgid "Estoque"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model,name:l10n_br_stock_account.model_l10n_br_fiscal_operation
+#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_from
+msgid "Extra Info"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
 #: selection:stock.invoice.onshipping,group:0
 msgid "Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__fiscal_price
+msgid "Fiscal Price"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -75,17 +89,24 @@ msgid "Group pickings/moves to create invoice(s):\n"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:35
+#: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:34
 #, python-format
 msgid "Invalid Journal! There is not journal defined for this company: %s in fiscal operation: %s !"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__invoice_state
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__invoice_state
 msgid "Invoice Status"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: selection:stock.picking,invoice_state:0
+msgid "Invoiced"
+msgstr ""
+
+#. module: l10n_br_stock_account
+#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__invoice_state
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_rule__invoice_state
 msgid "Invoiced: an invoice already exists\n"
 "To Be Invoiced: need to be invoiced\n"
@@ -104,6 +125,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: code:addons/l10n_br_stock_account/models/stock_rule.py:31
+#: selection:stock.picking,invoice_state:0
 #: selection:stock.rule,invoice_state:0
 #, python-format
 msgid "Not Applicable"
@@ -117,7 +139,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_move_from
-msgid "Outros Custos"
+msgid "Others"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -153,11 +175,6 @@ msgstr ""
 #. module: l10n_br_stock_account
 #: model:ir.model,name:l10n_br_stock_account.model_stock_return_picking
 msgid "Return Picking"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.fiscal_operation_form
-msgid "Stock"
 msgstr ""
 
 #. module: l10n_br_stock_account
@@ -213,6 +230,7 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: code:addons/l10n_br_stock_account/models/stock_rule.py:30
+#: selection:stock.picking,invoice_state:0
 #: selection:stock.rule,invoice_state:0
 #, python-format
 msgid "To Be Invoiced"
