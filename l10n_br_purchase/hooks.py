@@ -32,7 +32,7 @@ def post_init_hook(cr, registry):
         ]):
             tools.convert_file(
                 cr,
-                "l10n_br_stock_account",
+                "l10n_br_purchase",
                 "demo/fiscal_operation_simple.xml",
                 None,
                 mode="init",
@@ -52,7 +52,7 @@ def post_init_hook(cr, registry):
         ]):
             tools.convert_file(
                 cr,
-                "l10n_br_stock_account",
+                "l10n_br_purchase",
                 "demo/fiscal_operation_generic.xml",
                 None,
                 mode="init",
