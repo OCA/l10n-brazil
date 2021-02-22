@@ -1,9 +1,12 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from lxml import etree
+
 from erpbrasil.base import misc
 
 from odoo import api, fields, models
+from odoo.osv import orm
 
 
 class DataAbstract(models.AbstractModel):
@@ -32,6 +35,26 @@ class DataAbstract(models.AbstractModel):
         for r in self:
             # TODO mask code and unmasck
             r.code_unmasked = misc.punctuation_rm(r.code)
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type="form",
+                        toolbar=False, submenu=False):
+        model_view = super().fields_view_get(
+            view_id, view_type, toolbar, submenu)
+
+        if view_type == 'search':
+            doc = etree.XML(model_view['arch'])
+            for node in doc.xpath("//field[@name='name']"):
+                node.set(
+                    'filter_domain',
+                    "'|', '|', ('code', operator, name), "
+                    "('code_unmasked', 'ilike', name + '%'),"
+                    "('name', 'ilike', name + '%')")
+
+            orm.setup_modifiers(node)
+            model_view["arch"] = etree.tostring(doc)
+
+        return model_view
 
     @api.model
     def _name_search(self, name, args=None, operator='ilike',
