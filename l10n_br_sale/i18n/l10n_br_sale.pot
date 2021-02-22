@@ -14,6 +14,36 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
+msgid "<strong>Amount Gross</strong>"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
+msgid "<strong>Amount Untaxed</strong>"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
+msgid "<strong>Freight</strong>"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
+msgid "<strong>Insurance</strong>"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
+msgid "<strong>Other Costs</strong>"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.report_saleorder_document_l10n_br_sale
+msgid "<strong>Taxes</strong>"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Accounting"
 msgstr ""
@@ -24,8 +54,23 @@ msgid "Allow Amount Discount on Sales Orders"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_costs
+msgid "Amount Costs"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_freight
+msgid "Amount Freight"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_gross
 msgid "Amount Gross"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_insurance
+msgid "Amount Insurance"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -134,11 +179,6 @@ msgid "Fiscal Taxes"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_freight
-msgid "Freight"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_gross
 msgid "Gross Amount"
 msgstr ""
@@ -146,11 +186,6 @@ msgstr ""
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
 msgid "Inscr. Estadual"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_insurance
-msgid "Insurance"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -214,11 +249,6 @@ msgstr ""
 #: selection:sale.order,ind_pres:0
 #: selection:sale.report,ind_pres:0
 msgid "Operação presencial, fora do estabelecimento"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_costs
-msgid "Other Costs"
 msgstr ""
 
 #. module: l10n_br_sale
