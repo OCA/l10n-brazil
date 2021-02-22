@@ -96,6 +96,9 @@
                                 <field name="cnab_write_off_code_id"
                                        domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"/>
+                                <field name="cnab_code_change_title_value_id"
+                                       domain="[('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id)]"/>
                             </group>
                         </page>
                     </notebook>
