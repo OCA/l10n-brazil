@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_saleorder_document_l10n_br_sale" inherit_id="sale.report_saleorder_document">
+        <!-- Substituição do campo usado para Impostos no Brasil -->
+        <xpath expr="//tbody[hasclass('sale_tbody')]//t[@t-as='line']/tr/t[@t-if='not line.display_type']/td[@name='td_taxes']" position="replace">
+            <!-- Pedido referente a uma Empresa Brasileira altera os impostos padrões para os do Brasil. -->
+            <td t-if="doc.company_id.country_id.phone_code == 55"  name="td_taxes" class="text-right">
+                <!-- Usando o phone_code porque tanto code == 'br' ou code == br não funcionaram -->
+                <span t-esc="', '.join(map(lambda x: (x.name), line.fiscal_tax_ids))"/>
+            </td>
+            <!-- Pedido de empresas de outros países mantem o campo padrão de impostos-->
+            <td t-if="doc.company_id.country_id.phone_code != 55"  name="td_taxes" class="text-right">
+                <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>
+            </td>
+        </xpath>
+        <!-- Inclusão de outros Totais usados no Brasil -->
+        <xpath expr="//div[@name='total']/div/table/tr[@style='']" position="replace">
+            <!-- Replace foi necessário para colocar os Totais na ordem desejada. -->
+            <tr class="border-black o_subtotal" style="">
+                <td name="td_amount_gross_label"><strong>Amount Gross</strong></td>
+                <td name="td_amount_amount_gross" class="text-right">
+                    <span t-field="doc.amount_gross"/>
+                </td>
+            </tr>
+
+            <tr style="">
+                <td name="td_amount_untaxed_label"><strong>Amount Untaxed</strong></td>
+                <td name="td_amount_untaxed" class="text-right">
+                    <span t-field="doc.amount_untaxed"/>
+                </td>
+            </tr>
+
+            <tr style="">
+                <td name="td_amount_freight_label"><strong>Freight</strong></td>
+                <td name="td_amount_freight" class="text-right">
+                    <span t-field="doc.amount_freight"/>
+                </td>
+            </tr>
+
+            <tr style="">
+                <td name="td_amount_insurance_label"><strong>Insurance</strong></td>
+                <td name="td_amount_insurance" class="text-right">
+                    <span t-field="doc.amount_insurance"/>
+                </td>
+            </tr>
+
+            <tr style="">
+                <td name="td_amount_costs_label"><strong>Other Costs</strong></td>
+                <td name="td_amount_costs" class="text-right">
+                    <span t-field="doc.amount_costs"/>
+                </td>
+            </tr>
+
+            <tr style="">
+                <td name="td_amount_tax_label"><strong>Taxes</strong></td>
+                <td name="td_amount_tax" class="text-right">
+                    <span t-field="doc.amount_tax"/>
+                </td>
+            </tr>
+
+        </xpath>
+
+    </template>
+
+</odoo>
