@@ -93,10 +93,10 @@
         <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
         <field name="code_convetion">0001222130126</field>
         <field name="cnab_liq_return_move_code_ids"
-               eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09'),
-               ref('cnab_240-mov_return_code_17')])]"/>
+               eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09')])]"/>
         <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00"/>
         <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23"/>
+        <field name="cnab_code_change_title_value_id" ref="cnab_240-mov_instruction_code_17"/>
     </record>
 
     <!-- Payment Mode Cobrança Unicred 400 -->
@@ -192,10 +192,10 @@
         <field name="rebate_account_id" ref="1_account_template_32203_avoid_travis_error"/>
         <field name="code_convetion">0001222130126</field>
         <field name="cnab_liq_return_move_code_ids"
-               eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09'),
-               ref('cnab_240-mov_return_code_17')])]"/>
+               eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09')])]"/>
         <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00"/>
         <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23"/>
+        <field name="cnab_code_change_title_value_id" ref="cnab_240-mov_instruction_code_17"/>
     </record>
 
     <!-- Modo de Pagamento cobrança Itau 400 -->
@@ -250,8 +250,9 @@
         <field name="cnab_liq_return_move_code_ids"
                eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09'),
                ref('cnab_240-mov_return_code_17')])]"/>
-        <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00"/>
-        <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23"/>
+        <field name="cnab_sending_code_id" ref="cef_cnab_240-mov_instruction_code_01"/>
+        <field name="cnab_write_off_code_id" ref="cef_cnab_240-mov_instruction_code_02"/>
+        <field name="cnab_code_change_title_value_id" ref="cef_cnab_240-mov_instruction_code_47"/>
     </record>
 
     <!-- Modo de Pagamento cobrança Caixa Economica Federal 400 -->
