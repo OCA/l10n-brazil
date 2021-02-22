@@ -1,4 +1,5 @@
 # Copyright 2020 KMEE
+# Copyright (C) 2021  Magno Costa - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.tests import tagged
