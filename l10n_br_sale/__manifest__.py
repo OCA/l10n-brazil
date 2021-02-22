@@ -33,7 +33,6 @@
         "demo/product.xml",
         "demo/company.xml",
         "demo/l10n_br_sale.xml",
-        "demo/fiscal_operation.xml",
     ],
     "installable": True,
     "auto_install": True,
