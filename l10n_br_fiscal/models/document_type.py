@@ -10,7 +10,7 @@ from ..constants.fiscal import DOCUMENT_TYPE
 class DocumentType(models.Model):
     _name = 'l10n_br_fiscal.document.type'
     _description = 'Fiscal Document Type'
-    _inheirt = 'l10n_br_fiscal.data.abstract'
+    _inherit = 'l10n_br_fiscal.data.abstract'
 
     code = fields.Char(
         size=8,
