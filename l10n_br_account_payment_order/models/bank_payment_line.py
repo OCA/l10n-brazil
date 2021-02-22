@@ -198,5 +198,9 @@ class BankPaymentLine(models.Model):
             'cidade_sacado':
                 self.partner_id.city_id.name,
             'uf_sacado': self.partner_id.state_id.code,
-            'identificacao_ocorrencia': self.mov_instruction_code_id.id
+            # Codigo da Ocorrencia usado pode variar por Banco, CNAB e operação
+            # ex.: UNICRED 240/400 é 01 - Remessa*, 02 - Pedido de Baixa e
+            # 06 - Alteração de vencimento . Veja que está sendo informado
+            # o campo Code do objeto.
+            'identificacao_ocorrencia': self.mov_instruction_code_id.code
         }
