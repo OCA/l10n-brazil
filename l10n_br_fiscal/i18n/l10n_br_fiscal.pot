@@ -6062,13 +6062,6 @@ msgid "National Simplified Tax Range"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document.electronic,processador_edoc:0
-#: selection:l10n_br_fiscal.document.workflow,processador_edoc:0
-#: selection:res.company,processador_edoc:0
-msgid "Nenhum"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__activity_date_deadline
@@ -6353,6 +6346,13 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_payment__payment_type
 msgid "Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-e e NFC-e. Para as notas com finalidade de Ajuste ou Devolução o campo Forma de Pagamento deve ser preenchido com 90 - Sem Pagamento."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document.electronic,processador_edoc:0
+#: selection:l10n_br_fiscal.document.workflow,processador_edoc:0
+#: selection:res.company,processador_edoc:0
+msgid "Odoo Community"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7670,6 +7670,13 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_email__document_type_id
 msgid "Select the type of document that will be applied to the email templates definitions."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: selection:l10n_br_fiscal.document.electronic,processador_edoc:0
+#: selection:l10n_br_fiscal.document.workflow,processador_edoc:0
+#: selection:res.company,processador_edoc:0
+msgid "Sem Integração"
 msgstr ""
 
 #. module: l10n_br_fiscal
