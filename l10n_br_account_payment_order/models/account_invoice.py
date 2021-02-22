@@ -189,6 +189,7 @@ class AccountInvoice(models.Model):
         """
         Em caso de CNAB é preciso verificar e criar linha(s)
          com Codigo de Instrução do Movimento de Baixa
+         ou de Alteração de Valor do Título quando existir.
         :param amount_payment: Valor Pago
         :return:
         """
@@ -200,13 +201,9 @@ class AccountInvoice(models.Model):
                     != 'inbound':
                 return False
 
-            # Identificar a Linha CNAB que vai ser dado Baixa, é preciso que o
-            # valor que está sendo pago seja igual ao valor de uma das Parcelas
-            # em aberto, a soma de algumas Parcelas Inteiras ou ao Valor Total
-            # pois até onde vi não há possibilidade de uma baixa parcial para
-            # ser enviada na Remessa CNAB e nem o Banco aceita uma pagamento de
-            # valor menor
-            applicable_lines = self.env['account.move.line']
+            # Identificar a Linha CNAB que vai ser dado Baixa ou
+            # terá o Valor do Titulo alterado devido a um pagamento parcial
+            applicable_lines = change_title_value_line = self.env['account.move.line']
 
             # Valor Total, baixar todas as Parcelas em Aberto
             if inv.amount_total == amount_payment:
@@ -242,14 +239,24 @@ class AccountInvoice(models.Model):
                         payment_right_sum = True
                         break
                 if not payment_right_sum:
-                    # TODO - existe possibilidade de baixas parciais ?
-                    raise UserError(_(
-                        'Payment amount R$ %d of invoice %s can not'
-                        ' be made because the amount must be equal to one'
-                        ' of Installments, the sum of parts or Total'
-                        ' amount of Invoice to be able to make the Request'
-                        ' to Write Off the title with the Bank by CNAB.'
-                    ) % (amount_payment, inv.number))
+                    # Se não houver o Codigo de Instrução de Alteração de
+                    # Valor do Título não é possível um pagamento parcial,
+                    # nem todos os bancos oferecem essa possibilidade.
+                    if not inv.payment_mode_id.cnab_code_change_title_value_id:
+                        raise UserError(_(
+                            'Payment amount R$ %d of invoice %s can not'
+                            ' be made because the amount must be equal to one'
+                            ' of Installments, the sum of parts or Total'
+                            ' amount of Invoice to be able to make the Request'
+                            ' to Write Off the title with the Bank by CNAB,'
+                            ' if the CNAB used has the Code for Change Title'
+                            ' Value inform it in the Payment Mode to be'
+                            ' possible.'
+                        ) % (amount_payment, inv.number))
+
+                    applicable_lines, change_title_value_line = \
+                        self._cnab_change_title_value(
+                        inv, amount_payment)
 
             # Verificar Ordem de Pagto
             apo = self.env['account.payment.order']
@@ -264,27 +271,52 @@ class AccountInvoice(models.Model):
                     inv._prepare_new_payment_order(inv.payment_mode_id)
                 )
                 new_payorder = True
-
+            payment_lines_to_delete = self.env['account.payment.line']
             for line in applicable_lines:
                 count = 0
                 for payment_line in line.payment_line_ids:
                     # Verificar qual o status da
                     # Ordem de Pagto relacionada
                     if payment_line.order_id.state == 'draft':
-                        # Ordem de Pagto ainda não confirmada
-                        # será apagada a linha
-                        line.payment_line_ids.unlink()
-                        line.payment_situation = 'baixa_liquidacao'
-                        # TODO criar um state removed ?
-                        line.cnab_state = 'done'
-                        line.message_post(body=_(
-                            'Removed Payline that would be sent to Bank %s'
-                            ' by CNAB because amount payment of %d was made '
-                            ' before sending.') % (
-                            inv.payment_mode_id.fixed_journal_id.bank_id.name,
-                            amount_payment))
+
+                        # Pagamento Parcial - Alterar o Valor do Titulo
+                        if line == change_title_value_line:
+                            payment_line.amount_currency = line.amount_residual
+                            line.message_post(body=_(
+                                'Change Title Value in Payline that would be'
+                                ' sent to Bank %s by CNAB because amount'
+                                ' payment of %d was made before sending.') % (
+                                inv.payment_mode_id.fixed_journal_id.bank_id.name,
+                                (line.debit - line.amount_residual)))
+                        else:
+                            # Ordem de Pagto ainda não confirmada
+                            # será apagada a linha
+                            payment_lines_to_delete |= line.payment_line_ids
+                            line.payment_situation = 'baixa_liquidacao'
+                            # TODO criar um state removed ?
+                            line.cnab_state = 'done'
+                            line.message_post(body=_(
+                                'Removed Payline that would be sent to Bank %s'
+                                ' by CNAB because amount payment of %d was made '
+                                ' before sending.') % (
+                                inv.payment_mode_id.fixed_journal_id.bank_id.name,
+                                amount_payment
+                            ))
 
                     elif payment_line.order_id.state in ('uploaded', 'done'):
+                        # Pagamento Parcial - Enviar Codigo de Alteração do
+                        # Valor do Título
+                        if line.id == change_title_value_line.id:
+                            line.mov_instruction_code_id = \
+                                line.payment_mode_id.cnab_code_change_title_value_id.id
+                            line.message_post(body=_(
+                                'Movement Instruction Code Updated for Request to'
+                                ' Change Title Value, because partial payment'
+                                ' of %d done.') % (line.debit - line.amount_residual))
+                            line.create_payment_line_from_move_line(payorder)
+                            count += 1
+                            continue
+
                         # Arquivo Enviado necessário solicitar a Baixa
                         # ao Banco enviando a respectiva Instrução do Movimento
                         line.mov_instruction_code_id = \
@@ -295,6 +327,7 @@ class AccountInvoice(models.Model):
                             ' Write Off, because payment done in another way.'))
                         line.create_payment_line_from_move_line(payorder)
                         line.cnab_state = 'added_paid'
+
                         count += 1
                     # TODO existe possibilidade de uma Ordem de
                     #  Pagto CNAB ser cancelada ?
@@ -309,6 +342,7 @@ class AccountInvoice(models.Model):
                         ) % (payment_line.order_id.name,
                              payment_line.order_id.state, inv.number))
 
+            payment_lines_to_delete.unlink()
             if new_payorder:
                 inv.message_post(body=_(
                     '%d payment lines added to the new draft payment '
@@ -319,6 +353,25 @@ class AccountInvoice(models.Model):
                     '%d payment lines added to the existing draft '
                     'payment order %s.'
                 ) % (count, payorder.name))
+
+    def _cnab_change_title_value(self, invoice, amount_payment):
+        applicable_lines = self.env['account.move.line']
+        lines_not_paid = invoice.move_id.line_ids.filtered(
+            lambda x: x.debit > 0.0 and
+                      x.payment_situation in ('inicial', 'aberta')
+        )
+
+        amount_value = 0.0
+        for line in lines_not_paid:
+            applicable_lines |= line
+            amount_value += line.debit
+            if amount_value > amount_payment:
+                # Valor Pago ficou menor que as linhas de debito essa linha foi
+                # paga parcialmente e essa Parcela deverá ter seu valor alterado
+                change_title_value_line = line
+                break
+
+        return applicable_lines, change_title_value_line
 
     @api.multi
     def invoice_validate(self):
