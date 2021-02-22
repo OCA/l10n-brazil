@@ -392,11 +392,6 @@ msgid "Natureza Operação"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: selection:res.company,processador_edoc:0
-msgid "Nenhum"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "No. da NFS-e substituída"
 msgstr ""
@@ -414,6 +409,11 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Número do RPS"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: selection:res.company,processador_edoc:0
+msgid "Odoo Community"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -496,6 +496,11 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_secondary_ids
 msgid "Secondary CNAE"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: selection:res.company,processador_edoc:0
+msgid "Sem Integração"
 msgstr ""
 
 #. module: l10n_br_nfse
