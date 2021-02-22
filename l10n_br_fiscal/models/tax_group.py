@@ -71,6 +71,15 @@ class TaxGroup(models.Model):
         inverse_name='tax_group_id',
         string='CSTs')
 
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string='WH Partner',
+    )
+
+    wh_due_day = fields.Integer(
+        string='Due Day',
+    )
+
     _sql_constraints = [(
         'fiscal_tax_group_code_uniq',
         'unique (name)',
