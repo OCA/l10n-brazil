@@ -256,7 +256,7 @@ class AccountInvoice(models.Model):
 
                     applicable_lines, change_title_value_line = \
                         self._cnab_change_title_value(
-                        inv, amount_payment)
+                            inv, amount_payment)
 
             # Verificar Ordem de Pagto
             apo = self.env['account.payment.order']
@@ -358,7 +358,7 @@ class AccountInvoice(models.Model):
         applicable_lines = self.env['account.move.line']
         lines_not_paid = invoice.move_id.line_ids.filtered(
             lambda x: x.debit > 0.0 and
-                      x.payment_situation in ('inicial', 'aberta')
+            x.payment_situation in ('inicial', 'aberta')
         )
 
         amount_value = 0.0
