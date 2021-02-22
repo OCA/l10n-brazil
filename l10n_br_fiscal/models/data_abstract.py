@@ -2,8 +2,8 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from erpbrasil.base import misc
+
 from odoo import api, fields, models
-from odoo.osv import expression
 
 
 class DataAbstract(models.AbstractModel):
@@ -44,13 +44,10 @@ class DataAbstract(models.AbstractModel):
                 '|',
                 ('code', operator, name),
                 ('code_unmasked', 'ilike', name + '%'),
-                ('name', operator, name),
             ]
-        recs = self._search(expression.AND([domain, args]),
-                            limit=limit,
-                            access_rights_uid=name_get_uid)
 
-        return self.browse(recs).name_get()
+        return super()._name_search(name, domain + args,
+                                    operator, limit, name_get_uid)
 
     @api.multi
     def name_get(self):
