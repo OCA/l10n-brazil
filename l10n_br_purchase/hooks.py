@@ -20,3 +20,43 @@ def post_init_hook(cr, registry):
                 'fiscal_operation_id': order.fiscal_operation_id.id,
             })
             order.write(defaults)
+
+        # Load COA Fiscal Operation properties
+        company = env.ref(
+            'l10n_br_base.empresa_simples_nacional',
+            raise_if_not_found=False)
+        # COA Simple Fiscal Operation properties
+        if company and env['ir.module.module'].search_count([
+                ('name', '=', 'l10n_br_coa_simple'),
+                ('state', '=', 'installed'),
+        ]):
+            tools.convert_file(
+                cr,
+                "l10n_br_stock_account",
+                "demo/fiscal_operation_simple.xml",
+                None,
+                mode="init",
+                noupdate=True,
+                kind="init",
+                report=None,
+            )
+
+        company_lc = env.ref(
+            'l10n_br_base.empresa_lucro_presumido',
+            raise_if_not_found=False)
+
+        # COA Generic Fiscal Operation properties
+        if company_lc and env['ir.module.module'].search_count([
+                ('name', '=', 'l10n_br_coa_generic'),
+                ('state', '=', 'installed'),
+        ]):
+            tools.convert_file(
+                cr,
+                "l10n_br_stock_account",
+                "demo/fiscal_operation_generic.xml",
+                None,
+                mode="init",
+                noupdate=True,
+                kind="init",
+                report=None,
+            )
