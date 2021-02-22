@@ -24,7 +24,11 @@ class StockMove(models.Model):
         # partner_shipping_id é diferente, o metodo do fiscal está
         # sobre escrevendo o partner_id e acaba criando um picking
         # sem o partner_id caso esse dict atualize o do super
-        values = self.sale_line_id.order_id._prepare_br_fiscal_dict()
+        values = {}
+        if self.sale_line_id:
+            values = \
+                self.sale_line_id.order_id._prepare_br_fiscal_dict()
+
         values.update(super()._get_new_picking_values())
         # TODO - remover o pop abaixo depois do merge
         #  https://github.com/OCA/l10n-brazil/pull/1099
