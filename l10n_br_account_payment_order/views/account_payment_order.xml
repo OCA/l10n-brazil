@@ -34,7 +34,7 @@
                 <field name="code_convetion"/>
             </field>
             <field name="company_id" position="after">
-                <field name="indicative_form_payment"/>
+                <field name="indicative_form_payment" attrs="{'invisible': [('payment_type', '=', 'inbound')]}"/>
             </field>
             <page name="bank-payment-lines" position="after">
                 <page name="bank-error-lines" string="Problemas"
