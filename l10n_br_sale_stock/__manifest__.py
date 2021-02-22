@@ -8,8 +8,8 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://github.com/OCA/l10n-brazil',
-    'maintainers': ['gabrielcardoso21'],
     'version': '12.0.2.0.0',
+    'maintainers': ['renatonlima', 'mbcosta'],
     'depends': [
         'sale_stock',
         'l10n_br_sale',
