@@ -8,17 +8,6 @@ def post_init_hook(cr, registry):
 
     if not tools.config['without_demo']:
         env = api.Environment(cr, SUPERUSER_ID, {})
-        sale_orders = env['sale.order'].search(
-            [('company_id', '!=', env.ref('base.main_company').id)])
-
-        for order in sale_orders:
-            defaults = order.sudo(
-                user=order.user_id.id).default_get(order._fields)
-            defaults.update({
-                'name': order.name,
-                'fiscal_operation_id': order.fiscal_operation_id.id
-            })
-            order.write(defaults)
 
         # Load COA Fiscal Operation properties
         company = env.ref(
@@ -31,7 +20,7 @@ def post_init_hook(cr, registry):
         ]):
             tools.convert_file(
                 cr,
-                "l10n_br_sale",
+                "l10n_br_stock_account",
                 "demo/fiscal_operation_simple.xml",
                 None,
                 mode="init",
@@ -51,7 +40,7 @@ def post_init_hook(cr, registry):
         ]):
             tools.convert_file(
                 cr,
-                "l10n_br_sale",
+                "l10n_br_stock_account",
                 "demo/fiscal_operation_generic.xml",
                 None,
                 mode="init",

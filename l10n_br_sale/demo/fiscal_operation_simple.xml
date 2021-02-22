@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- l10n_br_fiscal.operation -->
+    <!-- Vendas -->
+    <record forcecreate="True" id="property_fo_venda_journal_main_company" model="ir.property">
+        <field name="name">fiscal_operation_journal_id</field>
+        <field name="fields_id" search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"/>
+        <field eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_venda'))" name="res_id"/>
+        <field eval="'account.journal,'+str(ref('l10n_br_coa_simple.sale_journal_main_company'))" name="value"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record forcecreate="True" id="property_fo_venda_journal_empresa_sn" model="ir.property">
+        <field name="name">fiscal_operation_journal_id</field>
+        <field name="fields_id" search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"/>
+        <field eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_venda'))" name="res_id"/>
+        <field eval="'account.journal,'+str(ref('l10n_br_coa_simple.sale_journal_empresa_sn'))" name="value"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
+    </record>
+
+    <!-- Bonificação -->
+    <record forcecreate="True" id="property_fo_bonificacao_journal_main_company" model="ir.property">
+        <field name="name">fiscal_operation_journal_id</field>
+        <field name="fields_id" search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"/>
+        <field eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_bonificacao'))" name="res_id"/>
+        <field eval="'account.journal,'+str(ref('l10n_br_coa_simple.general_journal_main_company'))" name="value"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record forcecreate="True" id="property_fo_bonificacao_journal_empresa_sn" model="ir.property">
+        <field name="name">fiscal_operation_journal_id</field>
+        <field name="fields_id" search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"/>
+        <field eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_bonificacao'))" name="res_id"/>
+        <field eval="'account.journal,'+str(ref('l10n_br_coa_simple.general_journal_empresa_sn'))" name="value"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
+    </record>
+
+    <!-- Devolução de Venda -->
+    <record forcecreate="True" id="property_fo_devolucao_venda_journal_main_company" model="ir.property">
+        <field name="name">fiscal_operation_journal_id</field>
+        <field name="fields_id" search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"/>
+        <field eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_devolucao_venda'))" name="res_id"/>
+        <field eval="'account.journal,'+str(ref('l10n_br_coa_simple.general_journal_main_company'))" name="value"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record forcecreate="True" id="property_fo_devolucao_venda_journal_empresa_sn" model="ir.property">
+        <field name="name">fiscal_operation_journal_id</field>
+        <field name="fields_id" search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"/>
+        <field eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_devolucao_venda'))" name="res_id"/>
+        <field eval="'account.journal,'+str(ref('l10n_br_coa_simple.general_journal_empresa_sn'))" name="value"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
+    </record>
+
+    <!-- Outras Saidas -->
+    <record forcecreate="True" id="property_fo_simples_remessa_journal_main_company" model="ir.property">
+        <field name="name">fiscal_operation_journal_id</field>
+        <field name="fields_id" search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"/>
+        <field eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_simples_remessa'))" name="res_id"/>
+        <field eval="'account.journal,'+str(ref('l10n_br_coa_simple.general_journal_main_company'))" name="value"/>
+        <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record forcecreate="True" id="property_fo_simples_remessa_journal_empresa_sn" model="ir.property">
+        <field name="name">fiscal_operation_journal_id</field>
+        <field name="fields_id" search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"/>
+        <field eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_simples_remessa'))" name="res_id"/>
+        <field eval="'account.journal,'+str(ref('l10n_br_coa_simple.general_journal_empresa_sn'))" name="value"/>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
+    </record>
+
+</odoo>
