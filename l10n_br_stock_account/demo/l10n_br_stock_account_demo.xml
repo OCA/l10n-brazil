@@ -26,14 +26,7 @@
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
         <field name="origin">Test - l10n_br_stock_account - Regime Normal</field>
-<<<<<<< HEAD
-        <!-- TODO - Usar outra Operação Fiscal ex.: Simples Remessa( não tem linha de operação nos dados ),
-              Remessa p/ Industrilização para ter algo mais real.
-        -->
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-=======
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
->>>>>>> Update fiscal operation for demo picking data
         <field name="company_id" ref="base.main_company"/>
     </record>
 
@@ -48,8 +41,8 @@
         <field name="location_id" ref="stock.stock_location_stock"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
@@ -79,8 +72,8 @@
         <field name="location_id" ref="stock.stock_location_stock"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
@@ -139,10 +132,7 @@
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
         <field name="origin">Test - l10n_br_stock_account - Regime Normal</field>
-        <!-- TODO - Usar outra Operação Fiscal ex.: Simples Remessa( não tem linha de operação nos dados ),
-              Remessa p/ Industrilização para ter algo mais real.
-        -->
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
     </record>
 
@@ -157,8 +147,8 @@
         <field name="location_id" ref="stock.stock_location_stock"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
@@ -188,8 +178,8 @@
         <field name="location_id" ref="stock.stock_location_stock"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
@@ -252,10 +242,7 @@
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
         <field name="origin">Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
-        <!-- TODO - Usar outra Operação Fiscal ex.: Simples Remessa( não tem linha de operação nos dados ),
-              Remessa p/ Industrilização para ter algo mais real.
-        -->
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
     </record>
 
@@ -270,8 +257,8 @@
         <field name="location_id" ref="stock.stock_location_stock"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
@@ -301,8 +288,8 @@
         <field name="location_id" ref="stock.stock_location_stock"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
@@ -361,10 +348,7 @@
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
         <field name="origin">Test - l10n_br_stock_account 1 - Endereço entrega diferente Faturamento</field>
-        <!-- TODO - Usar outra Operação Fiscal ex.: Simples Remessa( não tem linha de operação nos dados ),
-              Remessa p/ Industrilização para ter algo mais real.
-        -->
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
     </record>
 
@@ -379,8 +363,8 @@
         <field name="location_id" ref="stock.stock_location_stock"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
@@ -465,31 +449,6 @@
     <!-- Dados demo com a empresa Lucro Presumido para validar os impostos
          OBS.: necessário alterar a empresa do usuario para visualizar o Picking -->
 
-    <!-- TODO: ocorre erro ao tentar instalar o modulo l10n_br_stock_account diretamente com os dados abaixo
-          só funciona instalando antes o l10n_br_account, o erro acontece porque o account.journal não é
-          encontrado em
-          obj().env['account.journal'].sudo().search([('type', '=', 'sale'), logo abaixo:
-          odoo.tools.convert.ParseError: "column "res_id" is of type integer but expression is of type boolean
-           LINE 3: ...tock_account', 'sale_journal', 'account.journal', false, tru...
-           TESTAR depois do merge do https://github.com/OCA/l10n-brazil/pull/1123
-         -->
-    <!-- É preciso preencher o Diario na Operação -->
-    <function model="ir.model.data" name="_update_xmlids">
-        <value model="base" eval="[{
-            'xml_id': 'l10n_br_stock_account.sale_journal',
-            'record': obj().env['account.journal'].sudo().search([('type', '=', 'sale'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_lucro_presumido').id)], limit=1),
-            'noupdate': True,
-        }]"/>
-    </function>
-
-    <record forcecreate="True" id="property_journal_id" model="ir.property">
-        <field name="name">property_journal_id</field>
-        <field name="fields_id" search="[('model','=','l10n_br_fiscal.operation'),('name','=','journal_id')]"/>
-        <field eval="'l10n_br_fiscal.operation,'+str(ref('l10n_br_fiscal.fo_venda'))" name="res_id"/>
-        <field eval="'account.journal,'+str(ref('l10n_br_stock_account.sale_journal'))" name="value"/>
-        <field name="company_id" eval="0"/>
-    </record>
-
     <!-- Picking Test - Lucro Presumido -->
     <record model="stock.picking" id="demo_l10n_br_stock_account-picking-1">
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
@@ -498,7 +457,7 @@
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
         <field name="origin">Test - l10n_br_stock_account - Regime Normal</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
     </record>
 
@@ -518,8 +477,8 @@
         <field name="location_id" ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
@@ -549,18 +508,12 @@
         <field name="location_id" ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"/>
         <field name="location_dest_id" ref="stock.stock_location_customers"/>
         <field name="invoice_state">2binvoiced</field>
-<<<<<<< HEAD
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
         <field name="other_costs_value">100</field>
-=======
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_remessa"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_simples_remessa_simples_remessa"/>
-        <field name="company_id" ref="base.main_company"/>
->>>>>>> Update fiscal operation for demo picking data
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
