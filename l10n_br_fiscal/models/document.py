@@ -800,3 +800,6 @@ class Document(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
+    def recompute_lines_taxes(self):
+        self.mapped('line_ids').recompute_taxes()
