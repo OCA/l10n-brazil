@@ -11,7 +11,7 @@ from odoo.addons.l10n_br_fiscal.constants.icms import (
     ICMS_SN_CST,
 )
 
-ICMS_ST_CST_CODES = ['60']
+ICMS_ST_CST_CODES = ['60', '10']
 
 
 class NFeLine(spec_models.StackedModel):
