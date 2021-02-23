@@ -27,7 +27,7 @@ FISCAL_TYPE_REFUND = {
     'in': ['sale_return', 'out_return'],
 }
 
-SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id', 'number']
+SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id', 'partner_shipping_id']
 
 
 class AccountInvoice(models.Model):
@@ -64,10 +64,17 @@ class AccountInvoice(models.Model):
         related='document_type_id.electronic',
     )
 
-    number = fields.Char(
-        related=False,
-        readonly=False,
+    fiscal_number = fields.Char(
+        string='Fiscal Number',
     )
+
+    move_line_receivable_ids = fields.Many2many(
+        comodel_name='account.move.line',
+        string='Receivables',
+        store=True,
+        compute='_compute_receivables',
+    )
+
     # this default should be overwritten to False in a module pretending to
     # create fiscal documents from the invoices. But this default here
     # allows to install the l10n_br_account module without creating issues
@@ -85,6 +92,15 @@ class AccountInvoice(models.Model):
         'unique(number, company_id, journal_id, type, partner_id)',
         'Invoice Number must be unique per Company!'),
     ]
+
+    @api.multi
+    @api.depends('state', 'move_id.line_ids')
+    def _compute_receivables(self):
+        for invoice in self:
+            lines = invoice.move_id.line_ids.filtered(
+                lambda l: l.account_id == invoice.account_id and
+                l.account_id.internal_type in ('receivable', 'payable'))
+            invoice.move_line_receivable_ids = lines.sorted()
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
@@ -142,6 +158,18 @@ class AccountInvoice(models.Model):
             return {'default_%s' % (k,): vals[k] for k in vals.keys()}
         return vals
 
+    @api.multi
+    def _get_fiscal_number_next(self):
+        self.ensure_one()
+        if (self.document_type_id and not self.fiscal_number
+                and self.issuer == 'company'):
+            if not self.document_serie_id:
+                self.document_serie_id = (
+                    self.document_type_id.get_document_serie(
+                        self.company_id, self.fiscal_operation_id))
+
+            self.fiscal_number = self.document_serie_id.next_seq_number()
+
     @api.model
     def create(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
@@ -160,8 +188,17 @@ class AccountInvoice(models.Model):
         for invoice in self:
             if invoice.fiscal_document_id != dummy_doc:
                 shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
+                shadowed_fiscal_vals.update({'number': invoice.fiscal_number})
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return result
+
+    @api.multi
+    def unlink(self):
+        """Allows delete an draft or cancelled invoices"""
+        self.filtered(lambda i: i.state in ('draft', 'cancel')).write(
+            {'move_name': False}
+        )
+        return super().unlink()
 
     @api.one
     @api.depends(
@@ -212,7 +249,7 @@ class AccountInvoice(models.Model):
         for l in financial_lines:
             if l[2]['debit'] or l[2]['credit']:
                 l[2]['name'] = '{}/{}-{}'.format(
-                    self.number, count, len(financial_lines))
+                    self.fiscal_number, count, len(financial_lines))
                 count += 1
         return lines
 
@@ -291,3 +328,19 @@ class AccountInvoice(models.Model):
                         tax_grouped[key]['amount'] += val['amount']
                         tax_grouped[key]['base'] += round_curr(val['base'])
         return tax_grouped
+
+    @api.multi
+    def action_move_create(self):
+        for inv in self:
+            inv._get_fiscal_number_next()
+        return super().action_move_create()
+
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        super()._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
+            self.journal_id = self.fiscal_operation_id.journal_id
+
+    @api.multi
+    def open_fiscal_document(self):
+        pass
