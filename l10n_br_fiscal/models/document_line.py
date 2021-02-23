@@ -178,3 +178,5 @@ class DocumentLine(models.Model):
             line.price_unit = price_unit
             line._onchange_commercial_quantity()
             line._onchange_fiscal_taxes()
+            line._compute_amount()
+            line.document_comment()
