@@ -204,6 +204,16 @@ class NFeLine(spec_models.StackedModel):
         related='discount_value'
     )
 
+    nfe40_vBCST = fields.Monetary(
+        related='icmsst_base'
+    )
+    nfe40_modBCST = fields.Selection(
+        related='icmsst_base_type'
+    )
+    nfe40_vICMSST = fields.Monetary(
+        related='icmsst_value'
+    )
+
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
         for record in self:
@@ -410,6 +420,9 @@ class NFeLine(spec_models.StackedModel):
         self.nfe40_qCom = self.quantity
         self.nfe40_qTrib = self.quantity
         self.nfe40_pICMS = self.icms_percent
+        self.nfe40_pICMSST = self.icmsst_percent
+        self.nfe40_pMVAST = self.icmsst_mva_percent
+        self.nfe40_pRedBCST = self.icmsst_reduction
         self.nfe40_pIPI = self.ipi_percent
         self.nfe40_pPIS = self.pis_percent
         self.nfe40_pCOFINS = self.cofins_percent
