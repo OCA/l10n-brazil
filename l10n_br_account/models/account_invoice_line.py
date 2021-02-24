@@ -39,9 +39,8 @@ class AccountInvoiceLine(models.Model):
         comodel_name='l10n_br_fiscal.document.line',
         string='Fiscal Document Line',
         required=True,
+        copy=False,
         ondelete='cascade',
-        default=lambda self: self.env.ref(
-            'l10n_br_fiscal.fiscal_document_line_dummy'),
     )
 
     @api.one
@@ -128,12 +127,15 @@ class AccountInvoiceLine(models.Model):
 
     @api.model
     def create(self, values):
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        if self.env['account.invoice'].browse(
-                values['invoice_id']).fiscal_document_id != dummy_doc:
-            values['fiscal_document_line_id'] = False
+        dummy_doc_line_id = self.env.ref(
+            'l10n_br_fiscal.fiscal_document_line_dummy').id
+        dummy_doc_id = self.env.ref('l10n_br_fiscal.fiscal_document_dummy').id
+        fiscal_doc_id = self.env['account.invoice'].browse(
+            values['invoice_id']).fiscal_document_id.id
+        if dummy_doc_id == fiscal_doc_id:
+            values['fiscal_document_line_id'] = dummy_doc_line_id
         line = super().create(values)
-        if line.invoice_id.fiscal_document_id != dummy_doc:
+        if dummy_doc_id != fiscal_doc_id:
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.invoice_id.fiscal_document_id.id
             shadowed_fiscal_vals['document_id'] = doc_id
