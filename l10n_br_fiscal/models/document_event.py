@@ -159,9 +159,9 @@ class DocumentEvent(models.Model):
     @api.multi
     @api.depends("company_id.name", "origin")
     def _compute_display_name(self):
-        self.ensure_one()
-        names = ["Evento", self.company_id.name, self.origin]
-        self.display_name = " / ".join(filter(None, names))
+        for r in self:
+            names = ["Evento", r.company_id.name, r.origin]
+            r.display_name = " / ".join(filter(None, names))
 
     @staticmethod
     def monta_caminho(ambiente, company_id, chave):
