@@ -112,6 +112,17 @@ class AccountInvoice(models.Model):
         return vals
 
     @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        invoice_type = self.env.context.get('type', 'out_invoice')
+        defaults['fiscal_operation_type'] = INVOICE_TO_OPERATION[invoice_type]
+        if defaults['fiscal_operation_type'] == FISCAL_OUT:
+            defaults['issuer'] = 'company'
+        else:
+            defaults['issuer'] = 'partner'
+        return defaults
+
+    @api.model
     def create(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         if not values.get('document_type_id'):
