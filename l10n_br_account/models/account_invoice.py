@@ -194,6 +194,7 @@ class AccountInvoice(models.Model):
         'date_invoice',
         'type')
     def _compute_amount(self):
+        self.fiscal_document_id._compute_amount()
         for inv_line in self.invoice_line_ids:
             if inv_line.cfop_id:
                 if inv_line.cfop_id.finance_move:
@@ -202,6 +203,10 @@ class AccountInvoice(models.Model):
             else:
                 self.amount_untaxed += inv_line.price_subtotal
                 self.amount_tax += inv_line.price_tax
+
+        self.amount_total = (
+            self.amount_untaxed + self.amount_tax -
+            self.amount_tax_withholding)
 
         self.amount_total = self.amount_untaxed + self.amount_tax
         amount_total_company_signed = self.amount_total
