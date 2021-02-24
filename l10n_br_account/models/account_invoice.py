@@ -4,6 +4,8 @@
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_OUT
+
 INVOICE_TO_OPERATION = {
     'out_invoice': 'out',
     'in_invoice': 'in',
@@ -67,6 +69,11 @@ class AccountInvoice(models.Model):
         string='Financial Move Lines',
         store=True,
         compute='_compute_financial',
+    )
+
+    fiscal_number = fields.Char(
+        string='Fiscal Number',
+        related='fiscal_document_id.number',
     )
 
     # this default should be overwritten to False in a module pretending to
@@ -198,6 +205,20 @@ class AccountInvoice(models.Model):
         return tax_lines_dict
 
     @api.multi
+    def finalize_invoice_move_lines(self, move_lines):
+        lines = super().finalize_invoice_move_lines(move_lines)
+        financial_lines = [
+            l for l in lines if l[2]['account_id'] == self.account_id.id]
+
+        count = 1
+        for l in financial_lines:
+            if l[2]['debit'] or l[2]['credit']:
+                l[2]['name'] = '{}/{}-{}'.format(
+                    self.fiscal_number, count, len(financial_lines))
+                count += 1
+        return lines
+
+    @api.multi
     def get_taxes_values(self):
         # uncomment these lines
         # dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
@@ -244,3 +265,10 @@ class AccountInvoice(models.Model):
                         tax_grouped[key]['amount'] += val['amount']
                         tax_grouped[key]['base'] += round_curr(val['base'])
         return tax_grouped
+
+    @api.multi
+    def action_move_create(self):
+        for inv in self.filtred(lambda i: i.fiscal._document_id !=
+                self.env.ref('l10n_br_fiscal.fiscal_document_dummy')):
+            inv.fiscal_document_id.action_button_confirm()
+        return super().action_move_create()
