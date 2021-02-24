@@ -97,6 +97,7 @@
         <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00"/>
         <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23"/>
         <field name="cnab_code_change_title_value_id" ref="cnab_240-mov_instruction_code_17"/>
+        <field name="cnab_code_change_maturity_date_id" ref="cnab_240-mov_instruction_code_19"/>
     </record>
 
     <!-- Payment Mode Cobrança Unicred 400 -->
@@ -134,6 +135,7 @@
                ref('unicred_cnab_400-mov_return_code_07'), ref('unicred_cnab_400-mov_return_code_09')])]"/>
         <field name="cnab_sending_code_id" ref="unicred_cnab_400-mov_instruction_code_01"/>
         <field name="cnab_write_off_code_id" ref="unicred_cnab_400-mov_instruction_code_02"/>
+        <field name="cnab_code_change_maturity_date_id" ref="unicred_cnab_400-mov_instruction_code_06"/>
     </record>
 
     <!-- Payment Mode Cobrança Unicred 240 -->
@@ -196,6 +198,7 @@
         <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00"/>
         <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23"/>
         <field name="cnab_code_change_title_value_id" ref="cnab_240-mov_instruction_code_17"/>
+        <field name="cnab_code_change_maturity_date_id" ref="cnab_240-mov_instruction_code_19"/>
     </record>
 
     <!-- Modo de Pagamento cobrança Itau 400 -->
@@ -253,6 +256,7 @@
         <field name="cnab_sending_code_id" ref="cef_cnab_240-mov_instruction_code_01"/>
         <field name="cnab_write_off_code_id" ref="cef_cnab_240-mov_instruction_code_02"/>
         <field name="cnab_code_change_title_value_id" ref="cef_cnab_240-mov_instruction_code_47"/>
+        <field name="cnab_code_change_maturity_date_id" ref="cef_cnab_240-mov_instruction_code_06"/>
     </record>
 
     <!-- Modo de Pagamento cobrança Caixa Economica Federal 400 -->
