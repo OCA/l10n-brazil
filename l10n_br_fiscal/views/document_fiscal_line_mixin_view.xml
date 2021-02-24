@@ -122,7 +122,7 @@
                       </group>
                   </group>
               </page>
-              <page name="ipi" string="IPI">
+              <page name="ipi" string="IPI" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}">
                   <group string="IPI">
                       <field name="ipi_tax_id"/>
                       <field name="ipi_cst_id" force_save="1" attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"/>
