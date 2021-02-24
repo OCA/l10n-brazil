@@ -23,12 +23,10 @@
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_tree"/>
         <field name="arch" type="xml">
-            <field name="type" position="after">
-                <field name="document_type_id" invisible="1"/>
-                <button name="open_fiscal_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
-            </field>
             <field name="number" position="before">
+                <field name="document_type_id" invisible="1"/>
                 <field name="fiscal_number"/>
+                <button name="open_fiscal_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
             </field>
         </field>
     </record>
@@ -51,8 +49,7 @@
                 <h1 class="mt0">
                     <div attrs="{'invisible': [('document_type_id', '=', False)]}">
                         <span class="oe_inline">
-                            <field readonly="1" name="document_type_id"/>: 
-                            <field name="fiscal_number" readonly="1" attrs="{'invisible': [('state','in',('draft',))]}"/>
+                            <field readonly="1" name="document_type_id"/>: <field readonly="1" name="document_serie_id"/>: <field name="fiscal_number" readonly="1" attrs="{'invisible': [('state','in',('draft',))]}"/>
                         </span>
                     </div>
                 </h1>
