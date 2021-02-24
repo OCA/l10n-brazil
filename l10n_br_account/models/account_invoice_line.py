@@ -17,9 +17,7 @@ SHADOWED_FIELDS = ['name', 'partner_id', 'company_id', 'currency_id',
 
 class AccountInvoiceLine(models.Model):
     _name = 'account.invoice.line'
-    _inherit = ['account.invoice.line',
-                'l10n_br_fiscal.document.line.mixin.methods',
-                'l10n_br_account.document.line.mixin']
+    _inherit = [_name, 'l10n_br_fiscal.document.line.mixin.methods']
     _inherits = {'l10n_br_fiscal.document.line': 'fiscal_document_line_id'}
 
     # initial account.invoice.line inherits on fiscal.document.line that are
