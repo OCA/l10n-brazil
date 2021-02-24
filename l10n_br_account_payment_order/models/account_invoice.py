@@ -10,13 +10,6 @@ from odoo.exceptions import UserError
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    move_line_receivable_ids = fields.Many2many(
-        comodel_name='account.move.line',
-        string='Receivables',
-        store=True,
-        compute='_compute_receivables',
-    )
-
     eval_payment_mode_instructions = fields.Text(
         string='Instruções de Cobrança do Modo de Pagamento',
         related='payment_mode_id.instructions',
@@ -34,18 +27,6 @@ class AccountInvoice(models.Model):
     #     store=True,
     #     index=True,
     # )
-
-    @api.multi
-    @api.depends('state', 'move_id.line_ids', 'move_id.line_ids.account_id')
-    def _compute_receivables(self):
-        for record in self:
-            lines = self.env['account.move.line']
-            for line in record.move_id.line_ids:
-                if (line.account_id.id == record.account_id.id
-                        and line.account_id.internal_type in ('receivable',
-                                                              'payable')):
-                    lines |= line
-            record.move_line_receivable_ids = lines.sorted()
 
     @api.onchange('payment_mode_id')
     def _onchange_payment_mode_id(self):
@@ -92,11 +73,11 @@ class AccountInvoice(models.Model):
         :param _raise:
         :return:
         """
-        move_line_receivable_ids = self.move_line_receivable_ids
+        financial_move_line_ids = self.financial_move_line_ids
         payment_order_ids = self.env['account.payment.order']
 
         payment_order_ids |= self.env['account.payment.order'].search([
-            ('payment_line_ids.move_line_id', 'in', move_line_receivable_ids.ids),
+            ('payment_line_ids.move_line_id', 'in', financial_move_line_ids.ids),
         ])
 
         if payment_order_ids:
@@ -113,7 +94,7 @@ class AccountInvoice(models.Model):
 
             for po_id in draft_cancel_payment_order_ids:
                 p_line_id = self.env['account.payment.line']
-                for line in move_line_receivable_ids:
+                for line in financial_move_line_ids:
                     p_line_id |= self.env['account.payment.line'].search([
                         ('order_id', '=', po_id.id),
                         ('move_line_id', '=', line.id)])
@@ -140,20 +121,20 @@ class AccountInvoice(models.Model):
     @api.multi
     def _pos_action_move_create(self):
         for inv in self:
-            # TODO - apesar do campo move_line_receivable_ids ser do tipo
+            # TODO - apesar do campo financial_move_line_ids ser do tipo
             #  compute esta sendo preciso chamar o metodo porque as vezes
             #  ocorre da linha vir vazia o que impede de entrar no FOR
             #  abaixo causando o não preenchimento de dados usados no Boleto,
             #  isso deve ser melhor investigado
             if not inv.payment_mode_id:
                 continue
-            inv._compute_receivables()
+            inv._compute_financial()
 
             # Verifica se gera Ordem de Pagamento
             if not inv.payment_mode_id.payment_order_ok:
                 continue
 
-            for index, interval in enumerate(inv.move_line_receivable_ids):
+            for index, interval in enumerate(inv.financial_move_line_ids):
                 inv_number = inv.get_invoice_fiscal_number().split('/')[-1].zfill(8)
                 numero_documento = inv_number + '/' + str(index + 1).zfill(2)
 
@@ -420,7 +401,7 @@ class AccountInvoice(models.Model):
 
         for inv in self:
             inv._compute_receivables()
-            receivable_id = inv.move_line_receivable_ids
+            receivable_id = inv.financial_move_line_ids
             receivable_id.residual = inv.residual
 
         return res
