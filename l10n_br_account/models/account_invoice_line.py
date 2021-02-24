@@ -129,6 +129,7 @@ class AccountInvoiceLine(models.Model):
     def _compute_price(self):
         currency = self.invoice_id and self.invoice_id.currency_id or None
         taxes = {}
+        self._update_taxes()
         if self.invoice_line_tax_ids:
             taxes = self.invoice_line_tax_ids.compute_all(
                 price_unit=self.price_unit,
