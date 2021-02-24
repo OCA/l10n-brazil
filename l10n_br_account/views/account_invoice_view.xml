@@ -18,6 +18,18 @@
         </field>
     </record>
 
+    <record id="invoice_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="number" position="before">
+                <field name="document_type_id" invisible="1"/>
+                <field name="fiscal_number"/>
+                <button name="open_fiscal_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
 
     <!-- Customer Invoice views -->
     <record id="invoice_form" model="ir.ui.view">
