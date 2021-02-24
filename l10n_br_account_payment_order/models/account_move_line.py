@@ -2,7 +2,8 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 from ..constants import ESTADOS_CNAB, SITUACAO_PAGAMENTO
 
@@ -218,10 +219,99 @@ class AccountMoveLine(models.Model):
         self.ensure_one()
         # TODO:
 
-    def _change_date_maturity(self, new_date, reason, **kwargs):
-        moves_to_sync = self.filtered(lambda m: m.date_maturity != new_date)
-        moves_to_sync._create_payment_order_change(new_date=new_date, **kwargs)
-        moves_to_sync.write({
+    def _get_payment_order(self, invoice):
+        """
+        Obtem a Ordem de Pagamento a ser usada e se é uma nova
+        :param invoice:
+        :return: Orderm de Pagamento, E se é uma nova
+        """
+        # Verificar Ordem de Pagto
+        apo = self.env['account.payment.order']
+        # Existe a possibilidade de uma Fatura ter diferentes
+        # Modos de Pagto nas linhas no caso CNAB ?
+        payorder = apo.search([
+            ('payment_mode_id', '=', invoice.payment_mode_id.id),
+            ('state', '=', 'draft')], limit=1)
+        new_payorder = False
+        if not payorder:
+            payorder = apo.create(
+                invoice._prepare_new_payment_order(invoice.payment_mode_id)
+            )
+            new_payorder = True
+
+        return payorder, new_payorder
+
+    def _change_date_maturity(self, new_date, reason):
+        """
+        Alteração da Data de Vencimento de um lançamento CNAB.
+        :param new_date: nova data de vencimento
+        :param reason: descrição do motivo da alteração
+        :return: deveria retornar algo ? Uma mensagem de confirmação talvez ?
+        """
+        # moves_to_sync = self.filtered(lambda m: m.date_maturity != new_date)
+        # moves_to_sync._create_payment_order_change(new_date=new_date)
+
+        if new_date == self.date_maturity:
+            raise UserError(_(
+                'New Date Maturity %s is equal to actual Date Maturity %s'
+            ) % (new_date, self.date_maturity))
+
+        # Modo de Pagto usado precisa ter o codigo de alteração do vencimento
+        if not self.invoice_id.payment_mode_id.cnab_code_change_maturity_date_id:
+            raise UserError(_(
+                "Payment Mode %s don't has Change Date Maturity Code,"
+                ' check if should have.'
+            ) % self.payment_mode_id.name)
+        count = 0
+        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+        for payment_line in self.payment_line_ids:
+            # Verificar qual o status da
+            # Ordem de Pagto relacionada
+            if payment_line.order_id.state == 'draft':
+                old_date = payment_line.ml_maturity_date
+                payment_line.ml_maturity_date = self.date_maturity
+                self.message_post(body=_(
+                    'Change Maturity Date of Title from %s to'
+                    ' %s before sending.') % (old_date, self.date_maturity))
+
+            elif payment_line.order_id.state in ('uploaded', 'done'):
+
+                # Arquivo Enviado necessário solicitar a Baixa
+                # ao Banco enviando a respectiva Instrução do Movimento
+                self.mov_instruction_code_id = \
+                    self.payment_mode_id.cnab_code_change_maturity_date_id
+                self.message_post(body=_(
+                    'Movement Instruction Code Updated for Request to'
+                    ' Change Maturity Date.'))
+                self.create_payment_line_from_move_line(payorder)
+                self.cnab_state = 'added'
+                count += 1
+
+            # TODO existe possibilidade de uma Ordem de
+            #  Pagto CNAB ser cancelada ?
+            elif payment_line.order_id.state in (
+                'open', 'generated', 'cancel'):
+                raise UserError(_(
+                    'There is a CNAB Payment Order %s in status %s'
+                    ' related to invoice %s created, the CNAB file'
+                    ' should be sent to bank, because only after'
+                    ' that it is possible make new Payment Order with'
+                    ' the instruction to Request Change Maturity Date.'
+                ) % (payment_line.order_id.name,
+                     payment_line.order_id.state, self.invoice_id.number))
+
+        if new_payorder:
+            self.invoice_id.message_post(body=_(
+                '%d payment lines added to the new draft payment '
+                'order %s which has been automatically created.'
+            ) % (count, payorder.name))
+        else:
+            self.invoice_id.message_post(body=_(
+                '%d payment lines added to the existing draft '
+                'payment order %s.'
+            ) % (count, payorder.name))
+
+        self.write({
             'date_maturity': new_date,
             'last_change_reason': reason,
         })
@@ -245,9 +335,9 @@ class AccountMoveLine(models.Model):
             'payment_situation': 'baixa',  # FIXME: Podem ser múltiplos motivos
         })
 
-    def _create_change(self, change_type, reason='', **kwargs):
+    def _create_change(self, change_type, new_date, reason='', **kwargs):
         if change_type == 'change_date_maturity':
-            self._change_date_maturity(reason, **kwargs)
+            self._change_date_maturity(new_date, reason)
         elif change_type == 'change_payment_mode':
             self._change_payment_mode(reason, **kwargs)
         elif change_type == 'baixa':
