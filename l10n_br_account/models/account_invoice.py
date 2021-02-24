@@ -28,7 +28,7 @@ SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id']
 
 class AccountInvoice(models.Model):
     _name = 'account.invoice'
-    _inherit = 'account.invoice'
+    _inherit = [_name, 'l10n_br_fiscal.document.mixin.methods']
     _inherits = {'l10n_br_fiscal.document': 'fiscal_document_id'}
     _order = 'date_invoice DESC, number DESC'
 
