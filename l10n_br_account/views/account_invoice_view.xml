@@ -11,8 +11,13 @@
                 <field name="cnpj_cpf" string="CNPJ/CPF"/>
                 <field name="ie" string="State Tax Number"/>
             </field>
+            <field name="number" position="attributes">
+                <attribute name="filter_domain">['|','|','|', '|', ('fiscal_number','ilike',self), ('number','ilike',self), ('origin','ilike',self), ('reference', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
+                <attribute name="string">Account Number</attribute>
+            </field>
         </field>
     </record>
+
 
     <!-- Customer Invoice views -->
     <record id="invoice_form" model="ir.ui.view">
