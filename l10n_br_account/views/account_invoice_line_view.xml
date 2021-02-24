@@ -1,74 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Customer Invoice views 
-    <record id="l10n_br_account_invoice_form" model="ir.ui.view">
-        <field name="name">l10n_br_account.invoice.form</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_form"/>
+    <record id="invoice_line_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.line.form</field>
+        <field name="model">account.invoice.line</field>
+        <field name="inherit_id" ref="account.view_invoice_line_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//form/sheet/group" position="after">
-                <group name="l10n_br_fiscal">
+            <field name="invoice_line_tax_ids" position="replace">
+                <group name="fiscal_fields" invisible="1">
+                    <field name="fiscal_operation_type" invisible="1" readonly="1"/>
+                    <field name="fiscal_genre_code" invisible="1"/>
+                    <field name="tax_framework" invisible="1"/>
+                    <field name="partner_id" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="tax_icms_or_issqn" invisible="1"/>
                 </group>
-            </xpath>
-            <page name="other_info" position="before">
-                <page string="Vencimentos">
-                    <field colspan="4" nolabel="1" name="move_line_receivable_id">
-                        <tree string="Vencimentos">
-                            <field name="journal_id"/>
-                            <field name="date"/>
-                            <field name="date_maturity"/>
-                            <field name="name"/>
-                            <field name="ref"/>
-                            <field name="partner_id"/>
-                            <field name="move_id"/>
-                            <field name="debit"/>
-                            <field name="credit"/>
-                        </tree>
-                    </field>
-                </page>
-            </page>
-        </field>
-    </record>
-
-    <record id="l10n_br_account_invoice_tree" model="ir.ui.view">
-        <field name="name">l10n_br_account.invoice.tree</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_tree"/>
-        <field name="arch" type="xml">
-            <field name="type" position="after">
-                <field name="fiscal_document_code" invisible="1"/>
-                <button class="oe_inline" type="object"
-                    attrs="{'invisible': [('fiscal_document_code', '=', False)]}"
-                    name="open_fiscal_document" icon="STOCK_REDO" help="Abrir documento fiscal"/>
+                <group attrs="{'invisible': [('document_type_id', '=', False)]}">
+                    <field name="fiscal_operation_id" domain="[('state', '=', 'approved'), ('fiscal_operation_type', '=', fiscal_operation_type)]"/>
+                    <field name="fiscal_operation_line_id"/>
+                    <field name="cfop_id" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
+                    <field name="document_type_id" invisible="1"/>
+                </group>
+            </field>
+            <field name="name" position="after">
+                <notebook attrs="{'invisible': [('document_type_id', '=', False)]}">
+                    <page name="fiscal_taxes" string="Taxes"/>
+                    <page name="others" string="Others">
+                        <group>
+                            <field name="freight_value"/>
+                            <field name="insurance_value"/>
+                            <field name="other_costs_value"/>
+                        </group>
+                    </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info"/>
+                    <page name="accounting" string="Accounting">
+                        <group>
+                            <field name="invoice_line_tax_ids" context="{'type': invoice_type}" domain="[('type_tax_use','!=','none'),('company_id', '=', company_id)]" widget="many2many_tags" options="{'no_create': True}"/>
+                        </group>
+                    </page>
+                </notebook>
             </field>
         </field>
     </record>
-
-    Vendor Invoice views
-    <record id="l10n_br_account_invoice_supplier_form" model="ir.ui.view">
-        <field name="name">l10n_br_account.invoice.supplier.form</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_supplier_form"/>
-        <field name="arch" type="xml">
-            <page name="other_info" position="before">
-                <page string="Vencimentos">
-                    <field colspan="4" nolabel="1" name="move_line_receivable_id">
-                        <tree string="Vencimentos">
-                            <field name="journal_id"/>
-                            <field name="date"/>
-                            <field name="date_maturity"/>
-                            <field name="name"/>
-                            <field name="ref"/>
-                            <field name="partner_id"/>
-                            <field name="move_id"/>
-                            <field name="debit"/>
-                            <field name="credit"/>
-                        </tree>
-                    </field>
-                </page>
-            </page>
-        </field>
-    </record> -->
 
 </odoo>
