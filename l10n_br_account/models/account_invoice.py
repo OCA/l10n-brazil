@@ -322,3 +322,9 @@ class AccountInvoice(models.Model):
                 self.env.ref('l10n_br_fiscal.fiscal_document_dummy')):
             inv.fiscal_document_id.action_button_confirm()
         return super().action_move_create()
+
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        super()._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
+            self.journal_id = self.fiscal_operation_id.journal_id
