@@ -2,6 +2,8 @@
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from lxml import etree
+
 from odoo import api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_OUT
@@ -110,6 +112,37 @@ class AccountInvoice(models.Model):
         if default:  # in case you want to use new rather than write later
             return {'default_%s' % (k,): vals[k] for k in vals.keys()}
         return vals
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type="form",
+                        toolbar=False, submenu=False):
+
+        order_view = super().fields_view_get(
+            view_id, view_type, toolbar, submenu
+        )
+
+        if view_type == 'form':
+            view = self.env['ir.ui.view']
+
+            sub_form_view = self.env['account.invoice.line'].fields_view_get(
+                view_id=self.env.ref('l10n_br_account.invoice_line_form').id,
+                view_type='form')['arch']
+
+            sub_form_node = etree.fromstring(
+                self.env['account.invoice.line'].fiscal_form_view(
+                    sub_form_view))
+
+            sub_arch, sub_fields = view.postprocess_and_fields(
+                'account.invoice.line', sub_form_node, None)
+
+            order_view['fields']['invoice_line_ids']['views']['form'] = {}
+
+            order_view['fields']['invoice_line_ids']['views']['form'][
+                'fields'] = sub_fields
+            order_view['fields']['invoice_line_ids']['views']['form'][
+                'arch'] = sub_arch
+
+        return order_view
 
     @api.model
     def default_get(self, fields_list):
