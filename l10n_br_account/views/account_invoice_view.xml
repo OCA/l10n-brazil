@@ -38,6 +38,11 @@
                     <field name="document_serie" invisible="1"/>
                 </group>
             </xpath>
+            <notebook position="inside">
+                <page string="Receivable" name="financial_move_line_ids">
+                    <field name="financial_move_line_ids"/>
+                </page>
+            </notebook>
         </field>
     </record>
 
@@ -79,6 +84,11 @@
                     <field name="document_serie" invisible="1"/>
                 </group>
             </xpath>
+            <notebook position="inside">
+                <page string="Payable" name="financial_move_line_ids">
+                    <field name="financial_move_line_ids"/>
+                </page>
+            </notebook>
         </field>
     </record>
 

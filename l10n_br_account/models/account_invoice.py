@@ -56,6 +56,13 @@ class AccountInvoice(models.Model):
         related='partner_id.inscr_est',
     )
 
+    financial_move_line_ids = fields.Many2many(
+        comodel_name='account.move.line',
+        string='Financial Move Lines',
+        store=True,
+        compute='_compute_financial',
+    )
+
     # this default should be overwritten to False in a module pretending to
     # create fiscal documents from the invoices. But this default here
     # allows to install the l10n_br_account module without creating issues
@@ -68,6 +75,15 @@ class AccountInvoice(models.Model):
         default=lambda self: self.env.ref(
             'l10n_br_fiscal.fiscal_document_dummy'),
     )
+
+    @api.multi
+    @api.depends('move_id.line_ids')
+    def _compute_financial(self):
+        for invoice in self:
+            lines = invoice.move_id.line_ids.filtered(
+                lambda l: l.account_id == invoice.account_id and
+                l.account_id.internal_type in ('receivable', 'payable'))
+            invoice.financial_move_line_ids = lines.sorted()
 
     @api.model
     def _shadowed_fields(self):
