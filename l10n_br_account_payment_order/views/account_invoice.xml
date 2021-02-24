@@ -11,11 +11,6 @@
             <button name="create_account_payment_line" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
-            <notebook position="inside">
-                <page string="Vencimentos" name="vencimentos">
-                    <field name="move_line_receivable_ids"/>
-                </page>
-            </notebook>
         </field>
     </record>
 
