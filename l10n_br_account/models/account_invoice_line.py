@@ -231,3 +231,12 @@ class AccountInvoiceLine(models.Model):
                 shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
                 line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return result
+
+    @api.onchange('fiscal_tax_ids')
+    def _onchange_fiscal_tax_ids(self):
+        super()._onchange_fiscal_tax_ids()
+        user_type = 'sale'
+        if self.invoice_id.type in ('in_invoice', 'in_refund'):
+            user_type = 'purchase'
+        self.invoice_line_tax_ids |= self.fiscal_tax_ids.account_taxes(
+            user_type=user_type)
