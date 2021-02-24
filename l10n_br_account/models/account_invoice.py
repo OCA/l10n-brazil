@@ -76,6 +76,7 @@ class AccountInvoice(models.Model):
     fiscal_number = fields.Char(
         string='Fiscal Number',
         related='fiscal_document_id.number',
+        store=True,
     )
 
     # this default should be overwritten to False in a module pretending to
