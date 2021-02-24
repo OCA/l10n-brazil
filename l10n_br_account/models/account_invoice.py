@@ -328,3 +328,8 @@ class AccountInvoice(models.Model):
         super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
             self.journal_id = self.fiscal_operation_id.journal_id
+
+    @api.multi
+    def open_fiscal_document(self):
+        # TODO
+        pass
