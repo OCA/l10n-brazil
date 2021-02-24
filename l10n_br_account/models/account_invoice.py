@@ -71,9 +71,8 @@ class AccountInvoice(models.Model):
         comodel_name='l10n_br_fiscal.document',
         string='Fiscal Document',
         required=True,
+        copy=False,
         ondelete='cascade',
-        default=lambda self: self.env.ref(
-            'l10n_br_fiscal.fiscal_document_dummy'),
     )
 
     @api.multi
@@ -102,6 +101,8 @@ class AccountInvoice(models.Model):
     @api.model
     def create(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        if not values.get('document_type_id'):
+            values.update({'fiscal_document_id': dummy_doc.id})
         invoice = super().create(values)
         if invoice.fiscal_document_id != dummy_doc:
             shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
