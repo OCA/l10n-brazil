@@ -118,6 +118,14 @@ class AccountInvoice(models.Model):
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return result
 
+    @api.multi
+    def unlink(self):
+        """Allows delete a draft or cancelled invoices"""
+        self.filtered(lambda i: i.state in ('draft', 'cancel')).write(
+            {'move_name': False}
+        )
+        return super().unlink()
+
     @api.one
     @api.depends(
         'invoice_line_ids.price_total',
