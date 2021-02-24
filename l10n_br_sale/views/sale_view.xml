@@ -57,7 +57,18 @@
                 <field name="fiscal_tax_ids" widget="many2many_tags" options="{'no_create': True}"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
-                <field name="price_total" invisible="1"/>
+                <field name="cofins_base" invisible="1"/>
+                <field name="cofins_value" invisible="1"/>
+                <field name="icms_base" invisible="1"/>
+                <field name="icms_value" invisible="1"/>
+                <field name="icmsst_base" invisible="1"/>
+                <field name="icmsst_value" invisible="1"/>
+                <field name="ipi_base" invisible="1"/>
+                <field name="ipi_value" invisible="1"/>
+                <field name="issqn_base" invisible="1"/>
+                <field name="issqn_value" invisible="1"/>
+                <field name="pis_base" invisible="1"/>
+                <field name="pis_value" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='order_line']/form" position="inside">
                 <group name="fiscal_fields" invisible="1">
