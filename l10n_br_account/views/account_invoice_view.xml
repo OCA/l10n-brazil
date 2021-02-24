@@ -37,6 +37,24 @@
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="open_fiscal_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('document_type_id', '=', False)]}">
+                    <span>Fiscal Document</span>
+                </button>
+            </div>
+            <xpath expr="//form/sheet/h1[1]" position="attributes">
+                <attribute name="attrs">{'invisible': [('document_type_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/h1[1]" position="after">
+                <h1 class="mt0">
+                    <div attrs="{'invisible': [('document_type_id', '=', False)]}">
+                        <span class="oe_inline">
+                            <field readonly="1" name="document_type_id"/>:
+                            <field name="fiscal_number" readonly="1" attrs="{'invisible': [('state','in',('draft',))]}"/>
+                        </span>
+                    </div>
+                </h1>
+            </xpath>
             <xpath expr="//form/sheet/group" position="after">
                 <group name="l10n_br_fiscal">
                     <field name="id" invisible="1"/>
@@ -44,15 +62,10 @@
                     <field name="fiscal_operation_type" invisible="1"/>
                     <field name="document_section" invisible="1"/>
                     <field name="number" invisible="1"/>
-                    <field name="fiscal_operation_id" invisible="1"/>
                     <field name="edoc_purpose" invisible="1"/>
                     <field name="ind_final" invisible="1"/>
                     <field name="ind_pres" invisible="1"/>
-                    <field name="issuer" invisible="1"/>
-                    <field name="document_type_id" invisible="1"/>
-                    <field name="key" invisible="1"/>
-                    <field name="document_serie_id" invisible="1"/>
-                    <field name="document_serie" invisible="1"/>
+                    <field name="fiscal_document_id" required="0" invisible="1"/>
                 </group>
             </xpath>
             <notebook position="inside">
@@ -76,13 +89,21 @@
                     name="open_fiscal_document" icon="STOCK_REDO" help="Abrir documento fiscal"/>
             </field>
         </field>
-    </record> -->
+    </record>
 
+    <!-- Vendor Bill -->
     <record id="invoice_supplier_form" model="ir.ui.view">
         <field name="name">l10n_br_account.invoice.supplier.form</field>
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_supplier_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//form/sheet/div[1]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="open_fiscal_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('document_type_id', '=', False)]}">
+                        <span>Fiscal Document</span>
+                    </button>
+                </div>
+            </xpath>
             <xpath expr="//form/sheet/group" position="after">
                 <group name="l10n_br_fiscal">
                     <field name="id" invisible="1"/>
@@ -90,15 +111,10 @@
                     <field name="fiscal_operation_type" invisible="1"/>
                     <field name="document_section" invisible="1"/>
                     <field name="number" invisible="1"/>
-                    <field name="fiscal_operation_id"/>
                     <field name="edoc_purpose" invisible="1"/>
                     <field name="ind_final" invisible="1"/>
                     <field name="ind_pres" invisible="1"/>
-                    <field name="issuer" invisible="1"/>
-                    <field name="document_type_id" invisible="1"/>
-                    <field name="key" invisible="1"/>
-                    <field name="document_serie_id" invisible="1"/>
-                    <field name="document_serie" invisible="1"/>
+                    <field name="fiscal_document_id" required="0" invisible="1"/>
                 </group>
             </xpath>
             <notebook position="inside">
@@ -124,18 +140,14 @@
                     <field name="tax_framework" invisible="1"/>
                 </group>
             </field>
-            <field name="name" position="after">
-                <notebook invisible="1">
-                    <page name="fiscal_taxes" string="Taxes"/>
-                    <page name="outros" string="Outros Custos">
-                        <group>
-                            <field name="invoice_line_tax_ids" context="{'type': invoice_type}" domain="[('type_tax_use','!=','none'),('company_id', '=', company_id)]" widget="many2many_tags" options="{'no_create': True}"/>
-                            <field name="insurance_value"/>
-                            <field name="other_costs_value"/>
-                            <field name="freight_value"/>
-                        </group>
-                    </page>
-                </notebook>
+            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+                <attribute name="editable"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
+            </xpath>
+            <field name="amount_tax" position="after">
+                <field string="(-) Tax Withholding" name="amount_tax_withholding"/>
             </field>
         </field>
     </record>
