@@ -289,3 +289,28 @@ class SaleOrder(models.Model):
                             inv_line.invoice_id = invoice.id
 
         return inv_ids
+
+    @api.multi
+    def action_view_invoice(self):
+        action = super().action_view_invoice()
+        invoices = self.mapped('invoice_ids')
+        if any(invoices.filtered(lambda i: i.document_type_id)):
+            action = self.env.ref(
+                'l10n_br_account.fiscal_invoice_action').read()[0]
+            if len(invoices) > 1:
+                action['domain'] = [('id', 'in', invoices.ids)]
+            elif len(invoices) == 1:
+                form_view = [
+                    (self.env.ref('l10n_br_account.fiscal_invoice_form').id,
+                    'form')
+                ]
+                if 'views' in action:
+                    action['views'] = form_view + [
+                        (state,view) for state,view in action['views']
+                        if view != 'form']
+                else:
+                    action['views'] = form_view
+                action['res_id'] = invoices.ids[0]
+            else:
+                action = {'type': 'ir.actions.act_window_close'}
+        return action
