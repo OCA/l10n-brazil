@@ -177,7 +177,7 @@ class SaleOrder(models.Model):
             if order.order_line and all(
                 line.discount == order.order_line[0].discount
                 for line in order.order_line
-            ):
+            ) and order.order_line[0].discount != order.discount_rate:
                 order.discount_rate = order.order_line[0].discount
 
     @api.model
