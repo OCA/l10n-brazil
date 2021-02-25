@@ -8,7 +8,12 @@ class ResCompany(models.Model):
 
     _inherit = 'res.company'
 
-    contract_fiscal_operation_id = fields.Many2one(
+    contract_sale_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        string='Default Fiscal Operation',
+        string='Default Contract Sale Fiscal Operation',
+        required=False)
+
+    contract_purchase_fiscal_operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
+        string='Default Contract Purchase Fiscal Operation',
         required=False)
