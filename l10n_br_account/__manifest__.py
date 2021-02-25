@@ -25,9 +25,16 @@
         'views/account_invoice_view.xml',
         'views/account_invoice_line_view.xml',
         'views/fiscal_invoice_view.xml',
+        'views/fiscal_invoice_line_view.xml',
 
         # Wizards
         'wizards/account_invoice_refund_view.xml',
+
+        # Actions
+        "views/l10n_br_account_action.xml",
+
+        # Menus
+        "views/l10n_br_account_menu.xml",
     ],
     "demo": [
         "demo/res_users_demo.xml",
