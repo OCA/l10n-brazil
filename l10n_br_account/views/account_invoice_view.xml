@@ -39,7 +39,7 @@
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
                 <button name="open_fiscal_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('document_type_id', '=', False)]}">
-                    <span>Fiscal Document</span>
+                    <span>Fiscal Details</span>
                 </button>
             </div>
             <xpath expr="//form/sheet/h1[1]" position="attributes">
@@ -68,26 +68,29 @@
                     <field name="fiscal_document_id" required="0" invisible="1"/>
                 </group>
             </xpath>
+            <field name="cash_rounding_id" position="after">
+                <field name="document_type_id" attrs="{'invisible': [('fiscal_document_id', '=', %(l10n_br_fiscal.fiscal_document_dummy)d)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="issuer" attrs="{'invisible': [('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="document_serie_id" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="document_serie" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="fiscal_number" readonly="0" force_save="1" attrs="{'invisible': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="key" attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"/>
+            </field>
+            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+                <attribute name="editable"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
+            </xpath>
+            <field name="amount_tax" position="after">
+                <field string="(-) Tax Withholding" name="amount_tax_withholding"/>
+            </field>
             <notebook position="inside">
                 <page string="Receivable" name="financial_move_line_ids">
                     <field name="financial_move_line_ids"/>
                 </page>
             </notebook>
-        </field>
-    </record>
-
-    <!--
-    <record id="l10n_br_account_invoice_tree" model="ir.ui.view">
-        <field name="name">l10n_br_account.invoice.tree</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_tree"/>
-        <field name="arch" type="xml">
-            <field name="type" position="after">
-                <field name="fiscal_document_code" invisible="1"/>
-                <button class="oe_inline" type="object"
-                    attrs="{'invisible': [('fiscal_document_code', '=', False)]}"
-                    name="open_fiscal_document" icon="STOCK_REDO" help="Abrir documento fiscal"/>
-            </field>
         </field>
     </record>
 
@@ -99,8 +102,8 @@
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/div[1]" position="before">
                 <div class="oe_button_box" name="button_box">
-                    <button name="open_fiscal_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('document_type_id', '=', False)]}">
-                        <span>Fiscal Document</span>
+                    <button name="open_fiscal_document" type="object" groups="l10n_br_fiscal.group_user" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('document_type_id', '=', False)]}">
+                        <span>Fiscal Details</span>
                     </button>
                 </div>
             </xpath>
@@ -117,28 +120,14 @@
                     <field name="fiscal_document_id" required="0" invisible="1"/>
                 </group>
             </xpath>
-            <notebook position="inside">
-                <page string="Payable" name="financial_move_line_ids">
-                    <field name="financial_move_line_ids"/>
-                </page>
-            </notebook>
-        </field>
-    </record>
-
-    <record id="invoice_line_form" model="ir.ui.view">
-        <field name="name">l10n_br_account.invoice.line.form</field>
-        <field name="model">account.invoice.line</field>
-        <field name="inherit_id" ref="account.view_invoice_line_form"/>
-        <field name="arch" type="xml">
-            <field name="invoice_line_tax_ids" position="replace">
-                <field name="fiscal_operation_id" required="1"/>
-                <field name="fiscal_operation_line_id" required="1"/>
-                <field name="cfop_id" invisible="1"/>
-                <group name="fiscal_fields" invisible="1">
-                    <field name="fiscal_operation_type" invisible="1" readonly="1"/>
-                    <field name="fiscal_genre_code" invisible="1"/>
-                    <field name="tax_framework" invisible="1"/>
-                </group>
+            <field name="vendor_bill_id" position="after">
+                <field name="document_type_id" attrs="{'invisible': [('fiscal_document_id', '=', %(l10n_br_fiscal.fiscal_document_dummy)d)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="issuer" attrs="{'invisible': [('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="document_serie_id" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="document_serie" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="fiscal_number" readonly="0" force_save="1" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="key" attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"/>
             </field>
             <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
                 <attribute name="editable"/>
@@ -149,6 +138,11 @@
             <field name="amount_tax" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding"/>
             </field>
+            <notebook position="inside">
+                <page string="Payable" name="financial_move_line_ids">
+                    <field name="financial_move_line_ids"/>
+                </page>
+            </notebook>
         </field>
     </record>
 
