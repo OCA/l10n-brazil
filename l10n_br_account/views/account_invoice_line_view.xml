@@ -6,23 +6,31 @@
         <field name="model">account.invoice.line</field>
         <field name="inherit_id" ref="account.view_invoice_line_form"/>
         <field name="arch" type="xml">
-            <field name="invoice_line_tax_ids" position="replace">
-                <group name="fiscal_fields" invisible="1">
-                    <field name="fiscal_operation_type" invisible="1" readonly="1"/>
-                    <field name="fiscal_genre_code" invisible="1"/>
-                    <field name="tax_framework" invisible="1"/>
-                    <field name="partner_id" invisible="1"/>
-                    <field name="company_id" invisible="1"/>
-                    <field name="tax_icms_or_issqn" invisible="1"/>
-                </group>
-                <group attrs="{'invisible': [('document_type_id', '=', False)]}">
-                    <field name="fiscal_operation_id" domain="[('state', '=', 'approved'), ('fiscal_operation_type', '=', fiscal_operation_type)]"/>
-                    <field name="fiscal_operation_line_id"/>
-                    <field name="cfop_id" attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"/>
-                    <field name="document_type_id" invisible="1"/>
-                </group>
+            <field name="invoice_line_tax_ids" position="replace"/>
+            <xpath expr="//form/group/group/field[@name='company_id']" position="replace"/>
+            <field name="price_unit" position="after">
+                <label for="fiscal_quantity" string="Fiscal Quantity"/>
+                <div>
+                    <field context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}" name="fiscal_quantity" class="oe_inline"/>
+                    <field name="uot_id" force_save="1" groups="uom.group_uom" class="oe_inline oe_no_button" attrs="{'required': [('display_type', '=', False)],}"/>
+                </div>
+                <field name="fiscal_price"/>
+            </field>
+            <field name="analytic_tag_ids" position="after">
+                <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)]}" domain="[('state', '=', 'approved'), ('fiscal_operation_type', '=', fiscal_operation_type)]"/>
+                <field name="fiscal_operation_line_id" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
+                <field name="cfop_id" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"/>
+                <field name="document_type_id" invisible="1"/>
             </field>
             <field name="name" position="after">
+              <group name="fiscal_fields" invisible="1">
+                  <field name="fiscal_operation_type" invisible="1" readonly="1"/>
+                  <field name="fiscal_genre_code" invisible="1"/>
+                  <field name="tax_framework" invisible="1"/>
+                  <field name="partner_id" invisible="1"/>
+                  <field name="company_id" invisible="1"/>
+                  <field name="tax_icms_or_issqn" invisible="1"/>
+              </group>
                 <notebook attrs="{'invisible': [('document_type_id', '=', False)]}">
                     <page name="fiscal_taxes" string="Taxes"/>
                     <page name="others" string="Others">
