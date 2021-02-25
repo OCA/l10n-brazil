@@ -6,7 +6,13 @@ from lxml import etree
 
 from odoo import api, fields, models
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import FISCAL_OUT
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    FISCAL_OUT,
+    DOCUMENT_ISSUER_COMPANY,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_A_ENVIAR,
+    TAX_FRAMEWORK,
+)
 
 INVOICE_TO_OPERATION = {
     'out_invoice': 'out',
@@ -38,7 +44,10 @@ SHADOWED_FIELDS = [
 
 class AccountInvoice(models.Model):
     _name = 'account.invoice'
-    _inherit = [_name, 'l10n_br_fiscal.document.mixin.methods']
+    _inherit = [
+        _name,
+        'l10n_br_fiscal.document.mixin.methods',
+        'l10n_br_fiscal.document.invoice.mixin']
     _inherits = {'l10n_br_fiscal.document': 'fiscal_document_id'}
     _order = 'date_invoice DESC, number DESC'
 
@@ -125,9 +134,16 @@ class AccountInvoice(models.Model):
         if view_type == 'form':
             view = self.env['ir.ui.view']
 
+            if (view_id == self.env.ref(
+                    'l10n_br_account.fiscal_invoice_form').id):
+                invoice_line_form_id = self.env.ref(
+                    'l10n_br_account.fiscal_invoice_line_form').id
+            else:
+                invoice_line_form_id = self.env.ref(
+                    'l10n_br_account.invoice_line_form').id
+
             sub_form_view = self.env['account.invoice.line'].fields_view_get(
-                view_id=self.env.ref('l10n_br_account.invoice_line_form').id,
-                view_type='form')['arch']
+                view_id=invoice_line_form_id, view_type='form')['arch']
 
             sub_form_node = etree.fromstring(
                 self.env['account.invoice.line'].fiscal_form_view(
@@ -318,9 +334,10 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_move_create(self):
-        for inv in self.filtred(lambda i: i.fiscal._document_id !=
+        for inv in self.filtered(lambda i: i.fiscal_document_id !=
                 self.env.ref('l10n_br_fiscal.fiscal_document_dummy')):
-            inv.fiscal_document_id.action_button_confirm()
+            inv.fiscal_document_id.action_document_confirm()
+            inv.fiscal_document_id.action_document_send()
         return super().action_move_create()
 
     @api.onchange('fiscal_operation_id')
@@ -330,6 +347,38 @@ class AccountInvoice(models.Model):
             self.journal_id = self.fiscal_operation_id.journal_id
 
     @api.multi
+    def action_cancel(self):
+        super().action_cancel()
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        fiscal_documents = self.filtered(
+            lambda i: i.fiscal_document_id != dummy_doc).mapped(
+                'fiscal_document_id')
+
+        fiscal_document_to_cancel = fiscal_documents.filtered(
+            lambda d: d.state == SITUACAO_EDOC_AUTORIZADA)
+
+        fiscal_document_to_draft = fiscal_documents.filtered(
+            lambda d: d.state == SITUACAO_EDOC_A_ENVIAR)
+
+        if fiscal_document_to_draft:
+            fiscal_document_to_draft.action_document_back2draft()
+
+        if fiscal_document_to_cancel:
+            return fiscal_document_to_cancel.with_context(
+                active_model=fiscal_document_to_cancel._name,
+                active_id=fiscal_document_to_cancel.id).action_document_cancel()
+
+    @api.multi
     def open_fiscal_document(self):
-        # TODO
-        pass
+        action = self.env.ref(
+            'l10n_br_account.fiscal_invoice_action').read()[0]
+        form_view = [
+            (self.env.ref('l10n_br_account.fiscal_invoice_form').id, 'form')]
+        if 'views' in action:
+            action['views'] = form_view + [
+                (state,view) for state,view in action['views']
+                if view != 'form']
+        else:
+            action['views'] = form_view
+        action['res_id'] = self.id
+        return action
