@@ -1,7 +1,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, models
+from odoo import _, api, models, fields
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
@@ -11,6 +11,12 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 class FiscalDocument(models.Model):
     _inherit = 'l10n_br_fiscal.document'
+
+    invoice_ids = fields.One2many(
+        comodel_name='account.invoice',
+        inverse_name='fiscal_document_id',
+        string="Invoices",
+    )
 
     @api.multi
     def unlink(self):
