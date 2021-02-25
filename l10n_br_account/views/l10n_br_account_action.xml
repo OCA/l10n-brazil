@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- DEFINE correct context -->
+    <record id="fiscal_invoice_action" model="ir.actions.act_window">
+        <field name="name">Fiscal Document</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field eval="False" name="view_id"/>
+        <field name="domain">[('type','=','out_invoice')]</field>
+        <field name="context">{'type':'out_invoice', 'journal_type': 'sale'}</field>
+        <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a fiscal document
+          </p><p>
+            Create invoices, register payments and keep track of the discussions with your customers.
+          </p>
+        </field>
+    </record>
+
+    <record id="fiscal_invoice_action_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fiscal_invoice_tree"/>
+        <field name="act_window_id" ref="fiscal_invoice_action"/>
+    </record>
+
+    <record id="fiscal_invoice_action_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fiscal_invoice_form"/>
+        <field name="act_window_id" ref="fiscal_invoice_action"/>
+    </record>
+
+</odoo>
