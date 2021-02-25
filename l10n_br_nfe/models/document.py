@@ -55,7 +55,7 @@ def filter_processador_edoc_nfe(record):
 
 class NFe(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document'
-    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
+    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe", "nfe.40.infadic"]
     _stacked = 'nfe.40.infnfe'
     _stack_skip = ('nfe40_veicTransp')
     _field_prefix = 'nfe40_'
@@ -69,7 +69,7 @@ class NFe(spec_models.StackedModel):
     _nfe_search_keys = ['nfe40_Id']
 
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = ('infnfe.total',)
+    _force_stack_paths = ('infnfe.total', 'infnfe.infAdic')
 
     def _compute_emit(self):
         for doc in self:  # TODO if out
@@ -546,6 +546,8 @@ class NFe(spec_models.StackedModel):
         self.nfe40_cMunFG = '%s%s' % (
             self.company_id.partner_id.state_id.ibge_code,
             self.company_id.partner_id.city_id.ibge_code)
+        self.nfe40_infAdFisco = self.fiscal_additional_data
+        self.nfe40_infCpl = self.customer_additional_data
         return super(NFe, self)._export_fields(
             xsd_fields, class_obj, export_dict)
 
