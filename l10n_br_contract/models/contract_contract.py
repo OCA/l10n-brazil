@@ -5,7 +5,6 @@ from odoo import api, fields, models, _
 
 
 class ContractContract(models.Model):
-
     _name = 'contract.contract'
     _inherit = [_name, 'l10n_br_fiscal.document.mixin']
 
@@ -14,12 +13,30 @@ class ContractContract(models.Model):
         domain = [('state', '=', 'approved')]
         return domain
 
+    @api.model
+    def default_get(self, fields_list):
+        vals = super(ContractContract, self).default_get(fields_list)
+        contract_type = vals.get('contract_type')
+        if contract_type:
+            company_id = vals.get('company_id')
+            if company_id:
+                company_id = self.env['res.company'].browse(company_id)
+            else:
+                company_id = self.env.user.company_id
+            if contract_type == 'sale':
+                fiscal_operation_id = company_id.contract_sale_fiscal_operation_id
+            else:
+                fiscal_operation_id = company_id.contract_purchase_fiscal_operation_id
+            vals.update({
+                'fiscal_operation_id': fiscal_operation_id.id,
+            })
+        return vals
+
     document_count = fields.Integer(compute="_compute_document_count")
 
     fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Fiscal Operation',
-        default=lambda self: self.env.user.company_id,
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
@@ -69,8 +86,8 @@ class ContractContract(models.Model):
             invoice.fiscal_document_id._onchange_document_serie_id()
             invoice.fiscal_document_id._onchange_company_id()
 
-            if hasattr(invoice.fiscal_document_id, 'rps_number') and \
-                    invoice.fiscal_document_id.number:
+            if (hasattr(invoice.fiscal_document_id, 'rps_number') and
+                    invoice.fiscal_document_id.number):
                 invoice.fiscal_document_id.rps_number = \
                     invoice.fiscal_document_id.number
                 invoice.fiscal_document_id.number = False
@@ -109,7 +126,8 @@ class ContractContract(models.Model):
 
             # Identify how many Document Types exist
             for inv_line in invoice_id.get('invoice_line_ids'):
-
+                if type(inv_line[2]) == list:
+                    continue
                 operation_line_id = \
                     self.env['l10n_br_fiscal.operation.line'].browse(
                         inv_line[2].get('fiscal_operation_line_id'))
@@ -149,7 +167,6 @@ class ContractContract(models.Model):
                     'Contract manually invoiced: '
                     '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
                     '</a>'
-                )
-                % (invoice._name, invoice.id)
+                ) % (invoice._name, invoice.id)
             )
         return invoices
