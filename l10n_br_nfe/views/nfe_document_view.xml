@@ -57,34 +57,6 @@
           <field name="state_fiscal" position="after">
               <field name="nfe40_infAdic"/>
           </field>
-          <field name="company_inscr_est" position="after">
-              <field name="company_street"/>
-              <field name="company_number"/>
-              <field name="company_street2"/>
-              <field name="company_district"/>
-          </field>
-          <field name="company_tax_framework" position="after">
-              <field name="company_country_id"/>
-              <field name="company_state_id"/>
-              <field name="company_city_id"/>
-              <field name="company_zip"/>
-              <field name="company_phone"/>
-          </field>
-          <field name="partner_inscr_est" position="after">
-              <field name="partner_ind_ie_dest"/>
-              <field name="partner_street"/>
-              <field name="partner_number"/>
-              <field name="partner_street2"/>
-              <field name="partner_district"/>
-          </field>
-          <field name="partner_tax_framework" position="after">
-              <field name="partner_is_company"/>
-              <field name="partner_country_id"/>
-              <field name="partner_state_id"/>
-              <field name="partner_city_id"/>
-              <field name="partner_zip"/>
-              <field name="partner_phone"/>
-          </field>
       </field>
   </record>
 
