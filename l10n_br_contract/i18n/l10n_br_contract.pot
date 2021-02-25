@@ -25,6 +25,7 @@ msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model,name:l10n_br_contract.model_contract_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.l10n_br_contract_res_company_form
 msgid "Contract"
 msgstr ""
 
@@ -35,14 +36,19 @@ msgid "Contract Line"
 msgstr ""
 
 #. module: l10n_br_contract
-#: code:addons/l10n_br_contract/models/contract_contract.py:148
+#: code:addons/l10n_br_contract/models/contract_contract.py:166
 #, python-format
 msgid "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id=\"%s\">Invoice</a>"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_fiscal_operation_id
-msgid "Default Fiscal Operation"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_purchase_fiscal_operation_id
+msgid "Default Contract Purchase Fiscal Operation"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_sale_fiscal_operation_id
+msgid "Default Contract Sale Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_contract
