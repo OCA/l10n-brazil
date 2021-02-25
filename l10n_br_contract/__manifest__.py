@@ -13,11 +13,14 @@
         'l10n_br_account', 'contract'
     ],
     'data': [
+        'data/company.xml',
+
         'views/res_company.xml',
         'views/contract_view.xml',
         'views/contract_line.xml',
     ],
     'demo': [
+        'demo/company.xml',
         'demo/contract_demo.xml',
     ],
 }
