@@ -7,6 +7,7 @@ from . import data_ncm_nbs_abstract
 from . import document_workflow
 from . import document_fiscal_mixin_methods
 from . import document_fiscal_mixin
+from . import document_fiscal_invoice_mixin
 from . import document_fiscal_line_mixin_methods
 from . import document_fiscal_line_mixin
 from . import document_event_abstract
