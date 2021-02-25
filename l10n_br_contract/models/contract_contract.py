@@ -13,12 +13,30 @@ class ContractContract(models.Model):
         domain = [('state', '=', 'approved')]
         return domain
 
+    @api.model
+    def default_get(self, fields_list):
+        vals = super(ContractContract, self).default_get(fields_list)
+        contract_type = vals.get('contract_type')
+        if contract_type:
+            company_id = vals.get('company_id')
+            if company_id:
+                company_id = self.env['res.company'].browse(company_id)
+            else:
+                company_id = self.env.user.company_id
+            if contract_type == 'sale':
+                fiscal_operation_id = company_id.contract_sale_fiscal_operation_id
+            else:
+                fiscal_operation_id = company_id.contract_purchase_fiscal_operation_id
+            vals.update({
+                'fiscal_operation_id': fiscal_operation_id.id,
+            })
+        return vals
+
     document_count = fields.Integer(compute="_compute_document_count")
 
     fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
         string='Fiscal Operation',
-        default=lambda self: self.env.user.company_id.contract_fiscal_operation_id,
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
