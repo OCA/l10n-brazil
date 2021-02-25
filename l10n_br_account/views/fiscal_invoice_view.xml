@@ -1,276 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record id="fiscal_invoice_search" model="ir.ui.view">
+        <field name="name">l10n_br_account.fiscal.invoice.search</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_search"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='number']" position="replace">
+              <field name="fiscal_number" string="Number"/>
+              <field name="number" string="Account Number" invisible="1"/>
+              <field name="legal_name" string="Legal Name"/>
+              <field name="cnpj_cpf" string="CNPJ/CPF"/>
+              <field name="ie" string="State Tax Number"/>
+          </xpath>
+        </field>
+    </record>
+
+    <record id="fiscal_invoice_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.fiscal.invoice.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_tree"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='number']" position="replace">
+                <field name="fiscal_number" string="Number"/>
+                <field name="number" string="Account Number" invisible="1"/>
+                <field name="commercial_partner_id" invisible="1"/>
+                <field name="reference" invisible="1"/>
+                <field name="name" invisible="1"/>
+                <field name="journal_id" invisible="1"/>
+                <field name="type" invisible="context.get('type',True)"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="company_currency_id" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
     <record id="fiscal_invoice_form" model="ir.ui.view">
       <field name="name">l10n_br_account.fiscal.invoice.form</field>
       <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
+      <field name="mode">primary</field>
       <field name="arch" type="xml">
-        <form string="Fiscal Document">
-          <field name="id" invisible="1"/>
-          <field name="currency_id" invisible="1"/>
-          <field name="document_electronic" invisible="1"/>
-          <field name="fiscal_operation_type" invisible="1"/>
-          <field name="document_section" invisible="1"/>
-          <header>
-              <button name="action_document_confirm" type="object" string="Confirmar"   groups="l10n_br_fiscal.group_user"    states="em_digitacao"     class="btn-primary"/>
-              <button name="action_document_send"    type="object" string="Enviar"      groups="l10n_br_fiscal.group_user"    states="a_enviar,rejeitada"         class="btn-primary"/>
-              <button name="action_document_back2draft"    type="object" string="Voltar p/ Em Digitação"      groups="l10n_br_fiscal.group_user"    states="a_enviar,rejeitada" class="btn-secondary"/>
-              <button name="view_pdf" type="object" string="Visualizar PDF" groups="l10n_br_fiscal.group_user" states="a_enviar,enviada,autorizada,rejeitada,cancelada" class="btn-primary"/>
-              <button name="view_xml" type="object" string="Visualizar XML" groups="l10n_br_fiscal.group_user" states="a_enviar,enviada,autorizada,rejeitada,cancelada" class="btn-primary"/>
-              <button name="action_document_cancel"  type="object" string="Cancelar"    groups="l10n_br_fiscal.group_user"    states="em_digitacao,a_enviar,enviada,rejeitada,autorizada"/>
-              <button name="action_document_invalidate"  type="object" string="Invalidar"    groups="l10n_br_fiscal.group_user"/>
-              <button name="action_document_correction" type="object" string="Carta de correção" groups="l10n_br_fiscal.group_user" states="autorizada"/>
-              <button name="action_create_return" type="object" string="Devolver" groups="l10n_br_fiscal.group_user" states="autorizada"/>
-              <button name="action_send_email" type="object" string="Send Email" attrs="{'invisible': [('state', 'not in', ('autorizada', 'cancelada', 'denegada'))]}"/>
-    <!--                <button name="action_edoc_check" type="object"-->
-    <!--                        string="Consultar no sefaz"-->
-    <!--                        groups="base.group_no_one"/>-->
-    <!--            -->
-              <field name="state" widget="statusbar" statusbar_visible="em_digitacao,autorizada"/>
-          </header>
-          <sheet string="Fiscal Document">
-            <div class="oe_title">
-              <h1>
-                  <field name="document_type_id" readonly="1"/>:
-                  <field name="number" readonly="1"/>
-              </h1>
-            </div>
-            <group name="l10n_br_fiscal" colspan="4">
-              <field name="fiscal_operation_id"/> <!-- USE MIXIN VIEW -->
-              <field name="edoc_purpose"/>
-              <field name="ind_final"/>
-              <field name="ind_pres"/>
-            </group>
+        <xpath expr="//header" position="inside">
+            <field name="fiscal_document_id" required="0" invisible="1"/>
+            <button name="action_invoice_open" type="object" states="draft" string="Validate" class="oe_highlight o_invoice_validate" groups="account.group_account_invoice"/>
+            <button name="action_document_back2draft" type="object" string="Voltar p/ Em Digitação" groups="l10n_br_fiscal.group_user" states="a_enviar,rejeitada" class="btn-secondary"/>
+        </xpath>
+        <xpath expr="//h1/field[@name='number']" position="replace">
+            <field name="fiscal_number" readonly="1"/>
+        </xpath>
+        <xpath expr="//group/field[@name='number']" position="replace">
+            <field name="fiscal_number" force_save="1" attrs="{'invisible': [('issuer', '=', 'company')], 'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
+        </xpath>
+        <xpath expr="//page[@name='finance']" position="inside">
             <group>
-              <field name="issuer"/>
-              <field name="document_type_id" required="1"/>
-              <label for="key" attrs="{'invisible': [('document_electronic', '=', False)]}"/>
-              <div class="o_row" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}">
-                <field name="key" force_save="1" class="oe_inline"/>
-                <button name="action_search_key" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only" aria-label="Pesquisar Chave" title="Pesquisar Chave"/>
-                <button name="action_import_xml" type="object" class="oe_inline btn-sm btn-link mb4 fa fa-upload oe_edit_only" aria-label="Upload" title="Upload"/>
-              </div>
+                <field name="move_name" invisible="1"/>
+                <field name="type" invisible="1"/>
+                <group name="accounting_financial" groups="account.group_account_user">
+                    <field name="journal_id" groups="account.group_account_user"
+                        options="{'no_create': True}" attrs="{'readonly':[('move_name','!=',False)]}"/>
+                    <field domain="[('company_id', '=', company_id),('internal_type','=', 'receivable'), ('deprecated', '=', False)]"
+                        name="account_id" groups="account.group_account_user"/>
+                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                    <field name="reference" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    <field name="name"/>
+                </group>
+                <group groups="account.group_account_user">
+                    <field name="incoterm_id" options="{'no_create': True}"/>
+                    <field name="fiscal_position_id" options="{'no_create': True}" />
+                    <field name="move_id" groups="account.group_account_user" attrs="{'invisible': [('move_id', '=', False)]}"/>
+                    <field name="origin" groups="base.group_user" attrs="{'invisible': [('origin', '=', False)]}"/>
+                    <!-- Since the same form view is used for customer invoices and credit notes,
+                    we can't set a domain or a default value context on partner_bank_id. We must
+                    rely on the onchange -->
+                    <field name="partner_bank_id"/>
+                </group>
             </group>
-            <group>
-              <group>
-                <field name="document_serie_id" attrs="{'invisible': [('issuer', '!=', 'company')], 'required': [('issuer', '=', 'company')]}" context="{'default_document_type_id': document_type_id}"/>
-                <field name="document_serie" attrs="{'invisible': [('issuer', '!=', 'partner')], 'required': [('issuer', '=', 'partner')]}"/>
-                <field name="codigo_motivo_situacao" attrs="{'invisible': [('document_electronic', '=', '0')]}"/>
-              </group>
-              <group>
-                <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
-                <field name="state_fiscal"/>
-              </group>
-            </group>
-            <notebook>
-              <page name="document" string="Document Info">
-                <group name="Document">
-                  <group>
-                    <field name="date"/>
-                    <field name="date_in_out"/>
-                  </group>
-                  <group>
-                    <field name='user_id'/>
-                  </group>
-                </group>
-                <group name="company_info" string="Company">
-                  <field name="company_id" required="1" groups="base.group_multi_company"/>
-                </group>
-                <group>
-                  <group name="company_left">
-                    <field name="company_legal_name" readonly="1"/>
-                    <field name="company_name" readonly="1"/>
-                    <field name="company_cnpj_cpf" readonly="1"/>
-                    <field name="company_inscr_est" readonly="1"/>
-                    <field name="company_street" readonly="1"/>
-                    <field name="company_number" readonly="1"/>
-                    <field name="company_street2" readonly="1"/>
-                    <field name="company_district" readonly="1"/>
-                  </group>
-                  <group name="company_right">
-                    <field name="company_inscr_mun" readonly="1"/>
-                    <field name="company_suframa" readonly="1"/>
-                    <field name="company_cnae_main_id" readonly="1"/>
-                    <field name="company_tax_framework" readonly="1"/>
-                    <field name="company_country_id" readonly="1"/>
-                    <field name="company_state_id" readonly="1"/>
-                    <field name="company_city_id" readonly="1"/>
-                    <field name="company_zip" readonly="1"/>
-                    <field name="company_phone" readonly="1"/>
-                  </group>
-                </group>
-              </page>
-              <page name="recipient" string="Recipient">
-                <group name="partner">
-                  <field name="partner_id"/>
-                </group>
-                <group>
-                  <group name="partner_left">
-                    <field name="partner_legal_name" readonly="1"/>
-                    <field name="partner_name" readonly="1"/>
-                    <field name="partner_cnpj_cpf" readonly="1"/>
-                    <field name="partner_inscr_est" readonly="1"/>
-                    <field name="partner_ind_ie_dest" readonly="1"/>
-                    <field name="partner_street" readonly="1"/>
-                    <field name="partner_number" readonly="1"/>
-                    <field name="partner_street2" readonly="1"/>
-                    <field name="partner_district" readonly="1"/>
-                  </group>
-                  <group name="partner_right">
-                    <field name="partner_inscr_mun" readonly="1"/>
-                    <field name="partner_suframa" readonly="1"/>
-                    <field name="partner_cnae_main_id" readonly="1"/>
-                    <field name="partner_tax_framework" readonly="1"/>
-                    <field name="partner_is_company" readonly="1"/>
-                    <field name="partner_country_id" readonly="1"/>
-                    <field name="partner_state_id" readonly="1"/>
-                    <field name="partner_city_id" readonly="1"/>
-                    <field name="partner_zip" readonly="1"/>
-                    <field name="partner_phone" readonly="1"/>
-                  </group>
-                </group>
-                <group>
-                  <field name="partner_shipping_id"/>
-                </group>
-              </page>
-              <page name="products" string="Products and Services">
-                <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'no_subcall': True}">
-                  <tree>
-                    <field name="product_id"/>
-                    <field name="uom_id"/>
-                    <field name="price_unit"/>
-                    <field name="quantity"/>
-                    <field name="amount_total"/>
-                  </tree>
-                </field>
-              </page>
-              <page name="document_related" string="Document Related">
-                <field name="fiscal_document_related_ids"/>
-                <separator colspan="4" string="Subsequents Documents"/>
-                <field name="document_subsequent_ids">
-                    <tree editable="bottom">
-                      <field name="subsequent_document_id"/>
-                      <field name="fiscal_operation_id"/>
-                      <field name="operation_performed"/>
-                      <field name="subsequent_operation_id"/>
-                      <button name="show_subsequent_document" type="object" string="Show Document"
-                          attrs="{'invisible': [('subsequent_document_id', '=', False)]}"/>
-                  </tree>
-                </field>
-              </page>
-              <page name="finance" string="Finance">
-              </page>
-              <page name="delivery" string="Delivery">
-              </page>
-              <page name="others" string="Others">
-                  <group>
-                      <field name="operation_name"/>
-                  </group>
-                  <group>
-                      <group name="autorizacao" string="Autorização" colspan="4">
-                          <field name="data_hora_autorizacao"/>
-                          <field name="protocolo_autorizacao"/>
-                          <field name="file_xml_id"/>
-                          <field name="file_xml_autorizacao_id"/>
-                          <field name="file_pdf_id"/>
-                      </group>
-                      <group name="cancelamento" string="Autorização" colspan="4" attrs="{'invisible': [('state', '!=', 'cancelado')]}" >
-                          <field name="data_hora_cancelamento"/>
-                          <field name="protocolo_cancelamento"/>
-                          <field name="file_xml_cancelamento_id"/>
-                          <field name="file_xml_autorizacao_cancelamento_id"/>
-                      </group>
-                      <field name="document_event_ids">
-                          <tree>
-                              <field name="id"/>
-                              <field name="type"/>
-                              <field name="origin"/>
-                              <field name="create_date"/>
-                              <field name="state"/>
-                          </tree>
-                      </field>
-                  </group>
-              </page>
-              <page name="amounts" string="Amounts">
-                <group>
-                  <group>
-                    <group string="ICMS">
-                      <field name="amount_icms_base"/>
-                      <field name="amount_icms_value"/>
-                      <field name="amount_icmssn_value"/>
-                    </group>
-                    <group string="IPI">
-                      <field name="amount_ipi_base"/>
-                      <field name="amount_ipi_value"/>
-                    </group>
-                    <group string="ISSQN">
-                      <field name="amount_issqn_base"/>
-                      <field name="amount_issqn_value"/>
-                      <field name="amount_issqn_ret_base"/>
-                      <field name="amount_issqn_ret_value"/>
-                    </group>
-                    <group string="PIS">
-                      <field name="amount_pis_base"/>
-                      <field name="amount_pis_value"/>
-                      <field name="amount_pis_ret_base"/>
-                      <field name="amount_pis_ret_value"/>
-                    </group>
-                    <group string="COFINS">
-                      <field name="amount_cofins_base"/>
-                      <field name="amount_cofins_value"/>
-                      <field name="amount_cofins_ret_base"/>
-                      <field name="amount_cofins_ret_value"/>
-                    </group>
-                    <group string="CSLL">
-                      <field name="amount_csll_base"/>
-                      <field name="amount_csll_value"/>
-                      <field name="amount_csll_ret_base"/>
-                      <field name="amount_csll_ret_value"/>
-                    </group>
-                    <group string="IRPJ">
-                      <field name="amount_irpj_base"/>
-                      <field name="amount_irpj_value"/>
-                      <field name="amount_irpj_ret_base"/>
-                      <field name="amount_irpj_ret_value"/>
-                    </group>
-                    <group string="INSS">
-                      <field name="amount_inss_base"/>
-                      <field name="amount_inss_value"/>
-                      <field name="amount_inss_wh_base"/>
-                      <field name="amount_inss_wh_value"/>
-                    </group>
-                  </group>
-                  <group>
-                    <group string="Amounts">
-                      <field name="amount_untaxed"/>
-                      <field name="amount_discount"/>
-                      <field name="amount_insurance_value"/>
-                      <field name="amount_other_costs_value"/>
-                      <field name="amount_freight_value"/>
-                      <field name="amount_estimate_tax"/>
-                      <field name="amount_tax"/>
-                      <field name="amount_total"/>
-                      <field name="amount_tax_withholding"/>
-                      <field name="amount_financial"/>
-                    </group>
-                  </group>
-                </group>
-              </page>
-              <page name="extra_info" string="Extra Info">
-                  <group>
-                      <field name="comment_ids" widget="many2many_tags" domain="[('object','=','l10n_br_fiscal.document')]"/>
-                      <field name="fiscal_additional_data"/>
-                      <field name="customer_additional_data"/>
-                  </group>
-              </page>
-            </notebook>
-          </sheet>
-          <div class="oe_chatter">
-              <field name="message_follower_ids" widget="mail_followers"/>
-              <field name="activity_ids" widget="mail_activity"/>
-              <field name="message_ids" widget="mail_thread"/>
-          </div>
-        </form>
+        </xpath>
+        <xpath expr="//field[@name='line_ids']" position="replace">
+            <field name="invoice_line_ids" context="{'form_view_ref': 'l10n_br_account.fiscal_invoice_line_form', 'default_document_id': fiscal_document_id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'no_subcall': True}"/>
+        </xpath>
       </field>
     </record>
 
