@@ -79,6 +79,7 @@
                                 <field name="interest_fee_account_id"/>
                                 <field name="discount_account_id"/>
                                 <field name="rebate_account_id"/>
+                                <field name="not_payment_account_id"/>
                             </group>
                         </page>
                         <page string="Configuração dos Codigos CNAB"
