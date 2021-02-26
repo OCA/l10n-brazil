@@ -296,7 +296,7 @@ class SaleOrder(models.Model):
         invoices = self.mapped('invoice_ids')
         if any(invoices.filtered(lambda i: i.document_type_id)):
             action = self.env.ref(
-                'l10n_br_account.fiscal_invoice_action').read()[0]
+                'l10n_br_account.fiscal_invoice_out_action').read()[0]
             if len(invoices) > 1:
                 action['domain'] = [('id', 'in', invoices.ids)]
             elif len(invoices) == 1:
