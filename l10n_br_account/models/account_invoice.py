@@ -373,8 +373,15 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def open_fiscal_document(self):
-        action = self.env.ref(
-            'l10n_br_account.fiscal_invoice_action').read()[0]
+        if self.env.context.get('type', '') == 'out_invoice':
+            action = self.env.ref(
+                'l10n_br_account.fiscal_invoice_out_action').read()[0]
+        elif self.env.context.get('type', '') == 'in_invoice':
+            action = self.env.ref(
+                'l10n_br_account.fiscal_invoice_in_action').read()[0]
+        else:
+            action = self.env.ref(
+                'l10n_br_account.fiscal_invoice_all_action').read()[0]
         form_view = [
             (self.env.ref('l10n_br_account.fiscal_invoice_form').id, 'form')]
         if 'views' in action:
