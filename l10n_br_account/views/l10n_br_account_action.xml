@@ -21,6 +21,20 @@
         </field>
     </record>
 
+    <record id="fiscal_invoice_in_action_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fiscal_invoice_tree"/>
+        <field name="act_window_id" ref="fiscal_invoice_in_action"/>
+    </record>
+
+    <record id="fiscal_invoice_in_action_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fiscal_invoice_form"/>
+        <field name="act_window_id" ref="fiscal_invoice_in_action"/>
+    </record>
+
     <!-- Outgoing Documents -->
     <record id="fiscal_invoice_out_action" model="ir.actions.act_window">
         <field name="name">Outgoing Document</field>
@@ -41,6 +55,20 @@
         </field>
     </record>
 
+    <record id="fiscal_invoice_out_action_tree" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="fiscal_invoice_tree"/>
+        <field name="act_window_id" ref="fiscal_invoice_out_action"/>
+    </record>
+
+    <record id="fiscal_invoice_out_action_form" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fiscal_invoice_form"/>
+        <field name="act_window_id" ref="fiscal_invoice_out_action"/>
+    </record>
+
     <!-- All Documents -->
     <record id="fiscal_invoice_all_action" model="ir.actions.act_window">
         <field name="name">All Documents</field>
@@ -59,18 +87,18 @@
         </field>
     </record>
 
-    <record id="fiscal_invoice_action_tree" model="ir.actions.act_window.view">
+    <record id="fiscal_invoice_all_action_tree" model="ir.actions.act_window.view">
         <field eval="1" name="sequence"/>
         <field name="view_mode">tree</field>
         <field name="view_id" ref="fiscal_invoice_tree"/>
-        <field name="act_window_id" ref="fiscal_invoice_action"/>
+        <field name="act_window_id" ref="fiscal_invoice_all_action"/>
     </record>
 
-    <record id="fiscal_invoice_action_form" model="ir.actions.act_window.view">
+    <record id="fiscal_invoice_all_action_form" model="ir.actions.act_window.view">
         <field eval="2" name="sequence"/>
         <field name="view_mode">form</field>
         <field name="view_id" ref="fiscal_invoice_form"/>
-        <field name="act_window_id" ref="fiscal_invoice_action"/>
+        <field name="act_window_id" ref="fiscal_invoice_all_action"/>
     </record>
 
 </odoo>
