@@ -333,6 +333,13 @@ class AccountPaymentMode(models.Model):
         related='fixed_journal_id.bank_id',
     )
 
+    not_payment_account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Conta Contabil para Não Pagamento/Inadimplência',
+        help='Conta padrão para Não Pagamento/Inadimplência',
+        track_visibility='always',
+    )
+
     @api.constrains(
         'code_convetion',
         'cnab_sequence_id',
