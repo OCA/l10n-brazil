@@ -280,7 +280,10 @@ class AccountInvoice(models.Model):
         for l in financial_lines:
             if l[2]['debit'] or l[2]['credit']:
                 l[2]['name'] = '{}/{}-{}'.format(
-                    self.fiscal_number, count, len(financial_lines))
+                    self.fiscal_number or self.number,
+                    count,
+                    len(financial_lines)
+                )
                 count += 1
         return lines
 
