@@ -241,6 +241,44 @@ class AccountMoveLine(models.Model):
 
         return payorder, new_payorder
 
+    def _check_cnab_instruction_to_be_send(self):
+        """
+        Não pode ser enviada uma Instrução de CNAB se houver uma pendente
+        :return: Mensagem de Erro caso exista
+        """
+        payment_line_to_be_send = self.payment_line_ids.filtered(
+            lambda t: t.order_id.state in ('draft', 'open', 'generated'))
+        if payment_line_to_be_send:
+            raise UserError(_(
+                'There is a CNAB Payment Order %s in status %s'
+                ' related to invoice %s created, the CNAB file'
+                ' should be sent to bank, because only after'
+                ' that it is possible make another CNAB Instruction.'
+            ) % (payment_line_to_be_send.order_id.name,
+                 payment_line_to_be_send.order_id.state, self.invoice_id.number))
+        pass
+
+    def _msg_payment_order_at_invoice(self, new_payorder, payorder):
+        """
+        Registra a mensagem de alteração no Fatura para rastreabilidade.
+        :param new_payorder: Se é uma nova Ordem de Pagamento/Debito
+        :param payorder: Objeto Ordem de Pagamento/Debito
+        :return:
+        """
+        cnab_instruction = self.mov_instruction_code_id.code + ' - ' + \
+                           self.mov_instruction_code_id.name
+        if new_payorder:
+            self.invoice_id.message_post(body=_(
+                'Payment line added to the the new draft payment '
+                'order %s which has been automatically created,'
+                ' to send CNAB Instruction %s for OWN NUMBER %s.'
+            ) % (payorder.name, cnab_instruction, self.own_number))
+        else:
+            self.invoice_id.message_post(body=_(
+                'Payment line added to the existing draft '
+                'order %s to send CNAB Instruction %s for OWN NUMBER %s.'
+            ) % (payorder.name, cnab_instruction, self.own_number))
+
     def _change_date_maturity(self, new_date, reason):
         """
         Alteração da Data de Vencimento de um lançamento CNAB.
@@ -262,59 +300,26 @@ class AccountMoveLine(models.Model):
                 "Payment Mode %s don't has Change Date Maturity Code,"
                 ' check if should have.'
             ) % self.payment_mode_id.name)
-        count = 0
+
+        self._check_cnab_instruction_to_be_send()
+
         payorder, new_payorder = self._get_payment_order(self.invoice_id)
-        for payment_line in self.payment_line_ids:
-            # Verificar qual o status da
-            # Ordem de Pagto relacionada
-            if payment_line.order_id.state == 'draft':
-                old_date = payment_line.ml_maturity_date
-                payment_line.ml_maturity_date = self.date_maturity
-                self.message_post(body=_(
-                    'Change Maturity Date of Title from %s to'
-                    ' %s before sending.') % (old_date, self.date_maturity))
 
-            elif payment_line.order_id.state in ('uploaded', 'done'):
-
-                # Arquivo Enviado necessário solicitar a Baixa
-                # ao Banco enviando a respectiva Instrução do Movimento
-                self.mov_instruction_code_id = \
-                    self.payment_mode_id.cnab_code_change_maturity_date_id
-                self.message_post(body=_(
-                    'Movement Instruction Code Updated for Request to'
-                    ' Change Maturity Date.'))
-                self.create_payment_line_from_move_line(payorder)
-                self.cnab_state = 'added'
-                count += 1
-
-            # TODO existe possibilidade de uma Ordem de
-            #  Pagto CNAB ser cancelada ?
-            elif payment_line.order_id.state in (
-                'open', 'generated', 'cancel'):
-                raise UserError(_(
-                    'There is a CNAB Payment Order %s in status %s'
-                    ' related to invoice %s created, the CNAB file'
-                    ' should be sent to bank, because only after'
-                    ' that it is possible make new Payment Order with'
-                    ' the instruction to Request Change Maturity Date.'
-                ) % (payment_line.order_id.name,
-                     payment_line.order_id.state, self.invoice_id.number))
-
-        if new_payorder:
-            self.invoice_id.message_post(body=_(
-                '%d payment lines added to the new draft payment '
-                'order %s which has been automatically created.'
-            ) % (count, payorder.name))
-        else:
-            self.invoice_id.message_post(body=_(
-                '%d payment lines added to the existing draft '
-                'payment order %s.'
-            ) % (count, payorder.name))
+        self.mov_instruction_code_id = \
+            self.payment_mode_id.cnab_code_change_maturity_date_id
+        self.message_post(body=_(
+            'Movement Instruction Code Updated for Request to'
+            ' Change Maturity Date.'))
+        self.create_payment_line_from_move_line(payorder)
+        self.cnab_state = 'added'
 
         self.write({
             'date_maturity': new_date,
             'last_change_reason': reason,
         })
+
+        # Registra as Alterações na Fatura
+        self._msg_payment_order_at_invoice(new_payorder, payorder)
 
     def _change_payment_mode(self, reason, new_payment_mode_id, **kwargs):
         moves_to_sync = self.filtered(
@@ -335,6 +340,100 @@ class AccountMoveLine(models.Model):
             'payment_situation': 'baixa',  # FIXME: Podem ser múltiplos motivos
         })
 
+    def _create_not_payment(self, reason):
+        """
+        Não Pagamento/Inadimplencia
+        :param reason: descrição do motivo da alteração
+        :return: deveria retornar algo ? Uma mensagem de confirmação talvez ?
+        """
+        # Modo de Pagto usado precisa ter a Conta Contabil de
+        # Não Pagamento/Inadimplencia
+        if not self.invoice_id.payment_mode_id.not_payment_account_id:
+            raise UserError(_(
+                "Payment Mode %s don't has the Account to Not Payment,"
+                ' check if should have.'
+            ) % self.payment_mode_id.name)
+
+        if not self.invoice_id.payment_mode_id.cnab_write_off_code_id:
+            raise UserError(_(
+                "Payment Mode %s don't has the CNAB Writte Off Code,"
+                ' check if should have.'
+            ) % self.payment_mode_id.name)
+
+        self._check_cnab_instruction_to_be_send()
+
+        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+
+        # TODO: O codigo usado seria o mesmo do writte off ?
+        #  Em todos os casos?
+        self.mov_instruction_code_id = \
+            self.payment_mode_id.cnab_write_off_code_id
+        self.message_post(body=_(
+            'Movement Instruction Code Updated for Request to'
+            ' Write Off, because not payment.'))
+        self.create_payment_line_from_move_line(payorder)
+        self.cnab_state = 'added'
+
+        # Reconciliação e Baixa do Título
+        move_obj = self.env['account.move']
+        move_line_obj = self.env['account.move.line']
+        journal = self.payment_mode_id.fixed_journal_id
+        move = move_obj.create({
+            'name': 'CNAB - Banco ' + journal.bank_id.short_name + ' - Conta '
+                    + journal.bank_account_id.acc_number + '- Inadimplência',
+            'date': fields.Datetime.now(),
+            # TODO  - Campo está sendo preenchido em outro lugar
+            'ref': 'CNAB Baixa por Inadimplêcia',
+            # O Campo abaixo é usado apenas para mostrar ou não a aba
+            # referente ao LOG do CNAB mas nesse caso não há.
+            # 'is_cnab': True,
+            'journal_id': journal.id,
+        })
+        # Linha a ser conciliada
+        counterpart_values = {
+            'credit': self.amount_residual,
+            'debit': 0.0,
+            'account_id': self.account_id.id,
+        }
+        # linha referente a Conta Contabil de Inadimplecia
+        move_not_payment_values = {
+            'debit': self.amount_residual,
+            'credit': 0.0,
+            'account_id': self.invoice_id.
+                payment_mode_id.not_payment_account_id.id,
+        }
+
+        commom_move_values = {
+            'move_id': move.id,
+            'partner_id': self.partner_id.id,
+            'already_completed': True,
+            'ref': self.own_number,
+            'journal_id': journal.id,
+            'company_id': self.company_id.id,
+            'currency_id': self.currency_id.id,
+            'company_currency_id': self.company_id.currency_id.id,
+        }
+
+        counterpart_values.update(commom_move_values)
+        move_not_payment_values.update(commom_move_values)
+
+        moves = move_line_obj.with_context(
+            check_move_validity=False).create(
+            (counterpart_values, move_not_payment_values)
+        )
+
+        move_line_to_reconcile = moves.filtered(
+            lambda m: m.credit > 0.0)
+        (self + move_line_to_reconcile).reconcile()
+
+        self.write({
+            'last_change_reason': reason,
+            'payment_situation': 'nao_pagamento',
+        })
+
+        # Registra as Alterações na Fatura
+        self._msg_payment_order_at_invoice(new_payorder, payorder)
+
     def _create_change(self, change_type, new_date, reason='', **kwargs):
         if change_type == 'change_date_maturity':
             self._change_date_maturity(new_date, reason)
@@ -342,6 +441,8 @@ class AccountMoveLine(models.Model):
             self._change_payment_mode(reason, **kwargs)
         elif change_type == 'baixa':
             self._create_baixa(reason, **kwargs)
+        elif change_type == 'not_payment':
+            self._create_not_payment(reason)
 
     @api.multi
     @api.depends('own_number')
