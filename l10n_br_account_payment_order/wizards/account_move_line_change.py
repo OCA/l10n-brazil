@@ -32,8 +32,16 @@ class AccountMoveLineChange(models.TransientModel):
     change_type = fields.Selection(
         selection=[
             ('change_date_maturity', 'Vencimento'),
-            ('change_payment_mode', 'Modo de Pagamento'),
-            ('baixa', 'Baixa'),
+            # TODO: É preciso mais detalhes dessa operação ao enviar fora o
+            #  codigo de alteração e carteira o que mais deve ir ?
+            #  Ao alterar a carteira/payment mode de um Título deveria ser
+            #  alterada de todas as account.move.line dessa invoice ?
+            # ('change_payment_mode', 'Modo de Pagamento'),
+            # TODO: qual seria esse caso Baixa ? Já que em caso de pagamento
+            #  por fora do CNAB é preciso registrar o pagamento e isso está
+            #  sendo chamado no metodo post do account.payment .
+            # ('baixa', 'Baixa'),
+            ('not_payment', 'Baixa por Não Pagamento/Inadimplência')
         ],
         string='Tipo Alteração',
     )
