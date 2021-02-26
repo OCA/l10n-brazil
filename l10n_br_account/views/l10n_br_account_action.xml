@@ -1,21 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- DEFINE correct context -->
-    <record id="fiscal_invoice_action" model="ir.actions.act_window">
-        <field name="name">Fiscal Document</field>
+      <!-- Incomming Documents -->
+    <record id="fiscal_invoice_in_action" model="ir.actions.act_window">
+        <field name="name">Incomming Document</field>
         <field name="res_model">account.invoice</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
         <field eval="False" name="view_id"/>
-        <field name="domain">[('type','=','out_invoice')]</field>
-        <field name="context">{'type':'out_invoice', 'journal_type': 'sale'}</field>
+        <field name="domain">[('type','=','in_invoice'), ('fiscal_operation_type', '=', 'in')]</field>
+        <field name="context">{'type':'in_invoice', 'journal_type': 'purchase'}</field>
         <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search"/>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
-            Create a fiscal document
+            Create a new Document
           </p><p>
-            Create invoices, register payments and keep track of the discussions with your customers.
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
+    <!-- Outgoing Documents -->
+    <record id="fiscal_invoice_out_action" model="ir.actions.act_window">
+        <field name="name">Outgoing Document</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field eval="False" name="view_id"/>
+        <field name="domain">[('type','=','out_invoice'), ('fiscal_operation_type', '=', 'out')]</field>
+        <field name="context">{'type':'out_invoice', 'journal_type': 'sale', 'default_fiscal_operation_type': 'out'}</field>
+        <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Document
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
+          </p>
+        </field>
+    </record>
+
+    <!-- All Documents -->
+    <record id="fiscal_invoice_all_action" model="ir.actions.act_window">
+        <field name="name">All Documents</field>
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field eval="False" name="view_id"/>
+        <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new Document
+          </p><p>
+            Odoo helps you easily track all activities
+            related to a fiscal operation.
           </p>
         </field>
     </record>
