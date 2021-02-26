@@ -19,7 +19,7 @@ class DocumentCorrection(models.Model):
             evento = processador.carta_correcao(
                 chave=record.document_id.key[3:],
                 sequencia=record.sequencia,
-                justificativa=record.justificative
+                justificativa=record.justificative.replace('\n', '\\n')
             )
             processo = processador.enviar_lote_evento(
                 lista_eventos=[evento]
