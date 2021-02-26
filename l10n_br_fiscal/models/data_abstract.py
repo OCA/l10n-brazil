@@ -26,15 +26,21 @@ class DataAbstract(models.AbstractModel):
 
     code_unmasked = fields.Char(
         string='Unmasked Code',
-        compute='_compute_code_unmasked',
-        store=True,
         index=True)
 
-    @api.depends('code')
-    def _compute_code_unmasked(self):
-        for r in self:
-            # TODO mask code and unmasck
-            r.code_unmasked = misc.punctuation_rm(r.code)
+    @api.model
+    def create(self, values):
+        if 'code' in values:
+            values['code_unmasked'] = misc.punctuation_rm(values.get(code))
+        return super().create(values)
+
+    @api.multi
+    def write(self, values):
+        if 'code_unmasked':
+            values.pop('code_unmasked')
+        if 'code' in values:
+            values['code_unmasked'] = misc.punctuation_rm(values.get(code))
+        return super().write(values)
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
