@@ -463,6 +463,7 @@ SITUACAO_PAGAMENTO = [
     ("liquidada", "Liquidada"),
     ("baixa", "Baixa Simples"),
     ("baixa_liquidacao", "Baixa por Liquidação fora do CNAB"),
+    ("nao_pagamento", "Baixa por Não Pagamento/Inadimplência")
 ]
 
 BOLETO_ESPECIE = [
