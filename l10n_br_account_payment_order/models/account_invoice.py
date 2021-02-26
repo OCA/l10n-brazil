@@ -400,7 +400,7 @@ class AccountInvoice(models.Model):
         self._pos_action_move_create()
 
         for inv in self:
-            inv._compute_receivables()
+            inv._compute_financial()
             receivable_id = inv.financial_move_line_ids
             receivable_id.residual = inv.residual
 
