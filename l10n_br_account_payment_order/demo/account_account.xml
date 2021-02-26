@@ -56,5 +56,13 @@
         <field name="reconcile" eval="True"/>
     </record>
 
+    <!-- Conta Contabil de Não Pagamento/Inadimplencia para Modo de Pagamento -->
+    <record model="account.account" id="1_account_template_32333_avoid_travis_error">
+        <field name="code">3.2.3.33-*</field>
+        <field name="name"> Não Pagamento/Inadimplencia - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_expenses"/>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="reconcile" eval="True"/>
+    </record>
 
 </odoo>
