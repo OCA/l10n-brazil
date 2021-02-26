@@ -80,6 +80,11 @@ msgid "Document without Operation !"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__financial_move_line_ids
+msgid "Financial Move Lines"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_document_id
 msgid "Fiscal Document"
@@ -169,6 +174,16 @@ msgstr ""
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_line_form
 msgid "Outros Custos"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_supplier_form
+msgid "Payable"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+msgid "Receivable"
 msgstr ""
 
 #. module: l10n_br_account
