@@ -9,6 +9,7 @@ from odoo import api, fields, models
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     FISCAL_OUT,
     DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_ISSUER_PARTNER,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_A_ENVIAR,
     TAX_FRAMEWORK,
@@ -89,8 +90,6 @@ class AccountInvoice(models.Model):
 
     fiscal_number = fields.Char(
         string='Fiscal Number',
-        related='fiscal_document_id.number',
-        store=True,
     )
 
     # this default should be overwritten to False in a module pretending to
@@ -172,9 +171,9 @@ class AccountInvoice(models.Model):
         invoice_type = self.env.context.get('type', 'out_invoice')
         defaults['fiscal_operation_type'] = INVOICE_TO_OPERATION[invoice_type]
         if defaults['fiscal_operation_type'] == FISCAL_OUT:
-            defaults['issuer'] = 'company'
+            defaults['issuer'] = DOCUMENT_ISSUER_COMPANY
         else:
-            defaults['issuer'] = 'partner'
+            defaults['issuer'] = DOCUMENT_ISSUER_PARTNER
         return defaults
 
     @api.model
@@ -282,14 +281,16 @@ class AccountInvoice(models.Model):
             l for l in lines if l[2]['account_id'] == self.account_id.id]
 
         count = 1
+
         for l in financial_lines:
             if l[2]['debit'] or l[2]['credit']:
-                l[2]['name'] = '{}/{}-{}'.format(
-                    self.fiscal_number or self.number,
-                    count,
-                    len(financial_lines)
-                )
-                count += 1
+                if self.document_type_id:
+                    l[2]['name'] = '{}/{}-{}'.format(
+                        self.fiscal_number,
+                        count,
+                        len(financial_lines)
+                    )
+                    count += 1
         return lines
 
     @api.multi
@@ -345,7 +346,10 @@ class AccountInvoice(models.Model):
         for inv in self.filtered(lambda i: i.fiscal_document_id !=
                 self.env.ref('l10n_br_fiscal.fiscal_document_dummy')):
             inv.fiscal_document_id.action_document_confirm()
-            inv.fiscal_document_id.action_document_send()
+            if inv.issuer == DOCUMENT_ISSUER_COMPANY:
+                inv.fiscal_number = inv.fiscal_document_id.number
+            else:
+                inv.fiscal_document_id.number = inv.fiscal_number
         return super().action_move_create()
 
     @api.onchange('fiscal_operation_id')
@@ -397,3 +401,23 @@ class AccountInvoice(models.Model):
             action['views'] = form_view
         action['res_id'] = self.id
         return action
+
+    def action_document_send(self):
+        for invoice in self:
+            if invoice.document_type_id:
+                invoice.fiscal_document_id.action_document_send()
+
+    def action_document_correction(self):
+        for invoice in self:
+            if invoice.document_type_id:
+                invoice.fiscal_document_id.action_document_correction()
+
+    def view_xml(self):
+        for invoice in self:
+            if invoice.document_type_id:
+                invoice.fiscal_document_id.view_xml()
+
+    def view_pdf(self):
+        for invoice in self:
+            if invoice.document_type_id:
+                invoice.fiscal_document_id.view_pdf()
