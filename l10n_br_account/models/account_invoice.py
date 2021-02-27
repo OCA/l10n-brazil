@@ -82,6 +82,11 @@ class AccountInvoice(models.Model):
         compute='_compute_financial',
     )
 
+    document_electronic = fields.Boolean(
+        related='document_type_id.electronic',
+        string='Electronic?',
+    )
+
     fiscal_number = fields.Char(
         string='Fiscal Number',
         related='fiscal_document_id.number',
