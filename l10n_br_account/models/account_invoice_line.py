@@ -9,6 +9,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     FISCAL_IN_OUT,
 )
 
+from .account_invoice import INVOICE_TO_OPERATION
+
 # These fields that have the same name in account.invoice.line
 # and l10n_br_fiscal.document.line.mixin. So they won't be updated
 # by the _inherits system. An alternative would be changing their name
@@ -200,6 +202,7 @@ class AccountInvoiceLine(models.Model):
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
         inv_type = self.env.context.get('type', 'out_invoice')
+        defaults['fiscal_operation_type'] = INVOICE_TO_OPERATION[inv_type]
         return defaults
 
     @api.model
