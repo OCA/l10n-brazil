@@ -59,12 +59,6 @@ class AccountInvoiceLine(models.Model):
         string='Tax Framework',
     )
 
-    fiscal_operation_type = fields.Selection(
-        selection=FISCAL_IN_OUT,
-        related="fiscal_operation_id.fiscal_operation_type",
-        string="Fiscal Operation Type",
-    )
-
     cfop_destination = fields.Selection(
         related="cfop_id.destination",
         string="CFOP Destination"
@@ -228,7 +222,8 @@ class AccountInvoiceLine(models.Model):
             'l10n_br_fiscal.fiscal_document_line_dummy')
         if values.get('invoice_id'):
             values['document_id'] = self.env[
-                "account.invoice"].browse(values['invoice_id']).fiscal_document_id.id
+                "account.invoice"].browse(
+                    values['invoice_id']).fiscal_document_id.id
         result = super().write(values)
         for line in self:
             if line.fiscal_document_line_id != dummy_doc_line:
