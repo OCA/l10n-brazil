@@ -14,21 +14,6 @@ class FiscalDocumentInvoiceMixin(models.AbstractModel):
     _name = 'l10n_br_fiscal.document.invoice.mixin'
     _description = 'Invoice Document Fiscal Mixin'
 
-    document_type_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.document.type',
-    )
-
-    document_serie_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.document.serie',
-        domain="[('active', '=', True),"
-               "('document_type_id', '=', document_type_id)]",
-    )
-
-    document_electronic = fields.Boolean(
-        related='document_type_id.electronic',
-        string='Electronic?',
-    )
-
     partner_id = fields.Many2one(
         comodel_name='res.partner',
     )
