@@ -17,7 +17,7 @@
                 <field name="fiscal_price" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
             </field>
             <field name="analytic_tag_ids" position="after">
-                <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}" domain="[('state', '=', 'approved'), ('fiscal_operation_type', '=', fiscal_operation_type)]"/>
+                <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}" domain="[('state', '=', 'approved')]"/>
                 <field name="fiscal_operation_line_id" attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}"/>
                 <field name="cfop_id" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"/>
                 <field name="document_type_id" invisible="1"/>
