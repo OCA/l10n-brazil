@@ -43,16 +43,36 @@
       <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
       <field name="mode">primary</field>
       <field name="arch" type="xml">
+        <xpath expr="//button[@name='action_document_send']" position="attributes">
+            <attribute name="states"/>
+            <attribute name="attrs">{'invisible': [('state_edoc', 'not in', ('a_enviar', 'rejeitada'))]}</attribute>
+        </xpath>
+        <xpath expr="//button[@name='action_document_correction']" position="attributes">
+            <attribute name="states"/>
+            <attribute name="attrs">{'invisible': [('state_edoc', '!=', 'autorizada')]}</attribute>
+        </xpath>
+        <xpath expr="//button[@name='action_document_invalidate']" position="attributes">
+            <attribute name="states"/>
+            <attribute name="attrs">{'invisible': [('state_edoc', '!=', 'autorizada'), ('fiscal_number', '=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//button[@name='view_pdf']" position="attributes">
+            <attribute name="states"/>
+            <attribute name="attrs">{'invisible': ['|', ('state_edoc', '=', 'em_digitacao'), ('document_electronic', '=', False)]}</attribute>
+        </xpath>
+        <xpath expr="//button[@name='view_xml']" position="attributes">
+            <attribute name="states"/>
+            <attribute name="attrs">{'invisible': ['|', ('state_edoc', '=', 'em_digitacao'), ('document_electronic', '=', False)]}</attribute>
+        </xpath>
         <xpath expr="//header" position="inside">
             <field name="fiscal_document_id" required="0" invisible="1"/>
             <button name="action_invoice_open" type="object" states="draft" string="Validate" class="oe_highlight o_invoice_validate" groups="account.group_account_invoice"/>
-            <button name="action_document_back2draft" type="object" string="Voltar p/ Em Digitação" groups="l10n_br_fiscal.group_user" states="a_enviar,rejeitada" class="btn-secondary"/>
+            <button name="action_invoice_cancel" type="object" string="Cancelar" groups="l10n_br_fiscal.group_user" states="draft,open,in_payment,paid" class="btn-secondary"/>
         </xpath>
         <xpath expr="//h1/field[@name='number']" position="replace">
-            <field name="fiscal_number" readonly="1"/>
+            <field name="fiscal_number" class="oe_inline" readonly="1"/>
         </xpath>
         <xpath expr="//group/field[@name='number']" position="replace">
-            <field name="fiscal_number" force_save="1" attrs="{'invisible': [('issuer', '=', 'company')], 'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
+            <field name="fiscal_number" class="oe_inline" force_save="1" attrs="{'invisible': [('issuer', '=', 'company')], 'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
         </xpath>
         <xpath expr="//page[@name='finance']" position="inside">
             <group>
@@ -72,12 +92,10 @@
                     <field name="fiscal_position_id" options="{'no_create': True}" />
                     <field name="move_id" groups="account.group_account_user" attrs="{'invisible': [('move_id', '=', False)]}"/>
                     <field name="origin" groups="base.group_user" attrs="{'invisible': [('origin', '=', False)]}"/>
-                    <!-- Since the same form view is used for customer invoices and credit notes,
-                    we can't set a domain or a default value context on partner_bank_id. We must
-                    rely on the onchange -->
                     <field name="partner_bank_id"/>
                 </group>
             </group>
+            <field name="financial_move_line_ids"/>
         </xpath>
         <xpath expr="//field[@name='line_ids']" position="replace">
             <field name="invoice_line_ids" context="{'form_view_ref': 'l10n_br_account.fiscal_invoice_line_form', 'default_document_id': fiscal_document_id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'no_subcall': True}"/>
