@@ -367,7 +367,7 @@ class AccountInvoice(models.Model):
                 'fiscal_document_id')
 
         fiscal_document_to_cancel = fiscal_documents.filtered(
-            lambda d: d.state == SITUACAO_EDOC_AUTORIZADA)
+            lambda d: d.state != SITUACAO_EDOC_AUTORIZADA)
 
         fiscal_document_to_draft = fiscal_documents.filtered(
             lambda d: d.state == SITUACAO_EDOC_A_ENVIAR)
