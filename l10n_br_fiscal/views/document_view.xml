@@ -41,6 +41,7 @@
     <field name="arch" type="xml">
       <form string="Fiscal Document">
         <field name="id" invisible="1"/>
+        <field name="state_edoc" invisible="1"/>
         <field name="currency_id" invisible="1"/>
         <field name="document_electronic" invisible="1"/>
         <field name="fiscal_operation_type" invisible="1"/>
