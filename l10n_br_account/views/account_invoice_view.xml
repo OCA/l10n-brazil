@@ -70,7 +70,7 @@
             </xpath>
             <field name="cash_rounding_id" position="after">
                 <field name="document_type_id" attrs="{'invisible': [('fiscal_document_id', '=', %(l10n_br_fiscal.fiscal_document_dummy)d)], 'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="issuer" attrs="{'invisible': [('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="document_serie_id" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="document_serie" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
@@ -81,7 +81,14 @@
                 <attribute name="editable"/>
             </xpath>
             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
-                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
+                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="after">
+                <field name="document_type_id" invisible="1"/>
+                <field name="fiscal_tax_ids" attrs="{'invisible': [('document_type_id', '=', False)]}" widget="many2many_tags" options="{'no_create': True}"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
             <field name="amount_tax" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding"/>
@@ -137,6 +144,13 @@
             </xpath>
             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
                 <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="after">
+                <field name="document_type_id" invisible="1"/>
+                <field name="fiscal_tax_ids" attrs="{'invisible': [('document_type_id', '=', False)]}" widget="many2many_tags" options="{'no_create': True}"/>
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
             <field name="amount_tax" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding"/>
