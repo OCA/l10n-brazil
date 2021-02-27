@@ -9,17 +9,17 @@
             <field name="invoice_line_tax_ids" position="replace"/>
             <xpath expr="//form/group/group/field[@name='company_id']" position="replace"/>
             <field name="price_unit" position="after">
-                <label for="fiscal_quantity" string="Fiscal Quantity"/>
+                <label for="fiscal_quantity" string="Fiscal Quantity" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
                 <div>
-                    <field context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}" name="fiscal_quantity" class="oe_inline"/>
-                    <field name="uot_id" force_save="1" groups="uom.group_uom" class="oe_inline oe_no_button" attrs="{'required': [('display_type', '=', False)],}"/>
+                    <field name="fiscal_quantity" class="oe_inline" attrs="{'invisible': [('document_type_id', '=', False)]}" context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"/>
+                    <field name="uot_id" force_save="1" groups="uom.group_uom" class="oe_inline oe_no_button" attrs="{'required': [('display_type', '=', False)], 'invisible': [('document_type_id', '=', False)]}"/>
                 </div>
-                <field name="fiscal_price"/>
+                <field name="fiscal_price" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
             </field>
             <field name="analytic_tag_ids" position="after">
-                <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)]}" domain="[('state', '=', 'approved'), ('fiscal_operation_type', '=', fiscal_operation_type)]"/>
-                <field name="fiscal_operation_line_id" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
-                <field name="cfop_id" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"/>
+                <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}" domain="[('state', '=', 'approved'), ('fiscal_operation_type', '=', fiscal_operation_type)]"/>
+                <field name="fiscal_operation_line_id" attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}"/>
+                <field name="cfop_id" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"/>
                 <field name="document_type_id" invisible="1"/>
             </field>
             <field name="name" position="after">
