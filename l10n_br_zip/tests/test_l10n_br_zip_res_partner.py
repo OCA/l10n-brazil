@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 
 class L10nBRZipTest(TransactionCase):
     def setUp(self):
-        super(L10nBRZipTest, self).setUp()
+        super().setUp()
 
         self.zip_obj = self.env["l10n_br.zip"]
         self.zip_1 = self.zip_obj.create(
@@ -63,7 +63,7 @@ class L10nBRZipTest(TransactionCase):
         )
         self.assertEquals(
             self.res_partner.city_id.name,
-            u"São Paulo",
+            "São Paulo",
             "Error in method zip_search to mapping field city.",
         )
 
@@ -180,11 +180,11 @@ class L10nBRZipTest(TransactionCase):
         )
         self.assertEquals(
             self.res_partner.street,
-            "Avenida Paulista 2100",
+            "Avenida Paulista, 2100",
             "Error in method zip_search with PyCEP-Correios" "to mapping field street.",
         )
         self.assertEquals(
             self.res_partner.city_id.name,
-            u"São Paulo",
+            "São Paulo",
             "Error in method zip_search with PyCEP-Correios" "to mapping field city.",
         )
