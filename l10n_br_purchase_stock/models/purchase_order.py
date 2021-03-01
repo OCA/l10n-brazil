@@ -19,4 +19,8 @@ class PurchaseOrder(models.Model):
     def _prepare_picking(self):
         values = super()._prepare_picking()
         values.update(self._prepare_br_fiscal_dict())
+        if (self.company_id.purchase_create_invoice_policy
+                == 'stock_picking'):
+            values['invoice_state'] = '2binvoiced'
+
         return values
