@@ -6,6 +6,12 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form"/>
         <field name="arch" type="xml">
+            <button name="toggle_active" position="before">
+                <button type="object" class="oe_stat_button" icon="fa-book" name="action_view_document" title="Fiscal Documents"
+                    context="{'default_partner_id': active_id}">
+                    <field string="Fiscal Documents" name="fiscal_documents_count" widget="statinfo" modifiers="{'readonly':true}"/>
+                </button>
+            </button>
             <group name="fiscal_numbers" position="after">
                 <group string="Fiscal Profile" name="fiscal_profile">
                     <field name="fiscal_profile_id" force_save="1" widget="radio" required="1"/>
