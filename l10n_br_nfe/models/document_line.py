@@ -464,7 +464,7 @@ class NFeLine(spec_models.StackedModel):
         if not self[field_name] and not xsd_required:
             if not any(self[f] for f in self[field_name]._fields
                        if self._fields[f]._attrs.get('xsd')) and \
-                    field_name not in ['nfe40_PIS', 'nfe40_COFINS']:
+                    field_name not in ['nfe40_PIS', 'nfe40_COFINS', 'nfe40_IPI']:
                 return False
         if field_name == 'nfe40_ISSQN' and \
                 not self.service_type_id:  # TODO
