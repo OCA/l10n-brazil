@@ -30,182 +30,220 @@
     <template id="danfse_report_template">
         <div class="page" style="font-size:12px;">
             <style type="text/css">
-                .col-1, .col-2,
-                .col-3,.col-4,.col-5, .col-6, .col-7,
-                .col-8,
-                .col-9, .col-10, .col-11, .col-12 {
+                .col-1, .col-2, .col-3,.col-4,.col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
                     padding:0px;
                 }
-                td, th { padding: 0 4px; }
-                .bt { border-top: 1px solid black; }
-                .bb { border-bottom: 1px solid black; }
-                .bl { border-left: 1px solid black; }
-                .br { border-right: 1px solid black; }
-                div.completa { border: 1px solid black; }
-                .rotulo { padding: 8px 0px; font-size: 10px; background-color: #d6d6d6; text-align:center; }
-                .rotulo-header { padding: 8px 0px; font-size: 10px; background-color: #999999; text-align:center; }
-                .linha {  min-height:30px; padding: 5px 2px; overflow:hidden; text-overflow: ellipsis; white-space: nowrap; }
-                .direita {text-align: right; padding-right:5px;}
-                .esquerda {text-align: left; padding-left:5px;}
-                .centro {text-align:center;}
-                row {cols: 10}
+                td, th {
+                    padding: 0 4px;
+                }
+                .bt {
+                    border-top: 1px solid black;
+                }
+                .bb {
+                    border-bottom: 1px solid black;
+                }
+                .bl {
+                    border-left: 1px solid black;
+                }
+                .br {
+                    border-right: 1px solid black;
+                }
+                .rotulo {
+                    padding: 8px 0px;
+                    font-size: 10px;
+                    text-align: center;
+                    font-weight: bold;
+                    background-color: #dee2e6;
+                }
+                .rotulo-header {
+                    padding: 8px 0px;
+                    font-size: 10px;
+                    text-align: center;
+                    background-color: #adb5bd;
+                }
+                .linha {
+                    min-height:30px;
+                    padding: 5px 2px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .direita {
+                    text-align: right;
+                    padding-right: 1%;
+                }
+                .esquerda {
+                    text-align: left;
+                    padding-left: 1%;
+                }
+                .centro {
+                    text-align:center;
+                }
+                row {
+                    cols: 10
+                }
             </style>
-            <div class="row completa">
+
+             <div class="row bt bb br bl">
                 <div class="col-2">
                     <img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.nfse_city_logo)"
                          style="max-height:80px; margin-top:4px; margin-left:10px;"/>
                 </div>
-                <div class="col-7 br" style="padding:0px;text-align:center;font-size:20px;">
+                <div class="col-7 br" style="text-align: center; font-size: 20px;">
                     Prefeitura do Município de <span t-field="doc.company_id.city_id" />
                     <br />
                     Secretaria Municipal da Fazenda
                     <br />
                     NOTA FISCAL ELETRÔNICA DE SERVIÇO
                 </div>
-                <div class="col-3" style="padding:0px;">
-                    <div style="padding: 3px; text-align:center;">
+                <div class="col-3">
+                    <div style="padding: 3px; text-align: center;">
                         <span>Número da NFS-e</span><br />
                         <strong t-field="doc.number"></strong>
                     </div>
                 </div>
             </div>
-            <div class="row" style="border: 1px solid black; padding: 0px;">
-                <div class="col-2 rotulo br">
+
+            <div class="row bb br bl">
+                 <div class="col-2 rotulo br">
                     Data e Hora da Emissão
                 </div>
                 <div class="col-2 linha centro br">
                     <span t-field="doc.date" />
                 </div>
-                <div class="col-2 rotulo br">
+                 <div class="col-2 rotulo br">
                     Competência
                 </div>
                 <div class="col-2 linha centro br">
                     <span t-field="doc.date" t-options='{"format": "MM/yyyy"}' />
                 </div>
-                <div class="col-2 rotulo br">
+                 <div class="col-2 rotulo br">
                     Código de Verificação
                 </div>
                 <div class="col-2 linha centro">
                     <span t-field="doc.verify_code" />
                 </div>
             </div>
-            <div class="row" style="border: 1px solid black; padding: 0px;">
-                <div class="col-2 rotulo br">
+
+            <div class="row bb br bl">
+                 <div class="col-2 rotulo br">
                     Número do RPS
                 </div>
                 <div class="col-2 linha centro br">
                     <span t-field="doc.rps_number" />
                 </div>
-                <div class="col-2 rotulo br">
+                 <div class="col-2 rotulo br">
                     No. da NFS-e substituída
                 </div>
                 <div class="col-2 linha centro br">
                 </div>
-                <div class="col-2 rotulo br">
+                 <div class="col-2 rotulo br">
                     Local da Prestação
                 </div>
-                <div class="col-2 linha centro ">
+                <div class="col-2 linha centro">
                     <span t-field="doc.company_id.city_id" /> - <span t-field="doc.company_id.state_id.code" />
                 </div>
             </div>
-            <div class="row" style="border: 1px solid black; padding: 0px;">
+
+             <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
-                    <h4 style="margin:0px;">Dados do Prestador de Serviços</h4>
+                    <h4 style="margin: 0px;">Dados do Prestador de Serviços</h4>
                 </div>
             </div>
-            <div class="row" style="border: 1px solid black; padding: 0px;">
+             <div class="row bb br bl">
                 <div class="col-2">
-                    <img style="max-height:200px;margin-top:15px;max-width:140px;"
+                    <img style="max-height: 150px; padding-left: 25px; padding-top: 25px; max-width: 125px;"
                         t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo)" /><br />
                 </div>
                 <div class="col-10">
-                    <div class="row bb bl" style="margin:0px;">
-                        <div class="col-2 rotulo br">
+                    <div class="row">
+                        <div class="col-2 rotulo bl bb">
                             Razão Social/Nome
                         </div>
-                        <div class="col-10 linha">
-                            <span t-field="doc.company_id.legal_name" />
+                        <div class="col-10 linha esquerda bb bl">
+                            <span t-field="doc.company_id.legal_name"/>
                         </div>
                     </div>
-                    <div class="row bb bl" style="margin:0px;">
-                        <div class="col-2 rotulo br">
+                    <div class="row">
+                        <div class="col-2 rotulo bl bb">
                             Nome Fantasia
                         </div>
-                        <div class="col-10 linha">
+                        <div class="col-10 linha esquerda bb bl">
                             <span t-field="doc.company_id.name" />
                         </div>
                     </div>
-                    <div class="row bb bl" style="margin:0px;">
-                        <div class="col-2 rotulo br">
+                    <div class="row">
+                        <div class="col-2 rotulo bl bb">
                             CNPJ/CPF
                         </div>
-                        <div class="col-2 linha centro br">
+                        <div class="col-2 linha centro bl bb ">
                             <span t-field="doc.company_id.cnpj_cpf" />
                         </div>
-                        <div class="col-2 rotulo br">
+                        <div class="col-2 rotulo bl bb">
                             Insc. Municipal
                         </div>
-                        <div class="col-1 linha centro br">
+                        <div class="col-1 linha centro bl bb">
                             <span t-field="doc.company_id.inscr_mun" />
                         </div>
-                        <div class="col-1 rotulo br">
+                        <div class="col-1 rotulo bl bb">
                             Município
                         </div>
-                        <div class="col-4 linha centro">
+                        <div class="col-4 linha centro bl bb">
                             <span t-field="doc.company_id.city_id" /> - <span t-field="doc.company_id.state_id.code" />
                         </div>
                     </div>
-                    <div class="row bb bl" style="margin:0px;">
-                        <div class="col-2 rotulo br">
-                            Endereço e Cep
+                    <div class="row">
+                        <div class="col-2 rotulo bl bb">
+                            Endereço
                         </div>
-                        <div class="col-10 linha">
+                        <div class="col-10 linha esquerda bb bl">
                             <span t-field="doc.company_id.street" />
                             <span t-field="doc.company_id.street_number" />
                             <span t-field="doc.company_id.district" />
                             CEP: <span t-field="doc.company_id.zip" />
                         </div>
                     </div>
-                    <div class="row bb bl" style="margin:0px;">
-                        <div class="col-2 rotulo br">
+                    <div class="row">
+                        <div class="col-2 rotulo bl">
                             Complemento:
                         </div>
-                        <div class="col-2 linha centro br">
+                        <div class="col-2 linha centro bl">
                             <span style="font-size:11px;" t-field="doc.company_id.street2" />
                         </div>
-                        <div class="col-1 rotulo br">
+                        <div class="col-1 rotulo bl">
                             Telefone:
                         </div>
-                        <div class="col-2 linha centro br">
+                        <div class="col-2 linha centro bl">
                             <span t-field="doc.company_id.phone" />
                         </div>
-                        <div class="col-1 rotulo br">
+                        <div class="col-1 rotulo bl">
                             E-mail:
                         </div>
-                        <div class="col-4 linha centro">
+                        <div class="col-4 linha centro bl">
                             <span t-field="doc.company_id.email" />
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row" style="border: 1px solid black; padding: 0px;">
+
+             <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
                     <h4 style="margin:0px;">Dados do Tomador de Serviços</h4>
                 </div>
             </div>
-            <div class="row bb bl br">
+             <div class="row bb br bl">
                 <div class="col-2 rotulo br">
                     Razão Social/Nome
                 </div>
-                <div class="col-10 linha">
+                <div class="col-10 linha esquerda">
                     <span t-raw="doc.partner_id.legal_name or doc.partner_id.name" />
                 </div>
             </div>
-            <div class="row bb bl br">
+             <div class="row bb br bl">
                 <div class="col-2 rotulo br">
                     CNPJ/CPF
                 </div>
-                <div class="col-2 linha centro br">
+                <div class="col-2 linha esquerda br">
                     <span t-field="doc.partner_id.cnpj_cpf" />
                 </div>
                 <div class="col-2 rotulo br">
@@ -217,47 +255,47 @@
                 <div class="col-1 rotulo br">
                     Município
                 </div>
-                <div class="col-4 linha centro">
+                <div class="col-4 linha esquerda">
                     <span t-field="doc.partner_id.city_id" /> - <span t-field="doc.partner_id.state_id.code" />
                 </div>
             </div>
-            <div class="row bb bl br">
+             <div class="row bb br bl">
                 <div class="col-2 rotulo br">
-                    Endereço e Cep
+                    Endereço
                 </div>
-                <div class="col-10 linha">
+                <div class="col-10 linha esquerda">
                     <span t-field="doc.partner_id.street" />
                     <span t-field="doc.partner_id.street_number" />
                     <span t-field="doc.partner_id.district" />
                     CEP: <span t-field="doc.partner_id.zip" />
                 </div>
             </div>
-            <div class="row bb bl br">
-                <div class="col-2 rotulo br">
+             <div class="row br bl">
+                <div class="col-2 rotulo bb br">
                     Complemento:
                 </div>
-                <div class="col-2 linha centro br">
+                <div class="col-2 linha centro br bb">
                     <span t-field="doc.partner_id.street2" />
                 </div>
-                <div class="col-1 rotulo br">
+                <div class="col-1 rotulo br bb">
                     Telefone:
                 </div>
-                <div class="col-2 linha centro br">
+                <div class="col-2 linha centro bb">
                     <span t-field="doc.partner_id.phone" />
                 </div>
-                <div class="col-1 rotulo br">
+                <div class="col-1 rotulo bl bb">
                     E-mail:
                 </div>
-                <div class="col-4 linha centro">
+                <div class="col-4 linha centro bl bb">
                     <span t-field="doc.partner_id.email" />
                 </div>
             </div>
-            <div class="row" style="border: 1px solid black; padding: 0px;">
+             <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
-                    <h4 style="margin:0px;">Discriminação dos serviços</h4>
+                    <h4 style="margin: 0px;">Discriminação dos serviços</h4>
                 </div>
             </div>
-            <div class="row" style="border: 1px solid black;padding: 0 0 5px 5px; min-height:150px;">
+             <div class="row bb br bl" style="padding: 7.5px 10px; min-height: 150px;">
                 <div class="col-12">
                     <t t-foreach="doc.line_ids" t-as="line">
                         <p t-field="line.name"></p>
@@ -266,48 +304,50 @@
 <!--                    <span t-field="doc.informacoes_complementares"></span>-->
                 </div>
             </div>
-            <div class="row" style="border: 1px solid black; padding: 0px;">
+
+             <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
                     <h4 style="margin:0px;">Código do Serviço / Atividade</h4>
                 </div>
             </div>
-            <div class="row centro" style="border: 1px solid black; padding: 0px;">
-                <div class="col-12">
+             <div class="row bb br bl">
+                <div class="col-12 centro" style="padding: 5px 0;">
                     <span t-field="doc.line_ids[0].service_type_id.code" /> /
                     <span t-field="doc.line_ids[0].city_taxation_code_id.code" /> -
                     <span t-field="doc.line_ids[0].service_type_id.name" />
                 </div>
             </div>
-            <div class="row" style="border: 1px solid black; padding: 0px;">
-                <div class="col-12 rotulo-header">
-                    <h4 style="margin:0px;">Detalhamento Específico da Construção Civil</h4>
-                </div>
-            </div>
-            <div class="row completa">
-                <div class="col-3 rotulo br">
-                    Código da Obra
-                </div>
-                <div class="col-3 linha br centro">
 
-                </div>
-                <div class="col-3 rotulo br">
-                    Código ART
-                </div>
-                <div class="col-3 linha br centro">
+<!--             <div class="row bb br bl">-->
+<!--                <div class="col-12 rotulo-header">-->
+<!--                    <h4 style="margin:0px;">Detalhamento Específico da Construção Civil</h4>-->
+<!--                </div>-->
+<!--             </div>-->
+<!--             <div class="row bb br bl">-->
+<!--                <div class="col-3 rotulo br">-->
+<!--                    Código da Obra-->
+<!--                </div>-->
+<!--                <div class="col-3 br">-->
 
-                </div>
-            </div>
-            <div class="row" style="border: 1px solid black; padding: 0px;">
+<!--                </div>-->
+<!--                <div class="col-3 rotulo br">-->
+<!--                    Código ART-->
+<!--                </div>-->
+<!--                <div class="col-3">-->
+<!--                </div>-->
+<!--             </div>-->
+
+             <div class="row bb br bl">
                 <div class="col-12 rotulo-header">
                     <h4 style="margin:0px;">Tributos Federais</h4>
                 </div>
             </div>
 
-            <div class="row completa">
-                <div class="col-2 rotulo br">
+             <div class="row bb br bl">
+                <div class="col-2 rotulo br ">
                     PIS
                 </div>
-                <div class="col-1 linha br centro">
+                <div class="col-1 linha centro br">
                     <t t-if="doc.amount_pis_value">
                        <span t-field="doc.amount_pis_value" />
                     </t>
@@ -318,7 +358,7 @@
                 <div class="col-1 rotulo br">
                     COFINS
                 </div>
-                <div class="col-1 linha br centro">
+                <div class="col-1 linha centro br">
                     <t t-if="doc.amount_cofins_value">
                        <span t-field="doc.amount_cofins_value" />
                     </t>
@@ -329,7 +369,7 @@
                 <div class="col-1 rotulo br">
                     CSLL
                 </div>
-                <div class="col-1 linha br centro">
+                <div class="col-1 linha centro br">
                     <t t-if="doc.amount_csll_value">
                        <span t-field="doc.amount_csll_value" />
                     </t>
@@ -340,7 +380,7 @@
                 <div class="col-1 rotulo br">
                     IR
                 </div>
-                <div class="col-1 linha br centro">
+                <div class="col-1 linha centro br">
                     <t t-if="doc.amount_csll_value">
                        <span t-field="doc.amount_csll_value" />
                     </t>
@@ -361,19 +401,17 @@
                 </div>
             </div>
 
-            <div class="row centro" style="border: 0px; padding: 2px;" />
-
-            <div class="row completa">
-                <div class="col-3 rotulo esquerda br">
+             <div class="row bb br bl">
+                <div class="col-3 rotulo br">
                     Valor dos Serviços R$
                 </div>
-                <div class="col-2 linha br centro">
+                <div class="col-2 linha centro br">
                     <span t-field="doc.line_ids[0].fiscal_price" />
                 </div>
                 <div class="col-2 rotulo br">
                     Natureza Operação
                 </div>
-                <div class="col-3 rotulo esquerda br">
+                <div class="col-3 rotulo br">
                     Valor dos Serviços R$
                 </div>
                 <div class="col-2 linha centro">
@@ -381,17 +419,17 @@
                 </div>
             </div>
 
-            <div class="row completa">
-                <div class="col-3 rotulo esquerda br">
+             <div class="row bb br bl">
+                <div class="col-3 rotulo br">
                     (-) Desconto Incondicionado
                 </div>
-                <div class="col-2 linha br centro">
+                <div class="col-2 linha centro br">
                     0
                 </div>
-                <div class="col-2 linha br centro">
-                    1-Tributação no município
+                <div class="col-2 linha centro br" style="word-break: normal;">
+                    1 - Tributação no <br>município</br>
                 </div>
-                <div class="col-3 rotulo esquerda br">
+                <div class="col-3 rotulo br">
                     (-) Deduções permitidas em lei
                 </div>
                 <div class="col-2 linha centro">
@@ -399,17 +437,18 @@
                 </div>
             </div>
 
-            <div class="row completa">
-                <div class="col-3 rotulo esquerda br">
+             <div class="row bb br bl">
+                <div class="col-3 rotulo br">
                     (-) Desconto Condicionado
                 </div>
-                <div class="col-2 linha centro br">
+
+                 <div class="col-2 linha centro br">
 
                 </div>
                 <div class="col-2 rotulo br">
                     Regime esp. Tributação
                 </div>
-                <div class="col-3 rotulo esquerda br">
+                <div class="col-3 linha rotulo br">
                     (-) Desconto Incondicionado
                 </div>
                 <div class="col-2 linha centro">
@@ -417,17 +456,17 @@
                 </div>
             </div>
 
-            <div class="row completa">
-                <div class="col-3 rotulo esquerda br">
+             <div class="row bb br bl">
+                <div class="col-3 rotulo br">
                     (-) Retenções Federais
                 </div>
-                <div class="col-2 linha br centro">
+                <div class="col-2 linha centro br">
                     <span t-field="doc.amount_tax_withholding" />
                 </div>
-                <div class="col-2 linha br centro">
+                <div class="col-2 linha centro br">
                     0 - Nenhum
                 </div>
-                <div class="col-3 rotulo esquerda br">
+                <div class="col-3 rotulo br">
                     Base de Cálculo
                 </div>
                 <div class="col-2 linha centro">
@@ -435,17 +474,17 @@
                 </div>
             </div>
 
-            <div class="row completa">
-                <div class="col-3 rotulo esquerda br">
+             <div class="row bb br bl">
+                <div class="col-3 rotulo br">
                     Outras Retenções
                 </div>
-                <div class="col-2 linha br centro">
+                <div class="col-2 linha centro br">
                     0,00
                 </div>
                 <div class="col-2 rotulo br">
                     Opção Simples Nacional
                 </div>
-                <div class="col-3 rotulo esquerda br">
+                <div class="col-3 rotulo br">
                     (x) Alíquota %
                 </div>
                 <div class="col-2 linha centro">
@@ -453,14 +492,14 @@
                 </div>
             </div>
 
-            <div class="row completa">
-                <div class="col-3 rotulo esquerda br">
+             <div class="row bb br bl">
+                <div class="col-3 rotulo br">
                     (-) ISS Retido
                 </div>
-                <div class="col-2 linha br centro">
+                <div class="col-2 linha centro br">
                     <span t-field="doc.line_ids[0].issqn_wh_value" />
                 </div>
-                <div class="col-2 linha br centro">
+                <div class="col-2 linha centro br">
                     <t t-if="doc.company_id.tax_framework != '3'">
                         1 - Sim
                     </t>
@@ -468,7 +507,7 @@
                         2 - Não
                     </t>
                 </div>
-                <div class="col-3 rotulo esquerda br">
+                <div class="col-3 rotulo br">
                     ISS a reter:
                 </div>
                 <div class="col-2 linha centro">
@@ -481,17 +520,17 @@
                 </div>
             </div>
 
-            <div class="row completa">
-                <div class="col-3 rotulo esquerda br">
+             <div class="row bb br bl">
+                <div class="col-3 rotulo br">
                     (=) Valor Líquido R$
                 </div>
-                <div class="col-2 linha br centro">
+                <div class="col-2 linha centro br">
                     <span t-field="doc.amount_financial" />
                 </div>
                 <div class="col-2 rotulo br">
                     Incentivador Cultural: 2 - Não
                 </div>
-                <div class="col-3 rotulo esquerda br">
+                <div class="col-3 rotulo br">
                     (=) Valor do ISS: R$
                 </div>
                 <div class="col-2 linha centro">
@@ -499,11 +538,11 @@
                 </div>
             </div>
 
-            <div class="row" style="border: 1px solid black;padding: 0px;">
-                <div class="col-1 linha">
+             <div class="row bb br bl">
+                <div class="col-1 centro">
                     Avisos
                 </div>
-                <div class="col-11 linha bl">
+                <div class="col-11">
                     1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo Tomador dos Serviços.<br />
                     2- A autenticidade desta Nota Fiscal poderá ser verificada no site, <span t-field="doc.company_id.nfse_website" /> com a utilização do Código de Verificação.<br />
                     <t t-if="doc.company_id.tax_framework != '3'">
