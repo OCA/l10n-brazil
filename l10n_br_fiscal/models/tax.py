@@ -364,8 +364,6 @@ class Tax(models.Model):
             add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
 
         compute_reduction = True
-        if company.state_id != partner.state_id and not partner.is_company:
-            compute_reduction = False
 
         kwargs.update({
             'add_to_base': sum(add_to_base),
