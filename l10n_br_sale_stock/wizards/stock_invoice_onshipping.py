@@ -9,27 +9,73 @@ class StockInvoiceOnshipping(models.TransientModel):
     _inherit = 'stock.invoice.onshipping'
 
     @api.multi
-    def _simulate_invoice_line_onchange(self, values, price_unit=None):
+    def _build_invoice_values_from_pickings(self, pickings):
         """
-        Simulate onchange for invoice line
-        :param values: dict
+        Build dict to create a new invoice from given pickings
+        :param pickings: stock.picking recordset
         :return: dict
         """
-        new_values = super()._simulate_invoice_line_onchange(
-            values.copy(), price_unit=price_unit)
-        line = self.env['account.invoice.line'].new(new_values.copy())
-        if price_unit:
-            line.price_unit = price_unit
-            line._compute_price()
-        new_values.update(line._convert_to_write(line._cache))
-        values.update(new_values)
-        return values
+        invoice, values = super()._build_invoice_values_from_pickings(pickings)
+
+        pick = fields.first(pickings)
+        if pick.sale_id:
+            values.update({
+                'partner_id': pick.sale_id.partner_invoice_id.id,
+            })
+            if pick.sale_id.payment_term_id.id != values['payment_term_id']:
+                values.update({
+                    'payment_term_id': pick.sale_id.payment_term_id.id
+                })
+            if pick.sale_id.copy_note:
+                values.update({
+                    'customer_additional_data':
+                        pick.sale_id.customer_additional_data +
+                        ' TERMOS E CONDIÇÕES: ' + pick.sale_id.note,
+                })
+
+        return invoice, values
 
     @api.multi
+    def _get_move_key(self, move):
+        """
+        Get the key based on the given move
+        :param move: stock.move recordset
+        :return: key
+        """
+        key = super()._get_move_key(move)
+        if move.sale_line_id:
+            # Apesar da linha da Fatura permitir ter mais de uma linha de
+            # pedido de venda associada(campo sale_line_ids na invoice line)
+            # por enquanto esta sendo separado já que tem questões a serem
+            # verificadas por exemplo datas de entrega diferentes, informações
+            # comerciais que são discriminadas por itens e etc.
+            # TODO - verificar se poderia ser feito, é preciso incluir
+            #  dados de demontração e testes com casos de uso para confirmar
+            if type(key) is tuple:
+                key = key + (move.sale_line_id,)
+            else:
+                # TODO - seria melhor identificar o TYPE para saber se
+                #  o KEY realmente é um objeto nesse caso
+                key = (key, move.sale_line_id)
+
+        return key
+
     def _get_invoice_line_values(self, moves, invoice_values, invoice):
-        move = fields.first(moves)
+        """
+        Create invoice line values from given moves
+        :param moves: stock.move
+        :param invoice: account.invoice
+        :return: dict
+        """
+
         values = super()._get_invoice_line_values(
-            moves, invoice_values, invoice
-        )
-        values['sale_line_ids'] = [(6, 0, move.sale_line_id.ids)]
+            moves, invoice_values, invoice)
+        # Devido ao KEY com sale_line_id aqui
+        # vem somente um registro
+        if len(moves) == 1:
+            # Caso venha apenas uma linha porem sem
+            # sale_line_id é preciso ignora-la
+            if moves.sale_line_id:
+                values['sale_line_ids'] = [(6, 0, moves.sale_line_id.ids)]
+
         return values

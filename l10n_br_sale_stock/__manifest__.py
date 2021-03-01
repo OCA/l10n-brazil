@@ -8,16 +8,21 @@
     'license': 'AGPL-3',
     'author': 'Akretion, Odoo Community Association (OCA)',
     'website': 'http://github.com/OCA/l10n-brazil',
-    'maintainers': ['gabrielcardoso21'],
     'version': '12.0.2.0.0',
+    'maintainers': ['renatonlima', 'mbcosta'],
     'depends': [
         'sale_stock',
         'l10n_br_sale',
         'l10n_br_stock_account',
     ],
-    'data': [],
+    'data': [
+        'views/res_company_view.xml',
+        'views/res_config_settings_view.xml',
+        'views/sale_order_view.xml',
+    ],
     'demo': [
         'demo/l10n_br_sale_stock_demo.xml',
+        'demo/sale_order_demo.xml',
     ],
     'installable': True,
     'auto_install': True,
