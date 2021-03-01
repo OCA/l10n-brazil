@@ -225,6 +225,7 @@ class AccountMoveLine(models.Model):
         :param invoice:
         :return: Orderm de Pagamento, E se é uma nova
         """
+
         # Verificar Ordem de Pagto
         apo = self.env['account.payment.order']
         # Existe a possibilidade de uma Fatura ter diferentes
@@ -258,13 +259,14 @@ class AccountMoveLine(models.Model):
                  payment_line_to_be_send.order_id.state, self.invoice_id.number))
         pass
 
-    def _msg_payment_order_at_invoice(self, new_payorder, payorder):
+    def _msg_cnab_payment_order_at_invoice(self, new_payorder, payorder):
         """
         Registra a mensagem de alteração no Fatura para rastreabilidade.
         :param new_payorder: Se é uma nova Ordem de Pagamento/Debito
         :param payorder: Objeto Ordem de Pagamento/Debito
         :return:
         """
+
         cnab_instruction = self.mov_instruction_code_id.code + ' - ' + \
                            self.mov_instruction_code_id.name
         if new_payorder:
@@ -279,7 +281,7 @@ class AccountMoveLine(models.Model):
                 'order %s to send CNAB Instruction %s for OWN NUMBER %s.'
             ) % (payorder.name, cnab_instruction, self.own_number))
 
-    def _change_date_maturity(self, new_date, reason):
+    def _change_cnab_date_maturity(self, new_date, reason):
         """
         Alteração da Data de Vencimento de um lançamento CNAB.
         :param new_date: nova data de vencimento
@@ -301,6 +303,7 @@ class AccountMoveLine(models.Model):
                 ' check if should have.'
             ) % self.payment_mode_id.name)
 
+        # Checar se existe uma Instrução de CNAB ainda a ser enviada
         self._check_cnab_instruction_to_be_send()
 
         payorder, new_payorder = self._get_payment_order(self.invoice_id)
@@ -319,7 +322,7 @@ class AccountMoveLine(models.Model):
         })
 
         # Registra as Alterações na Fatura
-        self._msg_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
 
     def _change_payment_mode(self, reason, new_payment_mode_id, **kwargs):
         moves_to_sync = self.filtered(
@@ -340,7 +343,7 @@ class AccountMoveLine(models.Model):
             'payment_situation': 'baixa',  # FIXME: Podem ser múltiplos motivos
         })
 
-    def _create_not_payment(self, reason):
+    def _create_cnab_not_payment(self, reason):
         """
         Não Pagamento/Inadimplencia
         :param reason: descrição do motivo da alteração
@@ -360,6 +363,7 @@ class AccountMoveLine(models.Model):
                 ' check if should have.'
             ) % self.payment_mode_id.name)
 
+        # Checar se existe uma Instrução de CNAB ainda a ser enviada
         self._check_cnab_instruction_to_be_send()
 
         payorder, new_payorder = self._get_payment_order(self.invoice_id)
@@ -432,17 +436,74 @@ class AccountMoveLine(models.Model):
         })
 
         # Registra as Alterações na Fatura
-        self._msg_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+
+    def _create_cnab_writte_off(self):
+        """
+        Baixa de Título junto ao Banco.
+        :return:
+        """
+        if not self.invoice_id.payment_mode_id.cnab_write_off_code_id:
+            raise UserError(_(
+                "Payment Mode %s don't has the CNAB Writte Off Code,"
+                ' check if should have.'
+            ) % self.payment_mode_id.name)
+
+        # Checar se existe uma Instrução de CNAB ainda a ser enviada
+        self._check_cnab_instruction_to_be_send()
+
+        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+
+        self.mov_instruction_code_id = \
+            self.payment_mode_id.cnab_write_off_code_id
+        self.payment_situation = 'baixa_liquidacao'
+        self.message_post(body=_(
+            'Movement Instruction Code Updated for Request to'
+            ' Write Off, because payment done in another way.'))
+        self.create_payment_line_from_move_line(payorder)
+        self.cnab_state = 'added_paid'
+
+        # Registra as Alterações na Fatura
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+
+    def _create_cnab_change_title_value(self):
+        """
+        Alteração do Valor do Título junto ao Banco.
+        :return:
+        """
+        if not self.payment_mode_id.cnab_code_change_title_value_id:
+            raise UserError(_(
+                "Payment Mode %s don't has the CNAB Change Tittle Value Code,"
+                ' check if should have.'
+            ) % self.payment_mode_id.name)
+
+        # Checar se existe uma Instrução de CNAB ainda a ser enviada
+        self._check_cnab_instruction_to_be_send()
+
+        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+
+        self.mov_instruction_code_id = \
+            self.payment_mode_id.cnab_code_change_title_value_id
+        self.message_post(body=_(
+            'Movement Instruction Code Updated for Request to'
+            ' Change Title Value, because partial payment'
+            ' of %d done.') % (self.debit - self.amount_residual))
+        self.create_payment_line_from_move_line(payorder)
+
+        self.cnab_state = 'added'
+
+        # Registra as Alterações na Fatura
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
 
     def _create_change(self, change_type, new_date, reason='', **kwargs):
         if change_type == 'change_date_maturity':
-            self._change_date_maturity(new_date, reason)
+            self._change_cnab_date_maturity(new_date, reason)
         elif change_type == 'change_payment_mode':
             self._change_payment_mode(reason, **kwargs)
         elif change_type == 'baixa':
             self._create_baixa(reason, **kwargs)
         elif change_type == 'not_payment':
-            self._create_not_payment(reason)
+            self._create_cnab_not_payment(reason)
 
     @api.multi
     @api.depends('own_number')
