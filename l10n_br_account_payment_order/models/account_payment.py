@@ -31,5 +31,13 @@ class AccountPayment(models.Model):
                     ' choose another one.'))
 
             super().post()
-            record.invoice_ids.\
-                create_account_payment_line_cnab_baixa(record.amount)
+            for invoice in record.invoice_ids:
+                # Se é CNAB do tipo Recebiveis deve ser feita a validação
+                # se é possível e se necessário informar o Banco a respeito
+                # de Baixa ou Alteração do Valor no caso do Pagamento for
+                # Parcial e permitir esse tipo de instrução.
+                if (invoice.payment_mode_id.payment_method_code in
+                        ('240', '400', '500') and
+                        invoice.payment_mode_id.payment_method_id.payment_type
+                        == 'inbound'):
+                    invoice.create_payment_outside_cnab(record.amount)
