@@ -94,14 +94,18 @@ class SaleOrderLine(models.Model):
         super()._compute_amount()
         for l in self:
             l._update_taxes()
+            round_curr = l.order_id.currency_id.round
             price_tax = l.price_tax + l.amount_tax_not_included
+            price_subtotal = round_curr(l.price_unit *
+                                        l.quantity)
+
             price_total = (
-                l.price_subtotal + l.freight_value +
+                price_subtotal - l.discount_value + l.freight_value +
                 l.insurance_value + l.other_costs_value)
 
             l.update({
                 'price_tax': price_tax,
-                'price_gross': l.price_subtotal + l.discount_value,
+                'price_gross': price_subtotal,
                 'price_total': price_total + price_tax,
             })
 
