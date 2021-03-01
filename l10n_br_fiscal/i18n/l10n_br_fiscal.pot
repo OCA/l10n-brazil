@@ -1256,6 +1256,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__owner_cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_mdfe__cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__cnpj_cpf
 msgid "CNPJ/CPF"
 msgstr ""
 
@@ -1721,6 +1723,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_is_company
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_partner__is_company
+#: model:ir.model.fields,help:l10n_br_fiscal.field_res_users__is_company
 msgid "Check if the contact is a company, otherwise it is a person"
 msgstr ""
 
@@ -1773,6 +1777,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__city_taxation_code_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.city_taxation_code_menu
 msgid "City Taxation Code"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__city_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__city_id
+msgid "City of Address"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5278,6 +5288,12 @@ msgid "Is Valid?"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__is_company
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__is_company
+msgid "Is a Company"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document.line,issqn_eligibility:0
 #: selection:l10n_br_fiscal.document.line.mixin,issqn_eligibility:0
 #: selection:l10n_br_fiscal.tax.ipi.guideline,cst_group:0
@@ -5825,6 +5841,8 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__inscr_mun
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__inscr_mun
 msgid "Municipal Tax Number"
 msgstr ""
 
@@ -7915,6 +7933,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__state
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__state
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_estimate__state_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__state_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__state_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.state_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.view_l10n_br_fiscal_mdfe_filter
@@ -7926,6 +7946,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_inscr_est
 msgid "State Tax Number"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__inscr_est
+msgid "State Tax Number/RG"
 msgstr ""
 
 #. module: l10n_br_fiscal
