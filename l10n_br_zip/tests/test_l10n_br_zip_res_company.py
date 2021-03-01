@@ -70,7 +70,7 @@ class L10nBRZipTest(TransactionCase):
         )
         self.assertEquals(
             self.company.city_id.name,
-            u"São Paulo",
+            "São Paulo",
             "Error in method zip_search to mapping field city.",
         )
 
@@ -181,6 +181,6 @@ class L10nBRZipTest(TransactionCase):
         )
         self.assertEquals(
             self.company.city_id.name,
-            u"São Paulo",
+            "São Paulo",
             "Error in method zip_search with PyCEP-Correios" "to mapping field city.",
         )
