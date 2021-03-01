@@ -107,3 +107,10 @@ class ResPartner(spec_models.SpecModel):
                 city = self.env['res.city'].search(
                     [('ibge_code', '=', city_ibge)], limit=1)
                 rec.city_id = city.id
+
+    def _export_field(self, xsd_field, class_obj, member_spec):
+        if xsd_field == 'nfe40_xNome' and class_obj._name == 'nfe.40.dest':
+            if self.env.context.get('tpAmb') == '2':
+                return 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO ' \
+                        '- SEM VALOR FISCAL'
+        return super()._export_field(xsd_field, class_obj, member_spec)
