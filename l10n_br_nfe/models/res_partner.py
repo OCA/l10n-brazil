@@ -14,7 +14,8 @@ class ResPartner(spec_models.SpecModel):
     # can we use related fields and context views to avoid troubles?
     _name = 'res.partner'
     _inherit = ['res.partner', 'nfe.40.tendereco',
-                'nfe.40.tlocal', 'nfe.40.dest', 'nfe.40.tenderemi']
+                'nfe.40.tlocal', 'nfe.40.dest', 'nfe.40.tenderemi',
+                'nfe.40.tinfresptec']
     _nfe_search_keys = ['nfe40_CNPJ', 'nfe40_CPF', 'nfe40_xNome']
 
     @api.model
@@ -57,6 +58,9 @@ class ResPartner(spec_models.SpecModel):
     nfe40_IE = fields.Char(related='inscr_est')
     nfe40_ISUF = fields.Char(related='suframa')
     nfe40_email = fields.Char(related='email')
+
+    # nfe.40.infresptec
+    nfe40_xContato = fields.Char(related='legal_name')
 
     nfe40_choice2 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
