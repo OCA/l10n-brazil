@@ -14,29 +14,37 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_sale_stock
-#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_stock_picking__invoice_state
-msgid "Invoice Status"
+#: model:ir.model,name:l10n_br_sale_stock.model_res_company
+msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_sale_stock
-#: selection:stock.picking,invoice_state:0
-msgid "Invoiced"
+#: model:ir.model,name:l10n_br_sale_stock.model_res_config_settings
+msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_br_sale_stock
-#: model:ir.model.fields,help:l10n_br_sale_stock.field_stock_picking__invoice_state
-msgid "Invoiced: an invoice already exists\n"
-"To Be Invoiced: need to be invoiced\n"
-"Not Applicable: no invoice to create"
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_stock.l10n_br_sale_stock_res_config_settings_form
+msgid "Define if Invoice should be create from Sale Order or Stock Picking"
 msgstr ""
 
 #. module: l10n_br_sale_stock
-#: selection:stock.picking,invoice_state:0
-msgid "Not Applicable"
+#: model:ir.model.fields,help:l10n_br_sale_stock.field_res_company__sale_create_invoice_policy
+#: model:ir.model.fields,help:l10n_br_sale_stock.field_res_config_settings__sale_create_invoice_policy
+#: model:ir.model.fields,help:l10n_br_sale_stock.field_sale_order__sale_create_invoice_policy
+msgid "Define if Invoice should be create from Sale Order or Stock Picking."
+msgstr ""
+
+#. module: l10n_br_sale_stock
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_company__sale_create_invoice_policy
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_config_settings__sale_create_invoice_policy
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order__sale_create_invoice_policy
+msgid "Sale Create Invoice Policy"
 msgstr ""
 
 #. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_sale_order
+#: selection:res.company,sale_create_invoice_policy:0
 msgid "Sale Order"
 msgstr ""
 
@@ -56,13 +64,13 @@ msgid "Stock Move"
 msgstr ""
 
 #. module: l10n_br_sale_stock
-#: model:ir.model,name:l10n_br_sale_stock.model_stock_rule
-msgid "Stock Rule"
+#: selection:res.company,sale_create_invoice_policy:0
+msgid "Stock Picking"
 msgstr ""
 
 #. module: l10n_br_sale_stock
-#: selection:stock.picking,invoice_state:0
-msgid "To Be Invoiced"
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale_stock.l10n_br_sale_stock_res_config_settings_form
+msgid "This default value is applied to creation of Invoice."
 msgstr ""
 
 #. module: l10n_br_sale_stock
