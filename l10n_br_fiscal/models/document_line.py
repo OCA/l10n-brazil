@@ -75,6 +75,7 @@ class DocumentLine(models.Model):
     document_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document',
         string='Document',
+        ondelete='cascade',
     )
 
     # used mostly to enable _inherits of account.invoice on fiscal_document
