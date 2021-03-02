@@ -118,9 +118,7 @@ class SpecModel(models.AbstractModel):
                 comodel_name = field.comodel_name
                 comodel = pool[comodel_name]
                 concrete_class = cls._get_concrete(comodel._name)
-                if name.endswith('_id') and field.type == 'many2one':
-                    # auto m2o matching o2m  # FIXME brittle
-                    continue
+
                 if not hasattr(comodel, '_concrete_rec_name'):
                     # TODO filter with klass._schema name instead?
                     continue
