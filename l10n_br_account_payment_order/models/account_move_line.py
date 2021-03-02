@@ -244,7 +244,8 @@ class AccountMoveLine(models.Model):
 
     def _check_cnab_instruction_to_be_send(self):
         """
-        Não pode ser enviada uma Instrução de CNAB se houver uma pendente
+        CNAB - Não pode ser enviada uma Instrução
+         de CNAB se houver uma pendente.
         :return: Mensagem de Erro caso exista
         """
         payment_line_to_be_send = self.payment_line_ids.filtered(
@@ -261,7 +262,7 @@ class AccountMoveLine(models.Model):
 
     def _msg_cnab_payment_order_at_invoice(self, new_payorder, payorder):
         """
-        Registra a mensagem de alteração no Fatura para rastreabilidade.
+        CNAB - Registra a mensagem de alteração na Fatura para rastreabilidade.
         :param new_payorder: Se é uma nova Ordem de Pagamento/Debito
         :param payorder: Objeto Ordem de Pagamento/Debito
         :return:
@@ -283,7 +284,7 @@ class AccountMoveLine(models.Model):
 
     def _change_cnab_date_maturity(self, new_date, reason):
         """
-        Alteração da Data de Vencimento de um lançamento CNAB.
+        CNAB - Instrução de Alteração da Data de Vencimento.
         :param new_date: nova data de vencimento
         :param reason: descrição do motivo da alteração
         :return: deveria retornar algo ? Uma mensagem de confirmação talvez ?
@@ -345,7 +346,7 @@ class AccountMoveLine(models.Model):
 
     def _create_cnab_not_payment(self, reason):
         """
-        Não Pagamento/Inadimplencia
+        CNAB - Não Pagamento/Inadimplencia.
         :param reason: descrição do motivo da alteração
         :return: deveria retornar algo ? Uma mensagem de confirmação talvez ?
         """
@@ -440,8 +441,7 @@ class AccountMoveLine(models.Model):
 
     def _create_cnab_writte_off(self):
         """
-        Baixa de Título junto ao Banco.
-        :return:
+        CNAB - Instrução de Baixar de Título.
         """
         if not self.invoice_id.payment_mode_id.cnab_write_off_code_id:
             raise UserError(_(
@@ -466,10 +466,9 @@ class AccountMoveLine(models.Model):
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
 
-    def _create_cnab_change_title_value(self):
+    def _create_cnab_change_tittle_value(self):
         """
-        Alteração do Valor do Título junto ao Banco.
-        :return:
+        CNAB - Alteração do Valor do Título.
         """
         if not self.payment_mode_id.cnab_code_change_title_value_id:
             raise UserError(_(
@@ -495,6 +494,32 @@ class AccountMoveLine(models.Model):
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
 
+    def _create_cnab_protest_tittle(self, reason):
+        """
+        CNAB - Protestar Título.
+        """
+        if not self.payment_mode_id.cnab_code_protest_title_id:
+            raise UserError(_(
+                "Payment Mode %s don't has the CNAB Protest Tittle Code,"
+                ' check if should have.'
+            ) % self.payment_mode_id.name)
+
+        # Checar se existe uma Instrução de CNAB ainda a ser enviada
+        self._check_cnab_instruction_to_be_send()
+
+        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+
+        self.mov_instruction_code_id = \
+            self.payment_mode_id.cnab_code_protest_title_id
+        self.message_post(body=_(
+            'Movement Instruction Code Updated for Request to Protest Title'))
+        self.create_payment_line_from_move_line(payorder)
+
+        self.cnab_state = 'added'
+        self.last_change_reason = reason
+        # Registra as Alterações na Fatura
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+
     def _create_change(self, change_type, new_date, reason='', **kwargs):
         if change_type == 'change_date_maturity':
             self._change_cnab_date_maturity(new_date, reason)
@@ -504,6 +529,8 @@ class AccountMoveLine(models.Model):
             self._create_baixa(reason, **kwargs)
         elif change_type == 'not_payment':
             self._create_cnab_not_payment(reason)
+        elif change_type == 'protest_tittle':
+            self._create_cnab_protest_tittle(reason)
 
     @api.multi
     @api.depends('own_number')
