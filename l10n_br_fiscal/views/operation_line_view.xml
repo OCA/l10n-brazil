@@ -61,7 +61,7 @@
                           </group>
                         </group>
                         <group>
-                            <field name="comment_ids" widget="many2many_tags" domain="[('object','=','l10n_br_fiscal.document.line')]"/>
+                            <field name="comment_ids" widget="many2many_tags"/>
                         </group>
                       </page>
                     </notebook>
