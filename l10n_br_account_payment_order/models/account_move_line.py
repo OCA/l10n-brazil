@@ -520,6 +520,63 @@ class AccountMoveLine(models.Model):
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
 
+    def _create_cnab_suspend_protest_keep_wallet(self, reason):
+        """
+        CNAB - Sustar Protesto e Manter em Carteira.
+        """
+        if not self.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id:
+            raise UserError(_(
+                "Payment Mode %s don't has the CNAB Suspend"
+                " Protest and keep in Wallet Code, check if should have."
+            ) % self.payment_mode_id.name)
+
+        # Checar se existe uma Instrução de CNAB ainda a ser enviada
+        self._check_cnab_instruction_to_be_send()
+
+        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+
+        self.mov_instruction_code_id = \
+            self.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id
+        self.message_post(body=_(
+            'Movement Instruction Code Updated for Suspend'
+            ' Protest and Keep in Wallet.'))
+        self.create_payment_line_from_move_line(payorder)
+
+        self.cnab_state = 'added'
+        self.last_change_reason = reason
+        # Registra as Alterações na Fatura
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+
+    def _create_cnab_suspend_protest_writte_off(self, reason):
+        """
+        CNAB - Sustar Protesto e Baixar Titulo.
+        """
+        # TODO: Deveria chamar a função de Não
+        #  Pagamento( _create_cnab_not_payment ) ?
+
+        if not self.payment_mode_id.cnab_code_suspend_protest_write_off_id:
+            raise UserError(_(
+                "Payment Mode %s don't has the CNAB Suspend"
+                " Protest and Writte Off."
+            ) % self.payment_mode_id.name)
+
+        # Checar se existe uma Instrução de CNAB ainda a ser enviada
+        self._check_cnab_instruction_to_be_send()
+
+        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+
+        self.mov_instruction_code_id = \
+            self.payment_mode_id.cnab_code_suspend_protest_write_off_id
+        self.message_post(body=_(
+            'Movement Instruction Code Updated for Suspend'
+            ' Protest and Writte Off Tittle.'))
+        self.create_payment_line_from_move_line(payorder)
+
+        self.cnab_state = 'added'
+        self.last_change_reason = reason
+        # Registra as Alterações na Fatura
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+
     def _create_change(self, change_type, new_date, reason='', **kwargs):
         if change_type == 'change_date_maturity':
             self._change_cnab_date_maturity(new_date, reason)
@@ -531,6 +588,10 @@ class AccountMoveLine(models.Model):
             self._create_cnab_not_payment(reason)
         elif change_type == 'protest_tittle':
             self._create_cnab_protest_tittle(reason)
+        elif change_type == 'suspend_protest_keep_wallet':
+            self._create_cnab_suspend_protest_keep_wallet(reason)
+        elif change_type == 'suspend_protest_writte_off':
+            self._create_cnab_suspend_protest_writte_off(reason)
 
     @api.multi
     @api.depends('own_number')
