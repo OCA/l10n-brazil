@@ -6,7 +6,7 @@
         <xpath expr="//tbody[hasclass('sale_tbody')]//t[@t-as='line']/tr/t[@t-if='not line.display_type']/td[@name='td_taxes']" position="replace">
             <!-- Pedido referente a uma Empresa Brasileira altera os impostos padrões para os do Brasil. -->
             <td t-if="doc.company_id.country_id.phone_code == 55"  name="td_taxes" class="text-right">
-                 <t t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount)" t-as="tax">
+                 <t t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)" t-as="tax">
                 <!-- Usando o phone_code porque tanto code == 'br' ou code == br não funcionaram -->
                     <small>
                         <span t-esc="tax.name"/>
