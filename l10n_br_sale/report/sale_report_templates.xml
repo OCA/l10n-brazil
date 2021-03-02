@@ -6,7 +6,7 @@
         <xpath expr="//tbody[hasclass('sale_tbody')]//t[@t-as='line']/tr/t[@t-if='not line.display_type']/td[@name='td_taxes']" position="replace">
             <!-- Pedido referente a uma Empresa Brasileira altera os impostos padrões para os do Brasil. -->
             <td t-if="doc.company_id.country_id.phone_code == 55"  name="td_taxes" class="text-right">
-                 <t t-foreach="line.fiscal_tax_ids" t-as="tax">
+                 <t t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount)" t-as="tax">
                 <!-- Usando o phone_code porque tanto code == 'br' ou code == br não funcionaram -->
                     <small>
                         <span t-esc="tax.name"/>
@@ -22,7 +22,7 @@
         <!-- Inclusão de outros Totais usados no Brasil -->
         <xpath expr="//div[@name='total']/div/table/tr[@style='']" position="replace">
             <!-- Replace foi necessário para colocar os Totais na ordem desejada. -->
-            <tr class="border-black o_subtotal" style="">
+            <tr t-if="doc.amount_gross != doc.amount_untaxed" class="border-black o_subtotal" style="">
                 <td name="td_amount_gross_label"><strong>Amount Gross</strong></td>
                 <td name="td_amount_amount_gross" class="text-right">
                     <span t-field="doc.amount_gross"/>
