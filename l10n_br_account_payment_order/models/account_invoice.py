@@ -177,7 +177,8 @@ class AccountInvoice(models.Model):
 
         # Identificar a Linha CNAB que vai ser dado Baixa ou
         # terá o Valor do Titulo alterado devido a um pagamento parcial
-        applicable_lines = change_title_value_line = self.env['account.move.line']
+        applicable_lines = change_tittle_value_line = \
+            self.env['account.move.line']
 
         lines_to_check = self.move_id.line_ids.filtered(
             lambda x: x.debit > 0.0 and
@@ -203,12 +204,12 @@ class AccountInvoice(models.Model):
                     # Valor Pago ficou menor que as linhas de debito essa linha
                     # foi paga parcialmente e essa Parcela deverá ter seu valor
                     # alterado
-                    change_title_value_line = line
+                    change_tittle_value_line = line
                     break
 
         for line in applicable_lines:
-            if line == change_title_value_line:
-                line._create_cnab_change_title_value()
+            if line == change_tittle_value_line:
+                line._create_cnab_change_tittle_value()
             else:
                 line._create_cnab_writte_off()
 
