@@ -111,6 +111,7 @@ class SpecModel(models.AbstractModel):
                 continue
             if klass._name != cls._name:
                 cls._map_concrete(klass._name, cls._name)
+                klass._table = cls._table
 
         stacked_parents = [getattr(x, '_name', None) for x in cls.mro()]
         for name, field in cls._fields.items():
