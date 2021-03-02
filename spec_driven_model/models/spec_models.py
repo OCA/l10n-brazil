@@ -75,10 +75,11 @@ class SpecModel(models.AbstractModel):
                 super_parents = super_parents or []
             for super_parent in super_parents:
                 if super_parent.startswith('spec.mixin.'):
-                    cr.execute("SELECT name FROM ir_module_module "
-                               "WHERE name='%s' "
-                               "AND state in ('to install', 'to upgrade')"
-                               % (pool[super_parent]._odoo_module))
+                    cr.execute(
+                        "SELECT name FROM ir_module_module "
+                        "WHERE name='%s' "
+                        "AND state in ('to install', 'to upgrade', 'to remove')"
+                        % (pool[super_parent]._odoo_module))
                     if cr.fetchall():
                         setattr(pool, '_%s_need_hook'
                                 % (pool[super_parent]._odoo_module,), True)
