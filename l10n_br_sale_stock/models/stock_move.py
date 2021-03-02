@@ -31,9 +31,4 @@ class StockMove(models.Model):
                 self.sale_line_id.order_id._prepare_br_fiscal_dict()
 
         values.update(super()._get_new_picking_values())
-        # TODO - remover o pop abaixo depois do merge
-        #  https://github.com/OCA/l10n-brazil/pull/1099
-        #  , não é necessário
-        # Remover o dummy
-        values.pop('fiscal_document_id')
         return values
