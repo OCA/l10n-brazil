@@ -10,6 +10,7 @@ class SpecMixin(models.AbstractModel):
     """
     _description = "root abstract model meant for xsd generated fiscal models"
     _name = 'spec.mixin'
+    _stacking_points = {}
     # _spec_module = 'override.with.your.python.module'
     # _binding_module = 'your.pyhthon.binding.module'
     # _odoo_module = 'your.odoo_module'
