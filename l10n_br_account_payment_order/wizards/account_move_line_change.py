@@ -43,6 +43,9 @@ class AccountMoveLineChange(models.TransientModel):
             # ('baixa', 'Baixa'),
             ('not_payment', 'Baixa por Não Pagamento/Inadimplência'),
             ('protest_tittle', 'Protestar Titulo'),
+            ('suspend_protest_keep_wallet',
+             'Sustar Protesto e Manter em Carteira'),
+            ('suspend_protest_writte_off', 'Sustar Protesto e Baixar Título'),
         ],
         string='Tipo Alteração',
     )

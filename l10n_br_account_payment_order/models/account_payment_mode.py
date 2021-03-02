@@ -336,6 +336,24 @@ class AccountPaymentMode(models.Model):
         track_visibility='always',
     )
 
+    # Codigo para Suspender Protesto e Manter em Carteira
+    cnab_code_suspend_protest_keep_wallet_id = fields.Many2one(
+        comodel_name='l10n_br_cnab.mov.instruction.code',
+        string='Suspend Protest an Keep in Wallet Instruction Code',
+        help='CNAB Movement Instruction Code for'
+             ' Suspend Protest and Keep in Wallet.',
+        track_visibility='always',
+    )
+
+    # Codigo para Suspender Protesto e Baixar Título
+    cnab_code_suspend_protest_write_off_id = fields.Many2one(
+        comodel_name='l10n_br_cnab.mov.instruction.code',
+        string='Suspend Protest an Writte Off Instruction Code',
+        help='CNAB Movement Instruction Code for'
+             ' Suspend Protest and Writte Off.',
+        track_visibility='always',
+    )
+
     # Field used to make invisible banks specifics fields
     bank_id = fields.Many2one(
         related='fixed_journal_id.bank_id',
