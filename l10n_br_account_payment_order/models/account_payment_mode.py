@@ -328,6 +328,14 @@ class AccountPaymentMode(models.Model):
         track_visibility='always',
     )
 
+    # Codigo para Protestar Título
+    cnab_code_protest_title_id = fields.Many2one(
+        comodel_name='l10n_br_cnab.mov.instruction.code',
+        string='Protest Tittle Instruction Code',
+        help='CNAB Movement Instruction Code for Protest Tittle.',
+        track_visibility='always',
+    )
+
     # Field used to make invisible banks specifics fields
     bank_id = fields.Many2one(
         related='fixed_journal_id.bank_id',
