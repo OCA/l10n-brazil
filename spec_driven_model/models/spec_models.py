@@ -47,18 +47,6 @@ class SpecModel(models.AbstractModel):
 
     @classmethod
     def _build_model(cls, pool, cr):
-        """SpecModel models inherit their fields from XSD generated mixins.
-        These mixins can either be made concrete, either be injected into
-        existing concrete Odoo models. In that last case, the comodels of the
-        relational fields pointing to such mixins should be remapped to the
-        proper concrete models where these mixins are injected."""
-        cls._inject_spec_mixin(pool, cr)
-        ModelClass = super(SpecModel, cls)._build_model(pool, cr)
-        ModelClass._mutate_relational_fields(pool, cr)
-        return ModelClass
-
-    @classmethod
-    def _inject_spec_mixin(cls, pool, cr):
         """
         xsd generated spec mixins do not need to depend on this opinionated
         module. That's why the spec.mixin is dynamically injected as a parent
@@ -90,18 +78,33 @@ class SpecModel(models.AbstractModel):
                         pool[parent].__bases__ = ((pool['spec.mixin'],)
                                                   + pool[parent].__bases__)
 
-    @classmethod
-    def _mutate_relational_fields(cls, pool, cr):
+        return super(SpecModel, cls)._build_model(pool, cr)
+
+    @api.model
+    def _setup_fields(self):
+        """
+        SpecModel models inherit their fields from XSD generated mixins.
+        These mixins can either be made concrete, either be injected into
+        existing concrete Odoo models. In that last case, the comodels of the
+        relational fields pointing to such mixins should be remapped to the
+        proper concrete models where these mixins are injected.
+        """
+        self._mutate_relational_fields(self.pool, self.env.cr)
+        return super()._setup_fields()
+
+    @api.model
+    def _mutate_relational_fields(self, pool, cr):
+        cls = type(self)
         """Iterates on the relationnal fields of the model and when the comodel
         is a mixin that has been injected into a concrete models.Model, then
         remap the comodel to the proper concrete model."""
         # mutate o2m and o2m related to m2o comodel to target proper
         # concrete implementation
         env = api.Environment(cr, SUPERUSER_ID, {})
-        if len(cls._inherit) > 1:  # only debug non automatic models
+#        if len(self._inherit) > 1:  # only debug non automatic models
             # _logger.info("\n==== BUILDING SpecModel %s %s" % (cls._name, cls)
-            env[cls._name]._prepare_setup()
-            env[cls._name]._setup_base()
+#            env[self._name]._prepare_setup()
+#            env[self._name]._setup_base()
 
         for klass in cls.__bases__:
             if not hasattr(klass, '_name')\
@@ -134,7 +137,7 @@ class SpecModel(models.AbstractModel):
                         # REM m2o res.partner.nfe40_enderDest (stacked)
                         _logger.debug("    REM m2o %s.%s (stacked)",
                                       cls._name, name)
-                        field.stacked = True
+                        self._stacking_points[name] = field
                     else:
                         _logger.debug("    MUTATING m2o %s (%s) -> %s",
                                       name, comodel_name, concrete_class)
@@ -162,7 +165,15 @@ class SpecModel(models.AbstractModel):
                                           f.args['comodel_name'], cls._name)
                             f.args['original_comodel_name'] = f.args[
                                 'comodel_name']
-                            f.args['comodel_name'] = cls._name
+                            f.args['comodel_name'] = self._name
+
+        for name, value in self._stacking_points.items():
+            if self._fields.get(name):
+                del self._fields[name]
+                delattr(cls, name)
+                if name in cls._proper_fields:
+                    cls._proper_fields.remove(name)
+        cls.pool.model_cache[cls._model_cache_key] = cls
 
     @classmethod
     def _map_concrete(cls, key, target, quiet=False):
