@@ -37,11 +37,12 @@ class SpecModel(models.AbstractModel):
     # context are present
 
     @api.depends(lambda self: (self._rec_name,) if self._rec_name else ())
-    def _compute_display_name_TODO(self):  # TODO issues with that?
+    def _compute_display_name(self):
         "More user friendly when automatic _rec_name is bad"
         res = super(SpecModel, self)._compute_display_name()
-        if self.display_name == "False":
-            self.display_name = _("Abrir...")
+        for rec in self:
+            if rec.display_name == "False" or not rec.display_name:
+                rec.display_name = _("Abrir...")
         return res
 
     @classmethod
