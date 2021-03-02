@@ -66,8 +66,6 @@
               <group>
                 <field name="amount_tax_withholding"/>
                 <field name="amount_fiscal"/>
-                <field name="amount_operation"/>
-                <field name="amount_fiscal_operation"/>
                 <field name="amount_financial"/>
               </group>
               <group>
