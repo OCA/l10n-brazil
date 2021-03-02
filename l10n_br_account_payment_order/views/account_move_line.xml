@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record id="cnab_account_payment_line_tree" model="ir.ui.view">
+        <field name="name">cnab.account.payment.line.tree</field>
+        <field name="model">account.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="mov_instruction_code_id"/>
+                <field name="state"/>
+            </field>
+        </field>
+    </record>
+
     <record id="cnab_view_move_line_form_inherit" model="ir.ui.view">
         <field name="name">cnab.account.move.line.form.inherit</field>
         <field name="model">account.move.line</field>
@@ -28,6 +40,10 @@
                     <field name="mov_instruction_code_id" readonly="1"/>
                     <field name="company_title_identification" readonly="1"/>
                     <field name="instructions"/>
+                </group>
+                <group string="Linhas de Ordem de Pagamentos Relacionadas"
+                       attrs="{'invisible': [('payment_method_code', 'not in', ('400', '240', '500'))]}">
+                    <field name="payment_line_ids" nolabel="1"/>
                 </group>
             </group>
             <sheet position="after">
