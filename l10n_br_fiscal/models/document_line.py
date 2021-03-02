@@ -41,16 +41,6 @@ class DocumentLine(models.Model):
                 record.icms_relief_value
             )
 
-            record.amount_operation = (
-                record.amount_untaxed +
-                amount_insurance_other_freight_discount
-            )
-            record.amount_fiscal_operation = (
-                record.amount_fiscal +
-                amount_insurance_other_freight_discount
-                # + Impostos de importação
-            )
-
             record.amount_tax = record.amount_tax_not_included
             # Valor do documento (NF)
             record.amount_total = (
@@ -133,18 +123,6 @@ class DocumentLine(models.Model):
 
     amount_fiscal = fields.Monetary(
         string='Amount Fiscal',
-        compute='_compute_amount',
-        default=0.00,
-    )
-
-    amount_operation = fields.Monetary(
-        string='Amount Operation',
-        compute='_compute_amount',
-        default=0.00,
-    )
-
-    amount_fiscal_operation = fields.Monetary(
-        string='Amount Fiscal Operation',
         compute='_compute_amount',
         default=0.00,
     )
