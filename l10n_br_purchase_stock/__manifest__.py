@@ -17,6 +17,9 @@
         'views/purchase_order.xml',
         'views/res_config_settings.xml',
     ],
+    'demo': [
+        'demo/purchase_order.xml',
+    ],
     'installable': True,
     'auto_install': True,
 }
