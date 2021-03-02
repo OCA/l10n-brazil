@@ -41,7 +41,8 @@ class AccountMoveLineChange(models.TransientModel):
             #  por fora do CNAB é preciso registrar o pagamento e isso está
             #  sendo chamado no metodo post do account.payment .
             # ('baixa', 'Baixa'),
-            ('not_payment', 'Baixa por Não Pagamento/Inadimplência')
+            ('not_payment', 'Baixa por Não Pagamento/Inadimplência'),
+            ('protest_tittle', 'Protestar Titulo'),
         ],
         string='Tipo Alteração',
     )
