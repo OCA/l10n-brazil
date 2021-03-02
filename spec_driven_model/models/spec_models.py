@@ -239,7 +239,7 @@ class StackedModel(SpecModel):
 
     @classmethod  # TODO rename with _
     def _visit_stack(cls, node, classes, path, registry, cr):
-        """Recursively visits the stacked models.
+        """Pre-order traversal of the stacked models tree.
         1. This method is used to dynamically inherit all the spec models
         stacked together from an XML hierarchy.
         2. It is also useful to generate an automatic view of the spec fields.
@@ -286,8 +286,7 @@ class StackedModel(SpecModel):
                 'xsd_required': hasattr(
                     i[1], 'xsd_required') and getattr(i[1], 'xsd_required'),
                 'choice': hasattr(i[1], 'choice') and getattr(i[1], 'choice'),
-                'stacked': hasattr(
-                    i[1], 'stacked') and getattr(i[1], 'stacked')}
+            }
         for name, f in fields.items():
             if f['type'] not in ['many2one', 'one2many']\
                     or name in cls._stack_skip:
@@ -308,7 +307,7 @@ class StackedModel(SpecModel):
             # many2one
             elif (child_concrete is None or child_concrete == cls._name)\
                     and (f['xsd_required'] or f['choice']
-                         or f['stacked'] or path in cls._force_stack_paths):
+                         or path in cls._force_stack_paths):
                 # then we will STACK the child in the current class
                 # TODO if model not used in any other field!!
                 child._stack_path = path
