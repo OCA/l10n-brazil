@@ -43,6 +43,11 @@
       <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
       <field name="mode">primary</field>
       <field name="arch" type="xml">
+        <xpath expr="//form/field[@name='state_edoc']" position="replace"/>
+        <xpath expr="//header/field[@name='state']" position="replace">
+            <field name="state" invisible="1"/>
+            <field name="state_edoc" widget="statusbar" statusbar_visible="em_digitacao,autorizada" modifiers="{'readonly':true}"/>
+        </xpath>
         <xpath expr="//button[@name='action_document_send']" position="attributes">
             <attribute name="states"/>
             <attribute name="attrs">{'invisible': [('state_edoc', 'not in', ('a_enviar', 'rejeitada'))]}</attribute>
