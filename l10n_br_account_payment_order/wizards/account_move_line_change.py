@@ -29,6 +29,7 @@ class AccountMoveLineChange(models.TransientModel):
         string='Move Line',
         readonly=True,
     )
+    # Muitas opções são permitidas, verificar manual do respectivo CNAB usado.
     change_type = fields.Selection(
         selection=[
             ('change_date_maturity', 'Vencimento'),
@@ -46,20 +47,23 @@ class AccountMoveLineChange(models.TransientModel):
             ('suspend_protest_keep_wallet',
              'Sustar Protesto e Manter em Carteira'),
             ('suspend_protest_writte_off', 'Sustar Protesto e Baixar Título'),
+            ('grant_rebate', 'Conceder Abatimento'),
+            ('cancel_rebate', 'Cancelar Abatimento'),
         ],
         string='Tipo Alteração',
     )
     date_maturity = fields.Date(
-        string="Date Maturity"
+        string='Date Maturity'
     )
     payment_mode_id = fields.Many2one(
-        comodel_name='account.payment.mode',
+        comodel_name='account.payment.mode'
     )
     reason = fields.Text(
-        string="Justificativa",
+        string='Justificativa'
     )
-    # Muitas opções são permitidas, verificar manual do cnab 240.
-    # Entretanto inicialmente só vamos implementar as mais simples.
+    rebate_value = fields.Float(
+        string='Valor de Abatimento'
+    )
 
     @api.multi
     def doit(self):
@@ -68,4 +72,5 @@ class AccountMoveLineChange(models.TransientModel):
             reason=self.reason,
             new_date=self.date_maturity,
             new_payment_mode_id=self.payment_mode_id,
+            rebate_value=self.rebate_value,
         )
