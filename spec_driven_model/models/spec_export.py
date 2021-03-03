@@ -30,8 +30,8 @@ class AbstractSpecMixin(models.AbstractModel):
         for xsd_field in xsd_fields:
             if not xsd_field:
                 continue
-            if ((not self._fields.get(xsd_field))
-                and xsd_field not in self._stacking_points.keys()):
+            if (not self._fields.get(xsd_field))\
+                    and xsd_field not in self._stacking_points.keys():
                 continue
             field_spec_name = xsd_field.replace(class_obj._field_prefix, '')
             if not ds_class_spec.get(field_spec_name):
@@ -41,7 +41,7 @@ class AbstractSpecMixin(models.AbstractModel):
             field_data = self._export_field(xsd_field, class_obj, member_spec)
             if xsd_field in self._stacking_points.keys():
                 if not field_data:
-                # stacked nested tags are skipped if empty
+                    # stacked nested tags are skipped if empty
                     continue
             elif not self[xsd_field] and not field_data:
                 continue
@@ -60,8 +60,8 @@ class AbstractSpecMixin(models.AbstractModel):
         xsd_required = field._attrs.get('xsd_required')
 
         if field.type == 'many2one':
-            if ((not self._stacking_points.get(xsd_field))
-                and (not self[xsd_field] and not xsd_required)):
+            if (not self._stacking_points.get(xsd_field))\
+                    and (not self[xsd_field] and not xsd_required):
                 if field.comodel_name not in self._get_spec_classes():
                     return False
             return self._export_many2one(xsd_field, xsd_required,
