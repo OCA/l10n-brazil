@@ -112,5 +112,5 @@ class ResPartner(spec_models.SpecModel):
         if xsd_field == 'nfe40_xNome' and class_obj._name == 'nfe.40.dest':
             if self.env.context.get('tpAmb') == '2':
                 return 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO ' \
-                        '- SEM VALOR FISCAL'
+                       '- SEM VALOR FISCAL'
         return super()._export_field(xsd_field, class_obj, member_spec)
