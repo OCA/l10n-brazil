@@ -266,7 +266,7 @@ class Tax(models.Model):
         # uot_id = kwargs.get("uot_id")
         discount_value = kwargs.get("discount_value", 0.00)
         # insurance_value = kwargs.get("insurance_value", 0.00)
-        # other_costs_value = kwargs.get("other_costs_value", 0.00)
+        # costs_value = kwargs.get("costs_value", 0.00)
         # freight_value = kwargs.get("freight_value", 0.00)
         # ncm = kwargs.get("ncm")
         # cest = kwargs.get("cest")
@@ -350,9 +350,9 @@ class Tax(models.Model):
         discount_value = kwargs.get("discount_value", 0.00)
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
-        other_costs_value = kwargs.get("other_costs_value", 0.00)
+        costs_value = kwargs.get("costs_value", 0.00)
 
-        add_to_base = [insurance_value, freight_value, other_costs_value]
+        add_to_base = [insurance_value, freight_value, costs_value]
         remove_from_base = [discount_value]
 
         # Get Computed IPI Tax
@@ -482,9 +482,9 @@ class Tax(models.Model):
         discount_value = kwargs.get("discount_value", 0.00)
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
-        other_costs_value = kwargs.get("other_costs_value", 0.00)
+        costs_value = kwargs.get("costs_value", 0.00)
 
-        add_to_base = [insurance_value, freight_value, other_costs_value]
+        add_to_base = [insurance_value, freight_value, costs_value]
         remove_from_base = [discount_value]
 
         # Get Computed IPI Tax
@@ -510,10 +510,10 @@ class Tax(models.Model):
         discount_value = kwargs.get("discount_value", 0.00)
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
-        other_costs_value = kwargs.get("other_costs_value", 0.00)
+        costs_value = kwargs.get("costs_value", 0.00)
         icmssn_range = kwargs.get("icmssn_range")
 
-        add_to_base = [insurance_value, freight_value, other_costs_value]
+        add_to_base = [insurance_value, freight_value, costs_value]
         remove_from_base = [discount_value]
 
         # Get Computed IPI Tax
@@ -572,9 +572,9 @@ class Tax(models.Model):
         discount_value = kwargs.get("discount_value", 0.00)
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
-        other_costs_value = kwargs.get("other_costs_value", 0.00)
+        costs_value = kwargs.get("costs_value", 0.00)
 
-        add_to_base = [insurance_value, freight_value, other_costs_value]
+        add_to_base = [insurance_value, freight_value, costs_value]
         remove_from_base = [discount_value]
 
         kwargs.update({
@@ -623,7 +623,7 @@ class Tax(models.Model):
             uot_id,
             discount_value,
             insurance_value,
-            other_costs_value,
+            costs_value,
             freight_value,
             ncm,
             nbs,
