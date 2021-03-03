@@ -550,9 +550,13 @@ class NFe(spec_models.StackedModel):
                 return False
 
             elif (not xsd_required) and field_name not in ['nfe40_enderDest']:
-                fields = [f for f in self.env[self._stacking_points.get(field_name).comodel_name]._fields if f.startswith(self._field_prefix)]
+                comodel = self.env[self._stacking_points.get(
+                    field_name).comodel_name]
+                fields = [f for f in comodel._fields
+                          if f.startswith(self._field_prefix)]
                 sub_tag_read = self.read(fields)[0]
-                if not any(v for k, v in sub_tag_read.items() if k.startswith(self._field_prefix)):
+                if not any(v for k, v in sub_tag_read.items()
+                           if k.startswith(self._field_prefix)):
                     return False
 
         return super(NFe, self)._export_many2one(field_name, xsd_required, class_obj)
