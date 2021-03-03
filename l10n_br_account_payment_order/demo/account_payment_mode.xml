@@ -279,6 +279,8 @@
         <field name="cnab_code_suspend_protest_write_off_id" ref="cef_cnab_240-mov_instruction_code_10"/>
         <field name="cnab_code_grant_rebate_id" ref="cef_cnab_240-mov_instruction_code_04"/>
         <field name="cnab_code_cancel_rebate_id" ref="cef_cnab_240-mov_instruction_code_05"/>
+        <field name="cnab_code_grant_discount_id" ref="cef_cnab_240-mov_instruction_code_07"/>
+        <field name="cnab_code_cancel_discount_id" ref="cef_cnab_240-mov_instruction_code_08"/>
     </record>
 
     <!-- Modo de Pagamento cobrança Caixa Economica Federal 400 -->
