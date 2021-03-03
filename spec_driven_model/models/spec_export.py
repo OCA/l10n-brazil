@@ -17,11 +17,21 @@ class AbstractSpecMixin(models.AbstractModel):
         return getattr(binding_module, class_obj._generateds_type)
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
+        """
+        Iterates over the record fields and map them in an dict of values
+        that will later be injected as **kwargs in the proper XML Python
+        binding constructors. Hence the value can either be simple values or
+        sub binding instances already properly instanciated.
+        """
+        self.ensure_one()
         ds_class = self._get_ds_class(class_obj)
         ds_class_spec = {i.name: i for i in ds_class.member_data_items_}
 
         for xsd_field in xsd_fields:
-            if not xsd_field or not self._fields.get(xsd_field):
+            if not xsd_field:
+                continue
+            if ((not self._fields.get(xsd_field))
+                and xsd_field not in self._stacking_points.keys()):
                 continue
             field_spec_name = xsd_field.replace(class_obj._field_prefix, '')
             if not ds_class_spec.get(field_spec_name):
@@ -29,21 +39,30 @@ class AbstractSpecMixin(models.AbstractModel):
                 continue
             member_spec = ds_class_spec[field_spec_name]
             field_data = self._export_field(xsd_field, class_obj, member_spec)
-
-            if not self[xsd_field] and not field_data:
+            if xsd_field in self._stacking_points.keys():
+                if not field_data:
+                # stacked nested tags are skipped if empty
+                    continue
+            elif not self[xsd_field] and not field_data:
                 continue
 
             export_dict[field_spec_name] = field_data
 
     def _export_field(self, xsd_field, class_obj, member_spec):
+        """
+        Maps a single Odoo field to a python binding value according to the
+        kind of field.
+        """
+        self.ensure_one()
         # TODO: Export number required fields with Zero.
-        xsd_required = class_obj._fields[xsd_field]._attrs.get(
-            'xsd_required')
+        field = class_obj._fields.get(
+            xsd_field, self._stacking_points.get(xsd_field))
+        xsd_required = field._attrs.get('xsd_required')
 
-        if self._fields[xsd_field].type == 'many2one':
-            if not self[xsd_field] and not xsd_required:
-                if class_obj._fields[xsd_field].comodel_name \
-                        not in self._get_spec_classes():
+        if field.type == 'many2one':
+            if ((not self._stacking_points.get(xsd_field))
+                and (not self[xsd_field] and not xsd_required)):
+                if field.comodel_name not in self._get_spec_classes():
                     return False
             return self._export_many2one(xsd_field, xsd_required,
                                          class_obj)
@@ -62,10 +81,9 @@ class AbstractSpecMixin(models.AbstractModel):
             return self[xsd_field]
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
-        if self._fields[field_name]._attrs.get('original_spec_model'):
-            return self[field_name]._build_generateds(
-                class_name=self._fields[field_name]._attrs.get(
-                    'original_spec_model')
+        if field_name in self._stacking_points.keys():
+            return self._build_generateds(
+                class_name=self._stacking_points[field_name].comodel_name
             )
         else:
             return (self[field_name] or self)._build_generateds(
@@ -121,6 +139,16 @@ class AbstractSpecMixin(models.AbstractModel):
         return spec_classes
 
     def _build_generateds(self, class_name=False):
+        """
+        Iterates over an Odoo record and its m2o and o2m sub-records
+        using a pre-order tree traversal and maps the Odoo record values
+        to  a dict of Python binding values.
+
+        These values will later be injected as **kwargs in the proper XML Python
+        binding constructors. Hence the value can either be simple values or
+        sub binding instances already properly instanciated.
+        """
+        self.ensure_one()
         if not class_name:
             if hasattr(self, '_stacked'):
                 class_name = self._stacked
@@ -158,6 +186,7 @@ class AbstractSpecMixin(models.AbstractModel):
         output.close()
 
     def export_xml(self, print_xml=True):
+        self.ensure_one()
         result = []
 
         if hasattr(self, '_stacked'):
@@ -176,4 +205,5 @@ class AbstractSpecMixin(models.AbstractModel):
         return result
 
     def export_ds(self):
+        self.ensure_one()
         return self.export_xml(print_xml=False)
