@@ -80,7 +80,7 @@ class AbstractSpecMixin(models.AbstractModel):
         value = getattr(node, attr.get_name())
         if value is None or value == []:
             return False
-        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
+        key = "%s%s" % (self._field_prefix, attr.get_name(),)
         child_path = '%s.%s' % (path, key)
 
         if attr.get_child_attrs().get('type') is None\
@@ -107,7 +107,11 @@ class AbstractSpecMixin(models.AbstractModel):
             else:
                 clean_type = attr.get_child_attrs()[
                     'type'].replace('Type', '').lower()
-                comodel_name = "nfe.40.%s" % (clean_type,)  # TODO clean
+                comodel_name = "%s.%s.%s" % (
+                    self._schema_name,
+                    self._schema_version.replace('.', '')[0:2],
+                    clean_type,
+                )
 
             comodel = self.get_concrete_model(comodel_name)
             if comodel is None:  # example skip ICMS100 class
@@ -188,7 +192,7 @@ class AbstractSpecMixin(models.AbstractModel):
         fields = self.fields_get()
         for k, v in fields.items():
             # select schema choices for a friendly UI:
-            if k.startswith('nfe40_choice'):  # TODO schema wise
+            if k.startswith('%schoice' % (self._field_prefix,)):
                 for item in v.get('selection', []):
                     if vals.get(item[0]) not in [None, []]:
                         vals[k] = item[0]
@@ -198,7 +202,7 @@ class AbstractSpecMixin(models.AbstractModel):
             elif v.get('related') is not None and vals.get(k) is not None:
                 if len(v['related']) == 1:
                     vals[v['related'][0]] = vals.get(k)
-                elif len(v['related']) == 2 and k.startswith('nfe40_'):  # TODO
+                elif len(v['related']) == 2 and k.startswith(self._field_prefix):
                     related_m2o = v['related'][0]
                     # don't mess with _inherits write system
                     if not any(related_m2o == i[1]
@@ -236,8 +240,9 @@ class AbstractSpecMixin(models.AbstractModel):
         if model is None:
             model = self
         default_key = [model._rec_name or model._concrete_rec_name or 'name']
-        if hasattr(model, '_nfe_search_keys'):  # TODO make schema wise
-            keys = model._nfe_search_keys + default_key
+        search_keys = "_%s_search_keys" % (self._schema_name)
+        if hasattr(model, search_keys):
+            keys = getattr(model, search_keys) + default_key
         else:
             keys = [model._rec_name or model._concrete_rec_name or 'name']
         keys = self._get_aditional_keys(model, rec_dict, keys)
