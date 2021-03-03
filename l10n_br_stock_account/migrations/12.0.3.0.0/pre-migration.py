@@ -4,7 +4,7 @@
 from openupgradelib import openupgrade
 
 _columns_rename = {
-    'account_invoice_line': [
+    'stock_move': [
         ('other_costs_value', 'costs_value')],
 }
 
