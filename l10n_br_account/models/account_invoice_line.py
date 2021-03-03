@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK,
-    FISCAL_IN_OUT,
+    # FISCAL_IN_OUT,
 )
 
 from .account_invoice import INVOICE_TO_OPERATION
