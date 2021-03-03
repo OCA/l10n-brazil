@@ -62,6 +62,15 @@
 <!--            -->
             <field name="state" widget="statusbar" statusbar_visible="em_digitacao,autorizada"/>
         </header>
+        <div class="alert alert-danger" role="alert" attrs="{'invisible': [('state_edoc','not in',('rejeitada', 'denegada'))]}">
+            Fiscal Document: <field name="document_type_id"/> is <strong><field name="state_edoc"/></strong>: <field name="codigo_motivo_situacao"/>
+        </div>
+        <div class="alert alert-success" role="alert" attrs="{'invisible': [('state_edoc','!=','autorizada')]}">
+            Fiscal Document: <field name="document_type_id"/> is <strong>Authorized</strong>
+        </div>
+        <div class="alert alert-warning" role="alert" attrs="{'invisible': [('state_edoc','!=','cancelada')]}">
+            Fiscal Document: <field name="document_type_id"/> is <strong>Cancelled</strong>
+        </div>
         <sheet string="Fiscal Document">
           <div class="oe_title">
             <h1>
@@ -89,7 +98,6 @@
             <group>
               <field name="document_serie_id" attrs="{'invisible': [('issuer', '!=', 'company')], 'required': [('issuer', '=', 'company')]}" context="{'default_document_type_id': document_type_id}"/>
               <field name="document_serie" attrs="{'invisible': [('issuer', '!=', 'partner')], 'required': [('issuer', '=', 'partner')]}"/>
-              <field name="codigo_motivo_situacao" attrs="{'invisible': [('document_electronic', '=', '0')]}"/>
             </group>
             <group>
               <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
@@ -199,6 +207,7 @@
             <page name="others" string="Others">
                 <group>
                     <field name="operation_name"/>
+                    <field name="codigo_motivo_situacao" attrs="{'invisible': [('document_electronic', '=', '0')]}"/>
                 </group>
                 <group>
                     <group name="autorizacao" string="Autorização" colspan="4">
