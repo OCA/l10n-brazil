@@ -64,6 +64,7 @@ class NFe(spec_models.StackedModel):
     _odoo_module = 'l10n_br_nfe'
     _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
     _spec_tab_name = 'NFe'
+    _stacking_points = {}
 #    _concrete_skip = ('nfe.40.det',) # will be mixed in later
     _nfe_search_keys = ['nfe40_Id']
 
@@ -540,20 +541,21 @@ class NFe(spec_models.StackedModel):
             xsd_field, class_obj, member_spec)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
-        if not self[field_name] and not xsd_required:
-            if not any(self[f] for f in self[field_name]._fields
-                       if self._fields[f]._attrs.get('xsd')) and \
-                    field_name not in ['nfe40_PIS', 'nfe40_COFINS',
-                                       'nfe40_enderDest']:
+        self.ensure_one()
+        if field_name in self._stacking_points.keys():
+            if field_name == 'nfe40_ISSQNtot' and not any(
+                    t == 'issqn' for t in
+                    self.nfe40_det.mapped('product_id.tax_icms_or_issqn')
+            ):
                 return False
-        if field_name == 'nfe40_ISSQNtot' and not any(
-                t == 'issqn' for t in
-                self.nfe40_det.mapped('product_id.tax_icms_or_issqn')
-        ):
-            self[field_name] = False
-            return False
-        return super(NFe, self)._export_many2one(
-            field_name, xsd_required, class_obj)
+
+            elif (not xsd_required) and field_name not in ['nfe40_enderDest']:
+                fields = [f for f in self.env[self._stacking_points.get(field_name).comodel_name]._fields if f.startswith(self._field_prefix)]
+                sub_tag_read = self.read(fields)[0]
+                if not any(v for k, v in sub_tag_read.items() if k.startswith(self._field_prefix)):
+                    return False
+
+        return super(NFe, self)._export_many2one(field_name, xsd_required, class_obj)
 
     def _export_float_monetary(self, field_name, member_spec, class_obj,
                                xsd_required):
