@@ -97,7 +97,7 @@ class L10nBrCNABChangeMethods(models.Model):
                  payment_line_to_be_send.order_id.state, self.invoice_id.number))
         pass
 
-    def _msg_cnab_payment_order_at_invoice(self, new_payorder, payorder):
+    def _msg_cnab_payment_order_at_invoice(self, new_payorder, payorder, reason):
         """
         CNAB - Registra a mensagem de alteração na Fatura para rastreabilidade.
         :param new_payorder: Se é uma nova Ordem de Pagamento/Debito
@@ -111,13 +111,15 @@ class L10nBrCNABChangeMethods(models.Model):
             self.invoice_id.message_post(body=_(
                 'Payment line added to the the new draft payment '
                 'order %s which has been automatically created,'
-                ' to send CNAB Instruction %s for OWN NUMBER %s.'
-            ) % (payorder.name, cnab_instruction, self.own_number))
+                ' to send CNAB Instruction %s for OWN NUMBER %s.\n'
+                'Justification: %s'
+            ) % (payorder.name, cnab_instruction, self.own_number, reason))
         else:
             self.invoice_id.message_post(body=_(
                 'Payment line added to the existing draft '
-                'order %s to send CNAB Instruction %s for OWN NUMBER %s.'
-            ) % (payorder.name, cnab_instruction, self.own_number))
+                'order %s to send CNAB Instruction %s for OWN NUMBER %s.\n'
+                'Justification: %s'
+            ) % (payorder.name, cnab_instruction, self.own_number, reason))
 
     def _msg_error_cnab_missing(self, payment_mode_name, missing):
         """
@@ -152,9 +154,7 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_change_maturity_date_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Request to'
-            ' Change Maturity Date.'))
+
         self.create_payment_line_from_move_line(payorder)
         self.cnab_state = 'added'
 
@@ -164,7 +164,7 @@ class L10nBrCNABChangeMethods(models.Model):
         })
 
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_not_payment(self, reason, payorder, new_payorder):
         """
@@ -186,11 +186,6 @@ class L10nBrCNABChangeMethods(models.Model):
         #  Em todos os casos?
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_write_off_code_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Request to'
-            ' Write Off, because not payment.'))
-        self.create_payment_line_from_move_line(payorder)
-        self.cnab_state = 'added'
 
         # Reconciliação e Baixa do Título
         move_obj = self.env['account.move']
@@ -244,13 +239,12 @@ class L10nBrCNABChangeMethods(models.Model):
             lambda m: m.credit > 0.0)
         (self + move_line_to_reconcile).reconcile()
 
-        self.write({
-            'last_change_reason': reason,
-            'payment_situation': 'nao_pagamento',
-        })
+        self.create_payment_line_from_move_line(payorder)
+        self.cnab_state = 'added'
+        self.payment_situation = 'nao_pagamento'
 
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_writte_off(self):
         """
@@ -268,14 +262,13 @@ class L10nBrCNABChangeMethods(models.Model):
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_write_off_code_id
         self.payment_situation = 'baixa_liquidacao'
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Request to'
-            ' Write Off, because payment done in another way.'))
+        reason = 'Movement Instruction Code Updated for Request' \
+                 ' to Write Off, because payment done in another way.'
         self.create_payment_line_from_move_line(payorder)
         self.cnab_state = 'added_paid'
 
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_change_tittle_value(self):
         """
@@ -292,16 +285,16 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_change_title_value_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Request to'
+        reason = (('Movement Instruction Code Updated for Request to'
             ' Change Title Value, because partial payment'
             ' of %d done.') % (self.debit - self.amount_residual))
+
         self.create_payment_line_from_move_line(payorder)
 
         self.cnab_state = 'added'
 
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_protest_tittle(self, reason, payorder, new_payorder):
         """
@@ -313,14 +306,11 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_protest_title_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Request to Protest Title'))
-        self.create_payment_line_from_move_line(payorder)
 
+        self.create_payment_line_from_move_line(payorder)
         self.cnab_state = 'added'
-        self.last_change_reason = reason
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_suspend_protest_keep_wallet(
             self, reason, payorder, new_payorder):
@@ -334,15 +324,13 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Suspend'
-            ' Protest and Keep in Wallet.'))
+
         self.create_payment_line_from_move_line(payorder)
 
         self.cnab_state = 'added'
         self.last_change_reason = reason
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_suspend_protest_writte_off(
             self, reason, payorder, new_payorder):
@@ -359,15 +347,10 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_suspend_protest_write_off_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Suspend'
-            ' Protest and Writte Off Tittle.'))
         self.create_payment_line_from_move_line(payorder)
-
         self.cnab_state = 'added'
-        self.last_change_reason = reason
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_grant_rebate(
             self, rebate_value, reason, payorder, new_payorder):
@@ -382,17 +365,13 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_grant_rebate_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Grant'
-            ' Rebate for Tittle.'))
         self.with_context(
             rebate_value=rebate_value). \
             create_payment_line_from_move_line(payorder)
-
         self.cnab_state = 'added'
         self.last_change_reason = reason
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_cancel_rebate(
             self, reason, payorder, new_payorder):
@@ -406,15 +385,11 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_cancel_rebate_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Cancel'
-            ' Rebate for Tittle.'))
-        self.create_payment_line_from_move_line(payorder)
 
+        self.create_payment_line_from_move_line(payorder)
         self.cnab_state = 'added'
-        self.last_change_reason = reason
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_grant_discount(
             self, discount_value, reason, payorder, new_payorder):
@@ -429,17 +404,14 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_grant_discount_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Grant'
-            ' Rebate for Tittle.'))
+
         self.with_context(
             discount_value=discount_value). \
             create_payment_line_from_move_line(payorder)
 
         self.cnab_state = 'added'
-        self.last_change_reason = reason
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_cnab_cancel_discount(self, reason, payorder, new_payorder):
         """
@@ -452,15 +424,11 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_cancel_discount_id
-        self.message_post(body=_(
-            'Movement Instruction Code Updated for Cancel'
-            ' Discount for Tittle.'))
         self.create_payment_line_from_move_line(payorder)
 
         self.cnab_state = 'added'
-        self.last_change_reason = reason
         # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def _create_payment_order_change(self, **kwargs):
         self.ensure_one()
