@@ -12,7 +12,7 @@ class DocumentCancelWizard(models.TransientModel):
         for wizard in self:
             # TODO refactoring in fiscal event PR
             document = self.env[self.env.context["active_model"]].browse(
-                self.env.context["active_id"]
+                self.env.context["active_id"])
 
             if self.env.context["active_model"] == 'account.invoice':
                 invoice = document
