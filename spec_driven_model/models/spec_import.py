@@ -137,6 +137,7 @@ class AbstractSpecMixin(models.AbstractModel):
                                                     path=child_path)
                     lines.append((0, 0, line_vals))
                 vals[key] = lines
+
     @api.model
     def _build_string_not_simple_type(self, key, vals, value, node):
         vals[key] = value
