@@ -345,12 +345,14 @@ class AccountInvoice(models.Model):
     def action_move_create(self):
         for inv in self.filtered(lambda i: i.fiscal_document_id !=
                 self.env.ref('l10n_br_fiscal.fiscal_document_dummy')):
-            inv.fiscal_document_id.action_document_confirm()
             if inv.issuer == DOCUMENT_ISSUER_COMPANY:
+                inv.fiscal_document_id.document_number()
                 inv.fiscal_number = inv.fiscal_document_id.number
             else:
                 inv.fiscal_document_id.number = inv.fiscal_number
-        return super().action_move_create()
+            result = super().action_move_create()
+            inv.fiscal_document_id.action_document_confirm()
+        return result
 
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
@@ -361,24 +363,22 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_cancel(self):
         super().action_cancel()
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        fiscal_documents = self.filtered(
-            lambda i: i.fiscal_document_id != dummy_doc).mapped(
-                'fiscal_document_id')
-
-        fiscal_document_to_cancel = fiscal_documents.filtered(
-            lambda d: d.state != SITUACAO_EDOC_AUTORIZADA)
-
-        fiscal_document_to_draft = fiscal_documents.filtered(
-            lambda d: d.state == SITUACAO_EDOC_A_ENVIAR)
-
-        if fiscal_document_to_draft:
-            fiscal_document_to_draft.action_document_back2draft()
-
-        if fiscal_document_to_cancel:
-            return fiscal_document_to_cancel.with_context(
-                active_model=fiscal_document_to_cancel._name,
-                active_id=fiscal_document_to_cancel.id).action_document_cancel()
+        # TODO refactoring it
+        # dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        # fiscal_documents = self.filtered(
+        #     lambda i: i.fiscal_document_id != dummy_doc).mapped(
+        #         'fiscal_document_id')
+        #
+        # fiscal_document_to_cancel = fiscal_documents.filtered(
+        #     lambda d: d.state != SITUACAO_EDOC_AUTORIZADA)
+        #
+        # fiscal_document_to_draft = fiscal_documents.filtered(
+        #     lambda d: d.state == SITUACAO_EDOC_A_ENVIAR)
+        #
+        # if fiscal_document_to_cancel:
+        #     return fiscal_document_to_cancel.with_context(
+        #         active_model=fiscal_document_to_cancel._name,
+        #         active_id=fiscal_document_to_cancel.id).action_document_cancel()
 
     @api.multi
     def open_fiscal_document(self):
@@ -421,3 +421,9 @@ class AccountInvoice(models.Model):
         for invoice in self:
             if invoice.document_type_id:
                 invoice.fiscal_document_id.view_pdf()
+
+    def action_document_back2draft(self):
+        for invoice in self:
+            if invoice.document_type_id:
+                invoice.action_cancel()
+                invoice.action_invoice_draft()
