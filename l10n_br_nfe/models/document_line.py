@@ -28,7 +28,6 @@ class NFeLine(spec_models.StackedModel):
     _stacking_points = {}
     # all m2o below this level will be stacked even if not required:
     _force_stack_paths = ('det.imposto',)
-    _rec_name = 'nfe40_xProd'
 
     # The generateDS prod mixin (prod XML tag) cannot be inject in
     # the product.product object because the tag embeded values from the
@@ -37,10 +36,6 @@ class NFeLine(spec_models.StackedModel):
     # from XML -> Odoo by overriding the product create method
     nfe40_cProd = fields.Char(
         related='product_id.default_code',
-    )
-
-    nfe40_xProd = fields.Char(
-        related='product_id.name',
     )
 
     nfe40_cEAN = fields.Char(
@@ -473,11 +468,15 @@ class NFeLine(spec_models.StackedModel):
             elif field_name in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
                 return False
 
-            elif (not xsd_required) and field_name not in ['nfe40_PIS', 'nfe40_COFINS', 'nfe40_IPI']:
-                fields = [f for f in self.env[self._stacking_points.get(field_name).comodel_name]._fields if f.startswith(self._field_prefix)]
+            elif ((not xsd_required) and field_name
+                  not in ['nfe40_PIS', 'nfe40_COFINS', 'nfe40_IPI']):
+                comodel = self.env[self._stacking_points.get(
+                    field_name).comodel_name]
+                fields = [f for f in comodel._fields
+                          if f.startswith(self._field_prefix)]
                 sub_tag_read = self.read(fields)[0]
-                if not any(v for k, v in sub_tag_read.items() if k.startswith(self._field_prefix)):
-                    print("    removing!", field_name)
+                if not any(v for k, v in sub_tag_read.items()
+                           if k.startswith(self._field_prefix)):
                     return False
 
         return super()._export_many2one(field_name, xsd_required, class_obj)
