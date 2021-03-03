@@ -58,7 +58,7 @@
                   <page name="others" string="Outros Custos">
                       <group>
                           <field name="insurance_value"/>
-                          <field name="other_costs_value"/>
+                          <field name="costs_value"/>
                           <field name="freight_value"/>
                       </group>
                   </page>
