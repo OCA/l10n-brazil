@@ -12,48 +12,6 @@ class DocumentLine(models.Model):
     _inherit = 'l10n_br_fiscal.document.line.mixin'
     _description = 'Fiscal Document Line'
 
-    @api.depends(
-        'fiscal_price',
-        'discount_value',
-        'insurance_value',
-        'other_costs_value',
-        'freight_value',
-        'fiscal_quantity',
-        'amount_tax_not_included',
-        'uot_id',
-        'product_id',
-        'document_id.partner_id',
-        'document_id.company_id')
-    def _compute_amount(self):
-        for record in self:
-            round_curr = record.document_id.currency_id.round
-            # Valor dos produtos
-            record.amount_untaxed = round_curr(record.price_unit *
-                                               record.quantity)
-            record.amount_fiscal = round_curr(
-                record.fiscal_price * record.fiscal_quantity)
-
-            amount_insurance_other_freight_discount = (
-                record.insurance_value +
-                record.other_costs_value +
-                record.freight_value -
-                record.discount_value -
-                record.icms_relief_value
-            )
-
-            record.amount_tax = record.amount_tax_not_included
-            # Valor do documento (NF)
-            record.amount_total = (
-                record.amount_untaxed +
-                record.amount_tax +
-                amount_insurance_other_freight_discount
-            )
-
-            record.amount_financial = (
-                record.amount_total -
-                record.amount_tax_withholding
-            )
-
     @api.model
     def _operation_domain(self):
         domain = [('state', '=', 'approved')]
