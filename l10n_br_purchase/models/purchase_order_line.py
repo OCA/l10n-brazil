@@ -71,7 +71,7 @@ class PurchaseOrderLine(models.Model):
             price_tax = line.price_tax + line.amount_tax_not_included
             price_subtotal = (
                 line.price_subtotal + line.freight_value +
-                line.insurance_value + line.other_costs_value)
+                line.insurance_value + line.costs_value)
 
             line.update({
                 'price_tax': price_tax,
