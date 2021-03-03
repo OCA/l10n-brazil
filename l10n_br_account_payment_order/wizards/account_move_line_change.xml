@@ -4,11 +4,11 @@
 
 <odoo>
 
-    <record model="ir.ui.view" id="account_move_line_change_form_view">
-        <field name="name">account.move.line.change.form (in l10n_br_account_payment_order)</field>
-        <field name="model">account.move.line.change</field>
+    <record model="ir.ui.view" id="account_move_line_cnab_change_form_view">
+        <field name="name">account.move.line.cnab.change.form (in l10n_br_account_payment_order)</field>
+        <field name="model">account.move.line.cnab.change</field>
         <field name="arch" type="xml">
-            <form string="Account Move Line Change">
+            <form string="Account Move Line CNAB Change">
                 <field name="account_move_line_ids" nolabel="1"/>
                 <group>
                     <field name="change_type" widget="radio"/>
@@ -32,11 +32,11 @@
     </record>
 
     <record model="ir.actions.act_window" id="account_move_line_change_act_window">
-        <field name="name">Change Account Move Line</field>
+        <field name="name">CNAB Change Account Move Line</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">account.move.line.change</field>
+        <field name="res_model">account.move.line.cnab.change</field>
         <field name="view_mode">form</field>
-        <field name="view_id" ref="account_move_line_change_form_view"/>
+        <field name="view_id" ref="account_move_line_cnab_change_form_view"/>
         <field name="target">new</field>
         <field name="multi">True</field>
         <field name="binding_model_id" ref="account.model_account_move_line"/>
