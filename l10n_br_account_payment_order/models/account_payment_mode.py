@@ -372,6 +372,24 @@ class AccountPaymentMode(models.Model):
         track_visibility='always',
     )
 
+    # Codigo para Conceder Desconto
+    cnab_code_grant_discount_id = fields.Many2one(
+        comodel_name='l10n_br_cnab.mov.instruction.code',
+        string='Grant Discount Instruction Code',
+        help='CNAB Movement Instruction Code for'
+             ' Grant Discount.',
+        track_visibility='always',
+    )
+
+    # Codigo para Cancelar Abatimento
+    cnab_code_cancel_discount_id = fields.Many2one(
+        comodel_name='l10n_br_cnab.mov.instruction.code',
+        string='Cancel Discount Instruction Code',
+        help='CNAB Movement Instruction Code for'
+             ' Cancel Discount.',
+        track_visibility='always',
+    )
+
     # Field used to make invisible banks specifics fields
     bank_id = fields.Many2one(
         related='fixed_journal_id.bank_id',
