@@ -68,7 +68,7 @@ class FiscalLineMixin(models.AbstractModel):
         'discount_value',
         'freight_value',
         'insurance_value',
-        'other_costs_value',
+        'costs_value',
         'tax_id')
     def _compute_price_subtotal(self):
         super()._compute_price_subtotal()
@@ -77,7 +77,7 @@ class FiscalLineMixin(models.AbstractModel):
             price_tax = l.price_tax + l.amount_tax_not_included
             price_total = (
                 l.price_subtotal + l.freight_value +
-                l.insurance_value + l.other_costs_value)
+                l.insurance_value + l.costs_value)
 
             price_subtotal = (
                 l.price_subtotal * (1 - (l.discount or 0.0) / 100.0)
