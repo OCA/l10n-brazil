@@ -145,6 +145,9 @@ class AccountMoveLine(models.Model):
         if self.env.context.get('rebate_value'):
             vals['rebate_value'] = self.env.context.get('rebate_value')
 
+        if self.env.context.get('discount_value'):
+            vals['discount_value'] = self.env.context.get('discount_value')
+
         # TODO - ainda necessário ?
         # if self.invoice_id.state == 'paid':
         #    vals['amount_currency'] = self.credit or self.debit
@@ -639,7 +642,68 @@ class AccountMoveLine(models.Model):
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
 
-    def _create_change(self, change_type, new_date, rebate_value, reason='', **kwargs):
+    def _create_cnab_grant_discount(self, discount_value, reason):
+        """
+        CNAB - Conceder Desconto.
+        :param discount_value: Valor do Desconto
+        :param reason: Descrição sobre alteração
+        """
+        if not self.payment_mode_id.cnab_code_grant_discount_id:
+            raise UserError(_(
+                "Payment Mode %s don't has the CNAB Grant Discount"
+                ", check if should have."
+            ) % self.payment_mode_id.name)
+
+        # Checar se existe uma Instrução de CNAB ainda a ser enviada
+        self._check_cnab_instruction_to_be_send()
+
+        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+
+        self.mov_instruction_code_id = \
+            self.payment_mode_id.cnab_code_grant_discount_id
+        self.message_post(body=_(
+            'Movement Instruction Code Updated for Grant'
+            ' Rebate for Tittle.'))
+        self.with_context(
+            discount_value=discount_value). \
+            create_payment_line_from_move_line(payorder)
+
+        self.cnab_state = 'added'
+        self.last_change_reason = reason
+        # Registra as Alterações na Fatura
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+
+    def _create_cnab_cancel_discount(self, reason):
+        """
+        CNAB - Cancelar Desconto.
+        :param reason: Descrição sobre alteração
+        """
+        if not self.payment_mode_id.cnab_code_cancel_discount_id:
+            raise UserError(_(
+                "Payment Mode %s don't has the CNAB Cancel Discount"
+                ", check if should have."
+            ) % self.payment_mode_id.name)
+
+        # Checar se existe uma Instrução de CNAB ainda a ser enviada
+        self._check_cnab_instruction_to_be_send()
+
+        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+
+        self.mov_instruction_code_id = \
+            self.payment_mode_id.cnab_code_cancel_discount_id
+        self.message_post(body=_(
+            'Movement Instruction Code Updated for Cancel'
+            ' Discount for Tittle.'))
+        self.create_payment_line_from_move_line(payorder)
+
+        self.cnab_state = 'added'
+        self.last_change_reason = reason
+        # Registra as Alterações na Fatura
+        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder)
+
+    def _create_change(
+            self, change_type, new_date, rebate_value, discount_value,
+            reason='', **kwargs):
         if change_type == 'change_date_maturity':
             self._change_cnab_date_maturity(new_date, reason)
         elif change_type == 'change_payment_mode':
@@ -658,6 +722,10 @@ class AccountMoveLine(models.Model):
             self._create_cnab_grant_rebate(rebate_value, reason)
         elif change_type == 'cancel_rebate':
             self._create_cnab_cancel_rebate(reason)
+        elif change_type == 'grant_discount':
+            self._create_cnab_grant_discount(discount_value, reason)
+        elif change_type == 'cancel_discount':
+            self._create_cnab_cancel_discount(reason)
 
     @api.multi
     @api.depends('own_number')
