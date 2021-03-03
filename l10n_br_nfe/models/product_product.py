@@ -18,7 +18,8 @@ class ProductProduct(models.Model):
     @api.model
     def create(self, values):
         parent_dict = self._context.get('parent_dict', {})
-        values['name'] = parent_dict['nfe40_xProd']
+        if parent_dict.get('nfe40_xProd'):
+            values['name'] = parent_dict['nfe40_xProd']
 
         # Price Unit
         if parent_dict.get('nfe40_vUnCom'):
