@@ -120,6 +120,7 @@
                 <attribute name="groups">!l10n_br_sale.group_discount_per_value</attribute>
             </xpath>
             <xpath expr="//field[@name='order_line']/form//div[@name='discount']" position="after">
+              <field name="discount_fixed" groups="l10n_br_sale.group_total_discount"/>
               <label for="discount_value" groups="l10n_br_sale.group_discount_per_value"/>
               <div name="discount_value" groups="l10n_br_sale.group_discount_per_value">
                   <field name="discount_value" class="oe_inline"/>
