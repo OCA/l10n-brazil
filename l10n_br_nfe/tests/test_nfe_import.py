@@ -3,6 +3,7 @@ import pkg_resources
 import nfelib
 from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
 from odoo.addons.spec_driven_model import hooks
+from odoo.models import NewId
 from odoo.tests import SavepointCase
 
 _logger = logging.getLogger(__name__)
@@ -11,11 +12,24 @@ _logger = logging.getLogger(__name__)
 class NFeImportTest(SavepointCase):
 
     def test_import_in_nfe_dry_run(self):
-        pass
-        # test what is created or matched with ids
-        # TODO convert path to list?
-        # dict of dict of default values?
-        # TODO params passed over and over should go in context instead
+        hooks.register_hook(self.env, 'l10n_br_nfe',
+                            'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe')
+        res_items = ('..', 'tests',
+                     'nfe', 'v4_00', 'leiauteNFe',
+                     '35180803102452000172550010000474281920007498-nfe.xml')
+        resource_path = "/".join(res_items)
+        nfe_stream = pkg_resources.resource_stream(nfelib.__name__,
+                                                   resource_path)
+
+        nfe_binding = nfe_sub.parse(nfe_stream, silence=True)
+        # number = nfe_binding.infNFe.ide.nNF
+        nfe = self.env["nfe.40.infnfe"].with_context(
+            tracking_disable=True,
+            edoc_type='in', lang='pt_BR').build(nfe_binding.infNFe, False)
+        assert isinstance(nfe.id, NewId)
+        self.assertEqual(nfe.partner_id.name, "Alimentos Ltda.")
+        self.assertEqual(nfe.line_ids[0].product_id.name,
+                         "QUINOA 100G (2X50G)")
 
     def test_import_in_nfe(self):
         hooks.register_hook(self.env, 'l10n_br_nfe',
@@ -32,6 +46,7 @@ class NFeImportTest(SavepointCase):
         nfe = self.env["nfe.40.infnfe"].with_context(
             tracking_disable=True,
             edoc_type='in', lang='pt_BR').build(nfe_binding.infNFe)
+        assert isinstance(nfe.id, int)
         self.assertEqual(type(nfe)._name, "l10n_br_fiscal.document")
 
         # here we check that emit and enderEmit
