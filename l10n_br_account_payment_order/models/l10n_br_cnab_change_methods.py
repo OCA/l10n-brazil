@@ -10,7 +10,7 @@ class L10nBrCNABChangeMethods(models.Model):
     _name = 'l10n_br_cnab.change.methods'
     _description = 'Methods used to make changes in CNAB Movement.'
 
-    def _create_cnab_change(
+    def _identify_cnab_change(
         self, change_type, new_date, rebate_value, discount_value,
         reason='', **kwargs):
         """
@@ -29,32 +29,37 @@ class L10nBrCNABChangeMethods(models.Model):
         payorder, new_payorder = self._get_payment_order(self.invoice_id)
 
         if change_type == 'change_date_maturity':
-            self._change_cnab_date_maturity(
-                new_date, reason, payorder, new_payorder)
+            cnab_code = self._get_cnab_date_maturity(new_date)
+            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
         elif change_type == 'change_payment_mode':
             self._change_payment_mode(reason, **kwargs)
         elif change_type == 'baixa':
             self._create_baixa(reason, **kwargs)
         elif change_type == 'not_payment':
-            self._create_cnab_not_payment(reason, payorder, new_payorder)
+            self._create_cnab_not_payment(payorder, new_payorder, reason)
         elif change_type == 'protest_tittle':
-            self._create_cnab_protest_tittle(reason, payorder, new_payorder)
+            cnab_code = self._get_cnab_protest_tittle()
+            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
         elif change_type == 'suspend_protest_keep_wallet':
-            self._create_cnab_suspend_protest_keep_wallet(
-                reason, payorder, new_payorder)
+            cnab_code = self._get_cnab_suspend_protest_keep_wallet()
+            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
         elif change_type == 'suspend_protest_writte_off':
-            self._create_cnab_suspend_protest_writte_off(
-                reason, payorder, new_payorder)
+            cnab_code =self._get_cnab_suspend_protest_writte_off()
+            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
         elif change_type == 'grant_rebate':
-            self._create_cnab_grant_rebate(
-                rebate_value, reason, payorder, new_payorder)
+            cnab_code = self._get_cnab_grant_rebate()
+            self.with_context(rebate_value=rebate_value). \
+                _make_cnab_change(cnab_code, new_payorder, payorder, reason)
         elif change_type == 'cancel_rebate':
-            self._create_cnab_cancel_rebate(reason, payorder, new_payorder)
+            cnab_code = self._get_cnab_cancel_rebate()
+            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
         elif change_type == 'grant_discount':
-            self._create_cnab_grant_discount(
-                discount_value, reason, payorder, new_payorder)
+            cnab_code = self._get_cnab_grant_discount()
+            self.with_context(discount_value=discount_value). \
+                _make_cnab_change(cnab_code, new_payorder, payorder, reason)
         elif change_type == 'cancel_discount':
-            self._create_cnab_cancel_discount(reason, payorder, new_payorder)
+            cnab_code = self._get_cnab_cancel_discount()
+            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
 
     def _get_payment_order(self, invoice):
         """
@@ -133,8 +138,7 @@ class L10nBrCNABChangeMethods(models.Model):
             " check if should have."
         ) % (payment_mode_name, missing))
 
-    def _change_cnab_date_maturity(
-            self, new_date, reason, payorder, new_payorder):
+    def _get_cnab_date_maturity(self, new_date):
         """
         CNAB - Instrução de Alteração da Data de Vencimento.
         :param new_date: nova data de vencimento
@@ -152,21 +156,11 @@ class L10nBrCNABChangeMethods(models.Model):
             self._msg_error_cnab_missing(
                 self.payment_mode_id.name, 'Date Maturity Code')
 
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_code_change_maturity_date_id
+        self.date_maturity = new_date
 
-        self.create_payment_line_from_move_line(payorder)
-        self.cnab_state = 'added'
+        return self.payment_mode_id.cnab_code_change_maturity_date_id
 
-        self.write({
-            'date_maturity': new_date,
-            'last_change_reason': reason,
-        })
-
-        # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
-
-    def _create_cnab_not_payment(self, reason, payorder, new_payorder):
+    def _create_cnab_not_payment(self, payorder, new_payorder, reason):
         """
         CNAB - Não Pagamento/Inadimplencia.
         :param reason: descrição do motivo da alteração
@@ -296,7 +290,7 @@ class L10nBrCNABChangeMethods(models.Model):
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
-    def _create_cnab_protest_tittle(self, reason, payorder, new_payorder):
+    def _get_cnab_protest_tittle(self):
         """
         CNAB - Protestar Título.
         """
@@ -304,16 +298,9 @@ class L10nBrCNABChangeMethods(models.Model):
             self._msg_error_cnab_missing(
                 self.payment_mode_id.name, 'Protest Tittle Code')
 
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_code_protest_title_id
+        return self.payment_mode_id.cnab_code_protest_title_id
 
-        self.create_payment_line_from_move_line(payorder)
-        self.cnab_state = 'added'
-        # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
-
-    def _create_cnab_suspend_protest_keep_wallet(
-            self, reason, payorder, new_payorder):
+    def _get_cnab_suspend_protest_keep_wallet(self):
         """
         CNAB - Sustar Protesto e Manter em Carteira.
         """
@@ -322,18 +309,9 @@ class L10nBrCNABChangeMethods(models.Model):
                 self.payment_mode_id.name,
                 'Suspend Protest and Keep in Wallet Code')
 
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id
+        return self.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id
 
-        self.create_payment_line_from_move_line(payorder)
-
-        self.cnab_state = 'added'
-        self.last_change_reason = reason
-        # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
-
-    def _create_cnab_suspend_protest_writte_off(
-            self, reason, payorder, new_payorder):
+    def _get_cnab_suspend_protest_writte_off(self):
         """
         CNAB - Sustar Protesto e Baixar Titulo.
         """
@@ -345,15 +323,9 @@ class L10nBrCNABChangeMethods(models.Model):
                 self.payment_mode_id.name,
                 'Suspend Protest and Writte Off Code')
 
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_code_suspend_protest_write_off_id
-        self.create_payment_line_from_move_line(payorder)
-        self.cnab_state = 'added'
-        # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
+        return self.payment_mode_id.cnab_code_suspend_protest_write_off_id
 
-    def _create_cnab_grant_rebate(
-            self, rebate_value, reason, payorder, new_payorder):
+    def _get_cnab_grant_rebate(self):
         """
         CNAB - Conceder Abatimento.
         :param rebate_value: Valor do Abatimento
@@ -363,18 +335,9 @@ class L10nBrCNABChangeMethods(models.Model):
             self._msg_error_cnab_missing(
                 self.payment_mode_id.name, 'Grant Rebate Code')
 
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_code_grant_rebate_id
-        self.with_context(
-            rebate_value=rebate_value). \
-            create_payment_line_from_move_line(payorder)
-        self.cnab_state = 'added'
-        self.last_change_reason = reason
-        # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
+        return self.payment_mode_id.cnab_code_grant_rebate_id
 
-    def _create_cnab_cancel_rebate(
-            self, reason, payorder, new_payorder):
+    def _get_cnab_cancel_rebate(self):
         """
         CNAB - Cancelar Abatimento.
         :param reason: Descrição sobre alteração
@@ -383,16 +346,9 @@ class L10nBrCNABChangeMethods(models.Model):
             self._msg_error_cnab_missing(
                 self.payment_mode_id.name, 'Cancel Rebate Code')
 
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_code_cancel_rebate_id
+        return self.payment_mode_id.cnab_code_cancel_rebate_id
 
-        self.create_payment_line_from_move_line(payorder)
-        self.cnab_state = 'added'
-        # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
-
-    def _create_cnab_grant_discount(
-            self, discount_value, reason, payorder, new_payorder):
+    def _get_cnab_grant_discount(self):
         """
         CNAB - Conceder Desconto.
         :param discount_value: Valor do Desconto
@@ -402,18 +358,9 @@ class L10nBrCNABChangeMethods(models.Model):
             self._msg_error_cnab_missing(
                 self.payment_mode_id.name, 'Grant Discount Code')
 
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_code_grant_discount_id
+        return self.payment_mode_id.cnab_code_grant_discount_id
 
-        self.with_context(
-            discount_value=discount_value). \
-            create_payment_line_from_move_line(payorder)
-
-        self.cnab_state = 'added'
-        # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
-
-    def _create_cnab_cancel_discount(self, reason, payorder, new_payorder):
+    def _get_cnab_cancel_discount(self):
         """
         CNAB - Cancelar Desconto.
         :param reason: Descrição sobre alteração
@@ -422,9 +369,29 @@ class L10nBrCNABChangeMethods(models.Model):
             self._msg_error_cnab_missing(
                 self.payment_mode_id.name, 'Cancel Discount Code')
 
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_code_cancel_discount_id
-        self.create_payment_line_from_move_line(payorder)
+        return self.payment_mode_id.cnab_code_cancel_discount_id
+
+    def _make_cnab_change(self, cnab_code, new_payorder, payorder, reason):
+        """
+        CNAB - Realiza a Alteração Generica
+        :param cnab_code: Codigo CNAB a ser usado
+        :param new_payorder: se é uma nova Ordem de Pagto
+        :param payorder: objeto da Ordem de Pagto
+        :param reason: justificativa
+        :return:
+        """
+
+        rebate_value = discount_value = False
+        if self.env.context.get('rebate_value'):
+            rebate_value = self.env.context.get('rebate_value')
+
+        if self.env.context.get('discount_value'):
+            discount_value = self.env.context.get('discount_value')
+
+        self.mov_instruction_code_id = cnab_code
+        self.with_context(
+            rebate_value=rebate_value, discount_value=discount_value). \
+            create_payment_line_from_move_line(payorder)
 
         self.cnab_state = 'added'
         # Registra as Alterações na Fatura
