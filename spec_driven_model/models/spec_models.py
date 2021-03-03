@@ -94,18 +94,13 @@ class SpecModel(models.AbstractModel):
 
     @api.model
     def _mutate_relational_fields(self, pool, cr):
-        cls = type(self)
-        """Iterates on the relationnal fields of the model and when the comodel
+        """
+        Iterates on the relationnal fields of the model and when the comodel
         is a mixin that has been injected into a concrete models.Model, then
-        remap the comodel to the proper concrete model."""
-        # mutate o2m and o2m related to m2o comodel to target proper
-        # concrete implementation
+        remap the comodel to the proper concrete model.
+        """
+        cls = type(self)
         env = api.Environment(cr, SUPERUSER_ID, {})
-#        if len(self._inherit) > 1:  # only debug non automatic models
-            # _logger.info("\n==== BUILDING SpecModel %s %s" % (cls._name, cls)
-#            env[self._name]._prepare_setup()
-#            env[self._name]._setup_base()
-
         for klass in cls.__bases__:
             if not hasattr(klass, '_name')\
                     or not hasattr(klass, '_fields')\
@@ -239,7 +234,8 @@ class StackedModel(SpecModel):
     def _build_model(cls, pool, cr):
         # inject all stacked m2o as inherited classes
         if cls._stacked:
-            _logger.info("\n\n====  BUILDING StackedModel %s %s\n" % (cls._name, cls))
+            _logger.info("\n\n====  BUILDING StackedModel %s %s\n"
+                         % (cls._name, cls))
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
             classes = set()
             cls._visit_stack(node, classes, cls._stacked.split('.')[-1], pool,
