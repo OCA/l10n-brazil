@@ -49,6 +49,8 @@ class AccountMoveLineChange(models.TransientModel):
             ('suspend_protest_writte_off', 'Sustar Protesto e Baixar Título'),
             ('grant_rebate', 'Conceder Abatimento'),
             ('cancel_rebate', 'Cancelar Abatimento'),
+            ('grant_discount', 'Conceder Desconto'),
+            ('cancel_discount', 'Cancelar Desconto'),
         ],
         string='Tipo Alteração',
     )
@@ -64,6 +66,9 @@ class AccountMoveLineChange(models.TransientModel):
     rebate_value = fields.Float(
         string='Valor de Abatimento'
     )
+    discount_value = fields.Float(
+        string='Valor de Desconto'
+    )
 
     @api.multi
     def doit(self):
@@ -73,4 +78,5 @@ class AccountMoveLineChange(models.TransientModel):
             new_date=self.date_maturity,
             new_payment_mode_id=self.payment_mode_id,
             rebate_value=self.rebate_value,
+            discount_value=self.discount_value
         )
