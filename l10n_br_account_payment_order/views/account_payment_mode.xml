@@ -112,6 +112,12 @@
                                 <field name="cnab_code_suspend_protest_write_off_id"
                                        domain="[('payment_method_ids', 'in', payment_method_id),
                                                 ('bank_ids', 'in', bank_id)]"/>
+                                <field name="cnab_code_grant_rebate_id"
+                                       domain="[('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id)]"/>
+                                <field name="cnab_code_cancel_rebate_id"
+                                       domain="[('payment_method_ids', 'in', payment_method_id),
+                                                ('bank_ids', 'in', bank_id)]"/>
                             </group>
                         </page>
                     </notebook>

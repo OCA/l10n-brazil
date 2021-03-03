@@ -41,8 +41,13 @@
             </field>
 
             <xpath expr="//field[@name='currency_id']" position="after">
-                <field name="percent_interest"/>
-                <field name="amount_interest"/>
+                <!-- Os campos não podem ser alterados aqui porque isso precisa
+                ser feito na respectiva account.move.line para ficar registrado para
+                evitar inconsistencias de ter alterações não registradas -->
+                <field name="percent_interest" readonly="1"/>
+                <field name="amount_interest" readonly="1"/>
+                <field name="rebate_value" readonly="1"/>
+                <field name="discount_value" readonly="1"/>
             </xpath>
             <xpath expr="//group[@name='right']" position="after">
                 <group name="cnab" string="Informações do CNAB">
