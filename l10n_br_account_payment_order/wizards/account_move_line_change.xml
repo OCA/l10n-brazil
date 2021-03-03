@@ -15,6 +15,7 @@
                     <field name="date_maturity" attrs="{'invisible': [('change_type', '!=', 'change_date_maturity')], 'required': [('change_type', '=', 'change_date_maturity')]}"/>
                     <field name="payment_mode_id" attrs="{'invisible': [('change_type', '!=', 'change_payment_mode')], 'required': [('change_type', '=', 'change_payment_mode')]}"/>
                     <field name="rebate_value" attrs="{'invisible': [('change_type', '!=', 'grant_rebate')], 'required': [('change_type', '=', 'grant_rebate')]}"/>
+                    <field name="discount_value" attrs="{'invisible': [('change_type', '!=', 'grant_discount')], 'required': [('change_type', '=', 'grant_discount')]}"/>
                     <field name="reason"/>
                 </group>
                 <footer>
