@@ -517,12 +517,11 @@ class NFe(spec_models.StackedModel):
         self.nfe40_cMunFG = '%s%s' % (
             self.company_id.partner_id.state_id.ibge_code,
             self.company_id.partner_id.city_id.ibge_code)
-        self.nfe40_vBC = sum(self.line_ids.mapped('nfe40_vBC'))
-        self.nfe40_vICMS = sum(self.line_ids.mapped('nfe40_vICMS'))
-        self.nfe40_vPIS = sum(self.line_ids.mapped('nfe40_vPIS'))
+        self.nfe40_vBC = self.amount_icms_base
+        self.nfe40_vICMS = self.amount_icms_value
+        self.nfe40_vPIS = self.amount_pis_value
         self.nfe40_vIPI = self.amount_ipi_value
-        self.nfe40_vCOFINS = sum(
-            self.line_ids.mapped('nfe40_vCOFINS'))
+        self.nfe40_vCOFINS = self.amount_cofins_value
         return super(NFe, self)._export_fields(
             xsd_fields, class_obj, export_dict)
 
