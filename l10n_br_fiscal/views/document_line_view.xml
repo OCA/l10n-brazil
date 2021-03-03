@@ -31,7 +31,7 @@
                 <field name="price_unit"/>
                 <field name="discount_value"/>
                 <field name="insurance_value"/>
-                <field name="other_costs_value"/>
+                <field name="costs_value"/>
                 <field name="freight_value"/>
               </group>
               <group name="fiscal_infors" string="Fiscal">
@@ -61,17 +61,15 @@
           <page name="amounts" string="Amounts">
             <group>
               <group>
+                <field name="amount_untaxed"/>
+                <field name="amount_fiscal"/>
+                <field name="amount_tax"/>
                 <field name="amount_estimate_tax"/>
               </group>
               <group>
-                <field name="amount_tax_withholding"/>
-                <field name="amount_fiscal"/>
-                <field name="amount_financial"/>
-              </group>
-              <group>
-                <field name="amount_untaxed"/>
-                <field name="amount_tax"/>
                 <field name="amount_total"/>
+                <field name="amount_tax_withholding"/>
+                <field name="amount_taxed"/>
               </group>
             </group>
           </page>
