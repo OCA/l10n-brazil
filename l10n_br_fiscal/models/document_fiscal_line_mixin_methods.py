@@ -129,6 +129,48 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         model_view['fields'] = xfields
         return model_view
 
+    @api.depends(
+        'fiscal_price',
+        'discount_value',
+        'insurance_value',
+        'costs_value',
+        'freight_value',
+        'fiscal_quantity',
+        'amount_tax_not_included',
+        'uot_id',
+        'product_id',
+        'partner_id',
+        'company_id')
+    def _compute_amounts(self):
+        for record in self:
+            round_curr = record.currency_id.round
+            # Valor dos produtos
+            record.amount_untaxed = round_curr(record.price_unit *
+                                               record.quantity)
+            record.amount_fiscal = round_curr(
+                record.fiscal_price * record.fiscal_quantity)
+
+            record.amount_tax = record.amount_tax_not_included
+
+            add_to_amount = sum(
+                [record[a] for a in record._add_fields_to_amount()])
+            rm_to_amount = sum(
+                [record[r] for r in record._rm_fields_to_amount()])
+
+            # Valor do documento (NF)
+            record.amount_total = (
+                record.amount_untaxed +
+                record.amount_tax +
+                add_to_amount -
+                rm_to_amount
+            )
+
+            # Valor Liquido (TOTAL + IMPOSTOS - RETENÇÕES)
+            record.amount_taxed = (
+                record.amount_total -
+                record.amount_tax_withholding
+            )
+
     def _compute_taxes(self, taxes, cst=None):
         return taxes.compute_taxes(
             company=self.company_id,
@@ -142,7 +184,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             uot_id=self.uot_id,
             discount_value=self.discount_value,
             insurance_value=self.insurance_value,
-            other_costs_value=self.other_costs_value,
+            costs_value=self.costs_value,
             freight_value=self.freight_value,
             ncm=self.ncm_id,
             nbs=self.nbs_id,
@@ -776,7 +818,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "fiscal_quantity",
         "discount_value",
         "insurance_value",
-        "other_costs_value",
+        "costs_value",
         "freight_value")
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
@@ -807,3 +849,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_city_taxation_code_id(self):
         if self.city_taxation_code_id:
             self.cnae_id = self.city_taxation_code_id.cnae_id
+
+    @api.model
+    def _add_fields_to_amount(self):
+        return ['insurance_value', 'costs_value', 'freight_value']
+
+    def _rm_fields_to_amount(self):
+        return ['discount_value', 'icms_relief_value']
