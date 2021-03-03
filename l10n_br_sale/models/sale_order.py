@@ -129,6 +129,8 @@ class SaleOrder(models.Model):
     def onchange_discount_rate(self):
         for order in self:
             for line in order.order_line:
+                if line.discount_fixed:
+                    continue
                 if self.env.user.has_group(
                         'l10n_br_sale.group_discount_per_value'):
                     line.discount_value = (
