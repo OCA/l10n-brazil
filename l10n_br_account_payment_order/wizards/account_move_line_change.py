@@ -4,13 +4,13 @@
 from odoo import api, fields, models
 
 
-class AccountMoveLineChange(models.TransientModel):
-    _name = 'account.move.line.change'
-    _description = 'Wizard de edição de pagamento'
+class AccountMoveLineCNABChange(models.TransientModel):
+    _name = 'account.move.line.cnab.change'
+    _description = 'Wizard para Alterações do CNAB.'
 
     @api.model
     def default_get(self, fields_list):
-        res = super(AccountMoveLineChange, self).default_get(fields_list)
+        res = super().default_get(fields_list)
         if self.env.context.get('active_model') == 'account.move.line':
             active_ids = self.env.context.get('active_ids')
             res['account_move_line_ids'] = active_ids
@@ -72,7 +72,7 @@ class AccountMoveLineChange(models.TransientModel):
 
     @api.multi
     def doit(self):
-        self.account_move_line_ids._create_change(
+        self.account_move_line_ids._create_cnab_change(
             change_type=self.change_type,
             reason=self.reason,
             new_date=self.date_maturity,
