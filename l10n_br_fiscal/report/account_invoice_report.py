@@ -82,7 +82,7 @@ class AccountInvoiceReport(models.Model):
             ", SUM("
             "ail.price_subtotal + ail.ipi_value + "
             "ail.icms_st_value + ail.freight_value + "
-            "ail.insurance_value + ail.other_costs_value) "
+            "ail.insurance_value + ail.costs_value) "
             "as total_with_taxes"
         )
 
