@@ -13,7 +13,7 @@ class DocumentCorrectionWizard(models.TransientModel):
         # TODO refactoring in fiscal event PR
         for wizard in self:
             document = self.env[self.env.context["active_model"]].browse(
-                self.env.context["active_id"]
+                self.env.context["active_id"])
 
             if self.env.context["active_model"] == 'account.invoice':
                 fiscal_document = document.fiscal_document_id
