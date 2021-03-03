@@ -217,8 +217,10 @@ class AccountInvoice(models.Model):
         'date_invoice',
         'type')
     def _compute_amount(self):
-        self.fiscal_document_id._compute_amount()
-        for inv_line in self.invoice_line_ids:
+        inv_lines = self.invoice_line_ids.filtered(
+            lambda l: not l.fiscal_operation_line_id or
+            l.fiscal_operation_line_id.add_to_amount)
+        for inv_line in inv_lines:
             if inv_line.cfop_id:
                 if inv_line.cfop_id.finance_move:
                     self.amount_untaxed += inv_line.price_subtotal
@@ -322,7 +324,7 @@ class AccountInvoice(models.Model):
                 cest=line.cest_id,
                 discount_value=line.discount_value,
                 insurance_value=line.insurance_value,
-                other_costs_value=line.other_costs_value,
+                costs_value=line.costs_value,
                 freight_value=line.freight_value,
                 fiscal_price=line.fiscal_price,
                 fiscal_quantity=line.fiscal_quantity,
