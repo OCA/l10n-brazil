@@ -14,10 +14,30 @@ tz_datetime = re.compile(r'.*[-+]0[0-9]:00$')
 
 
 class AbstractSpecMixin(models.AbstractModel):
+    """
+    A recursive Odoo object builder that works along with the
+    GenerateDS object builder from the parsed XML.
+    Here we take into account the concrete Odoo objects where the schema
+    mixins where injected and possible matcher or builder overrides.
+    """
     _inherit = 'spec.mixin'
 
     @api.model
     def build(self, node, create=True):
+        """
+        Builds an instance of an Odoo Model from a pre-populated
+        Python binding object. Binding object such as the ones generated using
+        generateDS can indeed be automatically populated from an XML file.
+        This build method bridges the gap to build the Odoo object.
+
+        It uses a pre-order tree traversal of the Python bindings and for each
+        sub-binding (or node) it sees what is the corresponding Odoo model to map.
+
+        Build can persist the object or just return a new instance
+        depending on the create parameter.
+
+        Defaults values and control options are meant to be passed in the context.
+        """
         # TODO new or create choice
         # TODO ability to match existing record here
         model_name = SpecModel._get_concrete(self._name) or self._name
@@ -30,10 +50,10 @@ class AbstractSpecMixin(models.AbstractModel):
 
     @api.model
     def build_attrs(self, node, create_m2o=False, path=''):
-        """A recursive Odoo object builder that works along with the
-        GenerateDS object builder from the parsed XML.
-        Here we take into account the concrete Odoo objects where the schema
-        mixins where injected and possible matcher or builder overrides."""
+        """
+        Builds a new odoo model instance from a Python binding element or
+        sub-element. Iterates over the binding fields to populate the Odoo fields.
+        """
         fields = self.fields_get()
         # no default image for easier debugging
         vals = self.default_get([f for f, v in fields.items()
@@ -52,7 +72,11 @@ class AbstractSpecMixin(models.AbstractModel):
         vals = self._prepare_import_dict(vals)
         return vals
 
+    @api.model
     def _build_attr(self, node, fields, vals, path, attr, create_m2o):
+        """
+        Builds an Odoo field from a binding attribute.
+        """
         value = getattr(node, attr.get_name())
         if value is None or value == []:
             return False
@@ -109,10 +133,11 @@ class AbstractSpecMixin(models.AbstractModel):
                                                     path=child_path)
                     lines.append((0, 0, line_vals))
                 vals[key] = lines
-
+    @api.model
     def _build_string_not_simple_type(self, key, vals, value, node):
         vals[key] = value
 
+    @api.model
     def _build_many2one(self, comodel, vals, new_value, key, create_m2o,
                         value, path):
         if comodel._name == self._name:
@@ -134,8 +159,10 @@ class AbstractSpecMixin(models.AbstractModel):
 
     @api.model
     def _extract_related_values(self, vals, key):
-        """Example: prepare nfe40_enderEmit partner legal_name and name
-        by reading nfe40_xNome and nfe40_xFant on nfe40_emit"""
+        """
+        Example: prepare nfe40_enderEmit partner legal_name and name
+        by reading nfe40_xNome and nfe40_xFant on nfe40_emit
+        """
         key_vals = {}
         for k, v in self.fields_get().items():
             if v.get('related') is not None\
@@ -195,14 +222,17 @@ class AbstractSpecMixin(models.AbstractModel):
                                                              create_m2o, comodel)
         return vals
 
+    @api.model
     def _verify_related_many2ones(self, related_many2ones):
         return related_many2ones
 
     @api.model
     def match_record(self, rec_dict, parent_dict, model=None):
-        """ inspired from match_* methods from
+        """
+        Inspired from match_* methods from
         https://github.com/OCA/edi/blob/11.0/base_business_document_import
-        /models/business_document_import.py"""
+        /models/business_document_import.py
+        """
         if model is None:
             model = self
         default_key = [model._rec_name or model._concrete_rec_name or 'name']
@@ -228,13 +258,15 @@ class AbstractSpecMixin(models.AbstractModel):
                     return match_ids[0].id
         return False
 
+    @api.model
     def _get_aditional_keys(self, model, rec_dict, keys):
         return keys
 
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict,
                             create_m2o=False, model=None):
-        """Often the parent_dict can be used to refine the search.
+        """
+        Often the parent_dict can be used to refine the search.
         Passing the model makes it possible to override without inheriting
         from this mixin.
         """
