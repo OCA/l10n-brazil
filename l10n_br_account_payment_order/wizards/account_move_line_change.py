@@ -72,7 +72,7 @@ class AccountMoveLineCNABChange(models.TransientModel):
 
     @api.multi
     def doit(self):
-        self.account_move_line_ids._create_cnab_change(
+        self.account_move_line_ids._identify_cnab_change(
             change_type=self.change_type,
             reason=self.reason,
             new_date=self.date_maturity,
