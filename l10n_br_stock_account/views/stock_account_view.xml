@@ -53,7 +53,7 @@
                         <group>
                             <field name="freight_value"/>
                             <field name="insurance_value"/>
-                            <field name="other_costs_value"/>
+                            <field name="costs_value"/>
                         </group>
                     </page>
                     <page name="fiscal_line_extra_info" string="Extra Info"/>
