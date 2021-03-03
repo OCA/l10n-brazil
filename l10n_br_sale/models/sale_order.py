@@ -72,42 +72,6 @@ class SaleOrder(models.Model):
         help="Amount without discount.",
     )
 
-    amount_discount = fields.Monetary(
-        compute='_amount_all',
-        store=True,
-        string='Discount (-)',
-        readonly=True,
-        help="The discount amount.",
-    )
-
-    amount_freight = fields.Monetary(
-        compute='_amount_all',
-        store=True,
-        string='Freight',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-        states={'draft': [('readonly', False)]},
-    )
-
-    amount_insurance = fields.Monetary(
-        compute='_amount_all',
-        store=True,
-        string='Insurance',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-    )
-
-    amount_costs = fields.Monetary(
-        compute='_amount_all',
-        store=True,
-        string='Other Costs',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-    )
-
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
         relation='sale_order_comment_rel',
@@ -116,33 +80,20 @@ class SaleOrder(models.Model):
         string='Comments',
     )
 
+    line_ids = fields.One2many(
+        comodel_name='sale.order.line',
+        inverse_name='order_id',
+        related='order_line',
+        string='Mixin Order Lines'
+    )
+
     @api.depends('order_line.price_total')
     def _amount_all(self):
         """Compute the total amounts of the SO."""
         for order in self:
+            order._compute_amount()
             order.amount_gross = sum(
                 line.price_gross for line in order.order_line)
-
-            order.amount_discount = sum(
-                line.discount_value for line in order.order_line)
-
-            order.amount_untaxed = sum(
-                line.price_subtotal for line in order.order_line)
-
-            order.amount_tax = sum(
-                line.price_tax for line in order.order_line)
-
-            order.amount_total = sum(
-                line.price_total for line in order.order_line)
-
-            order.amount_freight = sum(
-                line.freight_value for line in order.order_line)
-
-            order.amount_costs = sum(
-                line.other_costs_value for line in order.order_line)
-
-            order.amount_insurance = sum(
-                line.insurance_value for line in order.order_line)
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
