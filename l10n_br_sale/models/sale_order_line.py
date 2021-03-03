@@ -70,6 +70,10 @@ class SaleOrderLine(models.Model):
         string='Comments',
     )
 
+    discount_fixed = fields.Boolean(
+        string="Fixed Discount?"
+    )
+
     def _get_protected_fields(self):
         protected_fields = super()._get_protected_fields()
         return protected_fields + [
