@@ -4,13 +4,15 @@
 
 from lxml import etree
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     FISCAL_OUT,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_A_ENVIAR,
     TAX_FRAMEWORK,
 )
@@ -346,6 +348,7 @@ class AccountInvoice(models.Model):
         for inv in self.filtered(lambda i: i.fiscal_document_id !=
                 self.env.ref('l10n_br_fiscal.fiscal_document_dummy')):
             if inv.issuer == DOCUMENT_ISSUER_COMPANY:
+                inv.fiscal_document_id.document_date()
                 inv.fiscal_document_id.document_number()
                 inv.fiscal_number = inv.fiscal_document_id.number
             else:
@@ -359,26 +362,6 @@ class AccountInvoice(models.Model):
         super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
             self.journal_id = self.fiscal_operation_id.journal_id
-
-    @api.multi
-    def action_cancel(self):
-        super().action_cancel()
-        # TODO refactoring it
-        # dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        # fiscal_documents = self.filtered(
-        #     lambda i: i.fiscal_document_id != dummy_doc).mapped(
-        #         'fiscal_document_id')
-        #
-        # fiscal_document_to_cancel = fiscal_documents.filtered(
-        #     lambda d: d.state != SITUACAO_EDOC_AUTORIZADA)
-        #
-        # fiscal_document_to_draft = fiscal_documents.filtered(
-        #     lambda d: d.state == SITUACAO_EDOC_A_ENVIAR)
-        #
-        # if fiscal_document_to_cancel:
-        #     return fiscal_document_to_cancel.with_context(
-        #         active_model=fiscal_document_to_cancel._name,
-        #         active_id=fiscal_document_to_cancel.id).action_document_cancel()
 
     @api.multi
     def open_fiscal_document(self):
@@ -402,25 +385,42 @@ class AccountInvoice(models.Model):
         action['res_id'] = self.id
         return action
 
+    @api.multi
+    def action_invoice_draft(self):
+        for invoice in self:
+            if invoice.fiscal_document_id:
+                if invoice.state_edoc == SITUACAO_EDOC_CANCELADA:
+                    raise UserError(_(
+                        "You can't set this document number: {} to draft "
+                        "because this document is cancelled in SEFAZ".format(
+                            invoice.fiscal_number)))
+        return super().action_invoice_draft()
+
+    @api.multi
+    def action_document_cancel(self):
+        for invoice in self:
+            if invoice.fiscal_document_id:
+                if invoice.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+                    return invoice.fiscal_document_id.action_document_cancel()
+
     def action_document_send(self):
         for invoice in self:
             if invoice.document_type_id:
                 invoice.fiscal_document_id.action_document_send()
 
     def action_document_correction(self):
-        for invoice in self:
-            if invoice.document_type_id:
-                invoice.fiscal_document_id.action_document_correction()
+        for i in self:
+            if i.fiscal_document_id:
+                if i.state_edoc in SITUACAO_EDOC_AUTORIZADA:
+                    return i.fiscal_document_id.action_document_correction()
 
     def view_xml(self):
-        for invoice in self:
-            if invoice.document_type_id:
-                invoice.fiscal_document_id.view_xml()
+        self.ensure_one()
+        return self.fiscal_document_id.view_xml()
 
     def view_pdf(self):
-        for invoice in self:
-            if invoice.document_type_id:
-                invoice.fiscal_document_id.view_pdf()
+        self.ensure_one()
+        return self.fiscal_document_id.view_pdf()
 
     def action_document_back2draft(self):
         for invoice in self:
