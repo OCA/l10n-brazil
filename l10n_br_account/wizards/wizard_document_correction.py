@@ -1,8 +1,7 @@
 # Copyright (C) 2021  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 
 class DocumentCorrectionWizard(models.TransientModel):
@@ -22,7 +21,7 @@ class DocumentCorrectionWizard(models.TransientModel):
 
             fiscal_document.correction_reason = wizard.justificative
             msg = "Carta de correção: {}".format(wizard.justificative)
-            document_id.message_post(body=msg)
+            fiscal_document.message_post(body=msg)
 
             numeros = fiscal_document.fiscal_document_event_ids.filtered(
                 lambda e: e.type == '14').mapped(
