@@ -141,26 +141,25 @@ class AccountInvoiceLine(models.Model):
                 cest=self.cest_id,
                 discount_value=self.discount_value,
                 insurance_value=self.insurance_value,
-                other_costs_value=self.other_costs_value,
+                costs_value=self.costs_value,
                 freight_value=self.freight_value,
                 fiscal_price=self.fiscal_price,
                 fiscal_quantity=self.fiscal_quantity,
                 uot=self.uot_id,
                 icmssn_range=self.icmssn_range_id)
 
+        # Call mixin compute method
+        self._compute_amounts()
+
         if taxes:
             self.price_subtotal = taxes['total_excluded']
             self.price_total = taxes['total_included']
         else:
-            self.price_subtotal = self.quantity * self.price_unit
-            self.price_total = self.price_subtotal
+            self.price_subtotal = self.amount_untaxed
+            self.price_total = self.amount_total
 
         self.price_subtotal -= self.discount_value
         price_subtotal_signed = self.price_subtotal
-
-        self.price_total += (
-            self.insurance_value + self.other_costs_value +
-            self.freight_value - self.discount_value)
 
         if (self.invoice_id.currency_id and self.invoice_id.currency_id
                 != self.invoice_id.company_id.currency_id):
