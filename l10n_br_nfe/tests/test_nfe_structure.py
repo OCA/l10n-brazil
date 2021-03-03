@@ -88,4 +88,3 @@ class NFeStructure(SavepointCase):
 
     def test_doc_line_visit_stack(self):
         pass
-
