@@ -4,7 +4,7 @@
 from openupgradelib import openupgrade
 
 _columns_rename = {
-    'account_invoice_line': [
+    'stock_move': [
         ('other_costs_value', 'costs_value')],
 }
 
@@ -15,4 +15,4 @@ def migrate(env, version):
         for rename_column in _columns_rename[table]:
             if openupgrade.column_exists(env.cr, table, rename_column[0]):
                 openupgrade.rename_columns(
-                    env.cr, {table: [rename_column]})
+                    env.cr, {table: rename_column})
