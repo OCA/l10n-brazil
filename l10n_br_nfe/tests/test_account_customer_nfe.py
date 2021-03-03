@@ -172,7 +172,7 @@ class TestCustomerNFe(TransactionCase):
             self.assertEquals(line.freight_value, 100.0, "Freight value is not 100.0")
             self.assertEquals(line.insurance_value, 10.0, "Insurance value is not 10.0")
             self.assertEquals(
-                line.other_costs_value, 10.0, "Other Costs value is not 10.0"
+                line.costs_value, 10.0, "Other Costs value is not 10.0"
             )
         self.invoice_other_costs.with_context(
             {"fiscal_document_code": "55"}
