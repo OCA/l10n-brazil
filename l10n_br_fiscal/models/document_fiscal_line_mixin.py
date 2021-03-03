@@ -184,7 +184,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     insurance_value = fields.Monetary(string="Insurance Value")
 
-    other_costs_value = fields.Monetary(string="Other Costs")
+    costs_value = fields.Monetary(string="Other Costs")
 
     freight_value = fields.Monetary(string="Freight Value")
 
@@ -195,9 +195,35 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         column2='fiscal_tax_id',
         string="Fiscal Taxes")
 
+    amount_fiscal = fields.Monetary(
+        string='Amount Fiscal',
+        compute='_compute_amounts',
+    )
+
+    amount_untaxed = fields.Monetary(
+        string='Amount Untaxed',
+        compute='_compute_amounts',
+    )
+
+    amount_tax = fields.Monetary(
+        string='Amount Tax',
+        compute='_compute_amounts',
+    )
+
+    amount_taxed = fields.Monetary(
+        string='Amount Taxed',
+        compute='_compute_amounts',
+    )
+
+    amount_total = fields.Monetary(
+        string='Amount Total',
+        compute='_compute_amounts',
+    )
+
     amount_tax_not_included = fields.Monetary(string="Amount Tax not Included")
 
-    amount_tax_withholding = fields.Monetary(string="Amount Tax Withholding")
+    amount_tax_withholding = fields.Monetary(
+        string="(-) Amount Tax Withholding")
 
     fiscal_genre_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.product.genre",
