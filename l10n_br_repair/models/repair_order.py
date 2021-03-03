@@ -170,9 +170,9 @@ class RepairOrder(models.Model):
                 sum(line.freight_value for line in order.operations) + \
                 sum(line.freight_value for line in order.fees_lines)
 
-            order.amount_costs = \
-                sum(line.other_costs_value for line in order.operations) + \
-                sum(line.other_costs_value for line in order.fees_lines)
+            order.amount_costs_value = \
+                sum(line.costs_value for line in order.operations) + \
+                sum(line.costs_value for line in order.fees_lines)
 
             order.amount_insurance = \
                 sum(line.insurance_value for line in order.operations) + \
