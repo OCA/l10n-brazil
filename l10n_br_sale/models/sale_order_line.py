@@ -60,7 +60,6 @@ class SaleOrderLine(models.Model):
     price_gross = fields.Monetary(
         compute='_compute_amount',
         string='Gross Amount',
-        default=0.00,
     )
 
     comment_ids = fields.Many2many(
@@ -87,22 +86,22 @@ class SaleOrderLine(models.Model):
         'discount_value',
         'freight_value',
         'insurance_value',
-        'other_costs_value',
+        'costs_value',
         'tax_id')
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
         super()._compute_amount()
         for l in self:
+            # Update taxes fields
             l._update_taxes()
-            price_tax = l.price_tax + l.amount_tax_not_included
-            price_total = (
-                l.price_subtotal + l.freight_value +
-                l.insurance_value + l.other_costs_value)
-
+            # Call mixin compute method
+            l._compute_amounts()
+            # Update record
             l.update({
-                'price_tax': price_tax,
-                'price_gross': l.price_subtotal + l.discount_value,
-                'price_total': price_total + price_tax,
+                'price_subtotal': l.amount_untaxed,
+                'price_tax': l.amount_tax,
+                'price_gross': l.amount_untaxed + l.discount_value,
+                'price_total': l.amount_total,
             })
 
     @api.multi
