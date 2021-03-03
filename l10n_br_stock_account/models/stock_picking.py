@@ -45,6 +45,12 @@ class StockPicking(models.Model):
         string='Comments',
     )
 
+    line_ids = fields.One2many(
+        comodel_name='stock.move',
+        related='move_lines',
+        copy=True,
+    )
+
     # Criação da BackOrder com o invoice_state igual ao picking dividido
     invoice_state = fields.Selection(
         copy=True,
