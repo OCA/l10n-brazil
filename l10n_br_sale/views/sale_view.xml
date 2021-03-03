@@ -23,12 +23,15 @@
         <field name="arch" type="xml">
             <field name="amount_untaxed" position="before">
                 <field name="amount_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="amount_discount" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <field name="amount_discount_value" groups="l10n_br_sale.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
             </field>
             <field name="amount_untaxed" position="after">
-                <field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                <field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
-                <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                <field name="amount_freight_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <field name="amount_insurance_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                <field name="amount_costs_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
+            </field>
+            <field name="amount_total" position="after">
+                <field name="amount_financial" widget='monetary' options="{'currency_field': 'currency_id'}"/>
             </field>
             <field name="validity_date" position="after">
                 <field name="fiscal_operation_id" required="True"/>
@@ -99,7 +102,7 @@
                       <group>
                           <field name="freight_value"/>
                           <field name="insurance_value"/>
-                          <field name="other_costs_value"/>
+                          <field name="costs_value"/>
                       </group>
                   </page>
                   <page name="fiscal_line_extra_info" string="Extra Info"/>
