@@ -301,12 +301,12 @@ class SaleOrder(models.Model):
                 action['domain'] = [('id', 'in', invoices.ids)]
             elif len(invoices) == 1:
                 form_view = [
-                    (self.env.ref('l10n_br_account.fiscal_invoice_form').id,
-                    'form')
+                    (self.env.ref(
+                        'l10n_br_account.fiscal_invoice_form').id, 'form')
                 ]
                 if 'views' in action:
                     action['views'] = form_view + [
-                        (state,view) for state,view in action['views']
+                        (state, view) for state, view in action['views']
                         if view != 'form']
                 else:
                     action['views'] = form_view
