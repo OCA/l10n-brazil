@@ -25,6 +25,7 @@ class NFeLine(spec_models.StackedModel):
     _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
     _spec_tab_name = 'NFe'
     _stack_skip = 'nfe40_det_infNFe_id'
+    _stacking_points = {}
     # all m2o below this level will be stacked even if not required:
     _force_stack_paths = ('det.imposto',)
     _rec_name = 'nfe40_xProd'
@@ -418,7 +419,7 @@ class NFeLine(spec_models.StackedModel):
         if xsd_field == 'nfe40_cMun':
             return self.issqn_fg_city_id.state_id.ibge_code +\
                 self.issqn_fg_city_id.ibge_code  # TODO
-        if xsd_field == 'nfe40_cPais':
+        if xsd_field == 'nfe40_cPais' and self.issqn_fg_city_id:
             return self.issqn_fg_city_id.state_id.country_id.bc_code[1:]  # TODO
         if xsd_field == 'nfe40_nProcesso':
             return ''  # TODO
@@ -461,22 +462,24 @@ class NFeLine(spec_models.StackedModel):
             return super()._export_field(xsd_field, class_obj, member_spec)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
-        if not self[field_name] and not xsd_required:
-            if not any(self[f] for f in self[field_name]._fields
-                       if self._fields[f]._attrs.get('xsd')) and \
-                    field_name not in ['nfe40_PIS', 'nfe40_COFINS', 'nfe40_IPI']:
+        self.ensure_one()
+        if field_name in self._stacking_points.keys():
+            if field_name == 'nfe40_ISSQN' and not self.service_type_id:
                 return False
-        if field_name == 'nfe40_ISSQN' and \
-                not self.service_type_id:  # TODO
-            self[field_name] = False
-            return False
-        if field_name == 'nfe40_ICMS' and \
-                self.service_type_id:  # TODO
-            self[field_name] = False
-            return False
-        if field_name in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
-            self[field_name] = False
-            return False
+            elif field_name == 'nfe40_ICMS' and self.service_type_id:
+                return False
+
+            # TODO add condition
+            elif field_name in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
+                return False
+
+            elif (not xsd_required) and field_name not in ['nfe40_PIS', 'nfe40_COFINS', 'nfe40_IPI']:
+                fields = [f for f in self.env[self._stacking_points.get(field_name).comodel_name]._fields if f.startswith(self._field_prefix)]
+                sub_tag_read = self.read(fields)[0]
+                if not any(v for k, v in sub_tag_read.items() if k.startswith(self._field_prefix)):
+                    print("    removing!", field_name)
+                    return False
+
         return super()._export_many2one(field_name, xsd_required, class_obj)
 
     def _export_float_monetary(self, field_name, member_spec, class_obj,
