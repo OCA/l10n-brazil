@@ -73,6 +73,13 @@ class PurchaseOrder(models.Model):
         digits=dp.get_precision('Account'),
     )
 
+    line_ids = fields.One2many(
+        comodel_name='purchase.order.line',
+        inverse_name='order_id',
+        copy=True,
+    )
+
+
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
                         toolbar=False, submenu=False):
@@ -149,7 +156,7 @@ class PurchaseOrder(models.Model):
                 amount_untaxed += line.price_subtotal
                 amount_tax += line.price_tax
                 amount_freight += line.freight_value
-                amount_costs += line.other_costs_value
+                amount_costs += line.costs_value
                 amount_insurance += line.insurance_value
 
             order.update({
