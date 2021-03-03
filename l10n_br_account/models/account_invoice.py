@@ -13,8 +13,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_A_ENVIAR,
-    TAX_FRAMEWORK,
+    # SITUACAO_EDOC_A_ENVIAR,
+    # TAX_FRAMEWORK,
 )
 
 INVOICE_TO_OPERATION = {
@@ -345,8 +345,9 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def action_move_create(self):
-        for inv in self.filtered(lambda i: i.fiscal_document_id !=
-                self.env.ref('l10n_br_fiscal.fiscal_document_dummy')):
+        for inv in self.filtered(
+            lambda i: i.fiscal_document_id != self.env.ref(
+                'l10n_br_fiscal.fiscal_document_dummy')):
             if inv.issuer == DOCUMENT_ISSUER_COMPANY:
                 inv.fiscal_document_id.document_date()
                 inv.fiscal_document_id.document_number()
@@ -378,7 +379,7 @@ class AccountInvoice(models.Model):
             (self.env.ref('l10n_br_account.fiscal_invoice_form').id, 'form')]
         if 'views' in action:
             action['views'] = form_view + [
-                (state,view) for state,view in action['views']
+                (state, view) for state, view in action['views']
                 if view != 'form']
         else:
             action['views'] = form_view
