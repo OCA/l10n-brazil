@@ -2,7 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import fields, models, _
 from odoo.exceptions import UserError
 
 
@@ -10,9 +10,8 @@ class L10nBrCNABChangeMethods(models.Model):
     _name = 'l10n_br_cnab.change.methods'
     _description = 'Methods used to make changes in CNAB Movement.'
 
-    def _identify_cnab_change(
-        self, change_type, new_date, rebate_value, discount_value,
-        reason='', **kwargs):
+    def _identify_cnab_change(self, change_type, new_date, rebate_value,
+                              discount_value, reason='', **kwargs):
         """
         CNAB - Alterações possíveis
         :param change_type:
@@ -44,7 +43,7 @@ class L10nBrCNABChangeMethods(models.Model):
             cnab_code = self._get_cnab_suspend_protest_keep_wallet()
             self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
         elif change_type == 'suspend_protest_writte_off':
-            cnab_code =self._get_cnab_suspend_protest_writte_off()
+            cnab_code = self._get_cnab_suspend_protest_writte_off()
             self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
         elif change_type == 'grant_rebate':
             cnab_code = self._get_cnab_grant_rebate()
@@ -110,8 +109,9 @@ class L10nBrCNABChangeMethods(models.Model):
         :return:
         """
 
-        cnab_instruction = self.mov_instruction_code_id.code + ' - ' + \
-                           self.mov_instruction_code_id.name
+        cnab_instruction = \
+            self.mov_instruction_code_id.code + ' - ' + \
+            self.mov_instruction_code_id.name
         if new_payorder:
             self.invoice_id.message_post(body=_(
                 'Payment line added to the the new draft payment '
@@ -206,8 +206,7 @@ class L10nBrCNABChangeMethods(models.Model):
         move_not_payment_values = {
             'debit': self.amount_residual,
             'credit': 0.0,
-            'account_id': self.invoice_id.
-                payment_mode_id.not_payment_account_id.id,
+            'account_id': self.invoice_id.payment_mode_id.not_payment_account_id.id,
         }
 
         commom_move_values = {
@@ -279,9 +278,9 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_code_change_title_value_id
-        reason = (('Movement Instruction Code Updated for Request to'
-            ' Change Title Value, because partial payment'
-            ' of %d done.') % (self.debit - self.amount_residual))
+        reason = (('Movement Instruction Code Updated for Request to '
+                   'Change Title Value, because partial payment '
+                   'of %d done.') % (self.debit - self.amount_residual))
 
         self.create_payment_line_from_move_line(payorder)
 
