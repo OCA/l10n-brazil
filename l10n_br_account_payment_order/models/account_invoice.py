@@ -181,8 +181,7 @@ class AccountInvoice(models.Model):
             self.env['account.move.line']
 
         lines_to_check = self.move_id.line_ids.filtered(
-            lambda x: x.debit > 0.0 and
-                x.payment_situation in ('inicial', 'aberta')
+            lambda x: x.debit > 0.0 and x.payment_situation in ('inicial', 'aberta')
         )
 
         # Valor Total, baixar todas as Parcelas em Aberto
