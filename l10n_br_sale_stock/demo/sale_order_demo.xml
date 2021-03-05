@@ -143,11 +143,11 @@
 
     <record id="main_sl_l10n_br_sale_stock_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_l10n_br_sale_stock_2"/>
-        <field name="name">Virtual Home Staging</field>
-        <field name="product_id" ref="product.product_product_2"/>
-        <field name="product_uom_qty">20</field>
+        <field name="name">Customized Odoo Development</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
+        <field name="product_uom_qty">10</field>
         <field name="product_uom" ref="uom.product_uom_hour"/>
-        <field name="price_unit">38.25</field>
+        <field name="price_unit">100</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico_ind"/>
