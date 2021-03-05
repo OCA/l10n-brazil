@@ -49,6 +49,8 @@ class Partner(models.Model):
                 "zip",
                 "city",
                 "street_number",
+                "street_number2",
+                "street_name",
                 "district",
             ]
             for field in address_field:
