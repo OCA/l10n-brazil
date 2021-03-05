@@ -87,11 +87,22 @@ class TestSaleStock(TransactionCase):
         sale_order_2 = self.env.ref(
             'l10n_br_sale_stock.main_so_l10n_br_sale_stock_2')
         sale_order_2.action_confirm()
+
+        # Metodo de criação da fatura a partir do sale.order
+        # deve gerar apenas a linha de serviço
+        sale_order_2.action_invoice_create(final=True)
+        # Deve existir apenas a Fatura/Documento Fiscal de Serviço
+        self.assertEquals(1, sale_order_2.invoice_count)
+        for invoice in sale_order_2.invoice_ids:
+            for line in invoice.invoice_line_ids:
+                self.assertEquals(line.product_id.type, 'service')
+
         picking = sale_order_2.picking_ids
         # Check product availability
         picking.action_assign()
         # Apenas o Produto criado
         self.assertEqual(len(picking.move_ids_without_package), 1)
+        self.assertEqual(picking.invoice_state, '2binvoiced')
         # Force product availability
         for move in picking.move_ids_without_package:
             move.quantity_done = move.product_uom_qty
@@ -125,6 +136,10 @@ class TestSaleStock(TransactionCase):
 
         # Apenas a Fatura com a linha do produto foi criada
         self.assertEqual(len(invoice.invoice_line_ids), 1)
+
+        # No Pedido de Venda devem existir duas Faturas/Documentos Fiscais
+        # de Serviço e Produto
+        self.assertEquals(2, sale_order_2.invoice_count)
 
     def test_picking_invoicing_partner_shipping_invoiced(self):
         """
