@@ -4,18 +4,15 @@
 
 import base64
 import logging
-from lxml import etree
-from requests import Session
+import tempfile
 
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.base import misc
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
+from lxml import etree
 from nfelib.v4_00 import retEnviNFe as leiauteNFe
-
-from odoo import _, api, fields
-
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     DENEGADO,
@@ -30,14 +27,15 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
-
 from odoo.addons.spec_driven_model.models import spec_models
 from odoo.exceptions import UserError
+from requests import Session
+
+from odoo import _, api, fields
 from ..constants.nfe import (
     NFE_ENVIRONMENTS,
     NFE_VERSIONS,
 )
-import tempfile
 
 PROCESSADOR_ERPBRASIL_EDOC = 'erpbrasil_edoc'
 
