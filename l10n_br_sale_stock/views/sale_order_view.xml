@@ -7,11 +7,11 @@
         <field name="inherit_id" ref="l10n_br_sale.l10n_br_sale_order_form"/>
         <field name="priority">99</field>
         <field name="arch" type="xml">
-            <field name="state" position="before">
-                <field name="sale_create_invoice_policy" invisible="1"/>
+            <field name="partner_id" position="before">
+                <field name="button_create_invoice_invisible" invisible="1"/>
             </field>
             <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d']" position="attributes">
-                <attribute name="attrs">{'invisible': [('sale_create_invoice_policy', '!=', 'sale_order')]}</attribute>
+                <attribute name="attrs">{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
             </xpath>
         </field>
     </record>
