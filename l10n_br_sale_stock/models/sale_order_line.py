@@ -14,7 +14,8 @@ class SaleOrderLine(models.Model):
         values = self._prepare_br_fiscal_dict()
         values.update(super()._prepare_procurement_values(group_id))
         # Incluir o invoice_state
-        if self.order_id.sale_create_invoice_policy == 'stock_picking':
+        if self.order_id.company_id.sale_create_invoice_policy \
+                == 'stock_picking':
             values['invoice_state'] = '2binvoiced'
 
         return values
