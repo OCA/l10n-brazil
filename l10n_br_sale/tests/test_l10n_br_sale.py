@@ -23,6 +23,8 @@ class L10nBrSaleBaseTest(TransactionCase):
         self.company = self.env.ref('base.main_company')
         self.so_products = self.env.ref('l10n_br_sale.main_so_only_products')
         self.so_services = self.env.ref('l10n_br_sale.main_so_only_services')
+        self.so_product_service = self.env.ref(
+            'l10n_br_sale.main_so_product_service')
         self.so_prod_srv = self.env.ref('l10n_br_sale.main_so_product_service')
         self.fsc_op_sale = self.env.ref('l10n_br_fiscal.fo_venda')
         self.fsc_op_line_sale = self.env.ref('l10n_br_fiscal.fo_venda_venda')
@@ -395,3 +397,15 @@ class L10nBrSaleBaseTest(TransactionCase):
 
         self._invoice_sale_order(self.so_services)
         self._change_user_company(self.main_company)
+
+    def test_l10n_br_sale_product_service(self):
+        """Test brazilian Sale Order with Product and Service."""
+        self._run_sale_order_onchanges(self.so_product_service)
+        for line in self.so_product_service.order_line:
+            self._run_sale_line_onchanges(line)
+
+        self.so_product_service.action_confirm()
+        # Create and check invoice
+        self.so_product_service.action_invoice_create(final=True)
+        # Devem existir duas Faturas/Documentos Fiscais
+        self.assertEquals(2, self.so_product_service.invoice_count)
