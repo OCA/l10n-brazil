@@ -63,13 +63,13 @@
             <field name="state" widget="statusbar" statusbar_visible="em_digitacao,autorizada"/>
         </header>
         <div class="alert alert-danger" role="alert" attrs="{'invisible': [('state_edoc','not in',('rejeitada', 'denegada'))]}">
-            Fiscal Document: <field name="document_type_id"/> is <strong><field name="state_edoc"/></strong>: <field name="codigo_motivo_situacao"/>
+            Fiscal Document: <field name="document_type_id" readonly="1"/> is <strong><field name="state_edoc" readonly="1"/></strong>: <field name="codigo_motivo_situacao" readonly="1"/>
         </div>
         <div class="alert alert-success" role="alert" attrs="{'invisible': [('state_edoc','!=','autorizada')]}">
-            Fiscal Document: <field name="document_type_id"/> is <strong>Authorized</strong>
+            Fiscal Document: <field name="document_type_id" readonly="1"/> is <strong>Authorized</strong>
         </div>
         <div class="alert alert-warning" role="alert" attrs="{'invisible': [('state_edoc','!=','cancelada')]}">
-            Fiscal Document: <field name="document_type_id"/> is <strong>Cancelled</strong>
+            Fiscal Document: <field name="document_type_id" readonly="1"/> is <strong>Cancelled</strong>
         </div>
         <sheet string="Fiscal Document">
           <div class="oe_title">
