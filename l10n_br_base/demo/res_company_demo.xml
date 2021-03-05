@@ -34,6 +34,7 @@
         <field name="website">www.suaempresa.com.br</field>
         <field name="phone">+55 11 9999-9999</field>
         <field name="email">info@suaempresa.com.br</field>
+        <field name="is_company" eval="True"/>
     </record>
 
     <record id="empresa_lucro_presumido" model="res.company">
@@ -68,6 +69,7 @@
         <field name="phone">(21) 3010 9965</field>
         <field name="email">info@simplesnacional.example.com</field>
         <field name="website">www.example.com</field>
+        <field name="is_company" eval="True"/>
     </record>
 
     <record id="empresa_simples_nacional" model="res.company">
