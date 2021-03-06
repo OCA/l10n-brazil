@@ -46,7 +46,7 @@
         <xpath expr="//form/field[@name='state_edoc']" position="replace"/>
         <xpath expr="//header/field[@name='state']" position="replace">
             <field name="state" invisible="1"/>
-            <field name="state_edoc" widget="statusbar" statusbar_visible="em_digitacao,autorizada" modifiers="{'readonly':true}"/>
+            <field name="state_edoc" widget="statusbar" statusbar_visible="em_digitacao,autorizada" readonly="1"/>
         </xpath>
         <xpath expr="//button[@name='action_document_send']" position="attributes">
             <attribute name="states"/>
@@ -73,8 +73,8 @@
             <button name="action_invoice_open" type="object" states="draft" string="Validate" class="oe_highlight o_invoice_validate" groups="account.group_account_invoice"/>
             <button name="action_document_back2draft" type="object" string="Voltar para Digitação" groups="l10n_br_fiscal.group_user" attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'enviada', 'rejeitada')), ('document_electronic', '=', False)]}" class="btn-secondary"/>
         </xpath>
-        <xpath expr="//button[@name='action_send_email']" position="before">
-            <button name="action_document_cancel" type="object" states="draft" string="Cancelar" attrs="{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False)]}" class="btn-secondary" groups="account.group_account_invoice"/>
+        <xpath expr="//button[@name='action_document_cancel']" position="attributes">
+            <attribute name="attrs">{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False)]}</attribute>
         </xpath>
         <xpath expr="//h1/field[@name='number']" position="replace">
             <field name="fiscal_number" class="oe_inline" readonly="1"/>
