@@ -46,6 +46,7 @@ TAX_DICT_VALUES = {
     "value_amount": 0.00,
     "uot_id": False,
     "tax_value": 0.00,
+    "compute_reduction": True,
 }
 
 
@@ -363,12 +364,9 @@ class Tax(models.Model):
             # Add IPI in ICMS Base
             add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
 
-        compute_reduction = True
-
         kwargs.update({
             'add_to_base': sum(add_to_base),
             'remove_from_base': sum(remove_from_base),
-            'compute_reduction': compute_reduction,
             'icms_base_type': tax.icms_base_type
         })
 
@@ -536,14 +534,9 @@ class Tax(models.Model):
                 tax_dict["percent_amount"] = icms_sn_percent
                 tax_dict["value_amount"] = icms_sn_percent
 
-        compute_reduction = True
-        if company.state_id != partner.state_id and not partner.is_company:
-            compute_reduction = False
-
         kwargs.update({
             'add_to_base': sum(add_to_base),
             'remove_from_base': sum(remove_from_base),
-            'compute_reduction': compute_reduction
         })
 
         taxes_dict.update(self._compute_tax_base(
