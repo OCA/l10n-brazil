@@ -67,6 +67,16 @@ msgid "Select invoiced based on order or picking"
 msgstr ""
 
 #. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_invoice_onshipping
+msgid "Stock Invoice Onshipping"
+msgstr ""
+
+#. module: l10n_br_purchase_stock
+#: model:ir.model,name:l10n_br_purchase_stock.model_stock_move
+msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_br_purchase_stock
 #: code:addons/l10n_br_purchase_stock/models/purchase_order.py:14
 #: code:addons/l10n_br_purchase_stock/models/res_company.py:21
 #: code:addons/l10n_br_purchase_stock/models/res_config_settings.py:13
