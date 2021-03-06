@@ -278,6 +278,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def finalize_invoice_move_lines(self, move_lines):
         lines = super().finalize_invoice_move_lines(move_lines)
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         financial_lines = [
             l for l in lines if l[2]['account_id'] == self.account_id.id]
 
@@ -285,7 +286,7 @@ class AccountInvoice(models.Model):
 
         for l in financial_lines:
             if l[2]['debit'] or l[2]['credit']:
-                if self.document_type_id:
+                if self.fiscal_document_id != dummy_doc:
                     l[2]['name'] = '{}/{}-{}'.format(
                         self.fiscal_number,
                         count,
