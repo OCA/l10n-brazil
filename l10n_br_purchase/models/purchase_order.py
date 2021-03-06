@@ -46,12 +46,6 @@ class PurchaseOrder(models.Model):
         related='partner_id.inscr_est',
     )
 
-    fiscal_document_count = fields.Integer(
-        string='Fiscal Document Count',
-        related='invoice_count',
-        readonly=True,
-    )
-
     amount_freight = fields.Monetary(
         compute='_amount_all',
         store=True,
@@ -109,29 +103,6 @@ class PurchaseOrder(models.Model):
                 'arch'] = sub_arch
 
         return order_view
-
-    @api.multi
-    def action_view_document(self):
-        invoices = self.mapped('invoice_ids')
-        action = self.env.ref('l10n_br_fiscal.document_in_action').read()[0]
-        if len(invoices) > 1:
-            action['domain'] = [
-                ('id', 'in', invoices.mapped('fiscal_document_id').ids),
-            ]
-        elif len(invoices) == 1:
-            form_view = [
-                (self.env.ref('l10n_br_fiscal.document_form').id, 'form'),
-            ]
-            if 'views' in action:
-                action['views'] = form_view + [(state, view) for state, view
-                                               in action['views'] if
-                                               view != 'form']
-            else:
-                action['views'] = form_view
-            action['res_id'] = invoices.fiscal_document_id.id
-        else:
-            action = {'type': 'ir.actions.act_window_close'}
-        return action
 
     @api.multi
     def action_view_invoice(self):

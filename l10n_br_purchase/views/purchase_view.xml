@@ -20,11 +20,6 @@
           <field name="inherit_id" ref="purchase.purchase_order_form"/>
           <field name="priority">36</field>
           <field name="arch" type="xml">
-              <xpath expr="//sheet/div[@name='button_box']/button" position="after">
-                <button type="object" name="action_view_document" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible':['|', ('invoice_count', '=', 0), ('state', 'in', ('draft','sent','to approve'))]}">
-                    <field name="fiscal_document_count" widget="statinfo" string="Documents"/>
-                </button>
-              </xpath>
               <xpath expr="//field[@name='company_id']" position="after">
                   <field name="fiscal_operation_id" required="1"/>
               </xpath>
