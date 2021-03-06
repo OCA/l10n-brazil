@@ -206,7 +206,7 @@ class AccountInvoiceLine(models.Model):
         dummy_doc_id = self.env.ref('l10n_br_fiscal.fiscal_document_dummy').id
         fiscal_doc_id = self.env['account.invoice'].browse(
             values['invoice_id']).fiscal_document_id.id
-        if dummy_doc_id == fiscal_doc_id:
+        if dummy_doc_id == fiscal_doc_id or values.get('display_type'):
             values['fiscal_document_line_id'] = dummy_doc_line_id
         line = super().create(values)
         if dummy_doc_id != fiscal_doc_id:
