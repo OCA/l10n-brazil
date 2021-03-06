@@ -163,9 +163,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         # remove id field to avoid conflicts
         vals.pop('id', None)
 
-        # this will force to create a new fiscal document line:
-        vals['fiscal_document_line_id'] = False
-
         if default:  # in case you want to use new rather than write later
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
