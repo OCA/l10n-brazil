@@ -1644,7 +1644,7 @@ msgid "Cancelar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:922
+#: code:addons/l10n_br_fiscal/models/document.py:928
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -7708,7 +7708,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:950
+#: code:addons/l10n_br_fiscal/models/document.py:956
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8510,8 +8510,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:788
-#: code:addons/l10n_br_fiscal/models/document.py:799
+#: code:addons/l10n_br_fiscal/models/document.py:794
+#: code:addons/l10n_br_fiscal/models/document.py:805
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -8974,6 +8974,18 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/tax_definition.py:223
 #, python-format
 msgid "You cannot delete an Tax Definition which is not draft !"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document.py:747
+#, python-format
+msgid "You cannot unlink Fiscal Document Dummy !"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document_line.py:168
+#, python-format
+msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
