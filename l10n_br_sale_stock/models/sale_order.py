@@ -19,8 +19,9 @@ class SaleOrder(models.Model):
 
         if self.company_id.sale_create_invoice_policy == 'stock_picking':
             has_services_to_invoice = self.order_line.filtered(
-                lambda x: x.product_id.type == 'service' and
-                          x.invoice_status == 'to invoice'
+                lambda x:
+                x.product_id.type == 'service' and
+                x.invoice_status == 'to invoice'
             )
             # A criação de Fatura de Serviços deve ser possível via Pedido
             if not has_services_to_invoice:
