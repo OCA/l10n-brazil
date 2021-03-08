@@ -26,12 +26,6 @@ class FiscalLineMixin(models.AbstractModel):
         default=0.00,
     )
 
-    price_tax = fields.Monetary(
-        compute='_compute_price_subtotal',
-        string='Price Tax',
-        default=0.00,
-    )
-
     price_total = fields.Monetary(
         compute='_compute_price_subtotal',
         string='Price Total',
@@ -62,7 +56,6 @@ class FiscalLineMixin(models.AbstractModel):
     @api.depends(
         'product_uom_qty',
         'price_unit',
-        'discount',
         'fiscal_price',
         'fiscal_quantity',
         'discount_value',
@@ -73,21 +66,16 @@ class FiscalLineMixin(models.AbstractModel):
     def _compute_price_subtotal(self):
         super()._compute_price_subtotal()
         for l in self:
+            # Update taxes fields
             l._update_taxes()
-            price_tax = l.price_tax + l.amount_tax_not_included
-            price_total = (
-                l.price_subtotal + l.freight_value +
-                l.insurance_value + l.costs_value)
-
-            price_subtotal = (
-                l.price_subtotal * (1 - (l.discount or 0.0) / 100.0)
-            )
-
+            # Call mixin compute method
+            l._compute_amounts()
+            # Update record
             l.update({
-                'price_tax': price_tax,
-                'price_gross': price_subtotal + l.discount_value,
-                'price_total': price_total + price_tax,
-                'price_subtotal': price_subtotal,
+                'price_subtotal': l.amount_untaxed,
+                'price_tax': l.amount_tax,
+                'price_gross': l.amount_untaxed + l.discount_value,
+                'price_total': l.amount_total,
             })
 
     @api.multi

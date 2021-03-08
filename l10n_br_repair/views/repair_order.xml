@@ -20,12 +20,12 @@
             </button>
             <field name="amount_untaxed" position="before" >
                 <field name="amount_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                 <field name="amount_discount" groups="l10n_br_repair.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                 <field name="amount_discount_value" groups="l10n_br_repair.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
             </field>
             <field name="amount_untaxed" position="after" >
-                 <field name="amount_freight" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                 <field name="amount_insurance" widget='monetary' options="{'currency_field': 'currency_id'}" />
-                 <field name="amount_costs" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                 <field name="amount_freight_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                 <field name="amount_insurance_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                 <field name="amount_costs_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
              </field>
             <field name="invoice_method" position="after" >
                 <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>

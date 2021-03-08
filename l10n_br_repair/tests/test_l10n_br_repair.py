@@ -186,7 +186,10 @@ class L10nBrRepairBaseTest(TransactionCase):
             "after change fiscal category.",
         )
         self.assertEquals(
-            self.so_products.amount_discount, 0, "Error to discount value")
+            self.so_products.amount_discount_value,
+            0,
+            "Error to discount value",
+        )
 
         for line in self.so_products.operations:
             self._run_operations_onchanges(line)
@@ -330,7 +333,10 @@ class L10nBrRepairBaseTest(TransactionCase):
         )
 
         self.assertEquals(
-            self.so_services.amount_discount, 0, "Error to discount value")
+            self.so_services.amount_discount_value,
+            0,
+            "Error to discount value",
+        )
 
         for line in self.so_services.fees_lines:
             self._run_fees_lines_onchanges(line)
