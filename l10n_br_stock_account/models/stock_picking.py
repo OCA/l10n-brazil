@@ -44,3 +44,12 @@ class StockPicking(models.Model):
         column2='comment_id',
         string='Comments',
     )
+
+    @api.multi
+    def _get_amount_lines(self):
+        """Get object lines instaces used to compute fields"""
+        return self.mapped('move_lines')
+
+    @api.depends('move_lines')
+    def _compute_amount(self):
+        super()._compute_amount()
