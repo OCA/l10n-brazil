@@ -8,21 +8,21 @@
             <tr>
                 <td>Freight</td>
                 <td class="text-right">
-                    <span t-field="o.amount_freight"
+                    <span t-field="o.amount_freight_value"
                           t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                 </td>
             </tr>
             <tr>
                 <td>Insurance</td>
                 <td class="text-right">
-                    <span t-field="o.amount_insurance"
+                    <span t-field="o.amount_insurance_value"
                           t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                 </td>
             </tr>
             <tr>
                 <td>Other Costs</td>
                 <td class="text-right">
-                    <span t-field="o.amount_costs"
+                    <span t-field="o.amount_costs_value"
                           t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                 </td>
             </tr>
