@@ -79,42 +79,6 @@ class RepairOrder(models.Model):
         help="Amount without discount.",
     )
 
-    amount_discount = fields.Monetary(
-        compute='_amount_all',
-        store=True,
-        string='Discount (-)',
-        readonly=True,
-        help="The discount amount.",
-    )
-
-    amount_freight = fields.Float(
-        compute='_amount_all',
-        store=True,
-        string='Freight',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-        states={'draft': [('readonly', False)]},
-    )
-
-    amount_insurance = fields.Float(
-        compute='_amount_all',
-        store=True,
-        string='Insurance',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-    )
-
-    amount_costs = fields.Float(
-        compute='_amount_all',
-        store=True,
-        string='Other Costs',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-    )
-
     fiscal_document_count = fields.Integer(
         string='Fiscal Document Count',
         related='invoice_count',
@@ -142,41 +106,22 @@ class RepairOrder(models.Model):
 
     client_order_ref = fields.Char(string='Customer Reference', copy=False)
 
+    @api.multi
+    def _get_amount_lines(self):
+        """Get object lines instaces used to compute fields"""
+        lines = []
+        lines += [l for l in self.mapped('operations')]
+        lines += [l for l in self.mapped('fees_lines')]
+        return lines
+
     @api.depends('operations.price_total', 'fees_lines.price_total')
     def _amount_all(self):
-        """Compute the total amounts of the SO."""
+        """Compute the total amounts of the RO."""
+        self._compute_amount()
         for order in self:
             order.amount_gross = \
                 sum(line.price_gross for line in order.operations) + \
                 sum(line.price_gross for line in order.fees_lines)
-
-            order.amount_discount = \
-                sum(line.discount_value for line in order.operations) + \
-                sum(line.discount_value for line in order.fees_lines)
-
-            order.amount_untaxed = \
-                sum(line.price_subtotal for line in order.operations) + \
-                sum(line.price_subtotal for line in order.fees_lines)
-
-            order.amount_tax = \
-                sum(line.price_tax for line in order.operations) + \
-                sum(line.price_tax for line in order.fees_lines)
-
-            order.amount_total = \
-                sum(line.price_total for line in order.operations) + \
-                sum(line.price_total for line in order.fees_lines)
-
-            order.amount_freight = \
-                sum(line.freight_value for line in order.operations) + \
-                sum(line.freight_value for line in order.fees_lines)
-
-            order.amount_costs_value = \
-                sum(line.costs_value for line in order.operations) + \
-                sum(line.costs_value for line in order.fees_lines)
-
-            order.amount_insurance = \
-                sum(line.insurance_value for line in order.operations) + \
-                sum(line.insurance_value for line in order.fees_lines)
 
     @api.depends('state', 'operations.invoice_line_id', 'fees_lines.invoice_line_id')
     def _get_invoiced(self):
@@ -298,7 +243,7 @@ class RepairOrder(models.Model):
                 line.discount = order.discount_rate
                 line._onchange_discount_percent()
             for line in order.fees_lines:
-                line.discount = order.discount_rate
+                line.discount_value = order.discount_rate
                 line._onchange_discount_percent()
 
     # @api.onchange('fiscal_operation_id')
