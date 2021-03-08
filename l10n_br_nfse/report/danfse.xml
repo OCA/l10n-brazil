@@ -53,13 +53,11 @@
                     font-size: 10px;
                     text-align: center;
                     font-weight: bold;
-                    background-color: #dee2e6;
                 }
                 .rotulo-header {
                     padding: 8px 0px;
                     font-size: 10px;
                     text-align: center;
-                    background-color: #adb5bd;
                 }
                 .linha {
                     min-height:30px;
