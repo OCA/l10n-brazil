@@ -856,5 +856,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _add_fields_to_amount(self):
         return ['insurance_value', 'costs_value', 'freight_value']
 
+    @api.model
     def _rm_fields_to_amount(self):
         return ['discount_value', 'icms_relief_value']
