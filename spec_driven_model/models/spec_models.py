@@ -89,23 +89,12 @@ class SpecModel(models.AbstractModel):
         relational fields pointing to such mixins should be remapped to the
         proper concrete models where these mixins are injected.
         """
-        self._mutate_relational_fields(self.pool, self.env.cr)
-        return super()._setup_fields()
-
-    @api.model
-    def _mutate_relational_fields(self, pool, cr):
-        """
-        Iterates on the relationnal fields of the model and when the comodel
-        is a mixin that has been injected into a concrete models.Model, then
-        remap the comodel to the proper concrete model.
-        """
         cls = type(self)
-        env = api.Environment(cr, SUPERUSER_ID, {})
         for klass in cls.__bases__:
             if not hasattr(klass, '_name')\
                     or not hasattr(klass, '_fields')\
                     or klass._name is None\
-                    or not klass._name.startswith(env[cls._name]._schema_name):
+                    or not klass._name.startswith(self.env[cls._name]._schema_name):
                 continue
             if klass._name != cls._name:
                 cls._map_concrete(klass._name, cls._name)
@@ -115,34 +104,19 @@ class SpecModel(models.AbstractModel):
         for name, field in cls._fields.items():
             if hasattr(field, 'comodel_name') and field.comodel_name:
                 comodel_name = field.comodel_name
-                comodel = pool[comodel_name]
+                comodel = self.env[comodel_name]
                 concrete_class = cls._get_concrete(comodel._name)
 
                 if not hasattr(comodel, '_concrete_rec_name'):
                     # TODO filter with klass._schema name instead?
                     continue
 
-                if field.type == 'many2one' and concrete_class is not None:
-                    if comodel_name in stacked_parents:
-                        # We don't pop the field as we will use it
-                        # later on view to inject the stacked structure
-                        # TODO can we not really remove the field?
-                        # TODO like we could store it in cls list instead...
-                        # TODO this should not happen with res.partner:
-                        # REM m2o res.partner.nfe40_enderDest (stacked)
-                        _logger.debug("    REM m2o %s.%s (stacked)",
-                                      cls._name, name)
-                        self._stacking_points[name] = field
-                    else:
-                        _logger.debug("    MUTATING m2o %s (%s) -> %s",
-                                      name, comodel_name, concrete_class)
-                        field.original_comodel_name = comodel_name
-                        field.comodel_name = concrete_class
-                        # FIXME: if field is overriden with related
-                        # the new comodel_name should be specified
-                        # because in this case the automatic assignation fails
-                        # it seems that field#setup_base will indeed reset
-                        # the comodel.
+                if field.type == 'many2one' and concrete_class is not None\
+                        and comodel_name not in stacked_parents:
+                    _logger.debug("    MUTATING m2o %s (%s) -> %s",
+                                  name, comodel_name, concrete_class)
+                    field.original_comodel_name = comodel_name
+                    field.comodel_name = concrete_class
 
                 elif field.type == 'one2many':
                     if concrete_class is not None:
@@ -153,7 +127,7 @@ class SpecModel(models.AbstractModel):
                     if not hasattr(field, 'inverse_name'):
                         continue
                     inv_name = field.inverse_name
-                    for n, f in getmembers(comodel):
+                    for n, f in comodel._fields.items():
                         if n == inv_name and f.args.get('comodel_name'):
                             _logger.debug("    MUTATING m2o %s.%s (%s) -> %s",
                                           comodel._name.split('.')[-1], n,
@@ -162,13 +136,7 @@ class SpecModel(models.AbstractModel):
                                 'comodel_name']
                             f.args['comodel_name'] = self._name
 
-        for name, value in self._stacking_points.items():
-            if self._fields.get(name):
-                del self._fields[name]
-                delattr(cls, name)
-                if name in cls._proper_fields:
-                    cls._proper_fields.remove(name)
-        cls.pool.model_cache[cls._model_cache_key] = cls
+        return super()._setup_fields()
 
     @classmethod
     def _map_concrete(cls, key, target, quiet=False):
