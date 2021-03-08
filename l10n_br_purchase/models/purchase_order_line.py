@@ -58,25 +58,28 @@ class PurchaseOrderLine(models.Model):
     )
 
     @api.depends(
-        'product_qty',
+        'product_uom_qty',
         'price_unit',
-        'taxes_id',
         'fiscal_price',
-        'fiscal_quantity')
+        'fiscal_quantity',
+        'discount_value',
+        'freight_value',
+        'insurance_value',
+        'costs_value',
+        'taxes_id')
     def _compute_amount(self):
         """Compute the amounts of the PO line."""
         super()._compute_amount()
-        for line in self:
-            line._update_taxes()
-            price_tax = line.price_tax + line.amount_tax_not_included
-            price_subtotal = (
-                line.price_subtotal + line.freight_value +
-                line.insurance_value + line.costs_value)
-
-            line.update({
-                'price_tax': price_tax,
-                'price_subtotal': price_subtotal,
-                'price_total': price_subtotal + price_tax,
+        for l in self:
+            # Update taxes fields
+            l._update_taxes()
+            # Call mixin compute method
+            l._compute_amounts()
+            # Update record
+            l.update({
+                'price_subtotal': l.amount_untaxed,
+                'price_tax': l.amount_tax,
+                'price_total': l.amount_total,
             })
 
     @api.onchange('product_qty', 'product_uom')
