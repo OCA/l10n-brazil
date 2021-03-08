@@ -6,7 +6,7 @@
             <tr id="order_delivery" t-if="website_sale_order and website_sale_order.carrier_id">
               <td class="text-right noborder text-muted"  title="Delivery will be updated after choosing a new delivery method">Delivery:</td>
               <td class="text-xl-right noborder text-muted" >
-                   <span t-field="website_sale_order.amount_freight" style="white-space: nowrap;" t-options='{
+                   <span t-field="website_sale_order.amount_freight_value" style="white-space: nowrap;" t-options='{
                       "widget": "monetary",
                       "display_currency": website_sale_order.currency_id,
                   }'/>
