@@ -80,12 +80,14 @@ class SaleOrder(models.Model):
         string='Comments',
     )
 
-    line_ids = fields.One2many(
-        comodel_name='sale.order.line',
-        inverse_name='order_id',
-        related='order_line',
-        string='Mixin Order Lines'
-    )
+    @api.multi
+    def _get_amount_lines(self):
+        """Get object lines instaces used to compute fields"""
+        return self.mapped('order_line')
+
+    @api.depends('order_line')
+    def _compute_amount(self):
+        super()._compute_amount()
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
