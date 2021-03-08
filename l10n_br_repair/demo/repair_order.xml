@@ -48,7 +48,6 @@
 
     <record id="main_sl_only_products_2_2" model="repair.line">
         <field name="repair_id" ref="main_so_only_products"/>
-        <field name="repair_id" ref="main_so_only_products"/>
         <field name="location_dest_id" ref="stock.location_production"/>
         <field name="location_id" ref="stock.stock_location_stock"/>
         <field name="type">add</field>
