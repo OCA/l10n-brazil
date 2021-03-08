@@ -302,7 +302,7 @@ class Document(models.Model):
                                 if retorno:
                                     if processo.resposta.Cabecalho.Sucesso:
                                         record.autorizacao_event_id.set_done(
-                                            processo.envio_xml)
+                                            processo.retorno)
                                         record._change_state(
                                             SITUACAO_EDOC_AUTORIZADA)
                                         vals['codigo_motivo_situacao'] = \
