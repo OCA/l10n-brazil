@@ -40,6 +40,13 @@ class ContractContract(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
+    line_ids = fields.One2many(
+        comodel_name='contract.line',
+        inverse_name='contract_id',
+        related='contract_line_ids',
+        string='Mixin Contract Lines'
+    )
+
     @api.multi
     def _compute_document_count(self):
         for rec in self:
