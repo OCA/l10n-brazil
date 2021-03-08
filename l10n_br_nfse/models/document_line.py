@@ -104,7 +104,7 @@ class DocumentLine(models.Model):
             'outras_retencoes': self.other_retentions_value,
             'base_calculo': self.issqn_base,
             'aliquota': self.issqn_percent / 100,
-            'valor_liquido_nfse': self.amount_financial,
+            'valor_liquido_nfse': self.amount_taxed,
             'item_lista_servico':
                 self.service_type_id.code and
                 self.service_type_id.code.replace('.', ''),
