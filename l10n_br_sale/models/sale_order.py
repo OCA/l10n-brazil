@@ -5,7 +5,6 @@
 from lxml import etree
 
 from odoo import api, fields, models
-from odoo.addons import decimal_precision as dp
 
 
 class SaleOrder(models.Model):
