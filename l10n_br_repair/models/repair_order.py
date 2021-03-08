@@ -115,6 +115,10 @@ class RepairOrder(models.Model):
         return lines
 
     @api.depends('operations.price_total', 'fees_lines.price_total')
+    def _compute_amount(self):
+        super()._compute_amount()
+
+    @api.depends('operations.price_total', 'fees_lines.price_total')
     def _amount_all(self):
         """Compute the total amounts of the RO."""
         self._compute_amount()
