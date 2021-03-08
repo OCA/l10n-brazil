@@ -23,4 +23,4 @@ class TestUi(odoo.tests.HttpCase):
         # check result
         record = self.env['sale.order'].search(
             [], limit=1)
-        self.assertEqual(record.amount_freight, 7.0)
+        self.assertEqual(record.amount_freight_value, 7.0)
