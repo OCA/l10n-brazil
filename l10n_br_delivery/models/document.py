@@ -11,8 +11,8 @@ class Document(models.Model):
         inverse='_inverse_amount_freight_value'
     )
 
-    amount_other_costs_value = fields.Monetary(
-        inverse='_inverse_amount_other_costs_value'
+    amount_costs_value = fields.Monetary(
+        inverse='_inverse_amount_costs_value'
     )
 
     amount_insurance_value = fields.Monetary(
@@ -43,26 +43,26 @@ class Document(models.Model):
                 line._onchange_fiscal_taxes()
 
     @api.multi
-    def _inverse_amount_other_costs_value(self):
+    def _inverse_amount_costs_value(self):
         for record in self.filtered(lambda doc: doc.line_ids):
-            amount_other_costs_value = record.amount_other_costs_value
-            if all(record.line_ids.mapped('other_costs_value')):
+            amount_costs_value = record.amount_costs_value
+            if all(record.line_ids.mapped('costs_value')):
                 amount_freight_old = sum(
-                    record.line_ids.mapped('other_costs_value'))
+                    record.line_ids.mapped('costs_value'))
                 for line in record.line_ids[:-1]:
-                    line.other_costs_value = amount_other_costs_value * (
-                        line.other_costs_value / amount_freight_old)
-                record.line_ids[-1].other_costs_value = \
-                    amount_other_costs_value - sum(
-                        line.other_costs_value
+                    line.costs_value = amount_costs_value * (
+                        line.costs_value / amount_freight_old)
+                record.line_ids[-1].costs_value = \
+                    amount_costs_value - sum(
+                        line.costs_value
                         for line in record.line_ids[:-1])
             else:
                 for line in record.line_ids[:-1]:
-                    line.other_costs_value = amount_other_costs_value * (
+                    line.costs_value = amount_costs_value * (
                         line.amount_total / record.amount_total)
-                record.line_ids[-1].other_costs_value = \
-                    amount_other_costs_value - sum(
-                        line.other_costs_value
+                record.line_ids[-1].costs_value = \
+                    amount_costs_value - sum(
+                        line.costs_value
                         for line in record.line_ids[:-1])
             for line in record.line_ids:
                 line._onchange_fiscal_taxes()
