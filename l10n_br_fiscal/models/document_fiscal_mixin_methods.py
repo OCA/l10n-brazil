@@ -28,28 +28,34 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
 
+    @api.multi
+    def _get_amount_lines(self):
+        """Get object lines instaces used to compute fields"""
+        return self.mapped('line_ids')
+
     @api.model
     def _get_amount_fields(self):
+        """Get all fields with 'amount_' prefix"""
         fields = self.env["l10n_br_fiscal.document.mixin"]._fields.keys()
         amount_fields = [f for f in fields if f.startswith('amount_')]
         return amount_fields
 
-    @api.depends('line_ids')
     def _compute_amount(self):
         fields = self._get_amount_fields()
         for doc in self:
             values = {key: 0.0 for key in fields}
-            for line in doc.line_ids:
+            for line in doc._get_amount_lines():
                 for field in fields:
                     if field in line._fields.keys():
                         values[field] += line[field]
                     if field.replace('amount_', '') in line._fields.keys():
                         values[field] += line[field.replace('amount_', '')]
-            # Manual Compute Field
-            values['amount_financial'] = sum(
-                line.amount_taxed for line in doc.line_ids.filtered(
-                    lambda l: l.fiscal_operation_line_id.add_to_amount and (
-                        not l.cfop_id or l.cfop_id.finance_move)))
+
+                if line.fiscal_operation_line_id:
+                    if line.fiscal_operation_line_id.add_to_amount and (
+                            not line.cfop_id or line.cfop_id.finance_move):
+                        values['amount_financial'] += line.amount_taxed
+
             doc.update(values)
 
     def _document_comment_vals(self):
