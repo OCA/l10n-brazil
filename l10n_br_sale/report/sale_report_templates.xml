@@ -39,21 +39,21 @@
             <tr t-if="doc.amount_freight"  style="">
                 <td name="td_amount_freight_label"><strong>Freight</strong></td>
                 <td name="td_amount_freight" class="text-right">
-                    <span t-field="doc.amount_freight"/>
+                    <span t-field="doc.amount_freight_value"/>
                 </td>
             </tr>
 
             <tr t-if="doc.amount_insurance"  style="">
                 <td name="td_amount_insurance_label"><strong>Insurance</strong></td>
                 <td name="td_amount_insurance" class="text-right">
-                    <span t-field="doc.amount_insurance"/>
+                    <span t-field="doc.amount_insurance_value"/>
                 </td>
             </tr>
 
             <tr t-if="doc.amount_costs"  style="">
                 <td name="td_amount_costs_label"><strong>Other Costs</strong></td>
                 <td name="td_amount_costs" class="text-right">
-                    <span t-field="doc.amount_costs"/>
+                    <span t-field="doc.amount_costs_value"/>
                 </td>
             </tr>
 
