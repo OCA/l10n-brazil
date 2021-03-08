@@ -80,13 +80,13 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo Tomador dos Serviços.<br/>\n"
-"                    2- A autenticidade desta Nota Fiscal poderá ser verificada no site,"
+msgid "1 - Tributação no <br>município</br>"
 msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "1-Tributação no município"
+msgid "1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo Tomador dos Serviços.<br/>\n"
+"                    2- A autenticidade desta Nota Fiscal poderá ser verificada no site,"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -189,16 +189,6 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Código ART"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Código da Obra"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Código de Verificação"
 msgstr ""
 
@@ -224,11 +214,6 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Detalhamento Específico da Construção Civil"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Discriminação dos serviços"
 msgstr ""
 
@@ -244,7 +229,7 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
-msgid "Endereço e Cep"
+msgid "Endereço"
 msgstr ""
 
 #. module: l10n_br_nfse
