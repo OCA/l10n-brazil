@@ -5,7 +5,6 @@ from lxml import etree
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-from odoo.addons import decimal_precision as dp
 from odoo.osv import expression
 
 
