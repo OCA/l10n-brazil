@@ -54,11 +54,11 @@ class AbstractSpecMixin(models.AbstractModel):
         Builds a new odoo model instance from a Python binding element or
         sub-element. Iterates over the binding fields to populate the Odoo fields.
         """
-        fields = self.fields_get()
+        fields = self._fields
         # no default image for easier debugging
         vals = self.default_get([f for f, v in fields.items()
-                                 if v['type'] not in ['binary', 'integer',
-                                                      'float', 'monetary']])
+                                 if v.type not in ['binary', 'integer',
+                                                   'float', 'monetary']])
         # TODO deal with default values but take them from self._context
         # if path == '':
         #    vals.update(defaults)
@@ -87,7 +87,7 @@ class AbstractSpecMixin(models.AbstractModel):
                 or attr.get_child_attrs().get('type') in ('xs:string',
                                                           'xs:base64Binary'):
             # SimpleType
-            if fields[key]['type'] == 'datetime':
+            if fields.get(key) and fields[key].type == 'datetime':
                 if 'T' in value:
                     if tz_datetime.match(value):
                         old_value = value
@@ -99,11 +99,11 @@ class AbstractSpecMixin(models.AbstractModel):
 
         else:
             # ComplexType
-            if fields.get(key) and fields[key].get('related'):
+            if fields.get(key) and fields[key].related:
                 # example: company.nfe40_enderEmit related on partner_id
                 # then we need to set partner_id, not nfe40_enderEmit
-                key = fields[key]['related'][-1]  # -1 works with _inherits
-                comodel_name = fields[key]['relation']
+                key = fields[key].related[-1]  # -1 works with _inherits
+                comodel_name = fields[key].comodel_name
             else:
                 clean_type = attr.get_child_attrs()[
                     'type'].replace('Type', '').lower()
@@ -169,13 +169,13 @@ class AbstractSpecMixin(models.AbstractModel):
         by reading nfe40_xNome and nfe40_xFant on nfe40_emit
         """
         key_vals = {}
-        for k, v in self.fields_get().items():
-            if v.get('related') is not None\
-                    and hasattr(v['related'], '__len__')\
-                    and len(v['related']) == 2\
-                    and v['related'][0] == key\
+        for k, v in self._fields.items():
+            if hasattr(v, 'related')\
+                    and hasattr(v.related, '__len__')\
+                    and len(v.related) == 2\
+                    and v.related[0] == key\
                     and vals.get(k) is not None:
-                key_vals[v['related'][1]] = vals[k]
+                key_vals[v.related[1]] = vals[k]
         # if key_vals != {}:
         #     _logger.info("\nEXTRACT RELATED FROM PARENT:", self, key, key_vals)
         # TODO use inside match_or_create??
