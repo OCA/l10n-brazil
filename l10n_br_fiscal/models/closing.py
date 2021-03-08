@@ -265,8 +265,8 @@ class FiscalClosing(models.Model):
             date_min, date_max = self._date_range()
 
             domain += [
-                ('date', '>=', date_min),
-                ('date', '<=', date_max),
+                ('date_in_out', '>=', date_min),
+                ('date_in_out', '<=', date_max),
             ]
 
         return domain
