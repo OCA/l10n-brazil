@@ -69,31 +69,31 @@ class DocumentLine(models.Model):
     # Amount Fields
     amount_untaxed = fields.Monetary(
         string='Amount Untaxed',
-        compute='_compute_amount',
+        compute='_compute_amounts',
         default=0.00,
     )
 
     amount_tax = fields.Monetary(
         string='Amount Tax',
-        compute='_compute_amount',
+        compute='_compute_amounts',
         default=0.00,
     )
 
     amount_fiscal = fields.Monetary(
         string='Amount Fiscal',
-        compute='_compute_amount',
+        compute='_compute_amounts',
         default=0.00,
     )
 
     amount_financial = fields.Monetary(
         string='Amount Financial',
-        compute='_compute_amount',
+        compute='_compute_amounts',
         default=0.00,
     )
 
     amount_total = fields.Monetary(
         string='Amount Total',
-        compute='_compute_amount',
+        compute='_compute_amounts',
         default=0.00,
     )
 
