@@ -229,6 +229,7 @@ class StackedModel(SpecModel):
     _stack_skip = ()
     # all m2o below these paths will be stacked even if not required:
     _force_stack_paths = ()
+    _stacking_points = {}
 
     @classmethod
     def _build_model(cls, pool, cr):
@@ -243,6 +244,14 @@ class StackedModel(SpecModel):
             for klass in [c for c in classes if c not in cls.__bases__]:
                 cls.__bases__ = (klass,) + cls.__bases__
         return super(StackedModel, cls)._build_model(pool, cr)
+
+    @api.model
+    def _add_field(self, name, field):
+        for cls in type(self).mro():
+            if issubclass(cls, StackedModel):
+                if name in type(self)._stacking_points.keys():
+                    return
+        return super()._add_field(name, field)
 
     @classmethod  # TODO rename with _
     def _visit_stack(cls, node, classes, path, registry, cr):
@@ -272,14 +281,12 @@ class StackedModel(SpecModel):
         classes.add(node)
         fields = collections.OrderedDict()
         env = api.Environment(cr, SUPERUSER_ID, {})
-        # this is require when you don't start odoo with -i (update)
-        # otherwise the model spec will not hav its fields loaded yet.
+        # this is required when you don't start odoo with -i (update)
+        # otherwise the model spec will not have its fields loaded yet.
         # TODO we may pass this env further instead of re-creating it.
         # TODO move setup_base just before the _visit_stack next call
         if node._name != cls._name or\
                 len(registry[node._name]._fields.items() == 0):
-            # and not hasattr(env[node._name],
-            #                                           '_setup_done'):
             env[node._name]._prepare_setup()
             env[node._name]._setup_base()
 
@@ -320,6 +327,7 @@ class StackedModel(SpecModel):
                 child._stack_path = path
                 # field.args['_stack_path'] = path  TODO
                 child_path = "%s.%s" % (path, field_path)
+                cls._stacking_points[name] = registry[node._name]._fields.get(name)
                 cls._visit_stack(child, classes, child_path, registry, cr)
             # else:
             #     if child_concrete:
