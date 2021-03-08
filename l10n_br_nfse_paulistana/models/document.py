@@ -3,6 +3,7 @@
 
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from unidecode import unidecode
 from erpbrasil.base import misc
 
 from nfselib.paulistana.v02.PedidoEnvioLoteRPS import (
@@ -178,7 +179,9 @@ class Document(models.Model):
             EmailTomador=self.convert_type_nfselib(
                 tpRPS, 'EmailTomador', dados_tomador['email']),
             Discriminacao=self.convert_type_nfselib(
-                tpRPS, 'Discriminacao', dados_servico['discriminacao']),
+                tpRPS, 'Discriminacao', unidecode(
+                    dados_servico['discriminacao'])
+            ),
             ValorCargaTributaria=self.convert_type_nfselib(
                 tpRPS, 'ValorCargaTributaria',
                 dados_lote_rps['carga_tributaria']),
