@@ -45,41 +45,6 @@ class PurchaseOrder(models.Model):
         related='partner_id.inscr_est',
     )
 
-    amount_freight = fields.Monetary(
-        compute='_amount_all',
-        store=True,
-        string='Freight',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-        states={'draft': [('readonly', False)]},
-    )
-
-    amount_insurance = fields.Monetary(
-        compute='_amount_all',
-        store=True,
-        string='Insurance',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-    )
-
-    amount_costs = fields.Monetary(
-        compute='_amount_all',
-        store=True,
-        string='Other Costs',
-        readonly=True,
-        default=0.00,
-        digits=dp.get_precision('Account'),
-    )
-
-    line_ids = fields.One2many(
-        comodel_name='purchase.order.line',
-        inverse_name='order_id',
-        copy=True,
-    )
-
-
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
                         toolbar=False, submenu=False):
@@ -147,24 +112,15 @@ class PurchaseOrder(models.Model):
     def _onchange_fiscal_operation_id(self):
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
 
+    @api.multi
+    def _get_amount_lines(self):
+        """Get object lines instaces used to compute fields"""
+        return self.mapped('order_line')
+
+    @api.depends('order_line')
+    def _compute_amount(self):
+        super()._compute_amount()
+
     @api.depends('order_line.price_total')
     def _amount_all(self):
-        for order in self:
-            amount_untaxed = amount_tax = amount_freight = \
-                amount_costs = amount_insurance = 0.0
-            for line in order.order_line:
-                amount_untaxed += line.price_subtotal
-                amount_tax += line.price_tax
-                amount_freight += line.freight_value
-                amount_costs += line.costs_value
-                amount_insurance += line.insurance_value
-
-            order.update({
-                'amount_untaxed': order.currency_id.round(amount_untaxed),
-                'amount_freight': amount_freight,
-                'amount_costs': amount_costs,
-                'amount_insurance': amount_insurance,
-                'amount_tax': order.currency_id.round(amount_tax),
-                'amount_total': (amount_untaxed + amount_tax + amount_freight
-                                 + amount_costs + amount_insurance),
-            })
+        self._compute_amount()
