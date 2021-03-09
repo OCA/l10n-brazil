@@ -301,8 +301,6 @@ class Document(models.Model):
 
                                 if retorno:
                                     if processo.resposta.Cabecalho.Sucesso:
-                                        record.autorizacao_event_id.set_done(
-                                            processo.retorno)
                                         record._change_state(
                                             SITUACAO_EDOC_AUTORIZADA)
                                         vals['codigo_motivo_situacao'] = \
@@ -325,9 +323,11 @@ class Document(models.Model):
 
                             if processo.webservice in CONSULTA_LOTE:
                                 if processo.resposta.Cabecalho.Sucesso:
+                                    record.autorizacao_event_id.set_done(
+                                        processo.retorno)
                                     nfse = retorno.find('.//NFe')
                                     # TODO: Verificar resposta do ConsultarLote
-                                    vals['number'] = nfse.find('.//Numero')
+                                    vals['number'] = nfse.find('.//NumeroNFe')
                                     vals['data_hora_autorizacao'] = \
                                         nfse.find('.//DataEmissaoRPS')
                                     vals['verify_code'] = \
@@ -347,8 +347,15 @@ class Document(models.Model):
                 cnpj_prest=misc.punctuation_rm(
                     self.company_id.partner_id.cnpj_cpf),
             )
-
-            return _(processador.analisa_retorno_consulta(processo))
+            consulta = processador.analisa_retorno_consulta(processo)
+            if isinstance(consulta, dict):
+                record.write({
+                    'verify_code': consulta['codigo_verificacao'],
+                    'number': consulta['numero'],
+                    'data_hora_autorizacao': consulta['data_emissao']
+                })
+                record.autorizacao_event_id.set_done(processo.retorno)
+            return _(consulta)
 
     def cancel_document_paulistana(self):
         doc_dict = {
