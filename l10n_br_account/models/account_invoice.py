@@ -412,8 +412,11 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_document_send(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        self.filtered(lambda d: d.fiscal_document_id != dummy_doc).mapped(
-            'fiscal_document_id').action_document_send()
+        invoices = self.filtered(lambda d: d.fiscal_document_id != dummy_doc)
+        if invoices:
+            invoices.mapped('fiscal_document_id').action_document_send()
+            for invoice in invoices:
+                invoice.move_id.post(invoice=invoice)
 
     @api.multi
     def action_document_cancel(self):
