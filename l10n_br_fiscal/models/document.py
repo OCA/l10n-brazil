@@ -58,6 +58,10 @@ class Document(models.Model):
                 line.icmsst_value for line in record.line_ids)
             record.amount_icmssn_value = sum(
                 line.icmssn_credit_value for line in record.line_ids)
+            record.amount_icmsfcp_base = sum(
+                line.icmsfcp_base for line in record.line_ids)
+            record.amount_icmsfcp_value = sum(
+                line.icmsfcp_value for line in record.line_ids)
             record.amount_ipi_base = sum(
                 line.ipi_base for line in record.line_ids)
             record.amount_ipi_value = sum(
@@ -464,6 +468,16 @@ class Document(models.Model):
 
     amount_icmssn_value = fields.Monetary(
         string='ICMSSN Value',
+        compute='_compute_amount',
+    )
+
+    amount_icmsfcp_base = fields.Monetary(
+        string='ICMS FCP Base',
+        compute='_compute_amount',
+    )
+
+    amount_icmsfcp_value = fields.Monetary(
+        string='ICMS FCP Value',
         compute='_compute_amount',
     )
 
