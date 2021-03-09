@@ -10,7 +10,9 @@
         <field name="partner_id"/>
         <field name="document_type_id"/>
         <group expand='0' string='Group By...'>
-          <filter string='Document Type' name="document_type_id" domain="[]" context="{'group_by' : 'document_type_id'}"/>
+          <filter string="Month" name="date_in_out" domain="[]" context="{'group_by' : 'date_in_out'}"/>
+          <filter string="Document Type" name="document_type_id" domain="[]" context="{'group_by' : 'document_type_id'}"/>
+          <filter string="Situation" name="state_edoc" domain="[]" context="{'group_by' : 'state_edoc'}"/>
         </group>
       </search>
     </field>
@@ -219,7 +221,7 @@
                         <field name="file_xml_autorizacao_id"/>
                         <field name="file_pdf_id"/>
                     </group>
-                    <group name="cancelamento" string="Autorização" colspan="4" attrs="{'invisible': [('state', '!=', 'cancelado')]}" >
+                    <group name="cancelamento" string="Cancelamento" colspan="4" attrs="{'invisible': [('state', '!=', 'cancelada')]}" >
                         <field name="data_hora_cancelamento"/>
                         <field name="protocolo_cancelamento"/>
                         <field name="file_xml_cancelamento_id"/>
