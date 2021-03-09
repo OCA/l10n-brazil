@@ -164,6 +164,10 @@ class NFe(spec_models.StackedModel):
         related='amount_total',
     )
 
+    nfe40_vProd = fields.Monetary(
+        related='amount_untaxed'
+    )
+
     nfe40_tpAmb = fields.Selection(
         related='nfe_environment',
     )
@@ -208,12 +212,17 @@ class NFe(spec_models.StackedModel):
         related='amount_freight_value',
     )
 
-    nfe40_vFCPUFDest = fields.Monetary(
-        related='amount_icmsfcp_value',
+    nfe40_vSeg = fields.Monetary(
+        related='amount_insurance_value'
+    )
+
+    nfe40_vOutro = fields.Monetary(
+        related='amount_other_costs_value'
     )
 
     nfe40_vDesc = fields.Monetary(
-        related='amount_discount_value')
+        related='amount_discount'
+    )
 
     nfe40_vTotTrib = fields.Monetary(
         related='amount_estimate_tax'
@@ -255,6 +264,38 @@ class NFe(spec_models.StackedModel):
         string='valor do COFINS (NFe)',
         related='amount_cofins_value'
     )
+    # TODO:
+    # nfe40_vICMSDeson = fields.Monetary(
+    #     related='amount_cofins_value'
+    # )
+    #
+    # nfe40_vFCPUFDest = fields.Monetary(
+    #     related='amount_cofins_value'
+    # )
+    #
+    # nfe40_vICMSUFDest = fields.Monetary(
+    #     related='amount_cofins_value'
+    # )
+    #
+    # nfe40_vICMSUFRemet = fields.Monetary(
+    #     related='amount_cofins_value'
+    # )
+    #
+    # nfe40_vFCP = fields.Monetary(
+    #     related='amount_cofins_value'
+    # )
+    #
+    # nfe40_vFCPST = fields.Monetary(
+    #     related='amount_cofins_value'
+    # )
+    #
+    # nfe40_vFCPSTRet = fields.Monetary(
+    #     related='amount_cofins_value'
+    # )
+    #
+    # nfe40_vIPIDevol = fields.Monetary(
+    #     related='amount_cofins_value'
+    # )
 
     nfe40_infAdFisco = fields.Char(
         compute='_compute_nfe40_additional_data',
