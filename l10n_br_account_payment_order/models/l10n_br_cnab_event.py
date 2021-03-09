@@ -76,3 +76,8 @@ class L10nBrCNABReturnEvent(models.Model):
     )
     iof_value = fields.Float(string='Valor do IOF')
     payment_value = fields.Float(string='Valor do Pagamento')
+    move_line_id = fields.Many2one(
+        comodel_name='account.move.line',
+        string='Journal Item',
+        ondelete='restrict'
+    )
