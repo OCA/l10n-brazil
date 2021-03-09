@@ -231,6 +231,18 @@ class AccountInvoiceLine(models.Model):
                 line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return result
 
+    @api.multi
+    def unlink(self):
+        unlink_fiscal_lines = self.env['l10n_br_fiscal.document.line']
+        for inv_line in self:
+            if not inv_line.exists():
+                continue
+            unlink_fiscal_lines |= inv_line.fiscal_document_line_id
+        result = super().unlink()
+        unlink_fiscal_lines.unlink()
+        self.clear_caches()
+        return result
+
     @api.onchange('fiscal_tax_ids')
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
