@@ -70,7 +70,7 @@
                             </group>
                         </page>
                         <page string="NFe">
-                            <field name="document_nfe_ids" readonly="1"/>
+                            <field name="document_nfe_ids" context="{'tree_view_ref': 'l10n_br_fiscal.document_tree'}" readonly="1"/>
                         </page>
                         <page string="NFCe">
                             <field name="document_nfce_ids" readonly="1"/>
