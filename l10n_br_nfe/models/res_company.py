@@ -25,8 +25,12 @@ class ResCompany(spec_models.SpecModel):
     def _compute_nfe_data(self):
         # compute because a simple related field makes the match_record fail
         for rec in self:
-            rec.is_company = True
-            rec.nfe40_CNPJ = rec.partner_id.cnpj_cpf
+            if rec.partner_id.is_company:
+                rec.nfe40_choice6 = 'nfe40_CNPJ'
+                rec.nfe40_CNPJ = rec.partner_id.cnpj_cpf
+            else:
+                rec.nfe40_choice6 = 'nfe40_CPF'
+                rec.nfe40_CPF = rec.partner_id.cnpj_cpf
 
     nfe40_CNPJ = fields.Char(compute='_compute_nfe_data')
     nfe40_xNome = fields.Char(related='partner_id.legal_name')
@@ -34,6 +38,10 @@ class ResCompany(spec_models.SpecModel):
     nfe40_IE = fields.Char(related='partner_id.inscr_est')
     nfe40_CRT = fields.Selection(related='tax_framework')
     nfe40_enderEmit = fields.Many2one('res.partner', related='partner_id')
+
+    nfe40_choice6 = fields.Selection(
+        compute='_compute_nfe_data'
+    )
 
     processador_edoc = fields.Selection(
         selection_add=PROCESSADOR,
