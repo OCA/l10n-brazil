@@ -254,6 +254,33 @@ class CNABFileParser(FileParser):
                     cnab_liq_return_move_code_ids:
                 cnab_liq_move_code.append(move_code.code)
 
+            cnab_return_log_event = {
+                'occurrences': descricao_ocorrencia,
+                'occurrence_date': data_ocorrencia,
+                'own_number': account_move_line.own_number,
+                'your_number': account_move_line.document_number,
+                'title_value': valor_titulo,
+                'bank_payment_line_id':
+                    payment_line.bank_line_id.id or False,
+                'invoice_id': account_move_line.invoice_id.id,
+                'due_date': datetime.datetime.strptime(
+                    str(linha_cnab['data_vencimento']), "%d%m%y").date(),
+                'move_line_id': account_move_line.id,
+                'company_title_identification':
+                    linha_cnab['documento_numero'] or
+                    account_move_line.document_number,
+                'favored_bank_account_id':
+                    account_move_line.payment_mode_id.
+                        fixed_journal_id.bank_account_id.id,
+                # TODO: Campo Segmento é referente ao CNAB 240, o
+                #  BRCobranca parece não informar esse campo no retorno,
+                #  é preciso validar isso nesse caso.
+                # 'segmento': evento.servico_segmento,
+                # 'favorecido_nome':
+                #    obj_account_move_line.company_id.partner_id.name,
+                # 'tipo_moeda': evento.credito_moeda_tipo,
+            }
+
             if cod_ocorrencia in cnab_liq_move_code:
 
                 valor_recebido = valor_desconto = valor_juros_mora =\
@@ -424,37 +451,15 @@ class CNABFileParser(FileParser):
                 })
 
                 # CNAB LOG
-                self.cnab_return_events.append({
-                    'occurrence_date': data_ocorrencia,
+                cnab_return_log_event.update({
                     'real_payment_date': data_credito.strftime("%Y-%m-%d"),
-                    # TODO: Campo Segmento é referente ao CNAB 240, o
-                    #  BRCobranca parece não informar esse campo no retorno,
-                    #  é preciso validar isso nesse caso.
-                    # 'segmento': evento.servico_segmento,
-                    # 'favorecido_nome':
-                    #    obj_account_move_line.company_id.partner_id.name,
-                    'favored_bank_account_id':
-                        account_move_line.payment_mode_id.
-                        fixed_journal_id.bank_account_id.id,
-                    'own_number': linha_cnab['nosso_numero'],
-                    'your_number': account_move_line.document_number,
-                    'company_title_identification':
-                        linha_cnab['documento_numero'] or
-                        account_move_line.document_number,
-                    # 'tipo_moeda': evento.credito_moeda_tipo,
-                    'title_value': valor_titulo,
                     'payment_value': valor_recebido,
-                    'occurrences': descricao_ocorrencia,
-                    'bank_payment_line_id':
-                        payment_line.bank_line_id.id or False,
-                    'invoice_id': account_move_line.invoice_id.id,
-                    'due_date': datetime.datetime.strptime(
-                        str(linha_cnab['data_vencimento']), "%d%m%y").date(),
                     'discount_value': valor_desconto,
                     'interest_fee_value': valor_juros_mora,
                     'rebate_value': valor_abatimento,
                     'tariff_charge': valor_tarifa,
                 })
+                self.cnab_return_events.append(cnab_return_log_event)
 
             else:
                 # Nos codigos de retorno cadastrados no Data do modulo
@@ -470,13 +475,7 @@ class CNABFileParser(FileParser):
                     # TODO - algo a mais a ser feito ?
                     account_move_line.cnab_state = 'not_accepted'
 
-                self.cnab_return_events.append({
-                    'occurrences': descricao_ocorrencia,
-                    'occurrence_date': data_ocorrencia,
-                    'own_number': account_move_line.own_number,
-                    'your_number': account_move_line.document_number,
-                    'title_value': valor_titulo,
-                })
+                self.cnab_return_events.append(cnab_return_log_event)
 
         return result_row_list
 
