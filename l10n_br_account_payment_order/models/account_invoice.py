@@ -3,8 +3,7 @@
 #   @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo import api, fields, models
 
 
 class AccountInvoice(models.Model):
@@ -60,54 +59,16 @@ class AccountInvoice(models.Model):
                 }
             )
 
-    # TODO: Criar um movimento de baixa
-    def _remove_payment_order_line(self, _raise=True):
-        """ Try to search payment orders related to the account move of this
-        invoice, we can't remove a payment.order.line / bank.line of a invoice
-        that already sent to the bank.
-
-        The only way to do that is to say that you want to cancel it.
-
-        Creating a new move of "BAIXA/ESTORNO"
-
-        :param _raise:
-        :return:
-        """
-        financial_move_line_ids = self.financial_move_line_ids
-        payment_order_ids = self.env['account.payment.order']
-
-        payment_order_ids |= self.env['account.payment.order'].search([
-            ('payment_line_ids.move_line_id', 'in', financial_move_line_ids.ids),
-        ])
-
-        if payment_order_ids:
-            draft_cancel_payment_order_ids = payment_order_ids.filtered(
-                lambda p: p.state in ('draft', 'cancel')
-            )
-            if payment_order_ids - draft_cancel_payment_order_ids:
-                if _raise:
-                    raise UserError(_(
-                        'A fatura não pode ser cancelada pois a mesma já se '
-                        'encontra exportada por uma ordem de pagamento. \n',
-                        'Envie um novo lançamento solicitando a Baixa/Cancelamento'
-                    ))
-
-            for po_id in draft_cancel_payment_order_ids:
-                p_line_id = self.env['account.payment.line']
-                for line in financial_move_line_ids:
-                    p_line_id |= self.env['account.payment.line'].search([
-                        ('order_id', '=', po_id.id),
-                        ('move_line_id', '=', line.id)])
-                po_id.payment_line_ids -= p_line_id
-
     @api.multi
     def action_invoice_cancel(self):
-        """ Before cancel the invoice, check if this invoice have any payment order
-        related to it.
-        :return:
-        """
         for record in self:
-            record._remove_payment_order_line()
+            if record.payment_mode_id.payment_method_code in \
+                    ('240', '400', '500'):
+                for line in record.move_id.line_ids:
+                    # Verificar a situação do CNAB para apenas apagar
+                    # a linha ou mandar uma solicitação de Baixa
+                    line.update_cnab_for_cancel_invoice()
+
         return super().action_invoice_cancel()
 
     @api.multi
@@ -206,11 +167,16 @@ class AccountInvoice(models.Model):
                     change_tittle_value_line = line
                     break
 
+        reason_write_off = (
+            ('Movement Instruction Code Updated for Request'
+             ' to Write Off, because payment of %s done outside CNAB.')
+            % amount_payment)
+        payment_situation = 'baixa_liquidacao'
         for line in applicable_lines:
             if line == change_tittle_value_line:
-                line._create_cnab_change_tittle_value()
+                line.create_cnab_change_tittle_value()
             else:
-                line._create_cnab_writte_off()
+                line.create_cnab_write_off(reason_write_off, payment_situation)
 
     @api.multi
     def invoice_validate(self):
@@ -219,7 +185,6 @@ class AccountInvoice(models.Model):
         if filtered_invoice_ids:
             for filtered_invoice_id in filtered_invoice_ids:
                 # Criando Ordem de Pagto Automaticamente
-                # TODO: deveria ser um parametro ?
                 if filtered_invoice_id.payment_mode_id.payment_order_ok:
                     filtered_invoice_id.create_account_payment_line()
         return result
@@ -263,3 +228,38 @@ class AccountInvoice(models.Model):
             receivable_id.residual = inv.residual
 
         return res
+
+    @api.multi
+    def action_cancel(self):
+        # TODO: Não está chamando o super, devido problema mais abaixo,
+        #  verificar se é possível
+        moves = self.env['account.move']
+        for inv in self:
+            if inv.move_id:
+                moves += inv.move_id
+            # unreconcile all journal items of the invoice, since the
+            # cancellation will unlink them anyway
+            inv.move_id.line_ids.filtered(
+                lambda x: x.account_id.reconcile).remove_move_reconcile()
+
+        # First, set the invoices as cancelled and detach the move ids
+        self.write({'state': 'cancel', 'move_id': False})
+        if moves:
+            # second, invalidate the move(s)
+            moves.button_cancel()
+            # delete the move this invoice was pointing to
+            # Note that the corresponding move_lines and move_reconciles
+            # will be automatically deleted too
+
+            # TODO: No caso de Ordens de Pagto vinculadas devido o
+            #  ondelet=restrict no campo move_line_id do account.payment.line
+            #  não é possível Cancelar uma Invoice que já tenha uma Ordem de
+            #  Pagto confirmada, acontece erro devido o unlink abaixo, a forma
+            #  encontrada até agora é não apagar as que forem referentes a um
+            #  CNAB. Verificar se o mesmo problema acontece no uso
+            #  internacional e se na migração isso pode ser resolvido
+            #  de uma melhor forma.
+            if self.payment_mode_id.payment_method_code not in \
+                    ('240', '400', '500'):
+                moves.unlink()
+        return True
