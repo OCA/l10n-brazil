@@ -138,6 +138,32 @@ class L10nBrCNABChangeMethods(models.Model):
             " check if should have."
         ) % (payment_mode_name, missing))
 
+    def _cnab_already_start(self):
+
+        result = False
+        # Se existir uma Ordem já gerada, exportada ou concluída
+        # significa que o processo desse CNAB já foi iniciado no Banco
+        cnab_already_start = self.payment_line_ids.filtered(
+            lambda t: t.order_id.state in ('generated', 'uploaded', 'done'))
+
+        if cnab_already_start:
+            result = True
+
+        return result
+
+    def update_cnab_for_cancel_invoice(self):
+
+        cnab_already_start = self._cnab_already_start()
+        if cnab_already_start:
+            reason_write_off = (
+                ('Movement Instruction Code Updated for Request to Write Off,'
+                 ' because Invoice %s was Cancel.') % self.invoice_id.name)
+            payment_situation = 'fatura_cancelada'
+            self.create_cnab_write_off(reason_write_off, payment_situation)
+        else:
+            # Processo de CNAB ainda não iniciado a linha será apenas excluida
+            self.payment_line_ids.unlink()
+
     def _get_cnab_date_maturity(self, new_date):
         """
         CNAB - Instrução de Alteração da Data de Vencimento.
@@ -239,13 +265,13 @@ class L10nBrCNABChangeMethods(models.Model):
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
-    def _create_cnab_writte_off(self):
+    def create_cnab_write_off(self, reason, payment_situation):
         """
         CNAB - Instrução de Baixar de Título.
         """
         if not self.invoice_id.payment_mode_id.cnab_write_off_code_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Writte Off Code')
+                self.payment_mode_id.name, 'Write Off Code')
 
         # Checar se existe uma Instrução de CNAB ainda a ser enviada
         self._check_cnab_instruction_to_be_send()
@@ -254,16 +280,15 @@ class L10nBrCNABChangeMethods(models.Model):
 
         self.mov_instruction_code_id = \
             self.payment_mode_id.cnab_write_off_code_id
-        self.payment_situation = 'baixa_liquidacao'
-        reason = 'Movement Instruction Code Updated for Request' \
-                 ' to Write Off, because payment done in another way.'
+        self.payment_situation = payment_situation
+
         self.create_payment_line_from_move_line(payorder)
         self.cnab_state = 'added_paid'
 
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
-    def _create_cnab_change_tittle_value(self):
+    def create_cnab_change_tittle_value(self):
         """
         CNAB - Alteração do Valor do Título.
         """
