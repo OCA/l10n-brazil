@@ -1644,7 +1644,7 @@ msgid "Cancelar"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:928
+#: code:addons/l10n_br_fiscal/models/document.py:942
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -3985,6 +3985,7 @@ msgid "ICMS FCP BA"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_icmsfcp_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcp_base
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcp_base
 msgid "ICMS FCP Base"
@@ -4101,6 +4102,7 @@ msgid "ICMS FCP TO"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_icmsfcp_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcp_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcp_value
 msgid "ICMS FCP Value"
@@ -7708,7 +7710,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:956
+#: code:addons/l10n_br_fiscal/models/document.py:970
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8510,8 +8512,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:794
-#: code:addons/l10n_br_fiscal/models/document.py:805
+#: code:addons/l10n_br_fiscal/models/document.py:808
+#: code:addons/l10n_br_fiscal/models/document.py:819
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -8534,7 +8536,7 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:728
+#: code:addons/l10n_br_fiscal/models/document.py:742
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
@@ -8977,7 +8979,7 @@ msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:747
+#: code:addons/l10n_br_fiscal/models/document.py:761
 #, python-format
 msgid "You cannot unlink Fiscal Document Dummy !"
 msgstr ""
