@@ -49,7 +49,7 @@ class AccountInvoice(models.Model):
         self.file_boleto_pdf_id = False
         file_pdf.unlink()
 
-        receivable_ids = self.mapped('move_line_receivable_ids')
+        receivable_ids = self.mapped('financial_move_line_ids')
 
         boletos = receivable_ids.send_payment()
         if not boletos:
