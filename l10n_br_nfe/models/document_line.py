@@ -288,7 +288,7 @@ class NFeLine(spec_models.StackedModel):
     @api.depends('cofins_base_type')
     def _compute_nfe40_choice16(self):
         for record in self:
-            if record.pis_base_type == 'percent':
+            if record.cofins_base_type == 'percent':
                 record.nfe40_choice16 = 'nfe40_pCOFINS'
             else:
                 record.nfe40_choice16 = 'nfe40_vAliqProd'
