@@ -270,7 +270,7 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_choice20 = 'nfe40_vUnid'
 
-    @api.depends('ipi_base_type')
+    @api.depends('pis_base_type')
     def _compute_nfe40_choice13(self):
         for record in self:
             if record.pis_base_type == 'percent':
@@ -278,7 +278,7 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_choice13 = 'nfe40_vAliqProd'
 
-    @api.depends('ipi_base_type')
+    @api.depends('cofins_base_type')
     def _compute_nfe40_choice16(self):
         for record in self:
             if record.pis_base_type == 'percent':
