@@ -242,6 +242,10 @@
                     <field name="amount_icms_value"/>
                     <field name="amount_icmssn_value"/>
                   </group>
+                  <group string="ICMS ST">
+                    <field name="amount_icmsst_base"/>
+                    <field name="amount_icmsst_value"/>
+                  </group>
                   <group string="IPI">
                     <field name="amount_ipi_base"/>
                     <field name="amount_ipi_value"/>
