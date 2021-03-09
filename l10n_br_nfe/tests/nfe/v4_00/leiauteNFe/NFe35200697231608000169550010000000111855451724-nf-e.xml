@@ -169,8 +169,7 @@
           </COFINSAliq>
         </COFINS>
       </imposto>
-      <infAdProd>Val Aprox Tributos Federal R$ 182.25
-</infAdProd>
+      <infAdProd>Val Aprox Tributos Federal R$ 182.25</infAdProd>
     </det>
     <total>
       <ICMSTot>
@@ -210,5 +209,8 @@
       </detPag>
       <vTroco>0.00</vTroco>
     </pag>
+    <infAdic>
+      <infAdFisco>Documento emitido por: Marc Demo</infAdFisco>
+    </infAdic>
   </infNFe>
 </NFe>
