@@ -117,7 +117,8 @@ class AccountTax(models.Model):
                     'tax_include': fiscal_tax.get('tax_include'),
                 })
 
-                if tax.deductible:
+                if (tax.deductible or
+                        tax.tax_group_id.fiscal_tax_group_id.tax_withholding):
                     account_tax.update({
                         'amount': fiscal_tax.get('tax_value', 0.0) * -1,
                     })
