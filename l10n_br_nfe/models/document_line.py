@@ -3,6 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import sys
+from unicodedata import normalize
+
 from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
@@ -154,7 +156,7 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_infAdProd = fields.Char(
-        related='additional_data',
+        compute='_compute_nfe40_infAdProd',
     )
 
     nfe40_xPed = fields.Char(
@@ -216,6 +218,15 @@ class NFeLine(spec_models.StackedModel):
     nfe40_vICMSST = fields.Monetary(
         related='icmsst_value'
     )
+
+    @api.depends('additional_data')
+    def _compute_nfe40_infAdProd(self):
+        for record in self:
+            if record.additional_data:
+                record.nfe40_infAdProd = normalize(
+                    'NFKD', record.additional_data
+                ).encode('ASCII', 'ignore').decode('ASCII').replace(
+                    '\n', '').replace('\r', '')
 
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
