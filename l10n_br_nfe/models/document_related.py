@@ -1,8 +1,19 @@
 # Copyright 2020 Akretion (Renato Lima <renato.lima@akretion.com>)
+# Copyright 2020 KMEE (Luis Felipe Mileo <mileo@kmee.com.br>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    MODELO_FISCAL_01,
+    MODELO_FISCAL_04,
+    MODELO_FISCAL_CFE,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_CUPOM_FISCAL_ECF,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_RL,
+)
 from odoo.addons.spec_driven_model.models import spec_models
 
 
@@ -55,13 +66,29 @@ class NFeRelated(spec_models.StackedModel):
     # )
 
     @api.multi
+    @api.depends('document_type_id')
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
             if rec.document_type_id:
-                if rec.document_type_id.code == '55':  # TODO Enumerate
+                if rec.document_type_id.code in (
+                    MODELO_FISCAL_NFE,
+                    MODELO_FISCAL_NFCE,
+                    MODELO_FISCAL_CFE,
+                ):
                     rec.nfe40_choice4 = 'nfe40_refNFe'
                     rec.nfe40_refNFe = rec.document_key
+                elif rec.document_type_id.code == MODELO_FISCAL_RL:
+                    rec.nfe40_choice4 = 'nfe40_refNFP'
+                elif rec.document_type_id.code == MODELO_FISCAL_CTE:
+                    rec.nfe40_choice4 = 'nfe40_refCTe'
+                    rec.nfe40_refCTe = rec.document_key
+                elif rec.document_type_id.code == MODELO_FISCAL_CUPOM_FISCAL_ECF:
+                    rec.nfe40_choice4 = 'nfe40_refECF'
+                elif rec.document_type_id.code in (
+                    MODELO_FISCAL_01, MODELO_FISCAL_04
+                ):
+                    rec.nfe40_choice4 = 'nfe40_refNF'
 
     def _inverse_nfe40_choice4(self):
         for rec in self:
