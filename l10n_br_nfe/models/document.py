@@ -216,6 +216,25 @@ class NFe(spec_models.StackedModel):
     nfe40_vTotTrib = fields.Monetary(
         related='amount_estimate_tax'
     )
+    nfe40_vBC = fields.Monetary(
+        related='amount_icms_base'
+    )
+
+    nfe40_vICMS = fields.Monetary(
+        related='amount_icms_value'
+    )
+
+    nfe40_vPIS = fields.Monetary(
+        related='amount_pis_value'
+    )
+
+    nfe40_vIPI = fields.Monetary(
+        related='amount_ipi_value'
+    )
+
+    nfe40_vCOFINS = fields.Monetary(
+        related='amount_cofins_value'
+    )
 
     @api.multi
     @api.depends('fiscal_operation_type')
@@ -527,11 +546,6 @@ class NFe(spec_models.StackedModel):
         self.nfe40_cMunFG = '%s%s' % (
             self.company_id.partner_id.state_id.ibge_code,
             self.company_id.partner_id.city_id.ibge_code)
-        self.nfe40_vBC = self.amount_icms_base
-        self.nfe40_vICMS = self.amount_icms_value
-        self.nfe40_vPIS = self.amount_pis_value
-        self.nfe40_vIPI = self.amount_ipi_value
-        self.nfe40_vCOFINS = self.amount_cofins_value
         return super(NFe, self)._export_fields(
             xsd_fields, class_obj, export_dict)
 
