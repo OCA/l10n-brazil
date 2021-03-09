@@ -112,6 +112,13 @@ class AccountMoveLine(models.Model):
         string='Payment Method Code'
     )
 
+    cnab_return_line_ids = fields.One2many(
+        string='Retornos CNAB',
+        comodel_name='l10n_br_cnab.return.event',
+        readonly=True,
+        inverse_name='move_line_id',
+    )
+
     @api.depends("move_id")
     def _compute_journal_entry_ref(self):
         for record in self:
