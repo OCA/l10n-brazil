@@ -93,6 +93,7 @@
                         <field name="interest_fee_value"/>
                         <field name="other_credits"/>
                         <field name="bank_payment_line_id"/>
+                        <field name="move_line_id"/>
                     </group>
                     <group>
                         <field name="occurrences"/>
