@@ -11,6 +11,9 @@ from odoo.addons.l10n_br_fiscal.constants.icms import (
     ICMS_SN_CST,
 )
 
+
+ICMSSN_CST_CODES_USE_102 = ('102', '103', '300', '400')
+ICMSSN_CST_CODES_USE_202 = ('202', '203')
 ICMS_ST_CST_CODES = ['60', '10']
 
 
@@ -224,7 +227,11 @@ class NFeLine(spec_models.StackedModel):
                 else:
                     icms_choice = '{0}{1}'.format(
                         'nfe40_ICMS', record.icms_cst_id.code)
-            if record.icms_cst_id.code in ICMS_SN_CST:
+            if record.icms_cst_id.code in ICMSSN_CST_CODES_USE_102:
+                icms_choice = 'nfe40_ICMSSN102'
+            elif record.icms_cst_id.code in ICMSSN_CST_CODES_USE_202:
+                icms_choice = 'nfe40_ICMSSN202'
+            elif record.icms_cst_id.code in ICMS_SN_CST:
                 icms_choice = '{0}{1}'.format(
                     'nfe40_ICMSSN', record.icms_cst_id.code)
 
