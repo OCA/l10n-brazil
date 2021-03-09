@@ -91,6 +91,7 @@ class AccountInvoice(models.Model):
 
     fiscal_number = fields.Char(
         string='Fiscal Number',
+        copy=False,
     )
 
     # this default should be overwritten to False in a module pretending to
