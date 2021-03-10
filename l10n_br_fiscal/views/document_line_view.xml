@@ -31,7 +31,7 @@
                 <field name="price_unit"/>
                 <field name="discount_value"/>
                 <field name="insurance_value"/>
-                <field name="costs_value"/>
+                <field name="other_value"/>
                 <field name="freight_value"/>
               </group>
               <group name="fiscal_infors" string="Fiscal">
