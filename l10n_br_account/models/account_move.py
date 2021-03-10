@@ -8,6 +8,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
 )
 
+
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
