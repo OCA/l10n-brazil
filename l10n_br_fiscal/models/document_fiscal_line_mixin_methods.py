@@ -133,7 +133,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         'fiscal_price',
         'discount_value',
         'insurance_value',
-        'costs_value',
+        'other_value',
         'freight_value',
         'fiscal_quantity',
         'amount_tax_not_included',
@@ -186,7 +186,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             uot_id=self.uot_id,
             discount_value=self.discount_value,
             insurance_value=self.insurance_value,
-            costs_value=self.costs_value,
+            other_value=self.other_value,
             freight_value=self.freight_value,
             ncm=self.ncm_id,
             nbs=self.nbs_id,
@@ -820,7 +820,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "fiscal_quantity",
         "discount_value",
         "insurance_value",
-        "costs_value",
+        "other_value",
         "freight_value")
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
@@ -854,7 +854,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.model
     def _add_fields_to_amount(self):
-        return ['insurance_value', 'costs_value', 'freight_value']
+        return ['insurance_value', 'other_value', 'freight_value']
 
     @api.model
     def _rm_fields_to_amount(self):

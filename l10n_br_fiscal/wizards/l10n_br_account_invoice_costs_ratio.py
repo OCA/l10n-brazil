@@ -14,7 +14,7 @@ class L10nBrAccountProductInvoiceCostsRatio(models.TransientModel):
 
     amount_freight_value = fields.Float("Frete")
     amount_insurance_value = fields.Float("Seguro")
-    amount_costs_value = fields.Float("Outros Custos")
+    amount_other_value = fields.Float("Outros Custos")
 
     @api.multi
     def set_invoice_costs_ratio(self):
@@ -37,9 +37,9 @@ class L10nBrAccountProductInvoiceCostsRatio(models.TransientModel):
                             delivery.amount_insurance_value,
                             invoice.amount_gross,
                         ),
-                        "costs_value": calc_price_ratio(
+                        "other_value": calc_price_ratio(
                             line.price_gross,
-                            delivery.amount_costs_value,
+                            delivery.amount_other_value,
                             invoice.amount_gross,
                         ),
                     }
