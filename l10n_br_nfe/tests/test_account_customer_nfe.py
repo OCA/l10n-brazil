@@ -169,26 +169,30 @@ class TestCustomerNFe(TransactionCase):
         self.invoice_other_costs._onchange_fiscal()
         for line in self.invoice_other_costs.invoice_line_ids:
             line._onchange_fiscal()
-            self.assertEquals(line.freight_value, 100.0, "Freight value is not 100.0")
-            self.assertEquals(line.insurance_value, 10.0, "Insurance value is not 10.0")
             self.assertEquals(
-                line.costs_value, 10.0, "Other Costs value is not 10.0"
-            )
+                line.freight_value, 100.0, "Freight value is not 100.0")
+            self.assertEquals(
+                line.insurance_value, 10.0, "Insurance value is not 10.0")
+            self.assertEquals(
+                line.other_value, 10.0, "Other Costs value is not 10.0")
+
         self.invoice_other_costs.with_context(
             {"fiscal_document_code": "55"}
         ).action_invoice_open()
         self.assertEquals(
-            self.invoice_other_costs.amount_freight,
+            self.invoice_other_costs.amount_freight_value,
             100.0,
             "Amount Freight is not 100.0",
         )
         self.assertEquals(
-            self.invoice_other_costs.amount_insurance,
+            self.invoice_other_costs.amount_insurance_value,
             10.0,
             "Amount Insurance is not 10.0",
         )
         self.assertEquals(
-            self.invoice_other_costs.amount_costs, 10.0, "Amount Costs is not 10.0"
+            self.invoice_other_costs.amount_other_value,
+            10.0,
+            "Amount Costs is not 10.0",
         )
 
     def test_customer_invoice_difal(self):
