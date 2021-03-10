@@ -2,14 +2,15 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class InvoicingPickingTest(TransactionCase):
+class InvoicingPickingTest(SavepointCase):
     """Test invoicing picking"""
 
-    def setUp(self):
-        super(InvoicingPickingTest, self).setUp()
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         self.stock_picking = self.env['stock.picking']
         self.invoice_model = self.env['account.invoice']
         self.invoice_wizard = self.env['stock.invoice.onshipping']
