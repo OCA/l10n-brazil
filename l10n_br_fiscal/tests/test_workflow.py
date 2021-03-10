@@ -1,7 +1,7 @@
 # Copyright (C) 2020  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 from ..constants.fiscal import (
     SITUACAO_EDOC_A_ENVIAR,
@@ -12,10 +12,11 @@ from ..constants.fiscal import (
 )
 
 
-class TestWorkflow(TransactionCase):
+class TestWorkflow(SavepointCase):
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         self.fiscal_document = self.env["l10n_br_fiscal.document"].create({
             'document_type_id': self.env.ref(
                 'l10n_br_fiscal.document_55_serie_1').id,
