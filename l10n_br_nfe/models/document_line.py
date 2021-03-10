@@ -203,6 +203,7 @@ class NFeLine(spec_models.StackedModel):
         string='Valor do ICMS relativo ao Fundo de Combate à Pobreza Retido por ST',
     )
     nfe40_vCredICMSSN = fields.Monetary(
+        string='ICMS SN Crédito',
         related='icmssn_credit_value'
     )
     nfe40_vDesc = fields.Monetary(
