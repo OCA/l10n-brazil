@@ -2,16 +2,17 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 from odoo.exceptions import UserError
 
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 
 
-class TestFiscalDocumentGeneric(TransactionCase):
+class TestFiscalDocumentGeneric(SavepointCase):
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         # Contribuinte
         self.nfe_same_state = self.env.ref(
             'l10n_br_fiscal.demo_nfe_same_state'
