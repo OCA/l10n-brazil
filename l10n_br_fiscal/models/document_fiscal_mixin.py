@@ -300,7 +300,7 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute='_compute_amount',
     )
 
-    amount_costs_value = fields.Monetary(
+    amount_other_value = fields.Monetary(
         string='Other Costs',
         default=0.00,
         compute='_compute_amount',
