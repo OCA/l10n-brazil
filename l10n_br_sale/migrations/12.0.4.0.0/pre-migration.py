@@ -8,9 +8,9 @@ _columns_rename = {
         ('amount_discount', 'amount_discount_value'),
         ('amount_freight', 'amount_freight_value'),
         ('amount_insurance', 'amount_insurance_value'),
-        ('amount_costs_value', 'amount_other_costs_value')],
+        ('amount_costs_value', 'amount_other_value')],
     'sale_order_line': [
-        ('other_costs_value', 'costs_value')],
+        ('other_costs_value', 'other_value')],
 }
 
 
