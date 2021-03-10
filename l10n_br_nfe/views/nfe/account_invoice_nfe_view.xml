@@ -354,7 +354,7 @@
                                     <field name="discount_value"/>
                                     <field name="freight_value"/>
                                     <field name="insurance_value"/>
-                                    <field name="costs_value"/>
+                                    <field name="other_value"/>
                                 </group>
                                 <group>
                                     <field name="product_type" attrs="{'readonly': [('product_id','!=', False)]}"/>
