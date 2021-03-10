@@ -180,7 +180,10 @@ class Document(models.Model):
                 tpRPS, 'EmailTomador', dados_tomador['email']),
             Discriminacao=self.convert_type_nfselib(
                 tpRPS, 'Discriminacao', unidecode(
-                    dados_servico['discriminacao'])
+                    dados_servico['discriminacao'] + (
+                        '|%s|' % self.fiscal_additional_data.replace(
+                            '\n', '|'
+                        ) if self.fiscal_additional_data else ''))
             ),
             ValorCargaTributaria=self.convert_type_nfselib(
                 tpRPS, 'ValorCargaTributaria',
