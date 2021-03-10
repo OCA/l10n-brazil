@@ -18,8 +18,8 @@ class SaleOrder(models.Model):
         readonly=False,
     )
 
-    amount_costs_value = fields.Monetary(
-        inverse='_inverse_amount_costs',
+    amount_other_value = fields.Monetary(
+        inverse='_inverse_amount_other',
         readonly=False,
     )
 
@@ -113,28 +113,28 @@ class SaleOrder(models.Model):
             })
 
     @api.multi
-    def _inverse_amount_costs(self):
+    def _inverse_amount_other(self):
         for record in self.filtered(lambda so: so.order_line):
-            amount_costs_value = record.amount_costs_value
-            if all(record.order_line.mapped('costs_value')):
-                amount_costs_old = sum(
-                    record.order_line.mapped('costs_value'))
+            amount_other_value = record.amount_other_value
+            if all(record.order_line.mapped('other_value')):
+                amount_other_old = sum(
+                    record.order_line.mapped('other_value'))
                 for line in record.order_line[:-1]:
-                    line.costs_value = amount_costs_value * (
-                        line.costs_value / amount_costs_old)
-                record.order_line[-1].costs_value = (
-                    amount_costs_value -
-                    sum(line.costs_value
+                    line.other_value = amount_other_value * (
+                        line.other_value / amount_other_old)
+                record.order_line[-1].other_value = (
+                    amount_other_value -
+                    sum(line.other_value
                         for line in record.order_line[:-1])
                 )
             else:
                 amount_total = sum(record.order_line.mapped('price_total'))
                 for line in record.order_line[:-1]:
-                    line.costs_value = amount_costs_value * (
+                    line.other_value = amount_other_value * (
                         line.price_total / amount_total)
-                record.order_line[-1].costs_value = (
-                    amount_costs_value -
-                    sum(line.costs_value
+                record.order_line[-1].other_value = (
+                    amount_other_value -
+                    sum(line.other_value
                         for line in record.order_line[:-1])
                 )
             for line in record.order_line:
