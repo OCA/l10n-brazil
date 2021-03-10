@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_sale_stock
+#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order__button_create_invoice_invisible
+msgid "Button Create Invoice Invisible"
+msgstr ""
+
+#. module: l10n_br_sale_stock
 #: model:ir.model,name:l10n_br_sale_stock.model_res_company
 msgid "Companies"
 msgstr ""
@@ -31,14 +36,12 @@ msgstr ""
 #. module: l10n_br_sale_stock
 #: model:ir.model.fields,help:l10n_br_sale_stock.field_res_company__sale_create_invoice_policy
 #: model:ir.model.fields,help:l10n_br_sale_stock.field_res_config_settings__sale_create_invoice_policy
-#: model:ir.model.fields,help:l10n_br_sale_stock.field_sale_order__sale_create_invoice_policy
 msgid "Define if Invoice should be create from Sale Order or Stock Picking."
 msgstr ""
 
 #. module: l10n_br_sale_stock
 #: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_company__sale_create_invoice_policy
 #: model:ir.model.fields,field_description:l10n_br_sale_stock.field_res_config_settings__sale_create_invoice_policy
-#: model:ir.model.fields,field_description:l10n_br_sale_stock.field_sale_order__sale_create_invoice_policy
 msgid "Sale Create Invoice Policy"
 msgstr ""
 
