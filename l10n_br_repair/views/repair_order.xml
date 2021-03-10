@@ -25,7 +25,7 @@
             <field name="amount_untaxed" position="after" >
                  <field name="amount_freight_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                  <field name="amount_insurance_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
-                 <field name="amount_costs_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                 <field name="amount_other_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
              </field>
             <field name="invoice_method" position="after" >
                 <field name="fiscal_operation_id" attrs="{'invisible': [('invoice_method', '==', 'none')]}"/>

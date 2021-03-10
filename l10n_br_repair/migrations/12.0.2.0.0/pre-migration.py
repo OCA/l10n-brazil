@@ -5,9 +5,9 @@ from openupgradelib import openupgrade
 
 _columns_rename = {
     'repair_line': [
-        ('other_costs_value', 'costs_value')],
+        ('other_costs_value', 'other_value')],
     'repair_free': [
-        ('other_costs_value', 'costs_value')],
+        ('other_costs_value', 'other_value')],
 }
 
 
