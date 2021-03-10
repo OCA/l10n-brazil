@@ -51,7 +51,7 @@
         <field name="partner_order_line">001</field>
         <field name="additional_data">Teste - Additional Data</field>
         <field name="insurance_value">10</field>
-        <field name="costs_value">10</field>
+        <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
 
@@ -77,7 +77,7 @@
         <field name="partner_order_line">002</field>
         <field name="additional_data">Teste - Additional Data</field>
         <field name="insurance_value">10</field>
-        <field name="costs_value">10</field>
+        <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
 
@@ -121,7 +121,7 @@
         <field name="partner_order_line">001</field>
         <field name="additional_data">Teste - Additional Data</field>
         <field name="insurance_value">10</field>
-        <field name="costs_value">10</field>
+        <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
 
@@ -147,7 +147,7 @@
         <field name="partner_order_line">002</field>
         <field name="additional_data">Teste - Additional Data</field>
         <field name="insurance_value">10</field>
-        <field name="costs_value">10</field>
+        <field name="other_value">10</field>
         <field name="freight_value">10</field>
     </record>
 
