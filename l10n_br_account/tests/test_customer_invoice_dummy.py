@@ -2,12 +2,14 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
-class TestCustomerInvoice(TransactionCase):
-    def setUp(self):
-        super(TestCustomerInvoice, self).setUp()
+class TestCustomerInvoice(SavepointCase):
+
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         self.sale_account = self.env["account.account"].create(
             dict(
                 code="X1020",
