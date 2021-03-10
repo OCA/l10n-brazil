@@ -46,7 +46,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -77,7 +77,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -109,7 +109,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -152,7 +152,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -183,7 +183,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -215,7 +215,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -262,7 +262,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -293,7 +293,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -325,7 +325,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -368,7 +368,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -399,7 +399,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -431,7 +431,7 @@
         <field name="company_id" ref="base.main_company"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -482,7 +482,7 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
@@ -513,7 +513,7 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
         <field name="freight_value">100</field>
         <field name="insurance_value">100</field>
-        <field name="costs_value">100</field>
+        <field name="other_value">100</field>
     </record>
 
     <function model="stock.move" name="_onchange_product_id_fiscal">
