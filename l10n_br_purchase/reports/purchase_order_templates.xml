@@ -22,7 +22,7 @@
             <tr>
                 <td>Other Costs</td>
                 <td class="text-right">
-                    <span t-field="o.amount_costs_value"
+                    <span t-field="o.amount_other_value"
                           t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                 </td>
             </tr>
