@@ -11,7 +11,7 @@
                 <group string="Insira os novos custos e clique em Recalcular...">
                     <field name="amount_freight_value" readonly="False" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="amount_insurance_value" readonly="False" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                    <field name="amount_costs_value" readonly="False" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    <field name="amount_other_value" readonly="False" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <footer class="oe_left">
                         <button string="Recalcular" name="set_invoice_costs_ratio" type="object" class="oe_highlight"/>
                         <button special="cancel" string="Cancel" type="object" class="oe_link"/>

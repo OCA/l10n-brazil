@@ -186,7 +186,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     insurance_value = fields.Monetary(string="Insurance Value")
 
-    costs_value = fields.Monetary(string="Other Costs")
+    other_value = fields.Monetary(string="Other Costs")
 
     freight_value = fields.Monetary(string="Freight Value")
 
