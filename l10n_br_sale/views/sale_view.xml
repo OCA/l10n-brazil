@@ -28,7 +28,7 @@
             <field name="amount_untaxed" position="after">
                 <field name="amount_freight_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                 <field name="amount_insurance_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
-                <field name="amount_costs_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                <field name="amount_other_value" widget='monetary' options="{'currency_field': 'currency_id'}" />
             </field>
             <field name="amount_total" position="after">
                 <field name="amount_financial" widget='monetary' options="{'currency_field': 'currency_id'}"/>
@@ -102,7 +102,7 @@
                       <group>
                           <field name="freight_value"/>
                           <field name="insurance_value"/>
-                          <field name="costs_value"/>
+                          <field name="other_value"/>
                       </group>
                   </page>
                   <page name="fiscal_line_extra_info" string="Extra Info"/>
