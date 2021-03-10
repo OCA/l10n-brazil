@@ -1,12 +1,14 @@
 # Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests import common
+from odoo.tests import SavepointCase
 
 
-class TestIbptService(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
+class TestIbptService(SavepointCase):
+
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
 
         self.company = self._create_compay()
         self._switch_user_company(self.env.user, self.company)
@@ -28,6 +30,7 @@ class TestIbptService(common.TransactionCase):
         self.tax_estimate_model = self.env["l10n_br_fiscal.tax.estimate"]
         self.nbs_model = self.env["l10n_br_fiscal.nbs"]
 
+    @classmethod
     def _switch_user_company(self, user, company):
         """ Add a company to the user's allowed & set to current. """
         user.write({
@@ -35,6 +38,7 @@ class TestIbptService(common.TransactionCase):
             'company_id': company.id,
         })
 
+    @classmethod
     def _create_compay(self):
         # Creating a company
         company = self.env["res.company"].create(
@@ -53,15 +57,7 @@ class TestIbptService(common.TransactionCase):
         )
         return company
 
-    def _switch_user_company(self, user, company):
-        """ Add a company to the user's allowed & set to current. """
-        user.write(
-            {
-                "company_ids": [(6, 0, (company + user.company_ids).ids)],
-                "company_id": company.id,
-            }
-        )
-
+    @classmethod
     def _create_product_tmpl(self, name, nbs):
         # Creating a product
         product = self.product_tmpl_model.create({
