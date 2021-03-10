@@ -2,7 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES,
@@ -15,10 +15,11 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 
 
-class L10nBrSaleBaseTest(TransactionCase):
+class L10nBrSaleBaseTest(SavepointCase):
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         self.main_company = self.env.ref('base.main_company')
         self.company = self.env.ref('base.main_company')
         self.so_products = self.env.ref('l10n_br_sale.main_so_only_products')
