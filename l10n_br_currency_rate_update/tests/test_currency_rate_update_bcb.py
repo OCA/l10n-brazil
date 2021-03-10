@@ -3,13 +3,14 @@
 
 from dateutil.relativedelta import relativedelta
 from odoo import fields
-from odoo.tests import common
+from odoo.tests import SavepointCase
 
 
-class TestCurrencyRateUpdateBCB(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
+class TestCurrencyRateUpdateBCB(SavepointCase):
 
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         self.Company = self.env["res.company"]
         self.CurrencyRate = self.env["res.currency.rate"]
         self.CurrencyRateProvider = self.env["res.currency.rate.provider"]
