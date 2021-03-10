@@ -141,7 +141,7 @@ class AccountInvoiceLine(models.Model):
                 cest=self.cest_id,
                 discount_value=self.discount_value,
                 insurance_value=self.insurance_value,
-                costs_value=self.costs_value,
+                other_value=self.other_value,
                 freight_value=self.freight_value,
                 fiscal_price=self.fiscal_price,
                 fiscal_quantity=self.fiscal_quantity,
