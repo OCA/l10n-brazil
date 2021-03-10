@@ -5,12 +5,16 @@
     <record id="view_l10n_br_account_invoice_form_inherit" model="ir.ui.view">
         <field name="name">view.l10n_br_account.invoice.form.form.inherit</field>
         <field name="model">account.invoice</field>
-        <field name="inherit_id"
-               ref="account_payment_order.invoice_form"/>
+        <field name="inherit_id" ref="account_payment_order.invoice_form"/>
         <field name="arch" type="xml">
             <button name="create_account_payment_line" position="attributes">
                 <attribute name="invisible">1</attribute>
             </button>
+            <notebook position="inside">
+                <page string="Receivable" name="financial_move_line_ids">
+                    <field name="financial_move_line_ids"/>
+                </page>
+            </notebook>
         </field>
     </record>
 
