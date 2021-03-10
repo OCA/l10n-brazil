@@ -27,6 +27,24 @@ class AccountInvoice(models.Model):
     #     index=True,
     # )
 
+    # TODO: Campo duplicado em l10n_br_account, para não ter dependencia direta
+    #  do modulo, aguardando separação l10n_br_account e l10n_br_account_fiscal
+    financial_move_line_ids = fields.Many2many(
+        comodel_name='account.move.line',
+        string='Financial Move Lines',
+        store=True,
+        compute='_compute_financial',
+    )
+
+    @api.multi
+    @api.depends('move_id.line_ids')
+    def _compute_financial(self):
+        for invoice in self:
+            lines = invoice.move_id.line_ids.filtered(
+                lambda l: l.account_id == invoice.account_id and
+                l.account_id.internal_type in ('receivable', 'payable'))
+            invoice.financial_move_line_ids = lines.sorted()
+
     @api.onchange('payment_mode_id')
     def _onchange_payment_mode_id(self):
         tax_analytic_tag_id = self.env.ref(
