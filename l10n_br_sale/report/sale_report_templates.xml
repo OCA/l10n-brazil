@@ -50,10 +50,10 @@
                 </td>
             </tr>
 
-            <tr t-if="doc.amount_costs_value"  style="">
+            <tr t-if="doc.amount_other_value"  style="">
                 <td name="td_amount_costs_label"><strong>Other Costs</strong></td>
-                <td name="td_amount_costs_value" class="text-right">
-                    <span t-field="doc.amount_costs_value"/>
+                <td name="td_amount_other_value" class="text-right">
+                    <span t-field="doc.amount_other_value"/>
                 </td>
             </tr>
 

@@ -86,7 +86,7 @@ class SaleOrderLine(models.Model):
         'discount_value',
         'freight_value',
         'insurance_value',
-        'costs_value',
+        'other_value',
         'tax_id')
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
