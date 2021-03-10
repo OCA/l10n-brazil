@@ -3,14 +3,15 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+from odoo.tests import SavepointCase
 
 
 @tagged('post_install', '-at_install')
-class TestSaleStock(TransactionCase):
+class TestSaleStock(SavepointCase):
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
         self.invoice_model = self.env['account.invoice']
         self.invoice_wizard = self.env['stock.invoice.onshipping']
 
