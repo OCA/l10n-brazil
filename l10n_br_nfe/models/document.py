@@ -21,6 +21,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     LOTE_PROCESSADO,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
+    PROCESSADOR_OCA,
     SITUACAO_EDOC_REJEITADA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
@@ -38,15 +39,11 @@ from ..constants.nfe import (
     NFE_VERSIONS,
 )
 
-PROCESSADOR_ERPBRASIL_EDOC = 'erpbrasil_edoc'
-
-PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, 'erpbrasil.edoc')]
-
 _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfe(record):
-    if (record.processador_edoc == PROCESSADOR_ERPBRASIL_EDOC
+    if (record.processador_edoc == PROCESSADOR_OCA
         and record.document_type_id.code in [
             MODELO_FISCAL_NFE,
             MODELO_FISCAL_NFCE, ]):
@@ -90,7 +87,6 @@ class NFe(spec_models.StackedModel):
                                  readonly=True, string="Dest")
 
     processador_edoc = fields.Selection(
-        selection_add=PROCESSADOR,
         related='company_id.processador_edoc',
     )
 
