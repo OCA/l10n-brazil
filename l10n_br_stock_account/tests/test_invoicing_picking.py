@@ -104,6 +104,12 @@ class InvoicingPickingTest(SavepointCase):
             # Venda, ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
             # Aqui o campo não pode ser negativo
             self.assertEqual(line.price_unit, line.product_id.standard_price)
+            # Valida presença dos campos principais para o mapeamento Fiscal
+            self.assertTrue(
+                line.fiscal_operation_id, 'Missing Fiscal Operation.')
+            self.assertTrue(
+                line.fiscal_operation_line_id,
+                'Missing Fiscal Operation Line.')
 
         self.assertTrue(
             invoice.fiscal_operation_id,
