@@ -4,8 +4,9 @@
 {
     'name': 'Spec Driven Model',
     'summary': """
-        Tools from specifications driven mixins (from xsd for instance)""",
+        Tools for specifications driven mixins (from xsd for instance)""",
     'version': '12.0.1.0.0',
+    'maintainers': ['rvalyi'],
     'license': 'LGPL-3',
     'author': 'Akretion,Odoo Community Association (OCA)',
     'depends': [
@@ -14,4 +15,5 @@
     ],
     'demo': [
     ],
+    'development_status': 'Beta',
 }
