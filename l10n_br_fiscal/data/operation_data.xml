@@ -233,6 +233,22 @@
         <field name="state">approved</field>
     </record>
 
+    <record id="fo_remessa_industrializacao" model="l10n_br_fiscal.operation">
+        <field name="code">Remessa - Industrialização por Encomenda</field>
+        <field name="name">Remessa - Industrialização por Encomenda</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field name="default_price_unit">sale_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_remessa_industrializacao_remessa_industrializacao" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_remessa_industrializacao"/>
+        <field name="name">Remessa - Industrialização por Encomenda</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5901"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6901"/>
+        <field name="state">approved</field>
+    </record>
     <!-- l10n_br_fiscal.operation relations -->
     <record id="fo_venda" model="l10n_br_fiscal.operation">
         <field name="return_fiscal_operation_id" ref="fo_devolucao_venda"/>
