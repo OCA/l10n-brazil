@@ -85,11 +85,14 @@ class StockInvoiceOnshipping(models.TransientModel):
             moves, invoice_values, invoice)
         move = fields.first(moves)
         fiscal_values = move._prepare_br_fiscal_dict()
+
+        # A Fatura não pode ser criada com os campos price_unit e fiscal_price
+        # negativos, o dict values contem o valor vindo do metodo
+        # _get_price_unit_invoice por isso é necessario obter antes do update
+        price_unit = abs(values.get('price_unit'))
+
         values.update(fiscal_values)
 
-        # A Fatura não pode ser criada com os campos
-        # price_unit é fiscal_price negativos
-        price_unit = abs(values.get('price_unit'))
         values.update({
             'price_unit': price_unit,
             'fiscal_price': price_unit
