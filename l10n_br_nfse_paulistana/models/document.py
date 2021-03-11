@@ -330,11 +330,12 @@ class Document(models.Model):
                                         processo.retorno)
                                     nfse = retorno.find('.//NFe')
                                     # TODO: Verificar resposta do ConsultarLote
-                                    vals['number'] = nfse.find('.//NumeroNFe')
+                                    vals['number'] = nfse.find(
+                                        './/NumeroNFe').text
                                     vals['data_hora_autorizacao'] = \
-                                        nfse.find('.//DataEmissaoRPS')
+                                        nfse.find('.//DataEmissaoRPS').text
                                     vals['verify_code'] = \
-                                        nfse.find('.//CodigoVerificacao')
+                                        nfse.find('.//CodigoVerificacao').text
 
                 record.write(vals)
         return
