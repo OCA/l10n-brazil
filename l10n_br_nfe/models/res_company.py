@@ -13,7 +13,7 @@ from ..constants.nfe import (
     NFE_VERSIONS,
 )
 
-PROCESSADOR_ERPBRASIL_EDOC = 'erpbrasil_edoc'
+PROCESSADOR_ERPBRASIL_EDOC = 'oca'
 PROCESSADOR = [(PROCESSADOR_ERPBRASIL_EDOC, 'erpbrasil.edoc')]
 
 
