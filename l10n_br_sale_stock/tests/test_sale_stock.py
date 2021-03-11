@@ -210,6 +210,13 @@ class TestSaleStock(SavepointCase):
             self.assertTrue(
                 inv_line.invoice_line_tax_ids,
                 'Error to map Sale Tax in invoice.line.')
+            # Valida presença dos campos principais para o mapeamento Fiscal
+            self.assertTrue(
+                inv_line.fiscal_operation_id,
+                'Missing Fiscal Operation.')
+            self.assertTrue(
+                inv_line.fiscal_operation_line_id,
+                'Missing Fiscal Operation Line.')
 
     def test_ungrouping_pickings_partner_shipping_different(self):
         """
