@@ -249,6 +249,24 @@
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6901"/>
         <field name="state">approved</field>
     </record>
+
+    <record id="fo_retorno_reparo" model="l10n_br_fiscal.operation">
+        <field name="code">Retorno Reparo</field>
+        <field name="name">Retorno de mercadoria ou bem remetido para conserto ou reparo</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field name="default_price_unit">sale_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_retorno_reparo_retorno_reparo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_retorno_reparo"/>
+        <field name="name">Retorno de mercadoria ou bem remetido para conserto ou reparo</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5916"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6916"/>
+        <field name="state">approved</field>
+    </record>
+
     <!-- l10n_br_fiscal.operation relations -->
     <record id="fo_venda" model="l10n_br_fiscal.operation">
         <field name="return_fiscal_operation_id" ref="fo_devolucao_venda"/>
