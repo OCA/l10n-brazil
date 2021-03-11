@@ -22,11 +22,15 @@ def post_init_hook(cr, registry, module_name, spec_module):
     access_data = []
     for model in remaining_models:
         underline_name = model.replace('.', '_')
-        rec_id = "access_%s_user" % (underline_name,)
         model_id = "%s_spec.model_%s" % (module_name, underline_name,)
-        access_data.append([rec_id, underline_name, model_id,
-                            'base.group_user', '1', '1', '1', '1'])
-        # TODO make more secure!
+        access_data.append(["access_%s_user" % (underline_name,),
+                            underline_name, model_id,
+                            '%s.group_user' % (module_name,),
+                            '1', '0', '0', '0'])
+        access_data.append(["access_%s_manager" % (underline_name,),
+                            underline_name, model_id,
+                            '%s.group_manager' % (module_name,),
+                            '1', '1', '1', '1'])
     env['ir.model.access'].load(fields, access_data)
 
 
