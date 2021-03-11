@@ -1,4 +1,4 @@
-# Copyright (C) 2019 - Raphael Valyi Akretion
+# Copyright (C) 2019-TODAY - Raphaël Valyi Akretion
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import logging
@@ -11,9 +11,10 @@ _logger = logging.getLogger(__name__)
 
 
 def post_init_hook(cr, registry, module_name, spec_module):
-    "automatically generate access rules for spec models"
+    """
+    Automatically generate access rules for spec models
+    """
     env = api.Environment(cr, SUPERUSER_ID, {})
-    # TODO no hardcode
     remaining_models = get_remaining_spec_models(
         cr, registry, module_name, spec_module)
     fields = ['id', 'name', 'model_id/id', 'group_id/id',
@@ -21,10 +22,8 @@ def post_init_hook(cr, registry, module_name, spec_module):
     access_data = []
     for model in remaining_models:
         underline_name = model.replace('.', '_')
-        rec_id = "acl_%s_nfe_40_%s" % ('todo'.split('.')[-1],
-                                       underline_name)
-        # TODO no nfe ref
-        model_id = "l10n_br_nfe_spec.model_%s" % (underline_name,)
+        rec_id = "access_%s_user" % (underline_name,)
+        model_id = "%s_spec.model_%s" % (module_name, underline_name,)
         access_data.append([rec_id, underline_name, model_id,
                             'base.group_user', '1', '1', '1', '1'])
         # TODO make more secure!
@@ -32,6 +31,10 @@ def post_init_hook(cr, registry, module_name, spec_module):
 
 
 def get_remaining_spec_models(cr, registry, module_name, spec_module):
+    """
+    Figure out the list of spec models not injected into existing
+    Odoo models.
+    """
     cr.execute("""select ir_model.model from ir_model_data
                join ir_model on res_id=ir_model.id
                where ir_model_data.model='ir.model'
@@ -53,7 +56,7 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
 
     # visit_stack will now need the associated spec classes
     injected_classes = set()
-    remaining_models = set(['nfe.40.tveiculo'])  # TODO
+    remaining_models = set()
     # TODO when using a registry loading, use _stack_skip to find
     # out which models to leave concrete, see later commented loop
 
@@ -69,31 +72,27 @@ def get_remaining_spec_models(cr, registry, module_name, spec_module):
             node = SpecModel._odoo_name_to_class(base_class._stacked,
                                                  spec_module)
 
-            # TODO with registry!!
             base_class._visit_stack(node, injected_classes,
                                     base_class._stacked.split('.')[-1],
                                     registry, cr)
-            # for f in base_class._stack_skip:
-            #    if base_class._fields[]
 
-    # used_models = [c._name for c in injected_classes]
-    # _logger.info(" **** injected spec models (%s): %s" % (
-    #     len(used_models), used_models))
-    # TODO replace by SELECT like for module_models ?
     all_spec_models = set([c._name for name, c
                            in inspect.getmembers(
                                sys.modules[spec_module], inspect.isclass)])
 
-    # _logger.info("number of all spec models: %s", len(all_spec_models))
     remaining_models = remaining_models.union(
         set([i for i in all_spec_models
              if i not in [c._name for c in injected_classes]]))
-    # _logger.info("\n **** REMAINING spec models to init (%s): %s \n\n" % (
-    #     len(remaining_models), remaining_models))
     return remaining_models
 
 
 def register_hook(env, module_name, spec_module):
+    """
+    Called by Model#_register_hook once all modules are loaded.
+    Here we take all spec models that not injected in existing concrete
+    Odoo models and we make them concrete automatically with
+    their _auto_init method that will create their SQL DDL structure.
+    """
     remaining_models = get_remaining_spec_models(env.cr, env.registry,
                                                  module_name, spec_module)
     for name in remaining_models:
@@ -121,4 +120,4 @@ def register_hook(env, module_name, spec_module):
     if hasattr(env.registry, hook_key) and getattr(env.registry, hook_key):
         env.registry.init_models(env.cr, remaining_models,
                                  {'module': module_name})
-        env.registry._l10n_br_nfe_need_hook = False
+        setattr(env.registry, hook_key, False)
