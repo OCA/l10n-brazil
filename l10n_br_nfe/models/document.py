@@ -86,10 +86,6 @@ class NFe(spec_models.StackedModel):
     nfe40_dest = fields.Many2one('res.partner', compute='_compute_dest',
                                  readonly=True, string="Dest")
 
-    processador_edoc = fields.Selection(
-        related='company_id.processador_edoc',
-    )
-
     fiscal_document_event_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.document.event',
         inverse_name='fiscal_document_id',
