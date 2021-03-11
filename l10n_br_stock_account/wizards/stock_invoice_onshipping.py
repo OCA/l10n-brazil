@@ -66,6 +66,8 @@ class StockInvoiceOnshipping(models.TransientModel):
         # fiscal_operation_id vai vazio
         # fiscal_vals.update(values)
         values.update(fiscal_vals)
+        # TODO: Remover depois do merge
+        #  https://github.com/OCA/l10n-brazil/pull/1146
         values['fiscal_document_id'] = False
 
         return invoice, values
@@ -83,18 +85,23 @@ class StockInvoiceOnshipping(models.TransientModel):
             moves, invoice_values, invoice)
         move = fields.first(moves)
         fiscal_values = move._prepare_br_fiscal_dict()
-        # IMPORTANTE: se for feito o
-        # values.update(fiscal_values)
-        # o campo price_unit fica negativo na fatura criada
-        fiscal_values.update(values)
+        values.update(fiscal_values)
 
-        fiscal_values['invoice_line_tax_ids'] = [
+        # A Fatura não pode ser criada com os campos
+        # price_unit é fiscal_price negativos
+        price_unit = abs(values.get('price_unit'))
+        values.update({
+            'price_unit': price_unit,
+            'fiscal_price': price_unit
+        })
+
+        values['invoice_line_tax_ids'] = [
             (6, 0, self.env['l10n_br_fiscal.tax'].browse(
                 fiscal_values['fiscal_tax_ids'][0][2]
             ).account_taxes().ids)
         ]
 
-        return fiscal_values
+        return values
 
     @api.multi
     def _get_move_key(self, move):
