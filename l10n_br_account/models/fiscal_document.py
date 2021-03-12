@@ -14,10 +14,10 @@ class FiscalDocument(models.Model):
 
     @api.multi
     def unlink(self):
-        draft_documents = self.filtered(
+        non_draft_documents = self.filtered(
             lambda d: d.state != SITUACAO_EDOC_EM_DIGITACAO)
 
-        if draft_documents:
+        if non_draft_documents:
             UserError(_("You cannot delete a fiscal document "
                         "which is not draft state."))
         return super().unlink()
