@@ -58,7 +58,7 @@
         </xpath>
         <xpath expr="//button[@name='action_document_invalidate']" position="attributes">
             <attribute name="states"/>
-            <attribute name="attrs">{'invisible': [('state_edoc', 'not in', ('autorizada', 'cancelada', 'denegada')), ('fiscal_number', '=', False)]}</attribute>
+            <attribute name="attrs">{'invisible': ['|', ('state_edoc', 'in', ('autorizada', 'cancelada', 'denegada')), ('fiscal_number', '=', False)]}</attribute>
         </xpath>
         <xpath expr="//button[@name='view_pdf']" position="attributes">
             <attribute name="states"/>
