@@ -231,7 +231,6 @@ class AccountInvoice(models.Model):
             self.amount_untaxed + self.amount_tax -
             self.amount_tax_withholding)
 
-        self.amount_total = self.amount_untaxed + self.amount_tax
         amount_total_company_signed = self.amount_total
         amount_untaxed_signed = self.amount_untaxed
         if (self.currency_id and self.company_id and
