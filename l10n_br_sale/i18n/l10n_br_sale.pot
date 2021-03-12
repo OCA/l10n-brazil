@@ -147,16 +147,6 @@ msgid "Extra Info"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_document_count
-msgid "Fiscal Document Count"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
-msgid "Fiscal Documents"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__fiscal_operation_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_report
 msgid "Fiscal Operation"
