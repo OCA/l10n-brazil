@@ -108,12 +108,6 @@ class SaleOrder(models.Model):
         digits=dp.get_precision('Account'),
     )
 
-    fiscal_document_count = fields.Integer(
-        string='Fiscal Document Count',
-        related='invoice_count',
-        readonly=True,
-    )
-
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
         relation='sale_order_comment_rel',
@@ -192,29 +186,6 @@ class SaleOrder(models.Model):
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
 
     @api.multi
-    def action_view_document(self):
-        invoices = self.mapped('invoice_ids')
-        action = self.env.ref('l10n_br_fiscal.document_out_action').read()[0]
-        if len(invoices) > 1:
-            action['domain'] = [
-                ('id', 'in', invoices.mapped('fiscal_document_id').ids),
-            ]
-        elif len(invoices) == 1:
-            form_view = [
-                (self.env.ref('l10n_br_fiscal.document_form').id, 'form'),
-            ]
-            if 'views' in action:
-                action['views'] = form_view + [(state, view) for state, view
-                                               in action['views'] if
-                                               view != 'form']
-            else:
-                action['views'] = form_view
-            action['res_id'] = invoices.fiscal_document_id.id
-        else:
-            action = {'type': 'ir.actions.act_window_close'}
-        return action
-
-    @api.multi
     def _prepare_invoice(self):
         self.ensure_one()
         result = super()._prepare_invoice()
@@ -258,6 +229,9 @@ class SaleOrder(models.Model):
 
             # Identify how many Document Types exist
             for inv_line in invoice_created_by_super.invoice_line_ids:
+
+                if inv_line.display_type:
+                    continue
 
                 fiscal_document_type = \
                     inv_line.fiscal_operation_line_id.get_document_type(
@@ -318,3 +292,31 @@ class SaleOrder(models.Model):
                             inv_line.invoice_id = invoice.id
 
         return inv_ids
+
+    # TODO open by default Invoice view with Fiscal Details Button
+    # You can add a group to select default view Fiscal Invoice or
+    # Account invoice.
+    # @api.multi
+    # def action_view_invoice(self):
+    #     action = super().action_view_invoice()
+    #     invoices = self.mapped('invoice_ids')
+    #     if any(invoices.filtered(lambda i: i.document_type_id)):
+    #         action = self.env.ref(
+    #             'l10n_br_account.fiscal_invoice_out_action').read()[0]
+    #         if len(invoices) > 1:
+    #             action['domain'] = [('id', 'in', invoices.ids)]
+    #         elif len(invoices) == 1:
+    #             form_view = [
+    #                 (self.env.ref(
+    #                     'l10n_br_account.fiscal_invoice_form').id, 'form')
+    #             ]
+    #             if 'views' in action:
+    #                 action['views'] = form_view + [
+    #                     (state, view) for state, view in action['views']
+    #                     if view != 'form']
+    #             else:
+    #                 action['views'] = form_view
+    #             action['res_id'] = invoices.ids[0]
+    #         else:
+    #             action = {'type': 'ir.actions.act_window_close'}
+    #     return action

@@ -5,7 +5,6 @@
 from lxml import etree
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
-from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
 
 
 class PurchaseOrder(models.Model):
@@ -44,12 +43,6 @@ class PurchaseOrder(models.Model):
     ie = fields.Char(
         string='State Tax Number/RG',
         related='partner_id.inscr_est',
-    )
-
-    fiscal_document_count = fields.Integer(
-        string='Fiscal Document Count',
-        related='invoice_count',
-        readonly=True,
     )
 
     amount_freight = fields.Monetary(
@@ -110,58 +103,38 @@ class PurchaseOrder(models.Model):
 
         return order_view
 
-    @api.multi
-    def action_view_document(self):
-        invoices = self.mapped('invoice_ids')
-        action = self.env.ref('l10n_br_fiscal.document_in_action').read()[0]
-        if len(invoices) > 1:
-            action['domain'] = [
-                ('id', 'in', invoices.mapped('fiscal_document_id').ids),
-            ]
-        elif len(invoices) == 1:
-            form_view = [
-                (self.env.ref('l10n_br_fiscal.document_form').id, 'form'),
-            ]
-            if 'views' in action:
-                action['views'] = form_view + [(state, view) for state, view
-                                               in action['views'] if
-                                               view != 'form']
-            else:
-                action['views'] = form_view
-            action['res_id'] = invoices.fiscal_document_id.id
-        else:
-            action = {'type': 'ir.actions.act_window_close'}
-        return action
-
-    @api.multi
-    def action_view_invoice(self):
-        result = super().action_view_invoice()
-        fiscal_dict = self._prepare_br_fiscal_dict(default=True)
-
-        document_type_id = self._context.get('document_type_id')
-
-        if document_type_id:
-            document_type = self.env['l10n_br_fiscal.document.type'].browse(
-                document_type_id)
-        else:
-            document_type = self.company_id.document_type_id
-            document_type_id = self.company_id.document_type_id.id
-
-        fiscal_dict['default_document_type_id'] = document_type_id
-        document_serie = document_type.get_document_serie(
-            self.company_id, self.fiscal_operation_id)
-
-        if document_serie:
-            fiscal_dict['default_document_serie_id'] = document_serie.id
-
-        fiscal_dict['default_issuer'] = DOCUMENT_ISSUER_PARTNER
-
-        if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
-            fiscal_dict['default_journal_id'] = (
-                self.fiscal_operation_id.journal_id.id)
-
-        result['context'].update(fiscal_dict)
-        return result
+    # TODO open by default Invoice view with Fiscal Details Button
+    # You can add a group to select default view Fiscal Invoice or
+    # Account invoice.
+    # @api.multi
+    # def action_view_invoice(self):
+    #     result = super().action_view_invoice()
+    #     fiscal_dict = self._prepare_br_fiscal_dict(default=True)
+    #
+    #     document_type_id = self._context.get('document_type_id')
+    #
+    #     if document_type_id:
+    #         document_type = self.env['l10n_br_fiscal.document.type'].browse(
+    #             document_type_id)
+    #     else:
+    #         document_type = self.company_id.document_type_id
+    #         document_type_id = self.company_id.document_type_id.id
+    #
+    #     fiscal_dict['default_document_type_id'] = document_type_id
+    #     document_serie = document_type.get_document_serie(
+    #         self.company_id, self.fiscal_operation_id)
+    #
+    #     if document_serie:
+    #         fiscal_dict['default_document_serie_id'] = document_serie.id
+    #
+    #     fiscal_dict['default_issuer'] = DOCUMENT_ISSUER_PARTNER
+    #
+    #     if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
+    #         fiscal_dict['default_journal_id'] = (
+    #             self.fiscal_operation_id.journal_id.id)
+    #
+    #     result['context'].update(fiscal_dict)
+    #     return result
 
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):

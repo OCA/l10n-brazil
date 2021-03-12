@@ -41,6 +41,7 @@
     <field name="arch" type="xml">
       <form string="Fiscal Document">
         <field name="id" invisible="1"/>
+        <field name="state_edoc" invisible="1"/>
         <field name="currency_id" invisible="1"/>
         <field name="document_electronic" invisible="1"/>
         <field name="fiscal_operation_type" invisible="1"/>
@@ -72,6 +73,7 @@
             Fiscal Document: <field name="document_type_id" readonly="1"/> is <strong>Cancelled</strong>
         </div>
         <sheet string="Fiscal Document">
+          <div class="oe_button_box" name="button_box"/>
           <div class="oe_title">
             <h1>
                 <field name="document_type_id" readonly="1"/>:

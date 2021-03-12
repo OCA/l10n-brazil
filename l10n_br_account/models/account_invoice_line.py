@@ -4,6 +4,13 @@
 
 from odoo import api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    TAX_FRAMEWORK,
+    # FISCAL_IN_OUT,
+)
+
+from .account_invoice import INVOICE_TO_OPERATION
+
 # These fields that have the same name in account.invoice.line
 # and l10n_br_fiscal.document.line.mixin. So they won't be updated
 # by the _inherits system. An alternative would be changing their name
@@ -17,9 +24,7 @@ SHADOWED_FIELDS = ['name', 'partner_id', 'company_id', 'currency_id',
 
 class AccountInvoiceLine(models.Model):
     _name = 'account.invoice.line'
-    _inherit = ['account.invoice.line',
-                'l10n_br_fiscal.document.line.mixin.methods',
-                'l10n_br_account.document.line.mixin']
+    _inherit = [_name, 'l10n_br_fiscal.document.line.mixin.methods']
     _inherits = {'l10n_br_fiscal.document.line': 'fiscal_document_line_id'}
 
     # initial account.invoice.line inherits on fiscal.document.line that are
@@ -39,9 +44,69 @@ class AccountInvoiceLine(models.Model):
         comodel_name='l10n_br_fiscal.document.line',
         string='Fiscal Document Line',
         required=True,
+        copy=False,
         ondelete='cascade',
-        default=lambda self: self.env.ref(
-            'l10n_br_fiscal.fiscal_document_line_dummy'),
+    )
+
+    document_type_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.document.type',
+        related='invoice_id.document_type_id',
+    )
+
+    tax_framework = fields.Selection(
+        selection=TAX_FRAMEWORK,
+        related='invoice_id.company_id.tax_framework',
+        string='Tax Framework',
+    )
+
+    cfop_destination = fields.Selection(
+        related="cfop_id.destination",
+        string="CFOP Destination"
+    )
+
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        related='invoice_id.partner_id',
+        string='Partner',
+    )
+
+    partner_company_type = fields.Selection(
+        related="partner_id.company_type"
+    )
+
+    fiscal_genre_code = fields.Char(
+        related="fiscal_genre_id.code",
+        string="Fiscal Product Genre Code",
+    )
+
+    icms_cst_code = fields.Char(
+        related="icms_cst_id.code",
+        string="ICMS CST Code",
+    )
+
+    ipi_cst_code = fields.Char(
+        related="ipi_cst_id.code",
+        string="IPI CST Code",
+    )
+
+    cofins_cst_code = fields.Char(
+        related="cofins_cst_id.code",
+        string="COFINS CST Code",
+    )
+
+    cofinsst_cst_code = fields.Char(
+        related="cofinsst_cst_id.code",
+        string="COFINS ST CST Code",
+    )
+
+    pis_cst_code = fields.Char(
+        related="pis_cst_id.code",
+        string="PIS CST Code",
+    )
+
+    pisst_cst_code = fields.Char(
+        related="pisst_cst_id.code",
+        string="PIS ST CST Code",
     )
 
     @api.one
@@ -60,6 +125,7 @@ class AccountInvoiceLine(models.Model):
     def _compute_price(self):
         currency = self.invoice_id and self.invoice_id.currency_id or None
         taxes = {}
+        self._update_taxes()
         if self.invoice_line_tax_ids:
             taxes = self.invoice_line_tax_ids.compute_all(
                 price_unit=self.price_unit,
@@ -127,13 +193,23 @@ class AccountInvoiceLine(models.Model):
         return vals
 
     @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        inv_type = self.env.context.get('type', 'out_invoice')
+        defaults['fiscal_operation_type'] = INVOICE_TO_OPERATION[inv_type]
+        return defaults
+
+    @api.model
     def create(self, values):
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        if self.env['account.invoice'].browse(
-                values['invoice_id']).fiscal_document_id != dummy_doc:
-            values['fiscal_document_line_id'] = False
+        dummy_doc_line_id = self.env.ref(
+            'l10n_br_fiscal.fiscal_document_line_dummy').id
+        dummy_doc_id = self.env.ref('l10n_br_fiscal.fiscal_document_dummy').id
+        fiscal_doc_id = self.env['account.invoice'].browse(
+            values['invoice_id']).fiscal_document_id.id
+        if dummy_doc_id == fiscal_doc_id:
+            values['fiscal_document_line_id'] = dummy_doc_line_id
         line = super().create(values)
-        if line.invoice_id.fiscal_document_id != dummy_doc:
+        if dummy_doc_id != fiscal_doc_id:
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.invoice_id.fiscal_document_id.id
             shadowed_fiscal_vals['document_id'] = doc_id
@@ -146,10 +222,35 @@ class AccountInvoiceLine(models.Model):
             'l10n_br_fiscal.fiscal_document_line_dummy')
         if values.get('invoice_id'):
             values['document_id'] = self.env[
-                "account.invoice"].browse(values['invoice_id']).fiscal_document_id.id
+                "account.invoice"].browse(
+                    values['invoice_id']).fiscal_document_id.id
         result = super().write(values)
         for line in self:
             if line.fiscal_document_line_id != dummy_doc_line:
                 shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
                 line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return result
+
+    @api.multi
+    def unlink(self):
+        dummy_doc_line_id = self.env.ref(
+            'l10n_br_fiscal.fiscal_document_line_dummy').id
+        unlink_fiscal_lines = self.env['l10n_br_fiscal.document.line']
+        for inv_line in self:
+            if not inv_line.exists():
+                continue
+            if inv_line.fiscal_document_line_id.id != dummy_doc_line_id:
+                unlink_fiscal_lines |= inv_line.fiscal_document_line_id
+        result = super().unlink()
+        unlink_fiscal_lines.unlink()
+        self.clear_caches()
+        return result
+
+    @api.onchange('fiscal_tax_ids')
+    def _onchange_fiscal_tax_ids(self):
+        super()._onchange_fiscal_tax_ids()
+        user_type = 'sale'
+        if self.invoice_id.type in ('in_invoice', 'in_refund'):
+            user_type = 'purchase'
+        self.invoice_line_tax_ids |= self.fiscal_tax_ids.account_taxes(
+            user_type=user_type)

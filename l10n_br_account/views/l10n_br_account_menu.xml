@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Incomming Documents -->
+    <record id="l10n_br_fiscal.document_in_menu" model="ir.ui.menu">
+        <field name="action" ref="fiscal_invoice_in_action"/>
+    </record>
+
+    <!-- Outgoing Documents -->
+    <record id="l10n_br_fiscal.document_out_menu" model="ir.ui.menu">
+        <field name="action" ref="fiscal_invoice_out_action"/>
+    </record>
+
+    <!-- All Documents -->
+    <record id="l10n_br_fiscal.document_all_menu" model="ir.ui.menu">
+        <field name="action" ref="fiscal_invoice_all_action"/>
+    </record>
+
+</odoo>

@@ -2,7 +2,19 @@
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from lxml import etree
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    FISCAL_OUT,
+    DOCUMENT_ISSUER_COMPANY,
+    DOCUMENT_ISSUER_PARTNER,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_EM_DIGITACAO,
+)
 
 INVOICE_TO_OPERATION = {
     'out_invoice': 'out',
@@ -23,12 +35,21 @@ FISCAL_TYPE_REFUND = {
     'in': ['sale_return', 'out_return'],
 }
 
-SHADOWED_FIELDS = ['partner_id', 'company_id', 'date', 'currency_id']
+SHADOWED_FIELDS = [
+    'partner_id',
+    'company_id',
+    'date',
+    'currency_id',
+    'partner_shipping_id',
+]
 
 
 class AccountInvoice(models.Model):
     _name = 'account.invoice'
-    _inherit = 'account.invoice'
+    _inherit = [
+        _name,
+        'l10n_br_fiscal.document.mixin.methods',
+        'l10n_br_fiscal.document.invoice.mixin']
     _inherits = {'l10n_br_fiscal.document': 'fiscal_document_id'}
     _order = 'date_invoice DESC, number DESC'
 
@@ -63,6 +84,16 @@ class AccountInvoice(models.Model):
         compute='_compute_financial',
     )
 
+    document_electronic = fields.Boolean(
+        related='document_type_id.electronic',
+        string='Electronic?',
+    )
+
+    fiscal_number = fields.Char(
+        string='Fiscal Number',
+        copy=False,
+    )
+
     # this default should be overwritten to False in a module pretending to
     # create fiscal documents from the invoices. But this default here
     # allows to install the l10n_br_account module without creating issues
@@ -71,9 +102,8 @@ class AccountInvoice(models.Model):
         comodel_name='l10n_br_fiscal.document',
         string='Fiscal Document',
         required=True,
+        copy=False,
         ondelete='cascade',
-        default=lambda self: self.env.ref(
-            'l10n_br_fiscal.fiscal_document_dummy'),
     )
 
     @api.multi
@@ -100,8 +130,59 @@ class AccountInvoice(models.Model):
         return vals
 
     @api.model
+    def fields_view_get(self, view_id=None, view_type="form",
+                        toolbar=False, submenu=False):
+
+        order_view = super().fields_view_get(
+            view_id, view_type, toolbar, submenu
+        )
+
+        if view_type == 'form':
+            view = self.env['ir.ui.view']
+
+            if (view_id == self.env.ref(
+                    'l10n_br_account.fiscal_invoice_form').id):
+                invoice_line_form_id = self.env.ref(
+                    'l10n_br_account.fiscal_invoice_line_form').id
+            else:
+                invoice_line_form_id = self.env.ref(
+                    'l10n_br_account.invoice_line_form').id
+
+            sub_form_view = self.env['account.invoice.line'].fields_view_get(
+                view_id=invoice_line_form_id, view_type='form')['arch']
+
+            sub_form_node = etree.fromstring(
+                self.env['account.invoice.line'].fiscal_form_view(
+                    sub_form_view))
+
+            sub_arch, sub_fields = view.postprocess_and_fields(
+                'account.invoice.line', sub_form_node, None)
+
+            order_view['fields']['invoice_line_ids']['views']['form'] = {}
+
+            order_view['fields']['invoice_line_ids']['views']['form'][
+                'fields'] = sub_fields
+            order_view['fields']['invoice_line_ids']['views']['form'][
+                'arch'] = sub_arch
+
+        return order_view
+
+    @api.model
+    def default_get(self, fields_list):
+        defaults = super().default_get(fields_list)
+        invoice_type = self.env.context.get('type', 'out_invoice')
+        defaults['fiscal_operation_type'] = INVOICE_TO_OPERATION[invoice_type]
+        if defaults['fiscal_operation_type'] == FISCAL_OUT:
+            defaults['issuer'] = DOCUMENT_ISSUER_COMPANY
+        else:
+            defaults['issuer'] = DOCUMENT_ISSUER_PARTNER
+        return defaults
+
+    @api.model
     def create(self, values):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        if not values.get('document_type_id'):
+            values.update({'fiscal_document_id': dummy_doc.id})
         invoice = super().create(values)
         if invoice.fiscal_document_id != dummy_doc:
             shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
@@ -118,6 +199,14 @@ class AccountInvoice(models.Model):
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
         return result
 
+    @api.multi
+    def unlink(self):
+        """Allows delete a draft or cancelled invoices"""
+        self.filtered(lambda i: i.state in ('draft', 'cancel')).write(
+            {'move_name': False}
+        )
+        return super().unlink()
+
     @api.one
     @api.depends(
         'invoice_line_ids.price_total',
@@ -128,6 +217,7 @@ class AccountInvoice(models.Model):
         'date_invoice',
         'type')
     def _compute_amount(self):
+        self.fiscal_document_id._compute_amount()
         for inv_line in self.invoice_line_ids:
             if inv_line.cfop_id:
                 if inv_line.cfop_id.finance_move:
@@ -137,7 +227,10 @@ class AccountInvoice(models.Model):
                 self.amount_untaxed += inv_line.price_subtotal
                 self.amount_tax += inv_line.price_tax
 
-        self.amount_total = self.amount_untaxed + self.amount_tax
+        self.amount_total = (
+            self.amount_untaxed + self.amount_tax -
+            self.amount_tax_withholding)
+
         amount_total_company_signed = self.amount_total
         amount_untaxed_signed = self.amount_untaxed
         if (self.currency_id and self.company_id and
@@ -181,6 +274,26 @@ class AccountInvoice(models.Model):
         #
         #     new_tax_lines_dict.append(new_tax)
         return tax_lines_dict
+
+    @api.multi
+    def finalize_invoice_move_lines(self, move_lines):
+        lines = super().finalize_invoice_move_lines(move_lines)
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        financial_lines = [
+            l for l in lines if l[2]['account_id'] == self.account_id.id]
+
+        count = 1
+
+        for l in financial_lines:
+            if l[2]['debit'] or l[2]['credit']:
+                if self.fiscal_document_id != dummy_doc:
+                    l[2]['name'] = '{}/{}-{}'.format(
+                        self.fiscal_number,
+                        count,
+                        len(financial_lines)
+                    )
+                    count += 1
+        return lines
 
     @api.multi
     def get_taxes_values(self):
@@ -229,3 +342,115 @@ class AccountInvoice(models.Model):
                         tax_grouped[key]['amount'] += val['amount']
                         tax_grouped[key]['base'] += round_curr(val['base'])
         return tax_grouped
+
+    @api.onchange('fiscal_operation_id')
+    def _onchange_fiscal_operation_id(self):
+        super()._onchange_fiscal_operation_id()
+        if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
+            self.journal_id = self.fiscal_operation_id.journal_id
+
+    @api.multi
+    def open_fiscal_document(self):
+        if self.env.context.get('type', '') == 'out_invoice':
+            action = self.env.ref(
+                'l10n_br_account.fiscal_invoice_out_action').read()[0]
+        elif self.env.context.get('type', '') == 'in_invoice':
+            action = self.env.ref(
+                'l10n_br_account.fiscal_invoice_in_action').read()[0]
+        else:
+            action = self.env.ref(
+                'l10n_br_account.fiscal_invoice_all_action').read()[0]
+        form_view = [
+            (self.env.ref('l10n_br_account.fiscal_invoice_form').id, 'form')]
+        if 'views' in action:
+            action['views'] = form_view + [
+                (state, view) for state, view in action['views']
+                if view != 'form']
+        else:
+            action['views'] = form_view
+        action['res_id'] = self.id
+        return action
+
+    @api.multi
+    def action_date_assign(self):
+        """Usamos esse método para definir a data de emissão do documento
+        fiscal e numeração do documento fiscal para ser usado nas linhas
+        dos lançamentos contábeis."""
+        super().action_date_assign()
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        for invoice in self:
+            if invoice.fiscal_document_id != dummy_doc:
+                if invoice.issuer == DOCUMENT_ISSUER_COMPANY:
+                    invoice.fiscal_document_id.document_date()
+                    invoice.fiscal_document_id.document_number()
+                    invoice.fiscal_number = invoice.fiscal_document_id.number
+                else:
+                    invoice.fiscal_document_id.number = invoice.fiscal_number
+
+    @api.multi
+    def action_move_create(self):
+        result = super().action_move_create()
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        self.mapped('fiscal_document_id').filtered(
+            lambda d: d != dummy_doc).action_document_confirm()
+        return result
+
+    @api.multi
+    def action_invoice_draft(self):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+            if i.state_edoc == SITUACAO_EDOC_CANCELADA:
+                if i.issuer == DOCUMENT_ISSUER_COMPANY:
+                    raise UserError(_(
+                        "You can't set this document number: {} to draft "
+                        "because this document is cancelled in SEFAZ".format(
+                            i.fiscal_number)))
+            if i.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
+                i.fiscal_document_id.action_document_back2draft()
+        return super().action_invoice_draft()
+
+    @api.multi
+    def action_document_send(self):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        invoices = self.filtered(lambda d: d.fiscal_document_id != dummy_doc)
+        if invoices:
+            invoices.mapped('fiscal_document_id').action_document_send()
+            for invoice in invoices:
+                invoice.move_id.post(invoice=invoice)
+
+    @api.multi
+    def action_document_cancel(self):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+            if i.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+                return i.fiscal_document_id.action_document_cancel()
+
+    @api.multi
+    def action_document_correction(self):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+            if i.state_edoc in SITUACAO_EDOC_AUTORIZADA:
+                if i.issuer == DOCUMENT_ISSUER_COMPANY:
+                    return i.fiscal_document_id.action_document_correction()
+                else:
+                    raise UserError(_(
+                        "You cannot create a fiscal correction document if "
+                        "this fical document you are not the document issuer"
+                    ))
+
+    @api.multi
+    def action_document_back2draft(self):
+        """Sets fiscal document to draft state and cancel and set to draft
+        the related invoice for both documents remain equivalent state."""
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+            i.action_cancel()
+            i.action_invoice_draft()
+
+    def view_xml(self):
+        self.ensure_one()
+        return self.fiscal_document_id.view_xml()
+
+    def view_pdf(self):
+        self.ensure_one()
+        return self.fiscal_document_id.view_pdf()
