@@ -36,17 +36,7 @@ msgstr ""
 
 #. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
-msgid "Documents"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
 msgid "Extra Info"
-msgstr ""
-
-#. module: l10n_br_purchase
-#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_document_count
-msgid "Fiscal Document Count"
 msgstr ""
 
 #. module: l10n_br_purchase
