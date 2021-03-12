@@ -101,5 +101,13 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
                 'Error to map Purchase Tax in invoice.line.')
             # Preço usado na Linha da Invoice deve ser o mesmo
             # informado no Pedido de Compra
-            self.assertEqual(inv_line.price_unit,
-                             inv_line.purchase_line_id.price_unit)
+            self.assertEqual(
+                inv_line.price_unit,
+                inv_line.purchase_line_id.price_unit)
+            # Valida presença dos campos principais para o mapeamento Fiscal
+            self.assertTrue(
+                inv_line.fiscal_operation_id,
+                'Missing Fiscal Operation.')
+            self.assertTrue(
+                inv_line.fiscal_operation_line_id,
+                'Missing Fiscal Operation Line.')
