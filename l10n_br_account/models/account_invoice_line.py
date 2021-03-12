@@ -233,11 +233,14 @@ class AccountInvoiceLine(models.Model):
 
     @api.multi
     def unlink(self):
+        dummy_doc_line_id = self.env.ref(
+            'l10n_br_fiscal.fiscal_document_line_dummy').id
         unlink_fiscal_lines = self.env['l10n_br_fiscal.document.line']
         for inv_line in self:
             if not inv_line.exists():
                 continue
-            unlink_fiscal_lines |= inv_line.fiscal_document_line_id
+            if inv_line.fiscal_document_line_id.id != dummy_doc_line_id:
+                unlink_fiscal_lines |= inv_line.fiscal_document_line_id
         result = super().unlink()
         unlink_fiscal_lines.unlink()
         self.clear_caches()
