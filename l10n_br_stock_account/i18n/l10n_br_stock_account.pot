@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_stock_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock_account.stock_picking_form
-msgid "<span class=\"o_stat_text\">Documents</span>"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_invoice_onshipping__fiscal_operation_journal
 msgid "Account Jornal from Fiscal Operation"
 msgstr ""
