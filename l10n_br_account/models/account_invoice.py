@@ -1,5 +1,6 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
+# Copyright (C) 2020 - TODAY Luis Felipe Miléo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from lxml import etree
@@ -41,6 +42,7 @@ SHADOWED_FIELDS = [
     'date',
     'currency_id',
     'partner_shipping_id',
+    'payment_term_id',
 ]
 
 
@@ -49,9 +51,16 @@ class AccountInvoice(models.Model):
     _inherit = [
         _name,
         'l10n_br_fiscal.document.mixin.methods',
-        'l10n_br_fiscal.document.invoice.mixin']
+        'l10n_br_fiscal.document.invoice.mixin',
+        'l10n_br_fiscal.payment.mixin',
+    ]
     _inherits = {'l10n_br_fiscal.document': 'fiscal_document_id'}
     _order = 'date_invoice DESC, number DESC'
+    _payment_inverse_name = 'invoice_id'
+
+    @api.depends("amount_total", "fiscal_payment_ids")
+    def _compute_payment_change_value(self):
+        self._abstract_compute_payment_change_value()
 
     # initial account.invoice inherits on fiscal.document that are
     # disable with active=False in their fiscal_document table.
@@ -104,6 +113,20 @@ class AccountInvoice(models.Model):
         required=True,
         copy=False,
         ondelete='cascade',
+    )
+
+    financial_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment.line',
+        inverse_name=_payment_inverse_name,
+        string='Duplicatas',
+        copy=True,
+    )
+
+    fiscal_payment_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.payment',
+        inverse_name=_payment_inverse_name,
+        string='Pagamentos',
+        copy=True,
     )
 
     @api.multi
