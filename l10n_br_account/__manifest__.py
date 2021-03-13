@@ -8,7 +8,12 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "http://github.com/OCA/l10n-brazil",
     "version": "12.0.2.4.0",
-    "depends": ["account_cancel", "l10n_br_coa", "l10n_br_fiscal"],
+    "depends": [
+        "account_cancel",
+        "account_payment_mode",
+        "l10n_br_coa",
+        "l10n_br_fiscal",
+    ],
     "data": [
         # security
         'security/ir.model.access.csv',
