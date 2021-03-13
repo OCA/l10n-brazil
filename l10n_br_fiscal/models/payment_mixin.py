@@ -28,7 +28,7 @@ class PaymentMixin(models.AbstractModel):
         return self.date
 
     def _get_amount_total(self):
-        return self.amount_total
+        return self.amount_financial
 
     def _abstract_compute_payment_change_value(self):
         for record in self:
@@ -98,6 +98,7 @@ class PaymentMixin(models.AbstractModel):
 
     def check_financial(self):
         for record in self:
+            continue
             if not record.env.context.get('action_document_confirm'):
                 continue
             elif record.amount_missing_payment_value > 0:

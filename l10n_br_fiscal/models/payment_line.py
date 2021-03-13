@@ -10,11 +10,15 @@ class FiscalPaymentLine(models.Model):
 
     _order = 'document_id, date_maturity'
 
+    active = fields.Boolean(
+        default=True,
+        readonly=True,
+    )
     document_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document',
         string='Documento',
-        related='payment_id.document_id',
-        store=True,
+        # related='payment_id.document_id',
+        # store=True,
     )
     payment_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.payment',
@@ -26,20 +30,21 @@ class FiscalPaymentLine(models.Model):
     )
     date_maturity = fields.Date(
         string='Data de vencimento',
-        required=True,
+        # required=True,
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Company',
-        required=True,
+        # required=True,
     )
     currency_id = fields.Many2one(
         comodel_name='res.currency',
         string='Currency',
-        required=True,
+        # required=True,
         default=lambda self: self.env.user.company_id.currency_id
     )
     amount = fields.Monetary(
         string='Valor',
-        required=True,
+        # required=True,
+        default=0,
     )
