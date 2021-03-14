@@ -21,7 +21,7 @@ def pre_init_hook(cr):
     if not cr.fetchone():
         env = api.Environment(cr, SUPERUSER_ID, {})
         brazil_country_id = env.ref("base.br").id
-        sql_query = """
+        insert_query = """
         INSERT INTO ir_translation (
             name,
             res_id,
@@ -33,12 +33,12 @@ def pre_init_hook(cr):
             state)
         VALUES (
             'res.country,name',
-            {0},
+            %s,
             'pt_BR',
             'model',
             'Brazil',
             'Brasil',
             'base',
             'translated');
-        """.format(brazil_country_id)
-        cr.execute(sql_query)
+        """
+        cr.execute(insert_query, (brazil_country_id,))
