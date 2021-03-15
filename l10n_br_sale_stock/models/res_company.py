@@ -2,7 +2,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import fields, models, _
 
 
 class ResCompany(models.Model):
@@ -10,11 +10,11 @@ class ResCompany(models.Model):
 
     sale_create_invoice_policy = fields.Selection(
         selection=[
-            ('sale_order', 'Sale Order'),
-            ('stock_picking', 'Stock Picking')
+            ('sale_order', _('Sale Order')),
+            ('stock_picking', _('Stock Picking'))
         ],
         string='Sale Create Invoice Policy',
-        help='Define if Invoice should be create'
-             ' from Sale Order or Stock Picking.',
+        help='Define, when Product Type are not service, if Invoice'
+             ' should be create from Sale Order or Stock Picking.',
         default='stock_picking'
     )
