@@ -12,6 +12,8 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         super().setUp()
         self.invoice_model = self.env['account.invoice']
         self.invoice_wizard = self.env['stock.invoice.onshipping']
+        self.stock_return_picking = self.env['stock.return.picking']
+        self.stock_picking = self.env['stock.picking']
 
     def _picking_purchase_order(self, order):
         self.assertEqual(
@@ -111,3 +113,66 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
             self.assertTrue(
                 inv_line.fiscal_operation_line_id,
                 'Missing Fiscal Operation Line.')
+
+        # Confirmando a Fatura
+        invoice.action_invoice_open()
+        self.assertEquals(
+            invoice.state, 'open', 'Invoice should be in state Open')
+
+        # Teste de Retorno
+        self.return_wizard = self.stock_return_picking.with_context(
+            dict(active_id=picking_1.id)).create(
+            dict(invoice_state='2binvoiced'))
+
+        result_wizard = self.return_wizard.create_returns()
+        self.assertTrue(result_wizard, 'Create returns wizard fail.')
+        picking_devolution = self.stock_picking.browse(
+            result_wizard.get('res_id'))
+
+        self.assertEqual(picking_devolution.invoice_state, '2binvoiced')
+        self.assertTrue(
+            picking_devolution.fiscal_operation_id,
+            'Missing Fiscal Operation.')
+        for line in picking_devolution.move_lines:
+            self.assertEqual(line.invoice_state, '2binvoiced')
+            # Valida presença dos campos principais para o mapeamento Fiscal
+            self.assertTrue(
+                line.fiscal_operation_id,
+                'Missing Fiscal Operation.')
+            self.assertTrue(
+                line.fiscal_operation_line_id,
+                'Missing Fiscal Operation Line.')
+        picking_devolution.action_confirm()
+        picking_devolution.action_assign()
+        # Force product availability
+        for move in picking_devolution.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking_devolution.button_validate()
+        self.assertEquals(
+            picking_devolution.state, 'done',
+            'Change state fail.'
+        )
+        wizard_obj = self.invoice_wizard.with_context(
+            active_ids=picking_devolution.ids,
+            active_model=picking_devolution._name,
+            active_id=picking_devolution.id,
+        )
+        fields_list = wizard_obj.fields_get().keys()
+        wizard_values = wizard_obj.default_get(fields_list)
+        wizard = wizard_obj.create(wizard_values)
+        wizard.onchange_group()
+        wizard.action_generate()
+        domain = [('picking_ids', '=', picking_devolution.id)]
+        invoice_devolution = self.invoice_model.search(domain)
+        # Confirmando a Fatura
+        invoice_devolution.action_invoice_open()
+        self.assertEquals(
+            invoice_devolution.state, 'open', 'Invoice should be in state Open')
+        # Validar Atualização da Quantidade Faturada
+        for line in purchase_1.order_line:
+            # Apenas a linha de Produto tem a qtd faturada dobrada
+            if line.product_id.type == 'product':
+                # A quantidade Faturada deve ser duas vezes
+                # a quantidade do Produto já que foram criadas
+                # duas Faturas a de Envio e a de Devolução
+                self.assertEqual((2 * line.product_uom_qty), line.qty_invoiced)
