@@ -92,7 +92,7 @@ class ResCompany(models.Model):
                         ((record.annual_revenue *
                           record.simplifed_tax_range_id.total_tax_percent / 100) -
                          record.simplifed_tax_range_id.amount_deduced) /
-                        record.annual_revenue) * 100, record.currency_id.decimal_places)
+                        record.simplifed_tax_range_id.final_revenue) * 100, record.currency_id.decimal_places)
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
