@@ -45,6 +45,7 @@ class StockReturnPicking(models.TransientModel):
 
             values = {
                 'fiscal_operation_id': refund_fiscal_operation.id,
+                'invoice_state': '2binvoiced',
             }
 
             picking.write(values)
