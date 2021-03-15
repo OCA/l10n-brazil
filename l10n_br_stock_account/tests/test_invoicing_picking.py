@@ -123,11 +123,36 @@ class InvoicingPickingTest(SavepointCase):
         self.return_wizard = self.stock_return_picking.with_context(
             dict(active_id=self.stock_picking_sp.id)).create(
             dict(invoice_state='2binvoiced'))
-        for line in self.return_wizard.product_return_moves:
-            line.quantity = line.move_id.product_uom_qty
 
-        result = self.return_wizard.create_returns()
-        self.assertTrue(result, 'Create returns wizard fail.')
+        result_wizard = self.return_wizard.create_returns()
+        self.assertTrue(result_wizard, 'Create returns wizard fail.')
+
+        picking_devolution = self.stock_picking.browse(
+            result_wizard.get('res_id'))
+
+        self.assertEqual(picking_devolution.invoice_state, '2binvoiced')
+        self.assertTrue(
+            picking_devolution.fiscal_operation_id,
+            'Missing Fiscal Operation.')
+        for line in picking_devolution.move_lines:
+            self.assertEqual(line.invoice_state, '2binvoiced')
+            # Valida presença dos campos principais para o mapeamento Fiscal
+            self.assertTrue(
+                line.fiscal_operation_id,
+                'Missing Fiscal Operation.')
+            self.assertTrue(
+                line.fiscal_operation_line_id,
+                'Missing Fiscal Operation Line.')
+        picking_devolution.action_confirm()
+        picking_devolution.action_assign()
+        # Force product availability
+        for move in picking_devolution.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking_devolution.button_validate()
+        self.assertEquals(
+            picking_devolution.state, 'done',
+            'Change state fail.'
+        )
 
     def test_invoicing_picking_overprocessed(self):
         """Test Invoicing Picking overprocessed EXTRA Fields"""
