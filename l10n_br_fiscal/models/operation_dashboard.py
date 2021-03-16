@@ -93,10 +93,10 @@ class Operation(models.Model):
     def action_create_new(self):
         ctx = self._context.copy()
         model = 'l10n_br_fiscal.document'
-        if self.fiscal_type == 'sale':
+        if self.fiscal_operation_type == 'out':
             ctx.update({'default_fiscal_operation_type': 'out',
                         'default_fiscal_operation_id': self.id})
-        elif self.fiscal_type == 'purchase':
+        elif self.fiscal_operation_type == 'in':
             ctx.update({'default_fiscal_operation_type': 'in',
                         'default_fiscal_operation_id': self.id})
         return {
