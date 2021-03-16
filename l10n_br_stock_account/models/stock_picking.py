@@ -44,8 +44,3 @@ class StockPicking(models.Model):
         column2='comment_id',
         string='Comments',
     )
-
-    # Criação da BackOrder com o invoice_state igual ao picking dividido
-    invoice_state = fields.Selection(
-        copy=True,
-    )
