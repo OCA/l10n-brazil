@@ -527,4 +527,26 @@
         <field name="website">http://www.exterior.com</field>
     </record>
 
+    <record id="res_partner_cliente11_sp" model="res.partner">
+        <field name="name">Cliente 11 SP - PF Não Contribuinte</field>
+        <field name="legal_name">Cliente 11 PF</field>
+        <field name="cnpj_cpf">765.865.078-12</field>
+        <field name="street">Rua do Bosque</field>
+        <field name="street_number">238</field>
+        <field name="district">Barra Funda</field>
+        <field name="street2"></field>
+        <field name="state_id" ref="base.state_br_sp"/>
+        <field name="city_id" ref="l10n_br_base.city_3550308"/>
+        <field name="zip">01136-000</field>
+        <field name="country_id" ref="base.br"/>
+        <field name="website">www.cliente11.com.br</field>
+        <field name="phone">(11) 3881-7417</field>
+        <field name="email">cliente11@cliente11.com.br</field>
+        <field name="suframa"></field>
+        <field name="customer" eval="1"/>
+        <field name="supplier" eval="0"/>
+        <field name="is_company" eval="0"/>
+        <field name="active" eval="1"/>
+    </record>
+
 </odoo>
