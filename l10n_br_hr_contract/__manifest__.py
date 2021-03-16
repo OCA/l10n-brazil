@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "author": "KMEE, " "Odoo Community Association (OCA)",
     "website": "http://odoo-brasil.org",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.1.0",
     "depends": ["hr_contract", "l10n_br_hr"],
     "data": [
         "views/hr_contract_view.xml",
