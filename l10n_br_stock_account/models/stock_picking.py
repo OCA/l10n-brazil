@@ -49,7 +49,7 @@ class StockPicking(models.Model):
     invoice_state = fields.Selection(
         copy=True,
     )
-    
+
     @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
