@@ -36,7 +36,7 @@ msgstr ""
 #. module: l10n_br_sale_stock
 #: model:ir.model.fields,help:l10n_br_sale_stock.field_res_company__sale_create_invoice_policy
 #: model:ir.model.fields,help:l10n_br_sale_stock.field_res_config_settings__sale_create_invoice_policy
-msgid "Define if Invoice should be create from Sale Order or Stock Picking."
+msgid "Define, when Product Type are not service, if Invoice should be create from Sale Order or Stock Picking."
 msgstr ""
 
 #. module: l10n_br_sale_stock
@@ -46,8 +46,10 @@ msgid "Sale Create Invoice Policy"
 msgstr ""
 
 #. module: l10n_br_sale_stock
+#: code:addons/l10n_br_sale_stock/models/res_company.py:13
 #: model:ir.model,name:l10n_br_sale_stock.model_sale_order
 #: selection:res.company,sale_create_invoice_policy:0
+#, python-format
 msgid "Sale Order"
 msgstr ""
 
@@ -67,7 +69,9 @@ msgid "Stock Move"
 msgstr ""
 
 #. module: l10n_br_sale_stock
+#: code:addons/l10n_br_sale_stock/models/res_company.py:14
 #: selection:res.company,sale_create_invoice_policy:0
+#, python-format
 msgid "Stock Picking"
 msgstr ""
 
