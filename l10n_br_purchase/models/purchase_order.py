@@ -5,7 +5,7 @@
 from lxml import etree
 
 from odoo import api, fields, models
-from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
+# from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
 
 
 class PurchaseOrder(models.Model):
