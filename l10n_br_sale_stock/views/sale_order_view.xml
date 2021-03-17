@@ -10,8 +10,17 @@
             <field name="partner_id" position="before">
                 <field name="button_create_invoice_invisible" invisible="1"/>
             </field>
-            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d']" position="attributes">
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d'][1]" position="attributes">
                 <attribute name="attrs">{'invisible': [('button_create_invoice_invisible', '=', True)]}</attribute>
+            </xpath>
+            <!-- Segundo Botão vai estar sempre invisivel, os dois são iguais, e pelo que
+             entendi um aparece apenas no status sale e o outro em todos os status para
+             permitir a criação de Baixas de Pagtos antecipados que é feita criando
+             outras Faturas.
+             TODO: Esse segundo botão deve aparecer ? Em quais casos ?
+            -->
+            <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d'][2]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('button_create_invoice_invisible', '=', True), ('state', '=', 'sale')]}</attribute>
             </xpath>
         </field>
     </record>
