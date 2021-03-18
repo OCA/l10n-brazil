@@ -232,6 +232,9 @@ class Tax(models.Model):
         if compute_reduction:
             base_amount -= base_reduction
 
+        if tax_dict.get("icmsst_mva_percent"):
+            base_amount *= (1 + (tax_dict["icmsst_mva_percent"] / 100))
+
         if (not tax.percent_amount and not tax.value_amount and
             not tax_dict.get('percent_amount') and
                 not tax_dict.get('value_amount')):
@@ -253,6 +256,7 @@ class Tax(models.Model):
         tax_dict["percent_reduction"] = tax.percent_reduction
         tax_dict["percent_amount"] = tax_dict.get('percent_amount',
                                                   tax.percent_amount)
+        tax_dict["icmsst_mva_percent"] = tax.icmsst_mva_percent
 
         company = kwargs.get("company", tax.env.user.company_id)
         # partner = kwargs.get("partner")
@@ -298,6 +302,11 @@ class Tax(models.Model):
             tax_value = round(
                 base_amount * (tax_dict["percent_amount"] / 100),
                 precision)
+
+            if tax_dict.get("icmsst_mva_percent"):
+                tax_value -= taxes_dict.get(
+                    "icms", {}
+                ).get("tax_value", 0.0)
 
             tax_dict["tax_value"] = tax_value
 
