@@ -237,8 +237,8 @@
         <field name="code">Remessa - Industrialização por Encomenda</field>
         <field name="name">Remessa - Industrialização por Encomenda</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_type">sale</field>
-        <field name="default_price_unit">sale_price</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="default_price_unit">cost_price</field>
         <field name="state">approved</field>
     </record>
 
@@ -254,8 +254,8 @@
         <field name="code">Retorno Reparo</field>
         <field name="name">Retorno de mercadoria ou bem remetido para conserto ou reparo</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_type">sale</field>
-        <field name="default_price_unit">sale_price</field>
+        <field name="fiscal_type">return_out</field>
+        <field name="default_price_unit">cost_price</field>
         <field name="state">approved</field>
     </record>
 
