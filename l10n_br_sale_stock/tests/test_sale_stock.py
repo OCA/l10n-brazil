@@ -17,6 +17,32 @@ class TestSaleStock(SavepointCase):
         self.stock_return_picking = self.env['stock.return.picking']
         self.stock_picking = self.env['stock.picking']
 
+        # TODO: Em uma instalção direta do modulo
+        #  $ odoo -d test -i l10n_br_sale_stock --stop-after-init
+        #  e depois
+        #  $ odoo -d test --update=l10n_br_sale_stock --test-enable
+        #  o campo do Diário não está vindo preenchido a solução e forçar
+        #  preenchimento para não ter erro nos testes porem no caso dos dados
+        #  demo ao testar na tela vai continuar o problema, para evita-lo é
+        #  preciso instalar o l10n_br_account antes ou preencher manualmente,
+        #  porém isso é um problema já que a instalação direta do modulo deve
+        #  funcionar sem isso.
+        #  No modulo l10n_br_sale para resolver esse problema é feito isso
+        #  https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_sale/
+        #  hooks.py#L35 e https://github.com/OCA/l10n-brazil/blob/12.0/
+        #  l10n_br_sale/demo/fiscal_operation_simple.xml#L10 mas por algum
+        #  motivo não vem carregado aqui, mesmo tendo o l10n_br_sale como
+        #  dependencia.
+        self.fiscal_operation_venda = self.env.ref('l10n_br_fiscal.fo_venda')
+        if not self.fiscal_operation_venda.journal_id:
+            self.fiscal_operation_venda.journal_id = \
+                self.env.ref('l10n_br_coa_simple.sale_journal_main_company')
+        self.fiscal_operation_dev_venda = self.env.ref(
+            'l10n_br_fiscal.fo_devolucao_venda')
+        if not self.fiscal_operation_dev_venda.journal_id:
+            self.fiscal_operation_dev_venda.journal_id = \
+                self.env.ref('l10n_br_coa_simple.general_journal_main_company')
+
     def test_02_sale_stock_return(self):
         """
         Test a SO with a product invoiced on delivery. Deliver and invoice
