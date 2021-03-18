@@ -32,6 +32,7 @@
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_type">sale</field>
         <field name="default_price_unit">sale_price</field>
+        <field name="ind_final">0</field>
         <field name="state">approved</field>
     </record>
 
@@ -81,6 +82,36 @@
         <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt"/>
         <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53"/>
         <field name="state">approved</field>
+    </record>
+
+    <record id="fo_venda_final" model="l10n_br_fiscal.operation">
+        <field name="code">Venda Consumo Final</field>
+        <field name="name">Venda Consumo Final</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_type">sale</field>
+        <field name="default_price_unit">sale_price</field>
+        <field name="ind_final">1</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_venda_final_venda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda_final"/>
+        <field name="name">Venda Consumo Final</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5101"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6101"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7101"/>
+        <field name="state">approved</field>
+        <field name="product_type">04</field>
+    </record>
+
+    <record id="fo_venda_final_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda_final"/>
+        <field name="name">Revenda Consumo Final</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5102"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6102"/>
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7102"/>
+        <field name="state">approved</field>
+        <field name="product_type">00</field>
     </record>
 
     <record id="fo_bonificacao" model="l10n_br_fiscal.operation">
