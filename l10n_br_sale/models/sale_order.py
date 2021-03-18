@@ -5,6 +5,7 @@
 from lxml import etree
 
 from odoo import api, fields, models
+from odoo.addons.l10n_br_fiscal.constants.fiscal import NFE_IND_IE_DEST_9
 
 
 class SaleOrder(models.Model):
@@ -144,6 +145,16 @@ class SaleOrder(models.Model):
     def _onchange_fiscal_operation_id(self):
         super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
+
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        super().onchange_partner_id()
+        if self.partner_id.ind_ie_dest == NFE_IND_IE_DEST_9:
+            company_id = self.env.user.company_id
+            final_consumption_operation_id = \
+                company_id.sale_final_consumption_fiscal_operation_id
+            if final_operation_id:
+                self.fiscal_operation_id = final_consumption_operation_id
 
     @api.multi
     def _prepare_invoice(self):
