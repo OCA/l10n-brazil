@@ -322,6 +322,26 @@
         <field name="inverse_fiscal_operation_id" ref="fo_entrada_remessa"/>
     </record>
 
+    <record id="fo_entrada_retorno_reparo" model="l10n_br_fiscal.operation">
+        <field name="return_fiscal_operation_id" ref="fo_retorno_reparo"/>
+        <field name="inverse_fiscal_operation_id" ref="fo_retorno_reparo"/>
+    </record>
+
+    <record id="fo_retorno_reparo" model="l10n_br_fiscal.operation">
+        <field name="return_fiscal_operation_id" ref="fo_entrada_retorno_reparo"/>
+        <field name="inverse_fiscal_operation_id" ref="fo_entrada_retorno_reparo"/>
+    </record>
+
+    <record id="fo_remessa_industrializacao" model="l10n_br_fiscal.operation">
+        <field name="return_fiscal_operation_id" ref="fo_entrada_remessa_industrializacao"/>
+        <field name="inverse_fiscal_operation_id" ref="fo_entrada_remessa_industrializacao"/>
+    </record>
+
+    <record id="fo_entrada_remessa_industrializacao" model="l10n_br_fiscal.operation">
+        <field name="return_fiscal_operation_id" ref="fo_remessa_industrializacao"/>
+        <field name="inverse_fiscal_operation_id" ref="fo_remessa_industrializacao"/>
+    </record>
+
     <record id="document_SE_serie_1" model="l10n_br_fiscal.document.serie">
         <field name="code">001</field>
         <field name="name">Série 1</field>
