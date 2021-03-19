@@ -250,6 +250,23 @@
         <field name="state">approved</field>
     </record>
 
+    <record id="fo_entrada_remessa_industrializacao" model="l10n_br_fiscal.operation">
+        <field name="code">Remessa - Industrialização por Encomenda</field>
+        <field name="name">Remessa - Industrialização por Encomenda</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_remessa_industrializacao_entrada_remessa_industrializacao" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_entrada_remessa_industrializacao"/>
+        <field name="name">Remessa - Industrialização por Encomenda</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1901"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2901"/>
+        <field name="state">approved</field>
+    </record>
+
     <record id="fo_retorno_reparo" model="l10n_br_fiscal.operation">
         <field name="code">Retorno Reparo</field>
         <field name="name">Retorno de mercadoria ou bem remetido para conserto ou reparo</field>
@@ -264,6 +281,23 @@
         <field name="name">Retorno de mercadoria ou bem remetido para conserto ou reparo</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5916"/>
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6916"/>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_entrada_retorno_reparo" model="l10n_br_fiscal.operation">
+        <field name="code">Retorno Reparo</field>
+        <field name="name">Retorno de mercadoria ou bem remetido para conserto ou reparo</field>
+        <field name="fiscal_operation_type">in</field>
+        <field name="fiscal_type">other</field>
+        <field name="default_price_unit">cost_price</field>
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_retorno_reparo_entrada_retorno_reparo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_entrada_retorno_reparo"/>
+        <field name="name">Retorno de mercadoria ou bem remetido para conserto ou reparo</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1916"/>
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2916"/>
         <field name="state">approved</field>
     </record>
 
