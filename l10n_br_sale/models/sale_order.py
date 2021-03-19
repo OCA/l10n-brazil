@@ -293,7 +293,7 @@ class SaleOrder(models.Model):
             for line in order.order_line:
                 # price_reduce = line.price_unit * (1.0 - line.discount / 100.0)
                 # taxes = line.tax_id.compute_all(price_reduce, quantity=line.product_uom_qty, product=line.product_id, partner=order.partner_shipping_>
-                taxes = line._compute_taxes(line.fiscal_tax_ids)
+                taxes = line._compute_taxes(line.fiscal_tax_ids)['taxes']
                 for tax in line.fiscal_tax_ids:
                     group = tax.tax_group_id
                     res.setdefault(group, {'amount': 0.0, 'base': 0.0})
