@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <!-- Sua Empresa - Simples Nacional -->
-    <record id="base.main_company" model="res.company">
+     <!-- Sua Empresa - Simples Nacional -->
+    <record id="base.main_partner" model="res.partner">
         <field name="name">Sua Empresa</field>
         <field name="legal_name">Sua Empresa Ltda</field>
         <field name="street">Avenida Paulista</field>
         <field name="street_number">1</field>
-        <field name="district">Bela Vista</field>
-        <field name="state_id" ref="base.state_br_sp"/>
         <field name="city_id" ref="l10n_br_base.city_3550308"/>
-        <field name="country_id" ref="base.br"/>
         <field name="zip">01311-000</field>
-        <field name="website">www.suaempresa.com.br</field>
+        <field name="country_id" ref="base.br"/>
+        <field name='state_id' ref='base.state_br_sp'/>
         <field name="phone">+55 11 9999-9999</field>
         <field name="email">info@suaempresa.com.br</field>
+        <field name="website">www.example.com</field>
+        <field name="is_company" eval="True"/>
+    </record>
+
+    <record id="base.main_company" model="res.company">
+        <field name="name">Sua Empresa</field>
+        <field name="legal_name">Sua Empresa Ltda</field>
         <field name="cnpj_cpf">97.231.608/0001-69</field>
         <field name="inscr_est">454.504.604.553</field>
         <field name="currency_id" ref="base.BRL"/>
@@ -41,16 +45,6 @@
         <field name="name">Empresa Lucro Presumido</field>
         <field name="legal_name">Empresa Lucro Presumido Ltda</field>
         <field name="partner_id" ref="lucro_presumido_partner"/>
-        <field name="street">Avenida Paulista</field>
-        <field name="street_number">1</field>
-        <field name="district">Bela Vista</field>
-        <field name="state_id" ref="base.state_br_sp"/>
-        <field name="city_id" ref="l10n_br_base.city_3550308"/>
-        <field name="country_id" ref="base.br"/>
-        <field name="zip">01311-000</field>
-        <field name="website">www.suaempresa.com.br</field>
-        <field name="phone">+55 11 9999-9999</field>
-        <field name="email">info@suaempresa.com.br</field>
         <field name="cnpj_cpf">81.583.054/0001-29</field>
         <field name="inscr_est">078.016.350.838</field>
         <field name="currency_id" ref="base.BRL"/>
