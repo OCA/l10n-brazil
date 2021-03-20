@@ -3,77 +3,17 @@
 # Copyright (C) 2012 Raphaël Valyi (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
+from erpbrasil.base.fiscal import cnpj_cpf, ie
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base.fiscal import cnpj_cpf, ie
-    from erpbrasil.base import misc
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
-
 
 class Partner(models.Model):
-    _inherit = "res.partner"
+    _name = "res.partner"
+    _inherit = [_name, "l10n_br_base.party.mixin"]
 
-    @api.multi
-    def _display_address(self, without_company=False):
-        country_code = self.country_id.code or ""
-        if self.country_id and country_code.upper() != "BR":
-            # this ensure other localizations could do what they want
-            return super(Partner, self)._display_address(without_company=False)
-        else:
-            address_format = (
-                self.country_id
-                and self.country_id.address_format
-                or "%(street)s, %(street_number)s %(street2)s\n%(district)s"
-                "\n%(zip)s - %(city)s-%(state_code)s\n%(country_name)s"
-            )
-            args = {
-                "city_name": self.city_id and self.city_id.name or "",
-                "state_code": self.state_id and self.state_id.code or "",
-                "state_name": self.state_id and self.state_id.name or "",
-                "country_code": self.country_id and self.country_id.code or "",
-                "country_name": self.country_id and self.country_id.name or "",
-                "company_name": self.parent_id and self.parent_id.name or "",
-            }
-
-            address_field = [
-                "title",
-                "street",
-                "street2",
-                "zip",
-                "city",
-                "street_number",
-                "district",
-            ]
-            for field in address_field:
-                args[field] = getattr(self, field) or ""
-            if without_company:
-                args["company_name"] = ""
-            elif self.parent_id:
-                address_format = "%(company_name)s\n" + address_format
-            return address_format % args
-
-    cnpj_cpf = fields.Char(string="CNPJ/CPF", size=18)
     vat = fields.Char(related="cnpj_cpf")
-
-    inscr_est = fields.Char(string="State Tax Number/RG", size=17)
-
-    state_tax_number_ids = fields.One2many(
-        string="Others State Tax Number",
-        comodel_name="state.tax.numbers",
-        inverse_name="partner_id",
-        ondelete="cascade",
-    )
-
-    inscr_mun = fields.Char(string="Municipal Tax Number", size=18)
-
-    suframa = fields.Char(string="Suframa", size=18)
 
     is_accountant = fields.Boolean(string="Is accountant?")
 
@@ -84,16 +24,6 @@ class Partner(models.Model):
     rntrc_code = fields.Char(string="RNTRC Code", size=12)
 
     cei_code = fields.Char(string="CEI Code", size=12)
-
-    legal_name = fields.Char(
-        string="Legal Name", size=128, help="Used in fiscal documents"
-    )
-
-    city_id = fields.Many2one(domain="[('state_id', '=', state_id)]")
-
-    country_id = fields.Many2one(default=lambda self: self.env.ref("base.br"))
-
-    district = fields.Char(string="District", size=32)
 
     union_entity_code = fields.Char(string="Union Entity code")
 
@@ -224,27 +154,19 @@ class Partner(models.Model):
     def _address_fields(self):
         """Returns the list of address
         fields that are synced from the parent."""
-        return super(Partner, self)._address_fields() + ["district"]
+        return super()._address_fields() + ["district"]
 
     def get_street_fields(self):
         """Returns the fields that can be used in a street format.
         Overwrite this function if you want to add your own fields."""
-        return super(Partner, self).get_street_fields() + ["street"]
+        return super().get_street_fields() + ["street"]
 
     @api.multi
     def _set_street(self):
         company_country = self.env.user.company_id.country_id
         if company_country.code:
             if company_country.code.upper() != "BR":
-                return super(Partner, self)._set_street()
-
-    @api.onchange("cnpj_cpf")
-    def _onchange_cnpj_cpf(self):
-        self.cnpj_cpf = cnpj_cpf.formata(str(self.cnpj_cpf))
-
-    @api.onchange("zip")
-    def _onchange_zip(self):
-        self.zip = misc.format_zipcode(self.zip, self.country_id.code)
+                return super()._set_street()
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
