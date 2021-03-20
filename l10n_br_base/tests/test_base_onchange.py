@@ -63,6 +63,7 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         display_address = partner._display_address()
         self.assertEquals(
             display_address,
+            "Akretion Sao Paulo\n"
             "Avenida Paulista, 807 CJ 2315\nCentro"
             "\n01311-915 - São Paulo-SP\nBrazil",
             "The function _display_address failed.",
@@ -74,7 +75,7 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         display_address = partner._display_address()
         self.assertEquals(
             display_address,
-            "Akretion Sao Paulo\n"
+            "Akretion Rio de Janeiro\n"
             "Rua Acre, 47 sala 1310\nCentro"
             "\n20081-000 - Rio de Janeiro-RJ\nBrazil",
             "The function _display_address with parent_id failed.",
@@ -94,7 +95,7 @@ class L10nBrBaseOnchangeTest(SavepointCase):
     def test_display_address_without_company(self):
         partner = self.env.ref("l10n_br_base.res_partner_akretion")
         partner._onchange_city_id()
-        display_address = partner._display_address(without_company=False)
+        display_address = partner._display_address(without_company=True)
         self.assertEquals(
             display_address,
             "Avenida Paulista, 807 CJ 2315\nCentro"
