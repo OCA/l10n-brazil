@@ -14,8 +14,8 @@ except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
-class DataMixin(models.AbstractModel):
-    _name = "l10n_br_base.data.mixin"
+class PartyMixin(models.AbstractModel):
+    _name = "l10n_br_base.party.mixin"
     _description = "Brazilian partner and company data mixin"
 
     cnpj_cpf = fields.Char(
