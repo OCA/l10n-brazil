@@ -111,13 +111,11 @@ class StockMove(models.Model):
     def _prepare_extra_move_vals(self, qty):
         values = self._prepare_br_fiscal_dict()
         values.update(super()._prepare_extra_move_vals(qty))
-        values['invoice_state'] = self.invoice_state
         return values
 
     def _prepare_move_split_vals(self, uom_qty):
         values = self._prepare_br_fiscal_dict()
         values.update(super()._prepare_move_split_vals(uom_qty))
-        values['invoice_state'] = self.invoice_state
         return values
 
     @api.multi
