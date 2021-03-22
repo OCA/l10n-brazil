@@ -225,13 +225,13 @@ class AccountInvoice(models.Model):
                 if inv_line.cfop_id.finance_move:
                     self.amount_untaxed += inv_line.price_subtotal
                     self.amount_tax += inv_line.price_tax
+                    self.amount_total += inv_line.price_total
             else:
                 self.amount_untaxed += inv_line.price_subtotal
                 self.amount_tax += inv_line.price_tax
+                self.amount_total += inv_line.price_total
 
-        self.amount_total = (
-            self.amount_untaxed + self.amount_tax -
-            self.amount_tax_withholding)
+        self.amount_total -= self.amount_tax_withholding
 
         amount_total_company_signed = self.amount_total
         amount_untaxed_signed = self.amount_untaxed
