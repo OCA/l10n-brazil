@@ -158,7 +158,7 @@ class AccountInvoiceLine(models.Model):
             self.price_subtotal = self.amount_untaxed
             self.price_total = self.amount_total
 
-        self.price_subtotal -= self.discount_value
+        # self.price_subtotal -= self.discount_value
         price_subtotal_signed = self.price_subtotal
 
         if (self.invoice_id.currency_id and self.invoice_id.currency_id
@@ -175,7 +175,7 @@ class AccountInvoiceLine(models.Model):
     @api.depends('price_total')
     def _get_price_tax(self):
         for l in self:
-            l.price_tax = l.price_total - l.price_subtotal
+            l.price_tax = l.amount_tax
 
     @api.model
     def _shadowed_fields(self):
