@@ -123,54 +123,36 @@ class AccountInvoiceLine(models.Model):
         'invoice_id.date',
         'fiscal_tax_ids')
     def _compute_price(self):
-        currency = self.invoice_id and self.invoice_id.currency_id or None
-        taxes = {}
-        self._update_taxes()
-        if self.invoice_line_tax_ids:
-            taxes = self.invoice_line_tax_ids.compute_all(
-                price_unit=self.price_unit,
-                currency=self.invoice_id.currency_id,
-                quantity=self.quantity,
-                product=self.product_id,
-                partner=self.invoice_id.partner_id,
-                fiscal_taxes=self.fiscal_tax_ids,
-                operation_line=self.fiscal_operation_line_id,
-                ncm=self.ncm_id,
-                nbs=self.nbs_id,
-                nbm=self.nbm_id,
-                cest=self.cest_id,
-                discount_value=self.discount_value,
-                insurance_value=self.insurance_value,
-                other_value=self.other_value,
-                freight_value=self.freight_value,
-                fiscal_price=self.fiscal_price,
-                fiscal_quantity=self.fiscal_quantity,
-                uot=self.uot_id,
-                icmssn_range=self.icmssn_range_id)
+        """Compute the amounts of the SO line."""
+        super()._compute_price()
+        dummy_doc_line_id = self.env.ref(
+            'l10n_br_fiscal.fiscal_document_line_dummy')
+        if (self.fiscal_document_line_id and self.fiscal_document_line_id
+                != dummy_doc_line_id):
+            # Update taxes fields
+            self._update_taxes()
+            # Call mixin compute method
+            self._compute_amounts()
+            # Update record
+            self.update({
+                'discount': self.discount_value,
+                'price_subtotal': self.amount_untaxed + self.discount_value,
+                'price_tax': self.amount_tax,
+                'price_total': self.amount_total,
+            })
 
-        # Call mixin compute method
-        self._compute_amounts()
+            price_subtotal_signed = self.price_subtotal
 
-        if taxes:
-            self.price_subtotal = taxes['total_excluded']
-            self.price_total = taxes['total_included']
-        else:
-            self.price_subtotal = self.amount_untaxed
-            self.price_total = self.amount_total
-
-        # self.price_subtotal -= self.discount_value
-        price_subtotal_signed = self.price_subtotal
-
-        if (self.invoice_id.currency_id and self.invoice_id.currency_id
-                != self.invoice_id.company_id.currency_id):
-            currency = self.invoice_id.currency_id
-            date = self.invoice_id._get_currency_rate_date()
-            price_subtotal_signed = currency._convert(
-                price_subtotal_signed, self.invoice_id.company_id.currency_id,
-                self.company_id or self.env.user.company_id,
-                date or fields.Date.today())
-        sign = self.invoice_id.type in ['in_refund', 'out_refund'] and -1 or 1
-        self.price_subtotal_signed = price_subtotal_signed * sign
+            if (self.invoice_id.currency_id and self.invoice_id.currency_id
+                    != self.invoice_id.company_id.currency_id):
+                currency = self.invoice_id.currency_id
+                date = self.invoice_id._get_currency_rate_date()
+                price_subtotal_signed = currency._convert(
+                    price_subtotal_signed, self.invoice_id.company_id.currency_id,
+                    self.company_id or self.env.user.company_id,
+                    date or fields.Date.today())
+            sign = self.invoice_id.type in ['in_refund', 'out_refund'] and -1 or 1
+            self.price_subtotal_signed = price_subtotal_signed * sign
 
     @api.depends('price_total')
     def _get_price_tax(self):
