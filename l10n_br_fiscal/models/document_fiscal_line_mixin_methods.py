@@ -145,11 +145,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         for record in self:
             round_curr = record.currency_id.round
             # Valor dos produtos
-            record.amount_untaxed = round_curr(
-                (record.price_unit * record.quantity) - record.discount_value)
+            record.amount_untaxed = (round_curr(
+                record.price_unit * record.quantity) - record.discount_value)
 
-            record.amount_fiscal = round_curr(
-                (record.fiscal_price * record.fiscal_quantity) -
+            record.amount_fiscal = (round_curr(
+                record.fiscal_price * record.fiscal_quantity) -
                 record.discount_value)
 
             record.amount_tax = record.amount_tax_not_included
@@ -858,4 +858,4 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.model
     def _rm_fields_to_amount(self):
-        return ['discount_value', 'icms_relief_value']
+        return ['icms_relief_value']
