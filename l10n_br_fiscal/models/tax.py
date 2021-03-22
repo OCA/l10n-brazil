@@ -251,7 +251,8 @@ class Tax(models.Model):
         tax_dict["fiscal_tax_id"] = tax.id
         tax_dict["tax_domain"] = tax.tax_domain
         tax_dict["percent_reduction"] = tax.percent_reduction
-        tax_dict["percent_amount"] = tax.percent_amount
+        tax_dict["percent_amount"] = tax_dict.get('percent_amount',
+                                                  tax.percent_amount)
 
         company = kwargs.get("company", tax.env.user.company_id)
         # partner = kwargs.get("partner")
