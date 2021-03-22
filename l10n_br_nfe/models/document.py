@@ -31,6 +31,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.spec_driven_model.models import spec_models
 from odoo.exceptions import UserError
+from odoo.tools import config
 from requests import Session
 
 from odoo import _, api, fields
@@ -533,9 +534,12 @@ class NFe(spec_models.StackedModel):
         for record in self:
             record.date = fields.Datetime.now()
             record.date_in_out = fields.Datetime.now()
-
         super(NFe, self).action_document_confirm()
 
+        if config['test_enable'] and not self.company_id.certificate_nfe_id:
+            # No certificate would later raise an exception in _processador()
+            # But we don't want that at invoice confirmation during tests.
+            return
         for record in self:
             processador = record._processador()
             record.autorizacao_event_id = record._gerar_evento(
