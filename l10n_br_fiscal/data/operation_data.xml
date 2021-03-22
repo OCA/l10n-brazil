@@ -322,14 +322,14 @@
         <field name="inverse_fiscal_operation_id" ref="fo_entrada_remessa"/>
     </record>
 
-    <record id="fo_entrada_retorno_reparo" model="l10n_br_fiscal.operation">
+    <record id="fo_entrada_reparo" model="l10n_br_fiscal.operation">
         <field name="return_fiscal_operation_id" ref="fo_retorno_reparo"/>
         <field name="inverse_fiscal_operation_id" ref="fo_retorno_reparo"/>
     </record>
 
     <record id="fo_retorno_reparo" model="l10n_br_fiscal.operation">
-        <field name="return_fiscal_operation_id" ref="fo_entrada_retorno_reparo"/>
-        <field name="inverse_fiscal_operation_id" ref="fo_entrada_retorno_reparo"/>
+        <field name="return_fiscal_operation_id" ref="fo_entrada_reparo"/>
+        <field name="inverse_fiscal_operation_id" ref="fo_entrada_reparo"/>
     </record>
 
     <record id="fo_remessa_industrializacao" model="l10n_br_fiscal.operation">
