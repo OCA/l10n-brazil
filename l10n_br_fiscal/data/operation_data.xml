@@ -317,6 +317,11 @@
         <field name="inverse_fiscal_operation_id" ref="fo_simples_remessa"/>
     </record>
 
+    <record id="fo_bonificacao" model="l10n_br_fiscal.operation">
+        <field name="return_fiscal_operation_id" ref="fo_entrada_remessa"/>
+        <field name="inverse_fiscal_operation_id" ref="fo_entrada_remessa"/>
+    </record>
+
     <record id="fo_simples_remessa" model="l10n_br_fiscal.operation">
         <field name="return_fiscal_operation_id" ref="fo_entrada_remessa"/>
         <field name="inverse_fiscal_operation_id" ref="fo_entrada_remessa"/>
