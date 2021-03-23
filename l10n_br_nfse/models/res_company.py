@@ -4,15 +4,10 @@
 from odoo import fields, models
 from ..constants.nfse import (NFSE_ENVIRONMENT_DEFAULT, NFSE_ENVIRONMENTS)
 
-PROCESSADOR = 'erpbrasil_edoc'
-
 
 class ResCompany(models.Model):
 
     _inherit = 'res.company'
-    processador_edoc = fields.Selection(
-        selection_add=[(PROCESSADOR, 'erpbrasil.edoc')]
-    )
     provedor_nfse = fields.Selection(
         selection=[],
         string="NFSe Provider",
