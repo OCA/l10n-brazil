@@ -379,7 +379,7 @@ class ResCompany(models.Model):
         if not self.ripi and self.tax_framework == TAX_FRAMEWORK_NORMAL:
             self.tax_ipi_id = self.env.ref("l10n_br_fiscal.tax_ipi_nt")
         elif self.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-            self.tax_ipi_id = self.env.ref("l10n_br_fiscal.tax_ipi_simples_nacional")
+            self.tax_ipi_id = self.env.ref("l10n_br_fiscal.tax_ipi_outros")
             self.ripi = False
         else:
             self.tax_ipi_id = False
