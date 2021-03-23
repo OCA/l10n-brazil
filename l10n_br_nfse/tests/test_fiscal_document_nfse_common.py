@@ -8,6 +8,7 @@ from OpenSSL import crypto
 from odoo.tests.common import TransactionCase
 from odoo.tools.misc import format_date
 from odoo import fields
+from odoo.addons.l10n_br_fiscal.constants.fiscal import PROCESSADOR_OCA
 
 
 class TestFiscalDocumentNFSeCommon(TransactionCase):
@@ -21,7 +22,7 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
             self.company = self.env.ref(
                 'l10n_br_base.empresa_simples_nacional')
 
-            self.company.processador_edoc = 'erpbrasil_edoc'
+            self.company.processador_edoc = PROCESSADOR_OCA
             self.company.partner_id.inscr_mun = '35172'
             self.company.partner_id.inscr_est = ''
             self.company.partner_id.state_id = self.env.ref(
