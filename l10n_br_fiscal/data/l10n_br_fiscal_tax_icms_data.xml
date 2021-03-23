@@ -54,7 +54,7 @@
     <field name="state">approved</field>
   </record>
 
-  <!-- ICMS - Saída de Remessa de Industrialização -->
+  <!-- ICMS - Remessa de Industrialização -->
   <record id="tax_icms_definition_remessa_industrializacao" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
@@ -66,7 +66,7 @@
     <field name="state">approved</field>
   </record>
 
-  <!-- IPI - Saída de Remessa de Industrialização -->
+  <!-- IPI - Remessa de Industrialização -->
   <record id="tax_ipi_definition_remessa_industrializacao" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
@@ -78,7 +78,7 @@
     <field name="state">approved</field>
   </record>
 
-  <!-- PIS - Saída de Remessa de Industrialização -->
+  <!-- PIS - Remessa de Industrialização -->
   <record id="tax_pis_definition_remessa_industrializacao" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
@@ -90,7 +90,7 @@
     <field name="state">approved</field>
   </record>
 
-  <!-- COFINS - Saída de Remessa de Industrialização -->
+  <!-- COFINS - Remessa de Industrialização -->
   <record id="tax_cofins_definition_remessa_industrializacao" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
@@ -103,50 +103,50 @@
   </record>
 
   <!-- ICMS - Entrada de Industrialização -->
-  <record id="tax_icms_definition_entrada_remessa_industrializacao" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_icms_definition_entrada_industrializacao" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
     <field name="custom_tax" eval="True"/>
     <field name="tax_id" ref="l10n_br_fiscal.tax_icms_suspensao"/>
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms"/>
     <field name="cst_id" ref="l10n_br_fiscal.cst_icms_50"/>
-    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_remessa_industrializacao_remessa_industrializacao"/>
+    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_entrada_industrializacao_entrada_industrializacao"/>
     <field name="state">approved</field>
   </record>
 
   <!-- IPI - Entrada de Industrialização -->
-  <record id="tax_ipi_definition_entrada_remessa_industrializacao" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_ipi_definition_entrada_industrializacao" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
     <field name="custom_tax" eval="True"/>
     <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_suspensao"/>
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi"/>
     <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_55"/>
-    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_remessa_industrializacao_remessa_industrializacao"/>
+    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_entrada_industrializacao_entrada_industrializacao"/>
     <field name="state">approved</field>
   </record>
 
   <!-- PIS - Entrada de Industrialização -->
-  <record id="tax_pis_definition_entrada_remessa_industrializacao" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_pis_definition_entrada_industrializacao" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
     <field name="custom_tax" eval="True"/>
     <field name="tax_id" ref="l10n_br_fiscal.tax_pis_seminc"/>
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis"/>
     <field name="cst_id" ref="l10n_br_fiscal.cst_pis_08"/>
-    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_remessa_industrializacao_remessa_industrializacao"/>
+    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_entrada_industrializacao_entrada_industrializacao"/>
     <field name="state">approved</field>
   </record>
 
   <!-- COFINS - Entrada de Industrialização -->
-  <record id="tax_cofins_definition_entrada_remessa_industrializacao" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_cofins_definition_entrada_industrializacao" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
     <field name="custom_tax" eval="True"/>
     <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_seminc"/>
     <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins"/>
     <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_08"/>
-    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_remessa_industrializacao_remessa_industrializacao"/>
+    <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_entrada_industrializacao_entrada_industrializacao"/>
     <field name="state">approved</field>
   </record>
 
@@ -199,7 +199,7 @@
   </record>
 
   <!-- ICMS - Entrada para Reparo -->
-  <record id="tax_icms_definition_entrada_retorno_reparo" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_icms_definition_entrada_reparo" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="True"/>
     <field name="is_debit_credit" eval="True"/>
     <field name="custom_tax" eval="True"/>
@@ -211,7 +211,7 @@
   </record>
 
   <!-- IPI - Entrada para Reparo -->
-  <record id="tax_ipi_definition_entrada_retorno_reparo" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_ipi_definition_entrada_reparo" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
     <field name="custom_tax" eval="True"/>
@@ -223,7 +223,7 @@
   </record>
 
     <!-- PIS - Entrada para Reparo -->
-  <record id="tax_pis_definition_entrada_retorno_reparo" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_pis_definition_entrada_reparo" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
     <field name="custom_tax" eval="True"/>
@@ -235,7 +235,7 @@
   </record>
 
   <!-- COFINS - Entrada para Reparo -->
-  <record id="tax_cofins_definition_entrada_retorno_reparo" model="l10n_br_fiscal.tax.definition">
+  <record id="tax_cofins_definition_entrada_reparo" model="l10n_br_fiscal.tax.definition">
     <field name="is_taxed" eval="False"/>
     <field name="is_debit_credit" eval="True"/>
     <field name="custom_tax" eval="True"/>
