@@ -71,16 +71,16 @@ class L10nBrPurchaseBaseTest(SavepointCase):
                 'tax': self.env.ref('l10n_br_fiscal.tax_issqn_5'),
             },
             'ipi': {
-                'tax': self.env.ref('l10n_br_fiscal.tax_ipi_simples_nacional'),
+                'tax': self.env.ref('l10n_br_fiscal.tax_ipi_outros'),
                 'cst': self.env.ref('l10n_br_fiscal.cst_ipi_49'),
             },
             'pis': {
-                'tax': self.env.ref('l10n_br_fiscal.tax_pis_simples_nacional'),
+                'tax': self.env.ref('l10n_br_fiscal.tax_pis_outros'),
                 'cst': self.env.ref('l10n_br_fiscal.cst_pis_98'),
             },
             'cofins': {
                 'tax': self.env.ref(
-                    'l10n_br_fiscal.tax_cofins_simples_nacional'),
+                    'l10n_br_fiscal.tax_cofins_outros'),
                 'cst': self.env.ref('l10n_br_fiscal.cst_cofins_98'),
             },
             'icmsfcp': {
