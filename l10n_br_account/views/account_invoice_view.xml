@@ -90,6 +90,9 @@
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <field name="amount_untaxed" position="after">
+                <field string="(-) Discount" name="amount_discount_value"/>
+            </field>
             <field name="amount_tax" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding"/>
             </field>
@@ -152,6 +155,9 @@
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <field name="amount_untaxed" position="after">
+                <field string="(-) Discount" name="amount_discount_value"/>
+            </field>
             <field name="amount_tax" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding"/>
             </field>
