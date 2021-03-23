@@ -269,4 +269,4 @@
 "tax_pis_cofins_columativo","000","Regime de Incidência Cumulativa PIS 0,65% e Cofins 3,00%",,,,"company","tax_pis_0_65",,"tax_cofins_3",
 "tax_pis_cofins_nao_columativo","000","Regime de Incidência Não Cumulativa PIS 1,65% e Cofins 7,60%",,,,"company","tax_pis_1_65",,"tax_cofins_7_6",
 "tax_pis_cofins_diferenciado","000","Regime de Incidência Diferenciada",,,,"company","tax_pis_0",,"tax_cofins_0",
-"tax_pis_cofins_simples_nacional","000","Simples Nacional",,,,"company","tax_pis_simples_nacional",,"tax_cofins_simples_nacional",
+"tax_pis_cofins_simples_nacional","000","Simples Nacional",,,,"company","tax_pis_outros",,"tax_cofins_outros",
