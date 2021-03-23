@@ -90,18 +90,11 @@ msgid "Invalid Journal! There is not journal defined for this company: %s in fis
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_picking__invoice_state
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__invoice_state
 msgid "Invoice Status"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: selection:stock.picking,invoice_state:0
-msgid "Invoiced"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: model:ir.model.fields,help:l10n_br_stock_account.field_stock_picking__invoice_state
 #: model:ir.model.fields,help:l10n_br_stock_account.field_stock_rule__invoice_state
 msgid "Invoiced: an invoice already exists\n"
 "To Be Invoiced: need to be invoiced\n"
@@ -120,7 +113,6 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: code:addons/l10n_br_stock_account/models/stock_rule.py:31
-#: selection:stock.picking,invoice_state:0
 #: selection:stock.rule,invoice_state:0
 #, python-format
 msgid "Not Applicable"
@@ -225,7 +217,6 @@ msgstr ""
 
 #. module: l10n_br_stock_account
 #: code:addons/l10n_br_stock_account/models/stock_rule.py:30
-#: selection:stock.picking,invoice_state:0
 #: selection:stock.rule,invoice_state:0
 #, python-format
 msgid "To Be Invoiced"
