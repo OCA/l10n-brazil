@@ -526,7 +526,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # IPI
             self.assertEquals(
-                line.ipi_tax_id.name, 'IPI Simples Nacional',
+                line.ipi_tax_id.name, 'IPI Outros',
                 "Error to mapping IPI Simples Nacional"
                 " for Venda de Simples Nacional Fora do Estado.")
             self.assertEquals(
@@ -536,7 +536,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # PIS
             self.assertEquals(
-                line.pis_tax_id.name, 'PIS Simples Nacional',
+                line.pis_tax_id.name, 'PIS Outros',
                 "Error to mapping PIS Simples Nacional"
                 " for Venda de Simples Nacional Dentro do Estado.")
             self.assertEquals(
@@ -547,7 +547,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # COFINS
             self.assertEquals(
-                line.cofins_tax_id.name, 'COFINS Simples Nacional',
+                line.cofins_tax_id.name, 'COFINS Outros',
                 "Error to mapping COFINS Simples Nacional"
                 " for Venda de Simples Nacional Dentro do Estado.")
             self.assertEquals(
@@ -599,7 +599,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # IPI
             self.assertEquals(
-                line.ipi_tax_id.name, 'IPI Simples Nacional',
+                line.ipi_tax_id.name, 'IPI Outros',
                 "Error to mapping IPI Simples Nacional"
                 " for Venda de Simples Nacional Fora do Estado.")
             self.assertEquals(
@@ -609,7 +609,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # PIS
             self.assertEquals(
-                line.pis_tax_id.name, 'PIS Simples Nacional',
+                line.pis_tax_id.name, 'PIS Outros',
                 "Erro ao mapear PIS Simples Nacional"
                 " para Venda de Simples Nacional Fora do Estado.")
             self.assertEquals(
@@ -620,7 +620,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # COFINS
             self.assertEquals(
-                line.cofins_tax_id.name, 'COFINS Simples Nacional',
+                line.cofins_tax_id.name, 'COFINS Outros',
                 "Error to mapping COFINS Simples Nacional"
                 " for Venda de Simples Nacional Dentro do Estado.")
             self.assertEquals(
@@ -745,7 +745,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # IPI
             self.assertEquals(
-                line.ipi_tax_id.name, 'IPI Simples Nacional',
+                line.ipi_tax_id.name, 'IPI Outros',
                 "Error to mapping IPI Simples Nacional"
                 " for Venda de Simples Nacional Fora do Estado.")
             self.assertEquals(
@@ -755,7 +755,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # PIS
             self.assertEquals(
-                line.pis_tax_id.name, 'PIS Simples Nacional',
+                line.pis_tax_id.name, 'PIS Outros',
                 "Erro ao mapear PIS Simples Nacional"
                 " para Venda de Simples Nacional Fora do Estado.")
             self.assertEquals(
@@ -766,7 +766,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
             # COFINS
             self.assertEquals(
-                line.cofins_tax_id.name, 'COFINS Simples Nacional',
+                line.cofins_tax_id.name, 'COFINS Outros',
                 "Error to mapping COFINS Simples Nacional"
                 " for Venda de Simples Nacional Dentro do Estado.")
             self.assertEquals(
