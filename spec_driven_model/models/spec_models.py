@@ -25,7 +25,6 @@ class SpecModel(models.AbstractModel):
     _register = False           # not visible in ORM registry
     _abstract = False
     _transient = False
-    _spec_module_classes = None  # a cache storing spec classes
 
     # TODO generic onchange method that check spec field simple type formats
     # xsd_required, according to the considered object context
@@ -77,7 +76,6 @@ class SpecModel(models.AbstractModel):
                         pool[parent]._inherit = super_parents + ['spec.mixin']
                         pool[parent].__bases__ = ((pool['spec.mixin'],)
                                                   + pool[parent].__bases__)
-
         return super(SpecModel, cls)._build_model(pool, cr)
 
     @api.model
@@ -154,11 +152,21 @@ class SpecModel(models.AbstractModel):
         return models.MetaModel.mixin_mappings.get(key)
 
     @classmethod
+    def spec_module_classes(cls, spec_module):
+        """
+        Cache the list of spec_module classes to save calls to
+        slow reflection API.
+        """
+        spec_module_attr = "_spec_cache_%s" % (spec_module.replace('.', '_'),)
+        if not hasattr(cls, spec_module_attr):
+            setattr(
+                cls, spec_module_attr, getmembers(sys.modules[spec_module], isclass)
+            )
+        return getattr(cls, spec_module_attr)
+
+    @classmethod
     def _odoo_name_to_class(cls, odoo_name, spec_module):
-        if cls._spec_module_classes is None:  # caching to make it fast
-            cls._spec_module_classes = getmembers(
-                sys.modules[spec_module], isclass)
-        for name, base_class in cls._spec_module_classes:
+        for name, base_class in cls.spec_module_classes(spec_module):
             if base_class._name == odoo_name:
                 return base_class
         return None
