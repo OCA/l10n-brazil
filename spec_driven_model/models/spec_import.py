@@ -82,11 +82,11 @@ class AbstractSpecMixin(models.AbstractModel):
             return False
         key = "%s%s" % (self._field_prefix, attr.get_name(),)
         child_path = '%s.%s' % (path, key)
-
-        if attr.get_child_attrs().get('type') is None\
-                or attr.get_child_attrs().get('type') in ('xs:string',
-                                                          'xs:base64Binary'):
+        binding_type = attr.get_child_attrs().get('type')
+        if binding_type is None or binding_type.startswith('xs:')\
+                or binding_type.startswith('xsd:'):
             # SimpleType
+
             if fields.get(key) and fields[key].type == 'datetime':
                 if 'T' in value:
                     if tz_datetime.match(value):
