@@ -180,6 +180,14 @@ class TestSaleStock(SavepointCase):
         self.assertEquals(
             invoice.state, 'open', 'Invoice should be in state Open')
 
+        # Validar Atualização da Quantidade Faturada
+        for line in sale_order_2.order_line:
+            # Apenas a linha de Produto tem a qtd faturada dobrada
+            if line.product_id.type == 'product':
+                # A quantidade Faturada deve ser igual
+                # a Quantidade do Produto
+                self.assertEqual(line.product_uom_qty, line.qty_invoiced)
+
         # Teste de Retorno
         self.return_wizard = self.stock_return_picking.with_context(
             dict(active_id=picking.id)).create(
@@ -233,10 +241,9 @@ class TestSaleStock(SavepointCase):
         for line in sale_order_2.order_line:
             # Apenas a linha de Produto tem a qtd faturada dobrada
             if line.product_id.type == 'product':
-                # A quantidade Faturada deve ser duas vezes
-                # a quantidade do Produto já que foram criadas
-                # duas Faturas a de Envio e a de Devolução
-                self.assertEqual((2 * line.product_uom_qty), line.qty_invoiced)
+                # A quantidade Faturada deve ser zero
+                # devido a Devolução
+                self.assertEqual(0.0, line.qty_invoiced)
 
     def test_picking_invoicing_partner_shipping_invoiced(self):
         """
