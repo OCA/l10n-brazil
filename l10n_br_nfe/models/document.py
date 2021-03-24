@@ -44,10 +44,12 @@ _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfe(record):
-    if (record.processador_edoc == PROCESSADOR_OCA
-        and record.document_type_id.code in [
-            MODELO_FISCAL_NFE,
-            MODELO_FISCAL_NFCE, ]):
+    if config['test_enable'] and not record.company_id.certificate_nfe_id:
+        return False
+    elif (record.processador_edoc == PROCESSADOR_OCA
+          and record.document_type_id.code in [
+              MODELO_FISCAL_NFE,
+              MODELO_FISCAL_NFCE, ]):
         return True
     return False
 
@@ -536,11 +538,7 @@ class NFe(spec_models.StackedModel):
             record.date_in_out = fields.Datetime.now()
         super(NFe, self).action_document_confirm()
 
-        if config['test_enable'] and not self.company_id.certificate_nfe_id:
-            # No certificate would later raise an exception in _processador()
-            # But we don't want that at invoice confirmation during tests.
-            return
-        for record in self:
+        for record in self.filtered(filter_processador_edoc_nfe):
             processador = record._processador()
             record.autorizacao_event_id = record._gerar_evento(
                 processador._generateds_to_string_etree(
