@@ -619,7 +619,7 @@ class NFe(spec_models.StackedModel):
                 field_data.nItem = i
         return res
 
-    def _build_attr(self, node, fields, vals, path, attr, create_m2o):
+    def _build_attr(self, node, fields, vals, path, attr):
         key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
         value = getattr(node, attr.get_name())
 
@@ -629,21 +629,18 @@ class NFe(spec_models.StackedModel):
                 self.env['l10n_br_fiscal.document.type'].search([
                     ('code', '=', value)], limit=1).id
 
-        return super(NFe, self)._build_attr(
-            node, fields, vals, path, attr, create_m2o)
+        return super(NFe, self)._build_attr(node, fields, vals, path, attr)
 
-    def _build_many2one(self, comodel, vals, new_value, key, create_m2o,
-                        value, path):
+    def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == 'nfe40_emit' and self.env.context.get('edoc_type') == 'in':
             enderEmit_value = (self.env['res.partner'].build_attrs(value.enderEmit,
-                               create_m2o=create_m2o,
                                path=path))
             new_value.update(enderEmit_value)
             new_value['is_company'] = True
             new_value['cnpj_cpf'] = new_value.get('nfe40_CNPJ')
             super()._build_many2one(self.env['res.partner'],
                                     vals, new_value,
-                                    'partner_id', create_m2o, value, path)
+                                    'partner_id', value, path)
         elif self.env.context.get('edoc_type') == 'in'\
                 and key in ['nfe40_dest', 'nfe40_enderDest']:
             # this would be the emit/company data, but we won't update it on
@@ -656,7 +653,7 @@ class NFe(spec_models.StackedModel):
             vals.update(new_value)
         else:
             super(NFe, self)._build_many2one(comodel, vals, new_value,
-                                             key, create_m2o, value, path)
+                                             key, value, path)
 
     def gera_pdf(self):
         file_pdf = self.file_pdf_id
