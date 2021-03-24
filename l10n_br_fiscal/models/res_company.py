@@ -486,10 +486,8 @@ class ResCompany(models.Model):
         else:
             self._del_tax_definition(TAX_DOMAIN_INSS_WH)
 
-    def _create_fake_certificate(
-            self, cert_type=CERTIFICATE_TYPE_NFE, valid=True,
-            passwd='123456', issuer="EMISSOR A TESTE",
-            country='BR', subject="CERTIFICADO VALIDO TESTE"):
+    def _create_fake_certificate_file(
+            self, valid, passwd, issuer, country, subject):
         """Creating a fake certificate"""
         self.ensure_one()
         key = crypto.PKey()
@@ -521,13 +519,21 @@ class ResCompany(models.Model):
         p12.set_privatekey(key)
         p12.set_certificate(cert)
 
-        self.env["l10n_br_fiscal.certificate"]
+        return b64encode(p12.export(passwd))
+
+    def _create_fake_certificate(
+            self, valid=True,
+            passwd='123456', issuer="EMISSOR A TESTE",
+            country='BR', subject="CERTIFICADO VALIDO TESTE",
+            cert_type=CERTIFICATE_TYPE_NFE):
         cert_id = self.env["l10n_br_fiscal.certificate"].create(
             {
                 'type': cert_type,
                 'subtype': 'a1',
                 'password': passwd,
-                'file': b64encode(p12.export(passwd)),
+                'file': self._create_fake_certificate_file(
+                    valid, passwd, issuer, country, subject
+                ),
                 'is_fake': True,
             }
         )
