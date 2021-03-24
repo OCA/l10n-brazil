@@ -10,8 +10,7 @@ class ResCity(models.Model):
 
     # TODO understand why this is still required
     @api.model
-    def match_or_create_m2o(self, rec_dict, parent_dict,
-                            create_m2o=False, model=None):
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
         "if city not found, break hard, don't create it"
         if parent_dict.get('nfe40_cMun') or parent_dict.get('nfe40_cMunFG'):
             ibge_code = parent_dict.get('nfe40_cMun',
