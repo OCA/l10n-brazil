@@ -323,8 +323,8 @@ class NFeLine(spec_models.StackedModel):
                     line.uom_id = uom_ids[0]
 
     @api.model
-    def _prepare_import_dict(self, values, create_m2o=True):
-        values = super()._prepare_import_dict(values, create_m2o)
+    def _prepare_import_dict(self, values, model=None):
+        values = super()._prepare_import_dict(values, model)
         if not values.get('name'):
             values['name'] = values.get('nfe40_xProd')
             if values.get('product_id'):
@@ -558,7 +558,7 @@ class NFeLine(spec_models.StackedModel):
         return super()._export_float_monetary(
             field_name, member_spec, class_obj, xsd_required)
 
-    def _build_attr(self, node, fields, vals, path, attr, create_m2o):
+    def _build_attr(self, node, fields, vals, path, attr):
         key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
         value = getattr(node, attr.get_name())
 
@@ -601,7 +601,7 @@ class NFeLine(spec_models.StackedModel):
                 'l10n_br_fiscal.tax.ipi.guideline'].search([
                     ('code_unmasked', '=', value)], limit=1).id
 
-        return super()._build_attr(node, fields, vals, path, attr, create_m2o)
+        return super()._build_attr(node, fields, vals, path, attr)
 
     def _build_string_not_simple_type(self, key, vals, value, node):
         if key not in ['nfe40_CST', 'nfe40_modBC', 'nfe40_CSOSN',
@@ -642,8 +642,7 @@ class NFeLine(spec_models.StackedModel):
             elif node.original_tagname_.startswith('COFINS'):
                 vals['cofins_base'] = value
 
-    def _build_many2one(self, comodel, vals, new_value, key, create_m2o,
-                        value, path):
+    def _build_many2one(self, comodel, vals, new_value, key, value, path):
         ICMS_TAGS = ['ICMS00', 'ICMS10', 'ICMS20', 'ICMS30', 'ICMS40',
                      'ICMS51', 'ICMS60', 'ICMS70', 'ICMS90',
                      'ICMSPart', 'ICMSST',
@@ -756,8 +755,7 @@ class NFeLine(spec_models.StackedModel):
             # stacked m2o
             vals.update(new_value)
         else:
-            super()._build_many2one(comodel, vals, new_value, key, create_m2o,
-                                    value, path)
+            super()._build_many2one(comodel, vals, new_value, key, value, path)
 
     def _verify_related_many2ones(self, related_many2ones):
         if related_many2ones.get('product_id', {}).get('barcode') and \
