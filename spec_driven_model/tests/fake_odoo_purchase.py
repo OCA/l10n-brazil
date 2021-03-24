@@ -31,16 +31,18 @@ class PurchaseOrder(models.Model):
     currency_id = fields.Many2one(
         'res.currency', 'Currency', required=True,
         default=lambda self: self.env.ref('base.EUR').id)
-    state = fields.Selection([
-        ('draft', 'RFQ'),
-        ('sent', 'RFQ Sent'),
-        ('to approve', 'To Approve'),
-        ('purchase', 'Purchase Order'),
-        ('done', 'Locked'),
-        ('cancel', 'Cancelled')
-         ],
-         string='Status', readonly=True, index=True,
-         copy=False, default='draft', track_visibility='onchange')
+    state = fields.Selection(
+        [
+            ('draft', 'RFQ'),
+            ('sent', 'RFQ Sent'),
+            ('to approve', 'To Approve'),
+            ('purchase', 'Purchase Order'),
+            ('done', 'Locked'),
+            ('cancel', 'Cancelled')
+        ],
+        string='Status', readonly=True, index=True,
+        copy=False, default='draft', track_visibility='onchange'
+    )
 
     order_line = fields.One2many(
         'fake.purchase.order.line', 'order_id', string='Order Lines')
