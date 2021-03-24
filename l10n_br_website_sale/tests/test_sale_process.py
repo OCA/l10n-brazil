@@ -8,12 +8,11 @@ class TestUi(odoo.tests.HttpCase):
             "odoo.__DEBUG__.services['web_tour.tour']",
             "l10n_br_website_sale_tour",
             )
-        self.phantom_js(
+        self.browser_js(
             url_path="/shop",
             code="%s.run('%s')" % tour,
             ready="%s.tours.%s.ready" % tour,
-            login="admin",
-            timeout=5000
+            login="admin"
             )
         # check result
         record = self.env.ref('base.partner_admin')
