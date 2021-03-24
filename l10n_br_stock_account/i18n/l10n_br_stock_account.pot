@@ -102,16 +102,6 @@ msgid "Invoiced: an invoice already exists\n"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_return_picking__invoice_state
-msgid "Invoicing"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: selection:stock.return.picking,invoice_state:0
-msgid "No invoicing"
-msgstr ""
-
-#. module: l10n_br_stock_account
 #: code:addons/l10n_br_stock_account/models/stock_rule.py:31
 #: selection:stock.rule,invoice_state:0
 #, python-format
@@ -205,7 +195,7 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:40
+#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:32
 #, python-format
 msgid "This Fiscal Operation does not has Fiscal Operation for Returns!"
 msgstr ""
@@ -220,11 +210,6 @@ msgstr ""
 #: selection:stock.rule,invoice_state:0
 #, python-format
 msgid "To Be Invoiced"
-msgstr ""
-
-#. module: l10n_br_stock_account
-#: selection:stock.return.picking,invoice_state:0
-msgid "To be refunded/invoiced"
 msgstr ""
 
 #. module: l10n_br_stock_account
