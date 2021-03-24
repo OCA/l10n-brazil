@@ -15,6 +15,7 @@ import logging
 
 from odoo.tests.common import TransactionCase
 from odoo.addons import l10n_br_nfe
+from odoo.addons.l10n_br_fiscal.constants.fiscal import PROCESSADOR_OCA
 from odoo.addons.spec_driven_model import hooks
 
 _logger = logging.getLogger(__name__)
@@ -30,9 +31,9 @@ class TestNFeExport(TransactionCase):
             {'document_type_id': self.env.ref('l10n_br_fiscal.document_55').id,
              'company_id': self.env.ref('l10n_br_base.empresa_lucro_presumido').id,
              'company_number': 3,
-             'processador_edoc': 'erpbrasil_edoc',
+             'processador_edoc': PROCESSADOR_OCA,
              })
-        self.nfe.company_id.processador_edoc = 'erpbrasil_edoc'
+        self.nfe.company_id.processador_edoc = PROCESSADOR_OCA
         if self.nfe.state != 'em_digitacao':  # 2nd test run
             self.nfe.action_document_back2draft()
 
