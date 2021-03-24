@@ -39,7 +39,7 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
         cls.loader.update_registry((PoXsdMixin, Item, Items, USAddress, PurchaseOrder))
 
         # inject the mixins into existing Odoo models
-        from .spec_purchase import (
+        from .spec_purchase import (  # NOQA
             ResPartner,
             PurchaseOrderLine,
             PurchaseOrder,
