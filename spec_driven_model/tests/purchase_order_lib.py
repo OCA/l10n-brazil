@@ -107,7 +107,7 @@ class USAddress(object):
         street=None,
         city=None,
         state=None,
-        zip=None,
+        zip=None,  # NOQA
         gds_collector_=None,
         **kwargs_
     ):
@@ -200,7 +200,7 @@ class PurchaseOrderType(object):
         self.items_nsprefix_ = None
 
 
-class itemType(object):
+class itemType(object):  # NOQA
     member_data_items_ = [
         MemberSpec_("partNum", "tns:SKU", 0, 1, {"use": "optional"}),
         MemberSpec_(
