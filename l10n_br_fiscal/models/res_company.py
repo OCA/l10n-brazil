@@ -3,8 +3,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
-from base64 import b64encode
-from OpenSSL import crypto
 
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
@@ -39,6 +37,7 @@ from ..constants.fiscal import (
     CERTIFICATE_TYPE_NFE,
     CERTIFICATE_TYPE_ECNPJ,
 )
+from ..tools import misc
 
 _logger = logging.getLogger(__name__)
 
@@ -486,41 +485,6 @@ class ResCompany(models.Model):
         else:
             self._del_tax_definition(TAX_DOMAIN_INSS_WH)
 
-    def _create_fake_certificate_file(
-            self, valid, passwd, issuer, country, subject):
-        """Creating a fake certificate"""
-        self.ensure_one()
-        key = crypto.PKey()
-        key.generate_key(crypto.TYPE_RSA, 2048)
-
-        cert = crypto.X509()
-
-        cert.get_issuer().C = country
-        cert.get_issuer().CN = issuer
-
-        cert.get_subject().C = country
-        cert.get_subject().CN = subject
-
-        cert.set_serial_number(2009)
-
-        if valid:
-            time_before = 0
-            time_after = 365 * 24 * 60 * 60
-        else:
-            time_before = -1 * (365 * 24 * 60 * 60)
-            time_after = 0
-
-        cert.gmtime_adj_notBefore(time_before)
-        cert.gmtime_adj_notAfter(time_after)
-        cert.set_pubkey(key)
-        cert.sign(key, 'md5')
-
-        p12 = crypto.PKCS12()
-        p12.set_privatekey(key)
-        p12.set_certificate(cert)
-
-        return b64encode(p12.export(passwd))
-
     def _create_fake_certificate(
             self, valid=True,
             passwd='123456', issuer="EMISSOR A TESTE",
@@ -531,7 +495,7 @@ class ResCompany(models.Model):
                 'type': cert_type,
                 'subtype': 'a1',
                 'password': passwd,
-                'file': self._create_fake_certificate_file(
+                'file': misc.create_fake_certificate_file(
                     valid, passwd, issuer, country, subject
                 ),
                 'is_fake': True,
