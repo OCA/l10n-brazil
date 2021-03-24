@@ -193,4 +193,13 @@
         <field name="state">draft</field>
     </record>
 
+    <function model="res.company" name="button_create_fake_certificate_nfe">
+        <value eval="[ref('base.main_company'), ref('l10n_br_base.empresa_simples_nacional'), ref('l10n_br_base.empresa_lucro_presumido')]"/>
+    </function>
+
+    <function model="res.company" name="button_create_fake_certificate_ecnpj">
+        <value eval="[ref('base.main_company'), ref('l10n_br_base.empresa_simples_nacional'), ref('l10n_br_base.empresa_lucro_presumido')]"/>
+    </function>
+
+
 </odoo>
