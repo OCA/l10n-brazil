@@ -39,6 +39,11 @@ odoo.define('l10n_br_website_sale.tour', function (require) {
                 timeout: 10000,
             },
             {
+                content: "Complete zip",
+                trigger: "input[name='zip']",
+                run: "text 12246250",
+            },
+            {
                 content: "Complete name",
                 trigger: "input[name='name']",
                 run: "text Paradeda",
@@ -47,11 +52,6 @@ odoo.define('l10n_br_website_sale.tour', function (require) {
                 content: "Complete phone",
                 trigger: "input[name='phone']",
                 run: "text 12981901669",
-            },
-            {
-                content: "Complete zip",
-                trigger: "input[name='zip']",
-                run: "text 12246250",
             },
             {
                 content: "check state is São Paulo",
