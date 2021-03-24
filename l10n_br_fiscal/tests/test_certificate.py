@@ -7,6 +7,7 @@ from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests import common
 from odoo.tools.misc import format_date
+from odoo.addons.l10n_br_fiscal.tools import misc
 
 
 class TestCertificate(common.TransactionCase):
@@ -32,10 +33,10 @@ class TestCertificate(common.TransactionCase):
             format_date(self.env, self.cert_date_exp),
         )
 
-        self.certificate_valid = self.company._create_fake_certificate_file(
+        self.certificate_valid = misc.create_fake_certificate_file(
             valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
             country=self.cert_country, subject=self.cert_subject_valid)
-        self.certificate_invalid = self.company._create_fake_certificate_file(
+        self.certificate_invalid = misc.create_fake_certificate_file(
             valid=False, passwd=self.cert_passwd, issuer=self.cert_issuer_b,
             country=self.cert_country, subject=self.cert_subject_invalid)
 
