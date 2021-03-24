@@ -30,7 +30,6 @@
 
         # Wizards
         'wizards/stock_invoice_onshipping_view.xml',
-        'wizards/stock_return_picking_view.xml',
     ],
     'demo': [
         # Demo
