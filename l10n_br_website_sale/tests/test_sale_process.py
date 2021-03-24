@@ -1,8 +1,7 @@
-import odoo.tests
+from odoo.tests.common import HttpCase
 
 
-@odoo.tests.tagged('post_install', '-at_install')
-class TestUi(odoo.tests.HttpCase):
+class TestUi(HttpCase):
     def test_01_l10n_br_website_sale_tour(self):
         tour = (
             "odoo.__DEBUG__.services['web_tour.tour']",
