@@ -22,9 +22,8 @@ from odoo import models, api, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
+    PROCESSADOR_OCA
 )
-
-from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
 
 from ..constants.ginfes import (
     RECEPCIONAR_LOTE_RPS,
@@ -33,7 +32,7 @@ from ..constants.ginfes import (
 
 
 def fiter_processador_edoc_nfse_ginfes(record):
-    if (record.processador_edoc == PROCESSADOR and
+    if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
             ]):
