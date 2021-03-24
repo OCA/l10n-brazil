@@ -12,7 +12,8 @@ class TestUi(odoo.tests.HttpCase):
             url_path="/shop",
             code="%s.run('%s')" % tour,
             ready="%s.tours.%s.ready" % tour,
-            login="admin"
+            login="admin",
+            timeout=20000
             )
         # check result
         record = self.env.ref('base.partner_admin')
