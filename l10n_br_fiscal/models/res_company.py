@@ -2,6 +2,10 @@
 # Copyright (C) 2020  Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+from base64 import b64encode
+from OpenSSL import crypto
+
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 
@@ -32,7 +36,11 @@ from ..constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES,
     TAX_FRAMEWORK_SIMPLES_ALL,
     COEFFICIENT_R,
+    CERTIFICATE_TYPE_NFE,
+    CERTIFICATE_TYPE_ECNPJ,
 )
+
+_logger = logging.getLogger(__name__)
 
 
 class ResCompany(models.Model):
@@ -477,3 +485,61 @@ class ResCompany(models.Model):
             self._set_tax_definition(self.tax_inss_wh_id)
         else:
             self._del_tax_definition(TAX_DOMAIN_INSS_WH)
+
+    def _create_fake_certificate(
+            self, cert_type=CERTIFICATE_TYPE_NFE, valid=True,
+            passwd='123456', issuer="EMISSOR A TESTE",
+            country='BR', subject="CERTIFICADO VALIDO TESTE"):
+        """Creating a fake certificate"""
+        self.ensure_one()
+        key = crypto.PKey()
+        key.generate_key(crypto.TYPE_RSA, 2048)
+
+        cert = crypto.X509()
+
+        cert.get_issuer().C = country
+        cert.get_issuer().CN = issuer
+
+        cert.get_subject().C = country
+        cert.get_subject().CN = subject
+
+        cert.set_serial_number(2009)
+
+        if valid:
+            time_before = 0
+            time_after = 365 * 24 * 60 * 60
+        else:
+            time_before = -1 * (365 * 24 * 60 * 60)
+            time_after = 0
+
+        cert.gmtime_adj_notBefore(time_before)
+        cert.gmtime_adj_notAfter(time_after)
+        cert.set_pubkey(key)
+        cert.sign(key, 'md5')
+
+        p12 = crypto.PKCS12()
+        p12.set_privatekey(key)
+        p12.set_certificate(cert)
+
+        self.env["l10n_br_fiscal.certificate"]
+        cert_id = self.env["l10n_br_fiscal.certificate"].create(
+            {
+                'type': cert_type,
+                'subtype': 'a1',
+                'password': passwd,
+                'file': b64encode(p12.export(passwd)),
+                'is_fake': True,
+            }
+        )
+        _logger.info("action_create_fake_certificate")
+        return cert_id
+
+    def button_create_fake_certificate_nfe(self):
+        for record in self:
+            record.certificate_nfe_id = record._create_fake_certificate()
+
+    def button_create_fake_certificate_ecnpj(self):
+        for record in self:
+            record.certificate_ecnpj_id = record._create_fake_certificate(
+                cert_type=CERTIFICATE_TYPE_ECNPJ
+            )
