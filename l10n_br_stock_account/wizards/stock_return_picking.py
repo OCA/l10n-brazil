@@ -1,20 +1,12 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
 
 class StockReturnPicking(models.TransientModel):
     _inherit = 'stock.return.picking'
-
-    invoice_state = fields.Selection(
-        selection=[
-            ('2binvoiced', 'To be refunded/invoiced'),
-            ('none', 'No invoicing')],
-        string='Invoicing',
-        required=True,
-    )
 
     @api.multi
     def _create_returns(self):
@@ -42,13 +34,8 @@ class StockReturnPicking(models.TransientModel):
                 )
 
             picking = picking_obj.browse(new_picking_id)
+            picking.fiscal_operation_id = refund_fiscal_operation.id
 
-            values = {
-                'fiscal_operation_id': refund_fiscal_operation.id,
-                'invoice_state': '2binvoiced',
-            }
-
-            picking.write(values)
             for move in picking.move_lines:
                 fiscal_operation = (
                     move.origin_returned_move_id.
@@ -58,7 +45,6 @@ class StockReturnPicking(models.TransientModel):
                     fiscal_operation_line_id.line_refund_id)
 
                 line_values = {
-                    'invoice_state': self.invoice_state,
                     'fiscal_operation_id': fiscal_operation.id,
                     'fiscal_operation_line_id': fiscal_line_operation.id,
                 }
