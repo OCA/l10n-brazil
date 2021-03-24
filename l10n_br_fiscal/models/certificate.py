@@ -98,6 +98,11 @@ class Certificate(models.Model):
         string="Is Valid?",
         store=False)
 
+    is_fake = fields.Boolean(
+        readonly=True,
+        default=False,
+    )
+
     @api.model
     def _certificate_data(self, cert_file, cert_password):
         values = {}
