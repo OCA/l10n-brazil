@@ -14,3 +14,4 @@ lxml==4.6.3
 -e git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
 -e git://github.com/erpbrasil/febraban-python.git@v0.7.1#egg=febraban
 vcrpy
+odoo-test-helper
