@@ -23,7 +23,7 @@ class AbstractSpecMixin(models.AbstractModel):
     _inherit = 'spec.mixin'
 
     @api.model
-    def build(self, node, create=True):
+    def build(self, node, dry_run=False):
         """
         Builds an instance of an Odoo Model from a pre-populated
         Python binding object. Binding object such as the ones generated using
@@ -34,7 +34,7 @@ class AbstractSpecMixin(models.AbstractModel):
         sub-binding (or node) it sees what is the corresponding Odoo model to map.
 
         Build can persist the object or just return a new instance
-        depending on the create parameter.
+        depending on the dry_run parameter.
 
         Defaults values and control options are meant to be passed in the context.
         """
@@ -42,14 +42,14 @@ class AbstractSpecMixin(models.AbstractModel):
         # TODO ability to match existing record here
         model_name = SpecModel._get_concrete(self._name) or self._name
         model = self.env[model_name]
-        attrs = model.build_attrs(node, create_m2o=create)
-        if create:
-            return model.create(attrs)
-        else:
+        attrs = model.with_context(dry_run=dry_run).build_attrs(node)
+        if dry_run:
             return model.new(attrs)
+        else:
+            return model.create(attrs)
 
     @api.model
-    def build_attrs(self, node, create_m2o=False, path=''):
+    def build_attrs(self, node, path=''):
         """
         Builds a new odoo model instance from a Python binding element or
         sub-element. Iterates over the binding fields to populate the Odoo fields.
@@ -67,13 +67,13 @@ class AbstractSpecMixin(models.AbstractModel):
                               key=lambda a: a.get_container() in [0, 1],
                               reverse=True)
         for attr in sorted_attrs:
-            self._build_attr(node, fields, vals, path, attr, create_m2o)
+            self._build_attr(node, fields, vals, path, attr)
 
         vals = self._prepare_import_dict(vals)
         return vals
 
     @api.model
-    def _build_attr(self, node, fields, vals, path, attr, create_m2o):
+    def _build_attr(self, node, fields, vals, path, attr):
         """
         Builds an Odoo field from a binding attribute.
         """
@@ -120,20 +120,18 @@ class AbstractSpecMixin(models.AbstractModel):
             if attr.get_container() == 0:
                 # m2o
                 new_value = comodel.build_attrs(value,
-                                                create_m2o=create_m2o,
                                                 path=child_path)
                 child_defaults = self._extract_related_values(vals, key)
 
                 new_value.update(child_defaults)
                 # FIXME comodel._build_many2one
                 self._build_many2one(comodel, vals, new_value, key,
-                                     create_m2o, value, child_path)
+                                     value, child_path)
             elif attr.get_container() == 1:
                 # o2m
                 lines = []
                 for line in [l for l in value if l]:
                     line_vals = comodel.build_attrs(line,
-                                                    create_m2o=create_m2o,
                                                     path=child_path)
                     lines.append((0, 0, line_vals))
                 vals[key] = lines
@@ -143,14 +141,12 @@ class AbstractSpecMixin(models.AbstractModel):
         vals[key] = value
 
     @api.model
-    def _build_many2one(self, comodel, vals, new_value, key, create_m2o,
-                        value, path):
+    def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if comodel._name == self._name:
             # stacked m2o
             vals.update(new_value)
         else:
-            vals[key] = comodel.match_or_create_m2o(
-                new_value, vals, create_m2o)
+            vals[key] = comodel.match_or_create_m2o(new_value, vals)
 
     @api.model
     def get_concrete_model(self, comodel_name):
@@ -182,15 +178,17 @@ class AbstractSpecMixin(models.AbstractModel):
         return key_vals
 
     @api.model
-    def _prepare_import_dict(self, vals, create_m2o=True):
+    def _prepare_import_dict(self, vals, model=None):
         """
         Set non computed field values based on XML values if required.
         NOTE: this is debatable if we could use an api multi with values in
         self instead of the vals dict. Then that would be like when new()
         is used in account_invoice or sale_order before playing some onchanges
         """
+        if model is None:
+            model = self
         related_many2ones = {}
-        fields = self.fields_get()
+        fields = model.fields_get()
         for k, v in fields.items():
             # select schema choices for a friendly UI:
             if k.startswith('%schoice' % (self._field_prefix,)):
@@ -207,7 +205,7 @@ class AbstractSpecMixin(models.AbstractModel):
                     related_m2o = v['related'][0]
                     # don't mess with _inherits write system
                     if not any(related_m2o == i[1]
-                               for i in self._inherits.items()):
+                               for i in model._inherits.items()):
                         key_vals = related_many2ones.get(related_m2o, {})
                         key_vals[v['related'][1]] = vals.get(k)
                         related_many2ones[related_m2o] = key_vals
@@ -216,15 +214,14 @@ class AbstractSpecMixin(models.AbstractModel):
         # (example: create Nfe lines product)
         for related_m2o, sub_val in related_many2ones.items():
             comodel_name = fields[related_m2o]['relation']
-            comodel = self.get_concrete_model(comodel_name)
+            comodel = model.get_concrete_model(comodel_name)
             related_many2ones = \
-                self._verify_related_many2ones(related_many2ones)
+                model._verify_related_many2ones(related_many2ones)
             if hasattr(comodel, 'match_or_create_m2o'):
-                vals[related_m2o] = comodel.match_or_create_m2o(sub_val, vals,
-                                                                create_m2o)
+                vals[related_m2o] = comodel.match_or_create_m2o(sub_val, vals)
             else:  # search res.country with Brasil for instance
-                vals[related_m2o] = self.match_or_create_m2o(sub_val, vals,
-                                                             create_m2o, comodel)
+                vals[related_m2o] = model.match_or_create_m2o(sub_val, vals,
+                                                              comodel)
         return vals
 
     @api.model
@@ -269,8 +266,7 @@ class AbstractSpecMixin(models.AbstractModel):
         return keys
 
     @api.model
-    def match_or_create_m2o(self, rec_dict, parent_dict,
-                            create_m2o=False, model=None):
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
         """
         Often the parent_dict can be used to refine the search.
         Passing the model makes it possible to override without inheriting
@@ -284,13 +280,13 @@ class AbstractSpecMixin(models.AbstractModel):
         else:
             rec_id = self.match_record(rec_dict, parent_dict, model)
         if not rec_id:
-            if create_m2o:
-                rec_dict = self._prepare_import_dict(rec_dict)
-                create_dict = {k: v for k, v in rec_dict.items()
-                               if k in self._fields.keys()}
-                r = model.with_context(parent_dict=parent_dict).create(create_dict)
-                # _logger.info('r %s', r)
-                rec_id = r.id
-            else:  # do we use it?
-                rec_id = model.new(rec_dict).id
+            rec_dict = self._prepare_import_dict(rec_dict, model)
+            create_dict = {k: v for k, v in rec_dict.items()
+                           if k in self._fields.keys()}
+            if self._context.get('dry_run'):
+                rec_id = model.new(create_dict).id
+            else:
+                rec_id = model.with_context(
+                    parent_dict=parent_dict
+                ).create(create_dict).id
         return rec_id
