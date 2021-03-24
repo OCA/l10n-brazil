@@ -1,8 +1,6 @@
 # Copyright 2019 Akretion - Renato Lima <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from OpenSSL import crypto
-from base64 import b64encode
 from datetime import timedelta
 
 from odoo import fields
@@ -34,10 +32,10 @@ class TestCertificate(common.TransactionCase):
             format_date(self.env, self.cert_date_exp),
         )
 
-        self.certificate_valid = self._create_certificate(
+        self.certificate_valid = self.company._create_fake_certificate_file(
             valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
             country=self.cert_country, subject=self.cert_subject_valid)
-        self.certificate_invalid = self._create_certificate(
+        self.certificate_invalid = self.company._create_fake_certificate_file(
             valid=False, passwd=self.cert_passwd, issuer=self.cert_issuer_b,
             country=self.cert_country, subject=self.cert_subject_invalid)
 
@@ -61,41 +59,6 @@ class TestCertificate(common.TransactionCase):
                 "company_id": company.id,
             }
         )
-
-    def _create_certificate(self, valid=True, passwd=None, issuer=None,
-                            country=None, subject=None):
-        """Creating a fake certificate"""
-
-        key = crypto.PKey()
-        key.generate_key(crypto.TYPE_RSA, 2048)
-
-        cert = crypto.X509()
-
-        cert.get_issuer().C = country
-        cert.get_issuer().CN = issuer
-
-        cert.get_subject().C = country
-        cert.get_subject().CN = subject
-
-        cert.set_serial_number(2009)
-
-        if valid:
-            time_before = 0
-            time_after = 365 * 24 * 60 * 60
-        else:
-            time_before = -1 * (365 * 24 * 60 * 60)
-            time_after = 0
-
-        cert.gmtime_adj_notBefore(time_before)
-        cert.gmtime_adj_notAfter(time_after)
-        cert.set_pubkey(key)
-        cert.sign(key, 'md5')
-
-        p12 = crypto.PKCS12()
-        p12.set_privatekey(key)
-        p12.set_certificate(cert)
-
-        return b64encode(p12.export(passwd))
 
     def test_valid_certificate(self):
         """Create and check a valid certificate"""
