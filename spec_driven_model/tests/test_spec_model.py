@@ -47,7 +47,7 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
 
         cls.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder))
         # the binding lib should be loaded in sys.modules:
-        from . import purchase_order_lib
+        from . import purchase_order_lib  # NOQA
 
     @classmethod
     def tearDownClass(cls):
