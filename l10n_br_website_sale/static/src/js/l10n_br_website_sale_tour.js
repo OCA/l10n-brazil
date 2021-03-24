@@ -61,12 +61,12 @@ odoo.define('l10n_br_website_sale.tour', function (require) {
                         console.log('wait for zip');
                     }, 8000);
                 },
-                timeout: 5000,
+                timeout: 20000,
             },
             {
                 content: "check city is São José dos Campos",
                 trigger: 'select[name=city_id]:contains("São José dos Campos")',
-                timeout: 5000,
+                timeout: 20000,
             },
             {
                 content: "Complete number",
