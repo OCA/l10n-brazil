@@ -16,6 +16,9 @@
                 </div>
                 <field name="fiscal_price" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
             </field>
+            <field name="discount" position="replace">
+                <field name="discount_value"/>
+            </field>
             <field name="analytic_tag_ids" position="after">
                 <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}" domain="[('state', '=', 'approved')]"/>
                 <field name="fiscal_operation_line_id" attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}"/>
