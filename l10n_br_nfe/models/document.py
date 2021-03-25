@@ -251,6 +251,9 @@ class NFe(spec_models.StackedModel):
     nfe40_infCpl = fields.Char(
         compute='_compute_nfe40_additional_data',
     )
+    nfe40_transporta = fields.Many2one(
+        comodel_name='res.partner'
+    )
 
     nfe40_infRespTec = fields.Many2one(
         comodel_name='res.partner',
