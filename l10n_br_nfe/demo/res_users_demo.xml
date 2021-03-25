@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="l10n_br_base.user_demo_simples" model="res.users">
+        <field name="groups_id" eval="[(4, ref('l10n_br_nfe.group_manager'))]"/>
+    </record>
+
+    <record id="l10n_br_base.user_demo_presumido" model="res.users">
+        <field name="groups_id" eval="[(4, ref('l10n_br_nfe.group_manager'))]"/>
+    </record>
+
+</odoo>
