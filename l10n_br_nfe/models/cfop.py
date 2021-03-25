@@ -6,4 +6,4 @@ from odoo import models
 
 class Cfop(models.Model):
     _inherit = 'l10n_br_fiscal.cfop'
-    _nfe_search_keys = ['code']
+    _nfe_search_keys = ['code_unmasked']
