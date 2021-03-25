@@ -129,6 +129,14 @@ class AccountInvoice(models.Model):
             return {'default_%s' % (k,): vals[k] for k in vals.keys()}
         return vals
 
+    @api.multi
+    def _write_shadowed_fields(self):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        for invoice in self:
+            if invoice.fiscal_document_id != dummy_doc:
+                shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
+                invoice.fiscal_document_id.write(shadowed_fiscal_vals)
+
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
                         toolbar=False, submenu=False):
@@ -180,23 +188,17 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, values):
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         if not values.get('document_type_id'):
-            values.update({'fiscal_document_id': dummy_doc.id})
+            values.update({'fiscal_document_id':
+                self.env.ref('l10n_br_fiscal.fiscal_document_dummy').id})
         invoice = super().create(values)
-        if invoice.fiscal_document_id != dummy_doc:
-            shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
-            invoice.fiscal_document_id.write(shadowed_fiscal_vals)
+        invoice._write_shadowed_fields()
         return invoice
 
     @api.multi
     def write(self, values):
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         result = super().write(values)
-        for invoice in self:
-            if invoice.fiscal_document_id != dummy_doc:
-                shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
-                invoice.fiscal_document_id.write(shadowed_fiscal_vals)
+        self._write_shadowed_fields()
         return result
 
     @api.multi
