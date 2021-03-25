@@ -42,70 +42,7 @@ class TestNFeExport(TransactionCase):
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_operation_line_id()
 
-        self.cert_country = "BR"
-        self.cert_issuer_a = "EMISSOR A TESTE"
-        self.cert_issuer_b = "EMISSOR B TESTE"
-        self.cert_subject_valid = "CERTIFICADO VALIDO TESTE"
-        self.cert_date_exp = fields.Datetime.today() + timedelta(days=365)
-        self.cert_subject_invalid = "CERTIFICADO INVALIDO TESTE"
-        self.cert_passwd = "123456"
-        self.cert_name = "{} - {} - {} - Valid: {}".format(
-            "NF-E",
-            "A1",
-            self.cert_subject_valid,
-            format_date(self.env, self.cert_date_exp),
-        )
-        self.certificate_model = self.env["l10n_br_fiscal.certificate"]
-
-        self.certificate_valid = self._create_certificate(
-            valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
-            country=self.cert_country, subject=self.cert_subject_valid)
-
-        cert = self.certificate_model.create(
-            {
-                'type': 'nf-e',
-                'subtype': 'a1',
-                'password': self.cert_passwd,
-                'file': self.certificate_valid
-            }
-        )
-        self.nfe.company_id.certificate_nfe_id = cert
         self.nfe.company_id.street_number = '3'
-
-    def _create_certificate(self, valid=True, passwd=None, issuer=None,
-                            country=None, subject=None):
-        """Creating a fake certificate"""
-
-        key = crypto.PKey()
-        key.generate_key(crypto.TYPE_RSA, 2048)
-
-        cert = crypto.X509()
-
-        cert.get_issuer().C = country
-        cert.get_issuer().CN = issuer
-
-        cert.get_subject().C = country
-        cert.get_subject().CN = subject
-
-        cert.set_serial_number(2009)
-
-        if valid:
-            time_before = 0
-            time_after = 365 * 24 * 60 * 60
-        else:
-            time_before = -1 * (365 * 24 * 60 * 60)
-            time_after = 0
-
-        cert.gmtime_adj_notBefore(time_before)
-        cert.gmtime_adj_notAfter(time_after)
-        cert.set_pubkey(key)
-        cert.sign(key, 'md5')
-
-        p12 = crypto.PKCS12()
-        p12.set_privatekey(key)
-        p12.set_certificate(cert)
-
-        return b64encode(p12.export(passwd))
 
     def test_serialize_xml(self):
         xml_path = os.path.join(
