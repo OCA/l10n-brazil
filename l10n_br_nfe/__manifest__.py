@@ -33,6 +33,8 @@
         "views/nfe_menu.xml",
     ],
     "demo": [
+        "demo/res_users_demo.xml",
+
         "demo/fiscal_document_demo.xml",
         "demo/company_demo.xml",
     ],
