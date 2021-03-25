@@ -57,7 +57,7 @@
             <button name="action_document_correction" type="object" string="Carta de correção" groups="l10n_br_fiscal.group_user" states="autorizada"/>
             <button name="action_create_return" type="object" string="Devolver" groups="l10n_br_fiscal.group_user" states="autorizada"/>
             <button name="action_send_email" type="object" string="Send Email" attrs="{'invisible': [('state', 'not in', ('autorizada', 'cancelada', 'denegada'))]}"/>
-            <button name="recompute_lines_taxes" icon="fa-repeat" type="object" string="Recompute Lines Taxes"/>
+            <button name="recompute_lines_taxes" icon="fa-repeat" type="object" string="Recompute Lines Taxes" groups="l10n_br_fiscal.group_data_maintenance"/>
 <!--                <button name="action_edoc_check" type="object"-->
 <!--                        string="Consultar no sefaz"-->
 <!--                        groups="base.group_no_one"/>-->
