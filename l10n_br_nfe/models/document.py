@@ -249,6 +249,10 @@ class NFe(spec_models.StackedModel):
         compute='_compute_nfe40_additional_data',
     )
 
+    nfe40_infRespTec = fields.Many2one(
+        related='company_id.technical_support_id'
+    )
+
     @api.depends('fiscal_additional_data', 'fiscal_additional_data')
     def _compute_nfe40_additional_data(self):
         for record in self:
