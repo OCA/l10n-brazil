@@ -5,6 +5,10 @@ from base64 import b64encode
 
 from OpenSSL import crypto
 
+from ..constants.fiscal import (
+    CERTIFICATE_TYPE_NFE
+)
+
 
 def domain_field_codes(field_codes, field_name="code_unmasked",
                        delimiter=",", operator1="=",
@@ -27,6 +31,20 @@ def domain_field_codes(field_codes, field_name="code_unmasked",
             domain.append((field_name, operator2, n + '%'))
 
     return domain
+
+
+def prepare_fake_certificate_vals(
+        valid=True, passwd='123456', issuer="EMISSOR A TESTE",
+        country='BR', subject="CERTIFICADO VALIDO TESTE",
+        cert_type=CERTIFICATE_TYPE_NFE):
+    return {
+        'type': cert_type,
+        'subtype': 'a1',
+        'password': passwd,
+        'file': create_fake_certificate_file(
+            valid, passwd, issuer, country, subject
+        ),
+    }
 
 
 def create_fake_certificate_file(valid, passwd, issuer, country, subject):
