@@ -34,7 +34,7 @@ msgid "ISSNet / Nota Control"
 msgstr ""
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:307
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:306
 #, python-format
 msgid "Lote ainda não processado"
 msgstr ""
@@ -45,19 +45,19 @@ msgid "NFSe Provider"
 msgstr ""
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:304
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:303
 #, python-format
 msgid "Não Recebido"
 msgstr ""
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:310
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:309
 #, python-format
 msgid "Procesado com Erro"
 msgstr ""
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:313
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:312
 #, python-format
 msgid "Procesado com Sucesso"
 msgstr ""
