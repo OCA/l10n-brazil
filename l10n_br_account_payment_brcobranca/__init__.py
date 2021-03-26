@@ -5,3 +5,4 @@
 from . import models
 from . import parser
 from . import wizard
+from . import tests
