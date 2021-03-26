@@ -256,7 +256,6 @@ class Tax(models.Model):
         tax_dict["percent_reduction"] = tax.percent_reduction
         tax_dict["percent_amount"] = tax_dict.get('percent_amount',
                                                   tax.percent_amount)
-        tax_dict["icmsst_mva_percent"] = tax.icmsst_mva_percent
 
         company = kwargs.get("company", tax.env.user.company_id)
         # partner = kwargs.get("partner")
@@ -302,11 +301,6 @@ class Tax(models.Model):
             tax_value = round(
                 base_amount * (tax_dict["percent_amount"] / 100),
                 precision)
-
-            if tax_dict.get("icmsst_mva_percent"):
-                tax_value -= taxes_dict.get(
-                    "icms", {}
-                ).get("tax_value", 0.0)
 
             tax_dict["tax_value"] = tax_value
 
@@ -506,11 +500,20 @@ class Tax(models.Model):
             'remove_from_base': sum(remove_from_base),
             'icmsst_base_type': tax.icmsst_base_type
         })
+        if taxes_dict.get(tax.tax_domain):
+            taxes_dict[tax.tax_domain]["icmsst_mva_percent"] = \
+                tax.icmsst_mva_percent
 
         taxes_dict[tax.tax_domain].update(self._compute_tax_base(
             tax, taxes_dict.get(tax.tax_domain), **kwargs))
 
-        return self._compute_tax(tax, taxes_dict, **kwargs)
+        tax_dict = self._compute_tax(tax, taxes_dict, **kwargs)
+        if tax_dict.get("icmsst_mva_percent"):
+            tax_dict["tax_value"] -= taxes_dict.get(
+                "icms", {}
+            ).get("tax_value", 0.0)
+
+        return tax_dict
 
     def _compute_icmssn(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)
