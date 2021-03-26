@@ -288,11 +288,13 @@ class SaleOrder(models.Model):
     def _amount_by_group(self):
         for order in self:
             currency = order.currency_id or order.company_id.currency_id
-            fmt = partial(formatLang, self.with_context(lang=order.partner_id.lang).env, currency_obj=currency)
+            fmt = partial(
+                formatLang,
+                self.with_context(lang=order.partner_id.lang).env,
+                currency_obj=currency
+            )
             res = {}
             for line in order.order_line:
-                # price_reduce = line.price_unit * (1.0 - line.discount / 100.0)
-                # taxes = line.tax_id.compute_all(price_reduce, quantity=line.product_uom_qty, product=line.product_id, partner=order.partner_shipping_>
                 taxes = line._compute_taxes(line.fiscal_tax_ids)['taxes']
                 for tax in line.fiscal_tax_ids:
                     group = tax.tax_group_id
