@@ -88,11 +88,9 @@
                             <group name="certificate" string="Certificate">
                                 <group>
                                     <field name="certificate_ecnpj_id"/>
-                                    <button name="button_create_fake_certificate_ecnpj" type="object" string="Fake e-CNPJ" groups="l10n_br_fiscal.group_data_maintenance"/>
                                 </group>
                                 <group>
                                     <field name="certificate_nfe_id"/>
-                                    <button name="button_create_fake_certificate_nfe" type="object" string="Fake NF-E" groups="l10n_br_fiscal.group_data_maintenance"/>
                                 </group>
                             </group>
                         </page>
