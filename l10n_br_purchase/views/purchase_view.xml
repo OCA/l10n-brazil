@@ -58,7 +58,7 @@
                   <page name="others" string="Outros Custos">
                       <group>
                           <field name="insurance_value"/>
-                          <field name="other_costs_value"/>
+                          <field name="other_value"/>
                           <field name="freight_value"/>
                       </group>
                   </page>
@@ -69,9 +69,9 @@
                   </page>
               </xpath>
               <xpath expr="//field[@name='amount_untaxed']" position="after">
-                  <field name="amount_freight" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                  <field name="amount_insurance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                  <field name="amount_costs" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                  <field name="amount_freight_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                  <field name="amount_insurance_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                  <field name="amount_other_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
               </xpath>
           </field>
       </record>

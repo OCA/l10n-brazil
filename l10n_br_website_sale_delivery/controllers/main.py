@@ -15,7 +15,7 @@ class WebsiteSaleDelivery(WebsiteSale):
                 'error_message': order.delivery_message,
                 'carrier_id': carrier_id,
                 'new_amount_delivery': self._format_amount(
-                    order.amount_freight, currency),
+                    order.amount_freight_value, currency),
                 'new_amount_untaxed': self._format_amount(
                     order.amount_untaxed, currency),
                 'new_amount_tax': self._format_amount(order.amount_tax,
