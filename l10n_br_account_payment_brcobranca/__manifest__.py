@@ -26,7 +26,4 @@
     'demo': [
         'demo/account_journal_demo.xml'
     ],
-    'test': [
-        'tests/invoice_create.yml'
-    ]
 }
