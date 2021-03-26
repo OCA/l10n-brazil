@@ -34,8 +34,6 @@ from ..constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES,
     TAX_FRAMEWORK_SIMPLES_ALL,
     COEFFICIENT_R,
-    CERTIFICATE_TYPE_NFE,
-    CERTIFICATE_TYPE_ECNPJ,
 )
 from ..tools import misc
 
@@ -484,32 +482,3 @@ class ResCompany(models.Model):
             self._set_tax_definition(self.tax_inss_wh_id)
         else:
             self._del_tax_definition(TAX_DOMAIN_INSS_WH)
-
-    def _create_fake_certificate(
-            self, valid=True,
-            passwd='123456', issuer="EMISSOR A TESTE",
-            country='BR', subject="CERTIFICADO VALIDO TESTE",
-            cert_type=CERTIFICATE_TYPE_NFE):
-        cert_id = self.env["l10n_br_fiscal.certificate"].create(
-            {
-                'type': cert_type,
-                'subtype': 'a1',
-                'password': passwd,
-                'file': misc.create_fake_certificate_file(
-                    valid, passwd, issuer, country, subject
-                ),
-                'is_fake': True,
-            }
-        )
-        _logger.info("action_create_fake_certificate")
-        return cert_id
-
-    def button_create_fake_certificate_nfe(self):
-        for record in self:
-            record.certificate_nfe_id = record._create_fake_certificate()
-
-    def button_create_fake_certificate_ecnpj(self):
-        for record in self:
-            record.certificate_ecnpj_id = record._create_fake_certificate(
-                cert_type=CERTIFICATE_TYPE_ECNPJ
-            )
