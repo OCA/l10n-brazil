@@ -412,11 +412,6 @@ msgid "Número do RPS"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: selection:res.company,processador_edoc:0
-msgid "Odoo Community"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__operation_nature
 msgid "Operation Nature"
 msgstr ""
@@ -444,11 +439,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Prefeitura do Município de"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_res_company__processador_edoc
-msgid "Processador documentos eletrônicos"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -499,11 +489,6 @@ msgid "Secondary CNAE"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: selection:res.company,processador_edoc:0
-msgid "Sem Integração"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: selection:l10n_br_fiscal.document,taxation_special_regime:0
 msgid "Sociedade de Profissionais"
 msgstr ""
@@ -546,10 +531,5 @@ msgstr ""
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "com a utilização do Código de Verificação.<br/>"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: selection:res.company,processador_edoc:0
-msgid "erpbrasil.edoc"
 msgstr ""
 
