@@ -59,6 +59,7 @@ class DocumentCancel(models.Model):
                     message=retevento.infEvento.xMotivo
                 )
 
-            record.document_id.cancel_document_event_id = record
+            record.document_id.document_cancel_id = record
+            record.document_id.cancel_event_id = event_id
             record.document_id.state_fiscal = SITUACAO_FISCAL_CANCELADO
             record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
