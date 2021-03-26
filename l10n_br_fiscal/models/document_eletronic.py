@@ -98,18 +98,27 @@ class DocumentEletronic(models.AbstractModel):
         string="Protocolo Autorização",
         readonly=True)
 
-    cancel_document_event_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.document.cancel", string="Cancelamento"
+    document_cancel_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.cancel",
+        string="Cancelamento"
+    )
+
+    cancel_event_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document.event",
+        string="Cancelamento",
+        readonly=True,
     )
 
     file_xml_cancelamento_id = fields.Many2one(
         comodel_name="ir.attachment",
+        related="cancel_event_id.xml_sent_id",
         string="XML de cancelamento",
         ondelete="restrict",
         copy=False)
 
     file_xml_autorizacao_cancelamento_id = fields.Many2one(
         comodel_name="ir.attachment",
+        related="cancel_event_id.xml_returned_id",
         string="XML de autorização de cancelamento",
         ondelete="restrict",
         copy=False)
