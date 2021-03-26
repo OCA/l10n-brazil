@@ -16,6 +16,12 @@ msgstr ""
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_supplier_form
+msgid "(-) Discount"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_supplier_form
 msgid "(-) Tax Withholding"
 msgstr ""
 
@@ -402,13 +408,13 @@ msgid "You can find a contact by its Name, TIN, Email or Internal Reference."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:406
+#: code:addons/l10n_br_account/models/account_invoice.py:408
 #, python-format
 msgid "You can't set this document number: {} to draft because this document is cancelled in SEFAZ"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:436
+#: code:addons/l10n_br_account/models/account_invoice.py:438
 #, python-format
 msgid "You cannot create a fiscal correction document if this fical document you are not the document issuer"
 msgstr ""
