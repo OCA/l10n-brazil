@@ -262,6 +262,11 @@ class DocumentEvent(models.Model):
         return attachment_id
 
     @api.multi
-    def set_done(self, arquivo_xml):
+    def set_done(self, arquivo_xml, status=False, message=False):
         self._grava_anexo(arquivo_xml, "xml", autorizacao=True)
-        self.write({"state": "done", "end_date": fields.Datetime.now()})
+        vals = {"state": "done", "end_date": fields.Datetime.now()}
+        if status:
+            vals['status'] = status
+        if status:
+            vals['message'] = message
+        self.write(vals)
