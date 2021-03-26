@@ -1,7 +1,9 @@
 # Copyright (C) 2020  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models
+from datetime import datetime
+
+from odoo import api, models, fields
 from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_CANCELADA,
@@ -43,23 +45,25 @@ class DocumentCancel(models.Model):
                     mensagem += '\nCódigo: ' + retevento.infEvento.cStat
                     mensagem += '\nMotivo: ' + retevento.infEvento.xMotivo
                     raise UserError(mensagem)
+                else:
+                    if retevento.infEvento.cStat == '155':
+                        record.document_id.state_fiscal = \
+                            SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+                        record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
+                    elif retevento.infEvento.cStat == '135':
+                        record.document_id.state_fiscal = \
+                            SITUACAO_FISCAL_CANCELADO
+                        record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
 
-                if retevento.infEvento.cStat == '155':
-                    record.document_id.state_fiscal = \
-                        SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-                    record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
-                elif retevento.infEvento.cStat == '135':
-                    record.document_id.state_fiscal = \
-                        SITUACAO_FISCAL_CANCELADO
-                    record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
+                    record.document_id.document_cancel_id = record
+                    record.document_id.cancel_event_id = event_id
+                    record.document_id.data_hora_cancelamento = fields.Datetime.to_string(
+                        datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                    )
+                    record.document_id.protocolo_cancelamento = retevento.infEvento.nProt
 
                 event_id.set_done(
                     processo.retorno.content.decode('utf-8'),
                     status=retevento.infEvento.cStat,
                     message=retevento.infEvento.xMotivo
                 )
-
-            record.document_id.document_cancel_id = record
-            record.document_id.cancel_event_id = event_id
-            record.document_id.state_fiscal = SITUACAO_FISCAL_CANCELADO
-            record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
