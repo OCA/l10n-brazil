@@ -54,23 +54,8 @@ msgid "Allow Amount Discount on Sales Orders"
 msgstr ""
 
 #. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_costs
-msgid "Amount Costs"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_freight
-msgid "Amount Freight"
-msgstr ""
-
-#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_gross
 msgid "Amount Gross"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_insurance
-msgid "Amount Insurance"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -129,11 +114,6 @@ msgstr ""
 #. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__discount_rate
 msgid "Discount"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_discount
-msgid "Discount (-)"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -299,11 +279,6 @@ msgstr ""
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Terms and conditions... (note: you can setup default ones in the Configuration menu)"
-msgstr ""
-
-#. module: l10n_br_sale
-#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__amount_discount
-msgid "The discount amount."
 msgstr ""
 
 #. module: l10n_br_sale
