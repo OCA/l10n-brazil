@@ -1,15 +1,22 @@
 # Copyright (C) 2019 - Renato Lima Akretion
+# Copyright (C) 2021 - Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
 
-from odoo import _, tools
+from odoo import _, api, tools, SUPERUSER_ID
+
+from .tools import misc
+from .constants.fiscal import (
+    CERTIFICATE_TYPE_ECNPJ
+)
 
 _logger = logging.getLogger(__name__)
 
 
 def post_init_hook(cr, registry):
     """Import XML data to change core data"""
+    env = api.Environment(cr, SUPERUSER_ID, {})
 
     files = [
         "data/l10n_br_fiscal.cnae.csv",
@@ -85,6 +92,21 @@ def post_init_hook(cr, registry):
                 noupdate=True,
                 kind="demo",
                 report=None,
+            )
+
+        companies = [
+            env.ref('base.main_company', raise_if_not_found=False),
+            env.ref('l10n_br_base.empresa_lucro_presumido', raise_if_not_found=False),
+            env.ref('l10n_br_base.empresa_simples_nacional', raise_if_not_found=False),
+        ]
+
+        for company in companies:
+            l10n_br_fiscal_certificate_id = env["l10n_br_fiscal.certificate"]
+            company.certificate_nfe_id = l10n_br_fiscal_certificate_id.create(
+                misc.prepare_fake_certificate_vals()
+            )
+            company.certificate_ecnpj_id = l10n_br_fiscal_certificate_id.create(
+                misc.prepare_fake_certificate_vals(cert_type=CERTIFICATE_TYPE_ECNPJ)
             )
 
     elif tools.config["without_demo"]:
