@@ -5,7 +5,7 @@
     'name': 'NFS-e (ISSNet)',
     'summary': """
         NFS-e (ISSNet)""",
-    'version': '12.0.1.0.1',
+    'version': '12.0.2.0.0',
     'license': 'AGPL-3',
     'author': 'Escodoo, Odoo Community Association (OCA)',
     'maintainers': ['marcelsavegnago'],
