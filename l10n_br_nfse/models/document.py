@@ -93,11 +93,6 @@ class Document(models.Model):
         super(Document, self - self.filtered(filter_processador_edoc_nfse)
               ).document_number()
 
-    def _generate_key(self):
-        remaining = self - self.filtered(filter_processador_edoc_nfse)
-        if remaining:
-            super(Document, remaining)._generate_key()
-
     def _processador_erpbrasil_nfse(self):
         certificado = cert.Certificado(
             arquivo=self.company_id.certificate_nfe_id.file,
