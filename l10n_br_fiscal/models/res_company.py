@@ -35,7 +35,6 @@ from ..constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES_ALL,
     COEFFICIENT_R,
 )
-from ..tools import misc
 
 _logger = logging.getLogger(__name__)
 
