@@ -5674,25 +5674,25 @@ msgid "Lista Positiva (valor)"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:76
+#: code:addons/l10n_br_fiscal/hooks.py:83
 #, python-format
 msgid "Loading l10n_br_fiscal demo files."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:30
+#: code:addons/l10n_br_fiscal/hooks.py:37
 #, python-format
 msgid "Loading l10n_br_fiscal fiscal files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:129
+#: code:addons/l10n_br_fiscal/hooks.py:151
 #, python-format
 msgid "Loading l10n_br_fiscal post init files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:106
+#: code:addons/l10n_br_fiscal/hooks.py:128
 #, python-format
 msgid "Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
 msgstr ""
@@ -9113,11 +9113,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 msgid "dias"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:res.company,processador_edoc:0
-msgid "erpbrasil.edoc"
 msgstr ""
 
 #. module: l10n_br_fiscal
