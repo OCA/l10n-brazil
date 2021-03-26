@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_withholding
+msgid "(-) Amount Tax Withholding"
+msgstr ""
+
+#. module: l10n_br_repair
 #: selection:l10n_br_repair.fiscal.line.mixin,icms_origin:0
 msgid "0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8"
 msgstr ""
@@ -80,18 +85,38 @@ msgid "Amount Estimate Tax"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_fiscal
+msgid "Amount Fiscal"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_gross
 msgid "Amount Gross"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_withholding
-msgid "Amount Tax Withholding"
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax
+msgid "Amount Tax"
 msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_not_included
 msgid "Amount Tax not Included"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_taxed
+msgid "Amount Taxed"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_total
+msgid "Amount Total"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_untaxed
+msgid "Amount Untaxed"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -388,11 +413,6 @@ msgid "Discount (%)"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_discount
-msgid "Discount (-)"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__discount_value
 msgid "Discount Value"
 msgstr ""
@@ -501,11 +521,6 @@ msgstr ""
 #: selection:l10n_br_repair.fiscal.line.mixin,pis_wh_base_type:0
 #: selection:l10n_br_repair.fiscal.line.mixin,pisst_base_type:0
 msgid "Fixed"
-msgstr ""
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_freight
-msgid "Freight"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -901,11 +916,6 @@ msgid "Imunidade"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_insurance
-msgid "Insurance"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__insurance_value
 msgid "Insurance Value"
 msgstr ""
@@ -1003,13 +1013,13 @@ msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:459
+#: code:addons/l10n_br_repair/models/repair_order.py:407
 #, python-format
 msgid "No account defined for partner \"%s\"."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:486
+#: code:addons/l10n_br_repair/models/repair_order.py:434
 #, python-format
 msgid "No product defined on fees."
 msgstr ""
@@ -1073,8 +1083,7 @@ msgid "Operação presencial, fora do estabelecimento"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__other_costs_value
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_costs
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__other_value
 msgid "Other Costs"
 msgstr ""
 
@@ -1230,19 +1239,19 @@ msgid "Percent"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:366
+#: code:addons/l10n_br_repair/models/repair_order.py:314
 #, python-format
 msgid "Please define an accounting sales journal for this company."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:359
+#: code:addons/l10n_br_repair/models/repair_order.py:307
 #, python-format
 msgid "Please define an default document type for this company."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/fiscal_line_mixin.py:103
+#: code:addons/l10n_br_repair/models/fiscal_line_mixin.py:91
 #, python-format
 msgid "Please define income account for this product: \"%s\" (id:%d) - or for its category: \"%s\"."
 msgstr ""
@@ -1255,13 +1264,6 @@ msgstr ""
 #. module: l10n_br_repair
 #: selection:l10n_br_repair.fiscal.line.mixin,icmsst_base_type:0
 msgid "Preço tabelado ou máximo  sugerido"
-msgstr ""
-
-#. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_tax
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__price_tax
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__price_tax
-msgid "Price Tax"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -1493,11 +1495,6 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__amount_discount
-msgid "The discount amount."
-msgstr ""
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__uom_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_fee__uom_id
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_line__uom_id
@@ -1520,7 +1517,7 @@ msgid "Valor da Operação"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:441
+#: code:addons/l10n_br_repair/models/repair_order.py:389
 #, python-format
 msgid "You have to select an invoice address in the repair form."
 msgstr ""
