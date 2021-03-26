@@ -30,6 +30,9 @@ class DocumentCancel(models.Model):
             processo = processador.enviar_lote_evento(
                 lista_eventos=[evento]
             )
+            event_id._grava_anexo(
+                processo.envio_xml.decode('utf-8'), "xml"
+            )
 
             for retevento in processo.resposta.retEvento:
                 if not retevento.infEvento.chNFe == record.document_id.key[3:]:
@@ -50,17 +53,12 @@ class DocumentCancel(models.Model):
                         SITUACAO_FISCAL_CANCELADO
                     record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
 
-                event_id.write({
-                    'file_sent': processo.envio_xml,
-                    'file_returned': processo.retorno.content,
-                    'status': retevento.infEvento.cStat,
-                    'message': retevento.infEvento.xMotivo,
-                    'state': 'done',
-                })
+                event_id.set_done(
+                    processo.retorno.content.decode('utf-8'),
+                    status=retevento.infEvento.cStat,
+                    message=retevento.infEvento.xMotivo
+                )
 
+            record.document_id.cancel_document_event_id = record
             record.document_id.state_fiscal = SITUACAO_FISCAL_CANCELADO
             record.document_id.state_edoc = SITUACAO_EDOC_CANCELADA
-
-            event_id.write({
-                'state': 'done',
-            })
