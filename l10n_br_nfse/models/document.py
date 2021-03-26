@@ -14,6 +14,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     TAX_FRAMEWORK_SIMPLES_ALL,
     DOCUMENT_ISSUER_COMPANY,
+    PROCESSADOR_OCA,
 )
 from ..constants.nfse import (
     NFSE_ENVIRONMENTS,
@@ -22,13 +23,11 @@ from ..constants.nfse import (
     TAXATION_SPECIAL_REGIME,
 )
 
-from .res_company import PROCESSADOR
-
 _logger = logging.getLogger(__name__)
 
 
 def fiter_processador_edoc_nfse(record):
-    if (record.processador_edoc == PROCESSADOR and
+    if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
             ]):

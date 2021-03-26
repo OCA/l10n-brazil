@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-# import xml.etree.ElementTree as ET
 from nfselib.issnet.v1_00.servico_enviar_lote_rps_envio import (
     EnviarLoteRpsEnvio,
     ListaRpsType,
@@ -23,19 +22,17 @@ from odoo import models, api, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
+    PROCESSADOR_OCA,
 )
-
-from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
 
 from ..constants.issnet import (
     RECEPCIONAR_LOTE_RPS,
     CONSULTAR_SITUACAO_LOTE_RPS,
-    # CANCELAR_NFSE,
 )
 
 
 def fiter_processador_edoc_nfse_issnet(record):
-    if (record.processador_edoc == PROCESSADOR and
+    if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
             ]):
