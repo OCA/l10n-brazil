@@ -39,6 +39,11 @@ odoo.define('l10n_br_website_sale.tour', function (require) {
                 timeout: 10000,
             },
             {
+                content: "Complete zip",
+                trigger: "input[name='zip']",
+                run: "text 12246250",
+            },
+            {
                 content: "Complete name",
                 trigger: "input[name='name']",
                 run: "text Paradeda",
@@ -49,11 +54,6 @@ odoo.define('l10n_br_website_sale.tour', function (require) {
                 run: "text 12981901669",
             },
             {
-                content: "Complete zip",
-                trigger: "input[name='zip']",
-                run: "text 12246250",
-            },
-            {
                 content: "check state is São Paulo",
                 trigger: 'select[name=state_id]:contains("São Paulo")',
                 run: function () {
@@ -61,12 +61,12 @@ odoo.define('l10n_br_website_sale.tour', function (require) {
                         console.log('wait for zip');
                     }, 8000);
                 },
-                timeout: 5000,
+                timeout: 20000,
             },
             {
                 content: "check city is São José dos Campos",
                 trigger: 'select[name=city_id]:contains("São José dos Campos")',
-                timeout: 5000,
+                timeout: 20000,
             },
             {
                 content: "Complete number",
