@@ -109,7 +109,7 @@ class AccountInvoice(models.Model):
             # Podem existir Modo de Pagto q geram Ordens mas não são CNAB
             # por isso nesse caso tbm nada a ser feito
             if inv.payment_mode_id.payment_method_code not in \
-                ('240', '400', '500'):
+                    ('240', '400', '500'):
                 continue
 
             # TODO - apesar do campo financial_move_line_ids ser do tipo
