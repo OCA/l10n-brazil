@@ -5,20 +5,16 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 
-from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
+from odoo.tests import SavepointCase
 
 
-class TestPaymentOrderInbound(TransactionCase):
+@tagged('post_install', '-at_install')
+class TestPaymentOrderInbound(SavepointCase):
 
-    def setUp(self):
-        super().setUp()
-
-        # Get Invoice for test
-        self.invoice_customer_original = self.env.ref(
-            'l10n_br_account_payment_order.demo_invoice_payment_order'
-        )
-
-        self.invoice_customer_original.journal_id.update_posted = True
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
 
         # Product Tax Boleto
         self.invoice_product_tax_boleto = self.env.ref(
@@ -30,48 +26,34 @@ class TestPaymentOrderInbound(TransactionCase):
             'l10n_br_account_payment_order.demo_invoice_payment_order_cheque'
         )
 
-    def test_payment_order(self):
-        """Test automatic creation of Payment Order."""
-
-        # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.invoice_customer_original.state, 'draft')
-
-        # I validate invoice by creating on
-        self.invoice_customer_original.action_invoice_open()
-
-        # I check that the invoice state is "Open"
-        self.assertEquals(self.invoice_customer_original.state, 'open')
-
-        # I check that now there is a move attached to the invoice
-        assert self.invoice_customer_original.move_id,\
-            "Move not created for open invoice"
-
-        payment_order = self.env['account.payment.order'].search([
-            ('state', '=', 'draft')
-        ])
-        # I check creation of Payment Order
-        assert payment_order, "Payment Order not created."
-        payment_order.draft2open()
-        # The file generation need additional module to use BRCobranca or PyBoleto
-        # payment_order.open2generated()
-
     def test_product_tax_boleto(self):
         """ Test Invoice where Payment Mode has Product Tax. """
         self.invoice_product_tax_boleto._onchange_payment_mode_id()
-        # I validate invoice by creating on
-        self.invoice_customer_original.action_invoice_open()
 
+        # Produto Taxa adicionado
+        line_product_tax = self.invoice_product_tax_boleto.\
+            invoice_line_ids.filtered(
+                lambda l: l.product_id == self.invoice_product_tax_boleto.
+                    payment_mode_id.product_tax_id
+        )
+
+        self.assertEquals(len(line_product_tax), 1)
+        # I validate invoice by creating on
+        self.invoice_product_tax_boleto.action_invoice_open()
         # I check that the invoice state is "Open"
-        self.assertEquals(self.invoice_customer_original.state, 'open')
+        self.assertEquals(self.invoice_product_tax_boleto.state, 'open')
 
     def test_payment_mode_without_payment_order(self):
         """ Test Invoice when Payment Mode not generate Payment Order. """
         self.invoice_cheque._onchange_payment_mode_id()
         # I validate invoice by creating on
         self.invoice_cheque.action_invoice_open()
-
         # I check that the invoice state is "Open"
         self.assertEquals(self.invoice_cheque.state, 'open')
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_cheque.payment_mode_id.id)
+        ])
+        self.assertEquals(len(payment_order), 0)
 
     def test_payment_inbound_change_due_date(self):
         """ Change account.move.line due date. Automatic add this aml to a new
