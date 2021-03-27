@@ -10,7 +10,8 @@
 
 import logging
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from ..constants import (
     FORMA_LANCAMENTO,
@@ -82,13 +83,20 @@ class AccountPaymentOrder(models.Model):
     @api.model
     def _prepare_bank_payment_line(self, paylines):
         result = super()._prepare_bank_payment_line(paylines)
-        result['own_number'] = paylines[0].own_number
-        result['document_number'] = paylines[0].document_number
-        result['company_title_identification'] =\
-            paylines[0].company_title_identification
-        result['last_cnab_state'] = paylines[0].move_line_id.cnab_state
-        result['mov_instruction_code_id'] = \
-            paylines[0].move_line_id.mov_instruction_code_id.id
+        # O CNAB não permite mesclar diversas payment.lines em uma
+        # única bank_line por isso aqui deverá vir sempre uma linha
+        result.update({
+            'own_number': paylines[0].own_number,
+            'document_number': paylines[0].document_number,
+            'company_title_identification':
+                paylines[0].company_title_identification,
+            'last_cnab_state': paylines[0].move_line_id.cnab_state,
+            'mov_instruction_code_id':
+                paylines[0].mov_instruction_code_id.id,
+            'rebate_value': paylines[0].rebate_value,
+            'discount_value': paylines[0].discount_value,
+        })
+
         return result
 
     @api.multi
@@ -114,3 +122,27 @@ class AccountPaymentOrder(models.Model):
                 record.message_post(body='Arquivo gerado com sucesso.')
 
         return result
+
+    @api.multi
+    def unlink(self):
+        for order in self:
+            # TODO: Existe o caso de se apagar uma Ordem de Pagto
+            #  no caso CNAB ? O que deveria ser feito nesse caso ?
+            if order.payment_method_code in ('240', '400', '500') and \
+                    order.payment_mode_id.payment_method_id.payment_type == \
+                    'inbound':
+                raise UserError(_(
+                    'You cannot delete CNAB order.'))
+        return super().unlink()
+
+    @api.multi
+    def action_done_cancel(self):
+        for order in self:
+            # TODO: Existe o caso de se Cancelar uma Ordem de Pagto
+            #  no caso CNAB ? O que deveria ser feito nesse caso ?
+            if order.payment_method_code in ('240', '400', '500') and \
+                    order.payment_mode_id.payment_method_id.payment_type == \
+                    'inbound':
+                raise UserError(_(
+                    'You cannot Cancel CNAB order.'))
+        return super().unlink()
