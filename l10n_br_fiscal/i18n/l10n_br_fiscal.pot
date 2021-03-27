@@ -1648,6 +1648,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__cancel_document_event_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_electronic__cancel_document_event_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_event__cancel_document_event_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
 #: selection:l10n_br_fiscal.document.event,type:0
 msgid "Cancelamento"
 msgstr ""
@@ -5910,6 +5911,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__month
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
 msgid "Month"
 msgstr ""
 
@@ -7967,6 +7969,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__simplified_tax_range_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__simplifed_tax_range_id
 msgid "Simplified Tax Range"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_search
+msgid "Situation"
 msgstr ""
 
 #. module: l10n_br_fiscal
