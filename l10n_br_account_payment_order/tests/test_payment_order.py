@@ -2,145 +2,121 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+from odoo.tests import tagged
+from odoo.tests import SavepointCase
+from odoo.exceptions import ValidationError, UserError
 
-from openerp.tests.common import TransactionCase
-from openerp.exceptions import ValidationError
 
+@tagged('post_install', '-at_install')
+class TestPaymentOrder(SavepointCase):
 
-class TestPaymentOrder(TransactionCase):
+    @classmethod
+    def setUpClass(self):
+        super().setUpClass()
 
-    def setUp(self):
-        super().setUp()
         # Get Invoice for test
-        self.invoice_customer_original = self.env.ref(
+        self.invoice_cef = self.env.ref(
             'l10n_br_account_payment_order.'
-            'demo_invoice_payment_order_itau_cnab400'
+            'demo_invoice_payment_order_cef_cnab240'
         )
 
-        # Payment Mode
-        self.payment_mode = self.env.ref(
-            'l10n_br_account_payment_order.payment_mode_cobranca_itau400'
-        )
-
-        # Configure to be possibile create Payment Order
-        self.payment_mode.payment_order_ok = True
-
-        self.invoice_customer_original.payment_mode_id = self.payment_mode.id
-
-        self.invoice_customer_original._onchange_payment_mode_id()
-
-        # Configure Journal to update posted
-        self.invoice_customer_original.journal_id.update_posted = True
+    def test_create_payment_order(self):
+        """ Test Create Payment Order """
 
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEqual(self.invoice_customer_original.state, 'draft')
+        self.assertEquals(self.invoice_cef.state, 'draft')
 
         # I validate invoice by creating on
-        self.invoice_customer_original.action_invoice_open()
+        self.invoice_cef.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEqual(self.invoice_customer_original.state, 'open')
+        self.assertEquals(self.invoice_cef.state, 'open')
 
         # I check that now there is a move attached to the invoice
-        assert self.invoice_customer_original.move_id,\
+        assert self.invoice_cef.move_id, \
             "Move not created for open invoice"
 
-        payment_order = self.env['account.payment.order'].search([])
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_cef.payment_mode_id.id)
+        ])
+
         assert payment_order, "Payment Order not created."
 
-    def test_implemented_fields_payment_order(self):
-        """ Test implemented fields in object account.move.line """
-        # Check Payment Mode field
-        assert self.invoice_customer_original.payment_mode_id, \
-            "Payment Mode field is not filled."
-
+        # TODO: Caso CNAB pode cancelar o Move ?
+        #  Aparetemente isso precisa ser validado
         # Change status of Move to draft just to test
-        self.invoice_customer_original.move_id.button_cancel()
+        self.invoice_cef.move_id.button_cancel()
 
-        for line in self.invoice_customer_original.move_id.line_ids.filtered(
-                lambda l: l.account_id.id ==
-                self.invoice_customer_original.account_id.id):
-            self.assertEqual(
-                line.journal_entry_ref, line.invoice_id.name,
-                "Error with compute field journal_entry_ref")
-            # testar com a parcela 700
-            if line.debit == 700.0:
-                test_balance_value = line.get_balance()
-
-        # Return the status of Move to Posted
-        self.invoice_customer_original.move_id.action_post()
-
-        for line in self.invoice_customer_original.move_id.line_ids.filtered(
-                lambda l: l.account_id.id ==
-                self.invoice_customer_original.account_id.id):
-
-            assert line.own_number,\
-                'own_number field is not filled in created Move Line.'
+        for line in self.invoice_cef.move_id.line_ids.filtered(
+                lambda l: l.account_id.id == self.invoice_cef.account_id.id):
             self.assertEquals(
                 line.journal_entry_ref, line.invoice_id.name,
                 "Error with compute field journal_entry_ref")
+
+        # Return the status of Move to Posted
+        self.invoice_cef.move_id.action_post()
+
+        # Verificar os campos CNAB na account.move.line
+        for line in self.invoice_cef.move_id.line_ids.filtered(
+                lambda l: l.account_id.id == self.invoice_cef.account_id.id):
+            assert line.own_number,\
+                'own_number field is not filled in created Move Line.'
+            assert line.mov_instruction_code_id, \
+                'mov_instruction_code_id field is not filled in created Move Line.'
+            self.assertEquals(
+                line.journal_entry_ref, line.invoice_id.name,
+                'Error with compute field journal_entry_ref')
             # testar com a parcela 700
             if line.debit == 700.0:
                 test_balance_value = line.get_balance()
 
         self.assertEquals(
             test_balance_value, 700.0,
-            "Error with method get_balance()")
+            'Error with method get_balance()')
 
-    def test_cancel_payment_order(self):
-        """ Test create and cancel a Payment Order."""
-        # Add to payment order
         payment_order = self.env['account.payment.order'].search([
-            ('payment_mode_id', '=', self.payment_mode.id)])
+            ('payment_mode_id', '=', self.invoice_cef.payment_mode_id.id)
+        ])
 
-        bank_journal = self.env.ref(
-            'l10n_br_account_payment_order.itau_journal')
+        # Verifica os campos CNAB na linhas de pagamentos
+        for l in payment_order.payment_line_ids:
+            assert l.own_number, \
+                'own_number field is not filled in Payment Line.'
+            assert l.mov_instruction_code_id, \
+                'mov_instruction_code_id field are not filled in Payment Line.'
 
-        # Set journal to allow cancelling entries
-        bank_journal.update_posted = True
-
-        payment_order.write({
-            'journal_id': bank_journal.id
-        })
-
-        self.assertEqual(len(payment_order.payment_line_ids), 2)
-        self.assertEqual(len(payment_order.bank_line_ids), 0)
-
-        for line in payment_order.payment_line_ids:
-            # testar com a parcela 700
-            if line.amount_currency == 700.0:
-                line.percent_interest = 1.5
-                test_amount_interest = line.amount_interest
-
-        self.assertEquals(
-            test_amount_interest, 10.5,
-            "Error with compute field amount_interest.")
+        # Ordem de Pagto CNAB não pode ser apagada
+        with self.assertRaises(UserError):
+            payment_order.unlink()
 
         # Open payment order
         payment_order.draft2open()
 
+        # Criação da Bank Line
         self.assertEquals(len(payment_order.bank_line_ids), 2)
 
-        # TODO
+        # A geração do arquivo é feita pelo modulo que implementa a
+        # biblioteca a ser usada
         # Generate and upload
         # payment_order.open2generated()
         # payment_order.generated2uploaded()
-        # self.assertEquals(payment_order.state, 'uploaded')
+
+        self.assertEquals(payment_order.state, 'open')
+
+        # Verifica os campos CNAB na linhas de bancarias
+        for l in payment_order.bank_line_ids:
+            assert l.own_number, \
+                'own_number field is not filled in Payment Line.'
+            assert l.mov_instruction_code_id, \
+                'mov_instruction_code_id field are not filled in Payment Line.'
+
+        # Ordem de Pagto CNAB não pode ser Cancelada
+        with self.assertRaises(UserError):
+            payment_order.action_done_cancel()
+
+        # Testar Cancelamento
         # with self.assertRaises(UserError):
-        #     payment_order.unlink()
-
-        bank_line = payment_order.bank_line_ids
-
-        # with self.assertRaises(UserError):
-        bank_line.unlink()
-
-        payment_order.action_done_cancel()
-        self.assertEqual(payment_order.state, 'cancel')
-
-        payment_order.unlink()
-
-        self.assertEquals(len(self.env['account.payment.order'].search([
-            ('payment_mode_id', '=', self.payment_mode.id)])), 0)
+        self.invoice_cef.action_invoice_cancel()
 
     def test_bra_number_constrains(self):
         """ Test bra_number constrains. """
@@ -153,10 +129,3 @@ class TestPaymentOrder(TransactionCase):
                     partner_id=self.ref('l10n_br_base.res_partner_akretion'),
                     bra_number='12345'
                 ))
-
-    def test_cancel_invoice(self):
-        """ Test Cancel Invoice """
-        self.invoice_customer_original.action_invoice_cancel()
-
-        # I check that the invoice state is "Cancel"
-        self.assertEquals(self.invoice_customer_original.state, 'cancel')
