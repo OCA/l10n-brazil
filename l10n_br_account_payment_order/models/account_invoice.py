@@ -68,14 +68,10 @@ class AccountInvoice(models.Model):
                 'analytic_tag_ids': [(6, 0, [tax_analytic_tag_id.id])],
             }
 
-            self.update(
-                {
-                    'invoice_line_ids': [
-                        (6, 0, self.invoice_line_ids.ids),
-                        (0, 0, invoice_line_data),
-                    ]
-                }
-            )
+            self.update({'invoice_line_ids': [
+                (6, 0, self.invoice_line_ids.ids),
+                (0, 0, invoice_line_data),
+            ]})
 
     @api.multi
     def action_invoice_cancel(self):
@@ -166,7 +162,8 @@ class AccountInvoice(models.Model):
             self.env['account.move.line']
 
         lines_to_check = self.move_id.line_ids.filtered(
-            lambda x: x.debit > 0.0 and x.payment_situation in ('inicial', 'aberta')
+            lambda x: x.debit > 0.0 and x.payment_situation in
+                      ('inicial', 'aberta')
         )
 
         # Valor Total, baixar todas as Parcelas em Aberto
@@ -252,38 +249,3 @@ class AccountInvoice(models.Model):
             receivable_id.residual = inv.residual
 
         return res
-
-    @api.multi
-    def action_cancel(self):
-        # TODO: Não está chamando o super, devido problema mais abaixo,
-        #  verificar se é possível
-        moves = self.env['account.move']
-        for inv in self:
-            if inv.move_id:
-                moves += inv.move_id
-            # unreconcile all journal items of the invoice, since the
-            # cancellation will unlink them anyway
-            inv.move_id.line_ids.filtered(
-                lambda x: x.account_id.reconcile).remove_move_reconcile()
-
-        # First, set the invoices as cancelled and detach the move ids
-        self.write({'state': 'cancel', 'move_id': False})
-        if moves:
-            # second, invalidate the move(s)
-            moves.button_cancel()
-            # delete the move this invoice was pointing to
-            # Note that the corresponding move_lines and move_reconciles
-            # will be automatically deleted too
-
-            # TODO: No caso de Ordens de Pagto vinculadas devido o
-            #  ondelet=restrict no campo move_line_id do account.payment.line
-            #  não é possível Cancelar uma Invoice que já tenha uma Ordem de
-            #  Pagto confirmada, acontece erro devido o unlink abaixo, a forma
-            #  encontrada até agora é não apagar as que forem referentes a um
-            #  CNAB. Verificar se o mesmo problema acontece no uso
-            #  internacional e se na migração isso pode ser resolvido
-            #  de uma melhor forma.
-            if self.payment_mode_id.payment_method_code not in \
-                    ('240', '400', '500'):
-                moves.unlink()
-        return True

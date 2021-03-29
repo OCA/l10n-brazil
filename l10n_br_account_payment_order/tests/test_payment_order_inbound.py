@@ -204,6 +204,23 @@ class TestPaymentOrderInbound(SavepointCase):
         with self.assertRaises(UserError):
             register_payments.create_payments()
 
+    def test_cancel_invoice_payment_order_draft(self):
+        """ Test Cancel Invoice when Payment Order Draft."""
+
+        # I validate invoice by creating on
+        self.invoice_unicred.action_invoice_open()
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_unicred.payment_mode_id.id)
+        ])
+        self.assertEquals(len(payment_order.payment_line_ids), 2)
+
+        # Testar Cancelamento
+        self.invoice_unicred.action_invoice_cancel()
+
+        self.assertEquals(len(payment_order.payment_line_ids), 0)
+        # Nesse caso a account.move deverá ter sido apagada
+        self.assertEquals(len(self.invoice_unicred.move_id), 0)
+
     def test_payment_inbound_change_due_date(self):
         """ Change account.move.line due date. Automatic add this aml to a new
         payment.order, export the movement to the bank and process it's accept return.
