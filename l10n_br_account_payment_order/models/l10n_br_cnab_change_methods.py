@@ -265,28 +265,59 @@ class L10nBrCNABChangeMethods(models.Model):
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
+    def remove_payment_line(self, reason, payment_situation):
+        """
+        Remove a Linha de Pagamento
+        :param reason:
+        :param payment_situation:
+        :return:
+        """
+        self.payment_line_ids.unlink()
+        # Ordem de Pagto ainda não confirmada
+        # será apagada a linha
+        self.payment_situation = payment_situation
+        # TODO criar um state removed ?
+        self.cnab_state = 'done'
+        self.message_post(body=_(reason))
+
     def create_cnab_write_off(self, reason, payment_situation):
         """
         CNAB - Instrução de Baixar de Título.
         """
+
+        # Caso a Ordem ainda em Draft as linhas serão somente apagadas
+        cnab_already_start = self._cnab_already_start()
+        payment_lines_removed = False
+        if not cnab_already_start:
+            # So tem uma linha nesse caso
+            if self.payment_line_ids[0].order_id.state == 'draft':
+                reason = 'Removed Payline that would be sent to Bank' \
+                         ' by CNAB because amount payment was made' \
+                         ' before sending.'
+                payment_situation = 'baixa_liquidacao'
+                self.remove_payment_line(reason, payment_situation)
+                payment_lines_removed = True
+
         if not self.invoice_id.payment_mode_id.cnab_write_off_code_id:
             self._msg_error_cnab_missing(
                 self.payment_mode_id.name, 'Write Off Code')
 
-        # Checar se existe uma Instrução de CNAB ainda a ser enviada
-        self._check_cnab_instruction_to_be_send()
+        if not payment_lines_removed:
+            # Checar se existe uma Instrução de CNAB ainda a ser enviada
+            self._check_cnab_instruction_to_be_send()
 
-        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+            payorder, new_payorder = self._get_payment_order(self.invoice_id)
 
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_write_off_code_id
-        self.payment_situation = payment_situation
+            self.mov_instruction_code_id = \
+                self.payment_mode_id.cnab_write_off_code_id
+            self.payment_situation = payment_situation
 
-        self.create_payment_line_from_move_line(payorder)
-        self.cnab_state = 'added_paid'
+            self.create_payment_line_from_move_line(payorder)
+            self.cnab_state = 'added_paid'
 
-        # Registra as Alterações na Fatura
-        self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
+            # Registra as Alterações na Fatura
+            self._msg_cnab_payment_order_at_invoice(
+                new_payorder, payorder, reason)
 
     def create_cnab_change_tittle_value(self):
         """
