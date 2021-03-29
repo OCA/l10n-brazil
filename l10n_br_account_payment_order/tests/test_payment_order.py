@@ -33,7 +33,7 @@ class TestPaymentOrder(SavepointCase):
         line_product_tax = self.invoice_product_tax_boleto. \
             invoice_line_ids.filtered(
                 lambda l: l.product_id == self.invoice_product_tax_boleto.
-                    payment_mode_id.product_tax_id)
+                payment_mode_id.product_tax_id)
 
         self.assertEquals(len(line_product_tax), 1)
         # I validate invoice by creating on
