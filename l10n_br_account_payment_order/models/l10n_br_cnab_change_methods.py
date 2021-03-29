@@ -259,7 +259,8 @@ class L10nBrCNABChangeMethods(models.Model):
         (self + move_line_to_reconcile).reconcile()
 
         self.create_payment_line_from_move_line(payorder)
-        self.cnab_state = 'added'
+        # Proceso CNAB encerrado
+        self.cnab_state = 'done'
         self.payment_situation = 'nao_pagamento'
 
         # Registra as Alterações na Fatura
