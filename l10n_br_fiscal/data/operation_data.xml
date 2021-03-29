@@ -68,7 +68,7 @@
 
     <record id="fo_venda_revenda_nao_contribuinte" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="name">Revenda não contribuinte</field>
+        <field name="name">Revenda não Contribuinte</field>
         <field name="ind_ie_dest">9</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5102"/>
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6108"/>
