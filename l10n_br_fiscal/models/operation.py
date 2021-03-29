@@ -192,6 +192,12 @@ class Operation(models.Model):
 
         domain += [
             '|',
+            ('ind_ie_dest', '=', partner.ind_ie_dest),
+            ('ind_ie_dest', '=', False),
+        ]
+
+        domain += [
+            '|',
             ('partner_tax_framework', '=', partner.tax_framework),
             ('partner_tax_framework', '=', False),
         ]
