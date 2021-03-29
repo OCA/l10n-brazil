@@ -46,7 +46,9 @@ class AccountMoveLineCNABChange(models.TransientModel):
             ('protest_tittle', 'Protestar Titulo'),
             ('suspend_protest_keep_wallet',
              'Sustar Protesto e Manter em Carteira'),
-            ('suspend_protest_writte_off', 'Sustar Protesto e Baixar Título'),
+            # TODO: Detalhar o que deve ser feito, qual conta contabil devera
+            #  ser usada na baixa para esse caso ?
+            # ('suspend_protest_writte_off', 'Sustar Protesto e Baixar Título'),
             ('grant_rebate', 'Conceder Abatimento'),
             ('cancel_rebate', 'Cancelar Abatimento'),
             ('grant_discount', 'Conceder Desconto'),
