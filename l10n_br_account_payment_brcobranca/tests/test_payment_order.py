@@ -47,6 +47,7 @@ class TestPaymentOrder(SavepointCase):
         self.journal_cash = self.env[
             'account.journal'].search([
             ('type', '=', 'cash'),
+            ('company_id', '=', self.invoice_cef.company_id.id)
         ], limit=1)
         self.payment_method_manual_in = \
             self.env.ref('account.account_payment_method_manual_in')
@@ -66,13 +67,6 @@ class TestPaymentOrder(SavepointCase):
         payment_order = self.env['account.payment.order'].search([
             ('payment_mode_id', '=', self.invoice_unicred.payment_mode_id.id)
         ])
-
-        bank_journal = self.env.ref(
-            'l10n_br_account_payment_order.unicred_journal')
-
-        payment_order.write({
-            'journal_id': bank_journal.id
-        })
 
         self.assertEquals(len(payment_order.payment_line_ids), 2)
         self.assertEquals(len(payment_order.bank_line_ids), 0)
@@ -96,8 +90,28 @@ class TestPaymentOrder(SavepointCase):
         with self.assertRaises(UserError):
             payment_order.action_done_cancel()
 
+        self.assertEquals(len(self.invoice_unicred.move_id), 1)
         # Testar Cancelamento
-        self.invoice_cef.action_invoice_cancel()
+        self.invoice_unicred.action_invoice_cancel()
+
+        # Caso de Ordem de Pagamento já confirmado a Linha
+        # e a account.move não pode ser apagadas
+        self.assertEquals(len(payment_order.payment_line_ids), 2)
+        # TODO: A account.move está sendo apagada nesse caso deveria ser
+        #  mantida ? As account.move.line relacionas continuam exisitindo
+        self.assertEquals(len(self.invoice_unicred.move_id), 0)
+
+        # Criação do Pedido de Baixa
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_unicred.payment_mode_id.id),
+            ('state', '=', 'draft')
+        ])
+
+        for l in payment_order.payment_line_ids:
+            # Caso de Baixa do Titulo
+            self.assertEquals(
+                l.mov_instruction_code_id.name,
+                l.order_id.payment_mode_id.cnab_write_off_code_id.name)
 
     def test_payment_outside_cnab_writeoff_and_change_tittle_value(self):
         """
