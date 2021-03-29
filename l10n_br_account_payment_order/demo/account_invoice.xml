@@ -11,6 +11,7 @@
         <field name="type">out_invoice</field>
         <field name="user_id" ref="base.user_demo"/>
         <field name="payment_mode_id" ref="payment_mode_cobranca_bradesco400"/>
+        <field name="instructions">TESTE Intruções Boleto</field>
     </record>
 
     <record id="demo_invoice_line_original" model="account.invoice.line">
@@ -31,6 +32,7 @@
         <field name="type">out_invoice</field>
         <field name="user_id" ref="base.user_demo"/>
         <field name="payment_mode_id" ref="payment_mode_cobranca_itau240"/>
+        <field name="instructions">TESTE Intruções Boleto</field>
     </record>
 
     <record id="demo_invoice_payment_order_itau_line_cnab240" model="account.invoice.line">
@@ -51,6 +53,7 @@
         <field name="type">out_invoice</field>
         <field name="user_id" ref="base.user_demo"/>
         <field name="payment_mode_id" ref="payment_mode_cobranca_itau400"/>
+        <field name="instructions">TESTE Intruções Boleto</field>
     </record>
 
     <record id="demo_invoice_payment_order_itau_line_cnab400" model="account.invoice.line">
@@ -71,6 +74,7 @@
         <field name="type">out_invoice</field>
         <field name="user_id" ref="base.user_demo"/>
         <field name="payment_mode_id" ref="payment_mode_cobranca_unicred400"/>
+        <field name="instructions">TESTE Intruções Boleto</field>
     </record>
 
     <record id="demo_invoice_payment_order_unicred_line_cnab400" model="account.invoice.line">
@@ -91,6 +95,7 @@
         <field name="type">out_invoice</field>
         <field name="user_id" ref="base.user_demo"/>
         <field name="payment_mode_id" ref="payment_mode_cobranca_cef240"/>
+        <field name="instructions">TESTE Intruções Boleto</field>
     </record>
 
     <record id="demo_invoice_payment_order_cef_line_cnab240" model="account.invoice.line">
@@ -111,6 +116,7 @@
         <field name="type">out_invoice</field>
         <field name="user_id" ref="base.user_demo"/>
         <field name="payment_mode_id" ref="payment_mode_cobranca_bb400"/>
+        <field name="instructions">TESTE Intruções Boleto</field>
     </record>
 
     <record id="demo_invoice_payment_order_bb_line_cnab400" model="account.invoice.line" >
