@@ -15,4 +15,8 @@
 	    <field name="groups_id" eval="[(4, ref('l10n_br_sale.group_discount_per_value'))]"/>
     </record>
 
+    <record id="base.user_admin" model="res.users">
+	    <field name="groups_id" eval="[(4, ref('sale.group_discount_per_so_line'))]"/>
+    </record>
+
 </odoo>
