@@ -47,6 +47,8 @@
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="discount_fixed">True</field>
+        <field name="discount_value">50.0</field>
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
