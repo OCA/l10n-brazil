@@ -26,7 +26,7 @@ from ..constants.nfse import (
 _logger = logging.getLogger(__name__)
 
 
-def fiter_processador_edoc_nfse(record):
+def filter_processador_edoc_nfse(record):
     if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
@@ -82,7 +82,7 @@ class Document(models.Model):
     )
 
     def document_number(self):
-        for record in self.filtered(fiter_processador_edoc_nfse):
+        for record in self.filtered(filter_processador_edoc_nfse):
             if record.issuer == DOCUMENT_ISSUER_COMPANY:
                 if record.document_serie_id:
                     record.document_serie = record.document_serie_id.code
@@ -90,11 +90,11 @@ class Document(models.Model):
                         record.rps_number = record.document_serie_id.\
                             next_seq_number()
                         record.number = record.rps_number
-        super(Document, self - self.filtered(fiter_processador_edoc_nfse)
+        super(Document, self - self.filtered(filter_processador_edoc_nfse)
               ).document_number()
 
     def _generate_key(self):
-        remaining = self - self.filtered(fiter_processador_edoc_nfse)
+        remaining = self - self.filtered(filter_processador_edoc_nfse)
         if remaining:
             super(Document, remaining)._generate_key()
 
@@ -122,7 +122,7 @@ class Document(models.Model):
     @api.multi
     def _document_export(self, pretty_print=True):
         super(Document, self)._document_export()
-        for record in self.filtered(fiter_processador_edoc_nfse):
+        for record in self.filtered(filter_processador_edoc_nfse):
             edoc = record.serialize()[0]
             processador = record._processador_erpbrasil_nfse()
             xml_file = processador.\
