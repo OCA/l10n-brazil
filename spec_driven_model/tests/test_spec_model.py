@@ -39,13 +39,13 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
         cls.loader.update_registry((PoXsdMixin, Item, Items, USAddress, PurchaseOrder))
 
         # inject the mixins into existing Odoo models
-        from .spec_purchase import (  # NOQA
+        from .spec_purchase import (
             ResPartner,
             PurchaseOrderLine,
-            PurchaseOrder,
+            PurchaseOrder as PurchaseOrder2,
         )
 
-        cls.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder))
+        cls.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder2))
         # the binding lib should be loaded in sys.modules:
         from . import purchase_order_lib  # NOQA
 
