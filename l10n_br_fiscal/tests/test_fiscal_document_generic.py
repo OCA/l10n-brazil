@@ -60,7 +60,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.cfop_id.code, '5102',
                     "Error to mappping CFOP 5102"
@@ -99,7 +99,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -154,7 +154,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.cfop_id.code, '6102',
                     "Error to mapping CFOP 6102"
@@ -193,7 +193,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -248,15 +248,15 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
-                    line.cfop_id.code, '6102',
-                    "Error to mapping CFOP 6102"
+                    line.cfop_id.code, '6108',
+                    "Error to mapping CFOP 6108"
                     " for Revenda de Contribuinte p/ Não Contribuinte.")
             else:
                 self.assertEquals(
-                    line.cfop_id.code, '6101',
-                    "Error to mapping CFOP 6101"
+                    line.cfop_id.code, '6107',
+                    "Error to mapping CFOP 6107"
                     " for Venda de Contribuinte p/ Não Contribuinte.")
 
             # ICMS
@@ -276,7 +276,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -331,15 +331,15 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
-                    line.cfop_id.code, '6102',
-                    "Error to mapping CFOP 6102"
+                    line.cfop_id.code, '6108',
+                    "Error to mapping CFOP 6108"
                     " for Revenda de Contribuinte p/ Não Contribuinte.")
             else:
                 self.assertEquals(
-                    line.cfop_id.code, '6101',
-                    "Error to mapping CFOP 6101"
+                    line.cfop_id.code, '6107',
+                    "Error to mapping CFOP 6107"
                     " for Venda de Contribuinte p/ Não Contribuinte.")
 
             # ICMS
@@ -359,7 +359,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
                 " para Venda de Contribuinte p/ Não Contribuinte.")
 
             # IPI
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -414,7 +414,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.cfop_id.code, '7102',
                     "Error to mapping CFOP 7102"
@@ -442,7 +442,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             #    " para Venda de Contribuinte p/ o Exterior.")
 
             # IPI
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.ipi_tax_id.name, 'IPI NT',
                     "Error to mapping IPI NT"
@@ -497,7 +497,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.cfop_id.code, '5102',
                     "Error to mappping CFOP 5102"
@@ -570,7 +570,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.cfop_id.code, '6102',
                     "Error to mappping CFOP 6102"
@@ -643,7 +643,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.cfop_id.code, '5102',
                     "Error to mappping CFOP 5102"
@@ -716,7 +716,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_fiscal_operation_line_id()
             line._onchange_fiscal_taxes()
 
-            if line.fiscal_operation_line_id.name == 'Revenda':
+            if 'Revenda' in line.fiscal_operation_line_id.name:
                 self.assertEquals(
                     line.cfop_id.code, '7102',
                     "Error to mapping CFOP 7102"
