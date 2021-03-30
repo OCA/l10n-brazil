@@ -836,19 +836,22 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         }
 
         if uom_id != uot_id:
-            if product_id:
+            if product_id and price and quantity:
                 product = self.env['product.product'].browse(product_id)
                 result['fiscal_price'] = (
-                    price / product.uot_factor)
+                    price / (product.uot_factor or 1.0))
                 result['fiscal_quantity'] = (
-                    quantity * product.uot_factor)
+                    quantity * (product.uot_factor or 1.0))
 
         return result
 
     @api.onchange("uot_id", "uom_id", "price_unit", "quantity")
     def _onchange_commercial_quantity(self):
+        product_id = False
+        if self.product_id:
+            product_id = self.product_id.id
         self.update(self._update_fiscal_quantity(
-            self.product_id, self.price_unit, self.quantity,
+            product_id, self.price_unit, self.quantity,
             self.uom_id, self.uot_id))
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
