@@ -64,15 +64,15 @@ class SpecModel(models.AbstractModel):
                 if super_parent.startswith('spec.mixin.'):
                     cr.execute(
                         "SELECT name FROM ir_module_module "
-                        "WHERE name='%s' "
-                        "AND state in ('to install', 'to upgrade', 'to remove')"
-                        % (pool[super_parent]._odoo_module))
+                        "WHERE name=%s "
+                        "AND state in ('to install', 'to upgrade', 'to remove')",
+                        (pool[super_parent]._odoo_module,))
                     if cr.fetchall():
                         setattr(pool, '_%s_need_hook'
                                 % (pool[super_parent]._odoo_module,), True)
 
                     cls._map_concrete(parent, cls._name)
-                    if not hasattr(pool[parent], 'build'):
+                    if not hasattr(pool[parent], 'build'):  # FIXME BRITTLE
                         pool[parent]._inherit = super_parents + ['spec.mixin']
                         pool[parent].__bases__ = ((pool['spec.mixin'],)
                                                   + pool[parent].__bases__)
