@@ -210,6 +210,13 @@ class NFe(spec_models.StackedModel):
     nfe40_vFrete = fields.Monetary(
         related='amount_freight_value',
     )
+    
+    nfe40_vFCPUFDest = fields.Monetary(
+        related='amount_icmsfcp_value',
+    )
+    
+    nfe40_vDesc = fields.Monetary(
+        related='amount_discount')
 
     nfe40_vTotTrib = fields.Monetary(
         related='amount_estimate_tax'
