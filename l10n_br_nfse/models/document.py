@@ -15,6 +15,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK_SIMPLES_ALL,
     DOCUMENT_ISSUER_COMPANY,
     PROCESSADOR_OCA,
+    CERTIFICATE_TYPE_ECNPJ,
 )
 from odoo.tools import config
 from ..constants.nfse import (
@@ -28,7 +29,8 @@ _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfse(record):
-    if config['test_enable'] and not record.company_id.certificate_nfe_id:
+    if config['test_enable'] and (not record.company_id.certificate_nfe_id)\
+            or record.company_id.certificate_nfe_id.type != CERTIFICATE_TYPE_ECNPJ:
         return False
     if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
