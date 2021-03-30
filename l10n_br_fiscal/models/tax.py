@@ -3,6 +3,7 @@
 
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
+from odoo.tools import float_is_zero
 
 from ..constants.fiscal import (
     FISCAL_IN,
@@ -287,7 +288,7 @@ class Tax(models.Model):
         })
 
         # TODO futuramente levar em consideração outros tipos de base de calculo
-        if tax_dict.get("base", 0.00) == 0.00:
+        if float_is_zero(tax_dict.get("base", 0.00), precision):
             tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
 
         fiscal_operation_type = (operation_line.fiscal_operation_type
