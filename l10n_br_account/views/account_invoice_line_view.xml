@@ -16,7 +16,10 @@
                 </div>
                 <field name="fiscal_price" attrs="{'invisible': [('document_type_id', '=', False)]}"/>
             </field>
-            <field name="discount" position="replace">
+            <field name="discount" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="discount" position="before">
                 <field name="discount_value"/>
             </field>
             <field name="analytic_tag_ids" position="after">
