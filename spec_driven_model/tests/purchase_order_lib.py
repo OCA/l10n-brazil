@@ -96,7 +96,7 @@ class USAddress(object):
             "state", "xsd:string", 0, 0, {"name": "state", "type": "xsd:string"}, None
         ),
         MemberSpec_(
-            "zip", "xsd:decimal", 0, 0, {"name": "zip", "type": "xsd:decimal"}, None
+            "_zip", "xsd:decimal", 0, 0, {"name": "_zip", "type": "xsd:decimal"}, None
         ),
     ]
 
@@ -107,7 +107,7 @@ class USAddress(object):
         street=None,
         city=None,
         state=None,
-        zip=None,  # NOQA
+        _zip=None,  # changed zip to _zip to make pylint happy
         gds_collector_=None,
         **kwargs_
     ):
@@ -121,7 +121,7 @@ class USAddress(object):
         self.city_nsprefix_ = None
         self.state = state
         self.state_nsprefix_ = None
-        self.zip = zip
+        self._zip = _zip
         self.zip_nsprefix_ = None
 
 
@@ -129,14 +129,14 @@ class Items(object):
     member_data_items_ = [
         MemberSpec_(
             "item",
-            "itemType",
+            "ItemType",
             1,
             1,
             {
                 "maxOccurs": "unbounded",
                 "minOccurs": "0",
                 "name": "item",
-                "type": "itemType",
+                "type": "ItemType",
             },
             None,
         ),
@@ -200,7 +200,7 @@ class PurchaseOrderType(object):
         self.items_nsprefix_ = None
 
 
-class itemType(object):  # NOQA
+class ItemType(object):  # changed itemType to ItemType to make pylint happy
     member_data_items_ = [
         MemberSpec_("partNum", "tns:SKU", 0, 1, {"use": "optional"}),
         MemberSpec_(

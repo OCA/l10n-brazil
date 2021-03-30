@@ -97,7 +97,7 @@ class Item(models.AbstractModel):
     _description = 'item'
     _name = 'poxsd.10.item'
     _inherit = 'spec.mixin.poxsd'
-    _generateds_type = 'itemType'
+    _generateds_type = 'ItemType'
     _concrete_rec_name = 'poxsd10_partNum'
 
     poxsd10_item_Items_id = fields.Many2one(
