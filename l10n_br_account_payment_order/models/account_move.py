@@ -24,7 +24,7 @@ class AccountMove(models.Model):
     def unlink(self):
 
         # No caso de Ordens de Pagto vinculadas devido o
-        # ondelet=restrict no campo move_line_id do account.payment.line
+        # ondelete=restrict no campo move_line_id do account.payment.line
         # não é possível apagar uma move que já tenha uma Ordem de
         # Pagto confirmada ( processo chamado pelo action_cancel objeto
         # account.invoice ), acontece o erro abaixo de constraint:
