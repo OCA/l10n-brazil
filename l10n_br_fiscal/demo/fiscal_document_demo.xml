@@ -212,7 +212,7 @@
         <field name="quantity">1</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda_nao_contribuinte"/>
     </record>
 
     <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
@@ -232,7 +232,7 @@
         <field name="quantity">1</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda_nao_contribuinte"/>
     </record>
 
     <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
@@ -265,7 +265,7 @@
         <field name="quantity">1</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda_nao_contribuinte"/>
     </record>
 
     <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
@@ -285,7 +285,7 @@
         <field name="quantity">1</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda_nao_contribuinte"/>
     </record>
 
     <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
