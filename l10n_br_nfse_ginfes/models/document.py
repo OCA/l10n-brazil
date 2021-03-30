@@ -31,7 +31,7 @@ from ..constants.ginfes import (
 )
 
 
-def fiter_processador_edoc_nfse_ginfes(record):
+def filter_processador_edoc_nfse_ginfes(record):
     if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
@@ -73,7 +73,7 @@ class Document(models.Model):
     def _serialize(self, edocs):
         edocs = super(Document, self)._serialize(edocs)
         for record in self.filtered(
-                fiter_processador_edoc_nfse_ginfes).filtered(
+                filter_processador_edoc_nfse_ginfes).filtered(
                     fiter_provedor_ginfes):
             edocs.append(record.serialize_nfse_ginfes())
         return edocs
@@ -227,7 +227,7 @@ class Document(models.Model):
         return lote_rps
 
     def cancel_document_ginfes(self):
-        for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
+        for record in self.filtered(filter_processador_edoc_nfse_ginfes):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.cancela_documento(doc_numero=int(self.number))
 
@@ -237,7 +237,7 @@ class Document(models.Model):
             return status
 
     def action_consultar_nfse_rps(self):
-        for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
+        for record in self.filtered(filter_processador_edoc_nfse_ginfes):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
                 rps_number=int(self.rps_number),
@@ -256,7 +256,7 @@ class Document(models.Model):
     @api.multi
     def _eletronic_document_send(self):
         super(Document, self)._eletronic_document_send()
-        for record in self.filtered(fiter_processador_edoc_nfse_ginfes):
+        for record in self.filtered(filter_processador_edoc_nfse_ginfes):
             for record in self.filtered(fiter_provedor_ginfes):
                 processador = record._processador_erpbrasil_nfse()
 
