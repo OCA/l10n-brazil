@@ -40,6 +40,7 @@ class ResCompany(spec_models.SpecModel):
     nfe40_enderEmit = fields.Many2one('res.partner', related='partner_id')
 
     nfe40_choice6 = fields.Selection(
+        string="CNPJ ou CPF?",
         compute='_compute_nfe_data'
     )
 
