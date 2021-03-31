@@ -16,7 +16,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     PROCESSADOR_OCA,
 )
-from odoo.tools import config
 from ..constants.nfse import (
     NFSE_ENVIRONMENTS,
     OPERATION_NATURE,
