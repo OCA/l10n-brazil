@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
 
-    <!-- Sua Empresa -->
-    <record id="base.main_company" model="res.company">
-        <field name="processador_edoc">oca</field>
-    </record>
-
     <!-- Empresa Lucro Presumido -->
     <record id="l10n_br_base.empresa_lucro_presumido" model="res.company">
         <field name="processador_edoc">oca</field>
