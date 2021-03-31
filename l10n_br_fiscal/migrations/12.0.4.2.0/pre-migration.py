@@ -20,4 +20,4 @@ def migrate(env, version):
         for rename_column in _columns_rename[table]:
             if openupgrade.column_exists(env.cr, table, rename_column[0]):
                 openupgrade.rename_columns(
-                    env.cr, {table: rename_column})
+                    env.cr, {table: [rename_column]})
