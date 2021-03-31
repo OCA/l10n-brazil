@@ -22,7 +22,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
     PROCESSADOR_OCA,
-    CERTIFICATE_TYPE_NFE,
     SITUACAO_EDOC_REJEITADA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
@@ -32,7 +31,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.spec_driven_model.models import spec_models
 from odoo.exceptions import UserError
-from odoo.tools import config
 from requests import Session
 
 from odoo import _, api, fields
@@ -45,13 +43,11 @@ _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfe(record):
-    if config['test_enable'] and (not record.company_id.certificate_nfe_id)\
-            or record.company_id.certificate_nfe_id.type != CERTIFICATE_TYPE_NFE:
-        return False
-    elif (record.processador_edoc == PROCESSADOR_OCA
-          and record.document_type_id.code in [
-              MODELO_FISCAL_NFE,
-              MODELO_FISCAL_NFCE, ]):
+    if (record.processador_edoc == PROCESSADOR_OCA and
+            record.document_type_id.code in [
+                MODELO_FISCAL_NFE,
+                MODELO_FISCAL_NFCE,
+            ]):
         return True
     return False
 
