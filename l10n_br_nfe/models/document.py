@@ -47,8 +47,7 @@ def filter_processador_edoc_nfe(record):
             record.document_type_id.code in [
                 MODELO_FISCAL_NFE,
                 MODELO_FISCAL_NFCE,
-            ]
-    ):
+            ]):
         return True
     return False
 
