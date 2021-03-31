@@ -22,7 +22,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
     PROCESSADOR_OCA,
-    CERTIFICATE_TYPE_NFE,
     SITUACAO_EDOC_REJEITADA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
@@ -32,7 +31,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.spec_driven_model.models import spec_models
 from odoo.exceptions import UserError
-from odoo.tools import config
 from requests import Session
 
 from odoo import _, api, fields
