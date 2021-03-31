@@ -45,13 +45,12 @@ _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfe(record):
-    if config['test_enable'] and (not record.company_id.certificate_nfe_id)\
-            or record.company_id.certificate_nfe_id.type != CERTIFICATE_TYPE_NFE:
-        return False
-    elif (record.processador_edoc == PROCESSADOR_OCA
-          and record.document_type_id.code in [
-              MODELO_FISCAL_NFE,
-              MODELO_FISCAL_NFCE, ]):
+    if (record.processador_edoc == PROCESSADOR_OCA and
+            record.document_type_id.code in [
+                MODELO_FISCAL_NFE,
+                MODELO_FISCAL_NFCE,
+            ]
+    ):
         return True
     return False
 
