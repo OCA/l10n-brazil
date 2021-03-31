@@ -2,13 +2,9 @@
 #   Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from OpenSSL import crypto
-from base64 import b64encode
-from datetime import timedelta, datetime
+from datetime import datetime
 from xmldiff import main
 
-from odoo import fields
-from odoo.tools.misc import format_date
 from odoo.tools import config
 import os
 import logging
