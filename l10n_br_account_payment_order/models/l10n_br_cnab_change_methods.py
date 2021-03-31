@@ -279,7 +279,7 @@ class L10nBrCNABChangeMethods(models.Model):
         self.payment_situation = payment_situation
         # TODO criar um state removed ?
         self.cnab_state = 'done'
-        self.message_post(body=_(reason))
+        self.invoice_id.message_post(body=_(reason))
 
     def create_cnab_write_off(self, reason, payment_situation):
         """
