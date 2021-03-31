@@ -138,6 +138,7 @@ class L10nBrSaleBaseTest(SavepointCase):
         sale_line._onchange_fiscal_operation_id()
         sale_line._onchange_fiscal_operation_line_id()
         sale_line._onchange_fiscal_taxes()
+        sale_line._onchange_discount_percent()
 
     def _invoice_sale_order(self, sale_order):
         sale_order.action_confirm()
