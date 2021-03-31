@@ -70,6 +70,10 @@ class NFeLine(spec_models.StackedModel):
         string='Valor unitário de tributação',
     )
 
+    nfe40_vProd = fields.Monetary(
+        related='amount_untaxed',
+    )
+
     nfe40_choice9 = fields.Selection([
         ('normal', 'Produto Normal'),  # overriden to allow normal product
         ('nfe40_veicProd', 'Veículo'),
@@ -545,8 +549,6 @@ class NFeLine(spec_models.StackedModel):
 
     def _export_float_monetary(self, field_name, member_spec, class_obj,
                                xsd_required):
-        if field_name == 'nfe40_vProd' and class_obj._name == 'nfe.40.prod':
-            self[field_name] = self['nfe40_qCom'] * self['nfe40_vUnCom']
         if field_name == 'nfe40_pICMSInterPart':
             self[field_name] = 100.0
         if not self[field_name] and not xsd_required:
