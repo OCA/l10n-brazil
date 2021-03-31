@@ -5,7 +5,9 @@ from odoo import api, models, fields
 
 
 class AccountMove(models.Model):
-    _inherit = 'account.move'
+    _name = 'account.move'
+    # TODO: remover herança mail.thread aqui na v14, por já ser feita pelo core
+    _inherit = [_name, 'mail.thread']
 
     cnab_return_log_id = fields.Many2one(
         string='CNAB Return Log',
