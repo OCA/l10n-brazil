@@ -133,14 +133,14 @@ class AccountMoveLine(models.Model):
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
         vals = super()._prepare_payment_line_vals(payment_order)
-        vals['own_number'] = self.own_number
-        vals['document_number'] = self.document_number
-        vals['company_title_identification'] = self.company_title_identification
-
-        vals['payment_mode_id'] = self.payment_mode_id.id
-
-        # Codigo de Instrução do Movimento para Remessa
-        vals['mov_instruction_code_id'] = self.mov_instruction_code_id.id
+        vals.update({
+            'own_number': self.own_number,
+            'document_number': self.document_number,
+            'company_title_identification': self.company_title_identification,
+            'payment_mode_id': self.payment_mode_id.id,
+            # Codigo de Instrução do Movimento
+            'mov_instruction_code_id': self.mov_instruction_code_id.id
+        })
 
         # Se for uma solicitação de baixa do título é preciso informar o
         # campo debit o codigo original coloca o amount_residual
@@ -153,10 +153,6 @@ class AccountMoveLine(models.Model):
 
         if self.env.context.get('discount_value'):
             vals['discount_value'] = self.env.context.get('discount_value')
-
-        # TODO - ainda necessário ?
-        # if self.invoice_id.state == 'paid':
-        #    vals['amount_currency'] = self.credit or self.debit
 
         return vals
 
@@ -180,14 +176,6 @@ class AccountMoveLine(models.Model):
     @api.multi
     def generate_boleto(self, validate=True):
         raise NotImplementedError
-
-    @api.multi
-    def _update_check(self):
-
-        if self._context.get('reprocessing'):
-            return True
-
-        return super(AccountMoveLine, self)._update_check()
 
     @api.multi
     def write(self, values):
