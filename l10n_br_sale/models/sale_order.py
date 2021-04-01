@@ -297,10 +297,10 @@ class SaleOrder(models.Model):
             for line in order.order_line:
                 taxes = line._compute_taxes(line.fiscal_tax_ids)['taxes']
                 for tax in line.fiscal_tax_ids:
-                    group = tax.tax_group_id
-                    res.setdefault(group, {'amount': 0.0, 'base': 0.0})
                     computed_tax = taxes.get(tax.tax_domain)
-                    if computed_tax:
+                    if computed_tax and computed_tax.get('tax_value', 0.0):
+                        group = tax.tax_group_id
+                        res.setdefault(group, {'amount': 0.0, 'base': 0.0})
                         res[group]['amount'] += computed_tax.get('tax_value', 0.0)
                         res[group]['base'] += computed_tax.get('base', 0.0)
             res = sorted(res.items(), key=lambda l: l[0].sequence)
