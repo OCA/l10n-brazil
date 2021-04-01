@@ -87,14 +87,6 @@ odoo.define('l10n_br_website_sale.tour', function (require) {
                 content: "finish",
                 trigger: '.oe_website_sale:contains("Pending... ' +
                     'The order will be validated after the payment.")',
-                // Leave /shop/confirmation to prevent RPC loop to
-                //      /shop/payment/get_status.
-                // The RPC could be handled in python while the tour is
-                //      killed (and the session), leading to crashes
-                run: function () {
-                    // Redirect in JS to avoid the RPC loop (20x1sec)
-                    window.location.href = '/aboutus';
-                },
                 timeout: 30000,
             },
         ]
