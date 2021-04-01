@@ -3,7 +3,7 @@ from odoo.tests.common import HttpCase
 
 class TestUi(HttpCase):
     def test_01_l10n_br_website_sale_tour(self):
-        for i in range(1, 11):
+        for i in range(1, 31):
             print("Running website_sale_tour test #" + str(i))
             tour = (
                 "odoo.__DEBUG__.services['web_tour.tour']",
