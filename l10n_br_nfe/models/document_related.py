@@ -1,8 +1,19 @@
 # Copyright 2020 Akretion (Renato Lima <renato.lima@akretion.com>)
+# Copyright 2020 KMEE (Luis Felipe Mileo <mileo@kmee.com.br>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, fields
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    MODELO_FISCAL_01,
+    MODELO_FISCAL_04,
+    MODELO_FISCAL_CFE,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_CUPOM_FISCAL_ECF,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_RL,
+)
 from odoo.addons.spec_driven_model.models import spec_models
 
 
@@ -55,13 +66,44 @@ class NFeRelated(spec_models.StackedModel):
     # )
 
     @api.multi
+    @api.depends('document_type_id')
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
+            document = rec.document_related_id
+            document_key = document.key[3:] if document.key else ''
             if rec.document_type_id:
-                if rec.document_type_id.code == '55':  # TODO Enumerate
+                if rec.document_type_id.code in (
+                    MODELO_FISCAL_NFE,
+                    MODELO_FISCAL_NFCE,
+                    MODELO_FISCAL_CFE,
+                ):
                     rec.nfe40_choice4 = 'nfe40_refNFe'
-                    rec.nfe40_refNFe = rec.document_key
+                    rec.nfe40_refNFe = document_key
+                elif rec.document_type_id.code == MODELO_FISCAL_CTE:
+                    rec.nfe40_choice4 = 'nfe40_refCTe'
+                    rec.nfe40_refCTe = document_key
+                else:
+                    if rec.document_type_id.code == MODELO_FISCAL_RL:
+                        rec.nfe40_choice4 = 'nfe40_refNFP'
+                    elif rec.document_type_id.code == MODELO_FISCAL_CUPOM_FISCAL_ECF:
+                        rec.nfe40_choice4 = 'nfe40_refECF'
+                    elif rec.document_type_id.code in (
+                        MODELO_FISCAL_01, MODELO_FISCAL_04
+                    ):
+                        rec.nfe40_choice4 = 'nfe40_refNF'
+                    rec.nfe40_cUF = document.partner_id.state_id.ibge_code
+                    rec.nfe40_AAMM = fields.Datetime.from_string(
+                        document.data_hora_autorizacao).strftime("%y%m") \
+                        if document.data_hora_autorizacao else ''
+                    if rec.cpfcnpj_type == 'cpf':
+                        rec.nfe40_CPF = rec.cnjp_cpf
+                    else:
+                        rec.nfe40_CNPJ = rec.cnpj_cpf
+                    rec.nfe40_IE = rec.inscr_est
+                    rec.nfe40_mod = rec.document_type_id.code
+                    rec.nfe40_serie = document.document_serie
+                    rec.nfe40_nNF = document.number
 
     def _inverse_nfe40_choice4(self):
         for rec in self:
@@ -73,3 +115,10 @@ class NFeRelated(spec_models.StackedModel):
         for rec in self:
             if rec.nfe40_refNFe:
                 rec.document_key = rec.nfe40_refNFe
+
+    def _export_fields(self, xsd_fields, class_obj, export_dict):
+        if class_obj._name == 'nfe.40.nfref':
+            xsd_fields = [f for f in xsd_fields if f not in [
+                i[0] for i in class_obj._fields['nfe40_choice4'].selection]]
+            xsd_fields += [self.nfe40_choice4]
+        return super()._export_fields(xsd_fields, class_obj, export_dict)
