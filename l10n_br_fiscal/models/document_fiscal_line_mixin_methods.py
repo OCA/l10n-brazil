@@ -826,18 +826,33 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
         self._update_taxes()
 
+    @api.model
+    def _update_fiscal_quantity(self, product_id, price, quantity,
+                                uom_id, uot_id):
+        result = {
+            'uot_id': uom_id,
+            'fiscal_quantity': quantity,
+            'fiscal_price': price
+        }
+
+        if uom_id != uot_id:
+            if product_id and price and quantity:
+                product = self.env['product.product'].browse(product_id)
+                result['fiscal_price'] = (
+                    price / (product.uot_factor or 1.0))
+                result['fiscal_quantity'] = (
+                    quantity * (product.uot_factor or 1.0))
+
+        return result
+
     @api.onchange("uot_id", "uom_id", "price_unit", "quantity")
     def _onchange_commercial_quantity(self):
-        if not self.uot_id:
-            self.uot_id = self.uom_id
-
-        if self.uom_id == self.uot_id:
-            self.fiscal_price = self.price_unit
-            self.fiscal_quantity = self.quantity
-
-        if self.uom_id != self.uot_id:
-            self.fiscal_price = self.price_unit / self.product_id.uot_factor
-            self.fiscal_quantity = self.quantity * self.product_id.uot_factor
+        product_id = False
+        if self.product_id:
+            product_id = self.product_id.id
+        self.update(self._update_fiscal_quantity(
+            product_id, self.price_unit, self.quantity,
+            self.uom_id, self.uot_id))
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
