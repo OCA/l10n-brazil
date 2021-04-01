@@ -6,6 +6,7 @@ from lxml import etree
 from functools import partial
 
 from odoo import api, fields, models
+from odoo.tools import float_is_zero
 from odoo.tools.misc import formatLang
 
 
@@ -298,7 +299,9 @@ class SaleOrder(models.Model):
                 taxes = line._compute_taxes(line.fiscal_tax_ids)['taxes']
                 for tax in line.fiscal_tax_ids:
                     computed_tax = taxes.get(tax.tax_domain)
-                    if computed_tax and computed_tax.get('tax_value', 0.0):
+                    pr = order.currency_id.rounding
+                    if computed_tax and not float_is_zero(
+                            computed_tax.get('tax_value', 0.0), precision_rounding=pr):
                         group = tax.tax_group_id
                         res.setdefault(group, {'amount': 0.0, 'base': 0.0})
                         res[group]['amount'] += computed_tax.get('tax_value', 0.0)
