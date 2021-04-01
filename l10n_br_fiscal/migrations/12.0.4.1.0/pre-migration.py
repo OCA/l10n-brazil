@@ -4,9 +4,9 @@
 from openupgradelib import openupgrade
 
 _xmlids_spec = [
-    ('tax_ipi_simples_nacional', 'tax_ipi_outros'),
-    ('tax_pis_simples_nacional', 'tax_pis_outros'),
-    ('tax_cofins_simples_nacional', 'tax_cofins_outros')
+    ('l10n_br_fiscal.tax_ipi_simples_nacional', 'l10n_br_fiscal.tax_ipi_outros'),
+    ('l10n_br_fiscal.tax_pis_simples_nacional', 'l10n_br_fiscal.tax_pis_outros'),
+    ('l10n_br_fiscal.tax_cofins_simples_nacional', 'l10n_br_fiscal.tax_cofins_outros')
 ]
 
 
