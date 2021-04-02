@@ -3,8 +3,11 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from lxml import etree
+from functools import partial
 
 from odoo import api, fields, models
+from odoo.tools import float_is_zero
+from odoo.tools.misc import formatLang
 
 
 class SaleOrder(models.Model):
@@ -280,3 +283,30 @@ class SaleOrder(models.Model):
     #         else:
     #             action = {'type': 'ir.actions.act_window_close'}
     #     return action
+
+    def _amount_by_group(self):
+        for order in self:
+            currency = order.currency_id or order.company_id.currency_id
+            fmt = partial(
+                formatLang,
+                self.with_context(lang=order.partner_id.lang).env,
+                currency_obj=currency
+            )
+            res = {}
+            for line in order.order_line:
+                taxes = line._compute_taxes(line.fiscal_tax_ids)['taxes']
+                for tax in line.fiscal_tax_ids:
+                    computed_tax = taxes.get(tax.tax_domain)
+                    pr = order.currency_id.rounding
+                    if computed_tax and not float_is_zero(
+                            computed_tax.get('tax_value', 0.0), precision_rounding=pr):
+                        group = tax.tax_group_id
+                        res.setdefault(group, {'amount': 0.0, 'base': 0.0})
+                        res[group]['amount'] += computed_tax.get('tax_value', 0.0)
+                        res[group]['base'] += computed_tax.get('base', 0.0)
+            res = sorted(res.items(), key=lambda l: l[0].sequence)
+            order.amount_by_group = [(
+                l[0].name, l[1]['amount'], l[1]['base'],
+                fmt(l[1]['amount']), fmt(l[1]['base']),
+                len(res),
+            ) for l in res]
