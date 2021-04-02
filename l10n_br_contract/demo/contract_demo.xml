@@ -8,7 +8,7 @@
         <field name="pricelist_id" ref="product.list0"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="company_id" ref="base.main_company"/>
-        <field name="journal_id" ref="l10n_br_fiscal.fo_venda"/>
+        <!-- <field name="journal_id" ref="l10n_br_fiscal.fo_venda"/> -->
     </record>
 
     <record id="contract_line_only_product_1" model="contract.line">
@@ -49,7 +49,7 @@
         <field name="pricelist_id" ref="product.list0"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="company_id" ref="base.main_company"/>
-        <field name="journal_id" ref="l10n_br_fiscal.fo_venda"/>
+        <!-- <field name="journal_id" ref="l10n_br_fiscal.fo_venda"/> -->
     </record>
 
     <record id="contract_line_only_service" model="contract.line">
@@ -75,7 +75,7 @@
         <field name="pricelist_id" ref="product.list0"/>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="company_id" ref="base.main_company"/>
-        <field name="journal_id" ref="l10n_br_fiscal.fo_venda"/>
+        <!-- <field name="journal_id" ref="l10n_br_fiscal.fo_venda"/> -->
     </record>
 
     <record id="contract_line_product_1" model="contract.line">
