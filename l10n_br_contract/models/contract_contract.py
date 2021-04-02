@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 
 
 class ContractContract(models.Model):
@@ -15,7 +15,7 @@ class ContractContract(models.Model):
 
     @api.model
     def default_get(self, fields_list):
-        vals = super(ContractContract, self).default_get(fields_list)
+        vals = super().default_get(fields_list)
         contract_type = vals.get('contract_type')
         if contract_type:
             company_id = vals.get('company_id')
@@ -32,7 +32,20 @@ class ContractContract(models.Model):
             })
         return vals
 
-    document_count = fields.Integer(compute="_compute_document_count")
+    cnpj_cpf = fields.Char(
+        string='CNPJ/CPF',
+        related='partner_id.cnpj_cpf',
+    )
+
+    legal_name = fields.Char(
+        string='Legal Name',
+        related='partner_id.legal_name',
+    )
+
+    ie = fields.Char(
+        string='State Tax Number/RG',
+        related='partner_id.inscr_est',
+    )
 
     fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
@@ -40,49 +53,24 @@ class ContractContract(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
-    line_ids = fields.One2many(
-        comodel_name='contract.line',
-        inverse_name='contract_id',
-        related='contract_line_ids',
-        string='Mixin Contract Lines'
+    comment_ids = fields.Many2many(
+        comodel_name='l10n_br_fiscal.comment',
+        relation='contract_comment_rel',
+        column1='contract_id',
+        column2='comment_id',
+        string='Comments',
     )
 
     @api.multi
-    def _compute_document_count(self):
-        for rec in self:
-            rec.document_count = len(rec._get_related_invoices().mapped(
-                'fiscal_document_id'))
-
-    @api.multi
-    def action_show_documents(self):
-        self.ensure_one()
-        tree_view_ref = (
-            'l10n_br_fiscal.document_tree'
-        )
-        form_view_ref = (
-            'l10n_br_fiscal.document_form'
-        )
-        tree_view = self.env.ref(tree_view_ref, raise_if_not_found=False)
-        form_view = self.env.ref(form_view_ref, raise_if_not_found=False)
-        action = {
-            'type': 'ir.actions.act_window',
-            'name': 'Documents',
-            'res_model': 'l10n_br_fiscal.document',
-            'view_type': 'form',
-            'view_mode': 'tree,kanban,form,calendar,pivot,graph,activity',
-            'domain': [('id', 'in', self._get_related_invoices().mapped(
-                'fiscal_document_id').ids)],
-        }
-        if tree_view and form_view:
-            action['views'] = [(tree_view.id, 'tree'), (form_view.id, 'form')]
-        return action
+    def _get_amount_lines(self):
+        """Get object lines instaces used to compute fields"""
+        return self.mapped('contract_line_ids')
 
     @api.multi
     def _prepare_invoice(self, date_invoice, journal=None):
         self.ensure_one()
         invoice_vals = self._prepare_br_fiscal_dict()
         invoice_vals.update(super()._prepare_invoice(date_invoice, journal))
-
         return invoice_vals
 
     @api.model
@@ -99,14 +87,10 @@ class ContractContract(models.Model):
                     invoice.fiscal_document_id.number
                 invoice.fiscal_document_id.number = False
 
-            for line in invoice.fiscal_document_id.line_ids:
+            for line in invoice.invoice_line_ids:
                 line._onchange_product_id_fiscal()
-                line._onchange_fiscal_operation_id()
-                line._onchange_ncm_id()
                 line.price_unit = line.contract_line_id.price_unit
-                line._onchange_commercial_quantity()
-                line._onchange_fiscal_operation_line_id()
-                line._onchange_fiscal_taxes()
+                line._onchange_fiscal_operation_id()
 
     @api.multi
     def _prepare_recurring_invoices_values(self, date_ref=False):
