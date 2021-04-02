@@ -25,6 +25,8 @@ class TestL10nBrContract(SavepointCase):
             with contract.contract_line_ids.new() as line:
                 line.product_id = self.env.ref(
                     'l10n_br_fiscal.customized_development_sale')
+                line.fiscal_operation_id = self.env.ref(
+                    'l10n_br_fiscal.fo_venda')
 
         # Create Invoice and Fiscal Documents related to the contract
         self.contract_id.recurring_create_invoice()
