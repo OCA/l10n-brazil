@@ -3,6 +3,7 @@
 
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
+from odoo.tools import float_is_zero
 
 from ..constants.fiscal import (
     FISCAL_IN,
@@ -232,6 +233,9 @@ class Tax(models.Model):
         if compute_reduction:
             base_amount -= base_reduction
 
+        if tax_dict.get("icmsst_mva_percent"):
+            base_amount *= (1 + (tax_dict["icmsst_mva_percent"] / 100))
+
         if (not tax.percent_amount and not tax.value_amount and
             not tax_dict.get('percent_amount') and
                 not tax_dict.get('value_amount')):
@@ -284,7 +288,7 @@ class Tax(models.Model):
         })
 
         # TODO futuramente levar em consideração outros tipos de base de calculo
-        if tax_dict.get("base", 0.00) == 0.00:
+        if float_is_zero(tax_dict.get("base", 0.00), precision):
             tax_dict = self._compute_tax_base(tax, tax_dict, **kwargs)
 
         fiscal_operation_type = (operation_line.fiscal_operation_type
@@ -497,11 +501,20 @@ class Tax(models.Model):
             'remove_from_base': sum(remove_from_base),
             'icmsst_base_type': tax.icmsst_base_type
         })
+        if taxes_dict.get(tax.tax_domain):
+            taxes_dict[tax.tax_domain]["icmsst_mva_percent"] = \
+                tax.icmsst_mva_percent
 
         taxes_dict[tax.tax_domain].update(self._compute_tax_base(
             tax, taxes_dict.get(tax.tax_domain), **kwargs))
 
-        return self._compute_tax(tax, taxes_dict, **kwargs)
+        tax_dict = self._compute_tax(tax, taxes_dict, **kwargs)
+        if tax_dict.get("icmsst_mva_percent"):
+            tax_dict["tax_value"] -= taxes_dict.get(
+                "icms", {}
+            ).get("tax_value", 0.0)
+
+        return tax_dict
 
     def _compute_icmssn(self, tax, taxes_dict, **kwargs):
         tax_dict = taxes_dict.get(tax.tax_domain)

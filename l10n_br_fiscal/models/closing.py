@@ -240,7 +240,7 @@ class FiscalClosing(models.Model):
 
     def _save_tempfile(self, document_path, anexo, temp_dir):
         filename = os.path.join(temp_dir.name, document_path, anexo.datas_fname)
-        if not os.path.dirname(filename):
+        if not os.path.exists(os.path.dirname(filename)):
             os.makedirs(os.path.dirname(filename))
 
         with open(filename, 'wb') as file:
@@ -265,8 +265,8 @@ class FiscalClosing(models.Model):
             date_min, date_max = self._date_range()
 
             domain += [
-                ('date', '>=', date_min),
-                ('date', '<=', date_max),
+                ('date_in_out', '>=', date_min),
+                ('date_in_out', '<=', date_max),
             ]
 
         return domain
