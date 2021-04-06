@@ -45,7 +45,7 @@
         <sheet>
           <group>
             <field name="tax_group_id"/>
-            <field name="type_in_out"/>
+            <field name="type_in_out" invisible="1"/>
             <field name="is_taxed"/>
             <field name="is_debit_credit" attrs="{'invisible': [('is_taxed', '=', False)]}"/>
             <field name="custom_tax"/>
