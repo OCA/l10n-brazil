@@ -27,11 +27,10 @@ from ..constants.fiscal import (
     MODELO_FISCAL_CTE,
 )
 
-
 _logger = logging.getLogger(__name__)
 
 try:
-    from erpbrasil.base import misc
+    from erpbrasil.base.fiscal.edoc import ChaveEdoc
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
@@ -262,66 +261,29 @@ class DocumentWorkflow(models.AbstractModel):
                     MODELO_FISCAL_NFE,
                     MODELO_FISCAL_NFCE,
                     MODELO_FISCAL_CTE):
-                company = record.company_id.partner_id
-                chave = str(company.state_id
-                            and company.state_id.ibge_code or "").zfill(2)
-
-                chave += record.date.strftime("%y%m").zfill(4)
-
-                chave += str(misc.punctuation_rm(
-                    record.company_id.partner_id.cnpj_cpf)).zfill(14)
-                chave += str(record.document_type_id.code or "").zfill(2)
-                chave += str(record.document_serie or "").zfill(3)
-                chave += str(record.number or "").zfill(9)
-
-                #
-                # A inclusão do tipo de emissão na chave já torna a chave válida
-                # também para a versão 2.00 da NF-e
-                #
-                chave += str(1).zfill(1)
-
-                #
-                # O código numério é um número aleatório
-                #
-                # chave += str(random.randint(0, 99999999)).strip().rjust(8, '0')
-
-                #
-                # Mas, por segurança, é preferível que esse número não seja
-                # aleatório
-                #
-                soma = 0
-                for c in chave:
-                    soma += int(c) ** 3 ** 2
-
-                codigo = str(soma)
-                if len(codigo) > 8:
-                    codigo = codigo[-8:]
-                else:
-                    codigo = codigo.rjust(8, "0")
-
-                chave += codigo
-
-                soma = 0
-                m = 2
-                for i in range(len(chave) - 1, -1, -1):
-                    c = chave[i]
-                    soma += int(c) * m
-                    m += 1
-                    if m > 9:
-                        m = 2
-
-                digito = 11 - (soma % 11)
-                if digito > 9:
-                    digito = 0
-
-                chave += str(digito)
-                key = record.document_type_id.prefix + chave
-                record.key = key
+                chave_edoc = ChaveEdoc(
+                    ano_mes=record.date.strftime("%y%m").zfill(4),
+                    cnpj_emitente=record.company_cnpj_cpf,
+                    codigo_uf=(
+                        record.company_state_id and
+                        record.company_state_id.ibge_code or ""
+                    ),
+                    forma_emissao=1,  # TODO: Implementar campo no Odoo
+                    modelo_documento=record.document_type_id.code or "",
+                    numero_documento=record.number or "",
+                    numero_serie=record.document_serie or "",
+                    validar=True,
+                )
+                # TODO: Implementar campos no Odoo
+                # record.key_number = chave_edoc.campos
+                # record.key_formated = ' '.joint(chave_edoc.partes())
+                record.key = chave_edoc.chave
 
     def document_number(self):
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
             if not self.number and self.document_serie_id:
                 self.number = self.document_serie_id.next_seq_number()
+                self.document_serie = self.document_serie_id.code
 
             if not self.operation_name:
                 self.operation_name = ', '.join(
@@ -329,7 +291,6 @@ class DocumentWorkflow(models.AbstractModel):
                         'fiscal_operation_id')])
 
             if self.document_electronic and not self.key:
-                self.document_serie = self.document_serie_id.code
                 self._generate_key()
 
     def _document_confirm(self):
