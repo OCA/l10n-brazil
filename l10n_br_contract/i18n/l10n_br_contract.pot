@@ -14,6 +14,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__comment_ids
+msgid "Comments"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model,name:l10n_br_contract.model_res_company
 msgid "Companies"
 msgstr ""
@@ -31,12 +41,11 @@ msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model,name:l10n_br_contract.model_contract_line
-#: model:ir.model.fields,field_description:l10n_br_contract.field_l10n_br_fiscal_document_line__contract_line_id
 msgid "Contract Line"
 msgstr ""
 
 #. module: l10n_br_contract
-#: code:addons/l10n_br_contract/models/contract_contract.py:173
+#: code:addons/l10n_br_contract/models/contract_contract.py:157
 #, python-format
 msgid "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id=\"%s\">Invoice</a>"
 msgstr ""
@@ -52,32 +61,37 @@ msgid "Default Contract Sale Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_count
-msgid "Document Count"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_contract_form_view
-msgid "Documents"
-msgstr ""
-
-#. module: l10n_br_contract
-#: model:ir.model,name:l10n_br_contract.model_l10n_br_fiscal_document_line
-msgid "Fiscal Document Line"
-msgstr ""
-
-#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_id
 msgid "Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model,name:l10n_br_contract.model_account_invoice_line
-msgid "Invoice Line"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_tax_ids
+msgid "Fiscal Taxes"
 msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__line_ids
-msgid "Mixin Contract Lines"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__legal_name
+msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ie
+msgid "State Tax Number/RG"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__tax_framework
+msgid "Tax Framework"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__legal_name
+msgid "Used in fiscal documents"
 msgstr ""
 
