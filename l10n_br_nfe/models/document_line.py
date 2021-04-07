@@ -343,7 +343,7 @@ class NFeLine(spec_models.StackedModel):
             'CST': self.icms_cst_id.code,
             'modBC': self.icms_base_type,
             'vBC': str("%.02f" % self.icms_base),
-            'pRedBC': str("%.04f" % self.icms_reduction),
+            'pRedBC': str("%.04f" % self.icmsst_reduction),
             'pICMS': str("%.04f" % self.nfe40_pICMS),
             'vICMS': str("%.02f" % self.nfe40_vICMS),
 
@@ -359,18 +359,18 @@ class NFeLine(spec_models.StackedModel):
 
             # ICMS ST Dest
             'vBCSTRet': '',
-            'pST': '',
-            'vICMSSubstituto': '',
+            'pST': str("%.04f" % (self.icmsfcp_percent + self.icmsst_percent)),
+            # 'vICMSSubstituto': '',
             'vICMSSTRet': '',
             'vBCFCPSTRet': '',
             'pFCPSTRet': '',
             'vFCPSTRet': '',
-            'vBCSTDest': '',
-            'vICMSSTDest': '',
-            'pRedBCEfet': '',
-            'vBCEfet': '',
-            'pICMSEfet': '',
-            'vICMSEfet': '',
+            # 'vBCSTDest': '',
+            # 'vICMSSTDest': '',
+            # 'pRedBCEfet': '',
+            # 'vBCEfet': '',
+            # 'pICMSEfet': '',
+            # 'vICMSEfet': '',
 
             # DIFAL
             'vBCUFDest': str("%.02f" % self.icms_destination_base),
@@ -382,6 +382,16 @@ class NFeLine(spec_models.StackedModel):
             'vFCPUFDest': str("%.02f" % self.icmsfcp_value),
             'vICMSUFDest': str("%.02f" % self.icms_destination_value),
             'vICMSUFRemet': str("%.02f" % self.icms_origin_value),
+
+            # SIMPLES NACIONAL
+            'CSOSN': self.icms_cst_id.code,
+            'pCredSN': str('%.04f' % self.icmssn_percent),
+            'vCredICMSSN': str("%.02f" % self.icmssn_credit_value),
+
+            # FCP
+            'vBFCPST': str('%.02f' % self.icmsfcp_base),
+            'pFCPST': str('%.04f' % self.icmsfcp_percent),
+            'vFCPST': str('%.02f' % self.icmsfcp_value),
         }
         return icms
 
@@ -549,6 +559,8 @@ class NFeLine(spec_models.StackedModel):
 
     def _export_float_monetary(self, field_name, member_spec, class_obj,
                                xsd_required):
+        if field_name == 'nfe40_vProd' and class_obj._name == 'nfe.40.prod':
+            self[field_name] = self['nfe40_qCom'] * self['nfe40_vUnCom']
         if field_name == 'nfe40_pICMSInterPart':
             self[field_name] = 100.0
         if not self[field_name] and not xsd_required:
@@ -709,6 +721,8 @@ class NFeLine(spec_models.StackedModel):
                         icms_vals['icmsfcp_percent'] = float(icms.pFCPUFDest)
                     if hasattr(icms, 'vFCPUFDest'):
                         icms_vals['icmsfcp_value'] = float(icms.vFCPUFDest)
+                    if hasattr(icms, 'vBFCPST'):
+                        icms_vals['icmsfcp_base'] = float(icms.vBFCPST)
 
                     # ICMS DIFAL Fields
                     if hasattr(icms, 'vBCUFDest'):
