@@ -88,12 +88,12 @@ addon | version | summary
 [l10n_br_crm](l10n_br_crm/) | 12.0.1.0.0 | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 12.0.1.0.0 | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 12.0.2.0.0 | This module changes the delivery model strategy to match brazilian standards.
-[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.10.2.0 | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.10.3.0 | Brazilian fiscal core module.
 [l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.1.0 | Brazilian Localization HR Contract
 [l10n_br_mis_report](l10n_br_mis_report/) | 12.0.1.1.0 | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 12.0.1.0.0 | nfe spec
-[l10n_br_nfse](l10n_br_nfse/) | 12.0.3.0.0 | NFS-e
+[l10n_br_nfse](l10n_br_nfse/) | 12.0.3.1.0 | NFS-e
 [l10n_br_nfse_ginfes](l10n_br_nfse_ginfes/) | 12.0.2.0.0 | NFS-e (Ginfes)
 [l10n_br_nfse_issnet](l10n_br_nfse_issnet/) | 12.0.2.0.0 | NFS-e (ISSNet)
 [l10n_br_portal](l10n_br_portal/) | 12.0.1.0.0 | Campos Brasileiros no Portal
