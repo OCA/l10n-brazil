@@ -231,3 +231,38 @@ class AccountMoveLine(models.Model):
                 if record.payment_mode_id.fixed_journal_id:
                     record.journal_payment_mode_id =\
                         record.payment_mode_id.fixed_journal_id.id
+
+    @api.multi
+    def reconcile(self, writeoff_acc_id=False, writeoff_journal_id=False):
+
+        res = super().reconcile(writeoff_acc_id, writeoff_journal_id)
+        for record in self:
+            # Verificar Casos de CNAB
+            if (record.payment_mode_id.payment_method_code in
+                    ('240', '400', '500') and
+                    record.payment_mode_id.payment_method_id.payment_type ==
+                    'inbound'):
+                # Na importação do arquivo de retorno o metodo também é
+                # chamado no caso do modulo l10n_br_account_payment_brcobranca
+                # o contexto traz o campo 'file_name' que ao ser encontrado
+                # ignora o envio de alterações CNAB, outros modulos precisam
+                # validar isso
+                # Caso de Não Pagamento já está criando um Pedido de Baixa
+                if self.env.context.get('file_name') or\
+                        self.env.context.get('not_payment'):
+                    continue
+                if record.matched_credit_ids:
+                    for l in record.matched_credit_ids:
+                        if not l.already_send_cnab:
+                            record.create_payment_outside_cnab(l.amount)
+                            l.already_send_cnab = True
+
+        return res
+
+
+class AccountPartialReconcile(models.Model):
+    _inherit = 'account.partial.reconcile'
+
+    # Evita que uma conciliação parcial seja
+    # considerada novamente em um pagamento
+    already_send_cnab = fields.Boolean(string='Already send CNAB')

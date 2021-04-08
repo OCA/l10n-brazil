@@ -220,3 +220,42 @@ class TestPaymentOrderInbound(SavepointCase):
         self.assertEquals(len(payment_order.payment_line_ids), 0)
         # Nesse caso a account.move deverá ter sido apagada
         self.assertEquals(len(self.invoice_unicred.move_id), 0)
+
+    def test_payment_by_assign_outstanding_credit(self):
+        """
+         Caso de Pagamento com CNAB usando o assign_outstanding_credit
+        """
+        self.partner_akretion = self.env.ref(
+            'l10n_br_base.res_partner_akretion'
+        )
+        # I validate invoice by creating on
+        self.invoice_cef.action_invoice_open()
+
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_cef.payment_mode_id.id)
+        ])
+        # Open payment order
+        payment_order.draft2open()
+        # Generate and upload
+        # payment_order.open2generated()
+        # payment_order.generated2uploaded()
+        # self.assertEquals(payment_order.state, 'done')
+
+        payment = self.env['account.payment'].create({
+            'payment_type': 'inbound',
+            'payment_method_id': self.env.ref(
+                'account.account_payment_method_manual_in').id,
+            'partner_type': 'customer',
+            'partner_id': self.partner_akretion.id,
+            'amount': 100,
+            'journal_id': self.journal_cash.id,
+        })
+        payment.post()
+        credit_aml = payment.move_line_ids.filtered('credit')
+
+        # Erro de ter uma Instrução CNAB Pendente, como não é possivel gerar a
+        # Ordem de Pagto o teste completo de pagamento via
+        # assign_outstanding_credit precisa ser feito no modulo que
+        # implementa biblioteca a ser usada.
+        with self.assertRaises(UserError):
+            self.invoice_cef.assign_outstanding_credit(credit_aml.id)

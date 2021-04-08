@@ -147,59 +147,6 @@ class AccountInvoice(models.Model):
         return result
 
     @api.multi
-    def create_payment_outside_cnab(self, amount_payment):
-        """
-        Em caso de CNAB é preciso verificar e criar linha(s)
-         com Codigo de Instrução do Movimento de Baixa
-         ou de Alteração de Valor do Título quando existir.
-        :param amount_payment: Valor Pago
-        :return:
-        """
-
-        # Identificar a Linha CNAB que vai ser dado Baixa ou
-        # terá o Valor do Titulo alterado devido a um pagamento parcial
-        applicable_lines = change_tittle_value_line = \
-            self.env['account.move.line']
-
-        lines_to_check = self.move_id.line_ids.filtered(
-            lambda x: x.debit > 0.0 and x.payment_situation in
-            ('inicial', 'aberta')
-        )
-
-        # Valor Total, baixar todas as Parcelas em Aberto
-        if self.amount_total == amount_payment:
-            applicable_lines |= lines_to_check
-        else:
-            # Verificar se é o pagto de mais de uma parcela
-            # OBS.: A sequencia/order da alocação de valores e baixas/alteração
-            # de valor segue as Datas de Vencimento, porque não pode ser pago
-            # fora dessa ordem.
-            amount_value = 0.0
-            for line in lines_to_check:
-                applicable_lines |= line
-                amount_value += line.debit
-                if amount_value == amount_payment:
-                    # Valor Pago corresponde as linhas já percorridas
-                    break
-                if amount_value > amount_payment:
-                    # Valor Pago ficou menor que as linhas de debito essa linha
-                    # foi paga parcialmente e essa Parcela deverá ter seu valor
-                    # alterado
-                    change_tittle_value_line = line
-                    break
-
-        reason_write_off = (
-            ('Movement Instruction Code Updated for Request'
-             ' to Write Off, because payment of %s done outside CNAB.')
-            % amount_payment)
-        payment_situation = 'baixa_liquidacao'
-        for line in applicable_lines:
-            if line == change_tittle_value_line:
-                line.create_cnab_change_tittle_value()
-            else:
-                line.create_cnab_write_off(reason_write_off, payment_situation)
-
-    @api.multi
     def invoice_validate(self):
         result = super().invoice_validate()
         filtered_invoice_ids = self.filtered(lambda s: s.payment_mode_id)
@@ -209,43 +156,3 @@ class AccountInvoice(models.Model):
                 if filtered_invoice_id.payment_mode_id.payment_order_ok:
                     filtered_invoice_id.create_account_payment_line()
         return result
-
-    @api.multi
-    def assign_outstanding_credit(self, credit_aml_id):
-        self.ensure_one()
-        # TODO - Existe necessidade de ser feito algo nesse metodo ?
-        #  O Metodo parece ser chamado apenas no modulo sale
-        #  https://github.com/OCA/OCB/blob/12.0/addons/sale/
-        #  models/account_invoice.py#L68
-        # if self.eval_situacao_pagamento in ['paga', 'liquidada',
-        # 'baixa_liquidacao']:
-        #    raise UserError(
-        #       _(
-        #         'Não é possível adicionar pagamentos em uma fatura que '
-        #         'já está paga.'
-        #         )
-        #        )
-        # if self.eval_state_cnab in ['accepted', 'exported', 'done']:
-        #    raise UserError(
-        #      _(
-        #        'Não é possível adicionar pagamentos em uma fatura já '
-        #        'exportada ou aceita no banco.'
-        #        )
-        #     )
-        return super().assign_outstanding_credit(credit_aml_id)
-
-    @api.multi
-    def register_payment(
-        self, payment_line, writeoff_acc_id=False, writeoff_journal_id=False
-    ):
-        res = super().register_payment(
-            payment_line, writeoff_acc_id, writeoff_journal_id)
-
-        self._pos_action_move_create()
-
-        for inv in self:
-            inv._compute_financial()
-            receivable_id = inv.financial_move_line_ids
-            receivable_id.residual = inv.residual
-
-        return res
