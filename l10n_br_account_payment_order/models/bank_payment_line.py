@@ -143,15 +143,10 @@ class BankPaymentLine(models.Model):
             if not record.last_cnab_state:
                 continue
 
-            move_line_id = self.env['account.move.line'].search(
-                [
-                    (
-                        'company_title_identification',
-                        '=',
-                        record.company_title_identification,
-                    )
-                ]
-            )
+            move_line_id = self.env['account.move.line'].search([
+                ('company_title_identification', '=',
+                 record.company_title_identification)
+            ])
             move_line_id.state_cnab = record.last_cnab_state
 
         return super().unlink()
@@ -175,12 +170,11 @@ class BankPaymentLine(models.Model):
         return same_fields
 
     # TODO: Implementar métodos para outros tipos cnab.
-    #   _prepare_boleto_bank_line_vals
     #   _prepare_pagamento_bank_line_vals
     #   _prepare_debito_automatico_bank_line_vals
     #   _prepare_[...]_bank_line_vals
 
-    def _prepare_bank_line_vals(self):
+    def _prepare_boleto_bank_line_vals(self):
         return {
             'valor': self.amount_currency,
             'data_vencimento': self.date.strftime('%Y/%m/%d'),
