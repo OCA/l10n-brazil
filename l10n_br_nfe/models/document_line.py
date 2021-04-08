@@ -338,43 +338,39 @@ class NFeLine(spec_models.StackedModel):
 
     def _export_fields_icms(self):
         icms = {
-            # ICMS Proprio
+            # ICMS
             'orig': self.nfe40_orig,
             'CST': self.icms_cst_id.code,
             'modBC': self.icms_base_type,
             'vBC': str("%.02f" % self.icms_base),
             'pRedBC': str("%.04f" % self.icmsst_reduction),
-            'pICMS': str("%.04f" % self.nfe40_pICMS),
-            'vICMS': str("%.02f" % self.nfe40_vICMS),
+            'pICMS': str("%.04f" % self.icms_percent),
+            'vICMS': str("%.02f" % self.icms_value),
 
-            # ICMS ST
+            # ICMS SUBSTITUIÇÃO TRIBUTÁRIA
             'modBCST': self.icmsst_base_type,
             'pMVAST': str("%.04f" % self.icmsst_mva_percent),
             'pRedBCST': str("%.04f" % self.icmsst_reduction),
             'vBCST': str("%.02f" % self.icmsst_base),
             'pICMSST': str("%.04f" % self.icmsst_percent),
             'vICMSST': str("%.02f" % self.icmsst_value),
-            # 'pBCOp': '',
             'UFST': self.partner_id.state_id.code,
 
-            # ICMS ST Dest
+            # ICMS COBRADO ANTERIORMENTE POR SUBSTITUIÇÃO TRIBUTÁRIA
             'vBCSTRet': '',
             'pST': str("%.04f" % (self.icmsfcp_percent + self.icmsst_percent)),
-            # 'vICMSSubstituto': '',
+            'vICMSSubstituto': '',
             'vICMSSTRet': '',
             'vBCFCPSTRet': '',
             'pFCPSTRet': '',
             'vFCPSTRet': '',
-            # 'vBCSTDest': '',
-            # 'vICMSSTDest': '',
-            # 'pRedBCEfet': '',
-            # 'vBCEfet': '',
-            # 'pICMSEfet': '',
-            # 'vICMSEfet': '',
+            'pRedBCEfet': '',
+            'vBCEfet': '',
+            'pICMSEfet': '',
+            'vICMSEfet': '',
 
-            # DIFAL
+            # DIFAL ICMS
             'vBCUFDest': str("%.02f" % self.icms_destination_base),
-            # 'vBCFCPUFDest': str("%.02f" % ),
             'pFCPUFDest': str("%.04f" % self.icmsfcp_percent),
             'pICMSUFDest': str("%.04f" % self.icms_origin_percent),
             'pICMSInter': str("%.04f" % self.icms_destination_percent),
@@ -383,13 +379,13 @@ class NFeLine(spec_models.StackedModel):
             'vICMSUFDest': str("%.02f" % self.icms_destination_value),
             'vICMSUFRemet': str("%.02f" % self.icms_origin_value),
 
-            # SIMPLES NACIONAL
+            # ICMS SIMPLES NACIONAL
             'CSOSN': self.icms_cst_id.code,
             'pCredSN': str('%.04f' % self.icmssn_percent),
             'vCredICMSSN': str("%.02f" % self.icmssn_credit_value),
 
-            # FCP
-            'vBFCPST': str('%.02f' % self.icmsfcp_base),
+            # FUNDO DE COMBATE À POBREZA
+            'vBCFCPST': str('%.02f' % self.icmsfcp_base),
             'pFCPST': str('%.04f' % self.icmsfcp_percent),
             'vFCPST': str('%.02f' % self.icmsfcp_value),
         }
@@ -603,7 +599,7 @@ class NFeLine(spec_models.StackedModel):
             vals['quantity'] = float(value)
             vals['fiscal_quantity'] = float(value)
         if key == 'nfe40_pICMS':
-            vals['icms_percent'] = float(value or 0.00)
+            vals['icms_percent'] = float(value)
         if key == 'nfe40_pIPI':
             vals['ipi_percent'] = float(value or 0.00)
         if key == 'nfe40_pPIS':
@@ -679,7 +675,7 @@ class NFeLine(spec_models.StackedModel):
                             'l10n_br_fiscal.cst_icms_%s' % (icms.CST,)).id
                         # TODO search + log if not found
                     if hasattr(icms, 'modBC'):
-                        icms_vals['icms_base_type'] = icms.modBC
+                        icms_vals['icms_base_type'] = float(icms.modBC)
                     if hasattr(icms, 'orig'):
                         icms_vals['icms_origin'] = icms.orig
                     if hasattr(icms, 'vBC'):
@@ -721,8 +717,8 @@ class NFeLine(spec_models.StackedModel):
                         icms_vals['icmsfcp_percent'] = float(icms.pFCPUFDest)
                     if hasattr(icms, 'vFCPUFDest'):
                         icms_vals['icmsfcp_value'] = float(icms.vFCPUFDest)
-                    if hasattr(icms, 'vBFCPST'):
-                        icms_vals['icmsfcp_base'] = float(icms.vBFCPST)
+                    if hasattr(icms, 'vBCFCPST'):
+                        icms_vals['icmsfcp_base'] = float(icms.vBCFCPST)
 
                     # ICMS DIFAL Fields
                     if hasattr(icms, 'vBCUFDest'):
