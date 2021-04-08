@@ -345,6 +345,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     icms_value = fields.Monetary(string="ICMS Value")
 
+    # vICMSSubstituto - Valor do ICMS cobrado em operação anterior
+    icms_substitute = fields.Monetary(string="Substitute ICMS",
+                                      help="Valor do ICMS Próprio do Substituto cobrado em operação anterior")
+
     # motDesICMS - Motivo da desoneração do ICMS
     icms_relief_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.icms.relief",
@@ -440,6 +444,35 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmssn_percent = fields.Float(string="ICMS SN %")
 
     icmssn_credit_value = fields.Monetary(string="ICMS SN Credit")
+
+    # ICMS COBRADO ANTERIORMENTE POR ST
+    # vBCFCPSTRet
+    icmsfcp_base_wh = fields.Monetary(string="FCP WH Base",
+                                      help="Valor da base de cálculo do FCP retido anteriormente")
+
+    # pFCPSTRet
+    icmsfcp_percent_wh = fields.Float(string="FCP WH %",
+                                      help="Percentual do FCP retido anteriormente por ST")
+
+    # vFCPSTRet
+    icmsfcp_value_wh = fields.Monetary(string="FCP WH Value",
+                                       help="Valor do FCP retido anteriormente por ST")
+
+    # pRedBCEfet
+    effective_base_percent = fields.Float(string="Effective Base %",
+                                          help="Percentual de redução da base de cálculo efetiva")
+
+    # vBCEfet
+    effective_base_value = fields.Monetary(string="Effective Base Value",
+                                           help="Valor da base de cálculo efetiva")
+
+    # pICMSEfet
+    icms_effective_percent = fields.Float(string="ICMS Effective %",
+                                          help="Alíquota do ICMS efetiva")
+
+    # vICMSEfet
+    icms_effective_value = fields.Monetary(string="ICMS Effective Value",
+                                           help="Valor do ICMS Efetivo")
 
     # IPI Fields
     ipi_tax_id = fields.Many2one(
