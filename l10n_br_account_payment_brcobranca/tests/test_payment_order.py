@@ -31,6 +31,9 @@ class TestPaymentOrder(SavepointCase):
             'l10n_br_account_payment_order.'
             'demo_invoice_payment_order_cef_cnab240'
         )
+        self.partner_akretion = self.env.ref(
+            'l10n_br_base.res_partner_akretion'
+        )
         # I validate invoice by creating on
         self.invoice_cef.action_invoice_open()
 
@@ -366,3 +369,142 @@ class TestPaymentOrder(SavepointCase):
         self.assertEquals(aml_to_change.payment_situation, 'nao_pagamento')
         self.assertEquals(aml_to_change.cnab_state, 'done')
         self.assertEquals(aml_to_change.reconciled, True)
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_cef.payment_mode_id.id),
+            ('state', '=', 'draft')
+        ])
+        for l in payment_order.payment_line_ids:
+            # Baixa do Titulo
+            self.assertEquals(
+                l.mov_instruction_code_id.name,
+                l.order_id.payment_mode_id.
+                    cnab_write_off_code_id.name)
+
+    def test_payment_by_assign_outstanding_credit(self):
+        """
+         Caso de Pagamento com CNAB usando o assign_outstanding_credit
+        """
+        self.partner_akretion = self.env.ref(
+            'l10n_br_base.res_partner_akretion'
+        )
+        # I validate invoice by creating on
+        self.invoice_cef.action_invoice_open()
+
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_cef.payment_mode_id.id)
+        ])
+        # Open payment order
+        payment_order.draft2open()
+        # Generate and upload
+        payment_order.open2generated()
+        payment_order.generated2uploaded()
+        self.assertEquals(payment_order.state, 'done')
+
+        payment = self.env['account.payment'].create({
+            'payment_type': 'inbound',
+            'payment_method_id': self.env.ref(
+                'account.account_payment_method_manual_in').id,
+            'partner_type': 'customer',
+            'partner_id': self.partner_akretion.id,
+            'amount': 100,
+            'journal_id': self.journal_cash.id,
+        })
+        payment.post()
+        credit_aml = payment.move_line_ids.filtered('credit')
+
+        # Assign credit and residual
+        self.invoice_cef.assign_outstanding_credit(credit_aml.id)
+
+        # Ordem de PAgto com alterações
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_cef.payment_mode_id.id),
+            ('state', '=', 'draft')
+        ])
+        for l in payment_order.payment_line_ids:
+            # Caso de alteração do valor do titulo por pagamento parcial
+            self.assertEquals(
+                l.mov_instruction_code_id.name,
+                l.order_id.payment_mode_id.
+                    cnab_code_change_title_value_id.name)
+            self.assertEquals(
+                l.move_line_id.amount_residual,
+                l.amount_currency)
+
+        # Open payment order
+        payment_order.draft2open()
+        # Generate and upload
+        payment_order.open2generated()
+        payment_order.generated2uploaded()
+        self.assertEquals(payment_order.state, 'done')
+
+        payment = self.env['account.payment'].create({
+            'payment_type': 'inbound',
+            'payment_method_id': self.env.ref(
+                'account.account_payment_method_manual_in').id,
+            'partner_type': 'customer',
+            'partner_id': self.partner_akretion.id,
+            'amount': 50,
+            'journal_id': self.journal_cash.id,
+        })
+        payment.post()
+        credit_aml = payment.move_line_ids.filtered('credit')
+
+        # Assign credit and residual
+        self.invoice_cef.assign_outstanding_credit(credit_aml.id)
+
+        # Ordem de PAgto com alterações
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_cef.payment_mode_id.id),
+            ('state', '=', 'draft')
+        ])
+        for l in payment_order.payment_line_ids:
+            # Caso de alteração do valor do titulo por pagamento parcial
+            self.assertEquals(
+                l.mov_instruction_code_id.name,
+                l.order_id.payment_mode_id.
+                    cnab_code_change_title_value_id.name)
+            self.assertEquals(
+                l.move_line_id.amount_residual,
+                l.amount_currency)
+
+        # Open payment order
+        payment_order.draft2open()
+        # Generate and upload
+        payment_order.open2generated()
+        payment_order.generated2uploaded()
+        self.assertEquals(payment_order.state, 'done')
+
+        payment = self.env['account.payment'].create({
+            'payment_type': 'inbound',
+            'payment_method_id': self.env.ref(
+                'account.account_payment_method_manual_in').id,
+            'partner_type': 'customer',
+            'partner_id': self.partner_akretion.id,
+            'amount': 150,
+            'journal_id': self.journal_cash.id,
+        })
+        payment.post()
+        credit_aml = payment.move_line_ids.filtered('credit')
+
+        # Assign credit and residual
+        self.invoice_cef.assign_outstanding_credit(credit_aml.id)
+
+        # Ordem de PAgto com alterações
+        payment_order = self.env['account.payment.order'].search([
+            ('payment_mode_id', '=', self.invoice_cef.payment_mode_id.id),
+            ('state', '=', 'draft')
+        ])
+        for l in payment_order.payment_line_ids:
+            # Baixa do Titulo
+            self.assertEquals(
+                l.mov_instruction_code_id.name,
+                l.order_id.payment_mode_id.
+                    cnab_write_off_code_id.name)
+            # TODO: Pedido de Baixa está indo com o valor inicial deveria ser
+            #  o ultimo valor enviado ? Já que é um Pedido de Baixa o Banco
+            #  validaria essas atualizações ?
+            #  l.move_line_id.amount_residual = 0.0
+            #  l.amount_currency = 300
+            # self.assertEquals(
+            #    l.move_line_id.amount_residual,
+            #    l.amount_currency)
