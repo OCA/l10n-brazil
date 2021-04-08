@@ -4,7 +4,7 @@
 # @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, api, fields, _
+from odoo import _, api, fields, models
 
 
 class BankPaymentLine(models.Model):
@@ -51,7 +51,7 @@ class BankPaymentLine(models.Model):
 
     def prepare_bank_payment_line(self, bank_name_brcobranca):
         payment_mode_id = self.order_id.payment_mode_id
-        linhas_pagamentos = self._prepare_bank_line_vals()
+        linhas_pagamentos = self._prepare_boleto_bank_line_vals()
         try:
             bank_method = getattr(
                 self, '_prepare_bank_line_{}'.format(bank_name_brcobranca.name)
@@ -61,8 +61,7 @@ class BankPaymentLine(models.Model):
         except:
             pass
 
-        # Cada Banco pode possuir seus Codigos de Instrução,
-        # cnab 240 mais padronizado
+        # Cada Banco pode possuir seus Codigos de Instrução
         if self.mov_instruction_code_id.code ==\
                 payment_mode_id.cnab_sending_code_id.code:
             if payment_mode_id.boleto_fee_perc:
