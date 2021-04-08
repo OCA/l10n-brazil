@@ -256,7 +256,8 @@ class L10nBrCNABChangeMethods(models.Model):
 
         move_line_to_reconcile = moves.filtered(
             lambda m: m.credit > 0.0)
-        (self + move_line_to_reconcile).reconcile()
+        (self + move_line_to_reconcile).with_context(
+            not_payment=True).reconcile()
 
         self.create_payment_line_from_move_line(payorder)
         # Proceso CNAB encerrado
@@ -475,3 +476,16 @@ class L10nBrCNABChangeMethods(models.Model):
             'last_change_reason': reason,
             'payment_situation': 'baixa',  # FIXME: Podem ser múltiplos motivos
         })
+
+    def create_payment_outside_cnab(self, amount_payment):
+
+        if self.amount_residual == 0.0:
+            reason_write_off = (
+                ('Movement Instruction Code Updated for'
+                 ' Request to Write Off, because payment'
+                 ' of %s done outside CNAB.') % amount_payment)
+            payment_situation = 'baixa_liquidacao'
+            self.create_cnab_write_off(
+                reason_write_off, payment_situation)
+        else:
+            self.create_cnab_change_tittle_value()
