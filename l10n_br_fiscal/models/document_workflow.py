@@ -1,9 +1,11 @@
 # Copyright (C) 2019  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
+import logging
+
 from odoo.exceptions import UserError
 
+from odoo import _, api, fields, models
 from ..constants.fiscal import (
     SITUACAO_EDOC,
     SITUACAO_EDOC_A_ENVIAR,
@@ -20,7 +22,17 @@ from ..constants.fiscal import (
     PROCESSADOR_NENHUM,
     PROCESSADOR,
     DOCUMENT_ISSUER_COMPANY,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_CTE,
 )
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.base.fiscal.edoc import ChaveEdoc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class DocumentWorkflow(models.AbstractModel):
@@ -244,12 +256,34 @@ class DocumentWorkflow(models.AbstractModel):
         return True
 
     def _generate_key(self):
-        pass
+        for record in self:
+            if record.document_type_id.code in (
+                    MODELO_FISCAL_NFE,
+                    MODELO_FISCAL_NFCE,
+                    MODELO_FISCAL_CTE):
+                chave_edoc = ChaveEdoc(
+                    ano_mes=record.date.strftime("%y%m").zfill(4),
+                    cnpj_emitente=record.company_cnpj_cpf,
+                    codigo_uf=(
+                        record.company_state_id and
+                        record.company_state_id.ibge_code or ""
+                    ),
+                    forma_emissao=1,  # TODO: Implementar campo no Odoo
+                    modelo_documento=record.document_type_id.code or "",
+                    numero_documento=record.number or "",
+                    numero_serie=record.document_serie or "",
+                    validar=True,
+                )
+                # TODO: Implementar campos no Odoo
+                # record.key_number = chave_edoc.campos
+                # record.key_formated = ' '.joint(chave_edoc.partes())
+                record.key = chave_edoc.chave
 
     def document_number(self):
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
             if not self.number and self.document_serie_id:
                 self.number = self.document_serie_id.next_seq_number()
+                self.document_serie = self.document_serie_id.code
 
             if not self.operation_name:
                 self.operation_name = ', '.join(
@@ -257,8 +291,7 @@ class DocumentWorkflow(models.AbstractModel):
                         'fiscal_operation_id')])
 
             if self.document_electronic and not self.key:
-                self.document_serie = self.document_serie_id.code
-                self.key = self._generate_key()
+                self._generate_key()
 
     def _document_confirm(self):
         self._change_state(SITUACAO_EDOC_A_ENVIAR)
