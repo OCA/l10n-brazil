@@ -14,7 +14,9 @@ class AccountPayment(models.Model):
     def post(self):
 
         for record in self:
-            if record.payment_method_code in ('240', '400', '500'):
+            if record.payment_method_code in ('240', '400', '500') and\
+                    record.payment_mode_id.payment_method_id.payment_type\
+                    == 'inbound':
                 # TODO - Idealmente isso deveria ser resolvido com um
                 #  domain=[('code', 'not in', ('400','240','500'))]
                 #  no campo payment_method_id, mas mesmo adicionando isso na
@@ -31,13 +33,3 @@ class AccountPayment(models.Model):
                     ' choose another one.'))
 
             super().post()
-            for invoice in record.invoice_ids:
-                # Se é CNAB do tipo Recebiveis deve ser feita a validação
-                # se é possível e se necessário informar o Banco a respeito
-                # de Baixa ou Alteração do Valor no caso do Pagamento for
-                # Parcial e permitir esse tipo de instrução.
-                if (invoice.payment_mode_id.payment_method_code in
-                        ('240', '400', '500') and
-                        invoice.payment_mode_id.payment_method_id.payment_type
-                        == 'inbound'):
-                    invoice.create_payment_outside_cnab(record.amount)
