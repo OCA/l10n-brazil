@@ -1,5 +1,5 @@
 <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
-  <infNFe versao="4.00" Id="NFe35200781583054000129550010000000011062777160">
+  <infNFe versao="4.00" Id="NFe35210481583054000129550010000000011661862549">
     <ide>
       <cUF>35</cUF>
       <cNF>06277716</cNF>
@@ -14,7 +14,7 @@
       <cMunFG>3550308</cMunFG>
       <tpImp>1</tpImp>
       <tpEmis>1</tpEmis>
-      <cDV>0</cDV>
+      <cDV>9</cDV>
       <tpAmb>2</tpAmb>
       <finNFe>1</finNFe>
       <indFinal>1</indFinal>
