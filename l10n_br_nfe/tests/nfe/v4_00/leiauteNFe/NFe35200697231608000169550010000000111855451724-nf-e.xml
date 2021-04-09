@@ -1,8 +1,8 @@
 <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
-  <infNFe versao="4.00" Id="NFe35210481583054000129550010000000011661862549">
+  <infNFe versao="4.00" Id="NFe35200681583054000129550010000000011760018059">
     <ide>
       <cUF>35</cUF>
-      <cNF>06277716</cNF>
+      <cNF>76001805</cNF>
       <natOp>Venda</natOp>
       <mod>55</mod>
       <serie>1</serie>
@@ -204,7 +204,7 @@
     <pag>
       <detPag>
         <indPag>0</indPag>
-        <tPag>99</tPag>
+        <tPag>01</tPag>
         <vPag>4147.25</vPag>
       </detPag>
       <vTroco>0.00</vTroco>
