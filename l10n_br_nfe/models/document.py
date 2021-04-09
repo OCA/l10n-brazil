@@ -359,13 +359,19 @@ class NFe(spec_models.StackedModel):
             'protocolo_autorizacao': infProt.nProt,
         })
 
+    def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
+        return {
+            'nfe40_indPag': ind_pag,
+            'nfe40_tPag': t_pag,
+            'nfe40_vPag': v_pag,
+        }
+
     def _export_fields_pagamentos(self):
         if not self.amount_financial:
-            self.nfe40_detPag = [(5, 0, 0), (0, 0, {
-                'nfe40_indPag': '0',
-                'nfe40_tPag': '90',
-                'nfe40_vPag': 0.00,
-            })]
+            self.nfe40_detPag = [
+                (5, 0, 0),
+                (0, 0, self._prepare_amount_financial('0', '90', 0.00))
+            ]
         self.nfe40_detPag.__class__._field_prefix = 'nfe40_'
 
     @api.multi
