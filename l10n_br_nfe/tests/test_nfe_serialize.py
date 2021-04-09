@@ -50,8 +50,8 @@ class TestNFeExport(TransactionCase):
         self.nfe.date_in_out = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
         self.nfe.nfe40_cNF = '06277716'
-        self.nfe.nfe40_Id = 'NFe35200781583054000129550010000000011062777160'
-        self.nfe.with_context(lang='pt_BR')._document_export()
+        self.nfe.nfe40_serie = '1'
+        self.nfe.with_context(lang='pt_BR').action_document_confirm()
         output = os.path.join(config['data_dir'], 'filestore',
                               self.cr.dbname, self.nfe.file_xml_id.store_fname)
         _logger.info("XML file saved at %s" % (output,))
