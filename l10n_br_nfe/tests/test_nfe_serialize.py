@@ -4,6 +4,7 @@
 
 from datetime import datetime
 from xmldiff import main
+from xmldiff import formatting
 
 from odoo.tools import config
 import os
@@ -56,6 +57,8 @@ class TestNFeExport(TransactionCase):
                               self.cr.dbname, self.nfe.file_xml_id.store_fname)
         _logger.info("XML file saved at %s" % (output,))
         self.nfe.company_id.country_id.name = 'Brazil'  # clean mess
-        diff = main.diff_files(xml_path, output)
-        _logger.info("Diff with expected XML (if any): %s" % (diff,))
+        diff = main.diff_files(
+            xml_path, output, formatter=formatting.DiffFormatter(pretty_print=True)
+        )
+        _logger.info("Diff with expected XML (if any): \n%s" % (diff,))
         assert len(diff) == 0
