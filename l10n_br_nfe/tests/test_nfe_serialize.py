@@ -45,13 +45,17 @@ class TestNFeExport(TransactionCase):
         xml_path = os.path.join(
             l10n_br_nfe.__path__[0], 'tests', 'nfe', 'v4_00', 'leiauteNFe',
             'NFe35200697231608000169550010000000111855451724-nf-e.xml')
-        self.nfe.action_document_confirm()
         self.nfe.date = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
         self.nfe.date_in_out = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
         self.nfe.nfe40_cNF = '06277716'
         self.nfe.nfe40_serie = '1'
+        self.nfe.nfe40_detPag = [
+                (5, 0, 0),
+                (0, 0, self.nfe._prepare_amount_financial(
+                    '0', '01', self.nfe.amount_financial
+                ))]
         self.nfe.with_context(lang='pt_BR').action_document_confirm()
         output = os.path.join(config['data_dir'], 'filestore',
                               self.cr.dbname, self.nfe.file_xml_id.store_fname)
