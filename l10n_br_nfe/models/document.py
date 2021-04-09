@@ -327,20 +327,7 @@ class NFe(spec_models.StackedModel):
     def _document_export(self, pretty_print=True):
         super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
-            # TODO map this better
-            total = sum(self.line_ids.filtered(
-                lambda l: l.cfop_id.finance_move).mapped('amount_total'))
-            tpag = '99'
-            if not total:
-                tpag = '90'
-
-            record.nfe40_detPag = [(5, 0, 0), (0, 0, {
-                'nfe40_indPag': '0',
-                'nfe40_tPag': tpag,
-                'nfe40_vPag': total,
-            })]
-            record.nfe40_detPag.__class__._field_prefix = 'nfe40_'
-
+            record._export_fields_pagamentos()
             edoc = record.serialize()[0]
             processador = record._processador()
             xml_file = processador.\
@@ -372,23 +359,20 @@ class NFe(spec_models.StackedModel):
             'protocolo_autorizacao': infProt.nProt,
         })
 
+    def _export_fields_pagamentos(self):
+        if not self.amount_financial:
+            self.nfe40_detPag = [(5, 0, 0), (0, 0, {
+                'nfe40_indPag': '0',
+                'nfe40_tPag': '90',
+                'nfe40_vPag': 0.00,
+            })]
+        self.nfe40_detPag.__class__._field_prefix = 'nfe40_'
+
     @api.multi
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
-            # TODO map this better
-            total = sum(self.line_ids.filtered(
-                lambda l: l.cfop_id.finance_move).mapped('amount_total'))
-            tpag = '99'
-            if not total:
-                tpag = '90'
-            record.nfe40_detPag = [(5, 0, 0), (0, 0, {
-                'nfe40_indPag': '0',
-                'nfe40_tPag': tpag,
-                'nfe40_vPag': total,
-            })]
-            record.nfe40_detPag.__class__._field_prefix = 'nfe40_'
-
+            record._export_fields_pagamentos()
             processador = record._processador()
             for edoc in record.serialize():
                 processo = None
