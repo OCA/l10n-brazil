@@ -7,6 +7,7 @@ import logging
 import tempfile
 from unicodedata import normalize
 
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.assinatura import certificado as cert
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
@@ -285,9 +286,10 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def document_number(self):
         super().document_number()
-        if self.key and len(self.key) == 47:
-            self.nfe40_cNF = self.key[38:-1]
-            self.nfe40_cDV = self.key[-1]
+        if self.key:
+            chave = ChaveEdoc(self.key)
+            self.nfe40_cNF = chave.codigo_aleatorio
+            self.nfe40_cDV = chave.digito_verificador
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
@@ -481,8 +483,8 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def action_document_confirm(self):
         for record in self:
-            record.date = fields.Datetime.now()
-            record.date_in_out = fields.Datetime.now()
+            if not record.date_in_out:
+                record.date_in_out = fields.Datetime.now()
         super(NFe, self).action_document_confirm()
 
         for record in self.filtered(filter_processador_edoc_nfe):
