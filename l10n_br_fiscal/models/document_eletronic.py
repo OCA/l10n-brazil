@@ -190,5 +190,10 @@ class DocumentEletronic(models.AbstractModel):
             xml_file = self.file_xml_autorizacao_id or self.file_xml_id
         return self._target_new_tab(xml_file)
 
+    def make_pdf(self):
+        pass
+
     def view_pdf(self):
+        if not self.file_pdf_id:
+            self.make_pdf()
         return self._target_new_tab(self.file_pdf_id)
