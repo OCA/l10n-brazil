@@ -1,6 +1,7 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
 from requests import Session
 import logging
 
@@ -92,6 +93,24 @@ class Document(models.Model):
                         record.number = record.rps_number
         super(Document, self - self.filtered(filter_processador_edoc_nfse)
               ).document_number()
+
+    def make_pdf(self):
+        if not self.filtered(filter_processador_edoc_nfse):
+            return super().make_pdf()
+        pdf = self.env.ref(
+            'l10n_br_nfse.report_br_nfse_danfe').render_qweb_pdf(self.ids)[0]
+        self.file_pdf_id.unlink()
+        self.file_pdf_id = self.env['ir.attachment'].create(
+            {
+                "name": "self.rps_number or self.number",
+                "datas_fname": "self.rps_number or self.number",
+                "res_model": self._name,
+                "res_id": self.id,
+                "datas": base64.b64encode(pdf),
+                "mimetype": "application/pdf",
+                "type": "binary",
+            }
+        )
 
     def _processador_erpbrasil_nfse(self):
         certificado = cert.Certificado(
