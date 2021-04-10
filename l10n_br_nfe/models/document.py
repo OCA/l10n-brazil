@@ -84,6 +84,7 @@ class NFe(spec_models.StackedModel):
     nfe40_emit = fields.Many2one('res.company', compute='_compute_emit',
                                  readonly=True, string="Emit")
 
+    @api.depends('partner_id')
     def _compute_dest(self):
         for doc in self:  # TODO if out
             doc.nfe40_dest = doc.partner_id
@@ -292,11 +293,14 @@ class NFe(spec_models.StackedModel):
 
     @api.multi
     def document_number(self):
+        # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
+        # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
         super().document_number()
-        if self.key:
-            chave = ChaveEdoc(self.key)
-            self.nfe40_cNF = chave.codigo_aleatorio
-            self.nfe40_cDV = chave.digito_verificador
+        for record in self.filtered(filter_processador_edoc_nfe):
+            if record.key:
+                chave = ChaveEdoc(record.key)
+                record.nfe40_cNF = chave.codigo_aleatorio
+                record.nfe40_cDV = chave.digito_verificador
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
@@ -439,19 +443,11 @@ class NFe(spec_models.StackedModel):
         return
 
     @api.multi
-    def action_document_confirm(self):
-        for record in self:
+    def document_date(self):
+        super().document_date()
+        for record in self.filtered(filter_processador_edoc_nfe):
             if not record.date_in_out:
                 record.date_in_out = fields.Datetime.now()
-        super(NFe, self).action_document_confirm()
-
-        for record in self.filtered(filter_processador_edoc_nfe):
-            processador = record._processador()
-            record.authorization_event_id = record._gerar_evento(
-                processador._generateds_to_string_etree(
-                    record.serialize()[0]
-                )[0], event_type="0"
-            )
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if self.company_id.partner_id.state_id.ibge_code:
