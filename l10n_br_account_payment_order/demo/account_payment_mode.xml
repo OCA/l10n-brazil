@@ -3,7 +3,7 @@
 
     <!-- Account Payment Mode -->
     <record id="payment_mode_boleto" model="account.payment.mode">
-        <field name="name">Boleto Bancario</field>
+        <field name="name">Cobrança Boleto (Manual)</field>
         <field name="fixed_journal_id" ref="l10n_br_account_payment_order-account_journal"/>
         <field name="bank_account_link">variable</field>
         <field name="company_id" ref="base.main_company"/>
@@ -20,7 +20,7 @@
 
     <!-- Account Payment Mode -->
     <record id="simples_nacional_payment_mode_boleto" model="account.payment.mode">
-        <field name="name">Boleto Bancario</field>
+        <field name="name">Cobrança Boleto (Manual)</field>
         <field name="fixed_journal_id" ref="simples_nacional_bank_journal"/>
         <field name="bank_account_link">variable</field>
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional"/>
@@ -35,7 +35,7 @@
 
     <!-- Account Payment Mode -->
     <record id="lucro_presumido_payment_mode_boleto" model="account.payment.mode">
-        <field name="name">Boleto Bancario</field>
+        <field name="name">Cobrança Boleto (Manual)</field>
         <field name="fixed_journal_id" ref="lucro_presumido_bank_journal"/>
         <field name="bank_account_link">variable</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
