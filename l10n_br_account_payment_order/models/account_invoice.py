@@ -9,14 +9,26 @@ from odoo import api, fields, models
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
+    @api.multi
+    @api.depends('move_id.line_ids')
+    def _compute_financial(self):
+        for invoice in self:
+            lines = invoice.move_id.line_ids.filtered(
+                lambda l: l.account_id == invoice.account_id and
+                l.account_id.internal_type in ('receivable', 'payable'))
+            invoice.financial_move_line_ids = lines.sorted()
+
     eval_payment_mode_instructions = fields.Text(
         string='Instruções de Cobrança do Modo de Pagamento',
         related='payment_mode_id.instructions',
         readonly=True,
+        help='Instruções Ordem de Pagamento configuradas'
+             ' no Modo de pagamento'
     )
 
     instructions = fields.Text(
         string='Instruções de cobrança',
+        help='Instruções Extras da Ordem de Pagamento'
     )
 
     # eval_situacao_pagamento = fields.Selection(
@@ -35,15 +47,6 @@ class AccountInvoice(models.Model):
         store=True,
         compute='_compute_financial',
     )
-
-    @api.multi
-    @api.depends('move_id.line_ids')
-    def _compute_financial(self):
-        for invoice in self:
-            lines = invoice.move_id.line_ids.filtered(
-                lambda l: l.account_id == invoice.account_id and
-                l.account_id.internal_type in ('receivable', 'payable'))
-            invoice.financial_move_line_ids = lines.sorted()
 
     @api.onchange('payment_mode_id')
     def _onchange_payment_mode_id(self):
