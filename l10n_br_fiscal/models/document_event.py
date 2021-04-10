@@ -14,12 +14,12 @@ from erpbrasil.base import misc
 CODIGO_NOME = {"55": "nf-e", "SE": "nfs-e", "65": "nfc-e"}
 
 
-def caminho_empresa(company_id, document):
+def caminho_empresa(company_id):
     db_name = company_id._cr.dbname
     cnpj = misc.punctuation_rm(company_id.cnpj_cpf)
 
     filestore = config.filestore(db_name)
-    path = "/".join([filestore, "edoc", document, cnpj])
+    path = "/".join([filestore, "edoc", cnpj])
     if not os.path.exists(path):
         try:
             os.makedirs(path)
@@ -218,19 +218,15 @@ class Event(models.Model):
                 record.display_name = ''
 
     @staticmethod
-    def monta_caminho(ambiente, company_id, chave):
-        caminho = caminho_empresa(company_id, chave[:2])
-
+    def monta_caminho(company_id, ambiente, tipo_documento, ano, mes, serie, numero):
+        caminho = caminho_empresa(company_id)
         if ambiente == 1:
             caminho = os.path.join(caminho, "producao/")
         else:
             caminho = os.path.join(caminho, "homologacao/")
 
-        data = "20" + chave[2:4] + "-" + chave[4:6]
-        serie = chave[22:25]
-        numero = chave[25:34]
-
-        caminho = os.path.join(caminho, data + "/")
+        caminho = os.path.join(caminho, tipo_documento)
+        caminho = os.path.join(caminho, ano + "-" + mes + "/")
         caminho = os.path.join(caminho, serie + "-" + numero + "/")
 
         try:
@@ -241,12 +237,16 @@ class Event(models.Model):
 
     def _grava_arquivo_disco(self, arquivo, file_name):
         save_dir = self.monta_caminho(
-            ambiente=False,
+            ambiente=False,  # FIXME:
             company_id=self.company_id,
-            chave=(
-                self.document_id.key
-                or self.document_id.number
-            ),  # FIXME:
+            tipo_documento=(
+                self.fiscal_document_id.document_type_id.prefix or
+                self.fiscal_document_id.document_type_id.code
+            ),
+            ano=self.fiscal_document_id.date.strftime("%Y").zfill(4),
+            mes=self.fiscal_document_id.date.strftime("%m").zfill(2),
+            serie=self.fiscal_document_id.document_serie,
+            numero=self.fiscal_document_id.number,
         )
         file_path = os.path.join(save_dir, file_name)
         try:
