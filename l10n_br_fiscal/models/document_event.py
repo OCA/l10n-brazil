@@ -2,6 +2,8 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+
 import os
 import base64
 
@@ -10,6 +12,14 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from erpbrasil.base import misc
+
+from ..constants.fiscal import (
+    EVENT_ENVIRONMENT,
+    EVENT_ENVIRONMENT_PROD,
+    EVENT_ENVIRONMENT_HML,
+)
+
+_logger = logging.getLogger(__name__)
 
 CODIGO_NOME = {"55": "nf-e", "SE": "nfs-e", "65": "nfc-e"}
 
@@ -200,6 +210,10 @@ class Event(models.Model):
         values['date'] = fields.Datetime.now()
         return super().create(values)
 
+    environment = fields.Selection(
+        selection=EVENT_ENVIRONMENT,
+    )
+
     @api.multi
     @api.depends(
         'document_id.number',
@@ -218,16 +232,23 @@ class Event(models.Model):
                 record.display_name = ''
 
     @staticmethod
-    def monta_caminho(company_id, ambiente, tipo_documento, ano, mes, serie, numero):
+    def monta_caminho(
+            company_id, ambiente, tipo_documento, ano, mes, serie=False, numero=False):
         caminho = caminho_empresa(company_id)
-        if ambiente == 1:
+
+        if ambiente not in (EVENT_ENVIRONMENT_PROD, EVENT_ENVIRONMENT_HML):
+            _logger.error(
+                'Ambiente não informado, salvando na pasta de Homologação!')
+
+        if ambiente == EVENT_ENVIRONMENT_PROD:
             caminho = os.path.join(caminho, "producao/")
         else:
             caminho = os.path.join(caminho, "homologacao/")
 
         caminho = os.path.join(caminho, tipo_documento)
         caminho = os.path.join(caminho, ano + "-" + mes + "/")
-        caminho = os.path.join(caminho, serie + "-" + numero + "/")
+        if serie and numero:
+            caminho = os.path.join(caminho, serie + "-" + numero + "/")
 
         try:
             os.makedirs(caminho)
@@ -235,18 +256,23 @@ class Event(models.Model):
             pass
         return caminho
 
-    def _grava_arquivo_disco(self, arquivo, file_name):
+    def _grava_arquivo_disco(self, arquivo, file_name, tipo_documento, ano, mes, serie, numero):
         save_dir = self.monta_caminho(
-            ambiente=False,  # FIXME:
+            ambiente=self.environment,
             company_id=self.company_id,
-            tipo_documento=(
-                self.fiscal_document_id.document_type_id.prefix or
-                self.fiscal_document_id.document_type_id.code
-            ),
-            ano=self.fiscal_document_id.date.strftime("%Y").zfill(4),
-            mes=self.fiscal_document_id.date.strftime("%m").zfill(2),
-            serie=self.fiscal_document_id.document_serie,
-            numero=self.fiscal_document_id.number,
+            tipo_documento=tipo_documento,
+            ano=ano,
+            mes=mes,
+            serie=serie,
+            numero=numero,
+            # tipo_documento=(
+            #     self.fiscal_document_id.document_type_id.prefix or
+            #     self.fiscal_document_id.document_type_id.code
+            # ),
+            # ano=self.fiscal_document_id.date.strftime("%Y").zfill(4),
+            # mes=self.fiscal_document_id.date.strftime("%m").zfill(2),
+            # serie=self.fiscal_document_id.document_serie,
+            # numero=self.fiscal_document_id.number,
         )
         file_path = os.path.join(save_dir, file_name)
         try:
