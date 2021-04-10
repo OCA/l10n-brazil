@@ -422,7 +422,7 @@ class NFe(spec_models.StackedModel):
                     record.atualiza_status_nfe(protocolo.infProt, xml_file, )
                     if protocolo.infProt.cStat in AUTORIZADO:
                         try:
-                            record.gera_pdf()
+                            record.make_pdf()
                         except Exception as e:
                             # Não devemos interromper o fluxo
                             # E dar rollback em um documento
@@ -567,14 +567,23 @@ class NFe(spec_models.StackedModel):
             super(NFe, self)._build_many2one(comodel, vals, new_value,
                                              key, value, path)
 
-    def gera_pdf(self):
+    def make_pdf(self):
+        if not self.filtered(filter_processador_edoc_nfe):
+            return super().make_pdf()
         file_pdf = self.file_report_id
         self.file_report_id = False
         file_pdf.unlink()
         output = self.authorization_event_id.monta_caminho(
-            ambiente=self.nfe40_tpAmb,
+            ambiente=False,  # FIXME:
             company_id=self.company_id,
-            chave=self.key,
+            tipo_documento=(
+                self.document_type_id.prefix or
+                self.document_type_id.code
+            ),
+            ano=self.date.strftime("%Y").zfill(4),
+            mes=self.date.strftime("%m").zfill(2),
+            serie=self.document_serie,
+            numero=self.number,
         )
 
         if self.authorization_file_id:
@@ -585,7 +594,7 @@ class NFe(spec_models.StackedModel):
             arquivo = tmp_xml.name
 
         base.ImprimirXml.imprimir(caminho_xml=arquivo, output_dir=output)
-        file_name = 'danfe.pdf'
+        file_name = (self.key or 'danfe') + '.pdf'
         with open(output + file_name, 'rb') as f:
             arquivo_data = f.read()
 
@@ -600,11 +609,6 @@ class NFe(spec_models.StackedModel):
                 "type": "binary",
             }
         )
-
-    def view_pdf(self):
-        if not self.file_report_id:
-            self.gera_pdf()
-        return super(NFe, self).view_pdf()
 
     def temp_xml_autorizacao(self, tmp_xml):
         """ TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
