@@ -486,3 +486,11 @@ FISCAL_COMMENT_OBJECTS = [
 FISCAL_COMMENT_DOCUMENT = 'l10n_br_fiscal.document.mixin'
 
 FISCAL_COMMENT_LINE = 'l10n_br_fiscal.document.line.mixin'
+
+EVENT_ENVIRONMENT_PROD = 'prod'
+EVENT_ENVIRONMENT_HML = 'hml'
+
+EVENT_ENVIRONMENT = [
+    ('prod', 'Production'),
+    ('hml', 'Homologation'),
+]
