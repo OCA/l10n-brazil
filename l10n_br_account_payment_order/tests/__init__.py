@@ -2,5 +2,6 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+from . import test_invoice_normal_workflow
 from . import test_payment_order
 from . import test_payment_order_inbound
