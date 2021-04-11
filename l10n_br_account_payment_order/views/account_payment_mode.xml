@@ -16,7 +16,7 @@
                 </group>
             </group>
             <xpath expr="//form/group[@name='note']" position="before">
-                <group string="Configurações Brasileiras - CNAB" name='l10n-br-config' col="4" attrs="{'invisible': [('payment_method_code', 'not in', ('240','400', '500') )]}">
+                <group string="Configurações Brasileiras - CNAB" name='l10n-br-config' col="4" attrs="{'invisible': [('payment_method_code', 'not in', ('240','400', '500', 'manual_test') )]}">
                     <notebook colspan="4" name="l10n_br_account_payment_order">
                         <page string="Geral">
                             <group name="l10n_br_account_payment_order-geral">
@@ -83,7 +83,7 @@
                             </group>
                         </page>
                         <page string="Configuração dos Codigos CNAB"
-                              attrs="{'invisible': [('payment_method_code', 'not in', ('240', '400', '500'))]}">
+                              attrs="{'invisible': [('payment_method_code', 'not in', ('240', '400', '500', 'manual_test'))]}">
                             <field name="bank_id" invisible="1"/>
                             <group name="return_move_code" string="Códigos de Retorno do Movimento">
                                 <field name="cnab_liq_return_move_code_ids" widget="many2many_tags"

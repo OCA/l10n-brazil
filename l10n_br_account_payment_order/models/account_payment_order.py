@@ -18,6 +18,7 @@ from ..constants import (
     INDICATIVO_FORMA_PAGAMENTO,
     TIPO_SERVICO,
     CODE_MANUAL_TEST,
+    CODES_PAYMENT_ORDER,
 )
 
 _logger = logging.getLogger(__name__)
@@ -129,7 +130,7 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             # TODO: Existe o caso de se apagar uma Ordem de Pagto
             #  no caso CNAB ? O que deveria ser feito nesse caso ?
-            if order.payment_method_code in ('240', '400', '500') and \
+            if order.payment_method_code in CODES_PAYMENT_ORDER and \
                     order.payment_mode_id.payment_method_id.payment_type == \
                     'inbound':
                 raise UserError(_(
@@ -141,7 +142,7 @@ class AccountPaymentOrder(models.Model):
         for order in self:
             # TODO: Existe o caso de se Cancelar uma Ordem de Pagto
             #  no caso CNAB ? O que deveria ser feito nesse caso ?
-            if order.payment_method_code in ('240', '400', '500') and \
+            if order.payment_method_code in CODES_PAYMENT_ORDER and \
                     order.payment_mode_id.payment_method_id.payment_type == \
                     'inbound':
                 raise UserError(_(
