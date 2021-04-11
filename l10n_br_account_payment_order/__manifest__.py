@@ -66,6 +66,7 @@
         'views/account_move_view.xml'
     ],
     'demo': [
+        'demo/account_payment_method.xml',
         'demo/mov_instruction_code.xml',
         'demo/res_partner_bank.xml',
         'demo/account_account.xml',

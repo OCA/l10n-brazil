@@ -4,7 +4,11 @@
 
 from odoo import api, fields, models
 
-from ..constants import ESTADOS_CNAB, SITUACAO_PAGAMENTO
+from ..constants import (
+    ESTADOS_CNAB,
+    SITUACAO_PAGAMENTO,
+    CODES_PAYMENT_ORDER,
+)
 
 
 class AccountMoveLine(models.Model):
@@ -231,7 +235,7 @@ class AccountMoveLine(models.Model):
         for record in self:
             # Verificar Casos de CNAB
             if (record.payment_mode_id.payment_method_code in
-                    ('240', '400', '500') and
+                    CODES_PAYMENT_ORDER and
                     record.payment_mode_id.payment_method_id.payment_type ==
                     'inbound'):
                 # Na importação do arquivo de retorno o metodo também é
