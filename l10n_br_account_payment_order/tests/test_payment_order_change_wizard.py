@@ -21,7 +21,7 @@ class TestPaymentOrderInbound(SavepointCase):
 
         self.demo_invoice_change = self.env.ref(
             'l10n_br_account_payment_order.'
-            'demo_invoice_change'
+            'demo_invoice_manual_test'
         )
 
     def test_change_due_date(self):

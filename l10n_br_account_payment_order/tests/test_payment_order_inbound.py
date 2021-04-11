@@ -33,9 +33,9 @@ class TestPaymentOrderInbound(SavepointCase):
             'demo_invoice_payment_order_unicred_cnab400'
         )
 
-        self.demo_invoice_payment_order_pay_in_cash = self.env.ref(
+        self.demo_invoice_manual_test = self.env.ref(
             'l10n_br_account_payment_order.'
-            'demo_invoice_payment_order_pay_in_cash'
+            'demo_invoice_manual_test'
         )
 
         # Journal
@@ -270,22 +270,20 @@ class TestPaymentOrderInbound(SavepointCase):
         Then we must cancel the boleto at the bank, creating a movement of "BAIXA".
         :return:
         """
-        """Test automatic creation of Payment Order."""
-
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'draft')
+        self.assertEquals(self.demo_invoice_manual_test.state, 'draft')
 
         # I validate invoice by creating on
-        self.demo_invoice_payment_order_pay_in_cash.action_invoice_open()
+        self.demo_invoice_manual_test.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'open')
+        self.assertEquals(self.demo_invoice_manual_test.state, 'open')
 
         # I check that now there is a move attached to the invoice
-        assert self.demo_invoice_payment_order_pay_in_cash.move_id,\
+        assert self.demo_invoice_manual_test.move_id,\
             "Move not created for open invoice"
         inv_payment_mode_id = \
-            self.demo_invoice_payment_order_pay_in_cash.payment_mode_id
+            self.demo_invoice_manual_test.payment_mode_id
         payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
             ('payment_mode_id', '=', inv_payment_mode_id.id)
@@ -297,16 +295,16 @@ class TestPaymentOrderInbound(SavepointCase):
         payment_order.generated2uploaded()
         payment_order.action_done()
 
-        open_amount = self.demo_invoice_payment_order_pay_in_cash.residual
+        open_amount = self.demo_invoice_manual_test.residual
         # I totally pay the Invoice
-        self.demo_invoice_payment_order_pay_in_cash.pay_and_reconcile(
+        self.demo_invoice_manual_test.pay_and_reconcile(
             self.env['account.journal'].search(
                 [('type', '=', 'cash')], limit=1
             ), open_amount)
 
         # I verify that invoice is now in Paid state
         self.assertEquals(
-            self.demo_invoice_payment_order_pay_in_cash.state,
+            self.demo_invoice_manual_test.state,
             'paid',
             "Invoice is not in Paid state"
         )
@@ -332,22 +330,20 @@ class TestPaymentOrderInbound(SavepointCase):
         Then we must cancel the boleto at the bank, creating a movement of "BAIXA".
         :return:
         """
-        """Test automatic creation of Payment Order."""
-
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'draft')
+        self.assertEquals(self.demo_invoice_manual_test.state, 'draft')
 
         # I validate invoice by creating on
-        self.demo_invoice_payment_order_pay_in_cash.action_invoice_open()
+        self.demo_invoice_manual_test.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'open')
+        self.assertEquals(self.demo_invoice_manual_test.state, 'open')
 
         # I check that now there is a move attached to the invoice
-        assert self.demo_invoice_payment_order_pay_in_cash.move_id,\
+        assert self.demo_invoice_manual_test.move_id,\
             "Move not created for open invoice"
         inv_payment_mode_id = \
-            self.demo_invoice_payment_order_pay_in_cash.payment_mode_id
+            self.demo_invoice_manual_test.payment_mode_id
         payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
             ('payment_mode_id', '=', inv_payment_mode_id.id)
@@ -360,19 +356,19 @@ class TestPaymentOrderInbound(SavepointCase):
         payment_order.action_done()
 
         # I totally pay the Invoice
-        self.demo_invoice_payment_order_pay_in_cash.pay_and_reconcile(
+        self.demo_invoice_manual_test.pay_and_reconcile(
             self.env['account.journal'].search(
                 [('type', '=', 'cash')], limit=1
             ), 300)
 
-        self.demo_invoice_payment_order_pay_in_cash.pay_and_reconcile(
+        self.demo_invoice_manual_test.pay_and_reconcile(
             self.env['account.journal'].search(
                 [('type', '=', 'cash')], limit=1
             ), 700)
 
         # I verify that invoice is now in Paid state
         self.assertEquals(
-            self.demo_invoice_payment_order_pay_in_cash.state,
+            self.demo_invoice_manual_test.state,
             'paid',
             "Invoice is not in Paid state"
         )
@@ -399,22 +395,20 @@ class TestPaymentOrderInbound(SavepointCase):
         the invoice.
         :return:
         """
-        pass
-
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'draft')
+        self.assertEquals(self.demo_invoice_manual_test.state, 'draft')
 
         # I validate invoice by creating on
-        self.demo_invoice_payment_order_pay_in_cash.action_invoice_open()
+        self.demo_invoice_manual_test.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'open')
+        self.assertEquals(self.demo_invoice_manual_test.state, 'open')
 
         # I check that now there is a move attached to the invoice
-        assert self.demo_invoice_payment_order_pay_in_cash.move_id,\
+        assert self.demo_invoice_manual_test.move_id,\
             "Move not created for open invoice"
         inv_payment_mode_id = \
-            self.demo_invoice_payment_order_pay_in_cash.payment_mode_id
+            self.demo_invoice_manual_test.payment_mode_id
         payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
             ('payment_mode_id', '=', inv_payment_mode_id.id)
@@ -426,7 +420,7 @@ class TestPaymentOrderInbound(SavepointCase):
         payment_order.generated2uploaded()
         payment_order.action_done()
 
-        self.demo_invoice_payment_order_pay_in_cash.action_invoice_cancel()
+        self.demo_invoice_manual_test.action_invoice_cancel()
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
