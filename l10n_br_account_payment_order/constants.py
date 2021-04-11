@@ -1,6 +1,18 @@
 # © 2012 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+CODE_CNAB_240 = '240'
+CODE_CNAB_400 = '400'
+CODE_CNAB_500 = '500'
+
+CODE_MANUAL_TEST = 'manual_test'
+
+CODES_PAYMENT_ORDER = (
+    CODE_CNAB_240,
+    CODE_CNAB_400,
+    CODE_CNAB_500,
+    CODE_MANUAL_TEST,
+)
 
 COBRANCA = "01"
 BOLETO_PAGAMENTO_ELETRONICO = "03"
