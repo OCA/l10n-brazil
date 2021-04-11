@@ -4,6 +4,15 @@
     <!-- Sequencia dos Arquivos CNAB -->
     <!-- Devem ser únicas por Modo de Pagto para evitar inconsistencias
          de numeração fora da ordem -->
+
+    <record id="sequence_manual_test_main_company" model="ir.sequence">
+        <field name="name">Sequencia Manual Test - Main Company</field>
+        <field name="code">Sequencia Manual Test - Main Company</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="False" name="company_id"/>
+    </record>
+
     <record id="sequence_cnab_number_bradesco_400" model="ir.sequence">
         <field name="name">Sequencia Arquivo CNAB - Bradesco 400</field>
         <field name="code">Sequencia Arquivo CNAB - Bradesco 400</field>
@@ -115,6 +124,17 @@
     </record>
 
     <!-- Sequencia Nosso Numero -  por Carteira para testes com Multiplos CNAB -->
+    <record id="sequence_own_number_manual_test" model="ir.sequence">
+        <field name="name">Nosso número - Manual Test</field>
+        <field name="code">nosso.numero - Manual Test</field>
+        <field eval="1" name="number_next"/>
+        <field eval="1" name="number_increment"/>
+        <field eval="False" name="company_id"/>
+        <field eval="10" name="padding"/>
+    </record>
+
+
+
     <record id="sequence_own_number_bradesco_400" model="ir.sequence">
         <field name="name">Nosso número - Bradesco 400</field>
         <field name="code">nosso.numero - Bradesco 400</field>
