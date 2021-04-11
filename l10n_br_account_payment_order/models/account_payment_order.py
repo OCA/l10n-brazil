@@ -17,6 +17,7 @@ from ..constants import (
     FORMA_LANCAMENTO,
     INDICATIVO_FORMA_PAGAMENTO,
     TIPO_SERVICO,
+    CODE_MANUAL_TEST,
 )
 
 _logger = logging.getLogger(__name__)
@@ -146,3 +147,12 @@ class AccountPaymentOrder(models.Model):
                 raise UserError(_(
                     'You cannot Cancel CNAB order.'))
         return super().unlink()
+
+    @api.multi
+    def generate_payment_file(self):
+        """Returns (payment file as string, filename)"""
+        self.ensure_one()
+        if self.payment_method_id.code == CODE_MANUAL_TEST:
+            return (False, False)
+        else:
+            super().generate_payment_file()
