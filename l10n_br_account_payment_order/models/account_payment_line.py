@@ -4,7 +4,6 @@
 
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
-from odoo.tools.float_utils import float_round as round
 
 from ..constants import (
     AVISO_FAVORECIDO,
@@ -131,14 +130,12 @@ class AccountPaymentLine(models.Model):
     )
 
     @api.multi
-    @api.depends('percent_interest', 'amount_currency')
+    @api.depends('percent_interest', 'amount_currency', 'currency_id')
     def _compute_interest(self):
         for record in self:
-            precision = record.env[
-                'decimal.precision'].precision_get('Account')
-            record.amount_interest = round(
-                record.amount_currency * (
-                    record.percent_interest / 100), precision)
+            record.amount_interest = record.currency_id.round(
+                record.amount_currency * (record.percent_interest / 100)
+            )
 
     @api.model
     def default_get(self, fields_list):
