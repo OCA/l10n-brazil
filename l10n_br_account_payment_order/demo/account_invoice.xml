@@ -198,8 +198,8 @@
     </function>
 
      <!-- Fatura/Invoice Manual -->
-    <record id="demo_invoice_payment_order_pay_in_cash" model="account.invoice">
-        <field name="name">Test Payment Order Pay in Cash</field>
+    <record id="demo_invoice_manual_test" model="account.invoice">
+        <field name="name">manual_test Payment Order</field>
         <field name="payment_term_id" ref="account.account_payment_term_advance"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee"/>
         <field name="type">out_invoice</field>
@@ -208,7 +208,7 @@
     </record>
 
     <record id="demo_invoice_line_payment_order_pay_in_cash" model="account.invoice.line">
-        <field name="invoice_id" ref="demo_invoice_payment_order_pay_in_cash"/>
+        <field name="invoice_id" ref="demo_invoice_manual_test"/>
         <field name="name">[E-COM06] Computador Personalizado (kit)</field>
         <field name="product_id" ref="product.product_product_5"/>
         <field name="uom_id" ref="uom.product_uom_unit"/>
