@@ -22,7 +22,7 @@ class AccountPayment(models.Model):
                     record.payment_mode_id.payment_method_id.payment_type\
                     == 'inbound':
                 # TODO - Idealmente isso deveria ser resolvido com um
-                #  domain=[('code', 'not in', ('400','240','500'))]
+                #  domain=[('code', 'not in', CODES_PAYMENT_ORDER)]
                 #  no campo payment_method_id, mas mesmo adicionando isso na
                 #  visão ou sobre escrevendo o campo não funciona e não gera
                 #  erros, não consegui identificar o motivo do problema (
