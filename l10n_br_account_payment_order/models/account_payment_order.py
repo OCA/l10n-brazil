@@ -110,8 +110,8 @@ class AccountPaymentOrder(models.Model):
             #  Já não gera erro ao tentar criar o arquivo ?
             if record.bank_line_error_ids:
                 record.message_post(
-                    body=('Erro ao gerar o arquivo, '
-                          'verifique a aba Linhas com problemas.')
+                    body=_(('Erro ao gerar o arquivo, '
+                            'verifique a aba Linhas com problemas.'))
                 )
                 for payment_line in record.payment_line_ids:
                     payment_line.move_line_id.cnab_state = 'exporting_error'
@@ -121,7 +121,7 @@ class AccountPaymentOrder(models.Model):
                     if line.move_line_id:
                         line.move_line_id.bank_payment_line_id = \
                             line.bank_line_id
-                record.message_post(body='Arquivo gerado com sucesso.')
+                record.message_post(body=_('Arquivo gerado com sucesso.'))
 
         return result
 
