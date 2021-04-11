@@ -22,43 +22,44 @@ class L10nBrCNABChangeMethods(models.Model):
         :param kwargs:
         :return:
         """
-        # Checar se existe uma Instrução de CNAB ainda a ser enviada
-        self._check_cnab_instruction_to_be_send()
+        for record in self:
+            # Checar se existe uma Instrução de CNAB ainda a ser enviada
+            record._check_cnab_instruction_to_be_send()
 
-        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+            payorder, new_payorder = record._get_payment_order(record.invoice_id)
 
-        if change_type == 'change_date_maturity':
-            cnab_code = self._get_cnab_date_maturity(new_date)
-            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-        elif change_type == 'change_payment_mode':
-            self._change_payment_mode(reason, **kwargs)
-        elif change_type == 'baixa':
-            self._create_baixa(reason, **kwargs)
-        elif change_type == 'not_payment':
-            self._create_cnab_not_payment(payorder, new_payorder, reason)
-        elif change_type == 'protest_tittle':
-            cnab_code = self._get_cnab_protest_tittle()
-            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-        elif change_type == 'suspend_protest_keep_wallet':
-            cnab_code = self._get_cnab_suspend_protest_keep_wallet()
-            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-        elif change_type == 'suspend_protest_writte_off':
-            cnab_code = self._get_cnab_suspend_protest_writte_off()
-            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-        elif change_type == 'grant_rebate':
-            cnab_code = self._get_cnab_grant_rebate()
-            self.with_context(rebate_value=rebate_value). \
-                _make_cnab_change(cnab_code, new_payorder, payorder, reason)
-        elif change_type == 'cancel_rebate':
-            cnab_code = self._get_cnab_cancel_rebate()
-            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-        elif change_type == 'grant_discount':
-            cnab_code = self._get_cnab_grant_discount()
-            self.with_context(discount_value=discount_value). \
-                _make_cnab_change(cnab_code, new_payorder, payorder, reason)
-        elif change_type == 'cancel_discount':
-            cnab_code = self._get_cnab_cancel_discount()
-            self._make_cnab_change(cnab_code, new_payorder, payorder, reason)
+            if change_type == 'change_date_maturity':
+                cnab_code = record._get_cnab_date_maturity(new_date)
+                record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
+            elif change_type == 'change_payment_mode':
+                record._change_payment_mode(reason, **kwargs)
+            elif change_type == 'baixa':
+                record._create_baixa(reason, **kwargs)
+            elif change_type == 'not_payment':
+                record._create_cnab_not_payment(payorder, new_payorder, reason)
+            elif change_type == 'protest_tittle':
+                cnab_code = record._get_cnab_protest_tittle()
+                record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
+            elif change_type == 'suspend_protest_keep_wallet':
+                cnab_code = record._get_cnab_suspend_protest_keep_wallet()
+                record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
+            elif change_type == 'suspend_protest_writte_off':
+                cnab_code = record._get_cnab_suspend_protest_writte_off()
+                record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
+            elif change_type == 'grant_rebate':
+                cnab_code = record._get_cnab_grant_rebate()
+                record.with_context(rebate_value=rebate_value). \
+                    _make_cnab_change(cnab_code, new_payorder, payorder, reason)
+            elif change_type == 'cancel_rebate':
+                cnab_code = record._get_cnab_cancel_rebate()
+                record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
+            elif change_type == 'grant_discount':
+                cnab_code = record._get_cnab_grant_discount()
+                record.with_context(discount_value=discount_value). \
+                    _make_cnab_change(cnab_code, new_payorder, payorder, reason)
+            elif change_type == 'cancel_discount':
+                cnab_code = record._get_cnab_cancel_discount()
+                record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
 
     def _get_payment_order(self, invoice):
         """
