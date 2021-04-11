@@ -33,6 +33,11 @@ class TestPaymentOrderInbound(SavepointCase):
             'demo_invoice_payment_order_unicred_cnab400'
         )
 
+        self.demo_invoice_payment_order_pay_in_cash = self.env.ref(
+            'l10n_br_account_payment_order.'
+            'demo_invoice_payment_order_pay_in_cash'
+        )
+
         # Journal
         self.journal_cash = self.env[
             'account.journal'].search([('type', '=', 'cash')], limit=1)
@@ -259,3 +264,184 @@ class TestPaymentOrderInbound(SavepointCase):
         # implementa biblioteca a ser usada.
         with self.assertRaises(UserError):
             self.invoice_cef.assign_outstanding_credit(credit_aml.id)
+
+    def test_payment_inbound_payment_in_cash_full(self):
+        """ Pay a invoice in cash, with a payment already registred to in the bank.
+        Then we must cancel the boleto at the bank, creating a movement of "BAIXA".
+        :return:
+        """
+        """Test automatic creation of Payment Order."""
+
+        # I check that Initially customer invoice is in the "Draft" state
+        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'draft')
+
+        # I validate invoice by creating on
+        self.demo_invoice_payment_order_pay_in_cash.action_invoice_open()
+
+        # I check that the invoice state is "Open"
+        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'open')
+
+        # I check that now there is a move attached to the invoice
+        assert self.demo_invoice_payment_order_pay_in_cash.move_id,\
+            "Move not created for open invoice"
+        inv_payment_mode_id = \
+            self.demo_invoice_payment_order_pay_in_cash.payment_mode_id
+        payment_order = self.env['account.payment.order'].search([
+            ('state', '=', 'draft'),
+            ('payment_mode_id', '=', inv_payment_mode_id.id)
+        ])
+        # I check creation of Payment Order
+        assert payment_order, "Payment Order not created."
+        payment_order.draft2open()
+        payment_order.open2generated()
+        payment_order.generated2uploaded()
+        payment_order.action_done()
+
+        open_amount = self.demo_invoice_payment_order_pay_in_cash.residual
+        # I totally pay the Invoice
+        self.demo_invoice_payment_order_pay_in_cash.pay_and_reconcile(
+            self.env['account.journal'].search(
+                [('type', '=', 'cash')], limit=1
+            ), open_amount)
+
+        # I verify that invoice is now in Paid state
+        self.assertEquals(
+            self.demo_invoice_payment_order_pay_in_cash.state,
+            'paid',
+            "Invoice is not in Paid state"
+        )
+
+        change_payment_order = self.env['account.payment.order'].search([
+            ('state', '=', 'draft'),
+            ('payment_mode_id', '=', inv_payment_mode_id.id)
+        ])
+
+        change_payment_order.draft2open()
+        change_payment_order.open2generated()
+        change_payment_order.generated2uploaded()
+        change_payment_order.action_done()
+
+        assert self.env.ref(
+            'l10n_br_account_payment_order.manual_test_mov_instruction_code_02'
+        ).id in change_payment_order.payment_line_ids.mapped(
+            'mov_instruction_code_id'
+        ).ids, "Payment Order with wrong mov_instruction_code_id"
+
+    def test_payment_inbound_payment_in_cash_twice(self):
+        """ Pay a invoice in cash, with a payment already registred to in the bank.
+        Then we must cancel the boleto at the bank, creating a movement of "BAIXA".
+        :return:
+        """
+        """Test automatic creation of Payment Order."""
+
+        # I check that Initially customer invoice is in the "Draft" state
+        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'draft')
+
+        # I validate invoice by creating on
+        self.demo_invoice_payment_order_pay_in_cash.action_invoice_open()
+
+        # I check that the invoice state is "Open"
+        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'open')
+
+        # I check that now there is a move attached to the invoice
+        assert self.demo_invoice_payment_order_pay_in_cash.move_id,\
+            "Move not created for open invoice"
+        inv_payment_mode_id = \
+            self.demo_invoice_payment_order_pay_in_cash.payment_mode_id
+        payment_order = self.env['account.payment.order'].search([
+            ('state', '=', 'draft'),
+            ('payment_mode_id', '=', inv_payment_mode_id.id)
+        ])
+        # I check creation of Payment Order
+        assert payment_order, "Payment Order not created."
+        payment_order.draft2open()
+        payment_order.open2generated()
+        payment_order.generated2uploaded()
+        payment_order.action_done()
+
+        # I totally pay the Invoice
+        self.demo_invoice_payment_order_pay_in_cash.pay_and_reconcile(
+            self.env['account.journal'].search(
+                [('type', '=', 'cash')], limit=1
+            ), 300)
+
+        self.demo_invoice_payment_order_pay_in_cash.pay_and_reconcile(
+            self.env['account.journal'].search(
+                [('type', '=', 'cash')], limit=1
+            ), 700)
+
+        # I verify that invoice is now in Paid state
+        self.assertEquals(
+            self.demo_invoice_payment_order_pay_in_cash.state,
+            'paid',
+            "Invoice is not in Paid state"
+        )
+
+        change_payment_order = self.env['account.payment.order'].search([
+            ('state', '=', 'draft'),
+            ('payment_mode_id', '=', inv_payment_mode_id.id)
+        ])
+
+        change_payment_order.draft2open()
+        change_payment_order.open2generated()
+        change_payment_order.generated2uploaded()
+        change_payment_order.action_done()
+
+        assert self.env.ref(
+            'l10n_br_account_payment_order.manual_test_mov_instruction_code_02'
+        ).id in change_payment_order.payment_line_ids.mapped(
+            'mov_instruction_code_id'
+        ).ids, "Payment Order with wrong mov_instruction_code_id"
+
+    def test_payment_inbound_cancel_invoice_alread_registred(self):
+        """ Cancel the invoice with a payment that is already registred at the bank.
+        For that you have to create bank movement of "BAIXA" after we cancel
+        the invoice.
+        :return:
+        """
+        pass
+
+        # I check that Initially customer invoice is in the "Draft" state
+        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'draft')
+
+        # I validate invoice by creating on
+        self.demo_invoice_payment_order_pay_in_cash.action_invoice_open()
+
+        # I check that the invoice state is "Open"
+        self.assertEquals(self.demo_invoice_payment_order_pay_in_cash.state, 'open')
+
+        # I check that now there is a move attached to the invoice
+        assert self.demo_invoice_payment_order_pay_in_cash.move_id,\
+            "Move not created for open invoice"
+        inv_payment_mode_id = \
+            self.demo_invoice_payment_order_pay_in_cash.payment_mode_id
+        payment_order = self.env['account.payment.order'].search([
+            ('state', '=', 'draft'),
+            ('payment_mode_id', '=', inv_payment_mode_id.id)
+        ])
+        # I check creation of Payment Order
+        assert payment_order, "Payment Order not created."
+        payment_order.draft2open()
+        payment_order.open2generated()
+        payment_order.generated2uploaded()
+        payment_order.action_done()
+
+        self.demo_invoice_payment_order_pay_in_cash.action_invoice_cancel()
+
+        change_payment_order = self.env['account.payment.order'].search([
+            ('state', '=', 'draft'),
+            ('payment_mode_id', '=', inv_payment_mode_id.id)
+        ])
+
+        assert change_payment_order, "Payment Order not created."
+
+        change_payment_order.draft2open()
+        change_payment_order.open2generated()
+        change_payment_order.generated2uploaded()
+        change_payment_order.action_done()
+
+        assert self.env.ref(
+            'l10n_br_account_payment_order.manual_test_mov_instruction_code_02'
+        ).id in change_payment_order.payment_line_ids.mapped(
+            'mov_instruction_code_id'
+        ).ids, "Payment Order with wrong mov_instruction_code_id"
