@@ -101,7 +101,7 @@ class AccountPaymentMode(models.Model):
                 )
 
             if self.bank_code_bc == '341' and not self.boleto_wallet:
-                raise ValidationError('Carteira no banco Itaú é obrigatória')
+                raise ValidationError(_('Carteira no banco Itaú é obrigatória'))
 
     @api.onchange('product_tax_id')
     def _onchange_product_tax_id(self):
