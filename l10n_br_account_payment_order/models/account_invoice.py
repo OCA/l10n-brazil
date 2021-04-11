@@ -5,6 +5,10 @@
 
 from odoo import api, fields, models
 
+from ..constants import (
+    CODES_PAYMENT_ORDER,
+)
+
 
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
@@ -80,7 +84,7 @@ class AccountInvoice(models.Model):
     def action_invoice_cancel(self):
         for record in self:
             if record.payment_mode_id.payment_method_code in \
-                    ('240', '400', '500'):
+                    CODES_PAYMENT_ORDER:
                 for line in record.move_id.line_ids:
                     # Verificar a situação do CNAB para apenas apagar
                     # a linha ou mandar uma solicitação de Baixa
@@ -108,7 +112,7 @@ class AccountInvoice(models.Model):
             # Podem existir Modo de Pagto q geram Ordens mas não são CNAB
             # por isso nesse caso tbm nada a ser feito
             if inv.payment_mode_id.payment_method_code not in \
-                    ('240', '400', '500'):
+                    CODES_PAYMENT_ORDER:
                 continue
 
             # TODO - apesar do campo financial_move_line_ids ser do tipo
