@@ -18,6 +18,11 @@ class AccountPaymentMode(models.Model):
     _inherit = ['account.payment.mode', 'mail.thread',
                 'l10n_br_cnab.boleto.fields', 'l10n_br_cnab.payment.fields']
 
+    auto_create_payment_order = fields.Boolean(
+        string='Adicionar automaticamente ao validar a fatura',
+        help='Cria a ordem de pagamento automaticamente ao confirmar a fatura',
+    )
+
     service_type = fields.Selection(
         selection=TIPO_SERVICO,
         string='Tipo de Serviço',
