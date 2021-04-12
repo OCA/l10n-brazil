@@ -5,4 +5,4 @@
 from . import test_invoice_normal_workflow
 from . import test_payment_order
 from . import test_payment_order_inbound
-from . import test_payment_order_change_wizard
+from . import test_payment_order_change
