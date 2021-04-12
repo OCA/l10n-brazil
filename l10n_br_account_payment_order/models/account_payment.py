@@ -19,8 +19,7 @@ class AccountPayment(models.Model):
 
         for record in self:
             if record.payment_method_code in CODES_PAYMENT_ORDER and\
-                    record.payment_mode_id.payment_method_id.payment_type\
-                    == 'inbound':
+                    record.payment_method_id.payment_type == 'inbound':
                 # TODO - Idealmente isso deveria ser resolvido com um
                 #  domain=[('code', 'not in', CODES_PAYMENT_ORDER)]
                 #  no campo payment_method_id, mas mesmo adicionando isso na
