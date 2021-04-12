@@ -12,7 +12,7 @@
             </button>
             <notebook position="inside">
                 <page string="Receivable" name="financial_move_line_ids">
-                    <field name="financial_move_line_ids"/>
+                    <field name="financial_move_line_ids" context="{'tree_view_ref':'account_due_list.view_payments_tree'}"/>
                 </page>
             </notebook>
         </field>
