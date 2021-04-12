@@ -8,6 +8,10 @@
         <field name="inherit_id" ref="account_payment_order.account_payment_mode_form"/>
         <field name="priority" eval="14"/>
         <field name="arch" type="xml">
+            <field name="payment_order_ok" position="after">
+                <separator/>
+                <field name="auto_create_payment_order"/>
+            </field>
             <group name="main" position="after">
                  <group name="l10n_br_account_payment_taxes" string="Taxas">
                     <field name="product_tax_id"/>

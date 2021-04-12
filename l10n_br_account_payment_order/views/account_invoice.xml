@@ -7,9 +7,6 @@
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account_payment_order.invoice_form"/>
         <field name="arch" type="xml">
-            <button name="create_account_payment_line" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </button>
             <notebook position="inside">
                 <page string="Receivable" name="financial_move_line_ids">
                     <field name="financial_move_line_ids" context="{'tree_view_ref':'account_due_list.view_payments_tree'}"/>
