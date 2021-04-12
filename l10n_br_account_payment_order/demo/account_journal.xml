@@ -72,6 +72,15 @@
     </record>
 
     <!-- Diario Banco Teste -->
+    <record id="test_bank_journal" model="account.journal">
+        <field name="name">Banco Teste Manual</field>
+        <field name="type">bank</field>
+        <field name="code">BNCM</field>
+        <field name="inbound_payment_method_ids" eval="[(6,0,[ref('payment_mode_type_manual_test')])]"/>
+        <field name="bank_account_id" ref="main_company_bank_test"/>
+    </record>
+
+    <!-- Diario Banco Teste -->
     <record id="l10n_br_account_payment_order-account_journal" model="account.journal">
         <field name="name">Diário de Banco(teste l10n_br_account_payment_order)</field>
         <field name="code">TPO</field>

@@ -458,6 +458,7 @@ class L10nBrCNABChangeMethods(models.Model):
     def _create_payment_order_change(self, **kwargs):
         self.ensure_one()
         # TODO:
+        raise NotImplementedError
 
     def _change_payment_mode(self, reason, new_payment_mode_id, **kwargs):
         moves_to_sync = self.filtered(
