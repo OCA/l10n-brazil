@@ -156,10 +156,9 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         result = super().invoice_validate()
-        filtered_invoice_ids = self.filtered(lambda s: s.payment_mode_id)
+        filtered_invoice_ids = self.filtered(lambda s: (
+            s.payment_mode_id and
+            s.payment_mode_id.auto_create_payment_order))
         if filtered_invoice_ids:
-            for filtered_invoice_id in filtered_invoice_ids:
-                # Criando Ordem de Pagto Automaticamente
-                if filtered_invoice_id.payment_mode_id.payment_order_ok:
-                    filtered_invoice_id.create_account_payment_line()
+            filtered_invoice_ids.create_account_payment_line()
         return result
