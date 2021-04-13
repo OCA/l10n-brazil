@@ -2,11 +2,12 @@
 #   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+from odoo.tests import tagged
+from odoo.tests import SavepointCase
 
-from openerp.tests.common import TransactionCase
 
-
-class TestPaymentOrder(TransactionCase):
+@tagged('post_install', '-at_install')
+class TestPaymentOrder(SavepointCase):
 
     def setUp(self):
         super().setUp()
