@@ -350,8 +350,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icms_value = fields.Monetary(string="ICMS Value")
 
     # vICMSSubstituto - Valor do ICMS cobrado em operação anterior
-    icms_substitute = fields.Monetary(string="Substitute ICMS",
-                                      help="Valor do ICMS Próprio do Substituto cobrado em operação anterior")
+    icms_substitute = fields.Monetary(
+        string="Substitute ICMS",
+        help="Valor do ICMS Próprio do Substituto cobrado em operação anterior",
+    )
 
     # motDesICMS - Motivo da desoneração do ICMS
     icms_relief_id = fields.Many2one(
