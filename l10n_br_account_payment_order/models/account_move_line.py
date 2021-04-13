@@ -159,11 +159,13 @@ class AccountMoveLine(models.Model):
         :param payment_order:
         :return:
         """
-        cnab_state = 'added'
-        if self.reconciled:
-            cnab_state = 'added_paid'
+        for record in self:
 
-        self.cnab_state = cnab_state
+            cnab_state = 'added'
+            if record.reconciled:
+                cnab_state = 'added_paid'
+
+            record.cnab_state = cnab_state
 
         return super().create_payment_line_from_move_line(
             payment_order
