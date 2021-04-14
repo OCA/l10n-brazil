@@ -293,7 +293,7 @@
                 </group>
                 <group>
                   <group string="Amounts">
-                    <field name="amount_untaxed"/>
+                    <field name="amount_price_gross"/>
                     <field name="amount_discount_value"/>
                     <field name="amount_insurance_value"/>
                     <field name="amount_other_value"/>
