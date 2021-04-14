@@ -6,18 +6,18 @@ from datetime import date
 from datetime import timedelta
 
 from odoo.tests import Form
-from odoo.tests import SavepointCase
 from odoo.tests import tagged
+
+from odoo.addons.l10n_br_account_payment_order.\
+    tests.test_base_class import TestL10nBrAccountPaymentOder
 
 
 @tagged('post_install', '-at_install')
-class TestPaymentOrderChange(SavepointCase):
+class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
 
     @classmethod
     def setUpClass(self):
         super().setUpClass()
-
-        self.move_line_change_id = self.env['account.move.line.cnab.change']
 
         self.invoice_auto = self.env.ref(
             'l10n_br_account_payment_order.'
@@ -35,31 +35,6 @@ class TestPaymentOrderChange(SavepointCase):
         assert self.financial_move_line_0, "Move 0 not created for open invoice"
         assert self.financial_move_line_1, "Move 1 not created for open invoice"
 
-        self.view_id = 'l10n_br_account_payment_order.' \
-            'account_move_line_cnab_change_form_view'
-
-    def _payment_order_all_workflow(self, payment_order_id):
-        payment_order_id.draft2open()
-        payment_order_id.open2generated()
-        payment_order_id.generated2uploaded()
-        payment_order_id.action_done()
-
-    def _invoice_payment_order_all_workflow(self, invoice):
-        payment_order_id = self.env['account.payment.order'].search([
-            ('state', '=', 'draft'),
-            ('payment_mode_id', '=', invoice.payment_mode_id.id)
-        ])
-        assert payment_order_id, "Payment Order not created."
-        self._payment_order_all_workflow(payment_order_id)
-        return payment_order_id
-
-    def _prepare_change_view(self, financial_move_line_ids):
-        ctx = dict(
-            active_ids=financial_move_line_ids.ids,
-            active_model='account.move.line'
-        )
-        return self.move_line_change_id.with_context(ctx)
-
     def test_change_date_maturity_multiple(self):
         """ Test Creation of a Payment Order an change MULTIPLE due date """
         self._invoice_payment_order_all_workflow(
@@ -68,7 +43,7 @@ class TestPaymentOrderChange(SavepointCase):
         date_maturity = self.financial_move_line_ids.mapped('date_maturity')
         new_date = date.today() + timedelta(days=120)
         with Form(self._prepare_change_view(self.financial_move_line_ids),
-                  view=self.view_id) as f:
+                  view=self.chance_view_id) as f:
             f.change_type = 'change_date_maturity'
             f.date_maturity = new_date
         change_wizard = f.save()
@@ -106,7 +81,7 @@ class TestPaymentOrderChange(SavepointCase):
         new_date = date.today() + timedelta(days=120)
 
         with Form(self._prepare_change_view(self.financial_move_line_0),
-                  view=self.view_id) as f:
+                  view=self.chance_view_id) as f:
             f.change_type = 'change_date_maturity'
             f.date_maturity = new_date
         change_wizard = f.save()
@@ -143,7 +118,7 @@ class TestPaymentOrderChange(SavepointCase):
     #     )
     #     financial_move_line_ids = invoice.financial_move_line_ids[0]
     #     with Form(self._prepare_change_view(financial_move_line_ids),
-    #               view=self.view_id) as f:
+    #               view=self.chance_view_id) as f:
     #         f.change_type = 'change_payment_mode'
     #         f.payment_mode_id = self.env.ref(
     #             'l10n_br_account_payment_order.main_payment_mode_boleto')
@@ -159,7 +134,7 @@ class TestPaymentOrderChange(SavepointCase):
         )
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
-                  view=self.view_id) as f:
+                  view=self.chance_view_id) as f:
             f.change_type = 'not_payment'
         change_wizard = f.save()
         change_wizard.doit()
@@ -183,7 +158,7 @@ class TestPaymentOrderChange(SavepointCase):
         )
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
-                  view=self.view_id) as f:
+                  view=self.chance_view_id) as f:
             f.change_type = 'protest_tittle'
         change_wizard = f.save()
         change_wizard.doit()
@@ -207,7 +182,7 @@ class TestPaymentOrderChange(SavepointCase):
         )
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
-                  view=self.view_id) as f:
+                  view=self.chance_view_id) as f:
             f.change_type = 'suspend_protest_keep_wallet'
         change_wizard = f.save()
         change_wizard.doit()
@@ -231,7 +206,7 @@ class TestPaymentOrderChange(SavepointCase):
         )
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
-                  view=self.view_id) as f:
+                  view=self.chance_view_id) as f:
             f.change_type = 'grant_rebate'
             f.rebate_value = 10.00
         change_wizard = f.save()
@@ -256,7 +231,7 @@ class TestPaymentOrderChange(SavepointCase):
         )
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
-                  view=self.view_id) as f:
+                  view=self.chance_view_id) as f:
             f.change_type = 'grant_discount'
             f.discount_value = 10.00
         change_wizard = f.save()
@@ -281,7 +256,7 @@ class TestPaymentOrderChange(SavepointCase):
         )
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
-                  view=self.view_id) as f:
+                  view=self.chance_view_id) as f:
             f.change_type = 'cancel_rebate'
         change_wizard = f.save()
         change_wizard.doit()
@@ -305,7 +280,7 @@ class TestPaymentOrderChange(SavepointCase):
         )
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
-                  view=self.view_id) as f:
+                  view=self.chance_view_id) as f:
             f.change_type = 'cancel_discount'
         change_wizard = f.save()
         change_wizard.doit()
