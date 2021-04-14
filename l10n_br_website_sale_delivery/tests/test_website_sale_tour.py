@@ -13,7 +13,7 @@ class TestUi(odoo.tests.HttpCase):
             "odoo.__DEBUG__.services['web_tour.tour']",
             "l10n_br_website_sale_delivery_tour",
             )
-        self.phantom_js(
+        self.browser_js(
             url_path="/shop",
             code="%s.run('%s')" % tour,
             ready="%s.tours.%s.ready" % tour,
