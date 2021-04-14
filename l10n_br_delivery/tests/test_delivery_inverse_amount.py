@@ -89,8 +89,8 @@ class TestDeliveryInverseAmount(SavepointCase):
     def test_sale_order_total_amounts(self):
         """Check sale order total amounts"""
         self.assertEqual(
-            self.sale_order_total_id.amount_gross, 110.0,
-            "Unexpected value for the field amount_gross from Sale Order")
+            self.sale_order_total_id.amount_price_gross, 110.0,
+            "Unexpected value for the field amount_price_gross from Sale Order")
         self.assertEqual(
             self.sale_order_total_id.amount_untaxed, 110.0,
             "Unexpected value for the field amount_untaxed from Sale Order")
@@ -110,8 +110,8 @@ class TestDeliveryInverseAmount(SavepointCase):
     def test_sale_order_line_amounts(self):
         """Check sale order line amounts"""
         self.assertEqual(
-            self.sale_order_line_id.amount_gross, 110.0,
-            "Unexpected value for the field amount_gross from Sale Order")
+            self.sale_order_line_id.amount_price_gross, 110.0,
+            "Unexpected value for the field amount_price_gross from Sale Order")
         self.assertEqual(
             self.sale_order_line_id.amount_untaxed, 110.0,
             "Unexpected value for the field amount_untaxed from Sale Order")
