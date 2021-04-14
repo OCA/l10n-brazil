@@ -101,7 +101,6 @@ class OperationLine(models.Model):
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
         string='ICMS Taxpayer',
-        required=True,
         default=NFE_IND_IE_DEST_DEFAULT)
 
     product_type = fields.Selection(
