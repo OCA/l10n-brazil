@@ -30,17 +30,17 @@ class L10nBrAccountProductInvoiceCostsRatio(models.TransientModel):
                         "freight_value": calc_price_ratio(
                             line.price_gross,
                             delivery.amount_freight_value,
-                            invoice.amount_gross,
+                            invoice.amount_price_gross,
                         ),
                         "insurance_value": calc_price_ratio(
                             line.price_gross,
                             delivery.amount_insurance_value,
-                            invoice.amount_gross,
+                            invoice.amount_price_gross,
                         ),
                         "other_value": calc_price_ratio(
                             line.price_gross,
                             delivery.amount_other_value,
-                            invoice.amount_gross,
+                            invoice.amount_price_gross,
                         ),
                     }
                     line.write(vals)
