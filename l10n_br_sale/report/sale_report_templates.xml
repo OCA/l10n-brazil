@@ -22,10 +22,10 @@
         <!-- Inclusão de outros Totais usados no Brasil -->
         <xpath expr="//div[@name='total']/div/table/tr[@style='']" position="replace">
             <!-- Replace foi necessário para colocar os Totais na ordem desejada. -->
-            <tr t-if="doc.amount_gross != doc.amount_untaxed" class="border-black o_subtotal" style="">
-                <td name="td_amount_gross_label"><strong>Amount Gross</strong></td>
-                <td name="td_amount_amount_gross" class="text-right">
-                    <span t-field="doc.amount_gross"/>
+            <tr t-if="doc.amount_price_gross != doc.amount_untaxed" class="border-black o_subtotal" style="">
+                <td name="td_amount_price_gross_label"><strong>Amount Gross</strong></td>
+                <td name="td_amount_price_gross" class="text-right">
+                    <span t-field="doc.amount_price_gross"/>
                 </td>
             </tr>
 
