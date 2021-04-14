@@ -70,14 +70,6 @@ class RepairOrder(models.Model):
         states={'draft': [('readonly', False)]},
     )
 
-    amount_gross = fields.Monetary(
-        compute='_amount_all',
-        string='Amount Gross',
-        store=True,
-        readonly=True,
-        help="Amount without discount.",
-    )
-
     fiscal_document_count = fields.Integer(
         string='Fiscal Document Count',
         related='invoice_count',
@@ -121,10 +113,6 @@ class RepairOrder(models.Model):
     def _amount_all(self):
         """Compute the total amounts of the RO."""
         self._compute_amount()
-        for order in self:
-            order.amount_gross = \
-                sum(line.price_gross for line in order.operations) + \
-                sum(line.price_gross for line in order.fees_lines)
 
     @api.depends('state', 'operations.invoice_line_id', 'fees_lines.invoice_line_id')
     def _get_invoiced(self):
