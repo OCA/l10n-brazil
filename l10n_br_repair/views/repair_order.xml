@@ -19,7 +19,7 @@
                 </button>
             </button>
             <field name="amount_untaxed" position="before" >
-                <field name="amount_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                <field name="amount_price_gross" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                  <field name="amount_discount_value" groups="l10n_br_repair.group_discount_per_value" widget='monetary' options="{'currency_field': 'currency_id'}"/>
             </field>
             <field name="amount_untaxed" position="after" >
