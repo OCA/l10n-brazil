@@ -95,6 +95,14 @@ class FiscalDocumentMixin(models.AbstractModel):
         readonly=True,
     )
 
+    amount_price_gross = fields.Monetary(
+        compute='_compute_amount',
+        string='Amount Gross',
+        store=True,
+        readonly=True,
+        help="Amount without discount.",
+    )
+
     amount_untaxed = fields.Monetary(
         string='Amount Untaxed',
         compute='_compute_amount',
