@@ -13,11 +13,6 @@
         <field name="processador_edoc">oca</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="user_id" ref="base.user_demo"/>
-        <field name="partner_legal_name">Cliente 1 SP</field>
-        <field name="partner_name">Cliente 1 SP Contribuinte</field>
-        <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
-        <field name="partner_inscr_est">454.504.604.553</field>
-        <field name="partner_tax_framework">3</field>
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -101,16 +96,4 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]"/>
     </function>
 
-<!--    <record id="demo_nfe_same_state" model="l10n_br_fiscal.document">-->
-<!--        <field name="nfe40_detPag" model="nfe.40.detpag" eval="[-->
-<!--            (0, 0, {-->
-<!--                'nfe40_indPag': '0',-->
-<!--                'nfe40_tPag': '99',-->
-<!--                'nfe40_vPag': obj().env.ref('l10n_br_nfe.demo_nfe_same_state').amount_total,-->
-<!--        })]"/>-->
-<!--    </record>-->
-
-<!--    <function model="l10n_br_fiscal.document" name="action_document_confirm">-->
-<!--        <value eval="[ref('l10n_br_nfe.demo_nfe_same_state')]"/>-->
-<!--    </function>-->
 </odoo>
