@@ -66,14 +66,6 @@ class SaleOrder(models.Model):
         states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
     )
 
-    amount_gross = fields.Monetary(
-        compute='_amount_all',
-        string='Amount Gross',
-        store=True,
-        readonly=True,
-        help="Amount without discount.",
-    )
-
     comment_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.comment',
         relation='sale_order_comment_rel',
@@ -96,8 +88,6 @@ class SaleOrder(models.Model):
         """Compute the total amounts of the SO."""
         for order in self:
             order._compute_amount()
-            order.amount_gross = sum(
-                line.price_gross for line in order.order_line)
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form",
