@@ -403,11 +403,18 @@ class NFe(spec_models.StackedModel):
                         processador._generateds_to_string_etree(nfe_proc)[0]
                     record.autorizacao_event_id.set_done(xml_file)
                     record.atualiza_status_nfe(protocolo.infProt)
-                    if protocolo.infProt.cStat == AUTORIZADO:
+                    if protocolo.infProt.cStat in AUTORIZADO:
                         try:
                             record.gera_pdf()
-                        except Exception:
-                            pass  # TODO: Tratar excessões
+                        except Exception as e:
+                            # Não devemos interromper o fluxo
+                            # E dar rollback em um documento
+                            # autorizado, podendo perder dados.
+
+                            # Se der problema que apareça quando
+                            # o usuário clicar no gera PDF novamente.
+                            _logger.error('DANFE Error \n {}'.format(e))
+
             elif processo.resposta.cStat == '225':
                 state = SITUACAO_EDOC_REJEITADA
 
@@ -634,6 +641,7 @@ class NFe(spec_models.StackedModel):
         return super(NFe, self).view_pdf()
 
     def temp_xml_autorizacao(self, tmp_xml):
+        """ TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
         xml_string = base64.b64decode(self.file_xml_id.datas).decode()
         root = etree.fromstring(xml_string)
 
