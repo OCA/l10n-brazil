@@ -36,7 +36,6 @@
         <field name="company_id" invisible="1"/>
         <field name="icms_regulation_id" invisible="1"/>
         <field name="tax_domain" invisible="1"/>
-        <field name="type_in_out" invisible="1"/>
         <header>
           <button name="action_review" type="object" states="draft" string="Review" class="oe_highlight" groups="l10n_br_fiscal.group_manager"/>
           <button name="action_approve" type="object" states="review,expired" string="Approve" class="oe_highlight" groups="l10n_br_fiscal.group_manager"/>
@@ -46,15 +45,16 @@
         <sheet>
           <group>
             <field name="tax_group_id"/>
+            <field name="type_in_out" invisible="1"/>
             <field name="is_taxed"/>
             <field name="is_debit_credit" attrs="{'invisible': [('is_taxed', '=', False)]}"/>
             <field name="custom_tax"/>
             <field name="tax_id" attrs="{'invisible': [('custom_tax', '=', False)], 'required': [('custom_tax', '=', True)]}"/>
             <field name="cst_id" attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"/>
           </group>
-          <group name="state" string="State">
-            <field name="state_from_id" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
-            <field name="state_to_ids" attrs="{'invisible': [('icms_regulation_id', '=', False)]}"/>
+          <group name="state" string="State" attrs="{'invisible': [('icms_regulation_id', '=', False)]}">
+            <field name="state_from_id"/>
+            <field name="state_to_ids"/>
           </group>
           <notebook>
             <page name="ncms_page" string="NCM">
