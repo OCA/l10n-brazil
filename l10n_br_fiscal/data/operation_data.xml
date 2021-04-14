@@ -92,7 +92,6 @@
         <field name="name">Prestação de Serviço</field>
         <field name="document_type_id" ref="l10n_br_fiscal.document_SE"/>
         <field name="state">approved</field>
-        <field name="product_type">09</field>
         <field name="tax_icms_or_issqn">issqn</field>
     </record>
 
