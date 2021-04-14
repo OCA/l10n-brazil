@@ -8966,7 +8966,7 @@ msgid "WARNING - When saving the XML of a document, you will be informing the co
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:268
+#: code:addons/l10n_br_fiscal/models/operation_line.py:274
 #, python-format
 msgid "Warning!"
 msgstr ""
@@ -9071,7 +9071,7 @@ msgid "You can note repeat the alternative name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:260
+#: code:addons/l10n_br_fiscal/models/operation_line.py:266
 #, python-format
 msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
@@ -9101,7 +9101,7 @@ msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:269
+#: code:addons/l10n_br_fiscal/models/operation_line.py:275
 #, python-format
 msgid "You must first select a operation type."
 msgstr ""
