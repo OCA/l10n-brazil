@@ -19,16 +19,16 @@ class TestPaymentOrderChange(SavepointCase):
 
         self.move_line_change_id = self.env['account.move.line.cnab.change']
 
-        self.invoice = self.env.ref(
+        self.invoice_auto = self.env.ref(
             'l10n_br_account_payment_order.'
-            'demo_invoice_manual_test'
+            'demo_invoice_automatic_test'
         )
-        if self.invoice.state == 'draft':
-            self.invoice.action_invoice_open()
+        if self.invoice_auto.state == 'draft':
+            self.invoice_auto.action_invoice_open()
 
-        assert self.invoice.move_id, "Move not created for open invoice"
+        assert self.invoice_auto.move_id, "Move not created for open invoice"
 
-        self.financial_move_line_ids = self.invoice.financial_move_line_ids
+        self.financial_move_line_ids = self.invoice_auto.financial_move_line_ids
         self.financial_move_line_0 = self.financial_move_line_ids[0]
         self.financial_move_line_1 = self.financial_move_line_ids[1]
 
@@ -63,7 +63,7 @@ class TestPaymentOrderChange(SavepointCase):
     def test_change_date_maturity_multiple(self):
         """ Test Creation of a Payment Order an change MULTIPLE due date """
         self._invoice_payment_order_all_workflow(
-            self.invoice
+            self.invoice_auto
         )
         date_maturity = self.financial_move_line_ids.mapped('date_maturity')
         new_date = date.today() + timedelta(days=120)
@@ -87,7 +87,7 @@ class TestPaymentOrderChange(SavepointCase):
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
-            ('payment_mode_id', '=', self.invoice.payment_mode_id.id)
+            ('payment_mode_id', '=', self.invoice_auto.payment_mode_id.id)
         ])
         self._payment_order_all_workflow(change_payment_order)
 
@@ -100,7 +100,7 @@ class TestPaymentOrderChange(SavepointCase):
     def test_change_date_maturity_one(self):
         """ Test Creation of a Payment Order an change ONE due date """
         self._invoice_payment_order_all_workflow(
-            self.invoice
+            self.invoice_auto
         )
         date_maturity = self.financial_move_line_0.mapped('date_maturity')
         new_date = date.today() + timedelta(days=120)
@@ -126,7 +126,7 @@ class TestPaymentOrderChange(SavepointCase):
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
-            ('payment_mode_id', '=', self.invoice.payment_mode_id.id)
+            ('payment_mode_id', '=', self.invoice_auto.payment_mode_id.id)
         ])
         self._payment_order_all_workflow(change_payment_order)
 
@@ -137,7 +137,7 @@ class TestPaymentOrderChange(SavepointCase):
         ).ids, "Payment Order with wrong mov_instruction_code_id"
 
     # def test_change_payment_mode(self):
-    #     invoice = self.invoice
+    #     invoice = self.invoice_auto
     #     self._invoice_payment_order_all_workflow(
     #         invoice
     #     )
@@ -155,9 +155,9 @@ class TestPaymentOrderChange(SavepointCase):
     def test_change_not_payment(self):
         """ Test Creation of a Payment Order an change not_payment """
         self._invoice_payment_order_all_workflow(
-            self.invoice
+            self.invoice_auto
         )
-        financial_move_line_ids = self.invoice.financial_move_line_ids[0]
+        financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
                   view=self.view_id) as f:
             f.change_type = 'not_payment'
@@ -166,7 +166,7 @@ class TestPaymentOrderChange(SavepointCase):
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
-            ('payment_mode_id', '=', self.invoice.payment_mode_id.id)
+            ('payment_mode_id', '=', self.invoice_auto.payment_mode_id.id)
         ])
         self._payment_order_all_workflow(change_payment_order)
 
@@ -179,9 +179,9 @@ class TestPaymentOrderChange(SavepointCase):
     def test_change_protest_tittle(self):
         """ Test Creation of a Payment Order an change protest_tittle """
         self._invoice_payment_order_all_workflow(
-            self.invoice
+            self.invoice_auto
         )
-        financial_move_line_ids = self.invoice.financial_move_line_ids[0]
+        financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
                   view=self.view_id) as f:
             f.change_type = 'protest_tittle'
@@ -190,7 +190,7 @@ class TestPaymentOrderChange(SavepointCase):
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
-            ('payment_mode_id', '=', self.invoice.payment_mode_id.id)
+            ('payment_mode_id', '=', self.invoice_auto.payment_mode_id.id)
         ])
         self._payment_order_all_workflow(change_payment_order)
 
@@ -203,9 +203,9 @@ class TestPaymentOrderChange(SavepointCase):
     def test_change_suspend_protest_keep_wallet(self):
         """ Test Creation of a Payment Order an change suspend_protest_keep_wallet """
         self._invoice_payment_order_all_workflow(
-            self.invoice
+            self.invoice_auto
         )
-        financial_move_line_ids = self.invoice.financial_move_line_ids[0]
+        financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
                   view=self.view_id) as f:
             f.change_type = 'suspend_protest_keep_wallet'
@@ -214,7 +214,7 @@ class TestPaymentOrderChange(SavepointCase):
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
-            ('payment_mode_id', '=', self.invoice.payment_mode_id.id)
+            ('payment_mode_id', '=', self.invoice_auto.payment_mode_id.id)
         ])
         self._payment_order_all_workflow(change_payment_order)
 
@@ -227,9 +227,9 @@ class TestPaymentOrderChange(SavepointCase):
     def test_change_suspend_grant_rebate(self):
         """ Test Creation of a Payment Order an change grant_rebate """
         self._invoice_payment_order_all_workflow(
-            self.invoice
+            self.invoice_auto
         )
-        financial_move_line_ids = self.invoice.financial_move_line_ids[0]
+        financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
                   view=self.view_id) as f:
             f.change_type = 'grant_rebate'
@@ -239,7 +239,7 @@ class TestPaymentOrderChange(SavepointCase):
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
-            ('payment_mode_id', '=', self.invoice.payment_mode_id.id)
+            ('payment_mode_id', '=', self.invoice_auto.payment_mode_id.id)
         ])
         self._payment_order_all_workflow(change_payment_order)
 
@@ -252,9 +252,9 @@ class TestPaymentOrderChange(SavepointCase):
     def test_change_suspend_grant_discount(self):
         """ Test Creation of a Payment Order an change grant_discount """
         self._invoice_payment_order_all_workflow(
-            self.invoice
+            self.invoice_auto
         )
-        financial_move_line_ids = self.invoice.financial_move_line_ids[0]
+        financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
                   view=self.view_id) as f:
             f.change_type = 'grant_discount'
@@ -264,7 +264,7 @@ class TestPaymentOrderChange(SavepointCase):
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
-            ('payment_mode_id', '=', self.invoice.payment_mode_id.id)
+            ('payment_mode_id', '=', self.invoice_auto.payment_mode_id.id)
         ])
         self._payment_order_all_workflow(change_payment_order)
 
@@ -277,9 +277,9 @@ class TestPaymentOrderChange(SavepointCase):
     def test_change_suspend_cancel_rebate(self):
         """ Test Creation of a Payment Order an change cancel_rebate """
         self._invoice_payment_order_all_workflow(
-            self.invoice
+            self.invoice_auto
         )
-        financial_move_line_ids = self.invoice.financial_move_line_ids[0]
+        financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
                   view=self.view_id) as f:
             f.change_type = 'cancel_rebate'
@@ -288,7 +288,7 @@ class TestPaymentOrderChange(SavepointCase):
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
-            ('payment_mode_id', '=', self.invoice.payment_mode_id.id)
+            ('payment_mode_id', '=', self.invoice_auto.payment_mode_id.id)
         ])
         self._payment_order_all_workflow(change_payment_order)
 
@@ -301,9 +301,9 @@ class TestPaymentOrderChange(SavepointCase):
     def test_change_suspend_cancel_discount(self):
         """ Test Creation of a Payment Order an change cancel_discount """
         self._invoice_payment_order_all_workflow(
-            self.invoice
+            self.invoice_auto
         )
-        financial_move_line_ids = self.invoice.financial_move_line_ids[0]
+        financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(self._prepare_change_view(financial_move_line_ids),
                   view=self.view_id) as f:
             f.change_type = 'cancel_discount'
@@ -312,7 +312,7 @@ class TestPaymentOrderChange(SavepointCase):
 
         change_payment_order = self.env['account.payment.order'].search([
             ('state', '=', 'draft'),
-            ('payment_mode_id', '=', self.invoice.payment_mode_id.id)
+            ('payment_mode_id', '=', self.invoice_auto.payment_mode_id.id)
         ])
         self._payment_order_all_workflow(change_payment_order)
 
