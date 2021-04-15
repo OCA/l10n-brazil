@@ -9,7 +9,7 @@ from odoo.exceptions import ValidationError, UserError
 from ..constants import (
     FORMA_LANCAMENTO,
     TIPO_SERVICO,
-    CODES_PAYMENT_ORDER,
+    BR_CODES_PAYMENT_ORDER,
 )
 
 
@@ -89,7 +89,7 @@ class AccountPaymentMode(models.Model):
     )
     def _check_cnab_restriction(self):
         for record in self:
-            if record.payment_method_code not in CODES_PAYMENT_ORDER:
+            if record.payment_method_code not in BR_CODES_PAYMENT_ORDER:
                 return False
             fields_forbidden_cnab = []
             if record.group_lines:
@@ -144,7 +144,7 @@ class AccountPaymentMode(models.Model):
     @api.onchange('payment_method_id')
     def _onchange_payment_method_id(self):
         for record in self:
-            if record.payment_method_code in CODES_PAYMENT_ORDER:
+            if record.payment_method_code in BR_CODES_PAYMENT_ORDER:
                 # Campos Default que não devem estar marcados no caso CNAB
                 record.group_lines = False
                 record.generate_move = False
