@@ -2,8 +2,16 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from unittest import mock
 
 from odoo.tests.common import TransactionCase
+
+_module_ns = 'odoo.addons.l10n_br_zip'
+_provider_class = (
+    _module_ns
+    + '.models.l10n_br_zip'
+    + '.L10nBrZip'
+)
 
 
 class L10nBRZipTest(TransactionCase):
@@ -57,7 +65,20 @@ class L10nBRZipTest(TransactionCase):
         """Test search zip code."""
 
         self.company.zip = "01310923"
-        self.company.zip_search()
+
+        mocked_response = {
+            "zip_code": '01310923',
+            "street": "Avenida Avenida Paulista 1842",
+            "district": "Centro",
+            "city_id": self.env.ref('l10n_br_base.city_3550308').id,
+            "state_id": self.env.ref('base.state_br_sp').id,
+            "country_id": self.env.ref('base.br').id,
+        }
+        with mock.patch(
+                _provider_class + '._consultar_cep',
+                return_value=mocked_response,
+        ):
+            self.company.zip_search()
         self.assertEquals(
             self.company.district,
             "Bela Vista",
@@ -166,8 +187,23 @@ class L10nBRZipTest(TransactionCase):
     def test_return_pycep_correios(self):
         """Test search with PyCEP CORREIOS ."""
 
+        mocked_response = {
+            'zip_code': '04003000',
+            'street': 'Rua Coronel Oscar Porto',
+            'zip_complement': '- até 219/220',
+            'district': 'Paraíso',
+            "city_id": self.env.ref('l10n_br_base.city_3550308').id,
+            "state_id": self.env.ref('base.state_br_sp').id,
+            "country_id": self.env.ref('base.br').id,
+        }
+
         self.company.zip = "04003000"
-        self.company.zip_search()
+
+        with mock.patch(
+                _provider_class + '._consultar_cep',
+                return_value=mocked_response,
+        ):
+            self.company.zip_search()
         self.assertEquals(
             self.company.district,
             "Paraíso",
