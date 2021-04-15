@@ -151,7 +151,14 @@ class AccountPaymentOrder(models.Model):
 
     @api.multi
     def generate_payment_file(self):
-        """Returns (payment file as string, filename)"""
+        """ Esse modo deve ser usado somente para testes,
+        com ele é possível passarmos por todos os fluxos de
+        funcionamento das ordens de pagamento.
+
+        Permitindo que através de testes via interface e testes
+        automatizados sejam geradas ordens de pagamento de inclusão,
+        alteração, baixa e etc."""
+
         self.ensure_one()
         if self.payment_method_id.code == CODE_MANUAL_TEST:
             return (False, False)
