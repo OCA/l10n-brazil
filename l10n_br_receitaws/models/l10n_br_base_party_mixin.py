@@ -24,15 +24,18 @@ class PartyMixin(models.AbstractModel):
             except:
                 data = None
             # TODO: Separar os multiplos telefones
-            # values = {
+            # cnae_main_id
             #     'atividade_principal': [{
             #         'text': 'Fabricação ...',
             #          'code': '10.91-1-01'
             #     }],
+
+
             #     'data_situacao': '03/09/9999',
             #     'abertura': '12/11/9999',
             #     'tipo': 'MATRIZ',
-            #     'telefone': '(12) 9999-9999/ (12) 9999-9999',
+
+
             #     'qsa': [
             #         {'qual': '49-Sócio-Administrador', 'nome': 'LUIS'},
             #         {'qual': '22-Sócio', 'nome': 'MARIA'}
@@ -75,6 +78,9 @@ class PartyMixin(models.AbstractModel):
             # TODO: Separar os multiplos telefones
             if data.get('telefone') != '':
                 self.phone = data['telefone']
+                #     'telefone': '(12) 9999-9999/ (12) 9999-9999',
+
+
             if data.get('uf') != '':
                 state_id = self.env["res.country.state"].search([
                     ("code", "=", data['uf']),
