@@ -7,7 +7,7 @@ from odoo import api, models, _
 from odoo.exceptions import UserError
 
 from ..constants import (
-    CODES_PAYMENT_ORDER,
+    BR_CODES_PAYMENT_ORDER,
 )
 
 
@@ -18,10 +18,10 @@ class AccountPayment(models.Model):
     def post(self):
 
         for record in self:
-            if record.payment_method_code in CODES_PAYMENT_ORDER and\
+            if record.payment_method_code in BR_CODES_PAYMENT_ORDER and\
                     record.payment_method_id.payment_type == 'inbound':
                 # TODO - Idealmente isso deveria ser resolvido com um
-                #  domain=[('code', 'not in', CODES_PAYMENT_ORDER)]
+                #  domain=[('code', 'not in', BR_CODES_PAYMENT_ORDER)]
                 #  no campo payment_method_id, mas mesmo adicionando isso na
                 #  visão ou sobre escrevendo o campo não funciona e não gera
                 #  erros, não consegui identificar o motivo do problema (
