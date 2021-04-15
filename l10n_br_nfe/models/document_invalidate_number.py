@@ -30,7 +30,7 @@ class DocumentInvalidateNumber(models.Model):
         transmissao = TransmissaoSOAP(certificado, session)
         return edoc_nfe(
             transmissao, self.company_id.state_id.ibge_code,
-            versao='4.00', ambiente='2'
+            versao='4.00', ambiente=self.company_id.nfe_environment
         )
 
     @api.multi
