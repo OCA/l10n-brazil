@@ -55,22 +55,22 @@ class PartyMixin(models.AbstractModel):
             #     'billing': {'free': True, 'database': True}
             # }
             self.company_type = 'company'
-            if data.get('nome') != '':
-                self.legal_name = data['nome']
-            if data.get('fantasia') != '':
-                self.name = data['fantasia']
-            if data.get('email') != '':
-                self.email = data['email']
+            if data.get('nome').title() != '':
+                self.legal_name = data['nome'].title()
+            if data.get('fantasia').title() != '':
+                self.name = data['fantasia'].title()
+            if data.get('email').title() != '':
+                self.email = data['email'].lower()
             if data.get('complemento') != '':
-                self.street2 = data['complemento']
+                self.street2 = data['complemento'].title()
             if data.get('cep') != '':
                 self.zip = data['cep']
             if data.get('numero') != '':
                 self.street_number = data['numero']
             if data.get('logradouro') != '':
-                self.street = data['logradouro']
+                self.street = data['logradouro'].title()
             if data.get('bairro') != '':
-                self.district = data['bairro']
+                self.district = data['bairro'].title()
 
             # TODO: Separar os multiplos telefones
             if data.get('telefone') != '':
@@ -84,7 +84,7 @@ class PartyMixin(models.AbstractModel):
 
                 if data.get('municipio') != '':
                     city_id = self.env["res.city"].search([
-                        ("name", "=ilike", data["municipio"]),
+                        ("name", "=ilike", data["municipio"].title()),
                         ("state_id.id", "=", state_id.id)])
                     if len(city_id) == 1:
                         self.city_id = city_id
