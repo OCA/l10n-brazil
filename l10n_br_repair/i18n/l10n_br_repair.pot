@@ -90,11 +90,6 @@ msgid "Amount Fiscal"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__amount_gross
-msgid "Amount Gross"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax
 msgid "Amount Tax"
 msgstr ""
@@ -120,7 +115,9 @@ msgid "Amount Untaxed"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,help:l10n_br_repair.field_repair_order__amount_gross
+#: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__price_gross
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_fee__price_gross
+#: model:ir.model.fields,help:l10n_br_repair.field_repair_line__price_gross
 msgid "Amount without discount."
 msgstr ""
 
@@ -1013,13 +1010,13 @@ msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:407
+#: code:addons/l10n_br_repair/models/repair_order.py:395
 #, python-format
 msgid "No account defined for partner \"%s\"."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:434
+#: code:addons/l10n_br_repair/models/repair_order.py:422
 #, python-format
 msgid "No product defined on fees."
 msgstr ""
@@ -1239,13 +1236,13 @@ msgid "Percent"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:314
+#: code:addons/l10n_br_repair/models/repair_order.py:302
 #, python-format
 msgid "Please define an accounting sales journal for this company."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:307
+#: code:addons/l10n_br_repair/models/repair_order.py:295
 #, python-format
 msgid "Please define an default document type for this company."
 msgstr ""
@@ -1517,7 +1514,7 @@ msgid "Valor da Operação"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:389
+#: code:addons/l10n_br_repair/models/repair_order.py:377
 #, python-format
 msgid "You have to select an invoice address in the repair form."
 msgstr ""
