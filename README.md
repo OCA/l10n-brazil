@@ -76,7 +76,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 12.0.4.2.0 | Brazilian Localization Account
+[l10n_br_account](l10n_br_account/) | 12.0.4.3.0 | Brazilian Localization Account
 [l10n_br_account_bank_statement_import_cnab](l10n_br_account_bank_statement_import_cnab/) | 12.0.1.0.0 | Importação de Extrato Bancário CNAB 240 - Segmento E
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.1.0.0 | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 12.0.2.1.0 | Customization of base module for implementations in Brazil.
@@ -97,7 +97,7 @@ addon | version | summary
 [l10n_br_nfse_ginfes](l10n_br_nfse_ginfes/) | 12.0.2.0.0 | NFS-e (Ginfes)
 [l10n_br_nfse_issnet](l10n_br_nfse_issnet/) | 12.0.2.0.0 | NFS-e (ISSNet)
 [l10n_br_portal](l10n_br_portal/) | 12.0.1.0.0 | Campos Brasileiros no Portal
-[l10n_br_purchase](l10n_br_purchase/) | 12.0.4.0.0 | Brazilian Localization Purchase
+[l10n_br_purchase](l10n_br_purchase/) | 12.0.4.1.0 | Brazilian Localization Purchase
 [l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.2.0.0 | Brazilian Localization Purchase Stock
 [l10n_br_repair](l10n_br_repair/) | 12.0.5.0.0 | Brazilian Localization Repair
 [l10n_br_resource](l10n_br_resource/) | 12.0.1.0.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
