@@ -38,6 +38,7 @@
     <record id="fo_venda_venda" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="name">Venda</field>
+        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5101"/>
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6101"/>
         <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7101"/>
@@ -48,6 +49,7 @@
     <record id="fo_venda_revenda" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="name">Revenda</field>
+        <field name="ind_ie_dest">1</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5102"/>
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6102"/>
         <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7102"/>
