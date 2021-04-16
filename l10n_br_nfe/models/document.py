@@ -300,7 +300,7 @@ class NFe(spec_models.StackedModel):
         super()._compute_amount()
         for record in self:
             record.nfe40_vOrig = sum(
-                [record.amount_total, record.amount_discount]
+                [record.amount_total, record.amount_discount_value]
             )
 
     @api.depends('fiscal_payment_ids')
