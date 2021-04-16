@@ -8,7 +8,9 @@ class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
     @api.model
-    def new(self, values={}, ref=None):
+    def new(self, values=None, ref=None):
+        if not values:
+            values = {}
         if values.get('purchase_line_id'):
             line = self.env['purchase.order.line'].browse(
                 values.get('purchase_line_id'))
