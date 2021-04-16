@@ -29,8 +29,12 @@ class L10nBrSaleBaseTest(SavepointCase):
         self.so_prod_srv = self.env.ref('l10n_br_sale.main_so_product_service')
         self.fsc_op_sale = self.env.ref('l10n_br_fiscal.fo_venda')
         self.fsc_op_line_sale = self.env.ref('l10n_br_fiscal.fo_venda_venda')
+        self.fsc_op_line_sale_non_contr = self.env.ref(
+            'l10n_br_fiscal.fo_venda_venda_nao_contribuinte')
         self.fsc_op_line_resale = self.env.ref(
             'l10n_br_fiscal.fo_venda_revenda')
+        self.fsc_op_line_resale_non_contr = self.env.ref(
+            'l10n_br_fiscal.fo_venda_revenda_nao_contribuinte')
         self.fsc_op_line_serv_ind = self.env.ref(
             'l10n_br_fiscal.fo_venda_servico_ind')
         self.fsc_op_line_serv = self.env.ref(
@@ -96,7 +100,17 @@ class L10nBrSaleBaseTest(SavepointCase):
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
+                self.fsc_op_line_sale_non_contr.name: {
+                    'cfop': self.env.ref('l10n_br_fiscal.cfop_5101'),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
                 self.fsc_op_line_resale.name: {
+                    'cfop': self.env.ref('l10n_br_fiscal.cfop_5102'),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+                self.fsc_op_line_resale_non_contr.name: {
                     'cfop': self.env.ref('l10n_br_fiscal.cfop_5102'),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
@@ -108,8 +122,18 @@ class L10nBrSaleBaseTest(SavepointCase):
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
+                self.fsc_op_line_sale_non_contr.name: {
+                    'cfop': self.env.ref('l10n_br_fiscal.cfop_6107'),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
                 self.fsc_op_line_resale.name: {
                     'cfop': self.env.ref('l10n_br_fiscal.cfop_6102'),
+                    TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
+                    TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
+                },
+                self.fsc_op_line_resale_non_contr.name: {
+                    'cfop': self.env.ref('l10n_br_fiscal.cfop_6108'),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
@@ -215,8 +239,7 @@ class L10nBrSaleBaseTest(SavepointCase):
             else:
                 icms_tax = line.icms_tax_id
 
-                if (line.fiscal_operation_line_id.name
-                        == self.fsc_op_line_resale.name):
+                if 'Revenda' in line.fiscal_operation_line_id.name:
                     taxes['ipi']['tax'] = self.env.ref(
                         'l10n_br_fiscal.tax_ipi_nt')
                     taxes['ipi']['cst'] = self.env.ref(
