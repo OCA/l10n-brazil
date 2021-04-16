@@ -19,6 +19,7 @@ from odoo import models, api, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
+    PROCESSADOR_OCA,
 )
 
 from ..constants.paulistana import (
@@ -26,11 +27,9 @@ from ..constants.paulistana import (
     CONSULTA_LOTE,
 )
 
-from odoo.addons.l10n_br_nfse.models.res_company import PROCESSADOR
-
 
 def fiter_processador_edoc_nfse_paulistana(record):
-    if (record.processador_edoc == PROCESSADOR and
+    if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
             ]):
