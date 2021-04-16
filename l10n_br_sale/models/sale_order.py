@@ -87,9 +87,19 @@ class SaleOrder(models.Model):
         inverse='_inverse_amount_other',
     )
 
+    # Usado para tornar Somente Leitura os campos totais dos custos
+    # de entrega quando a definição for por Linha
+    delivery_costs = fields.Selection(
+        related='company_id.delivery_costs',
+    )
+
     @api.multi
     def _inverse_amount_freight(self):
         for record in self.filtered(lambda so: so.order_line):
+            if record.company_id.delivery_costs == 'line':
+                record.amount_other_value = sum(
+                    record.order_line.mapped('freight_value'))
+                continue
             amount_freight_value = record.amount_freight_value
             if all(record.order_line.mapped('freight_value')):
                 amount_freight_old = sum(
@@ -124,6 +134,10 @@ class SaleOrder(models.Model):
     @api.multi
     def _inverse_amount_insurance(self):
         for record in self.filtered(lambda so: so.order_line):
+            if record.company_id.delivery_costs == 'line':
+                record.amount_other_value = sum(
+                    record.order_line.mapped('insurance_value'))
+                continue
             amount_insurance_value = record.amount_insurance_value
             if all(record.order_line.mapped('insurance_value')):
                 amount_insurance_old = sum(
@@ -158,6 +172,10 @@ class SaleOrder(models.Model):
     @api.multi
     def _inverse_amount_other(self):
         for record in self.filtered(lambda so: so.order_line):
+            if record.company_id.delivery_costs == 'line':
+                record.amount_other_value = sum(
+                    record.order_line.mapped('other_value'))
+                continue
             amount_other_value = record.amount_other_value
             if all(record.order_line.mapped('other_value')):
                 amount_other_old = sum(

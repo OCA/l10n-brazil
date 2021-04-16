@@ -12,6 +12,10 @@
                         <group>
                             <field name="sale_fiscal_operation_id" />
                             <field name="copy_note" />
+                            <field name="delivery_costs"/>
+                            <field name="sale_fiscal_operation_id"/>
+                            <field name="copy_note"/>
+                            <field name="delivery_costs"/>
                         </group>
                     </group>
                 </page>
