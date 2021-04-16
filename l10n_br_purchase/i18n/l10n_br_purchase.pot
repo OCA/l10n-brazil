@@ -77,6 +77,11 @@ msgid "Invoice"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__legal_name
 msgid "Legal Name"
 msgstr ""
