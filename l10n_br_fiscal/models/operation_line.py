@@ -7,7 +7,6 @@ from odoo.exceptions import UserError
 from ..constants.fiscal import (
     FISCAL_IN_OUT_ALL,
     NFE_IND_IE_DEST,
-    NFE_IND_IE_DEST_DEFAULT,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
     PRODUCT_FISCAL_TYPE,
@@ -101,7 +100,7 @@ class OperationLine(models.Model):
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
         string='ICMS Taxpayer',
-        default=NFE_IND_IE_DEST_DEFAULT)
+    )
 
     product_type = fields.Selection(
         selection=PRODUCT_FISCAL_TYPE,
