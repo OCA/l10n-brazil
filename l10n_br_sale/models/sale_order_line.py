@@ -92,6 +92,12 @@ class SaleOrderLine(models.Model):
 
     discount_fixed = fields.Boolean(string="Fixed Discount?")
 
+    # Usado para tornar Somente Leitura os campos dos custos
+    # de entrega quando a definição for por Total
+    delivery_costs = fields.Selection(
+        related='order_id.company_id.delivery_costs',
+    )
+
     def _get_protected_fields(self):
         protected_fields = super()._get_protected_fields()
         return protected_fields + [

@@ -1,7 +1,7 @@
 # Copyright (C) 2014  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import _, fields, models
 
 
 class Company(models.Model):
@@ -15,4 +15,15 @@ class Company(models.Model):
     copy_note = fields.Boolean(
         string="Copy Sale note on invoice",
         default=False,
+    )
+
+    delivery_costs = fields.Selection(
+        selection=[
+            ('line', _('By Line')),
+            ('total', _('By Total'))
+        ],
+        string='Delivery costs should be define in Line or Total.',
+        help='Define if costs of Insurance, Freight and Other Costs'
+             ' should be informed in Line or Total.',
+        default='total'
     )
