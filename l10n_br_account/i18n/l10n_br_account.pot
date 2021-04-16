@@ -408,13 +408,13 @@ msgid "You can find a contact by its Name, TIN, Email or Internal Reference."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:410
+#: code:addons/l10n_br_account/models/account_invoice.py:414
 #, python-format
 msgid "You can't set this document number: {} to draft because this document is cancelled in SEFAZ"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:440
+#: code:addons/l10n_br_account/models/account_invoice.py:444
 #, python-format
 msgid "You cannot create a fiscal correction document if this fical document you are not the document issuer"
 msgstr ""
