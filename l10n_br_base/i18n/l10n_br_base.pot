@@ -701,6 +701,12 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3501152
+#: model:res.partner,nfe40_xMun:l10n_br_base.partner_demo_presumido
+#: model:res.partner,nfe40_xMun:l10n_br_base.partner_demo_simples
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_address_ak3
+#: model:res.partner,nfe40_xMun:l10n_br_base.simples_nacional_partner
+#: model:res.users,nfe40_xMun:l10n_br_base.user_demo_presumido
+#: model:res.users,nfe40_xMun:l10n_br_base.user_demo_simples
 msgid "Alumínio"
 msgstr ""
 
@@ -3520,6 +3526,39 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5203609
 msgid "Brazabrantes"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:res.partner,nfe40_xPais:l10n_br_base.lucro_presumido_partner
+#: model:res.partner,nfe40_xPais:l10n_br_base.partner_demo_presumido
+#: model:res.partner,nfe40_xPais:l10n_br_base.partner_demo_simples
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_address_ak2
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_address_ak3
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_akretion
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_amd
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente10_mg
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente11_sp
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente1_sp
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente2_sp
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente3_am
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente4_am
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente5_pe
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente6_pe
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente7_rs
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente8_rs
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente9_mg
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_dell
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_infobahia
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_infomanaus
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_intel
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_kmee
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_lg
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_positivo
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_samsungpe
+#: model:res.partner,nfe40_xPais:l10n_br_base.simples_nacional_partner
+#: model:res.users,nfe40_xPais:l10n_br_base.user_demo_presumido
+#: model:res.users,nfe40_xPais:l10n_br_base.user_demo_simples
+msgid "Brazil"
 msgstr ""
 
 #. module: l10n_br_base
@@ -7268,6 +7307,7 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4106902
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_positivo
 msgid "Curitiba"
 msgstr ""
 
@@ -11429,6 +11469,9 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3132404
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente10_mg
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente9_mg
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_kmee
 msgid "Itajubá"
 msgstr ""
 
@@ -14156,6 +14199,10 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1302603
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente3_am
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente4_am
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_infomanaus
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_lg
 msgid "Manaus"
 msgstr ""
 
@@ -19211,6 +19258,9 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4314902
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente7_rs
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente8_rs
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_dell
 msgid "Porto Alegre"
 msgstr ""
 
@@ -20092,6 +20142,9 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2611606
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente5_pe
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente6_pe
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_samsungpe
 msgid "Recife"
 msgstr ""
 
@@ -20695,6 +20748,7 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3304557
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_address_ak2
 msgid "Rio de Janeiro"
 msgstr ""
 
@@ -21163,6 +21217,7 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2927408
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_infobahia
 msgid "Salvador"
 msgstr ""
 
@@ -24537,6 +24592,13 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3550308
+#: model:res.partner,nfe40_xMun:l10n_br_base.lucro_presumido_partner
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_akretion
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_amd
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente11_sp
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente1_sp
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente2_sp
+#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_intel
 msgid "São Paulo"
 msgstr ""
 
@@ -26232,6 +26294,11 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4322376
 msgid "Unistalda"
+msgstr ""
+
+#. module: l10n_br_base
+#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_exterior
+msgid "United States"
 msgstr ""
 
 #. module: l10n_br_base
