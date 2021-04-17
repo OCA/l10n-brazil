@@ -31,11 +31,6 @@ odoo.define('l10n_br_portal.tour', function (require) {
             run: "text ISENTO",
         },
         {
-            content: "Complete INVALID Zip",
-            trigger: "input[name='zipcode']",
-            run: "text 00000000",
-        },
-        {
             content: "Complete ZIP",
             trigger: "input[name='zipcode']",
             run: "text 37500015",
