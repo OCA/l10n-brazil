@@ -42,8 +42,8 @@ class L10nBRZipTest(TransactionCase):
             )
         )
 
-    def test_error_without_all_required_fields(self):
-        """Test error object without all required fields in res.partner."""
+    def test_without_all_required_fields(self):
+        """Test object without all required fields in res.partner."""
 
         self.res_partner_1.street = False
         try:
@@ -165,8 +165,8 @@ class L10nBRZipTest(TransactionCase):
             "It should return the correct street, failed method zip_select.",
         )
 
-    def test_error_pycep_correios(self):
-        """Test error with PyCEP CORREIOS in partner."""
+    def test_pycep_correios(self):
+        """Test with PyCEP CORREIOS in partner."""
 
         self.res_partner.zip = "00000000"
         try:
