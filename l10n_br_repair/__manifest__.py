@@ -5,7 +5,7 @@
     'name': 'Brazilian Localization Repair',
     'summary': """
         Brazilian Localization Repair""",
-    'version': '12.0.5.0.0',
+    'version': '12.0.5.1.0',
     'category': 'Localisation',
     'license': 'AGPL-3',
     'author':
