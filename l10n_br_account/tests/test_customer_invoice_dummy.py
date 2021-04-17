@@ -51,6 +51,11 @@ class TestCustomerInvoice(SavepointCase):
                                         self.env.ref(
                                             "account.data_account_type_revenue"
                                         ).id,
+                                    ),
+                                    (
+                                        "company_id",
+                                        '=',
+                                        self.env.user.company_id.id,
                                     )
                                 ],
                                 limit=1,
@@ -114,6 +119,11 @@ class TestCustomerInvoice(SavepointCase):
                                         self.env.ref(
                                             "account.data_account_type_revenue"
                                         ).id,
+                                    ),
+                                    (
+                                        "company_id",
+                                        '=',
+                                        self.env.user.company_id.id,
                                     )
                                 ],
                                 limit=1,
@@ -169,6 +179,11 @@ class TestCustomerInvoice(SavepointCase):
                                         self.env.ref(
                                             "account.data_account_type_revenue"
                                         ).id,
+                                    ),
+                                    (
+                                        "company_id",
+                                        '=',
+                                        self.env.user.company_id.id,
                                     )
                                 ],
                                 limit=1,
