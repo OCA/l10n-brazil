@@ -19,6 +19,12 @@ msgid "Bairro"
 msgstr ""
 
 #. module: l10n_br_portal
+#: model:res.partner,nfe40_xPais:l10n_br_portal.demo_user_kmee_res_partner
+#: model:res.users,nfe40_xPais:l10n_br_portal.demo_user_kmee
+msgid "Brazil"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "CNPJ/CPF"
 msgstr ""
@@ -66,6 +72,12 @@ msgstr ""
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Inscrição Municipal"
+msgstr ""
+
+#. module: l10n_br_portal
+#: model:res.partner,nfe40_xMun:l10n_br_portal.demo_user_kmee_res_partner
+#: model:res.users,nfe40_xMun:l10n_br_portal.demo_user_kmee
+msgid "Itajubá"
 msgstr ""
 
 #. module: l10n_br_portal
