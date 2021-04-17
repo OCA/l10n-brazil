@@ -3,7 +3,7 @@
 
   <record id="nfe_document_search" model="ir.ui.view">
     <field name="name">l10n_br_nfe.document.search</field>
-    <field name="model">l10n_br_nfe.document</field>
+    <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
       <search string="NF-e">
         <field name="number"/>
@@ -16,12 +16,12 @@
 
   <record id="nfe_document_tree" model="ir.ui.view">
     <field name="name">l10n_br_nfe.document.tree</field>
-    <field name="model">l10n_br_nfe.document</field>
+    <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
       <tree string="NF-e">
         <field name="number"/>
         <field name="date"/>
-        <field name="operation_id"/>
+        <field name="fiscal_operation_id"/>
         <field name="partner_id"/>
         <field name="amount_untaxed"/>
         <field name="amount_tax"/>
@@ -30,9 +30,95 @@
     </field>
   </record>
 
+  <record id="nfe_document_form_inherit" model="ir.ui.view">
+      <field name="name">l10n_br_nfe.document.form.inherit</field>
+      <field name="model">l10n_br_fiscal.document</field>
+      <field name="priority">5</field>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
+      <field name="arch" type="xml">
+          <button name="view_pdf" position="replace">
+              <button name="view_pdf" type="object" string="Visualizar PDF" groups="l10n_br_fiscal.group_user" states="autorizada,a_enviar" class="btn-primary"/>
+              <button name="gera_pdf" type="object" string="Gerar PDF" groups="l10n_br_fiscal.group_user" states="autorizada,a_enviar" class="btn-primary"/>
+          </button>
+          <page name="delivery" position="inside">
+              <group>
+                  <field name="nfe40_modFrete"/>
+                  <field name="nfe40_transporta"/>
+              </group>
+              <group>
+                  <field name="nfe40_vol"/>
+              </group>
+          </page>
+          <page name="finance" position="inside">
+              <group>
+                  <field name="nfe40_detPag"/>
+              </group>
+          </page>
+          <field name="state_fiscal" position="after">
+              <field name="nfe40_infAdic"/>
+          </field>
+      </field>
+  </record>
+
+  <record id="nfe_40_infadic_form" model="ir.ui.view">
+      <field name="name">nfe.40.infadic.form</field>
+      <field name="model">nfe.40.infadic</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_infCpl"/>
+              </group>
+          </form>
+      </field>
+  </record>
+
+  <record id="nfe_40_detpag_form" model="ir.ui.view">
+      <field name="name">nfe.40.detpag.form</field>
+      <field name="model">nfe.40.detpag</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_tPag"/>
+                  <field name="nfe40_vPag"/>
+              </group>
+          </form>
+      </field>
+  </record>
+
+  <record id="nfe_40_vol_form" model="ir.ui.view">
+      <field name="name">nfe.40.vol.form</field>
+      <field name="model">nfe.40.vol</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_qVol"/>
+                  <field name="nfe40_pesoL"/>
+                  <field name="nfe40_pesoB"/>
+              </group>
+          </form>
+      </field>
+  </record>
+
+  <record id="nfe_40_transporta_form" model="ir.ui.view">
+      <field name="name">nfe.40.transporta.form</field>
+      <field name="model">nfe.40.transporta</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_CNPJ"/>
+                  <field name="nfe40_xNome"/>
+                  <field name="nfe40_IE"/>
+                  <field name="nfe40_xEnder"/>
+                  <field name="nfe40_xMun"/>
+                  <field name="nfe40_UF"/>
+              </group>
+          </form>
+      </field>
+  </record>
+
   <record id="nfe_document_form" model="ir.ui.view">
     <field name="name">l10n_br_nfe.document.form</field>
-    <field name="model">l10n_br_nfe.document</field>
+    <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
       <form string="NF-e">
         <field name="id" invisible="1"/>
@@ -51,7 +137,7 @@
             </h1>
           </div>
           <group>
-            <field name="operation_id"/>
+            <field name="fiscal_operation_id"/>
             <field name="issuer"/>
             <field name="document_type_id"/>
             <label for="key" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"/>
@@ -114,7 +200,7 @@
               </group>
             </page>
             <page name="products" string="Products and Services">
-              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_operation_id': operation_id, 'default_company_id': company_id, 'default_fiscal_operation_type': fiscal_operation_type}">
+              <field name="line_ids" context="{'form_view_ref': 'l10n_br_fiscal.document_line_form', 'default_document_id': id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_fiscal_operation_type': fiscal_operation_type}">
                 <tree>
                   <field name="product_id"/>
                   <field name="uom_id"/>

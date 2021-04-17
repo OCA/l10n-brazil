@@ -1,4 +1,4 @@
-# Copyright 2019-2020 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
 import sys
@@ -25,7 +25,6 @@ class SpecModel(models.AbstractModel):
     _register = False           # not visible in ORM registry
     _abstract = False
     _transient = False
-    _spec_module_classes = None  # a cache storing spec classes
 
     # TODO generic onchange method that check spec field simple type formats
     # xsd_required, according to the considered object context
@@ -37,27 +36,16 @@ class SpecModel(models.AbstractModel):
     # context are present
 
     @api.depends(lambda self: (self._rec_name,) if self._rec_name else ())
-    def _compute_display_name_TODO(self):  # TODO issues with that?
+    def _compute_display_name(self):
         "More user friendly when automatic _rec_name is bad"
         res = super(SpecModel, self)._compute_display_name()
-        if self.display_name == "False":
-            self.display_name = _("Abrir...")
+        for rec in self:
+            if rec.display_name == "False" or not rec.display_name:
+                rec.display_name = _("Abrir...")
         return res
 
     @classmethod
     def _build_model(cls, pool, cr):
-        """SpecModel models inherit their fields from XSD generated mixins.
-        These mixins can either be made concrete, either be injected into
-        existing concrete Odoo models. In that last case, the comodels of the
-        relational fields pointing to such mixins should be remapped to the
-        proper concrete models where these mixins are injected."""
-        cls._inject_spec_mixin(pool, cr)
-        ModelClass = super(SpecModel, cls)._build_model(pool, cr)
-        ModelClass._mutate_relational_fields(pool, cr)
-        return ModelClass
-
-    @classmethod
-    def _inject_spec_mixin(cls, pool, cr):
         """
         xsd generated spec mixins do not need to depend on this opinionated
         module. That's why the spec.mixin is dynamically injected as a parent
@@ -74,68 +62,59 @@ class SpecModel(models.AbstractModel):
                 super_parents = super_parents or []
             for super_parent in super_parents:
                 if super_parent.startswith('spec.mixin.'):
+                    cr.execute(
+                        "SELECT name FROM ir_module_module "
+                        "WHERE name=%s "
+                        "AND state in ('to install', 'to upgrade', 'to remove')",
+                        (pool[super_parent]._odoo_module,))
+                    if cr.fetchall():
+                        setattr(pool, '_%s_need_hook'
+                                % (pool[super_parent]._odoo_module,), True)
+
                     cls._map_concrete(parent, cls._name)
-                    if not hasattr(pool[parent], 'build'):
+                    if not hasattr(pool[parent], 'build'):  # FIXME BRITTLE
                         pool[parent]._inherit = super_parents + ['spec.mixin']
                         pool[parent].__bases__ = ((pool['spec.mixin'],)
                                                   + pool[parent].__bases__)
+        return super(SpecModel, cls)._build_model(pool, cr)
 
-    @classmethod
-    def _mutate_relational_fields(cls, pool, cr):
-        """Iterates on the relationnal fields of the model and when the comodel
-        is a mixin that has been injected into a concrete models.Model, then
-        remap the comodel to the proper concrete model."""
-        # mutate o2m and o2m related to m2o comodel to target proper
-        # concrete implementation
-        env = api.Environment(cr, SUPERUSER_ID, {})
-        if len(cls._inherit) > 1:  # only debug non automatic models
-            # _logger.info("\n==== BUILDING SpecModel %s %s" % (cls._name, cls)
-            env[cls._name]._prepare_setup()
-            env[cls._name]._setup_base()
-
+    @api.model
+    def _setup_fields(self):
+        """
+        SpecModel models inherit their fields from XSD generated mixins.
+        These mixins can either be made concrete, either be injected into
+        existing concrete Odoo models. In that last case, the comodels of the
+        relational fields pointing to such mixins should be remapped to the
+        proper concrete models where these mixins are injected.
+        """
+        cls = type(self)
         for klass in cls.__bases__:
             if not hasattr(klass, '_name')\
                     or not hasattr(klass, '_fields')\
                     or klass._name is None\
-                    or not klass._name.startswith(env[cls._name]._schema_name):
+                    or not klass._name.startswith(self.env[cls._name]._schema_name):
                 continue
             if klass._name != cls._name:
                 cls._map_concrete(klass._name, cls._name)
+                klass._table = cls._table
 
         stacked_parents = [getattr(x, '_name', None) for x in cls.mro()]
         for name, field in cls._fields.items():
             if hasattr(field, 'comodel_name') and field.comodel_name:
                 comodel_name = field.comodel_name
-                comodel = pool[comodel_name]
+                comodel = self.env[comodel_name]
                 concrete_class = cls._get_concrete(comodel._name)
-                if name.endswith('_id') and field.type == 'many2one':
-                    # auto m2o matching o2m  # FIXME brittle
-                    continue
+
                 if not hasattr(comodel, '_concrete_rec_name'):
                     # TODO filter with klass._schema name instead?
                     continue
 
-                if field.type == 'many2one' and concrete_class is not None:
-                    if comodel_name in stacked_parents:
-                        # We don't pop the field as we will use it
-                        # later on view to inject the stacked structure
-                        # TODO can we not really remove the field?
-                        # TODO like we could store it in cls list instead...
-                        # TODO this should not happen with res.partner:
-                        # REM m2o res.partner.nfe40_enderDest (stacked)
-                        _logger.debug("    REM m2o %s.%s (stacked)",
-                                      cls._name, name)
-                        field.stacked = True
-                    else:
-                        _logger.debug("    MUTATING m2o %s (%s) -> %s",
-                                      name, comodel_name, concrete_class)
-                        field.original_comodel_name = comodel_name
-                        field.comodel_name = concrete_class
-                        # FIXME: if field is overriden with related
-                        # the new comodel_name should be specified
-                        # because in this case the automatic assignation fails
-                        # it seems that field#setup_base will indeed reset
-                        # the comodel.
+                if field.type == 'many2one' and concrete_class is not None\
+                        and comodel_name not in stacked_parents:
+                    _logger.debug("    MUTATING m2o %s (%s) -> %s",
+                                  name, comodel_name, concrete_class)
+                    field.original_comodel_name = comodel_name
+                    field.comodel_name = concrete_class
 
                 elif field.type == 'one2many':
                     if concrete_class is not None:
@@ -146,14 +125,16 @@ class SpecModel(models.AbstractModel):
                     if not hasattr(field, 'inverse_name'):
                         continue
                     inv_name = field.inverse_name
-                    for n, f in getmembers(comodel):
+                    for n, f in comodel._fields.items():
                         if n == inv_name and f.args.get('comodel_name'):
                             _logger.debug("    MUTATING m2o %s.%s (%s) -> %s",
                                           comodel._name.split('.')[-1], n,
                                           f.args['comodel_name'], cls._name)
                             f.args['original_comodel_name'] = f.args[
                                 'comodel_name']
-                            f.args['comodel_name'] = cls._name
+                            f.args['comodel_name'] = self._name
+
+        return super()._setup_fields()
 
     @classmethod
     def _map_concrete(cls, key, target, quiet=False):
@@ -170,22 +151,33 @@ class SpecModel(models.AbstractModel):
             models.MetaModel.mixin_mappings = {}
         return models.MetaModel.mixin_mappings.get(key)
 
-    @classmethod  # TODO rename with _
+    @classmethod
+    def spec_module_classes(cls, spec_module):
+        """
+        Cache the list of spec_module classes to save calls to
+        slow reflection API.
+        """
+        spec_module_attr = "_spec_cache_%s" % (spec_module.replace('.', '_'),)
+        if not hasattr(cls, spec_module_attr):
+            setattr(
+                cls, spec_module_attr, getmembers(sys.modules[spec_module], isclass)
+            )
+        return getattr(cls, spec_module_attr)
+
+    @classmethod
     def _odoo_name_to_class(cls, odoo_name, spec_module):
-        if cls._spec_module_classes is None:  # caching to make it fast
-            cls._spec_module_classes = getmembers(
-                sys.modules[spec_module], isclass)
-        for name, base_class in cls._spec_module_classes:
+        for name, base_class in cls.spec_module_classes(spec_module):
             if base_class._name == odoo_name:
                 return base_class
         return None
 
     def _register_hook(self):
         res = super(SpecModel, self)._register_hook()
-        if not hasattr(self.env.registry, '_spec_loaded'):  # TODO schema wise
+        load_key = "_%s_loaded" % (self._spec_module,)
+        if not hasattr(self.env.registry, load_key):
             from .. import hooks  # importing here avoids loop
             hooks.register_hook(self.env, self._odoo_module, self._spec_module)
-            self.env.registry._spec_loaded = True
+            self.env.registry.load_key = True
         return res
 
 
@@ -213,12 +205,14 @@ class StackedModel(SpecModel):
     _stack_skip = ()
     # all m2o below these paths will be stacked even if not required:
     _force_stack_paths = ()
+    _stacking_points = {}
 
     @classmethod
     def _build_model(cls, pool, cr):
         # inject all stacked m2o as inherited classes
         if cls._stacked:
-            _logger.info("\n\n====  BUILDING StackedModel %s %s\n" % (cls._name, cls))
+            _logger.info("\n\n====  BUILDING StackedModel %s %s\n"
+                         % (cls._name, cls))
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
             classes = set()
             cls._visit_stack(node, classes, cls._stacked.split('.')[-1], pool,
@@ -227,14 +221,27 @@ class StackedModel(SpecModel):
                 cls.__bases__ = (klass,) + cls.__bases__
         return super(StackedModel, cls)._build_model(pool, cr)
 
+    @api.model
+    def _add_field(self, name, field):
+        for cls in type(self).mro():
+            if issubclass(cls, StackedModel):
+                if name in type(self)._stacking_points.keys():
+                    return
+        return super()._add_field(name, field)
+
     @classmethod  # TODO rename with _
     def _visit_stack(cls, node, classes, path, registry, cr):
-        """Recursively visits the stacked models.
+        """Pre-order traversal of the stacked models tree.
         1. This method is used to dynamically inherit all the spec models
         stacked together from an XML hierarchy.
         2. It is also useful to generate an automatic view of the spec fields.
         3. Finally it is used when exporting as XML.
         """
+        # We are removing the description of the node
+        # to avoid translations error
+        # https://github.com/OCA/l10n-brazil/pull/1272#issuecomment-821806603
+        node._description = None
+
         # TODO may be an option to print the stack (for debug)
         # after field mutation happened
         # path_items = path.split('.')
@@ -255,14 +262,12 @@ class StackedModel(SpecModel):
         classes.add(node)
         fields = collections.OrderedDict()
         env = api.Environment(cr, SUPERUSER_ID, {})
-        # this is require when you don't start odoo with -i (update)
-        # otherwise the model spec will not hav its fields loaded yet.
+        # this is required when you don't start odoo with -i (update)
+        # otherwise the model spec will not have its fields loaded yet.
         # TODO we may pass this env further instead of re-creating it.
         # TODO move setup_base just before the _visit_stack next call
         if node._name != cls._name or\
                 len(registry[node._name]._fields.items() == 0):
-            # and not hasattr(env[node._name],
-            #                                           '_setup_done'):
             env[node._name]._prepare_setup()
             env[node._name]._setup_base()
 
@@ -276,8 +281,7 @@ class StackedModel(SpecModel):
                 'xsd_required': hasattr(
                     i[1], 'xsd_required') and getattr(i[1], 'xsd_required'),
                 'choice': hasattr(i[1], 'choice') and getattr(i[1], 'choice'),
-                'stacked': hasattr(
-                    i[1], 'stacked') and getattr(i[1], 'stacked')}
+            }
         for name, f in fields.items():
             if f['type'] not in ['many2one', 'one2many']\
                     or name in cls._stack_skip:
@@ -298,12 +302,13 @@ class StackedModel(SpecModel):
             # many2one
             elif (child_concrete is None or child_concrete == cls._name)\
                     and (f['xsd_required'] or f['choice']
-                         or f['stacked'] or path in cls._force_stack_paths):
+                         or path in cls._force_stack_paths):
                 # then we will STACK the child in the current class
                 # TODO if model not used in any other field!!
                 child._stack_path = path
                 # field.args['_stack_path'] = path  TODO
                 child_path = "%s.%s" % (path, field_path)
+                cls._stacking_points[name] = registry[node._name]._fields.get(name)
                 cls._visit_stack(child, classes, child_path, registry, cr)
             # else:
             #     if child_concrete:

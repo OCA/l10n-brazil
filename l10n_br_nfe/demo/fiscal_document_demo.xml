@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- NFe Test - Empresa Contribuinte - Mesmo Estado -->
+    <record id="demo_nfe_same_state" model="l10n_br_fiscal.document">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
+        <field name="document_serie_id" ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"/>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido"/>
+        <field name="company_number">3</field>
+        <field name="document_serie">1</field>
+        <field name="document_section">nfe</field>
+        <field name="processador_edoc">oca</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
+        <field name="user_id" ref="base.user_demo"/>
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <function model="l10n_br_fiscal.document" name="_onchange_company_id">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_same_state')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_same_state')]"/>
+    </function>
+
+    <record id="demo_nfe_line_same_state_1-1" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfe_same_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_6"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_ncm_id">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]"/>
+    </function>
+
+    <record id="demo_nfe_line_same_state_1-2" model="l10n_br_fiscal.document.line">
+        <field name="document_id" ref="demo_nfe_same_state"/>
+        <field name="name">Teste</field>
+        <field name="product_id" ref="product.product_product_27"/>
+        <field name="uom_id" ref="uom.product_uom_unit"/>
+        <field name="price_unit">100</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+    </record>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_ncm_id">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]"/>
+    </function>
+
+</odoo>
