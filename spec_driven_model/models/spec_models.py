@@ -237,6 +237,11 @@ class StackedModel(SpecModel):
         2. It is also useful to generate an automatic view of the spec fields.
         3. Finally it is used when exporting as XML.
         """
+        # We are removing the description of the node
+        # to avoid translations error
+        # https://github.com/OCA/l10n-brazil/pull/1272#issuecomment-821806603
+        node._description = None
+
         # TODO may be an option to print the stack (for debug)
         # after field mutation happened
         # path_items = path.split('.')
