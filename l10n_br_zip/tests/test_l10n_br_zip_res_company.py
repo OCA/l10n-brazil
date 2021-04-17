@@ -42,16 +42,16 @@ class L10nBRZipTest(TransactionCase):
             )
         )
 
-    def test_error_object_without_address_fields(self):
-        """Test error object without address fields."""
+    def test_object_without_address_fields(self):
+        """Test object without address fields."""
         try:
             result = self.env["l10n_br.zip"].zip_search(self.env["mail.thread"])
         except:
             result = False
         self.assertFalse(result, "Error to search by address without address fields.")
 
-    def test_error_without_all_required_fields(self):
-        """Test error object without all required fields."""
+    def test_without_all_required_fields(self):
+        """Test object without all required fields."""
         self.company_1.street = False
         try:
             result = self.company_1.zip_search()
@@ -175,8 +175,8 @@ class L10nBRZipTest(TransactionCase):
             "It should return the correct street, failed method zip_select.",
         )
 
-    def test_error_pycep_correios(self):
-        """Test error with PyCEP CORREIOS in company."""
+    def test_pycep_correios(self):
+        """Test with PyCEP CORREIOS in company."""
         self.company.zip = "00000000"
         try:
             result = self.company.zip_search()
