@@ -3477,7 +3477,7 @@ msgid "Fiscal Operation Line"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:154
+#: code:addons/l10n_br_fiscal/models/operation_line.py:152
 #: sql_constraint:l10n_br_fiscal.operation.line:0
 #, python-format
 msgid "Fiscal Operation Line already exists with this name !"
@@ -8982,7 +8982,7 @@ msgid "WARNING - When saving the XML of a document, you will be informing the co
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:274
+#: code:addons/l10n_br_fiscal/models/operation_line.py:272
 #, python-format
 msgid "Warning!"
 msgstr ""
@@ -9087,7 +9087,7 @@ msgid "You can note repeat the alternative name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:266
+#: code:addons/l10n_br_fiscal/models/operation_line.py:264
 #, python-format
 msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
@@ -9117,13 +9117,13 @@ msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:275
+#: code:addons/l10n_br_fiscal/models/operation_line.py:273
 #, python-format
 msgid "You must first select a operation type."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:163
+#: code:addons/l10n_br_fiscal/models/operation_line.py:161
 #, python-format
 msgid "You need set a default fiscal document in your company !"
 msgstr ""
