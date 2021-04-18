@@ -11,7 +11,7 @@
               'Odoo Community Association (OCA)',
     "website": "http://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.1.0",
     "depends": [
         "l10n_br_fiscal",
         "l10n_br_nfe_spec",
