@@ -86,26 +86,22 @@
                     </group>
                 </page>
             </page>
+        </field>
+    </record>
+
+    <record id="l10n_br_base_partner_contact_form" model="ir.ui.view">
+        <field name="name">l10n_br_base.res.partner.contact.form</field>
+        <field name="model">res.partner</field>
+        <field name="priority">9999</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
             <xpath expr="//div[@name='div_address']" position="replace">
-                <div name="div_address">
-                    <field name="zip" placeholder="Zip..." style="width: 20%"/>
-                    <div class="address_format">
-                        <field name="street" placeholder="Street..." style="width: 70%"/>
-                        <field name="street_number" placeholder="Number..." style="width: 20%"/>
-                    </div>
-                    <div class="address_format">
-                        <field name="street2" placeholder="Complement..." style="width: 45%"/>
-                        <field name="district" placeholder="District..." style="width: 45%"/>
-                    </div>
-                    <div class="address_format">
-                        <field name="country_id" placeholder="Country" class="oe_no_button"
-                               options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"
-                               style="width: 30%"/>
-                        <field name="state_id" class="oe_no_button" placeholder="State..."
-                               style="width: 30%" options="{&quot;no_open&quot;: True}"
-                               domain="[('country_id','=',country_id)]"/>
-                        <field name="city_id" placeholder="City..." style="width: 30%"/>
-                    </div>
+                <div class="o_address_format">
+                    <field name="zip" placeholder="Zip code..."  style="width: 70%" class="o_address_zip"/>
+                    <!-- Some dummy field because i will be automatically replaced
+                    by odoo.src.odoo.addons.base.models.res_partner.FormatAddressMixin._fields_view_get_address
+                    loading l10n_br_base.l10n_br_base_res_partner_address and all of it's inheritances.
+                    -->
                 </div>
             </xpath>
         </field>
