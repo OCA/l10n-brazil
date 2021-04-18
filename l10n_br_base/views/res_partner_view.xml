@@ -38,6 +38,8 @@
             <field name="vat" position="replace"/>
             <xpath expr="//h1" position="after">
                 <group>
+                    <field name="city_id" invisible="1"/>
+                    <!-- Allow inject city_id on context above -->
                     <div class="oe_edit_only">
                         <label for="legal_name" string="Full Name"
                                attrs="{'invisible': [('is_company','=', True)]}"/>
@@ -86,6 +88,10 @@
                     </group>
                 </page>
             </page>
+            <xpath expr="//field[@name='child_ids']" position="attributes">
+                <!-- tracking_disable allow user to zip search on child_ids without save the child -->
+                <attribute name="context">{'tracking_disable': True, 'default_city_id': city_id}</attribute>
+            </xpath>
         </field>
     </record>
 
