@@ -76,7 +76,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 12.0.4.3.0 | Brazilian Localization Account
+[l10n_br_account](l10n_br_account/) | 12.0.4.4.0 | Brazilian Localization Account
 [l10n_br_account_bank_statement_import_cnab](l10n_br_account_bank_statement_import_cnab/) | 12.0.1.0.0 | Importação de Extrato Bancário CNAB 240 - Segmento E
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.1.0.0 | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 12.0.2.1.0 | Customization of base module for implementations in Brazil.
@@ -92,12 +92,12 @@ addon | version | summary
 [l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.1.0 | Brazilian Localization HR Contract
 [l10n_br_mis_report](l10n_br_mis_report/) | 12.0.1.1.0 | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
-[l10n_br_nfe](l10n_br_nfe/) | 12.0.1.0.0 | Brazilian Eletronic Invoice NF-e .
+[l10n_br_nfe](l10n_br_nfe/) | 12.0.1.1.0 | Brazilian Eletronic Invoice NF-e .
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 12.0.1.0.0 | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 12.0.3.1.0 | NFS-e
 [l10n_br_nfse_ginfes](l10n_br_nfse_ginfes/) | 12.0.2.0.0 | NFS-e (Ginfes)
 [l10n_br_nfse_issnet](l10n_br_nfse_issnet/) | 12.0.2.0.0 | NFS-e (ISSNet)
-[l10n_br_portal](l10n_br_portal/) | 12.0.1.0.0 | Campos Brasileiros no Portal
+[l10n_br_portal](l10n_br_portal/) | 12.0.1.1.0 | Campos Brasileiros no Portal
 [l10n_br_purchase](l10n_br_purchase/) | 12.0.4.2.0 | Brazilian Localization Purchase
 [l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.2.0.0 | Brazilian Localization Purchase Stock
 [l10n_br_repair](l10n_br_repair/) | 12.0.5.1.0 | Brazilian Localization Repair
@@ -106,10 +106,10 @@ addon | version | summary
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 12.0.5.2.2 | Brazilian Localization Sales and Warehouse
 [l10n_br_stock](l10n_br_stock/) | 12.0.1.0.0 | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 12.0.4.0.0 | Brazilian Localization WMS Accounting
-[l10n_br_website_sale](l10n_br_website_sale/) | 12.0.1.0.1 | Website sale localização brasileira.
-[l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 12.0.2.0.0 | Implements Brazilian freight values for delivery.
+[l10n_br_website_sale](l10n_br_website_sale/) | 12.0.1.1.0 | Website sale localização brasileira.
+[l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 12.0.2.1.0 | Implements Brazilian freight values for delivery.
 [l10n_br_zip](l10n_br_zip/) | 12.0.3.0.1 | Brazilian Localisation ZIP Codes
 [payment_cielo](payment_cielo/) | 12.0.3.2.0 | Payment Acquirer: Cielo Implementation
-[spec_driven_model](spec_driven_model/) | 12.0.1.0.0 | Tools for specifications driven mixins (from xsd for instance)
+[spec_driven_model](spec_driven_model/) | 12.0.1.1.0 | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
