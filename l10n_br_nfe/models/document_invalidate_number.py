@@ -53,8 +53,8 @@ class DocumentInvalidateNumber(models.Model):
             )
 
             event_id.write({
-                'file_sent': processo.envio_xml,
-                'file_returned': processo.retorno.content,
+                'path_file_request': processo.envio_xml,
+                'path_file_response': processo.retorno.content,
                 'status': processo.resposta.infInut.cStat,
                 'message': processo.resposta.infInut.xMotivo,
             })
