@@ -187,13 +187,16 @@ class Event(models.Model):
         'document_id.partner_id.name')
     def _compute_display_name(self):
         for record in self:
-            names = [
-                _('Fiscal Document'),
-                self.document_id.number,
-                self.document_id.partner_id.name,
-            ]
+            if record.document_id:
+                names = [
+                    _('Fiscal Document'),
+                    self.document_id.number,
+                    self.document_id.partner_id.name,
+                ]
 
-            record.display_name = " / ".join(filter(None, names))
+                record.display_name = " / ".join(filter(None, names))
+            else:
+                record.display_name = ''
 
 # CODIGO_NOME = {"55": "nf-e", "SE": "nfs-e", "65": "nfc-e"}
 #
