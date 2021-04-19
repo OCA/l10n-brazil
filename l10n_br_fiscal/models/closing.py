@@ -54,10 +54,10 @@ SITUACAO_EDOC = [
 ]
 
 XMLS_IMPORTANTES = [
-    'file_xml_autorizacao_id',
-    'file_xml_autorizacao_cancelamento_id',
-    'file_xml_autorizacao_inutilizacao_id',
-    'file_pdf_id',
+    'authorization_file_id',
+    'cancel_file_id',
+    'file_xml_autorizacao_inutilizacao_id',  # TODO - Refactor wizard
+    'file_report_id',
 ]
 
 
