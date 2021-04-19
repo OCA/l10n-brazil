@@ -57,10 +57,14 @@ class DocumentCancel(models.Model):
 
                     record.document_id.document_cancel_id = record
                     record.document_id.cancel_event_id = event_id
-                    record.document_id.data_hora_cancelamento = fields.Datetime.to_string(
-                        datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                    record.document_id.data_hora_cancelamento = \
+                        fields.Datetime.to_string(
+                            datetime.fromisoformat(
+                                retevento.infEvento.dhRegEvento
+                            )
                     )
-                    record.document_id.protocolo_cancelamento = retevento.infEvento.nProt
+                    record.document_id.protocolo_cancelamento = \
+                        retevento.infEvento.nProt
 
                 event_id.set_done(
                     processo.retorno.content.decode('utf-8'),
