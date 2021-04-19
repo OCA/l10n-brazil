@@ -15,7 +15,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 
 class DocumentInvalidateNumber(models.Model):
-    _inherit = 'l10n_br_fiscal.document.invalidate.number'
+    _inherit = 'l10n_br_fiscal.invalidate.number'
 
     def _processador(self):
         if not self.company_id.certificate_nfe_id:
