@@ -112,6 +112,11 @@ class AccountInvoice(models.Model):
         return self.mapped('invoice_line_ids')
 
     @api.multi
+    def _get_amount_lines(self):
+        """Get object lines instaces used to compute fields"""
+        return self.mapped('invoice_line_ids')
+
+    @api.multi
     @api.depends('move_id.line_ids', 'move_id.state')
     def _compute_financial(self):
         for invoice in self:
@@ -480,3 +485,4 @@ class AccountInvoice(models.Model):
     def view_pdf(self):
         self.ensure_one()
         return self.fiscal_document_id.view_pdf()
+
