@@ -18,7 +18,9 @@
     'data': [
         'views/carrier.xml',
     ],
-    'demo': [],
+    'demo': [
+        'demo/sale_order_demo.xml',
+    ],
     'category': 'Localization',
     'installable': True,
 }
