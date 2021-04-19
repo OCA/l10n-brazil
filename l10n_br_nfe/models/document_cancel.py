@@ -62,7 +62,7 @@ class DocumentCancel(models.Model):
                             datetime.fromisoformat(
                                 retevento.infEvento.dhRegEvento
                             )
-                    )
+                        )
                     record.document_id.protocolo_cancelamento = \
                         retevento.infEvento.nProt
 
