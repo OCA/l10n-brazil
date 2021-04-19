@@ -16,7 +16,11 @@
         'delivery',
     ],
     'data': [
+        # View
         'views/carrier.xml',
+        'views/l10n_br_delivery_view.xml',
+        # Security
+        'security/ir.model.access.csv',
     ],
     'demo': [
         'demo/sale_order_demo.xml',
