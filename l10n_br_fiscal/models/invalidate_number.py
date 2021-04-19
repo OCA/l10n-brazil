@@ -104,7 +104,7 @@ class InvalidateNumber(models.Model):
 
     @api.multi
     def action_invalidate(self):
-        for r in self:
+        for record in self:
             event_id = self.env['l10n_br_fiscal.event'].create({
                 'type': '3',
                 'response': 'Inutilização do número %s ao número %s' % (
@@ -115,21 +115,21 @@ class InvalidateNumber(models.Model):
             })
             record.invalidate(event_id)
 
-    def invalidate(self):
-        for record in self:
-            event_id.state = 'done'
-            record.state = 'done'
-            if record.document_id:
-                record.document_id.state_edoc = SITUACAO_EDOC_INUTILIZADA
-            else:
-                for number in range(record.number_start,
-                                    record.number_end + 1):
-                    record.env['l10n_br_fiscal.document'].create({
-                        'document_serie_id': record.document_serie_id.id,
-                        'document_type_id':
-                            record.document_serie_id.document_type_id.id,
-                        'company_id': record.company_id.id,
-                        'state_edoc': SITUACAO_EDOC_INUTILIZADA,
-                        'issuer': 'company',
-                        'number': str(number),
-                    })
+    def invalidate(self, event_id):
+        self.ensure_one()
+        event_id.state = 'done'
+        self.state = 'done'
+        if self.document_id:
+            self.document_id.state_edoc = SITUACAO_EDOC_INUTILIZADA
+        else:
+            for number in range(self.number_start,
+                                self.number_end + 1):
+                self.env['l10n_br_fiscal.document'].create({
+                    'document_serie_id': self.document_serie_id.id,
+                    'document_type_id':
+                        self.document_serie_id.document_type_id.id,
+                    'company_id': self.company_id.id,
+                    'state_edoc': SITUACAO_EDOC_INUTILIZADA,
+                    'issuer': 'company',
+                    'number': str(number),
+                })
