@@ -128,7 +128,7 @@ class SaleOrder(models.Model):
                 name: value
                 for name, value in record._cache.items()
                 if record._fields[name].compute == '_amount_all' and
-                   not record._fields[name].inverse
+                not record._fields[name].inverse
             })
 
     @api.multi
@@ -166,7 +166,7 @@ class SaleOrder(models.Model):
                 name: value
                 for name, value in record._cache.items()
                 if record._fields[name].compute == '_amount_all' and
-                   not record._fields[name].inverse
+                not record._fields[name].inverse
             })
 
     @api.multi
@@ -205,7 +205,7 @@ class SaleOrder(models.Model):
                 name: value
                 for name, value in record._cache.items()
                 if record._fields[name].compute == '_amount_all' and
-                   not record._fields[name].inverse
+                not record._fields[name].inverse
             })
 
     @api.multi
