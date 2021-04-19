@@ -36,8 +36,8 @@ class DocumentCorrection(models.Model):
                     raise UserError(mensagem)
 
                 event_id.write({
-                    'file_sent': processo.envio_xml,
-                    'file_returned': processo.retorno.content,
+                    'path_file_request': processo.envio_xml,
+                    'path_file_response': processo.retorno.content,
                     'status': retevento.infEvento.cStat,
                     'message': retevento.infEvento.xMotivo,
                     'state': 'done',
