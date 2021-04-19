@@ -359,7 +359,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     # vICMSSubstituto - Valor do ICMS cobrado em operação anterior
     icms_substitute = fields.Monetary(
-        string="Substitute ICMS",
+        string="ICMS Substitute",
         help="Valor do ICMS Próprio do Substituto cobrado em operação anterior",
     )
 
@@ -471,19 +471,19 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmsfcp_percent_wh = fields.Float(string="FCP WH %")
 
     # vFCPSTRet - Valor do FCP retido anteriormente por ST
-    icmsfcp_value_wh = fields.Monetary(string="FCP WH Value")
+    icmsfcp_value_wh = fields.Monetary(string="FCP WH")
 
     # pRedBCEfet - Percentual de redução da base de cálculo efetiva
-    effective_base_percent = fields.Float(string="Effective Base %")
+    icms_effective_reduction = fields.Float(string="ICMS Effective % Reduction")
 
     # vBCEfet - Valor da base de cálculo efetiva
-    effective_base_value = fields.Monetary(string="Effective Base Value")
+    icms_effective_base = fields.Monetary(string="ICMS Effective Base")
 
     # pICMSEfet - Alíquota do ICMS Efetiva
     icms_effective_percent = fields.Float(string="ICMS Effective %")
 
     # vICMSEfet - Valor do ICMS Efetivo
-    icms_effective_value = fields.Monetary(string="ICMS Effective Value")
+    icms_effective_value = fields.Monetary(string="ICMS Effective")
 
     # IPI Fields
     ipi_tax_id = fields.Many2one(
