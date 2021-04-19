@@ -57,7 +57,7 @@ class TestNFeExport(TransactionCase):
         self.nfe.nfe40_detPag = [(5, 0, 0), (0, 0, financial_vals)]
         self.nfe.with_context(lang='pt_BR').action_document_confirm()
         output = os.path.join(config['data_dir'], 'filestore',
-                              self.cr.dbname, self.nfe.file_xml_id.store_fname)
+                              self.cr.dbname, self.nfe.send_file_id.store_fname)
         _logger.info("XML file saved at %s" % (output,))
         self.nfe.company_id.country_id.name = 'Brazil'  # clean mess
         diff = main.diff_files(
