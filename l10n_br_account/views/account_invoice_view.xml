@@ -104,6 +104,9 @@
                     <field name="payment_ids"/>
                 </page>
             </notebook>
+            <xpath expr="//field[@name='tax_line_ids']/tree/field[@name='tax_id']" position="before">
+                <field name="tax_group_id" invisible="1"/>
+            </xpath>
         </field>
     </record>
 
@@ -168,6 +171,9 @@
                     <field name="payment_ids"/>
                 </page>
             </notebook>
+            <xpath expr="//field[@name='tax_line_ids']/tree/field[@name='tax_id']" position="before">
+                <field name="tax_group_id" invisible="1"/>
+            </xpath>
         </field>
     </record>
 
