@@ -31,6 +31,12 @@ class PurchaseOrderLine(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
+    fiscal_operation_line_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.operation.line",
+        string="Operation Line",
+        domain="[('fiscal_operation_id', '=', fiscal_operation_id), "
+               "('state', '=', 'approved')]")
+
     fiscal_tax_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax',
         relation='fiscal_purchase_line_tax_rel',
