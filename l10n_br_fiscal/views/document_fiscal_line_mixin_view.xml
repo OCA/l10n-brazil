@@ -125,8 +125,10 @@
                           <field name="icmsfcp_value_wh" force_save="1" attrs="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
                       </group>
                       <group name="icms_effective" string="ICMS Effective Calculation" attrs="{'invisible': [('icms_cst_code', '!=', '500')]}">
-                          <field name="effective_base_percent" force_save="1" attr="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
-                          <field name="effective_base_value" force_save="1" attr="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
+                          <field name="icms_effective_reduction" force_save="1"
+                                 attr="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
+                          <field name="icms_effective_base" force_save="1"
+                                 attr="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
                           <field name="icms_effective_percent" force_save="1" attr="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
                           <field name="icms_effective_value" force_save="1" attr="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
                       </group>
