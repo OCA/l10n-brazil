@@ -100,27 +100,39 @@ class AccountTax(models.Model):
                 account_taxes_by_domain.get(account_tax.get('id'))
             )
 
+            account_tax.update({
+                'tax_group_id': tax.tax_group_id.id,
+                'deductible': tax.deductible,
+            })
+
             if fiscal_tax:
                 tax = self.filtered(lambda t: t.id == account_tax.get('id'))
                 if not fiscal_tax.get('tax_include') and not tax.deductible:
                     taxes_results['total_included'] += fiscal_tax.get(
                         'tax_value')
 
+                fiscal_group = tax.tax_group_id.fiscal_tax_group_id
+                tax_amount = fiscal_tax.get('tax_value', 0.0)
+                if tax.deductible or fiscal_group.tax_withholding:
+                    tax_amount = fiscal_tax.get('tax_value', 0.0) * -1
+
                 account_tax.update({
                     'id': account_tax.get('id'),
-                    'name': '{0} ({1})'.format(
-                        account_tax.get('name'),
-                        fiscal_tax.get('name')
-                    ),
+                    'name': fiscal_group.name,
+                    'fiscal_name': fiscal_tax.get('name'),
                     'amount': fiscal_tax.get('tax_value'),
                     'base': fiscal_tax.get('base'),
                     'tax_include': fiscal_tax.get('tax_include'),
+                    'amount': tax_amount,
+                    'fiscal_tax_id': fiscal_tax.get('fiscal_tax_id'),
+                    'tax_withholding': fiscal_group.tax_withholding
                 })
 
-                if (tax.deductible or
-                        tax.tax_group_id.fiscal_tax_group_id.tax_withholding):
-                    account_tax.update({
-                        'amount': fiscal_tax.get('tax_value', 0.0) * -1,
-                    })
-
         return taxes_results
+
+    # # TODO criar uma parametro na empresa para desagrupar por imposto
+    # def get_grouping_key(self, invoice_tax_val):
+    #     """ Returns a string that will be used to group account.invoice.tax
+    #     sharing the same properties"""
+    #     grouping_key = super().get_grouping_key(invoice_tax_val)
+    #     return grouping_key + '-' + str(invoice_tax_val['fiscal_tax_id'])
