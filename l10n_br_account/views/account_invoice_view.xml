@@ -81,7 +81,7 @@
                 <attribute name="editable"/>
             </xpath>
             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
-                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
+                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id, 'journal_id': journal_id, 'type': type}</attribute>
             </xpath>
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="after">
                 <field name="document_type_id" invisible="1"/>
@@ -146,7 +146,7 @@
                 <attribute name="editable"/>
             </xpath>
             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
-                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
+                <attribute name="context">{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id, 'journal_id': journal_id, 'type': type}</attribute>
             </xpath>
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="after">
                 <field name="document_type_id" invisible="1"/>
