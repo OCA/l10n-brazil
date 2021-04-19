@@ -9,6 +9,8 @@
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'https://github.com/oca/l10n-brazil.git',
+    'development_status': 'Beta',
+    'maintainers': ['mileo'],
     'depends': [
         'l10n_br_contract',
         'product_contract',
@@ -16,7 +18,6 @@
     'data': [
     ],
     'demo': [
-        'demo/sale_order_line.xml',
         'demo/sale_order.xml',
     ],
 }
