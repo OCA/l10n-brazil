@@ -9,7 +9,7 @@ class TestDeliveryInverseAmount(SavepointCase):
     def setUpClass(self):
         super().setUpClass()
 
-        self.sale_demo = self.env.ref('l10n_br_sale.main_so_delivery_costs_1')
+        self.sale_demo = self.env.ref('l10n_br_delivery.main_so_delivery_1')
 
         # Create two sale orders
         sale_order_form_total = Form(self.env['sale.order'], 'sale.view_order_form')
@@ -396,7 +396,7 @@ class TestDeliveryInverseAmount(SavepointCase):
             'Unexpected value for the field amount_costs from Sale Order')
         for l in self.sale_demo.order_line:
             other_line = self.sale_demo.order_line.filtered(
-                lambda o_l: o_l.id != l.id )
+                lambda o_l: o_l.id != l.id)
             self.assertNotEqual(
                 l.freight_value, other_line.freight_value,
                 'Value freight_value should not be has same value in lines.')
@@ -429,7 +429,7 @@ class TestDeliveryInverseAmount(SavepointCase):
         )
         for l in invoice.invoice_line_ids:
             other_line = invoice.invoice_line_ids.filtered(
-                lambda o_l: o_l.id != l.id )
+                lambda o_l: o_l.id != l.id)
             self.assertNotEqual(
                 l.freight_value, other_line.freight_value,
                 'Value freight_value should not be has same value'
@@ -448,7 +448,7 @@ class TestDeliveryInverseAmount(SavepointCase):
 
         for l in fiscal_document_id.line_ids:
             other_line = fiscal_document_id.line_ids.filtered(
-                lambda o_l: o_l.id != l.id )
+                lambda o_l: o_l.id != l.id)
             self.assertNotEqual(
                 l.freight_value, other_line.freight_value,
                 'Value freight_value should not be has same value'
