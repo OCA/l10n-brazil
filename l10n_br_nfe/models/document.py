@@ -87,13 +87,6 @@ class NFe(spec_models.StackedModel):
     nfe40_dest = fields.Many2one('res.partner', compute='_compute_dest',
                                  readonly=True, string="Dest")
 
-    fiscal_document_event_ids = fields.One2many(
-        comodel_name='l10n_br_fiscal.document.event',
-        inverse_name='fiscal_document_id',
-        string='Fiscal Events',
-        copy=False,
-    )
-
     nfe_version = fields.Selection(
         selection=NFE_VERSIONS,
         string='NFe Version',
