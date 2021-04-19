@@ -335,7 +335,7 @@ class Document(models.Model):
 
                     if processo.resposta.ListaNfse:
                         xml_file = processo.retorno
-                        record.autorizacao_event_id.set_done(xml_file)
+                        record.authorization_event_id.set_done(xml_file)
                         for comp in processo.resposta.ListaNfse.CompNfse:
                             vals['number'] = comp.Nfse.InfNfse.Numero
                             vals['data_hora_autorizacao'] = \
