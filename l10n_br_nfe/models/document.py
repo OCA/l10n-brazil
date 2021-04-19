@@ -337,7 +337,7 @@ class NFe(spec_models.StackedModel):
                 _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
             _logger.debug(xml_file)
             event_id = self._gerar_evento(xml_file, event_type="0")
-            record.autorizacao_event_id = event_id
+            record.authorization_event_id = event_id
 
     def atualiza_status_nfe(self, infProt):
         self.ensure_one()
@@ -388,7 +388,7 @@ class NFe(spec_models.StackedModel):
                 for p in processador.processar_documento(edoc):
                     processo = p
                     if processo.webservice == 'nfeAutorizacaoLote':
-                        self.autorizacao_event_id._grava_anexo(
+                        self.authorization_event_id._grava_anexo(
                             processo.envio_xml.decode('utf-8'), "xml"
                         )
 
@@ -404,7 +404,7 @@ class NFe(spec_models.StackedModel):
                     nfe_proc.original_tagname_ = 'nfeProc'
                     xml_file = \
                         processador._generateds_to_string_etree(nfe_proc)[0]
-                    record.autorizacao_event_id.set_done(xml_file)
+                    record.authorization_event_id.set_done(xml_file)
                     record.atualiza_status_nfe(protocolo.infProt)
                     if protocolo.infProt.cStat in AUTORIZADO:
                         try:
@@ -489,7 +489,7 @@ class NFe(spec_models.StackedModel):
 
         for record in self.filtered(filter_processador_edoc_nfe):
             processador = record._processador()
-            record.autorizacao_event_id = record._gerar_evento(
+            record.authorization_event_id = record._gerar_evento(
                 processador._generateds_to_string_etree(
                     record.serialize()[0]
                 )[0], event_type="0"
@@ -613,17 +613,17 @@ class NFe(spec_models.StackedModel):
                                              key, value, path)
 
     def gera_pdf(self):
-        file_pdf = self.file_pdf_id
-        self.file_pdf_id = False
+        file_pdf = self.file_report_id
+        self.file_report_id = False
         file_pdf.unlink()
-        output = self.autorizacao_event_id.monta_caminho(
+        output = self.authorization_event_id.monta_caminho(
             ambiente=self.nfe40_tpAmb,
             company_id=self.company_id,
             chave=self.key,
         )
 
-        if self.file_xml_autorizacao_id:
-            arquivo = output + self.file_xml_autorizacao_id.datas_fname
+        if self.authorization_file_id:
+            arquivo = output + self.authorization_file_id.datas_fname
         else:
             tmp_xml = tempfile.NamedTemporaryFile()
             self.temp_xml_autorizacao(tmp_xml)
@@ -634,7 +634,7 @@ class NFe(spec_models.StackedModel):
         with open(output + file_name, 'rb') as f:
             arquivo_data = f.read()
 
-        self.file_pdf_id = self.env['ir.attachment'].create(
+        self.file_report_id = self.env['ir.attachment'].create(
             {
                 "name": file_name,
                 "datas_fname": file_name,
@@ -647,13 +647,13 @@ class NFe(spec_models.StackedModel):
         )
 
     def view_pdf(self):
-        if not self.file_pdf_id:
+        if not self.file_report_id:
             self.gera_pdf()
         return super(NFe, self).view_pdf()
 
     def temp_xml_autorizacao(self, tmp_xml):
         """ TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
-        xml_string = base64.b64decode(self.file_xml_id.datas).decode()
+        xml_string = base64.b64decode(self.send_file_id.datas).decode()
         root = etree.fromstring(xml_string)
 
         ns = {None: 'http://www.portalfiscal.inf.br/nfe'}
