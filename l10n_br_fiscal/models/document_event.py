@@ -2,16 +2,36 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-# import os
-# import base64
-# from erpbrasil.base import misc
-#
-# from odoo import _, api, fields, models
-# from odoo.exceptions import UserError
-# from odoo.tools import config
+import os
+import base64
 
+from odoo.tools import config
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+from erpbrasil.base import misc
+
+CODIGO_NOME = {"55": "nf-e", "SE": "nfs-e", "65": "nfc-e"}
+
+
+def caminho_empresa(company_id, document):
+    db_name = company_id._cr.dbname
+    cnpj = misc.punctuation_rm(company_id.cnpj_cpf)
+
+    filestore = config.filestore(db_name)
+    path = "/".join([filestore, "edoc", document, cnpj])
+    if not os.path.exists(path):
+        try:
+            os.makedirs(path)
+        except OSError:
+            raise UserError(
+                _("Erro!"),
+                _(
+                    """Verifique as permissões de escrita
+                    e o caminho da pasta"""
+                ),
+            )
+    return path
 
 
 class Event(models.Model):
@@ -198,132 +218,107 @@ class Event(models.Model):
             else:
                 record.display_name = ''
 
-# CODIGO_NOME = {"55": "nf-e", "SE": "nfs-e", "65": "nfc-e"}
-#
-#
-# def caminho_empresa(company_id, document):
-#     db_name = company_id._cr.dbname
-#     cnpj = misc.punctuation_rm(company_id.cnpj_cpf)
-#
-#     filestore = config.filestore(db_name)
-#     path = "/".join([filestore, "edoc", document, cnpj])
-#     if not os.path.exists(path):
-#         try:
-#             os.makedirs(path)
-#         except OSError:
-#             raise UserError(
-#                 _("Erro!"),
-#                 _(
-#                     """Verifique as permissões de escrita
-#                     e o caminho da pasta"""
-#                 ),
-#             )
-#     return path
-#
-#
-# class DocumentEvent(models.Model):
-#     _name = "l10n_br_fiscal.document.event"
-#     _description = "Fiscal Document Event"
-#
-#     @staticmethod
-#     def monta_caminho(ambiente, company_id, chave):
-#         caminho = caminho_empresa(company_id, chave[:2])
-#
-#         if ambiente == 1:
-#             caminho = os.path.join(caminho, "producao/")
-#         else:
-#             caminho = os.path.join(caminho, "homologacao/")
-#
-#         data = "20" + chave[2:4] + "-" + chave[4:6]
-#         serie = chave[22:25]
-#         numero = chave[25:34]
-#
-#         caminho = os.path.join(caminho, data + "/")
-#         caminho = os.path.join(caminho, serie + "-" + numero + "/")
-#
-#         try:
-#             os.makedirs(caminho)
-#         except:
-#             pass
-#         return caminho
-#
-#     def _grava_arquivo_disco(self, arquivo, file_name):
-#         save_dir = self.monta_caminho(
-#             ambiente=False,
-#             company_id=self.company_id,
-#             chave=(
-#                 self.document_id.key
-#                 or self.document_id.number
-#             ),  # FIXME:
-#         )
-#         file_path = os.path.join(save_dir, file_name)
-#         try:
-#             if not os.path.exists(save_dir):
-#                 os.makedirs(save_dir)
-#             f = open(file_path, "w")
-#         except IOError:
-#             raise UserError(
-#                 _("Erro!"),
-#                 _(
-#                     """Não foi possível salvar o arquivo
-#                     em disco, verifique as permissões de escrita
-#                     e o caminho da pasta"""
-#                 ),
-#             )
-#         else:
-#             f.write(arquivo)
-#             f.close()
-#         return file_path
-#
-#     def _grava_anexo(
-#         self, arquivo, extensao_sem_ponto, autorizacao=False, sequencia=False
-#     ):
-#         self.ensure_one()
-#
-#         file_name = ""
-#         file_name += (
-#             self.fiscal_document_id.key or self.fiscal_document_id.number
-#         )  # FIXME:
-#         file_name += "-"
-#         if autorizacao:
-#             file_name += "proc-"
-#         if sequencia:
-#             file_name += str(sequencia) + "-"
-#         file_name += CODIGO_NOME[
-#             self.fiscal_document_id.document_type_id.code]
-#         file_name += "." + extensao_sem_ponto
-#
-#         file_path = self._grava_arquivo_disco(arquivo, file_name)
-#
-#         ir_attachment_id = self.env["ir.attachment"].search(
-#             [
-#                 ("res_model", "=", self._name),
-#                 ("res_id", "=", self.id),
-#                 ("name", "=", file_name),
-#             ]
-#         )
-#         ir_attachment_id.unlink()
-#
-#         attachment_id = ir_attachment_id.create(
-#             {
-#                 "name": file_name,
-#                 "datas_fname": file_name,
-#                 "res_model": self._name,
-#                 "res_id": self.id,
-#                 "datas": base64.b64encode(arquivo.encode("utf-8")),
-#                 "mimetype": "application/" + extensao_sem_ponto,
-#                 "type": "binary",
-#             }
-#         )
-#
-#         if autorizacao:
-#             vals = {"file_returned": file_path, "xml_returned_id": attachment_id.id}
-#         else:
-#             vals = {"file_sent": file_path, "xml_sent_id": attachment_id.id}
-#         self.write(vals)
-#         return attachment_id
-#
-#     @api.multi
-#     def set_done(self, arquivo_xml):
-#         self._grava_anexo(arquivo_xml, "xml", autorizacao=True)
-#         self.write({"state": "done", "date": fields.Datetime.now()})
+
+
+    @staticmethod
+    def monta_caminho(ambiente, company_id, chave):
+        caminho = caminho_empresa(company_id, chave[:2])
+
+        if ambiente == 1:
+            caminho = os.path.join(caminho, "producao/")
+        else:
+            caminho = os.path.join(caminho, "homologacao/")
+
+        data = "20" + chave[2:4] + "-" + chave[4:6]
+        serie = chave[22:25]
+        numero = chave[25:34]
+
+        caminho = os.path.join(caminho, data + "/")
+        caminho = os.path.join(caminho, serie + "-" + numero + "/")
+
+        try:
+            os.makedirs(caminho)
+        except:
+            pass
+        return caminho
+
+    def _grava_arquivo_disco(self, arquivo, file_name):
+        save_dir = self.monta_caminho(
+            ambiente=False,
+            company_id=self.company_id,
+            chave=(
+                self.document_id.key
+                or self.document_id.number
+            ),  # FIXME:
+        )
+        file_path = os.path.join(save_dir, file_name)
+        try:
+            if not os.path.exists(save_dir):
+                os.makedirs(save_dir)
+            f = open(file_path, "w")
+        except IOError:
+            raise UserError(
+                _("Erro!"),
+                _(
+                    """Não foi possível salvar o arquivo
+                    em disco, verifique as permissões de escrita
+                    e o caminho da pasta"""
+                ),
+            )
+        else:
+            f.write(arquivo)
+            f.close()
+        return file_path
+
+    def _grava_anexo(
+        self, arquivo, extensao_sem_ponto, autorizacao=False, sequencia=False
+    ):
+        self.ensure_one()
+
+        file_name = ""
+        file_name += (
+            self.document_id.key or self.document_id.number
+        )  # FIXME:
+        file_name += "-"
+        if autorizacao:
+            file_name += "proc-"
+        if sequencia:
+            file_name += str(sequencia) + "-"
+        file_name += CODIGO_NOME[
+            self.document_id.document_type_id.code]
+        file_name += "." + extensao_sem_ponto
+
+        file_path = self._grava_arquivo_disco(arquivo, file_name)
+
+        ir_attachment_id = self.env["ir.attachment"].search(
+            [
+                ("res_model", "=", self._name),
+                ("res_id", "=", self.id),
+                ("name", "=", file_name),
+            ]
+        )
+        ir_attachment_id.unlink()
+
+        attachment_id = ir_attachment_id.create(
+            {
+                "name": file_name,
+                "datas_fname": file_name,
+                "res_model": self._name,
+                "res_id": self.id,
+                "datas": base64.b64encode(arquivo.encode("utf-8")),
+                "mimetype": "application/" + extensao_sem_ponto,
+                "type": "binary",
+            }
+        )
+
+        if autorizacao:
+            vals = {"path_file_response": file_path, "file_response_id": attachment_id.id}
+        else:
+            vals = {"path_file_request": file_path, "file_request_id": attachment_id.id}
+        self.write(vals)
+        return attachment_id
+
+    @api.multi
+    def set_done(self, arquivo_xml):
+        self._grava_anexo(arquivo_xml, "xml", autorizacao=True)
+        self.write({"state": "done", "date": fields.Datetime.now()})
