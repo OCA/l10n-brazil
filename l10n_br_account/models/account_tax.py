@@ -96,8 +96,9 @@ class AccountTax(models.Model):
             account_taxes_by_domain.update({tax.id: tax_domain})
 
         for account_tax in taxes_results['taxes']:
+            tax = self.filtered(lambda t: t.id == account_tax.get('id'))
             fiscal_tax = fiscal_taxes_results['taxes'].get(
-                account_taxes_by_domain.get(account_tax.get('id'))
+                account_taxes_by_domain.get(tax.id)
             )
 
             account_tax.update({
@@ -106,7 +107,6 @@ class AccountTax(models.Model):
             })
 
             if fiscal_tax:
-                tax = self.filtered(lambda t: t.id == account_tax.get('id'))
                 if not fiscal_tax.get('tax_include') and not tax.deductible:
                     taxes_results['total_included'] += fiscal_tax.get(
                         'tax_value')
