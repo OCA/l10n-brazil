@@ -124,7 +124,7 @@ class Document(models.Model):
                 _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
             event_id = self._gerar_evento(xml_file, event_type="0")
             _logger.debug(xml_file)
-            record.autorizacao_event_id = event_id
+            record.authorization_event_id = event_id
 
     def _prepare_dados_servico(self):
         self.line_ids.ensure_one()
