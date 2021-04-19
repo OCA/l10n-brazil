@@ -1275,12 +1275,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vCOFINS
-msgid "Valor do COFINS"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vCOFINS
-msgid "Valor do COFINS ST"
+msgid "Valor do COFINS"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1322,12 +1318,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vPIS
-msgid "Valor do PIS"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vPIS
-msgid "Valor do PIS ST"
+msgid "Valor do PIS"
 msgstr ""
 
 #. module: l10n_br_nfe
