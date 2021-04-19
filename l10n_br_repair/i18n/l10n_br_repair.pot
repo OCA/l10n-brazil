@@ -456,6 +456,21 @@ msgid "Extra Info"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_value_wh
+msgid "FCP WH"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_percent_wh
+msgid "FCP WH %"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_base_wh
+msgid "FCP WH Base"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_repair_order__fiscal_document_count
 msgid "Fiscal Document Count"
 msgstr ""
@@ -573,6 +588,26 @@ msgid "ICMS Destination Base"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_effective_value
+msgid "ICMS Effective"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_effective_percent
+msgid "ICMS Effective %"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_effective_reduction
+msgid "ICMS Effective % Reduction"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_effective_base
+msgid "ICMS Effective Base"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_destination_percent
 msgid "ICMS External %"
 msgstr ""
@@ -680,6 +715,11 @@ msgstr ""
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_sharing_percent
 msgid "ICMS Sharing %"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_substitute
+msgid "ICMS Substitute"
 msgstr ""
 
 #. module: l10n_br_repair
@@ -1511,6 +1551,11 @@ msgstr ""
 #. module: l10n_br_repair
 #: selection:l10n_br_repair.fiscal.line.mixin,icms_base_type:0
 msgid "Valor da Operação"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icms_substitute
+msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
 
 #. module: l10n_br_repair
