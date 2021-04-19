@@ -35,7 +35,7 @@ class TestFiscalClosing(TransactionCase):
         event_id = self.nfe_export._gerar_evento(arquivo_xml=xml_file, event_type='0')
         self.nfe_export._onchange_company_id()
         event_id.set_done(xml_file)
-        self.nfe_export.autorizacao_event_id = event_id
+        self.nfe_export.authorization_file_id = event_id
 
         self.closing_all.action_export()
         self.closing_period.action_export()
