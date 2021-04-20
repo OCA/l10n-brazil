@@ -12,6 +12,12 @@ class InvalidateNumber(models.Model):
     _name = 'l10n_br_fiscal.invalidate.number'
     _description = 'Invalidate Number'
 
+    date = fields.Date(
+        string='Date',
+        default=fields.Date.today,
+        readonly=True,
+    )
+
     company_id = fields.Many2one(
         comodel_name='res.company',
         readonly=True,
@@ -143,24 +149,3 @@ class InvalidateNumber(models.Model):
         self.ensure_one()
         self._update_document_status(document_id)
         self.state = 'done'
-
-    def _gerar_evento(self, xml_file, event_type='3'):
-        self.ensure_one()
-        event_obj = self.env["l10n_br_fiscal.event"]
-
-        vals = {
-            "type": event_type,
-            "company_id": self.company_id.id,
-            "origin": (
-                    self.document_type_id.code +
-                    "/" +
-                    str(self.number_start) +
-                    '-' +
-                    str(self.number_end)
-            ),
-            "create_date": fields.Datetime.now(),
-            'invalidate_number_id': self.id,
-        }
-        event_id = event_obj.create(vals)
-        event_id._grava_anexo(xml_file, "xml")
-        return event_id
