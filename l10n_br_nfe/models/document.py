@@ -356,10 +356,10 @@ class NFe(spec_models.StackedModel):
         self._change_state(state)
 
         self.write({
-            'codigo_situacao': infProt.cStat,
-            'motivo_situacao': infProt.xMotivo,
-            'data_hora_autorizacao': infProt.dhRecbto,
-            'protocolo_autorizacao': infProt.nProt,
+            'status_code': infProt.cStat,
+            'status_name': infProt.xMotivo,
+            'authorization_date': infProt.dhRecbto,
+            'authorization_protocol': infProt.nProt,
         })
 
     def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
@@ -424,8 +424,8 @@ class NFe(spec_models.StackedModel):
                 self._change_state(state)
 
                 self.write({
-                    'codigo_situacao': processo.resposta.cStat,
-                    'motivo_situacao': processo.resposta.xMotivo,
+                    'status_code': processo.resposta.cStat,
+                    'status_name': processo.resposta.xMotivo,
                 })
         return
 
