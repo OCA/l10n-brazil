@@ -260,7 +260,7 @@ class Document(models.Model):
             for record in self.filtered(fiter_provedor_ginfes):
                 processador = record._processador_erpbrasil_nfse()
 
-                protocolo = record.protocolo_autorizacao
+                protocolo = record.authorization_protocol
                 vals = dict()
 
                 if not protocolo:
@@ -294,25 +294,25 @@ class Document(models.Model):
                                 protocolo = processo.resposta.Protocolo
 
                         if processo.webservice in CONSULTAR_SITUACAO_LOTE_RPS:
-                            vals['codigo_situacao'] = \
+                            vals['status_code'] = \
                                 processo.resposta.Situacao
                 else:
-                    vals['codigo_situacao'] = 4
+                    vals['status_code'] = 4
 
-                if vals.get('codigo_situacao') == 1:
-                    vals['motivo_situacao'] = _('Não Recebido')
+                if vals.get('status_code') == 1:
+                    vals['status_name'] = _('Não Recebido')
 
-                elif vals.get('codigo_situacao') == 2:
-                    vals['motivo_situacao'] = _('Lote ainda não processado')
+                elif vals.get('status_code') == 2:
+                    vals['status_name'] = _('Lote ainda não processado')
 
-                elif vals.get('codigo_situacao') == 3:
-                    vals['motivo_situacao'] = _('Procesado com Erro')
+                elif vals.get('status_code') == 3:
+                    vals['status_name'] = _('Procesado com Erro')
 
-                elif vals.get('codigo_situacao') == 4:
-                    vals['motivo_situacao'] = _('Procesado com Sucesso')
-                    vals['protocolo_autorizacao'] = protocolo
+                elif vals.get('status_code') == 4:
+                    vals['status_name'] = _('Procesado com Sucesso')
+                    vals['authorization_protocol'] = protocolo
 
-                if vals.get('codigo_situacao') in (3, 4):
+                if vals.get('status_code') in (3, 4):
                     processo = processador.consultar_lote_rps(protocolo)
 
                     if processo.resposta:
@@ -338,7 +338,7 @@ class Document(models.Model):
                         record.authorization_event_id.set_done(xml_file)
                         for comp in processo.resposta.ListaNfse.CompNfse:
                             vals['number'] = comp.Nfse.InfNfse.Numero
-                            vals['data_hora_autorizacao'] = \
+                            vals['authorization_date'] = \
                                 comp.Nfse.InfNfse.DataEmissao
                             vals['verify_code'] = \
                                 comp.Nfse.InfNfse.CodigoVerificacao
