@@ -55,20 +55,29 @@ class InvalidateNumber(models.Model):
             evento=evento
         )
 
-        event_id = self._gerar_evento(
+        event_id = self.event_ids.gerar_evento(
+            company_id=self.company_id,
+            environment='prod' if self.company_id.nfe_environment == '1' else 'hml',
+            event_type='3',
             xml_file=processo.envio_xml.decode('utf-8'),
+            invalidate_number_id=self,
         )
 
         if document_id:
             event_id.document_id = document_id
         self.event_ids |= event_id
 
+        if hasattr(processo.resposta.infInut, 'dhRegEvento'):
+            date_response = processo.resposta.infInut.dhRegEvento
+        elif hasattr(processo.resposta.infInut, 'dhRecbto'):
+            date_response = processo.resposta.infInut.dhRecbto
+
         event_id.set_done(
             status_code=processo.resposta.infInut.cStat,
             response=processo.resposta.infInut.xMotivo,
             protocol_date=fields.Datetime.to_string(
-                datetime.fromisoformat(
-                    processo.resposta.infInut.dhRegEvento)),
+                datetime.fromisoformat(date_response)
+            ),
             protocol_number=processo.resposta.infInut.nProt,
             file_response_xml=processo.retorno.content.decode('utf-8'),
         )
