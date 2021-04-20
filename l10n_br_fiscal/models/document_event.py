@@ -309,14 +309,21 @@ class Event(models.Model):
         )
 
         if autorizacao:
-            vals = {"path_file_response": file_path, "file_response_id": attachment_id.id}
+            vals = {
+                "path_file_response": file_path,
+                "file_response_id": attachment_id.id
+            }
         else:
-            vals = {"path_file_request": file_path, "file_request_id": attachment_id.id}
+            vals = {
+                "path_file_request": file_path,
+                "file_request_id": attachment_id.id
+            }
         self.write(vals)
         return attachment_id
 
     @api.multi
-    def set_done(self, status_code, response, protocol_date, protocol_number,  file_response_xml):
+    def set_done(self, status_code, response, protocol_date,
+                 protocol_number, file_response_xml):
         self._grava_anexo(file_response_xml, 'xml', autorizacao=True)
         self.write({
             'state': 'done',
