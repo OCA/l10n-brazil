@@ -12,6 +12,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from erpbrasil.base import misc
+from erpbrasil.base.fiscal import edoc
 
 from ..constants.fiscal import (
     EVENT_ENVIRONMENT,
@@ -97,9 +98,18 @@ class Event(models.Model):
 
     document_type_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.document.type',
-        related='document_id.document_type_id',
         string='Fiscal Document Type',
         index=True,
+        required=True,
+    )
+
+    document_serie_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.document.serie',
+        required=True,
+    )
+
+    document_number = fields.Char(
+        required=True,
     )
 
     partner_id = fields.Many2one(
@@ -116,9 +126,9 @@ class Event(models.Model):
 
     company_id = fields.Many2one(
         comodel_name='res.company',
-        related='document_id.company_id',
         string='Company',
         index=True,
+        required=True,
     )
 
     sequence = fields.Char(
@@ -198,6 +208,10 @@ class Event(models.Model):
         default='draft',
     )
 
+    environment = fields.Selection(
+        selection=EVENT_ENVIRONMENT,
+    )
+
     @api.multi
     @api.constrains('justification')
     def _check_justification(self):
@@ -209,10 +223,6 @@ class Event(models.Model):
     def create(self, values):
         values['date'] = fields.Datetime.now()
         return super().create(values)
-
-    environment = fields.Selection(
-        selection=EVENT_ENVIRONMENT,
-    )
 
     @api.multi
     @api.depends(
@@ -265,14 +275,6 @@ class Event(models.Model):
             mes=mes,
             serie=serie,
             numero=numero,
-            # tipo_documento=(
-            #     self.fiscal_document_id.document_type_id.prefix or
-            #     self.fiscal_document_id.document_type_id.code
-            # ),
-            # ano=self.fiscal_document_id.date.strftime("%Y").zfill(4),
-            # mes=self.fiscal_document_id.date.strftime("%m").zfill(2),
-            # serie=self.fiscal_document_id.document_serie,
-            # numero=self.fiscal_document_id.number,
         )
         file_path = os.path.join(save_dir, file_name)
         try:
@@ -298,20 +300,45 @@ class Event(models.Model):
     ):
         self.ensure_one()
 
-        file_name = ""
-        file_name += (
-            self.document_id.key or self.document_id.number
-        )  # FIXME:
-        file_name += "-"
+        if self.document_id and self.document_id.key and self.document_id.document_electronic:
+            chave = edoc.detectar_chave_edoc(self.document_id.key)
+            tipo_documento = chave.prefixo
+            ano = chave.ano_emissao
+            mes = chave.mes_emissao
+            serie = chave.numero_serie
+            numero = chave.numero_documento
+            file_name = self.document_id.key
+
+        else:
+            tipo_documento = self.document_type_id.prefix
+            serie = self.document_serie_id.code
+            numero = self.document_number
+            file_name = numero
+
+            if self.document_id:
+                ano = self.document_id.date.strftime("%Y")
+                mes = self.document_id.date.strftime("%m")
+            elif self.invalidate_number_id:
+                ano = self.invalidate_number_id.date.strftime("%Y")
+                mes = self.invalidate_number_id.date.strftime("%m")
+
         if autorizacao:
-            file_name += "proc-"
+            file_name += "-proc"
         if sequencia:
             file_name += str(sequencia) + "-"
-        file_name += CODIGO_NOME[
-            self.document_id.document_type_id.code]
-        file_name += "." + extensao_sem_ponto
 
-        file_path = self._grava_arquivo_disco(arquivo, file_name)
+        if extensao_sem_ponto:
+            file_name += ('.' + extensao_sem_ponto)
+
+        file_path = self._grava_arquivo_disco(
+            arquivo,
+            file_name,
+            tipo_documento=tipo_documento,
+            ano=str(ano).zfill(4),
+            mes=str(mes).zfill(2),
+            serie=str(serie),
+            numero=str(numero),
+        )
 
         ir_attachment_id = self.env["ir.attachment"].search(
             [
@@ -358,3 +385,43 @@ class Event(models.Model):
             'protocol_date': protocol_date,
             'protocol_number': protocol_number,
         })
+
+    def gerar_evento(
+            self, company_id, environment, event_type, xml_file,
+            document_id=False, invalidate_number_id=False, sequence=False):
+        event_obj = self.env["l10n_br_fiscal.event"]
+        vals = {
+            "company_id": company_id.id,
+            "environment": environment,
+            "type": event_type,
+            "create_date": fields.Datetime.now(),
+        }
+        if sequence:
+            vals['sequence'] = sequence
+        if document_id:
+            #
+            #  Aplicado para envio, cancelamento, carta de correcao
+            # e outras operações em que o documento esta presente.
+            #
+            vals['document_id'] = document_id.id
+            vals['document_type_id'] = document_id.document_type_id.id
+            vals['document_serie_id'] = document_id.document_serie_id.id
+            vals['document_number'] = document_id.number
+
+        if invalidate_number_id:
+            #
+            #  Aplicado para inutilização
+            #
+            vals['invalidate_number_id'] = invalidate_number_id.id
+            vals['document_type_id'] = invalidate_number_id.document_type_id.id
+            vals['document_serie_id'] = invalidate_number_id.document_serie_id.id
+            if invalidate_number_id.number_end != invalidate_number_id.number_start:
+                vals['document_number'] = \
+                    str(invalidate_number_id.number_start) + \
+                    '-' + str(invalidate_number_id.number_end)
+            else:
+                vals['document_number'] = invalidate_number_id.number_start
+
+        event_id = event_obj.create(vals)
+        event_id._grava_anexo(xml_file, "xml")
+        return event_id

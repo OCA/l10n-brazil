@@ -151,22 +151,6 @@ class DocumentEletronic(models.AbstractModel):
         electronic = self - no_electronic
         electronic._eletronic_document_send()
 
-    def _gerar_evento(self, xml_file, event_type, sequence=False):
-        event_obj = self.env["l10n_br_fiscal.event"]
-
-        vals = {
-            "type": event_type,
-            "company_id": self.company_id.id,
-            "origin": self.document_type_id.code + "/" + self.number,
-            "create_date": fields.Datetime.now(),
-            "document_id": self.id,
-        }
-        if sequence:
-            vals['sequence'] = sequence
-        event_id = event_obj.create(vals)
-        event_id._grava_anexo(xml_file, "xml")
-        return event_id
-
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
         super(DocumentEletronic, self)._exec_before_SITUACAO_EDOC_A_ENVIAR(
             old_state, new_state
