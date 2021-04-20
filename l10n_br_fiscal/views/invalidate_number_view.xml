@@ -18,6 +18,8 @@
     <field name="arch" type="xml">
       <tree string="Invalidate Number">
           <field name="company_id"/>
+          <field name="document_type_id"/>
+          <field name="document_serie_id"/>
           <field name="number_start"/>
           <field name="number_end"/>
           <field name="state"/>
@@ -36,6 +38,7 @@
           </header>
           <group>
               <field name="company_id"/>
+              <field name="document_type_id"/>
               <field name="document_serie_id"/>
           </group>
           <group>
