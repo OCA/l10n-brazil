@@ -10,6 +10,5 @@ from . import document_line
 from . import res_city
 from . import res_config_settings
 from . import cfop
-# from . import document_correction
 from . import document_invalidate_number
 from . import spec_mixin
