@@ -22,6 +22,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO,
     CANCELADO_FORA_PRAZO,
     CANCELADO_DENTRO_PRAZO,
+    EVENTO_RECEBIDO,
     LOTE_PROCESSADO,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
@@ -632,12 +633,12 @@ class NFe(spec_models.StackedModel):
     @api.multi
     def _document_cancel(self, justificative):
         super(NFe, self)._document_cancel(justificative)
-        cancel_online = self.filtered(filter_processador_edoc_nfe)
-        if cancel_online:
-            cancel_online._nfe_cancel_online()
+        online_event = self.filtered(filter_processador_edoc_nfe)
+        if online_event:
+            online_event._nfe_cancel()
 
-    def _nfe_cancel_online(self):
-
+    def _nfe_cancel(self):
+        self.ensure_one()
         processador = self._processador()
 
         if not self.authorization_protocol:
@@ -646,7 +647,7 @@ class NFe(spec_models.StackedModel):
         evento = processador.cancela_documento(
             chave=self.key[3:],
             protocolo_autorizacao=self.authorization_protocol,
-            justificativa=self.cancel_reason
+            justificativa=self.cancel_reason.replace('\n', '\\n')
         )
         processo = processador.enviar_lote_evento(
             lista_eventos=[evento]
@@ -674,6 +675,51 @@ class NFe(spec_models.StackedModel):
 
             self.state_edoc = SITUACAO_EDOC_CANCELADA
             self.cancel_event_id.set_done(
+                status_code=retevento.infEvento.cStat,
+                response=retevento.infEvento.xMotivo,
+                protocol_date=fields.Datetime.to_string(
+                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)),
+                protocol_number=retevento.infEvento.nProt,
+                file_response_xml=processo.retorno.content.decode('utf-8'),
+            )
+
+    @api.multi
+    def _document_correction(self, justificative):
+        super(NFe, self)._document_correction(justificative)
+        online_event = self.filtered(filter_processador_edoc_nfe)
+        if online_event:
+            online_event._nfe_correction(justificative)
+
+    @api.multi
+    def _nfe_correction(self, justificative):
+        self.ensure_one()
+        processador = self._processador()
+
+        evento = processador.carta_correcao(
+            chave=self.key[3:],
+            sequencia='2',
+            justificativa=justificative.replace('\n', '\\n')
+        )
+        processo = processador.enviar_lote_evento(
+            lista_eventos=[evento]
+        )
+        # Gravamos o arquivo no disco e no filestore ASAP.
+        event_id = self._gerar_evento(
+            processo.envio_xml.decode('utf-8'),
+            event_type='14',
+        )
+
+        for retevento in processo.resposta.retEvento:
+            if not retevento.infEvento.chNFe == self.key[3:]:
+                continue
+
+            if retevento.infEvento.cStat not in EVENTO_RECEBIDO:
+                mensagem = 'Erro na carta de correção'
+                mensagem += '\nCódigo: ' + retevento.infEvento.cStat
+                mensagem += '\nMotivo: ' + retevento.infEvento.xMotivo
+                raise UserError(mensagem)
+
+            event_id.set_done(
                 status_code=retevento.infEvento.cStat,
                 response=retevento.infEvento.xMotivo,
                 protocol_date=fields.Datetime.to_string(
