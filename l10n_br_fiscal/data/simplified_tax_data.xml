@@ -94,6 +94,7 @@
         <field name="amount_deduced">378000.00</field>
         <field name="inital_revenue">3600000.01</field>
         <field name="final_revenue">4800000.00</field>
+        <field name="total_tax_percent">19.00</field>
         <field name="tax_cpp_percent">42.10</field>
         <field name="tax_csll_percent">10.00</field>
         <field name="tax_icms_percent">0.00</field>
