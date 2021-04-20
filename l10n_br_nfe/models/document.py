@@ -5,6 +5,8 @@
 import base64
 import logging
 import tempfile
+from datetime import datetime
+
 from unicodedata import normalize
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
@@ -18,6 +20,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     DENEGADO,
     CANCELADO,
+    CANCELADO_FORA_PRAZO,
+    CANCELADO_DENTRO_PRAZO,
     LOTE_PROCESSADO,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
@@ -339,28 +343,35 @@ class NFe(spec_models.StackedModel):
             event_id = self._gerar_evento(xml_file, event_type="0")
             record.authorization_event_id = event_id
 
-    def atualiza_status_nfe(self, infProt):
+    def atualiza_status_nfe(self, infProt, xml_file):
         self.ensure_one()
+        # TODO: Verificar a consulta de notas
         # if not infProt.chNFe == self.key:
         #     self = self.search([
         #         ('key', '=', infProt.chNFe)
         #     ])
-
         if infProt.cStat in AUTORIZADO:
             state = SITUACAO_EDOC_AUTORIZADA
         elif infProt.cStat in DENEGADO:
             state = SITUACAO_EDOC_DENEGADA
         else:
             state = SITUACAO_EDOC_REJEITADA
+        if self.authorization_event_id and infProt.nProt:
+            protocol_date = fields.Datetime.to_string(
+                datetime.fromisoformat(infProt.dhRecbto))
 
-        self._change_state(state)
+            self.status_code = infProt.cStat
+            self.status_name = infProt.xMotivo
 
-        self.write({
-            'status_code': infProt.cStat,
-            'status_name': infProt.xMotivo,
-            'authorization_date': infProt.dhRecbto,
-            'authorization_protocol': infProt.nProt,
-        })
+            self._change_state(state)
+
+            self.authorization_event_id.set_done(
+                status_code=infProt.cStat,
+                response=infProt.xMotivo,
+                protocol_date=protocol_date,
+                protocol_number=infProt.nProt,
+                file_response_xml=xml_file,
+            )
 
     def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
         return {
@@ -388,7 +399,7 @@ class NFe(spec_models.StackedModel):
                 for p in processador.processar_documento(edoc):
                     processo = p
                     if processo.webservice == 'nfeAutorizacaoLote':
-                        self.authorization_event_id._grava_anexo(
+                        record.authorization_event_id._grava_anexo(
                             processo.envio_xml.decode('utf-8'), "xml"
                         )
 
@@ -402,10 +413,8 @@ class NFe(spec_models.StackedModel):
                         protNFe=protocolo,
                     )
                     nfe_proc.original_tagname_ = 'nfeProc'
-                    xml_file = \
-                        processador._generateds_to_string_etree(nfe_proc)[0]
-                    record.authorization_event_id.set_done(xml_file)
-                    record.atualiza_status_nfe(protocolo.infProt)
+                    xml_file = processador._generateds_to_string_etree(nfe_proc)[0]
+                    record.atualiza_status_nfe(protocolo.infProt, xml_file, )
                     if protocolo.infProt.cStat in AUTORIZADO:
                         try:
                             record.gera_pdf()
@@ -428,57 +437,6 @@ class NFe(spec_models.StackedModel):
                     'status_name': processo.resposta.xMotivo,
                 })
         return
-
-    @api.multi
-    def cancel_invoice_online(self, justificative):
-        super(NFe, self).cancel_invoice_online(justificative)
-        for record in self.filtered(filter_processador_edoc_nfe):
-            if record.state in ('open', 'paid'):
-                processador = record._processador()
-
-                evento = processador.cancela_documento(
-                    chave=record.edoc_access_key,
-                    protocolo_autorizacao=record.edoc_protocol_number,
-                    justificativa=justificative
-                )
-                processo = processador.enviar_lote_evento(
-                    lista_eventos=[evento]
-                )
-
-                for retevento in processo.resposta.retEvento:
-                    if not retevento.infEvento.chNFe == record.edoc_access_key:
-                        continue
-
-                    if retevento.infEvento.cStat not in CANCELADO:
-                        mensagem = 'Erro no cancelamento'
-                        mensagem += '\nCódigo: ' + \
-                                    retevento.infEvento.cStat
-                        mensagem += '\nMotivo: ' + \
-                                    retevento.infEvento.xMotivo
-                        raise UserError(mensagem)
-
-                    if retevento.infEvento.cStat == '155':
-                        record.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-                        record.state_edoc = SITUACAO_EDOC_CANCELADA
-                    elif retevento.infEvento.cStat == '135':
-                        record.state_fiscal = SITUACAO_FISCAL_CANCELADO
-                        record.state_edoc = SITUACAO_EDOC_CANCELADA
-
-    # def cce_invoice_online(self, justificative):
-    #     super(NFe, self).cce_invoice_online(justificative)
-    #     for record in self.filtered(filter_processador_edoc_nfe):
-    #         if record.state in ('open', 'paid'):
-    #             processador = record._processador()
-    #
-    #             evento = processador.carta_correcao(
-    #                 chave=record.edoc_access_key,
-    #                 sequencia='1',
-    #                 justificativa=justificative
-    #             )
-    #             processo = processador.enviar_lote_evento(
-    #                 lista_eventos=[evento]
-    #             )
-    #             pass
 
     @api.multi
     def action_document_confirm(self):
@@ -674,3 +632,56 @@ class NFe(spec_models.StackedModel):
 
         tmp_xml.write(etree.tostring(new_root))
         tmp_xml.seek(0)
+
+    @api.multi
+    def _document_cancel(self, justificative):
+        super(NFe, self)._document_cancel(justificative)
+        cancel_online = self.filtered(filter_processador_edoc_nfe)
+        if cancel_online:
+            cancel_online._nfe_cancel_online()
+
+    def _nfe_cancel_online(self):
+
+        processador = self._processador()
+
+        if not self.authorization_protocol:
+            raise UserError(_('Authorization Protocol Not Found!'))
+
+        evento = processador.cancela_documento(
+            chave=self.key[3:],
+            protocolo_autorizacao=self.authorization_protocol,
+            justificativa=self.cancel_reason
+        )
+        processo = processador.enviar_lote_evento(
+            lista_eventos=[evento]
+        )
+        # Gravamos o arquivo no disco e no filestore ASAP.
+        self.cancel_event_id = self._gerar_evento(
+            processo.envio_xml.decode('utf-8'),
+            event_type='2',
+        )
+
+        for retevento in processo.resposta.retEvento:
+            if not retevento.infEvento.chNFe == self.key[3:]:
+                continue
+
+            if retevento.infEvento.cStat not in CANCELADO:
+                mensagem = 'Erro no cancelamento'
+                mensagem += '\nCódigo: ' + retevento.infEvento.cStat
+                mensagem += '\nMotivo: ' + retevento.infEvento.xMotivo
+                raise UserError(mensagem)
+
+            if retevento.infEvento.cStat == CANCELADO_FORA_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+            elif retevento.infEvento.cStat == CANCELADO_DENTRO_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO
+
+            self.state_edoc = SITUACAO_EDOC_CANCELADA
+            self.cancel_event_id.set_done(
+                status_code=retevento.infEvento.cStat,
+                response=retevento.infEvento.xMotivo,
+                protocol_date=fields.Datetime.to_string(
+                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)),
+                protocol_number=retevento.infEvento.nProt,
+                file_response_xml=processo.retorno.content.decode('utf-8'),
+            )
