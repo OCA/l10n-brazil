@@ -50,12 +50,6 @@ class Event(models.Model):
         index=True,
     )
 
-    date = fields.Datetime(
-        string='Date',
-        readonly=True,
-        index=True,
-    )
-
     type = fields.Selection(
         selection=[
             ('-1', 'Exception'),
@@ -171,9 +165,14 @@ class Event(models.Model):
         readonly=True,
     )
 
+    protocol_date = fields.Datetime(
+        string='Protocol Date',
+        readonly=True,
+        index=True,
+    )
+
     protocol_number = fields.Char(
         string='Protocol Number',
-        readonly=True,
     )
 
     state = fields.Selection(
@@ -210,15 +209,13 @@ class Event(models.Model):
             if record.document_id:
                 names = [
                     _('Fiscal Document'),
-                    self.document_id.number,
-                    self.document_id.partner_id.name,
+                    record.document_id.number,
+                    record.document_id.partner_id.name,
                 ]
 
                 record.display_name = " / ".join(filter(None, names))
             else:
                 record.display_name = ''
-
-
 
     @staticmethod
     def monta_caminho(ambiente, company_id, chave):
@@ -319,6 +316,12 @@ class Event(models.Model):
         return attachment_id
 
     @api.multi
-    def set_done(self, arquivo_xml):
-        self._grava_anexo(arquivo_xml, "xml", autorizacao=True)
-        self.write({"state": "done", "date": fields.Datetime.now()})
+    def set_done(self, status_code, response, protocol_date, protocol_number,  file_response_xml):
+        self._grava_anexo(file_response_xml, 'xml', autorizacao=True)
+        self.write({
+            'state': 'done',
+            'status_code': status_code,
+            'response': response,
+            'protocol_date': protocol_date,
+            'protocol_number': protocol_number,
+        })

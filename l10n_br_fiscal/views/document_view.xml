@@ -214,13 +214,15 @@
                 </group>
                 <group>
                     <group name="authorization" string="Authorization" colspan="4">
+                        <field name="authorization_event_id"/>
                         <field name="authorization_date"/>
                         <field name="authorization_protocol"/>
                         <field name="send_file_id"/>
                         <field name="authorization_file_id"/>
                         <field name="file_report_id"/>
                     </group>
-                    <group name="cancel" string="Cancelation" colspan="4" attrs="{'invisible': [('state', '!=', 'cancelado')]}">
+                    <group name="cancel" string="Cancelation" colspan="4" attrs="{'invisible': [('state', '!=', 'cancelada')]}">
+                        <field name="cancel_event_id"/>
                         <field name="cancel_date"/>
                         <field name="cancel_protocol_number"/>
                         <field name="cancel_file_id"/>
