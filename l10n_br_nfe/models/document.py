@@ -345,7 +345,13 @@ class NFe(spec_models.StackedModel):
             xml_file = processador.\
                 _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
             _logger.debug(xml_file)
-            event_id = self._gerar_evento(xml_file, event_type="0")
+            event_id = self.event_ids.gerar_evento(
+                company_id=self.company_id,
+                environment='prod' if self.nfe_environment == '1' else 'hml',
+                event_type="0",
+                xml_file=xml_file,
+                document_id=self,
+            )
             record.authorization_event_id = event_id
 
     def atualiza_status_nfe(self, infProt, xml_file):
@@ -362,8 +368,13 @@ class NFe(spec_models.StackedModel):
         else:
             state = SITUACAO_EDOC_REJEITADA
         if self.authorization_event_id and infProt.nProt:
-            protocol_date = fields.Datetime.to_string(
-                datetime.fromisoformat(infProt.dhRecbto))
+            if type(infProt.dhRecbto) == datetime:
+                protocol_date = fields.Datetime.to_string(
+                    infProt.dhRecbto
+                )
+            else:
+                protocol_date = fields.Datetime.to_string(
+                    datetime.fromisoformat(infProt.dhRecbto))
 
             self.status_code = infProt.cStat
             self.status_name = infProt.xMotivo
@@ -567,54 +578,52 @@ class NFe(spec_models.StackedModel):
             super(NFe, self)._build_many2one(comodel, vals, new_value,
                                              key, value, path)
 
+    def view_pdf(self):
+        if not self.filtered(filter_processador_edoc_nfe):
+            return super().view_pdf()
+        if not self.authorization_file_id or not self.file_report_id:
+            self.make_pdf()
+        return self._target_new_tab(self.file_report_id)
+
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
             return super().make_pdf()
+
         file_pdf = self.file_report_id
         self.file_report_id = False
         file_pdf.unlink()
-        output = self.authorization_event_id.monta_caminho(
-            ambiente=False,  # FIXME:
-            company_id=self.company_id,
-            tipo_documento=(
-                self.document_type_id.prefix or
-                self.document_type_id.code
-            ),
-            ano=self.date.strftime("%Y").zfill(4),
-            mes=self.date.strftime("%m").zfill(2),
-            serie=self.document_serie,
-            numero=self.number,
-        )
 
         if self.authorization_file_id:
-            arquivo = output + self.authorization_file_id.datas_fname
+            arquivo = self.authorization_file_id
+            xml_string = base64.b64decode(arquivo.datas).decode()
         else:
-            tmp_xml = tempfile.NamedTemporaryFile()
-            self.temp_xml_autorizacao(tmp_xml)
-            arquivo = tmp_xml.name
+            arquivo = self.send_file_id
+            xml_string = base64.b64decode(arquivo.datas).decode()
+            xml_string = self.temp_xml_autorizacao(xml_string)
 
-        base.ImprimirXml.imprimir(caminho_xml=arquivo, output_dir=output)
-        file_name = (self.key or 'danfe') + '.pdf'
-        with open(output + file_name, 'rb') as f:
-            arquivo_data = f.read()
+        # path_file_request = self.authorization_event_id.path_file_request
+        # TODO: Salvar PDF na pasta
+
+        pdf = base.ImprimirXml.imprimir(
+            string_xml=xml_string,
+            # output_dir=path_file_request
+        )
 
         self.file_report_id = self.env['ir.attachment'].create(
             {
-                "name": file_name,
-                "datas_fname": file_name,
+                "name": self.key + '.xml',
+                "datas_fname": self.key + '.xml',
                 "res_model": self._name,
                 "res_id": self.id,
-                "datas": base64.b64encode(arquivo_data),
+                "datas": base64.b64encode(pdf),
                 "mimetype": "application/pdf",
                 "type": "binary",
             }
         )
 
-    def temp_xml_autorizacao(self, tmp_xml):
+    def temp_xml_autorizacao(self, xml_string):
         """ TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
-        xml_string = base64.b64decode(self.send_file_id.datas).decode()
         root = etree.fromstring(xml_string)
-
         ns = {None: 'http://www.portalfiscal.inf.br/nfe'}
         new_root = etree.Element('nfeProc', nsmap=ns)
 
@@ -630,9 +639,7 @@ class NFe(spec_models.StackedModel):
 
         new_root.append(root)
         new_root.append(protNFe_node)
-
-        tmp_xml.write(etree.tostring(new_root))
-        tmp_xml.seek(0)
+        return etree.tostring(new_root)
 
     @api.multi
     def _document_cancel(self, justificative):
@@ -657,10 +664,14 @@ class NFe(spec_models.StackedModel):
             lista_eventos=[evento]
         )
         # Gravamos o arquivo no disco e no filestore ASAP.
-        self.cancel_event_id = self._gerar_evento(
-            xml_file=processo.envio_xml.decode('utf-8'),
-            event_type='2',
-        )
+
+        self.cancel_event_id = self.event_ids.gerar_evento(
+                company_id=self.company_id,
+                environment='prod' if self.nfe_environment == '1' else 'hml',
+                event_type='2',
+                xml_file=processo.envio_xml.decode('utf-8'),
+                document_id=self,
+            )
 
         for retevento in processo.resposta.retEvento:
             if not retevento.infEvento.chNFe == self.key[3:]:
@@ -703,23 +714,25 @@ class NFe(spec_models.StackedModel):
             lambda e: e.type == '14' and e.state == 'done'
         ).mapped('sequence')
 
-        sequencia = str(int(max(numeros)) + 1) if numeros else '1'
+        sequence = str(int(max(numeros)) + 1) if numeros else '1'
 
         evento = processador.carta_correcao(
             chave=self.key[3:],
-            sequencia=sequencia,
+            sequencia=sequence,
             justificativa=justificative.replace('\n', '\\n')
         )
         processo = processador.enviar_lote_evento(
             lista_eventos=[evento]
         )
         # Gravamos o arquivo no disco e no filestore ASAP.
-        event_id = self._gerar_evento(
-            xml_file=processo.envio_xml.decode('utf-8'),
-            event_type='14',
-            sequence=sequencia
+        event_id = self.event_ids.gerar_evento(
+                company_id=self.company_id,
+                environment='prod' if self.nfe_environment == '1' else 'hml',
+                event_type='14',
+                xml_file=processo.envio_xml.decode('utf-8'),
+                document_id=self,
+                sequence=sequence,
         )
-
         for retevento in processo.resposta.retEvento:
             if not retevento.infEvento.chNFe == self.key[3:]:
                 continue
