@@ -228,8 +228,8 @@ class AccountInvoiceLine(models.Model):
                     values['invoice_id']).fiscal_document_id.id
         result = super().write(values)
         for line in self:
-            if line.wh_move_line_id and ('quantity' in values
-                    or 'price_unit' in values):
+            if (line.wh_move_line_id and
+                    ('quantity' in values or 'price_unit' in values)):
                 raise UserError(_(
                     "You can't edit one invoice related a withholding entry"))
             if line.fiscal_document_line_id != dummy_line:

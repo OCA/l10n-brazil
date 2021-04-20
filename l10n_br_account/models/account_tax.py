@@ -120,7 +120,6 @@ class AccountTax(models.Model):
                     'id': account_tax.get('id'),
                     'name': fiscal_group.name,
                     'fiscal_name': fiscal_tax.get('name'),
-                    'amount': fiscal_tax.get('tax_value'),
                     'base': fiscal_tax.get('base'),
                     'tax_include': fiscal_tax.get('tax_include'),
                     'amount': tax_amount,

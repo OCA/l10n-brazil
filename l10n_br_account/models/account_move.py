@@ -87,7 +87,6 @@ class AccountMove(models.Model):
             invoices.filtered(
                 lambda i: i.state == 'draft').unlink()
 
-    @api.multi
     def post(self, invoice=False):
         result = super().post(invoice)
         self.create_wh_invoices()
@@ -99,7 +98,6 @@ class AccountMove(models.Model):
                 self.button_cancel()
         return result
 
-    @api.multi
     def button_cancel(self):
         self._withholding_validate()
         return super().button_cancel()

@@ -210,7 +210,6 @@ class AccountInvoice(models.Model):
                 'number': '0',
                 'active': False,
                 'document_type_id': False,
-                'document_type_id': False,
                 'fiscal_operation_type': 'out',
                 'partner_id': self.env.user.company_id.partner_id.id,
                 'company_id': self.env.user.company_id.id,
@@ -289,11 +288,6 @@ class AccountInvoice(models.Model):
         self.amount_total_signed = self.amount_total * sign
         self.amount_untaxed_signed = amount_untaxed_signed * sign
 
-    def _prepare_tax_line_vals(self, line, tax):
-        tax_line_vals = super()._prepare_tax_line_vals(line, tax)
-        tax_line_vals['tax_group_id'] = tax.get('tax_group_id')
-        return tax_line_vals
-
     @api.model
     def invoice_line_move_line_get(self):
         move_lines_dict = super().invoice_line_move_line_get()
@@ -324,40 +318,6 @@ class AccountInvoice(models.Model):
     @api.model
     def tax_line_move_line_get(self):
         tax_lines_dict = super().tax_line_move_line_get()
-        for tax_line in self.tax_line_ids:
-            if (self.fiscal_operation_id
-                    and self.fiscal_operation_id.deductible_taxes):
-                analytic_tag_ids = [
-                    (4, analytic_tag.id, None)
-                    for analytic_tag in tax_line.analytic_tag_ids]
-
-                # TODO 1 - Metodos para criar linhas dedutíveis
-                deductible_tax = tax_line.tax_group_id.deductible_tax(
-                    INVOICE_TAX_USER_TYPE[self.type]
-                )
-
-                if deductible_tax:
-                    # Deveria gerar um raise se o imposto dedutivel não tiver
-                    # uma conta contábil
-                    account = deductible_tax.account_id or tax_line.account_id
-
-                    tax_line_vals = {
-                        'invoice_tax_line_id': tax_line.id,
-                        'tax_line_id': tax_line.tax_id.id,
-                        'type': 'tax',
-                        'name': tax_line.name or invoice_tax.name,
-                        'price_unit': tax_line.amount_total * -1,
-                        'quantity': 1,
-                        'price': tax_line.amount_total * -1,
-                        'account_id': account.id,
-                        'account_analytic_id': tax_line.account_analytic_id.id,
-                        'analytic_tag_ids': analytic_tag_ids,
-                        'invoice_id': self.id,
-                    }
-
-                    tax_lines_dict.append(tax_line_vals)
-                    # TODO END 1
-
         return tax_lines_dict
 
     def finalize_invoice_move_lines(self, move_lines):
