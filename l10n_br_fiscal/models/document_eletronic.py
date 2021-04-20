@@ -49,8 +49,8 @@ class DocumentEletronic(models.AbstractModel):
 
     authorization_date = fields.Datetime(
         string='Authorization Date',
-        related='authorization_event_id.date',
         readonly=True,
+        related='authorization_event_id.protocol_date',
     )
 
     authorization_protocol = fields.Char(
@@ -84,8 +84,8 @@ class DocumentEletronic(models.AbstractModel):
 
     cancel_date = fields.Datetime(
         string='Cancel Date',
-        related='cancel_event_id.date',
         readonly=True,
+        related='cancel_event_id.protocol_date',
     )
 
     cancel_protocol_number = fields.Char(
