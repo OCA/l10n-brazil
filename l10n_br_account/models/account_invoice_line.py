@@ -2,11 +2,11 @@
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_FRAMEWORK,
-    # FISCAL_IN_OUT,
 )
 
 from .account_invoice import INVOICE_TO_OPERATION
@@ -109,6 +109,11 @@ class AccountInvoiceLine(models.Model):
         string="PIS ST CST Code",
     )
 
+    wh_move_line_id = fields.Many2one(
+        comodel_name="account.move.line",
+        string="WH Account Move Line",
+    )
+
     @api.one
     @api.depends(
         'price_unit',
@@ -125,6 +130,7 @@ class AccountInvoiceLine(models.Model):
     def _compute_price(self):
         """Compute the amounts of the SO line."""
         super()._compute_price()
+        # TODO NEW PR TO FIX DUMMY DOCUMENTS
         dummy_doc_line_id = self.env.ref(
             'l10n_br_fiscal.fiscal_document_line_dummy')
         if (self.fiscal_document_line_id and self.fiscal_document_line_id
@@ -179,15 +185,27 @@ class AccountInvoiceLine(models.Model):
         defaults['fiscal_operation_type'] = INVOICE_TO_OPERATION[inv_type]
         return defaults
 
+    def get_line_dummy_id(self, dummy_doc_id):
+        # TODO Talvez colocar na empresa para não fazer esse search?
+        dummy_line_doc = self.env['l10n_br_fiscal.document.line'].search([
+            ('active', '=', False),
+            ('document_id', '=', dummy_doc_id),
+        ])
+        if not dummy_line_doc:
+            dummy_line_doc = self.env['l10n_br_fiscal.document.line'].create({
+                'active': False,
+                'document_id': dummy_doc_id,
+            })
+        return dummy_line_doc.id
+
     @api.model
     def create(self, values):
-        dummy_doc_line_id = self.env.ref(
-            'l10n_br_fiscal.fiscal_document_line_dummy').id
-        dummy_doc_id = self.env.ref('l10n_br_fiscal.fiscal_document_dummy').id
+        dummy_doc_id = self.env['account.invoice'].get_dummy_id()
         fiscal_doc_id = self.env['account.invoice'].browse(
             values['invoice_id']).fiscal_document_id.id
         if dummy_doc_id == fiscal_doc_id:
-            values['fiscal_document_line_id'] = dummy_doc_line_id
+            values['fiscal_document_line_id'] = self.get_line_dummy_id(
+                dummy_doc_id)
 
         values.update(self._update_fiscal_quantity(
             values.get('product_id'), values.get('price_unit'),
@@ -210,6 +228,10 @@ class AccountInvoiceLine(models.Model):
                     values['invoice_id']).fiscal_document_id.id
         result = super().write(values)
         for line in self:
+            if line.wh_move_line_id and ('quantity' in values
+                    or 'price_unit' in values):
+                raise UserError(_(
+                    "You can't edit one invoice related a withholding entry"))
             if line.fiscal_document_line_id != dummy_line:
                 shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
                 line.fiscal_document_line_id.write(shadowed_fiscal_vals)
