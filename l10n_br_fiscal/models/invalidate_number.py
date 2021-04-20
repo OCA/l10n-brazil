@@ -2,8 +2,9 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+
+from odoo import _, api, fields, models
 from ..constants.fiscal import SITUACAO_EDOC_INUTILIZADA
 
 
@@ -11,18 +12,34 @@ class InvalidateNumber(models.Model):
     _name = 'l10n_br_fiscal.invalidate.number'
     _description = 'Invalidate Number'
 
-    document_serie_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.document.serie',
-        string='Serie',
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        readonly=True,
+        default=lambda self: self.env.user.company_id.id,
+        required=True,
+        states={'draft': [('readonly', False)]},
+    )
+
+    document_type_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.document.type',
         required=True,
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
 
-    company_id = fields.Many2one(
-        comodel_name='res.company',
-        related='document_serie_id.company_id',
+    document_electronic = fields.Boolean(
+        related='document_type_id.electronic',
+        string='Electronic?',
+        readonly=True)
+
+    document_serie_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.document.serie',
+        domain="""[('active', '=', True),
+            ('document_type_id', '=', document_type_id),
+            ('company_id', '=', company_id)]""",
+        required=True,
         readonly=True,
+        states={'draft': [('readonly', False)]},
     )
 
     number_start = fields.Integer(
@@ -42,6 +59,9 @@ class InvalidateNumber(models.Model):
     justification = fields.Char(
         string='Justification',
         size=255,
+        required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)]},
     )
 
     state = fields.Selection(
@@ -80,11 +100,8 @@ class InvalidateNumber(models.Model):
 
                 if self.search_count(domain):
                     raise ValidationError(
-                        _("Number range overlap is not allowed."))
+                        _('Number range overlap is not allowed.'))
         return True
-
-    def action_draft_done(self):
-        self.write({'state': 'done'})
 
     @api.multi
     def name_get(self):
@@ -105,25 +122,13 @@ class InvalidateNumber(models.Model):
     @api.multi
     def action_invalidate(self):
         for record in self:
-            event_id = self.env['l10n_br_fiscal.event'].create({
-                'type': '3',
-                'response': 'Inutilização do número %s ao número %s' % (
-                    record.number_start, record.number_end),
-                'origin': 'Inutilização de faixa',
-                'state': 'draft',
-                'invalid_number_id': record.id,
-            })
-            record.invalidate(event_id)
+            record._invalidate()
 
-    def invalidate(self, event_id):
-        self.ensure_one()
-        event_id.state = 'done'
-        self.state = 'done'
-        if self.document_id:
-            self.document_id.state_edoc = SITUACAO_EDOC_INUTILIZADA
+    def _update_document_status(self, document_id=None):
+        if document_id:
+            document_id.state_edoc = SITUACAO_EDOC_INUTILIZADA
         else:
-            for number in range(self.number_start,
-                                self.number_end + 1):
+            for number in range(self.number_start, self.number_end + 1):
                 self.env['l10n_br_fiscal.document'].create({
                     'document_serie_id': self.document_serie_id.id,
                     'document_type_id':
@@ -133,3 +138,29 @@ class InvalidateNumber(models.Model):
                     'issuer': 'company',
                     'number': str(number),
                 })
+
+    def _invalidate(self, document_id=None):
+        self.ensure_one()
+        self._update_document_status(document_id)
+        self.state = 'done'
+
+    def _gerar_evento(self, xml_file, event_type='3'):
+        self.ensure_one()
+        event_obj = self.env["l10n_br_fiscal.event"]
+
+        vals = {
+            "type": event_type,
+            "company_id": self.company_id.id,
+            "origin": (
+                    self.document_type_id.code +
+                    "/" +
+                    str(self.number_start) +
+                    '-' +
+                    str(self.number_end)
+            ),
+            "create_date": fields.Datetime.now(),
+            'invalidate_number_id': self.id,
+        }
+        event_id = event_obj.create(vals)
+        event_id._grava_anexo(xml_file, "xml")
+        return event_id
