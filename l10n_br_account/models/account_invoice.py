@@ -301,9 +301,9 @@ class AccountInvoice(models.Model):
     @api.model
     def tax_line_move_line_get(self):
         tax_lines_dict = super().tax_line_move_line_get()
-        if (self.fiscal_operation_id
-                and self.fiscal_operation_id.deductible_taxes):
-            for tax_line in self.tax_line_ids:
+        for tax_line in self.tax_line_ids:
+            if (self.fiscal_operation_id
+                    and self.fiscal_operation_id.deductible_taxes):
                 analytic_tag_ids = [
                     (4, analytic_tag.id, None)
                     for analytic_tag in tax_line.analytic_tag_ids]
@@ -334,29 +334,6 @@ class AccountInvoice(models.Model):
 
                     tax_lines_dict.append(tax_line_vals)
                     # TODO END 1
-
-                # TODO criar um método para fatura de retenção
-                fiscal_group = tax_line.tax_group_id.fiscal_tax_group_id
-                import pudb; pudb.set_trace()
-                if fiscal_group.tax_withholding:
-                    invoice_value = {
-                        'partner_id': fiscal_group.partner_id.id,
-                        'type': 'in_invoice',
-                        'journal_id': 9,
-                    }
-
-                    invoice = self.env['account.invoice'].create(invoice_value)
-
-                    invoice_line_values = {
-                        'name': tax_line.name,
-                        'quantity': 1.0,
-                        'price_unit': tax_line.amount_total * -1,
-                        'invoice_id': invoice.id,
-                        'account_id': tax_line.account_id.id,
-                        'account_analytic_id': tax_line.account_analytic_id.id,
-                    }
-
-                    self.env['account.invoice.line'].create(invoice_line_values)
 
         return tax_lines_dict
 
