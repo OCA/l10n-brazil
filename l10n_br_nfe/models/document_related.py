@@ -94,8 +94,8 @@ class NFeRelated(spec_models.StackedModel):
                         rec.nfe40_choice4 = 'nfe40_refNF'
                     rec.nfe40_cUF = document.partner_id.state_id.ibge_code
                     rec.nfe40_AAMM = fields.Datetime.from_string(
-                        document.data_hora_autorizacao).strftime("%y%m") \
-                        if document.data_hora_autorizacao else ''
+                        document.authorization_date).strftime("%y%m") \
+                        if document.authorization_date else ''
                     if rec.cpfcnpj_type == 'cpf':
                         rec.nfe40_CPF = rec.cnjp_cpf
                     else:
