@@ -344,7 +344,7 @@ class NFe(spec_models.StackedModel):
             xml_file = processador.\
                 _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
             _logger.debug(xml_file)
-            event_id = self.event_ids.gerar_evento(
+            event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment='prod' if self.nfe_environment == '1' else 'hml',
                 event_type="0",
@@ -414,7 +414,7 @@ class NFe(spec_models.StackedModel):
                 for p in processador.processar_documento(edoc):
                     processo = p
                     if processo.webservice == 'nfeAutorizacaoLote':
-                        record.authorization_event_id._grava_anexo(
+                        record.authorization_event_id._save_event_file(
                             processo.envio_xml.decode('utf-8'), "xml"
                         )
 
@@ -600,12 +600,9 @@ class NFe(spec_models.StackedModel):
             xml_string = base64.b64decode(arquivo.datas).decode()
             xml_string = self.temp_xml_autorizacao(xml_string)
 
-        # path_file_request = self.authorization_event_id.path_file_request
-        # TODO: Salvar PDF na pasta
-
         pdf = base.ImprimirXml.imprimir(
             string_xml=xml_string,
-            # output_dir=path_file_request
+            # output_dir=self.authorization_event_id.file_path
         )
 
         self.file_report_id = self.env['ir.attachment'].create(
@@ -664,7 +661,7 @@ class NFe(spec_models.StackedModel):
         )
         # Gravamos o arquivo no disco e no filestore ASAP.
 
-        self.cancel_event_id = self.event_ids.gerar_evento(
+        self.cancel_event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
             environment='prod' if self.nfe_environment == '1' else 'hml',
             event_type='2',
@@ -724,7 +721,7 @@ class NFe(spec_models.StackedModel):
             lista_eventos=[evento]
         )
         # Gravamos o arquivo no disco e no filestore ASAP.
-        event_id = self.event_ids.gerar_evento(
+        event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
             environment='prod' if self.nfe_environment == '1' else 'hml',
             event_type='14',
