@@ -4,7 +4,6 @@
 
 import base64
 import logging
-import tempfile
 from datetime import datetime
 
 from unicodedata import normalize
@@ -666,12 +665,12 @@ class NFe(spec_models.StackedModel):
         # Gravamos o arquivo no disco e no filestore ASAP.
 
         self.cancel_event_id = self.event_ids.gerar_evento(
-                company_id=self.company_id,
-                environment='prod' if self.nfe_environment == '1' else 'hml',
-                event_type='2',
-                xml_file=processo.envio_xml.decode('utf-8'),
-                document_id=self,
-            )
+            company_id=self.company_id,
+            environment='prod' if self.nfe_environment == '1' else 'hml',
+            event_type='2',
+            xml_file=processo.envio_xml.decode('utf-8'),
+            document_id=self,
+        )
 
         for retevento in processo.resposta.retEvento:
             if not retevento.infEvento.chNFe == self.key[3:]:
@@ -726,12 +725,12 @@ class NFe(spec_models.StackedModel):
         )
         # Gravamos o arquivo no disco e no filestore ASAP.
         event_id = self.event_ids.gerar_evento(
-                company_id=self.company_id,
-                environment='prod' if self.nfe_environment == '1' else 'hml',
-                event_type='14',
-                xml_file=processo.envio_xml.decode('utf-8'),
-                document_id=self,
-                sequence=sequence,
+            company_id=self.company_id,
+            environment='prod' if self.nfe_environment == '1' else 'hml',
+            event_type='14',
+            xml_file=processo.envio_xml.decode('utf-8'),
+            document_id=self,
+            sequence=sequence,
         )
         for retevento in processo.resposta.retEvento:
             if not retevento.infEvento.chNFe == self.key[3:]:
