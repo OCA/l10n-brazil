@@ -55,7 +55,7 @@ class InvalidateNumber(models.Model):
             evento=evento
         )
 
-        event_id = self.event_ids.gerar_evento(
+        event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
             environment='prod' if self.company_id.nfe_environment == '1' else 'hml',
             event_type='3',
