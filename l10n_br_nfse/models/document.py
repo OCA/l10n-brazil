@@ -141,7 +141,13 @@ class Document(models.Model):
             processador = record._processador_erpbrasil_nfse()
             xml_file = processador.\
                 _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
-            event_id = self._create_event_save_xml(xml_file, event_type="0")
+            event_id = self.event_ids.create_event_save_xml(
+                company_id=self.company_id,
+                environment='prod' if self.nfse_environment == '1' else 'hml',
+                event_type="0",
+                xml_file=xml_file,
+                document_id=self,
+            )
             _logger.debug(xml_file)
             record.authorization_event_id = event_id
 
