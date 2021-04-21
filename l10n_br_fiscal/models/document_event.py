@@ -2,57 +2,51 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
-
-import os
 import base64
+import logging
+import os
 
-from odoo.tools import config
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from erpbrasil.base import misc
-from erpbrasil.base.fiscal import edoc
-
 from ..constants.fiscal import (
     EVENT_ENVIRONMENT,
-    EVENT_ENVIRONMENT_PROD,
-    EVENT_ENVIRONMENT_HML,
 )
+from ..tools.misc import build_edoc_path
 
 _logger = logging.getLogger(__name__)
 
-CODIGO_NOME = {"55": "nf-e", "SE": "nfs-e", "65": "nfc-e"}
-
-
-def caminho_empresa(company_id):
-    db_name = company_id._cr.dbname
-    cnpj = misc.punctuation_rm(company_id.cnpj_cpf)
-
-    filestore = config.filestore(db_name)
-    path = "/".join([filestore, "edoc", cnpj])
-    if not os.path.exists(path):
-        try:
-            os.makedirs(path)
-        except OSError:
-            raise UserError(
-                _("Erro!"),
-                _(
-                    """Verifique as permissões de escrita
-                    e o caminho da pasta"""
-                ),
-            )
-    return path
+try:
+    from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class Event(models.Model):
     _name = 'l10n_br_fiscal.event'
     _description = 'Fiscal Event'
 
+    @api.multi
+    @api.depends(
+        'document_id.number',
+        'document_id.partner_id.name')
+    def _compute_display_name(self):
+        for record in self:
+            if record.document_id:
+                names = [
+                    _('Fiscal Document'),
+                    record.document_id.number,
+                    record.document_id.partner_id.name,
+                ]
+                record.display_name = " / ".join(filter(None, names))
+            else:
+                record.display_name = ''
+
     create_date = fields.Datetime(
         string='Create Date',
         readonly=True,
         index=True,
+        default=fields.Datetime.now,
     )
 
     write_date = fields.Datetime(
@@ -160,13 +154,8 @@ class Event(models.Model):
         readony=True,
     )
 
-    path_file_request = fields.Char(
-        string='Request File Path',
-        readonly=True,
-    )
-
-    path_file_response = fields.Char(
-        string='Response File Path',
+    file_path = fields.Char(
+        string='File Path',
         readonly=True,
     )
 
@@ -219,56 +208,28 @@ class Event(models.Model):
             raise UserError(_('Justification must be at least 15 characters.'))
         return True
 
-    @api.model
-    def create(self, values):
-        values['date'] = fields.Datetime.now()
-        return super().create(values)
-
-    @api.multi
-    @api.depends(
-        'document_id.number',
-        'document_id.partner_id.name')
-    def _compute_display_name(self):
-        for record in self:
-            if record.document_id:
-                names = [
-                    _('Fiscal Document'),
-                    record.document_id.number,
-                    record.document_id.partner_id.name,
-                ]
-
-                record.display_name = " / ".join(filter(None, names))
-            else:
-                record.display_name = ''
-
-    @staticmethod
-    def monta_caminho(
-            company_id, ambiente, tipo_documento, ano, mes, serie=False, numero=False):
-        caminho = caminho_empresa(company_id)
-
-        if ambiente not in (EVENT_ENVIRONMENT_PROD, EVENT_ENVIRONMENT_HML):
-            _logger.error(
-                'Ambiente não informado, salvando na pasta de Homologação!')
-
-        if ambiente == EVENT_ENVIRONMENT_PROD:
-            caminho = os.path.join(caminho, "producao/")
+    def _save_event_2disk(self, arquivo, file_name):
+        if (self.document_id and self.document_id.key and
+                self.document_id.document_electronic):
+            chave = detectar_chave_edoc(self.document_id.key)
+            tipo_documento = chave.prefixo
+            ano = chave.ano_emissao
+            mes = chave.mes_emissao
+            serie = chave.numero_serie
+            numero = chave.numero_documento
         else:
-            caminho = os.path.join(caminho, "homologacao/")
+            tipo_documento = self.document_type_id.prefix
+            serie = self.document_serie_id.code
+            numero = self.document_number
 
-        caminho = os.path.join(caminho, tipo_documento)
-        caminho = os.path.join(caminho, ano + "-" + mes + "/")
-        if serie and numero:
-            caminho = os.path.join(caminho, serie + "-" + numero + "/")
+            if self.document_id:
+                ano = self.document_id.date.strftime("%Y")
+                mes = self.document_id.date.strftime("%m")
+            elif self.invalidate_number_id:
+                ano = self.invalidate_number_id.date.strftime("%Y")
+                mes = self.invalidate_number_id.date.strftime("%m")
 
-        try:
-            os.makedirs(caminho)
-        except:
-            pass
-        return caminho
-
-    def _grava_arquivo_disco(
-            self, arquivo, file_name, tipo_documento, ano, mes, serie, numero):
-        save_dir = self.monta_caminho(
+        save_dir = build_edoc_path(
             ambiente=self.environment,
             company_id=self.company_id,
             tipo_documento=tipo_documento,
@@ -294,92 +255,55 @@ class Event(models.Model):
         else:
             f.write(arquivo)
             f.close()
-        return file_path
+        return save_dir
 
-    def _grava_anexo(
-        self, arquivo, extensao_sem_ponto, autorizacao=False, sequencia=False
-    ):
-        self.ensure_one()
-
+    def _compute_file_name(self):
         if (self.document_id and self.document_id.key and
                 self.document_id.document_electronic):
-            chave = edoc.detectar_chave_edoc(self.document_id.key)
-            tipo_documento = chave.prefixo
-            ano = chave.ano_emissao
-            mes = chave.mes_emissao
-            serie = chave.numero_serie
-            numero = chave.numero_documento
             file_name = self.document_id.key
-
         else:
-            tipo_documento = self.document_type_id.prefix
-            serie = self.document_serie_id.code
-            numero = self.document_number
-            file_name = numero
+            file_name = self.document_number
+        return file_name
 
-            if self.document_id:
-                ano = self.document_id.date.strftime("%Y")
-                mes = self.document_id.date.strftime("%m")
-            elif self.invalidate_number_id:
-                ano = self.invalidate_number_id.date.strftime("%Y")
-                mes = self.invalidate_number_id.date.strftime("%m")
+    def _save_event_file(self, file, file_extension, authorization=False):
+        self.ensure_one()
+        file_name = self._compute_file_name()
 
-        if autorizacao:
+        if authorization:
             file_name += "-proc"
-        if sequencia:
-            file_name += str(sequencia) + "-"
+        if self.sequence:
+            file_name += '-' + str(self.sequence)
+        if file_extension:
+            file_name += ('.' + file_extension)
 
-        if extensao_sem_ponto:
-            file_name += ('.' + extensao_sem_ponto)
+        if self.company_id.document_save_disk:
+            file_path = self._save_event_2disk(file, file_name)
+            self.file_path = file_path
 
-        file_path = self._grava_arquivo_disco(
-            arquivo,
-            file_name,
-            tipo_documento=tipo_documento,
-            ano=str(ano).zfill(4),
-            mes=str(mes).zfill(2),
-            serie=str(serie),
-            numero=str(numero),
-        )
+        attachment_id = self.env["ir.attachment"].create({
+            "name": file_name,
+            "datas_fname": file_name,
+            "res_model": self._name,
+            "res_id": self.id,
+            "datas": base64.b64encode(file.encode("utf-8")),
+            "mimetype": "application/" + file_extension,
+            "type": "binary",
+        })
 
-        ir_attachment_id = self.env["ir.attachment"].search(
-            [
-                ("res_model", "=", self._name),
-                ("res_id", "=", self.id),
-                ("name", "=", file_name),
-            ]
-        )
-        ir_attachment_id.unlink()
-
-        attachment_id = ir_attachment_id.create(
-            {
-                "name": file_name,
-                "datas_fname": file_name,
-                "res_model": self._name,
-                "res_id": self.id,
-                "datas": base64.b64encode(arquivo.encode("utf-8")),
-                "mimetype": "application/" + extensao_sem_ponto,
-                "type": "binary",
-            }
-        )
-
-        if autorizacao:
-            vals = {
-                "path_file_response": file_path,
-                "file_response_id": attachment_id.id
-            }
+        if authorization:
+            # Nâo deletamos um aquivo de autorização já
+            # Existente por segurança
+            self.file_response_id = False
+            self.file_response_id = attachment_id
         else:
-            vals = {
-                "path_file_request": file_path,
-                "file_request_id": attachment_id.id
-            }
-        self.write(vals)
+            self.file_request_id.unlink()
+            self.file_request_id = attachment_id
         return attachment_id
 
     @api.multi
     def set_done(self, status_code, response, protocol_date,
                  protocol_number, file_response_xml):
-        self._grava_anexo(file_response_xml, 'xml', autorizacao=True)
+        self._save_event_file(file_response_xml, 'xml', authorization=True)
         self.write({
             'state': 'done',
             'status_code': status_code,
@@ -388,15 +312,13 @@ class Event(models.Model):
             'protocol_number': protocol_number,
         })
 
-    def gerar_evento(
+    def create_event_save_xml(
             self, company_id, environment, event_type, xml_file,
             document_id=False, invalidate_number_id=False, sequence=False):
-        event_obj = self.env["l10n_br_fiscal.event"]
         vals = {
             "company_id": company_id.id,
             "environment": environment,
             "type": event_type,
-            "create_date": fields.Datetime.now(),
         }
         if sequence:
             vals['sequence'] = sequence
@@ -424,6 +346,6 @@ class Event(models.Model):
             else:
                 vals['document_number'] = invalidate_number_id.number_start
 
-        event_id = event_obj.create(vals)
-        event_id._grava_anexo(xml_file, "xml")
+        event_id = self.create(vals)
+        event_id._save_event_file(xml_file, "xml")
         return event_id
