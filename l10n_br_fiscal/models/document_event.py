@@ -266,7 +266,8 @@ class Event(models.Model):
             pass
         return caminho
 
-    def _grava_arquivo_disco(self, arquivo, file_name, tipo_documento, ano, mes, serie, numero):
+    def _grava_arquivo_disco(
+            self, arquivo, file_name, tipo_documento, ano, mes, serie, numero):
         save_dir = self.monta_caminho(
             ambiente=self.environment,
             company_id=self.company_id,
@@ -300,7 +301,8 @@ class Event(models.Model):
     ):
         self.ensure_one()
 
-        if self.document_id and self.document_id.key and self.document_id.document_electronic:
+        if (self.document_id and self.document_id.key and
+                self.document_id.document_electronic):
             chave = edoc.detectar_chave_edoc(self.document_id.key)
             tipo_documento = chave.prefixo
             ano = chave.ano_emissao
