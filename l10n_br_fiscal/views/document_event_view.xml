@@ -53,9 +53,8 @@
                         <field name="response"/>
                         <field name="origin"/>
                         <field name="write_date"/>
-                        <field name="path_file_request"/>
+                        <field name="file_path"/>
                         <field name="protocol_date"/>
-                        <field name="path_file_response"/>
                         <field name="status_code"/>
                         <field name="message"/>
                         <field name="state"/>
