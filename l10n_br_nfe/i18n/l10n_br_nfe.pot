@@ -1275,7 +1275,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vCOFINS
-msgid "Valor do COFINS"
+msgid "Valor do COFINS ST"
 msgstr ""
 
 #. module: l10n_br_nfe
