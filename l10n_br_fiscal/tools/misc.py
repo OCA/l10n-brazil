@@ -1,13 +1,22 @@
 # Copyright (C) 2020  Renato Lima - Akretion <renato.lima@akretion.com.br>
+# Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+import os
 from base64 import b64encode
 
 from OpenSSL import crypto
+from erpbrasil.base.misc import punctuation_rm
+from odoo.tools import config
 
 from ..constants.fiscal import (
-    CERTIFICATE_TYPE_NFE
+    CERTIFICATE_TYPE_NFE,
+    EVENT_ENVIRONMENT_PROD,
+    EVENT_ENVIRONMENT_HML,
 )
+
+_logger = logging.getLogger(__name__)
 
 
 def domain_field_codes(field_codes, field_name="code_unmasked",
@@ -89,3 +98,40 @@ def create_fake_certificate_file(valid, passwd, issuer, country, subject):
     p12.set_certificate(cert)
 
     return b64encode(p12.export(passwd))
+
+
+def path_edoc_company(company_id):
+    db_name = company_id._cr.dbname
+    filestore = config.filestore(db_name)
+    return "/".join([
+        filestore,
+        "edoc",
+        punctuation_rm(company_id.cnpj_cpf)
+    ])
+
+
+def build_edoc_path(
+        company_id, ambiente, tipo_documento, ano, mes, serie=False, numero=False):
+    caminho = path_edoc_company(company_id)
+
+    if ambiente not in (EVENT_ENVIRONMENT_PROD, EVENT_ENVIRONMENT_HML):
+        _logger.error(
+            'Ambiente não informado, salvando na pasta de Homologação!')
+
+    if ambiente == EVENT_ENVIRONMENT_PROD:
+        caminho = os.path.join(caminho, "producao/")
+    else:
+        caminho = os.path.join(caminho, "homologacao/")
+
+    caminho = os.path.join(caminho, tipo_documento)
+    caminho = os.path.join(caminho, str(ano) + "-" + str(mes) + "/")
+
+    if serie and numero:
+        caminho = os.path.join(caminho, str(serie) + "-" + str(numero) + "/")
+    try:
+        os.makedirs(caminho)
+    except Exception as e:
+        _logger.error(
+            'Falha de permissão ao acessar diretorio do e-doc {}'.format(e)
+        )
+    return caminho
