@@ -54,7 +54,7 @@ class TestFiscalDocumentNFSeIssnet(TestFiscalDocumentNFSeCommon):
         self.nfse_same_state.with_context(lang='pt_BR')._document_export()
 
         output = os.path.join(config['data_dir'], 'filestore', self.cr.dbname,
-                              self.nfse_same_state.file_xml_id.store_fname)
+                              self.nfse_same_state.send_file_id.store_fname)
         _logger.info("XML file saved at %s" % (output,))
 
         diff = main.diff_files(xml_path, output)
