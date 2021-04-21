@@ -310,9 +310,13 @@ class FiscalClosing(models.Model):
 
         with zipfile.ZipFile(archive, 'w') as zip_archive:
             for dirname, subdirs, files in os.walk(files_dir):
-                zip_archive.write(dirname)
-                for filename in files:
-                    zip_archive.write(os.path.join(dirname, filename))
+                for subdir in subdirs:
+                    path_subdir = files_dir+'/'+subdir
+                    for cnpj_dirname, cnpj_subdirs, cnpj_files in os.walk(path_subdir):
+                        for filename in cnpj_files:
+                            zip_archive.write(
+                                os.path.join(cnpj_dirname, filename),
+                                arcname=cnpj_dirname.replace(dirname,"")+'/'+filename)
 
         temp_dir.cleanup()
 
