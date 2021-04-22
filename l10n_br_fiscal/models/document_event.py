@@ -319,7 +319,7 @@ class Event(models.Model):
 
     def create_event_save_xml(
             self, company_id, environment, event_type, xml_file,
-            document_id=False, invalidate_number_id=False, sequence=False):
+            document_id=False, invalidate_number_id=False, sequence=False, justification=False):
         vals = {
             "company_id": company_id.id,
             "environment": environment,
@@ -350,7 +350,8 @@ class Event(models.Model):
                     '-' + str(invalidate_number_id.number_end)
             else:
                 vals['document_number'] = invalidate_number_id.number_start
-
+        if justification:
+            vals['justification'] = justification
         event_id = self.create(vals)
         event_id._save_event_file(xml_file, "xml")
         return event_id
