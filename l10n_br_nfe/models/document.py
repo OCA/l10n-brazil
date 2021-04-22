@@ -730,6 +730,7 @@ class NFe(spec_models.StackedModel):
             xml_file=processo.envio_xml.decode('utf-8'),
             document_id=self,
             sequence=sequence,
+            justification=justificative,
         )
         for retevento in processo.resposta.retEvento:
             if not retevento.infEvento.chNFe == self.key[3:]:
