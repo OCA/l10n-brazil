@@ -136,8 +136,6 @@ class ContractContract(models.Model):
                     inv_to_append = invoice_id.copy()
                     inv_to_append['invoice_line_ids'] = [inv_line]
                     inv_to_append['document_type_id'] = fiscal_document_type.id
-                    inv_to_append['document_section'] = document_type.get(
-                        inv_to_append['document_type_id'], False)
                     inv_to_append['document_serie_id'] = \
                         self.env['l10n_br_fiscal.document.serie'].search([
                             ('document_type_id', '=',
