@@ -316,7 +316,7 @@ class FiscalClosing(models.Model):
                         for filename in cnpj_files:
                             zip_archive.write(
                                 os.path.join(cnpj_dirname, filename),
-                                arcname=cnpj_dirname.replace(dirname,"")+'/'+filename)
+                                arcname=cnpj_dirname.replace(dirname, "")+'/'+filename)
 
         temp_dir.cleanup()
 
