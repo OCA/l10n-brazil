@@ -475,10 +475,37 @@ class Tax(models.Model):
 
     def _compute_icmsfcp(self, tax, taxes_dict, **kwargs):
         """Compute ICMS FCP"""
-        tax_dict_icms = taxes_dict.get('icms')
-        taxes_dict[tax.tax_domain].update({
-            'base': tax_dict_icms.get('icms_dest_base', 0.0),
-        })
+        company_id = kwargs['company']
+
+        if company_id.tax_framework == '1':
+            operation_line = kwargs.get("operation_line")
+            discount_value = kwargs.get("discount_value", 0.00)
+            insurance_value = kwargs.get("insurance_value", 0.00)
+            freight_value = kwargs.get("freight_value", 0.00)
+            other_value = kwargs.get("other_value", 0.00)
+
+            add_to_base = [insurance_value, freight_value, other_value]
+            remove_from_base = [discount_value]
+
+            kwargs.update({
+                'add_to_base': sum(add_to_base),
+                'remove_from_base': sum(remove_from_base),
+                'icms_base_type': tax.icms_base_type
+            })
+
+            taxes_dict[tax.tax_domain].update(self._compute_tax_base(
+                tax, taxes_dict.get(tax.tax_domain), **kwargs))
+
+            taxes_dict[tax.tax_domain].update(self._compute_tax(
+                tax, taxes_dict, **kwargs))
+
+            taxes_dict[tax.tax_domain].update({
+                'icms_base_type': tax.icms_base_type})
+        else:
+            tax_dict_icms = taxes_dict.get('icms')
+            taxes_dict[tax.tax_domain].update({
+                'base': tax_dict_icms.get('icms_dest_base', 0.0),
+            })
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
