@@ -318,8 +318,8 @@ class Event(models.Model):
         })
 
     def create_event_save_xml(
-        self, company_id, environment, event_type, xml_file,document_id=False,
-        invalidate_number_id=False, sequence=False,justification=False
+        self, company_id, environment, event_type, xml_file, document_id=False,
+        invalidate_number_id=False, sequence=False, justification=False
     ):
         vals = {
             "company_id": company_id.id,
