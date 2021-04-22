@@ -66,6 +66,7 @@ class InvalidateNumber(models.Model):
         if document_id:
             event_id.document_id = document_id
         self.event_ids |= event_id
+        self.authorization_event_id = event_id
 
         if hasattr(processo.resposta.infInut, 'dhRegEvento'):
             date_response = processo.resposta.infInut.dhRegEvento
