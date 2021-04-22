@@ -24,7 +24,7 @@ class FiscalDocumentInvoiceMixin(models.AbstractModel):
     )
 
     partner_name = fields.Char(
-        string='Name',
+        string='Partner Name',
         related='partner_id.name',
     )
 
