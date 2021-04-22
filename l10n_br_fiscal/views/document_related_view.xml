@@ -21,7 +21,7 @@
       <form string="Fiscal Document Related">
         <field name="document_type_code" invisible="1"/>
         <group>
-        <field name="document_related_id"/>
+        <field name="document_related_id" context="{'fiscal_document_complete_name': True}"/>
         </group>
         <group>
             <field name="document_type_id"/>
