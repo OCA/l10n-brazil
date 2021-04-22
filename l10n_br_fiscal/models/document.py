@@ -181,6 +181,15 @@ class Document(models.Model):
         readonly=True,
     )
 
+    correction_event_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.event',
+        inverse_name='document_id',
+        domain=[('type', '=', '14')],
+        string='Correction Events',
+        copy=False,
+        readonly=True,
+    )
+
     close_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.closing',
         string='Close ID')
