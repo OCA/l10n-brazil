@@ -155,10 +155,10 @@ class InvalidateNumber(models.Model):
     def _compute_name(self):
         for record in self:
             record.name = '{type}/({serie}): {start} - {end}'.format(
-                 type=record.document_type_id.type,
-                 serie=record.document_serie_id.name,
-                 start=record.number_start,
-                 end=record.number_end
+                type=record.document_type_id.type,
+                serie=record.document_serie_id.name,
+                start=record.number_start,
+                end=record.number_end
             )
 
     @api.multi
