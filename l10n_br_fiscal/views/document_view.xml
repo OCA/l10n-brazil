@@ -194,7 +194,7 @@
               <separator colspan="4" string="Subsequents Documents"/>
               <field name="document_subsequent_ids">
                   <tree editable="bottom">
-                    <field name="subsequent_document_id"/>
+                    <field name="subsequent_document_id" context="{'fiscal_document_complete_name': True}"/>
                     <field name="fiscal_operation_id"/>
                     <field name="operation_performed"/>
                     <field name="subsequent_operation_id"/>
