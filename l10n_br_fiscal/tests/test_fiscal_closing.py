@@ -37,7 +37,7 @@ class TestFiscalClosing(TransactionCase):
             environment='prod',
             event_type="0",
             xml_file=xml_file,
-            document_id=self.nfe_export.id,
+            document_id=self.nfe_export,
         )
         self.nfe_export._onchange_company_id()
         event_id.set_done(xml_file)
