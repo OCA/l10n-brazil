@@ -94,6 +94,42 @@ class InvalidateNumber(models.Model):
         states={'done': [('readonly', True)]},
     )
 
+    # Authorization Event Related Fields
+    authorization_event_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.event',
+        string='Authorization Event',
+        readonly=True,
+        copy=False,
+    )
+
+    authorization_date = fields.Datetime(
+        string='Authorization Date',
+        readonly=True,
+        related='authorization_event_id.protocol_date',
+    )
+
+    authorization_protocol = fields.Char(
+        string='Authorization Protocol',
+        related='authorization_event_id.protocol_number',
+        readonly=True,
+    )
+
+    send_file_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        related='authorization_event_id.file_request_id',
+        string='Send Document File XML',
+        ondelete='restrict',
+        readonly=True,
+    )
+
+    authorization_file_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        related='authorization_event_id.file_response_id',
+        string='Authorization File XML',
+        ondelete='restrict',
+        readonly=True,
+    )
+
     @api.multi
     @api.constrains('number_start', 'number_end')
     def _check_range(self):
@@ -140,6 +176,7 @@ class InvalidateNumber(models.Model):
     def _update_document_status(self, document_id=None):
         if document_id:
             document_id.state_edoc = SITUACAO_EDOC_INUTILIZADA
+            document_id.invalidate_event_id = self.authorization_event_id
         else:
             for number in range(self.number_start, self.number_end + 1):
                 self.env['l10n_br_fiscal.document'].create({
@@ -150,6 +187,7 @@ class InvalidateNumber(models.Model):
                     'state_edoc': SITUACAO_EDOC_INUTILIZADA,
                     'issuer': 'company',
                     'number': str(number),
+                    'invalidate_event_id': self.authorization_event_id,
                 })
 
     def _invalidate(self, document_id=None):
