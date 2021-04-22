@@ -168,12 +168,12 @@ class DocumentEletronic(models.AbstractModel):
     def _target_new_tab(self, attachment_id):
         if attachment_id:
             return {
-                'type' : 'ir.actions.act_url',
+                'type': 'ir.actions.act_url',
                 'url': '/web/content/{id}/{nome}'.format(
                     id=attachment_id.id,
                     nome=attachment_id.name),
                 'target': 'new',
-                }
+            }
 
     def view_xml(self):
         xml_file = self.authorization_file_id or self.send_file_id
