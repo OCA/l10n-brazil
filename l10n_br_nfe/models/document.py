@@ -604,6 +604,8 @@ class NFe(spec_models.StackedModel):
             string_xml=xml_string,
             # output_dir=self.authorization_event_id.file_path
         )
+        # TODO: Alterar a opção output_dir para devolter também o arquivo do XML
+        # no retorno, evitando a releitura do arquivo.
 
         self.file_report_id = self.env['ir.attachment'].create(
             {
