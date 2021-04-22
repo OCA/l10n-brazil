@@ -10,9 +10,12 @@ class DocumentCancelWizard(models.TransientModel):
     _description = 'Fiscal Document Cancel Wizard'
     _inherit = 'l10n_br_fiscal.base.wizard.mixin'
 
+    def do_cancel(self):
+        self.document_id._document_cancel(self.justification)
+
     @api.multi
     def doit(self):
         for wizard in self:
             if wizard.document_id:
-                wizard.document_id._document_cancel(wizard.justification)
+                wizard.do_cancel()
         self._close()
