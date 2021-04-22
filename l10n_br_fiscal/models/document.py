@@ -366,9 +366,9 @@ class Document(models.Model):
         super()._after_change_state(old_state, new_state)
         self.send_email(new_state)
 
-    def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
-        super()._exec_after_SITUACAO_EDOC_A_ENVIAR(old_state, new_state)
+    def _exec_before_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
         self.document_comment()
+        super()._exec_before_SITUACAO_EDOC_A_ENVIAR(old_state, new_state)
 
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
