@@ -100,6 +100,7 @@ class DocumentLine(models.Model):
     @api.multi
     def unlink(self):
         if self.env.ref('l10n_br_fiscal.fiscal_document_line_dummy') in self:
+            return
             raise UserError(
                 _("You cannot unlink Fiscal Document Line Dummy !"))
         return super().unlink()

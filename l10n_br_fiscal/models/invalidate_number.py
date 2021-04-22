@@ -12,6 +12,12 @@ class InvalidateNumber(models.Model):
     _name = 'l10n_br_fiscal.invalidate.number'
     _description = 'Invalidate Number'
 
+    name = fields.Char(
+        compute="_compute_name",
+        store=True,
+        index=True,
+    )
+
     date = fields.Date(
         string='Date',
         default=fields.Date.today,
@@ -109,14 +115,15 @@ class InvalidateNumber(models.Model):
                         _('Number range overlap is not allowed.'))
         return True
 
-    @api.multi
-    def name_get(self):
-        return [(rec.id,
-                 '({0}): {1} - {2}'.format(
-                     rec.document_serie_id.name,
-                     rec.number_start,
-                     rec.number_end)
-                 ) for rec in self]
+    @api.depends('document_type_id', 'document_serie_id', 'number_start', 'number_end')
+    def _compute_name(self):
+        for record in self:
+            record.name = '{type}/({serie}): {start} - {end}'.format(
+                 type=record.document_type_id.type,
+                 serie=record.document_serie_id.name,
+                 start=record.number_start,
+                 end=record.number_end
+            )
 
     @api.multi
     def unlink(self):
