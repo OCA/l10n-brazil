@@ -102,6 +102,33 @@ class DocumentEletronic(models.AbstractModel):
         readonly=True,
     )
 
+    # Invalidate Event Related Fields
+    invalidate_event_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.event',
+        string='Invalidate Event',
+        copy=False,
+    )
+
+    invalidate_date = fields.Datetime(
+        string='Invalidate Date',
+        readonly=True,
+        related='invalidate_event_id.protocol_date',
+    )
+
+    invalidate_protocol_number = fields.Char(
+        string='Invalidate Protocol Number',
+        related='invalidate_event_id.protocol_number',
+        readonly=True,
+    )
+
+    invalidate_file_id = fields.Many2one(
+        comodel_name='ir.attachment',
+        related='invalidate_event_id.file_response_id',
+        string='Invalidate File XML',
+        ondelete='restrict',
+        readonly=True,
+    )
+
     document_version = fields.Char(
         string='Version',
         default='4.00',
