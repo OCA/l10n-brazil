@@ -34,6 +34,10 @@ install:
   - pip install -q coverage==4.5.4
   - pip install -q QUnitSuite codecov coveralls
 
+before_script:
+  - if [[ "$MAKEPOT" == "1" ]]; then sed -i "s/'l10n_br_fiscal'/'l10n_br_fiscal', 'l10n_br_nfe'/g" l10n_br_nfse/__manifest__.py; fi
+  - cat l10n_br_nfse/__manifest__.py
+
 script:
   - travis_run_tests
 
