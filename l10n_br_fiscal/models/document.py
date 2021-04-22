@@ -9,8 +9,10 @@ from odoo.exceptions import ValidationError, UserError
 
 from ..constants.fiscal import (
     DOCUMENT_ISSUER,
+    DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    FISCAL_IN_OUT_DICT,
     SITUACAO_EDOC_AUTORIZADA,
 )
 
@@ -47,6 +49,12 @@ class Document(models.Model):
     active = fields.Boolean(
         string='Active',
         default=True,
+    )
+
+    name = fields.Char(
+        compute="_compute_name",
+        store=True,
+        index=True,
     )
 
     fiscal_operation_id = fields.Many2one(
@@ -232,10 +240,47 @@ class Document(models.Model):
 
     @api.multi
     def name_get(self):
-        return [(r.id, '{0} - Série: {1} - Número: {2}'.format(
-            r.document_type_id.name,
-            r.document_serie,
-            r.number)) for r in self]
+        res = []
+        for record in self:
+            if self._context.get("fiscal_document_complete_name"):
+                res.append((record.id, record.name))
+            else:
+                txt = '{name}/{type}/{serie}/{number}'.format(
+                    name=record.company_name,
+                    type=record.document_type,
+                    serie=record.document_serie,
+                    number=record.number,
+                )
+                res.append((record.id, txt))
+        return res
+
+    @api.depends('issuer', 'fiscal_operation_type', 'document_type', 'document_serie',
+                 'number', 'date', 'partner_id')
+    def _compute_name(self):
+        for r in self:
+            name = ''
+            name += DOCUMENT_ISSUER_DICT.get(r.issuer, '')
+            if r.issuer == DOCUMENT_ISSUER_COMPANY and r.fiscal_operation_type:
+                name += ' - ' + FISCAL_IN_OUT_DICT.get(r.fiscal_operation_type, '')
+            if r.document_type:
+                name += ' - ' + r.document_type
+            if r.document_serie:
+                name += ' - ' + r.document_serie
+            if r.number:
+                name += ' - ' + r.number or ''
+            if r.date:
+                name += ' - ' + r.date.strftime('%d/%m/%Y')
+
+            if not r.partner_cnpj_cpf:
+                name += ' - ' + _('Unidentified Consumer')
+            elif r.partner_legal_name:
+                name += ' - ' + r.partner_legal_name
+                name += ' - ' + r.partner_cnpj_cpf
+            else:
+                name += ' - ' + r.partner_name
+                name += ' - ' + r.partner_cnpj_cpf
+
+            r.name = name
 
     @api.model
     def create(self, values):
@@ -246,6 +291,7 @@ class Document(models.Model):
     @api.multi
     def unlink(self):
         if self.env.ref('l10n_br_fiscal.fiscal_document_dummy') in self:
+            return
             raise UserError(_("You cannot unlink Fiscal Document Dummy !"))
         return super().unlink()
 
