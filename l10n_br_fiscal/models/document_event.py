@@ -27,16 +27,20 @@ class Event(models.Model):
     _description = 'Fiscal Event'
 
     @api.multi
-    @api.depends(
-        'document_id.number',
-        'document_id.partner_id.name')
+    @api.depends('document_id.name',
+                 'invalidate_number_id.name')
     def _compute_display_name(self):
         for record in self:
             if record.document_id:
                 names = [
                     _('Fiscal Document'),
-                    record.document_id.number,
-                    record.document_id.partner_id.name,
+                    record.document_id.name,
+                ]
+                record.display_name = " / ".join(filter(None, names))
+            elif record.invalidate_number_id:
+                names = [
+                    _('Invalidate Number'),
+                    record.invalidate_number_id.name,
                 ]
                 record.display_name = " / ".join(filter(None, names))
             else:
@@ -138,6 +142,7 @@ class Event(models.Model):
     display_name = fields.Char(
         string='name',
         compute='_compute_display_name',
+        store=True,
     )
 
     file_request_id = fields.Many2one(

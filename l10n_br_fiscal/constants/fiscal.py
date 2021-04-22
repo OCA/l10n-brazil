@@ -205,8 +205,9 @@ CERTIFICATE_SUBTYPE = (("a1", "A1"), ("a3", "A3"))
 CERTIFICATE_SUBTYPE_DEFAULT = "a1"
 
 
-FISCAL_IN_OUT = (("in", "In"), ("out", "Out"))
+FISCAL_IN_OUT = (("in", _("In")), ("out", _("Out")))
 
+FISCAL_IN_OUT_DICT = dict(FISCAL_IN_OUT)
 
 FISCAL_IN_OUT_ALL = (("in", "In"), ("out", "Out"), ("all", "All"))
 
@@ -224,8 +225,9 @@ FISCAL_IN_OUT_DEFAULT = "in"
 DOCUMENT_TYPE = (("icms", "ICMS"), ("service", "Serviço Municipal"))
 
 
-DOCUMENT_ISSUER = (("company", "Company"), ("partner", "Partner"))
+DOCUMENT_ISSUER = (("company", _("Company")), ("partner", _("Partner")))
 
+DOCUMENT_ISSUER_DICT = dict(DOCUMENT_ISSUER)
 
 DOCUMENT_ISSUER_COMPANY = "company"
 DOCUMENT_ISSUER_PARTNER = "partner"
