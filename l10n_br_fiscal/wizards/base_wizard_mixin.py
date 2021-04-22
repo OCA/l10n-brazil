@@ -45,18 +45,20 @@ class BaseWizardMixin(models.TransientModel):
         default='init',
     )
 
+    def _prepare_key_fields(self):
+        return {
+            'l10n_br_fiscal.document': 'document_id',
+            'res.partner': 'partner_id',
+        }
+
     @api.model
     def default_get(self, fields_list):
         default_values = super().default_get(fields_list)
         active_model = self.env.context['active_model']
         active_id = self.env.context['active_id']
-
-        key_field = {
-            'l10n_br_fiscal.document': 'document_id',
-            'res.partner': 'partner_id',
-        }
-
-        default_values.update({key_field[active_model]: active_id})
+        default_values.update({
+            self._prepare_key_fields()[active_model]: active_id
+        })
         return default_values
 
     @api.multi
