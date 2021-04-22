@@ -546,7 +546,6 @@ class NFe(spec_models.StackedModel):
         value = getattr(node, attr.get_name())
 
         if key == 'nfe40_mod':
-            vals['document_section'] = 'nfe' if value == '55' else False
             vals['document_type_id'] = \
                 self.env['l10n_br_fiscal.document.type'].search([
                     ('code', '=', value)], limit=1).id
