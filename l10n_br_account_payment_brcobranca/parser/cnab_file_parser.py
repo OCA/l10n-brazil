@@ -281,6 +281,8 @@ class CNABFileParser(FileParser):
                 # 'tipo_moeda': evento.credito_moeda_tipo,
             }
 
+            row_list = []
+
             if cod_ocorrencia in cnab_liq_move_code:
 
                 valor_recebido = valor_desconto = valor_juros_mora =\
@@ -308,7 +310,7 @@ class CNABFileParser(FileParser):
                     valor_desconto = self.cnab_str_to_float(
                         linha_cnab['desconto'])
                     if valor_desconto > 0.0:
-                        result_row_list.append({
+                        row_list.append({
                             'name': 'Desconto (boleto) ' +
                                     account_move_line.document_number,
                             'debit': valor_desconto,
@@ -322,7 +324,7 @@ class CNABFileParser(FileParser):
 
                         # Usado para Conciliar a Fatura
                         # Write Off necessário para ser possível a conciliação
-                        result_row_list.append({
+                        row_list.append({
                             'name': 'Desconto (boleto) ' +
                                     account_move_line.document_number,
                             'debit': 0.0,
@@ -341,7 +343,7 @@ class CNABFileParser(FileParser):
 
                     if valor_juros_mora > 0.0:
 
-                        result_row_list.append({
+                        row_list.append({
                             'name': 'Valor Juros Mora (boleto) ' +
                                     account_move_line.document_number,
                             'debit': 0.0,
@@ -353,7 +355,7 @@ class CNABFileParser(FileParser):
                             'partner_id': account_move_line.partner_id.id,
                         })
 
-                        result_row_list.append({
+                        row_list.append({
                             'name': 'Valor Juros Mora (boleto) ' +
                                     account_move_line.document_number,
                             'debit': valor_juros_mora,
@@ -374,7 +376,7 @@ class CNABFileParser(FileParser):
 
                     if valor_tarifa > 0.0:
                         # Usado para Conciliar a Fatura
-                        result_row_list.append({
+                        row_list.append({
                             'name': 'Tarifas bancárias (boleto) ' +
                                     account_move_line.document_number,
                             'debit': 0.0,
@@ -386,7 +388,7 @@ class CNABFileParser(FileParser):
                             'partner_id': account_move_line.partner_id.id,
                         })
 
-                        result_row_list.append({
+                        row_list.append({
                             'name': 'Tarifas bancárias (boleto) ' +
                                     account_move_line.document_number,
                             'debit': valor_tarifa,
@@ -404,7 +406,7 @@ class CNABFileParser(FileParser):
                         linha_cnab['valor_abatimento'])
 
                     if valor_abatimento:
-                        result_row_list.append({
+                        row_list.append({
                             'name': 'Abatimento (boleto) ' +
                                     account_move_line.document_number,
                             'debit': valor_abatimento,
@@ -418,7 +420,7 @@ class CNABFileParser(FileParser):
 
                         # Usado para Conciliar a Fatura
                         # Write Off necessário para ser possível a conciliação
-                        result_row_list.append({
+                        row_list.append({
                             'name': 'Abatimento (boleto) ' +
                                     account_move_line.document_number,
                             'debit': 0.0,
@@ -436,7 +438,7 @@ class CNABFileParser(FileParser):
                 # o informado.
                 valor_recebido_sem_juros_mora =\
                     valor_recebido - valor_juros_mora
-                result_row_list.append({
+                row_list.append({
                      'name': account_move_line.invoice_id.number,
                      'debit': 0.0,
                      'credit': valor_recebido_sem_juros_mora,
@@ -448,6 +450,7 @@ class CNABFileParser(FileParser):
                      'ref': account_move_line.own_number,
                      'account_id': account_move_line.account_id.id,
                      'partner_id': account_move_line.partner_id.id,
+                     'date': data_credito,
                 })
 
                 # CNAB LOG
@@ -460,7 +463,7 @@ class CNABFileParser(FileParser):
                     'tariff_charge': valor_tarifa,
                 })
                 self.cnab_return_events.append(cnab_return_log_event)
-
+                result_row_list.append(row_list)
             else:
                 # Nos codigos de retorno cadastrados no Data do modulo
                 # l10n_br_account_payment_order o 02 se refere a
@@ -496,9 +499,6 @@ class CNABFileParser(FileParser):
         return {
             'name': 'Retorno CNAB - Banco ' + self.bank.short_name + ' - Conta '
                     + self.journal.bank_account_id.acc_number,
-            'date': fields.Datetime.now(),
-            # TODO  - Campo está sendo preenchido em outro lugar
-            'ref': 'Retorno CNAB',
             'is_cnab': True,
         }
 
@@ -520,7 +520,6 @@ class CNABFileParser(FileParser):
                     'commission_amount':value,
                 }
         """
-
         vals = {
             'name': line['name'] or line.get('source'),
             'credit': line['credit'],
