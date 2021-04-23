@@ -178,12 +178,6 @@ class DocumentEletronic(models.AbstractModel):
         electronic = self - no_electronic
         electronic._eletronic_document_send()
 
-    def _exec_before_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
-        super(DocumentEletronic, self)._exec_before_SITUACAO_EDOC_A_ENVIAR(
-            old_state, new_state
-        )
-        self._document_export()
-
     def serialize(self):
         edocs = []
         self._serialize(edocs)
