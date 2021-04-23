@@ -13,7 +13,10 @@ _table_renames = [
 ]
 
 _column_renames = {
-    "l10n_br_fiscal_event": [
+    "l10n_br_fiscal_document_event": [
+        ("fiscal_document_id", "document_id"),
+    ],
+    "l10n_br_fiscal_document_related": [
         ("fiscal_document_id", "document_id"),
     ],
 }
