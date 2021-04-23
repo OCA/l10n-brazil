@@ -98,7 +98,9 @@ class DocumentWorkflow(models.AbstractModel):
     def _exec_before_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
         self.document_date()
         self.document_number()
+        self.document_comment()
         self.document_check()
+        self._document_export()
         return True
 
     def _exec_before_SITUACAO_EDOC_ENVIADA(self, old_state, new_state):
