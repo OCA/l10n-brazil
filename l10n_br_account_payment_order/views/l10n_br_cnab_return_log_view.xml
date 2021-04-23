@@ -34,7 +34,7 @@
                         <field name="cnab_date_file" readonly="1"/>
                         <field name="bank_account_id" readonly="1"/>
                         <field name="cnab_date_import" readonly="1"/>
-                        <field name="move_id" readonly="1"/>
+                        <field name="move_ids" widget="many2many_tags" readonly="1"/>
                     </group>
 
                 </group>
