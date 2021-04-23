@@ -71,7 +71,7 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_vProd = fields.Monetary(
-        related='amount_untaxed',
+        related='price_gross',
     )
 
     nfe40_choice9 = fields.Selection([
