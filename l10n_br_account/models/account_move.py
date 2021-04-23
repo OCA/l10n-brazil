@@ -5,8 +5,6 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 
-from .account_invoice import INVOICE_TAX_USER_TYPE
-
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
     DOCUMENT_ISSUER_COMPANY,
@@ -73,21 +71,7 @@ class AccountMove(models.Model):
                         self._finalize_invoices(invoice)
                         invoice.action_invoice_open()
 
-    def _prepare_deductible_move_line(self, deduct_tax, line):
-        account = deduct_tax.account_id or tax_line.account_id
-        return {
-            'invoice_tax_line_id': line.invoice_tax_line_id.id,
-            'tax_line_id': line.tax_line_id.id,
-            'type': 'tax',
-            'name': line.name or deduct_tax.name,
-            'price_unit': line.price_unit * -1,
-            'quantity': line.quantity,
-            'account_id': account.id,
-            'account_analytic_id': line.account_analytic_id.id,
-            'analytic_tag_ids': line.analytic_tag_ids.ids,
-            'invoice_id': line.invoice_id.id,
-        }
-
+    @api.multi
     def _withholding_validate(self):
         for m in self:
             invoices = self.env['account.invoice.line'].search(
@@ -103,6 +87,7 @@ class AccountMove(models.Model):
             invoices.filtered(
                 lambda i: i.state == 'draft').unlink()
 
+    @api.multi
     def post(self, invoice=False):
         result = super().post(invoice)
         self.create_wh_invoices()
@@ -114,6 +99,7 @@ class AccountMove(models.Model):
                 self.button_cancel()
         return result
 
+    @api.multi
     def button_cancel(self):
         self._withholding_validate()
         return super().button_cancel()

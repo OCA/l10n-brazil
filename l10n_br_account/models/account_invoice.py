@@ -318,6 +318,34 @@ class AccountInvoice(models.Model):
     @api.model
     def tax_line_move_line_get(self):
         tax_lines_dict = super().tax_line_move_line_get()
+        if (self.fiscal_operation_id
+                and self.fiscal_operation_id.deductible_taxes):
+            for tax_line in self.tax_line_ids:
+                analytic_tag_ids = [
+                    (4, analytic_tag.id, None)
+                    for analytic_tag in tax_line.analytic_tag_ids]
+
+                deductible_tax = tax_line.tax_id.tax_group_id.deductible_tax(
+                    INVOICE_TAX_USER_TYPE[self.type]
+                )
+
+                if deductible_tax:
+                    account = deductible_tax.account_id or tax_line.account_id
+                    tax_line_vals = {
+                        'invoice_tax_line_id': tax_line.id,
+                        'tax_line_id': tax_line.tax_id.id,
+                        'type': 'tax',
+                        'name': tax_line.name or invoice_tax.name,
+                        'price_unit': tax_line.amount_total * -1,
+                        'quantity': 1,
+                        'price': tax_line.amount_total * -1,
+                        'account_id': account.id,
+                        'account_analytic_id': tax_line.account_analytic_id.id,
+                        'analytic_tag_ids': analytic_tag_ids,
+                        'invoice_id': self.id,
+                    }
+                    tax_lines_dict.append(tax_line_vals)
+
         return tax_lines_dict
 
     def finalize_invoice_move_lines(self, move_lines):
