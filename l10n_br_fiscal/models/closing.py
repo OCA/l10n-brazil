@@ -53,13 +53,6 @@ SITUACAO_EDOC = [
     SITUACAO_EDOC_INUTILIZADA,
 ]
 
-XMLS_IMPORTANTES = [
-    'authorization_file_id',
-    'cancel_file_id',
-    'file_xml_autorizacao_inutilizacao_id',  # TODO - Refactor wizard
-    'file_report_id',
-]
-
 
 class FiscalClosing(models.Model):
     _name = 'l10n_br_fiscal.closing'
@@ -275,13 +268,32 @@ class FiscalClosing(models.Model):
     def _prepare_files(self, temp_dir):
         domain = self._document_domain()
         documents = self.env['l10n_br_fiscal.document'].search(domain)
-        # documents += self.env['l10n_br_fiscal.document_correction'].search(domain)
-        # documents += self.env['l10n_br_fiscal.document_cancel'].search(domain)
+
+        attachment_ids = self.env['ir.attachment']
+
+        attachment_ids |= documents.mapped('invalidate_event_id').mapped(
+            'file_response_id')
+
+        if attachment_ids:
+            try:
+                path = '/'.join([
+                    misc.punctuation_rm(self.company_id.cnpj_cpf),
+                    'invalidate_numbers'])
+                for attachment in attachment_ids:
+                    self._save_tempfile(path, attachment, temp_dir)
+            except OSError:
+                raise RedirectWarning(
+                    _('Error!'),
+                    _('I/O Error'))
+            except PermissionError:
+                raise RedirectWarning(
+                    _('Error!'),
+                    _('Check write permissions in your system temp folder'))
 
         for document in documents:
-            anexos = [getattr(document, campo) for campo in XMLS_IMPORTANTES
-                      if hasattr(document, campo)
-                      and getattr(document, campo).id is not False]
+            attachment_ids = document.authorization_event_id.mapped('file_response_id')
+            attachment_ids |= document.cancel_event_id.mapped('file_response_id')
+            attachment_ids |= document.correction_event_ids.mapped('file_response_id')
 
             if self.export_type == 'period':
                 document.close_id = self.id
@@ -289,9 +301,8 @@ class FiscalClosing(models.Model):
             try:
                 document_path = self._create_tempfile_path(document)
 
-                for anexo in anexos:
-                    self._save_tempfile(document_path, anexo, temp_dir)
-
+                for attachment in attachment_ids:
+                    self._save_tempfile(document_path, attachment, temp_dir)
             except OSError:
                 raise RedirectWarning(
                     _('Error!'),
