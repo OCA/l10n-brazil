@@ -59,6 +59,8 @@ class AccountJournal(models.Model):
                 if self.return_auto_reconcile:
                     if line_to_reconcile:
                         (line + line_to_reconcile).reconcile()
+                        line_to_reconcile.cnab_state = 'done'
+                        line_to_reconcile.payment_situation = 'liquidada'
 
     def multi_move_import(self, file_stream, ftype="csv"):
         """Create multiple bank statements from values given by the parser for
@@ -83,7 +85,7 @@ class AccountJournal(models.Model):
                 ftype=ftype,
             )
 
-            if hasattr(result, 'journal_id'):
+            if len(result) > 1 or hasattr(result, 'journal_id'):
                 res_move |= result
             if hasattr(result, 'filename'):
                 res_cnab_log |= result
@@ -173,76 +175,98 @@ class AccountJournal(models.Model):
         if not result_row_list:
             return cnab_return_log
 
-        parsed_cols = list(
-            parser.get_move_line_vals(result_row_list[0]).keys()
-        )
-
-        for col in parsed_cols:
-            if col not in move_line_obj._fields:
-                raise UserError(
-                    _(
-                        "Missing column! Column %s you try to import is not "
-                        "present in the move line!"
+        moves = self.env['account.move']
+        # Cada retorno precisa ser feito um único account.move para que o campo
+        # Date tanto da account.move quanto o account.move.line tenha o mesmo
+        # valor e sejam referentes a Data de Credito daquele lançamento
+        # especifico.
+        for result_row in result_row_list:
+            parsed_cols = list(
+                 parser.get_move_line_vals(result_row[0]).keys()
+            )
+            for col in parsed_cols:
+                if col not in move_line_obj._fields:
+                    raise UserError(
+                     _(
+                         "Missing column! Column %s you try to import is not "
+                         "present in the move line!"
+                     )
+                     % col
                     )
-                    % col
+
+            move_vals = self.prepare_move_vals(result_row, parser)
+
+            # O campo referente a Data de Credito no account.move é o date que
+            # no account.move.line existe um related desse campo a forma de
+            # obter e preencher ele por enquanto e feito da forma abaixo,
+            # verificar se possível melhorar isso.
+            data_credito = ''
+            for row in result_row:
+                if row.get('type') == 'liquidado':
+                    data_credito = row.get('date')
+                    break
+            move_vals['date'] = data_credito
+
+            move = move_obj.create(move_vals)
+            moves |= move
+            try:
+                # Record every line in the bank statement
+                move_store = []
+                for line in result_row:
+                    parser_vals = parser.get_move_line_vals(line)
+                    values = self.prepare_move_line_vals(parser_vals, move)
+                    move_store.append(values)
+                move_line_obj.with_context(check_move_validity=False).create(
+                    move_store
                 )
-        move_vals = self.prepare_move_vals(result_row_list, parser)
-        move = move_obj.create(move_vals)
-        try:
-            # Record every line in the bank statement
-            move_store = []
-            for line in result_row_list:
-                parser_vals = parser.get_move_line_vals(line)
-                values = self.prepare_move_line_vals(parser_vals, move)
-                move_store.append(values)
-            move_line_obj.with_context(check_move_validity=False).create(
-                move_store
-            )
-            self._write_extra_move_lines(parser, move)
-            if self.create_counterpart:
-                self._create_counterpart(parser, move)
-            # Check if move is balanced
-            move.assert_balanced()
-            # Computed total amount of the move
-            move._amount_compute()
-            # Attach data to the move
-            attachment_data = {
-                "name": "statement file",
-                "datas": file_stream,
-                "datas_fname": "%s.%s" % (fields.Date.today(), ftype),
-                "res_model": "account.move",
-                "res_id": move.id,
-            }
-            attachment_obj.create(attachment_data)
-            # If user ask to launch completion at end of import, do it!
-            if self.launch_import_completion:
-                move.button_auto_completion()
-            # Write the needed log infos on profile
-            self.write_logs_after_import(move, len(result_row_list))
-        except UserError:
-            # "Clean" exception, raise as such
-            raise
-        except Exception:
-            error_type, error_value, trbk = sys.exc_info()
-            st = "Error: %s\nDescription: %s\nTraceback:" % (
-                error_type.__name__,
-                error_value,
-            )
-            st += "".join(traceback.format_tb(trbk, 30))
-            raise ValidationError(
-                _(
-                    "Statement import error "
-                    "The statement cannot be created: %s"
+                self._write_extra_move_lines(parser, move)
+                if self.create_counterpart:
+                    self._create_counterpart(parser, move)
+                # Check if move is balanced
+                move.assert_balanced()
+                # Computed total amount of the move
+                move._amount_compute()
+                # No caso do CNAB o arquivo usado está sendo armazenado no
+                # objeto l10n_br_cnab.return.log já que um arquivo pode gerar
+                # diversos account.move
+                # Attach data to the move
+                # attachment_data = {
+                #    "name": "statement file",
+                #    "datas": file_stream,
+                #    "datas_fname": "%s.%s" % (fields.Date.today(), ftype),
+                #    "res_model": "account.move",
+                #    "res_id": move.id,
+                # }
+                # attachment_obj.create(attachment_data)
+                # If user ask to launch completion at end of import, do it!
+                if self.launch_import_completion:
+                    move.button_auto_completion()
+                # Write the needed log infos on profile
+                self.write_logs_after_import(move, len(result_row_list))
+            except UserError:
+                # "Clean" exception, raise as such
+                raise
+            except Exception:
+                error_type, error_value, trbk = sys.exc_info()
+                st = "Error: %s\nDescription: %s\nTraceback:" % (
+                    error_type.__name__,
+                    error_value,
                 )
-                % st
-            )
+                st += "".join(traceback.format_tb(trbk, 30))
+                raise ValidationError(
+                    _(
+                        "Statement import error "
+                        "The statement cannot be created: %s"
+                    )
+                    % st
+                )
 
-        # CNAB Return Log
-        move.cnab_return_log_id = cnab_return_log.id
-        cnab_return_log.move_id = move.id
+        cnab_return_log.move_ids = moves.ids
+        for move in moves:
+            # CNAB Return Log
+            move.cnab_return_log_id = cnab_return_log.id
+            # Lançamento Automatico do Diário
+            if self.return_auto_reconcile:
+                move.post()
 
-        # Lançamento Automatico do Diário
-        if self.return_auto_reconcile:
-            move.post()
-
-        return move
+        return moves
