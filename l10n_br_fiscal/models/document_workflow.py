@@ -215,6 +215,8 @@ class DocumentWorkflow(models.AbstractModel):
         elif new_state == SITUACAO_EDOC_INUTILIZADA:
             self._exec_after_SITUACAO_EDOC_INUTILIZADA(old_state, new_state)
 
+        self._generates_subsequent_operations()
+
     @api.multi
     def _change_state(self, new_state):
         """ Método para alterar o estado do documento fiscal, mantendo a
@@ -305,7 +307,7 @@ class DocumentWorkflow(models.AbstractModel):
         if to_confirm:
             to_confirm._document_confirm()
 
-    def _document_send(self):
+    def _no_eletronic_document_send(self):
         self._change_state(SITUACAO_EDOC_AUTORIZADA)
 
     def _document_export(self):
