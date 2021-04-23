@@ -23,7 +23,7 @@ class CreditPartnerStatementImporter(models.TransientModel):
                 importer.input_statement,
                 ftype.replace('.', '')
             )
-            if hasattr(result, 'journal_id'):
+            if len(result) > 1 or hasattr(result, 'journal_id'):
                 moves |= result
             if hasattr(result, 'filename'):
                 cnab_logs |= result
@@ -33,6 +33,9 @@ class CreditPartnerStatementImporter(models.TransientModel):
             action = self.env['ir.actions.act_window'].for_xml_id(*xmlid)
             if len(moves) > 1:
                 action['domain'] = [('id', 'in', moves.ids)]
+                ref = self.env.ref('account.view_move_tree')
+                action['views'] = [(ref.id, 'tree')]
+                action['res_id'] = moves.ids[0] if moves else False
             else:
                 ref = self.env.ref('account.view_move_form')
                 action['views'] = [(ref.id, 'form')]
