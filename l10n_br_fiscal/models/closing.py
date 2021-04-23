@@ -246,16 +246,17 @@ class FiscalClosing(models.Model):
         with open(filename, 'wb') as file:
             file.write(base64.b64decode(anexo.datas))
 
-    def _document_domain(self, periodic_export):
+    def _document_domain(self):
         domain = [
             ('document_type', 'in', MODELO_FISCAL_EMISSAO_PRODUTO +
                 MODELO_FISCAL_EMISSAO_SERVICO),
             ('state_edoc', 'in', SITUACAO_EDOC),
         ]
 
-        domain += [
-            ('close_id', '=', False)
-        ] if periodic_export else []
+        if self.export_type == 'period':
+            domain += [
+                ('close_id', '=', False)
+            ]
 
         domain += [
             ('company_id', 'in', self.company_id.ids)
@@ -271,8 +272,8 @@ class FiscalClosing(models.Model):
 
         return domain
 
-    def _prepare_files(self, temp_dir, periodic_export=False):
-        domain = self._document_domain(periodic_export)
+    def _prepare_files(self, temp_dir):
+        domain = self._document_domain()
         documents = self.env['l10n_br_fiscal.document'].search(domain)
         # documents += self.env['l10n_br_fiscal.document_correction'].search(domain)
         # documents += self.env['l10n_br_fiscal.document_cancel'].search(domain)
@@ -282,7 +283,9 @@ class FiscalClosing(models.Model):
                       if hasattr(document, campo)
                       and getattr(document, campo).id is not False]
 
-            document.close_id = self.id
+            if self.export_type == 'period':
+                document.close_id = self.id
+
             try:
                 document_path = self._create_tempfile_path(document)
 
