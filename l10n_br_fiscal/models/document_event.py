@@ -16,11 +16,6 @@ from ..tools.misc import build_edoc_path
 
 _logger = logging.getLogger(__name__)
 
-try:
-    from erpbrasil.base.fiscal.edoc import detectar_chave_edoc
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
-
 
 class Event(models.Model):
     _name = 'l10n_br_fiscal.event'
@@ -214,25 +209,16 @@ class Event(models.Model):
         return True
 
     def _save_event_2disk(self, arquivo, file_name):
-        if (self.document_id and self.document_id.key and
-                self.document_id.document_electronic):
-            chave = detectar_chave_edoc(self.document_id.key)
-            tipo_documento = chave.prefixo
-            ano = chave.ano_emissao
-            mes = chave.mes_emissao
-            serie = chave.numero_serie
-            numero = chave.numero_documento
-        else:
-            tipo_documento = self.document_type_id.prefix
-            serie = self.document_serie_id.code
-            numero = self.document_number
+        tipo_documento = self.document_type_id.prefix
+        serie = self.document_serie_id.code
+        numero = self.document_number
 
-            if self.document_id:
-                ano = self.document_id.date.strftime("%Y")
-                mes = self.document_id.date.strftime("%m")
-            elif self.invalidate_number_id:
-                ano = self.invalidate_number_id.date.strftime("%Y")
-                mes = self.invalidate_number_id.date.strftime("%m")
+        if self.document_id:
+            ano = self.document_id.date.strftime("%Y")
+            mes = self.document_id.date.strftime("%m")
+        elif self.invalidate_number_id:
+            ano = self.invalidate_number_id.date.strftime("%Y")
+            mes = self.invalidate_number_id.date.strftime("%m")
 
         save_dir = build_edoc_path(
             ambiente=self.environment,
