@@ -5,7 +5,8 @@
         <field name="name">l10n_br_fiscal.operation.dashboard.kanban</field>
         <field name="model">l10n_br_fiscal.operation</field>
         <field name="arch" type="xml">
-            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban">
+            <kanban
+                class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban" create="false">
                 <field name="fiscal_type"/>
                 <field name="kanban_dashboard"/>
                 <field name="color"/>
