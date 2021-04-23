@@ -7,6 +7,10 @@ import tempfile
 import zipfile
 
 from odoo.tests.common import TransactionCase
+from odoo import fields
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    SITUACAO_EDOC_AUTORIZADA,
+)
 
 
 class TestFiscalClosing(TransactionCase):
@@ -17,7 +21,8 @@ class TestFiscalClosing(TransactionCase):
         self.nfe_export = self.env.ref(
             'l10n_br_fiscal.demo_nfe_export'
         )
-
+        self.nfe_export.date = fields.Datetime.now()
+        self.nfe_export.date_in_out = fields.Datetime.now()
         self.closing_all = self.env['l10n_br_fiscal.closing'].create({
             'export_type': 'all',
         })
@@ -40,9 +45,15 @@ class TestFiscalClosing(TransactionCase):
             document_id=self.nfe_export,
         )
         self.nfe_export._onchange_company_id()
-        event_id.set_done(xml_file)
-        self.nfe_export.authorization_file_id = event_id
-
+        event_id.set_done(
+            status_code='101',
+            response='Teste Autorizado',
+            protocol_date=self.nfe_export.date,
+            protocol_number='12345678',
+            file_response_xml=xml_file,
+        )
+        self.nfe_export.authorization_event_id = event_id
+        self.nfe_export.state_edoc = SITUACAO_EDOC_AUTORIZADA
         self.closing_all.action_export()
         self.closing_period.action_export()
 
