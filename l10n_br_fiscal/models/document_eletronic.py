@@ -172,9 +172,7 @@ class DocumentEletronic(models.AbstractModel):
 
     def _document_send(self):
         no_electronic = self.filtered(lambda d: not d.document_electronic)
-        # Não remova o no_eletronic!!! Pois não é SELF!
-        super(DocumentEletronic, no_electronic)._document_send()
-
+        no_electronic._no_eletronic_document_send()
         electronic = self - no_electronic
         electronic._eletronic_document_send()
 
