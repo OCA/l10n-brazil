@@ -5,6 +5,6 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_simples_faturamento"/>
         <field name="subsequent_operation_id" ref="l10n_br_fiscal.fo_entrega_futura"/>
         <field name="operation_document_type_id" ref="l10n_br_fiscal.document_55"/>
-        <field name="generation_situation">autorizada</field>
+        <field name="generation_situation">a_enviar</field>
     </record>
 </odoo>
