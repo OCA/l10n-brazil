@@ -14,15 +14,6 @@
                     <field name="cnae_main_id"/>
                 </group>
             </group>
-            <field name="state_tax_number_ids" position="attributes">
-                <attribute name="attrs">{'invisible': [('ind_ie_dest','=', '9')]}</attribute>
-            </field>
-            <field name="inscr_est" position="attributes">
-                <attribute name="attrs">{'invisible': [('ind_ie_dest','=', '9')]}</attribute>
-            </field>
-            <div name="inscr_est" position="attributes">
-                <attribute name="attrs">{'invisible': [('ind_ie_dest','=', '9')]}</attribute>
-            </div>
         </field>
     </record>
 
