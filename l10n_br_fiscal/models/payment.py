@@ -79,7 +79,7 @@ class FiscalPayment(models.Model):
             self, communication, date_maturity, amount, company_id, currency_id):
 
         vals = dict()
-        vals['communication'] = communication
+        vals['communication'] = str(communication).zfill(3)
         vals['date_maturity'] = date_maturity
         vals['amount'] = amount
         vals['payment_id'] = self.id
