@@ -140,10 +140,12 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_vPIS = fields.Monetary(
+        string='Valor do PIS (NFe)',
         related='pis_value',
     )
 
     nfe40_vCOFINS = fields.Monetary(
+        string='Valor do COFINS (NFe)',
         related='cofins_value',
     )
 
@@ -213,6 +215,10 @@ class NFeLine(spec_models.StackedModel):
     nfe40_vDesc = fields.Monetary(
         related='discount_value'
     )
+
+    # TODO toxic field from several tags, should not even be injected!
+    # meanwhile forcing a string on it avoids .pot issues.
+    nfe40_vBC = fields.Monetary(string='FIXME Não usar esse campo!')
 
     nfe40_vBCST = fields.Monetary(
         related='icmsst_base'
