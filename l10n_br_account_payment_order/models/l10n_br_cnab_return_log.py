@@ -54,6 +54,10 @@ class L10nBrCNABReturnLog(models.Model):
         string='Is CNAB Lot?'
     )
     # The LOG can have or not Journal Entry
-    move_id = fields.Many2one(
-        string='Journal Entry', comodel_name='account.move'
+    move_ids = fields.Many2many(
+        comodel_name='account.move',
+        relation='l10n_br_cnab_return_log_move_rel',
+        column1='l10n_br_cnab_return_log_id',
+        column2='move_id',
+        string='Journal Entries',
     )
