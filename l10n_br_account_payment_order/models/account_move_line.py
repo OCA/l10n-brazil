@@ -81,7 +81,6 @@ class AccountMoveLine(models.Model):
         track_visibility='onchange'
     )
     date_maturity = fields.Date(
-        readonly=True,
         track_visibility='onchange'
     )
     last_change_reason = fields.Text(
