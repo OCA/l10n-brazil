@@ -366,10 +366,6 @@ class Document(models.Model):
         super()._after_change_state(old_state, new_state)
         self.send_email(new_state)
 
-    def _exec_before_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
-        self.document_comment()
-        super()._exec_before_SITUACAO_EDOC_A_ENVIAR(old_state, new_state)
-
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
         super()._onchange_fiscal_operation_id()
@@ -402,12 +398,6 @@ class Document(models.Model):
     def _onchange_document_serie_id(self):
         if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
             self.document_serie = self.document_serie_id.code
-
-    def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
-        super(Document, self)._exec_after_SITUACAO_EDOC_AUTORIZADA(
-            old_state, new_state
-        )
-        self._generates_subsequent_operations()
 
     def _prepare_referenced_subsequent(self):
         vals = {
