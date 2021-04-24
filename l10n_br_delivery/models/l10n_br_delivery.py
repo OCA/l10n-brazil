@@ -4,42 +4,118 @@
 from odoo import models, fields
 
 
-class L10nBrDeliveryCarrierVehicle(models.Model):
+class CarrierVehicle(models.Model):
     _name = 'l10n_br_delivery.carrier.vehicle'
-    _description = 'Veiculos das transportadoras'
+    _description = 'Carrier Vehicle'
 
-    name = fields.Char('Nome', required=True, size=32)
-    description = fields.Char(u'Descrição', size=132)
-    plate = fields.Char('Placa', size=7)
-    driver = fields.Char('Condudor', size=64)
-    rntc_code = fields.Char('Codigo ANTT', size=32)
-    country_id = fields.Many2one('res.country', 'País')
+    name = fields.Char(
+        string='Name',
+        required=True,
+        size=32
+    )
+
+    description = fields.Char(
+        string='Description',
+        size=132,
+    )
+
+    plate = fields.Char(
+        string='Placa',
+        size=7,
+    )
+
+    driver = fields.Char(
+        string='Driver',
+        size=64,
+    )
+
+    rntc_code = fields.Char(
+        string='ANTT Code',
+        size=32,
+    )
+
+    country_id = fields.Many2one(
+        comodel_name='res.country',
+        string='Country',
+    )
+
     state_id = fields.Many2one(
-        'res.country.state', 'Estado',
-        domain="[('country_id', '=', country_id)]")
+        comodel_name='res.country.state',
+        string='State',
+        domain="[('country_id', '=', country_id)]",
+    )
+
     l10n_br_city_id = fields.Many2one(
-        'res.city', 'Municipio',
-        domain="[('state_id','=',state_id)]")
-    active = fields.Boolean('Ativo')
-    manufacture_year = fields.Char(u'Ano de Fabricação', size=4)
-    model_year = fields.Char('Ano do Modelo', size=4)
-    type = fields.Selection([('bau', u'Caminhão Baú')], 'Tipo do Modelo')
+        comodel_name='res.city',
+        string='City',
+        domain="[('state_id', '=', state_id)]",
+    )
+
+    active = fields.Boolean(
+        string='Active',
+    )
+
+    manufacture_year = fields.Char(
+        string='Ano de Fabricação',
+        size=4,
+    )
+
+    model_year = fields.Char(
+        string='Ano do Modelo',
+        size=4,
+    )
+
+    type = fields.Selection(
+        selection=[('bau', 'Caminhão Baú')],
+        string='Model Type',
+    )
+
     carrier_id = fields.Many2one(
-        'delivery.carrier', 'Carrier', index=True,
-        required=True, ondelete='cascade')
+        comodel_nam'delivery.carrier',
+        string='Carrier',
+        index=True,
+        required=True,
+        ondelete='cascade',
+    )
 
 
-class L10nBrDeliveryShipment(models.Model):
+class DeliveryShipment(models.Model):
     _name = 'l10n_br_delivery.shipment'
-    _description = 'Carga/Remessa/Transporte/?'
+    _description = 'Delivery Shipment'
 
-    code = fields.Char('Nome', size=32)
-    description = fields.Char('Descrição', size=132)
+    code = fields.Char(
+        string='Name',
+        size=32,
+    )
+
+    description = fields.Char(
+        string='Description',
+        size=132,
+    )
+
     carrier_id = fields.Many2one(
-        'delivery.carrier', 'Carrier', index=True, required=True)
+        comodel_name='delivery.carrier',
+        string='Carrier',
+        index=True,
+        required=True,
+    )
+
     vehicle_id = fields.Many2one(
-        'l10n_br_delivery.carrier.vehicle', 'Vehicle',
-        index=True, required=True)
-    volume = fields.Float('Volume')
-    carrier_tracking_ref = fields.Char('Carrier Tracking Ref', size=32)
-    number_of_packages = fields.Integer('Number of Packages')
+        comodel_name='l10n_br_delivery.carrier.vehicle',
+        string='Vehicle',
+        index=True,
+        required=True,
+    )
+
+    volume = fields.Float(
+        string='Volume',
+    )
+
+    carrier_tracking_ref = fields.Char(
+        string='Carrier Tracking Ref',
+        size=32,
+    )
+
+    number_of_packages = fields.Integer(
+        string='Number of Packages',
+    )
