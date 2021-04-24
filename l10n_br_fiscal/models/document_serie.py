@@ -103,5 +103,5 @@ class DocumentSerie(models.Model):
         self.ensure_one()
         number = self.internal_sequence_id._next()
         if self._is_invalid_number(number):
-            self.next_seq_number()
+            number = self.next_seq_number()
         return number
