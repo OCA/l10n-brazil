@@ -79,7 +79,7 @@ addon | version | summary
 [l10n_br_account](l10n_br_account/) | 12.0.4.4.0 | Brazilian Localization Account
 [l10n_br_account_bank_statement_import_cnab](l10n_br_account_bank_statement_import_cnab/) | 12.0.1.0.0 | Importação de Extrato Bancário CNAB 240 - Segmento E
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.1.0.0 | Brazilian Payment Order
-[l10n_br_base](l10n_br_base/) | 12.0.2.1.0 | Customization of base module for implementations in Brazil.
+[l10n_br_base](l10n_br_base/) | 12.0.2.2.0 | Customization of base module for implementations in Brazil.
 [l10n_br_coa](l10n_br_coa/) | 12.0.2.2.0 | Base Brasilian Localization for the Chart of Accounts
 [l10n_br_coa_complete](l10n_br_coa_complete/) | 12.0.1.0.0 | Plano de Contas Completo para empresas Simples, Presumido, Real, SA, Consolidação
 [l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.2.2.0 | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
