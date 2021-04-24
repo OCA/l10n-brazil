@@ -10,16 +10,19 @@ class InvalidateNumberWizard(models.TransientModel):
     _description = 'Invalidate Number Wizard'
     _inherit = 'l10n_br_fiscal.base.wizard.mixin'
 
+    def do_invalidate(self):
+        invalidate = self.env['l10n_br_fiscal.invalidate.number'].create({
+            'company_id': self.document_id.company_id.id,
+            'document_type_id': self.document_id.document_type_id.id,
+            'document_serie_id': self.document_id.document_serie_id.id,
+            'number_start': self.document_id.number,
+            'number_end': self.document_id.number,
+            'justification': self.justification,
+        })
+        invalidate._invalidate(self.document_id)
+
     @api.multi
     def doit(self):
         for wizard in self:
-            invalidate = self.env['l10n_br_fiscal.invalidate.number'].create({
-                'company_id': wizard.document_id.company_id.id,
-                'document_type_id': wizard.document_id.document_type_id.id,
-                'document_serie_id': wizard.document_id.document_serie_id.id,
-                'number_start': wizard.document_id.number,
-                'number_end': wizard.document_id.number,
-                'justification': wizard.justification,
-            })
-            invalidate._invalidate(wizard.document_id)
+            wizard.do_invalidate()
         self._close()
