@@ -9,7 +9,7 @@ class BaseWizardMixin(models.TransientModel):
 
     invoice_id = fields.Many2one(
         comodel_name='account.invoice',
-        string='Fiscal Document',
+        string='Invoice',
     )
 
     @api.model
