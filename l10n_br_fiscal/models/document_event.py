@@ -16,6 +16,24 @@ from ..tools.misc import build_edoc_path
 
 _logger = logging.getLogger(__name__)
 
+FILE_SUFIX_EVENT = {
+    '0': 'env',
+    '1': 'con-rec',
+    '2': 'can',
+    '3': 'inu',
+    '4': 'con-edoc',
+    '5': 'con-status',
+    '6': 'con-cad',
+    '7': 'dpec-rec',
+    '8': 'dpec-con',
+    '9': 'rec-eve',
+    '10': 'dow',
+    '11': 'con-dest',
+    '12': 'dist-dfe',
+    '13': 'man',
+    '14': 'cce',
+}
+
 
 class Event(models.Model):
     _name = 'l10n_br_fiscal.event'
@@ -256,12 +274,19 @@ class Event(models.Model):
             file_name = self.document_number
         return file_name
 
-    def _save_event_file(self, file, file_extension, authorization=False):
+    def _save_event_file(self, file, file_extension, authorization=False,
+                         rejected=False):
         self.ensure_one()
         file_name = self._compute_file_name()
 
         if authorization:
             file_name += "-proc"
+        if rejected:
+            file_name += '-rej'
+
+        if self.type:
+            file_name += '-' + FILE_SUFIX_EVENT[self.type]
+
         if self.sequence:
             file_name += '-' + str(self.sequence)
         if file_extension:
