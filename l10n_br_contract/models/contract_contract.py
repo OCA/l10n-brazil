@@ -106,13 +106,6 @@ class ContractContract(models.Model):
 
         inv_ids = []
         document_type_list = []
-        # Variável não utilizada
-        # document_type = {
-        #     '55': 'nfe',
-        #     'SE': 'nfse_recibos',
-        #     '59': 'nfce_cfe',
-        #     '57': 'cte'
-        # }
 
         for invoice_id in super_inv_id:
 
