@@ -375,11 +375,6 @@ class NFe(spec_models.StackedModel):
                 protocol_date = fields.Datetime.to_string(
                     datetime.fromisoformat(infProt.dhRecbto))
 
-            self.status_code = infProt.cStat
-            self.status_name = infProt.xMotivo
-
-            self._change_state(state)
-
             self.authorization_event_id.set_done(
                 status_code=infProt.cStat,
                 response=infProt.xMotivo,
@@ -387,6 +382,11 @@ class NFe(spec_models.StackedModel):
                 protocol_number=infProt.nProt,
                 file_response_xml=xml_file,
             )
+        self.write({
+            'status_code': infProt.cStat,
+            'status_name': infProt.xMotivo,
+        })
+        self._change_state(state)
 
     def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
         return {
@@ -608,8 +608,8 @@ class NFe(spec_models.StackedModel):
 
         self.file_report_id = self.env['ir.attachment'].create(
             {
-                "name": self.key + '.xml',
-                "datas_fname": self.key + '.xml',
+                "name": self.key + '.pdf',
+                "datas_fname": self.key + '.pdf',
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(pdf),
