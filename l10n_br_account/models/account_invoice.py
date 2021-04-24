@@ -445,21 +445,13 @@ class AccountInvoice(models.Model):
     def action_document_cancel(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
-            if i.state_edoc == SITUACAO_EDOC_AUTORIZADA:
-                return i.fiscal_document_id.action_document_cancel()
+            return i.fiscal_document_id.action_document_cancel()
 
     @api.multi
     def action_document_correction(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
-            if i.state_edoc in SITUACAO_EDOC_AUTORIZADA:
-                if i.issuer == DOCUMENT_ISSUER_COMPANY:
-                    return i.fiscal_document_id.action_document_correction()
-                else:
-                    raise UserError(_(
-                        "You cannot create a fiscal correction document if "
-                        "this fical document you are not the document issuer"
-                    ))
+            return i.fiscal_document_id.action_document_correction()
 
     @api.multi
     def action_document_back2draft(self):
