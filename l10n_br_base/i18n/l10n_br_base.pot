@@ -6110,7 +6110,6 @@ msgid "City of Address"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "City..."
 msgstr ""
@@ -6338,7 +6337,6 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Complement..."
 msgstr ""
@@ -6944,7 +6942,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__country_id
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Country"
 msgstr ""
 
@@ -7717,7 +7714,6 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "District..."
 msgstr ""
@@ -16835,11 +16831,6 @@ msgid "Novorizonte"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
-msgid "Number..."
-msgstr ""
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3533601
 msgid "Nuporanga"
 msgstr ""
@@ -23204,7 +23195,6 @@ msgid "State Tax Numbers"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "State..."
 msgstr ""
@@ -23215,7 +23205,6 @@ msgid "Street number..."
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street..."
 msgstr ""
@@ -27218,13 +27207,9 @@ msgid "Zacarias"
 msgstr ""
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Zip code..."
-msgstr ""
-
-#. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
-msgid "Zip..."
 msgstr ""
 
 #. module: l10n_br_base
