@@ -23,7 +23,9 @@
     <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
       <tree>
-        <field name="document_type_id"/>
+        <field name="company_id" groups="base.group_multi_company"/>
+        <field name="document_type"/>
+        <field name="document_serie"/>
         <field name="number"/>
         <field name="date"/>
         <field name="fiscal_operation_id"/>
@@ -31,7 +33,8 @@
         <field name="amount_untaxed"/>
         <field name="amount_tax"/>
         <field name="amount_total"/>
-        <field name="state"/>
+        <field name="state" invisible="1"/>
+        <field name="state_edoc"/>
         <field name="state_fiscal"/>
       </tree>
     </field>
