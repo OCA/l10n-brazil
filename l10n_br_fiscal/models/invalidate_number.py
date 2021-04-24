@@ -173,22 +173,26 @@ class InvalidateNumber(models.Model):
         for record in self:
             record._invalidate()
 
+    def _create_invalidate_document(self, number):
+        self.env['l10n_br_fiscal.document'].create({
+            'document_serie_id': self.document_serie_id.id,
+            'document_type_id':
+                self.document_serie_id.document_type_id.id,
+            'company_id': self.company_id.id,
+            'state_edoc': SITUACAO_EDOC_INUTILIZADA,
+            'issuer': 'company',
+            'number': str(number),
+            'invalidate_event_id': self.authorization_event_id.id,
+        })
+
     def _update_document_status(self, document_id=None):
         if document_id:
             document_id.state_edoc = SITUACAO_EDOC_INUTILIZADA
             document_id.invalidate_event_id = self.authorization_event_id
         else:
             for number in range(self.number_start, self.number_end + 1):
-                self.env['l10n_br_fiscal.document'].create({
-                    'document_serie_id': self.document_serie_id.id,
-                    'document_type_id':
-                        self.document_serie_id.document_type_id.id,
-                    'company_id': self.company_id.id,
-                    'state_edoc': SITUACAO_EDOC_INUTILIZADA,
-                    'issuer': 'company',
-                    'number': str(number),
-                    'invalidate_event_id': self.authorization_event_id,
-                })
+                self._create_invalidate_document(number)
+
 
     def _invalidate(self, document_id=None):
         self.ensure_one()
