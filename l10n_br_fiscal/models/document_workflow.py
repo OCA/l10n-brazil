@@ -334,17 +334,26 @@ class DocumentWorkflow(models.AbstractModel):
 
     @api.multi
     def action_document_cancel(self):
-        result = self.env["ir.actions.act_window"].for_xml_id(
-            "l10n_br_fiscal", "document_cancel_wizard_action"
-        )
-        return result
+        if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+            result = self.env["ir.actions.act_window"].for_xml_id(
+                "l10n_br_fiscal", "document_cancel_wizard_action"
+            )
+            return result
 
     @api.multi
     def action_document_invalidate(self):
-        result = self.env["ir.actions.act_window"].for_xml_id(
-            "l10n_br_fiscal", "invalidate_number_wizard_action"
-        )
-        return result
+        if self.number and self.document_serie and self.state_edoc in (
+                SITUACAO_EDOC_EM_DIGITACAO,
+                SITUACAO_EDOC_REJEITADA,
+                SITUACAO_EDOC_A_ENVIAR,
+        ) and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            return self.env["ir.actions.act_window"].for_xml_id(
+                "l10n_br_fiscal", "invalidate_number_wizard_action"
+            )
+        else:
+            raise UserError(_(
+                "You cannot invalidate this document"
+            ))
 
     def _document_correction(self, justificative):
         self.correction_reason = justificative
@@ -353,7 +362,13 @@ class DocumentWorkflow(models.AbstractModel):
 
     @api.multi
     def action_document_correction(self):
-        result = self.env["ir.actions.act_window"].for_xml_id(
-            "l10n_br_fiscal", "document_correction_wizard_action"
-        )
-        return result
+        if (self.state_edoc in SITUACAO_EDOC_AUTORIZADA and
+                self.issuer == DOCUMENT_ISSUER_COMPANY):
+            return self.env["ir.actions.act_window"].for_xml_id(
+                "l10n_br_fiscal", "document_correction_wizard_action"
+            )
+        else:
+            raise UserError(_(
+                "You cannot create a fiscal correction document if "
+                "this fical document you are not the document issuer"
+            ))
