@@ -454,6 +454,12 @@ class AccountInvoice(models.Model):
             return i.fiscal_document_id.action_document_correction()
 
     @api.multi
+    def action_document_invalidate(self):
+        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+            return i.fiscal_document_id.action_document_invalidate()
+
+    @api.multi
     def action_document_back2draft(self):
         """Sets fiscal document to draft state and cancel and set to draft
         the related invoice for both documents remain equivalent state."""
