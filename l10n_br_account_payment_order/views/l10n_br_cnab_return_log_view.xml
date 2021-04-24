@@ -12,7 +12,6 @@
                 <field name="cnab_date_file"/>
                 <field name="bank_account_id"/>
                 <field name="cnab_date_import" widget="datetime"/>
-                <field name="move_id"/>
                 <field name="number_lots"/>
                 <field name="number_events"/>
             </tree>
