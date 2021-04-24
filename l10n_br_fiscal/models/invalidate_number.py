@@ -193,7 +193,6 @@ class InvalidateNumber(models.Model):
             for number in range(self.number_start, self.number_end + 1):
                 self._create_invalidate_document(number)
 
-
     def _invalidate(self, document_id=None):
         self.ensure_one()
         self._update_document_status(document_id)
