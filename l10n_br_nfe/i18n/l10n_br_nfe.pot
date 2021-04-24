@@ -135,6 +135,11 @@ msgid "Add a new NFe"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vProd
+msgid "Amount without discount."
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
 msgid "Amounts"
 msgstr ""
