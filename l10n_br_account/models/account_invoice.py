@@ -12,7 +12,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     FISCAL_OUT,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
-    SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_EM_DIGITACAO,
 )
