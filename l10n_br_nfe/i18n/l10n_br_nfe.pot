@@ -157,6 +157,11 @@ msgid "BC do ICMS"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vBCST
+msgid "BC do ICMS ST"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xBairro
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xBairro
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xBairro
@@ -242,7 +247,7 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:316
+#: code:addons/l10n_br_nfe/models/document.py:322
 #: code:addons/l10n_br_nfe/models/document_invalidate_number.py:22
 #, python-format
 msgid "Certificado não encontrado"
@@ -1261,6 +1266,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vICMS
 msgid "Valor Total do ICMS"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vST
+msgid "Valor Total do ICMS ST"
 msgstr ""
 
 #. module: l10n_br_nfe
