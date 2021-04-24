@@ -238,10 +238,18 @@ class Document(models.Model):
                 ('document_serie', '=', record.document_serie),
                 ('number', '=', record.number)]
 
+            invalid_number = False
+
             if record.issuer == DOCUMENT_ISSUER_PARTNER:
                 domain.append(('partner_id', '=', record.partner_id.id))
+            else:
+                if record.document_serie_id:
+                    invalid_number = record.document_serie_id._is_invalid_number(
+                        record.number)
 
-            if record.env["l10n_br_fiscal.document"].search(domain):
+            documents = record.env["l10n_br_fiscal.document"].search_count(domain)
+
+            if documents or invalid_number:
                 raise ValidationError(_(
                     "There is already a fiscal document with this "
                     "Serie: {0}, Number: {1} !".format(
