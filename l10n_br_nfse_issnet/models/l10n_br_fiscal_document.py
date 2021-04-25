@@ -19,6 +19,7 @@ from nfselib.issnet.v1_00.servico_enviar_lote_rps_envio import (
 )
 
 from odoo import models, api, _
+from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
@@ -245,6 +246,9 @@ class Document(models.Model):
 
             status, message = \
                 processador.analisa_retorno_cancelamento(processo)
+
+            if not status:
+                raise UserError(_(message))
 
             return status
 
