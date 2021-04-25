@@ -242,7 +242,7 @@ class Document(models.Model):
     def cancel_document_issnet(self):
         for record in self.filtered(filter_processador_edoc_nfse_issnet):
             processador = record._processador_erpbrasil_nfse()
-            processo = processador.cancela_documento(doc_numero=int(self.number))
+            processo = processador.cancela_documento(doc_numero=int(record.number))
 
             status, message = \
                 processador.analisa_retorno_cancelamento(processo)
@@ -256,24 +256,24 @@ class Document(models.Model):
         for record in self.filtered(filter_processador_edoc_nfse_issnet):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
-                rps_number=int(self.rps_number),
-                document_serie=self.document_serie,
-                rps_type=int(self.rps_type)
+                rps_number=int(record.rps_number),
+                document_serie=record.document_serie,
+                rps_type=int(record.rps_type)
             )
 
             return _(
                 processador.analisa_retorno_consulta(
                     processo,
-                    self.number,
-                    self.company_cnpj_cpf,
-                    self.company_legal_name)
+                    record.number,
+                    record.company_cnpj_cpf,
+                    record.company_legal_name)
             )
 
     @api.multi
     def _eletronic_document_send(self):
         super(Document, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfse_issnet):
-            for record in self.filtered(fiter_provedor_issnet):
+            for record in record.filtered(fiter_provedor_issnet):
                 processador = record._processador_erpbrasil_nfse()
 
                 protocolo = record.authorization_protocol
@@ -383,7 +383,7 @@ class Document(models.Model):
                                 comp.Nfse.InfNfse.DataEmissao
                             vals['verify_code'] = \
                                 comp.Nfse.InfNfse.CodigoVerificacao
-                        self.authorization_event_id.set_done(
+                        record.authorization_event_id.set_done(
                             status_code=vals['status_code'],
                             response=vals['status_name'],
                             protocol_date=vals['authorization_date'],
