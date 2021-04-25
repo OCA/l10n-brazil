@@ -35,7 +35,7 @@ class TestFiscalDocumentNFSeGinfes(TestFiscalDocumentNFSeCommon):
         self.nfse_same_state._onchange_fiscal_operation_id()
         self.nfse_same_state._onchange_company_id()
         self.nfse_same_state.rps_number = '50'
-        self.nfse_same_state.number = '50'
+        self.nfse_same_state.document_number = '50'
 
         for line in self.nfse_same_state.line_ids:
             line._onchange_product_id_fiscal()
@@ -47,7 +47,7 @@ class TestFiscalDocumentNFSeGinfes(TestFiscalDocumentNFSeCommon):
 
         self.nfse_same_state.action_document_confirm()
 
-        self.nfse_same_state.date = datetime.strptime(
+        self.nfse_same_state.document_date = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
         self.nfse_same_state.date_in_out = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
