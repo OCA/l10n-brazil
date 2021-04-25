@@ -255,3 +255,15 @@ class AccountInvoiceLine(models.Model):
         self.invoice_line_tax_ids |= self.fiscal_tax_ids.account_taxes(
             user_type=user_type
         )
+
+    @api.onchange('product_id', 'fiscal_operation_id',
+                  'fiscal_operation_line_id', 'cfop_id')
+    def _onchange_fiscal_account_id(self):
+        if (self.product_id and self.fiscal_operation_id and
+                self.fiscal_operation_line_id and self.cfop_id):
+            account_id = self.account_id
+        self.account_id = (
+            self.cfop_id.account_id or
+            self.fiscal_operation_line_id.account_id or
+            account_id
+        )
