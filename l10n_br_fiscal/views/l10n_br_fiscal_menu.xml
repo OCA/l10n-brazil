@@ -5,10 +5,7 @@
     <menuitem id="fiscal_menu" name="Fiscal" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" web_icon="l10n_br_fiscal,static/description/icon.png" sequence="30"/>
 
     <!-- Fiscal Overview -->
-    <menuitem id="overview_menu" name="Overview" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="0"/>
-
-    <!-- Operation Dashboard -->
-    <menuitem id="operation_dashboard_menu" action="operation_dashboard_action" name="Operation Dashboard" parent="overview_menu" sequence="999"/>
+    <menuitem id="overview_menu" name="Overview" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" action="operation_dashboard_action" parent="fiscal_menu" sequence="0"/>
 
     <!-- Fiscal Documents-->
     <menuitem id="document_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
