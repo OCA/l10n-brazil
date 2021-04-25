@@ -22,6 +22,7 @@ from odoo import models, api, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_REJEITADA,
     PROCESSADOR_OCA,
 )
 
@@ -324,6 +325,7 @@ class Document(models.Model):
                                         )
                                 vals['edoc_error_message'] = \
                                     mensagem_completa
+                                record._change_state(SITUACAO_EDOC_REJEITADA)
                                 record.write(vals)
                                 return
                             else:
@@ -365,6 +367,7 @@ class Document(models.Model):
                                     correcao + '\n'
                                 )
                         vals['edoc_error_message'] = mensagem_completa
+                        record._change_state(SITUACAO_EDOC_REJEITADA)
 
                     if processo.resposta.ListaNfse:
                         xml_file = processo.retorno
