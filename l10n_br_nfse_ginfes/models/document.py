@@ -22,7 +22,8 @@ from odoo import models, api, _
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
-    PROCESSADOR_OCA
+    SITUACAO_EDOC_REJEITADA,
+    PROCESSADOR_OCA,
 )
 
 from ..constants.ginfes import (
@@ -220,7 +221,6 @@ class Document(models.Model):
         )
 
     def serialize_nfse_ginfes(self):
-        # numero_lote = 14
         lote_rps = EnviarLoteRpsEnvio(
             LoteRps=self._serialize_lote_rps()
         )
@@ -289,6 +289,7 @@ class Document(models.Model):
                                             )
                                     vals['edoc_error_message'] = \
                                         mensagem_completa
+                                    record._change_state(SITUACAO_EDOC_REJEITADA)
                                     record.write(vals)
                                     return
                                 protocolo = processo.resposta.Protocolo
@@ -300,16 +301,16 @@ class Document(models.Model):
                     vals['status_code'] = 4
 
                 if vals.get('status_code') == 1:
-                    vals['status_name'] = _('Não Recebido')
+                    vals['status_name'] = _('Not received')
 
                 elif vals.get('status_code') == 2:
-                    vals['status_name'] = _('Lote ainda não processado')
+                    vals['status_name'] = _('Batch not yet processed')
 
                 elif vals.get('status_code') == 3:
-                    vals['status_name'] = _('Procesado com Erro')
+                    vals['status_name'] = _('Processed with Error')
 
                 elif vals.get('status_code') == 4:
-                    vals['status_name'] = _('Procesado com Sucesso')
+                    vals['status_name'] = _('Successfully Processed')
                     vals['authorization_protocol'] = protocolo
 
                 if vals.get('status_code') in (3, 4):
@@ -332,6 +333,8 @@ class Document(models.Model):
                                     correcao + '\n'
                                 )
                         vals['edoc_error_message'] = mensagem_completa
+                        if vals.get('status_code') == 3:
+                            record._change_state(SITUACAO_EDOC_REJEITADA)
 
                     if processo.resposta.ListaNfse:
                         xml_file = processo.retorno
