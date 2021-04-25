@@ -30,11 +30,11 @@
                 <sheet>
                 <group>
                     <group string="Period">
-                        <field name="export_type"/>
-                        <field name="month" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
-                        <field name="year" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
-                        <field name="company_id"/>
-                        <field name="group_folder"/>
+                        <field name="export_type" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="month" attrs="{'invisible': [('export_type', '=', 'all')], 'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="year" attrs="{'invisible': [('export_type', '=', 'all')], 'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="company_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="group_folder" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                     </group>
                     <group states="open">
                         <field name="file_name" invisible="1"/>
