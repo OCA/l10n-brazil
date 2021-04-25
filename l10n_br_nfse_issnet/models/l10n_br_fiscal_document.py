@@ -368,13 +368,19 @@ class Document(models.Model):
 
                     if processo.resposta.ListaNfse:
                         xml_file = processo.retorno
-                        record.authorization_event_id.set_done(xml_file)
                         for comp in processo.resposta.ListaNfse.CompNfse:
                             vals['number'] = comp.Nfse.InfNfse.Numero
                             vals['authorization_date'] = \
                                 comp.Nfse.InfNfse.DataEmissao
                             vals['verify_code'] = \
                                 comp.Nfse.InfNfse.CodigoVerificacao
+                        self.authorization_event_id.set_done(
+                            status_code=vals['status_code'],
+                            response=vals['status_name'],
+                            protocol_date=vals['authorization_date'],
+                            protocol_number=protocolo,
+                            file_response_xml=xml_file,
+                        )
                         record._change_state(SITUACAO_EDOC_AUTORIZADA)
 
                 record.write(vals)
