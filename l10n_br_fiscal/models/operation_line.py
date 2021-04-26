@@ -182,6 +182,7 @@ class OperationLine(models.Model):
         mapping_result = {
             'taxes': {},
             'cfop': False,
+            'ipi_guideline': False,
             'taxes_value': 0.00
         }
 
@@ -249,6 +250,16 @@ class OperationLine(models.Model):
         else:
             mapping_result['taxes'].pop(TAX_DOMAIN_ICMS, None)
             mapping_result['taxes'].pop(TAX_DOMAIN_ISSQN, None)
+
+        # Define IPI Guideline
+
+        if ncm.ipi_guideline_id:
+            mapping_result['ipi_guideline'] = ncm.ipi_guideline_id
+        else:
+            for tax in self.tax_definition_ids.map_tax_definition(
+                company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
+            ):
+                mapping_result['ipi_guideline'] = tax.ipi_guideline_id
 
         return mapping_result
 
