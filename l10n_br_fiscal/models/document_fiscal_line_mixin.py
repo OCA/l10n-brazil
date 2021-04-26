@@ -404,6 +404,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # vICMSSTRet - Valor do IMCS ST Retido
     icmsst_wh_value = fields.Monetary(string="ICMS ST WH Value")
 
+    # Percentagem do ICMS ST Retido anteriormente
+    icmsst_wh_percent = fields.Float(string="ICMS ST WH %")
+
     # ICMS FCP Fields
     icmsfcp_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
