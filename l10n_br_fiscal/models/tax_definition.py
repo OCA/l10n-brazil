@@ -203,6 +203,13 @@ class TaxDefinition(models.Model):
         copy=False,
     )
 
+    ipi_guideline_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.tax.ipi.guideline",
+        string="IPI Guideline",
+        domain="['|', ('cst_in_id', '=', cst_id),"
+               "('cst_out_id', '=', cst_id)]",
+    )
+
     @api.multi
     def action_review(self):
         self.write({'state': 'review'})
