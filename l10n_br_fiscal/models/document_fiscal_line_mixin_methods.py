@@ -394,6 +394,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 nbs=self.nbs_id,
                 cest=self.cest_id)
 
+            self.ipi_guideline_id = mapping_result['ipi_guideline']
             self.cfop_id = mapping_result['cfop']
             taxes = self.env['l10n_br_fiscal.tax']
             for tax in mapping_result['taxes'].values():
