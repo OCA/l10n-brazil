@@ -289,12 +289,8 @@ class CNABFileParser(FileParser):
                     valor_abatimento = valor_tarifa = 0.0
 
                 if linha_cnab['valor_recebido']:
-                    # Campo Valor Recebido vem sem o Valor da Tarifa:
-                    # valor recebido = valor pago - valor da tarifa
-                    # TODO: Isso é um padrão ?  caso não seja será
-                    #  necessário tratar esse caso, pois o valor da
-                    #  Tarifa está sendo informado dentro do Odoo de
-                    #  forma separada tanto na account.move quanto no Log
+                    # Campo Valor Recebido vem com o Valor da Tarifa:
+                    # valor recebido = valor pago + valor da tarifa
                     valor_recebido = self.cnab_str_to_float(
                         linha_cnab['valor_recebido'])
 
@@ -381,11 +377,12 @@ class CNABFileParser(FileParser):
                                     account_move_line.document_number,
                             'debit': 0.0,
                             'credit': valor_tarifa,
-                            'account_id': account_move_line.account_id.id,
+                            'account_id':
+                            self.journal.default_credit_account_id.id,
                             'type': 'tarifa',
-                            'ref': account_move_line.own_number,
+                            'ref': account_move_line.document_number,
                             'invoice_id': account_move_line.invoice_id.id,
-                            'partner_id': account_move_line.partner_id.id,
+                            'partner_id': account_move_line.company_id.partner_id.id,
                         })
 
                         row_list.append({
