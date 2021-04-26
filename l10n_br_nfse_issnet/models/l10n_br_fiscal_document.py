@@ -80,7 +80,7 @@ class Document(models.Model):
             edocs.append(record.serialize_nfse_issnet())
         return edocs
 
-    def _serialize_dados_servico(self):
+    def _serialize_issnet_dados_servico(self):
         self.line_ids.ensure_one()
         dados = self._prepare_dados_servico()
         return tcDadosServico(
@@ -133,7 +133,7 @@ class Document(models.Model):
             else 999,
         )
 
-    def _serialize_dados_tomador(self):
+    def _serialize_issnet_dados_tomador(self):
         dados = self._prepare_dados_tomador()
         return tcDadosTomador(
             IdentificacaoTomador=tcIdentificacaoTomador(
@@ -169,7 +169,7 @@ class Document(models.Model):
             ) or None,
         )
 
-    def _serialize_rps(self, dados):
+    def _serialize_issnet_rps(self, dados):
 
         return tcRps(
             InfRps=tcInfRps(
@@ -199,7 +199,7 @@ class Document(models.Model):
                     tcInfRps, 'Status', dados['status']),
                 RpsSubstituido=self.convert_type_nfselib(
                     tcInfRps, 'RpsSubstituido', dados['rps_substitiuido']),
-                Servico=self._serialize_dados_servico(),
+                Servico=self._serialize_issnet_dados_servico(),
                 Prestador=tcIdentificacaoPrestador(
                     CpfCnpj=tcCpfCnpj(
                         Cnpj=self.convert_type_nfselib(
@@ -209,7 +209,7 @@ class Document(models.Model):
                         tcIdentificacaoPrestador, 'InscricaoMunicipal',
                         dados['inscricao_municipal']),
                 ),
-                Tomador=self._serialize_dados_tomador(),
+                Tomador=self._serialize_issnet_dados_tomador(),
                 IntermediarioServico=self.convert_type_nfselib(
                     tcInfRps, 'IntermediarioServico',
                     dados['intermediario_servico']),
@@ -218,7 +218,7 @@ class Document(models.Model):
             )
         )
 
-    def _serialize_lote_rps(self):
+    def _serialize_issnet_lote_rps(self):
         dados = self._prepare_lote_rps()
         return tcLoteRps(
             CpfCnpj=tcCpfCnpj(
@@ -229,13 +229,13 @@ class Document(models.Model):
                 tcLoteRps, 'InscricaoMunicipal', dados['inscricao_municipal']),
             QuantidadeRps=1,
             ListaRps=ListaRpsType(
-                Rps=[self._serialize_rps(dados)]
+                Rps=[self._serialize_issnet_rps(dados)]
             )
         )
 
     def serialize_nfse_issnet(self):
         lote_rps = EnviarLoteRpsEnvio(
-            LoteRps=self._serialize_lote_rps()
+            LoteRps=self._serialize_issnet_lote_rps()
         )
         return lote_rps
 
