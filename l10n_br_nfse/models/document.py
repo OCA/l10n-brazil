@@ -199,3 +199,23 @@ class Document(models.Model):
             'carga_tributaria': self.amount_tax,
             'total_recebido': self.amount_total,
         }
+
+    def convert_type_nfselib(self, class_object, object_filed, value):
+        if value is None:
+            return value
+
+        value_type = ''
+        for field in class_object().member_data_items_:
+            if field.name == object_filed:
+                value_type = field.child_attrs.get('type', '').\
+                    replace('xsd:', '')
+                break
+
+        if value_type in ('int', 'byte', 'nonNegativeInteger'):
+            return int(value)
+        elif value_type == 'decimal':
+            return float(value)
+        elif value_type == 'string':
+            return str(value)
+        else:
+            return value
