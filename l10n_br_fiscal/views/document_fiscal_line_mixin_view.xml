@@ -120,7 +120,8 @@
                           <field name="icmsfcp_percent_wh" force_save="1" attrs="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
                           <field name="icmsfcp_value_wh" force_save="1" attrs="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
                       </group>
-                      <group name="icms_difal" string="ICMS DIFAL" attrs="{'invisible': [('partner_company_type', 'in', ('company', False)), ('tax_framework', '=', '3'), ('cfop_destination', 'in', ('1', '3', False)), ('icms_cst_code', 'in', ('101', '102', '103', '300', '400'))]}">
+                      <group name="icms_difal" string="ICMS DIFAL"
+                             attrs="{'invisible': [('partner_company_type', 'in', ('company', False)), ('tax_framework', '=', '1'), ('cfop_destination', 'in', ('1', '3', False))]}">
                         <field name="icms_destination_base" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
                         <field name="icms_origin_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
                         <field name="icms_destination_percent" force_save="1" attrs="{'readonly': [('icms_tax_id', '!=', False)]}"/>
