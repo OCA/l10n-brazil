@@ -2,6 +2,16 @@
 <odoo>
 
     <!-- Incomming Documents -->
+    <record id="l10n_br_fiscal.document_nfe_menu" model="ir.ui.menu">
+        <field name="action" ref="fiscal_invoice_nfe_action"/>
+    </record>
+
+        <!-- Incomming Documents -->
+    <record id="l10n_br_fiscal.document_nfse_menu" model="ir.ui.menu">
+        <field name="action" ref="fiscal_invoice_nfse_action"/>
+    </record>
+
+    <!-- Incomming Documents -->
     <record id="l10n_br_fiscal.document_in_menu" model="ir.ui.menu">
         <field name="action" ref="fiscal_invoice_in_action"/>
     </record>
