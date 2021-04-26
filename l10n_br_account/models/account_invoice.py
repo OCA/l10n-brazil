@@ -371,7 +371,11 @@ class AccountInvoice(models.Model):
         super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
             self.journal_id = self.fiscal_operation_id.journal_id
-        if self.fiscal_operation_id and self.fiscal_operation_id.account_id:
+
+    @api.onchange('fiscal_operation_id', 'account_id', 'partner_id')
+    def _onchange_account_id(self):
+        if (self.partner_id and self.fiscal_operation_id and
+                self.fiscal_operation_id.account_id):
             self.account_id = self.fiscal_operation_id.account_id
 
     def open_fiscal_document(self):

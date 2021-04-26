@@ -257,13 +257,13 @@ class AccountInvoiceLine(models.Model):
         )
 
     @api.onchange('product_id', 'fiscal_operation_id',
-                  'fiscal_operation_line_id', 'cfop_id')
+                  'fiscal_operation_line_id', 'cfop_id', 'account_id')
     def _onchange_fiscal_account_id(self):
-        if (self.product_id and self.fiscal_operation_id and
+        if (self.account_id and self.product_id and self.fiscal_operation_id and
                 self.fiscal_operation_line_id and self.cfop_id):
             account_id = self.account_id
-        self.account_id = (
-            self.cfop_id.account_id or
-            self.fiscal_operation_line_id.account_id or
-            account_id
-        )
+            self.account_id = (
+                self.cfop_id.account_id or
+                self.fiscal_operation_line_id.account_id or
+                account_id
+            )
