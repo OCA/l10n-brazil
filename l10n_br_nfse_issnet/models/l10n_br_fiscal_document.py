@@ -33,7 +33,7 @@ from ..constants.issnet import (
 )
 
 
-def filter_processador_edoc_nfse_issnet(record):
+def filter_processador_edoc_nfse(record):
     if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
@@ -75,7 +75,7 @@ class Document(models.Model):
     def _serialize(self, edocs):
         edocs = super(Document, self)._serialize(edocs)
         for record in self.filtered(
-                filter_processador_edoc_nfse_issnet).filtered(
+                filter_processador_edoc_nfse).filtered(
                     fiter_provedor_issnet):
             edocs.append(record.serialize_nfse_issnet())
         return edocs
@@ -240,7 +240,7 @@ class Document(models.Model):
         return lote_rps
 
     def cancel_document_issnet(self):
-        for record in self.filtered(filter_processador_edoc_nfse_issnet):
+        for record in self.filtered(filter_processador_edoc_nfse):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.cancela_documento(doc_numero=int(record.number))
 
@@ -253,7 +253,7 @@ class Document(models.Model):
             return status
 
     def action_consultar_nfse_rps(self):
-        for record in self.filtered(filter_processador_edoc_nfse_issnet):
+        for record in self.filtered(filter_processador_edoc_nfse):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
                 rps_number=int(record.rps_number),
@@ -272,49 +272,24 @@ class Document(models.Model):
     @api.multi
     def _eletronic_document_send(self):
         super(Document, self)._eletronic_document_send()
-        for record in self.filtered(filter_processador_edoc_nfse_issnet):
-            for record in record.filtered(fiter_provedor_issnet):
-                processador = record._processador_erpbrasil_nfse()
+        edoc_nfse = self.filtered(filter_processador_edoc_nfse)
+        for record in edoc_nfse.filtered(fiter_provedor_issnet):
+            processador = record._processador_erpbrasil_nfse()
 
-                protocolo = record.authorization_protocol
-                vals = dict()
+            protocolo = record.authorization_protocol
+            vals = dict()
 
-                if not protocolo:
-                    for edoc in record.serialize():
-                        processo = None
-                        for p in processador.processar_documento(edoc):
-                            processo = p
+            if not protocolo:
+                for edoc in record.serialize():
+                    processo = None
+                    for p in processador.processar_documento(edoc):
+                        processo = p
 
-                            if processo.webservice in RECEPCIONAR_LOTE_RPS:
-                                if processo.resposta.Protocolo is None:
-                                    mensagem_completa = ''
-                                    if processo.resposta.ListaMensagemRetorno:
-                                        lista_msgs = processo.resposta.\
-                                            ListaMensagemRetorno
-                                        for mr in lista_msgs.MensagemRetorno:
-
-                                            correcao = ''
-                                            if mr.Correcao:
-                                                correcao = mr.Correcao
-
-                                            mensagem_completa += (
-                                                mr.Codigo + ' - ' +
-                                                mr.Mensagem +
-                                                ' - Correção: ' +
-                                                correcao + '\n'
-                                            )
-                                    vals['edoc_error_message'] = \
-                                        mensagem_completa
-                                    record._change_state(SITUACAO_EDOC_REJEITADA)
-                                    record.write(vals)
-                                    return
-                                protocolo = processo.resposta.Protocolo
-
-                        if processo.webservice in CONSULTAR_SITUACAO_LOTE_RPS:
-                            if processo.resposta.Situacao is None:
+                        if processo.webservice in RECEPCIONAR_LOTE_RPS:
+                            if processo.resposta.Protocolo is None:
                                 mensagem_completa = ''
                                 if processo.resposta.ListaMensagemRetorno:
-                                    lista_msgs = processo.resposta. \
+                                    lista_msgs = processo.resposta.\
                                         ListaMensagemRetorno
                                     for mr in lista_msgs.MensagemRetorno:
 
@@ -333,66 +308,91 @@ class Document(models.Model):
                                 record._change_state(SITUACAO_EDOC_REJEITADA)
                                 record.write(vals)
                                 return
-                            else:
-                                vals['status_code'] = \
-                                    processo.resposta.Situacao
-                else:
-                    vals['status_code'] = 4
+                            protocolo = processo.resposta.Protocolo
 
-                if vals.get('status_code') == 1:
-                    vals['status_name'] = _('Not received')
+                    if processo.webservice in CONSULTAR_SITUACAO_LOTE_RPS:
+                        if processo.resposta.Situacao is None:
+                            mensagem_completa = ''
+                            if processo.resposta.ListaMensagemRetorno:
+                                lista_msgs = processo.resposta. \
+                                    ListaMensagemRetorno
+                                for mr in lista_msgs.MensagemRetorno:
 
-                elif vals.get('status_code') == 2:
-                    vals['status_name'] = _('Batch not yet processed')
+                                    correcao = ''
+                                    if mr.Correcao:
+                                        correcao = mr.Correcao
 
-                elif vals.get('status_code') == 3:
-                    vals['status_name'] = _('Processed with Error')
-
-                elif vals.get('status_code') == 4:
-                    vals['status_name'] = _('Successfully Processed')
-                    vals['authorization_protocol'] = protocolo
-
-                if vals.get('status_code') in (3, 4):
-                    processo = processador.consultar_lote_rps(protocolo)
-
-                    if processo.resposta:
-                        mensagem_completa = ''
-                        if processo.resposta.ListaMensagemRetorno:
-                            lista_msgs = processo.resposta.ListaMensagemRetorno
-                            for mr in lista_msgs.MensagemRetorno:
-
-                                correcao = ''
-                                if mr.Correcao:
-                                    correcao = mr.Correcao
-
-                                mensagem_completa += (
-                                    mr.Codigo + ' - ' +
-                                    mr.Mensagem +
-                                    ' - Correção: ' +
-                                    correcao + '\n'
-                                )
-                        vals['edoc_error_message'] = mensagem_completa
-                        if vals.get('status_code') == 3:
+                                    mensagem_completa += (
+                                        mr.Codigo + ' - ' +
+                                        mr.Mensagem +
+                                        ' - Correção: ' +
+                                        correcao + '\n'
+                                    )
+                            vals['edoc_error_message'] = \
+                                mensagem_completa
                             record._change_state(SITUACAO_EDOC_REJEITADA)
+                            record.write(vals)
+                            return
+                        else:
+                            vals['status_code'] = \
+                                processo.resposta.Situacao
+            else:
+                vals['status_code'] = 4
 
-                    if processo.resposta.ListaNfse:
-                        xml_file = processo.retorno
-                        for comp in processo.resposta.ListaNfse.CompNfse:
-                            vals['number'] = comp.Nfse.InfNfse.Numero
-                            vals['authorization_date'] = \
-                                comp.Nfse.InfNfse.DataEmissao
-                            vals['verify_code'] = \
-                                comp.Nfse.InfNfse.CodigoVerificacao
-                        record.authorization_event_id.set_done(
-                            status_code=vals['status_code'],
-                            response=vals['status_name'],
-                            protocol_date=vals['authorization_date'],
-                            protocol_number=protocolo,
-                            file_response_xml=xml_file,
-                        )
-                        record._change_state(SITUACAO_EDOC_AUTORIZADA)
+            if vals.get('status_code') == 1:
+                vals['status_name'] = _('Not received')
 
-                record.write(vals)
+            elif vals.get('status_code') == 2:
+                vals['status_name'] = _('Batch not yet processed')
+
+            elif vals.get('status_code') == 3:
+                vals['status_name'] = _('Processed with Error')
+
+            elif vals.get('status_code') == 4:
+                vals['status_name'] = _('Successfully Processed')
+                vals['authorization_protocol'] = protocolo
+
+            if vals.get('status_code') in (3, 4):
+                processo = processador.consultar_lote_rps(protocolo)
+
+                if processo.resposta:
+                    mensagem_completa = ''
+                    if processo.resposta.ListaMensagemRetorno:
+                        lista_msgs = processo.resposta.ListaMensagemRetorno
+                        for mr in lista_msgs.MensagemRetorno:
+
+                            correcao = ''
+                            if mr.Correcao:
+                                correcao = mr.Correcao
+
+                            mensagem_completa += (
+                                mr.Codigo + ' - ' +
+                                mr.Mensagem +
+                                ' - Correção: ' +
+                                correcao + '\n'
+                            )
+                    vals['edoc_error_message'] = mensagem_completa
+                    if vals.get('status_code') == 3:
+                        record._change_state(SITUACAO_EDOC_REJEITADA)
+
+                if processo.resposta.ListaNfse:
+                    xml_file = processo.retorno
+                    for comp in processo.resposta.ListaNfse.CompNfse:
+                        vals['number'] = comp.Nfse.InfNfse.Numero
+                        vals['authorization_date'] = \
+                            comp.Nfse.InfNfse.DataEmissao
+                        vals['verify_code'] = \
+                            comp.Nfse.InfNfse.CodigoVerificacao
+                    record.authorization_event_id.set_done(
+                        status_code=vals['status_code'],
+                        response=vals['status_name'],
+                        protocol_date=vals['authorization_date'],
+                        protocol_number=protocolo,
+                        file_response_xml=xml_file,
+                    )
+                    record._change_state(SITUACAO_EDOC_AUTORIZADA)
+
+            record.write(vals)
         return
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
