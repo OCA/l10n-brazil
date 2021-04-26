@@ -68,6 +68,7 @@
                 </group>
             </xpath>
             <field name="cash_rounding_id" position="after">
+                <field name="document_type" invisible="1"/>
                 <field name="document_type_id" attrs="{'invisible': [('fiscal_document_id', '=', %(l10n_br_fiscal.fiscal_document_dummy)d)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="fiscal_operation_id" attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="issuer" attrs="{'invisible': [('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
