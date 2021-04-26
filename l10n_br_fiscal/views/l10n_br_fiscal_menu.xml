@@ -10,6 +10,14 @@
     <!-- Fiscal Documents-->
     <menuitem id="document_menu" name="Documents" groups="l10n_br_fiscal.group_user,l10n_br_fiscal.group_manager" parent="fiscal_menu" sequence="10"/>
 
+    <!-- NFe Fiscal Documents-->
+    <menuitem id="document_nfe_menu" action="nfe_document_action" name="NF-e"
+              parent="document_menu" sequence="10"/>
+
+    <!-- NFSe Fiscal Documents-->
+    <menuitem id="document_nfse_menu" action="nfse_document_action" name="NFS-e"
+              parent="document_menu" sequence="11"/>
+
     <!-- Sub Menu for All Documents-->
     <menuitem id="document_sub_menu" name="All Documents" groups="l10n_br_fiscal.group_manager" parent="document_menu" sequence="999"/>
 
