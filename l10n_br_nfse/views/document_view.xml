@@ -12,14 +12,18 @@
             <field name="status_description" position="after">
                 <field name="edoc_error_message"/>
             </field>
-            <field name="state_fiscal" position="before">
-                <field name="rps_number" force_save="1" readonly="1"/>
-                <field name="rps_type"/>
-                <field name="operation_nature"/>
-                <field name="taxation_special_regime"/>
-            </field>
+            <group  name="document_header_right" position="before">
+                <group name="nfse_operation" attrs="{'invisible': [('document_type', '!=', 'SE')]}">
+                    <field name="operation_nature"/>
+                    <field name="taxation_special_regime"/>
+                </group>
+                <group name="nfse_info" attrs="{'invisible': [('document_type', '!=', 'SE')]}">
+                    <field name="rps_number" force_save="1" readonly="1"/>
+                    <field name="rps_type"/>
+                </group>
+            </group>
             <field name="authorization_protocol" position="after">
-                <field name="verify_code"/>
+                <field name="verify_code"  attrs="{'invisible': [('document_type', '!=', 'SE')]}"/>
             </field>
         </field>
     </record>
