@@ -112,6 +112,7 @@ class AccountInvoiceLine(models.Model):
     wh_move_line_id = fields.Many2one(
         comodel_name="account.move.line",
         string="WH Account Move Line",
+        ondelete='restrict',
     )
 
     @api.one
@@ -190,11 +191,13 @@ class AccountInvoiceLine(models.Model):
         dummy_line_doc = self.env['l10n_br_fiscal.document.line'].search([
             ('active', '=', False),
             ('document_id', '=', dummy_doc_id),
-        ])
+            ('company_id', '=', self.env.user.company_id.id),
+        ], limit=1)
         if not dummy_line_doc:
             dummy_line_doc = self.env['l10n_br_fiscal.document.line'].create({
                 'active': False,
                 'document_id': dummy_doc_id,
+                'company_id': self.env.user.company_id.id,
             })
         return dummy_line_doc.id
 

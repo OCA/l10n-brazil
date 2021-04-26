@@ -203,7 +203,7 @@ class AccountInvoice(models.Model):
             ('active', '=', False),
             ('document_type_id', '=', False),
             ('company_id', '=', self.env.user.company_id.id),
-        ])
+        ], limit=1)
         if not dummy_doc:
             dummy_doc = self.env['l10n_br_fiscal.document'].create({
                 'key': 'dummy',
