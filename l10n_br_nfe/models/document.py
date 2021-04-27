@@ -119,7 +119,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_Id = fields.Char(
-        related='key',
+        related='document_key',
     )
 
     # TODO should be done by framework?
@@ -302,8 +302,8 @@ class NFe(spec_models.StackedModel):
         # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
         super().document_number()
         for record in self.filtered(filter_processador_edoc_nfe):
-            if record.key:
-                chave = ChaveEdoc(record.key)
+            if record.document_key:
+                chave = ChaveEdoc(record.document_key)
                 record.nfe40_cNF = chave.codigo_aleatorio
                 record.nfe40_cDV = chave.digito_verificador
 
@@ -614,8 +614,8 @@ class NFe(spec_models.StackedModel):
 
         self.file_report_id = self.env['ir.attachment'].create(
             {
-                "name": self.key + '.pdf',
-                "datas_fname": self.key + '.pdf',
+                "name": self.document_key + '.pdf',
+                "datas_fname": self.document_key + '.pdf',
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(pdf),
@@ -659,7 +659,7 @@ class NFe(spec_models.StackedModel):
             raise UserError(_('Authorization Protocol Not Found!'))
 
         evento = processador.cancela_documento(
-            chave=self.key[3:],
+            chave=self.document_key[3:],
             protocolo_autorizacao=self.authorization_protocol,
             justificativa=self.cancel_reason.replace('\n', '\\n')
         )
@@ -678,7 +678,7 @@ class NFe(spec_models.StackedModel):
         )
 
         for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.key[3:]:
+            if not retevento.infEvento.chNFe == self.document_key[3:]:
                 continue
 
             if retevento.infEvento.cStat not in CANCELADO:
@@ -721,7 +721,7 @@ class NFe(spec_models.StackedModel):
         sequence = str(int(max(numeros)) + 1) if numeros else '1'
 
         evento = processador.carta_correcao(
-            chave=self.key[3:],
+            chave=self.document_key[3:],
             sequencia=sequence,
             justificativa=justificative.replace('\n', '\\n')
         )
@@ -740,7 +740,7 @@ class NFe(spec_models.StackedModel):
             justification=justificative,
         )
         for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.key[3:]:
+            if not retevento.infEvento.chNFe == self.document_key[3:]:
                 continue
 
             if retevento.infEvento.cStat not in EVENTO_RECEBIDO:
