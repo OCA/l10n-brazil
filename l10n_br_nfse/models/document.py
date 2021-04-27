@@ -12,10 +12,12 @@ from erpbrasil.edoc.provedores.cidades import NFSeFactory
 
 from odoo import api, fields, models
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    MODELO_FISCAL_NFSE,
-    TAX_FRAMEWORK_SIMPLES_ALL,
     DOCUMENT_ISSUER_COMPANY,
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
+    MODELO_FISCAL_NFSE,
     PROCESSADOR_OCA,
+    TAX_FRAMEWORK_SIMPLES_ALL,
 )
 from ..constants.nfse import (
     NFSE_ENVIRONMENTS,
@@ -156,7 +158,8 @@ class Document(models.Model):
                 _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
-                environment='prod' if self.nfse_environment == '1' else 'hml',
+                environment=(
+                    EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
                 event_type="0",
                 xml_file=xml_file,
                 document_id=self,
