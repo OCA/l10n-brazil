@@ -48,7 +48,7 @@
                     <group>
                         <field name="document_key" select="1" required="1"/>
                         <field name="document_id"/>
-                        <field name="number"/>
+                        <field name="document_number"/>
                         <field name="nsu"/>
                         <field name="ie"/>
                         <field name="company_id" required="1"/>
