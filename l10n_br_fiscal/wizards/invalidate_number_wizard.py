@@ -15,8 +15,8 @@ class InvalidateNumberWizard(models.TransientModel):
             'company_id': self.document_id.company_id.id,
             'document_type_id': self.document_id.document_type_id.id,
             'document_serie_id': self.document_id.document_serie_id.id,
-            'number_start': self.document_id.number,
-            'number_end': self.document_id.number,
+            'number_start': self.document_id.document_number,
+            'number_end': self.document_id.document_number,
             'justification': self.justification,
         })
         invalidate._invalidate(self.document_id)
