@@ -283,7 +283,7 @@ class DocumentWorkflow(models.AbstractModel):
                 # TODO: Implementar campos no Odoo
                 # record.key_number = chave_edoc.campos
                 # record.key_formated = ' '.joint(chave_edoc.partes())
-                record.key = chave_edoc.chave
+                record.document_key = chave_edoc.chave
 
     def document_number(self):
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
@@ -300,7 +300,7 @@ class DocumentWorkflow(models.AbstractModel):
                     [l.name for l in self.line_ids.mapped(
                         'fiscal_operation_id')])
 
-            if self.document_electronic and not self.key:
+            if self.document_electronic and not self.document_key:
                 self._generate_key()
 
     def _document_confirm(self):
