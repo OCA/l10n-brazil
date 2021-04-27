@@ -17,9 +17,14 @@ _column_renames = {
         ("codigo_situacao", "status_code"),
         ("motivo_situacao", "status_name"),
         ("autorizacao_event_id", "authorization_event_id"),
+        ("file_pdf_id", "file_report_id"),
     ],
     "l10n_br_fiscal_document_event": [
         ("fiscal_document_id", "document_id"),
+        ("file_sent", "file_request_id"),
+        ("file_returned", "file_response_id"),
+        ("status", "status_code"),
+        ("end_date", "protocol_date"),
     ],
     "l10n_br_fiscal_document_related": [
         ("fiscal_document_id", "document_id"),
