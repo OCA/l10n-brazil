@@ -67,8 +67,8 @@ class Document(models.Model):
         related=False,
     )
 
-    number = fields.Char(
-        string='Number',
+    document_number = fields.Char(
+        string='Document Number',
         copy=False,
         index=True,
     )
@@ -230,10 +230,10 @@ class Document(models.Model):
     )
 
     @api.multi
-    @api.constrains('number')
+    @api.constrains('document_number')
     def _check_number(self):
         for record in self:
-            if not record.number:
+            if not record.document_number:
                 return
             domain = [
                 ('id', '!=', record.id),
@@ -242,7 +242,7 @@ class Document(models.Model):
                 ('issuer', '=', record.issuer),
                 ('document_type_id', '=', record.document_type_id.id),
                 ('document_serie', '=', record.document_serie),
-                ('number', '=', record.number)]
+                ('document_number', '=', record.document_number)]
 
             invalid_number = False
 
@@ -251,7 +251,7 @@ class Document(models.Model):
             else:
                 if record.document_serie_id:
                     invalid_number = record.document_serie_id._is_invalid_number(
-                        record.number)
+                        record.document_number)
 
             documents = record.env["l10n_br_fiscal.document"].search_count(domain)
 
@@ -259,7 +259,7 @@ class Document(models.Model):
                 raise ValidationError(_(
                     "There is already a fiscal document with this "
                     "Serie: {0}, Number: {1} !".format(
-                        record.document_serie, record.number)))
+                        record.document_serie, record.document_number)))
 
     @api.multi
     def name_get(self):
@@ -272,13 +272,13 @@ class Document(models.Model):
                     name=record.company_name,
                     type=record.document_type,
                     serie=record.document_serie,
-                    number=record.number or record.rps_number or '',
+                    number=record.document_number or record.rps_number or '',
                 )
                 res.append((record.id, txt))
         return res
 
     @api.depends('issuer', 'fiscal_operation_type', 'document_type', 'document_serie',
-                 'number', 'date', 'partner_id')
+                 'document_number', 'date', 'partner_id')
     def _compute_name(self):
         for r in self:
             name = ''
@@ -289,8 +289,8 @@ class Document(models.Model):
                 name += ' - ' + r.document_type
             if r.document_serie:
                 name += ' - ' + r.document_serie
-            if r.number:
-                name += ' - ' + r.number or r.rps_number or ''
+            if r.document_number or r.rps_number:
+                name += ' - ' + r.document_number or r.rps_number
             if r.date:
                 name += ' - ' + r.date.strftime('%d/%m/%Y')
 
@@ -419,7 +419,7 @@ class Document(models.Model):
             'partner_id': self.partner_id.id,
             'document_type_id': self.document_type,
             'serie': self.document_serie,
-            'number': self.number,
+            'document_number': self.document_number,
             'date': self.date,
             'document_key': self.document_key,
         }
