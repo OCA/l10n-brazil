@@ -230,6 +230,14 @@ class Document(models.Model):
             if not status:
                 raise UserError(_(message))
 
+            record.cancel_event_id = record.event_ids.create_event_save_xml(
+                company_id=record.company_id,
+                environment='prod' if record.nfse_environment == '1' else 'hml',
+                event_type='2',
+                xml_file=processo.envio_xml.decode('utf-8'),
+                document_id=record,
+            )
+
             return status
 
     def action_consultar_nfse_rps(self):
