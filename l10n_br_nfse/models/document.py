@@ -82,6 +82,13 @@ class Document(models.Model):
         default=lambda self: self.env.user.company_id.nfse_environment,
     )
 
+    @api.multi
+    def document_date(self):
+        super().document_date()
+        for record in self.filtered(filter_processador_edoc_nfse):
+            if not record.date_in_out:
+                record.date_in_out = fields.Datetime.now()
+
     def document_number(self):
         for record in self.filtered(filter_processador_edoc_nfse):
             if record.issuer == DOCUMENT_ISSUER_COMPANY:
@@ -172,10 +179,6 @@ class Document(models.Model):
 
     def _prepare_lote_rps(self):
         num_rps = self.rps_number
-
-        dh_emi = fields.Datetime.context_timestamp(
-            self, fields.Datetime.from_string(self.date)
-        ).strftime('%Y-%m-%dT%H:%M:%S')
         return {
             'cnpj': misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf),
             'inscricao_municipal': misc.punctuation_rm(
@@ -184,7 +187,11 @@ class Document(models.Model):
             'numero': num_rps,
             'serie': self.document_serie_id.code or '',
             'tipo': self.rps_type,
-            'data_emissao': dh_emi,
+            'data_emissao': fields.Datetime.context_timestamp(
+                self, fields.Datetime.from_string(self.date)
+            ).strftime('%Y-%m-%dT%H:%M:%S'),
+            'date_in_out': fields.Datetime.context_timestamp(
+                self, self.date_in_out).strftime('%Y-%m-%dT%H:%M:%S'),
             'natureza_operacao': self.operation_nature,
             'regime_especial_tributacao': self.taxation_special_regime,
             'optante_simples_nacional': '1'
