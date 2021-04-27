@@ -403,8 +403,8 @@ class AccountInvoice(models.Model):
         for invoice in self:
             if invoice.fiscal_document_id != dummy_doc:
                 if invoice.issuer == DOCUMENT_ISSUER_COMPANY:
-                    invoice.fiscal_document_id.document_date()
-                    invoice.fiscal_document_id.document_number()
+                    invoice.fiscal_document_id._document_date()
+                    invoice.fiscal_document_id._document_number()
 
     @api.multi
     def action_move_create(self):
