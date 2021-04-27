@@ -12,8 +12,8 @@ from odoo.tools import config
 
 from ..constants.fiscal import (
     CERTIFICATE_TYPE_NFE,
-    EVENT_ENVIRONMENT_PROD,
-    EVENT_ENVIRONMENT_HML,
+    EVENT_ENV_PROD,
+    EVENT_ENV_HML,
 )
 
 _logger = logging.getLogger(__name__)
@@ -114,11 +114,11 @@ def build_edoc_path(
         company_id, ambiente, tipo_documento, ano, mes, serie=False, numero=False):
     caminho = path_edoc_company(company_id)
 
-    if ambiente not in (EVENT_ENVIRONMENT_PROD, EVENT_ENVIRONMENT_HML):
+    if ambiente not in (EVENT_ENV_PROD, EVENT_ENV_HML):
         _logger.error(
             'Ambiente não informado, salvando na pasta de Homologação!')
 
-    if ambiente == EVENT_ENVIRONMENT_PROD:
+    if ambiente == EVENT_ENV_PROD:
         caminho = os.path.join(caminho, "producao/")
     else:
         caminho = os.path.join(caminho, "homologacao/")
