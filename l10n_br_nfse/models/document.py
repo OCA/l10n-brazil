@@ -92,8 +92,8 @@ class Document(models.Model):
             'l10n_br_nfse.report_br_nfse_danfe').render_qweb_pdf(self.ids)[0]
         self.file_report_id.unlink()
 
-        if self.number:
-            filename = 'NFS-e-' + self.number + '.pdf'
+        if self.document_number:
+            filename = 'NFS-e-' + self.document_number + '.pdf'
         else:
             filename = 'RPS-' + self.rps_number + '.pdf'
 
