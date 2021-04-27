@@ -71,7 +71,7 @@ class NFeRelated(spec_models.StackedModel):
         """Set schema data which are not just related fields"""
         for rec in self:
             document = rec.document_related_id
-            document_key = document.key[3:] if document.key else ''
+            document_key = document.document_key[3:] if document.document_key else ''
             if rec.document_type_id:
                 if rec.document_type_id.code in (
                     MODELO_FISCAL_NFE,
