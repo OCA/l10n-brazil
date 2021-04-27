@@ -269,9 +269,9 @@ class Document(models.Model):
                 res.append((record.id, record.name))
             else:
                 txt = '{name}/{type}/{serie}/{number}'.format(
-                    name=record.company_name,
-                    type=record.document_type,
-                    serie=record.document_serie,
+                    name=record.company_name or '',
+                    type=record.document_type or '',
+                    serie=record.document_serie or '',
                     number=record.document_number or record.rps_number or '',
                 )
                 res.append((record.id, txt))
@@ -290,7 +290,7 @@ class Document(models.Model):
             if r.document_serie:
                 name += ' - ' + r.document_serie
             if r.document_number or r.rps_number:
-                name += ' - ' + r.document_number or r.rps_number
+                name += ' - ' + (r.document_number or r.rps_number)
             if r.date:
                 name += ' - ' + r.date.strftime('%d/%m/%Y')
 
