@@ -33,7 +33,7 @@ from ..constants.ginfes import (
 )
 
 
-def filter_processador_oca_nfse(record):
+def filter_oca_nfse(record):
     if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
@@ -54,9 +54,7 @@ class Document(models.Model):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in self.filtered(
-                filter_processador_oca_nfse).filtered(
-                    filter_ginfes):
+        for record in self.filtered(filter_oca_nfse).filtered(filter_ginfes):
             edocs.append(record.serialize_nfse_ginfes())
         return edocs
 
@@ -155,7 +153,7 @@ class Document(models.Model):
                         tcIdentificacaoRps, 'Tipo', dados['tipo']),
                 ),
                 DataEmissao=self.convert_type_nfselib(
-                    tcInfRps, 'DataEmissao', dados['data_emissao']),
+                    tcInfRps, 'DataEmissao', dados['date_in_out']),
                 NaturezaOperacao=self.convert_type_nfselib(
                     tcInfRps, 'NaturezaOperacao', dados['natureza_operacao']),
                 RegimeEspecialTributacao=self.convert_type_nfselib(
@@ -208,7 +206,7 @@ class Document(models.Model):
         return lote_rps
 
     def cancel_document_ginfes(self):
-        for record in self.filtered(filter_processador_oca_nfse):
+        for record in self.filtered(filter_oca_nfse).filtered(filter_ginfes):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.cancela_documento(doc_numero=int(record.number))
 
@@ -218,10 +216,18 @@ class Document(models.Model):
             if not status:
                 raise UserError(_(message))
 
+            record.cancel_event_id = record.event_ids.create_event_save_xml(
+                company_id=record.company_id,
+                environment='prod' if record.nfse_environment == '1' else 'hml',
+                event_type='2',
+                xml_file=processo.envio_xml.decode('utf-8'),
+                document_id=record,
+            )
+
             return status
 
     def action_consultar_nfse_rps(self):
-        for record in self.filtered(filter_processador_oca_nfse):
+        for record in self.filtered(filter_oca_nfse):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
                 rps_number=int(record.rps_number),
@@ -240,8 +246,7 @@ class Document(models.Model):
     @api.multi
     def _eletronic_document_send(self):
         super()._eletronic_document_send()
-        for record in self.filtered(
-                filter_processador_oca_nfse).filtered(filter_ginfes):
+        for record in self.filtered(filter_oca_nfse).filtered(filter_ginfes):
             processador = record._processador_erpbrasil_nfse()
 
             protocolo = record.authorization_protocol
