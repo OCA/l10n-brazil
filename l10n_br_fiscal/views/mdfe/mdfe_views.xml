@@ -46,7 +46,7 @@
                 </header>
                 <group>
                     <group>
-                        <field name="key" select="1" required="1"/>
+                        <field name="document_key" select="1" required="1"/>
                         <field name="document_id"/>
                         <field name="number"/>
                         <field name="nsu"/>

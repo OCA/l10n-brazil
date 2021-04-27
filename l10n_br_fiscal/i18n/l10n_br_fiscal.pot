@@ -313,7 +313,7 @@ msgid "<html>\n"
 "                              </tr>\n"
 "                              <tr>\n"
 "                                <td style=\"font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;\" valign=\"top\">\n"
-"                                  Document Key: ${object.key}\n"
+"                                  Document Key: ${object.document_key}\n"
 "                                </td>\n"
 "                              </tr>\n"
 "                              <tr>\n"
@@ -352,7 +352,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
-msgid "<i class=\"fa fa-arrow-right\"/> Generate an Access Key"
+msgid "<i class=\"fa fa-arrow-right\"/> Generate an Access document_key"
 msgstr ""
 
 #. module: l10n_br_fiscal
