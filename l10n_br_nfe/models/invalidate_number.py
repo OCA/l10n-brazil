@@ -12,6 +12,11 @@ from requests import Session
 
 from odoo import _, api, fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
+)
+
 _logger = logging.getLogger(__name__)
 
 try:
@@ -57,7 +62,8 @@ class InvalidateNumber(models.Model):
 
         event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
-            environment='prod' if self.company_id.nfe_environment == '1' else 'hml',
+            environment=(
+                EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
             event_type='3',
             xml_file=processo.envio_xml.decode('utf-8'),
             invalidate_number_id=self,
