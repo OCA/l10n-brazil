@@ -31,6 +31,7 @@
 
         # Wizards
         'wizards/account_invoice_refund_view.xml',
+        'wizards/wizard_document_status.xml',
 
         # Actions
         "views/l10n_br_account_action.xml",
