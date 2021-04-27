@@ -18,6 +18,7 @@ _column_renames = {
         ("motivo_situacao", "status_name"),
         ("autorizacao_event_id", "authorization_event_id"),
         ("file_pdf_id", "file_report_id"),
+        ("key", "document_key"),
     ],
     "l10n_br_fiscal_document_event": [
         ("fiscal_document_id", "document_id"),
