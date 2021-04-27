@@ -19,9 +19,11 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     DENEGADO,
     CANCELADO,
-    CANCELADO_FORA_PRAZO,
     CANCELADO_DENTRO_PRAZO,
+    CANCELADO_FORA_PRAZO,
     EVENTO_RECEBIDO,
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
     LOTE_PROCESSADO,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
@@ -349,7 +351,8 @@ class NFe(spec_models.StackedModel):
             _logger.debug(xml_file)
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
-                environment='prod' if self.nfe_environment == '1' else 'hml',
+                environment=(
+                    EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
                 event_type="0",
                 xml_file=xml_file,
                 document_id=self,
@@ -667,7 +670,8 @@ class NFe(spec_models.StackedModel):
 
         self.cancel_event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
-            environment='prod' if self.nfe_environment == '1' else 'hml',
+            environment=(
+                EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
             event_type='2',
             xml_file=processo.envio_xml.decode('utf-8'),
             document_id=self,
@@ -727,7 +731,8 @@ class NFe(spec_models.StackedModel):
         # Gravamos o arquivo no disco e no filestore ASAP.
         event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
-            environment='prod' if self.nfe_environment == '1' else 'hml',
+            environment=(
+                EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
             event_type='14',
             xml_file=processo.envio_xml.decode('utf-8'),
             document_id=self,
