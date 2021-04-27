@@ -34,7 +34,7 @@ class MDFe(models.Model):
         comodel_name="res.company",
         string="Company",
     )
-    key = fields.Char(
+    document_key = fields.Char(
         string="Access Key",
         size=44,
     )
