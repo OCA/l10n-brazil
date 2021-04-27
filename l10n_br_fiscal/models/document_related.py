@@ -32,7 +32,7 @@ class DocumentRelated(models.Model):
         string='Document Key',
         size=44)
 
-    serie = fields.Char(
+    document_serie = fields.Char(
         string='Serie',
         size=12)
 
@@ -116,7 +116,7 @@ class DocumentRelated(models.Model):
 
         if related.document_type_id.electronic:
             self.document_key = related.document_key
-            self.serie = False
+            self.document_serie = False
             self.document_number = False
             self.state_id = False
             self.cnpj_cpf = False
@@ -126,7 +126,7 @@ class DocumentRelated(models.Model):
 
         if related.document_type_id.code in ('01', '04'):
             self.access_key = False
-            self.serie = related.document_serie
+            self.document_serie = related.document_serie
             self.document_number = related.document_number
             self.state_id = related.partner_id and \
                 related.partner_id.state_id and \
