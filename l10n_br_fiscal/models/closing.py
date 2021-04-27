@@ -216,7 +216,7 @@ class FiscalClosing(models.Model):
             PATH_MODELO[document.document_type_id.code],
             fsc_op_type.get(document.fiscal_operation_type),
             (document.document_serie or '').zfill(3) +
-            ('-' + misc.punctuation_rm(str(document.number)).zfill(9)
+            ('-' + misc.punctuation_rm(str(document.document_number)).zfill(9)
                 if self.group_folder else '')
         ])
         return document_path
