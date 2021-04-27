@@ -73,6 +73,12 @@ class Document(models.Model):
         index=True,
     )
 
+    rps_number = fields.Char(
+        string='RPS Number',
+        copy=False,
+        index=True,
+    )
+
     key = fields.Char(
         string='key',
         copy=False,
@@ -266,7 +272,7 @@ class Document(models.Model):
                     name=record.company_name,
                     type=record.document_type,
                     serie=record.document_serie,
-                    number=record.number,
+                    number=record.number or record.rps_number or '',
                 )
                 res.append((record.id, txt))
         return res
@@ -284,7 +290,7 @@ class Document(models.Model):
             if r.document_serie:
                 name += ' - ' + r.document_serie
             if r.number:
-                name += ' - ' + r.number or ''
+                name += ' - ' + r.number or r.rps_number or ''
             if r.date:
                 name += ' - ' + r.date.strftime('%d/%m/%Y')
 

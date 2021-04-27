@@ -7,9 +7,16 @@ from odoo.exceptions import UserError
 
 from odoo import _, api, fields, models
 from ..constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFSE,
+    PROCESSADOR,
+    PROCESSADOR_NENHUM,
     SITUACAO_EDOC,
-    SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_EM_DIGITACAO,
@@ -19,12 +26,6 @@ from ..constants.fiscal import (
     SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
     WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
     WORKFLOW_EDOC,
-    PROCESSADOR_NENHUM,
-    PROCESSADOR,
-    DOCUMENT_ISSUER_COMPANY,
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFCE,
-    MODELO_FISCAL_CTE,
 )
 
 _logger = logging.getLogger(__name__)
@@ -286,9 +287,13 @@ class DocumentWorkflow(models.AbstractModel):
 
     def document_number(self):
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
-            if not self.number and self.document_serie_id:
-                self.number = self.document_serie_id.next_seq_number()
+            if self.document_serie_id:
                 self.document_serie = self.document_serie_id.code
+
+                if self.document_type == MODELO_FISCAL_NFSE and not self.rps_number:
+                    self.rps_number = self.document_serie_id.next_seq_number()
+                elif not self.number:
+                    self.number = self.document_serie_id.next_seq_number()
 
             if not self.operation_name:
                 self.operation_name = ', '.join(
