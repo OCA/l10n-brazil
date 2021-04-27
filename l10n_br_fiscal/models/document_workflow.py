@@ -276,7 +276,7 @@ class DocumentWorkflow(models.AbstractModel):
                     ),
                     forma_emissao=1,  # TODO: Implementar campo no Odoo
                     modelo_documento=record.document_type_id.code or "",
-                    numero_documento=record.number or "",
+                    numero_documento=record.document_number or "",
                     numero_serie=record.document_serie or "",
                     validar=True,
                 )
@@ -292,8 +292,8 @@ class DocumentWorkflow(models.AbstractModel):
 
                 if self.document_type == MODELO_FISCAL_NFSE and not self.rps_number:
                     self.rps_number = self.document_serie_id.next_seq_number()
-                elif not self.number:
-                    self.number = self.document_serie_id.next_seq_number()
+                elif not self.document_number:
+                    self.document_number = self.document_serie_id.next_seq_number()
 
             if not self.operation_name:
                 self.operation_name = ', '.join(
@@ -348,7 +348,7 @@ class DocumentWorkflow(models.AbstractModel):
 
     @api.multi
     def action_document_invalidate(self):
-        if self.number and self.document_serie and self.state_edoc in (
+        if self.document_number and self.document_serie and self.state_edoc in (
                 SITUACAO_EDOC_EM_DIGITACAO,
                 SITUACAO_EDOC_REJEITADA,
                 SITUACAO_EDOC_A_ENVIAR,
