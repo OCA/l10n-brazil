@@ -45,6 +45,7 @@ class DocumentWorkflow(models.AbstractModel):
         default=SITUACAO_EDOC_EM_DIGITACAO,
         copy=False,
         required=True,
+        readonly=True,
         track_visibility='onchange',
         index=True,
     )
