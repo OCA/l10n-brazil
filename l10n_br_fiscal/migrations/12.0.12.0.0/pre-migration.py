@@ -19,6 +19,7 @@ _column_renames = {
         ("autorizacao_event_id", "authorization_event_id"),
         ("file_pdf_id", "file_report_id"),
         ("key", "document_key"),
+        ("number", "document_number"),
     ],
     "l10n_br_fiscal_document_event": [
         ("fiscal_document_id", "document_id"),
@@ -29,6 +30,8 @@ _column_renames = {
     ],
     "l10n_br_fiscal_document_related": [
         ("fiscal_document_id", "document_id"),
+        ("key", "document_key"),
+        ("number", "document_number"),
     ],
 }
 

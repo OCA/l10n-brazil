@@ -21,7 +21,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:mail.template,subject:l10n_br_fiscal.fiscal_document_change_state_template
 #: model:mail.template,subject:l10n_br_fiscal.fiscal_document_change_state_template_nfse
-msgid "${object.document_type_id.name}: ${object.number} Serie: ${object.document_serie} is: ${dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}"
+msgid "${object.document_type_id.name}: ${object.document_number} Serie: ${object.document_serie} is: ${dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -298,12 +298,12 @@ msgid "<html>\n"
 "                              <tr>\n"
 "                                <td valign=\"top\" style=\"font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;\">\n"
 "                                  <p>Hello ${object.partner_id.name},</p>\n"
-"                                  <p>The Fiscal Document ${object.number} has changed.</p>\n"
+"                                  <p>The Fiscal Document ${object.document_number} has changed.</p>\n"
 "                                </td>\n"
 "                              </tr>\n"
 "                              <tr>\n"
 "                                <td style=\"font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;\" valign=\"top\">\n"
-"                                  Document Number: ${object.number}\n"
+"                                  Document Number: ${object.document_number}\n"
 "                                </td>\n"
 "                              </tr>\n"
 "                              <tr>\n"

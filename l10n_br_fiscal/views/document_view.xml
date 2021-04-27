@@ -6,7 +6,7 @@
     <field name="model">l10n_br_fiscal.document</field>
     <field name="arch" type="xml">
       <search string="Fiscal Document">
-        <field name="number"/>
+        <field name="document_number"/>
         <field name="partner_id"/>
         <field name="document_type_id"/>
         <group expand='0' string='Group By...'>
@@ -26,7 +26,7 @@
         <field name="company_id" groups="base.group_multi_company"/>
         <field name="document_type"/>
         <field name="document_serie"/>
-        <field name="number"/>
+        <field name="document_number"/>
         <field name="date"/>
         <field name="fiscal_operation_id"/>
         <field name="partner_id"/>
@@ -83,7 +83,7 @@
           <div class="oe_title">
             <h1>
                 <field name="document_type_id" readonly="1"/>:
-                <field name="number" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
+                <field name="document_number" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
             </h1>
           </div>
           <group name="l10n_br_fiscal" colspan="4">
@@ -108,7 +108,7 @@
               <field name="document_serie" attrs="{'invisible': [('issuer', '!=', 'partner')], 'required': [('issuer', '=', 'partner')]}"/>
             </group>
             <group name="document_header_left">
-              <field name="number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
+              <field name="document_number" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
               <field name="state_fiscal"/>
             </group>
           </group>
