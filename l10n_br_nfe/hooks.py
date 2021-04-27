@@ -32,9 +32,9 @@ def post_init_hook(cr, registry):
         # nfe_stream = pkg_resources.resource_stream('nfelib',
         # '../tests/nfe/v4_00/leiauteNFe/35180803102452000172550010000474491454651420-nfe.xml')
         nfe_binding = nfe_sub.parse(nfe_stream, silence=True)
-        number = nfe_binding.infNFe.ide.nNF
+        document_number = nfe_binding.infNFe.ide.nNF
         existing_nfes = env["l10n_br_fiscal.document"].search(
-            [('number', '=', number)])
+            [('document_number', '=', document_number)])
 
         try:
             existing_nfes.unlink()
@@ -43,4 +43,4 @@ def post_init_hook(cr, registry):
                 lang='pt_BR').build(nfe_binding.infNFe)
             _logger.info(nfe.nfe40_emit.nfe40_CNPJ)
         except ValidationError:
-            _logger.info("NF-e already %s imported by hooks" % (number,))
+            _logger.info("NF-e already %s imported by hooks" % (document_number,))
