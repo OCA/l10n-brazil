@@ -105,7 +105,7 @@
             <field name="fiscal_operation_id" position="attributes">
                 <attribute name="invisible">True</attribute>
             </field>
-            <field name="number" position="attributes">
+            <field name="document_number" position="attributes">
                 <attribute name="invisible">True</attribute>
             </field>
             <field name='amount_total' position="after">
