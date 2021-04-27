@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Physical Products -->
+    <!-- Office Chair -->
+    <record id="product.product_delivery_01" model="product.product">
+        <field name="weight">3.0</field>
+        <field name="volume">1</field>
+    </record>
+
+    <!-- Office Lamp -->
+    <record id="product.product_delivery_02" model="product.product">
+        <field name="weight">3.0</field>
+        <field name="volume">1</field>
+    </record>
+
+
     <!-- Main Company Simples Nacional -->
     <!-- Sale Order with only products test -->
     <record id="main_so_delivery_1" model="sale.order">
