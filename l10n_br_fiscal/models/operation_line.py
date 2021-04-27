@@ -244,9 +244,11 @@ class OperationLine(models.Model):
                 self._build_mapping_result(mapping_result, tax_definition)
 
             # 6 From Partner Profile
-            for tax_definition in partner.fiscal_profile_id.tax_definition_ids.map_tax_definition(
-                company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
-            ):
+            for tax_definition in partner.fiscal_profile_id.\
+                tax_definition_ids.map_tax_definition(company, partner,
+                                                      product, ncm=ncm,
+                                                      nbm=nbm, nbs=nbs,
+                                                      cest=cest):
                 self._build_mapping_result(mapping_result, tax_definition)
 
         if product.tax_icms_or_issqn == TAX_DOMAIN_ICMS:
