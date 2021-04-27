@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_search"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-          <xpath expr="//field[@name='number']" position="replace">
+          <xpath expr="//field[@name='document_number']" position="replace">
               <field name="fiscal_number" string="Number"/>
               <field name="number" string="Account Number" invisible="1"/>
               <field name="legal_name" string="Legal Name"/>
@@ -23,7 +23,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_tree"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='number']" position="replace">
+            <xpath expr="//field[@name='document_number']" position="replace">
                 <field name="fiscal_number" string="Number"/>
                 <field name="number" string="Account Number" invisible="1"/>
                 <field name="commercial_partner_id" invisible="1"/>
@@ -56,10 +56,10 @@
         <xpath expr="//button[@name='action_create_return']" position="replace">
           <button name="%(account.action_account_invoice_refund)d" type='action' string='Devolver' groups="account.group_account_invoice" attrs="{'invisible': ['|',('type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"/>
         </xpath>
-        <xpath expr="//h1/field[@name='number']" position="replace">
+        <xpath expr="//h1/field[@name='document_number']" position="replace">
             <field name="fiscal_number" class="oe_inline" readonly="1"/>
         </xpath>
-        <xpath expr="//group/field[@name='number']" position="replace">
+        <xpath expr="//group/field[@name='document_number']" position="replace">
             <field name="fiscal_number" class="oe_inline" force_save="1" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
         </xpath>
         <xpath expr="//page[@name='finance']" position="inside">
