@@ -210,7 +210,8 @@ class Document(models.Model):
     def cancel_document_ginfes(self):
         for record in self.filtered(filter_oca_nfse).filtered(filter_ginfes):
             processador = record._processador_erpbrasil_nfse()
-            processo = processador.cancela_documento(doc_numero=int(record.number))
+            processo = processador.cancela_documento(doc_numero=int(
+                record.document_number))
 
             status, message = \
                 processador.analisa_retorno_cancelamento(processo)
@@ -241,7 +242,7 @@ class Document(models.Model):
             return _(
                 processador.analisa_retorno_consulta(
                     processo,
-                    record.number,
+                    record.document_number,
                     record.company_cnpj_cpf,
                     record.company_legal_name)
             )
@@ -331,7 +332,7 @@ class Document(models.Model):
                 if processo.resposta.ListaNfse:
                     xml_file = processo.retorno
                     for comp in processo.resposta.ListaNfse.CompNfse:
-                        vals['number'] = comp.Nfse.InfNfse.Numero
+                        vals['document_number'] = comp.Nfse.InfNfse.Numero
                         vals['authorization_date'] = \
                             comp.Nfse.InfNfse.DataEmissao
                         vals['verify_code'] = \
