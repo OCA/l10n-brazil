@@ -79,8 +79,8 @@ class Document(models.Model):
     )
 
     @api.multi
-    def document_date(self):
-        super().document_date()
+    def _document_date(self):
+        super()._document_date()
         for record in self.filtered(filter_processador_edoc_nfse):
             if not record.date_in_out:
                 record.date_in_out = fields.Datetime.now()
