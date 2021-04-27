@@ -175,6 +175,11 @@ class OperationLine(models.Model):
             cfop = self.cfop_export_id
         return cfop
 
+    def _build_mapping_result(self, mapping_result, tax_definition):
+        mapping_result['taxes'][tax_definition.tax_domain] = tax_definition.tax_id
+        if tax_definition.ipi_guideline_id:
+            mapping_result['ipi_guideline'] = tax_definition.ipi_guideline_id
+
     def map_fiscal_taxes(self, company, partner, product=None,
                          fiscal_price=None, fiscal_quantity=None,
                          ncm=None, nbm=None, nbs=None, cest=None):
@@ -206,6 +211,7 @@ class OperationLine(models.Model):
         if company.tax_framework == TAX_FRAMEWORK_NORMAL:
             tax_ipi = ncm.tax_ipi_id
             tax_ii = ncm.tax_ii_id
+            mapping_result['ipi_guideline'] = ncm.ipi_guideline_id
             mapping_result['taxes'][tax_ipi.tax_domain] = tax_ipi
 
             if mapping_result['cfop'].destination == CFOP_DESTINATION_EXPORT:
@@ -226,22 +232,22 @@ class OperationLine(models.Model):
                     mapping_result['taxes'][tax.tax_domain] = tax
 
             # 4 From Operation Line
-            for tax in self.tax_definition_ids.map_tax_definition(
+            for tax_definition in self.tax_definition_ids.map_tax_definition(
                 company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
-            ).mapped('tax_id'):
-                mapping_result['taxes'][tax.tax_domain] = tax
+            ):
+                self._build_mapping_result(mapping_result, tax_definition)
 
             # 5 From CFOP
-            for tax in cfop.tax_definition_ids.map_tax_definition(
+            for tax_definition in cfop.tax_definition_ids.map_tax_definition(
                 company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
-            ).mapped('tax_id'):
-                mapping_result['taxes'][tax.tax_domain] = tax
+            ):
+                self._build_mapping_result(mapping_result, tax_definition)
 
             # 6 From Partner Profile
-            for tax in partner.fiscal_profile_id.tax_definition_ids.map_tax_definition(
+            for tax_definition in partner.fiscal_profile_id.tax_definition_ids.map_tax_definition(
                 company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
-            ).mapped('tax_id'):
-                mapping_result['taxes'][tax.tax_domain] = tax
+            ):
+                self._build_mapping_result(mapping_result, tax_definition)
 
         if product.tax_icms_or_issqn == TAX_DOMAIN_ICMS:
             mapping_result['taxes'].pop(TAX_DOMAIN_ISSQN, None)
@@ -250,16 +256,6 @@ class OperationLine(models.Model):
         else:
             mapping_result['taxes'].pop(TAX_DOMAIN_ICMS, None)
             mapping_result['taxes'].pop(TAX_DOMAIN_ISSQN, None)
-
-        # Define IPI Guideline
-
-        if ncm.ipi_guideline_id:
-            mapping_result['ipi_guideline'] = ncm.ipi_guideline_id
-        else:
-            for tax in self.tax_definition_ids.map_tax_definition(
-                company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
-            ):
-                mapping_result['ipi_guideline'] = tax.ipi_guideline_id
 
         return mapping_result
 
