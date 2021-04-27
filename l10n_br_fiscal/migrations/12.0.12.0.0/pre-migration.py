@@ -32,6 +32,7 @@ _column_renames = {
         ("fiscal_document_id", "document_id"),
         ("key", "document_key"),
         ("number", "document_number"),
+        ("serie", "document_serie"),
     ],
 }
 
