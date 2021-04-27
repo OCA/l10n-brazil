@@ -478,7 +478,6 @@ class Tax(models.Model):
         company_id = kwargs['company']
 
         if company_id.tax_framework == '1':
-            operation_line = kwargs.get("operation_line")
             discount_value = kwargs.get("discount_value", 0.00)
             insurance_value = kwargs.get("insurance_value", 0.00)
             freight_value = kwargs.get("freight_value", 0.00)
