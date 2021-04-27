@@ -81,12 +81,6 @@ class ContractContract(models.Model):
             invoice.fiscal_document_id._onchange_document_serie_id()
             invoice.fiscal_document_id._onchange_company_id()
 
-            if (hasattr(invoice.fiscal_document_id, 'rps_number') and
-                    invoice.fiscal_document_id.number):
-                invoice.fiscal_document_id.rps_number = \
-                    invoice.fiscal_document_id.number
-                invoice.fiscal_document_id.number = False
-
             for line in invoice.invoice_line_ids:
                 line._onchange_product_id_fiscal()
                 line.price_unit = line.contract_line_id.price_unit
