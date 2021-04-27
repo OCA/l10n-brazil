@@ -98,10 +98,10 @@ class DocumentWorkflow(models.AbstractModel):
         return True
 
     def _exec_before_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
-        self.document_date()
-        self.document_number()
-        self.document_comment()
-        self.document_check()
+        self._document_date()
+        self._document_number()
+        self._document_comment()
+        self._document_check()
         self._document_export()
         return True
 
@@ -254,11 +254,11 @@ class DocumentWorkflow(models.AbstractModel):
 
         return status
 
-    def document_date(self):
+    def _document_date(self):
         if not self.date:
             self.date = self._date_server_format()
 
-    def document_check(self):
+    def _document_check(self):
         return True
 
     def _generate_key(self):
@@ -285,7 +285,7 @@ class DocumentWorkflow(models.AbstractModel):
                 # record.key_formated = ' '.joint(chave_edoc.partes())
                 record.document_key = chave_edoc.chave
 
-    def document_number(self):
+    def _document_number(self):
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
             if self.document_serie_id:
                 self.document_serie = self.document_serie_id.code
