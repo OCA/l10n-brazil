@@ -21,10 +21,12 @@ from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio import (
 from odoo import models, api, _
 from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
+    PROCESSADOR_OCA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_REJEITADA,
-    PROCESSADOR_OCA,
 )
 
 from ..constants.ginfes import (
@@ -218,7 +220,8 @@ class Document(models.Model):
 
             record.cancel_event_id = record.event_ids.create_event_save_xml(
                 company_id=record.company_id,
-                environment='prod' if record.nfse_environment == '1' else 'hml',
+                environment=(
+                    EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
                 event_type='2',
                 xml_file=processo.envio_xml.decode('utf-8'),
                 document_id=record,
