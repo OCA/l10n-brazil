@@ -89,11 +89,6 @@ class AccountInvoice(models.Model):
         string='Electronic?',
     )
 
-    fiscal_number = fields.Char(
-        string='Fiscal Number',
-        copy=False,
-    )
-
     # this default should be overwritten to False in a module pretending to
     # create fiscal documents from the invoices. But this default here
     # allows to install the l10n_br_account module without creating issues
@@ -313,7 +308,7 @@ class AccountInvoice(models.Model):
             if l[2]['debit'] or l[2]['credit']:
                 if self.fiscal_document_id != dummy_doc:
                     l[2]['name'] = '{}/{}-{}'.format(
-                        self.fiscal_number,
+                        self.document_number,
                         count,
                         len(financial_lines)
                     )
@@ -410,9 +405,6 @@ class AccountInvoice(models.Model):
                 if invoice.issuer == DOCUMENT_ISSUER_COMPANY:
                     invoice.fiscal_document_id.document_date()
                     invoice.fiscal_document_id.document_number()
-                    invoice.fiscal_number = invoice.fiscal_document_id.document_number
-                else:
-                    invoice.fiscal_document_id.document_number = invoice.fiscal_number
 
     @api.multi
     def action_move_create(self):
@@ -431,7 +423,7 @@ class AccountInvoice(models.Model):
                     raise UserError(_(
                         "You can't set this document number: {} to draft "
                         "because this document is cancelled in SEFAZ".format(
-                            i.fiscal_number)))
+                            i.document_number)))
             if i.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
                 i.fiscal_document_id.action_document_back2draft()
         return super().action_invoice_draft()
