@@ -410,9 +410,9 @@ class AccountInvoice(models.Model):
                 if invoice.issuer == DOCUMENT_ISSUER_COMPANY:
                     invoice.fiscal_document_id.document_date()
                     invoice.fiscal_document_id.document_number()
-                    invoice.fiscal_number = invoice.fiscal_document_id.number
+                    invoice.fiscal_number = invoice.fiscal_document_id.document_number
                 else:
-                    invoice.fiscal_document_id.number = invoice.fiscal_number
+                    invoice.fiscal_document_id.document_number = invoice.fiscal_number
 
     @api.multi
     def action_move_create(self):
