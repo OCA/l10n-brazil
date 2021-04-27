@@ -10,7 +10,7 @@
     </record>
 
     <record id="fiscal_document_dummy" model="l10n_br_fiscal.document">
-        <field name="key">dummy</field>
+        <field name="document_key">dummy</field>
         <field name="number">0</field>
         <field name="active">False</field>
         <field name="partner_id" ref="base.main_partner"/>

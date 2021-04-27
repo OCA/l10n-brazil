@@ -79,8 +79,8 @@ class Document(models.Model):
         index=True,
     )
 
-    key = fields.Char(
-        string='key',
+    document_key = fields.Char(
+        string='Key',
         copy=False,
         index=True,
     )
@@ -421,7 +421,7 @@ class Document(models.Model):
             'serie': self.document_serie,
             'number': self.number,
             'date': self.date,
-            'document_key': self.key,
+            'document_key': self.document_key,
         }
         reference_id = self.env['l10n_br_fiscal.document.related'].create(vals)
         return reference_id
