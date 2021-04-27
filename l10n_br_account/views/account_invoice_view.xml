@@ -75,7 +75,7 @@
                 <field name="document_serie_id" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="document_serie" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="fiscal_number" readonly="0" force_save="1" attrs="{'invisible': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="key" attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"/>
+                <field name="document_key" attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"/>
             </field>
             <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
                 <attribute name="editable"/>
@@ -139,7 +139,7 @@
                 <field name="document_serie_id" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="document_serie" requied="0" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
                 <field name="fiscal_number" readonly="0" force_save="1" attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
-                <field name="key" attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"/>
+                <field name="document_key" attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"/>
             </field>
             <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
                 <attribute name="editable"/>
