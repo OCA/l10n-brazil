@@ -297,10 +297,10 @@ class NFe(spec_models.StackedModel):
                 rec.fiscal_operation_type = tpNF_2_operation[rec.nfe40_tpNF]
 
     @api.multi
-    def document_number(self):
+    def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
         # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
-        super().document_number()
+        super()._document_number()
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.document_key:
                 chave = ChaveEdoc(record.document_key)
@@ -460,8 +460,8 @@ class NFe(spec_models.StackedModel):
         return
 
     @api.multi
-    def document_date(self):
-        super().document_date()
+    def _document_date(self):
+        super()._document_date()
         for record in self.filtered(filter_processador_edoc_nfe):
             if not record.date_in_out:
                 record.date_in_out = fields.Datetime.now()
