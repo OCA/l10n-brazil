@@ -106,11 +106,17 @@ class Document(models.Model):
             return super().make_pdf()
         pdf = self.env.ref(
             'l10n_br_nfse.report_br_nfse_danfe').render_qweb_pdf(self.ids)[0]
-        self.file_pdf_id.unlink()
-        self.file_pdf_id = self.env['ir.attachment'].create(
+        self.file_report_id.unlink()
+
+        if self.number:
+            filename = 'NFS-e-' + self.number + '.pdf'
+        else:
+            filename = 'RPS-' + self.rps_number + '.pdf'
+
+        self.file_report_id = self.env['ir.attachment'].create(
             {
-                "name": "self.rps_number or self.number",
-                "datas_fname": "self.rps_number or self.number",
+                "name": filename,
+                "datas_fname": filename,
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(pdf),
