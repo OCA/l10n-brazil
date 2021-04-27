@@ -350,10 +350,10 @@ class Event(models.Model):
 
             if document_id.rps_number:
                 vals['document_number'] = document_id.rps_number
-                if document_id.number:
-                    vals['document_number'] += '-' + document_id.number
+                if document_id.document_number:
+                    vals['document_number'] += '-' + document_id.document_number
             else:
-                vals['document_number'] = document_id.number
+                vals['document_number'] = document_id.document_number
 
         if invalidate_number_id:
             #

@@ -82,7 +82,7 @@ class DocumentSerie(models.Model):
         return [(r.id, '{}'.format(r.name)) for r in self]
 
     @api.multi
-    def _is_invalid_number(self, number):
+    def _is_invalid_number(self, document_number):
         self.ensure_one()
         is_invalid_number = True
         # TODO Improve this implementation!
@@ -94,14 +94,14 @@ class DocumentSerie(models.Model):
         for invalid in invalids:
             invalid_numbers += range(
                 invalid.number_start, invalid.number_end + 1)
-        if int(number) not in invalid_numbers:
+        if int(document_number) not in invalid_numbers:
             is_invalid_number = False
         return is_invalid_number
 
     @api.multi
     def next_seq_number(self):
         self.ensure_one()
-        number = self.internal_sequence_id._next()
-        if self._is_invalid_number(number):
-            number = self.next_seq_number()
-        return number
+        document_number = self.internal_sequence_id._next()
+        if self._is_invalid_number(document_number):
+            document_number = self.next_seq_number()
+        return document_number
