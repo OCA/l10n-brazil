@@ -8,7 +8,7 @@
       <tree string="Fiscal Document Related">
         <field name="document_type_id"/>
         <field name="document_key"/>
-        <field name="serie"/>
+        <field name="document_serie"/>
         <field name="document_number"/>
       </tree>
     </field>
@@ -30,7 +30,7 @@
             <field name="document_key"/>
         </group>
         <group string="Nota Fiscal/Produtor/Cupom Fiscal" attrs="{'invisible': [('document_type_code', 'not in', ('01', '04'))]}">
-            <field name="serie" attrs="{'required': [('document_type_code', 'in', ('01', '04', '07'))]}"/>
+            <field name="document_serie" attrs="{'required': [('document_type_code', 'in', ('01', '04', '07'))]}"/>
             <field name="document_number" attrs="{'required': [('document_type_code', 'in', ('01', '04', '07'))]}"/>
             <field name="state_id" attrs="{'required': [('document_type_code', 'in', ('01', '04'))], 'invisible': [('document_type_code', '=', '07')]}"/>
             <field name="date" attrs="{'required': [('document_type_code', 'in', ('01', '04'))], 'invisible': [('document_type_code', '=', '07')]}"/>
