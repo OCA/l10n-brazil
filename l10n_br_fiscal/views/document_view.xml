@@ -46,27 +46,28 @@
     <field name="arch" type="xml">
       <form string="Fiscal Document">
         <field name="id" invisible="1"/>
-        <field name="state_edoc" invisible="1"/>
+<!--        <field name="state_edoc" invisible="1"/>-->
         <field name="currency_id" invisible="1"/>
         <field name="document_electronic" invisible="1"/>
         <field name="fiscal_operation_type" invisible="1"/>
         <field name="document_type" invisible="1"/>
         <header>
-            <button name="action_document_confirm" type="object" string="Confirmar"   groups="l10n_br_fiscal.group_user"    states="em_digitacao"     class="btn-primary"/>
-            <button name="action_document_send"    type="object" string="Enviar"      groups="l10n_br_fiscal.group_user"    states="a_enviar,rejeitada"         class="btn-primary"/>
-            <button name="action_document_back2draft"    type="object" string="Voltar p/ Em Digitação"      groups="l10n_br_fiscal.group_user"    states="a_enviar,rejeitada" class="btn-secondary"/>
-            <button name="view_pdf" type="object" string="Visualizar PDF" groups="l10n_br_fiscal.group_user" states="a_enviar,enviada,autorizada,rejeitada,cancelada" class="btn-primary"/>
-            <button name="view_xml" type="object" string="Visualizar XML" groups="l10n_br_fiscal.group_user" states="a_enviar,enviada,autorizada,rejeitada,cancelada" class="btn-primary"/>
-            <button name="action_document_cancel" type="object" string="Cancelar" groups="l10n_br_fiscal.group_user" states="autorizada"/>
-            <button name="action_document_invalidate" type="object" string="Invalidar Numeração" groups="l10n_br_fiscal.group_user" states="a_enviar,rejeitada"/>
-            <button name="action_document_correction" type="object" string="Carta de correção" groups="l10n_br_fiscal.group_user" states="autorizada"/>
-            <button name="action_create_return" type="object" string="Devolver" groups="l10n_br_fiscal.group_user" states="autorizada"/>
-            <button name="action_send_email" type="object" string="Send Email" attrs="{'invisible': [('state', 'not in', ('autorizada', 'cancelada', 'denegada'))]}"/>
+            <!-- Please use one state_edoc and attrs to maintain compatibility with invoice -->
+            <button name="action_document_confirm"       type="object"     string="Confirmar"               groups="l10n_br_fiscal.group_user"  class="btn-primary"    attrs="{'invisible': [('state_edoc', '!=', 'em_digitacao')]}" />
+            <button name="action_document_send"          type="object"     string="Enviar"                  groups="l10n_br_fiscal.group_user"  class="btn-primary"    attrs="{'invisible': [('state_edoc', 'not in', ('a_enviar', 'rejeitada'))]}" />
+            <button name="action_document_back2draft"    type="object"     string="Voltar p/ Em Digitação"  groups="l10n_br_fiscal.group_user"  class="btn-secondary"  attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'rejeitada')), ('document_electronic', '=', False)]}" />
+            <button name="view_pdf"                      type="object"     string="Visualizar PDF"          groups="l10n_br_fiscal.group_user"  class="btn-primary"    attrs="{'invisible': [('state_edoc', '=', 'em_digitacao')]}"  />
+            <button name="view_xml"                      type="object"     string="Visualizar XML"          groups="l10n_br_fiscal.group_user"  class="btn-primary"    attrs="{'invisible': [('state_edoc', '=', 'em_digitacao')]}"  />
+            <button name="action_document_cancel"        type="object"     string="Cancelar"                groups="l10n_br_fiscal.group_user"                         attrs="{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False)]}" />
+            <button name="action_document_invalidate"    type="object"     string="Invalidar Numeração"     groups="l10n_br_fiscal.group_user"                         attrs="{'invisible': [('state_edoc', 'in', ('em_digitacao', 'autorizada', 'cancelada', 'denegada'))]}" />
+            <button name="action_document_correction"    type="object"     string="Carta de correção"       groups="l10n_br_fiscal.group_user"                         attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}" />
+            <button name="action_create_return"          type="object"     string="Devolver"                groups="l10n_br_fiscal.group_user"                         attrs="{'invisible': [('state_edoc', '!=', 'autorizada')]}" />
+            <button name="action_send_email"             type="object"     string="Send Email"              groups="l10n_br_fiscal.group_user"                         attrs="{'invisible': [('state_edoc', 'not in', ('autorizada', 'cancelada', 'denegada'))]}"/>
 <!--                <button name="action_edoc_check" type="object"-->
 <!--                        string="Consultar no sefaz"-->
 <!--                        groups="base.group_no_one"/>-->
 <!--            -->
-            <field name="state" widget="statusbar" statusbar_visible="em_digitacao,autorizada"/>
+            <field name="state_edoc" widget="statusbar" statusbar_visible="em_digitacao,autorizada"/>
         </header>
         <div class="alert alert-danger" role="alert" attrs="{'invisible': [('state_edoc','not in',('rejeitada', 'denegada'))]}">
             Fiscal Document: <field name="document_type_id" readonly="1"/> is <strong><field name="state_edoc" readonly="1"/></strong>: <field name="status_description" readonly="1"/>
@@ -82,7 +83,7 @@
           <div class="oe_title">
             <h1>
                 <field name="document_type_id" readonly="1"/>:
-                <field name="number" readonly="1"/>
+                <field name="number" attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
             </h1>
           </div>
           <group name="l10n_br_fiscal" colspan="4">
