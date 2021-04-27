@@ -115,7 +115,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_nNF = fields.Char(
-        related='number',
+        related='document_number',
     )
 
     nfe40_Id = fields.Char(
