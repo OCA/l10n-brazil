@@ -115,7 +115,7 @@ class DocumentRelated(models.Model):
         self.document_type_id = related.document_type_id
 
         if related.document_type_id.electronic:
-            self.document_key = related.key
+            self.document_key = related.document_key
             self.serie = False
             self.number = False
             self.state_id = False
