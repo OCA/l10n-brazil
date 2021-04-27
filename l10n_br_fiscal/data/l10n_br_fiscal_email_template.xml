@@ -50,7 +50,7 @@
                               </tr>
                               <tr>
                                 <td style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;" valign="top">
-                                  Document Key: ${object.key}
+                                  Document Key: ${object.document_key}
                                 </td>
                               </tr>
                               <tr>
@@ -136,7 +136,7 @@
                               </tr>
                               <tr>
                                 <td style="font-family:Arial,Helvetica,sans-serif; color: #555; font-size: 14px;" valign="top">
-                                  Document Key: ${object.key}
+                                  Document Key: ${object.document_key}
                                 </td>
                               </tr>
                               <tr>
