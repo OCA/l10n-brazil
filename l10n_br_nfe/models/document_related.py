@@ -103,7 +103,7 @@ class NFeRelated(spec_models.StackedModel):
                     rec.nfe40_IE = rec.inscr_est
                     rec.nfe40_mod = rec.document_type_id.code
                     rec.nfe40_serie = document.document_serie
-                    rec.nfe40_nNF = document.number
+                    rec.nfe40_nNF = document.document_number
 
     def _inverse_nfe40_choice4(self):
         for rec in self:

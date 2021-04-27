@@ -22,7 +22,6 @@ class NFeImportTest(SavepointCase):
                                                    resource_path)
 
         nfe_binding = nfe_sub.parse(nfe_stream, silence=True)
-        # number = nfe_binding.infNFe.ide.nNF
         nfe = self.env["nfe.40.infnfe"].with_context(
             tracking_disable=True,
             edoc_type='in', lang='pt_BR').build(nfe_binding.infNFe, dry_run=True)
@@ -42,7 +41,6 @@ class NFeImportTest(SavepointCase):
                                                    resource_path)
 
         nfe_binding = nfe_sub.parse(nfe_stream, silence=True)
-        # number = nfe_binding.infNFe.ide.nNF
         nfe = self.env["nfe.40.infnfe"].with_context(
             tracking_disable=True,
             edoc_type='in', lang='pt_BR').build(nfe_binding.infNFe)
