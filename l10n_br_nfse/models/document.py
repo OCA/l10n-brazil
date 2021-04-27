@@ -12,7 +12,6 @@ from erpbrasil.edoc.provedores.cidades import NFSeFactory
 
 from odoo import api, fields, models
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
@@ -53,11 +52,6 @@ class Document(models.Model):
         copy=False,
     )
 
-    rps_number = fields.Char(
-        string='RPS Number',
-        copy=False,
-        index=True,
-    )
     rps_type = fields.Selection(
         string='RPS Type',
         selection=RPS_TYPE,
@@ -90,18 +84,6 @@ class Document(models.Model):
         for record in self.filtered(filter_processador_edoc_nfse):
             if not record.date_in_out:
                 record.date_in_out = fields.Datetime.now()
-
-    def document_number(self):
-        for record in self.filtered(filter_processador_edoc_nfse):
-            if record.issuer == DOCUMENT_ISSUER_COMPANY:
-                if record.document_serie_id:
-                    record.document_serie = record.document_serie_id.code
-                    if not record.rps_number and record.date:
-                        record.rps_number = record.document_serie_id.\
-                            next_seq_number()
-                        record.number = record.rps_number
-        super(Document, self - self.filtered(filter_processador_edoc_nfse)
-              ).document_number()
 
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
