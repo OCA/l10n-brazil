@@ -267,9 +267,9 @@ class Event(models.Model):
         return save_dir
 
     def _compute_file_name(self):
-        if (self.document_id and self.document_id.key and
+        if (self.document_id and self.document_id.document_key and
                 self.document_id.document_electronic):
-            file_name = self.document_id.key
+            file_name = self.document_id.document_key
         else:
             file_name = self.document_number
         return file_name
