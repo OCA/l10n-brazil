@@ -234,7 +234,7 @@ class Document(models.Model):
                 company_id=record.company_id,
                 environment='prod' if record.nfse_environment == '1' else 'hml',
                 event_type='2',
-                xml_file=processo.envio_xml.decode('utf-8'),
+                xml_file=processo.envio_xml,
                 document_id=record,
             )
 
