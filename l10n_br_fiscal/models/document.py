@@ -261,49 +261,53 @@ class Document(models.Model):
                     "Serie: {0}, Number: {1} !".format(
                         record.document_serie, record.document_number)))
 
+    def _compute_document_name(self):
+        name = ''
+        type_serie_number = ''
+
+        if self.document_type:
+            type_serie_number += self.document_type
+        if self.document_serie:
+            type_serie_number += '/' + self.document_serie.zfill(3)
+        if self.document_number or self.rps_number:
+            type_serie_number += '/' + (self.document_number or self.rps_number)
+
+        if self._context.get("fiscal_document_complete_name"):
+            name += DOCUMENT_ISSUER_DICT.get(self.issuer, '')
+            if self.issuer == DOCUMENT_ISSUER_COMPANY and self.fiscal_operation_type:
+                name += '/' + FISCAL_IN_OUT_DICT.get(self.fiscal_operation_type, '')
+            name += '/' + type_serie_number
+            if self.date:
+                name += ' - ' + self.date.strftime('%d/%m/%Y')
+            if not self.partner_cnpj_cpf:
+                name += ' - ' + _('Unidentified Consumer')
+            elif self.partner_legal_name:
+                name += ' - ' + self.partner_legal_name
+                name += ' - ' + self.partner_cnpj_cpf
+            else:
+                name += ' - ' + self.partner_name
+                name += ' - ' + self.partner_cnpj_cpf
+        elif self._context.get("fiscal_document_no_company"):
+            name += type_serie_number
+        else:
+            name += '{name}/{type_serie_number}'.format(
+                name=self.company_name or '',
+                type_serie_number=type_serie_number,
+            )
+        return name
+
     @api.multi
     def name_get(self):
         res = []
         for record in self:
-            if self._context.get("fiscal_document_complete_name"):
-                res.append((record.id, record.name))
-            else:
-                txt = '{name}/{type}/{serie}/{number}'.format(
-                    name=record.company_name or '',
-                    type=record.document_type or '',
-                    serie=record.document_serie or '',
-                    number=record.document_number or record.rps_number or '',
-                )
-                res.append((record.id, txt))
+            res.append((record.id, record._compute_document_name()))
         return res
 
     @api.depends('issuer', 'fiscal_operation_type', 'document_type', 'document_serie',
                  'document_number', 'date', 'partner_id')
     def _compute_name(self):
         for r in self:
-            name = ''
-            name += DOCUMENT_ISSUER_DICT.get(r.issuer, '')
-            if r.issuer == DOCUMENT_ISSUER_COMPANY and r.fiscal_operation_type:
-                name += ' - ' + FISCAL_IN_OUT_DICT.get(r.fiscal_operation_type, '')
-            if r.document_type:
-                name += ' - ' + r.document_type
-            if r.document_serie:
-                name += ' - ' + r.document_serie
-            if r.document_number or r.rps_number:
-                name += ' - ' + (r.document_number or r.rps_number)
-            if r.date:
-                name += ' - ' + r.date.strftime('%d/%m/%Y')
-
-            if not r.partner_cnpj_cpf:
-                name += ' - ' + _('Unidentified Consumer')
-            elif r.partner_legal_name:
-                name += ' - ' + r.partner_legal_name
-                name += ' - ' + r.partner_cnpj_cpf
-            else:
-                name += ' - ' + r.partner_name
-                name += ' - ' + r.partner_cnpj_cpf
-
-            r.name = name
+            r.name = r._compute_document_name()
 
     @api.model
     def create(self, values):
