@@ -268,7 +268,7 @@ class NFe(spec_models.StackedModel):
         compute='_compute_nfe40_vTroco',
     )
 
-    nfe40_nFat = fields.Char(related='number')
+    nfe40_nFat = fields.Char(related='document_number')
 
     nfe40_vLiq = fields.Monetary(
         related='amount_total'
