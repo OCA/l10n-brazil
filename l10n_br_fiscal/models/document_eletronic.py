@@ -208,3 +208,8 @@ class DocumentEletronic(models.AbstractModel):
         if not self.file_report_id:
             self.make_pdf()
         return self._target_new_tab(self.file_report_id)
+
+    def _document_status(self):
+        """ Retorna o status do docuemnto em texto e se necessário,
+        atualiza o status do documento"""
+        return

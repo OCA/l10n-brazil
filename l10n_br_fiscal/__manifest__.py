@@ -96,6 +96,7 @@
         # Wizards
         "wizards/document_cancel_wizard.xml",
         "wizards/document_correction_wizard.xml",
+        "wizards/document_status_wizard.xml",
         "wizards/invalidate_number_wizard.xml",
 
         # Actions
