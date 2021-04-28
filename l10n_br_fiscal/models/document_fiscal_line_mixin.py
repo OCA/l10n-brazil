@@ -426,6 +426,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # de Combate à Pobreza (FCP) da UF de destino
     icmsfcp_value = fields.Monetary(string="ICMS FCP Value")
 
+    # vFCPST - Valor do ICMS relativo ao
+    # Fundo de Combate à Pobreza (FCP) por Substituição Tributária
+    icmsfcpst_value = fields.Monetary(string="ICMS FCP ST Value")
+
     # ICMS DIFAL Fields
     # vBCUFDest - Valor da BC do ICMS na UF de destino
     icms_destination_base = fields.Monetary(string="ICMS Destination Base")
