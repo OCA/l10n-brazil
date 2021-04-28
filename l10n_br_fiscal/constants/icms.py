@@ -147,3 +147,7 @@ ICMS_DIFAL_UNIQUE_BASE = [
 ICMS_DIFAL_DOUBLE_BASE = [
     'AL', 'BA', 'GO', 'MG', 'PA', 'PI',
     'PE', 'PR', 'RO', 'RS', 'SE', 'TO']
+
+ICSM_CST_CSOSN_ST_BASE = [
+    '10', '30', '70', '90',
+    '201', '202', '203', '900']

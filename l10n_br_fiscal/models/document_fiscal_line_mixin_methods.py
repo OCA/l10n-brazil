@@ -197,7 +197,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             cest=self.cest_id,
             operation_line=self.fiscal_operation_line_id,
             icmssn_range=self.icmssn_range_id,
-            icms_origin=self.icms_origin)
+            icms_origin=self.icms_origin,
+            icms_cst_id=self.icms_cst_id)
 
     @api.multi
     def _prepare_br_fiscal_dict(self, default=False):
@@ -653,6 +654,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.icmsfcp_base = tax_dict.get("base", 0.0)
         self.icmsfcp_percent = tax_dict.get("percent_amount", 0.0)
         self.icmsfcp_value = tax_dict.get("tax_value", 0.0)
+        self.icmsfcpst_value = tax_dict.get("fcpst_value", 0.0)
 
     @api.onchange(
         "icmsfcp_percent",
