@@ -292,7 +292,9 @@ class DocumentWorkflow(models.AbstractModel):
 
                 if self.document_type == MODELO_FISCAL_NFSE and not self.rps_number:
                     self.rps_number = self.document_serie_id.next_seq_number()
-                elif not self.document_number:
+
+                if (self.document_type != MODELO_FISCAL_NFSE and
+                        not self.document_number):
                     self.document_number = self.document_serie_id.next_seq_number()
 
             if not self.operation_name:
