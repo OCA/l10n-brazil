@@ -30,8 +30,6 @@
         'views/document_line_view.xml',
         'views/res_company_view.xml',
 
-        'wizards/wizard_document_status.xml',
-
         'report/danfse.xml',
     ],
     'demo': [
