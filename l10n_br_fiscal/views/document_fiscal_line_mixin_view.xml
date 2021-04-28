@@ -121,11 +121,14 @@
                         <field name="icmsfcp_percent" force_save="1" attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', '=', '500')]}"/>
                         <field name="icmsfcp_value" force_save="1"
                                attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', '=', '500')]}"/>
-                          <field name="icmsfcp_base_wh" force_save="1" attrs="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
-                          <field name="icmsfcp_percent_wh" force_save="1" attrs="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
-                          <field name="icmsfcp_value_wh" force_save="1" attrs="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
                           <field name="icmsfcpst_value" force_save="1"
                                  attrs="{'readonly': [('icmsfcp_tax_id', '!=', False)], 'invisible': [('icms_cst_code', 'not in', ('10', '30', '70', '90', '201', '202', '203', '900'))]}"/>
+                          <field name="icmsfcp_base_wh" force_save="1"
+                                 attrs="{'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}"/>
+                          <field name="icmsfcp_percent_wh" force_save="1"
+                                 attrs="{'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}"/>
+                          <field name="icmsfcp_value_wh" force_save="1"
+                                 attrs="{'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}"/>
                       </group>
                       <group name="icms_difal" string="ICMS DIFAL"
                              attrs="{'invisible': [('partner_company_type', 'in', ('company', False)), ('tax_framework', '=', '1'), ('cfop_destination', 'in', ('1', '3', False))]}">
@@ -138,7 +141,7 @@
                       </group>
                       <group name="icms_effective"
                              string="ICMS Effective Calculation"
-                             attrs="{'invisible': [('icms_cst_code', '!=', '500')]}">
+                             attrs="{'invisible': [('icms_cst_code', 'not in', ('60', '500'))]}">
                           <field name="icms_effective_reduction" force_save="1"
                                  attr="{'invisible': [('icms_cst_code', '!=', '500')]}"/>
                           <field name="icms_effective_base" force_save="1"
