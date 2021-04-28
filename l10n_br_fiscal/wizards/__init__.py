@@ -3,4 +3,5 @@
 from . import base_wizard_mixin
 from . import document_cancel_wizard
 from . import document_correction_wizard
+from . import document_status_wizard
 from . import invalidate_number_wizard
