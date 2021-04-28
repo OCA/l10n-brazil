@@ -19,14 +19,34 @@ class BaseWizardMixin(models.TransientModel):
         string='Document Type',
     )
 
-    event_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.event',
-        string='Fiscal Event',
+    document_type = fields.Char(
+        related='document_type_id.code',
+    )
+
+    document_key = fields.Char(
+        string='Document Key',
     )
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
         string='Partner',
+    )
+
+    rps_number = fields.Char(
+        string='RPS Number',
+    )
+
+    document_number = fields.Char(
+        string='Document Number',
+    )
+
+    document_serie = fields.Char(
+        string='Document Serie',
+    )
+
+    event_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.event',
+        string='Fiscal Event',
     )
 
     justification = fields.Text(
@@ -55,14 +75,34 @@ class BaseWizardMixin(models.TransientModel):
             'res.partner': 'partner_id',
         }
 
+    def _document_fields(self):
+        return [
+            'document_key',
+            'document_number',
+            'document_serie',
+            'document_status',
+            'document_type_id',
+            'partner_id',
+            'rps_number',
+        ]
+
     @api.model
     def default_get(self, fields_list):
         default_values = super().default_get(fields_list)
         active_model = self.env.context['active_model']
-        active_id = self.env.context['active_id']
-        default_values.update({
-            self._prepare_key_fields()[active_model]: active_id
-        })
+
+        if self._prepare_key_fields().get(active_model):
+
+            active_id = self.env.context['active_id']
+            active_vals = self.env[active_model].browse(active_id).read(
+                self._document_fields())[0]
+            active_vals = self._convert_to_write(active_vals)
+            active_vals.pop('id')
+            default_values.update(active_vals)
+
+            default_values.update({
+                self._prepare_key_fields()[active_model]: active_id
+            })
         return default_values
 
     @api.multi
