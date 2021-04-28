@@ -58,7 +58,7 @@ class ResPartner(spec_models.SpecModel):
     nfe40_fone = fields.Char(related='phone', readonly=False)  # TODO mobile?
 
     # nfe.40.dest
-#    nfe40_idEstrangeiro = fields.Char(
+    nfe40_idEstrangeiro = fields.Char()
     nfe40_xNome = fields.Char(related='legal_name')
     nfe40_enderDest = fields.Many2one('res.partner',
                                       compute='_compute_nfe40_enderDest')
@@ -131,4 +131,23 @@ class ResPartner(spec_models.SpecModel):
             if self.env.context.get('tpAmb') == '2':
                 return 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO ' \
                        '- SEM VALOR FISCAL'
+        if xsd_field == 'nfe40_xBairro' \
+                and class_obj._name == 'nfe.40.tendereco':
+            if self.country_id.code != 'BR':
+                return 'EX'
+
+        if xsd_field == 'nfe40_xMun' and class_obj._name == 'nfe.40.tendereco':
+            if self.country_id.code != 'BR':
+                return 'EXTERIOR'
+
+        if xsd_field == 'nfe40_cMun' and class_obj._name == 'nfe.40.tendereco':
+            if self.country_id.code != 'BR':
+                return '9999999'
+
+        if xsd_field == 'nfe40_UF' and class_obj._name == 'nfe.40.tendereco':
+            if self.country_id.code != 'BR':
+                return 'EX'
+        if xsd_field == 'nfe40_idEstrangeiro':
+            if self.company_id.partner_id.country_id != self.country_id:
+                return 'EXTERIOR'
         return super()._export_field(xsd_field, class_obj, member_spec)
