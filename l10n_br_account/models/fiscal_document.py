@@ -26,3 +26,7 @@ class FiscalDocument(models.Model):
                 _("You cannot delete a fiscal document " "which is not draft state.")
             )
         return super().unlink()
+
+    def generate_financial(self):
+        for record in self:
+            record.invoice_ids.generate_financial()
