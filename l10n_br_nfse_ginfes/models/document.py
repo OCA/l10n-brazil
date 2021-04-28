@@ -230,7 +230,7 @@ class Document(models.Model):
 
             return status
 
-    def action_consultar_nfse_rps(self):
+    def _document_status(self):
         for record in self.filtered(filter_oca_nfse):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
