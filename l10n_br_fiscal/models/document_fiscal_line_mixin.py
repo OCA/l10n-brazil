@@ -475,7 +475,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmsfcp_base_wh = fields.Monetary(string="FCP WH Base")
 
     # pFCPSTRet - Percentual do FCP retido anteriormente por ST
-    icmsfcp_percent_wh = fields.Float(string="FCP WH %")
+    icmsfcp_wh_percent = fields.Float(string="FCP WH %")
 
     # vFCPSTRet - Valor do FCP retido anteriormente por ST
     icmsfcp_value_wh = fields.Monetary(string="FCP WH")
