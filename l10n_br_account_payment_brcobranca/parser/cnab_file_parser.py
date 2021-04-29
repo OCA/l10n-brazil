@@ -99,7 +99,8 @@ class CNABFileParser(FileParser):
     def process_return_file(self, data):
 
         #          Forma de Lançamento do Retorno
-        # Criação de uma Entrada de Diário com os valores de desconto,
+        # Em caso de Pagamento/Liquidação é feita a criação de uma Entrada de
+        # Diário para cada linha do arquivo CNAB com os valores de desconto,
         # juros/mora, tarifa bancaria, abatimento, valor total
         #
         # Quando marcada a opção de Reconciliação Automatica no Diário
@@ -113,11 +114,15 @@ class CNABFileParser(FileParser):
         # valor da account_move_line em aberto.
         #
         #                      Valor Menor
-        # Os valores de Desconto e Abatimento estão sendo adicionados na
-        # reconciliação para que o valor total fique igual, exemplo:
+        # Os valores de Desconto e Abatimento estão sendo adicionados no
+        # lançamento referente ao pagamento para que o valor total fique
+        # igual, exemplo:
         #        Odoo               Valores arquivo CNAB
         #    Valor Odoo   | Valor Recebido | Valor Abatimento |Valor Desconto
         #       100       |     80         |       10         |     10
+        #
+        # O Valor Recebido a ser lançado será 100.
+        #
         # Caso o valor ainda seja menor nada pode ser feito aqui, pois
         # significa que o cliente pagou um valor menor sem relação com o
         # Abatimento e ou Desconto e que ainda está em Aberto junto ao banco.
@@ -134,6 +139,7 @@ class CNABFileParser(FileParser):
         #    Valor Odoo   | Valor Recebido | Juros Mora + Multa*
         #       100       |     110        |       10
         #
+        # O Valor Recebido a ser lançado será 100.
         # *valores vem somados no CNAB Unicred 400, seria um padrão ?
         #
         # Não é possível relacionar esse lançamento contabil diretamente isso
@@ -147,8 +153,10 @@ class CNABFileParser(FileParser):
         # ( Valor Recebido - Valor Juros Mora/Multa )
         # TODO: Deveria existir uma forma de mostrar o Valor de Juros/Multa na
         #  tela da Fatura/Invoice, e assim o usuário poder visualizar isso ?
-        # Porque não vai existir um relacionamento direto de conciliação, apenas a
-        # referencia no campo name e invoice_id da account.move.line
+        # Porque não vai existir um relacionamento direto de conciliação,
+        # apenas a referencia no campo name e invoice_id da account.move.line,
+        # e caso se queira saber os detalhes será preciso olhar a Entrada de
+        # Diário referente.
 
         # Lista com os dados q poderão ser usados
         # na criação das account move line
@@ -318,16 +326,15 @@ class CNABFileParser(FileParser):
                             'invoice_id': account_move_line.invoice_id.id,
                         })
 
-                        # Usado para Conciliar a Fatura
-                        # Write Off necessário para ser possível a conciliação
                         row_list.append({
                             'name': 'Desconto (boleto) ' +
                                     account_move_line.document_number,
                             'debit': 0.0,
                             'credit': valor_desconto,
                             'type': 'desconto',
-                            'account_id': account_move_line.account_id.id,
-                            'ref': account_move_line.own_number,
+                            'account_id':
+                            self.journal.default_credit_account_id.id,
+                            'ref': account_move_line.document_number,
                             'invoice_id': account_move_line.invoice_id.id,
                             'partner_id': account_move_line.partner_id.id,
                         })
@@ -345,7 +352,8 @@ class CNABFileParser(FileParser):
                             'debit': 0.0,
                             'credit': valor_juros_mora,
                             'type': 'juros_mora',
-                            'account_id': account_move_line.account_id.id,
+                            'account_id': account_move_line.payment_mode_id.
+                            interest_fee_account_id.id,
                             'ref': account_move_line.document_number,
                             'invoice_id': account_move_line.invoice_id.id,
                             'partner_id': account_move_line.partner_id.id,
@@ -356,8 +364,8 @@ class CNABFileParser(FileParser):
                                     account_move_line.document_number,
                             'debit': valor_juros_mora,
                             'credit': 0.0,
-                            'account_id': account_move_line.payment_mode_id.
-                            interest_fee_account_id.id,
+                            'account_id':
+                            self.journal.default_credit_account_id.id,
                             'journal_id': account_move_line.journal_id.id,
                             'type': 'juros_mora',
                             'ref': account_move_line.document_number,
@@ -415,30 +423,29 @@ class CNABFileParser(FileParser):
                             'invoice_id': account_move_line.invoice_id.id,
                         })
 
-                        # Usado para Conciliar a Fatura
-                        # Write Off necessário para ser possível a conciliação
                         row_list.append({
                             'name': 'Abatimento (boleto) ' +
                                     account_move_line.document_number,
                             'debit': 0.0,
                             'credit': valor_abatimento,
                             'type': 'abatimento',
-                            'account_id': account_move_line.account_id.id,
-                            'ref': account_move_line.own_number,
+                            'account_id':
+                            self.journal.default_credit_account_id.id,
+                            'ref': account_move_line.document_number,
                             'invoice_id': account_move_line.invoice_id.id,
                             'partner_id': account_move_line.partner_id.id,
                         })
 
-                # Linha da Fatura a ser reconciliada.
-                # Necessário atualizar o Valor Recebido pois o Odoo
-                # não aceita a conciliação com um valor maior do que
-                # o informado.
-                valor_recebido_sem_juros_mora =\
-                    valor_recebido - valor_juros_mora
+                # Linha da Fatura a ser reconciliada com o Pagamento em Aberto,
+                # necessário atualizar o Valor Recebido pois o Odoo não
+                # aceita a conciliação nem com um Valor Menor ou Maior.
+                valor_recebido_calculado =\
+                    (valor_recebido + valor_desconto +
+                     valor_abatimento) - valor_juros_mora
                 row_list.append({
                      'name': account_move_line.invoice_id.number,
                      'debit': 0.0,
-                     'credit': valor_recebido_sem_juros_mora,
+                     'credit': valor_recebido_calculado,
                      'move_line': account_move_line,
                      'invoice_id': account_move_line.invoice_id.id,
                      'type': 'liquidado',
