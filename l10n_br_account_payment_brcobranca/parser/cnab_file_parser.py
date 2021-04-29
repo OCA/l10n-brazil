@@ -256,6 +256,15 @@ class CNABFileParser(FileParser):
                 [('move_line_id', '=', account_move_line.id)]
             )
 
+            # A Linha de Pagamento pode ter N bank.payment.line
+            # estamos referenciando apenas a referente a que iniciou
+            # o CNAB
+            # TODO: Deveria relacionar todas ?
+            bank_line = payment_line.bank_line_id.filtered(
+                lambda b: b.mov_instruction_code_id.id ==
+                          payment_line.payment_mode_id.
+                              cnab_sending_code_id.id)
+
             # Codigos de Movimento de Retorno - Liquidação
             cnab_liq_move_code = []
             for move_code in account_move_line.payment_mode_id.\
@@ -268,8 +277,7 @@ class CNABFileParser(FileParser):
                 'own_number': account_move_line.own_number,
                 'your_number': account_move_line.document_number,
                 'title_value': valor_titulo,
-                'bank_payment_line_id':
-                    payment_line.bank_line_id.id or False,
+                'bank_payment_line_id': bank_line.id or False,
                 'invoice_id': account_move_line.invoice_id.id,
                 'due_date': datetime.datetime.strptime(
                     str(linha_cnab['data_vencimento']), "%d%m%y").date(),
@@ -442,6 +450,7 @@ class CNABFileParser(FileParser):
                 valor_recebido_calculado =\
                     (valor_recebido + valor_desconto +
                      valor_abatimento) - valor_juros_mora
+
                 row_list.append({
                      'name': account_move_line.invoice_id.number,
                      'debit': 0.0,
@@ -449,8 +458,7 @@ class CNABFileParser(FileParser):
                      'move_line': account_move_line,
                      'invoice_id': account_move_line.invoice_id.id,
                      'type': 'liquidado',
-                     'bank_payment_line_id':
-                     payment_line.bank_line_id.id or False,
+                    'bank_payment_line_id': bank_line.id or False,
                      'ref': account_move_line.own_number,
                      'account_id': account_move_line.account_id.id,
                      'partner_id': account_move_line.partner_id.id,
