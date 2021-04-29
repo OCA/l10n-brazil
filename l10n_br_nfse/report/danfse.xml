@@ -180,13 +180,13 @@
                         <div class="col-2 rotulo bl bb">
                             Insc. Municipal
                         </div>
-                        <div class="col-1 linha centro bl bb">
-                            <span t-field="doc.company_id.inscr_mun" />
+                        <div class="col-2 linha centro bl bb">
+                            <span t-field="doc.company_id.inscr_mun"/>
                         </div>
                         <div class="col-1 rotulo bl bb">
                             Município
                         </div>
-                        <div class="col-4 linha centro bl bb">
+                        <div class="col-3 linha centro bl bb">
                             <span t-field="doc.company_id.city_id" /> - <span t-field="doc.company_id.state_id.code" />
                         </div>
                     </div>
@@ -247,13 +247,13 @@
                 <div class="col-2 rotulo br">
                     Insc. Municipal
                 </div>
-                <div class="col-1 linha centro br">
+                <div class="col-2 linha centro br">
                     <span t-field="doc.partner_id.inscr_mun" />
                 </div>
                 <div class="col-1 rotulo br">
                     Município
                 </div>
-                <div class="col-4 linha esquerda">
+                <div class="col-3 linha esquerda">
                     <span t-field="doc.partner_id.city_id" /> - <span t-field="doc.partner_id.state_id.code" />
                 </div>
             </div>
