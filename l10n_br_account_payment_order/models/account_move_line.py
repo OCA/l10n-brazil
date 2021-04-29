@@ -20,7 +20,6 @@ class AccountMoveLine(models.Model):
     cnab_state = fields.Selection(
         selection=ESTADOS_CNAB,
         string='Estados CNAB',
-        default='draft',
     )
 
     own_number = fields.Char(
@@ -163,7 +162,7 @@ class AccountMoveLine(models.Model):
         :return:
         """
         cnab_state = 'added'
-        if self.invoice_id.state == 'paid':
+        if self.reconciled:
             cnab_state = 'added_paid'
 
         self.cnab_state = cnab_state
