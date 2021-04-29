@@ -16,7 +16,6 @@ class AccountMoveLine(models.Model):
     #  Isso causa confusão pois a primeira parcela fica como sendo a segunda.
     _order = 'date desc, date_maturity ASC, id desc'
 
-    # TODO - possível tornar um compute ?
     cnab_state = fields.Selection(
         selection=ESTADOS_CNAB,
         string='Estados CNAB',
@@ -24,7 +23,6 @@ class AccountMoveLine(models.Model):
 
     own_number = fields.Char(
         string='Nosso Numero',
-        track_visibility='onchange',
     )
 
     # No arquivo de retorno do CNAB o campo pode ter um tamanho diferente,
@@ -51,19 +49,16 @@ class AccountMoveLine(models.Model):
 
     document_number = fields.Char(
         string='Número documento',
-        track_visibility='onchange',
     )
 
     company_title_identification = fields.Char(
         string='Identificação Titulo Empresa',
-        track_visibility='onchange',
     )
 
     payment_situation = fields.Selection(
         selection=SITUACAO_PAGAMENTO,
         string='Situação do Pagamento',
         default='inicial',
-        track_visibility='onchange',
     )
 
     instructions = fields.Text(
@@ -72,27 +67,26 @@ class AccountMoveLine(models.Model):
     )
 
     journal_entry_ref = fields.Char(
-        string="Journal Entry Ref",
-        compute="_compute_journal_entry_ref",
+        string='Journal Entry Ref',
+        compute='_compute_journal_entry_ref',
         store=True,
     )
+
+    # TODO: Confirmar o caso de uso de diferentes modos de pagto na mesma
+    #  account.invoice
     payment_mode_id = fields.Many2one(
-        track_visibility='onchange'
+        string='Modo de Pagamento'
     )
-    date_maturity = fields.Date(
-        track_visibility='onchange'
-    )
+
     last_change_reason = fields.Text(
         readonly=True,
-        track_visibility='onchange',
-        string="Justificativa",
+        string='Justificativa',
     )
 
     mov_instruction_code_id = fields.Many2one(
         comodel_name='l10n_br_cnab.mov.instruction.code',
         string='Código da Instrução para Movimento',
         help='Campo G061 do CNAB',
-        track_visibility='onchange',
     )
 
     # Usados para deixar invisiveis/somente leitura
@@ -116,7 +110,7 @@ class AccountMoveLine(models.Model):
         inverse_name='move_line_id',
     )
 
-    @api.depends("move_id")
+    @api.depends('move_id')
     def _compute_journal_entry_ref(self):
         for record in self:
             if record.name:
