@@ -482,3 +482,59 @@ class AccountInvoice(models.Model):
     def view_pdf(self):
         self.ensure_one()
         return self.fiscal_document_id.view_pdf()
+
+    def _get_refund_common_fields(self):
+        fields = super()._get_refund_common_fields()
+        fields += [
+            'fiscal_operation_id',
+            'document_type_id',
+            'document_serie_id',
+        ]
+        return fields
+
+    @api.multi
+    @api.returns('self')
+    def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
+        new_invoices = super(AccountInvoice, self).refund(
+            date_invoice, date, description, journal_id)
+        
+        force_fiscal_operation_id = False
+        if self.env.context.get('force_fiscal_operation_id'):
+            force_fiscal_operation_id = self.env['l10n_br_fiscal.operation'].browse(
+                self.env.context.get('force_fiscal_operation_id')
+            )
+
+        my_new_invoices = self.browse(new_invoices.ids)
+
+        for r in my_new_invoices:
+            if not r.document_type_id:
+                continue
+            if (not force_fiscal_operation_id and
+                    not r.fiscal_operation_id.return_fiscal_operation_id):
+                raise UserError(
+                    _("""Document without Return Fiscal Operation! \n Force one!"""))
+
+            r.fiscal_operation_id = (
+                force_fiscal_operation_id or
+                r.fiscal_operation_id.return_fiscal_operation_id)
+
+            for line in r.invoice_line_ids:
+                if (not force_fiscal_operation_id and
+                        not line.fiscal_operation_id.return_fiscal_operation_id):
+                    raise UserError(
+                        _("""Line without Return Fiscal Operation! \n
+                            Please force one! \n{}""".format(line.name)))
+
+                line.fiscal_operation_id = (
+                    force_fiscal_operation_id or
+                    line.fiscal_operation_id.return_fiscal_operation_id)
+                line._onchange_fiscal_operation_id()
+
+        return new_invoices
+
+    def _refund_cleanup_lines(self, lines):
+        result = super(AccountInvoice, self)._refund_cleanup_lines(lines)
+        for _a, _b, vals in result:
+            if vals.get('fiscal_document_line_id'):
+                vals.pop('fiscal_document_line_id')
+        return result
