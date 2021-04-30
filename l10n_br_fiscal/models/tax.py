@@ -476,23 +476,18 @@ class Tax(models.Model):
 
     def _compute_icmsfcp(self, tax, taxes_dict, **kwargs):
         """Compute ICMS FCP"""
-        discount_value = kwargs.get("discount_value", 0.00)
-        insurance_value = kwargs.get("insurance_value", 0.00)
-        freight_value = kwargs.get("freight_value", 0.00)
-        other_value = kwargs.get("other_value", 0.00)
+        partner = kwargs.get("partner")
+        company = kwargs.get("company")
         icms_cst_id = kwargs.get("icms_cst_id")
 
-        add_to_base = [insurance_value, freight_value, other_value]
-        remove_from_base = [discount_value]
+        if company.state_id != partner.state_id:
+            taxes_dict[tax.tax_domain]['base'] = taxes_dict['icms'].get(
+                'icms_dest_base', 0.0)
+        else:
+            taxes_dict[tax.tax_domain]['base'] = taxes_dict['icms'].get(
+                'base', 0.0)
 
-        kwargs.update({
-            'add_to_base': sum(add_to_base),
-            'remove_from_base': sum(remove_from_base),
-            'icms_base_type': tax.icms_base_type
-        })
-
-        taxes_dict[tax.tax_domain].update(self._compute_tax_base(
-            tax, taxes_dict.get(tax.tax_domain), **kwargs))
+        taxes_dict[tax.tax_domain].pop('percent_amount', None)
 
         taxes_dict[tax.tax_domain].update(self._compute_tax(
             tax, taxes_dict, **kwargs))
