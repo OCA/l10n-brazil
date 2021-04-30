@@ -507,7 +507,7 @@ class NFeLine(spec_models.StackedModel):
                 self.document_id.nfe40_idDest == '2' and \
                 self.document_id.partner_id.ind_ie_dest == '9' and \
                 self.cfop_id.code not in CFOP_INDRETOR:
-            self.nfe40_vBCUFDest = self.nfe40_vBC
+            self.nfe40_vBCUFDest = str("%.02f" % self.icms_destination_base)
             if self.document_id.partner_id.state_id.code in [
                     'AC', 'CE', 'ES', 'GO', 'MT', 'MS', 'PA', 'PI', 'RR', 'SC'
             ]:
