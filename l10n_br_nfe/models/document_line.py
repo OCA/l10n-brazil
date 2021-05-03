@@ -503,6 +503,10 @@ class NFeLine(spec_models.StackedModel):
         self.nfe40_cEnq = str(self.ipi_guideline_id.code or '999').zfill(3)
         self.nfe40_pCredSN = self.icmssn_percent
 
+        if self.icmsfcp_value:
+            self.nfe40_pFCPUFDest = self.icmsfcp_percent
+            self.nfe40_vFCPUFDest = self.icmsfcp_value
+
         if self.document_id.ind_final == '1' and \
                 self.document_id.nfe40_idDest == '2' and \
                 self.document_id.partner_id.ind_ie_dest == '9' and \
