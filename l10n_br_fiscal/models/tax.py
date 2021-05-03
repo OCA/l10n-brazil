@@ -480,11 +480,15 @@ class Tax(models.Model):
         company = kwargs.get("company")
         icms_cst_id = kwargs.get("icms_cst_id")
 
-        if company.state_id != partner.state_id:
-            taxes_dict[tax.tax_domain]['base'] = taxes_dict['icms'].get(
-                'icms_dest_base', 0.0)
-        else:
-            taxes_dict[tax.tax_domain]['base'] = taxes_dict['icms'].get(
+        if taxes_dict.get('icms'):
+            if company.state_id != partner.state_id:
+                taxes_dict[tax.tax_domain]['base'] = taxes_dict['icms'].get(
+                    'icms_dest_base', 0.0)
+            else:
+                taxes_dict[tax.tax_domain]['base'] = taxes_dict['icms'].get(
+                    'base', 0.0)
+        elif taxes_dict.get('icmssn'):
+            taxes_dict[tax.tax_domain]['base'] = taxes_dict['icmssn'].get(
                 'base', 0.0)
 
         taxes_dict[tax.tax_domain].pop('percent_amount', None)
