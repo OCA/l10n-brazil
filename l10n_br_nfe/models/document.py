@@ -256,6 +256,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_infRespTec = fields.Many2one(
+        comodel_name='res.partner',
         related='company_id.technical_support_id'
     )
 
