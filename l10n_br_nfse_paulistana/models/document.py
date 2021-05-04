@@ -149,7 +149,8 @@ class Document(models.Model):
                 tpRPS, 'AliquotaServicos', dados_servico['aliquota']),
             ISSRetido='true' if dados_servico['iss_retido'] == '1' else 'false',  # FIXME: Hardcoded
             CPFCNPJTomador=self.convert_type_nfselib(
-                tpRPS, 'CPFCNPJTomador', tpCPFCNPJ(CNPJ=dados_tomador['cnpj'])),
+                tpRPS, 'CPFCNPJTomador', tpCPFCNPJ(
+                    CNPJ=dados_tomador['cnpj'], CPF=dados_tomador['cpf'])),
             InscricaoMunicipalTomador=self.convert_type_nfselib(
                 tpRPS, 'InscricaoMunicipalTomador',
                 dados_tomador['inscricao_municipal']),
@@ -247,7 +248,7 @@ class Document(models.Model):
             replace('.', '').zfill(15)
         assinatura += dados_servico['codigo_tributacao_municipio'].zfill(5)
         assinatura += '2'  # FIXME: Manter sempre CNPJ?
-        assinatura += dados_tomador['cnpj'].zfill(14)
+        assinatura += (dados_tomador['cnpj'] or dados_tomador['cpf']).zfill(14)
         # assinatura += '3'
         # assinatura += ''.zfill(14)
         # assinatura += 'N'
