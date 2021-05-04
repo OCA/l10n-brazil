@@ -69,31 +69,23 @@ class BankPaymentLine(models.Model):
         help='Campo P006 do CNAB',
     )
 
-    rebate_value = fields.Float(
+    rebate_value = fields.Monetary(
         string='Valor do Abatimento',
-        digits=(13, 2),
-        default=0.00,
         help='Campo G045 do CNAB',
     )
 
-    discount_value = fields.Float(
+    discount_value = fields.Monetary(
         string='Valor do Desconto',
-        digits=(13, 2),
-        default=0.00,
         help='Campo G046 do CNAB',
     )
 
-    interest_value = fields.Float(
+    interest_value = fields.Monetary(
         string='Valor da Mora',
-        digits=(13, 2),
-        default=0.00,
         help='Campo G047 do CNAB',
     )
 
-    fee_value = fields.Float(
+    fee_value = fields.Monetary(
         string='Valor da Multa',
-        digits=(13, 2),
-        default=0.00,
         help='Campo G048 do CNAB',
     )
 
