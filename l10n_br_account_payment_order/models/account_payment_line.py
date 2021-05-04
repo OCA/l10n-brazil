@@ -68,31 +68,23 @@ class AccountPaymentLine(models.Model):
         default='0',
     )
 
-    rebate_value = fields.Float(
+    rebate_value = fields.Monetary(
         string='Valor do Abatimento',
         help='Campo G045 do CNAB',
-        default=0.00,
-        digits=(13, 2),
     )
 
-    discount_value = fields.Float(
+    discount_value = fields.Monetary(
         string='Valor do Desconto',
-        digits=(13, 2),
-        default=0.00,
         help='Campo G046 do CNAB',
     )
 
-    interest_value = fields.Float(
+    interest_value = fields.Monetary(
         string='Valor da Mora',
-        digits=(13, 2),
-        default=0.00,
         help='Campo G047 do CNAB',
     )
 
-    fee_value = fields.Float(
+    fee_value = fields.Monetary(
         string='Valor da Multa',
-        digits=(13, 2),
-        default=0.00,
         help='Campo G048 do CNAB',
     )
 
