@@ -131,20 +131,19 @@ class ResPartner(spec_models.SpecModel):
             if self.env.context.get('tpAmb') == '2':
                 return 'NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO ' \
                        '- SEM VALOR FISCAL'
-        if xsd_field == 'nfe40_xBairro' \
-                and class_obj._name == 'nfe.40.tendereco':
+        if xsd_field == 'nfe40_xBairro':
             if self.country_id.code != 'BR':
                 return 'EX'
 
-        if xsd_field == 'nfe40_xMun' and class_obj._name == 'nfe.40.tendereco':
+        if xsd_field == 'nfe40_xMun':
             if self.country_id.code != 'BR':
                 return 'EXTERIOR'
 
-        if xsd_field == 'nfe40_cMun' and class_obj._name == 'nfe.40.tendereco':
+        if xsd_field == 'nfe40_cMun':
             if self.country_id.code != 'BR':
                 return '9999999'
 
-        if xsd_field == 'nfe40_UF' and class_obj._name == 'nfe.40.tendereco':
+        if xsd_field == 'nfe40_UF':
             if self.country_id.code != 'BR':
                 return 'EX'
         if xsd_field == 'nfe40_idEstrangeiro':
