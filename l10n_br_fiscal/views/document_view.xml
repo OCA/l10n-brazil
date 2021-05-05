@@ -27,7 +27,7 @@
         <field name="document_type"/>
         <field name="document_serie"/>
         <field name="document_number"/>
-        <field name="date"/>
+        <field name="document_date"/>
         <field name="fiscal_operation_id"/>
         <field name="partner_id"/>
         <field name="amount_untaxed"/>
@@ -116,7 +116,7 @@
             <page name="document" string="Document Info">
               <group name="Document">
                 <group>
-                  <field name="date"/>
+                  <field name="document_date"/>
                   <field name="date_in_out"/>
                 </group>
                 <group>
