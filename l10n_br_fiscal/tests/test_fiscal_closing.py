@@ -22,7 +22,7 @@ class TestFiscalClosing(TransactionCase):
         self.nfe_export = self.env.ref(
             'l10n_br_fiscal.demo_nfe_export'
         )
-        self.nfe_export.date = fields.Datetime.now()
+        self.nfe_export.document_date = fields.Datetime.now()
         self.nfe_export.date_in_out = fields.Datetime.now()
         self.closing_all = self.env['l10n_br_fiscal.closing'].create({
             'export_type': 'all',
@@ -30,8 +30,8 @@ class TestFiscalClosing(TransactionCase):
 
         self.closing_period = self.env['l10n_br_fiscal.closing'].create({
             'export_type': 'period',
-            'year': str(self.nfe_export.date.year),
-            'month': str(self.nfe_export.date.month),
+            'year': str(self.nfe_export.document_date.year),
+            'month': str(self.nfe_export.document_date.month),
         })
 
     def test_event_to_fiscal_close(self):
@@ -49,7 +49,7 @@ class TestFiscalClosing(TransactionCase):
         event_id.set_done(
             status_code='101',
             response='Teste Autorizado',
-            protocol_date=self.nfe_export.date,
+            protocol_date=self.nfe_export.document_date,
             protocol_number='12345678',
             file_response_xml=xml_file,
         )
