@@ -47,7 +47,7 @@ class TestFiscalDocumentNFSeGinfes(TestFiscalDocumentNFSeCommon):
 
         self.nfse_same_state.action_document_confirm()
 
-        self.nfse_same_state.date = datetime.strptime(
+        self.nfse_same_state.document_date = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
         self.nfse_same_state.date_in_out = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
