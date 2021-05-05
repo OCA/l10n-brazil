@@ -425,28 +425,21 @@ class NFe(spec_models.StackedModel):
                         )
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ['100']:
-                protocolos = processo.resposta.protNFe
-                if type(protocolos) != list:
-                    protocolos = [protocolos]
-                for protocolo in protocolos:
-                    nfe_proc = leiauteNFe.TNfeProc(
-                        NFe=edoc,
-                        protNFe=protocolo,
-                    )
-                    nfe_proc.original_tagname_ = 'nfeProc'
-                    xml_file = processador._generateds_to_string_etree(nfe_proc)[0]
-                    record.atualiza_status_nfe(protocolo.infProt, xml_file, )
-                    if protocolo.infProt.cStat in AUTORIZADO:
-                        try:
-                            record.make_pdf()
-                        except Exception as e:
-                            # Não devemos interromper o fluxo
-                            # E dar rollback em um documento
-                            # autorizado, podendo perder dados.
+                record.atualiza_status_nfe(
+                    processo.protocolo.infProt,
+                    processo.processo_xml.decode('utf-8')
+                )
+                if processo.protocolo.infProt.cStat in AUTORIZADO:
+                    try:
+                        record.make_pdf()
+                    except Exception as e:
+                        # Não devemos interromper o fluxo
+                        # E dar rollback em um documento
+                        # autorizado, podendo perder dados.
 
-                            # Se der problema que apareça quando
-                            # o usuário clicar no gera PDF novamente.
-                            _logger.error('DANFE Error \n {}'.format(e))
+                        # Se der problema que apareça quando
+                        # o usuário clicar no gera PDF novamente.
+                        _logger.error('DANFE Error \n {}'.format(e))
 
             elif processo.resposta.cStat == '225':
                 state = SITUACAO_EDOC_REJEITADA
