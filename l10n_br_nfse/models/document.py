@@ -179,7 +179,7 @@ class Document(models.Model):
             'serie': self.document_serie_id.code or '',
             'tipo': self.rps_type,
             'data_emissao': fields.Datetime.context_timestamp(
-                self, fields.Datetime.from_string(self.date)
+                self, fields.Datetime.from_string(self.document_date)
             ).strftime('%Y-%m-%dT%H:%M:%S'),
             'date_in_out': fields.Datetime.context_timestamp(
                 self, self.date_in_out).strftime('%Y-%m-%dT%H:%M:%S'),
