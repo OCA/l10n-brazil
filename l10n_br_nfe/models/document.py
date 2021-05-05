@@ -135,7 +135,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_dhEmi = fields.Datetime(
-        related='date',
+        related='document_date',
     )
 
     nfe40_dhSaiEnt = fields.Datetime(
