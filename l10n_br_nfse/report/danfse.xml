@@ -107,13 +107,13 @@
                     Data e Hora da Emissão
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.date" />
+                    <span t-field="doc.document_date" />
                 </div>
                  <div class="col-2 rotulo br">
                     Competência
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.date" t-options='{"format": "MM/yyyy"}' />
+                    <span t-field="doc.document_date" t-options='{"format": "MM/yyyy"}' />
                 </div>
                  <div class="col-2 rotulo br">
                     Código de Verificação
