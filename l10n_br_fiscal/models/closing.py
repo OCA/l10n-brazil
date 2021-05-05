@@ -212,7 +212,7 @@ class FiscalClosing(models.Model):
         fsc_op_type = {'out': 'Saída', 'in': 'Entrada', 'all': 'Todos'}
         document_path = '/'.join([
             misc.punctuation_rm(document.company_cnpj_cpf),
-            document.date.strftime("%m-%Y"),
+            document.document_date.strftime("%m-%Y"),
             PATH_MODELO[document.document_type_id.code],
             fsc_op_type.get(document.fiscal_operation_type),
             (document.document_serie or '').zfill(3) +
