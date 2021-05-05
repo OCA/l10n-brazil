@@ -247,7 +247,7 @@ class Document(models.Model):
         assinatura += ('%.2f' % dados_lote_rps['carga_tributaria']).\
             replace('.', '').zfill(15)
         assinatura += dados_servico['codigo_tributacao_municipio'].zfill(5)
-        assinatura += '2'  # FIXME: Manter sempre CNPJ?
+        assinatura += '2' if dados_tomador['cnpj'] else '1'
         assinatura += (dados_tomador['cnpj'] or dados_tomador['cpf']).zfill(14)
         # assinatura += '3'
         # assinatura += ''.zfill(14)
