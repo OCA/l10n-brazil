@@ -92,8 +92,8 @@ class Document(models.Model):
         string='Issuer',
     )
 
-    date = fields.Datetime(
-        string='Date',
+    document_date = fields.Datetime(
+        string='Document Date',
         copy=False,
     )
 
@@ -277,8 +277,8 @@ class Document(models.Model):
             if self.issuer == DOCUMENT_ISSUER_COMPANY and self.fiscal_operation_type:
                 name += '/' + FISCAL_IN_OUT_DICT.get(self.fiscal_operation_type, '')
             name += '/' + type_serie_number
-            if self.date:
-                name += ' - ' + self.date.strftime('%d/%m/%Y')
+            if self.document_date:
+                name += ' - ' + self.document_date.strftime('%d/%m/%Y')
             if not self.partner_cnpj_cpf:
                 name += ' - ' + _('Unidentified Consumer')
             elif self.partner_legal_name:
@@ -304,15 +304,15 @@ class Document(models.Model):
         return res
 
     @api.depends('issuer', 'fiscal_operation_type', 'document_type', 'document_serie',
-                 'document_number', 'date', 'partner_id')
+                 'document_number', 'document_date', 'partner_id')
     def _compute_name(self):
         for r in self:
             r.name = r._compute_document_name()
 
     @api.model
     def create(self, values):
-        if not values.get('date'):
-            values['date'] = self._date_server_format()
+        if not values.get('document_date'):
+            values['document_date'] = self._date_server_format()
         return super().create(values)
 
     @api.multi
@@ -424,7 +424,7 @@ class Document(models.Model):
             'document_type_id': self.document_type,
             'serie': self.document_serie,
             'document_number': self.document_number,
-            'date': self.date,
+            'document_date': self.document_date,
             'document_key': self.document_key,
         }
         reference_id = self.env['l10n_br_fiscal.document.related'].create(vals)

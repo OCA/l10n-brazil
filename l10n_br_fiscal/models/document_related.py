@@ -60,7 +60,7 @@ class DocumentRelated(models.Model):
         string='Inscr. Estadual/RG',
         size=16)
 
-    date = fields.Date(
+    document_date = fields.Date(
         string='Data')
 
     @api.multi
@@ -121,7 +121,7 @@ class DocumentRelated(models.Model):
             self.state_id = False
             self.cnpj_cpf = False
             self.cpfcnpj_type = False
-            self.date = False
+            self.document_date = False
             self.inscr_est = False
 
         if related.document_type_id.code in ('01', '04'):
@@ -140,7 +140,7 @@ class DocumentRelated(models.Model):
             else:
                 self.cpfcnpj_type = 'cpf'
 
-            self.date = related.date
+            self.document_date = related.document_date
 
         if related.document_type_id.code == '04':
             self.inscr_est = related.partner_id and \
