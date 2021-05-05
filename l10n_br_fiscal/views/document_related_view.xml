@@ -33,7 +33,7 @@
             <field name="document_serie" attrs="{'required': [('document_type_code', 'in', ('01', '04', '07'))]}"/>
             <field name="document_number" attrs="{'required': [('document_type_code', 'in', ('01', '04', '07'))]}"/>
             <field name="state_id" attrs="{'required': [('document_type_code', 'in', ('01', '04'))], 'invisible': [('document_type_code', '=', '07')]}"/>
-            <field name="date" attrs="{'required': [('document_type_code', 'in', ('01', '04'))], 'invisible': [('document_type_code', '=', '07')]}"/>
+            <field name="document_date" attrs="{'required': [('document_type_code', 'in', ('01', '04'))], 'invisible': [('document_type_code', '=', '07')]}"/>
             <field name="cpfcnpj_type" attrs="{'required': [('document_type_code', 'in', ('04'))], 'invisible': [('document_type_code', '!=', '04')]}"/>
             <field name="cnpj_cpf" attrs="{'required': [('document_type_code', 'in', ('01', '04'))], 'invisible': [('document_type_code', '=', '07')]}"/>
             <field name="inscr_est" attrs="{'invisible': [('document_type_code', '!=', '04')]}"/>
