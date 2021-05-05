@@ -45,7 +45,7 @@ class TestNFeExport(TransactionCase):
         xml_path = os.path.join(
             l10n_br_nfe.__path__[0], 'tests', 'nfe', 'v4_00', 'leiauteNFe',
             'NFe35200697231608000169550010000000111855451724-nf-e.xml')
-        self.nfe.date = datetime.strptime(
+        self.nfe.document_date = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
         self.nfe.date_in_out = datetime.strptime(
             '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
