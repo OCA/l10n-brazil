@@ -255,8 +255,8 @@ class DocumentWorkflow(models.AbstractModel):
         return status
 
     def _document_date(self):
-        if not self.date:
-            self.date = self._date_server_format()
+        if not self.document_date:
+            self.document_date = self._date_server_format()
 
     def _document_check(self):
         return True
@@ -268,7 +268,7 @@ class DocumentWorkflow(models.AbstractModel):
                     MODELO_FISCAL_NFCE,
                     MODELO_FISCAL_CTE):
                 chave_edoc = ChaveEdoc(
-                    ano_mes=record.date.strftime("%y%m").zfill(4),
+                    ano_mes=record.document_date.strftime("%y%m").zfill(4),
                     cnpj_emitente=record.company_cnpj_cpf,
                     codigo_uf=(
                         record.company_state_id and

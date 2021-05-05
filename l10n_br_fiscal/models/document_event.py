@@ -232,8 +232,8 @@ class Event(models.Model):
         numero = self.document_number
 
         if self.document_id:
-            ano = self.document_id.date.strftime("%Y")
-            mes = self.document_id.date.strftime("%m")
+            ano = self.document_id.document_date.strftime("%Y")
+            mes = self.document_id.document_date.strftime("%m")
         elif self.invalidate_number_id:
             ano = self.invalidate_number_id.date.strftime("%Y")
             mes = self.invalidate_number_id.date.strftime("%m")
