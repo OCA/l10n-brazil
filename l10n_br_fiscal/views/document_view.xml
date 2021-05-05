@@ -372,7 +372,7 @@
                   <separator name="pagamentos" string="Pagamentos" colspan="4"/>
                   <field name="fiscal_payment_ids" context="{
                         'default_amount': amount_missing_payment_value,
-                        'default_date': date,
+                        'default_date': document_date,
                         'default_currency_id': currency_id,
                         'default_company_id': company_id,
                         'default_document_id': id,

@@ -25,7 +25,7 @@ class PaymentMixin(models.AbstractModel):
         raise NotImplementedError
 
     def _date_field(self):
-        return self.date
+        return self.document_date
 
     def _get_amount_total(self):
         return self.amount_financial
