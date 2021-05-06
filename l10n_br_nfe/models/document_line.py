@@ -405,7 +405,7 @@ class NFeLine(spec_models.StackedModel):
             self.nfe40_vBCUFDest = str("%.02f" % self.icms_destination_base)
             self.nfe40_vBCFCPUFDest = str("%.02f" % self.icmsfcp_base)
             self.nfe40_pFCPUFDest = str("%.04f" % self.icmsfcp_percent)
-            self.nfe40_pICMSUFDest =str("%.04f" % self.icms_destination_percent)
+            self.nfe40_pICMSUFDest = str("%.04f" % self.icms_destination_percent)
             if self.icms_origin_percent:
                 self.nfe40_pICMSInter = str("%.02f" % self.icms_origin_percent)
             self.nfe40_pICMSInterPart = str("%.04f" % self.icms_sharing_percent)
@@ -450,7 +450,7 @@ class NFeLine(spec_models.StackedModel):
             self.nfe40_vBCUFDest = str("%.02f" % self.icms_destination_base)
             self.nfe40_vBCFCPUFDest = str("%.02f" % self.icmsfcp_base)
             self.nfe40_pFCPUFDest = str("%.04f" % self.icmsfcp_percent)
-            self.nfe40_pICMSUFDest =str("%.04f" % self.icms_destination_percent)
+            self.nfe40_pICMSUFDest = str("%.04f" % self.icms_destination_percent)
             if self.icms_origin_percent:
                 self.nfe40_pICMSInter = str("%.02f" % self.icms_origin_percent)
             self.nfe40_pICMSInterPart = str("%.04f" % self.icms_sharing_percent)
@@ -562,7 +562,7 @@ class NFeLine(spec_models.StackedModel):
 
             elif ((not xsd_required) and field_name
                     not in ['nfe40_PIS', 'nfe40_COFINS', 'nfe40_IPI',
-                    'nfe40_ICMSUFDest']):
+                            'nfe40_ICMSUFDest']):
                 comodel = self.env[self._stacking_points.get(
                     field_name).comodel_name]
                 fields = [f for f in comodel._fields
