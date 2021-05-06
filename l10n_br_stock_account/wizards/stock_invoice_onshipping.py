@@ -142,3 +142,23 @@ class StockInvoiceOnshipping(models.TransientModel):
                 key = (key, move.fiscal_operation_line_id)
 
         return key
+
+    @api.multi
+    def _get_picking_key(self, picking):
+        """
+        Get the key for the given picking.
+        By default, it's based on the invoice partner and the picking_type_id
+        of the picking
+        :param picking: stock.picking recordset
+        :return: key (tuple,...)
+        """
+        key = super()._get_picking_key(picking)
+        if picking.fiscal_operation_id:
+            # Operações Fiscais diferentes
+            # não podem ser agrupadas
+            if type(key) is tuple:
+                key = key + (picking.fiscal_operation_id,)
+            else:
+                key = (key, picking.fiscal_operation_id)
+
+        return key
