@@ -531,6 +531,9 @@ class NFe(spec_models.StackedModel):
                     self.line_ids.mapped('nfe40_vICMSUFDest'))
                 self.nfe40_vICMSUFRemet = sum(
                     self.line_ids.mapped('nfe40_vICMSUFRemet'))
+            else:
+                self.nfe40_vICMSUFDest = 0.0
+                self.nfe40_vICMSUFRemet = 0.0
         if xsd_field == 'nfe40_tpAmb':
             self.env.context = dict(self.env.context)
             self.env.context.update({'tpAmb': self[xsd_field]})
