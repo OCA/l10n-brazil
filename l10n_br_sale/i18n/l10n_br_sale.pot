@@ -149,6 +149,11 @@ msgid "Fiscal Utm Qty Delivered"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__discount_fixed
+msgid "Fixed Discount?"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_gross
 msgid "Gross Amount"
 msgstr ""
