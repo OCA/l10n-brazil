@@ -124,6 +124,8 @@ class StockInvoiceOnshipping(models.TransientModel):
             # não podem ser agrupadas
             if type(key) is tuple:
                 key = key + (move.fiscal_operation_line_id,)
+            elif self.group == 'fiscal_operation':
+                key = (move.product_id, move.fiscal_operation_line_id,)
             else:
                 # TODO - seria melhor identificar o TYPE para saber se
                 #  o KEY realmente é um objeto nesse caso
