@@ -377,17 +377,6 @@ class NFeLine(spec_models.StackedModel):
             'vBCEfet': '',
             'pICMSEfet': '',
             'vICMSEfet': '',
-
-            # DIFAL
-            'vBCUFDest': str("%.02f" % self.icms_destination_base),
-            'vBCFCPUFDest': str("%.02f" % self.icmsfcp_base),
-            'pFCPUFDest': str("%.04f" % self.icmsfcp_percent),
-            'pICMSUFDest': str("%.04f" % self.icms_destination_percent),
-            'pICMSInter': str("%.02f" % self.icms_origin_percent),
-            'pICMSInterPart': str("%.04f" % self.icms_sharing_percent),
-            'vFCPUFDest': str("%.02f" % self.icmsfcp_value),
-            'vICMSUFDest': str("%.02f" % self.icms_destination_value),
-            'vICMSUFRemet': str("%.02f" % self.icms_origin_value),
         }
         return icms
 
