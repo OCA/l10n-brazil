@@ -121,6 +121,12 @@ class AccountPaymentLine(models.Model):
         string='Payment Method Code'
     )
 
+    communication_type = fields.Selection(
+        selection_add=[
+            ('cnab', 'CNAB'),
+        ]
+    )
+
     @api.multi
     @api.depends('percent_interest', 'amount_currency', 'currency_id')
     def _compute_interest(self):

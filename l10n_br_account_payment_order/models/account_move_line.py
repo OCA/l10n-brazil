@@ -129,26 +129,32 @@ class AccountMoveLine(models.Model):
     @api.multi
     def _prepare_payment_line_vals(self, payment_order):
         vals = super()._prepare_payment_line_vals(payment_order)
-        vals.update({
-            'own_number': self.own_number,
-            'document_number': self.document_number,
-            'company_title_identification': self.company_title_identification,
-            'payment_mode_id': self.payment_mode_id.id,
-            # Codigo de Instrução do Movimento
-            'mov_instruction_code_id': self.mov_instruction_code_id.id
-        })
+        # Preenchendo apenas nos casos CNAB
+        if self.payment_mode_id.payment_method_code \
+            in BR_CODES_PAYMENT_ORDER:
+            vals.update({
+                'own_number': self.own_number,
+                'document_number': self.document_number,
+                'company_title_identification':
+                    self.company_title_identification,
+                'payment_mode_id': self.payment_mode_id.id,
+                # Codigo de Instrução do Movimento
+                'mov_instruction_code_id': self.mov_instruction_code_id.id,
+                'communication_type': 'cnab',
+            })
 
-        # Se for uma solicitação de baixa do título é preciso informar o
-        # campo debit o codigo original coloca o amount_residual
-        if self.mov_instruction_code_id.id ==\
+            # Se for uma solicitação de baixa do título é preciso informar o
+            # campo debit o codigo original coloca o amount_residual
+            if self.mov_instruction_code_id.id == \
                 self.payment_mode_id.cnab_write_off_code_id.id:
-            vals['amount_currency'] = self.credit or self.debit
+                vals['amount_currency'] = self.credit or self.debit
 
-        if self.env.context.get('rebate_value'):
-            vals['rebate_value'] = self.env.context.get('rebate_value')
+            if self.env.context.get('rebate_value'):
+                vals['rebate_value'] = self.env.context.get('rebate_value')
 
-        if self.env.context.get('discount_value'):
-            vals['discount_value'] = self.env.context.get('discount_value')
+            if self.env.context.get('discount_value'):
+                vals['discount_value'] = \
+                    self.env.context.get('discount_value')
 
         return vals
 
