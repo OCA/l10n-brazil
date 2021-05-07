@@ -24,7 +24,7 @@
             </field>
 
             <!-- TODO: Implementação de Títulos com Diferentes Moedas,
-                  CNAB 240 parece pemirtir -->
+                  CNAB 240 parece permitir -->
             <field name="currency_id" position="attributes">
                 <attribute name="readonly">[('payment_method_code', 'in', ('400', '240', '500'))]</attribute>
             </field>
@@ -32,6 +32,10 @@
             <!-- TODO: Existe necessidade de alteração desse campo aqui ? Qual caso de uso ? -->
             <field name="move_line_id" position="attributes">
                 <attribute name="readonly">[('payment_method_code', 'not in', ('400', '240', '500'))]</attribute>
+            </field>
+
+            <field name="move_line_id" position="before">
+                <field name="invoice_id" attrs="{'readonly': [('payment_method_code', 'not in', ('400', '240', '500'))]}"/>
             </field>
 
             <!-- TODO: Existe a possibilidade de alterar o Partner e ter um diferente
