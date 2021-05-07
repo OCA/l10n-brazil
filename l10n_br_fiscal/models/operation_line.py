@@ -198,11 +198,10 @@ class OperationLine(models.Model):
         mapping_result['cfop'] = cfop
 
         # 1 Get Tax Defs from Company
-        company_tax_defs = company.tax_definition_ids.map_tax_definition(
-            company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest)
-
-        for tax in company_tax_defs.mapped('tax_id'):
-            mapping_result['taxes'][tax.tax_domain] = tax
+        for tax_definition in company.tax_definition_ids.map_tax_definition(
+                company, partner, product,
+                ncm=ncm, nbm=nbm, nbs=nbs, cest=cest):
+            self._build_mapping_result(mapping_result, tax_definition)
 
         # 2 From NCM
         if not ncm and product:
@@ -211,7 +210,6 @@ class OperationLine(models.Model):
         if company.tax_framework == TAX_FRAMEWORK_NORMAL:
             tax_ipi = ncm.tax_ipi_id
             tax_ii = ncm.tax_ii_id
-            mapping_result['ipi_guideline'] = ncm.ipi_guideline_id
             mapping_result['taxes'][tax_ipi.tax_domain] = tax_ipi
 
             if mapping_result['cfop'].destination == CFOP_DESTINATION_EXPORT:
