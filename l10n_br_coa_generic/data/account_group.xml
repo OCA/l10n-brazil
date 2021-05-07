@@ -170,65 +170,65 @@
         <field name='name'>DEPÓSITOS JUDICIAIS</field>
         <field name='parent_id' ref='coa_generic_125'/>
     </record>
-    <record id='coa_generic_128' model='account.group'>
-        <field name='code_prefix'>1.2.8</field>
-        <field name='name'>EMPRESAS CONTROLADAS/COLIGADAS</field>
-        <field name='parent_id' ref='coa_generic_12'/>
-    </record>
-    <record id='coa_generic_1281' model='account.group'>
-        <field name='code_prefix'>1.2.8.1</field>
-        <field name='name'>EMPRÉSTIMOS A CONTROLADAS/COLIGADAS</field>
-        <field name='parent_id' ref='coa_generic_128'/>
-    </record>
-    <record id='coa_generic_124' model='account.group'>
-        <field name='code_prefix'>1.2.4</field>
-        <field name='name'>INVESTIMENTOS</field>
-        <field name='parent_id' ref='coa_generic_12'/>
-    </record>
-    <record id='coa_generic_1241' model='account.group'>
-        <field name='code_prefix'>1.2.4.1</field>
-        <field name='name'>PARTICIPAÇÕES SOCIETÁRIAS</field>
-        <field name='parent_id' ref='coa_generic_124'/>
-    </record>
-    <record id='coa_generic_125' model='account.group'>
-        <field name='code_prefix'>1.2.5</field>
-        <field name='name'>IMOBILIZADO</field>
-        <field name='parent_id' ref='coa_generic_12'/>
-    </record>
-    <record id='coa_generic_1251' model='account.group'>
-        <field name='code_prefix'>1.2.5.1</field>
-        <field name='name'>BENS EM OPERAÇÃO</field>
-        <field name='parent_id' ref='coa_generic_125'/>
-    </record>
-    <record id='coa_generic_1259' model='account.group'>
-        <field name='code_prefix'>1.2.5.9</field>
-        <field name='name'>(-) DEPRECIAÇÕES ACUMULADAS</field>
-        <field name='parent_id' ref='coa_generic_125'/>
-    </record>
     <record id='coa_generic_126' model='account.group'>
         <field name='code_prefix'>1.2.6</field>
-        <field name='name'>INTANGÍVEL</field>
+        <field name='name'>EMPRESAS CONTROLADAS/COLIGADAS</field>
         <field name='parent_id' ref='coa_generic_12'/>
     </record>
     <record id='coa_generic_1261' model='account.group'>
         <field name='code_prefix'>1.2.6.1</field>
+        <field name='name'>EMPRÉSTIMOS A CONTROLADAS/COLIGADAS</field>
+        <field name='parent_id' ref='coa_generic_126'/>
+    </record>
+    <record id='coa_generic_127' model='account.group'>
+        <field name='code_prefix'>1.2.7</field>
+        <field name='name'>INVESTIMENTOS</field>
+        <field name='parent_id' ref='coa_generic_12'/>
+    </record>
+    <record id='coa_generic_1271' model='account.group'>
+        <field name='code_prefix'>1.2.7.1</field>
+        <field name='name'>PARTICIPAÇÕES SOCIETÁRIAS</field>
+        <field name='parent_id' ref='coa_generic_127'/>
+    </record>
+    <record id='coa_generic_128' model='account.group'>
+        <field name='code_prefix'>1.2.8</field>
+        <field name='name'>IMOBILIZADO</field>
+        <field name='parent_id' ref='coa_generic_12'/>
+    </record>
+    <record id='coa_generic_1281' model='account.group'>
+        <field name='code_prefix'>1.2.8.1</field>
+        <field name='name'>BENS EM OPERAÇÃO</field>
+        <field name='parent_id' ref='coa_generic_128'/>
+    </record>
+    <record id='coa_generic_1289' model='account.group'>
+        <field name='code_prefix'>1.2.8.9</field>
+        <field name='name'>(-) DEPRECIAÇÕES ACUMULADAS</field>
+        <field name='parent_id' ref='coa_generic_128'/>
+    </record>
+    <record id='coa_generic_129' model='account.group'>
+        <field name='code_prefix'>1.2.9</field>
+        <field name='name'>INTANGÍVEL</field>
+        <field name='parent_id' ref='coa_generic_12'/>
+    </record>
+    <record id='coa_generic_1291' model='account.group'>
+        <field name='code_prefix'>1.2.9.1</field>
         <field name='name'>BENS INCORPÓREOS</field>
-        <field name='parent_id' ref='coa_generic_126'/>
+        <field name='parent_id' ref='coa_generic_129'/>
     </record>
-    <record id='coa_generic_1266' model='account.group'>
-        <field name='code_prefix'>1.2.6.6</field>
+    <record id='coa_generic_1296' model='account.group'>
+        <field name='code_prefix'>1.2.9.6</field>
         <field name='name'>(-) AMORTIZAÇÕES ACUMULADAS</field>
-        <field name='parent_id' ref='coa_generic_126'/>
+        <field name='parent_id' ref='coa_generic_129'/>
     </record>
-    <record id='coa_generic_1268' model='account.group'>
-        <field name='code_prefix'>1.2.6.8</field>
+    <record id='coa_generic_1298' model='account.group'>
+        <field name='code_prefix'>1.2.9.8</field>
         <field name='name'>GASTOS PRÉ-OPERACIONAIS</field>
-        <field name='parent_id' ref='coa_generic_126'/>
+        <field name='parent_id' ref='coa_generic_129'/>
     </record>
-    <record id='coa_generic_1269' model='account.group'>
-        <field name='code_prefix'>1.2.6.9</field>
+    <record id='coa_generic_1299' model='account.group'>
+        <field name='code_prefix'>1.2.9.9</field>
         <field name='name'>(-) AMORTIZAÇÕES ACUMULADAS</field>
-        <field name='parent_id' ref='coa_generic_126'/>
+        <field name='parent_id' ref='coa_generic_129'/>
     </record>
     <record id='coa_generic_19' model='account.group'>
         <field name='code_prefix'>1.9</field>
