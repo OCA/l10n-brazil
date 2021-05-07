@@ -14,7 +14,7 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.multi
-    @api.depends('move_id.line_ids')
+    @api.depends('move_id.line_ids', 'move_id.state')
     def _compute_financial(self):
         for invoice in self:
             lines = invoice.move_id.line_ids.filtered(
