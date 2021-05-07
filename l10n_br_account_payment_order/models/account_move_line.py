@@ -130,23 +130,30 @@ class AccountMoveLine(models.Model):
     def _prepare_payment_line_vals(self, payment_order):
         vals = super()._prepare_payment_line_vals(payment_order)
         # Preenchendo apenas nos casos CNAB
-        if self.payment_mode_id.payment_method_code \
-            in BR_CODES_PAYMENT_ORDER:
+        if self.payment_mode_id.payment_method_code\
+                in BR_CODES_PAYMENT_ORDER:
             vals.update({
                 'own_number': self.own_number,
                 'document_number': self.document_number,
                 'company_title_identification':
-                    self.company_title_identification,
+                self.company_title_identification,
                 'payment_mode_id': self.payment_mode_id.id,
                 # Codigo de Instrução do Movimento
                 'mov_instruction_code_id': self.mov_instruction_code_id.id,
                 'communication_type': 'cnab',
+                # Campos abaixo estão sendo adicionados devido ao problema de
+                # Ordens de Pagto vinculadas devido o ondelete=restrict no
+                # campo move_line_id do account.payment.line
+                # TODO: Aguardando a possibilidade de alteração no
+                #  modulo account_payment_order na v14
+                'ml_maturity_date': self.date_maturity,
+                'invoice_id': self.invoice_id.id
             })
 
             # Se for uma solicitação de baixa do título é preciso informar o
             # campo debit o codigo original coloca o amount_residual
-            if self.mov_instruction_code_id.id == \
-                self.payment_mode_id.cnab_write_off_code_id.id:
+            if self.mov_instruction_code_id.id ==\
+                    self.payment_mode_id.cnab_write_off_code_id.id:
                 vals['amount_currency'] = self.credit or self.debit
 
             if self.env.context.get('rebate_value'):
