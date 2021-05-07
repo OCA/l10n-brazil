@@ -127,6 +127,30 @@ class AccountPaymentLine(models.Model):
         ]
     )
 
+    # No caso de Ordens de Pagto vinculadas devido o
+    # ondelete=restrict no campo move_line_id do account.payment.line
+    # não é possível apagar uma move que já tenha uma Ordem de
+    # Pagto confirmada ( processo chamado pelo action_cancel objeto
+    # account.invoice ), acontece o erro abaixo de constraint:
+    # psycopg2.IntegrityError: update or delete on table
+    # "account_move_line" violates foreign key constraint
+    # "account_payment_line_move_line_id_fkey" on table
+    # "account_payment_line"
+    # TODO: Verificar a possibilidade de alteração no
+    #  modulo account_payment_order na v14
+    move_line_id = fields.Many2one(
+        ondelete=None
+    )
+    ml_maturity_date = fields.Date(
+        related=None
+    )
+    # Para manter a rastreabilidade está sendo adicionado uma relação
+    # com a account.invoice referente, já que a AML pode ser apagada
+    invoice_id = fields.Many2one(
+        comodel_name='account.invoice',
+        string='Fatura'
+    )
+
     @api.multi
     @api.depends('percent_interest', 'amount_currency', 'currency_id')
     def _compute_interest(self):

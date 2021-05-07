@@ -25,19 +25,11 @@ class AccountMove(models.Model):
     @api.multi
     def unlink(self):
 
-        # No caso de Ordens de Pagto vinculadas devido o
-        # ondelete=restrict no campo move_line_id do account.payment.line
-        # não é possível apagar uma move que já tenha uma Ordem de
-        # Pagto confirmada ( processo chamado pelo action_cancel objeto
-        # account.invoice ), acontece o erro abaixo de constraint:
-        # psycopg2.IntegrityError: update or delete on table
-        # "account_move_line" violates foreign key constraint
-        # "account_payment_line_move_line_id_fkey" on table
-        # "account_payment_line"
+        # Verificar se é necessário solicitar a Baixa no caso de CNAB
         cnab_already_start = False
         for l_aml in self.mapped('line_ids'):
             if l_aml._cnab_already_start():
-                # Se exitir um caso já não é possível apagar
+                # Se exitir um caso já deve ser feito
                 cnab_already_start = l_aml._cnab_already_start()
                 break
 
@@ -48,10 +40,5 @@ class AccountMove(models.Model):
             ])
             for l_aml in invoice.mapped('financial_move_line_ids'):
                 l_aml.update_cnab_for_cancel_invoice()
-            # A move está sendo apagada, isso deve estar sendo feito em
-            #  outro metodo, porem as account.move.line continuam existindo,
-            #  teste feito no modulo que implementa a biblioteca utilizada
-            #  TODO: A move deveria ser mantida ? Teria algum problema ?
-        else:
-            self.mapped('line_ids').unlink()
-            return super().unlink()
+
+        return super().unlink()
