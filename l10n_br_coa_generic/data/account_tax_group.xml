@@ -7,7 +7,7 @@
         <field name="name">l10n_br_coa_generic_account_id</field>
         <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','account_id')]"/>
         <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_icms'))" name="res_id"/>
-        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_211303'))" name="value"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_217103'))" name="value"/>
         <field name="company_id" eval="0"/>
     </record>
 
@@ -31,7 +31,7 @@
         <field name="name">l10n_br_coa_generic_ded_refund_account_id</field>
         <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','ded_refund_account_id')]"/>
         <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_icms'))" name="res_id"/>
-        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_611203'))" name="value"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_611223'))" name="value"/>
         <field name="company_id" eval="0"/>
     </record>
 
@@ -40,7 +40,7 @@
         <field name="name">l10n_br_coa_generic_account_id</field>
         <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','account_id')]"/>
         <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_ipi'))" name="res_id"/>
-        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_211302'))" name="value"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_217102'))" name="value"/>
         <field name="company_id" eval="0"/>
     </record>
 
@@ -57,7 +57,7 @@
         <field name="name">l10n_br_coa_generic_account_id</field>
         <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','account_id')]"/>
         <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_pis'))" name="res_id"/>
-        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_211305'))" name="value"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_217105'))" name="value"/>
         <field name="company_id" eval="0"/>
     </record>
 
@@ -81,7 +81,7 @@
         <field name="name">l10n_br_coa_generic_ded_refund_account_id</field>
         <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','ded_refund_account_id')]"/>
         <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_pis'))" name="res_id"/>
-        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_611206'))" name="value"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_611226'))" name="value"/>
         <field name="company_id" eval="0"/>
     </record>
 
@@ -90,7 +90,7 @@
         <field name="name">l10n_br_coa_generic_account_id</field>
         <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','account_id')]"/>
         <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_cofins'))" name="res_id"/>
-        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_211304'))" name="value"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_217104'))" name="value"/>
         <field name="company_id" eval="0"/>
     </record>
 
@@ -114,7 +114,7 @@
         <field name="name">l10n_br_coa_generic_ded_refund_account_id</field>
         <field name="fields_id" search="[('model','=','account.tax.group'),('name','=','ded_refund_account_id')]"/>
         <field eval="'account.tax.group,'+str(ref('l10n_br_coa.tax_group_cofins'))" name="res_id"/>
-        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_611205'))" name="value"/>
+        <field eval="'account.account.template,'+str(ref('l10n_br_coa_generic.coa_generic_611225'))" name="value"/>
         <field name="company_id" eval="0"/>
     </record>
 
