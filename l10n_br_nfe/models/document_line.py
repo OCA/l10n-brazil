@@ -377,17 +377,6 @@ class NFeLine(spec_models.StackedModel):
             'vBCEfet': '',
             'pICMSEfet': '',
             'vICMSEfet': '',
-
-            # DIFAL
-            'vBCUFDest': str("%.02f" % self.icms_destination_base),
-            # 'vBCFCPUFDest': str("%.02f" % ),
-            'pFCPUFDest': str("%.04f" % self.icmsfcp_percent),
-            'pICMSUFDest': str("%.04f" % self.icms_origin_percent),
-            'pICMSInter': str("%.04f" % self.icms_destination_percent),
-            'pICMSInterPart': str("%.04f" % self.icms_sharing_percent),
-            'vFCPUFDest': str("%.02f" % self.icmsfcp_value),
-            'vICMSUFDest': str("%.02f" % self.icms_destination_value),
-            'vICMSUFRemet': str("%.02f" % self.icms_origin_value),
         }
         return icms
 
@@ -411,6 +400,18 @@ class NFeLine(spec_models.StackedModel):
             # TODO ICMSSN mixins are not generated to avoid
             # field collision. Do the same kind of thing
             # as we did as for the ICMS
+        elif class_obj._name == 'nfe.40.icmsufdest':
+            # DIFAL
+            self.nfe40_vBCUFDest = str("%.02f" % self.icms_destination_base)
+            self.nfe40_vBCFCPUFDest = str("%.02f" % self.icmsfcp_base)
+            self.nfe40_pFCPUFDest = str("%.04f" % self.icmsfcp_percent)
+            self.nfe40_pICMSUFDest = str("%.04f" % self.icms_destination_percent)
+            if self.icms_origin_percent:
+                self.nfe40_pICMSInter = str("%.02f" % self.icms_origin_percent)
+            self.nfe40_pICMSInterPart = str("%.04f" % self.icms_sharing_percent)
+            self.nfe40_vFCPUFDest = str("%.02f" % self.icmsfcp_value)
+            self.nfe40_vICMSUFDest = str("%.02f" % self.icms_destination_value)
+            self.nfe40_vICMSUFRemet = str("%.02f" % self.icms_origin_value)
         elif class_obj._name == 'nfe.40.tipi':
             xsd_fields = [f for f in xsd_fields if f not in [
                 i[0] for i in class_obj._fields['nfe40_choice3'].selection]]
@@ -443,6 +444,19 @@ class NFeLine(spec_models.StackedModel):
             else:
                 xsd_fields.remove('nfe40_vBC')
                 xsd_fields.remove('nfe40_pCOFINS')
+
+        if class_obj._name == 'nfe.40.icmsufdest':
+            # DIFAL
+            self.nfe40_vBCUFDest = str("%.02f" % self.icms_destination_base)
+            self.nfe40_vBCFCPUFDest = str("%.02f" % self.icmsfcp_base)
+            self.nfe40_pFCPUFDest = str("%.04f" % self.icmsfcp_percent)
+            self.nfe40_pICMSUFDest = str("%.04f" % self.icms_destination_percent)
+            if self.icms_origin_percent:
+                self.nfe40_pICMSInter = str("%.02f" % self.icms_origin_percent)
+            self.nfe40_pICMSInterPart = str("%.04f" % self.icms_sharing_percent)
+            self.nfe40_vFCPUFDest = str("%.02f" % self.icmsfcp_value)
+            self.nfe40_vICMSUFDest = str("%.02f" % self.icms_destination_value)
+            self.nfe40_vICMSUFRemet = str("%.02f" % self.icms_origin_value)
 
         self.nfe40_NCM = self.ncm_id.code_unmasked or False
         self.nfe40_CEST = self.cest_id and self.cest_id.code_unmasked or False
@@ -535,13 +549,20 @@ class NFeLine(spec_models.StackedModel):
                 return False
             elif field_name == 'nfe40_ICMS' and self.service_type_id:
                 return False
+            elif field_name == 'nfe40_ICMSUFDest' and (
+                    self.partner_id.ind_ie_dest == '1' or
+                    self.partner_id.state_id == self.company_id.state_id):
+                return False
+            elif field_name == 'nfe40_ICMSUFDest' and not self.icms_value:
+                return False
 
             # TODO add condition
             elif field_name in ['nfe40_II', 'nfe40_PISST', 'nfe40_COFINSST']:
                 return False
 
             elif ((not xsd_required) and field_name
-                  not in ['nfe40_PIS', 'nfe40_COFINS', 'nfe40_IPI']):
+                    not in ['nfe40_PIS', 'nfe40_COFINS', 'nfe40_IPI',
+                            'nfe40_ICMSUFDest']):
                 comodel = self.env[self._stacking_points.get(
                     field_name).comodel_name]
                 fields = [f for f in comodel._fields
@@ -555,8 +576,6 @@ class NFeLine(spec_models.StackedModel):
 
     def _export_float_monetary(self, field_name, member_spec, class_obj,
                                xsd_required):
-        if field_name == 'nfe40_pICMSInterPart':
-            self[field_name] = 100.0
         if not self[field_name] and not xsd_required:
             if not (class_obj._name == 'nfe.40.imposto' and
                     field_name == 'nfe40_vTotTrib') and not \
