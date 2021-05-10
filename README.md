@@ -80,9 +80,9 @@ addon | version | summary
 [l10n_br_account_bank_statement_import_cnab](l10n_br_account_bank_statement_import_cnab/) | 12.0.1.0.0 | Importação de Extrato Bancário CNAB 240 - Segmento E
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.1.0.0 | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 12.0.2.2.0 | Customization of base module for implementations in Brazil.
-[l10n_br_coa](l10n_br_coa/) | 12.0.2.2.0 | Base Brasilian Localization for the Chart of Accounts
+[l10n_br_coa](l10n_br_coa/) | 12.0.3.0.0 | Base Brasilian Localization for the Chart of Accounts
 [l10n_br_coa_complete](l10n_br_coa_complete/) | 12.0.1.0.0 | Plano de Contas Completo para empresas Simples, Presumido, Real, SA, Consolidação
-[l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.3.0.0 | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
+[l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.4.0.0 | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 12.0.2.2.0 | Brazilian Simple Chart of Account
 [l10n_br_contract](l10n_br_contract/) | 12.0.3.1.0 | Customization of Contract module for implementations in Brazil.
 [l10n_br_crm](l10n_br_crm/) | 12.0.1.0.0 | Brazilian Localization CRM
