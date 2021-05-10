@@ -58,22 +58,26 @@ class Partner(models.Model):
 
             # se encontrar CNPJ iguais
             if record.env["res.partner"].search(domain):
-
-                if allow_cnpj_multi_ie == "True":
-                    for partner in record.env["res.partner"].search(domain):
-                        if (
-                            partner.inscr_est == record.inscr_est
-                            and not record.inscr_est
-                        ):
-                            raise ValidationError(
-                                _(
-                                    "There is already a partner record with this "
-                                    "Estadual Inscription !"
+                if cnpj_cpf.validar_cnpj(record.cnpj_cpf):
+                    if allow_cnpj_multi_ie == "True":
+                        for partner in record.env["res.partner"].search(domain):
+                            if (
+                                partner.inscr_est == record.inscr_est
+                                and not record.inscr_est
+                            ):
+                                raise ValidationError(
+                                    _(
+                                        "There is already a partner record with this "
+                                        "Estadual Inscription !"
+                                    )
                                 )
-                            )
+                    else:
+                        raise ValidationError(
+                            _("There is already a partner record with this CNPJ !")
+                        )
                 else:
                     raise ValidationError(
-                        _("There is already a partner record with this CNPJ !")
+                        _("There is already a partner record with this CPF/RG!")
                     )
 
     @api.multi
