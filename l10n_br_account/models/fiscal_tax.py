@@ -13,15 +13,17 @@ class FiscalTax(models.Model):
         for fiscal_tax in self:
             taxes = fiscal_tax._account_taxes()
             account_taxes |= taxes.filtered(
-                lambda t: t.type_tax_use == user_type)
+                lambda t: t.type_tax_use == user_type and t.active)
         return account_taxes
 
     @api.multi
     def _account_taxes(self):
         self.ensure_one()
         account_tax_group = self.tax_group_id.account_tax_group()
-        return self.env['account.tax'].search(
-            [('tax_group_id', '=', account_tax_group.id)])
+        return self.env['account.tax'].search([
+            ('tax_group_id', '=', account_tax_group.id),
+            ('active', '=', True)]
+        )
 
     @api.multi
     def _create_account_tax(self):
