@@ -66,6 +66,14 @@ principalmente quando o volume de transações é numeroso e, principalmente, se
 - Escrituração contábil simplificada para micro e pequena empresa / Paulo Walter Schnorr (coordenador)... [et al.] --Brasília: Conselho Federal de Contabilidade, 2008.;
 - Publicação completa: `Livro_Escrituracao_contabil.pdf </l10n_br_coa_generic/static/pdf/Livro_Escrituracao_contabil.pdf>`_
 
+**Na versão 12.0.3.0.0 realizou-se uma revisão detalhada do plano visando uma melhor estruturação das
+contas tanto sintéticas como analíticas:**
+
+- Revisão dos grupos de contas corrigindo o sequenciamento em função da sua liquidez, conforme a publicação citada acima;
+- Exclusão de grupos de contas não previstas nas normas do IFRS e CPC (Diferido/Realizável a Longo Prazo/Ativo Permanente);
+- Atualização de contas analíticas visando uma melhor evidenciação das operações da empresa (Brindes/Venda de Ativo Fixo, etc);
+- Criação do Grupo de Compensação, para o controle de remessas/retornos de itens/bens sem valor financeiro, de acordo com as práticas contábeis brasileiras.
+
 **Table of contents**
 
 .. contents::
@@ -95,6 +103,7 @@ Contributors
 * Luis Felipe Mileo <mileo@kmee.com.br>
 * Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 * Renato Lima <renato.lima@akretion.com.br>
+* Messias Monteiro <messias.monteiro@kmee.com.br>
 
 Maintainers
 ~~~~~~~~~~~
