@@ -103,6 +103,11 @@ msgid "Operation"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_line_id
+msgid "Operation Line"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
 msgid "Other Costs"
 msgstr ""
