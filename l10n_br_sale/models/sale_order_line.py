@@ -25,6 +25,7 @@ class SaleOrderLine(models.Model):
         default=_default_fiscal_operation,
         domain=lambda self: self._fiscal_operation_domain())
 
+    # This redundancy is necessary for the system to be able to load the report
     fiscal_operation_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
         string="Operation Line",
