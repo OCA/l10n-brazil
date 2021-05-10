@@ -104,6 +104,11 @@ msgid "Ativo / Não Circulante / Realizável a Longo Prazo"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:account.account.type,name:l10n_br_coa.data_account_type_compensation_assets
+msgid "Ativo / Outros / Compensação"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:ir.ui.menu,name:l10n_br_coa.account_reports_br_statements_menu
 msgid "Brazil"
 msgstr ""
@@ -283,6 +288,11 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:account.account.type,name:l10n_br_coa.data_account_type_non_current_liabilities_loan
 msgid "Passivo / Não Circulante / Financiamentos"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:account.account.type,name:l10n_br_coa.data_account_type_compensation_liability
+msgid "Passivo / Outros / Compensação"
 msgstr ""
 
 #. module: l10n_br_coa
