@@ -6,7 +6,7 @@
     'name': 'Brazilian COA',
     'summary': """
         Base Brasilian Localization for the Chart of Accounts""",
-    'version': '12.0.2.2.0',
+    'version': '12.0.3.0.0',
     'license': 'AGPL-3',
     'author': 'Akretion, KMEE, Odoo Community Association (OCA)',
     'website': 'https://github.com/oca/l10n-brazil',
