@@ -215,5 +215,23 @@
             <field name="internal_group">expense</field>
         </record>
 
+        <!-- Grupos de Contas de Compensação para controlar remessas e retornos de itens/bens
+        que não criem uma obrigação à receber ou à pagar, contudo são de extrema importância para
+        o correto e efetivo controle das transações realizadas pela empresa. Importante, ressaltar
+        que essas transações, não impactam diretamente as contas de Resultado/Custo e as comuns do
+        Ativo/Passivo -->
+
+        <record model="account.account.type" id="data_account_type_compensation_assets">
+            <field name="name">Ativo / Outros / Compensação</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_compensation_liability">
+            <field name="name">Passivo / Outros / Compensação</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
     </data>
 </odoo>
