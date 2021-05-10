@@ -89,7 +89,7 @@ class Partner(models.Model):
             disable_cnpj_ie_validation = record.env["ir.config_parameter"].sudo()\
                 .get_param(
                 "l10n_br_base.disable_cpf_cnpj_validation", default=False
-            )
+            ) or self.env.context.get('disable_cpf_cnpj_validation')
             if not disable_cnpj_ie_validation:
                 if record.country_id:
                     country_code = record.country_id.code
@@ -120,7 +120,7 @@ class Partner(models.Model):
 
             disable_ie_validation = record.env["ir.config_parameter"].sudo().get_param(
                 "l10n_br_base.disable_ie_validation", default=False
-            )
+            ) or self.env.context.get('disable_ie_validation')
             if not disable_ie_validation:
                 if record.inscr_est and record.is_company and record.state_id:
                     state_code = record.state_id.code or ""
