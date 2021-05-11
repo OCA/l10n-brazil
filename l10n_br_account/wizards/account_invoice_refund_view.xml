@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="account.view_account_invoice_refund" />
         <field name="arch" type="xml">
             <field name="date_invoice" position="before">
-                <field name="force_fiscal_operation_id" />
+                <field name="force_fiscal_operation_id"/>
             </field>
         </field>
     </record>
