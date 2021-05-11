@@ -101,6 +101,11 @@ class ContractContract(models.Model):
         """
         super_inv_id = super()._prepare_recurring_invoices_values(date_ref=date_ref)
 
+        if not self.fiscal_operation_id:
+            for inv_id in super_inv_id:
+                inv_id['document_type_id'] = False
+            return super_inv_id
+
         if not isinstance(super_inv_id, list):
             super_inv_id = [super_inv_id]
 
