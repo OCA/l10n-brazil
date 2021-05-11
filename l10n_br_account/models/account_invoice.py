@@ -508,6 +508,14 @@ class AccountInvoice(models.Model):
                     line.fiscal_operation_id.return_fiscal_operation_id)
                 line._onchange_fiscal_operation_id()
 
+            refund_invoice_id = my_new_invoices.refund_invoice_id
+
+            if (refund_invoice_id.fiscal_document_id and
+                    my_new_invoices.fiscal_document_id):
+                refund_invoice_id.fiscal_document_id._prepare_referenced_subsequent(
+                    new_document_id=my_new_invoices.fiscal_document_id
+                )
+
         return new_invoices
 
     def _refund_cleanup_lines(self, lines):
