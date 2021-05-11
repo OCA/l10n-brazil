@@ -497,7 +497,7 @@ class AccountInvoice(models.Model):
     def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
         new_invoices = super(AccountInvoice, self).refund(
             date_invoice, date, description, journal_id)
-        
+
         force_fiscal_operation_id = False
         if self.env.context.get('force_fiscal_operation_id'):
             force_fiscal_operation_id = self.env['l10n_br_fiscal.operation'].browse(
