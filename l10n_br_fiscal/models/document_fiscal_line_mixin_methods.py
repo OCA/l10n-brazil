@@ -9,9 +9,11 @@ from odoo.osv.orm import setup_modifiers
 from .tax import TAX_DICT_VALUES
 
 from ..constants.fiscal import (
+    TAX_CALC_ONLY,
+    TAX_CALC_MANUAL,
     TAX_DOMAIN_COFINS,
-    TAX_DOMAIN_COFINS_WH,
     TAX_DOMAIN_COFINS_ST,
+    TAX_DOMAIN_COFINS_WH,
     TAX_DOMAIN_CSLL,
     TAX_DOMAIN_CSLL_WH,
     TAX_DOMAIN_ICMS,
@@ -27,8 +29,8 @@ from ..constants.fiscal import (
     TAX_DOMAIN_ISSQN,
     TAX_DOMAIN_ISSQN_WH,
     TAX_DOMAIN_PIS,
-    TAX_DOMAIN_PIS_WH,
     TAX_DOMAIN_PIS_ST,
+    TAX_DOMAIN_PIS_WH,
 )
 
 from ..constants.icms import (
@@ -225,6 +227,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return taxes
 
     def _remove_all_fiscal_tax_ids(self):
+        if (self.fiscal_operation_line_id.tax_calc in (
+                TAX_CALC_MANUAL, TAX_CALC_ONLY) or
+                self.env.context.get('TAX_CALC_MANUAL')):
+            return
         for line in self:
             line.fiscal_tax_ids = False
 
@@ -378,6 +384,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.onchange("fiscal_operation_line_id")
     def _onchange_fiscal_operation_line_id(self):
+        if (self.fiscal_operation_line_id.tax_calc == TAX_CALC_MANUAL or
+                self.env.context.get('TAX_CALC_MANUAL')):
+            return
 
         # Reset Taxes
         self._remove_all_fiscal_tax_ids()
@@ -394,10 +403,13 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             self.ipi_guideline_id = mapping_result['ipi_guideline']
             self.cfop_id = mapping_result['cfop']
-            taxes = self.env['l10n_br_fiscal.tax']
-            for tax in mapping_result['taxes'].values():
-                taxes |= tax
-            self.fiscal_tax_ids = [(6, 0, taxes.ids)]
+
+            if mapping_result.get('taxes'):
+                taxes = self.env['l10n_br_fiscal.tax']
+                for tax in mapping_result['taxes'].values():
+                    taxes |= tax
+                self.fiscal_tax_ids = [(6, 0, taxes.ids)]
+
             self._update_taxes()
             self.comment_ids = self.fiscal_operation_line_id.comment_ids
 
