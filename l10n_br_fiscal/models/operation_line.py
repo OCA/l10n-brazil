@@ -189,6 +189,9 @@ class OperationLine(models.Model):
     def map_fiscal_taxes(self, company, partner, product=None,
                          fiscal_price=None, fiscal_quantity=None,
                          ncm=None, nbm=None, nbs=None, cest=None):
+        tax_calc = self.env.context.get(
+            'TAX_CALC_OVERRIDE', self.tax_calc
+        )
 
         mapping_result = {
             'taxes': {},
@@ -203,7 +206,7 @@ class OperationLine(models.Model):
         cfop = self._get_cfop(company, partner)
         mapping_result['cfop'] = cfop
 
-        if self.tax_calc == TAX_CALC_ONLY:
+        if tax_calc == TAX_CALC_ONLY:
             return mapping_result
 
         # 1 Get Tax Defs from Company
