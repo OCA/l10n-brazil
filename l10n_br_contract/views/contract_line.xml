@@ -10,8 +10,8 @@
         <field name="arch" type="xml">
              <xpath expr="//field[@name='discount']/.." position="after">
                  <group name="fiscal">
-                     <field name="fiscal_operation_id" required="1"/>
-                     <field name="fiscal_operation_line_id" required="1"/>
+                     <field name="fiscal_operation_id"/>
+                     <field name="fiscal_operation_line_id"/>
                  </group>
             </xpath>
         </field>

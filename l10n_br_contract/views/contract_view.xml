@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="contract.contract_contract_form_view"/>
         <field name="arch" type="xml">
             <field name="fiscal_position_id" position="after">
-                <field name="fiscal_operation_id" required="1"/>
+                <field name="fiscal_operation_id"/>
             </field>
             <xpath expr="//field[@name='contract_line_ids']" position="attributes">
                 <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id, 'default_partner_id': partner_id, 'default_company_id': company_id}</attribute>
