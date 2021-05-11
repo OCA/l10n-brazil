@@ -13,6 +13,8 @@ from ..constants.fiscal import (
     OPERATION_FISCAL_TYPE_DEFAULT,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
+    TAX_CALC,
+    TAX_CALC_AUTO,
 )
 
 
@@ -131,6 +133,20 @@ class Operation(models.Model):
         comodel_name="l10n_br_fiscal.subsequent.operation",
         inverse_name="fiscal_operation_id",
         string="Subsequent Operation",
+    )
+
+    tax_calc = fields.Selection(
+        selection=TAX_CALC,
+        string='Calculo tributação',
+        help="""Determina se o calculo da tributação deve ser:\n
+              - Automático: O sistema determina nas aliquotas, cfop e entre outros;\n
+              - Semi-Automático: O usuário informa a cfop, aliquotas e o
+             sistema calcula os impostos\n
+              - Manual: O usuário informa as aliquotas e realiza os cálculos
+               manualmente.
+             """,
+        default=TAX_CALC_AUTO,
+        required=True,
     )
 
     _sql_constraints = [

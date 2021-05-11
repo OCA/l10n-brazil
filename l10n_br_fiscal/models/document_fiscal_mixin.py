@@ -62,6 +62,11 @@ class FiscalDocumentMixin(models.AbstractModel):
         readonly=True,
     )
 
+    fiscal_operation_tax_calc = fields.Selection(
+        related='fiscal_operation_id.tax_calc',
+        readonly=True,
+    )
+
     ind_pres = fields.Selection(
         selection=NFE_IND_PRES,
         string="Buyer Presence",

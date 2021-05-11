@@ -13,6 +13,7 @@ from ..constants.fiscal import (
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
     PRODUCT_FISCAL_TYPE,
+    TAX_CALC_ONLY,
     TAX_DOMAIN_ICMS,
     TAX_DOMAIN_ISSQN,
     TAX_FRAMEWORK,
@@ -75,6 +76,11 @@ class OperationLine(models.Model):
         related="fiscal_operation_id.fiscal_type",
         string="Fiscal Type",
         store=True,
+        readonly=True,
+    )
+
+    tax_calc = fields.Selection(
+        related='fiscal_operation_id.tax_calc',
         readonly=True,
     )
 
@@ -209,6 +215,9 @@ class OperationLine(models.Model):
         # Define CFOP
         cfop = self._get_cfop(company, partner)
         mapping_result["cfop"] = cfop
+
+        if self.tax_calc == TAX_CALC_ONLY:
+            return mapping_result
 
         # 1 Get Tax Defs from Company
         for tax_definition in company.tax_definition_ids.map_tax_definition(

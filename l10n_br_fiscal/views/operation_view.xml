@@ -76,6 +76,7 @@
                             <field name="company_id" />
                         </group>
                         <group>
+                            <field name="tax_calc" />
                             <field name="default_price_unit" />
                             <field name="return_fiscal_operation_id" />
                             <field name="inverse_fiscal_operation_id" />
