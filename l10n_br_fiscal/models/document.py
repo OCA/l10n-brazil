@@ -416,12 +416,13 @@ class Document(models.Model):
         if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
             self.document_serie = self.document_serie_id.code
 
-    def _prepare_referenced_subsequent(self):
+    def _prepare_referenced_subsequent(self, new_document_id):
         self.ensure_one()
         vals = {
-            'fiscal_document_id': self.id,
+            'fiscal_document_id': new_document_id.id,
+            'document_related_id': self.id,
             'partner_id': self.partner_id.id,
-            'document_type_id': self.document_type,
+            'document_type_id': self.document_type_id.id,
             'serie': self.document_serie,
             'document_number': self.document_number,
             'document_date': self.document_date,

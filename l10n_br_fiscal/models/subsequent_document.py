@@ -76,7 +76,9 @@ class SubsequentDocument(models.Model):
         if self.subsequent_operation_id.reference_document:
             return self.env.context.get(
                 'referenciado_ids',
-                self.source_document_id._prepare_referenced_subsequent()
+                self.source_document_id._prepare_referenced_subsequent(
+                    new_document_id=self.subsequent_document_id,
+                )
             )
         return []
 
