@@ -537,4 +537,10 @@ class AccountInvoice(models.Model):
         for _a, _b, vals in result:
             if vals.get('fiscal_document_line_id'):
                 vals.pop('fiscal_document_line_id')
+
+        for i, line in enumerate(lines):
+            for name, field in line._fields.items():
+                if name == 'fiscal_tax_ids':
+                    result[i][2][name] = [(6, 0, line[name].ids)]
+
         return result
