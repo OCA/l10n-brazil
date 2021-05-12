@@ -14,6 +14,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfse_ginfes
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:300
+#, python-format
+msgid "Batch not yet processed"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
 #: model:ir.model,name:l10n_br_nfse_ginfes.model_res_company
 msgid "Companies"
 msgstr ""
@@ -34,31 +40,25 @@ msgid "ISSNet / Nota Control"
 msgstr ""
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:306
-#, python-format
-msgid "Lote ainda não processado"
-msgstr ""
-
-#. module: l10n_br_nfse_ginfes
 #: model:ir.model.fields,field_description:l10n_br_nfse_ginfes.field_res_company__provedor_nfse
 msgid "NFSe Provider"
 msgstr ""
 
 #. module: l10n_br_nfse_ginfes
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:297
+#, python-format
+msgid "Not received"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
 #: code:addons/l10n_br_nfse_ginfes/models/document.py:303
 #, python-format
-msgid "Não Recebido"
+msgid "Processed with Error"
 msgstr ""
 
 #. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:309
+#: code:addons/l10n_br_nfse_ginfes/models/document.py:306
 #, python-format
-msgid "Procesado com Erro"
-msgstr ""
-
-#. module: l10n_br_nfse_ginfes
-#: code:addons/l10n_br_nfse_ginfes/models/document.py:312
-#, python-format
-msgid "Procesado com Sucesso"
+msgid "Successfully Processed"
 msgstr ""
 
