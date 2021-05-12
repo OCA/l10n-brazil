@@ -9,7 +9,7 @@ class ResConfigSettings(models.TransientModel):
 
     allow_cnpj_multi_ie = fields.Boolean(
         string="Multiple partners with the same CNPJ",
-        config_parameter="l10n_br_base_allow_cnpj_multi_ie",
+        config_parameter="l10n_br_base.allow_cnpj_multi_ie",
         default=False,
     )
 
