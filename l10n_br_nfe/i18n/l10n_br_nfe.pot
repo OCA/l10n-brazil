@@ -130,23 +130,19 @@ msgid "<span class=\"o_form_label\">NF-e Default Version</span>\n"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.actions.act_window,help:l10n_br_nfe.nfe_document_action
-msgid "Add a new NFe"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vProd
 msgid "Amount without discount."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
-msgid "Amounts"
+#: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
+msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
-msgid "Arma"
+#: code:addons/l10n_br_nfe/models/document.py:653
+#, python-format
+msgid "Authorization Protocol Not Found!"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -252,8 +248,8 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:323
-#: code:addons/l10n_br_nfe/models/document_invalidate_number.py:22
+#: code:addons/l10n_br_nfe/models/document.py:329
+#: code:addons/l10n_br_nfe/models/invalidate_number.py:33
 #, python-format
 msgid "Certificado não encontrado"
 msgstr ""
@@ -292,11 +288,6 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
-msgid "Company"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xCpl
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xCpl
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xCpl
@@ -306,11 +297,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_config_settings
 msgid "Config Settings"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
-msgid "Confirm"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -388,6 +374,11 @@ msgid "Dados do endereço"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_transporta
+msgid "Dados do transportador"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_det
 msgid "Dados dos detalhes da NF-e"
 msgstr ""
@@ -422,16 +413,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_dest
 msgid "Dest"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
-msgid "Document Info"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_search
-msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -474,23 +455,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
 msgid "Fiscal Document"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_cancel
-msgid "Fiscal Document Cancel Record"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_correction
-msgid "Fiscal Document Correction Record"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_invalidate_number
-msgid "Fiscal Document Invalidate Number Record"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -501,11 +466,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_related
 msgid "Fiscal Document Related"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__fiscal_document_event_ids
-msgid "Fiscal Events"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -561,23 +521,8 @@ msgid "GTIN (cEANTrib)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
-msgid "Gerar PDF"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_search
-msgid "Group By..."
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_NFref
 msgid "Grupo de infromações da NF referenciada"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.actions.act_window,help:l10n_br_nfe.nfe_document_action
-msgid "Here you can create NF-es"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -886,6 +831,11 @@ msgid "Inscrição na SUFRAMA (Obrigatório nas operações com as áreas\n"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_invalidate_number
+msgid "Invalidate Number"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xLgr
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xLgr
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xLgr
@@ -941,12 +891,7 @@ msgid "Modalidade do frete\n"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.actions.act_window,name:l10n_br_nfe.nfe_document_action
 #: model:ir.module.category,name:l10n_br_nfe.module_category_l10n_br_nfe
-#: model:ir.ui.menu,name:l10n_br_nfe.nfe_document_menu
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_search
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_tree
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "NF-e"
@@ -965,11 +910,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_version
 msgid "NF-e Version"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.ui.menu,name:l10n_br_nfe.nfe_menu
-msgid "NF-es"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -993,6 +933,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_version
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_version
 msgid "NFe Version"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xEnder
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xEnder
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xEnder
+msgid "Nfe40 Xender"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1074,11 +1021,6 @@ msgid "PISQtde"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
-msgid "Pesquisar Chave"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__processador_edoc
 msgid "Processador documentos eletrônicos"
 msgstr ""
@@ -1106,11 +1048,6 @@ msgid "Product"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
-msgid "Products and Services"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
 msgid "Produto Normal"
 msgstr ""
@@ -1131,11 +1068,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_xNome
 msgid "Razão Social ou Nome do emitente"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form
-msgid "Recipient"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1379,11 +1311,6 @@ msgstr ""
 #. module: l10n_br_nfe
 #: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
 msgid "Veículo"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_document_form_inherit
-msgid "Visualizar PDF"
 msgstr ""
 
 #. module: l10n_br_nfe
