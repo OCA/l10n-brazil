@@ -5,7 +5,7 @@
     'name': 'Relatórios contábeis brasileiros: Balanço Patrimonial e DRE',
     'summary': """
         Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE""",
-    'version': '12.0.1.1.0',
+    'version': '12.0.1.2.0',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
     'website': 'https://github.com/OCA/l10n-brazil',
