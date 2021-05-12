@@ -18,6 +18,10 @@
         'data/account_tax_group.xml',
         'data/account_tax_template.xml',
         'data/account_type_data.xml',
+
+        # Views
+        'views/account_tax_template.xml',
+        'views/account_tax.xml',
     ],
     'development_status': 'Production/Stable',
     'installable': True,
