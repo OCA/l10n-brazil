@@ -110,6 +110,11 @@ msgid "COFINS ST CST Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__document_type
+msgid "Code"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__partner_company_type
 msgid "Company Type"
 msgstr ""
@@ -122,13 +127,33 @@ msgid "Create a new Document"
 msgstr ""
 
 #. module: l10n_br_account
+#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfe_action
+msgid "Create a new NF-e"
+msgstr ""
+
+#. module: l10n_br_account
+#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfse_action
+msgid "Create a new NFS-e"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_invoice_refund
 msgid "Credit Note"
 msgstr ""
 
 #. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
+msgid "Devolver"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.wizard_document_status_act_multi
+msgid "Document Status"
 msgstr ""
 
 #. module: l10n_br_account
@@ -164,6 +189,11 @@ msgid "Financial Move Lines"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_base_wizard_mixin
+msgid "Fiscal Base Wizard Mixin"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_document_id
 msgid "Fiscal Document"
@@ -175,18 +205,8 @@ msgid "Fiscal Document Cancel Wizard"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_correction_wizard
-msgid "Fiscal Document Correction Wizard"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_document_line_id
 msgid "Fiscal Document Line"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_number
-msgid "Fiscal Number"
 msgstr ""
 
 #. module: l10n_br_account
@@ -270,7 +290,17 @@ msgid "Incomming Document"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_invalidate_number_wizard
+msgid "Invalidate Number Wizard"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_invoice
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__invoice_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard__invoice_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_correction_wizard__invoice_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_status_wizard__invoice_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_invalidate_number_wizard__invoice_id
 msgid "Invoice"
 msgstr ""
 
@@ -301,14 +331,20 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_tree
-msgid "Number"
+#: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_nfe_action
+msgid "NF-e"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.fiscal_invoice_nfse_action
+msgid "NFS-e"
 msgstr ""
 
 #. module: l10n_br_account
 #: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_all_action
 #: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_in_action
+#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfe_action
+#: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_nfse_action
 #: model_terms:ir.actions.act_window,help:l10n_br_account.fiscal_invoice_out_action
 msgid "Odoo helps you easily track all activities\n"
 "            related to a fiscal operation."
@@ -408,15 +444,9 @@ msgid "You can find a contact by its Name, TIN, Email or Internal Reference."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:429
+#: code:addons/l10n_br_account/models/account_invoice.py:432
 #, python-format
 msgid "You can't set this document number: {} to draft because this document is cancelled in SEFAZ"
-msgstr ""
-
-#. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:459
-#, python-format
-msgid "You cannot create a fiscal correction document if this fical document you are not the document issuer"
 msgstr ""
 
 #. module: l10n_br_account
