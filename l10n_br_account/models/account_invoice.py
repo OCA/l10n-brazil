@@ -194,10 +194,15 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, values):
-        if not values.get('document_type_id'):
+        document_not_fiscal_id = self.env.ref('l10n_br_fiscal.document_999').id
+        if not values.get('document_type_id') or \
+                values.get('document_type_id') == document_not_fiscal_id:
             values.update({
                 'fiscal_document_id': self.env.ref(
-                    'l10n_br_fiscal.fiscal_document_dummy').id
+                    'l10n_br_fiscal.fiscal_document_dummy').id,
+                'document_type_id': False,
+                'document_serie_id': False,
+                'fiscal_operation_id': False,
             })
         invoice = super().create(values)
         invoice._write_shadowed_fields()

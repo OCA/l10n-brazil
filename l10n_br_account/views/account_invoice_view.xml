@@ -38,7 +38,7 @@
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
-                <button name="open_fiscal_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('document_type_id', '=', False)]}">
+                <button name="open_fiscal_document" type="object" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': ['|',('document_type_id', '=', False), ('document_type', '=', '999')]}">
                     <span>Fiscal Details</span>
                 </button>
             </div>
@@ -60,6 +60,7 @@
                     <field name="id" invisible="1"/>
                     <field name="document_electronic" invisible="1"/>
                     <field name="fiscal_operation_type" invisible="1"/>
+                    <field name="document_type" invisible="1"/>
                     <field name="document_section" invisible="1"/>
                     <field name="number" invisible="1"/>
                     <field name="edoc_purpose" invisible="1"/>
