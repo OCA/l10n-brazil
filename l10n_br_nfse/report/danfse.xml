@@ -24,7 +24,7 @@
     <record id="report_br_nfse_danfe" model="ir.actions.report">
         <field name="paperformat_id" ref="paperformat_br_nfse_danfse"/>
         <field name="name">Nota de Serviço</field>
-        <field name="print_report_name">'%s - NF - %s' % (object.number, object.partner_id.name)</field>
+        <field name="print_report_name">'%s - NF - %s' % (object.document_number, object.partner_id.name)</field>
     </record>
 
     <template id="danfse_report_template">
@@ -97,7 +97,7 @@
                 <div class="col-3">
                     <div style="padding: 3px; text-align: center;">
                         <span>Número da NFS-e</span><br />
-                        <strong t-field="doc.number"></strong>
+                        <strong t-field="doc.document_number"></strong>
                     </div>
                 </div>
             </div>
@@ -107,13 +107,13 @@
                     Data e Hora da Emissão
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.date" />
+                    <span t-field="doc.document_date" />
                 </div>
                  <div class="col-2 rotulo br">
                     Competência
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.date" t-options='{"format": "MM/yyyy"}' />
+                    <span t-field="doc.document_date" t-options='{"format": "MM/yyyy"}' />
                 </div>
                  <div class="col-2 rotulo br">
                     Código de Verificação

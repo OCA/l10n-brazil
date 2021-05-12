@@ -53,13 +53,6 @@ SITUACAO_EDOC = [
     SITUACAO_EDOC_INUTILIZADA,
 ]
 
-XMLS_IMPORTANTES = [
-    'file_xml_autorizacao_id',
-    'file_xml_autorizacao_cancelamento_id',
-    'file_xml_autorizacao_inutilizacao_id',
-    'file_pdf_id',
-]
-
 
 class FiscalClosing(models.Model):
     _name = 'l10n_br_fiscal.closing'
@@ -219,11 +212,11 @@ class FiscalClosing(models.Model):
         fsc_op_type = {'out': 'Saída', 'in': 'Entrada', 'all': 'Todos'}
         document_path = '/'.join([
             misc.punctuation_rm(document.company_cnpj_cpf),
-            document.date.strftime("%m-%Y"),
+            document.document_date.strftime("%m-%Y"),
             PATH_MODELO[document.document_type_id.code],
             fsc_op_type.get(document.fiscal_operation_type),
             (document.document_serie or '').zfill(3) +
-            ('-' + misc.punctuation_rm(str(document.number)).zfill(9)
+            ('-' + misc.punctuation_rm(str(document.document_number)).zfill(9)
                 if self.group_folder else '')
         ])
         return document_path
@@ -246,16 +239,17 @@ class FiscalClosing(models.Model):
         with open(filename, 'wb') as file:
             file.write(base64.b64decode(anexo.datas))
 
-    def _document_domain(self, periodic_export):
+    def _document_domain(self):
         domain = [
             ('document_type', 'in', MODELO_FISCAL_EMISSAO_PRODUTO +
                 MODELO_FISCAL_EMISSAO_SERVICO),
             ('state_edoc', 'in', SITUACAO_EDOC),
         ]
 
-        domain += [
-            ('close_id', '=', False)
-        ] if periodic_export else []
+        if self.export_type == 'period':
+            domain += [
+                ('close_id', '=', False)
+            ]
 
         domain += [
             ('company_id', 'in', self.company_id.ids)
@@ -271,24 +265,44 @@ class FiscalClosing(models.Model):
 
         return domain
 
-    def _prepare_files(self, temp_dir, periodic_export=False):
-        domain = self._document_domain(periodic_export)
+    def _prepare_files(self, temp_dir):
+        domain = self._document_domain()
         documents = self.env['l10n_br_fiscal.document'].search(domain)
-        # documents += self.env['l10n_br_fiscal.document_correction'].search(domain)
-        # documents += self.env['l10n_br_fiscal.document_cancel'].search(domain)
+
+        attachment_ids = self.env['ir.attachment']
+
+        attachment_ids |= documents.mapped('invalidate_event_id').mapped(
+            'file_response_id')
+
+        if attachment_ids:
+            try:
+                path = '/'.join([
+                    misc.punctuation_rm(self.company_id.cnpj_cpf),
+                    'invalidate_numbers'])
+                for attachment in attachment_ids:
+                    self._save_tempfile(path, attachment, temp_dir)
+            except OSError:
+                raise RedirectWarning(
+                    _('Error!'),
+                    _('I/O Error'))
+            except PermissionError:
+                raise RedirectWarning(
+                    _('Error!'),
+                    _('Check write permissions in your system temp folder'))
 
         for document in documents:
-            anexos = [getattr(document, campo) for campo in XMLS_IMPORTANTES
-                      if hasattr(document, campo)
-                      and getattr(document, campo).id is not False]
+            attachment_ids = document.authorization_event_id.mapped('file_response_id')
+            attachment_ids |= document.cancel_event_id.mapped('file_response_id')
+            attachment_ids |= document.correction_event_ids.mapped('file_response_id')
 
-            document.close_id = self.id
+            if self.export_type == 'period':
+                document.close_id = self.id
+
             try:
                 document_path = self._create_tempfile_path(document)
 
-                for anexo in anexos:
-                    self._save_tempfile(document_path, anexo, temp_dir)
-
+                for attachment in attachment_ids:
+                    self._save_tempfile(document_path, attachment, temp_dir)
             except OSError:
                 raise RedirectWarning(
                     _('Error!'),
@@ -310,9 +324,13 @@ class FiscalClosing(models.Model):
 
         with zipfile.ZipFile(archive, 'w') as zip_archive:
             for dirname, subdirs, files in os.walk(files_dir):
-                zip_archive.write(dirname)
-                for filename in files:
-                    zip_archive.write(os.path.join(dirname, filename))
+                for subdir in subdirs:
+                    path_subdir = files_dir+'/'+subdir
+                    for cnpj_dirname, cnpj_subdirs, cnpj_files in os.walk(path_subdir):
+                        for filename in cnpj_files:
+                            zip_archive.write(
+                                os.path.join(cnpj_dirname, filename),
+                                arcname=cnpj_dirname.replace(dirname, "")+'/'+filename)
 
         temp_dir.cleanup()
 

@@ -594,6 +594,42 @@
         </field>
     </record>
 
+    <!-- NF-e Document -->
+    <record id="nfe_document_action" model="ir.actions.act_window">
+        <field name="name">NF-e</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="domain" eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_55'))]"/>
+        <field name="view_id" ref="document_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new NFe
+            </p><p>
+              Here you can create NF-es
+            </p>
+        </field>
+    </record>
+
+    <!-- NFS-e Document -->
+    <record id="nfse_document_action" model="ir.actions.act_window">
+        <field name="name">NFS-e</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br_fiscal.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_type">form</field>
+        <field name="domain" eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_SE'))]"/>
+        <field name="view_id" ref="document_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Add a new NFSe
+            </p><p>
+              Here you can create NFS-es
+            </p>
+        </field>
+    </record>
+
     <record id="document_all_action" model="ir.actions.act_window">
         <field name="name">All Documents</field>
         <field name="type">ir.actions.act_window</field>
@@ -655,14 +691,14 @@
     </record>
 
     <!-- Document Event -->
-    <record id="document_event_action" model="ir.actions.act_window">
+    <record id="event_action" model="ir.actions.act_window">
         <field name="name">Fiscal Event</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document.event</field>
+        <field name="res_model">l10n_br_fiscal.event</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
-        <field name="search_view_id" ref="document_event_search"/>
-        <field name="view_id" ref="document_event_tree"/>
+        <field name="search_view_id" ref="event_search"/>
+        <field name="view_id" ref="event_tree"/>
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
             Create a new Document
@@ -674,10 +710,10 @@
     </record>
 
     <!-- Invalidate Number -->
-    <record id="document_invalidate_number_action" model="ir.actions.act_window">
+    <record id="invalidate_number_action" model="ir.actions.act_window">
         <field name="name">Invalidate Number</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">l10n_br_fiscal.document.invalidate.number</field>
+        <field name="res_model">l10n_br_fiscal.invalidate.number</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
         <field name="help" type="html">

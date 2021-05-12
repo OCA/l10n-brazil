@@ -46,7 +46,14 @@ class DocumentSerie(models.Model):
         string='Sequence')
 
     sequence_number_next = fields.Integer(
-        related='internal_sequence_id.number_next')
+        related='internal_sequence_id.number_next',
+    )
+
+    invalidate_number_id = fields.One2many(
+        comodel_name='l10n_br_fiscal.invalidate.number',
+        inverse_name='document_serie_id',
+        string='Invalidate Number Range',
+    )
 
     @api.model
     def _create_sequence(self, values):
@@ -75,26 +82,26 @@ class DocumentSerie(models.Model):
         return [(r.id, '{}'.format(r.name)) for r in self]
 
     @api.multi
-    def _is_invalid_number(self, number):
+    def _is_invalid_number(self, document_number):
         self.ensure_one()
         is_invalid_number = True
         # TODO Improve this implementation!
         invalids = self.env[
-            'l10n_br_fiscal.document.invalidate.number'].search([
+            'l10n_br_fiscal.invalidate.number'].search([
                 ('state', '=', 'done'),
                 ('document_serie_id', '=', self.id)])
         invalid_numbers = []
         for invalid in invalids:
             invalid_numbers += range(
                 invalid.number_start, invalid.number_end + 1)
-        if int(number) not in invalid_numbers:
+        if int(document_number) not in invalid_numbers:
             is_invalid_number = False
         return is_invalid_number
 
     @api.multi
     def next_seq_number(self):
         self.ensure_one()
-        number = self.internal_sequence_id._next()
-        if self._is_invalid_number(number):
-            self.next_seq_number()
-        return number
+        document_number = self.internal_sequence_id._next()
+        if self._is_invalid_number(document_number):
+            document_number = self.next_seq_number()
+        return document_number

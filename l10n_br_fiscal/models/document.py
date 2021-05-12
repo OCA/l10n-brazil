@@ -9,8 +9,10 @@ from odoo.exceptions import ValidationError, UserError
 
 from ..constants.fiscal import (
     DOCUMENT_ISSUER,
+    DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_PARTNER,
+    FISCAL_IN_OUT_DICT,
     SITUACAO_EDOC_AUTORIZADA,
 )
 
@@ -49,6 +51,12 @@ class Document(models.Model):
         default=True,
     )
 
+    name = fields.Char(
+        compute="_compute_name",
+        store=True,
+        index=True,
+    )
+
     fiscal_operation_id = fields.Many2one(
         domain="[('state', '=', 'approved'), "
                "'|', ('fiscal_operation_type', '=', fiscal_operation_type),"
@@ -59,19 +67,20 @@ class Document(models.Model):
         related=False,
     )
 
-    is_edoc_printed = fields.Boolean(
-        string='Printed',
-        readonly=True,
-    )
-
-    number = fields.Char(
-        string='Number',
+    document_number = fields.Char(
+        string='Document Number',
         copy=False,
         index=True,
     )
 
-    key = fields.Char(
-        string='key',
+    rps_number = fields.Char(
+        string='RPS Number',
+        copy=False,
+        index=True,
+    )
+
+    document_key = fields.Char(
+        string='Key',
         copy=False,
         index=True,
     )
@@ -83,8 +92,8 @@ class Document(models.Model):
         string='Issuer',
     )
 
-    date = fields.Datetime(
-        string='Date',
+    document_date = fields.Datetime(
+        string='Document Date',
         copy=False,
     )
 
@@ -125,9 +134,9 @@ class Document(models.Model):
         string='Serie Number',
     )
 
-    fiscal_document_related_ids = fields.One2many(
+    document_related_ids = fields.One2many(
         comodel_name='l10n_br_fiscal.document.related',
-        inverse_name='fiscal_document_id',
+        inverse_name='document_id',
         string='Fiscal Document Related',
     )
 
@@ -159,21 +168,6 @@ class Document(models.Model):
         copy=True,
     )
 
-    # TODO esse campo deveria ser calculado de
-    # acordo com o fiscal_document_id
-    document_section = fields.Selection(
-        selection=[
-            ('nfe', 'NF-e'),
-            ('nfse_recibos', 'NFS-e e Recibos'),
-            ('nfce_cfe', 'NFC-e e CF-e'),
-            ('cte', 'CT-e'),
-            ('todos', 'Todos'),
-        ],
-        string='Document Section',
-        readonly=True,
-        copy=True,
-    )
-
     edoc_purpose = fields.Selection(
         selection=[
             ('1', 'Normal'),
@@ -185,10 +179,19 @@ class Document(models.Model):
         default='1',
     )
 
-    document_event_ids = fields.One2many(
-        comodel_name='l10n_br_fiscal.document.event',
-        inverse_name='fiscal_document_id',
+    event_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.event',
+        inverse_name='document_id',
         string='Events',
+        copy=False,
+        readonly=True,
+    )
+
+    correction_event_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.event',
+        inverse_name='document_id',
+        domain=[('type', '=', '14')],
+        string='Correction Events',
         copy=False,
         readonly=True,
     )
@@ -227,10 +230,10 @@ class Document(models.Model):
     )
 
     @api.multi
-    @api.constrains('number')
+    @api.constrains('document_number')
     def _check_number(self):
         for record in self:
-            if not record.number:
+            if not record.document_number:
                 return
             domain = [
                 ('id', '!=', record.id),
@@ -239,28 +242,77 @@ class Document(models.Model):
                 ('issuer', '=', record.issuer),
                 ('document_type_id', '=', record.document_type_id.id),
                 ('document_serie', '=', record.document_serie),
-                ('number', '=', record.number)]
+                ('document_number', '=', record.document_number)]
+
+            invalid_number = False
 
             if record.issuer == DOCUMENT_ISSUER_PARTNER:
                 domain.append(('partner_id', '=', record.partner_id.id))
+            else:
+                if record.document_serie_id:
+                    invalid_number = record.document_serie_id._is_invalid_number(
+                        record.document_number)
 
-            if record.env["l10n_br_fiscal.document"].search(domain):
+            documents = record.env["l10n_br_fiscal.document"].search_count(domain)
+
+            if documents or invalid_number:
                 raise ValidationError(_(
                     "There is already a fiscal document with this "
                     "Serie: {0}, Number: {1} !".format(
-                        record.document_serie, record.number)))
+                        record.document_serie, record.document_number)))
+
+    def _compute_document_name(self):
+        name = ''
+        type_serie_number = ''
+
+        if self.document_type:
+            type_serie_number += self.document_type
+        if self.document_serie:
+            type_serie_number += '/' + self.document_serie.zfill(3)
+        if self.document_number or self.rps_number:
+            type_serie_number += '/' + (self.document_number or self.rps_number)
+
+        if self._context.get("fiscal_document_complete_name"):
+            name += DOCUMENT_ISSUER_DICT.get(self.issuer, '')
+            if self.issuer == DOCUMENT_ISSUER_COMPANY and self.fiscal_operation_type:
+                name += '/' + FISCAL_IN_OUT_DICT.get(self.fiscal_operation_type, '')
+            name += '/' + type_serie_number
+            if self.document_date:
+                name += ' - ' + self.document_date.strftime('%d/%m/%Y')
+            if not self.partner_cnpj_cpf:
+                name += ' - ' + _('Unidentified Consumer')
+            elif self.partner_legal_name:
+                name += ' - ' + self.partner_legal_name
+                name += ' - ' + self.partner_cnpj_cpf
+            else:
+                name += ' - ' + self.partner_name
+                name += ' - ' + self.partner_cnpj_cpf
+        elif self._context.get("fiscal_document_no_company"):
+            name += type_serie_number
+        else:
+            name += '{name}/{type_serie_number}'.format(
+                name=self.company_name or '',
+                type_serie_number=type_serie_number,
+            )
+        return name
 
     @api.multi
     def name_get(self):
-        return [(r.id, '{0} - Série: {1} - Número: {2}'.format(
-            r.document_type_id.name,
-            r.document_serie,
-            r.number)) for r in self]
+        res = []
+        for record in self:
+            res.append((record.id, record._compute_document_name()))
+        return res
+
+    @api.depends('issuer', 'fiscal_operation_type', 'document_type', 'document_serie',
+                 'document_number', 'document_date', 'partner_id')
+    def _compute_name(self):
+        for r in self:
+            r.name = r._compute_document_name()
 
     @api.model
     def create(self, values):
-        if not values.get('date'):
-            values['date'] = self._date_server_format()
+        if not values.get('document_date'):
+            values['document_date'] = self._date_server_format()
         return super().create(values)
 
     @api.multi
@@ -273,38 +325,6 @@ class Document(models.Model):
     def _onchange_company_id(self):
         if self.company_id:
             self.currency_id = self.company_id.currency_id
-
-    @api.multi
-    @api.onchange('document_section')
-    def _onchange_document_section(self):
-        if self.document_section:
-            domain = dict()
-            if self.document_section == 'nfe':
-                domain['document_type_id'] = [('code', '=', '55')]
-                self.document_type_id = \
-                    self.env['l10n_br_fiscal.document.type'].search([
-                        ('code', '=', '55')
-                    ])[0]
-            elif self.document_section == 'nfse_recibos':
-                domain['document_type_id'] = [('code', '=', 'SE')]
-                self.document_type_id = \
-                    self.env['l10n_br_fiscal.document.type'].search([
-                        ('code', '=', 'SE')
-                    ])[0]
-            elif self.document_section == 'nfce_cfe':
-                domain['document_type_id'] = [('code', 'in', ('59', '65'))]
-                self.document_type_id = \
-                    self.env['l10n_br_fiscal.document.type'].search([
-                        ('code', '=', '59')
-                    ])[0]
-            elif self.document_section == 'cte':
-                domain['document_type_id'] = [('code', '=', '57')]
-                self.document_type_id = \
-                    self.env['l10n_br_fiscal.document.type'].search([
-                        ('code', '=', '57')
-                    ])[0]
-
-            return {'domain': domain}
 
     def _create_return(self):
         return_docs = self.env[self._name]
@@ -364,10 +384,6 @@ class Document(models.Model):
         super()._after_change_state(old_state, new_state)
         self.send_email(new_state)
 
-    def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
-        super()._exec_after_SITUACAO_EDOC_A_ENVIAR(old_state, new_state)
-        self.document_comment()
-
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
         super()._onchange_fiscal_operation_id()
@@ -401,29 +417,23 @@ class Document(models.Model):
         if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
             self.document_serie = self.document_serie_id.code
 
-    def _exec_after_SITUACAO_EDOC_AUTORIZADA(self, old_state, new_state):
-        super(Document, self)._exec_after_SITUACAO_EDOC_AUTORIZADA(
-            old_state, new_state
-        )
-        self._generates_subsequent_operations()
-
     def _prepare_referenced_subsequent(self):
         vals = {
             'fiscal_document_id': self.id,
             'partner_id': self.partner_id.id,
             'document_type_id': self.document_type,
             'serie': self.document_serie,
-            'number': self.number,
-            'date': self.date,
-            'document_key': self.key,
+            'document_number': self.document_number,
+            'document_date': self.document_date,
+            'document_key': self.document_key,
         }
         reference_id = self.env['l10n_br_fiscal.document.related'].create(vals)
         return reference_id
 
     def _document_reference(self, reference_ids):
         for referenced_item in reference_ids:
-            referenced_item.fiscal_document_related_ids = self.id
-            self.fiscal_document_related_ids |= referenced_item
+            referenced_item.document_related_ids = self.id
+            self.document_related_ids |= referenced_item
 
     @api.depends('document_subsequent_ids.subsequent_document_id')
     def _compute_document_subsequent_generated(self):

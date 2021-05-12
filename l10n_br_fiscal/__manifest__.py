@@ -9,7 +9,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima"],
     "website": "http://github.com/OCA/l10n-brazil",
-    "version": "12.0.11.3.0",
+    "version": "12.0.12.0.1",
     "depends": [
         "uom",
         "decimal_precision",
@@ -86,9 +86,7 @@
         "views/subsequent_document_view.xml",
         "views/uom_uom.xml",
         "views/closing.xml",
-        "views/document_invalidate_number.xml",
-        "views/document_cancel.xml",
-        "views/document_correction.xml",
+        "views/invalidate_number_view.xml",
         "views/city_taxation_code.xml",
         'views/mdfe/mdfe_views.xml',
         'views/dfe/dfe_views.xml',
@@ -96,10 +94,10 @@
         "views/document_event_view.xml",
 
         # Wizards
-        "wizards/wizard_document_cancel_view.xml",
-        "wizards/wizard_document_correction_view.xml",
-        "wizards/wizard_document_invalidate_view.xml",
-        "wizards/wizard_document_status_view.xml",
+        "wizards/document_cancel_wizard.xml",
+        "wizards/document_correction_wizard.xml",
+        "wizards/document_status_wizard.xml",
+        "wizards/invalidate_number_wizard.xml",
 
         # Actions
         "views/l10n_br_fiscal_action.xml",

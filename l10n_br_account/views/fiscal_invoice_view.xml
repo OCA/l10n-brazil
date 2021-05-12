@@ -7,8 +7,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_search"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-          <xpath expr="//field[@name='number']" position="replace">
-              <field name="fiscal_number" string="Number"/>
+          <xpath expr="//field[@name='document_number']" position="after">
               <field name="number" string="Account Number" invisible="1"/>
               <field name="legal_name" string="Legal Name"/>
               <field name="cnpj_cpf" string="CNPJ/CPF"/>
@@ -23,8 +22,7 @@
         <field name="inherit_id" ref="l10n_br_fiscal.document_tree"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='number']" position="replace">
-                <field name="fiscal_number" string="Number"/>
+            <xpath expr="//field[@name='document_number']" position="after">
                 <field name="number" string="Account Number" invisible="1"/>
                 <field name="commercial_partner_id" invisible="1"/>
                 <field name="reference" invisible="1"/>
@@ -43,44 +41,18 @@
       <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
       <field name="mode">primary</field>
       <field name="arch" type="xml">
-        <xpath expr="//form/field[@name='state_edoc']" position="replace"/>
-        <xpath expr="//header/field[@name='state']" position="replace">
+        <xpath expr="//header" position="inside">
             <field name="state" invisible="1"/>
-            <field name="state_edoc" widget="statusbar" statusbar_visible="em_digitacao,autorizada" readonly="1"/>
-        </xpath>
-        <xpath expr="//button[@name='action_document_send']" position="attributes">
-            <attribute name="states"/>
-            <attribute name="attrs">{'invisible': [('state_edoc', 'not in', ('a_enviar', 'rejeitada'))]}</attribute>
-        </xpath>
-        <xpath expr="//button[@name='action_document_correction']" position="attributes">
-            <attribute name="states"/>
-            <attribute name="attrs">{'invisible': [('state_edoc', '!=', 'autorizada')]}</attribute>
-        </xpath>
-        <xpath expr="//button[@name='action_document_invalidate']" position="attributes">
-            <attribute name="states"/>
-            <attribute name="attrs">{'invisible': ['|', ('state_edoc', 'in', ('autorizada', 'cancelada', 'denegada')), ('fiscal_number', '=', False)]}</attribute>
-        </xpath>
-        <xpath expr="//button[@name='view_pdf']" position="attributes">
-            <attribute name="states"/>
-            <attribute name="attrs">{'invisible': ['|', ('state_edoc', '=', 'em_digitacao'), ('document_electronic', '=', False)]}</attribute>
-        </xpath>
-        <xpath expr="//button[@name='view_xml']" position="attributes">
-            <attribute name="states"/>
-            <attribute name="attrs">{'invisible': ['|', ('state_edoc', '=', 'em_digitacao'), ('document_electronic', '=', False)]}</attribute>
-        </xpath>
-        <xpath expr="//button[@name='action_document_confirm']" position="before">
             <field name="fiscal_document_id" required="0" invisible="1"/>
+        </xpath>
+        <xpath expr="//button[@name='action_document_confirm']" position="replace">
             <button name="action_invoice_open" type="object" states="draft" string="Validate" class="oe_highlight o_invoice_validate" groups="account.group_account_invoice"/>
-            <button name="action_document_back2draft" type="object" string="Voltar para Digitação" groups="l10n_br_fiscal.group_user" attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'enviada', 'rejeitada')), ('document_electronic', '=', False)]}" class="btn-secondary"/>
         </xpath>
-        <xpath expr="//button[@name='action_document_cancel']" position="attributes">
-            <attribute name="attrs">{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False)]}</attribute>
+        <xpath expr="//button[@name='action_document_back2draft']" position="replace">
+          <button name="action_document_back2draft" type="object" string="Voltar para Digitação" groups="l10n_br_fiscal.group_user" attrs="{'invisible': ['|', ('state_edoc', 'not in', ('a_enviar', 'enviada', 'rejeitada')), ('document_electronic', '=', False)]}" class="btn-secondary"/>
         </xpath>
-        <xpath expr="//h1/field[@name='number']" position="replace">
-            <field name="fiscal_number" class="oe_inline" readonly="1"/>
-        </xpath>
-        <xpath expr="//group/field[@name='number']" position="replace">
-            <field name="fiscal_number" class="oe_inline" force_save="1" attrs="{'invisible': [('issuer', '=', 'company')], 'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"/>
+        <xpath expr="//button[@name='action_create_return']" position="replace">
+          <button name="%(account.action_account_invoice_refund)d" type='action' string='Devolver' groups="account.group_account_invoice" attrs="{'invisible': ['|',('type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"/>
         </xpath>
         <xpath expr="//page[@name='finance']" position="inside">
             <group>

@@ -1,9 +1,17 @@
 # Copyright 2019 Akretion (Raphaël Valyi <raphael.valyi@akretion.com>)
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields
+import logging
 
+from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.base.misc import punctuation_rm
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class ResPartner(spec_models.SpecModel):
@@ -58,6 +66,7 @@ class ResPartner(spec_models.SpecModel):
     nfe40_IE = fields.Char(related='inscr_est')
     nfe40_ISUF = fields.Char(related='suframa')
     nfe40_email = fields.Char(related='email')
+    nfe40_xEnder = fields.Char(compute='_compute_nfe40_xEnder')
 
     # nfe.40.infresptec
     nfe40_xContato = fields.Char(related='legal_name')
@@ -66,6 +75,13 @@ class ResPartner(spec_models.SpecModel):
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
         "CNPJ/CPF do Parceiro")
+
+    @api.multi
+    def _compute_nfe40_xEnder(self):
+        for rec in self:
+            rec.nfe40_xEnder = rec.street + ', ' + rec.street_number
+            if rec.street2:
+                rec.nfe40_xEnder = rec.nfe40_xEnder + ' - ' + rec.street2
 
     @api.multi
     def _compute_nfe40_enderDest(self):
@@ -78,9 +94,11 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             if rec.cnpj_cpf:
                 if rec.is_company:
-                    rec.nfe40_CNPJ = rec.cnpj_cpf
+                    rec.nfe40_CNPJ = punctuation_rm(
+                        rec.cnpj_cpf)
                 else:
-                    rec.nfe40_CPF = rec.cnpj_cpf
+                    rec.nfe40_CPF = punctuation_rm(
+                        rec.cnpj_cpf)
             rec.nfe40_cMun = "%s%s" % (rec.state_id.ibge_code,
                                        rec.city_id.ibge_code)
 

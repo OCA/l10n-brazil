@@ -25,11 +25,11 @@ msgstr " Documentos NFe"
 #: model:mail.template,subject:l10n_br_fiscal.fiscal_document_change_state_template
 #: model:mail.template,subject:l10n_br_fiscal.fiscal_document_change_state_template_nfse
 msgid ""
-"${object.document_type_id.name}: ${object.number} Serie: ${object."
+"${object.document_type_id.name}: ${object.document_number} Serie: ${object."
 "document_serie} is: ${dict(object.fields_get('state').get('state')."
 "get('selection')).get(object.state, '')}"
 msgstr ""
-"${object.document_type_id.name}: ${object.number} Série: ${object."
+"${object.document_type_id.name}: ${object.document_number} Série: ${object."
 "document_serie} é: ${dict(object.fields_get('state').get('state')."
 "get('selection')).get(object.state, '')}"
 
@@ -291,14 +291,14 @@ msgid ""
 "                                <td valign=\"top\" style=\"font-family:Arial,"
 "Helvetica,sans-serif; color: #555; font-size: 14px;\">\n"
 "                                  <p>Hello ${object.partner_id.name},</p>\n"
-"                                  <p>The Fiscal Document ${object.number} "
+"                                  <p>The Fiscal Document ${object.document_number} "
 "has changed.</p>\n"
 "                                </td>\n"
 "                              </tr>\n"
 "                              <tr>\n"
 "                                <td style=\"font-family:Arial,Helvetica,sans-"
 "serif; color: #555; font-size: 14px;\" valign=\"top\">\n"
-"                                  Document Number: ${object.number}\n"
+"                                  Document Number: ${object.document_number}\n"
 "                                </td>\n"
 "                              </tr>\n"
 "                              <tr>\n"
@@ -310,7 +310,7 @@ msgid ""
 "                              <tr>\n"
 "                                <td style=\"font-family:Arial,Helvetica,sans-"
 "serif; color: #555; font-size: 14px;\" valign=\"top\">\n"
-"                                  Document Key: ${object.key}\n"
+"                                  Document Key: ${object.document_key}\n"
 "                                </td>\n"
 "                              </tr>\n"
 "                              <tr>\n"
@@ -387,14 +387,14 @@ msgstr ""
 "                                <td valign=\"top\" style=\"font-family:Arial,"
 "Helvetica,sans-serif; color: #555; font-size: 14px;\">\n"
 "                                  <p>Olá ${object.partner_id.name},</p>\n"
-"                                  <p>O Documento Fiscal ${object.number} foi "
+"                                  <p>O Documento Fiscal ${object.document_number} foi "
 "alterado.</p>\n"
 "                                </td>\n"
 "                              </tr>\n"
 "                              <tr>\n"
 "                                <td style=\"font-family:Arial,Helvetica,sans-"
 "serif; color: #555; font-size: 14px;\" valign=\"top\">\n"
-"                                  Número do Documento: ${object.number}\n"
+"                                  Número do Documento: ${object.document_number}\n"
 "                                </td>\n"
 "                              </tr>\n"
 "                              <tr>\n"
@@ -407,7 +407,7 @@ msgstr ""
 "                              <tr>\n"
 "                                <td style=\"font-family:Arial,Helvetica,sans-"
 "serif; color: #555; font-size: 14px;\" valign=\"top\">\n"
-"                                  Chave do Documento: ${object.key}\n"
+"                                  Chave do Documento: ${object.document_key}\n"
 "                                </td>\n"
 "                              </tr>\n"
 "                              <tr>\n"
@@ -1806,7 +1806,6 @@ msgstr "CSTs"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_cte
-#: selection:l10n_br_fiscal.document,document_section:0
 msgid "CT-e"
 msgstr "CT-e"
 
@@ -3058,11 +3057,6 @@ msgid "Document Related"
 msgstr "Documentos Relacionados"
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_section
-msgid "Document Section"
-msgstr "Seção de documentos"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_serie_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__document_serie_id
 msgid "Document Serie"
@@ -3698,7 +3692,7 @@ msgstr "Linha de Documentos Fiscais"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_related
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_document_related_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_related_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_related__document_related_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_related_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_related_tree
@@ -5670,7 +5664,7 @@ msgid "Inutilização"
 msgstr "Inutilização"
 
 #. module: l10n_br_fiscal
-#: model:ir.actions.act_window,name:l10n_br_fiscal.wizard_document_invalidate_action
+#: model:ir.actions.act_window,name:l10n_br_fiscal.invalidate_number_wizard_action
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.wizard_document_invalidate_form
 msgid "Inutilização de documento fiscal"
 msgstr "Inutilização de documento fiscal"
@@ -6437,7 +6431,6 @@ msgstr "NCMs"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.certificate,type:0
-#: selection:l10n_br_fiscal.document,document_section:0
 msgid "NF-e"
 msgstr "NF-e"
 
@@ -6450,11 +6443,6 @@ msgstr "NF-e/CT-e"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_nfe
 msgid "NF-e/NFC-e"
 msgstr "NF-e/NFC-e"
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,document_section:0
-msgid "NFC-e e CF-e"
-msgstr "NFC-e e CF-e"
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,ind_pres:0
@@ -6476,11 +6464,6 @@ msgstr "Documentos NFCe"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_nfse
 msgid "NFS-e"
 msgstr "NFS-e"
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,document_section:0
-msgid "NFS-e e Recibos"
-msgstr "NFS-e e Recibos"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_closing_form
@@ -9210,17 +9193,6 @@ msgstr "Situações"
 #: selection:l10n_br_fiscal.tax.definition,activity_state:0
 msgid "Today"
 msgstr "Hoje"
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document,document_section:0
-msgid "Todos"
-msgstr "Todos"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__amount_change
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
-msgid "Troco"
-msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.closing,export_type:0

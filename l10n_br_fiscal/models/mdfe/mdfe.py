@@ -27,14 +27,14 @@ class MDFe(models.Model):
     def name_get(self):
         return [(rec.id,
                  u"NFº: {0} ({1}): {2}".format(
-                     rec.number, rec.cnpj_cpf, rec.company_id.legal_name)
+                     rec.document_number, rec.cnpj_cpf, rec.company_id.legal_name)
                  ) for rec in self]
 
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
     )
-    key = fields.Char(
+    document_key = fields.Char(
         string="Access Key",
         size=44,
     )
@@ -43,7 +43,7 @@ class MDFe(models.Model):
         size=3,
         index=True,
     )
-    number = fields.Float(
+    document_number = fields.Float(
         string="Document Number",
         index=True,
         digits=(18, 0),

@@ -4,13 +4,13 @@
 
 <odoo>
 
-    <record model="ir.ui.view" id="wizard_document_invalidate_form">
-        <field name="name">l10n_br_fiscal.wizard_document_invalidate.form (in l10n_br_fiscal)</field>
-        <field name="model">l10n_br_fiscal.wizard_document_invalidate</field>
+    <record id="document_cancel_wizard_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.document.cancel.wizard</field>
+        <field name="model">l10n_br_fiscal.document.cancel.wizard</field>
         <field name="arch" type="xml">
-            <form string="Inutilização de documento fiscal">
+            <form string="Cancelamento de documento fiscal">
                 <group>
-                    <field name="justificative"/>
+                    <field name="justification"/>
                 </group>
                 <footer>
                     <button name="doit"
@@ -25,13 +25,12 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="wizard_document_invalidate_action">
-        <field name="name">Inutilização de documento fiscal</field>
-        <field name="res_model">l10n_br_fiscal.wizard_document_invalidate</field>
+    <record id="document_cancel_wizard_action" model="ir.actions.act_window">
+        <field name="name">Cancelamento de documento fiscal</field>
+        <field name="res_model">l10n_br_fiscal.document.cancel.wizard</field>
         <field name="view_mode">form</field>
         <field name="context">{}</field>
         <field name="target">new</field>
     </record>
-
 
 </odoo>

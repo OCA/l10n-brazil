@@ -1,6 +1,7 @@
 # Copyright 2019 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import base64
 from requests import Session
 import logging
 
@@ -11,10 +12,11 @@ from erpbrasil.edoc.provedores.cidades import NFSeFactory
 
 from odoo import api, fields, models
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
-    TAX_FRAMEWORK_SIMPLES_ALL,
-    DOCUMENT_ISSUER_COMPANY,
     PROCESSADOR_OCA,
+    TAX_FRAMEWORK_SIMPLES_ALL,
 )
 from ..constants.nfse import (
     NFSE_ENVIRONMENTS,
@@ -50,11 +52,6 @@ class Document(models.Model):
         copy=False,
     )
 
-    rps_number = fields.Char(
-        string='RPS Number',
-        copy=False,
-        index=True,
-    )
     rps_type = fields.Selection(
         string='RPS Type',
         selection=RPS_TYPE,
@@ -81,17 +78,36 @@ class Document(models.Model):
         default=lambda self: self.env.user.company_id.nfse_environment,
     )
 
-    def document_number(self):
+    @api.multi
+    def _document_date(self):
+        super()._document_date()
         for record in self.filtered(filter_processador_edoc_nfse):
-            if record.issuer == DOCUMENT_ISSUER_COMPANY:
-                if record.document_serie_id:
-                    record.document_serie = record.document_serie_id.code
-                    if not record.rps_number and record.date:
-                        record.rps_number = record.document_serie_id.\
-                            next_seq_number()
-                        record.number = record.rps_number
-        super(Document, self - self.filtered(filter_processador_edoc_nfse)
-              ).document_number()
+            if not record.date_in_out:
+                record.date_in_out = fields.Datetime.now()
+
+    def make_pdf(self):
+        if not self.filtered(filter_processador_edoc_nfse):
+            return super().make_pdf()
+        pdf = self.env.ref(
+            'l10n_br_nfse.report_br_nfse_danfe').render_qweb_pdf(self.ids)[0]
+        self.file_report_id.unlink()
+
+        if self.document_number:
+            filename = 'NFS-e-' + self.document_number + '.pdf'
+        else:
+            filename = 'RPS-' + self.rps_number + '.pdf'
+
+        self.file_report_id = self.env['ir.attachment'].create(
+            {
+                "name": filename,
+                "datas_fname": filename,
+                "res_model": self._name,
+                "res_id": self.id,
+                "datas": base64.b64encode(pdf),
+                "mimetype": "application/pdf",
+                "type": "binary",
+            }
+        )
 
     def _processador_erpbrasil_nfse(self):
         certificado = cert.Certificado(
@@ -122,9 +138,16 @@ class Document(models.Model):
             processador = record._processador_erpbrasil_nfse()
             xml_file = processador.\
                 _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
-            event_id = self._gerar_evento(xml_file, event_type="0")
+            event_id = self.event_ids.create_event_save_xml(
+                company_id=self.company_id,
+                environment=(
+                    EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
+                event_type="0",
+                xml_file=xml_file,
+                document_id=self,
+            )
             _logger.debug(xml_file)
-            record.autorizacao_event_id = event_id
+            record.authorization_event_id = event_id
 
     def _prepare_dados_servico(self):
         self.line_ids.ensure_one()
@@ -147,10 +170,6 @@ class Document(models.Model):
 
     def _prepare_lote_rps(self):
         num_rps = self.rps_number
-
-        dh_emi = fields.Datetime.context_timestamp(
-            self, fields.Datetime.from_string(self.date)
-        ).strftime('%Y-%m-%dT%H:%M:%S')
         return {
             'cnpj': misc.punctuation_rm(self.company_id.partner_id.cnpj_cpf),
             'inscricao_municipal': misc.punctuation_rm(
@@ -159,7 +178,11 @@ class Document(models.Model):
             'numero': num_rps,
             'serie': self.document_serie_id.code or '',
             'tipo': self.rps_type,
-            'data_emissao': dh_emi,
+            'data_emissao': fields.Datetime.context_timestamp(
+                self, fields.Datetime.from_string(self.document_date)
+            ).strftime('%Y-%m-%dT%H:%M:%S'),
+            'date_in_out': fields.Datetime.context_timestamp(
+                self, self.date_in_out).strftime('%Y-%m-%dT%H:%M:%S'),
             'natureza_operacao': self.operation_nature,
             'regime_especial_tributacao': self.taxation_special_regime,
             'optante_simples_nacional': '1'
@@ -174,3 +197,23 @@ class Document(models.Model):
             'carga_tributaria': self.amount_tax,
             'total_recebido': self.amount_total,
         }
+
+    def convert_type_nfselib(self, class_object, object_filed, value):
+        if value is None:
+            return value
+
+        value_type = ''
+        for field in class_object().member_data_items_:
+            if field.name == object_filed:
+                value_type = field.child_attrs.get('type', '').\
+                    replace('xsd:', '')
+                break
+
+        if value_type in ('int', 'byte', 'nonNegativeInteger'):
+            return int(value)
+        elif value_type == 'decimal':
+            return float(value)
+        elif value_type == 'string':
+            return str(value)
+        else:
+            return value

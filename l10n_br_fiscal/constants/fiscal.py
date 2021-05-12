@@ -205,8 +205,9 @@ CERTIFICATE_SUBTYPE = (("a1", "A1"), ("a3", "A3"))
 CERTIFICATE_SUBTYPE_DEFAULT = "a1"
 
 
-FISCAL_IN_OUT = (("in", "In"), ("out", "Out"))
+FISCAL_IN_OUT = (("in", _("In")), ("out", _("Out")))
 
+FISCAL_IN_OUT_DICT = dict(FISCAL_IN_OUT)
 
 FISCAL_IN_OUT_ALL = (("in", "In"), ("out", "Out"), ("all", "All"))
 
@@ -224,8 +225,9 @@ FISCAL_IN_OUT_DEFAULT = "in"
 DOCUMENT_TYPE = (("icms", "ICMS"), ("service", "Serviço Municipal"))
 
 
-DOCUMENT_ISSUER = (("company", "Company"), ("partner", "Partner"))
+DOCUMENT_ISSUER = (("company", _("Company")), ("partner", _("Partner")))
 
+DOCUMENT_ISSUER_DICT = dict(DOCUMENT_ISSUER)
 
 DOCUMENT_ISSUER_COMPANY = "company"
 DOCUMENT_ISSUER_PARTNER = "partner"
@@ -367,6 +369,10 @@ CANCELADO = CANCELADO_DENTRO_PRAZO + CANCELADO_FORA_PRAZO + CANCELAMENTO_HOMOLOG
 
 AUTORIZADO_OU_DENEGADO = AUTORIZADO + DENEGADO
 
+EVENTO_REGISTRADO_E_VINCULADO = '135'
+EVENTO_REGISTRADO_NAO_VINCULADO = '136'
+
+EVENTO_RECEBIDO = ['135', '136']
 
 SITUACAO_EDOC_EM_DIGITACAO = "em_digitacao"
 SITUACAO_EDOC_A_ENVIAR = "a_enviar"
@@ -482,3 +488,11 @@ FISCAL_COMMENT_OBJECTS = [
 FISCAL_COMMENT_DOCUMENT = 'l10n_br_fiscal.document.mixin'
 
 FISCAL_COMMENT_LINE = 'l10n_br_fiscal.document.line.mixin'
+
+EVENT_ENV_PROD = 'prod'
+EVENT_ENV_HML = 'hml'
+
+EVENT_ENVIRONMENT = [
+    (EVENT_ENV_PROD, 'Production'),
+    (EVENT_ENV_HML, 'Homologation'),
+]

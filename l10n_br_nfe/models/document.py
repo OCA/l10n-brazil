@@ -4,7 +4,8 @@
 
 import base64
 import logging
-import tempfile
+from datetime import datetime
+
 from unicodedata import normalize
 
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
@@ -18,6 +19,11 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     DENEGADO,
     CANCELADO,
+    CANCELADO_DENTRO_PRAZO,
+    CANCELADO_FORA_PRAZO,
+    EVENTO_RECEBIDO,
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
     LOTE_PROCESSADO,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
@@ -80,19 +86,13 @@ class NFe(spec_models.StackedModel):
     nfe40_emit = fields.Many2one('res.company', compute='_compute_emit',
                                  readonly=True, string="Emit")
 
+    @api.depends('partner_id')
     def _compute_dest(self):
         for doc in self:  # TODO if out
             doc.nfe40_dest = doc.partner_id
 
     nfe40_dest = fields.Many2one('res.partner', compute='_compute_dest',
                                  readonly=True, string="Dest")
-
-    fiscal_document_event_ids = fields.One2many(
-        comodel_name='l10n_br_fiscal.document.event',
-        inverse_name='fiscal_document_id',
-        string='Fiscal Events',
-        copy=False,
-    )
 
     nfe_version = fields.Selection(
         selection=NFE_VERSIONS,
@@ -115,11 +115,11 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_nNF = fields.Char(
-        related='number',
+        related='document_number',
     )
 
     nfe40_Id = fields.Char(
-        related='key',
+        related='document_key',
     )
 
     # TODO should be done by framework?
@@ -130,13 +130,12 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_NFref = fields.One2many(
-        related='fiscal_document_related_ids',
-        comodel_name='l10n_br_fiscal.document.related',
-        inverse_name='fiscal_document_id',
+        related='document_related_ids',
+        inverse_name='document_id',
     )
 
     nfe40_dhEmi = fields.Datetime(
-        related='date',
+        related='document_date',
     )
 
     nfe40_dhSaiEnt = fields.Datetime(
@@ -255,6 +254,10 @@ class NFe(spec_models.StackedModel):
         compute='_compute_nfe40_additional_data',
     )
 
+    nfe40_transporta = fields.Many2one(
+        comodel_name='res.partner'
+    )
+
     nfe40_infRespTec = fields.Many2one(
         comodel_name='res.partner',
         related='company_id.technical_support_id'
@@ -295,12 +298,15 @@ class NFe(spec_models.StackedModel):
                 rec.fiscal_operation_type = tpNF_2_operation[rec.nfe40_tpNF]
 
     @api.multi
-    def document_number(self):
-        super().document_number()
-        if self.key:
-            chave = ChaveEdoc(self.key)
-            self.nfe40_cNF = chave.codigo_aleatorio
-            self.nfe40_cDV = chave.digito_verificador
+    def _document_number(self):
+        # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
+        # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
+        super()._document_number()
+        for record in self.filtered(filter_processador_edoc_nfe):
+            if record.document_key:
+                chave = ChaveEdoc(record.document_key)
+                record.nfe40_cNF = chave.codigo_aleatorio
+                record.nfe40_cDV = chave.digito_verificador
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
@@ -344,31 +350,50 @@ class NFe(spec_models.StackedModel):
             xml_file = processador.\
                 _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
             _logger.debug(xml_file)
-            event_id = self._gerar_evento(xml_file, event_type="0")
-            record.autorizacao_event_id = event_id
+            event_id = self.event_ids.create_event_save_xml(
+                company_id=self.company_id,
+                environment=(
+                    EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
+                event_type="0",
+                xml_file=xml_file,
+                document_id=self,
+            )
+            record.authorization_event_id = event_id
 
-    def atualiza_status_nfe(self, infProt):
+    def atualiza_status_nfe(self, infProt, xml_file):
         self.ensure_one()
+        # TODO: Verificar a consulta de notas
         # if not infProt.chNFe == self.key:
         #     self = self.search([
         #         ('key', '=', infProt.chNFe)
         #     ])
-
         if infProt.cStat in AUTORIZADO:
             state = SITUACAO_EDOC_AUTORIZADA
         elif infProt.cStat in DENEGADO:
             state = SITUACAO_EDOC_DENEGADA
         else:
             state = SITUACAO_EDOC_REJEITADA
+        if self.authorization_event_id and infProt.nProt:
+            if type(infProt.dhRecbto) == datetime:
+                protocol_date = fields.Datetime.to_string(
+                    infProt.dhRecbto
+                )
+            else:
+                protocol_date = fields.Datetime.to_string(
+                    datetime.fromisoformat(infProt.dhRecbto))
 
-        self._change_state(state)
-
+            self.authorization_event_id.set_done(
+                status_code=infProt.cStat,
+                response=infProt.xMotivo,
+                protocol_date=protocol_date,
+                protocol_number=infProt.nProt,
+                file_response_xml=xml_file,
+            )
         self.write({
-            'codigo_situacao': infProt.cStat,
-            'motivo_situacao': infProt.xMotivo,
-            'data_hora_autorizacao': infProt.dhRecbto,
-            'protocolo_autorizacao': infProt.nProt,
+            'status_code': infProt.cStat,
+            'status_name': infProt.xMotivo,
         })
+        self._change_state(state)
 
     def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
         return {
@@ -396,35 +421,26 @@ class NFe(spec_models.StackedModel):
                 for p in processador.processar_documento(edoc):
                     processo = p
                     if processo.webservice == 'nfeAutorizacaoLote':
-                        self.autorizacao_event_id._grava_anexo(
+                        record.authorization_event_id._save_event_file(
                             processo.envio_xml.decode('utf-8'), "xml"
                         )
 
             if processo.resposta.cStat in LOTE_PROCESSADO + ['100']:
-                protocolos = processo.resposta.protNFe
-                if type(protocolos) != list:
-                    protocolos = [protocolos]
-                for protocolo in protocolos:
-                    nfe_proc = leiauteNFe.TNfeProc(
-                        NFe=edoc,
-                        protNFe=protocolo,
-                    )
-                    nfe_proc.original_tagname_ = 'nfeProc'
-                    xml_file = \
-                        processador._generateds_to_string_etree(nfe_proc)[0]
-                    record.autorizacao_event_id.set_done(xml_file)
-                    record.atualiza_status_nfe(protocolo.infProt)
-                    if protocolo.infProt.cStat in AUTORIZADO:
-                        try:
-                            record.gera_pdf()
-                        except Exception as e:
-                            # Não devemos interromper o fluxo
-                            # E dar rollback em um documento
-                            # autorizado, podendo perder dados.
+                record.atualiza_status_nfe(
+                    processo.protocolo.infProt,
+                    processo.processo_xml.decode('utf-8')
+                )
+                if processo.protocolo.infProt.cStat in AUTORIZADO:
+                    try:
+                        record.make_pdf()
+                    except Exception as e:
+                        # Não devemos interromper o fluxo
+                        # E dar rollback em um documento
+                        # autorizado, podendo perder dados.
 
-                            # Se der problema que apareça quando
-                            # o usuário clicar no gera PDF novamente.
-                            _logger.error('DANFE Error \n {}'.format(e))
+                        # Se der problema que apareça quando
+                        # o usuário clicar no gera PDF novamente.
+                        _logger.error('DANFE Error \n {}'.format(e))
 
             elif processo.resposta.cStat == '225':
                 state = SITUACAO_EDOC_REJEITADA
@@ -432,76 +448,17 @@ class NFe(spec_models.StackedModel):
                 self._change_state(state)
 
                 self.write({
-                    'codigo_situacao': processo.resposta.cStat,
-                    'motivo_situacao': processo.resposta.xMotivo,
+                    'status_code': processo.resposta.cStat,
+                    'status_name': processo.resposta.xMotivo,
                 })
         return
 
     @api.multi
-    def cancel_invoice_online(self, justificative):
-        super(NFe, self).cancel_invoice_online(justificative)
+    def _document_date(self):
+        super()._document_date()
         for record in self.filtered(filter_processador_edoc_nfe):
-            if record.state in ('open', 'paid'):
-                processador = record._processador()
-
-                evento = processador.cancela_documento(
-                    chave=record.edoc_access_key,
-                    protocolo_autorizacao=record.edoc_protocol_number,
-                    justificativa=justificative
-                )
-                processo = processador.enviar_lote_evento(
-                    lista_eventos=[evento]
-                )
-
-                for retevento in processo.resposta.retEvento:
-                    if not retevento.infEvento.chNFe == record.edoc_access_key:
-                        continue
-
-                    if retevento.infEvento.cStat not in CANCELADO:
-                        mensagem = 'Erro no cancelamento'
-                        mensagem += '\nCódigo: ' + \
-                                    retevento.infEvento.cStat
-                        mensagem += '\nMotivo: ' + \
-                                    retevento.infEvento.xMotivo
-                        raise UserError(mensagem)
-
-                    if retevento.infEvento.cStat == '155':
-                        record.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
-                        record.state_edoc = SITUACAO_EDOC_CANCELADA
-                    elif retevento.infEvento.cStat == '135':
-                        record.state_fiscal = SITUACAO_FISCAL_CANCELADO
-                        record.state_edoc = SITUACAO_EDOC_CANCELADA
-
-    # def cce_invoice_online(self, justificative):
-    #     super(NFe, self).cce_invoice_online(justificative)
-    #     for record in self.filtered(filter_processador_edoc_nfe):
-    #         if record.state in ('open', 'paid'):
-    #             processador = record._processador()
-    #
-    #             evento = processador.carta_correcao(
-    #                 chave=record.edoc_access_key,
-    #                 sequencia='1',
-    #                 justificativa=justificative
-    #             )
-    #             processo = processador.enviar_lote_evento(
-    #                 lista_eventos=[evento]
-    #             )
-    #             pass
-
-    @api.multi
-    def action_document_confirm(self):
-        for record in self:
             if not record.date_in_out:
                 record.date_in_out = fields.Datetime.now()
-        super(NFe, self).action_document_confirm()
-
-        for record in self.filtered(filter_processador_edoc_nfe):
-            processador = record._processador()
-            record.autorizacao_event_id = record._gerar_evento(
-                processador._generateds_to_string_etree(
-                    record.serialize()[0]
-                )[0], event_type="0"
-            )
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if self.company_id.partner_id.state_id.ibge_code:
@@ -589,7 +546,6 @@ class NFe(spec_models.StackedModel):
         value = getattr(node, attr.get_name())
 
         if key == 'nfe40_mod':
-            vals['document_section'] = 'nfe' if value == '55' else False
             vals['document_type_id'] = \
                 self.env['l10n_br_fiscal.document.type'].search([
                     ('code', '=', value)], limit=1).id
@@ -620,50 +576,51 @@ class NFe(spec_models.StackedModel):
             super(NFe, self)._build_many2one(comodel, vals, new_value,
                                              key, value, path)
 
-    def gera_pdf(self):
-        file_pdf = self.file_pdf_id
-        self.file_pdf_id = False
+    def view_pdf(self):
+        if not self.filtered(filter_processador_edoc_nfe):
+            return super().view_pdf()
+        if not self.authorization_file_id or not self.file_report_id:
+            self.make_pdf()
+        return self._target_new_tab(self.file_report_id)
+
+    def make_pdf(self):
+        if not self.filtered(filter_processador_edoc_nfe):
+            return super().make_pdf()
+
+        file_pdf = self.file_report_id
+        self.file_report_id = False
         file_pdf.unlink()
-        output = self.autorizacao_event_id.monta_caminho(
-            ambiente=self.nfe40_tpAmb,
-            company_id=self.company_id,
-            chave=self.key,
-        )
 
-        if self.file_xml_autorizacao_id:
-            arquivo = output + self.file_xml_autorizacao_id.datas_fname
+        if self.authorization_file_id:
+            arquivo = self.authorization_file_id
+            xml_string = base64.b64decode(arquivo.datas).decode()
         else:
-            tmp_xml = tempfile.NamedTemporaryFile()
-            self.temp_xml_autorizacao(tmp_xml)
-            arquivo = tmp_xml.name
+            arquivo = self.send_file_id
+            xml_string = base64.b64decode(arquivo.datas).decode()
+            xml_string = self.temp_xml_autorizacao(xml_string)
 
-        base.ImprimirXml.imprimir(caminho_xml=arquivo, output_dir=output)
-        file_name = 'danfe.pdf'
-        with open(output + file_name, 'rb') as f:
-            arquivo_data = f.read()
+        pdf = base.ImprimirXml.imprimir(
+            string_xml=xml_string,
+            # output_dir=self.authorization_event_id.file_path
+        )
+        # TODO: Alterar a opção output_dir para devolter também o arquivo do XML
+        # no retorno, evitando a releitura do arquivo.
 
-        self.file_pdf_id = self.env['ir.attachment'].create(
+        self.file_report_id = self.env['ir.attachment'].create(
             {
-                "name": file_name,
-                "datas_fname": file_name,
+                "name": self.document_key + '.pdf',
+                "datas_fname": self.document_key + '.pdf',
                 "res_model": self._name,
                 "res_id": self.id,
-                "datas": base64.b64encode(arquivo_data),
+                "datas": base64.b64encode(pdf),
                 "mimetype": "application/pdf",
                 "type": "binary",
             }
         )
 
-    def view_pdf(self):
-        if not self.file_pdf_id:
-            self.gera_pdf()
-        return super(NFe, self).view_pdf()
-
-    def temp_xml_autorizacao(self, tmp_xml):
+    def temp_xml_autorizacao(self, xml_string):
         """ TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
-        xml_string = base64.b64decode(self.file_xml_id.datas).decode()
         root = etree.fromstring(xml_string)
-
         ns = {None: 'http://www.portalfiscal.inf.br/nfe'}
         new_root = etree.Element('nfeProc', nsmap=ns)
 
@@ -679,6 +636,118 @@ class NFe(spec_models.StackedModel):
 
         new_root.append(root)
         new_root.append(protNFe_node)
+        return etree.tostring(new_root)
 
-        tmp_xml.write(etree.tostring(new_root))
-        tmp_xml.seek(0)
+    @api.multi
+    def _document_cancel(self, justificative):
+        super(NFe, self)._document_cancel(justificative)
+        online_event = self.filtered(filter_processador_edoc_nfe)
+        if online_event:
+            online_event._nfe_cancel()
+
+    def _nfe_cancel(self):
+        self.ensure_one()
+        processador = self._processador()
+
+        if not self.authorization_protocol:
+            raise UserError(_('Authorization Protocol Not Found!'))
+
+        evento = processador.cancela_documento(
+            chave=self.document_key[3:],
+            protocolo_autorizacao=self.authorization_protocol,
+            justificativa=self.cancel_reason.replace('\n', '\\n')
+        )
+        processo = processador.enviar_lote_evento(
+            lista_eventos=[evento]
+        )
+        # Gravamos o arquivo no disco e no filestore ASAP.
+
+        self.cancel_event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(
+                EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
+            event_type='2',
+            xml_file=processo.envio_xml.decode('utf-8'),
+            document_id=self,
+        )
+
+        for retevento in processo.resposta.retEvento:
+            if not retevento.infEvento.chNFe == self.document_key[3:]:
+                continue
+
+            if retevento.infEvento.cStat not in CANCELADO:
+                mensagem = 'Erro no cancelamento'
+                mensagem += '\nCódigo: ' + retevento.infEvento.cStat
+                mensagem += '\nMotivo: ' + retevento.infEvento.xMotivo
+                raise UserError(mensagem)
+
+            if retevento.infEvento.cStat == CANCELADO_FORA_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO
+            elif retevento.infEvento.cStat == CANCELADO_DENTRO_PRAZO:
+                self.state_fiscal = SITUACAO_FISCAL_CANCELADO
+
+            self.state_edoc = SITUACAO_EDOC_CANCELADA
+            self.cancel_event_id.set_done(
+                status_code=retevento.infEvento.cStat,
+                response=retevento.infEvento.xMotivo,
+                protocol_date=fields.Datetime.to_string(
+                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)),
+                protocol_number=retevento.infEvento.nProt,
+                file_response_xml=processo.retorno.content.decode('utf-8'),
+            )
+
+    @api.multi
+    def _document_correction(self, justificative):
+        super(NFe, self)._document_correction(justificative)
+        online_event = self.filtered(filter_processador_edoc_nfe)
+        if online_event:
+            online_event._nfe_correction(justificative)
+
+    @api.multi
+    def _nfe_correction(self, justificative):
+        self.ensure_one()
+        processador = self._processador()
+
+        numeros = self.event_ids.filtered(
+            lambda e: e.type == '14' and e.state == 'done'
+        ).mapped('sequence')
+
+        sequence = str(int(max(numeros)) + 1) if numeros else '1'
+
+        evento = processador.carta_correcao(
+            chave=self.document_key[3:],
+            sequencia=sequence,
+            justificativa=justificative.replace('\n', '\\n')
+        )
+        processo = processador.enviar_lote_evento(
+            lista_eventos=[evento]
+        )
+        # Gravamos o arquivo no disco e no filestore ASAP.
+        event_id = self.event_ids.create_event_save_xml(
+            company_id=self.company_id,
+            environment=(
+                EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
+            event_type='14',
+            xml_file=processo.envio_xml.decode('utf-8'),
+            document_id=self,
+            sequence=sequence,
+            justification=justificative,
+        )
+        for retevento in processo.resposta.retEvento:
+            if not retevento.infEvento.chNFe == self.document_key[3:]:
+                continue
+
+            if retevento.infEvento.cStat not in EVENTO_RECEBIDO:
+                mensagem = 'Erro na carta de correção'
+                mensagem += '\nCódigo: ' + retevento.infEvento.cStat
+                mensagem += '\nMotivo: ' + retevento.infEvento.xMotivo
+                raise UserError(mensagem)
+
+            event_id.set_done(
+                status_code=retevento.infEvento.cStat,
+                response=retevento.infEvento.xMotivo,
+                protocol_date=fields.Datetime.to_string(
+                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)),
+                protocol_number=retevento.infEvento.nProt,
+                file_response_xml=processo.retorno.content.decode('utf-8'),
+            )

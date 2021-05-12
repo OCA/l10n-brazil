@@ -19,10 +19,14 @@ from nfselib.ginfes.v3_01.servico_enviar_lote_rps_envio import (
 )
 
 from odoo import models, api, _
+from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    EVENT_ENV_HML,
+    EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
+    PROCESSADOR_OCA,
     SITUACAO_EDOC_AUTORIZADA,
-    PROCESSADOR_OCA
+    SITUACAO_EDOC_REJEITADA,
 )
 
 from ..constants.ginfes import (
@@ -31,7 +35,7 @@ from ..constants.ginfes import (
 )
 
 
-def filter_processador_edoc_nfse_ginfes(record):
+def filter_oca_nfse(record):
     if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
@@ -40,7 +44,7 @@ def filter_processador_edoc_nfse_ginfes(record):
     return False
 
 
-def fiter_provedor_ginfes(record):
+def filter_ginfes(record):
     if record.company_id.provedor_nfse == 'ginfes':
         return True
     return False
@@ -50,35 +54,13 @@ class Document(models.Model):
 
     _inherit = 'l10n_br_fiscal.document'
 
-    def convert_type_nfselib(self, class_object, object_filed, value):
-        if value is None:
-            return value
-
-        value_type = ''
-        for field in class_object().member_data_items_:
-            if field.name == object_filed:
-                value_type = field.child_attrs.get('type', '').\
-                    replace('xsd:', '')
-                break
-
-        if value_type in ('int', 'byte', 'nonNegativeInteger'):
-            return int(value)
-        elif value_type == 'decimal':
-            return float(value)
-        elif value_type == 'string':
-            return str(value)
-        else:
-            return value
-
     def _serialize(self, edocs):
-        edocs = super(Document, self)._serialize(edocs)
-        for record in self.filtered(
-                filter_processador_edoc_nfse_ginfes).filtered(
-                    fiter_provedor_ginfes):
+        edocs = super()._serialize(edocs)
+        for record in self.filtered(filter_oca_nfse).filtered(filter_ginfes):
             edocs.append(record.serialize_nfse_ginfes())
         return edocs
 
-    def _serialize_dados_servico(self):
+    def _serialize_ginfes_dados_servico(self):
         self.line_ids.ensure_one()
         dados = self._prepare_dados_servico()
         return tcDadosServico(
@@ -127,7 +109,7 @@ class Document(models.Model):
                 tcDadosServico, 'CodigoMunicipio', dados['codigo_municipio']),
         )
 
-    def _serialize_dados_tomador(self):
+    def _serialize_ginfes_dados_tomador(self):
         dados = self._prepare_dados_tomador()
         return tcDadosTomador(
             IdentificacaoTomador=tcIdentificacaoTomador(
@@ -159,7 +141,7 @@ class Document(models.Model):
             ) or None,
         )
 
-    def _serialize_rps(self, dados):
+    def _serialize_ginfes_rps(self, dados):
 
         return tcRps(
             InfRps=tcInfRps(
@@ -173,7 +155,7 @@ class Document(models.Model):
                         tcIdentificacaoRps, 'Tipo', dados['tipo']),
                 ),
                 DataEmissao=self.convert_type_nfselib(
-                    tcInfRps, 'DataEmissao', dados['data_emissao']),
+                    tcInfRps, 'DataEmissao', dados['date_in_out']),
                 NaturezaOperacao=self.convert_type_nfselib(
                     tcInfRps, 'NaturezaOperacao', dados['natureza_operacao']),
                 RegimeEspecialTributacao=self.convert_type_nfselib(
@@ -189,7 +171,7 @@ class Document(models.Model):
                     tcInfRps, 'Status', dados['status']),
                 RpsSubstituido=self.convert_type_nfselib(
                     tcInfRps, 'RpsSubstituido', dados['rps_substitiuido']),
-                Servico=self._serialize_dados_servico(),
+                Servico=self._serialize_ginfes_dados_servico(),
                 Prestador=tcIdentificacaoPrestador(
                     Cnpj=self.convert_type_nfselib(
                         tcIdentificacaoPrestador, 'InscricaoMunicipal',
@@ -198,7 +180,7 @@ class Document(models.Model):
                         tcIdentificacaoPrestador, 'InscricaoMunicipal',
                         dados['inscricao_municipal']),
                 ),
-                Tomador=self._serialize_dados_tomador(),
+                Tomador=self._serialize_ginfes_dados_tomador(),
                 IntermediarioServico=self.convert_type_nfselib(
                     tcInfRps, 'IntermediarioServico',
                     dados['intermediario_servico']),
@@ -207,7 +189,7 @@ class Document(models.Model):
             )
         )
 
-    def _serialize_lote_rps(self):
+    def _serialize_ginfes_lote_rps(self):
         dados = self._prepare_lote_rps()
         return tcLoteRps(
             Cnpj=self.convert_type_nfselib(tcLoteRps, 'Cnpj', dados['cnpj']),
@@ -215,139 +197,158 @@ class Document(models.Model):
                 tcLoteRps, 'InscricaoMunicipal', dados['inscricao_municipal']),
             QuantidadeRps=1,
             ListaRps=ListaRpsType(
-                Rps=[self._serialize_rps(dados)]
+                Rps=[self._serialize_ginfes_rps(dados)]
             )
         )
 
     def serialize_nfse_ginfes(self):
-        # numero_lote = 14
         lote_rps = EnviarLoteRpsEnvio(
-            LoteRps=self._serialize_lote_rps()
+            LoteRps=self._serialize_ginfes_lote_rps()
         )
         return lote_rps
 
     def cancel_document_ginfes(self):
-        for record in self.filtered(filter_processador_edoc_nfse_ginfes):
+        for record in self.filtered(filter_oca_nfse).filtered(filter_ginfes):
             processador = record._processador_erpbrasil_nfse()
-            processo = processador.cancela_documento(doc_numero=int(self.number))
+            processo = processador.cancela_documento(doc_numero=int(
+                record.document_number))
 
             status, message = \
                 processador.analisa_retorno_cancelamento(processo)
 
+            if not status:
+                raise UserError(_(message))
+
+            record.cancel_event_id = record.event_ids.create_event_save_xml(
+                company_id=record.company_id,
+                environment=(
+                    EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
+                event_type='2',
+                xml_file=processo.envio_xml.decode('utf-8'),
+                document_id=record,
+            )
+
             return status
 
-    def action_consultar_nfse_rps(self):
-        for record in self.filtered(filter_processador_edoc_nfse_ginfes):
+    def _document_status(self):
+        for record in self.filtered(filter_oca_nfse):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
-                rps_number=int(self.rps_number),
-                rps_serie=self.document_serie,
-                rps_type=int(self.rps_type)
+                rps_number=int(record.rps_number),
+                rps_serie=record.document_serie,
+                rps_type=int(record.rps_type)
             )
 
             return _(
                 processador.analisa_retorno_consulta(
                     processo,
-                    self.number,
-                    self.company_cnpj_cpf,
-                    self.company_legal_name)
+                    record.document_number,
+                    record.company_cnpj_cpf,
+                    record.company_legal_name)
             )
 
     @api.multi
     def _eletronic_document_send(self):
-        super(Document, self)._eletronic_document_send()
-        for record in self.filtered(filter_processador_edoc_nfse_ginfes):
-            for record in self.filtered(fiter_provedor_ginfes):
-                processador = record._processador_erpbrasil_nfse()
+        super()._eletronic_document_send()
+        for record in self.filtered(filter_oca_nfse).filtered(filter_ginfes):
+            processador = record._processador_erpbrasil_nfse()
 
-                protocolo = record.protocolo_autorizacao
-                vals = dict()
+            protocolo = record.authorization_protocol
+            vals = dict()
 
-                if not protocolo:
-                    for edoc in record.serialize():
-                        processo = None
-                        for p in processador.processar_documento(edoc):
-                            processo = p
+            if not protocolo:
+                for edoc in record.serialize():
+                    processo = None
+                    for p in processador.processar_documento(edoc):
+                        processo = p
 
-                            if processo.webservice in RECEPCIONAR_LOTE_RPS:
-                                if processo.resposta.Protocolo is None:
-                                    mensagem_completa = ''
-                                    if processo.resposta.ListaMensagemRetorno:
-                                        lista_msgs = processo.resposta.\
-                                            ListaMensagemRetorno
-                                        for mr in lista_msgs.MensagemRetorno:
+                        if processo.webservice in RECEPCIONAR_LOTE_RPS:
+                            if processo.resposta.Protocolo is None:
+                                mensagem_completa = ''
+                                if processo.resposta.ListaMensagemRetorno:
+                                    lista_msgs = processo.resposta.\
+                                        ListaMensagemRetorno
+                                    for mr in lista_msgs.MensagemRetorno:
 
-                                            correcao = ''
-                                            if mr.Correcao:
-                                                correcao = mr.Correcao
+                                        correcao = ''
+                                        if mr.Correcao:
+                                            correcao = mr.Correcao
 
-                                            mensagem_completa += (
-                                                mr.Codigo + ' - ' +
-                                                mr.Mensagem +
-                                                ' - Correção: ' +
-                                                correcao + '\n'
-                                            )
-                                    vals['edoc_error_message'] = \
-                                        mensagem_completa
-                                    record.write(vals)
-                                    return
-                                protocolo = processo.resposta.Protocolo
+                                        mensagem_completa += (
+                                            mr.Codigo + ' - ' +
+                                            mr.Mensagem +
+                                            ' - Correção: ' +
+                                            correcao + '\n'
+                                        )
+                                vals['edoc_error_message'] = \
+                                    mensagem_completa
+                                record._change_state(SITUACAO_EDOC_REJEITADA)
+                                record.write(vals)
+                                return
+                            protocolo = processo.resposta.Protocolo
 
-                        if processo.webservice in CONSULTAR_SITUACAO_LOTE_RPS:
-                            vals['codigo_situacao'] = \
-                                processo.resposta.Situacao
-                else:
-                    vals['codigo_situacao'] = 4
+                    if processo.webservice in CONSULTAR_SITUACAO_LOTE_RPS:
+                        vals['status_code'] = \
+                            processo.resposta.Situacao
+            else:
+                vals['status_code'] = 4
 
-                if vals.get('codigo_situacao') == 1:
-                    vals['motivo_situacao'] = _('Não Recebido')
+            if vals.get('status_code') == 1:
+                vals['status_name'] = _('Not received')
 
-                elif vals.get('codigo_situacao') == 2:
-                    vals['motivo_situacao'] = _('Lote ainda não processado')
+            elif vals.get('status_code') == 2:
+                vals['status_name'] = _('Batch not yet processed')
 
-                elif vals.get('codigo_situacao') == 3:
-                    vals['motivo_situacao'] = _('Procesado com Erro')
+            elif vals.get('status_code') == 3:
+                vals['status_name'] = _('Processed with Error')
 
-                elif vals.get('codigo_situacao') == 4:
-                    vals['motivo_situacao'] = _('Procesado com Sucesso')
-                    vals['protocolo_autorizacao'] = protocolo
+            elif vals.get('status_code') == 4:
+                vals['status_name'] = _('Successfully Processed')
+                vals['authorization_protocol'] = protocolo
 
-                if vals.get('codigo_situacao') in (3, 4):
-                    processo = processador.consultar_lote_rps(protocolo)
+            if vals.get('status_code') in (3, 4):
+                processo = processador.consultar_lote_rps(protocolo)
 
-                    if processo.resposta:
-                        mensagem_completa = ''
-                        if processo.resposta.ListaMensagemRetorno:
-                            lista_msgs = processo.resposta.ListaMensagemRetorno
-                            for mr in lista_msgs.MensagemRetorno:
+                if processo.resposta:
+                    mensagem_completa = ''
+                    if processo.resposta.ListaMensagemRetorno:
+                        lista_msgs = processo.resposta.ListaMensagemRetorno
+                        for mr in lista_msgs.MensagemRetorno:
 
-                                correcao = ''
-                                if mr.Correcao:
-                                    correcao = mr.Correcao
+                            correcao = ''
+                            if mr.Correcao:
+                                correcao = mr.Correcao
 
-                                mensagem_completa += (
-                                    mr.Codigo + ' - ' +
-                                    mr.Mensagem +
-                                    ' - Correção: ' +
-                                    correcao + '\n'
-                                )
-                        vals['edoc_error_message'] = mensagem_completa
+                            mensagem_completa += (
+                                mr.Codigo + ' - ' +
+                                mr.Mensagem +
+                                ' - Correção: ' +
+                                correcao + '\n'
+                            )
+                    vals['edoc_error_message'] = mensagem_completa
+                    if vals.get('status_code') == 3:
+                        record._change_state(SITUACAO_EDOC_REJEITADA)
 
-                    if processo.resposta.ListaNfse:
-                        xml_file = processo.retorno
-                        record.autorizacao_event_id.set_done(xml_file)
-                        for comp in processo.resposta.ListaNfse.CompNfse:
-                            vals['number'] = comp.Nfse.InfNfse.Numero
-                            vals['data_hora_autorizacao'] = \
-                                comp.Nfse.InfNfse.DataEmissao
-                            vals['verify_code'] = \
-                                comp.Nfse.InfNfse.CodigoVerificacao
-                        record._change_state(SITUACAO_EDOC_AUTORIZADA)
+                if processo.resposta.ListaNfse:
+                    xml_file = processo.retorno
+                    for comp in processo.resposta.ListaNfse.CompNfse:
+                        vals['document_number'] = comp.Nfse.InfNfse.Numero
+                        vals['authorization_date'] = \
+                            comp.Nfse.InfNfse.DataEmissao
+                        vals['verify_code'] = \
+                            comp.Nfse.InfNfse.CodigoVerificacao
+                    record.authorization_event_id.set_done(
+                        status_code=vals['status_code'],
+                        response=vals['status_name'],
+                        protocol_date=vals['authorization_date'],
+                        protocol_number=protocolo,
+                        file_response_xml=xml_file,
+                    )
+                    record._change_state(SITUACAO_EDOC_AUTORIZADA)
 
-                record.write(vals)
+            record.write(vals)
         return
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
-        super(Document, self)._exec_before_SITUACAO_EDOC_CANCELADA(
-            old_state, new_state)
+        super()._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
         return self.cancel_document_ginfes()

@@ -81,12 +81,6 @@ class ContractContract(models.Model):
             invoice.fiscal_document_id._onchange_document_serie_id()
             invoice.fiscal_document_id._onchange_company_id()
 
-            if (hasattr(invoice.fiscal_document_id, 'rps_number') and
-                    invoice.fiscal_document_id.number):
-                invoice.fiscal_document_id.rps_number = \
-                    invoice.fiscal_document_id.number
-                invoice.fiscal_document_id.number = False
-
             for line in invoice.invoice_line_ids:
                 line._onchange_product_id_fiscal()
                 line.price_unit = line.contract_line_id.price_unit
@@ -106,12 +100,6 @@ class ContractContract(models.Model):
 
         inv_ids = []
         document_type_list = []
-        document_type = {
-            '55': 'nfe',
-            'SE': 'nfse_recibos',
-            '59': 'nfce_cfe',
-            '57': 'cte'
-        }
 
         for invoice_id in super_inv_id:
 
@@ -131,8 +119,6 @@ class ContractContract(models.Model):
                     inv_to_append = invoice_id.copy()
                     inv_to_append['invoice_line_ids'] = [inv_line]
                     inv_to_append['document_type_id'] = fiscal_document_type.id
-                    inv_to_append['document_section'] = document_type.get(
-                        inv_to_append['document_type_id'], False)
                     inv_to_append['document_serie_id'] = \
                         self.env['l10n_br_fiscal.document.serie'].search([
                             ('document_type_id', '=',

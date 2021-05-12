@@ -7,9 +7,16 @@ from odoo.exceptions import UserError
 
 from odoo import _, api, fields, models
 from ..constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFSE,
+    PROCESSADOR,
+    PROCESSADOR_NENHUM,
     SITUACAO_EDOC,
-    SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
     SITUACAO_EDOC_EM_DIGITACAO,
@@ -19,12 +26,6 @@ from ..constants.fiscal import (
     SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO,
     WORKFLOW_DOCUMENTO_NAO_ELETRONICO,
     WORKFLOW_EDOC,
-    PROCESSADOR_NENHUM,
-    PROCESSADOR,
-    DOCUMENT_ISSUER_COMPANY,
-    MODELO_FISCAL_NFE,
-    MODELO_FISCAL_NFCE,
-    MODELO_FISCAL_CTE,
 )
 
 _logger = logging.getLogger(__name__)
@@ -45,6 +46,7 @@ class DocumentWorkflow(models.AbstractModel):
         default=SITUACAO_EDOC_EM_DIGITACAO,
         copy=False,
         required=True,
+        readonly=True,
         track_visibility='onchange',
         index=True,
     )
@@ -96,9 +98,11 @@ class DocumentWorkflow(models.AbstractModel):
         return True
 
     def _exec_before_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
-        self.document_date()
-        self.document_number()
-        self.document_check()
+        self._document_date()
+        self._document_number()
+        self._document_comment()
+        self._document_check()
+        self._document_export()
         return True
 
     def _exec_before_SITUACAO_EDOC_ENVIADA(self, old_state, new_state):
@@ -213,6 +217,8 @@ class DocumentWorkflow(models.AbstractModel):
         elif new_state == SITUACAO_EDOC_INUTILIZADA:
             self._exec_after_SITUACAO_EDOC_INUTILIZADA(old_state, new_state)
 
+        self._generates_subsequent_operations()
+
     @api.multi
     def _change_state(self, new_state):
         """ Método para alterar o estado do documento fiscal, mantendo a
@@ -248,11 +254,11 @@ class DocumentWorkflow(models.AbstractModel):
 
         return status
 
-    def document_date(self):
-        if not self.date:
-            self.date = self._date_server_format()
+    def _document_date(self):
+        if not self.document_date:
+            self.document_date = self._date_server_format()
 
-    def document_check(self):
+    def _document_check(self):
         return True
 
     def _generate_key(self):
@@ -262,7 +268,7 @@ class DocumentWorkflow(models.AbstractModel):
                     MODELO_FISCAL_NFCE,
                     MODELO_FISCAL_CTE):
                 chave_edoc = ChaveEdoc(
-                    ano_mes=record.date.strftime("%y%m").zfill(4),
+                    ano_mes=record.document_date.strftime("%y%m").zfill(4),
                     cnpj_emitente=record.company_cnpj_cpf,
                     codigo_uf=(
                         record.company_state_id and
@@ -270,27 +276,33 @@ class DocumentWorkflow(models.AbstractModel):
                     ),
                     forma_emissao=1,  # TODO: Implementar campo no Odoo
                     modelo_documento=record.document_type_id.code or "",
-                    numero_documento=record.number or "",
+                    numero_documento=record.document_number or "",
                     numero_serie=record.document_serie or "",
                     validar=True,
                 )
                 # TODO: Implementar campos no Odoo
                 # record.key_number = chave_edoc.campos
                 # record.key_formated = ' '.joint(chave_edoc.partes())
-                record.key = chave_edoc.chave
+                record.document_key = chave_edoc.chave
 
-    def document_number(self):
+    def _document_number(self):
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
-            if not self.number and self.document_serie_id:
-                self.number = self.document_serie_id.next_seq_number()
+            if self.document_serie_id:
                 self.document_serie = self.document_serie_id.code
+
+                if self.document_type == MODELO_FISCAL_NFSE and not self.rps_number:
+                    self.rps_number = self.document_serie_id.next_seq_number()
+
+                if (self.document_type != MODELO_FISCAL_NFSE and
+                        not self.document_number):
+                    self.document_number = self.document_serie_id.next_seq_number()
 
             if not self.operation_name:
                 self.operation_name = ', '.join(
                     [l.name for l in self.line_ids.mapped(
                         'fiscal_operation_id')])
 
-            if self.document_electronic and not self.key:
+            if self.document_electronic and not self.document_key:
                 self._generate_key()
 
     def _document_confirm(self):
@@ -303,7 +315,7 @@ class DocumentWorkflow(models.AbstractModel):
         if to_confirm:
             to_confirm._document_confirm()
 
-    def _document_send(self):
+    def _no_eletronic_document_send(self):
         self._change_state(SITUACAO_EDOC_AUTORIZADA)
 
     def _document_export(self):
@@ -330,17 +342,26 @@ class DocumentWorkflow(models.AbstractModel):
 
     @api.multi
     def action_document_cancel(self):
-        result = self.env["ir.actions.act_window"].for_xml_id(
-            "l10n_br_fiscal", "document_cancel_wizard_action"
-        )
-        return result
+        if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+            result = self.env["ir.actions.act_window"].for_xml_id(
+                "l10n_br_fiscal", "document_cancel_wizard_action"
+            )
+            return result
 
     @api.multi
     def action_document_invalidate(self):
-        result = self.env["ir.actions.act_window"].for_xml_id(
-            "l10n_br_fiscal", "wizard_document_invalidate_action"
-        )
-        return result
+        if self.document_number and self.document_serie and self.state_edoc in (
+                SITUACAO_EDOC_EM_DIGITACAO,
+                SITUACAO_EDOC_REJEITADA,
+                SITUACAO_EDOC_A_ENVIAR,
+        ) and self.issuer == DOCUMENT_ISSUER_COMPANY:
+            return self.env["ir.actions.act_window"].for_xml_id(
+                "l10n_br_fiscal", "invalidate_number_wizard_action"
+            )
+        else:
+            raise UserError(_(
+                "You cannot invalidate this document"
+            ))
 
     def _document_correction(self, justificative):
         self.correction_reason = justificative
@@ -349,7 +370,13 @@ class DocumentWorkflow(models.AbstractModel):
 
     @api.multi
     def action_document_correction(self):
-        result = self.env["ir.actions.act_window"].for_xml_id(
-            "l10n_br_fiscal", "document_correction_wizard_action"
-        )
-        return result
+        if (self.state_edoc in SITUACAO_EDOC_AUTORIZADA and
+                self.issuer == DOCUMENT_ISSUER_COMPANY):
+            return self.env["ir.actions.act_window"].for_xml_id(
+                "l10n_br_fiscal", "document_correction_wizard_action"
+            )
+        else:
+            raise UserError(_(
+                "You cannot create a fiscal correction document if "
+                "this fical document you are not the document issuer"
+            ))
