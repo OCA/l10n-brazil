@@ -485,4 +485,3 @@ class AccountInvoice(models.Model):
     def view_pdf(self):
         self.ensure_one()
         return self.fiscal_document_id.view_pdf()
-
