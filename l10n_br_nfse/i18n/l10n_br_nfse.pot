@@ -260,18 +260,8 @@ msgid "Fiscal Document"
 msgstr ""
 
 #. module: l10n_br_nfse
-#: model:ir.actions.act_window,name:l10n_br_nfse.wizard_document_status_act_multi
-msgid "Fiscal Document Inquiry"
-msgstr ""
-
-#. module: l10n_br_nfse
 #: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document_line
 msgid "Fiscal Document Line"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model,name:l10n_br_nfse.model_l10n_br_fiscal_document_status_wizard
-msgid "Fiscal Document Status"
 msgstr ""
 
 #. module: l10n_br_nfse
@@ -455,12 +445,6 @@ msgstr ""
 #. module: l10n_br_nfse
 #: selection:l10n_br_fiscal.document,rps_type:0
 msgid "RPS Nota Fiscal Conjugada (Mista)"
-msgstr ""
-
-#. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document__rps_number
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_status_wizard__rps_number
-msgid "RPS Number"
 msgstr ""
 
 #. module: l10n_br_nfse
