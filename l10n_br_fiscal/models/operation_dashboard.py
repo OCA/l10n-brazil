@@ -68,22 +68,25 @@ class Operation(models.Model):
             'title': title
         }
 
+    def _fiscal_document_object(self):
+        return self.env['l10n_br_fiscal.document']
+
     def _get_number_2confirm_documents(self):
-        return self.env['l10n_br_fiscal.document'].search_count([
+        return self._fiscal_document_object().search_count([
             ('fiscal_operation_id.fiscal_type', '=', self.fiscal_type),
             ('fiscal_operation_id', '=', self.id),
             ('state_edoc', 'in', EDOC_2_CONFIRM)
         ])
 
     def _get_authorized_documents(self):
-        return self.env['l10n_br_fiscal.document'].search_count([
+        return self._fiscal_document_object().search_count([
             ('fiscal_operation_id.fiscal_type', '=', self.fiscal_type),
             ('fiscal_operation_id', '=', self.id),
             ('state_edoc', '=', SITUACAO_EDOC_AUTORIZADA)
         ])
 
     def _get_cancelled_documents(self):
-        return self.env['l10n_br_fiscal.document'].search_count([
+        return self._fiscal_document_object().search_count([
             ('fiscal_operation_id.fiscal_type', '=', self.fiscal_type),
             ('fiscal_operation_id', '=', self.id),
             ('state_edoc', 'in', EDOC_CANCELED)
