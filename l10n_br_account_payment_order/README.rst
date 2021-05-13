@@ -25,7 +25,7 @@ Brazilian Payment Order
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-This module provides an infrastructure to export payment orders and debit orders
+O modulo implementa a parte comum da infra-estrutura necessária para o uso do CNAB 240 ou 400 localizando o modulo https://github.com/OCA/bank-payment/tree/12.0/account_payment_order onde o Modo de Pagamento é usado para as configurações especificas de cada CNAB e a Ordem de Pagamento para o envio de Instruções CNAB, também é incluído grupos de acesso para permissões de segurança e o registro do LOG de retorno. Porém a implementação foi pensada para permitir que seja possível usar diferentes bibliotecas para gerar e tratar o retorno do CNAB, por isso é preciso instalar um segundo modulo que vai ter essa função, portanto a ideia é que aqui estará tudo que for comum para a implementação mas não irá funcionar sem esse segundo modulo.
 
 **Table of contents**
 
@@ -37,24 +37,54 @@ Installation
 
 This module depends on:
 
+* l10n_br_base
 * account_payment_order
 * account_due_list
-* l10n_br_base
+* account_cancel
 
 Configuration
 =============
 
-No configuration required.
+Verifique se o Banco e o tipo CNAB usado 240/400 possuem os Códigos de Instrução do Movimento e os Códigos de Retorno do Movimento em:
+  * Faturamento > Configurações > Administração > CNAB Código de Movimento de Instrução
+  * Faturamento > Configurações > Administração > CNAB Código de Retorno do Movimento
+
+Caso não estejam e seja preciso cadastrar por favor considere fazer um PR nesse modulo acrescentando em l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml assim em proximas implementações já não será preciso cadastra-los.
+
+Informe os dados do CNAB usado no cadastro do:
+
+  * Faturamento > Configurações > Administração > Modos de Pagamento
+
+Verifique as permissões de acesso dos usuários que vão utilizar o CNAB, existe o Usuário e o Gerente CNAB.
+
+IMPORTANTE: Como o CNAB envolve dinheiro e o caixa da empresa a segurança e a rastreablidade são fundamentais e como as configurações especificas de cada CNAB estão no Modo de Pagamento/account.payment.mode foi incluído nele o objeto mail.thread que registra alterações feitas em campos importantes, porém campos many2many não estão sendo registrados pelo track_visibility( ver detalhes aqui l10n_br_account_payment_order/models/account_payment_mode.py#L59), e um campo especifico e importante que armazena os Codigos de Retorno do CNAB que devem gerar Baixa/Liquidação é desse tipo, portanto as alterações referentes a esse campo não estão sendo registradas. No repositorio https://github.com/OCA/social/tree/12.0 da OCA existe um modulo para corrigir isso o https://github.com/OCA/social/tree/12.0/mail_improved_tracking_value , por isso considere e é RECOMENDADO incluir esse modulo na implementação para corrigir esse problema. A inclusão da dependencia desse modulo aqui está pendente de aprovação.
 
 Usage
 =====
 
-This module provides a menu to configure payment order types : Accounting > Configuration > Miscellaneous > Payment Export Types
+Ao criar uma Fatura/account.invoice que tem um Modo de Pagamento do tipo CNAB e se o campo auto_create_payment_order estiver marcado as linhas referentes as Parcelas serão criadas automaticamente em uma nova Ordem de Pagamento ou adicionadas em uma já existente que esteja no estado Rascunho, também é possível incluir manualmente, a geração do arquivo e o tratamento do arquivo de retorno dependem da instalação de um segundo modulo onde é definida a biblioteca a ser utilizada.
 
 Known issues / Roadmap
 ======================
 
-* TODO!
+* Verificar a questão do campos many2many que não estão sendo registrados pelo track_visibility e se será incluída a dependendecia https://github.com/OCA/social/tree/12.0/mail_improved_tracking_value ( confirmar o problema na v14 ).
+
+* Processo de Alteração de Carteira, falta informações sobre o processo.
+
+* Mapear e incluir os codigos dos bancos de cada CNAB 240 / 400, aqui devido a quantidade de possibilidades se trata de um "roadmap" constante onde contamos com PRs de outros contribuidores que irão implementar um caso que ainda não esteja cadastrado, apesar do codigo permitir que o cadastro seja feito na tela nesses casos.
+
+* Processo de "Antecipação do Título junto ao Banco" ou "Venda do Título junto a Factoring" ver as alterações feitas na v14 https://www.odoo.com/pt_BR/forum/ajuda-1/v14-change-in-payment-behavior-how-do-the-suspense-and-outstanding-payment-accounts-change-the-journal-entries-posted-177592 .
+
+* Com a separação do método que importa o arquivo do que registra o retorno do CNAB os arquivos e visões referentes foram comentados e estão aguardando um retorno da KMEE a respeito se serão apagados, extraidos para outro modulo, ou se de alguma forma deverão ser integrados ( detalhes em l10n_br_account_payment_order/models/__init__.py#L18 l10n_br_account_payment_order/__manifest__.py#L47 )
+
+* Confirmar a necessidade de ter a definição da Sequencia do "Nosso Numero" em três lugares diferentes:
+    - Cadastro da Sequencia no cadastro da Empresa, o campo é o mesmo usado no Modo de Pagamento porém nesse caso só funciona se a empresa usar apenas um CNAB, caso passe a usar mais de um essa informação vai precisar ser movida de qualquer forma para o cadastro do Modo de Pagto, portanto não seria melhor deixar apenas a opção de informar isso no Modo de Pagto e remover essa opção no cadastro da Empresa ?
+    - Numero Sequencial baseado no número da Fatura, até onde foi visto a sequencia do "Nosso numero" é independente da sequencia da Fatura, alguém sabe dizer se existe esse caso de uso ? Se sim, seria importante ter uma referencia sobre a qual caso se refere ex.: Banco X CNAB 240 e assim ficar claro para outros desenvolvedores o uso.
+    - Cadastro no Modo de Pagto, deve ser mantido e é melhor ser feito apenas aqui para centralizar o cadastro e por segurança devido as permissões de acesso o usuário que pode cadastrar um Modo de Pagto pode não ter acesso ao cadastro da Empresa.
+
+* CNAB de Pagamento, verificar a integração com o PR https://github.com/OCA/l10n-brazil/pull/972 e a possibilidade de multiplos modos de pagamento na mesma Ordem de Pagamento https://github.com/odoo-brazil/l10n-brazil/pull/112
+
+* Verificar a possibilidade na v14 de remoção do ondele='restrict' no campo "move_line_id" e o campo "related" "ml_maturity_date" do account.payment.line no modulo dependente https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39 para permitir o processo de Cancelamento de uma Fatura quando existe uma Ordem de Pagamento já confirmada/gerada/enviada( detalhes l10n_br_account_payment_order/models/account_payment_line.py#L130 )
 
 Changelog
 =========
@@ -67,7 +97,7 @@ Changelog
 8.0.1.0.0 (2017-07-14)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-* [NEW] Melhoiras para suportar a geração de pagamento da folha de pagamento;
+* [NEW] Melhorias para suportar a geração de pagamento da folha de pagamento;
 
 8.0.1.0.1 (2017-07-14)
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,7 +118,20 @@ Changelog
 12.0.1.0.0 (2019-06-06)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+* [MIG] Inicio da Migração para a versão 12.0.
+
+12.0.3.0.0 (2021-05-13)
+~~~~~~~~~~~~~~~~~~~~~~~
+
 * [MIG] Migração para a versão 12.0.
+
+* Incluído a possibilidade de parametrizar o CNAB 240 e 400, devido a falta de padrão cada Banco e CNAB podem ter e usar codigos diferentes.
+
+* Incluído os metodos para fazer alterações em CNAB já enviados.
+
+* Incluído dados de demo e testes.
+
+* Separado o objeto que fazia o Retorno do arquivo e registrava as informações para ter um objeto especifico que registra o Log e assim os modulos que implementam a biblioteca escolhida podem ter um metodo/objeto especifico para essa função.
 
 Bug Tracker
 ===========
@@ -107,6 +150,7 @@ Authors
 ~~~~~~~
 
 * KMEE
+* Akretion
 
 Contributors
 ~~~~~~~~~~~~
@@ -116,6 +160,13 @@ Contributors
 * Hendrix Costa <hendrix.costa@kmee.com.br>
 * Magno Costa <magno.costa@akretion.com.br>
 
+Other credits
+~~~~~~~~~~~~~
+
+The development of this module has been financially supported by:
+
+* KMEE INFORMATICA LTDA - www.kmee.com.br
+* AKRETION LTDA - www.akretion.com
 
 Maintainers
 ~~~~~~~~~~~
