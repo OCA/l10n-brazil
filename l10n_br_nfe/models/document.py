@@ -131,6 +131,7 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_NFref = fields.One2many(
+        comodel_name='l10n_br_fiscal.document.related',
         related='document_related_ids',
         inverse_name='document_id',
     )
