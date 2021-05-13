@@ -3214,8 +3214,8 @@ msgid "FCP WH"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcp_percent_wh
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcp_percent_wh
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcp_wh_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcp_wh_percent
 msgid "FCP WH %"
 msgstr ""
 
@@ -4118,6 +4118,11 @@ msgid "ICMS External TO"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_fiscal_line_mixin_form
+msgid "ICMS FCP"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcp_percent
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcp_percent
 msgid "ICMS FCP %"
@@ -4264,6 +4269,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_icms_regulation__icms_fcp_sp_ids
 msgid "ICMS FCP SP"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsfcpst_value
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsfcpst_value
+msgid "ICMS FCP ST Value"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -4663,6 +4674,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsst_value
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_icmsst_value
 msgid "ICMS ST Value"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__icmsst_wh_percent
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__icmsst_wh_percent
+msgid "ICMS ST WH %"
 msgstr ""
 
 #. module: l10n_br_fiscal
