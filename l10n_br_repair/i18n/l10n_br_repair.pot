@@ -461,7 +461,7 @@ msgid "FCP WH"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_percent_wh
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_wh_percent
 msgid "FCP WH %"
 msgstr ""
 
@@ -623,6 +623,11 @@ msgid "ICMS FCP Base"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcpst_value
+msgid "ICMS FCP ST Value"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsfcp_value
 msgid "ICMS FCP Value"
 msgstr ""
@@ -700,6 +705,11 @@ msgstr ""
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_value
 msgid "ICMS ST Value"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__icmsst_wh_percent
+msgid "ICMS ST WH %"
 msgstr ""
 
 #. module: l10n_br_repair
