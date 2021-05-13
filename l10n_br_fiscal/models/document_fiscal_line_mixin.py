@@ -404,6 +404,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # vICMSSTRet - Valor do IMCS ST Retido
     icmsst_wh_value = fields.Monetary(string="ICMS ST WH Value")
 
+    # Percentagem do ICMS ST Retido anteriormente
+    icmsst_wh_percent = fields.Float(string="ICMS ST WH %")
+
     # ICMS FCP Fields
     icmsfcp_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
@@ -422,6 +425,10 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # vFCPUFDest - Valor do ICMS relativo ao Fundo
     # de Combate à Pobreza (FCP) da UF de destino
     icmsfcp_value = fields.Monetary(string="ICMS FCP Value")
+
+    # vFCPST - Valor do ICMS relativo ao
+    # Fundo de Combate à Pobreza (FCP) por Substituição Tributária
+    icmsfcpst_value = fields.Monetary(string="ICMS FCP ST Value")
 
     # ICMS DIFAL Fields
     # vBCUFDest - Valor da BC do ICMS na UF de destino
@@ -468,7 +475,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmsfcp_base_wh = fields.Monetary(string="FCP WH Base")
 
     # pFCPSTRet - Percentual do FCP retido anteriormente por ST
-    icmsfcp_percent_wh = fields.Float(string="FCP WH %")
+    icmsfcp_wh_percent = fields.Float(string="FCP WH %")
 
     # vFCPSTRet - Valor do FCP retido anteriormente por ST
     icmsfcp_value_wh = fields.Monetary(string="FCP WH")
