@@ -11,5 +11,6 @@ from . import fiscal_operation_line
 from . import account_invoice
 from . import account_invoice_line
 from . import fiscal_document
+from . import fiscal_document_line
 from . import account_move
 from . import account_move_line
