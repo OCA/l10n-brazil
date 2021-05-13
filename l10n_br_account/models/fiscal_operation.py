@@ -70,3 +70,6 @@ class Operation(models.Model):
     def open_action(self):
         action = super().open_action()
         return self._change_action_view(action)
+
+    def _fiscal_document_object(self):
+        return self.env['account.invoice']
