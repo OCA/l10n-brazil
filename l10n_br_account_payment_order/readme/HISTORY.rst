@@ -6,7 +6,7 @@
 8.0.1.0.0 (2017-07-14)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-* [NEW] Melhoiras para suportar a geração de pagamento da folha de pagamento;
+* [NEW] Melhorias para suportar a geração de pagamento da folha de pagamento;
 
 8.0.1.0.1 (2017-07-14)
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -27,4 +27,17 @@
 12.0.1.0.0 (2019-06-06)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+* [MIG] Inicio da Migração para a versão 12.0.
+
+12.0.3.0.0 (2021-05-13)
+~~~~~~~~~~~~~~~~~~~~~~~
+
 * [MIG] Migração para a versão 12.0.
+
+* Incluído a possibilidade de parametrizar o CNAB 240 e 400, devido a falta de padrão cada Banco e CNAB podem ter e usar codigos diferentes.
+
+* Incluído os metodos para fazer alterações em CNAB já enviados.
+
+* Incluído dados de demo e testes.
+
+* Separado o objeto que fazia o Retorno do arquivo e registrava as informações para ter um objeto especifico que registra o Log e assim os modulos que implementam a biblioteca escolhida podem ter um metodo/objeto especifico para essa função.
