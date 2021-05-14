@@ -265,6 +265,10 @@ class NFe(spec_models.StackedModel):
         related='company_id.technical_support_id'
     )
 
+    nfe40_idDest = fields.Selection(
+        compute='_compute_nfe40_idDest',
+    )
+
     @api.depends('fiscal_additional_data', 'fiscal_additional_data')
     def _compute_nfe40_additional_data(self):
         for record in self:
@@ -289,6 +293,19 @@ class NFe(spec_models.StackedModel):
                 'in': '0',
             }
             rec.nfe40_tpNF = operation_2_tpNF[rec.fiscal_operation_type]
+
+    @api.multi
+    @api.depends('partner_id', 'company_id')
+    def _compute_nfe40_idDest(self):
+        for rec in self:
+            if rec.company_id.partner_id.state_id == \
+                    rec.partner_id.state_id:
+                rec.nfe40_idDest = '1'
+            elif rec.company_id.partner_id.country_id == \
+                    rec.partner_id.country_id:
+                rec.nfe40_idDest = '2'
+            else:
+                rec.nfe40_idDest = '3'
 
     def _inverse_nfe40_tpNF(self):
         for rec in self:
@@ -468,14 +485,6 @@ class NFe(spec_models.StackedModel):
                 self.company_id.partner_id.state_id.ibge_code
         if self.document_type_id.code:
             self.nfe40_mod = self.document_type_id.code
-        if self.company_id.partner_id.state_id == \
-                self.partner_id.state_id:
-            self.nfe40_idDest = '1'
-        elif self.company_id.partner_id.country_id == \
-                self.partner_id.country_id:
-            self.nfe40_idDest = '2'
-        else:
-            self.nfe40_idDest = '3'
         self.nfe40_cMunFG = '%s%s' % (
             self.company_id.partner_id.state_id.ibge_code,
             self.company_id.partner_id.city_id.ibge_code)
