@@ -45,7 +45,7 @@ msgid "Contract Line"
 msgstr ""
 
 #. module: l10n_br_contract
-#: code:addons/l10n_br_contract/models/contract_contract.py:143
+#: code:addons/l10n_br_contract/models/contract_contract.py:148
 #, python-format
 msgid "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id=\"%s\">Invoice</a>"
 msgstr ""
