@@ -2338,7 +2338,7 @@ msgid "Create a new partner in your address book"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:103
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:106
 #, python-format
 msgid "Create invoice/bill"
 msgstr ""
