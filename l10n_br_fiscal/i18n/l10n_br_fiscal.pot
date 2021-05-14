@@ -4978,6 +4978,7 @@ msgstr ""
 #: model:ir.actions.act_window,name:l10n_br_fiscal.tax_ipi_guideline_action
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ipi_guideline_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__ipi_guideline_id
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__ipi_guideline_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.tax_ipi_guideline_menu
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_ipi_guideline_search
 msgid "IPI Guideline"
@@ -9126,7 +9127,7 @@ msgid "Waiting Response"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:272
+#: code:addons/l10n_br_fiscal/models/operation_line.py:279
 #, python-format
 msgid "Warning!"
 msgstr ""
@@ -9223,7 +9224,7 @@ msgid "You cannot create a fiscal correction document if this fical document you
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:264
+#: code:addons/l10n_br_fiscal/models/operation_line.py:271
 #, python-format
 msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
@@ -9235,7 +9236,7 @@ msgid "You cannot delete an Operation which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition.py:223
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:230
 #, python-format
 msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
@@ -9259,7 +9260,7 @@ msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:273
+#: code:addons/l10n_br_fiscal/models/operation_line.py:280
 #, python-format
 msgid "You must first select a operation type."
 msgstr ""
