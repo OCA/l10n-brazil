@@ -140,7 +140,7 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:655
+#: code:addons/l10n_br_nfe/models/document.py:664
 #, python-format
 msgid "Authorization Protocol Not Found!"
 msgstr ""
@@ -248,7 +248,7 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:331
+#: code:addons/l10n_br_nfe/models/document.py:348
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:33
 #, python-format
 msgid "Certificado não encontrado"
@@ -676,6 +676,17 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_Id
 msgid "Id"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_idDest
+msgid "Identificador de Local de destino da operação"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_idDest
+msgid "Identificador de Local de destino da operação\n"
+"(1-Interna;2-Interestadual;3-Exterior)"
 msgstr ""
 
 #. module: l10n_br_nfe
