@@ -15,4 +15,5 @@ _column_renames = {
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    openupgrade.rename_columns(env.cr, _column_renames)
+    if openupgrade.table_exists(env.cr, 'l10n_br_fiscal_document'):
+        openupgrade.rename_columns(env.cr, _column_renames)
