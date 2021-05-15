@@ -15,14 +15,20 @@ _column_renames = {
     'l10n_br_fiscal_operation_line_comment_rel': [
         ('operation_id', 'fiscal_operation_line_id')],
     'l10n_br_fiscal_document': [
-        ('operation_id', 'fiscal_operation_line_id')],
+        ('operation_id', 'fiscal_operation_id')],
     'l10n_br_fiscal_document_line': [
-        ('operation_id', 'fiscal_operation_line_id')],
-    'l10n_br_fiscal_document_line': [
-        ('operation_line_id', 'fiscal_operation_line_id')],
+        ('operation_id', 'fiscal_operation_id'),
+        ('operation_line_id', 'fiscal_operation_line_id')
+    ],
 }
 
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    openupgrade.rename_columns(env.cr, _column_renames)
+    if (
+            openupgrade.column_exists(
+                env.cr,
+                'l10n_br_fiscal_operation_line',
+                'operation_id')
+            ):
+        openupgrade.rename_columns(env.cr, _column_renames)
