@@ -3,6 +3,18 @@
 
 from openupgradelib import openupgrade
 
+_column_copies = {
+    'product_template': [
+        ('service_type_id', None, None),
+        ('ncm_id', None, None),
+        ('fiscal_classification_id', None, None),
+    ],
+
+    'res_partner': [
+        ('partner_fiscal_type_id', None, None),
+    ],
+    }
+
 _model_renames = [
     ("l10n_br_account.partner.fiscal.type", "l10n_br_fiscal.partner.profile"),
     ("l10n_br_tax.estimate", "l10n_br_fiscal.tax.estimate"),
@@ -12,32 +24,19 @@ _model_renames = [
     ("l10n_br_account_product.cst", "l10n_br_fiscal.cst"),
     ("l10n_br_account.cnae", "l10n_br_fiscal.cnae"),
     ("l10n_br_account_product.cfop", "l10n_br_fiscal.cfop"),
-    ("l10n_br_account_product.cst", "l10n_br_fiscal.cst"),
     ("l10n_br_account_product.cest", "l10n_br_fiscal.cest"),
-    ("account.product.fiscal.classification", "l10n_br_fiscal.ncm"),
 ]
 
 _table_renames = [
-    ("l10n_br_account_partner_fiscal_type", "l10n_br_fiscal_partner_profile"),
     ("l10n_br_tax_estimate", "l10n_br_fiscal_tax_estimate"),
     ("l10n_br_account_fiscal_category", "l10n_br_fiscal_operation"),
     ("res_company_l10n_br_account_cnae", "res_company_fiscal_cnae_rel"),
     ("l10n_br_account_fiscal_document", "l10n_br_fiscal_document_type"),
-    ("l10n_br_account_fiscal_document_serie", "l10n_br_fiscal_document_serie"),
-    ("l10n_br_account_product_cst", "l10n_br_fiscal_cst"),
+    ("l10n_br_account_document_serie", "l10n_br_fiscal_document_serie"),
     ("l10n_br_account_cnae", "l10n_br_fiscal_cnae"),
     ("l10n_br_account_product_cfop", "l10n_br_fiscal_cfop"),
-    ("l10n_br_account_product_cst", "l10n_br_fiscal_cst"),
-    ("l10n_br_account_product_cest", "l10n_br_fiscal_cest")(
-        "account_product_fiscal_classification", "l10n_br_fiscal_ncm"
-    ),
+    ("l10n_br_account_product_cest", "l10n_br_fiscal_cest"),
 ]
-
-
-_column_renames = {
-    "fiscal_tax_estimate": [("fiscal_classification_id", "ncm_id")],
-    "res_partner": [("partner_fiscal_type_id", "fiscal_profile_id")],
-}
 
 _xml_ids_fiscal_operation_renames = [
     ("fc_78df616ab31e95ee46c6a519a2ce9e12", "fo_venda_55"),
@@ -48,7 +47,6 @@ _xml_ids_fiscal_operation_renames = [
     ("fc_d9132a81edff5374f33560f58666b792", "fo_entrada_remessa_55"),
     ("fc_86d8c770fc2fb9d9fa242a3bdddd507a", "fo_simples_remessa_55"),
 ]
-
 
 _xml_ids_cnae_renames = [
     ("l10n_br_account.l10n_br_cnae_1", "l10n_br_fiscal.cnae_A"),
@@ -3058,10 +3056,83 @@ _xml_ids_cfop_renames = [
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
+    if (
+            openupgrade.column_exists(
+                env.cr,
+                'product_template',
+                'fiscal_classification_id')
+            ):
+        openupgrade.copy_columns(env.cr, _column_copies)
+
+    # TODO cnae is only on company, remove them + set null?
     openupgrade.rename_xmlids(env.cr, _xml_ids_cnae_renames)
+
     openupgrade.rename_xmlids(env.cr, _xml_ids_document_renames)
     openupgrade.rename_xmlids(env.cr, _xml_ids_cfop_renames)
     openupgrade.rename_xmlids(env.cr, _xml_ids_fiscal_operation_renames)
     openupgrade.rename_models(env.cr, _model_renames)
     openupgrade.rename_tables(env.cr, _table_renames)
-    openupgrade.rename_columns(env.cr, _column_renames)
+
+    # nullifies relations that will be set back in post scripts:
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE product_template SET service_type_id=NULL"
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE product_template SET ncm_id=NULL"
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "UPDATE product_template SET fiscal_classification_id=NULL"
+    )
+
+    # the next records will be reset properly by l10n_br_fiscal installation,
+    # specially with the post_init_hook that will be called
+    # in the post-migration script.
+    # relations to these records can be set back in post script
+    # if columns are copied previously
+    # (TODO should we leave the original table for a lookup
+    # in the post-installation script? the rename_models/rename_tables
+    # is what will trash the old tables and feel the new ones that
+    # we trash here. Is it smart??)
+    # TODO what about the xmlids? (seems Odoo will trash them)
+#    openupgrade.logged_query(env.cr,
+#            "DELETE from l10n_br_fiscal_partner_profile")
+    openupgrade.logged_query(
+        env.cr,
+        "DELETE from l10n_br_fiscal_tax_estimate"
+    )
+    # TODO we want to keep the operation, but then we should update their xmlid
+    # or can we search in the new ones by code?
+    openupgrade.logged_query(
+        env.cr,
+        "DELETE from l10n_br_fiscal_operation"
+    )
+    # TODO we may want to keep the serie, but then we sould update their xmlid
+    openupgrade.logged_query(
+        env.cr,
+        "DELETE from l10n_br_fiscal_document_serie"
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "DELETE from l10n_br_fiscal_document_type"
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "DELETE from l10n_br_fiscal_cnae"
+    )
+    openupgrade.logged_query(
+        env.cr,
+        "DELETE from l10n_br_fiscal_cfop"
+    )
+#    openupgrade.logged_query(env.cr,
+#            "DELETE from l10n_br_fiscal_cest")
+
+    openupgrade.logged_query(
+        env.cr,
+        "DELETE FROM ir_model_data\
+        WHERE model='account.product.fiscal.classification.template'"
+    )
+#    openupgrade.logged_query(env.cr,
+#            "DELETE from l10n_br_fiscal_ncm")
