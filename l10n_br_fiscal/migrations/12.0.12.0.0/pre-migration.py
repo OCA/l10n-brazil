@@ -46,6 +46,7 @@ _field_renames = [
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    openupgrade.rename_models(env.cr, _model_renames)
-    openupgrade.rename_tables(env.cr, _table_renames)
-    openupgrade.rename_fields(env, _field_renames)
+    if openupgrade.table_exists(env.cr, 'l10n_br_fiscal_document_invalidate_number'):
+        openupgrade.rename_models(env.cr, _model_renames)
+        openupgrade.rename_tables(env.cr, _table_renames)
+        openupgrade.rename_fields(env, _field_renames)
