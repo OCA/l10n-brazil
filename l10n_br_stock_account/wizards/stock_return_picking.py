@@ -1,14 +1,13 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import _, api, models
+from odoo import _, models
 from odoo.exceptions import UserError
 
 
 class StockReturnPicking(models.TransientModel):
     _inherit = 'stock.return.picking'
 
-    @api.multi
     def _create_returns(self):
         """
          Creates return picking.
