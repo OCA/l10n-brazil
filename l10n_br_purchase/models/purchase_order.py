@@ -79,7 +79,6 @@ class PurchaseOrder(models.Model):
     # TODO open by default Invoice view with Fiscal Details Button
     # You can add a group to select default view Fiscal Invoice or
     # Account invoice.
-    # @api.multi
     # def action_view_invoice(self):
     #     result = super().action_view_invoice()
     #     fiscal_dict = self._prepare_br_fiscal_dict(default=True)
@@ -113,7 +112,6 @@ class PurchaseOrder(models.Model):
     def _onchange_fiscal_operation_id(self):
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
 
-    @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped('order_line')
