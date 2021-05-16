@@ -17,7 +17,6 @@ class AccountInvoiceRefund(models.TransientModel):
         comodel_name="l10n_br_fiscal.operation",
         string="Force Fiscal Operation")
 
-    @api.multi
     def compute_refund(self, mode="refund"):
         inv_obj = self.env["account.invoice"]
         context = dict(self.env.context)
