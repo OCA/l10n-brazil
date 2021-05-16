@@ -15,8 +15,8 @@ import tempfile
 from datetime import datetime
 
 from erpbrasil.assinatura import certificado as cert
-from erpbrasil.edoc.nfe import NFe as edoc_nfe
-from erpbrasil.transmissao import TransmissaoSOAP
+from erpbrasil.edoc.mde import MDe as edoc_nfe
+from erpbrasil.edoc.mde import TransmissaoMDE as TransmissaoSOAP
 from lxml import objectify
 from requests import Session
 
@@ -183,7 +183,7 @@ class DFe(models.Model):
 
             self.validate_document_configuration(self.company_id)
 
-            nfe_result = self.download_nfe(self.company_id, mdfe_id.key)
+            nfe_result = self.download_nfe(self.company_id, mdfe_id.document_key)
 
             if nfe_result['code'] == '138':
 
@@ -299,7 +299,7 @@ class DFe(models.Model):
                             not exists_nsu:
                             chave_nfe = root.protNFe.infProt.chNFe
                             exists_chnfe = env_mdfe.search(
-                                [('key', '=', chave_nfe)]).id
+                                [('document_key', '=', chave_nfe)]).id
 
                             if not exists_chnfe:
                                 cnpj_forn = record._mask_cnpj(
@@ -310,8 +310,8 @@ class DFe(models.Model):
                                     [('cnpj_cpf', '=', cnpj_forn)])
 
                                 mdfe_dict = {
-                                    'number': root.NFe.infNFe.ide.nNF,
-                                    'key': chave_nfe,
+                                    'document_number': root.NFe.infNFe.ide.nNF,
+                                    'document_key': chave_nfe,
                                     'nsu': nfe['NSU'],
                                     # 'fornecedor': root.xNome,
                                     'operation_type': str(root.NFe.infNFe.ide.
@@ -365,7 +365,7 @@ class DFe(models.Model):
                             not exists_nsu:
                             chave_nfe = root.chNFe
                             exists_chnfe = env_mdfe.search([
-                                ('key', '=', chave_nfe)
+                                ('document_key', '=', chave_nfe)
                             ]).id
 
                             if not exists_chnfe:
@@ -379,7 +379,7 @@ class DFe(models.Model):
 
                                 mdfe_dict = {
                                     # 'number': root.NFe.infNFe.ide.nNF,
-                                    'key': chave_nfe,
+                                    'document_key': chave_nfe,
                                     'nsu': nfe['NSU'],
                                     'fornecedor': root.xNome,
                                     'operation_type': str(root.tpNF),
@@ -464,7 +464,7 @@ class DFe(models.Model):
             raise orm.except_orm(_('Validation!'), _(error_msg))
 
     @staticmethod
-    def send_event(self, company_id, nfe_key, method):
+    def send_event(company_id, nfe_key, method):
         processor = _processador(company_id, force_ambiente=False)
         cnpj_partner = re.sub('[^0-9]', '', company_id.cnpj_cpf)
         result = {}

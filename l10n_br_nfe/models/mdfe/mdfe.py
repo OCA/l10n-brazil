@@ -36,7 +36,6 @@ class MDFe(models.Model):
             "name": "Download Documents",
             "view_mode": "form",
             "view_type": 'tree',
-            # "view_id": view_id,
             "res_id": document_id.id,
             "res_model": "l10n_br_fiscal.document",
             "type": "ir.actions.act_window",
@@ -68,7 +67,7 @@ class MDFe(models.Model):
 
             nfe_result = record.dfe_id.send_event(
                 record.company_id,
-                record.key,
+                record.document_key,
                 operation
             )
             if nfe_result["code"] in valid_codes:
@@ -144,12 +143,12 @@ class MDFe(models.Model):
             record.dfe_id.validate_document_configuration(record.company_id)
             nfe_result = record.dfe_id.download_nfe(
                 record.company_id,
-                record.key
+                record.document_key
             )
 
             if nfe_result["code"] == "138":
 
-                file_name = "NFe%s.xml" % record.key
+                file_name = "NFe%s.xml" % record.document_key
                 return record.env["ir.attachment"].create(
                     {
                         "name": file_name,
@@ -173,24 +172,21 @@ class MDFe(models.Model):
     @api.multi
     def action_import_xml(self):
         for record in self:
-            record.dfe_id. \
-                validate_document_configuration(record.company_id)
-            nfe_result = record.dfe_id. \
-                download_nfe(record.company_id, record.key)
-
-            if nfe_result["code"] == "138":
-                nfe = objectify.fromstring(nfe_result["nfe"])
-                documento = self.env["l10n_br_fiscal.document"].new()
-                documento.modelo = nfe.NFe.infNFe.ide.mod.text
-                dados = documento.le_nfe(xml=nfe_result["nfe"])
-                record.document_id = dados
+            record.dfe_id.validate_document_configuration(record.company_id)
+            download = record.dfe_id.download_nfe(
+                record.company_id, record.document_key
+            )
+            if download["code"] == "138" and download.get('nfe'):
+                edoc = self.env['l10n_br_fiscal.document'].import_xml(
+                    download.get('nfe'),
+                    dry_run=False,
+                )
                 return {
                     "name": _("Associar Pedido de Compras"),
                     "view_mode": "form",
                     "view_type": "form",
-                    "view_id": self.env.ref(
-                        "sped_nfe.sped_documento_ajuste_recebimento_form").id,
-                    "res_id": dados.id,
+                    "view_id": self.env.ref("l10n_br_fiscal.document_form").id,
+                    "res_id": edoc.id,
                     "res_model": "l10n_br_fiscal.document",
                     "type": "ir.actions.act_window",
                     "target": "new",
@@ -199,5 +195,5 @@ class MDFe(models.Model):
                 }
             else:
                 raise models.ValidationError(_(
-                    nfe_result["code"] + ' - ' + nfe_result["message"])
+                    download["code"] + ' - ' + download["message"])
                 )
