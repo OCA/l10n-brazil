@@ -34,7 +34,6 @@ class Partner(models.Model):
 
     union_entity_code = fields.Char(string="Union Entity code")
 
-    @api.multi
     @api.constrains("cnpj_cpf", "inscr_est")
     def _check_cnpj_inscr_est(self):
         for record in self:
@@ -83,7 +82,6 @@ class Partner(models.Model):
                         _("There is already a partner record with this CPF/RG!")
                     )
 
-    @api.multi
     @api.constrains("cnpj_cpf", "country_id")
     def _check_cnpj_cpf(self):
         result = True
@@ -108,7 +106,6 @@ class Partner(models.Model):
                 if not result:
                     raise ValidationError(_("{} Invalid!").format(document))
 
-    @api.multi
     @api.constrains("inscr_est", "state_id")
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
@@ -134,7 +131,6 @@ class Partner(models.Model):
                 if not result:
                     raise ValidationError(_("Estadual Inscription Invalid !"))
 
-    @api.multi
     @api.constrains("state_tax_number_ids")
     def _check_state_tax_number_ids(self):
         """Checks if field other insc_est is valid,
@@ -177,7 +173,6 @@ class Partner(models.Model):
         Overwrite this function if you want to add your own fields."""
         return super().get_street_fields() + ["street"]
 
-    @api.multi
     def _set_street(self):
         company_country = self.env.user.company_id.country_id
         if company_country.code:
