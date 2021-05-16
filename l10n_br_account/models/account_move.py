@@ -1,7 +1,7 @@
 # Copyright (C) 2021 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models
+from odoo import models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_EDOC_AUTORIZADA,
@@ -12,7 +12,6 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    @api.multi
     def post(self, invoice=False):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         result = super().post(invoice)
