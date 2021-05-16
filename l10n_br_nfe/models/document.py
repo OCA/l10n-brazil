@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import base64
+import io
 import logging
 import re
 from datetime import datetime
@@ -21,6 +22,7 @@ from requests import Session
 from odoo import _, api, fields
 from odoo.exceptions import UserError, ValidationError
 
+from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     CANCELADO,
@@ -849,3 +851,20 @@ class NFe(spec_models.StackedModel):
                 protocol_number=retevento.infEvento.nProt,
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
+
+    def _import_xml_nfe(self, xml, dry_run):
+        arq = io.BytesIO()
+        arq.write(xml)
+        arq.seek(0)
+        nfe_binding = nfe_sub.parse(arq, silence=True)
+        return self.env["nfe.40.infnfe"].with_context(
+            tracking_disable=True,
+            edoc_type='in',  # FIXME: IN OUT IMPORT FILE
+            lang='pt_BR'
+        ).build(
+            nfe_binding.infNFe,
+            dry_run=dry_run
+        )
+
+    def import_xml(self, xml, dry_run):
+        return self._import_xml_nfe(xml, dry_run)
