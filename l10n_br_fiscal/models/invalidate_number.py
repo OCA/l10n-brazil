@@ -130,7 +130,6 @@ class InvalidateNumber(models.Model):
         readonly=True,
     )
 
-    @api.multi
     @api.constrains('number_start', 'number_end')
     def _check_range(self):
         for record in self:
@@ -161,14 +160,12 @@ class InvalidateNumber(models.Model):
                 end=record.number_end
             )
 
-    @api.multi
     def unlink(self):
         if self.filtered(lambda n: not n.state == 'draft'):
             raise UserError(
                 _('You can delete only draft Invalidate Number Range !'))
         return super().unlink()
 
-    @api.multi
     def action_invalidate(self):
         for record in self:
             record._invalidate()

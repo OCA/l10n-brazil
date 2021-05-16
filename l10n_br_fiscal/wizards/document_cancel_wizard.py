@@ -2,7 +2,7 @@
 # Copyright (C) 2020  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import models
 
 
 class DocumentCancelWizard(models.TransientModel):
@@ -13,7 +13,6 @@ class DocumentCancelWizard(models.TransientModel):
     def do_cancel(self):
         self.document_id._document_cancel(self.justification)
 
-    @api.multi
     def doit(self):
         for wizard in self:
             if wizard.document_id:

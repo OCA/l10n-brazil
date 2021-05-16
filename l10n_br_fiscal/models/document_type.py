@@ -2,7 +2,7 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 from ..constants.fiscal import DOCUMENT_TYPE
 
@@ -60,7 +60,6 @@ class DocumentType(models.Model):
             ('company_id', '=', company.id),
             ('document_type_id', '=', self.id)], limit=1)
 
-    @api.multi
     def get_document_serie(self, company, fiscal_operation):
         self.ensure_one()
         serie = self.env['l10n_br_fiscal.document.serie']

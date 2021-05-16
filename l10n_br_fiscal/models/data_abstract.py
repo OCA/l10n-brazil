@@ -72,7 +72,6 @@ class DataAbstract(models.AbstractModel):
         return super()._name_search(name, domain + args,
                                     operator, limit, name_get_uid)
 
-    @api.multi
     def name_get(self):
         def truncate_name(name):
             if len(name) > 60:

@@ -39,7 +39,6 @@ class Event(models.Model):
     _name = 'l10n_br_fiscal.event'
     _description = 'Fiscal Event'
 
-    @api.multi
     @api.depends('document_id.name',
                  'invalidate_number_id.name')
     def _compute_display_name(self):
@@ -219,7 +218,6 @@ class Event(models.Model):
         selection=EVENT_ENVIRONMENT,
     )
 
-    @api.multi
     @api.constrains('justification')
     def _check_justification(self):
         if len(self.justification) < 15:
@@ -318,7 +316,6 @@ class Event(models.Model):
             self.file_request_id = attachment_id
         return attachment_id
 
-    @api.multi
     def set_done(self, status_code, response, protocol_date,
                  protocol_number, file_response_xml):
         self._save_event_file(file_response_xml, 'xml', authorization=True)
