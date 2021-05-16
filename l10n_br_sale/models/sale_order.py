@@ -74,7 +74,6 @@ class SaleOrder(models.Model):
         string='Comments',
     )
 
-    @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped('order_line')
@@ -140,7 +139,6 @@ class SaleOrder(models.Model):
         super()._onchange_fiscal_operation_id()
         self.fiscal_position_id = self.fiscal_operation_id.fiscal_position_id
 
-    @api.multi
     def _prepare_invoice(self):
         self.ensure_one()
         result = super()._prepare_invoice()
@@ -168,7 +166,6 @@ class SaleOrder(models.Model):
 
         return result
 
-    @api.multi
     def action_invoice_create(self, grouped=False, final=False):
 
         inv_ids = super().action_invoice_create(grouped=grouped, final=final)
@@ -251,7 +248,6 @@ class SaleOrder(models.Model):
     # TODO open by default Invoice view with Fiscal Details Button
     # You can add a group to select default view Fiscal Invoice or
     # Account invoice.
-    # @api.multi
     # def action_view_invoice(self):
     #     action = super().action_view_invoice()
     #     invoices = self.mapped('invoice_ids')
