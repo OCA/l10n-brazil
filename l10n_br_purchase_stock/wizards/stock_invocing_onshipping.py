@@ -2,14 +2,12 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class StockInvoiceOnshipping(models.TransientModel):
-
     _inherit = 'stock.invoice.onshipping'
 
-    @api.multi
     def _build_invoice_values_from_pickings(self, pickings):
         """
         Build dict to create a new invoice from given pickings
@@ -28,7 +26,6 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         return invoice, values
 
-    @api.multi
     def _get_move_key(self, move):
         """
         Get the key based on the given move
