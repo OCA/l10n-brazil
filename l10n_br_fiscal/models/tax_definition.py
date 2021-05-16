@@ -210,19 +210,15 @@ class TaxDefinition(models.Model):
                "('cst_out_id', '=', cst_id)]",
     )
 
-    @api.multi
     def action_review(self):
         self.write({'state': 'review'})
 
-    @api.multi
     def action_approve(self):
         self.write({'state': 'approved'})
 
-    @api.multi
     def action_draft(self):
         self.write({'state': 'draft'})
 
-    @api.multi
     def unlink(self):
         operations = self.filtered(lambda l: l.state == 'approved')
         if operations:
@@ -230,7 +226,6 @@ class TaxDefinition(models.Model):
                 _("You cannot delete an Tax Definition which is not draft !"))
         return super(TaxDefinition, self).unlink()
 
-    @api.multi
     def action_search_ncms(self):
         ncm = self.env['l10n_br_fiscal.ncm']
         for r in self:
@@ -256,7 +251,6 @@ class TaxDefinition(models.Model):
             if domain:
                 r.ncm_ids = ncm.search(domain)
 
-    @api.multi
     def action_search_cests(self):
         cest = self.env['l10n_br_fiscal.cest']
         for r in self:
@@ -270,7 +264,6 @@ class TaxDefinition(models.Model):
             if domain:
                 r.cest_ids = cest.search(domain)
 
-    @api.multi
     def action_search_nbms(self):
         nbm = self.env['l10n_br_fiscal.nbm']
         for r in self:
@@ -306,7 +299,6 @@ class TaxDefinition(models.Model):
 
         return create_super
 
-    @api.multi
     def write(self, values):
         write_super = super(TaxDefinition, self).write(values)
         ncm_fields_list = ('ncms', 'not_in_ncms', 'ncm_exception')
@@ -323,7 +315,6 @@ class TaxDefinition(models.Model):
 
         return write_super
 
-    @api.multi
     def map_tax_definition(self, company, partner, product,
                            ncm=None, nbm=None, nbs=None, cest=None):
 
