@@ -124,7 +124,6 @@ class SaleOrderLine(models.Model):
                 'price_total': l.amount_total,
             })
 
-    @api.multi
     def _prepare_invoice_line(self, qty):
         self.ensure_one()
         result = self._prepare_br_fiscal_dict()
@@ -139,7 +138,6 @@ class SaleOrderLine(models.Model):
         the price and fiscal quantity."""
         self._onchange_commercial_quantity()
 
-    @api.multi
     @api.depends(
         'qty_delivered_method',
         'qty_delivered_manual',
