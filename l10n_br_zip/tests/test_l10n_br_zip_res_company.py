@@ -46,7 +46,7 @@ class L10nBRZipTest(TransactionCase):
         """Test object without address fields."""
         try:
             result = self.env["l10n_br.zip"].zip_search(self.env["mail.thread"])
-        except:
+        except Exception:
             result = False
         self.assertFalse(result, "Error to search by address without address fields.")
 
@@ -55,7 +55,7 @@ class L10nBRZipTest(TransactionCase):
         self.company_1.street = False
         try:
             result = self.company_1.zip_search()
-        except:
+        except Exception:
             result = False
         self.assertFalse(
             result, "Error to search by address without all required fields."
@@ -180,7 +180,7 @@ class L10nBRZipTest(TransactionCase):
         self.company.zip = "00000000"
         try:
             result = self.company.zip_search()
-        except:
+        except Exception:
             result = False
         self.assertFalse(result, "Error to search by invalid ZIP on PyCEP-Correios.")
 
