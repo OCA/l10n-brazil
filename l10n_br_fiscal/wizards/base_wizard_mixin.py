@@ -105,13 +105,11 @@ class BaseWizardMixin(models.TransientModel):
             })
         return default_values
 
-    @api.multi
     def button_back(self):
         self.ensure_one()
         self.state = 'init'
         return self._reopen()
 
-    @api.multi
     def _reopen(self):
         self.ensure_one()
         return {
@@ -125,6 +123,5 @@ class BaseWizardMixin(models.TransientModel):
             'nodestroy': True
         }
 
-    @api.multi
     def _close(self):
         return {'type': 'ir.actions.act_window_close'}

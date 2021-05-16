@@ -40,7 +40,6 @@ class OperationDocumentType(models.Model):
         compute="_compute_name",
     )
 
-    @api.multi
     @api.depends('document_type_id', 'document_serie_id')
     def _compute_name(self):
         for record in self:

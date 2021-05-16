@@ -93,7 +93,6 @@ class PartnerProfile(models.Model):
         if not self.is_company:
             self.tax_framework = False
 
-    @api.multi
     def action_view_partners(self):
         self.ensure_one()
         action = self.env.ref('base.action_partner_other_form').read()[0]
