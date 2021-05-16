@@ -12,7 +12,6 @@ class TaxDefinitionOperationLine(models.Model):
         comodel_name='l10n_br_fiscal.operation.line',
         string='Operation Line')
 
-    @api.multi
     @api.constrains('fiscal_operation_line_id')
     def _check_fiscal_operation_line_id(self):
         for record in self:

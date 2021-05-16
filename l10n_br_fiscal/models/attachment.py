@@ -8,7 +8,7 @@ import shutil
 import tarfile
 
 from odoo.exceptions import UserError
-from odoo import api, fields, models, _
+from odoo import fields, models, _
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -30,7 +30,6 @@ class Attachment(models.TransientModel):
         string='Attachments',
     )
 
-    @api.multi
     def build_compressed_attachment(self, record_ids=None):
         '''
 

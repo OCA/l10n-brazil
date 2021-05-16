@@ -73,7 +73,6 @@ class DataNcmNbsAbstract(models.AbstractModel):
     def _get_ibpt(self, config, code_unmasked):
         return False
 
-    @api.multi
     def action_ibpt_inquiry(self):
         if not self.env.user.company_id.ibpt_api:
             return False

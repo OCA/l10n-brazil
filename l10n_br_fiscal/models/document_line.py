@@ -98,7 +98,6 @@ class DocumentLine(models.Model):
         default=0.00,
     )
 
-    @api.multi
     def unlink(self):
         if self.env.ref('l10n_br_fiscal.fiscal_document_line_dummy') in self:
             raise UserError(
