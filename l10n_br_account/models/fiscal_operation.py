@@ -2,7 +2,7 @@
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import fields, models
 from odoo.addons.account.models.account_invoice import TYPE2JOURNAL
 
 FISCAL_TYPE_INVOICE = {
@@ -34,7 +34,6 @@ class Operation(models.Model):
         company_dependent=True,
     )
 
-    @api.multi
     def _change_action_view(self, action):
         fiscal_op_type = action.get('context')
         if fiscal_op_type == 'out':
@@ -57,7 +56,6 @@ class Operation(models.Model):
         new_action['domain'] = action.get('domain', {})
         return new_action.read()[0]
 
-    @api.multi
     def action_create_new(self):
         action = super().action_create_new()
         action['res_model'] = 'account.invoice'
@@ -66,7 +64,6 @@ class Operation(models.Model):
         action['context'] = self._change_action_view(action)['context']
         return action
 
-    @api.multi
     def open_action(self):
         action = super().open_action()
         return self._change_action_view(action)
