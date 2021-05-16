@@ -165,7 +165,6 @@ class AccountInvoiceLine(models.Model):
         from the parent."""
         return SHADOWED_FIELDS
 
-    @api.multi
     def _prepare_shadowed_fields_dict(self, default=False):
         self.ensure_one()
         vals = self._convert_to_write(self.read(self._shadowed_fields())[0])
@@ -203,7 +202,6 @@ class AccountInvoiceLine(models.Model):
             line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return line
 
-    @api.multi
     def write(self, values):
         dummy_line = self.env.ref('l10n_br_fiscal.fiscal_document_line_dummy')
         if values.get('invoice_id'):
@@ -217,7 +215,6 @@ class AccountInvoiceLine(models.Model):
                 line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return result
 
-    @api.multi
     def unlink(self):
         dummy_doc_line_id = self.env.ref(
             'l10n_br_fiscal.fiscal_document_line_dummy').id
