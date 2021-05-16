@@ -1,20 +1,10 @@
-# -*- coding: utf-8 -*-
-#
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
-#
-
-from __future__ import division, print_function, unicode_literals
 
 import base64
-import logging
-
 from lxml import objectify
 
 from odoo import _, api, models
-
-_logger = logging.getLogger(__name__)
-
 from odoo.addons.l10n_br_fiscal.constants.mdfe import (
     SIT_MANIF_PENDENTE,
     SIT_MANIF_CIENTE,
@@ -31,7 +21,6 @@ class MDFe(models.Model):
     def action_import_document(self):
         self.ensure_one()
         document_id = self.dfe_id.download_documents(mdfe_ids=self)
-
         return {
             "name": "Download Documents",
             "view_mode": "form",
@@ -44,7 +33,6 @@ class MDFe(models.Model):
 
     @api.multi
     def action_salva_xml(self):
-
         attachment_id = self.action_import_document()
         return self.download_attachment(attachment_id)
 
@@ -64,7 +52,6 @@ class MDFe(models.Model):
         """
         for record in self:
             record.dfe_id.validate_document_configuration(record.company_id)
-
             nfe_result = record.dfe_id.send_event(
                 record.company_id,
                 record.document_key,
@@ -75,7 +62,6 @@ class MDFe(models.Model):
             else:
                 raise models.ValidationError('{} - {}'.format(
                     nfe_result["code"], nfe_result["message"]))
-
         return True
 
     @api.multi
@@ -112,29 +98,21 @@ class MDFe(models.Model):
 
     @api.multi
     def action_download_all_xmls(self):
-
         if len(self) == 1:
             if self.state == SIT_MANIF_PENDENTE[0]:
                 self.action_ciencia_emissao()
-
             attachment_id = self.action_download_xml()
             # TODO: Message post de Download concluído no formulário do MDF-e
             # TODO: Exibir conversação na MDF-e
             return self.download_attachment(attachment_id)
-
         attachments = []
-
         for record in self:
             # TODO: Message post de Download concluído no formulário do MDF-e
             # TODO: Exibir conversação na MDF-e
             attachment = record.action_download_xml()
             attachments.append(attachment)
-
         built_attachment = self.env["l10n_br_fiscal.attachment"].create([])
-
-        attachment_id = built_attachment. \
-            build_compressed_attachment(attachments)
-
+        attachment_id = built_attachment.build_compressed_attachment(attachments)
         return self.download_attachment(attachment_id)
 
     @api.multi
@@ -145,9 +123,7 @@ class MDFe(models.Model):
                 record.company_id,
                 record.document_key
             )
-
             if nfe_result["code"] == "138":
-
                 file_name = "NFe%s.xml" % record.document_key
                 return record.env["ir.attachment"].create(
                     {

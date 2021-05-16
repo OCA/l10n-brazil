@@ -1,10 +1,5 @@
-# -*- coding: utf-8 -*-
-#
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
-#
-
-from __future__ import division, print_function, unicode_literals
 
 import base64
 import gzip
@@ -278,7 +273,8 @@ class DFe(models.Model):
                     for nfe in nfe_result['list_nfe']:
                         exists_nsu = env_mdfe.search([
                             ('nsu', '=', nfe['NSU']),
-                            # TODO: Verificar se formatação dos dois campos NSU equivalem
+                            # TODO: Verificar se formatação dos dois campos NSU
+                            #  equivalem
                             ('company_id', '=', self.company_id.id),
                         ])
 
@@ -295,8 +291,7 @@ class DFe(models.Model):
                         root = objectify.fromstring(nfe_xml)
                         self.last_nsu = nfe['NSU']
 
-                        if nfe['schema'] == 'procNFe_v3.10.xsd' and \
-                            not exists_nsu:
+                        if nfe['schema'] == 'procNFe_v3.10.xsd' and not exists_nsu:
                             chave_nfe = root.protNFe.infProt.chNFe
                             exists_chnfe = env_mdfe.search(
                                 [('document_key', '=', chave_nfe)]).id
@@ -361,8 +356,7 @@ class DFe(models.Model):
                                         'dfe_id': record.id,
                                     })
 
-                        elif nfe['schema'] == 'resNFe_v1.01.xsd' and \
-                            not exists_nsu:
+                        elif nfe['schema'] == 'resNFe_v1.01.xsd' and not exists_nsu:
                             chave_nfe = root.chNFe
                             exists_chnfe = env_mdfe.search([
                                 ('document_key', '=', chave_nfe)
@@ -436,13 +430,11 @@ class DFe(models.Model):
                     self.write({'recipient_xml_ids': [(6, 0, xml_ids)]})
 
                 else:
-                    if not nfe_result.get('code') and not \
-                        nfe_result.get('message'):
+                    if not nfe_result.get('code') and not nfe_result.get('message'):
                         raise models.ValidationError(_(
                             'The service returned an incomprehensible answer.'
                             ' Check the handling of the service response'
                         ))
-
                     raise models.ValidationError('{} - {}'.format(
                         nfe_result.get('code', '???'),
                         nfe_result.get('message', ''))
