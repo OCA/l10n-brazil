@@ -54,7 +54,6 @@ class ResPartnerBank(models.Model):
         help="Last part of BIC/Swift Code.",
     )
 
-    @api.multi
     @api.constrains('bra_number')
     def _check_bra_number(self):
         for b in self:
