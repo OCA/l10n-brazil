@@ -2,13 +2,12 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, models
+from odoo import models
 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    @api.multi
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
         # Caso tenha Purchase Line já vem desagrupado aqui devido ao KEY
