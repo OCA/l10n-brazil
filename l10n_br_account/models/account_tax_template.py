@@ -1,7 +1,7 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountTaxTemplate(models.Model):
@@ -15,7 +15,6 @@ class AccountTaxTemplate(models.Model):
         string='Fiscal Taxes',
     )
 
-    @api.multi
     def _generate_tax(self, company):
         mapping = super()._generate_tax(company)
         taxes_template = self.browse(mapping.get('tax_template_to_tax').keys())
