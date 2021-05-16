@@ -96,7 +96,6 @@ class PurchaseOrderLine(models.Model):
         super()._onchange_quantity()
         self._onchange_commercial_quantity()
 
-    @api.multi
     def _compute_tax_id(self):
         super()._compute_tax_id()
         for line in self:
