@@ -24,8 +24,12 @@ class PartyMixin(models.AbstractModel):
     )
 
     inscr_est = fields.Char(
-        string="State Tax Number/RG",
+        string="State Tax Number",
         size=17,
+    )
+
+    rg = fields.Char(
+        string="RG",
     )
 
     state_tax_number_ids = fields.One2many(
