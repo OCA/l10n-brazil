@@ -115,7 +115,7 @@ class ValidCreateIdTest(SavepointCase):
         try:
             company = cls.env["res.company"].with_context(
                 tracking_disable=True).create(cls.company_valid)
-        except:
+        except Exception:
             assert (
                 company
             ), "Error when using .create() even with valid \
@@ -142,7 +142,7 @@ class ValidCreateIdTest(SavepointCase):
         try:
             partner = cls.env["res.partner"].with_context(
                 tracking_disable=True).create(cls.partner_valid)
-        except:
+        except Exception:
             assert (
                 partner
             ), "Error when using .create() even with valid CPF \
