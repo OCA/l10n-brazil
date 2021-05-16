@@ -42,7 +42,6 @@ _logger = logging.getLogger(__name__)
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    @api.multi
     def _get_company_address_fields(self, partner):
         """ Read the l10n_br specific functional fields. """
         partner_fields = super()._get_company_address_fields(partner)

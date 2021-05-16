@@ -201,7 +201,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id)
 
-    @api.multi
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
         fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields.keys()
@@ -216,7 +215,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
 
-    @api.multi
     def _get_all_tax_id_fields(self):
         self.ensure_one()
         taxes = self.env['l10n_br_fiscal.tax']
@@ -226,7 +224,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
         return taxes
 
-    @api.multi
     def _remove_all_fiscal_tax_ids(self):
         for line in self:
             line.fiscal_tax_ids = False
@@ -255,7 +252,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self._set_fields_irpj_wh(TAX_DICT_VALUES)
             self._set_fields_inss_wh(TAX_DICT_VALUES)
 
-    @api.multi
     def _update_fiscal_tax_ids(self, taxes):
         for line in self:
             taxes_groups = line.fiscal_tax_ids.mapped('tax_domain')
@@ -264,7 +260,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
-    @api.multi
     def _update_taxes(self):
         for line in self:
             compute_result = self._compute_taxes(line.fiscal_tax_ids)
