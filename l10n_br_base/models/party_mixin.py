@@ -32,7 +32,6 @@ class PartyMixin(models.AbstractModel):
         string="Others State Tax Number",
         comodel_name="state.tax.numbers",
         inverse_name="partner_id",
-        ondelete="cascade",
     )
 
     inscr_mun = fields.Char(
