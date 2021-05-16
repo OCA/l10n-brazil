@@ -63,7 +63,6 @@ class DocumentRelated(models.Model):
     document_date = fields.Date(
         string='Data')
 
-    @api.multi
     @api.constrains('cnpj_cpf')
     def _check_cnpj_cpf(self):
         result = True
@@ -88,7 +87,6 @@ class DocumentRelated(models.Model):
                             _("{} Invalid!").format(document)
                         )
 
-    @api.multi
     @api.constrains('inscr_est', 'state_id')
     def _check_ie(self):
         for record in self:
