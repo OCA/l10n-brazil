@@ -16,7 +16,7 @@
                                 <field name="allow_cnpj_multi_ie"/>
                             </div>
                             <div class="o_setting_right_pane">
-                                <label string="Multiple partners with the same CNPJ" for="l10n_br_base"/>
+                                <label string="Multiple partners with the same CNPJ" for="allow_cnpj_multi_ie"/>
                                 <div class="text-muted">
                                     Allows you to create more than one partner with the same CNPJ and different State Tax Number
                                 </div>
@@ -27,7 +27,7 @@
                                 <field name="module_l10n_br_zip"/>
                             </div>
                             <div class="o_setting_right_pane">
-                                <label string="Use Brazilian postal service API" for="l10n_br_base"/>
+                                <label string="Use Brazilian postal service API" for="module_l10n_br_zip"/>
                                 <div class="text-muted">
                                     Use Brazilian postal service API to search partner address using postal zip code
                                 </div>
@@ -38,7 +38,7 @@
                                 <field name="disable_cpf_cnpj_validation"/>
                             </div>
                             <div class="o_setting_right_pane">
-                                <label string="Disable CPF and CNPJ validation" for="l10n_br_base"/>
+                                <label string="Disable CPF and CNPJ validation" for="disable_cpf_cnpj_validation"/>
                                 <div class="text-muted">
                                    Select to disable CPF and CNPJ validation
                                 </div>
@@ -49,7 +49,7 @@
                                 <field name="disable_ie_validation"/>
                             </div>
                             <div class="o_setting_right_pane">
-                                <label string="Disable IE validation" for="l10n_br_base"/>
+                                <label string="Disable IE validation" for="disable_ie_validation"/>
                                 <div class="text-muted">
                                    Select to disable IE validation
                                 </div>
