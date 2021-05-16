@@ -130,7 +130,6 @@ class Company(models.Model):
             res["arch"] = self._fields_view_get_address(res["arch"])
         return res
 
-    @api.multi
     def write(self, values):
         try:
             result = super(Company, self).write(values)
