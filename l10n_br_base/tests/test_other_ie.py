@@ -75,7 +75,7 @@ class OtherIETest(SavepointCase):
                     ]
                 }
             )
-        except:
+        except Exception:
             result = False
 
         cls.assertFalse(
@@ -98,7 +98,7 @@ class OtherIETest(SavepointCase):
                     ]
                 }
             )
-        except:
+        except Exception:
             result = False
         cls.assertFalse(result, "Error to check included invalid IE.")
 
@@ -118,7 +118,7 @@ class OtherIETest(SavepointCase):
                     ]
                 }
             )
-        except:
+        except Exception:
             result = False
         cls.assertFalse(
             result,
