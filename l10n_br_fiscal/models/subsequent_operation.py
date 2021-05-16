@@ -18,11 +18,10 @@ SUBSEQUENT_CONDITION = (
 
 SUBSEQUENT_OPERATION = SITUACAO_EDOC + SUBSEQUENT_CONDITION
 
-""" We must be aware that some subsequent operations do not generate postings
-financial"""
-
 
 class SubsequentOperation(models.Model):
+    """ We must be aware that some subsequent operations do not generate
+    financial moves"""
 
     _name = 'l10n_br_fiscal.subsequent.operation'
     _description = 'Subsequent Operation'
