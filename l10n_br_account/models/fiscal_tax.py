@@ -7,7 +7,6 @@ from odoo import api, fields, models
 class FiscalTax(models.Model):
     _inherit = 'l10n_br_fiscal.tax'
 
-    @api.multi
     def account_taxes(self, user_type='sale'):
         account_taxes = self.env['account.tax']
         for fiscal_tax in self:
@@ -16,7 +15,6 @@ class FiscalTax(models.Model):
                 lambda t: t.type_tax_use == user_type and t.active)
         return account_taxes
 
-    @api.multi
     def _account_taxes(self):
         self.ensure_one()
         account_tax_group = self.tax_group_id.account_tax_group()
@@ -25,7 +23,6 @@ class FiscalTax(models.Model):
             ('active', '=', True)]
         )
 
-    @api.multi
     def _create_account_tax(self):
         for fiscal_tax in self:
             account_taxes = fiscal_tax._account_taxes()
@@ -54,7 +51,6 @@ class FiscalTax(models.Model):
         fiscal_taxes._create_account_tax()
         return fiscal_taxes
 
-    @api.multi
     def unlink(self):
         for fiscal_tax in self:
             account_taxes = fiscal_tax._account_taxes()

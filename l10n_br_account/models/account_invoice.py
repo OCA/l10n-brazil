@@ -105,12 +105,10 @@ class AccountInvoice(models.Model):
         stored=True,
     )
 
-    @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped('invoice_line_ids')
 
-    @api.multi
     @api.depends('move_id.line_ids', 'move_id.state')
     def _compute_financial(self):
         for invoice in self:
@@ -125,7 +123,6 @@ class AccountInvoice(models.Model):
         from the parent."""
         return SHADOWED_FIELDS
 
-    @api.multi
     def _prepare_shadowed_fields_dict(self, default=False):
         self.ensure_one()
         vals = self._convert_to_write(self.read(self._shadowed_fields())[0])
@@ -133,7 +130,6 @@ class AccountInvoice(models.Model):
             return {'default_%s' % (k,): vals[k] for k in vals.keys()}
         return vals
 
-    @api.multi
     def _write_shadowed_fields(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         for invoice in self:
@@ -201,13 +197,11 @@ class AccountInvoice(models.Model):
         invoice._write_shadowed_fields()
         return invoice
 
-    @api.multi
     def write(self, values):
         result = super().write(values)
         self._write_shadowed_fields()
         return result
 
-    @api.multi
     def unlink(self):
         """Allows delete a draft or cancelled invoices"""
         self.filtered(lambda i: i.state in ('draft', 'cancel')).write(
@@ -215,7 +209,6 @@ class AccountInvoice(models.Model):
         )
         return super().unlink()
 
-    @api.multi
     @api.returns('self', lambda value: value.id)
     def copy(self, default=None):
         default = default or {}
@@ -294,7 +287,6 @@ class AccountInvoice(models.Model):
         #     new_tax_lines_dict.append(new_tax)
         return tax_lines_dict
 
-    @api.multi
     def finalize_invoice_move_lines(self, move_lines):
         lines = super().finalize_invoice_move_lines(move_lines)
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
@@ -316,7 +308,6 @@ class AccountInvoice(models.Model):
                     count += 1
         return lines
 
-    @api.multi
     def get_taxes_values(self):
         # uncomment these lines
         # dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
@@ -372,7 +363,6 @@ class AccountInvoice(models.Model):
         if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
             self.journal_id = self.fiscal_operation_id.journal_id
 
-    @api.multi
     def open_fiscal_document(self):
         if self.env.context.get('type', '') == 'out_invoice':
             action = self.env.ref(
@@ -394,7 +384,6 @@ class AccountInvoice(models.Model):
         action['res_id'] = self.id
         return action
 
-    @api.multi
     def action_date_assign(self):
         """Usamos esse método para definir a data de emissão do documento
         fiscal e numeração do documento fiscal para ser usado nas linhas
@@ -407,7 +396,6 @@ class AccountInvoice(models.Model):
                     invoice.fiscal_document_id._document_date()
                     invoice.fiscal_document_id._document_number()
 
-    @api.multi
     def action_move_create(self):
         result = super().action_move_create()
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
@@ -415,7 +403,6 @@ class AccountInvoice(models.Model):
             lambda d: d != dummy_doc).action_document_confirm()
         return result
 
-    @api.multi
     def action_invoice_draft(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
@@ -429,7 +416,6 @@ class AccountInvoice(models.Model):
                 i.fiscal_document_id.action_document_back2draft()
         return super().action_invoice_draft()
 
-    @api.multi
     def action_document_send(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         invoices = self.filtered(lambda d: d.fiscal_document_id != dummy_doc)
@@ -438,25 +424,21 @@ class AccountInvoice(models.Model):
             for invoice in invoices:
                 invoice.move_id.post(invoice=invoice)
 
-    @api.multi
     def action_document_cancel(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
             return i.fiscal_document_id.action_document_cancel()
 
-    @api.multi
     def action_document_correction(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
             return i.fiscal_document_id.action_document_correction()
 
-    @api.multi
     def action_document_invalidate(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
             return i.fiscal_document_id.action_document_invalidate()
 
-    @api.multi
     def action_document_back2draft(self):
         """Sets fiscal document to draft state and cancel and set to draft
         the related invoice for both documents remain equivalent state."""
@@ -465,7 +447,6 @@ class AccountInvoice(models.Model):
             i.action_cancel()
             i.action_invoice_draft()
 
-    @api.multi
     def action_invoice_cancel(self):
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
