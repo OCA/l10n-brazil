@@ -13,7 +13,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
     _name = 'l10n_br_fiscal.document.mixin.methods'
     _description = 'Document Fiscal Mixin Methods'
 
-    @api.multi
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
         fields = self.env["l10n_br_fiscal.document.mixin"]._fields.keys()
@@ -28,7 +27,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
 
-    @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped('line_ids')

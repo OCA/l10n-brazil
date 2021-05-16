@@ -124,7 +124,6 @@ class Certificate(models.Model):
 
         return values
 
-    @api.multi
     @api.constrains("file", "password")
     def _check_certificate(self):
         for c in self:
@@ -158,7 +157,6 @@ class Certificate(models.Model):
 
         return super(Certificate, self).create(values)
 
-    @api.multi
     def write(self, values):
         values.update(
             self._certificate_data(

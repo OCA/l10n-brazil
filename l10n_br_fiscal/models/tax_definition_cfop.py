@@ -12,7 +12,6 @@ class TaxDefinitionCFOP(models.Model):
         comodel_name='l10n_br_fiscal.cfop',
         string='CFOP')
 
-    @api.multi
     @api.constrains('cfop_id')
     def _check_cfop_id(self):
         for record in self:

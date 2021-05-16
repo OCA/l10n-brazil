@@ -3,7 +3,7 @@
 #    @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import api, fields, models
+from openerp import fields, models
 from openerp.addons.l10n_br_base.tools.misc import calc_price_ratio
 
 
@@ -16,7 +16,6 @@ class L10nBrAccountProductInvoiceCostsRatio(models.TransientModel):
     amount_insurance_value = fields.Float("Seguro")
     amount_other_value = fields.Float("Outros Custos")
 
-    @api.multi
     def set_invoice_costs_ratio(self):
 
         if not self._context.get("active_model") in "account.invoice":
