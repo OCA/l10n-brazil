@@ -17,9 +17,9 @@ except ImportError:
 class Num2WordsPTBRTest(SavepointCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.n2w = Num2Word_PT_BR()
+        cls.n2w = Num2Word_PT_BR()
 
     def test_01_amount_to_text(self):
         self.assertEquals(
