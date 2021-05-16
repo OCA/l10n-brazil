@@ -18,7 +18,6 @@ class DataProductAbstract(models.AbstractModel):
         string='Products Quantity',
         compute='_compute_product_tmpl_infos')
 
-    @api.multi
     @api.depends('product_tmpl_ids')
     def _compute_product_tmpl_infos(self):
         for record in self:
