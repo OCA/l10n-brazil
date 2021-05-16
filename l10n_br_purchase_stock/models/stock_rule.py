@@ -1,13 +1,12 @@
 # Copyright (C) 2020  Renato Lima - Akretion
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import models
 
 
 class StockRule(models.Model):
     _inherit = 'stock.rule'
 
-    @api.multi
     def _run_buy(self, product_id, product_qty, product_uom,
                  location_id, name, origin, values):
         super()._run_buy(
@@ -20,7 +19,6 @@ class StockRule(models.Model):
                 line._onchange_fiscal_operation_id()
                 line._onchange_fiscal_operation_line_id()
 
-    @api.multi
     def _prepare_purchase_order_line(self, product_id, product_qty,
                                      product_uom, values, po, partner):
         values = super()._prepare_purchase_order_line(
