@@ -118,7 +118,6 @@ class StockMove(models.Model):
         values.update(super()._prepare_move_split_vals(uom_qty))
         return values
 
-    @api.multi
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
 
         result = super()._get_price_unit_invoice(
@@ -164,7 +163,6 @@ class StockMove(models.Model):
 
         return new_move_id
 
-    @api.multi
     @api.depends('price_unit')
     def _compute_fiscal_price(self):
         for record in self:
