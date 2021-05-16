@@ -125,6 +125,8 @@ class Partner(models.Model):
                 "l10n_br_base.disable_ie_validation", default=False
             ) or self.env.context.get('disable_ie_validation')
             if not disable_ie_validation:
+                if record.inscr_est == 'ISENTO':
+                    return
                 if record.inscr_est and record.is_company and record.state_id:
                     state_code = record.state_id.code or ""
                     uf = state_code.lower()
