@@ -107,7 +107,6 @@ class Company(models.Model):
         inverse_name="partner_id",  # FIXME
         compute="_compute_address",
         inverse="_inverse_state_tax_number_ids",
-        ondelete="cascade",
     )
 
     inscr_mun = fields.Char(
