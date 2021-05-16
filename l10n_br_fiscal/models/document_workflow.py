@@ -164,7 +164,7 @@ class DocumentWorkflow(models.AbstractModel):
                 _(
                     "Não é possível retornar o documento para em \n"
                     "digitação, quando o mesmo esta na situação: \n"
-                    "{0}, {1]".format(old_state, self.state_fiscal)
+                    "{}, {}".format(old_state, self.state_fiscal)
                 )
             )
 
@@ -299,7 +299,7 @@ class DocumentWorkflow(models.AbstractModel):
 
             if not self.operation_name:
                 self.operation_name = ', '.join(
-                    [l.name for l in self.line_ids.mapped(
+                    [line.name for line in self.line_ids.mapped(
                         'fiscal_operation_id')])
 
             if self.document_electronic and not self.document_key:
