@@ -1,7 +1,7 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountTax(models.Model):
@@ -15,7 +15,6 @@ class AccountTax(models.Model):
         string='Fiscal Taxes',
     )
 
-    @api.multi
     def compute_all(
         self,
         price_unit,
