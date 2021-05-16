@@ -229,7 +229,6 @@ class Document(models.Model):
         default=False,
     )
 
-    @api.multi
     @api.constrains('document_number')
     def _check_number(self):
         for record in self:
@@ -297,7 +296,6 @@ class Document(models.Model):
             )
         return name
 
-    @api.multi
     def name_get(self):
         res = []
         for record in self:
@@ -316,7 +314,6 @@ class Document(models.Model):
             values['document_date'] = self._date_server_format()
         return super().create(values)
 
-    @api.multi
     def unlink(self):
         if self.env.ref('l10n_br_fiscal.fiscal_document_dummy') in self:
             raise UserError(_("You cannot unlink Fiscal Document Dummy !"))
@@ -353,7 +350,6 @@ class Document(models.Model):
             return_docs |= new_doc
         return return_docs
 
-    @api.multi
     def action_create_return(self):
         action = self.env.ref('l10n_br_fiscal.document_all_action').read()[0]
         return_docs = self._create_return()
@@ -467,7 +463,6 @@ class Document(models.Model):
                         "associated documents have already been authorized.")
             raise UserWarning(message)
 
-    @api.multi
     def action_send_email(self):
         """ Open a window to compose an email, with the fiscal document_type
         template message loaded by default

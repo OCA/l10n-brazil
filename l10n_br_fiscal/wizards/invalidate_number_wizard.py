@@ -2,7 +2,7 @@
 # Copyright (C) 2020  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import models
 
 
 class InvalidateNumberWizard(models.TransientModel):
@@ -21,7 +21,6 @@ class InvalidateNumberWizard(models.TransientModel):
         })
         invalidate._invalidate(self.document_id)
 
-    @api.multi
     def doit(self):
         for wizard in self:
             wizard.do_invalidate()
