@@ -53,7 +53,6 @@ class Cest(models.Model):
             create_super.with_context(do_not_write=True).action_search_ncms()
         return create_super
 
-    @api.multi
     def write(self, values):
         write_super = super(Cest, self).write(values)
         do_not_write = self.env.context.get('do_not_write')
@@ -61,7 +60,6 @@ class Cest(models.Model):
             self.with_context(do_not_write=True).action_search_ncms()
         return write_super
 
-    @api.multi
     def action_search_ncms(self):
         ncm = self.env['l10n_br_fiscal.ncm']
         for r in self:

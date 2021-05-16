@@ -76,7 +76,6 @@ class TaxPisCofins(models.Model):
         readonly=True,
         string='NCMs')
 
-    @api.multi
     @api.depends('ncms')
     def _compute_ncms(self):
         ncm = self.env['l10n_br_fiscal.ncm']
