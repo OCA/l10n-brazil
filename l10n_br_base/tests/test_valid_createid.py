@@ -10,10 +10,10 @@ class ValidCreateIdTest(SavepointCase):
     """Test if ValidationError is raised well during create({})"""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
 
-        self.company_valid = {
+        cls.company_valid = {
             "name": "Company Test 1",
             "legal_name": "Company Testc 1 Ltda",
             "cnpj_cpf": "02.960.895/0001-31",
@@ -22,9 +22,9 @@ class ValidCreateIdTest(SavepointCase):
             "street_number": "955",
             "street2": "Portão 1",
             "district": "Jardim da Saudade",
-            "state_id": self.env.ref("base.state_br_es").id,
-            "city_id": self.env.ref("l10n_br_base.city_3205002").id,
-            "country_id": self.env.ref("base.br").id,
+            "state_id": cls.env.ref("base.state_br_es").id,
+            "city_id": cls.env.ref("l10n_br_base.city_3205002").id,
+            "country_id": cls.env.ref("base.br").id,
             "city": "Serra",
             "zip": "29161-695",
             "phone": "+55 27 2916-1695",
@@ -32,7 +32,7 @@ class ValidCreateIdTest(SavepointCase):
             "website": "www.companytest.com.br",
         }
 
-        self.company_invalid_cnpj = {
+        cls.company_invalid_cnpj = {
             "name": "Company Test 2",
             "legal_name": "Company Testc 2 Ltda",
             "cnpj_cpf": "14.018.406/0001-93",
@@ -41,9 +41,9 @@ class ValidCreateIdTest(SavepointCase):
             "street_number": "955",
             "street2": "Portão 1",
             "district": "Jardim da Saudade",
-            "state_id": self.env.ref("base.state_br_es").id,
-            "city_id": self.env.ref("l10n_br_base.city_3205002").id,
-            "country_id": self.env.ref("base.br").id,
+            "state_id": cls.env.ref("base.state_br_es").id,
+            "city_id": cls.env.ref("l10n_br_base.city_3205002").id,
+            "country_id": cls.env.ref("base.br").id,
             "city": "Serra",
             "zip": "29161-695",
             "phone": "+55 27 2916-1695",
@@ -51,7 +51,7 @@ class ValidCreateIdTest(SavepointCase):
             "website": "www.companytest.com.br",
         }
 
-        self.company_invalid_inscr_est = {
+        cls.company_invalid_inscr_est = {
             "name": "Company Test 3",
             "legal_name": "Company Testc 3 Ltda",
             "cnpj_cpf": "31.295.101/0001-60",
@@ -60,9 +60,9 @@ class ValidCreateIdTest(SavepointCase):
             "street_number": "955",
             "street2": "Portão 1",
             "district": "Jardim da Saudade",
-            "state_id": self.env.ref("base.state_br_es").id,
-            "city_id": self.env.ref("l10n_br_base.city_3205002").id,
-            "country_id": self.env.ref("base.br").id,
+            "state_id": cls.env.ref("base.state_br_es").id,
+            "city_id": cls.env.ref("l10n_br_base.city_3205002").id,
+            "country_id": cls.env.ref("base.br").id,
             "city": "Serra",
             "zip": "29161-695",
             "phone": "+55 27 2916-1695",
@@ -70,7 +70,7 @@ class ValidCreateIdTest(SavepointCase):
             "website": "www.companytest.com.br",
         }
 
-        self.partner_valid = {
+        cls.partner_valid = {
             "name": "Partner Test 1",
             "legal_name": "Partner Testc 1 Ltda",
             "cnpj_cpf": "734.419.622-06",
@@ -79,9 +79,9 @@ class ValidCreateIdTest(SavepointCase):
             "street_number": "955",
             "street2": "Portão 1",
             "district": "Jardim da Saudade",
-            "state_id": self.env.ref("base.state_br_es").id,
-            "city_id": self.env.ref("l10n_br_base.city_3205002").id,
-            "country_id": self.env.ref("base.br").id,
+            "state_id": cls.env.ref("base.state_br_es").id,
+            "city_id": cls.env.ref("l10n_br_base.city_3205002").id,
+            "country_id": cls.env.ref("base.br").id,
             "city": "Serra",
             "zip": "29161-695",
             "phone": "+55 27 2916-1695",
@@ -89,7 +89,7 @@ class ValidCreateIdTest(SavepointCase):
             "website": "www.partnertest.com.br",
         }
 
-        self.partner_invalid_cpf = {
+        cls.partner_invalid_cpf = {
             "name": "Partner Test 2",
             "legal_name": "Partner Testc 2 Ltda",
             "cnpj_cpf": "734.419.622-07",
@@ -98,9 +98,9 @@ class ValidCreateIdTest(SavepointCase):
             "street_number": "955",
             "street2": "Portão 1",
             "district": "Jardim da Saudade",
-            "state_id": self.env.ref("base.state_br_es").id,
-            "city_id": self.env.ref("l10n_br_base.city_3205002").id,
-            "country_id": self.env.ref("base.br").id,
+            "state_id": cls.env.ref("base.state_br_es").id,
+            "city_id": cls.env.ref("l10n_br_base.city_3205002").id,
+            "country_id": cls.env.ref("base.br").id,
             "city": "Serra",
             "zip": "29161-695",
             "phone": "+55 27 2916-1695",
@@ -110,50 +110,50 @@ class ValidCreateIdTest(SavepointCase):
 
     # Tests on companies
 
-    def test_comp_valid(self):
+    def test_comp_valid(cls):
         """Try do create id with correct CNPJ and correct Inscricao Estadual"""
         try:
-            company = self.env["res.company"].with_context(
-                tracking_disable=True).create(self.company_valid)
+            company = cls.env["res.company"].with_context(
+                tracking_disable=True).create(cls.company_valid)
         except:
             assert (
                 company
             ), "Error when using .create() even with valid \
                              and Inscricao Estadual"
 
-    def test_comp_invalid_cnpj(self):
+    def test_comp_invalid_cnpj(cls):
         """Test if ValidationError raised during .create() with invalid CNPJ
             and correct Inscricao Estadual"""
-        with self.assertRaises(ValidationError):
-            self.env["res.company"].with_context(
-                tracking_disable=True).create(self.company_invalid_cnpj)
+        with cls.assertRaises(ValidationError):
+            cls.env["res.company"].with_context(
+                tracking_disable=True).create(cls.company_invalid_cnpj)
 
-    def test_comp_invalid_inscr_est(self):
+    def test_comp_invalid_inscr_est(cls):
         """Test if ValidationError raised with correct CNPJ
             and invalid Inscricao Estadual"""
-        with self.assertRaises(ValidationError):
-            self.env["res.company"].with_context(
-                tracking_disable=True).create(self.company_invalid_inscr_est)
+        with cls.assertRaises(ValidationError):
+            cls.env["res.company"].with_context(
+                tracking_disable=True).create(cls.company_invalid_inscr_est)
 
     # Tests on partners
 
-    def test_part_valid(self):
+    def test_part_valid(cls):
         """Try do create id with correct CPF and correct Inscricao Estadual"""
         try:
-            partner = self.env["res.partner"].with_context(
-                tracking_disable=True).create(self.partner_valid)
+            partner = cls.env["res.partner"].with_context(
+                tracking_disable=True).create(cls.partner_valid)
         except:
             assert (
                 partner
             ), "Error when using .create() even with valid CPF \
                          and Inscricao Estadual"
 
-    def test_part_invalid_cpf(self):
+    def test_part_invalid_cpf(cls):
         """Test if ValidationError raised during .create() with invalid CPF
             and correct Inscricao Estadual"""
-        with self.assertRaises(ValidationError):
-            self.env["res.partner"].with_context(
-                tracking_disable=True).create(self.partner_invalid_cpf)
+        with cls.assertRaises(ValidationError):
+            cls.env["res.partner"].with_context(
+                tracking_disable=True).create(cls.partner_invalid_cpf)
 
 
 # No test on Inscricao Estadual for partners with CPF

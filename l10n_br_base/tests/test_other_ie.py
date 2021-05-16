@@ -13,10 +13,10 @@ _logger = logging.getLogger(__name__)
 class OtherIETest(SavepointCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.company_model = self.env["res.company"]
-        self.company = self.company_model.with_context(
+        cls.company_model = cls.env["res.company"]
+        cls.company = cls.company_model.with_context(
             tracking_disable=True).create(
             {
                 "name": "Akretion Sao Paulo",
@@ -26,9 +26,9 @@ class OtherIETest(SavepointCase):
                 "street": "Rua Paulo Dias",
                 "street_number": "586",
                 "district": "Alumínio",
-                "state_id": self.env.ref("base.state_br_sp"),
-                "city_id": self.env.ref("l10n_br_base.city_3501152"),
-                "country_id": self.env.ref("base.br"),
+                "state_id": cls.env.ref("base.state_br_sp"),
+                "city_id": cls.env.ref("l10n_br_base.city_3501152"),
+                "country_id": cls.env.ref("base.br"),
                 "city": "Alumínio",
                 "zip": "18125-000",
                 "phone": "+55 (21) 3010 9965",
@@ -38,37 +38,37 @@ class OtherIETest(SavepointCase):
         )
 
     @mute_logger("odoo.sql_db")
-    def test_included_valid_ie_in_company(self):
-        result = self.company.write(
+    def test_included_valid_ie_in_company(cls):
+        result = cls.company.write(
             {
                 "state_tax_number_ids": [
                     (
                         0,
                         0,
                         {
-                            "state_id": self.env.ref("base.state_br_ba").id,
+                            "state_id": cls.env.ref("base.state_br_ba").id,
                             "inscr_est": 41902653,
                         },
                     )
                 ]
             }
         )
-        self.assertTrue(result, "Error to included valid IE.")
-        for line in self.company.partner_id.state_tax_number_ids:
+        cls.assertTrue(result, "Error to included valid IE.")
+        for line in cls.company.partner_id.state_tax_number_ids:
             result = False
             if line.inscr_est == "41902653":
                 result = True
-            self.assertTrue(result, "Error in method to update other IE(s) on partner.")
+            cls.assertTrue(result, "Error in method to update other IE(s) on partner.")
 
         try:
-            result = self.company.write(
+            result = cls.company.write(
                 {
                     "state_tax_number_ids": [
                         (
                             0,
                             0,
                             {
-                                "state_id": self.env.ref("base.state_br_ba").id,
+                                "state_id": cls.env.ref("base.state_br_ba").id,
                                 "inscr_est": 67729139,
                             },
                         )
@@ -78,20 +78,20 @@ class OtherIETest(SavepointCase):
         except:
             result = False
 
-        self.assertFalse(
+        cls.assertFalse(
             result, "Error to check included other" " IE to State already informed."
         )
 
-    def test_included_invalid_ie(self):
+    def test_included_invalid_ie(cls):
         try:
-            result = self.company.write(
+            result = cls.company.write(
                 {
                     "state_tax_number_ids": [
                         (
                             0,
                             0,
                             {
-                                "state_id": self.env.ref("base.state_br_am").id,
+                                "state_id": cls.env.ref("base.state_br_am").id,
                                 "inscr_est": "042933681",
                             },
                         )
@@ -100,18 +100,18 @@ class OtherIETest(SavepointCase):
             )
         except:
             result = False
-        self.assertFalse(result, "Error to check included invalid IE.")
+        cls.assertFalse(result, "Error to check included invalid IE.")
 
-    def test_included_other_valid_ie_to_same_state_of_company(self):
+    def test_included_other_valid_ie_to_same_state_of_company(cls):
         try:
-            result = self.company.write(
+            result = cls.company.write(
                 {
                     "state_tax_number_ids": [
                         (
                             0,
                             0,
                             {
-                                "state_id": self.env.ref("base.state_br_sp").id,
+                                "state_id": cls.env.ref("base.state_br_sp").id,
                                 "inscr_est": 692015742119,
                             },
                         )
@@ -120,29 +120,29 @@ class OtherIETest(SavepointCase):
             )
         except:
             result = False
-        self.assertFalse(
+        cls.assertFalse(
             result,
             "Error to check included other valid IE " " in to same state of Company.",
         )
 
-    def test_included_valid_ie_on_partner(self):
-        result = self.company.partner_id.write(
+    def test_included_valid_ie_on_partner(cls):
+        result = cls.company.partner_id.write(
             {
                 "state_tax_number_ids": [
                     (
                         0,
                         0,
                         {
-                            "state_id": self.env.ref("base.state_br_ba").id,
+                            "state_id": cls.env.ref("base.state_br_ba").id,
                             "inscr_est": 41902653,
                         },
                     )
                 ]
             }
         )
-        self.assertTrue(result, "Error to included valid IE.")
-        for line in self.company.state_tax_number_ids:
+        cls.assertTrue(result, "Error to included valid IE.")
+        for line in cls.company.state_tax_number_ids:
             result = False
             if line.inscr_est == "41902653":
                 result = True
-            self.assertTrue(result, "Error in method to update other IE(s) on Company.")
+            cls.assertTrue(result, "Error in method to update other IE(s) on Company.")
