@@ -134,7 +134,6 @@ class SubsequentDocument(models.Model):
             else:
                 subsequent.operation_performed = True
 
-    @api.multi
     def show_subsequent_document(self):
         return {
             'name': 'Subsequent Document',
@@ -146,7 +145,6 @@ class SubsequentDocument(models.Model):
             'res_id': self.subsequent_document_id.id,
         }
 
-    @api.multi
     def show_source_document(self):
         return {
             'name': 'Source Document',
@@ -158,7 +156,6 @@ class SubsequentDocument(models.Model):
             'res_id': self.source_document_id.id,
         }
 
-    @api.multi
     def unlink(self):
         for subsequent_id in self:
             if subsequent_id.operation_performed:
@@ -167,7 +164,6 @@ class SubsequentDocument(models.Model):
                                   "generated.")
         return super(SubsequentDocument, self).unlink()
 
-    @api.multi
     def _confirms_document_generation(self):
         """ We check if we can generate the subsequent document
         :return: True: allowing generation
