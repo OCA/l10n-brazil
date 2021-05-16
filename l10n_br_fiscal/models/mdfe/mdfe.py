@@ -16,6 +16,7 @@ _logger = logging.getLogger(__name__)
 class MDFe(models.Model):
     _name = "l10n_br_fiscal.mdfe"
     _description = "Recipient Manifestation"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     def name_get(self):
         return [
