@@ -1,8 +1,6 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
-#
 
-from __future__ import division, print_function, unicode_literals
 
 import logging
 
@@ -59,24 +57,20 @@ class MDFe(models.Model):
         string="CNPJ/CPF",
         size=18,
     )
-
     nsu = fields.Char(
         string="NSU",
         size=25,
         index=True,
     )
-
     operation_type = fields.Selection(
         selection=OPERATION_TYPE,
         string="Operation Type",
     )
-
     document_value = fields.Float(
         string="Document Total Value",
         readonly=True,
         digits=(18, 2),
     )
-
     ie = fields.Char(
         string="Inscrição estadual",
         size=18,
@@ -90,13 +84,11 @@ class MDFe(models.Model):
         comodel_name="res.partner",
         string="Supplier (partner)",
     )
-
     supplier = fields.Char(
         string="Supplier",
         size=60,
         index=True,
     )
-
     emission_datetime = fields.Datetime(
         string="Emission Date",
         index=True,
@@ -131,13 +123,11 @@ class MDFe(models.Model):
         string="Cancellation protocol",
         size=60,
     )
-
     document_state = fields.Selection(
         string="Document State",
         selection=SITUACAO_NFE,
         index=True,
     )
-
     state = fields.Selection(
         string="Manifestation State",
         selection=SITUACAO_MANIFESTACAO,
@@ -149,16 +139,13 @@ class MDFe(models.Model):
     )
 
     def cria_wizard_gerenciamento(self, state=""):
-
         dados = {
             "manifestacao_ids": [(6, 0, self.ids)],
             "state": state,
         }
-
         return self.env["wizard.confirma.acao"].create(dados)
 
     def download_attachment(self, attachment_id=None):
-
         action = {
             "name": _("Download Attachment"),
             "view_mode": "form",
@@ -168,5 +155,4 @@ class MDFe(models.Model):
             "flags": {"mode": "readonly"},  # default is 'edit'
             "res_id": attachment_id.id,
         }
-
         return action
