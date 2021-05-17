@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "author": "Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "12.0.2.4.0",
+    "version": "12.0.3.0.0",
     "depends": ["base", "base_setup", "base_address_city", "base_address_extended"],
     "data": [
         "security/ir.model.access.csv",
@@ -35,5 +35,5 @@
     "installable": True,
     'pre_init_hook': 'pre_init_hook',
     "development_status": "Mature",
-    "external_dependencies": {"python": ["erpbrasil.base"]},
+    "external_dependencies": {"python": ["num2words", "erpbrasil.base"]},
 }
