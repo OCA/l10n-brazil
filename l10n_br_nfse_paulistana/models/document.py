@@ -61,7 +61,7 @@ class Document(models.Model):
         if value_type in ('int', 'long', 'byte', 'nonNegativeInteger'):
             return int(value)
         elif value_type == 'decimal':
-            return float(value)
+            return round(float(value), 2)
         elif value_type == 'string':
             return str(value)
         else:
