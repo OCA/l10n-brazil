@@ -78,9 +78,11 @@ class ResPartner(spec_models.SpecModel):
     @api.multi
     def _compute_nfe40_xEnder(self):
         for rec in self:
-            rec.nfe40_xEnder = rec.street + ', ' + rec.street_number
+            rec.nfe40_xEnder = ", ".join(
+                [i for i in [rec.street, rec.street_number] if i]
+            )
             if rec.street2:
-                rec.nfe40_xEnder = rec.nfe40_xEnder + ' - ' + rec.street2
+                rec.nfe40_xEnder = ' - '.join(rec.nfe40_xEnder, rec.street2)
 
     @api.multi
     def _compute_nfe40_enderDest(self):
