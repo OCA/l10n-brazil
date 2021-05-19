@@ -29,6 +29,7 @@
         'security/ir.model.access.csv',
     ],
     'demo': [
+        'demo/l10n_br_delivery_demo.xml',
         'demo/sale_order_demo.xml',
     ],
     'category': 'Localization',
