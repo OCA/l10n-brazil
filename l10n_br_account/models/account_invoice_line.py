@@ -156,8 +156,8 @@ class AccountInvoiceLine(models.Model):
 
     @api.depends('price_total')
     def _get_price_tax(self):
-        for l in self:
-            l.price_tax = l.amount_tax
+        for line in self:
+            line.price_tax = line.amount_tax
 
     @api.model
     def _shadowed_fields(self):
