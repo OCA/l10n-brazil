@@ -9,8 +9,8 @@ from odoo import models, fields, api
 _logger = logging.getLogger(__name__)
 
 
-class SpedOperacao(models.Model):
-    _inherit = 'sped.operacao'
+class FiscalOperation(models.Model):
+    _inherit = 'l10n_br_fiscal.operation'
 
     momento_envio_documento = fields.Selection(
         selection=[

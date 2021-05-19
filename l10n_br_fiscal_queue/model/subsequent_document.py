@@ -1,19 +1,17 @@
-# -*- coding: utf-8 -*-
-#
 # Copyright 2018 KMEE INFORMATICA LTDA
 #   Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
-#
 
-from __future__ import division, print_function, unicode_literals
+import logging
+
 from odoo import api, fields, models, _
 from odoo.addons.queue_job.job import job
-import logging
+
 _logger = logging.getLogger(__name__)
 
 
-class SpedDocumentoSubsequente(models.Model):
-    _inherit = b'sped.documento.subsequente'
+class SubsequentDocument(models.Model):
+    _inherit = 'l10n_br_fiscal.subsequent.document'
 
     @api.multi
     @job

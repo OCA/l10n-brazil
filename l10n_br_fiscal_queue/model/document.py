@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2017 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -10,8 +9,8 @@ from odoo.addons.queue_job.job import job
 _logger = logging.getLogger(__name__)
 
 
-class SpedDocumento(models.Model):
-    _inherit = 'sped.documento'
+class FiscalDocument(models.Model):
+    _inherit = 'l10n_br_fiscal.document'
 
     @api.multi
     @job
