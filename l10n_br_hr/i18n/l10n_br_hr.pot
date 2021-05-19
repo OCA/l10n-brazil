@@ -1298,6 +1298,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__rg
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "RG"
 msgstr ""
@@ -1474,7 +1475,7 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inscr_est
-msgid "State Tax Number/RG"
+msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_hr
