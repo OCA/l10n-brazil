@@ -1,11 +1,11 @@
 # Copyright (C) 2009 - TODAY Renato Lima - Akretion
-# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+# License LGPL-3 - See http://www.gnu.org/licenses/lgpl-3.0.html
 
 {
     "name": "Brazilian Localization Base",
     "summary": "Customization of base module for implementations in Brazil.",
     "category": "Localization",
-    "license": "AGPL-3",
+    "license": "LGPL-3",
     "author": "Akretion,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "12.0.3.0.0",

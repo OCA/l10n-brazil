@@ -4,7 +4,7 @@
 #    Copyright (C) Thinkopen Solutions (<http://www.thinkopensolutions.com.br>)
 #    Akretion
 #    Copyright (C) Akretion (<http://www.akretion.com>)
-# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+# License LGPL-3 - See http://www.gnu.org/licenses/lgpl-3.0.html
 
 from odoo import api, fields, models
 from odoo.tools import config

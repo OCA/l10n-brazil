@@ -2,7 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 #  @ 2016 KMEE - www.kmee.com.br -
 #   Luis Felipe Miléo <mileo@kmee.com.br>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from . import test_amount_to_text
 from . import test_valid_createid

@@ -1,6 +1,6 @@
 # @ 2018 Akretion - www.akretion.com.br -
 #   Magno Costa <magno.costa@akretion.com.br>
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 import logging
 

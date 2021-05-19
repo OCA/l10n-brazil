@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright 2018 KMEE INFORMATICA LTDA - Gabriel Cardoso de Faria
 # Copyright (C) 2020 - TODAY Magno Costa - Akretion
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from openupgradelib import openupgrade
 
