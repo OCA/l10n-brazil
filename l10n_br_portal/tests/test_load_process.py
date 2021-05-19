@@ -46,4 +46,4 @@ class TestUi(HttpCase):
         record = self.env.ref('base.partner_admin')
         self.assertEqual(record.country_id.code, 'BR')
         self.assertEqual(record.state_id.code, 'MG')
-        self.assertEqual(record.city_id.ibge_code, '32404')
+        self.assertEqual(record.city_id.ibge_code, '3132404')
