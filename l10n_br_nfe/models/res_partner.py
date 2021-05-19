@@ -45,9 +45,8 @@ class ResPartner(spec_models.SpecModel):
     nfe40_nro = fields.Char(related='street_number', readonly=False)
     nfe40_xCpl = fields.Char(related='street2', readonly=False)
     nfe40_xBairro = fields.Char(related='district', readonly=False)
-    nfe40_cMun = fields.Char(compute='_compute_nfe_data',
-                             inverse='_inverse_nfe40_cMun')
-    nfe40_xMun = fields.Char(related='city_id.name')
+    nfe40_cMun = fields.Char(related='city_id.ibge_code', readonly=False)
+    nfe40_xMun = fields.Char(related='city_id.name', readonly=False)
     # Char overriding Selection:
     nfe40_UF = fields.Char(related='state_id.code')
 
@@ -114,18 +113,6 @@ class ResPartner(spec_models.SpecModel):
             if rec.nfe40_CPF:
                 rec.is_company = False
                 rec.cnpj_cpf = rec.nfe40_CPF
-
-    def _inverse_nfe40_cMun(self):
-        for rec in self:
-            if self.nfe40_cMun and len(self.nfe40_cMun) == 7:
-                state_ibge = self.nfe40_cMun[0:1]
-                city_ibge = self.nfe40_cMun[2:8]
-                state = self.env['res.country.state'].search(
-                    [('ibge_code', '=', state_ibge)], limit=1)
-                rec.state_id = state.id
-                city = self.env['res.city'].search(
-                    [('ibge_code', '=', city_ibge)], limit=1)
-                rec.city_id = city.id
 
     def _export_field(self, xsd_field, class_obj, member_spec):
         if xsd_field == 'nfe40_xNome' and class_obj._name == 'nfe.40.dest':
