@@ -1,5 +1,5 @@
 # Copyright (C) 2020 - Gabriel Cardoso de Faria <gabriel.cardoso@kmee.com.br>
-# License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+# License LGPL-3 - See http://www.gnu.org/licenses/lgplL-3.0.html
 
 from odoo import api, tools, SUPERUSER_ID
 
