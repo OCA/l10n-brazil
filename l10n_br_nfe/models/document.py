@@ -485,9 +485,7 @@ class NFe(spec_models.StackedModel):
                 self.company_id.partner_id.state_id.ibge_code
         if self.document_type_id.code:
             self.nfe40_mod = self.document_type_id.code
-        self.nfe40_cMunFG = '%s%s' % (
-            self.company_id.partner_id.state_id.ibge_code,
-            self.company_id.partner_id.city_id.ibge_code)
+        self.nfe40_cMunFG = self.company_id.partner_id.city_id.ibge_code
         return super(NFe, self)._export_fields(
             xsd_fields, class_obj, export_dict)
 
