@@ -476,8 +476,7 @@ class NFeLine(spec_models.StackedModel):
     def _export_field(self, xsd_field, class_obj, member_spec):
         # ISSQN
         if xsd_field == 'nfe40_cMunFG':
-            return self.issqn_fg_city_id.state_id.ibge_code +\
-                self.issqn_fg_city_id.ibge_code
+            return self.issqn_fg_city_id.ibge_code
         if xsd_field == 'nfe40_cListServ':
             return self.service_type_id.code
         if xsd_field == 'nfe40_vDeducao':
@@ -495,8 +494,7 @@ class NFeLine(spec_models.StackedModel):
         if xsd_field == 'nfe40_cServico':
             return ''  # TODO
         if xsd_field == 'nfe40_cMun':
-            return self.issqn_fg_city_id.state_id.ibge_code +\
-                self.issqn_fg_city_id.ibge_code  # TODO
+            return self.issqn_fg_city_id.ibge_code  # TODO
         if xsd_field == 'nfe40_cPais' and self.issqn_fg_city_id:
             return self.issqn_fg_city_id.state_id.country_id.bc_code[1:]  # TODO
         if xsd_field == 'nfe40_nProcesso':
