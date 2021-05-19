@@ -17,6 +17,7 @@
     ],
     'data': [
         # Data
+        'data/res_config_settings_data.xml',
         'data/account_incoterms_data.xml',
         # View
         'views/carrier.xml',
