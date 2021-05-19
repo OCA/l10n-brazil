@@ -339,15 +339,15 @@ class Document(models.Model):
             new_doc.fiscal_operation_id = fsc_op
             new_doc._onchange_fiscal_operation_id()
 
-            for l in new_doc.line_ids:
-                fsc_op_line = l.fiscal_operation_id.return_fiscal_operation_id
+            for line in new_doc.line_ids:
+                fsc_op_line = line.fiscal_operation_id.return_fiscal_operation_id
                 if not fsc_op_line:
                     raise ValidationError(_(
                         "The fiscal operation {} has no return Fiscal "
-                        "Operation defined".format(l.fiscal_operation_id)))
-                l.fiscal_operation_id = fsc_op_line
-                l._onchange_fiscal_operation_id()
-                l._onchange_fiscal_operation_line_id()
+                        "Operation defined".format(line.fiscal_operation_id)))
+                line.fiscal_operation_id = fsc_op_line
+                line._onchange_fiscal_operation_id()
+                line._onchange_fiscal_operation_line_id()
 
             return_docs |= new_doc
         return return_docs
