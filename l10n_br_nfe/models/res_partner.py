@@ -99,8 +99,6 @@ class ResPartner(spec_models.SpecModel):
                 else:
                     rec.nfe40_CPF = punctuation_rm(
                         rec.cnpj_cpf)
-            rec.nfe40_cMun = "%s%s" % (rec.state_id.ibge_code,
-                                       rec.city_id.ibge_code)
 
     def _inverse_nfe40_CNPJ(self):
         for rec in self:
