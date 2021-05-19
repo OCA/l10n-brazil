@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Physical Products -->
-    <!-- Office Chair -->
-    <record id="product.product_delivery_01" model="product.product">
-        <field name="weight">3.0</field>
-        <field name="volume">1</field>
-    </record>
-
-    <!-- Office Lamp -->
-    <record id="product.product_delivery_02" model="product.product">
-        <field name="weight">3.0</field>
-        <field name="volume">1</field>
-    </record>
-
-
-    <!-- Main Company Simples Nacional -->
-    <!-- Sale Order with only products test -->
+    <!-- Teste com Transportadora e Incoterms -->
     <record id="main_so_delivery_1" model="sale.order">
         <field name="name">Main l10n_br_delivery - Produtos</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
@@ -29,11 +14,13 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
         <field name="note">TESTE</field>
         <field name="company_id" ref="base.main_company"/>
+        <field name="incoterm" ref="account.incoterm_FOB"/>
+        <field name="carrier_id" ref="l10n_br_delivery.test_br_delivery_carrier"/>
     </record>
 
     <record id="main_sl_delivery_1_2" model="sale.order.line">
         <field name="order_id" ref="main_so_delivery_1"/>
-        <field name="name">Cadeira de Escritório</field>
+        <field name="name">Office Chair</field>
         <field name="product_id" ref="product.product_delivery_01"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
@@ -56,7 +43,7 @@
 
     <record id="main_sl_delivery_2_2" model="sale.order.line">
         <field name="order_id" ref="main_so_delivery_1"/>
-        <field name="name">Lâmpada de Escritório</field>
+        <field name="name">Office Lamp</field>
         <field name="product_id" ref="product.product_delivery_02"/>
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
