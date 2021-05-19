@@ -46,4 +46,4 @@ class TestUi(HttpCase):
         record = self.env['sale.order'].search(
             [('partner_id', '=', record.id)], limit=1).partner_shipping_id
         self.assertEqual(record.state_id.code, 'SP')
-        self.assertEqual(record.city_id.ibge_code, '49904')
+        self.assertEqual(record.city_id.ibge_code, '3549904')
