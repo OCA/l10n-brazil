@@ -8208,13 +8208,9 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__partner_inscr_est
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_invoice_mixin__partner_inscr_est
-msgid "State Tax Number"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__inscr_est
-msgid "State Tax Number/RG"
+msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_fiscal
