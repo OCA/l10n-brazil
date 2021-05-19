@@ -16,10 +16,13 @@
         'delivery',
     ],
     'data': [
+        # Data
+        'data/account_incoterms_data.xml',
         # View
         'views/carrier.xml',
         'views/l10n_br_delivery_view.xml',
         'views/sale_order_view.xml',
+        "views/account_incoterms_view.xml",
         # Security
         'security/ir.model.access.csv',
     ],
