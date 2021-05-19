@@ -11,38 +11,38 @@ from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 class TestFiscalDocumentGeneric(SavepointCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
         # Contribuinte
-        self.nfe_same_state = self.env.ref(
+        cls.nfe_same_state = cls.env.ref(
             'l10n_br_fiscal.demo_nfe_same_state'
         )
-        self.nfe_other_state = self.env.ref(
+        cls.nfe_other_state = cls.env.ref(
             'l10n_br_fiscal.demo_nfe_other_state'
         )
-        self.nfe_not_taxpayer = self.env.ref(
+        cls.nfe_not_taxpayer = cls.env.ref(
             'l10n_br_fiscal.demo_nfe_nao_contribuinte'
         )
 
-        self.nfe_not_taxpayer_pf = self.env.ref(
+        cls.nfe_not_taxpayer_pf = cls.env.ref(
             'l10n_br_fiscal.demo_nfe_nao_contribuinte_pf'
         )
 
-        self.nfe_export = self.env.ref(
+        cls.nfe_export = cls.env.ref(
             'l10n_br_fiscal.demo_nfe_export'
         )
 
         # Simples Nacional
-        self.nfe_sn_same_state = self.env.ref(
+        cls.nfe_sn_same_state = cls.env.ref(
             'l10n_br_fiscal.demo_nfe_sn_same_state'
         )
-        self.nfe_sn_other_state = self.env.ref(
+        cls.nfe_sn_other_state = cls.env.ref(
             'l10n_br_fiscal.demo_nfe_sn_other_state'
         )
-        self.nfe_sn_not_taxpayer = self.env.ref(
+        cls.nfe_sn_not_taxpayer = cls.env.ref(
             'l10n_br_fiscal.demo_nfe_sn_nao_contribuinte'
         )
-        self.nfe_sn_export = self.env.ref(
+        cls.nfe_sn_export = cls.env.ref(
             'l10n_br_fiscal.demo_nfe_sn_export'
         )
 
