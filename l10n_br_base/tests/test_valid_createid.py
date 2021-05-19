@@ -110,50 +110,50 @@ class ValidCreateIdTest(SavepointCase):
 
     # Tests on companies
 
-    def test_comp_valid(cls):
+    def test_comp_valid(self):
         """Try do create id with correct CNPJ and correct Inscricao Estadual"""
         try:
-            company = cls.env["res.company"].with_context(
-                tracking_disable=True).create(cls.company_valid)
+            company = self.env["res.company"].with_context(
+                tracking_disable=True).create(self.company_valid)
         except Exception:
             assert (
                 company
             ), "Error when using .create() even with valid \
                              and Inscricao Estadual"
 
-    def test_comp_invalid_cnpj(cls):
+    def test_comp_invalid_cnpj(self):
         """Test if ValidationError raised during .create() with invalid CNPJ
             and correct Inscricao Estadual"""
-        with cls.assertRaises(ValidationError):
-            cls.env["res.company"].with_context(
-                tracking_disable=True).create(cls.company_invalid_cnpj)
+        with self.assertRaises(ValidationError):
+            self.env["res.company"].with_context(
+                tracking_disable=True).create(self.company_invalid_cnpj)
 
-    def test_comp_invalid_inscr_est(cls):
+    def test_comp_invalid_inscr_est(self):
         """Test if ValidationError raised with correct CNPJ
             and invalid Inscricao Estadual"""
-        with cls.assertRaises(ValidationError):
-            cls.env["res.company"].with_context(
-                tracking_disable=True).create(cls.company_invalid_inscr_est)
+        with self.assertRaises(ValidationError):
+            self.env["res.company"].with_context(
+                tracking_disable=True).create(self.company_invalid_inscr_est)
 
     # Tests on partners
 
-    def test_part_valid(cls):
+    def test_part_valid(self):
         """Try do create id with correct CPF and correct Inscricao Estadual"""
         try:
-            partner = cls.env["res.partner"].with_context(
-                tracking_disable=True).create(cls.partner_valid)
+            partner = self.env["res.partner"].with_context(
+                tracking_disable=True).create(self.partner_valid)
         except Exception:
             assert (
                 partner
             ), "Error when using .create() even with valid CPF \
                          and Inscricao Estadual"
 
-    def test_part_invalid_cpf(cls):
+    def test_part_invalid_cpf(self):
         """Test if ValidationError raised during .create() with invalid CPF
             and correct Inscricao Estadual"""
-        with cls.assertRaises(ValidationError):
-            cls.env["res.partner"].with_context(
-                tracking_disable=True).create(cls.partner_invalid_cpf)
+        with self.assertRaises(ValidationError):
+            self.env["res.partner"].with_context(
+                tracking_disable=True).create(self.partner_invalid_cpf)
 
 
 # No test on Inscricao Estadual for partners with CPF
