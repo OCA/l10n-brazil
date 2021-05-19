@@ -197,12 +197,12 @@ class ResCompany(models.Model):
     certificate_ecnpj_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.certificate",
         string="E-CNPJ",
-        domain="[('type', '=', 'e-cnpj'), ('is_valid', '=', True)]")
+        domain="[('type', '=', 'e-cnpj')]")
 
     certificate_nfe_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.certificate",
         string="NFe",
-        domain="[('type', '=', 'nf-e'), ('is_valid', '=', True)]")
+        domain="[('type', '=', 'nf-e')]")
 
     accountant_id = fields.Many2one(
         comodel_name="res.partner",
