@@ -155,17 +155,11 @@ class WorkalendarHolidayImport(models.TransientModel):
                 for holiday in all_holidays:
 
                     if holiday.municipio_ibge:
-                        state_id = (
-                            self.env["res.country.state"]
-                            .search([("ibge_code", "=", holiday.estado_ibge)])
-                            .id
-                        )
                         municipio_nome = (
                             self.env["res.city"]
                             .search(
                                 [
-                                    ("ibge_code", "=", holiday.municipio_ibge[2:]),
-                                    ("state_id", "=", state_id),
+                                    ("ibge_code", "=", holiday.municipio_ibge),
                                 ]
                             )
                             .name
