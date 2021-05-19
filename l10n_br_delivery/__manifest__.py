@@ -23,6 +23,7 @@
         'views/l10n_br_delivery_view.xml',
         'views/sale_order_view.xml',
         "views/account_incoterms_view.xml",
+        'views/stock_picking_view.xml',
         # Security
         'security/ir.model.access.csv',
     ],
