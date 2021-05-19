@@ -11,7 +11,7 @@
     'website': 'https://github.com/oca/l10n-brazil',
     'version': '12.0.3.0.0',
     'depends': [
-        'l10n_br_fiscal',
+        'l10n_br_account',
         'l10n_br_sale_stock',
         'delivery',
     ],
