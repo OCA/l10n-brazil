@@ -16,8 +16,15 @@ class AccountIncoterms(models.Model):
         # CIF - Custo, Seguro e Frete; FOB - Gratis a Bordo, etc
         result = []
         for record in self:
+            name = record.name
+            # Caso o name seja muito grande ao mostrar o campo na
+            # visão acaba ficando fora da tela o que dificulta a
+            # visualização, ao clicar em Pesquisar é mostrado o
+            # name completo
+            if len(record.name) > 150:
+                name = record.name[:150] + ' ...'
             result.append((
                 record.id,  '%s - %s' % (
-                    record.code, record.name)
+                    record.code, name)
             ))
         return result
