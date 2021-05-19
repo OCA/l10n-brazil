@@ -95,8 +95,7 @@ class Certificate(models.Model):
 
     is_valid = fields.Boolean(
         compute="_compute_is_valid",
-        string="Is Valid?",
-        store=False)
+        string="Is Valid?")
 
     @api.model
     def _certificate_data(self, cert_file, cert_password):
