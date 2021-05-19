@@ -38,7 +38,6 @@ FISCAL_TYPE_REFUND = {
 SHADOWED_FIELDS = [
     'partner_id',
     'company_id',
-    'date',
     'currency_id',
     'partner_shipping_id',
 ]
