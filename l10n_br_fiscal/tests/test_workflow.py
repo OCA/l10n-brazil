@@ -15,10 +15,10 @@ from ..constants.fiscal import (
 class TestWorkflow(SavepointCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.fiscal_document = self.env["l10n_br_fiscal.document"].create({
-            'document_type_id': self.env.ref(
+        cls.fiscal_document = cls.env["l10n_br_fiscal.document"].create({
+            'document_type_id': cls.env.ref(
                 'l10n_br_fiscal.document_55_serie_1').id,
             'fiscal_operation_type': 'out',
         })
