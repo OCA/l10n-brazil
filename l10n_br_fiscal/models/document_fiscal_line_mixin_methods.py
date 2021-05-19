@@ -227,11 +227,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.multi
     def _remove_all_fiscal_tax_ids(self):
-        for l in self:
-            l.fiscal_tax_ids = False
+        for line in self:
+            line.fiscal_tax_ids = False
 
             for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
-                l[fiscal_tax_field] = False
+                line[fiscal_tax_field] = False
 
             self._set_fields_issqn(TAX_DICT_VALUES)
             self._set_fields_csll(TAX_DICT_VALUES)
@@ -256,88 +256,88 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.multi
     def _update_fiscal_tax_ids(self, taxes):
-        for l in self:
-            taxes_groups = l.fiscal_tax_ids.mapped('tax_domain')
-            fiscal_taxes = l.fiscal_tax_ids.filtered(
+        for line in self:
+            taxes_groups = line.fiscal_tax_ids.mapped('tax_domain')
+            fiscal_taxes = line.fiscal_tax_ids.filtered(
                 lambda ft: ft.tax_domain not in taxes_groups)
 
-            l.fiscal_tax_ids = fiscal_taxes + taxes
+            line.fiscal_tax_ids = fiscal_taxes + taxes
 
     @api.multi
     def _update_taxes(self):
-        for l in self:
-            compute_result = self._compute_taxes(l.fiscal_tax_ids)
+        for line in self:
+            compute_result = self._compute_taxes(line.fiscal_tax_ids)
             computed_taxes = compute_result.get('taxes', {})
-            l.amount_tax_not_included = compute_result.get(
+            line.amount_tax_not_included = compute_result.get(
                 'amount_not_included', 0.0)
-            l.amount_tax_withholding = compute_result.get(
+            line.amount_tax_withholding = compute_result.get(
                 'amount_withholding', 0.0)
-            l.amount_estimate_tax = compute_result.get(
+            line.amount_estimate_tax = compute_result.get(
                 'amount_estimate_tax', 0.0)
-            for tax in l.fiscal_tax_ids:
+            for tax in line.fiscal_tax_ids:
 
                 computed_tax = computed_taxes.get(tax.tax_domain, {})
 
                 if tax.tax_domain == TAX_DOMAIN_IPI:
-                    l.ipi_tax_id = tax
+                    line.ipi_tax_id = tax
                     self._set_fields_ipi(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_II:
-                    l.ii_tax_id = tax
+                    line.ii_tax_id = tax
                     self._set_fields_ii(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_PIS:
-                    l.pis_tax_id = tax
+                    line.pis_tax_id = tax
                     self._set_fields_pis(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_PIS_ST:
-                    l.pisst_tax_id = tax
+                    line.pisst_tax_id = tax
                     self._set_fields_pisst(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_COFINS:
-                    l.cofins_tax_id = tax
+                    line.cofins_tax_id = tax
                     self._set_fields_cofins(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_COFINS_ST:
-                    l.cofinsst_tax_id = tax
+                    line.cofinsst_tax_id = tax
                     self._set_fields_cofinsst(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_ICMS:
-                    l.icms_tax_id = tax
+                    line.icms_tax_id = tax
                     self._set_fields_icms(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_ICMS_SN:
-                    l.icmssn_tax_id = tax
+                    line.icmssn_tax_id = tax
                     self._set_fields_icmssn(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_ICMS_ST:
-                    l.icmsst_tax_id = tax
+                    line.icmsst_tax_id = tax
                     self._set_fields_icmsst(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_ICMS_FCP:
-                    l.icmsfcp_tax_id = tax
+                    line.icmsfcp_tax_id = tax
                     self._set_fields_icmsfcp(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_ISSQN:
-                    l.issqn_tax_id = tax
+                    line.issqn_tax_id = tax
                     self._set_fields_issqn(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_CSLL:
-                    l.csll_tax_id = tax
+                    line.csll_tax_id = tax
                     self._set_fields_csll(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_IRPJ:
-                    l.irpj_tax_id = tax
+                    line.irpj_tax_id = tax
                     self._set_fields_irpj(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_INSS:
-                    l.inss_tax_id = tax
+                    line.inss_tax_id = tax
                     self._set_fields_inss(computed_tax)
 
                 if tax.tax_domain == TAX_DOMAIN_ISSQN_WH:
-                    l.issqn_wh_tax_id = tax
+                    line.issqn_wh_tax_id = tax
                     self._set_fields_issqn_wh(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_PIS_WH:
-                    l.pis_wh_tax_id = tax
+                    line.pis_wh_tax_id = tax
                     self._set_fields_pis_wh(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_COFINS_WH:
-                    l.cofins_wh_tax_id = tax
+                    line.cofins_wh_tax_id = tax
                     self._set_fields_cofins_wh(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_CSLL_WH:
-                    l.csll_wh_tax_id = tax
+                    line.csll_wh_tax_id = tax
                     self._set_fields_csll_wh(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_IRPJ_WH:
-                    l.irpj_wh_tax_id = tax
+                    line.irpj_wh_tax_id = tax
                     self._set_fields_irpj_wh(computed_tax)
                 if tax.tax_domain == TAX_DOMAIN_INSS_WH:
-                    l.inss_wh_tax_id = tax
+                    line.inss_wh_tax_id = tax
                     self._set_fields_inss_wh(computed_tax)
 
     def _get_product_price(self):
