@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
@@ -124,7 +122,7 @@ class Attachment(models.TransientModel):
                     # shutil.copyfile(full_path, new_file)
                     try:
                         shutil.copy2(full_path, new_file)
-                    except:
+                    except Exception:
                         pass
                         # raise UserError(_("Not Proper file name to download"))
 
@@ -133,7 +131,7 @@ class Attachment(models.TransientModel):
                     os.chdir(head)
                     try:
                         tFile.add(tail)
-                    except:
+                    except Exception:
                         _logger.error("No such file was found : %s" % tail)
 
                 tFile.close()
