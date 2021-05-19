@@ -8413,7 +8413,7 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:133
+#: code:addons/l10n_br_base/models/res_partner.py:135
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr ""
@@ -10908,7 +10908,7 @@ msgid "Inocência"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:148
+#: code:addons/l10n_br_base/models/res_partner.py:150
 #, python-format
 msgid "Invalid State Tax Number!"
 msgstr ""
@@ -16836,6 +16836,11 @@ msgid "Nuporanga"
 msgstr ""
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
+msgid "Nº da Inscrição Estadual, para ISENTO deixe vazio ou escreva 'ISENTO'"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4312658
 msgid "Não-Me-Toque"
 msgstr ""
@@ -20051,6 +20056,10 @@ msgid "Quixeré"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__rg
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__rg
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__rg
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__rg
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "RG"
 msgstr ""
@@ -23164,13 +23173,17 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__inscr_est
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:164
+#: code:addons/l10n_br_base/models/res_partner.py:166
 #, python-format
 msgid "State Tax Number already used %s"
 msgstr ""
@@ -23178,14 +23191,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "State Tax Number..."
-msgstr ""
-
-#. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
-msgid "State Tax Number/RG"
 msgstr ""
 
 #. module: l10n_br_base
@@ -25526,7 +25531,7 @@ msgid "Theobroma"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:151
+#: code:addons/l10n_br_base/models/res_partner.py:153
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
 msgstr ""
