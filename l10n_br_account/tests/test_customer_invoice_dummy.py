@@ -8,68 +8,68 @@ from odoo.tests import SavepointCase
 class TestCustomerInvoice(SavepointCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.sale_account = self.env["account.account"].create(
+        cls.sale_account = cls.env["account.account"].create(
             dict(
                 code="X1020",
                 name="Product Sales - (test)",
-                user_type_id=self.env.ref("account.data_account_type_revenue").id,
+                user_type_id=cls.env.ref("account.data_account_type_revenue").id,
                 reconcile=True,
             )
         )
-        self.sale_journal = self.env["account.journal"].create(
+        cls.sale_journal = cls.env["account.journal"].create(
             dict(
                 name="Sales Journal - (test)",
                 code="TSAJ",
                 type="sale",
                 refund_sequence=True,
-                default_debit_account_id=self.sale_account.id,
-                default_credit_account_id=self.sale_account.id,
+                default_debit_account_id=cls.sale_account.id,
+                default_credit_account_id=cls.sale_account.id,
             )
         )
-        self.invoice_1 = self.env["account.invoice"].create(
+        cls.invoice_1 = cls.env["account.invoice"].create(
             dict(
                 name="Test Customer Invoice",
-                payment_term_id=self.env.ref("account.account_payment_term_advance").id,
-                partner_id=self.env.ref("base.res_partner_3").id,
-                journal_id=self.sale_journal.id,
+                payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
+                partner_id=cls.env.ref("base.res_partner_3").id,
+                journal_id=cls.sale_journal.id,
                 invoice_line_ids=[
                     (
                         0,
                         0,
                         {
-                            "product_id": self.env.ref("product.product_product_5").id,
+                            "product_id": cls.env.ref("product.product_product_5").id,
                             "quantity": 10.0,
                             "price_unit": 450.0,
-                            "account_id": self.env["account.account"]
+                            "account_id": cls.env["account.account"]
                             .search(
                                 [
                                     (
                                         "user_type_id",
                                         "=",
-                                        self.env.ref(
+                                        cls.env.ref(
                                             "account.data_account_type_revenue"
                                         ).id,
                                     ),
                                     (
                                         "company_id",
                                         '=',
-                                        self.env.user.company_id.id,
+                                        cls.env.user.company_id.id,
                                     )
                                 ],
                                 limit=1,
                             )
                             .id,
                             "name": "product test 5",
-                            "uom_id": self.env.ref("uom.product_uom_unit").id,
+                            "uom_id": cls.env.ref("uom.product_uom_unit").id,
                         },
                     )
                 ],
             )
         )
         # Invoice with TAXES
-        tax_fixed = self.env["account.tax"].create(
+        tax_fixed = cls.env["account.tax"].create(
             {
                 "sequence": 10,
                 "name": "Tax 10.0 (Fixed)",
@@ -78,7 +78,7 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": True,
             }
         )
-        tax_percent_included_base_incl = self.env["account.tax"].create(
+        tax_percent_included_base_incl = cls.env["account.tax"].create(
             {
                 "sequence": 20,
                 "name": "Tax 50.0% (Percentage of Price Tax Included)",
@@ -87,7 +87,7 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": True,
             }
         )
-        tax_percentage = self.env["account.tax"].create(
+        tax_percentage = cls.env["account.tax"].create(
             {
                 "sequence": 30,
                 "name": "Tax 20.0% (Percentage of Price)",
@@ -96,41 +96,41 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": False,
             }
         )
-        self.invoice_2 = self.env["account.invoice"].create(
+        cls.invoice_2 = cls.env["account.invoice"].create(
             dict(
                 name="Test Customer Invoice",
-                payment_term_id=self.env.ref("account.account_payment_term_advance").id,
-                partner_id=self.env.ref("base.res_partner_3").id,
-                journal_id=self.sale_journal.id,
+                payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
+                partner_id=cls.env.ref("base.res_partner_3").id,
+                journal_id=cls.sale_journal.id,
                 invoice_line_ids=[
                     (
                         0,
                         0,
                         {
-                            "product_id": self.env.ref("product.product_product_5").id,
+                            "product_id": cls.env.ref("product.product_product_5").id,
                             "quantity": 5.0,
                             "price_unit": 100.0,
-                            "account_id": self.env["account.account"]
+                            "account_id": cls.env["account.account"]
                             .search(
                                 [
                                     (
                                         "user_type_id",
                                         "=",
-                                        self.env.ref(
+                                        cls.env.ref(
                                             "account.data_account_type_revenue"
                                         ).id,
                                     ),
                                     (
                                         "company_id",
                                         '=',
-                                        self.env.user.company_id.id,
+                                        cls.env.user.company_id.id,
                                     )
                                 ],
                                 limit=1,
                             )
                             .id,
                             "name": "product test 5",
-                            "uom_id": self.env.ref("uom.product_uom_unit").id,
+                            "uom_id": cls.env.ref("uom.product_uom_unit").id,
                             "invoice_line_tax_ids": [
                                 (
                                     6,
@@ -147,7 +147,7 @@ class TestCustomerInvoice(SavepointCase):
                 ],
             )
         )
-        tax_discount = self.env["account.tax"].create(
+        tax_discount = cls.env["account.tax"].create(
             {
                 "sequence": 40,
                 "name": "Tax 20.0% (Discount)",
@@ -156,41 +156,41 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": False
             }
         )
-        self.invoice_3 = self.env["account.invoice"].create(
+        cls.invoice_3 = cls.env["account.invoice"].create(
             dict(
-                payment_term_id=self.env.ref("account.account_payment_term_advance").id,
-                currency_id=self.env.ref("base.EUR").id,
-                partner_id=self.env.ref("base.res_partner_3").id,
-                journal_id=self.sale_journal.id,
+                payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
+                currency_id=cls.env.ref("base.EUR").id,
+                partner_id=cls.env.ref("base.res_partner_3").id,
+                journal_id=cls.sale_journal.id,
                 invoice_line_ids=[
                     (
                         0,
                         0,
                         {
-                            "product_id": self.env.ref("product.product_product_5").id,
+                            "product_id": cls.env.ref("product.product_product_5").id,
                             "quantity": 10.0,
                             "price_unit": 450.0,
-                            "account_id": self.env["account.account"]
+                            "account_id": cls.env["account.account"]
                             .search(
                                 [
                                     (
                                         "user_type_id",
                                         "=",
-                                        self.env.ref(
+                                        cls.env.ref(
                                             "account.data_account_type_revenue"
                                         ).id,
                                     ),
                                     (
                                         "company_id",
                                         '=',
-                                        self.env.user.company_id.id,
+                                        cls.env.user.company_id.id,
                                     )
                                 ],
                                 limit=1,
                             )
                             .id,
                             "name": "product test 5",
-                            "uom_id": self.env.ref("uom.product_uom_unit").id,
+                            "uom_id": cls.env.ref("uom.product_uom_unit").id,
                             "invoice_line_tax_ids": [
                                 (
                                     6,
