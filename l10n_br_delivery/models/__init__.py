@@ -6,3 +6,4 @@ from . import shipment
 from . import sale_order
 from . import stock_picking
 from . import account_incoterms
+from . import fiscal_document_mixin
