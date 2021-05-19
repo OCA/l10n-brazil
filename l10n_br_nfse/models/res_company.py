@@ -31,8 +31,5 @@ class ResCompany(models.Model):
 
     def prepare_company_servico(self):
         return {
-            'codigo_municipio': int('%s%s' % (
-                self.partner_id.state_id.ibge_code,
-                self.partner_id.city_id.ibge_code
-            )) or None,
+            'codigo_municipio': int(self.partner_id.city_id.ibge_code) or None,
         }

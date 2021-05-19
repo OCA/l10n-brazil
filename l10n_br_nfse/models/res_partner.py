@@ -26,9 +26,7 @@ class ResPartner(models.Model):
             address_invoice_city_description = 'EX Description'
         else:
             address_invoice_state_code = self.state_id.code
-            address_invoice_city_code = int('%s%s' % (
-                self.state_id.ibge_code,
-                self.city_id.ibge_code))
+            address_invoice_city_code = int(self.city_id.ibge_code)
             address_invoice_city_description = self.city_id.name
 
         if self.email:
