@@ -8,6 +8,28 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    # TODO: Na v12 o produto possui apenas o campo weight que é referente
+    #  ao Peso Liquido a parametrização do Peso Bruto parece ser feita
+    #  através do cadastro de embalagens
+    amount_weight = fields.Float(
+        string=_('Amount Weight'),
+        compute='_compute_amount_weight'
+    )
+
+    amount_volume = fields.Float(
+        string=_('Amount Volume'),
+        compute='_compute_amount_volume'
+    )
+
+    # Devido o campo no sale_order chamar apenas incoterm
+    # ao inves de incoterm_id como o padrão, a copia do
+    # arquivo não acontece, por isso é preciso fazer o
+    # related abaixo
+    # TODO: Verificar na migração se isso foi alterado
+    incoterm_id = fields.Many2one(
+        related='incoterm'
+    )
+
     @api.multi
     def set_delivery_line(self):
         # Remove delivery products from the sales order
@@ -28,18 +50,6 @@ class SaleOrder(models.Model):
                 price_unit = order.carrier_id.rate_shipment(order)['price']
                 order.amount_freight_value = price_unit
         return True
-
-    # TODO: Deveria exisitr o Peso Total Liquido e Peso Total Bruto como era na
-    #  v8, aparetemente agora so existe o campo weight no cadastro do Produto
-    amount_weight = fields.Float(
-        string=_('Amount Weight'),
-        compute='_compute_amount_weight'
-    )
-
-    amount_volume = fields.Float(
-        string=_('Amount Volume'),
-        compute='_compute_amount_volume'
-    )
 
     def _compute_amount_weight(self):
 
