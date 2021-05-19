@@ -45,8 +45,8 @@ class ResPartner(spec_models.SpecModel):
     nfe40_nro = fields.Char(related='street_number', readonly=False)
     nfe40_xCpl = fields.Char(related='street2', readonly=False)
     nfe40_xBairro = fields.Char(related='district', readonly=False)
-    nfe40_cMun = fields.Char(related='city_id.ibge_code', readonly=False)
-    nfe40_xMun = fields.Char(related='city_id.name', readonly=False)
+    nfe40_cMun = fields.Char(related='city_id.ibge_code', readonly=True)
+    nfe40_xMun = fields.Char(related='city_id.name', readonly=True)
     # Char overriding Selection:
     nfe40_UF = fields.Char(related='state_id.code')
 
