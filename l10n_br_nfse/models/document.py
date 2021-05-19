@@ -120,10 +120,7 @@ class Document(models.Model):
         return NFSeFactory(
             transmissao=transmissao,
             ambiente=self.nfse_environment,
-            cidade_ibge=int('%s%s' % (
-                self.company_id.partner_id.state_id.ibge_code,
-                self.company_id.partner_id.city_id.ibge_code
-            )),
+            cidade_ibge=int(self.company_id.partner_id.city_id.ibge_code),
             cnpj_prestador=misc.punctuation_rm(
                 self.company_id.partner_id.cnpj_cpf),
             im_prestador=misc.punctuation_rm(
