@@ -2930,7 +2930,7 @@ msgid "Download"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/mdfe/mdfe.py:166
+#: code:addons/l10n_br_fiscal/models/mdfe/mdfe.py:164
 #, python-format
 msgid "Download Attachment"
 msgstr ""
@@ -6380,7 +6380,7 @@ msgid "Next number of this sequence"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/attachment.py:114
+#: code:addons/l10n_br_fiscal/models/attachment.py:112
 #, python-format
 msgid "No attachment to download"
 msgstr ""
@@ -6574,7 +6574,7 @@ msgstr ""
 #, python-format
 msgid "Não é possível retornar o documento para em \n"
 "digitação, quando o mesmo esta na situação: \n"
-"{0}, {1]"
+"{}, {}"
 msgstr ""
 
 #. module: l10n_br_fiscal
