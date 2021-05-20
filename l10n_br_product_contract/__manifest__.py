@@ -12,6 +12,7 @@
     'development_status': 'Beta',
     'maintainers': ['mileo'],
     'depends': [
+        'l10n_br_sale',
         'l10n_br_contract',
         'product_contract',
     ],
