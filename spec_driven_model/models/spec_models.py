@@ -105,10 +105,6 @@ class SpecModel(models.AbstractModel):
                 comodel = self.env[comodel_name]
                 concrete_class = cls._get_concrete(comodel._name)
 
-                if not hasattr(comodel, '_concrete_rec_name'):
-                    # TODO filter with klass._schema name instead?
-                    continue
-
                 if field.type == 'many2one' and concrete_class is not None\
                         and comodel_name not in stacked_parents:
                     _logger.debug("    MUTATING m2o %s (%s) -> %s",

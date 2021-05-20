@@ -235,12 +235,12 @@ class AbstractSpecMixin(models.AbstractModel):
         """
         if model is None:
             model = self
-        default_key = [model._rec_name or model._concrete_rec_name or 'name']
+        default_key = [model._rec_name or 'name']
         search_keys = "_%s_search_keys" % (self._schema_name)
         if hasattr(model, search_keys):
             keys = getattr(model, search_keys) + default_key
         else:
-            keys = [model._rec_name or model._concrete_rec_name or 'name']
+            keys = [model._rec_name or 'name']
         keys = self._get_aditional_keys(model, rec_dict, keys)
         for key in keys:
             if rec_dict.get(key):
