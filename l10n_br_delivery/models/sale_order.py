@@ -1,7 +1,7 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
@@ -12,12 +12,12 @@ class SaleOrder(models.Model):
     #  ao Peso Liquido a parametrização do Peso Bruto parece ser feita
     #  através do cadastro de embalagens
     amount_weight = fields.Float(
-        string=_('Amount Weight'),
+        string='Amount Weight',
         compute='_compute_amount_weight'
     )
 
     amount_volume = fields.Float(
-        string=_('Amount Volume'),
+        string='Amount Volume',
         compute='_compute_amount_volume'
     )
 
@@ -55,14 +55,14 @@ class SaleOrder(models.Model):
 
         for record in self:
             amount_weight = 0.0
-            for l in record.order_line:
-                amount_weight += l.product_qty * l.product_id.weight
+            for line in record.order_line:
+                amount_weight += line.product_qty * line.product_id.weight
             record.amount_weight = amount_weight
 
     def _compute_amount_volume(self):
 
         for record in self:
             amount_volume = 0.0
-            for l in record.order_line:
-                amount_volume += l.product_qty * l.product_id.volume
+            for line in record.order_line:
+                amount_volume += line.product_qty * line.product_id.volume
             record.amount_volume = amount_volume
