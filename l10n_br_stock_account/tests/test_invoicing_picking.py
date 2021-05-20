@@ -9,16 +9,16 @@ class InvoicingPickingTest(SavepointCase):
     """Test invoicing picking"""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.stock_picking = self.env['stock.picking']
-        self.invoice_model = self.env['account.invoice']
-        self.invoice_wizard = self.env['stock.invoice.onshipping']
-        self.stock_return_picking = self.env['stock.return.picking']
-        self.stock_picking_sp = self.env.ref(
+        cls.stock_picking = cls.env['stock.picking']
+        cls.invoice_model = cls.env['account.invoice']
+        cls.invoice_wizard = cls.env['stock.invoice.onshipping']
+        cls.stock_return_picking = cls.env['stock.return.picking']
+        cls.stock_picking_sp = cls.env.ref(
             'l10n_br_stock_account.demo_main_l10n_br_stock_account-picking-1')
-        self.partner = self.env.ref('l10n_br_base.res_partner_cliente1_sp')
-        self.company = self.env.ref('l10n_br_base.empresa_lucro_presumido')
+        cls.partner = cls.env.ref('l10n_br_base.res_partner_cliente1_sp')
+        cls.company = cls.env.ref('l10n_br_base.empresa_lucro_presumido')
 
     def _run_fiscal_onchanges(self, record):
         record._onchange_fiscal_operation_id()
