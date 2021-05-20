@@ -66,9 +66,6 @@ class StockInvoiceOnshipping(models.TransientModel):
         # fiscal_operation_id vai vazio
         # fiscal_vals.update(values)
         values.update(fiscal_vals)
-        # TODO: Remover depois do merge
-        #  https://github.com/OCA/l10n-brazil/pull/1146
-        values['fiscal_document_id'] = False
 
         return invoice, values
 
@@ -87,16 +84,24 @@ class StockInvoiceOnshipping(models.TransientModel):
         fiscal_values = move._prepare_br_fiscal_dict()
 
         # A Fatura não pode ser criada com os campos price_unit e fiscal_price
-        # negativos, o dict values contem o valor vindo do metodo
-        # _get_price_unit_invoice por isso é necessario obter antes do update
-        price_unit = abs(values.get('price_unit'))
+        # negativos, o metodo _prepare_br_fiscal_dict retorna o price_unit
+        # negativo, por isso é preciso tira-lo antes do update, e no caso do
+        # fiscal_price é feito um update para caso do valor ser diferente do
+        # price_unit
+        del fiscal_values['price_unit']
+        fiscal_values['fiscal_price'] = abs(fiscal_values.get('fiscal_price'))
+
+        # Como é usada apenas uma move para chamar o _prepare_br_fiscal_dict
+        # a quantidade/quantity do dicionario traz a quantidade referente a
+        # apenas a essa linha por isso é removido aqui.
+        del fiscal_values['quantity']
+
+        # Mesmo a quantidade estando errada por ser chamada apenas por uma move
+        # no caso das stock.move agrupadas e os valores fiscais e de totais
+        # retornados poderem estar errados ao criar o documento fiscal isso
+        # será recalculado já com a quantidade correta.
 
         values.update(fiscal_values)
-
-        values.update({
-            'price_unit': price_unit,
-            'fiscal_price': price_unit
-        })
 
         values['invoice_line_tax_ids'] = [
             (6, 0, self.env['l10n_br_fiscal.tax'].browse(

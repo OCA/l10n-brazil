@@ -9,16 +9,16 @@ class InvoicingPickingTest(SavepointCase):
     """Test invoicing picking"""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.stock_picking = self.env['stock.picking']
-        self.invoice_model = self.env['account.invoice']
-        self.invoice_wizard = self.env['stock.invoice.onshipping']
-        self.stock_return_picking = self.env['stock.return.picking']
-        self.stock_picking_sp = self.env.ref(
+        cls.stock_picking = cls.env['stock.picking']
+        cls.invoice_model = cls.env['account.invoice']
+        cls.invoice_wizard = cls.env['stock.invoice.onshipping']
+        cls.stock_return_picking = cls.env['stock.return.picking']
+        cls.stock_picking_sp = cls.env.ref(
             'l10n_br_stock_account.demo_main_l10n_br_stock_account-picking-1')
-        self.partner = self.env.ref('l10n_br_base.res_partner_cliente1_sp')
-        self.company = self.env.ref('l10n_br_base.empresa_lucro_presumido')
+        cls.partner = cls.env.ref('l10n_br_base.res_partner_cliente1_sp')
+        cls.company = cls.env.ref('l10n_br_base.empresa_lucro_presumido')
 
     def _run_fiscal_onchanges(self, record):
         record._onchange_fiscal_operation_id()
@@ -235,8 +235,11 @@ class InvoicingPickingTest(SavepointCase):
         self.assertIn(picking, invoice.picking_ids)
         self.assertIn(picking2, invoice.picking_ids)
         for inv_line in invoice.invoice_line_ids:
-            # qty = 3 because 1 move + duplicate one + 1 new
-            self.assertAlmostEqual(inv_line.quantity, 3)
+            # qty = 4 because 2 for each stock.move
+            self.assertEqual(inv_line.quantity, 4)
+            # Price Unit e Fiscal Price devem ser positivos
+            self.assertEqual(inv_line.price_unit, 100.0)
+            self.assertEqual(inv_line.fiscal_price, 100.0)
             self.assertTrue(
                 inv_line.invoice_line_tax_ids,
                 'Error to map Sale Tax in invoice.line.')
@@ -248,7 +251,7 @@ class InvoicingPickingTest(SavepointCase):
         # Should be equals because we delete the invoice
         self.assertEquals(nb_invoice_before, nb_invoice_after)
 
-    def test_picking_invoicing_by_product2(self):
+    def test_picking_invoicing_by_product3(self):
         """
         Test the invoice generation grouped by partner/product with 2
         picking and 3 moves per picking, but 1 picking are the one
