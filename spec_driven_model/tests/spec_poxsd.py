@@ -27,8 +27,6 @@ class Items(models.AbstractModel):
     _description = 'items'
     _name = 'poxsd.10.items'
     _inherit = 'spec.mixin.poxsd'
-    _generateds_type = 'Items'
-    _concrete_rec_name = 'poxsd10_item'
 
     poxsd10_item = fields.One2many(
         "poxsd.10.item",
@@ -41,8 +39,6 @@ class PurchaseOrder(models.AbstractModel):
     _description = 'purchaseorder'
     _name = 'poxsd.10.purchaseorder'
     _inherit = 'spec.mixin.poxsd'
-    _generateds_type = 'PurchaseOrderType'
-    _concrete_rec_name = 'poxsd10_orderDate'
 
     poxsd10_orderDate = fields.Date(
         string="orderDate",
@@ -69,8 +65,6 @@ class USAddress(models.AbstractModel):
     _description = textwrap.dedent("    %s" % (__doc__,))
     _name = 'poxsd.10.usaddress'
     _inherit = 'spec.mixin.poxsd'
-    _generateds_type = 'USAddress'
-    _concrete_rec_name = 'poxsd10_country'
 
     poxsd10_country = fields.Char(
         string="country",
@@ -97,8 +91,6 @@ class Item(models.AbstractModel):
     _description = 'item'
     _name = 'poxsd.10.item'
     _inherit = 'spec.mixin.poxsd'
-    _generateds_type = 'ItemType'
-    _concrete_rec_name = 'poxsd10_partNum'
 
     poxsd10_item_Items_id = fields.Many2one(
         "poxsd.10.items")
