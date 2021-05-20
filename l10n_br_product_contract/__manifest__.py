@@ -18,6 +18,8 @@
     'data': [
     ],
     'demo': [
+        'demo/contract_template.xml',
+        'demo/product.xml',
         'demo/sale_order.xml',
     ],
 }
