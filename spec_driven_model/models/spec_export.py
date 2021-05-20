@@ -158,8 +158,6 @@ class AbstractSpecMixin(models.AbstractModel):
                 class_name = self._name
 
         class_obj = self.env[class_name]
-        if not class_obj._generateds_type:
-            return
 
         xsd_fields = (
             i for i in class_obj._fields if
