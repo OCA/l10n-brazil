@@ -91,7 +91,7 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
             ["poxsd10_items"],
         )
 
-        # let's ensure fields are remapṕed to their proper concrete types:
+        # let's ensure fields are remapped to their proper concrete types:
         self.assertEqual(
             self.env["fake.purchase.order"]._fields["poxsd10_shipTo"].comodel_name,
             "res.partner",
