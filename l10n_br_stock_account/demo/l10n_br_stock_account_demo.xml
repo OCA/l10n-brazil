@@ -98,7 +98,7 @@
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="product_id" ref="product.product_product_27"/>
-        <field name="product_uom_qty">1</field>
+        <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-1"/>
         <field name="location_id" ref="stock.stock_location_stock"/>
@@ -204,7 +204,7 @@
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="product_id" ref="product.product_product_27"/>
-        <field name="product_uom_qty">1</field>
+        <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-2"/>
         <field name="location_id" ref="stock.stock_location_stock"/>
@@ -314,7 +314,7 @@
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_address_ak3"/>
         <field name="product_id" ref="product.product_product_27"/>
-        <field name="product_uom_qty">1</field>
+        <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-3"/>
         <field name="location_id" ref="stock.stock_location_stock"/>
@@ -420,7 +420,7 @@
         <!-- sem o campo abaixo falha o mapeamento de CFOP, erro não acontece na tela -->
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
         <field name="product_id" ref="product.product_product_27"/>
-        <field name="product_uom_qty">1</field>
+        <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit"/>
         <field name="picking_id" ref="demo_main_l10n_br_stock_account-picking-4"/>
         <field name="location_id" ref="stock.stock_location_stock"/>
