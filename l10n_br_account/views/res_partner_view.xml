@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2021 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+  <record model="ir.ui.view" id="view_partner_property_form">
+    <field name="name">l10n_br_account.res.partner.form (in l10n_br_account)</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="account.view_partner_property_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//group/field[@name='bank_ids']/tree/field[@name='acc_number']"
+             position="before">
+        <field name="bra_number" string="Branch"/>
+        <field name="bra_number_dig" string="Dig"/>
+      </xpath>
+      <xpath expr="//group/field[@name='bank_ids']/tree/field[@name='acc_number']"
+             position="after">
+        <field name="acc_number_dig" string="Dig"/>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>
