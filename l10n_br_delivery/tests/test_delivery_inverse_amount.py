@@ -6,38 +6,38 @@ from odoo.tests.common import SavepointCase, Form
 
 class TestDeliveryInverseAmount(SavepointCase):
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
 
-        self.sale_demo = self.env.ref('l10n_br_delivery.main_so_delivery_1')
+        cls.sale_demo = cls.env.ref('l10n_br_delivery.main_so_delivery_1')
 
         # Create two sale orders
-        sale_order_form_total = Form(self.env['sale.order'], 'sale.view_order_form')
-        sale_order_form_total.partner_id = self.env.ref(
+        sale_order_form_total = Form(cls.env['sale.order'], 'sale.view_order_form')
+        sale_order_form_total.partner_id = cls.env.ref(
             'l10n_br_base.res_partner_kmee')
-        self.sale_order_total_id = sale_order_form_total.save()
+        cls.sale_order_total_id = sale_order_form_total.save()
 
-        sale_order_form_line = Form(self.env['sale.order'], 'sale.view_order_form')
-        sale_order_form_line.partner_id = self.env.ref(
+        sale_order_form_line = Form(cls.env['sale.order'], 'sale.view_order_form')
+        sale_order_form_line.partner_id = cls.env.ref(
             'l10n_br_base.res_partner_kmee')
-        self.sale_order_line_id = sale_order_form_line.save()
+        cls.sale_order_line_id = sale_order_form_line.save()
 
         # Set 2 different products to the sale orders
-        with Form(self.sale_order_total_id) as so:
+        with Form(cls.sale_order_total_id) as so:
             with so.order_line.new() as line:
-                line.product_id = self.env.ref('product.product_delivery_01')
+                line.product_id = cls.env.ref('product.product_delivery_01')
             with so.order_line.new() as line:
-                line.product_id = self.env.ref('product.product_delivery_02')
+                line.product_id = cls.env.ref('product.product_delivery_02')
 
-        with Form(self.sale_order_line_id) as so:
+        with Form(cls.sale_order_line_id) as so:
             with so.order_line.new() as line:
-                line.product_id = self.env.ref('product.product_delivery_01')
+                line.product_id = cls.env.ref('product.product_delivery_01')
             with so.order_line.new() as line:
-                line.product_id = self.env.ref('product.product_delivery_02')
+                line.product_id = cls.env.ref('product.product_delivery_02')
 
         # Change freight, insurance and other costs amount from
         # sale_order_total_id
-        with Form(self.sale_order_total_id) as so:
+        with Form(cls.sale_order_total_id) as so:
             so.amount_freight_value = 100.0
             so.amount_insurance_value = 100.0
             so.amount_other_value = 100.0
@@ -45,8 +45,8 @@ class TestDeliveryInverseAmount(SavepointCase):
         # Change freight, insurance and other costs amount from
         # sale_order_lines_id lines
         # TODO ?: alterando para permitir edição do campo e não falhar o teste
-        self.sale_order_line_id.company_id.delivery_costs = 'line'
-        with Form(self.sale_order_line_id) as so:
+        cls.sale_order_line_id.company_id.delivery_costs = 'line'
+        with Form(cls.sale_order_line_id) as so:
             with so.order_line.edit(0) as line:
                 line.freight_value = 70.00
                 line.insurance_value = 70.00
@@ -57,37 +57,42 @@ class TestDeliveryInverseAmount(SavepointCase):
                 line.other_value = 10.00
 
         # TODO ?: alterando para permitir edição do campo e não falhar o teste
-        self.sale_order_line_id.company_id.delivery_costs = 'total'
-        with Form(self.sale_order_line_id) as so:
+        cls.sale_order_line_id.company_id.delivery_costs = 'total'
+        with Form(cls.sale_order_line_id) as so:
             so.amount_freight_value = 100.0
             so.amount_insurance_value = 100.0
             so.amount_other_value = 100.0
 
         # Confirm and create invoices for the sale orders
-        self.sale_order_total_id.action_confirm()
-        self.sale_order_line_id.action_confirm()
+        cls.sale_order_total_id.action_confirm()
+        cls.sale_order_line_id.action_confirm()
 
-        for move in self.sale_order_total_id.picking_ids.mapped(
-                'move_ids_without_package'):
+        picking = cls.sale_order_total_id.picking_ids
+        picking.action_confirm()
+        # Check product availability
+        picking.action_assign()
+        # Force product availability
+        for move in picking.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
+
+        picking = cls.sale_order_line_id.picking_ids
+        picking.action_confirm()
+        # Check product availability
+        picking.action_assign()
+        # Force product availability
+        for move in picking.move_ids_without_package:
+            move.quantity_done = move.product_uom_qty
+        picking.button_validate()
+
+        for move in picking.move_ids_without_package:
             move.quantity_done = move.product_uom_qty
 
-        for move in self.sale_order_line_id.picking_ids.mapped(
-                'move_ids_without_package'):
-            move.quantity_done = move.product_uom_qty
+        wizard_total = cls.env['sale.advance.payment.inv'].with_context(
+            {'active_ids': cls.sale_order_total_id.ids}).create({})
 
-        for picking in self.sale_order_total_id.picking_ids.filtered(
-                lambda p: p.state == 'confirmed'):
-            picking.button_validate()
-
-        for picking in self.sale_order_line_id.picking_ids.filtered(
-                lambda p: p.state == 'confirmed'):
-            picking.button_validate()
-
-        wizard_total = self.env['sale.advance.payment.inv'].with_context(
-            {'active_ids': self.sale_order_total_id.ids}).create({})
-
-        wizard_line = self.env['sale.advance.payment.inv'].with_context(
-            {'active_ids': self.sale_order_line_id.ids}).create({})
+        wizard_line = cls.env['sale.advance.payment.inv'].with_context(
+            {'active_ids': cls.sale_order_line_id.ids}).create({})
 
         wizard_total.create_invoices()
         wizard_line.create_invoices()
