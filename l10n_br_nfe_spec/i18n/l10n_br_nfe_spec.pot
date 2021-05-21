@@ -55,6 +55,8 @@ msgid "00-Entrada com recuperação de crédito"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.refnf,nfe40_mod:0
 #: selection:nfe.40.refnfp,nfe40_mod:0
 msgid "01"
@@ -64,11 +66,6 @@ msgstr ""
 #: selection:nfe.40.cofinsaliq,nfe40_CST:0
 #: selection:nfe.40.pisaliq,nfe40_CST:0
 msgid "01 – Operação Tributável - Base de Cálculo = Valor da Operação Alíquota Normal (Cumulativo/Não Cumulativo)"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "01-Dinheiro"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -123,10 +120,7 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: selection:nfe.40.card,nfe40_tBand:0
-msgid "01–Visa"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.refnf,nfe40_mod:0
 msgid "02"
 msgstr ""
@@ -135,11 +129,6 @@ msgstr ""
 #: selection:nfe.40.cofinsaliq,nfe40_CST:0
 #: selection:nfe.40.pisaliq,nfe40_CST:0
 msgid "02 - Operação Tributável - Base de Calculo = Valor da Operação (Alíquota Diferenciada)"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "02-Cheque"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -154,18 +143,14 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: selection:nfe.40.card,nfe40_tBand:0
-msgid "02–Mastercard"
+#: selection:nfe.40.detpag,nfe40_tPag:0
+msgid "03"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: selection:nfe.40.cofinsqtde,nfe40_CST:0
 #: selection:nfe.40.pisqtde,nfe40_CST:0
 msgid "03 - Operação Tributável - Base de Calculo = Quantidade Vendida x Alíquota por Unidade de Produto"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "03-Cartão de Crédito"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -195,10 +180,7 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: selection:nfe.40.card,nfe40_tBand:0
-msgid "03–American Express"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.refnfp,nfe40_mod:0
 msgid "04"
 msgstr ""
@@ -207,11 +189,6 @@ msgstr ""
 #: selection:nfe.40.cofinsnt,nfe40_CST:0
 #: selection:nfe.40.pisnt,nfe40_CST:0
 msgid "04 - Operação Tributável - Tributação Monofásica - (Alíquota Zero)"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "04-Cartão de Débito"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -336,23 +313,14 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: selection:nfe.40.card,nfe40_tBand:0
-msgid "04–Sorocred"
+#: selection:nfe.40.detpag,nfe40_tPag:0
+msgid "05"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: selection:nfe.40.cofinsnt,nfe40_CST:0
 #: selection:nfe.40.pisnt,nfe40_CST:0
 msgid "05 - Operação Tributável (ST)"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "05-Crédito Loja"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.card,nfe40_tBand:0
-msgid "05-Diners Club"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -406,14 +374,14 @@ msgid "05.09"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: selection:nfe.40.cofinsnt,nfe40_CST:0
-#: selection:nfe.40.pisnt,nfe40_CST:0
-msgid "06 - Operação Tributável - Alíquota Zero"
+#: selection:nfe.40.card,nfe40_tBand:0
+msgid "06"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: selection:nfe.40.card,nfe40_tBand:0
-msgid "06-Elo"
+#: selection:nfe.40.cofinsnt,nfe40_CST:0
+#: selection:nfe.40.pisnt,nfe40_CST:0
+msgid "06 - Operação Tributável - Alíquota Zero"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -447,14 +415,14 @@ msgid "06.06"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: selection:nfe.40.cofinsnt,nfe40_CST:0
-#: selection:nfe.40.pisnt,nfe40_CST:0
-msgid "07 - Operação Isenta da contribuição"
+#: selection:nfe.40.card,nfe40_tBand:0
+msgid "07"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: selection:nfe.40.card,nfe40_tBand:0
-msgid "07-Hipercard"
+#: selection:nfe.40.cofinsnt,nfe40_CST:0
+#: selection:nfe.40.pisnt,nfe40_CST:0
+msgid "07 - Operação Isenta da contribuição"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -558,14 +526,14 @@ msgid "07.22"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: selection:nfe.40.cofinsnt,nfe40_CST:0
-#: selection:nfe.40.pisnt,nfe40_CST:0
-msgid "08 - Operação Sem Incidência da contribuição"
+#: selection:nfe.40.card,nfe40_tBand:0
+msgid "08"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: selection:nfe.40.card,nfe40_tBand:0
-msgid "08-Aura"
+#: selection:nfe.40.cofinsnt,nfe40_CST:0
+#: selection:nfe.40.pisnt,nfe40_CST:0
+msgid "08 - Operação Sem Incidência da contribuição"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -579,14 +547,14 @@ msgid "08.02"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: selection:nfe.40.cofinsnt,nfe40_CST:0
-#: selection:nfe.40.pisnt,nfe40_CST:0
-msgid "09 - Operação com suspensão da contribuição"
+#: selection:nfe.40.card,nfe40_tBand:0
+msgid "09"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: selection:nfe.40.card,nfe40_tBand:0
-msgid "09-Cabal"
+#: selection:nfe.40.cofinsnt,nfe40_CST:0
+#: selection:nfe.40.pisnt,nfe40_CST:0
+msgid "09 - Operação com suspensão da contribuição"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -602,6 +570,11 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: selection:nfe.40.issqn,nfe40_cListServ:0
 msgid "09.03"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: selection:nfe.40.ide,nfe40_indIntermed:0
+msgid "0=Operação sem intermediador (em site ou plataforma própria)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -661,6 +634,8 @@ msgid "1-Exigível"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.di,nfe40_tpViaTransp:0
 msgid "10"
 msgstr ""
@@ -668,11 +643,6 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: selection:nfe.40.icmspart,nfe40_CST:0
 msgid "10 - Tributada e com cobrança do ICMS por substituição tributária"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "10-Vale Alimentação"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -731,6 +701,8 @@ msgid "1058"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.di,nfe40_tpViaTransp:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
@@ -738,11 +710,6 @@ msgstr ""
 #: selection:nfe.40.tretconsrecinfe,nfe40_cUF:0
 #: selection:nfe.40.tretenvinfe,nfe40_cUF:0
 msgid "11"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "11-Vale Refeição"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -766,6 +733,8 @@ msgid "11.04"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.di,nfe40_tpViaTransp:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
@@ -773,11 +742,6 @@ msgstr ""
 #: selection:nfe.40.tretconsrecinfe,nfe40_cUF:0
 #: selection:nfe.40.tretenvinfe,nfe40_cUF:0
 msgid "12"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "12-Vale Presente"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -871,17 +835,14 @@ msgid "12.17"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
 #: selection:nfe.40.tretconsrecinfe,nfe40_cUF:0
 #: selection:nfe.40.tretenvinfe,nfe40_cUF:0
 msgid "13"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "13-Vale Combustível"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -905,17 +866,14 @@ msgid "13.05"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
 #: selection:nfe.40.tretconsrecinfe,nfe40_cUF:0
 #: selection:nfe.40.tretenvinfe,nfe40_cUF:0
 msgid "14"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "14 - Duplicata Mercantil"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -989,17 +947,14 @@ msgid "14.14"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
 #: selection:nfe.40.tretconsrecinfe,nfe40_cUF:0
 #: selection:nfe.40.tretenvinfe,nfe40_cUF:0
 msgid "15"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "15 - Boleto Bancario"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -1093,6 +1048,8 @@ msgid "15.18"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
@@ -1112,6 +1069,8 @@ msgid "16.02"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
@@ -1241,13 +1200,30 @@ msgid "17.25"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
+msgid "18"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: selection:nfe.40.issqn,nfe40_cListServ:0
 msgid "18.01"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
+msgid "19"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: selection:nfe.40.issqn,nfe40_cListServ:0
 msgid "19.01"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: selection:nfe.40.ide,nfe40_indIntermed:0
+msgid "1=Operação em site ou plataforma de terceiros (intermediadores/marketplace)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -1307,6 +1283,11 @@ msgid "2-Não incidente"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+msgid "20"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: selection:nfe.40.issqn,nfe40_cListServ:0
 msgid "20.01"
 msgstr ""
@@ -1322,6 +1303,7 @@ msgid "20.03"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
@@ -1336,6 +1318,7 @@ msgid "21.01"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
@@ -1350,6 +1333,7 @@ msgid "22.01"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
@@ -1364,6 +1348,7 @@ msgid "23.01"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
@@ -1378,6 +1363,7 @@ msgid "24.01"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
@@ -1412,6 +1398,7 @@ msgid "25.05"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
@@ -1426,6 +1413,7 @@ msgid "26.01"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
 #: selection:nfe.40.ide,nfe40_cUF:0
 #: selection:nfe.40.refnf,nfe40_cUF:0
 #: selection:nfe.40.refnfp,nfe40_cUF:0
@@ -2070,7 +2058,7 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "90 - Sem Pagamento"
+msgid "90"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2089,6 +2077,8 @@ msgid "98 - Outras Operações de Entrada"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: selection:nfe.40.card,nfe40_tBand:0
+#: selection:nfe.40.detpag,nfe40_tPag:0
 #: selection:nfe.40.pisoutr,nfe40_CST:0
 msgid "99"
 msgstr ""
@@ -2099,18 +2089,8 @@ msgid "99 - Outras Operações."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: selection:nfe.40.detpag,nfe40_tPag:0
-msgid "99 - Outros"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
 #: selection:nfe.40.ipitrib,nfe40_CST:0
 msgid "99-Outras saídas"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: selection:nfe.40.card,nfe40_tBand:0
-msgid "99–Outros"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2381,10 +2361,35 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_card__nfe40_tBand
-msgid "Bandeira da operadora de cartão de crédito/débito:01–Visa;\n"
-"02–Mastercard; 03–American Express;\n"
-"04–Sorocred;05-Diners\n"
-"Club;06-Elo;07-Hipercard;08-Aura;09-Cabal;99–Outros"
+msgid "Bandeira da operadora de cartão de crédito/débito\n"
+"01–Visa\n"
+"02–Mastercard\n"
+"03–American Express\n"
+"04–Sorocred\n"
+"05-Diners Club\n"
+"06-Elo\n"
+"07-Hipercard\n"
+"08-Aura\n"
+"09-Cabal\n"
+"10-Alelo\n"
+"11-Banes Card\n"
+"12-CalCard\n"
+"13-Credz\n"
+"14-Discover\n"
+"15-GoodCard\n"
+"16-GreenCard\n"
+"17-Hiper\n"
+"18-JcB\n"
+"19-Mais\n"
+"20-MaxVan\n"
+"21-Policard\n"
+"22-RedeCompras\n"
+"23-Sodexo\n"
+"24-ValeCard\n"
+"25-Verocheque\n"
+"26-VR\n"
+"27-Ticket\n"
+"99–Outros"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2479,7 +2484,7 @@ msgstr ""
 
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_card__nfe40_CNPJ
-msgid "CNPJ da credenciadora de cartão de crédito/débito"
+msgid "CNPJ da instituição de pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -2491,6 +2496,18 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_prod__nfe40_CNPJFab
 msgid "CNPJ do Fabricante da Mercadoria, obrigatório para produto em\n"
 "escala NÃO relevante."
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infintermed__nfe40_CNPJ
+msgid "CNPJ do Intermediador da Transação"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_infintermed__nfe40_CNPJ
+msgid "CNPJ do Intermediador da Transação (agenciador, plataforma de\n"
+"delivery, marketplace e similar) de serviços e de\n"
+"negócios."
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -3655,6 +3672,11 @@ msgid "Descrição da cor"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_xPag
+msgid "Descrição do Meio de Pagamento"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_comb__nfe40_descANP
 msgid "Descrição do Produto conforme ANP"
 msgstr ""
@@ -3750,6 +3772,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_imposto__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_impostodevol__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infintermed__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfe__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfesupl__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprot__display_name
@@ -3915,17 +3938,30 @@ msgid "Forma de Importação quanto a intermediação\n"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_tPag
-msgid "Forma de Pagamento:01"
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_tPag
+msgid "Forma de Pagamento\n"
+"01-Dinheiro\n"
+"02-Cheque\n"
+"03-Cartão de Crédito\n"
+"04-Cartão de Débito\n"
+"05-Crédito Loja\n"
+"10-Vale Alimentação\n"
+"11-Vale Refeição\n"
+"12-Vale Presente\n"
+"13-Vale Combustível\n"
+"14 - Duplicata Mercantil\n"
+"15 - Boleto Bancario\n"
+"16 Depósito Bancário\n"
+"17 Pagamento Instantâneo (PIX)\n"
+"18 Transferência bancária, Carteira Digital\n"
+"19 Programa de fidelidade, Cashback, Crédito Virtual 90 - Sem\n"
+"Pagamento\n"
+"99 - Outros"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
-#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_tPag
-msgid "Forma de Pagamento:01-Dinheiro;02-Cheque;03-Cartão de\n"
-"Crédito;04-Cartão de Débito;05-Crédito Loja;10-Vale\n"
-"Alimentação;11-Vale Refeição;12-Vale Presente;13-Vale\n"
-"Combustível;14 - Duplicata Mercantil;15 - Boleto\n"
-"Bancario;90 - Sem Pagamento;99 - Outros"
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_tPag
+msgid "Forma de Pagamento:01"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4027,6 +4063,12 @@ msgstr ""
 #: model:ir.model,name:l10n_br_nfe_spec.model_nfe_40_card
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_detpag__nfe40_card
 msgid "Grupo de Cartões"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model,name:l10n_br_nfe_spec.model_nfe_40_infintermed
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfe__nfe40_infIntermed
+msgid "Grupo de Informações do Intermediador da Transação"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4235,6 +4277,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_imposto__id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_impostodevol__id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic__id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infintermed__id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfe__id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfesupl__id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprot__id
@@ -4330,6 +4373,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfe__nfe40_Id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprot__nfe40_Id
 msgid "Id"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infintermed__nfe40_idCadIntTran
+msgid "Identificador cadastrado no intermediador"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4488,6 +4536,19 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_issqn__nfe40_indIncentivo
 msgid "Indicador de Incentivo Fiscal. 1=Sim; 2=Não"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_ide__nfe40_indIntermed
+msgid "Indicador de intermediador/marketplace"
+msgstr ""
+
+#. module: l10n_br_nfe_spec
+#: model:ir.model.fields,help:l10n_br_nfe_spec.field_nfe_40_ide__nfe40_indIntermed
+msgid "Indicador de intermediador/marketplace\n"
+"0=Operação sem intermediador (em site ou plataforma própria)\n"
+"1=Operação em site ou plataforma de terceiros\n"
+"(intermediadores/marketplace)"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
@@ -4883,6 +4944,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_imposto____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_impostodevol____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infintermed____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfe____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfesupl____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprot____last_update
@@ -5119,6 +5181,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_imposto__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_impostodevol__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infadic__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infintermed__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfe__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infnfesupl__brl_currency_id
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_infprot__brl_currency_id
@@ -6208,12 +6271,6 @@ msgstr ""
 #. module: l10n_br_nfe_spec
 #: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_avulsa__nfe40_UF
 msgid "Sigla da Unidade da Federação"
-msgstr ""
-
-#. module: l10n_br_nfe_spec
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tnfe__nfe40_Signature
-#: model:ir.model.fields,field_description:l10n_br_nfe_spec.field_nfe_40_tprotnfe__nfe40_Signature
-msgid "Signature"
 msgstr ""
 
 #. module: l10n_br_nfe_spec
