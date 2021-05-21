@@ -5,7 +5,7 @@
 from ast import literal_eval
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 from ..constants.fiscal import (
     DOCUMENT_ISSUER,
