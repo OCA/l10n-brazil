@@ -1,8 +1,8 @@
-# Copyright 2020 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
+# Copyright 2020 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-# Generated Sat Oct 10 03:37:29 2020 by https://github.com/akretion/generateds-odoo
+# Generated Thu May 20 10:35:34 2021 by https://github.com/akretion/generateds-odoo
 # and generateDS.py.
-# Python 3.8.2 (default, Apr 27 2020, 15:53:34)  [GCC 9.3.0]
+# Python 3.8.5 (default, Jul 28 2020, 12:59:40)  [GCC 9.3.0]
 #
 import textwrap
 from odoo import fields, models
@@ -676,6 +676,13 @@ INDINCENTIVO_ISSQN = [
     ("2", "2"),
 ]
 
+# Indicador de intermediador/marketplace
+INDINTERMED_IDE = [
+    ("0", "0=Operação sem intermediador (em site ou plataforma própria)"),
+    ("1", "1=Operação em site ou plataforma de terceiros "
+     "(intermediadores/marketplace)"),
+]
+
 # Indicador da Forma de Pagamento
 # 0-Pagamento à Vista
 # 1-Pagamento à Prazo
@@ -972,34 +979,100 @@ PICMSINTER_ICMSUFDEST = [
 ]
 
 # Bandeira da operadora de cartão de crédito/débito
+# 01–Visa
+# 02–Mastercard
+# 03–American Express
+# 04–Sorocred
+# 05-Diners Club
+# 06-Elo
+# 07-Hipercard
+# 08-Aura
+# 09-Cabal
+# 10-Alelo
+# 11-Banes Card
+# 12-CalCard
+# 13-Credz
+# 14-Discover
+# 15-GoodCard
+# 16-GreenCard
+# 17-Hiper
+# 18-JcB
+# 19-Mais
+# 20-MaxVan
+# 21-Policard
+# 22-RedeCompras
+# 23-Sodexo
+# 24-ValeCard
+# 25-Verocheque
+# 26-VR
+# 27-Ticket
+# 99–Outros
 TBAND_CARD = [
-    ("01", "01–Visa"),
-    ("02", "02–Mastercard"),
-    ("03", "03–American Express"),
-    ("04", "04–Sorocred"),
-    ("05", "05-Diners Club"),
-    ("06", "06-Elo"),
-    ("07", "07-Hipercard"),
-    ("08", "08-Aura"),
-    ("09", "09-Cabal"),
-    ("99", "99–Outros"),
+    ("01", "01"),
+    ("02", "02"),
+    ("03", "03"),
+    ("04", "04"),
+    ("05", "05"),
+    ("06", "06"),
+    ("07", "07"),
+    ("08", "08"),
+    ("09", "09"),
+    ("10", "10"),
+    ("11", "11"),
+    ("12", "12"),
+    ("13", "13"),
+    ("14", "14"),
+    ("15", "15"),
+    ("16", "16"),
+    ("17", "17"),
+    ("18", "18"),
+    ("19", "19"),
+    ("20", "20"),
+    ("21", "21"),
+    ("22", "22"),
+    ("23", "23"),
+    ("24", "24"),
+    ("25", "25"),
+    ("26", "26"),
+    ("27", "27"),
+    ("99", "99"),
 ]
 
 # Forma de Pagamento
+# 01-Dinheiro
+# 02-Cheque
+# 03-Cartão de Crédito
+# 04-Cartão de Débito
+# 05-Crédito Loja
+# 10-Vale Alimentação
+# 11-Vale Refeição
+# 12-Vale Presente
+# 13-Vale Combustível
+# 14 - Duplicata Mercantil
+# 15 - Boleto Bancario
+# 16 Depósito Bancário
+# 17 Pagamento Instantâneo (PIX)
+# 18 Transferência bancária, Carteira Digital
+# 19 Programa de fidelidade, Cashback, Crédito Virtual 90 - Sem Pagamento
+# 99 - Outros
 TPAG_DETPAG = [
-    ("01", "01-Dinheiro"),
-    ("02", "02-Cheque"),
-    ("03", "03-Cartão de Crédito"),
-    ("04", "04-Cartão de Débito"),
-    ("05", "05-Crédito Loja"),
-    ("10", "10-Vale Alimentação"),
-    ("11", "11-Vale Refeição"),
-    ("12", "12-Vale Presente"),
-    ("13", "13-Vale Combustível"),
-    ("14", "14 - Duplicata Mercantil"),
-    ("15", "15 - Boleto Bancario"),
-    ("90", "90 - Sem Pagamento"),
-    ("99", "99 - Outros"),
+    ("01", "01"),
+    ("02", "02"),
+    ("03", "03"),
+    ("04", "04"),
+    ("05", "05"),
+    ("10", "10"),
+    ("11", "11"),
+    ("12", "12"),
+    ("13", "13"),
+    ("14", "14"),
+    ("15", "15"),
+    ("16", "16"),
+    ("17", "17"),
+    ("18", "18"),
+    ("19", "19"),
+    ("90", "90"),
+    ("99", "99"),
 ]
 
 # Indicador do tipo de arma de fogo (0 - Uso permitido; 1 - Uso
@@ -2881,9 +2954,6 @@ class TNFe(models.AbstractModel):
     nfe40_infNFeSupl = fields.Many2one(
         "nfe.40.infnfesupl",
         string="Informações suplementares Nota Fiscal")
-    nfe40_Signature = fields.Char(
-        string="Signature", xsd_required=True,
-        xsd_type="string")
 
 
 class TNfeProc(models.AbstractModel):
@@ -2922,9 +2992,6 @@ class TProtNFe(models.AbstractModel):
         "nfe.40.infprot",
         string="Dados do protocolo de status",
         xsd_required=True)
-    nfe40_Signature = fields.Char(
-        string="Signature",
-        xsd_type="string")
 
 
 class TRetConsReciNFe(models.AbstractModel):
@@ -3285,16 +3352,40 @@ class Card(models.AbstractModel):
         help="Tipo de Integração do processo de pagamento com o sistema de"
         "\nautomação da empresa/")
     nfe40_CNPJ = fields.Char(
-        string="CNPJ da credenciadora de cartão de crédito/débito",
+        string="CNPJ da instituição de pagamento",
         xsd_type="TCnpj")
     nfe40_tBand = fields.Selection(
         TBAND_CARD,
         string="tBand",
-        xsd_type="tBandType",
-        help="Bandeira da operadora de cartão de crédito/débito:01–Visa;"
-        "\n02–Mastercard; 03–American Express;"
-        "\n04–Sorocred;05-Diners"
-        "\nClub;06-Elo;07-Hipercard;08-Aura;09-Cabal;99–Outros")
+        help="Bandeira da operadora de cartão de crédito/débito"
+        "\n01–Visa"
+        "\n02–Mastercard"
+        "\n03–American Express"
+        "\n04–Sorocred"
+        "\n05-Diners Club"
+        "\n06-Elo"
+        "\n07-Hipercard"
+        "\n08-Aura"
+        "\n09-Cabal"
+        "\n10-Alelo"
+        "\n11-Banes Card"
+        "\n12-CalCard"
+        "\n13-Credz"
+        "\n14-Discover"
+        "\n15-GoodCard"
+        "\n16-GreenCard"
+        "\n17-Hiper"
+        "\n18-JcB"
+        "\n19-Mais"
+        "\n20-MaxVan"
+        "\n21-Policard"
+        "\n22-RedeCompras"
+        "\n23-Sodexo"
+        "\n24-ValeCard"
+        "\n25-Verocheque"
+        "\n26-VR"
+        "\n27-Ticket"
+        "\n99–Outros")
     nfe40_cAut = fields.Char(
         string="Número de autorização da operação cartão de crédito/débito",
         xsd_type="cAutType")
@@ -3546,12 +3637,27 @@ class DetPag(models.AbstractModel):
         TPAG_DETPAG,
         string="Forma de Pagamento:01",
         xsd_required=True,
-        xsd_type="tPagType",
-        help="Forma de Pagamento:01-Dinheiro;02-Cheque;03-Cartão de"
-        "\nCrédito;04-Cartão de Débito;05-Crédito Loja;10-Vale"
-        "\nAlimentação;11-Vale Refeição;12-Vale Presente;13-Vale"
-        "\nCombustível;14 - Duplicata Mercantil;15 - Boleto"
-        "\nBancario;90 - Sem Pagamento;99 - Outros")
+        help="Forma de Pagamento"
+        "\n01-Dinheiro"
+        "\n02-Cheque"
+        "\n03-Cartão de Crédito"
+        "\n04-Cartão de Débito"
+        "\n05-Crédito Loja"
+        "\n10-Vale Alimentação"
+        "\n11-Vale Refeição"
+        "\n12-Vale Presente"
+        "\n13-Vale Combustível"
+        "\n14 - Duplicata Mercantil"
+        "\n15 - Boleto Bancario"
+        "\n16 Depósito Bancário"
+        "\n17 Pagamento Instantâneo (PIX)"
+        "\n18 Transferência bancária, Carteira Digital"
+        "\n19 Programa de fidelidade, Cashback, Crédito Virtual 90 - Sem"
+        "\nPagamento"
+        "\n99 - Outros")
+    nfe40_xPag = fields.Char(
+        string="Descrição do Meio de Pagamento",
+        xsd_type="xPagType")
     nfe40_vPag = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="Valor do Pagamento", xsd_required=True,
@@ -3932,6 +4038,14 @@ class Ide(models.AbstractModel):
         "\n4-NFC-e entrega em domicílio"
         "\n5-Operação presencial, fora do estabelecimento"
         "\n9-Não presencial, outros)")
+    nfe40_indIntermed = fields.Selection(
+        INDINTERMED_IDE,
+        string="Indicador de intermediador/marketplace",
+        xsd_type="indIntermedType",
+        help="Indicador de intermediador/marketplace"
+        "\n0=Operação sem intermediador (em site ou plataforma própria)"
+        "\n1=Operação em site ou plataforma de terceiros"
+        "\n(intermediadores/marketplace)")
     nfe40_procEmi = fields.Selection(
         TPROCEMI_IDE,
         string="Processo de emissão utilizado com a seguinte codificação",
@@ -4082,6 +4196,27 @@ class InfAdic(models.AbstractModel):
     )
 
 
+class InfIntermed(models.AbstractModel):
+    "Grupo de Informações do Intermediador da Transação"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = 'nfe.40.infintermed'
+    _inherit = 'spec.mixin.nfe'
+    _generateds_type = 'infIntermedType'
+    _concrete_rec_name = 'nfe40_CNPJ'
+
+    nfe40_CNPJ = fields.Char(
+        string="CNPJ do Intermediador da Transação",
+        xsd_required=True,
+        xsd_type="TCnpj",
+        help="CNPJ do Intermediador da Transação (agenciador, plataforma de"
+        "\ndelivery, marketplace e similar) de serviços e de"
+        "\nnegócios.")
+    nfe40_idCadIntTran = fields.Char(
+        string="Identificador cadastrado no intermediador",
+        xsd_required=True,
+        xsd_type="idCadIntTranType")
+
+
 class InfNFeSupl(models.AbstractModel):
     "Informações suplementares Nota Fiscal"
     _description = textwrap.dedent("    %s" % (__doc__,))
@@ -4170,6 +4305,9 @@ class InfNFe(models.AbstractModel):
         string="Dados de Pagamento", xsd_required=True,
         help="Dados de Pagamento. Obrigatório apenas para (NFC-e) NT"
         "\n2012/004")
+    nfe40_infIntermed = fields.Many2one(
+        "nfe.40.infintermed",
+        string="Grupo de Informações do Intermediador da Transação")
     nfe40_infAdic = fields.Many2one(
         "nfe.40.infadic",
         string="Informações adicionais da NF-e")
@@ -4238,7 +4376,7 @@ class InfProt(models.AbstractModel):
         "\nano.")
     nfe40_digVal = fields.Char(
         string="Digest Value da NF-e processada",
-        xsd_type="string",
+        xsd_type="DigestValueType",
         help="Digest Value da NF-e processada. Utilizado para conferir a"
         "\nintegridade da NF-e original.")
     nfe40_cStat = fields.Char(
