@@ -843,8 +843,7 @@
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">1</field>
-        <field name="document_section">nfe</field>
-        <field name="key">11</field>
+        <field name="document_key">11</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 1 SP</field>
@@ -954,8 +953,7 @@
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">1</field>
-        <field name="document_section">nfe</field>
-        <field name="key">11</field>
+        <field name="document_key">11</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 1 SP</field>
@@ -1066,8 +1064,7 @@
         <field name="document_type_id" ref="l10n_br_fiscal.document_55"/>
         <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1"/>
         <field name="document_serie">1</field>
-        <field name="document_section">nfe</field>
-        <field name="key">11</field>
+        <field name="document_key">11</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp"/>
         <field name="user_id" ref="base.user_demo"/>
         <field name="partner_legal_name">Cliente 1 SP</field>

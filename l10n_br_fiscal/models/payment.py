@@ -73,7 +73,7 @@ class FiscalPayment(models.Model):
 
     def _get_date(self):
         if self.document_id:
-            return self.document_id.date
+            return self.document_id.document_date
 
     def _prepare_line_id(
             self, communication, date_maturity, amount, company_id, currency_id):
