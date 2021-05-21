@@ -136,7 +136,6 @@ class AccountInvoice(models.Model):
                 record.financial_ids.unlink()
                 record.fiscal_payment_ids.unlink()
 
-
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("invoice_line_ids")
