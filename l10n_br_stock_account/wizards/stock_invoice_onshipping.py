@@ -16,7 +16,17 @@ class StockInvoiceOnshipping(models.TransientModel):
     group = fields.Selection(
         selection_add=[
             ('fiscal_operation', 'Fiscal Operation')],
+        default='fiscal_operation',
     )
+
+    @api.multi
+    def get_split_pickings(self):
+        picking_obj = self.env['stock.picking']
+        pickings = picking_obj.browse(
+            self.env.context.get('active_ids', []))
+        if self.group == 'fiscal_operation':
+            return self.get_split_pickings_nogrouped(pickings)
+        return super().get_split_pickings(pickings)
 
     @api.multi
     def _get_journal(self):
