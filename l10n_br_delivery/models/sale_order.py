@@ -30,7 +30,6 @@ class SaleOrder(models.Model):
         related='incoterm'
     )
 
-    @api.multi
     def set_delivery_line(self):
         # Remove delivery products from the sales order
         self._remove_delivery_line()
