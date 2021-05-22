@@ -399,7 +399,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             taxes = self.env['l10n_br_fiscal.tax']
             for tax in mapping_result['taxes'].values():
                 taxes |= tax
-            self.fiscal_tax_ids = taxes
+            self.fiscal_tax_ids = [(6, 0, taxes.ids)]
             self._update_taxes()
             self.comment_ids = self.fiscal_operation_line_id.comment_ids
 
