@@ -195,6 +195,7 @@ class DocumentEletronic(models.AbstractModel):
             }
 
     def view_xml(self):
+        self.ensure_one()
         xml_file = self.authorization_file_id or self.send_file_id
         if not xml_file:
             self._document_export()
@@ -205,6 +206,7 @@ class DocumentEletronic(models.AbstractModel):
         pass
 
     def view_pdf(self):
+        self.ensure_one()
         if not self.file_report_id:
             self.make_pdf()
         return self._target_new_tab(self.file_report_id)
