@@ -154,6 +154,8 @@ class DocumentEletronic(models.AbstractModel):
                     record.status_code or '',
                     record.status_name or '',
                 )
+            else:
+                record.status_description = False
 
     def _eletronic_document_send(self):
         """ Implement this method in your transmission module,
