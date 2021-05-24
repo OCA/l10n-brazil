@@ -89,6 +89,7 @@ class DocumentWorkflow(models.AbstractModel):
         :param new_state: novo estado
         :return:
         """
+        self.ensure_one()
         if self.document_electronic:
             return (old_state, new_state) in WORKFLOW_EDOC
         else:
@@ -159,6 +160,7 @@ class DocumentWorkflow(models.AbstractModel):
                 old_state, new_state)
 
     def _exec_after_SITUACAO_EDOC_EM_DIGITACAO(self, old_state, new_state):
+        self.ensure_one()
         if self.state_fiscal in SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO:
             raise (
                 _(
@@ -169,6 +171,7 @@ class DocumentWorkflow(models.AbstractModel):
             )
 
     def _exec_after_SITUACAO_EDOC_A_ENVIAR(self, old_state, new_state):
+        self.ensure_one()
         if self._direct_draft_send():
             self.action_document_send()
 
@@ -286,6 +289,7 @@ class DocumentWorkflow(models.AbstractModel):
                 record.document_key = chave_edoc.chave
 
     def _document_number(self):
+        self.ensure_one()
         if self.issuer == DOCUMENT_ISSUER_COMPANY:
             if self.document_serie_id:
                 self.document_serie = self.document_serie_id.code
@@ -334,6 +338,7 @@ class DocumentWorkflow(models.AbstractModel):
         self._change_state(SITUACAO_EDOC_EM_DIGITACAO)
 
     def _document_cancel(self, justificative):
+        self.ensure_one()
         self.cancel_reason = justificative
         if self._change_state(SITUACAO_EDOC_CANCELADA):
             self.cancel_reason = justificative
@@ -342,6 +347,7 @@ class DocumentWorkflow(models.AbstractModel):
 
     @api.multi
     def action_document_cancel(self):
+        self.ensure_one()
         if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
             result = self.env["ir.actions.act_window"].for_xml_id(
                 "l10n_br_fiscal", "document_cancel_wizard_action"
@@ -350,6 +356,7 @@ class DocumentWorkflow(models.AbstractModel):
 
     @api.multi
     def action_document_invalidate(self):
+        self.ensure_one()
         if self.document_number and self.document_serie and self.state_edoc in (
                 SITUACAO_EDOC_EM_DIGITACAO,
                 SITUACAO_EDOC_REJEITADA,
@@ -364,12 +371,14 @@ class DocumentWorkflow(models.AbstractModel):
             ))
 
     def _document_correction(self, justificative):
+        self.ensure_one()
         self.correction_reason = justificative
         msg = "Carta de correção: {}".format(justificative)
         self.message_post(body=msg)
 
     @api.multi
     def action_document_correction(self):
+        self.ensure_one()
         if (self.state_edoc in SITUACAO_EDOC_AUTORIZADA and
                 self.issuer == DOCUMENT_ISSUER_COMPANY):
             return self.env["ir.actions.act_window"].for_xml_id(
