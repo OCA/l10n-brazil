@@ -10,11 +10,11 @@ from ..constants.fiscal import (
 )
 
 
-SUBSEQUENT_CONDITION = (
+SUBSEQUENT_CONDITION = [
     ('manual', 'Manualmente'),
     ('nota_de_cupom', 'Gerar Nota Fiscal de Cupons Fiscais'),
     ('nota_de_remessa', 'Gerar Nota Fiscal de Remessa'),
-)
+]
 
 SUBSEQUENT_OPERATION = SITUACAO_EDOC + SUBSEQUENT_CONDITION
 

@@ -40,7 +40,7 @@ COMMENT_TYPE_FISCAL = 'fiscal'
 COMMENT_TYPE_COMMERCIAL = 'commercial'
 
 
-PRODUCT_FISCAL_TYPE = (
+PRODUCT_FISCAL_TYPE = [
     ("00", "Mercadoria para Revenda"),
     ("01", "Matéria-prima"),
     ("02", "Embalagem"),
@@ -53,7 +53,7 @@ PRODUCT_FISCAL_TYPE = (
     ("09", "Serviços"),
     ("10", "Outros insumos"),
     ("99", "Outras"),
-)
+]
 
 
 PRODUCT_FISCAL_TYPE_SERVICE = "09"
@@ -62,11 +62,11 @@ NCM_FOR_SERVICE = "0000.00.00"
 NCM_FOR_SERVICE_REF = "l10n_br_fiscal.ncm_00000000"
 
 
-TAX_BASE_TYPE = (
+TAX_BASE_TYPE = [
     ("percent", _("Percent")),
     ("quantity", _("Quantity")),
     ("fixed", _("Fixed")),
-)
+]
 
 
 TAX_BASE_TYPE_PERCENT = "percent"
@@ -89,7 +89,7 @@ TAX_DOMAIN_ISSQN = "issqn"
 TAX_DOMAIN_ISSQN_WH = "issqn_wh"
 TAX_DOMAIN_CSLL = "csll"
 TAX_DOMAIN_CSLL_WH = "csll_wh"
-TAX_DOMAIN_IR = 'ir'
+TAX_DOMAIN_IR = "ir"
 TAX_DOMAIN_IRPJ = "irpj"
 TAX_DOMAIN_IRPJ_WH = "irpj_wh"
 TAX_DOMAIN_INSS = "inss"
@@ -112,7 +112,7 @@ TAX_DOMAIN_PCC_RET = (
 )
 
 
-TAX_DOMAIN = (
+TAX_DOMAIN = [
     (TAX_DOMAIN_IPI, "IPI"),
     (TAX_DOMAIN_ICMS, "ICMS - Próprio"),
     (TAX_DOMAIN_ICMS_SN, "ICMS - Simples Nacional"),
@@ -136,20 +136,20 @@ TAX_DOMAIN = (
     (TAX_DOMAIN_INSS_WH, "INSS WH"),
     (TAX_DOMAIN_SIMPLES, "Simples Nacional"),
     (TAX_DOMAIN_OTHERS, "Outros")
-)
+]
 
 
-TAX_ICMS_OR_ISSQN = (
-    (TAX_DOMAIN_ICMS, 'ICMS'),
-    (TAX_DOMAIN_ISSQN, 'ISSQN'),
-)
+TAX_ICMS_OR_ISSQN = [
+    (TAX_DOMAIN_ICMS, "ICMS"),
+    (TAX_DOMAIN_ISSQN, "ISSQN"),
+]
 
 
-TAX_FRAMEWORK = (
+TAX_FRAMEWORK = [
     ("1", "1 - Simples Nacional"),
     ("2", "2 - Simples Nacional – excesso de sublimite da receita bruta"),
     ("3", "3 - Regime Normal"),
-)
+]
 
 
 TAX_FRAMEWORK_SIMPLES = "1"
@@ -158,18 +158,18 @@ TAX_FRAMEWORK_NORMAL = "3"
 TAX_FRAMEWORK_SIMPLES_ALL = ("1", "2")
 
 
-PROFIT_CALCULATION = (
+PROFIT_CALCULATION = [
     ("real", "Real"),
     ("presumed", "Presumed"),
     ("arbitrary", "Arbitrary"),
-)
+]
 
 
 PROFIT_CALCULATION_PRESUMED = "presumed"
 
 COEFFICIENT_R = 0.28
 
-INDUSTRY_TYPE = (
+INDUSTRY_TYPE = [
     ("00", "00 - Industrial - Transformação"),
     ("01", "01 - Industrial - Beneficiamento"),
     ("02", "02 - Industrial - Montagem"),
@@ -180,7 +180,7 @@ INDUSTRY_TYPE = (
     ("07", "07 - Equiparado a industrial - Por lei específica"),
     ("08", "08 - Equiparado a industrial - Não enquadrado nos" " códigos 05, 06 ou 07"),
     ("09", "09 - Outros"),
-)
+]
 
 
 INDUSTRY_TYPE_TRANSFORMATION = "00"
@@ -189,27 +189,27 @@ CERTIFICATE_TYPE_NFE = "nf-e"
 CERTIFICATE_TYPE_ECPF = "e-cpf"
 CERTIFICATE_TYPE_ECNPJ = "e-cnpj"
 
-CERTIFICATE_TYPE = (
+CERTIFICATE_TYPE = [
     (CERTIFICATE_TYPE_ECPF, "E-CPF"),
     (CERTIFICATE_TYPE_ECNPJ, "E-CNPJ"),
-    (CERTIFICATE_TYPE_NFE, "NF-e")
-)
+    (CERTIFICATE_TYPE_NFE, "NF-e"),
+]
 
 
 CERTIFICATE_TYPE_DEFAULT = CERTIFICATE_TYPE_NFE
 
 
-CERTIFICATE_SUBTYPE = (("a1", "A1"), ("a3", "A3"))
+CERTIFICATE_SUBTYPE = [("a1", "A1"), ("a3", "A3")]
 
 
 CERTIFICATE_SUBTYPE_DEFAULT = "a1"
 
 
-FISCAL_IN_OUT = (("in", _("In")), ("out", _("Out")))
+FISCAL_IN_OUT = [("in", _("In")), ("out", _("Out"))]
 
 FISCAL_IN_OUT_DICT = dict(FISCAL_IN_OUT)
 
-FISCAL_IN_OUT_ALL = (("in", "In"), ("out", "Out"), ("all", "All"))
+FISCAL_IN_OUT_ALL = [("in", "In"), ("out", "Out"), ("all", "All")]
 
 
 FISCAL_IN = "in"
@@ -222,10 +222,10 @@ FISCAL_IN_OUT_DEFAULT = "in"
 
 
 # TODO - REMOVE???
-DOCUMENT_TYPE = (("icms", "ICMS"), ("service", "Serviço Municipal"))
+DOCUMENT_TYPE = [("icms", "ICMS"), ("service", "Serviço Municipal")]
 
 
-DOCUMENT_ISSUER = (("company", _("Company")), ("partner", _("Partner")))
+DOCUMENT_ISSUER = [("company", _("Company")), ("partner", _("Partner"))]
 
 DOCUMENT_ISSUER_DICT = dict(DOCUMENT_ISSUER)
 
@@ -233,11 +233,11 @@ DOCUMENT_ISSUER_COMPANY = "company"
 DOCUMENT_ISSUER_PARTNER = "partner"
 
 
-CFOP_DESTINATION = (
+CFOP_DESTINATION = [
     ("1", "Operação Interna"),
     ("2", "Operação Interestadual"),
     ("3", "Operação com Exterior"),
-)
+]
 
 
 CFOP_DESTINATION_INTERNAL = "1"
@@ -245,7 +245,7 @@ CFOP_DESTINATION_EXTERNAL = "2"
 CFOP_DESTINATION_EXPORT = "3"
 
 
-CEST_SEGMENT = (
+CEST_SEGMENT = [
     ("01", "Autopeças"),
     ("02", "Bebidas alcoólicas, exceto cerveja e chope"),
     ("03", "Cervejas, chopes, refrigerantes, águas e outras bebidas"),
@@ -272,7 +272,7 @@ CEST_SEGMENT = (
     ("23", "Veículos automotores"),
     ("24", "Veículos de duas e três rodas motorizados"),
     ("25", "Venda de mercadorias pelo sistema porta a porta"),
-)
+]
 
 
 NFE_IND_IE_DEST = [
@@ -341,18 +341,18 @@ MODELO_FISCAL_RL = "04"  # Produto Rural
 MODELO_FISCAL_01 = "01"
 MODELO_FISCAL_04 = "04"
 
-MODELO_FISCAL_EMISSAO_PRODUTO = (
+MODELO_FISCAL_EMISSAO_PRODUTO = [
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_CFE,
     MODELO_FISCAL_CUPOM_FISCAL_ECF,
-)
-MODELO_FISCAL_EMISSAO_SERVICO = (
+]
+MODELO_FISCAL_EMISSAO_SERVICO = [
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFSE,
     MODELO_FISCAL_RL,
-)
+]
 
 AUTORIZADO = ("100", "150")
 DENEGADO = ("110", "301", "302")
@@ -384,7 +384,7 @@ SITUACAO_EDOC_DENEGADA = "denegada"
 SITUACAO_EDOC_INUTILIZADA = "inutilizada"
 
 
-SITUACAO_EDOC = (
+SITUACAO_EDOC = [
     (SITUACAO_EDOC_EM_DIGITACAO, "Em digitação"),
     (SITUACAO_EDOC_A_ENVIAR, "Aguardando envio"),
     (SITUACAO_EDOC_ENVIADA, "Aguardando processamento"),
@@ -393,7 +393,7 @@ SITUACAO_EDOC = (
     (SITUACAO_EDOC_CANCELADA, "Cancelada"),
     (SITUACAO_EDOC_DENEGADA, "Denegada"),
     (SITUACAO_EDOC_INUTILIZADA, "Inutilizada"),
-)
+]
 SITUACAO_EDOC_DICT = dict(SITUACAO_EDOC)
 
 SITUACAO_FISCAL_REGULAR = "00"
@@ -408,7 +408,7 @@ SITUACAO_FISCAL_REGIME_ESPECIAL = "08"
 SITUACAO_FISCAL_MERCADORIA_NAO_CIRCULOU = "NC"
 SITUACAO_FISCAL_MERCADORIA_NAO_RECEBIDA = "MR"
 
-SITUACAO_FISCAL = (
+SITUACAO_FISCAL = [
     (SITUACAO_FISCAL_REGULAR, "Regular"),
     (SITUACAO_FISCAL_REGULAR_EXTEMPORANEO, "Regular extemporâneo"),
     (SITUACAO_FISCAL_CANCELADO, "Cancelado"),
@@ -420,30 +420,30 @@ SITUACAO_FISCAL = (
     (SITUACAO_FISCAL_REGIME_ESPECIAL, "Regime especial ou norma específica"),
     (SITUACAO_FISCAL_MERCADORIA_NAO_CIRCULOU, "Mercadoria não circulou"),
     (SITUACAO_FISCAL_MERCADORIA_NAO_RECEBIDA, "Mercadoria não recebida"),
-)
+]
 SITUACAO_FISCAL_DICT = dict(SITUACAO_FISCAL)
 
 
-SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO = (
+SITUACAO_FISCAL_SPED_CONSIDERA_CANCELADO = [
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
     SITUACAO_FISCAL_DENEGADO,
     SITUACAO_FISCAL_INUTILIZADO,
-)
+]
 
-SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO = (
+SITUACAO_FISCAL_SPED_CONSIDERA_ATIVO = [
     SITUACAO_FISCAL_REGULAR,
     SITUACAO_FISCAL_REGULAR_EXTEMPORANEO,
     SITUACAO_FISCAL_COMPLEMENTAR,
     SITUACAO_FISCAL_COMPLEMENTAR_EXTEMPORANEO,
     SITUACAO_FISCAL_REGIME_ESPECIAL,
-)
+]
 
-SITUACAO_FISCAL_EXTEMPORANEO = (
+SITUACAO_FISCAL_EXTEMPORANEO = [
     SITUACAO_FISCAL_REGULAR_EXTEMPORANEO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
     SITUACAO_FISCAL_COMPLEMENTAR_EXTEMPORANEO,
-)
+]
 
 WORKFLOW_DOCUMENTO_NAO_ELETRONICO = [
     (SITUACAO_EDOC_EM_DIGITACAO, SITUACAO_EDOC_A_ENVIAR),
