@@ -37,7 +37,7 @@ class FiscalDocument(models.Model):
             vals['account_id'] = invoice_line_id.get_invoice_line_account(
                 type=type,
                 product=line.product_id,
-                fpos=fpos,
+                fpos=self.env['account.fiscal.position'].browse(fpos),
                 company=line.company_id,
             ).id
             line_vals.append((0, 0, vals))
