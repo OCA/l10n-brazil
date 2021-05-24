@@ -3,7 +3,7 @@
 
     <template id="report_saleorder_document_l10n_br_sale" inherit_id="sale.report_saleorder_document">
         <!-- Substituição do campo usado para Impostos no Brasil -->
-        <xpath expr="//tbody[hasclass('sale_tbody')]//t[@t-as='line']/tr/t[@t-if='not line.display_type']/td[@name='td_taxes']" position="replace">
+        <xpath expr="//td[@t-if='display_discount']/following-sibling::td[1]" position="replace">
             <!-- Pedido referente a uma Empresa Brasileira altera os impostos padrões para os do Brasil. -->
             <td t-if="doc.company_id.country_id.phone_code == 55"  name="td_taxes" class="text-right">
                  <t t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)" t-as="tax">
