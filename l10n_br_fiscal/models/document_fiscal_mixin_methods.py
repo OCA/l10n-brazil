@@ -76,7 +76,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             d.fiscal_additional_data = ', '.join(
                 [c for c in fsc_comments if c])
 
-            # Commercial Coments
+            # Commercial Comments
             com_comments = []
             com_comments.append(d.customer_additional_data or '')
             com_comments.append(d.comment_ids.filtered(
