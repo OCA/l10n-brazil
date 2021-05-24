@@ -9,11 +9,11 @@ class SaleOrder(models.Model):
 
     # Make Invisible Invoice Button
     button_create_invoice_invisible = fields.Boolean(
-        compute='_get_button_create_invoice_invisible'
+        compute='_compute_get_button_create_invoice_invisible'
     )
 
     @api.depends('state', 'order_line.invoice_status')
-    def _get_button_create_invoice_invisible(self):
+    def _compute_get_button_create_invoice_invisible(self):
         button_create_invoice_invisible = False
 
         lines = self.order_line.filtered(
