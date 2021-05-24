@@ -1736,7 +1736,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:460
+#: code:addons/l10n_br_fiscal/models/document.py:466
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -3066,7 +3066,7 @@ msgid "Environment"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:257
+#: code:addons/l10n_br_fiscal/models/document_event.py:258
 #, python-format
 msgid "Erro!"
 msgstr ""
@@ -6516,7 +6516,7 @@ msgid "Não"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:258
+#: code:addons/l10n_br_fiscal/models/document_event.py:259
 #, python-format
 msgid "Não foi possível salvar o arquivo\n"
 "                    em disco, verifique as permissões de escrita\n"
@@ -6559,7 +6559,7 @@ msgid "Não se aplica"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:244
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:247
 #, python-format
 msgid "Não é possível realizar esta operação,\n"
 "esta transição não é permitida:\n"
@@ -6570,7 +6570,7 @@ msgid "Não é possível realizar esta operação,\n"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:167
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:169
 #, python-format
 msgid "Não é possível retornar o documento para em \n"
 "digitação, quando o mesmo esta na situação: \n"
@@ -7964,7 +7964,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:488
+#: code:addons/l10n_br_fiscal/models/document.py:494
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8779,8 +8779,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:336
-#: code:addons/l10n_br_fiscal/models/document.py:347
+#: code:addons/l10n_br_fiscal/models/document.py:337
+#: code:addons/l10n_br_fiscal/models/document.py:348
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -8895,7 +8895,7 @@ msgid "UOM"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:283
+#: code:addons/l10n_br_fiscal/models/document.py:284
 #, python-format
 msgid "Unidentified Consumer"
 msgstr ""
@@ -9214,7 +9214,7 @@ msgid "You can note repeat the alternative name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:379
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:388
 #, python-format
 msgid "You cannot create a fiscal correction document if this fical document you are not the document issuer"
 msgstr ""
@@ -9238,19 +9238,19 @@ msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:362
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:369
 #, python-format
 msgid "You cannot invalidate this document"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:321
+#: code:addons/l10n_br_fiscal/models/document.py:322
 #, python-format
 msgid "You cannot unlink Fiscal Document Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_line.py:104
+#: code:addons/l10n_br_fiscal/models/document_line.py:105
 #, python-format
 msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
