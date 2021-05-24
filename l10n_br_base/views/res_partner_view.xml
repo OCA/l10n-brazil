@@ -56,11 +56,11 @@
                     <div class="oe_edit_only">
                         <label for="rg" string="RG" attrs="{'invisible': [('is_company','=', True)]}"/>
                     </div>
-                    <field name="rg" nolabel="1"/>
+                    <field name="rg" nolabel="1" attrs="{'invisible': [('is_company','=', True)]}"/>
                     <div class="oe_edit_only" name="inscr_est">
                         <label for="inscr_est" name="inscr_est" string="State Tax Number"/>
                     </div>
-                    <field colspan="4" name="inscr_est" nolabel="1" placeholder="Nº da Inscrição Estadual, para ISENTO deixe vazio ou escreva 'ISENTO'"/>
+                    <field colspan="4" name="inscr_est" nolabel="1" placeholder="Para ISENTO deixe vazio ou escreva 'ISENTO'"/>
                 </group>
             </xpath>
             <page position="after" name="sales_purchases">
