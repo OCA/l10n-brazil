@@ -440,15 +440,16 @@ class Document(models.Model):
             referenced_item.document_related_ids = self.id
             self.document_related_ids |= referenced_item
 
-    @api.depends('document_subsequent_ids.subsequent_document_id')
+    @api.depends("document_subsequent_ids.subsequent_document_id")
     def _compute_document_subsequent_generated(self):
         for document in self:
             if not document.document_subsequent_ids:
-                continue
-            document.document_subsequent_generated = all(
-                subsequent_id.operation_performed
-                for subsequent_id in document.document_subsequent_ids
-            )
+                document.document_subsequent_generated = False
+            else:
+                document.document_subsequent_generated = all(
+                    subsequent_id.operation_performed
+                    for subsequent_id in document.document_subsequent_ids
+                )
 
     def _generates_subsequent_operations(self):
         for record in self.filtered(lambda doc:
