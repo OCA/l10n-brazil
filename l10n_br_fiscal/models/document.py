@@ -202,7 +202,7 @@ class Document(models.Model):
 
     document_type = fields.Char(
         related='document_type_id.code',
-        stored=True,
+        store=True,
     )
 
     dfe_id = fields.Many2one(
