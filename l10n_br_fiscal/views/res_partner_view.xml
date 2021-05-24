@@ -4,8 +4,16 @@
     <record id="partner_form" model="ir.ui.view">
         <field name="name">l10n_br_fiscal.partner.form</field>
         <field name="model">res.partner</field>
+        <field name="priority">100</field>
         <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form" />
         <field name="arch" type="xml">
+            <field name="email" position="after">
+                  <field name="edoc_send_email"/>
+                  <label for="edoc_send_email" string="DF-e"/>
+            </field>
+            <xpath expr="//field[@name='child_ids']/form//field[@name='email']" position="after">
+                  <field name="edoc_send_email" string="DF-e"/>
+            </xpath>
             <group name="fiscal_numbers" position="after">
                 <group string="Fiscal Profile" name="fiscal_profile">
                     <field
