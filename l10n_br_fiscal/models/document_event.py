@@ -227,6 +227,7 @@ class Event(models.Model):
         return True
 
     def _save_event_2disk(self, arquivo, file_name):
+        self.ensure_one()
         tipo_documento = self.document_type_id.prefix
         serie = self.document_serie_id.code
         numero = self.document_number
@@ -267,6 +268,7 @@ class Event(models.Model):
         return save_dir
 
     def _compute_file_name(self):
+        self.ensure_one()
         if (self.document_id and self.document_id.document_key and
                 self.document_id.document_electronic):
             file_name = self.document_id.document_key
