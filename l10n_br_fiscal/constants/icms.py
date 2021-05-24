@@ -1,7 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-ICMS_ORIGIN = (
+ICMS_ORIGIN = [
     ("0", "0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8"),
     ("1", "1 - Estrangeira – importação direta, exceto a indicada no " "código 6"),
     (
@@ -42,7 +42,7 @@ ICMS_ORIGIN = (
         "8 – Nacional – mercadoria ou bem com Conteúdo de Importação "
         "superior a 70% (setenta por cento). (cf. Ajuste SINIEF 15/2013)",
     ),
-)
+]
 
 
 ICMS_ORIGIN_DEFAULT = "0"
