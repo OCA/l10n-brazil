@@ -53,6 +53,7 @@ class DocumentLine(models.Model):
 
     partner_id = fields.Many2one(
         related='document_id.partner_id',
+        store=True,
     )
 
     currency_id = fields.Many2one(
