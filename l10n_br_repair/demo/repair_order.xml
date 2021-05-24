@@ -247,7 +247,6 @@
 
     <record id="sn_sl_only_products_2_2" model="repair.line">
         <field name="repair_id" ref="sn_so_only_products"/>
-        <field name="repair_id" ref="sn_so_only_products"/>
         <field name="location_dest_id" ref="stock.location_production"/>
         <field name="location_id" ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"/>
         <field name="type">add</field>
@@ -446,7 +445,6 @@
     </function>
 
     <record id="lc_sl_only_products_2_2" model="repair.line">
-        <field name="repair_id" ref="lc_so_only_products"/>
         <field name="repair_id" ref="lc_so_only_products"/>
         <field name="location_dest_id" ref="stock.location_production"/>
         <field name="location_id" ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"/>
