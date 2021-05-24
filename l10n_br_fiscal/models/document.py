@@ -262,6 +262,7 @@ class Document(models.Model):
                         record.document_serie, record.document_number)))
 
     def _compute_document_name(self):
+        self.ensure_one()
         name = ''
         type_serie_number = ''
 
@@ -376,11 +377,13 @@ class Document(models.Model):
             limit=1, order='state_edoc, document_type_id').mapped('email_template_id')
 
     def send_email(self, state):
+        self.ensure_one()
         email_template = self._get_email_template(state)
         if email_template:
             email_template.send_mail(self.id)
 
     def _after_change_state(self, old_state, new_state):
+        self.ensure_one()
         super()._after_change_state(old_state, new_state)
         self.send_email(new_state)
 
@@ -418,6 +421,7 @@ class Document(models.Model):
             self.document_serie = self.document_serie_id.code
 
     def _prepare_referenced_subsequent(self):
+        self.ensure_one()
         vals = {
             'fiscal_document_id': self.id,
             'partner_id': self.partner_id.id,
@@ -431,6 +435,7 @@ class Document(models.Model):
         return reference_id
 
     def _document_reference(self, reference_ids):
+        self.ensure_one()
         for referenced_item in reference_ids:
             referenced_item.document_related_ids = self.id
             self.document_related_ids |= referenced_item
