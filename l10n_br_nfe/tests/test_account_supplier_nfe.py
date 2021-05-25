@@ -25,7 +25,7 @@ class TestSupplierNFe(TransactionCase):
             "Error with _onchange_fiscal() method, field "
             "fiscal_position_id is not mapped."
         )
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_same_state.state, "draft", "Invoice is not in Draft state."
         )
 
@@ -50,6 +50,6 @@ class TestSupplierNFe(TransactionCase):
         self.invoice_same_state.with_context(
             {"fiscal_document_code": "55"}
         ).action_invoice_open()
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_same_state.state, "open", "Invoice should be in state Open"
         )
