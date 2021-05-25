@@ -209,22 +209,22 @@ class TestCustomerInvoice(SavepointCase):
         )
 
     def test_state(self):
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_1.state, "draft", "Invoice should be in state Draft"
         )
         self.invoice_1.action_invoice_open()
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_1.state, "open", "Invoice should be in state Open"
         )
 
     def test_tax(self):
         self.invoice_2.action_invoice_open()
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_2.state, "open", "Invoice should be in state Open"
         )
         invoice_tax = self.invoice_2.tax_line_ids.sorted(key=lambda r: r.sequence)
-        self.assertEquals(invoice_tax.mapped("amount"), [50.0, 550.0, 220.0])
-        self.assertEquals(invoice_tax.mapped("base"), [500.0, 550.0, 1100.0])
+        self.assertEqual(invoice_tax.mapped("amount"), [50.0, 550.0, 220.0])
+        self.assertEqual(invoice_tax.mapped("base"), [500.0, 550.0, 1100.0])
         assert self.invoice_2.move_id, "Move not created for open invoice"
         self.invoice_2.pay_and_reconcile(
             self.env["account.journal"].search([("type", "=", "bank")], limit=1),
@@ -233,23 +233,23 @@ class TestCustomerInvoice(SavepointCase):
         assert (
             self.invoice_2.payment_move_line_ids
         ), "Paymente Move Line not created for Paid invoice"
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_2.state, "paid", "Invoice should be in state Paid"
         )
 
     def test_invoice_other_currency(self):
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_3.state, "draft", "Invoice should be in state Draft"
         )
         self.invoice_3.action_invoice_open()
         assert self.invoice_3.move_id, "Move Receivable not created for open invoice"
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_3.state, "open", "Invoice should be in state Open")
 
     def test_invoice_line_ids_write(self):
         self.invoice_3.invoice_line_ids.write({'invoice_id': self.invoice_3.id})
         for line in self.invoice_3.invoice_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.document_id.id,
                 self.invoice_3.fiscal_document_id.id,
                 "line.document_id should be equal account.fiscal_document_id")
