@@ -199,7 +199,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             'Purchase: all products should be invoiced"'
         )
 
-        self.assertEquals(
+        self.assertEqual(
             order.state, 'purchase', 'Error to confirm Purchase Order.'
         )
 
@@ -238,7 +238,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             'Error to mapping Operation on Purchase Order.',
         )
 
-        self.assertEquals(
+        self.assertEqual(
             self.po_products.fiscal_operation_id.name,
             self.fsc_op_purchase.name,
             "Error to mapping correct Operation on Purchase Order "
@@ -266,7 +266,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
                 line.fiscal_operation_line_id.name][
                     line.company_id.tax_framework]
 
-            self.assertEquals(
+            self.assertEqual(
                 line.cfop_id.code, cfop.code,
                 "Error to mapping CFOP {} for {}.".format(cfop.code, cfop.name)
             )
@@ -277,14 +277,14 @@ class L10nBrPurchaseBaseTest(SavepointCase):
                 icms_tax = line.icms_tax_id
 
             # ICMS
-            self.assertEquals(
+            self.assertEqual(
                 icms_tax.name, taxes['icms']['tax'].name,
                 "Error to mapping Tax {} for {}.".format(
                     taxes['icms']['tax'].name,
                     line.fiscal_operation_line_id.name)
             )
 
-            self.assertEquals(
+            self.assertEqual(
                 line.icms_cst_id.code, taxes['icms']['cst'].code,
                 "Error to mapping CST {} from {} for {}.".format(
                     taxes['icms']['cst'].code,
@@ -299,14 +299,14 @@ class L10nBrPurchaseBaseTest(SavepointCase):
                 " for Venda de Contribuinte Dentro do Estado.")
 
             # IPI
-            self.assertEquals(
+            self.assertEqual(
                 line.ipi_tax_id.name, taxes['ipi']['tax'].name,
                 "Error to mapping Tax {} for {}.".format(
                     taxes['ipi']['tax'].name,
                     line.fiscal_operation_line_id.name)
             )
 
-            self.assertEquals(
+            self.assertEqual(
                 line.ipi_cst_id.code, taxes['ipi']['cst'].code,
                 "Error to mapping CST {} from {} for {}.".format(
                     taxes['ipi']['cst'].code,
@@ -315,14 +315,14 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             )
 
             # PIS
-            self.assertEquals(
+            self.assertEqual(
                 line.pis_tax_id.name, taxes['pis']['tax'].name,
                 "Error to mapping Tax {} for {}.".format(
                     taxes['pis']['tax'].name,
                     line.fiscal_operation_line_id.name)
             )
 
-            self.assertEquals(
+            self.assertEqual(
                 line.pis_cst_id.code, taxes['pis']['cst'].code,
                 "Error to mapping CST {} from {} for {}.".format(
                     taxes['pis']['cst'].code,
@@ -331,14 +331,14 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             )
 
             # COFINS
-            self.assertEquals(
+            self.assertEqual(
                 line.cofins_tax_id.name, taxes['cofins']['tax'].name,
                 "Error to mapping Tax {} for {}.".format(
                     taxes['cofins']['tax'].name,
                     line.fiscal_operation_line_id.name)
             )
 
-            self.assertEquals(
+            self.assertEqual(
                 line.cofins_cst_id.code, taxes['cofins']['cst'].code,
                 "Error to mapping CST {} from {} for {}.".format(
                     taxes['cofins']['cst'].code,
