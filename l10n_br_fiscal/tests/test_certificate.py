@@ -72,13 +72,13 @@ class TestCertificate(common.TransactionCase):
             }
         )
 
-        self.assertEquals(cert.issuer_name, self.cert_issuer_a)
-        self.assertEquals(cert.owner_name, self.cert_subject_valid)
-        self.assertEquals(cert.date_expiration.year, self.cert_date_exp.year)
-        self.assertEquals(cert.date_expiration.month, self.cert_date_exp.month)
-        self.assertEquals(cert.date_expiration.day, self.cert_date_exp.day)
-        self.assertEquals(cert.name, self.cert_name)
-        self.assertEquals(cert.is_valid, True)
+        self.assertEqual(cert.issuer_name, self.cert_issuer_a)
+        self.assertEqual(cert.owner_name, self.cert_subject_valid)
+        self.assertEqual(cert.date_expiration.year, self.cert_date_exp.year)
+        self.assertEqual(cert.date_expiration.month, self.cert_date_exp.month)
+        self.assertEqual(cert.date_expiration.day, self.cert_date_exp.day)
+        self.assertEqual(cert.name, self.cert_name)
+        self.assertEqual(cert.is_valid, True)
 
     def test_certificate_wrong_password(self):
         """Write a valid certificate with wrong password"""
