@@ -122,13 +122,13 @@ class TestSaleStock(SavepointCase):
         # deve gerar apenas a linha de serviço
         sale_order_2.action_invoice_create(final=True)
         # Deve existir apenas a Fatura/Documento Fiscal de Serviço
-        self.assertEquals(1, sale_order_2.invoice_count)
+        self.assertEqual(1, sale_order_2.invoice_count)
         for invoice in sale_order_2.invoice_ids:
             for line in invoice.invoice_line_ids:
-                self.assertEquals(line.product_id.type, 'service')
+                self.assertEqual(line.product_id.type, 'service')
             # Confirmando a Fatura de Serviço
             invoice.action_invoice_open()
-            self.assertEquals(
+            self.assertEqual(
                 invoice.state, 'open', 'Invoice should be in state Open')
 
         picking = sale_order_2.picking_ids
@@ -173,11 +173,11 @@ class TestSaleStock(SavepointCase):
 
         # No Pedido de Venda devem existir duas Faturas/Documentos Fiscais
         # de Serviço e Produto
-        self.assertEquals(2, sale_order_2.invoice_count)
+        self.assertEqual(2, sale_order_2.invoice_count)
 
         # Confirmando a Fatura
         invoice.action_invoice_open()
-        self.assertEquals(
+        self.assertEqual(
             invoice.state, 'open', 'Invoice should be in state Open')
 
         # Validar Atualização da Quantidade Faturada
@@ -216,7 +216,7 @@ class TestSaleStock(SavepointCase):
         for move in picking_devolution.move_ids_without_package:
             move.quantity_done = move.product_uom_qty
         picking_devolution.button_validate()
-        self.assertEquals(
+        self.assertEqual(
             picking_devolution.state, 'done',
             'Change state fail.'
         )
@@ -234,7 +234,7 @@ class TestSaleStock(SavepointCase):
         invoice_devolution = self.invoice_model.search(domain)
         # Confirmando a Fatura
         invoice_devolution.action_invoice_open()
-        self.assertEquals(
+        self.assertEqual(
             invoice_devolution.state, 'open',
             'Invoice should be in state Open')
         # Validar Atualização da Quantidade Faturada
@@ -292,7 +292,7 @@ class TestSaleStock(SavepointCase):
         domain = [('picking_ids', 'in', (picking.id, picking2.id))]
         invoice = self.invoice_model.search(domain)
         # Fatura Agrupada
-        self.assertEquals(len(invoice), 1)
+        self.assertEqual(len(invoice), 1)
         self.assertEqual(picking.invoice_state, 'invoiced')
         self.assertEqual(picking2.invoice_state, 'invoiced')
         # Fatura deverá ser criada com o partner_invoice_id
@@ -308,7 +308,7 @@ class TestSaleStock(SavepointCase):
 
         # Not grouping products with different sale line,
         # 3 products from sale_order_1 and 1 product from sale_order_2
-        self.assertEquals(len(invoice.invoice_line_ids), 4)
+        self.assertEqual(len(invoice.invoice_line_ids), 4)
         for inv_line in invoice.invoice_line_ids:
             self.assertTrue(
                 inv_line.invoice_line_tax_ids,
@@ -385,7 +385,7 @@ class TestSaleStock(SavepointCase):
         invoices = self.invoice_model.search(domain)
         # Mesmo tendo o mesmo Partner Invoice se não tiver o
         # mesmo Partner Shipping não deve ser Agrupado
-        self.assertEquals(len(invoices), 2)
+        self.assertEqual(len(invoices), 2)
         self.assertEqual(picking.invoice_state, 'invoiced')
         self.assertEqual(picking3.invoice_state, 'invoiced')
         self.assertEqual(picking4.invoice_state, 'invoiced')
