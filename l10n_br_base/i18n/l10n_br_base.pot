@@ -16836,11 +16836,6 @@ msgid "Nuporanga"
 msgstr ""
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
-msgid "Nº da Inscrição Estadual, para ISENTO deixe vazio ou escreva 'ISENTO'"
-msgstr ""
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4312658
 msgid "Não-Me-Toque"
 msgstr ""
@@ -17498,6 +17493,11 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2207553
 msgid "Paquetá"
+msgstr ""
+
+#. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
+msgid "Para ISENTO deixe vazio ou escreva 'ISENTO'"
 msgstr ""
 
 #. module: l10n_br_base
