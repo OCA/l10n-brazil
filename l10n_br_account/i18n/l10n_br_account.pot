@@ -162,13 +162,13 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:70
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:69
 #, python-format
 msgid "Document line without Operation !"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:40
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:39
 #, python-format
 msgid "Document without Operation !"
 msgstr ""
@@ -221,8 +221,8 @@ msgid "Fiscal Operation Line"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:48
-#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:77
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:47
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:76
 #, python-format
 msgid "Fiscal Operation: There is not Return Operation for %s !"
 msgstr ""
@@ -457,13 +457,13 @@ msgid "You can find a contact by its Name, TIN, Email or Internal Reference."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:426
+#: code:addons/l10n_br_account/models/account_invoice.py:413
 #, python-format
 msgid "You can't set this document number: {} to draft because this document is cancelled in SEFAZ"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/fiscal_document.py:27
+#: code:addons/l10n_br_account/models/fiscal_document.py:26
 #, python-format
 msgid "You cannot delete a fiscal document which is not draft state."
 msgstr ""
