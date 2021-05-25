@@ -84,7 +84,7 @@ msgid "Group pickings/moves to create invoice(s):\n"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:34
+#: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:33
 #, python-format
 msgid "Invalid Journal! There is not journal defined for this company: %s in fiscal operation: %s !"
 msgstr ""
@@ -195,7 +195,7 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:32
+#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:31
 #, python-format
 msgid "This Fiscal Operation does not has Fiscal Operation for Returns!"
 msgstr ""
