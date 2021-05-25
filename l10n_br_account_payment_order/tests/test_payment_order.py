@@ -32,13 +32,13 @@ class TestPaymentOrder(TransactionCase):
         self.invoice_customer_original.journal_id.update_posted = True
 
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.invoice_customer_original.state, 'draft')
+        self.assertEqual(self.invoice_customer_original.state, 'draft')
 
         # I validate invoice by creating on
         self.invoice_customer_original.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.invoice_customer_original.state, 'open')
+        self.assertEqual(self.invoice_customer_original.state, 'open')
 
         # I check that now there is a move attached to the invoice
         assert self.invoice_customer_original.move_id,\
@@ -56,7 +56,7 @@ class TestPaymentOrder(TransactionCase):
         for line in self.invoice_customer_original.move_id.line_ids.filtered(
                 lambda l: l.account_id.id ==
                 self.invoice_customer_original.account_id.id):
-            self.assertEquals(
+            self.assertEqual(
                 line.journal_entry_ref, line.invoice_id.name,
                 "Error with compute field journal_entry_ref")
             test_balance_value = line.get_balance()
@@ -67,12 +67,12 @@ class TestPaymentOrder(TransactionCase):
         for line in self.invoice_customer_original.move_id.line_ids.filtered(
                 lambda l: l.account_id.id ==
                 self.invoice_customer_original.account_id.id):
-            self.assertEquals(
+            self.assertEqual(
                 line.journal_entry_ref, line.invoice_id.name,
                 "Error with compute field journal_entry_ref")
             test_balance_value = line.get_balance()
 
-        self.assertEquals(
+        self.assertEqual(
             test_balance_value, 700.0,
             "Error with method get_balance()")
 
@@ -91,31 +91,31 @@ class TestPaymentOrder(TransactionCase):
             'journal_id': bank_journal.id
         })
 
-        self.assertEquals(len(payment_order.payment_line_ids), 2)
-        self.assertEquals(len(payment_order.bank_line_ids), 0)
+        self.assertEqual(len(payment_order.payment_line_ids), 2)
+        self.assertEqual(len(payment_order.bank_line_ids), 0)
 
         for line in payment_order.payment_line_ids:
             line.percent_interest = 1.5
-            self.assertEquals(line._get_info_partner(
+            self.assertEqual(line._get_info_partner(
                 self.invoice_customer_original.partner_id),
                 'AKRETION LTDA',
                 "Error with method _get_info_partner"
             )
             test_amount_interest = line.amount_interest
-        self.assertEquals(
+        self.assertEqual(
             test_amount_interest, 10.5,
             "Error with compute field amount_interest.")
 
         # Open payment order
         payment_order.draft2open()
 
-        self.assertEquals(len(payment_order.bank_line_ids), 2)
+        self.assertEqual(len(payment_order.bank_line_ids), 2)
 
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
 
-        self.assertEquals(payment_order.state, 'uploaded')
+        self.assertEqual(payment_order.state, 'uploaded')
         with self.assertRaises(UserError):
             payment_order.unlink()
 
@@ -125,10 +125,10 @@ class TestPaymentOrder(TransactionCase):
             bank_line.unlink()
 
         payment_order.action_done_cancel()
-        self.assertEquals(payment_order.state, 'cancel')
+        self.assertEqual(payment_order.state, 'cancel')
 
         payment_order.unlink()
-        self.assertEquals(len(self.env['account.payment.order'].search([])), 0)
+        self.assertEqual(len(self.env['account.payment.order'].search([])), 0)
 
     def test_bra_number_constrains(self):
         """ Test bra_number constrains. """
