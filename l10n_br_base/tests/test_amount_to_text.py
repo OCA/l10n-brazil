@@ -22,7 +22,7 @@ class Num2WordsPTBRTest(SavepointCase):
         cls.n2w = Num2Word_PT_BR()
 
     def test_01_amount_to_text(self):
-        self.assertEquals(
+        self.assertEqual(
             self.n2w.to_currency(99.99),
             "noventa e nove reais e noventa e nove centavos",
         )
