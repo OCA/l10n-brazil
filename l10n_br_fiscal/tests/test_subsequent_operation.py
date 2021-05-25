@@ -51,7 +51,7 @@ class TestSubsequentOperation(TransactionCase):
                             "Subsequent document was not created")
 
             # Subsequent Document operation
-            self.assertEquals(
+            self.assertEqual(
                 document.subsequent_document_id.fiscal_operation_id.id,
                 self.so_simples_faturamento.subsequent_operation_id.id,
                 "Operation of the generated document is incorrect")
@@ -60,19 +60,19 @@ class TestSubsequentOperation(TransactionCase):
             for product in document.subsequent_document_id.line_ids:
 
                 # Document Line ICMS tax
-                self.assertEquals(
+                self.assertEqual(
                     product.icms_tax_id.id,
                     self.tax_icms_12.id,
                     "ICMS tax value is not 12%")
 
                 # Document Line PIS tax
-                self.assertEquals(
+                self.assertEqual(
                     product.pis_tax_id.id,
                     self.pis_tax_0.id,
                     "PIS tax value is not 0%")
 
                 # Document Line COFINS tax
-                self.assertEquals(
+                self.assertEqual(
                     product.cofins_tax_id.id,
                     self.cofins_tax_0.id,
                     "COFINS tax value is not 0%")
