@@ -46,7 +46,7 @@ class InvoicingPickingTest(SavepointCase):
         for move in self.stock_picking_sp.move_ids_without_package:
             move.quantity_done = move.product_uom_qty
         self.stock_picking_sp.button_validate()
-        self.assertEquals(
+        self.assertEqual(
             self.stock_picking_sp.state, 'done',
             'Change state fail.'
         )
@@ -88,10 +88,10 @@ class InvoicingPickingTest(SavepointCase):
         self.assertIn(invoice, self.stock_picking_sp.invoice_ids)
         self.assertIn(self.stock_picking_sp, invoice.picking_ids)
         nb_invoice_after = self.invoice_model.search_count([])
-        self.assertEquals(nb_invoice_before, nb_invoice_after - len(invoice))
+        self.assertEqual(nb_invoice_before, nb_invoice_after - len(invoice))
         assert invoice.invoice_line_ids, 'Error to create invoice line.'
         for line in invoice.picking_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.id, self.stock_picking_sp.id,
                 'Relation between invoice and picking are missing.')
         for line in invoice.invoice_line_ids:
@@ -149,7 +149,7 @@ class InvoicingPickingTest(SavepointCase):
         for move in picking_devolution.move_ids_without_package:
             move.quantity_done = move.product_uom_qty
         picking_devolution.button_validate()
-        self.assertEquals(
+        self.assertEqual(
             picking_devolution.state, 'done',
             'Change state fail.'
         )
@@ -176,7 +176,7 @@ class InvoicingPickingTest(SavepointCase):
             res_overprocessed_transfer.get('res_id'))
         stock_overprocessed_transfer.action_confirm()
 
-        self.assertEquals(
+        self.assertEqual(
             self.stock_picking_sp.state, 'done',
             'Change state fail.'
         )
@@ -226,7 +226,7 @@ class InvoicingPickingTest(SavepointCase):
         wizard.action_generate()
         domain = [('picking_ids', '=', picking.id)]
         invoice = self.invoice_model.search(domain)
-        self.assertEquals(len(invoice), 1)
+        self.assertEqual(len(invoice), 1)
         self.assertEqual(picking.invoice_state, 'invoiced')
         self.assertEqual(picking2.invoice_state, 'invoiced')
         self.assertEqual(invoice.partner_id, self.partner)
@@ -246,10 +246,10 @@ class InvoicingPickingTest(SavepointCase):
         # Now test behaviour if the invoice is delete
         invoice.unlink()
         for picking in pickings:
-            self.assertEquals(picking.invoice_state, '2binvoiced')
+            self.assertEqual(picking.invoice_state, '2binvoiced')
         nb_invoice_after = self.invoice_model.search_count([])
         # Should be equals because we delete the invoice
-        self.assertEquals(nb_invoice_before, nb_invoice_after)
+        self.assertEqual(nb_invoice_before, nb_invoice_after)
 
     def test_picking_invoicing_by_product3(self):
         """
@@ -296,7 +296,7 @@ class InvoicingPickingTest(SavepointCase):
         wizard.action_generate()
         domain = [('picking_ids', 'in', (picking.id, picking2.id))]
         invoicies = self.invoice_model.search(domain)
-        self.assertEquals(len(invoicies), 2)
+        self.assertEqual(len(invoicies), 2)
         self.assertEqual(picking.invoice_state, 'invoiced')
         self.assertEqual(picking2.invoice_state, 'invoiced')
         invoice_pick_1 = invoicies.filtered(
@@ -319,7 +319,7 @@ class InvoicingPickingTest(SavepointCase):
         self.assertIn(picking2, invoice_pick_2.picking_ids)
 
         # Not grouping products with different Operation Fiscal Line
-        self.assertEquals(len(invoice_pick_1.invoice_line_ids), 3)
+        self.assertEqual(len(invoice_pick_1.invoice_line_ids), 3)
         for inv_line in invoice_pick_1.invoice_line_ids:
             self.assertTrue(
                 inv_line.invoice_line_tax_ids,
@@ -328,10 +328,10 @@ class InvoicingPickingTest(SavepointCase):
         invoice_pick_1.unlink()
         invoice_pick_2.unlink()
         for picking in pickings:
-            self.assertEquals(picking.invoice_state, '2binvoiced')
+            self.assertEqual(picking.invoice_state, '2binvoiced')
         nb_invoice_after = self.invoice_model.search_count([])
         # Should be equals because we delete the invoice
-        self.assertEquals(nb_invoice_before, nb_invoice_after)
+        self.assertEqual(nb_invoice_before, nb_invoice_after)
 
     def test_picking_split(self):
         """Test Picking Split created with Fiscal Values."""
