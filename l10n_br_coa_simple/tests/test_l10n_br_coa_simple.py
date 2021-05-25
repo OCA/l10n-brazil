@@ -20,5 +20,5 @@ class L10nBrSimpleCOA(TransactionCase):
         self.env.user.company_id = self.l10n_br_company
         self.l10n_br_coa_simple.try_loading_for_current_company()
 
-        self.assertEquals(
+        self.assertEqual(
             self.l10n_br_coa_simple, self.l10n_br_company.chart_template_id)
