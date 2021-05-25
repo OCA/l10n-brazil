@@ -79,8 +79,8 @@ class TestIbptService(SavepointCase):
 
     def test_nbs_count_product_template(self):
         """Check product template relation with NBS"""
-        self.assertEquals(self.nbs_115069000.product_tmpl_qty, 2)
-        self.assertEquals(self.nbs_124043300.product_tmpl_qty, 1)
+        self.assertEqual(self.nbs_115069000.product_tmpl_qty, 2)
+        self.assertEqual(self.nbs_124043300.product_tmpl_qty, 1)
 
     def test_update_scheduled(self):
         """Check NBS update scheduled"""
