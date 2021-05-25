@@ -53,7 +53,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         picking_1.button_validate()
         self.assertEqual(picking_1.state, 'done')
 
-        self.assertEquals(
+        self.assertEqual(
             purchase_1.invoice_status, 'to invoice',
             "Error in compute field invoice_status,"
             " before create invoice by Picking."
@@ -87,7 +87,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         domain = [('picking_ids', 'in', (picking_1.id, picking_2.id))]
         invoice = self.invoice_model.search(domain)
         # Fatura Agrupada
-        self.assertEquals(len(invoice), 1)
+        self.assertEqual(len(invoice), 1)
         self.assertEqual(picking_1.invoice_state, 'invoiced')
         self.assertEqual(picking_2.invoice_state, 'invoiced')
 
@@ -116,7 +116,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
 
         # Confirmando a Fatura
         invoice.action_invoice_open()
-        self.assertEquals(
+        self.assertEqual(
             invoice.state, 'open', 'Invoice should be in state Open')
         # Validar Atualização da Quantidade Faturada
         for line in purchase_1.order_line:
@@ -155,7 +155,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         for move in picking_devolution.move_ids_without_package:
             move.quantity_done = move.product_uom_qty
         picking_devolution.button_validate()
-        self.assertEquals(
+        self.assertEqual(
             picking_devolution.state, 'done',
             'Change state fail.'
         )
@@ -173,7 +173,7 @@ class L10nBrPurchaseStockBase(test_l10n_br_purchase.L10nBrPurchaseBaseTest):
         invoice_devolution = self.invoice_model.search(domain)
         # Confirmando a Fatura
         invoice_devolution.action_invoice_open()
-        self.assertEquals(
+        self.assertEqual(
             invoice_devolution.state, 'open', 'Invoice should be in state Open')
         # Validar Atualização da Quantidade Faturada
         for line in purchase_1.order_line:
