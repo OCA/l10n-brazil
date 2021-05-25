@@ -38,25 +38,25 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
             self.nfse_same_state._onchange_fiscal_operation_id()
 
             # RPS Number
-            self.assertEquals(
+            self.assertEqual(
                 self.nfse_same_state.rps_number, '50',
                 "Error to mappping RPS Number 50"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.")
 
             # RPS Type
-            self.assertEquals(
+            self.assertEqual(
                 self.nfse_same_state.rps_type, '1',
                 "Error to mappping RPS Type 1"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.")
 
             # Operation Nature
-            self.assertEquals(
+            self.assertEqual(
                 self.nfse_same_state.operation_nature, '1',
                 "Error to mappping Operation Nature 1"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.")
 
             # Taxation Special Regime
-            self.assertEquals(
+            self.assertEqual(
                 self.nfse_same_state.taxation_special_regime, '1',
                 "Error to mappping Taxation Special Regime 1"
                 " for Venda de Serviço de Contribuinte Dentro do Estado.")
@@ -70,13 +70,13 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
                 line._onchange_fiscal_taxes()
 
                 # Fiscal Deductions Value
-                self.assertEquals(
+                self.assertEqual(
                     line.fiscal_deductions_value, 0.0,
                     "Error to mappping Fiscal Deductions Value 0.0"
                     " for Venda de Serviço de Contribuinte Dentro do Estado.")
 
                 # City Taxation Code
-                self.assertEquals(
+                self.assertEqual(
                     line.city_taxation_code_id.code, '6311900',
                     "Error to mappping City Taxation Code 6311900"
                     " for Venda de Serviço de Contribuinte Dentro do Estado.")
