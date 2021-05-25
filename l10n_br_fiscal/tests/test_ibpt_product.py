@@ -76,8 +76,8 @@ class TestIbptProduct(SavepointCase):
 
     def test_ncm_count_product_template(self):
         """Check product template relation with NCM"""
-        self.assertEquals(self.ncm_85030010.product_tmpl_qty, 2)
-        self.assertEquals(self.ncm_85014029.product_tmpl_qty, 1)
+        self.assertEqual(self.ncm_85030010.product_tmpl_qty, 2)
+        self.assertEqual(self.ncm_85014029.product_tmpl_qty, 1)
 
     def test_update_scheduled(self):
         """Check NCM update scheduled"""
