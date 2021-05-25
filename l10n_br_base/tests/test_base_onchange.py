@@ -45,13 +45,13 @@ class L10nBrBaseOnchangeTest(SavepointCase):
 
     def test_inverse_fields(self):
         self.company_01.inscr_mun = "692015742119"
-        self.assertEquals(
+        self.assertEqual(
             self.company_01.partner_id.inscr_mun,
             "692015742119",
             "The inverse function to field inscr_mun failed.",
         )
         self.company_01.suframa = "1234"
-        self.assertEquals(
+        self.assertEqual(
             self.company_01.partner_id.suframa,
             "1234",
             "The inverse function to field suframa failed.",
@@ -61,7 +61,7 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         partner = self.env.ref("l10n_br_base.res_partner_akretion")
         partner._onchange_city_id()
         display_address = partner._display_address()
-        self.assertEquals(
+        self.assertEqual(
             display_address,
             "Akretion Sao Paulo\n"
             "Avenida Paulista, 807 CJ 2315\nCentro"
@@ -73,7 +73,7 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         partner = self.env.ref("l10n_br_base.res_partner_address_ak2")
         partner._onchange_city_id()
         display_address = partner._display_address()
-        self.assertEquals(
+        self.assertEqual(
             display_address,
             "Akretion Rio de Janeiro\n"
             "Rua Acre, 47 sala 1310\nCentro"
@@ -84,7 +84,7 @@ class L10nBrBaseOnchangeTest(SavepointCase):
     def test_other_country_display_address(self):
         partner = self.env.ref("l10n_br_base.res_partner_exterior")
         display_address = partner._display_address()
-        self.assertEquals(
+        self.assertEqual(
             display_address,
             "Cliente Exterior\n3404  Edgewood"
             " Road\n\nJonesboro"
@@ -96,7 +96,7 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         partner = self.env.ref("l10n_br_base.res_partner_akretion")
         partner._onchange_city_id()
         display_address = partner._display_address(without_company=True)
-        self.assertEquals(
+        self.assertEqual(
             display_address,
             "Avenida Paulista, 807 CJ 2315\nCentro"
             "\n01311-915 - São Paulo-SP\nBrazil",
