@@ -20,7 +20,7 @@ class TestCustomerInvoice(TransactionCase):
     def test_customer_invoice_original(self):
         """Test if account.invoice still work as original desing."""
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.invoice_customer_original.state, "draft")
+        self.assertEqual(self.invoice_customer_original.state, "draft")
 
         self.invoice_customer_original._onchange_fiscal()
 
@@ -32,16 +32,16 @@ class TestCustomerInvoice(TransactionCase):
         self.invoice_customer_original.action_invoice_proforma2()
 
         # I check that the invoice state is now "Proforma2"
-        self.assertEquals(self.invoice_customer_original.state, "proforma2")
+        self.assertEqual(self.invoice_customer_original.state, "proforma2")
 
         # I check that there is no move attached to the invoice
-        self.assertEquals(len(self.invoice_customer_original.move_id), 0)
+        self.assertEqual(len(self.invoice_customer_original.move_id), 0)
 
         # I validate invoice by creating on
         self.invoice_customer_original.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.invoice_customer_original.state, "open")
+        self.assertEqual(self.invoice_customer_original.state, "open")
 
         # I check that now there is a move attached to the invoice
         assert (
