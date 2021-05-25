@@ -1090,7 +1090,7 @@ msgid "Bebidas alcoólicas, exceto cerveja e chope"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:57
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:56
 #, python-format
 msgid "Bills to pay"
 msgstr ""
@@ -1736,7 +1736,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:466
+#: code:addons/l10n_br_fiscal/models/document.py:462
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -1752,7 +1752,7 @@ msgid "Cancellation protocol"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/certificate.py:133
+#: code:addons/l10n_br_fiscal/models/certificate.py:132
 #, python-format
 msgid "Cannot load Certificate !"
 msgstr ""
@@ -2338,7 +2338,7 @@ msgid "Create a new partner in your address book"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:106
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:104
 #, python-format
 msgid "Create invoice/bill"
 msgstr ""
@@ -2930,7 +2930,7 @@ msgid "Download"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/mdfe/mdfe.py:164
+#: code:addons/l10n_br_fiscal/models/mdfe/mdfe.py:161
 #, python-format
 msgid "Download Attachment"
 msgstr ""
@@ -2946,7 +2946,7 @@ msgid "Download new documents automatically"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:207
+#: code:addons/l10n_br_fiscal/models/document_event.py:206
 #: code:addons/l10n_br_fiscal/models/invalidate_number.py:81
 #: selection:l10n_br_fiscal.closing,state:0
 #: selection:l10n_br_fiscal.event,state:0
@@ -3066,7 +3066,7 @@ msgid "Environment"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:258
+#: code:addons/l10n_br_fiscal/models/document_event.py:256
 #, python-format
 msgid "Erro!"
 msgstr ""
@@ -3087,7 +3087,7 @@ msgid "Error!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_related.py:107
+#: code:addons/l10n_br_fiscal/models/document_related.py:105
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr ""
@@ -3379,7 +3379,7 @@ msgid "Fiscal Data Product Abstract"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:49
+#: code:addons/l10n_br_fiscal/models/document_event.py:48
 #: model:ir.actions.act_window,name:l10n_br_fiscal.document_type_action
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_base_wizard_mixin__document_id
@@ -5458,7 +5458,7 @@ msgid "Invalidate File XML"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:55
+#: code:addons/l10n_br_fiscal/models/document_event.py:54
 #: model:ir.actions.act_window,name:l10n_br_fiscal.invalidate_number_action
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_invalidate_number
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_event__invalidate_number_id
@@ -5507,7 +5507,7 @@ msgid "Invoice Document Fiscal Mixin"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:58
+#: code:addons/l10n_br_fiscal/models/operation_dashboard.py:57
 #, python-format
 msgid "Invoices owed to you"
 msgstr ""
@@ -5595,7 +5595,7 @@ msgid "Justification"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:226
+#: code:addons/l10n_br_fiscal/models/document_event.py:224
 #, python-format
 msgid "Justification must be at least 15 characters."
 msgstr ""
@@ -6380,7 +6380,7 @@ msgid "Next number of this sequence"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/attachment.py:112
+#: code:addons/l10n_br_fiscal/models/attachment.py:111
 #, python-format
 msgid "No attachment to download"
 msgstr ""
@@ -6494,7 +6494,7 @@ msgid "Number of unread messages"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/invalidate_number.py:151
+#: code:addons/l10n_br_fiscal/models/invalidate_number.py:150
 #, python-format
 msgid "Number range overlap is not allowed."
 msgstr ""
@@ -6516,7 +6516,7 @@ msgid "Não"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:259
+#: code:addons/l10n_br_fiscal/models/document_event.py:257
 #, python-format
 msgid "Não foi possível salvar o arquivo\n"
 "                    em disco, verifique as permissões de escrita\n"
@@ -6559,7 +6559,7 @@ msgid "Não se aplica"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:247
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:246
 #, python-format
 msgid "Não é possível realizar esta operação,\n"
 "esta transição não é permitida:\n"
@@ -7739,7 +7739,7 @@ msgid "Response Message"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:210
+#: code:addons/l10n_br_fiscal/models/document_event.py:209
 #: selection:l10n_br_fiscal.event,state:0
 #, python-format
 msgid "Response received"
@@ -7890,13 +7890,13 @@ msgid "Saída"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:165
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:164
 #, python-format
 msgid "Scheduled {} estimate taxes update complete."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:125
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:124
 #, python-format
 msgid "Scheduled {} estimate taxes update..."
 msgstr ""
@@ -7964,13 +7964,13 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:494
+#: code:addons/l10n_br_fiscal/models/document.py:489
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:208
+#: code:addons/l10n_br_fiscal/models/document_event.py:207
 #: selection:l10n_br_fiscal.event,state:0
 #, python-format
 msgid "Sending"
@@ -8446,31 +8446,31 @@ msgid "Tax Definition"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition_cfop.py:28
+#: code:addons/l10n_br_fiscal/models/tax_definition_cfop.py:27
 #, python-format
 msgid "Tax Definition already exists for this CFOP and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition_company.py:24
+#: code:addons/l10n_br_fiscal/models/tax_definition_company.py:23
 #, python-format
 msgid "Tax Definition already exists for this Company and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition_icms.py:30
+#: code:addons/l10n_br_fiscal/models/tax_definition_icms.py:29
 #, python-format
 msgid "Tax Definition already exists for this ICMS and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition_operation_line.py:29
+#: code:addons/l10n_br_fiscal/models/tax_definition_operation_line.py:28
 #, python-format
 msgid "Tax Definition already exists for this Operation Line and Tax Group !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition_partner_profile.py:28
+#: code:addons/l10n_br_fiscal/models/tax_definition_partner_profile.py:27
 #, python-format
 msgid "Tax Definition already exists for this Partner Profile and Tax Group !"
 msgstr ""
@@ -8779,8 +8779,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:337
-#: code:addons/l10n_br_fiscal/models/document.py:348
+#: code:addons/l10n_br_fiscal/models/document.py:334
+#: code:addons/l10n_br_fiscal/models/document.py:345
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -8803,7 +8803,7 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:261
+#: code:addons/l10n_br_fiscal/models/document.py:260
 #, python-format
 msgid "There is already a fiscal document with this Serie: {0}, Number: {1} !"
 msgstr ""
@@ -8895,7 +8895,7 @@ msgid "UOM"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:284
+#: code:addons/l10n_br_fiscal/models/document.py:283
 #, python-format
 msgid "Unidentified Consumer"
 msgstr ""
@@ -9116,14 +9116,14 @@ msgid "WARNING - When saving the XML of a document, you will be informing the co
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_event.py:209
+#: code:addons/l10n_br_fiscal/models/document_event.py:208
 #: selection:l10n_br_fiscal.event,state:0
 #, python-format
 msgid "Waiting Response"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:279
+#: code:addons/l10n_br_fiscal/models/operation_line.py:276
 #, python-format
 msgid "Warning!"
 msgstr ""
@@ -9203,7 +9203,7 @@ msgid "Year"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/invalidate_number.py:168
+#: code:addons/l10n_br_fiscal/models/invalidate_number.py:166
 #, python-format
 msgid "You can delete only draft Invalidate Number Range !"
 msgstr ""
@@ -9214,49 +9214,49 @@ msgid "You can note repeat the alternative name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:388
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:384
 #, python-format
 msgid "You cannot create a fiscal correction document if this fical document you are not the document issuer"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:271
+#: code:addons/l10n_br_fiscal/models/operation_line.py:269
 #, python-format
 msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:151
+#: code:addons/l10n_br_fiscal/models/operation.py:147
 #, python-format
 msgid "You cannot delete an Operation which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition.py:230
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:226
 #, python-format
 msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:369
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:366
 #, python-format
 msgid "You cannot invalidate this document"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:322
+#: code:addons/l10n_br_fiscal/models/document.py:319
 #, python-format
 msgid "You cannot unlink Fiscal Document Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_line.py:105
+#: code:addons/l10n_br_fiscal/models/document_line.py:104
 #, python-format
 msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:280
+#: code:addons/l10n_br_fiscal/models/operation_line.py:277
 #, python-format
 msgid "You must first select a operation type."
 msgstr ""
@@ -9351,26 +9351,26 @@ msgid "state"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:113
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:112
 #, python-format
 msgid "{0} Tax Estimate Failure: {1}"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_related.py:88
+#: code:addons/l10n_br_fiscal/models/document_related.py:87
 #, python-format
 msgid "{} Invalid!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:116
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:115
 #, python-format
 msgid "{} Tax Estimate Failure"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:107
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:108
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:109
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr ""
