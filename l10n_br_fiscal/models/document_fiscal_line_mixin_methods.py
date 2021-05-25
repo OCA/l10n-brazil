@@ -727,7 +727,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _set_fields_pis_wh(self, tax_dict):
         self.ensure_one()
         if tax_dict:
-            self.pis_wh_cst_id = tax_dict.get("cst_id")
             self.pis_wh_base_type = tax_dict.get("base_type")
             self.pis_wh_base = tax_dict.get("base", 0.00)
             self.pis_wh_percent = tax_dict.get("percent_amount", 0.00)
@@ -784,7 +783,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _set_fields_cofins_wh(self, tax_dict):
         self.ensure_one()
         if tax_dict:
-            self.cofins_wh_cst_id = tax_dict.get("cst_id")
             self.cofins_wh_base_type = tax_dict.get("base_type")
             self.cofins_wh_base = tax_dict.get("base", 0.00)
             self.cofins_wh_percent = tax_dict.get("percent_amount", 0.00)
