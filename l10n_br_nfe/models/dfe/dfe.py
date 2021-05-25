@@ -215,6 +215,15 @@ class DFe(models.Model):
             if consulta_id.use_cron:
                 consulta_id.search_documents(raise_error=False)
 
+    @staticmethod
+    def _mask_cnpj(cnpj):
+        if cnpj:
+            val = re.sub('[^0-9]', '', cnpj)
+            if len(val) == 14:
+                cnpj = "%s.%s.%s/%s-%s" % (val[0:2], val[2:5], val[5:8],
+                                           val[8:12], val[12:14])
+        return cnpj
+
     @api.multi
     def search_documents(self, context=None, raise_error=True):
         nfe_mdes = []
