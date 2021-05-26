@@ -8,6 +8,8 @@
     'version': '12.0.1.0.0',
     'license': 'AGPL-3',
     'author': 'KMEE, Odoo Community Association (OCA)',
+    'maintainers': ['gabrielcardoso21', 'mileo', 'luismalta'],
+    "development_status": "Beta",
     'website': 'https://github.com/OCA/l10n-brazil',
     'external_dependencies': {
         'python': [
@@ -16,13 +18,10 @@
             'erpbrasil.transmissao',
             'erpbrasil.base',
             'nfselib',
+            'unidecode',
         ],
     },
     'depends': [
         'l10n_br_nfse',
-    ],
-    'data': [
-    ],
-    'demo': [
     ],
 }
