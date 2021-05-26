@@ -24,4 +24,4 @@ class NfeSpecMixin(models.AbstractModel):
 
     def _compute_brl_currency_id(self):
         for item in self:
-            item.currency_id = self.env.ref('base.BRL').id
+            item.brl_currency_id = self.env.ref('base.BRL').id
