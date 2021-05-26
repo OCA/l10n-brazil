@@ -7,16 +7,14 @@
         Criação de contratos através dos Pedidos de Vendas""",
     'version': '12.0.1.0.0',
     'license': 'AGPL-3',
-    'author': 'KMEE,Odoo Community Association (OCA)',
+    'author': 'KMEE, Escodoo, Odoo Community Association (OCA)',
     'website': 'https://github.com/oca/l10n-brazil.git',
     'development_status': 'Beta',
-    'maintainers': ['mileo'],
+    'maintainers': ['mileo', 'marcelsavegnago'],
     'depends': [
         'l10n_br_sale',
         'l10n_br_contract',
         'product_contract',
-    ],
-    'data': [
     ],
     'demo': [
         'demo/contract_template.xml',
