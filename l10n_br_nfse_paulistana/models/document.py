@@ -283,7 +283,6 @@ class Document(models.Model):
 
         return dict_type_rps[rps_type]
 
-    @api.multi
     def _eletronic_document_send(self):
         super(Document, self)._eletronic_document_send()
         for record in self.filtered(fiter_processador_edoc_nfse_paulistana):
