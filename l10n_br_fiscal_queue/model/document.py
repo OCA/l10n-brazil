@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import models, fields, api
+from odoo import models
 from odoo.addons.queue_job.job import job
 
 _logger = logging.getLogger(__name__)
@@ -12,13 +12,11 @@ _logger = logging.getLogger(__name__)
 class FiscalDocument(models.Model):
     _inherit = 'l10n_br_fiscal.document'
 
-    @api.multi
     @job
     def _envia_documento_job(self):
         for record in self:
             record._envia_documento()
 
-    @api.multi
     def envia_documento(self):
         self._permite_envio()
 
