@@ -10,9 +10,9 @@
         <field name="model">l10n_br_fiscal.subsequent.operation</field>
         <field name="inherit_id" ref="l10n_br_fiscal.subsequent_operation_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='reference_document']" position="after">
+            <field name="reference_document" position="after">
                 <field name="gerar_documento" />
-            </xpath>
+            </field>
         </field>
     </record>
 
