@@ -8,6 +8,7 @@ erpbrasil.edoc==2.2.0
 erpbrasil.edoc.pdf==1.0.1
 nfselib.ginfes==0.2.0
 nfselib.issnet==0.2.0
+nfselib.paulistana==0.2.0
 xmldiff==2.4
 lxml==4.6.3
 -e git+https://github.com/akretion/nfelib.git@master_gen_v4_00#egg=nfelib
