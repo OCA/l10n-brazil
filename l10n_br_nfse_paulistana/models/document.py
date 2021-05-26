@@ -290,7 +290,7 @@ class Document(models.Model):
             for record in self.filtered(fiter_provedor_paulistana):
                 processador = record._processador_erpbrasil_nfse()
 
-                protocolo = record.protocolo_autorizacao
+                protocolo = record.authorization_protocol
                 vals = dict()
 
                 if not protocolo:
