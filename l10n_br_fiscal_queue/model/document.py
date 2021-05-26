@@ -3,7 +3,7 @@
 
 import logging
 
-from odoo import models
+from odoo import models, _
 from odoo.addons.queue_job.job import job
 
 _logger = logging.getLogger(__name__)
@@ -13,13 +13,11 @@ class FiscalDocument(models.Model):
     _inherit = 'l10n_br_fiscal.document'
 
     @job
-    def _envia_documento_job(self):
+    def _send_document_job(self):
         for record in self:
-            record._envia_documento()
+            record._eletronic_document_send()
 
     def envia_documento(self):
-        self._permite_envio()
-
         _logger.info('Enviando documento fiscal %s', self.ids)
 
         enviar_agora = self.filtered(
@@ -36,9 +34,22 @@ class FiscalDocument(models.Model):
                          enviar_depois.ids)
             enviar_depois.with_delay()._envia_documento_job()
 
-    def _envia_email_job(self, mail_template):
-        self.with_delay()._envia_email(mail_template)
+    def _document_send(self):
+        no_electronic = self.filtered(lambda d: not d.document_electronic)
+        no_electronic._no_eletronic_document_send()
+        electronic = self - no_electronic
 
-    def envia_email(self, mail_template):
-        self.ensure_one()
-        self._envia_email_job(mail_template)
+        send_now = electronic.filtered(
+            lambda documento:
+                documento.operacao_id.momento_envio_documento == 'now'
+        )
+        send_later = electronic - send_now
+
+        if send_now:
+            _logger.info(_('Enviando documento fiscal agora: %s',
+                         send_now.ids))
+            send_now._send_document_job()
+        if send_later:
+            _logger.info(_('Enviando documento fiscal depois: %s',
+                         send_later.ids))
+            send_later.with_delay()._send_document_job()
