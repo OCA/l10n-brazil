@@ -6,14 +6,13 @@
 <odoo>
 
     <record model="ir.ui.view" id="operation_inherited_queue_form" >
-        <field name="name">l10n_br_fiscal.operatio.inherited_form in (l10n_br_fiscal_queue)</field>
-        <field name="model">l10n_br_fiscal.operatio</field>
+        <field name="name">l10n_br_fiscal.operation.inherited_form in (l10n_br_fiscal_queue)</field>
+        <field name="model">l10n_br_fiscal.operation</field>
         <field name="inherit_id" ref="l10n_br_fiscal.operation_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='default_price_unit']" position="after">
-                <newline />
+            <field name="default_price_unit" position="after">
                 <field name="momento_envio_documento" />
-            </xpath>
+            </field>
         </field>
     </record>
 
