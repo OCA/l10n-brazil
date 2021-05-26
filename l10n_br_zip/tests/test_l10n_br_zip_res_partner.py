@@ -59,17 +59,17 @@ class L10nBRZipTest(TransactionCase):
 
         self.res_partner.zip = "01310923"
         self.res_partner.zip_search()
-        self.assertEquals(
+        self.assertEqual(
             self.res_partner.district,
             "Bela Vista",
             "Error in method zip_search to mapping field district.",
         )
-        self.assertEquals(
+        self.assertEqual(
             self.res_partner.street,
             "Avenida Avenida Paulista 1842",
             "Error in method zip_search to mapping field street.",
         )
-        self.assertEquals(
+        self.assertEqual(
             self.res_partner.city_id.name,
             "São Paulo",
             "Error in method zip_search to mapping field city.",
@@ -89,7 +89,7 @@ class L10nBRZipTest(TransactionCase):
 
         self.res_partner_1.street = "paulista"
         self.res_partner_1.zip_search()
-        self.assertEquals(
+        self.assertEqual(
             self.res_partner_1.zip,
             "01310-923",
             "Error in method zip_search to mapping zip code from fields"
@@ -113,25 +113,25 @@ class L10nBRZipTest(TransactionCase):
         result = self.res_partner_1.zip_search()
         obj_zip_search = self.env["l10n_br.zip.search"].browse(result.get("res_id"))
 
-        self.assertEquals(
+        self.assertEqual(
             result["type"],
             "ir.actions.act_window",
             "It should return a action when there are more than one result",
         )
-        self.assertEquals(
+        self.assertEqual(
             result["res_model"],
             "l10n_br.zip.search",
             "It should return the model zip.search",
         )
-        self.assertEquals(
+        self.assertEqual(
             obj_zip_search.street, "paulista", "It should return the correct street"
         )
-        self.assertEquals(
+        self.assertEqual(
             obj_zip_search.state_id.id,
             self.env.ref("base.state_br_sp").id,
             "It should return the correct state",
         )
-        self.assertEquals(
+        self.assertEqual(
             len(obj_zip_search.zip_ids), 2, "It should return two Zip Codes."
         )
 
@@ -140,7 +140,7 @@ class L10nBRZipTest(TransactionCase):
         obj_zip_search.street = "900"
         result = obj_zip_search.zip_search()
 
-        self.assertEquals(
+        self.assertEqual(
             len(obj_zip_search.zip_ids), 1, "It should return one Zip Codes."
         )
 
@@ -154,12 +154,12 @@ class L10nBRZipTest(TransactionCase):
 
         obj_zip_search.zip_ids.with_context(result.get("context")).zip_select()
 
-        self.assertEquals(
+        self.assertEqual(
             self.res_partner_1.zip,
             "01310-940",
             "It should return the correct zip, failed method zip_select.",
         )
-        self.assertEquals(
+        self.assertEqual(
             self.res_partner_1.street,
             "Avenida Avenida Paulista 900",
             "It should return the correct street, failed method zip_select.",
@@ -194,18 +194,18 @@ class L10nBRZipTest(TransactionCase):
                 return_value=mocked_response,
         ):
             self.res_partner.zip_search()
-        self.assertEquals(
+        self.assertEqual(
             self.res_partner.district,
             "Bela Vista",
             "Error in method zip_search with PyCEP-Correios"
             "to mapping field district.",
         )
-        self.assertEquals(
+        self.assertEqual(
             self.res_partner.street,
             "Avenida Paulista, 2100",
             "Error in method zip_search with PyCEP-Correios" "to mapping field street.",
         )
-        self.assertEquals(
+        self.assertEqual(
             self.res_partner.city_id.name,
             "São Paulo",
             "Error in method zip_search with PyCEP-Correios" "to mapping field city.",

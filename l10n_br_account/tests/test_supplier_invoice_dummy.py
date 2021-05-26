@@ -67,11 +67,11 @@ class TestSupplierInvoice(TransactionCase):
         )
 
     def test_state(self):
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_1.state, "draft", "Invoice should be in state Draft"
         )
         self.invoice_1.action_invoice_open()
         assert self.invoice_1.move_id, "Move Receivable not created for open invoice"
-        self.assertEquals(
+        self.assertEqual(
             self.invoice_1.state, "open", "Invoice should be in state Open"
         )
