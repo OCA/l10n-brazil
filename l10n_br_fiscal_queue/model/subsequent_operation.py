@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 
 
 class SubsequentOperation(models.Model):
@@ -13,7 +13,7 @@ class SubsequentOperation(models.Model):
             ('now', 'Enviar Imediatamente'),
             ('with_delay', 'Enviar Depois'),
         ],
-        string=u'Gerar Documento',
+        string='Gerar Documento',
         default='now',
         required=True,
     )
