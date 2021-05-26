@@ -1,6 +1,7 @@
 # Copyright (C) 2021  Gabriel Cardoso de Faria - Kmee
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import base64
 from openerp import api, fields, models
 
 
@@ -22,7 +23,7 @@ class NfeImport(models.TransientModel):
     @api.multi
     def import_nfe_xml(self):
         edoc = self.env["l10n_br_fiscal.document"].import_xml(
-            self.nfe_xml, dry_run=False
+            base64.b64decode(self.nfe_xml), dry_run=False
         )
         return {
             "name": _("Documento Importado"),
