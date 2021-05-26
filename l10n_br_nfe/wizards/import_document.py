@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
-from openerp import api, fields, models
+from openerp import api, fields, models, _
 
 
 class NfeImport(models.TransientModel):
