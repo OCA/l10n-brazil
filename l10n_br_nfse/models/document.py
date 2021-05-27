@@ -138,7 +138,7 @@ class Document(models.Model):
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(
-                    EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
+                    EVENT_ENV_PROD if self.nfse_environment == '1' else EVENT_ENV_HML),
                 event_type="0",
                 xml_file=xml_file,
                 document_id=self,
