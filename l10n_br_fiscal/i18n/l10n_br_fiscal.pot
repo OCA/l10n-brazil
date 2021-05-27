@@ -9250,7 +9250,7 @@ msgid "You cannot unlink Fiscal Document Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_line.py:104
+#: code:addons/l10n_br_fiscal/models/document_line.py:99
 #, python-format
 msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
