@@ -35,11 +35,11 @@ class TestPaymentOrder(SavepointCase):
                 lambda l: l.product_id == self.invoice_product_tax_boleto.
                 payment_mode_id.product_tax_id)
 
-        self.assertEquals(len(line_product_tax), 1)
+        self.assertEqual(len(line_product_tax), 1)
         # I validate invoice by creating on
         self.invoice_product_tax_boleto.action_invoice_open()
         # I check that the invoice state is "Open"
-        self.assertEquals(self.invoice_product_tax_boleto.state, 'open')
+        self.assertEqual(self.invoice_product_tax_boleto.state, 'open')
 
     def test_payment_mode_without_payment_order(self):
         """ Test Invoice when Payment Mode not generate Payment Order. """
@@ -47,11 +47,11 @@ class TestPaymentOrder(SavepointCase):
         # I validate invoice by creating on
         self.invoice_cheque.action_invoice_open()
         # I check that the invoice state is "Open"
-        self.assertEquals(self.invoice_cheque.state, 'open')
+        self.assertEqual(self.invoice_cheque.state, 'open')
         payment_order = self.env['account.payment.order'].search([
             ('payment_mode_id', '=', self.invoice_cheque.payment_mode_id.id)
         ])
-        self.assertEquals(len(payment_order), 0)
+        self.assertEqual(len(payment_order), 0)
 
     def test_bra_number_constrains(self):
         """ Test bra_number constrains. """
