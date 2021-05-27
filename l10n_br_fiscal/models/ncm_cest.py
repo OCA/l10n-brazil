@@ -10,7 +10,7 @@ class NCM(models.Model):
     cest_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.cest',
         relation='fiscal_cest_ncm_rel',
-        colunm1='ncm_id',
-        colunm2='cest_id',
+        column1='ncm_id',
+        column2='cest_id',
         readonly=True,
         string='CESTs')

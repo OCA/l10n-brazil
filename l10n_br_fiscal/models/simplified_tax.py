@@ -16,8 +16,8 @@ class SimplifiedTax(models.Model):
     cnae_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.cnae',
         relation='fiscal_simplified_tax_cnae_rel',
-        colunm1='company_id',
-        colunm2='cnae_id',
+        column1='simplified_tax_id',
+        column2='cnae_id',
         domain="[('internal_type', '=', 'normal')]",
         string='CNAEs')
 
