@@ -100,6 +100,4 @@ class ProductTemplate(models.Model):
         comodel_name='uom.uom',
         string='Tax UoM')
 
-    uot_factor = fields.Float(
-        string='Tax UoM Factor',
-        default=0.00)
+    uot_factor = fields.Float(string='Tax UoM Factor')

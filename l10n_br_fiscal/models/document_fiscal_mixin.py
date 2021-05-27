@@ -304,18 +304,15 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     amount_insurance_value = fields.Monetary(
         string='Insurance Value',
-        default=0.00,
         compute='_compute_amount',
     )
 
     amount_other_value = fields.Monetary(
         string='Other Costs',
-        default=0.00,
         compute='_compute_amount',
     )
 
     amount_freight_value = fields.Monetary(
         string='Freight Value',
-        default=0.00,
         compute='_compute_amount',
     )
