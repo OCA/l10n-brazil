@@ -15,34 +15,34 @@ from odoo.exceptions import UserError
 class TestPaymentOrderInbound(SavepointCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
 
-        self.register_payments_model = \
-            self.env['account.register.payments'].with_context(
+        cls.register_payments_model = \
+            cls.env['account.register.payments'].with_context(
                 active_model='account.invoice')
-        self.payment_model = self.env['account.payment']
+        cls.payment_model = cls.env['account.payment']
 
         # Get Invoice for test
-        self.invoice_cef = self.env.ref(
+        cls.invoice_cef = cls.env.ref(
             'l10n_br_account_payment_order.'
             'demo_invoice_payment_order_cef_cnab240'
         )
-        self.invoice_unicred = self.env.ref(
+        cls.invoice_unicred = cls.env.ref(
             'l10n_br_account_payment_order.'
             'demo_invoice_payment_order_unicred_cnab400'
         )
 
-        self.demo_invoice_auto = self.env.ref(
+        cls.demo_invoice_auto = cls.env.ref(
             'l10n_br_account_payment_order.'
             'demo_invoice_automatic_test'
         )
 
         # Journal
-        self.journal_cash = self.env[
+        cls.journal_cash = cls.env[
             'account.journal'].search([('type', '=', 'cash')], limit=1)
-        self.payment_method_manual_in = \
-            self.env.ref('account.account_payment_method_manual_in')
+        cls.payment_method_manual_in = \
+            cls.env.ref('account.account_payment_method_manual_in')
 
     def test_create_payment_order(self):
         """ Test Create Payment Order """
