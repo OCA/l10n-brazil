@@ -28,7 +28,7 @@ from ..constants.paulistana import (
 )
 
 
-def fiter_processador_edoc_nfse_paulistana(record):
+def filter_oca_nfse(record):
     if (record.processador_edoc == PROCESSADOR_OCA and
             record.document_type_id.code in [
                 MODELO_FISCAL_NFSE,
@@ -37,7 +37,7 @@ def fiter_processador_edoc_nfse_paulistana(record):
     return False
 
 
-def fiter_provedor_paulistana(record):
+def filter_paulistana(record):
     if record.company_id.provedor_nfse == 'paulistana':
         return True
     return False
@@ -69,9 +69,7 @@ class Document(models.Model):
 
     def _serialize(self, edocs):
         edocs = super(Document, self)._serialize(edocs)
-        for record in self.filtered(
-                fiter_processador_edoc_nfse_paulistana).filtered(
-                    fiter_provedor_paulistana):
+        for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
             edocs.append(record.serialize_nfse_paulistana())
         return edocs
 
@@ -286,62 +284,61 @@ class Document(models.Model):
 
     def _eletronic_document_send(self):
         super(Document, self)._eletronic_document_send()
-        for record in self.filtered(fiter_processador_edoc_nfse_paulistana):
-            for record in self.filtered(fiter_provedor_paulistana):
-                processador = record._processador_erpbrasil_nfse()
+        for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
+            processador = record._processador_erpbrasil_nfse()
 
-                protocolo = record.authorization_protocol
-                vals = dict()
+            protocolo = record.authorization_protocol
+            vals = dict()
 
-                if not protocolo:
-                    for edoc in record.serialize():
-                        processo = None
-                        for p in processador.processar_documento(edoc):
-                            processo = p
+            if not protocolo:
+                for edoc in record.serialize():
+                    processo = None
+                    for p in processador.processar_documento(edoc):
+                        processo = p
 
-                            retorno = ET.fromstring(processo.retorno)
-                            if processo.webservice in ENVIO_LOTE_RPS:
+                        retorno = ET.fromstring(processo.retorno)
+                        if processo.webservice in ENVIO_LOTE_RPS:
 
-                                if retorno:
-                                    if processo.resposta.Cabecalho.Sucesso:
-                                        record._change_state(
-                                            SITUACAO_EDOC_AUTORIZADA)
-                                        vals['codigo_motivo_situacao'] = \
-                                            _('Procesado com Sucesso')
-                                        vals['edoc_error_message'] = ''
-                                    else:
-                                        mensagem_erro = ''
-                                        for erro in retorno.findall("Erro"):
-                                            codigo = erro.find('Codigo').text
-                                            descricao = \
-                                                erro.find('Descricao').text
-                                            mensagem_erro +=\
-                                                codigo + ' - ' + \
-                                                descricao + '\n'
-
-                                        vals['edoc_error_message'] = \
-                                            mensagem_erro
-                                        vals['codigo_motivo_situacao'] = \
-                                            _('Procesado com Erro')
-
-                            if processo.webservice in CONSULTA_LOTE:
+                            if retorno:
                                 if processo.resposta.Cabecalho.Sucesso:
-                                    record.autorizacao_event_id.set_done(
-                                        processo.retorno)
-                                    nfse = retorno.find('.//NFe')
-                                    # TODO: Verificar resposta do ConsultarLote
-                                    vals['number'] = nfse.find(
-                                        './/NumeroNFe').text
-                                    vals['data_hora_autorizacao'] = \
-                                        nfse.find('.//DataEmissaoRPS').text
-                                    vals['verify_code'] = \
-                                        nfse.find('.//CodigoVerificacao').text
+                                    record._change_state(
+                                        SITUACAO_EDOC_AUTORIZADA)
+                                    vals['codigo_motivo_situacao'] = \
+                                        _('Procesado com Sucesso')
+                                    vals['edoc_error_message'] = ''
+                                else:
+                                    mensagem_erro = ''
+                                    for erro in retorno.findall("Erro"):
+                                        codigo = erro.find('Codigo').text
+                                        descricao = \
+                                            erro.find('Descricao').text
+                                        mensagem_erro +=\
+                                            codigo + ' - ' + \
+                                            descricao + '\n'
+
+                                    vals['edoc_error_message'] = \
+                                        mensagem_erro
+                                    vals['codigo_motivo_situacao'] = \
+                                        _('Procesado com Erro')
+
+                        if processo.webservice in CONSULTA_LOTE:
+                            if processo.resposta.Cabecalho.Sucesso:
+                                record.autorizacao_event_id.set_done(
+                                    processo.retorno)
+                                nfse = retorno.find('.//NFe')
+                                # TODO: Verificar resposta do ConsultarLote
+                                vals['number'] = nfse.find(
+                                    './/NumeroNFe').text
+                                vals['data_hora_autorizacao'] = \
+                                    nfse.find('.//DataEmissaoRPS').text
+                                vals['verify_code'] = \
+                                    nfse.find('.//CodigoVerificacao').text
 
                 record.write(vals)
         return
 
     def action_consultar_nfse_rps(self):
-        for record in self.filtered(fiter_processador_edoc_nfse_paulistana):
+        for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
                 numero_rps=self.rps_number,
@@ -367,7 +364,7 @@ class Document(models.Model):
             'codigo_verificacao': self.verify_code,
         }
 
-        for record in self.filtered(fiter_processador_edoc_nfse_paulistana):
+        for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.cancela_documento(doc_numero=doc_dict)
 
