@@ -141,7 +141,6 @@ class ResCompany(models.Model):
     annual_revenue = fields.Monetary(
         string="Annual Revenue",
         currency_field="currency_id",
-        default=0.00,
         digits=dp.get_precision("Fiscal Documents"))
 
     simplifed_tax_id = fields.Many2one(
@@ -159,7 +158,6 @@ class ResCompany(models.Model):
 
     simplifed_tax_percent = fields.Float(
         string="Simplifed Tax Percent",
-        default=0.00,
         compute='_compute_simplifed_tax',
         store=True,
         digits=dp.get_precision("Fiscal Tax Percent"))
@@ -167,7 +165,6 @@ class ResCompany(models.Model):
     payroll_amount = fields.Monetary(
         string="Last Period Payroll Amount",
         currency_field="currency_id",
-        default=0.00,
         digits=dp.get_precision("Fiscal Documents"))
 
     coefficient_r = fields.Boolean(
