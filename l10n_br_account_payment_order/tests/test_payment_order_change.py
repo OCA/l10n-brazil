@@ -16,24 +16,24 @@ from odoo.addons.l10n_br_account_payment_order.\
 class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
 
-        self.invoice_auto = self.env.ref(
+        cls.invoice_auto = cls.env.ref(
             'l10n_br_account_payment_order.'
             'demo_invoice_automatic_test'
         )
-        if self.invoice_auto.state == 'draft':
-            self.invoice_auto.action_invoice_open()
+        if cls.invoice_auto.state == 'draft':
+            cls.invoice_auto.action_invoice_open()
 
-        assert self.invoice_auto.move_id, "Move not created for open invoice"
+        assert cls.invoice_auto.move_id, "Move not created for open invoice"
 
-        self.financial_move_line_ids = self.invoice_auto.financial_move_line_ids
-        self.financial_move_line_0 = self.financial_move_line_ids[0]
-        self.financial_move_line_1 = self.financial_move_line_ids[1]
+        cls.financial_move_line_ids = cls.invoice_auto.financial_move_line_ids
+        cls.financial_move_line_0 = cls.financial_move_line_ids[0]
+        cls.financial_move_line_1 = cls.financial_move_line_ids[1]
 
-        assert self.financial_move_line_0, "Move 0 not created for open invoice"
-        assert self.financial_move_line_1, "Move 1 not created for open invoice"
+        assert cls.financial_move_line_0, "Move 0 not created for open invoice"
+        assert cls.financial_move_line_1, "Move 1 not created for open invoice"
 
     def test_change_date_maturity_multiple(self):
         """ Test Creation of a Payment Order an change MULTIPLE due date """
