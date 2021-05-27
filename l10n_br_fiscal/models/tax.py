@@ -89,19 +89,16 @@ class Tax(models.Model):
 
     percent_amount = fields.Float(
         string="Percent",
-        default=0.00,
         digits=dp.get_precision("Fiscal Tax Percent"),
         required=True)
 
     percent_reduction = fields.Float(
         string="Percent Reduction",
-        default=0.00,
         digits=dp.get_precision("Fiscal Tax Percent"),
         required=True)
 
     percent_debit_credit = fields.Float(
         string="Percent Debit/Credit",
-        default=0.00,
         digits=dp.get_precision("Fiscal Tax Percent"),
         required=True)
 
@@ -112,7 +109,6 @@ class Tax(models.Model):
 
     value_amount = fields.Float(
         string="Value",
-        default=0.00,
         digits=dp.get_precision("Fiscal Tax Value"),
         required=True)
 
@@ -159,13 +155,11 @@ class Tax(models.Model):
 
     icmsst_mva_percent = fields.Float(
         string="MVA Percent",
-        default=0.00,
         digits=dp.get_precision("Fiscal Tax Percent"),
         required=True)
 
     icmsst_value = fields.Float(
         string="PFC Value",
-        default=0.00,
         digits=dp.get_precision("Fiscal Tax Value"),
         required=True)
 
