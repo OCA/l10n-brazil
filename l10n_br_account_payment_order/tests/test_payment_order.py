@@ -11,17 +11,17 @@ from odoo.exceptions import ValidationError
 class TestPaymentOrder(SavepointCase):
 
     @classmethod
-    def setUpClass(self):
-        super().setUpClass()
+    def setUpClass(cls):
+        cls().setUpClass()
 
         # Product Tax Boleto
-        self.invoice_product_tax_boleto = self.env.ref(
+        cls.invoice_product_tax_boleto = cls.env.ref(
             'l10n_br_account_payment_order.'
             'demo_invoice_payment_order_bb_cnab400'
         )
 
         # Product Tax Boleto
-        self.invoice_cheque = self.env.ref(
+        cls.invoice_cheque = cls.env.ref(
             'l10n_br_account_payment_order.demo_invoice_payment_order_cheque'
         )
 
