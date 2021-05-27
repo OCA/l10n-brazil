@@ -12,7 +12,7 @@ class TestPaymentOrder(SavepointCase):
 
     @classmethod
     def setUpClass(cls):
-        cls().setUpClass()
+        super().setUpClass()
 
         # Product Tax Boleto
         cls.invoice_product_tax_boleto = cls.env.ref(
