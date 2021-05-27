@@ -306,6 +306,17 @@ class DocumentWorkflow(models.AbstractModel):
                 self._generate_key()
 
     def _document_confirm(self):
+        for doc in self:
+            need_validation_products = [
+                l.product_id.name
+                for l in self.line_ids
+                if l.product_id and l.product_id.need_fiscal_validation
+            ]
+            if need_validation_products:
+                raise UserError(
+                    _("Products %s need a fiscal validation!")
+                    % (", ".join(need_validation_products))
+                )
         self._change_state(SITUACAO_EDOC_A_ENVIAR)
 
     def action_document_confirm(self):

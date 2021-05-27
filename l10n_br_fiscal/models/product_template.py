@@ -24,6 +24,10 @@ class ProductTemplate(models.Model):
 
     fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Fiscal Type")
 
+    def _get_default_need_fiscal_validation(self):
+        if self.user_has_groups("l10n_br_fiscal.group_laxist_user"):
+            return True
+
     icms_origin = fields.Selection(
         selection=ICMS_ORIGIN, string="ICMS Origin", default=ICMS_ORIGIN_DEFAULT
     )
@@ -92,3 +96,5 @@ class ProductTemplate(models.Model):
     uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
 
     uot_factor = fields.Float(string="Tax UoM Factor")
+
+    need_fiscal_validation = fields.Boolean(default=_get_default_need_fiscal_validation)

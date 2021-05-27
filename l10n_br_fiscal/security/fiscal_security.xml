@@ -20,6 +20,12 @@
         <field name="implied_ids" eval="[(4, ref('l10n_br_fiscal.group_user'))]" />
     </record>
 
+    <record id="group_laxist_user" model="res.groups">
+        <field name="name">Fiscal Laxist User</field>
+        <field name="category_id" ref="module_category_l10n_br_fiscal_management" />
+        <field name="implied_ids" eval="[(4, ref('l10n_br_fiscal.group_user'))]" />
+    </record>
+
     <record id="group_data_maintenance" model="res.groups">
         <field name="name">Fiscal Data Maitenance</field>
         <field name="category_id" ref="base.module_category_hidden" />

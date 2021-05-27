@@ -33,6 +33,13 @@
                     filter_domain="[('service_type_id', '=', raw_value)]"
                 />
             </field>
+            <xpath expr="//filter[@name='consumable']" position="after">
+                <filter
+                    string="Need Fiscal Validation"
+                    name="need_fiscal_validation"
+                    domain="[('need_fiscal_validation', '=', True)]"
+                />
+            </xpath>
         </field>
     </record>
 
@@ -60,13 +67,25 @@
                 <page name="fiscal" string="Fiscal" groups="l10n_br_fiscal.group_user">
                     <group>
                         <group>
-                            <field name="fiscal_type" required="1" />
+  			<field
+                                name="fiscal_type"
+                                required="1"
+                                iattrs="{'required': [('need_fiscal_validation', '=', False)]}"
+                            />
                             <field
                                 name="icms_origin"
-                                attrs="{'required': [('fiscal_type', '!=', '09')], 'invisible': [('fiscal_type', '=', '09')]}"
+                                attrs="{'required': [('fiscal_type', '!=', '09'), ('need_fiscal_validation', '=', False)], 'invisible': [('fiscal_type', '=', '09')]}"
                             />
-                            <field name="ncm_id" required="1" />
-                            <field name="tax_icms_or_issqn" required="1" />
+			    <field
+                                name="ncm_id"
+                                required="1"
+                                attrs="{'required': [('need_fiscal_validation', '=', False)]}"
+                            />
+			    <field
+                                name="tax_icms_or_issqn"
+                                required="1"
+                                attrs="{'required': [('need_fiscal_validation', '=', False)]}"
+                            />
                             <field
                                 name="service_type_id"
                                 attrs="{'invisible': [('fiscal_type', '!=', '09')]}"
@@ -83,11 +102,16 @@
                                     <field name="state_id" />
                                     <field name="city_id" />
                                     <field name="cnae_id" />
-                                </tree>
+                                  </tree>
                             </field>
+                            <field name="need_fiscal_validation" />
                         </group>
                         <group>
-                            <field name="fiscal_genre_id" required="1" />
+			    <field
+                                name="fiscal_genre_id"
+                                required="1"
+                                attrs="{'required': [('need_fiscal_validation', '=', False)]}"
+                            />
                             <field
                                 name="cest_id"
                                 attrs="{'invisible': [('fiscal_type', '=', '09')]}"
