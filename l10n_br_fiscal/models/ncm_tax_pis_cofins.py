@@ -10,7 +10,7 @@ class NCM(models.Model):
     piscofins_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.tax.pis.cofins',
         relation='fiscal_pis_cofins_ncm_rel',
-        colunm1='ncm_id',
-        colunm2='piscofins_id',
+        column1='ncm_id',
+        column2='piscofins_id',
         readonly=True,
         string='PIS/COFINS')

@@ -104,8 +104,8 @@ class TaxDefinition(models.Model):
     state_to_ids = fields.Many2many(
         comodel_name='res.country.state',
         relation='tax_definition_state_to_rel',
-        colunm1='tax_definition_id',
-        colunm2='state_id',
+        column1='tax_definition_id',
+        column2='state_id',
         string='To States',
         domain=[('country_id.code', '=', 'BR')],
     )
@@ -131,8 +131,8 @@ class TaxDefinition(models.Model):
     ncm_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.ncm',
         relation='tax_definition_ncm_rel',
-        colunm1='tax_definition_id',
-        colunm2='ncm_id',
+        column1='tax_definition_id',
+        column2='ncm_id',
         readonly=True,
         string='NCMs',
     )
@@ -146,8 +146,8 @@ class TaxDefinition(models.Model):
     cest_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.cest',
         relation='tax_definition_cest_rel',
-        colunm1='tax_definition_id',
-        colunm2='ncm_id',
+        column1='tax_definition_id',
+        column2='cest_id',
         readonly=True,
         string='CESTs',
     )
@@ -167,8 +167,8 @@ class TaxDefinition(models.Model):
     nbm_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.nbm',
         relation='tax_definition_nbm_rel',
-        colunm1='tax_definition_id',
-        colunm2='nbm_id',
+        column1='tax_definition_id',
+        column2='nbm_id',
         readonly=True,
         string='NBMs',
     )
@@ -176,8 +176,8 @@ class TaxDefinition(models.Model):
     product_ids = fields.Many2many(
         comodel_name='product.product',
         relation='tax_definition_product_rel',
-        colunm1='tax_definition_id',
-        colunm2='product_id',
+        column1='tax_definition_id',
+        column2='product_id',
         string='Products',
     )
 
