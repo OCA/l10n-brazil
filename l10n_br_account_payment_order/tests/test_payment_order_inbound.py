@@ -48,13 +48,13 @@ class TestPaymentOrderInbound(SavepointCase):
         """ Test Create Payment Order """
 
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.invoice_cef.state, 'draft')
+        self.assertEqual(self.invoice_cef.state, 'draft')
 
         # I validate invoice by creating on
         self.invoice_cef.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.invoice_cef.state, 'open')
+        self.assertEqual(self.invoice_cef.state, 'open')
 
         # I check that now there is a move attached to the invoice
         assert self.invoice_cef.move_id, \
@@ -73,7 +73,7 @@ class TestPaymentOrderInbound(SavepointCase):
 
         for line in self.invoice_cef.move_id.line_ids.filtered(
                 lambda l: l.account_id.id == self.invoice_cef.account_id.id):
-            self.assertEquals(
+            self.assertEqual(
                 line.journal_entry_ref, line.invoice_id.name,
                 "Error with compute field journal_entry_ref")
 
@@ -88,14 +88,14 @@ class TestPaymentOrderInbound(SavepointCase):
             assert line.mov_instruction_code_id, \
                 'mov_instruction_code_id field is not filled' \
                 ' in created Move Line.'
-            self.assertEquals(
+            self.assertEqual(
                 line.journal_entry_ref, line.invoice_id.name,
                 'Error with compute field journal_entry_ref')
             # testar com a parcela 700
             if line.debit == 700.0:
                 test_balance_value = line.get_balance()
 
-        self.assertEquals(
+        self.assertEqual(
             test_balance_value, 700.0,
             'Error with method get_balance()')
 
@@ -118,7 +118,7 @@ class TestPaymentOrderInbound(SavepointCase):
         payment_order.draft2open()
 
         # Criação da Bank Line
-        self.assertEquals(len(payment_order.bank_line_ids), 2)
+        self.assertEqual(len(payment_order.bank_line_ids), 2)
 
         # A geração do arquivo é feita pelo modulo que implementa a
         # biblioteca a ser usada
@@ -126,7 +126,7 @@ class TestPaymentOrderInbound(SavepointCase):
         # payment_order.open2generated()
         # payment_order.generated2uploaded()
 
-        self.assertEquals(payment_order.state, 'open')
+        self.assertEqual(payment_order.state, 'open')
 
         # Verifica os campos CNAB na linhas de bancarias
         for l in payment_order.bank_line_ids:
@@ -217,14 +217,14 @@ class TestPaymentOrderInbound(SavepointCase):
         payment_order = self.env['account.payment.order'].search([
             ('payment_mode_id', '=', self.invoice_unicred.payment_mode_id.id)
         ])
-        self.assertEquals(len(payment_order.payment_line_ids), 2)
+        self.assertEqual(len(payment_order.payment_line_ids), 2)
 
         # Testar Cancelamento
         self.invoice_unicred.action_invoice_cancel()
 
-        self.assertEquals(len(payment_order.payment_line_ids), 0)
+        self.assertEqual(len(payment_order.payment_line_ids), 0)
         # Nesse caso a account.move deverá ter sido apagada
-        self.assertEquals(len(self.invoice_unicred.move_id), 0)
+        self.assertEqual(len(self.invoice_unicred.move_id), 0)
 
     def test_payment_by_assign_outstanding_credit(self):
         """
@@ -244,7 +244,7 @@ class TestPaymentOrderInbound(SavepointCase):
         # Generate and upload
         # payment_order.open2generated()
         # payment_order.generated2uploaded()
-        # self.assertEquals(payment_order.state, 'done')
+        # self.assertEqual(payment_order.state, 'done')
 
         payment = self.env['account.payment'].create({
             'payment_type': 'inbound',
@@ -271,13 +271,13 @@ class TestPaymentOrderInbound(SavepointCase):
         :return:
         """
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.demo_invoice_auto.state, 'draft')
+        self.assertEqual(self.demo_invoice_auto.state, 'draft')
 
         # I validate invoice by creating on
         self.demo_invoice_auto.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.demo_invoice_auto.state, 'open')
+        self.assertEqual(self.demo_invoice_auto.state, 'open')
 
         # I check that now there is a move attached to the invoice
         assert self.demo_invoice_auto.move_id,\
@@ -303,7 +303,7 @@ class TestPaymentOrderInbound(SavepointCase):
             ), open_amount)
 
         # I verify that invoice is now in Paid state
-        self.assertEquals(
+        self.assertEqual(
             self.demo_invoice_auto.state,
             'paid',
             "Invoice is not in Paid state"
@@ -331,13 +331,13 @@ class TestPaymentOrderInbound(SavepointCase):
         :return:
         """
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.demo_invoice_auto.state, 'draft')
+        self.assertEqual(self.demo_invoice_auto.state, 'draft')
 
         # I validate invoice by creating on
         self.demo_invoice_auto.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.demo_invoice_auto.state, 'open')
+        self.assertEqual(self.demo_invoice_auto.state, 'open')
 
         # I check that now there is a move attached to the invoice
         assert self.demo_invoice_auto.move_id,\
@@ -367,7 +367,7 @@ class TestPaymentOrderInbound(SavepointCase):
             ), 700)
 
         # I verify that invoice is now in Paid state
-        self.assertEquals(
+        self.assertEqual(
             self.demo_invoice_auto.state,
             'paid',
             "Invoice is not in Paid state"
@@ -396,13 +396,13 @@ class TestPaymentOrderInbound(SavepointCase):
         :return:
         """
         # I check that Initially customer invoice is in the "Draft" state
-        self.assertEquals(self.demo_invoice_auto.state, 'draft')
+        self.assertEqual(self.demo_invoice_auto.state, 'draft')
 
         # I validate invoice by creating on
         self.demo_invoice_auto.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.demo_invoice_auto.state, 'open')
+        self.assertEqual(self.demo_invoice_auto.state, 'open')
 
         # I check that now there is a move attached to the invoice
         assert self.demo_invoice_auto.move_id,\
