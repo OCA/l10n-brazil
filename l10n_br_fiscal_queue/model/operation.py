@@ -11,12 +11,12 @@ _logger = logging.getLogger(__name__)
 class FiscalOperation(models.Model):
     _inherit = 'l10n_br_fiscal.operation'
 
-    momento_envio_documento = fields.Selection(
+    queue_document_send = fields.Selection(
         selection=[
-            ('now', 'Enviar Imediatamente'),
+            ('send_now', 'Enviar Imediatamente'),
             ('with_delay', 'Enviar Depois'),
         ],
         string='Momento de transmissão',
-        default='now',
+        default='send_now',
         required=True,
     )

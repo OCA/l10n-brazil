@@ -7,12 +7,12 @@ from odoo import fields, models
 class SubsequentOperation(models.Model):
     _inherit = 'l10n_br_fiscal.subsequent.operation'
 
-    gerar_documento = fields.Selection(
+    queue_document_send = fields.Selection(
         selection=[
-            ('now', 'Enviar Imediatamente'),
+            ('send_now', 'Enviar Imediatamente'),
             ('with_delay', 'Enviar Depois'),
         ],
         string='Gerar Documento',
-        default='now',
+        default='send_now',
         required=True,
     )
