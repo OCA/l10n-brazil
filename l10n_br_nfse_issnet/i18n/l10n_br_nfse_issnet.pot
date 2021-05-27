@@ -51,6 +51,11 @@ msgid "Not received"
 msgstr ""
 
 #. module: l10n_br_nfse_issnet
+#: selection:res.company,provedor_nfse:0
+msgid "Paulistana"
+msgstr ""
+
+#. module: l10n_br_nfse_issnet
 #: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:341
 #, python-format
 msgid "Processed with Error"
