@@ -427,6 +427,11 @@ msgid "PIS"
 msgstr ""
 
 #. module: l10n_br_nfse
+#: selection:res.company,provedor_nfse:0
+msgid "Paulistana"
+msgstr ""
+
+#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Prefeitura do Município de"
 msgstr ""
