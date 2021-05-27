@@ -51,6 +51,11 @@ msgid "Not received"
 msgstr ""
 
 #. module: l10n_br_nfse_ginfes
+#: selection:res.company,provedor_nfse:0
+msgid "Paulistana"
+msgstr ""
+
+#. module: l10n_br_nfse_ginfes
 #: code:addons/l10n_br_nfse_ginfes/models/document.py:303
 #, python-format
 msgid "Processed with Error"
