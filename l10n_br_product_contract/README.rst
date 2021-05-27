@@ -81,11 +81,13 @@ Authors
 ~~~~~~~
 
 * KMEE
+* Escodoo
 
 Contributors
 ~~~~~~~~~~~~
 
 * Luis Felipe Mileo <mileo@kmee.com.br>
+* Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
 
 Other credits
@@ -107,6 +109,17 @@ This module is maintained by the OCA.
 OCA, or the Odoo Community Association, is a nonprofit organization whose
 mission is to support the collaborative development of Odoo features and
 promote its widespread use.
+
+.. |maintainer-mileo| image:: https://github.com/mileo.png?size=40px
+    :target: https://github.com/mileo
+    :alt: mileo
+.. |maintainer-marcelsavegnago| image:: https://github.com/marcelsavegnago.png?size=40px
+    :target: https://github.com/marcelsavegnago
+    :alt: marcelsavegnago
+
+Current `maintainers <https://odoo-community.org/page/maintainer-role>`__:
+
+|maintainer-mileo| |maintainer-marcelsavegnago| 
 
 This module is part of the `OCA/l10n-brazil <https://github.com/OCA/l10n-brazil/tree/12.0/l10n_br_product_contract>`_ project on GitHub.
 
