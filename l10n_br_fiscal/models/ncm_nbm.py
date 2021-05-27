@@ -10,7 +10,7 @@ class NCM(models.Model):
     nbm_ids = fields.Many2many(
         comodel_name='l10n_br_fiscal.nbm',
         relation='fiscal_nbm_ncm_rel',
-        colunm1='ncm_id',
-        colunm2='nbm_id',
+        column1='ncm_id',
+        column2='nbm_id',
         readonly=True,
         string='NBMs')
