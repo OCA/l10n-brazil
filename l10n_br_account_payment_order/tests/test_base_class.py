@@ -13,12 +13,13 @@ from odoo.exceptions import UserError
 @tagged('post_install', '-at_install')
 class TestL10nBrAccountPaymentOder(SavepointCase):
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
-        self.move_line_change_id = self.env['account.move.line.cnab.change']
+        cls.move_line_change_id = cls.env['account.move.line.cnab.change']
 
-        self.chance_view_id = 'l10n_br_account_payment_order.' \
+        cls.chance_view_id = 'l10n_br_account_payment_order.' \
             'account_move_line_cnab_change_form_view'
 
     def _payment_order_all_workflow(self, payment_order_id):
