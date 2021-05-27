@@ -14,17 +14,17 @@ class SubsequentDocument(models.Model):
     _inherit = 'l10n_br_fiscal.subsequent.document'
 
     @job
-    def _gera_documento_subsequente_job(self):
-        self._gera_documento_subsequente()
+    def _generate_subsequent_document_job(self):
+        self._generate_subsequent_document()
 
-    def gera_documento_subsequente(self):
+    def generate_subsequent_document(self):
         _logger.info(_('Gerando documento fiscal %s', self.ids))
 
-        if self.operacao_subsequente_id.gerar_documento == 'now':
+        if self.operacao_subsequente_id.queue_document_send == 'send_now':
             _logger.info(_('Gerando documento fiscal agora: %s',
                          self.documento_origem_id.ids))
-            self._gera_documento_subsequente_job()
+            self._generate_subsequent_document_job()
         else:
             _logger.info(_('Gerando documento fiscal depois: %s',
                          self.documento_origem_id.ids))
-            self.with_delay()._gera_documento_subsequente_job()
+            self.with_delay()._generate_subsequent_document_job()
