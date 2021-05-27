@@ -9,10 +9,11 @@ from odoo.tests import SavepointCase
 @tagged('post_install', '-at_install')
 class TestPaymentOrder(SavepointCase):
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
         # Get Invoice for test
-        self.invoice_customer_without_paymeny_mode = self.env.ref(
+        cls.invoice_customer_without_paymeny_mode = cls.env.ref(
             'l10n_br_account_payment_order.'
             'demo_invoice_no_payment_mode'
         )
