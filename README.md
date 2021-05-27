@@ -97,6 +97,7 @@ addon | version | summary
 [l10n_br_nfse](l10n_br_nfse/) | 12.0.4.1.0 | NFS-e
 [l10n_br_nfse_ginfes](l10n_br_nfse_ginfes/) | 12.0.3.0.0 | NFS-e (Ginfes)
 [l10n_br_nfse_issnet](l10n_br_nfse_issnet/) | 12.0.3.0.0 | NFS-e (ISSNet)
+[l10n_br_nfse_paulistana](l10n_br_nfse_paulistana/) | 12.0.1.0.0 | NFS-e (Nota Paulistana)
 [l10n_br_portal](l10n_br_portal/) | 12.0.1.2.0 | Campos Brasileiros no Portal
 [l10n_br_purchase](l10n_br_purchase/) | 12.0.4.3.0 | Brazilian Localization Purchase
 [l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.2.0.0 | Brazilian Localization Purchase Stock
