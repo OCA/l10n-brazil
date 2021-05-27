@@ -11,10 +11,11 @@ from odoo.addons.l10n_br_account_payment_order.\
 @tagged('post_install', '-at_install')
 class TestPaymentOrderManualWorkflow(TestL10nBrAccountPaymentOder):
 
-    def setUp(self):
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
         # Get Invoice for test
-        self.invoice_manual_test = self.env.ref(
+        cls.invoice_manual_test = cls.env.ref(
             'l10n_br_account_payment_order.'
             'demo_invoice_manual_test'
         )
