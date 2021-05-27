@@ -17,23 +17,6 @@ class FiscalDocument(models.Model):
         for record in self:
             record._eletronic_document_send()
 
-    def envia_documento(self):
-        _logger.info('Enviando documento fiscal %s', self.ids)
-
-        enviar_agora = self.filtered(
-            lambda documento:
-                documento.operacao_id.momento_envio_documento == 'now'
-        )
-        enviar_depois = self - enviar_agora
-        if enviar_agora:
-            _logger.info('Enviando documento fiscal agora: %s',
-                         enviar_agora.ids)
-            enviar_agora._envia_documento_job()
-        if enviar_depois:
-            _logger.info('Enviando documento fiscal depois: %s',
-                         enviar_depois.ids)
-            enviar_depois.with_delay()._envia_documento_job()
-
     def _document_send(self):
         no_electronic = self.filtered(lambda d: not d.document_electronic)
         no_electronic._no_eletronic_document_send()
@@ -41,7 +24,7 @@ class FiscalDocument(models.Model):
 
         send_now = electronic.filtered(
             lambda documento:
-                documento.operacao_id.momento_envio_documento == 'now'
+                documento.operacao_id.queue_document_send == 'send_now'
         )
         send_later = electronic - send_now
 
