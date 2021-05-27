@@ -29,6 +29,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_nfse',
         'odoo12-addon-l10n_br_nfse_ginfes',
         'odoo12-addon-l10n_br_nfse_issnet',
+        'odoo12-addon-l10n_br_nfse_paulistana',
         'odoo12-addon-l10n_br_portal',
         'odoo12-addon-l10n_br_purchase',
         'odoo12-addon-l10n_br_purchase_stock',
