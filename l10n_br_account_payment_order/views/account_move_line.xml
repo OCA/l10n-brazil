@@ -16,7 +16,7 @@
         <field name="name">cnab.account.move.line.form.inherit</field>
         <field name="model">account.move.line</field>
         <field name="inherit_id" ref="account.view_move_line_form"/>
-        <field name="priority" eval="16"/>
+        <field name="priority">99</field>
         <field name="arch" type="xml">
             <sheet position="before">
                 <header>
