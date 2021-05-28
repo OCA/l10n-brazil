@@ -65,6 +65,12 @@ msgid "Buyer Presence"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__cfop_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_report
+msgid "CFOP"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__cnpj_cpf
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
 msgid "CNPJ/CPF"
