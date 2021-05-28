@@ -776,6 +776,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         }
 
         if uom_id != uot_id:
+            result['uot_id'] = uot_id
             if product_id and price and quantity:
                 product = self.env['product.product'].browse(product_id)
                 result['fiscal_price'] = (
