@@ -1,8 +1,10 @@
+<?xml version="1.0"?>
 <odoo>
 
     <record id="bank_payment_line_form" model="ir.ui.view">
         <field name="name">bank.payment.line.form</field>
         <field name="model">bank.payment.line</field>
+        <field name="priority">99</field>
         <field name="inherit_id"
                ref="account_payment_order.bank_payment_line_form"/>
         <field name="arch" type="xml">

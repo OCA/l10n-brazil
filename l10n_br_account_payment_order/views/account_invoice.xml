@@ -5,6 +5,7 @@
     <record id="view_l10n_br_account_invoice_form_inherit" model="ir.ui.view">
         <field name="name">view.l10n_br_account.invoice.form.form.inherit</field>
         <field name="model">account.invoice</field>
+        <field name="priority">99</field>
         <field name="inherit_id" ref="account_payment_order.invoice_form"/>
         <field name="arch" type="xml">
             <notebook position="inside">
