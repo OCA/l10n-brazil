@@ -9,6 +9,7 @@
     <record id="l10n_br_account_payment_order_payment_line_form" model="ir.ui.view">
         <field name="name">l10n_br_account_payment_order.payment.line.form</field>
         <field name="model">account.payment.line</field>
+        <field name="priority">99</field>
         <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
         <field name="arch" type="xml">
             <!-- TODO Campos não podem ser alterados aqui, o account.move.line ficaria
