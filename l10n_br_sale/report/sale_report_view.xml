@@ -15,6 +15,10 @@
                         icon="terp-stock_symbol-selection"
                         name="fiscal_operation_line_id"
                         context="{'group_by':'fiscal_operation_line_id'}"/>
+                <filter string="CFOP"
+                        icon="terp-stock_symbol-selection"
+                        name="cfop_id"
+                        context="{'group_by':'cfop_id'}"/>
             </filter>
         </field>
     </record>

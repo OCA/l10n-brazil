@@ -30,6 +30,11 @@ class SaleReport(models.Model):
         default=NFE_IND_PRES_DEFAULT,
     )
 
+    cfop_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.cfop',
+        string='CFOP',
+    )
+
     def _query(self, with_clause='', fields=None, groupby='', from_clause=''):
         if fields is None:
             fields = {}
@@ -40,11 +45,14 @@ class SaleReport(models.Model):
             'fiscal_operation_line_id':
                 ', l.fiscal_operation_line_id as fiscal_operation_line_id',
             'ind_pres': ', s.ind_pres',
+            'cfop_id':
+                ', l.cfop_id as cfop_id',
         })
         groupby += """
             , l.fiscal_operation_id
             , l.fiscal_operation_line_id
             , s.ind_pres
+            , l.cfop_id
         """
         return super()._query(with_clause=with_clause, fields=fields,
                               groupby=groupby, from_clause=from_clause)
