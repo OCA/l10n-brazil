@@ -52,12 +52,12 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_uCom = fields.Char(
-        related='product_id.uom_id.code',
+        related='uom_id.code',
         inverse='_inverse_uCom',
     )
 
     nfe40_uTrib = fields.Char(
-        related='product_id.uom_id.code',
+        related='uot_id.code',
     )
 
     nfe40_vUnCom = fields.Float(
