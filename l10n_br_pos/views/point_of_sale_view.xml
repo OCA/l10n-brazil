@@ -147,12 +147,12 @@
                     <field name="numero_caixa" />
                     <field name="impressora" />
                     <field name="printer_params" />
-                    <field name="out_pos_fiscal_category_id" />
-                    <field name="refund_pos_fiscal_category_id" />
+                    <field name="out_pos_fiscal_operation_id" />
+                    <field name="refund_pos_fiscal_operation_id" />
                     <field name="assinatura_sat" />
                 </group>
                 <group>
-                    <field name="fiscal_category_id" required="1"/>
+                    <field name="fiscal_operation_id" required="1"/>
                 </group>
             </group>
         </group>
