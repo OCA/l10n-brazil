@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -47,7 +46,7 @@ class PosOrder(models.Model):
 
     chave_cfe = fields.Char('Chave da Cfe')
 
-    num_sessao_sat = fields.Char(u'Número Sessão SAT envio Cfe')
+    num_sessao_sat = fields.Char('Número Sessão SAT envio Cfe')
 
     pos_order_associated = fields.Many2one('pos.order', 'Venda Associada')
 
@@ -58,11 +57,11 @@ class PosOrder(models.Model):
     chave_cfe_cancelamento = fields.Char('Chave da Cfe Cancelamento')
 
     num_sessao_sat_cancelamento = fields.Char(
-        u'Número Sessão SAT Cancelamento'
+        'Número Sessão SAT Cancelamento'
     )
 
     cnpj_cpf = fields.Char(
-        string=u'CNPJ/CPF',
+        string='CNPJ/CPF',
         related='partner_id.cnpj_cpf',
     )
 
@@ -126,14 +125,14 @@ class PosOrder(models.Model):
     @api.multi
     def create_picking(self):
         super(PosOrder, self).create_picking()
-        fiscal_category = self.session_id.config_id.fiscal_category_id
-        self.picking_id.fiscal_category_id = \
+        fiscal_category = self.session_id.config_id.fiscal_operation_id
+        self.picking_id.fiscal_operation_id = \
             fiscal_category.id
         obj_fp_rule = self.env['account.fiscal.position.rule']
         kwargs = {
             'partner_id': self.picking_id.company_id.partner_id.id,
             'partner_shipping_id': self.picking_id.company_id.partner_id.id,
-            'fiscal_category_id': fiscal_category.id,
+            'fiscal_operation_id': fiscal_category.id,
             'company_id': self.picking_id.company_id.id,
         }
         self.picking_id.fiscal_position = obj_fp_rule.apply_fiscal_mapping(

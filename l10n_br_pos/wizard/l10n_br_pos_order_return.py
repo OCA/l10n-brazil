@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -51,13 +50,13 @@ class StockPickingReturn(models.TransientModel):
             picking_ids = result_domain and result_domain[0] and \
                 result_domain[0][2]
             picking_devolucao = self.env['stock.picking'].browse(picking_ids)
-            cat_fiscal_devolucao = picking_devolucao.fiscal_category_id
+            cat_fiscal_devolucao = picking_devolucao.fiscal_operation_id
             obj_fp_rule = self.env['account.fiscal.position.rule']
             kwargs = {
                 'partner_id': picking_devolucao.company_id.partner_id.id,
                 'partner_shipping_id':
                     picking_devolucao.company_id.partner_id.id,
-                'fiscal_category_id': cat_fiscal_devolucao.id,
+                'fiscal_operation_id': cat_fiscal_devolucao.id,
                 'company_id': picking_devolucao.company_id.id,
             }
             picking_devolucao.fiscal_position = obj_fp_rule.apply_fiscal_mapping(
@@ -85,22 +84,22 @@ class PorOrderReturn(models.TransientModel):
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
-        string=u"Cliente",
-        help=u"Selecione ou Defina um novo cliente para efetuar a devoluçao",
+        string="Cliente",
+        help="Selecione ou Defina um novo cliente para efetuar a devoluçao",
         default=_get_partner,
-        required=True
+        # required=True
     )
 
     @staticmethod
     def _check_picking_parameters(order):
-        if not order.picking_id.fiscal_category_id:
-            order.picking_id.fiscal_category_id = (
-                order.session_id.config_id.out_pos_fiscal_category_id or
-                order.company_id.out_pos_fiscal_category_id)
-        if not order.picking_id.fiscal_category_id.refund_fiscal_category_id:
-            order.picking_id.fiscal_category_id.refund_fiscal_category_id = (
-                order.session_id.config_id.refund_pos_fiscal_category_id or
-                order.company_id.refund_pos_fiscal_category_id)
+        if not order.picking_id.fiscal_operation_id:
+            order.picking_id.fiscal_operation_id = (
+                order.session_id.config_id.out_pos_fiscal_operation_id or
+                order.company_id.out_pos_fiscal_operation_id)
+        if not order.picking_id.fiscal_operation_id.refund_fiscal_operation_id:
+            order.picking_id.fiscal_operation_id.refund_fiscal_operation_id = (
+                order.session_id.config_id.refund_pos_fiscal_operation_id or
+                order.company_id.refund_pos_fiscal_operation_id)
         order.picking_id.partner_id = order.partner_id
         return True
 
