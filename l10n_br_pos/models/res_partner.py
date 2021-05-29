@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -9,7 +8,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     data_alteracao = fields.Date()
-    credit_funcionario = fields.Float(u'Crédito do Funcionário')
+    credit_funcionario = fields.Float('Crédito do Funcionário')
 
     @api.model
     def get_credit_limit(self, partner):
