@@ -14,18 +14,8 @@ DOCUMENT_TYPE = [
 ]
 
 
-class L10nbrAccountCFOP(models.Model):
-    """CFOP - Código Fiscal de Operações e Prestações"""
-    _inherit = 'l10n_br_account_product.cfop'
-
-    is_pos = fields.Boolean(
-        string=u"Permitida no POS",
-        help=u"Marque esta seleção para que a CFOP possa ser utililizada no "
-             u"NFC-E/SAT")
-
-
-class L10nbrAccountDocumentRelated(models.Model):
-    _inherit = 'l10n_br_account_product.document.related'
+class DocumentRelated(models.Model):
+    _inherit = 'l10n_br_fiscal.document.related'
 
     pos_order_related_id = fields.Many2one('pos.order',
                                            string=u'Documento Fiscal SAT',
