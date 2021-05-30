@@ -7,7 +7,7 @@
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Akretion, " "Odoo Community Association (OCA)",
-    "website": "http://odoo-brasil.org",
+    "website": "https://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.0",
     "depends": ["l10n_br_base", "crm"],
     "data": ["views/crm_lead_view.xml", "views/crm_opportunity_view.xml"],
