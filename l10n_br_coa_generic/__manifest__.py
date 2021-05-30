@@ -8,7 +8,7 @@
     "category": "Localization",
     "license": "AGPL-3",
     "author": "KMEE, " "Odoo Community Association (OCA)",
-    "website": "http://github.com/OCA/l10n-brazil",
+    "website": "https://github.com/OCA/l10n-brazil",
     "version": "12.0.4.1.0",
     "depends": ["l10n_br_coa"],
     "data": [
