@@ -9,7 +9,7 @@
     'version': '12.0.3.1.0',
     'license': 'AGPL-3',
     'author': 'Akretion, KMEE, Odoo Community Association (OCA)',
-    'website': 'https://github.com/oca/l10n-brazil',
+    "website": "https://github.com/OCA/l10n-brazil",
     'depends': ['account'],
     'data': [
         # Data
