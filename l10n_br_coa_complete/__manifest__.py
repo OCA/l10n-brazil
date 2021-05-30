@@ -10,7 +10,7 @@
     'license': 'LGPL-3',
     'author': 'Escodoo, Odoo Community Association (OCA)',
     'maintainers': ['marcelsavegnago'],
-    'website': 'http://github.com/OCA/l10n-brazil',
+    'website': 'https://github.com/OCA/l10n-brazil',
     'images': ['static/description/banner.png'],
     'depends': ['l10n_br_coa'],
     'data': [
