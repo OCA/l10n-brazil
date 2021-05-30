@@ -9,7 +9,7 @@
     'author': "KMEE, "
               "Akretion, "
               "Odoo Community Association (OCA)",
-    'website': 'https://github.com/OCA/l10n-brazil',
+    "website": "https://github.com/OCA/l10n-brazil",
     'category': 'Banking addons',
     'depends': [
         'l10n_br_base',
