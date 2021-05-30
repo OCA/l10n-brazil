@@ -8,7 +8,7 @@
     'version': '12.0.4.1.0',
     'license': 'AGPL-3',
     'author': 'KMEE,Odoo Community Association (OCA)',
-    'website': 'https://github.com/oca/l10n-brazil',
+    'website': 'https://github.com/OCA/l10n-brazil',
     'depends': [
         'l10n_br_account', 'contract'
     ],
