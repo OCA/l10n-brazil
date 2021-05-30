@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
@@ -19,7 +18,7 @@ class StockReturnPicking(models.TransientModel):
             picking_devolucao = self.assign_returning_picking(
                 result)
 
-            if picking_devolucao.state != u'confirmed':
+            if picking_devolucao.state != 'confirmed':
                 self.transfer_returning_picking(picking_devolucao)
 
             # Create the wizard that relate the source fiscal documents with

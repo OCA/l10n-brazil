@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
@@ -6,16 +5,16 @@ from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 
 SIMPLIFIED_INVOICE_TYPE = [
-    ('nfce', u'NFC-E'),
-    ('sat', u'SAT'),
-    ('paf', u'PAF-ECF'),
+    ('nfce', 'NFC-E'),
+    ('sat', 'SAT'),
+    ('paf', 'PAF-ECF'),
 ]
 
 PRINTER = [
-    ('epson-tm-t20', u'Epson TM-T20'),
-    ('bematech-mp4200th', u'Bematech MP4200TH'),
-    ('daruma-dr700', u'Daruma DR700'),
-    ('elgin-i9', u'Elgin I9'),
+    ('epson-tm-t20', 'Epson TM-T20'),
+    ('bematech-mp4200th', 'Bematech MP4200TH'),
+    ('daruma-dr700', 'Daruma DR700'),
+    ('elgin-i9', 'Elgin I9'),
 ]
 
 
@@ -23,12 +22,12 @@ class PosConfig(models.Model):
     _inherit = 'pos.config'
 
     @api.model
-    def _default_out_pos_fiscal_category_id(self):
-        return self.company_id.out_pos_fiscal_category_id
+    def _default_out_pos_fiscal_operation_id(self):
+        return self.company_id.out_pos_fiscal_operation_id
 
     @api.model
-    def _default_refund_pos_fiscal_category_id(self):
-        return self.company_id.refund_pos_fiscal_category_id
+    def _default_refund_pos_fiscal_operation_id(self):
+        return self.company_id.refund_pos_fiscal_operation_id
 
     # @api.multi
     # @api.constrains('lim_data_alteracao')
@@ -37,103 +36,105 @@ class PosConfig(models.Model):
     #         raise ValidationError("Somente números positivos são válidos")
 
     simplified_invoice_limit = fields.Float(
-        string=u'Simplified invoice limit',
+        string='Simplified invoice limit',
         digits=dp.get_precision('Account'),
-        help=u'Over this amount is not legally posible to create a '
-             u'simplified invoice',
+        help='Over this amount is not legally posible to create a simplified invoice',
         default=3000)
+
     simplified_invoice_type = fields.Selection(
-        string=u'Simplified Invoice Type',
+        string='Simplified Invoice Type',
         selection=SIMPLIFIED_INVOICE_TYPE,
-        help=u'Tipo de documento emitido pelo PDV',
+        help='Tipo de documento emitido pelo PDV',
     )
 
     save_identity_automatic = fields.Boolean(
-        string=u'Save new client identity automatic',
+        string='Save new client',
+        help='Activating will save the customer identity automatic',
         default=True
     )
 
     lim_data_alteracao = fields.Integer(
-        string=u"Atualizar dados (meses)",
+        string="Atualizar dados (meses)",
         default=3,
     )
 
     crm_ativo = fields.Boolean(
-        string=u'CRM ativo?',
+        string='CRM ativo?',
         default=False,
     )
 
     cpf_nota = fields.Boolean(
-        string=u'Inserir CPF na nota',
+        string='Inserir CPF na nota',
         default=False
     )
 
     iface_sat_via_proxy = fields.Boolean(
-        string=u'SAT',
-        help=u"Ao utilizar o SAT é necessário ativar esta opção"
+        string='SAT',
+        help="Ao utilizar o SAT é necessário ativar esta opção"
     )
 
     cnpj_homologacao = fields.Char(
-        string=u'CNPJ homologação',
+        string='CNPJ homologação',
         size=18
     )
 
     ie_homologacao = fields.Char(
-        string=u'IE homologação',
+        string='IE homologação',
         size=16
     )
 
     cnpj_software_house = fields.Char(
-        string=u'CNPJ software house',
+        string='CNPJ software house',
         size=18
     )
 
     sat_ambiente = fields.Selection(
-        string=u'Ambiente SAT',
+        string='Ambiente SAT',
         related='company_id.ambiente_sat',
         store=True
     )
 
     sat_path = fields.Char(
-        string=u'SAT path'
+        string='SAT path'
     )
 
     numero_caixa = fields.Integer(
-        string=u'Número do Caixa',
+        string='Número do Caixa',
         copy=False
     )
 
     cod_ativacao = fields.Char(
-        string=u'Código de ativação',
+        string='Código de ativação',
     )
 
     impressora = fields.Selection(
         selection=PRINTER,
-        string=u'Impressora',
+        string='Impressora',
     )
 
     printer_params = fields.Char(
-        string=u'Printer parameters'
+        string='Printer parameters'
     )
 
-    fiscal_category_id = fields.Many2one(
-        comodel_name='l10n_br_account.fiscal.category',
-        string=u'Fiscal Category'
+    fiscal_operation_id = fields.Many2one(
+        comodel_name='l10n_br_fiscal.operation',
+        string='Fiscal Operation'
     )
-    out_pos_fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category',
+    
+    out_pos_fiscal_operation_id = fields.Many2one(
+        'l10n_br_fiscal.operation',
         'Categoria Fiscal de Padrão de Saida do PDV',
-        domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
-        " ('fiscal_type','=','product'), ('type','=','output')]",
-        default=_default_out_pos_fiscal_category_id,
+        # domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
+        # " ('fiscal_type','=','product'), ('type','=','output')]",
+        default=_default_out_pos_fiscal_operation_id,
     )
-    refund_pos_fiscal_category_id = fields.Many2one(
-        'l10n_br_account.fiscal.category',
+    refund_pos_fiscal_operation_id = fields.Many2one(
+        'l10n_br_fiscal.operation',
         string='Categoria Fiscal de Devolução do PDV',
-        domain="[('journal_type','=','sale_refund'),"
-        "('state', '=', 'approved'), ('fiscal_type','=','product'),"
-        " ('type','=','input')]",
-        default=_default_refund_pos_fiscal_category_id,
+        # domain="[('journal_type','=','sale_refund'),"
+        # "('state', '=', 'approved'), ('fiscal_type','=','product'),"
+        # " ('type','=','input')]",
+        default=_default_refund_pos_fiscal_operation_id,
     )
 
     assinatura_sat = fields.Char(
