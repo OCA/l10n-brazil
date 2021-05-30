@@ -6,7 +6,7 @@
     "summary": "Brazilian Localization HR",
     "category": "Localization",
     "author": "KMEE, " "Odoo Community Association (OCA)",
-    "website": "http://www.kmee.com.br",
+    "website": "https://github.com/OCA/l10n-brazil",
     "version": "12.0.1.0.0",
     "depends": ["hr", "l10n_br_base"],
     "data": [
