@@ -67,23 +67,20 @@
                 <page name="fiscal" string="Fiscal" groups="l10n_br_fiscal.group_user">
                     <group>
                         <group>
-  			<field
+                            <field
                                 name="fiscal_type"
-                                required="1"
-                                iattrs="{'required': [('need_fiscal_validation', '=', False)]}"
+                                attrs="{'required': [('need_fiscal_validation', '=', False)]}"
                             />
                             <field
                                 name="icms_origin"
                                 attrs="{'required': [('fiscal_type', '!=', '09'), ('need_fiscal_validation', '=', False)], 'invisible': [('fiscal_type', '=', '09')]}"
                             />
-			    <field
+                            <field
                                 name="ncm_id"
-                                required="1"
                                 attrs="{'required': [('need_fiscal_validation', '=', False)]}"
                             />
-			    <field
+                            <field
                                 name="tax_icms_or_issqn"
-                                required="1"
                                 attrs="{'required': [('need_fiscal_validation', '=', False)]}"
                             />
                             <field
@@ -104,12 +101,14 @@
                                     <field name="cnae_id" />
                                   </tree>
                             </field>
-                            <field name="need_fiscal_validation" />
+                            <field
+                                name="need_fiscal_validation"
+                                groups="l10n_br_fiscal.group_manager"
+                            />
                         </group>
                         <group>
-			    <field
+                            <field
                                 name="fiscal_genre_id"
-                                required="1"
                                 attrs="{'required': [('need_fiscal_validation', '=', False)]}"
                             />
                             <field

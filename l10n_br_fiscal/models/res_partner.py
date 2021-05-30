@@ -26,7 +26,7 @@ class ResPartner(models.Model):
         )
 
     def _get_default_need_fiscal_validation(self):
-        if self.user_has_groups('l10n_br_fiscal.group_laxist_user'):
+        if self.user_has_groups("l10n_br_fiscal.group_laxist_user"):
             return True
 
     tax_framework = fields.Selection(
@@ -85,7 +85,7 @@ class ResPartner(models.Model):
 
     need_fiscal_validation = fields.Boolean(
         default=_get_default_need_fiscal_validation,
-        track_visibility='onchange',
+        track_visibility="onchange",
     )
 
     def _inverse_fiscal_profile(self):

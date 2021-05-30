@@ -41,6 +41,10 @@ class DocumentWorkflow(models.AbstractModel):
     _name = "l10n_br_fiscal.document.workflow"
     _description = "Fiscal Document Workflow"
 
+    def _get_default_need_fiscal_validation(self):
+        if self.user_has_groups("l10n_br_fiscal.group_laxist_user"):
+            return True
+
     state_edoc = fields.Selection(
         selection=SITUACAO_EDOC,
         string="Situação e-doc",
@@ -73,6 +77,8 @@ class DocumentWorkflow(models.AbstractModel):
         selection=PROCESSADOR,
         default=PROCESSADOR_NENHUM,
     )
+
+    need_fiscal_validation = fields.Boolean(default=_get_default_need_fiscal_validation)
 
     def _direct_draft_send(self):
         return False
@@ -308,15 +314,19 @@ class DocumentWorkflow(models.AbstractModel):
     def _document_confirm(self):
         for doc in self:
             need_validation_products = [
-                l.product_id.name
-                for l in self.line_ids
-                if l.product_id and l.product_id.need_fiscal_validation
+                line.product_id.name
+                for line in self.line_ids
+                if line.product_id and line.product_id.need_fiscal_validation
             ]
             if need_validation_products:
                 raise UserError(
                     _("Products %s need a fiscal validation!")
                     % (", ".join(need_validation_products))
                 )
+            if doc.partner_id.need_fiscal_validation:
+                raise UserError(_("Document Partner needs a fiscal validation!"))
+            if doc.need_fiscal_validation:
+                raise UserError(_("Fiscal Document needs a fiscal validation!"))
         self._change_state(SITUACAO_EDOC_A_ENVIAR)
 
     def action_document_confirm(self):

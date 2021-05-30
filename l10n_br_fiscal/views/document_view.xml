@@ -9,6 +9,11 @@
         <field name="document_number" />
         <field name="partner_id" />
         <field name="document_type_id" />
+        <filter
+                    string="Need Fiscal Validation"
+                    name="need_fiscal_validation"
+                    domain="[('need_fiscal_validation', '=', True)]"
+                />
         <group expand='0' string='Group By...'>
           <filter
                         string="Month"
@@ -244,6 +249,10 @@
                                 attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner')]}"
                             />
               <field name="state_fiscal" />
+              <field
+                                name="need_fiscal_validation"
+                                groups="l10n_br_fiscal.group_manager"
+                            />
             </group>
           </group>
           <notebook>
