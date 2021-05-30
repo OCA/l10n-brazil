@@ -25,6 +25,10 @@ class ResPartner(models.Model):
             [("default", "=", True), ("is_company", "=", is_company)], limit=1
         )
 
+    def _get_default_need_fiscal_validation(self):
+        if self.user_has_groups('l10n_br_fiscal.group_laxist_user'):
+            return True
+
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_NORMAL,
@@ -77,6 +81,11 @@ class ResPartner(models.Model):
 
     city_id = fields.Many2one(
         track_visibility="onchange",
+    )
+
+    need_fiscal_validation = fields.Boolean(
+        default=_get_default_need_fiscal_validation,
+        track_visibility='onchange',
     )
 
     def _inverse_fiscal_profile(self):
