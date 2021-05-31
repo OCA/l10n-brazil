@@ -9,8 +9,8 @@
     "development_status": "Alpha",
     'license': 'AGPL-3',
     'author': 'KMEE INFORMATICA LTDA,Odoo Community Association (OCA)',
-    "maintainers": ["DiegoParadeda"],
-    'website': "https://github.com/OCA/l10n-brazil",
+    'maintainers': ['DiegoParadeda'],
+    'website': 'https://github.com/OCA/l10n-brazil',
     'depends': ['payment'],
     'data': [
         'views/payment_views.xml',
