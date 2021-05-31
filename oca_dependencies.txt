@@ -7,3 +7,5 @@ mis-builder
 contract
 manufacture
 delivery-carrier
+pos
+
