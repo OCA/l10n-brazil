@@ -12,7 +12,6 @@
     "depends": [
         'l10n_br_stock_account',
         'l10n_br_zip',
-        # 'pos_pricelist',
         # 'pos_payment_term',
         # 'pos_order_picking_link',
         'stock_picking_invoice_link',
