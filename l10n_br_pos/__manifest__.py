@@ -28,10 +28,10 @@
         # "views/point_of_sale_report.xml",
         # "views/pos_order_line_view.xml",
         # "views/res_partner.xml",
-        # "views/res_company.xml",
         # "views/account_journal_view.xml",
         # "wizard/sat_xml_periodic_export.xml",
         # "views/account_invoice_view.xml"
+        "views/res_company.xml",
     ],
     "qweb": [
         # 'static/src/xml/pos.xml',
