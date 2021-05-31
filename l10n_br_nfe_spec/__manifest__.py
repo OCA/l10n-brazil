@@ -11,4 +11,5 @@
     "application": False,
     "development_status": "Production/Stable",
     "maintainers": ["rvalyi"],
+    "website": "https://github.com/OCA/l10n-brazil",
 }
