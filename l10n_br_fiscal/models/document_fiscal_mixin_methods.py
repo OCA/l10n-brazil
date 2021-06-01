@@ -48,12 +48,6 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                         values[field] += line[field]
                     if field.replace('amount_', '') in line._fields.keys():
                         values[field] += line[field.replace('amount_', '')]
-
-                if line.fiscal_operation_line_id:
-                    if line.fiscal_operation_line_id.add_to_amount and (
-                            not line.cfop_id or line.cfop_id.finance_move):
-                        values['amount_financial'] += line.amount_taxed
-
             doc.update(values)
 
     def __document_comment_vals(self):
