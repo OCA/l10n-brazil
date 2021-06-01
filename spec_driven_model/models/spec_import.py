@@ -38,8 +38,6 @@ class AbstractSpecMixin(models.AbstractModel):
 
         Defaults values and control options are meant to be passed in the context.
         """
-        # TODO new or create choice
-        # TODO ability to match existing record here
         model_name = SpecModel._get_concrete(self._name) or self._name
         model = self.env[model_name]
         attrs = model.with_context(dry_run=dry_run).build_attrs(node)
@@ -172,9 +170,6 @@ class AbstractSpecMixin(models.AbstractModel):
                     and v.related[0] == key\
                     and vals.get(k) is not None:
                 key_vals[v.related[1]] = vals[k]
-        # if key_vals != {}:
-        #     _logger.info("\nEXTRACT RELATED FROM PARENT:", self, key, key_vals)
-        # TODO use inside match_or_create??
         return key_vals
 
     @api.model
@@ -188,32 +183,35 @@ class AbstractSpecMixin(models.AbstractModel):
         if model is None:
             model = self
         related_many2ones = {}
-        fields = model.fields_get()
+        fields = model._fields
         for k, v in fields.items():
             # select schema choices for a friendly UI:
             if k.startswith('%schoice' % (self._field_prefix,)):
-                for item in v.get('selection', []):
+                for item in (getattr(v, 'selection') or []):
                     if vals.get(item[0]) not in [None, []]:
                         vals[k] = item[0]
                         break
 
             # reverse map related fields as much as possible
-            elif v.get('related') is not None and vals.get(k) is not None:
-                if len(v['related']) == 1:
-                    vals[v['related'][0]] = vals.get(k)
-                elif len(v['related']) == 2 and k.startswith(self._field_prefix):
-                    related_m2o = v['related'][0]
+            elif getattr(v, 'related') is not None and vals.get(k) is not None:
+                if len(getattr(v, 'related')) == 1:
+                    vals[getattr(v, 'related')[0]] = vals.get(k)
+                elif (
+                    len(getattr(v, 'related')) == 2
+                    and k.startswith(self._field_prefix)
+                ):
+                    related_m2o = getattr(v, 'related')[0]
                     # don't mess with _inherits write system
                     if not any(related_m2o == i[1]
                                for i in model._inherits.items()):
                         key_vals = related_many2ones.get(related_m2o, {})
-                        key_vals[v['related'][1]] = vals.get(k)
+                        key_vals[getattr(v, 'related')[1]] = vals.get(k)
                         related_many2ones[related_m2o] = key_vals
 
         # now we deal with the related m2o with compound related
         # (example: create Nfe lines product)
         for related_m2o, sub_val in related_many2ones.items():
-            comodel_name = fields[related_m2o]['relation']
+            comodel_name = getattr(fields[related_m2o], 'comodel_name')
             comodel = model.get_concrete_model(comodel_name)
             related_many2ones = \
                 model._verify_related_many2ones(related_many2ones)
