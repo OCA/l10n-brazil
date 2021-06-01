@@ -152,6 +152,16 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 record.amount_tax_withholding
             )
 
+            # Valor financeiro
+            if (
+                record.fiscal_operation_line_id
+                and record.fiscal_operation_line_id.add_to_amount
+                and (not record.cfop_id or record.cfop_id.finance_move)
+            ):
+                record.amount_financial = record.amount_taxed
+            else:
+                record.amount_financial = 0.0
+
     def _compute_taxes(self, taxes, cst=None):
         self.ensure_one()
         return taxes.compute_taxes(
