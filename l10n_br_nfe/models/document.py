@@ -217,11 +217,11 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_vOutro = fields.Monetary(
-        related='amount_other_costs_value'
+        related='amount_other_value'
     )
 
     nfe40_vDesc = fields.Monetary(
-        related='amount_discount'
+        related='amount_discount_value'
     )
 
     nfe40_vTotTrib = fields.Monetary(
