@@ -86,67 +86,61 @@ class Attachment(models.TransientModel):
             os.makedirs(attachment_dir)
 
         file_name = 'attachments'
-        config_ids = config_obj.search([('key', '=', 'web.base.url')])
+        base_url = config_obj.search([('key', '=', 'web.base.url')], limit=0)
+        if not base_url or not self.id:
+            return False
 
         attachment_obj.search([('active', '=', False)]).unlink()
 
-        if len(config_ids):
-            value = config_ids[0].value
-            active_model = 'ir.attachment'
-            active_id = self.id
+        # tar_dir = attachment_dir + '/' + file_name
+        tar_dir = os.path.join(attachment_dir, file_name)
+        tFile = tarfile.open(tar_dir, 'w:gz')
 
-            # tar_dir = attachment_dir + '/' + file_name
-            tar_dir = os.path.join(attachment_dir, file_name)
-            tFile = tarfile.open(tar_dir, 'w:gz')
+        # alterando o diretório de trabalho, caso contrário o arquivo
+        # será misturado com os arquivos do diretório pai
+        original_dir = os.getcwd()
+        filter_attachments = []
+        for attach in attachment_ids:
+            if attach.active:
+                filter_attachments.append(attach.id)
+        if not filter_attachments:
+            raise UserError(_("No attachment to download"))
 
-            if value and active_id and active_model:
-                # alterando o diretório de trabalho, caso contrário o arquivo
-                # será misturado com os arquivos do diretório pai
-                original_dir = os.getcwd()
-                filter_attachments = []
-                for attach in attachment_ids:
-                    if attach.active:
-                        filter_attachments.append(attach.id)
-                if not filter_attachments:
-                    raise UserError(_("No attachment to download"))
+        for attachment in attachment_obj.browse(filter_attachments):
+            # caminho do arquivo
+            full_path = attachment_obj._full_path(
+                attachment.store_fname)
+            attachment_name = attachment.datas_fname
+            new_file = os.path.join(attachment_dir, attachment_name)
 
-                for attachment in attachment_obj.browse(filter_attachments):
-                    # caminho do arquivo
-                    full_path = attachment_obj._full_path(
-                        attachment.store_fname)
-                    attachment_name = attachment.datas_fname
-                    new_file = os.path.join(attachment_dir, attachment_name)
+            # copying in a new directory with a new name
+            # shutil.copyfile(full_path, new_file)
+            try:
+                shutil.copy2(full_path, new_file)
+            except Exception:
+                pass
+                # raise UserError(_("Not Proper file name to download"))
 
-                    # copying in a new directory with a new name
-                    # shutil.copyfile(full_path, new_file)
-                    try:
-                        shutil.copy2(full_path, new_file)
-                    except Exception:
-                        pass
-                        # raise UserError(_("Not Proper file name to download"))
+            head, tail = ntpath.split(new_file)
+            # change working directory otherwise it tars all parent directory
+            os.chdir(head)
+            try:
+                tFile.add(tail)
+            except Exception:
+                _logger.error("No such file was found : %s" % tail)
 
-                    head, tail = ntpath.split(new_file)
-                    # change working directory otherwise it tars all parent directory
-                    os.chdir(head)
-                    try:
-                        tFile.add(tail)
-                    except Exception:
-                        _logger.error("No such file was found : %s" % tail)
+        tFile.close()
+        os.chdir(original_dir)
 
-                tFile.close()
-                os.chdir(original_dir)
+        values = {
+            'name': file_name + '.tar.gz',
+            'datas_fname': file_name + '.tar.gz',
+            'res_model': 'l10n_br_fiscal.attachment',
+            'res_id': self.id,
+            'type': 'binary',
+            'store_fname': 'attachments/attachments',
+            'active': False,
+        }
+        attachment_id = self.env['ir.attachment'].create(values)
 
-                values = {
-                    'name': file_name + '.tar.gz',
-                    'datas_fname': file_name + '.tar.gz',
-                    'res_model': 'l10n_br_fiscal.attachment',
-                    'res_id': self.id,
-                    'type': 'binary',
-                    'store_fname': 'attachments/attachments',
-                    'active': False,
-                }
-                attachment_id = self.env['ir.attachment'].create(values)
-
-                return attachment_id
-
-        return False
+        return attachment_id
