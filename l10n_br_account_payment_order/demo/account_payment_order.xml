@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
 
-    <!-- Invoice -->
-    <record id="demo_invoice_payment_order" model="account.invoice">
-        <field name="name">Test Payment Order</field>
-        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
-        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="type">out_invoice</field>
-        <field name="account_id" model="account.account" eval="obj().env.ref('l10n_br_base.res_partner_akretion').property_account_receivable_id.id"/>
-        <field name="company_id" ref="base.main_company"/>
-        <field name="payment_mode_id" ref="main_company_payment_mode_boleto"/>
-        <field name="user_id" ref="base.user_admin"/>
-    </record>
-
-    <record id="demo_invoice_line_original" model="account.invoice.line">
-        <field name="invoice_id" ref="demo_invoice_payment_order"/>
-        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
-        <field name="product_id" ref="product.product_product_5"/>
-        <field name="uom_id" ref="uom.product_uom_unit"/>
-        <field name="price_unit">100</field>
-        <field name="quantity">10</field>
-        <field name="account_id" model="account.account" eval="obj().env.ref('product.product_product_5').categ_id.property_account_income_categ_id.id"/>
-    </record>
+    <!-- TODO: Teste falha ao rodar mais de uma vez
+          return super().unlink()
+          File "/odoo/external-src/bank-payment/account_payment_order/models/bank_payment_line.py", line 170, in unlink
+            % order_state)
+          odoo.tools.convert.ParseError: "Cannot delete a payment order line whose payment order is in state 'uploaded'. You need to cancel it first.
+    <function model="account.payment.order" name="draft2open">
+        <value model="account.payment.order" search="[('payment_mode_id', '=', obj().env.ref('l10n_br_account_payment_order.payment_mode_manual_test_main').id)]"/>
+    </function>
+    <function model="account.payment.order" name="open2generated">
+        <value model="account.payment.order" search="[('payment_mode_id', '=', obj().env.ref('l10n_br_account_payment_order.payment_mode_manual_test_main').id)]"/>
+    </function>
+    <function model="account.payment.order" name="generated2uploaded">
+        <value model="account.payment.order" search="[('payment_mode_id', '=', obj().env.ref('l10n_br_account_payment_order.payment_mode_manual_test_main').id)]"/>
+    </function>-->
 
 </odoo>
