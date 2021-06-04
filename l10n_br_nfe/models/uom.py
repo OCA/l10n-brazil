@@ -8,14 +8,11 @@ class Uom(models.Model):
     _inherit = 'uom.uom'
 
     @api.model
-    def match_or_create_m2o(self, rec_dict, parent_dict,
-                            create_m2o=False, model=None):
-        "if uom not found, break hard, don't create it"
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
+        """If uom not found, break hard, don't create it"""
+
         if rec_dict.get('name'):
-            # TODO FIXME where are the BR unit names supposed to live?
-            BR2ODOO = {'UN': 'Unit(s)', 'LU': 'Liter(s)'}
-            name = BR2ODOO.get(rec_dict['name'], rec_dict['name'])
-            domain = [('name', '=', name)]
+            domain = [('code', '=', rec_dict.get('name'))]
             match = self.search(domain, limit=1)
             if match:
                 return match.id
