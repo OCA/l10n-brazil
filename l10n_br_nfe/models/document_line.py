@@ -53,7 +53,6 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_uCom = fields.Char(
         related='uom_id.code',
-        inverse='_inverse_uCom',
     )
 
     nfe40_uTrib = fields.Char(
@@ -323,15 +322,6 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_choice10 = 'nfe40_ISSQN'
 
-    def _inverse_uCom(self):
-        # TODO need fix in search in l10n_br_fiscal/models/uom_uom.py
-        for line in self:
-            if line.nfe40_uCom:
-                uom_ids = self.env['uom.uom'].search(
-                    [('code', 'ilike', line.nfe40_uCom)])
-                if uom_ids:
-                    line.uom_id = uom_ids[0]
-
     @api.model
     def _prepare_import_dict(self, values, model=None):
         values = super()._prepare_import_dict(values, model)
@@ -461,7 +451,7 @@ class NFeLine(spec_models.StackedModel):
         self.nfe40_NCM = self.ncm_id.code_unmasked or False
         self.nfe40_CEST = self.cest_id and self.cest_id.code_unmasked or False
         self.nfe40_qCom = self.quantity
-        self.nfe40_qTrib = self.quantity
+        self.nfe40_qTrib = self.fiscal_quantity
         self.nfe40_pICMS = self.icms_percent
         self.nfe40_pICMSST = self.icmsst_percent
         self.nfe40_pMVAST = self.icmsst_mva_percent
@@ -612,6 +602,7 @@ class NFeLine(spec_models.StackedModel):
                 ('code_unmasked', '=', value)], limit=1).id
         if key == 'nfe40_qCom':
             vals['quantity'] = float(value)
+        if key == 'nfe40_qTrib':
             vals['fiscal_quantity'] = float(value)
         if key == 'nfe40_pICMS':
             vals['icms_percent'] = float(value or 0.00)
