@@ -39,6 +39,18 @@ class NFeLine(spec_models.StackedModel):
         related="product_id.default_code",
     )
 
+    nfe40_NCM = fields.Char(
+        related="ncm_id.code_unmasked",
+    )
+
+    nfe40_CEST = fields.Char(
+        related="cest_id.code_unmasked",
+    )
+
+    nfe40_cEnq = fields.Char(
+        related="ipi_guideline_id.code_unmasked",
+    )
+
     nfe40_cEAN = fields.Char(
         related="product_id.barcode",
     )
@@ -436,8 +448,6 @@ class NFeLine(spec_models.StackedModel):
                 xsd_fields.remove("nfe40_vBC")
                 xsd_fields.remove("nfe40_pCOFINS")
 
-        self.nfe40_NCM = self.ncm_id.code_unmasked or False
-        self.nfe40_CEST = self.cest_id and self.cest_id.code_unmasked or False
         self.nfe40_qCom = self.quantity
         self.nfe40_qTrib = self.fiscal_quantity
         self.nfe40_pICMS = self.icms_percent
@@ -447,7 +457,6 @@ class NFeLine(spec_models.StackedModel):
         self.nfe40_pIPI = self.ipi_percent
         self.nfe40_pPIS = self.pis_percent
         self.nfe40_pCOFINS = self.cofins_percent
-        self.nfe40_cEnq = str(self.ipi_guideline_id.code or "999").zfill(3)
         self.nfe40_pCredSN = self.icmssn_percent
         return super()._export_fields(xsd_fields, class_obj, export_dict)
 
@@ -600,36 +609,17 @@ class NFeLine(spec_models.StackedModel):
 
         if key == "nfe40_vUnCom":
             vals["price_unit"] = float(value)
-        if key == "nfe40_NCM":
-            vals["ncm_id"] = (
-                self.env["l10n_br_fiscal.ncm"]
-                .search([("code_unmasked", "=", value)], limit=1)
-                .id
-            )
-        if key == "nfe40_CEST" and value:
-            vals["cest_id"] = (
-                self.env["l10n_br_fiscal.cest"]
-                .search([("code_unmasked", "=", value)], limit=1)
-                .id
-            )
         if key == "nfe40_qCom":
             vals["quantity"] = float(value)
-        if key == "nfe40_qTrib":
             vals["fiscal_quantity"] = float(value)
         if key == "nfe40_pICMS":
-            vals["icms_percent"] = float(value)
+            vals["icms_percent"] = float(value or 0.00)
         if key == "nfe40_pIPI":
             vals["ipi_percent"] = float(value or 0.00)
         if key == "nfe40_pPIS":
             vals["pis_percent"] = float(value or 0.00)
         if key == "nfe40_pCOFINS":
             vals["cofins_percent"] = float(value or 0.00)
-        if key == "nfe40_cEnq":
-            vals["ipi_guideline_id"] = (
-                self.env["l10n_br_fiscal.tax.ipi.guideline"]
-                .search([("code_unmasked", "=", value)], limit=1)
-                .id
-            )
 
         return super()._build_attr(node, fields, vals, path, attr)
 
