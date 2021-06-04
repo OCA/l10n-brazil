@@ -2,7 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import json
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 
 from ..constants.fiscal import (
     SITUACAO_EDOC_A_ENVIAR,
@@ -37,11 +37,10 @@ class Operation(models.Model):
     #   de forma manual ou usando o ORM:
     #         query = self._where_calc(args)
     #         self._apply_ir_rules(query, 'read')
-
-    @api.one
     def _compute_kanban_dashboard(self):
-        self.kanban_dashboard = json.dumps(
-            self.get_operation_dashboard_datas())
+        for operation in self:
+            operation.kanban_dashboard = json.dumps(
+                operation.get_operation_dashboard_data())
 
     kanban_dashboard = fields.Text(
         compute='_compute_kanban_dashboard')
@@ -50,7 +49,8 @@ class Operation(models.Model):
         string='Color Index',
         default=0)
 
-    def get_operation_dashboard_datas(self):
+    def get_operation_dashboard_data(self):
+        self.ensure_one()
         title = ''
         if self.fiscal_type in ('sale', 'purchase'):
             title = _('Bills to pay') if self.fiscal_type == 'purchase' \
