@@ -96,6 +96,7 @@ class ResPartner(spec_models.SpecModel):
             rec.nfe40_enderDest = rec.id
 
     @api.multi
+    @api.depends('company_type', 'cnpj_cpf')
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
