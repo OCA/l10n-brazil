@@ -7,30 +7,6 @@ from odoo import api, models
 from odoo.osv.orm import setup_modifiers
 
 from .tax import TAX_DICT_VALUES
-
-from ..constants.fiscal import (
-    TAX_DOMAIN_COFINS,
-    TAX_DOMAIN_COFINS_WH,
-    TAX_DOMAIN_COFINS_ST,
-    TAX_DOMAIN_CSLL,
-    TAX_DOMAIN_CSLL_WH,
-    TAX_DOMAIN_ICMS,
-    TAX_DOMAIN_ICMS_FCP,
-    TAX_DOMAIN_ICMS_SN,
-    TAX_DOMAIN_ICMS_ST,
-    TAX_DOMAIN_II,
-    TAX_DOMAIN_INSS,
-    TAX_DOMAIN_INSS_WH,
-    TAX_DOMAIN_IPI,
-    TAX_DOMAIN_IRPJ,
-    TAX_DOMAIN_IRPJ_WH,
-    TAX_DOMAIN_ISSQN,
-    TAX_DOMAIN_ISSQN_WH,
-    TAX_DOMAIN_PIS,
-    TAX_DOMAIN_PIS_WH,
-    TAX_DOMAIN_PIS_ST,
-)
-
 from ..constants.icms import (
     ICMS_BASE_TYPE_DEFAULT,
     ICMS_ST_BASE_TYPE_DEFAULT
@@ -271,70 +247,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             line.amount_estimate_tax = compute_result.get(
                 'amount_estimate_tax', 0.0)
             for tax in line.fiscal_tax_ids:
-
                 computed_tax = computed_taxes.get(tax.tax_domain, {})
-
-                if tax.tax_domain == TAX_DOMAIN_IPI:
-                    line.ipi_tax_id = tax
-                    self._set_fields_ipi(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_II:
-                    line.ii_tax_id = tax
-                    self._set_fields_ii(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_PIS:
-                    line.pis_tax_id = tax
-                    self._set_fields_pis(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_PIS_ST:
-                    line.pisst_tax_id = tax
-                    self._set_fields_pisst(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_COFINS:
-                    line.cofins_tax_id = tax
-                    self._set_fields_cofins(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_COFINS_ST:
-                    line.cofinsst_tax_id = tax
-                    self._set_fields_cofinsst(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_ICMS:
-                    line.icms_tax_id = tax
-                    self._set_fields_icms(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_ICMS_SN:
-                    line.icmssn_tax_id = tax
-                    self._set_fields_icmssn(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_ICMS_ST:
-                    line.icmsst_tax_id = tax
-                    self._set_fields_icmsst(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_ICMS_FCP:
-                    line.icmsfcp_tax_id = tax
-                    self._set_fields_icmsfcp(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_ISSQN:
-                    line.issqn_tax_id = tax
-                    self._set_fields_issqn(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_CSLL:
-                    line.csll_tax_id = tax
-                    self._set_fields_csll(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_IRPJ:
-                    line.irpj_tax_id = tax
-                    self._set_fields_irpj(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_INSS:
-                    line.inss_tax_id = tax
-                    self._set_fields_inss(computed_tax)
-
-                if tax.tax_domain == TAX_DOMAIN_ISSQN_WH:
-                    line.issqn_wh_tax_id = tax
-                    self._set_fields_issqn_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_PIS_WH:
-                    line.pis_wh_tax_id = tax
-                    self._set_fields_pis_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_COFINS_WH:
-                    line.cofins_wh_tax_id = tax
-                    self._set_fields_cofins_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_CSLL_WH:
-                    line.csll_wh_tax_id = tax
-                    self._set_fields_csll_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_IRPJ_WH:
-                    line.irpj_wh_tax_id = tax
-                    self._set_fields_irpj_wh(computed_tax)
-                if tax.tax_domain == TAX_DOMAIN_INSS_WH:
-                    line.inss_wh_tax_id = tax
-                    self._set_fields_inss_wh(computed_tax)
+                if hasattr(line, "%s_tax_id" % (tax.tax_domain,)):
+                    setattr(line, "%s_tax_id" % (tax.tax_domain,), tax)
+                    method = getattr(self, "_set_fields_%s" % (tax.tax_domain,))
+                    if method:
+                        method(computed_tax)
 
     def _get_product_price(self):
         self.ensure_one()
