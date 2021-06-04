@@ -88,7 +88,7 @@ class ResPartner(spec_models.SpecModel):
                 [i for i in [rec.street, rec.street_number] if i]
             )
             if rec.street2:
-                rec.nfe40_xEnder = ' - '.join(rec.nfe40_xEnder, rec.street2)
+                rec.nfe40_xEnder = ' - '.join((rec.nfe40_xEnder, rec.street2))
 
     @api.multi
     def _compute_nfe40_enderDest(self):
