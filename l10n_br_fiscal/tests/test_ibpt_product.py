@@ -7,30 +7,30 @@ from odoo.tests import SavepointCase
 class TestIbptProduct(SavepointCase):
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.company = self._create_compay()
-        self._switch_user_company(self.env.user, self.company)
-        self.ncm_85030010 = self.env.ref("l10n_br_fiscal.ncm_85030010")
-        self.ncm_85014029 = self.env.ref("l10n_br_fiscal.ncm_85014029")
-        self.product_tmpl_model = self.env["product.template"]
-        self.product_tmpl_1 = self._create_product_tmpl(
-            name="Product Test 1 - With NCM: 8503.00.10", ncm=self.ncm_85030010
+        cls.company = cls._create_compay()
+        cls._switch_user_company(cls.env.user, cls.company)
+        cls.ncm_85030010 = cls.env.ref("l10n_br_fiscal.ncm_85030010")
+        cls.ncm_85014029 = cls.env.ref("l10n_br_fiscal.ncm_85014029")
+        cls.product_tmpl_model = cls.env["product.template"]
+        cls.product_tmpl_1 = cls._create_product_tmpl(
+            name="Product Test 1 - With NCM: 8503.00.10", ncm=cls.ncm_85030010
         )
 
-        self.product_tmpl_2 = self._create_product_tmpl(
-            name="Product Test 2 - With NCM: 8503.00.10", ncm=self.ncm_85030010
+        cls.product_tmpl_2 = cls._create_product_tmpl(
+            name="Product Test 2 - With NCM: 8503.00.10", ncm=cls.ncm_85030010
         )
 
-        self.product_tmpl_3 = self._create_product_tmpl(
-            name="Product Test 3 - With NCM: 8501.40.29", ncm=self.ncm_85014029
+        cls.product_tmpl_3 = cls._create_product_tmpl(
+            name="Product Test 3 - With NCM: 8501.40.29", ncm=cls.ncm_85014029
         )
 
-        self.tax_estimate_model = self.env["l10n_br_fiscal.tax.estimate"]
-        self.ncm_model = self.env["l10n_br_fiscal.ncm"]
+        cls.tax_estimate_model = cls.env["l10n_br_fiscal.tax.estimate"]
+        cls.ncm_model = cls.env["l10n_br_fiscal.ncm"]
 
     @classmethod
-    def _switch_user_company(self, user, company):
+    def _switch_user_company(cls, user, company):
         """ Add a company to the user's allowed & set to current. """
         user.write({
             'company_ids': [(6, 0, (company + user.company_ids).ids)],
@@ -38,14 +38,14 @@ class TestIbptProduct(SavepointCase):
         })
 
     @classmethod
-    def _create_compay(self):
+    def _create_compay(cls):
         # Creating a company
-        company = self.env["res.company"].create(
+        company = cls.env["res.company"].create(
             {
                 "name": "Company Test Fiscal BR",
                 "cnpj_cpf": "02.960.895/0002-12",
-                "country_id": self.env.ref("base.br").id,
-                "state_id": self.env.ref("base.state_br_es").id,
+                "country_id": cls.env.ref("base.br").id,
+                "state_id": cls.env.ref("base.state_br_es").id,
                 "ibpt_api": True,
                 "ibpt_update_days": 0,
                 "ibpt_token": (
@@ -57,9 +57,9 @@ class TestIbptProduct(SavepointCase):
         return company
 
     @classmethod
-    def _create_product_tmpl(self, name, ncm):
+    def _create_product_tmpl(cls, name, ncm):
         # Creating a product
-        product = self.product_tmpl_model.create({"name": name, "ncm_id": ncm.id})
+        product = cls.product_tmpl_model.create({"name": name, "ncm_id": ncm.id})
         return product
 
     def test_update_ibpt_product(self):
