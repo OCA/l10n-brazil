@@ -323,10 +323,10 @@ class FiscalClosing(models.Model):
         archive = io.BytesIO()
 
         with zipfile.ZipFile(archive, 'w') as zip_archive:
-            for dirname, subdirs, files in os.walk(files_dir):
+            for dirname, subdirs, _files in os.walk(files_dir):
                 for subdir in subdirs:
                     path_subdir = files_dir+'/'+subdir
-                    for cnpj_dirname, cnpj_subdirs, cnpj_files in os.walk(path_subdir):
+                    for cnpj_dirname, _cnpj_subdirs, cnpj_files in os.walk(path_subdir):
                         for filename in cnpj_files:
                             zip_archive.write(
                                 os.path.join(cnpj_dirname, filename),
