@@ -9,6 +9,7 @@
     'maintainers': ['rvalyi'],
     'license': 'LGPL-3',
     'author': 'Akretion,Odoo Community Association (OCA)',
+    "website": "https://github.com/OCA/l10n-brazil",
     'depends': [
     ],
     'data': [
