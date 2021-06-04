@@ -74,6 +74,13 @@ class ResPartner(spec_models.SpecModel):
         ('nfe40_CPF', 'CPF')],
         "CNPJ/CPF do Parceiro")
 
+    nfe40_choice7 = fields.Selection([
+        ('nfe40_CNPJ', 'CNPJ'),
+        ('nfe40_CPF', 'CPF'),
+        ('nfe40_idEstrangeiro', 'idEstrangeiro')],
+        compute='_compute_nfe_data',
+        string="CNPJ/CPF/idEstrangeiro")
+
     @api.multi
     def _compute_nfe40_xEnder(self):
         for rec in self:
@@ -96,9 +103,11 @@ class ResPartner(spec_models.SpecModel):
                 if rec.is_company:
                     rec.nfe40_CNPJ = punctuation_rm(
                         rec.cnpj_cpf)
+                    rec.nfe40_choice7 = 'nfe40_CNPJ'
                 else:
                     rec.nfe40_CPF = punctuation_rm(
                         rec.cnpj_cpf)
+                    rec.nfe40_choice7 = 'nfe40_CPF'
 
     def _inverse_nfe40_CNPJ(self):
         for rec in self:
