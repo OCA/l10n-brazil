@@ -31,6 +31,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_nfse_issnet',
         'odoo12-addon-l10n_br_nfse_paulistana',
         'odoo12-addon-l10n_br_portal',
+        'odoo12-addon-l10n_br_product_contract',
         'odoo12-addon-l10n_br_purchase',
         'odoo12-addon-l10n_br_purchase_stock',
         'odoo12-addon-l10n_br_repair',
