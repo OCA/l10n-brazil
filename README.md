@@ -99,6 +99,7 @@ addon | version | summary
 [l10n_br_nfse_issnet](l10n_br_nfse_issnet/) | 12.0.3.0.0 | NFS-e (ISSNet)
 [l10n_br_nfse_paulistana](l10n_br_nfse_paulistana/) | 12.0.1.0.0 | NFS-e (Nota Paulistana)
 [l10n_br_portal](l10n_br_portal/) | 12.0.1.2.0 | Campos Brasileiros no Portal
+[l10n_br_product_contract](l10n_br_product_contract/) | 12.0.1.0.0 | Criação de contratos através dos Pedidos de Vendas
 [l10n_br_purchase](l10n_br_purchase/) | 12.0.4.3.0 | Brazilian Localization Purchase
 [l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.2.0.0 | Brazilian Localization Purchase Stock
 [l10n_br_repair](l10n_br_repair/) | 12.0.5.1.0 | Brazilian Localization Repair
