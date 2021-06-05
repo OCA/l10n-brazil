@@ -1059,6 +1059,11 @@ msgid "Product"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_uom_uom
+msgid "Product Unit of Measure"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
 msgid "Produto Normal"
 msgstr ""
