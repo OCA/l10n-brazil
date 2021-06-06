@@ -24,6 +24,7 @@
         <field name="arch" type="xml">
             <field name="state" position="before">
                 <field name="journal_id" />
+                <field name="account_id" />
             </field>
         </field>
     </record>
@@ -39,6 +40,10 @@
                         <group>
                             <field
                                 name="journal_id"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="account_id"
                                 attrs="{'readonly': [('state', '!=', 'draft')]}"
                             />
                             <field

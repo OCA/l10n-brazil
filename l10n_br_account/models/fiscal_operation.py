@@ -29,6 +29,12 @@ class Operation(models.Model):
         "'general']}.get(fiscal_operation_type, []))]",
     )
 
+    account_id = fields.Many2one(
+        comodel_name='account.account',
+        string='Account',
+        company_dependent=True,
+    )
+
     fiscal_position_id = fields.Many2one(
         comodel_name="account.fiscal.position",
         string="Fiscal Position",
