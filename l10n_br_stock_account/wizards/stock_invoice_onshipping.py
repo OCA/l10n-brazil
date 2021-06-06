@@ -58,6 +58,9 @@ class StockInvoiceOnshipping(models.TransientModel):
         if pick.fiscal_operation_id and pick.fiscal_operation_id.journal_id:
             fiscal_vals["journal_id"] = pick.fiscal_operation_id.journal_id.id
 
+        if pick.fiscal_operation_id and pick.fiscal_operation_id.account_id:
+            fiscal_vals['account_id'] = pick.fiscal_operation_id.account_id.id
+
         # Endereço de Entrega diferente do Endereço de Faturamento
         # so informado quando é diferente
         if fiscal_vals["partner_id"] != values["partner_id"]:
