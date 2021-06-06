@@ -6380,7 +6380,7 @@ msgid "Next number of this sequence"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/attachment.py:111
+#: code:addons/l10n_br_fiscal/models/attachment.py:107
 #, python-format
 msgid "No attachment to download"
 msgstr ""
