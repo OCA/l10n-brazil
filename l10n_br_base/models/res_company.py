@@ -16,16 +16,18 @@ class Company(models.Model):
 
     def _get_company_address_fields(self, partner):
         partner_fields = super()._get_company_address_fields(partner)
-        partner_fields.update({
-            'legal_name': partner.legal_name,
-            'cnpj_cpf': partner.cnpj_cpf,
-            'inscr_est': partner.inscr_est,
-            'inscr_mun': partner.inscr_mun,
-            'district': partner.district,
-            'city_id': partner.city_id,
-            'suframa': partner.suframa,
-            'state_tax_number_ids': [(6, 0, partner.state_tax_number_ids.ids)]
-        })
+        partner_fields.update(
+            {
+                "legal_name": partner.legal_name,
+                "cnpj_cpf": partner.cnpj_cpf,
+                "inscr_est": partner.inscr_est,
+                "inscr_mun": partner.inscr_mun,
+                "district": partner.district,
+                "city_id": partner.city_id,
+                "suframa": partner.suframa,
+                "state_tax_number_ids": [(6, 0, partner.state_tax_number_ids.ids)],
+            }
+        )
         return partner_fields
 
     def _inverse_legal_name(self):
