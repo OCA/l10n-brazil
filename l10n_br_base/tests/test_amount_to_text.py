@@ -15,7 +15,6 @@ except ImportError:
 
 
 class Num2WordsPTBRTest(SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
