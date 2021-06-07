@@ -6,16 +6,15 @@ from odoo.exceptions import UserError
 
 
 class StockInvoiceOnshipping(models.TransientModel):
-    _inherit = 'stock.invoice.onshipping'
+    _inherit = "stock.invoice.onshipping"
 
     fiscal_operation_journal = fields.Boolean(
-        string='Account Jornal from Fiscal Operation',
+        string="Account Jornal from Fiscal Operation",
         default=True,
     )
 
     group = fields.Selection(
-        selection_add=[
-            ('fiscal_operation', 'Fiscal Operation')],
+        selection_add=[("fiscal_operation", "Fiscal Operation")],
     )
 
     def _get_journal(self):
@@ -30,10 +29,12 @@ class StockInvoiceOnshipping(models.TransientModel):
             journal = picking.fiscal_operation_id.journal_id
             if not journal:
                 raise UserError(
-                    _('Invalid Journal! There is not journal defined'
-                      ' for this company: %s in fiscal operation: %s !') %
-                    (picking.company_id.name,
-                     picking.fiscal_operation_id.name))
+                    _(
+                        "Invalid Journal! There is not journal defined"
+                        " for this company: %s in fiscal operation: %s !"
+                    )
+                    % (picking.company_id.name, picking.fiscal_operation_id.name)
+                )
         else:
             journal = super()._get_journal()
         return journal
@@ -46,20 +47,21 @@ class StockInvoiceOnshipping(models.TransientModel):
         document_type = pick.company_id.document_type_id
         document_type_id = pick.company_id.document_type_id.id
 
-        fiscal_vals['document_type_id'] = document_type_id
+        fiscal_vals["document_type_id"] = document_type_id
 
         document_serie = document_type.get_document_serie(
-            pick.company_id, pick.fiscal_operation_id)
+            pick.company_id, pick.fiscal_operation_id
+        )
         if document_serie:
-            fiscal_vals['document_serie_id'] = document_serie.id
+            fiscal_vals["document_serie_id"] = document_serie.id
 
         if pick.fiscal_operation_id and pick.fiscal_operation_id.journal_id:
-            fiscal_vals['journal_id'] = pick.fiscal_operation_id.journal_id.id
+            fiscal_vals["journal_id"] = pick.fiscal_operation_id.journal_id.id
 
         # Endereço de Entrega diferente do Endereço de Faturamento
         # so informado quando é diferente
-        if fiscal_vals['partner_id'] != values['partner_id']:
-            values['partner_shipping_id'] = fiscal_vals['partner_id']
+        if fiscal_vals["partner_id"] != values["partner_id"]:
+            values["partner_shipping_id"] = fiscal_vals["partner_id"]
         # Ser for feito o update como abaixo o campo
         # fiscal_operation_id vai vazio
         # fiscal_vals.update(values)
@@ -75,8 +77,7 @@ class StockInvoiceOnshipping(models.TransientModel):
         :return: dict
         """
 
-        values = super()._get_invoice_line_values(
-            moves, invoice_values, invoice)
+        values = super()._get_invoice_line_values(moves, invoice_values, invoice)
         move = fields.first(moves)
         fiscal_values = move._prepare_br_fiscal_dict()
 
@@ -85,13 +86,13 @@ class StockInvoiceOnshipping(models.TransientModel):
         # negativo, por isso é preciso tira-lo antes do update, e no caso do
         # fiscal_price é feito um update para caso do valor ser diferente do
         # price_unit
-        del fiscal_values['price_unit']
-        fiscal_values['fiscal_price'] = abs(fiscal_values.get('fiscal_price'))
+        del fiscal_values["price_unit"]
+        fiscal_values["fiscal_price"] = abs(fiscal_values.get("fiscal_price"))
 
         # Como é usada apenas uma move para chamar o _prepare_br_fiscal_dict
         # a quantidade/quantity do dicionario traz a quantidade referente a
         # apenas a essa linha por isso é removido aqui.
-        del fiscal_values['quantity']
+        del fiscal_values["quantity"]
 
         # Mesmo a quantidade estando errada por ser chamada apenas por uma move
         # no caso das stock.move agrupadas e os valores fiscais e de totais
@@ -100,10 +101,15 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         values.update(fiscal_values)
 
-        values['invoice_line_tax_ids'] = [
-            (6, 0, self.env['l10n_br_fiscal.tax'].browse(
-                fiscal_values['fiscal_tax_ids'][0][2]
-            ).account_taxes().ids)
+        values["invoice_line_tax_ids"] = [
+            (
+                6,
+                0,
+                self.env["l10n_br_fiscal.tax"]
+                .browse(fiscal_values["fiscal_tax_ids"][0][2])
+                .account_taxes()
+                .ids,
+            )
         ]
 
         return values
