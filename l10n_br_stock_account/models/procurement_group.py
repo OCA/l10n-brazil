@@ -5,16 +5,17 @@ from odoo import api, models
 
 
 class ProcurementGroup(models.Model):
-    _inherit = 'procurement.group'
+    _inherit = "procurement.group"
 
     @api.model
-    def run(self, product_id, product_qty, product_uom,
-            location_id, name, origin, values):
+    def run(
+        self, product_id, product_qty, product_uom, location_id, name, origin, values
+    ):
         result = super().run(
-            product_id, product_qty, product_uom,
-            location_id, name, origin, values)
+            product_id, product_qty, product_uom, location_id, name, origin, values
+        )
 
-        if values.get('route_id'):
+        if values.get("route_id"):
             pass
 
         return result
