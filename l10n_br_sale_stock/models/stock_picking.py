@@ -5,11 +5,11 @@ from odoo import models
 
 
 class StockPicking(models.Model):
-    _inherit = 'stock.picking'
+    _inherit = "stock.picking"
 
     def _get_partner_to_invoice(self):
         self.ensure_one()
         partner = self.partner_id
         if self.sale_id:
             partner = self.sale_id.partner_invoice_id
-        return partner.address_get(['invoice']).get('invoice')
+        return partner.address_get(["invoice"]).get("invoice")
