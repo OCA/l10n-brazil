@@ -113,8 +113,11 @@ class ValidCreateIdTest(SavepointCase):
     def test_comp_valid(self):
         """Try do create id with correct CNPJ and correct Inscricao Estadual"""
         try:
-            company = self.env["res.company"].with_context(
-                tracking_disable=True).create(self.company_valid)
+            company = (
+                self.env["res.company"]
+                .with_context(tracking_disable=True)
+                .create(self.company_valid)
+            )
         except Exception:
             assert (
                 company
@@ -123,25 +126,30 @@ class ValidCreateIdTest(SavepointCase):
 
     def test_comp_invalid_cnpj(self):
         """Test if ValidationError raised during .create() with invalid CNPJ
-            and correct Inscricao Estadual"""
+        and correct Inscricao Estadual"""
         with self.assertRaises(ValidationError):
-            self.env["res.company"].with_context(
-                tracking_disable=True).create(self.company_invalid_cnpj)
+            self.env["res.company"].with_context(tracking_disable=True).create(
+                self.company_invalid_cnpj
+            )
 
     def test_comp_invalid_inscr_est(self):
         """Test if ValidationError raised with correct CNPJ
-            and invalid Inscricao Estadual"""
+        and invalid Inscricao Estadual"""
         with self.assertRaises(ValidationError):
-            self.env["res.company"].with_context(
-                tracking_disable=True).create(self.company_invalid_inscr_est)
+            self.env["res.company"].with_context(tracking_disable=True).create(
+                self.company_invalid_inscr_est
+            )
 
     # Tests on partners
 
     def test_part_valid(self):
         """Try do create id with correct CPF and correct Inscricao Estadual"""
         try:
-            partner = self.env["res.partner"].with_context(
-                tracking_disable=True).create(self.partner_valid)
+            partner = (
+                self.env["res.partner"]
+                .with_context(tracking_disable=True)
+                .create(self.partner_valid)
+            )
         except Exception:
             assert (
                 partner
@@ -150,10 +158,11 @@ class ValidCreateIdTest(SavepointCase):
 
     def test_part_invalid_cpf(self):
         """Test if ValidationError raised during .create() with invalid CPF
-            and correct Inscricao Estadual"""
+        and correct Inscricao Estadual"""
         with self.assertRaises(ValidationError):
-            self.env["res.partner"].with_context(
-                tracking_disable=True).create(self.partner_invalid_cpf)
+            self.env["res.partner"].with_context(tracking_disable=True).create(
+                self.partner_invalid_cpf
+            )
 
 
 # No test on Inscricao Estadual for partners with CPF
