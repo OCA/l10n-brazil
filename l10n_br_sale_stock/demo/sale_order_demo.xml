@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <!-- Pedido de Venda com o Endereço de Entrega(partner_shipping_id)
@@ -8,34 +8,44 @@
      -->
 
     <!-- Show partner_shipping_id in Sale Order -->
-    <record id="group_sale_delivery_address_config_settings" model="res.config.settings">
+    <record
+        id="group_sale_delivery_address_config_settings"
+        model="res.config.settings"
+    >
         <field name="group_sale_delivery_address">True</field>
     </record>
 
     <function model="res.config.settings" name="execute">
-        <value model="res.config.settings"
-               search="[('id', '=',
-                ref('group_sale_delivery_address_config_settings'))]"/>
+        <value
+            model="res.config.settings"
+            search="[('id', '=',
+                ref('group_sale_delivery_address_config_settings'))]"
+        />
     </function>
 
     <!-- Testar quando o Cliente possui o Termo de Pagamento diferente do Pedido de Venda -->
     <record id="l10n_br_base.res_partner_akretion" model="res.partner">
-        <field name="property_payment_term_id" ref="account.account_payment_term_15days"/>
+        <field
+            name="property_payment_term_id"
+            ref="account.account_payment_term_15days"
+        />
     </record>
 
     <!-- Main Company Simples Nacional -->
     <record id="main_so_l10n_br_sale_stock_1" model="sale.order">
-        <field name="name">l10n_br_sale_stock - Endereço de Entrega e Faturamento diferentes</field>
-        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_address_ak3"/>
-        <field name="user_id" ref="base.user_admin"/>
-        <field name="pricelist_id" ref="product.list0"/>
-        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
-        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field
+            name="name"
+        >l10n_br_sale_stock - Endereço de Entrega e Faturamento diferentes</field>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_address_ak3" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="company_id" ref="base.main_company"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
         <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
         <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
@@ -43,78 +53,81 @@
     </record>
 
     <record id="main_sl_l10n_br_sale_stock_1_1" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_1"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
         <field name="name">[FURN_8855] Gaveta</field>
-        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_id" ref="product.product_product_27" />
         <field name="product_uom_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_1')]" />
     </function>
 
     <record id="main_sl_l10n_br_sale_stock_1_2" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_1"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
         <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
-        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_2')]" />
     </function>
 
     <record id="main_sl_l10n_br_sale_stock_1_3" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_1"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_1" />
         <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
-        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">1</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">50</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_bonificacao_bonificacao"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_1_3')]" />
     </function>
 
     <!-- Pedido de Venda com Produto e Serviço -->
     <record id="main_so_l10n_br_sale_stock_2" model="sale.order">
         <field name="name">l10n_br_sale_stock - Produto e Serviço</field>
-        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_address_ak3"/>
-        <field name="user_id" ref="base.user_admin"/>
-        <field name="pricelist_id" ref="product.list0"/>
-        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
-        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_address_ak3" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="company_id" ref="base.main_company"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
         <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
         <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
@@ -122,58 +135,61 @@
     </record>
 
     <record id="main_sl_l10n_br_sale_stock_2_1" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_2"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_2" />
         <field name="name">[FURN_8855] Gaveta</field>
-        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_id" ref="product.product_product_27" />
         <field name="product_uom_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_2_1')]" />
     </function>
 
     <record id="main_sl_l10n_br_sale_stock_2_2" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_2"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_2" />
         <field name="name">Customized Odoo Development</field>
-        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale"/>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
         <field name="product_uom_qty">10</field>
-        <field name="product_uom" ref="uom.product_uom_hour"/>
+        <field name="product_uom" ref="uom.product_uom_hour" />
         <field name="price_unit">100</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico_ind"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_venda_servico_ind"
+        />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_2_2')]" />
     </function>
 
     <!-- Teste de Agrupamento -->
     <record id="main_so_l10n_br_sale_stock_3" model="sale.order">
         <field name="name">l10n_br_sale_stock - Agrupamento dos Pickings</field>
-        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="user_id" ref="base.user_admin"/>
-        <field name="pricelist_id" ref="product.list0"/>
-        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
-        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="company_id" ref="base.main_company"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
         <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
         <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
@@ -181,78 +197,81 @@
     </record>
 
     <record id="main_sl_l10n_br_sale_stock_3_1" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_3"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
         <field name="name">[FURN_8855] Gaveta</field>
-        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_id" ref="product.product_product_27" />
         <field name="product_uom_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_3_1')]" />
     </function>
 
     <record id="main_sl_l10n_br_sale_stock_3_2" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_3"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
         <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
-        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_3_2')]" />
     </function>
 
     <record id="main_sl_l10n_br_sale_stock_3_3" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_3"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_3" />
         <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
-        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">1</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">50</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_bonificacao_bonificacao"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_3_3')]" />
     </function>
 
     <!-- Teste de Agrupamento -->
     <record id="main_so_l10n_br_sale_stock_4" model="sale.order">
         <field name="name">l10n_br_sale_stock - Agrupamento dos Pickings</field>
-        <field name="partner_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion"/>
-        <field name="user_id" ref="base.user_admin"/>
-        <field name="pricelist_id" ref="product.list0"/>
-        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
-        <field name="team_id" ref="sales_team.crm_team_1"/>
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_shipping_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="user_id" ref="base.user_admin" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="team_id" ref="sales_team.crm_team_1" />
         <field name="state">draft</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="company_id" ref="base.main_company"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
         <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
         <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
@@ -260,63 +279,66 @@
     </record>
 
     <record id="main_sl_l10n_br_sale_stock_4_1" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_4"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
         <field name="name">[FURN_8855] Gaveta</field>
-        <field name="product_id" ref="product.product_product_27"/>
+        <field name="product_id" ref="product.product_product_27" />
         <field name="product_uom_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_4_1')]" />
     </function>
 
     <record id="main_sl_l10n_br_sale_stock_4_2" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_4"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
         <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
-        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">2</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_4_2')]" />
     </function>
 
     <record id="main_sl_l10n_br_sale_stock_4_3" model="sale.order.line">
-        <field name="order_id" ref="main_so_l10n_br_sale_stock_4"/>
+        <field name="order_id" ref="main_so_l10n_br_sale_stock_4" />
         <field name="name">[FURN_0269] Cadeira de Escritório Preta</field>
-        <field name="product_id" ref="product.product_product_12"/>
+        <field name="product_id" ref="product.product_product_12" />
         <field name="product_uom_qty">1</field>
-        <field name="product_uom" ref="uom.product_uom_unit"/>
+        <field name="product_uom" ref="uom.product_uom_unit" />
         <field name="price_unit">50</field>
         <field name="fiscal_operation_type">out</field>
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao"/>
-        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_bonificacao_bonificacao"/>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
     </record>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]" />
     </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_line_id">
-        <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]"/>
+        <value eval="[ref('main_sl_l10n_br_sale_stock_4_3')]" />
     </function>
 
 
