@@ -188,6 +188,7 @@ msgstr ""
 #: selection:l10n_br_fiscal.document.related,nfe40_choice5:0
 #: selection:res.company,nfe40_choice6:0
 #: selection:res.partner,nfe40_choice2:0
+#: selection:res.partner,nfe40_choice7:0
 msgid "CNPJ"
 msgstr ""
 
@@ -206,6 +207,13 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_choice5
 msgid "CNPJ/CPF do Produtor"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_choice7
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_choice7
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_choice7
+msgid "CNPJ/CPF/idEstrangeiro"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -237,6 +245,7 @@ msgstr ""
 #: selection:l10n_br_fiscal.document.related,nfe40_choice5:0
 #: selection:res.company,nfe40_choice6:0
 #: selection:res.partner,nfe40_choice2:0
+#: selection:res.partner,nfe40_choice7:0
 msgid "CPF"
 msgstr ""
 
@@ -1332,6 +1341,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: selection:res.company,processador_edoc:0
 msgid "erpbrasil.edoc"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:res.partner,nfe40_choice7:0
+msgid "idEstrangeiro"
 msgstr ""
 
 #. module: l10n_br_nfe
