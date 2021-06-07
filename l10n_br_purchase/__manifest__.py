@@ -12,17 +12,14 @@
     "data": [
         # Security
         "security/ir.model.access.csv",
-
         # Data
         "data/company.xml",
-
         # View
         "views/purchase_view.xml",
         "views/res_company_view.xml",
-
         # Reports
-        'reports/purchase_report_views.xml',
-        'reports/purchase_order_templates.xml',
+        "reports/purchase_report_views.xml",
+        "reports/purchase_order_templates.xml",
     ],
     "demo": [
         "demo/company.xml",
