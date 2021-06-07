@@ -6,15 +6,15 @@ from odoo import _, fields, models
 
 
 class ResCompany(models.Model):
-    _inherit = 'res.company'
+    _inherit = "res.company"
 
     sale_create_invoice_policy = fields.Selection(
         selection=[
-            ('sale_order', _('Sale Order')),
-            ('stock_picking', _('Stock Picking'))
+            ("sale_order", _("Sale Order")),
+            ("stock_picking", _("Stock Picking")),
         ],
-        string='Sale Create Invoice Policy',
-        help='Define, when Product Type are not service, if Invoice'
-             ' should be create from Sale Order or Stock Picking.',
-        default='stock_picking'
+        string="Sale Create Invoice Policy",
+        help="Define, when Product Type are not service, if Invoice"
+        " should be create from Sale Order or Stock Picking.",
+        default="stock_picking",
     )
