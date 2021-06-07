@@ -10,49 +10,54 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 
 class SaleReport(models.Model):
-    _inherit = 'sale.report'
+    _inherit = "sale.report"
 
     fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Fiscal Operation',
+        comodel_name="l10n_br_fiscal.operation",
+        string="Fiscal Operation",
         readonly=True,
     )
 
     fiscal_operation_line_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation.line',
-        string='Fiscal Operation Line',
+        comodel_name="l10n_br_fiscal.operation.line",
+        string="Fiscal Operation Line",
         readonly=True,
     )
 
     ind_pres = fields.Selection(
         selection=NFE_IND_PRES,
-        string='Buyer Presence',
+        string="Buyer Presence",
         default=NFE_IND_PRES_DEFAULT,
     )
 
     cfop_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.cfop',
-        string='CFOP',
+        comodel_name="l10n_br_fiscal.cfop",
+        string="CFOP",
     )
 
-    def _query(self, with_clause='', fields=None, groupby='', from_clause=''):
+    def _query(self, with_clause="", fields=None, groupby="", from_clause=""):
         if fields is None:
             fields = {}
 
-        fields.update({
-            'fiscal_operation_id':
-                ', l.fiscal_operation_id as fiscal_operation_id',
-            'fiscal_operation_line_id':
-                ', l.fiscal_operation_line_id as fiscal_operation_line_id',
-            'ind_pres': ', s.ind_pres',
-            'cfop_id':
-                ', l.cfop_id as cfop_id',
-        })
+        fields.update(
+            {
+                "fiscal_operation_id": ", l.fiscal_operation_id as fiscal_operation_id",
+                "fiscal_operation_line_id": (
+                    ", l.fiscal_operation_line_id as fiscal_operation_line_id"
+                ),
+                "ind_pres": ", s.ind_pres",
+                "cfop_id": ", l.cfop_id as cfop_id",
+            }
+        )
         groupby += """
             , l.fiscal_operation_id
             , l.fiscal_operation_line_id
             , s.ind_pres
             , l.cfop_id
         """
-        return super()._query(with_clause=with_clause, fields=fields,
-                              groupby=groupby, from_clause=from_clause)
+        return super()._query(
+            with_clause=with_clause,
+            fields=fields,
+            groupby=groupby,
+            from_clause=from_clause,
+        )
