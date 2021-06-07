@@ -5,24 +5,24 @@ from odoo import fields, models
 
 
 class Country(models.Model):
-    _inherit = 'res.country'
+    _inherit = "res.country"
 
     bc_code = fields.Char(
-        string='BC Code',
+        string="BC Code",
         size=4,
     )
 
     ibge_code = fields.Char(
-        string='IBGE Code',
+        string="IBGE Code",
         size=4,
     )
 
     siscomex_code = fields.Char(
-        string='Siscomex Code',
+        string="Siscomex Code",
         size=3,
     )
 
     nationality_code = fields.Char(
-        string='Nationality Code',
+        string="Nationality Code",
         size=2,
     )

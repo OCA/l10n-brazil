@@ -14,10 +14,12 @@ def pre_init_hook(cr):
     translated as "Brasil" in pt_BR to get the NFe tests pass
     even if the pt_BR language pack is not installed.
     """
-    cr.execute("""SELECT id
+    cr.execute(
+        """SELECT id
     FROM ir_translation
     WHERE name='res.country,name' AND
-    lang='pt_BR'""")
+    lang='pt_BR'"""
+    )
     if not cr.fetchone():
         env = api.Environment(cr, SUPERUSER_ID, {})
         brazil_country_id = env.ref("base.br").id

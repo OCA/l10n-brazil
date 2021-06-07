@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="True">
 
     <record id="base.ad" model="res.country">
@@ -47,8 +47,8 @@
     </record>
 
     <record id="base.aq" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.ar" model="res.country">
@@ -145,10 +145,13 @@
         <field name="bc_code">1058</field>
         <field name="siscomex_code">105</field>
         <field name="enforce_cities">1</field>
-        <field name="street_format" eval="'%(street)s'"/>
+        <field name="street_format" eval="'%(street)s'" />
         <field name="name_position">before</field>
-        <field name="address_format" eval="'%(street)s, %(street_number)s %(street2)s\n%(district)s\n%(zip)s - %(city)s-%(state_code)s\n%(country_name)s'"/>
-        <field name="address_view_id" ref="l10n_br_base_res_partner_address"/>
+        <field
+            name="address_format"
+            eval="'%(street)s, %(street_number)s %(street2)s\n%(district)s\n%(zip)s - %(city)s-%(state_code)s\n%(country_name)s'"
+        />
+        <field name="address_view_id" ref="l10n_br_base_res_partner_address" />
         <field name="vat_label">CNPJ/CPF</field>
     </record>
 
@@ -163,8 +166,8 @@
     </record>
 
     <record id="base.bv" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.bw" model="res.country">
@@ -198,8 +201,8 @@
     </record>
 
     <record id="base.cd" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.cg" model="res.country">
@@ -443,8 +446,8 @@
     </record>
 
     <record id="base.gs" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.gt" model="res.country">
@@ -473,8 +476,8 @@
     </record>
 
     <record id="base.hm" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.hn" model="res.country">
@@ -583,8 +586,8 @@
     </record>
 
     <record id="base.kn" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.kp" model="res.country">
@@ -598,8 +601,8 @@
     </record>
 
     <record id="base.kw" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.ky" model="res.country">
@@ -693,8 +696,8 @@
     </record>
 
     <record id="base.mk" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.ml" model="res.country">
@@ -973,8 +976,8 @@
     </record>
 
     <record id="base.sj" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.sk" model="res.country">
@@ -1038,8 +1041,8 @@
     </record>
 
     <record id="base.tf" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.tg" model="res.country">
@@ -1149,7 +1152,7 @@
 
     <record id="base.vc" model="res.country">
         <field name="bc_code">7056</field>
-        <field name="siscomex_code"></field>
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.ve" model="res.country">
@@ -1178,8 +1181,8 @@
     </record>
 
     <record id="base.wf" model="res.country">
-        <field name="bc_code"></field>
-        <field name="siscomex_code"></field>
+        <field name="bc_code" />
+        <field name="siscomex_code" />
     </record>
 
     <record id="base.ws" model="res.country">

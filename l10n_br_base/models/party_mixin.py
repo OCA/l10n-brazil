@@ -8,8 +8,8 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 try:
-    from erpbrasil.base.fiscal import cnpj_cpf
     from erpbrasil.base import misc
+    from erpbrasil.base.fiscal import cnpj_cpf
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 

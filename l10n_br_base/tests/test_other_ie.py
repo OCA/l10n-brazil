@@ -11,13 +11,11 @@ _logger = logging.getLogger(__name__)
 
 
 class OtherIETest(SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.company_model = cls.env["res.company"]
-        cls.company = cls.company_model.with_context(
-            tracking_disable=True).create(
+        cls.company = cls.company_model.with_context(tracking_disable=True).create(
             {
                 "name": "Akretion Sao Paulo",
                 "legal_name": "Akretion Sao Paulo",
