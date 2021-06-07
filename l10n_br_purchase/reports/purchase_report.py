@@ -5,17 +5,17 @@ from odoo import fields, models
 
 
 class PurchaseReport(models.Model):
-    _inherit = 'purchase.report'
+    _inherit = "purchase.report"
 
     fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Fiscal Operation',
+        comodel_name="l10n_br_fiscal.operation",
+        string="Fiscal Operation",
         readonly=True,
     )
 
     fiscal_operation_line_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation.line',
-        string='Fiscal Operation Line',
+        comodel_name="l10n_br_fiscal.operation.line",
+        string="Fiscal Operation Line",
         readonly=True,
     )
 
