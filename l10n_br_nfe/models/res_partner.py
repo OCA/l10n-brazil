@@ -96,12 +96,14 @@ class ResPartner(spec_models.SpecModel):
             rec.nfe40_enderDest = rec.id
 
     @api.multi
-    @api.depends('company_type', 'cnpj_cpf')
+    @api.depends('company_type', 'cnpj_cpf', 'country_id')
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
             if rec.cnpj_cpf:
-                if rec.is_company:
+                if rec.company_id.partner_id.country_id != rec.country_id:
+                    rec.nfe40_choice7 = 'nfe40_idEstrangeiro'
+                elif rec.is_company:
                     rec.nfe40_CNPJ = punctuation_rm(
                         rec.cnpj_cpf)
                     rec.nfe40_choice7 = 'nfe40_CNPJ'
