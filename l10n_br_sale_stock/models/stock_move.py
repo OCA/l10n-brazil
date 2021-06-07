@@ -6,7 +6,7 @@ from odoo import models
 
 
 class StockMove(models.Model):
-    _inherit = 'stock.move'
+    _inherit = "stock.move"
 
     def _get_price_unit_invoice(self, inv_type, partner, qty=1):
         result = super()._get_price_unit_invoice(inv_type, partner, qty)
@@ -26,8 +26,7 @@ class StockMove(models.Model):
         # sem o partner_id caso esse dict atualize o do super
         values = {}
         if self.sale_line_id:
-            values = \
-                self.sale_line_id.order_id._prepare_br_fiscal_dict()
+            values = self.sale_line_id.order_id._prepare_br_fiscal_dict()
 
         values.update(super()._get_new_picking_values())
         return values
