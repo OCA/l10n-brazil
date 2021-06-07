@@ -5,15 +5,16 @@ from odoo import api, models
 
 
 class AccountInvoiceLine(models.Model):
-    _inherit = 'account.invoice.line'
+    _inherit = "account.invoice.line"
 
     @api.model
     def new(self, values=None, ref=None):
         if not values:
             values = {}
-        if values.get('purchase_line_id'):
-            line = self.env['purchase.order.line'].browse(
-                values.get('purchase_line_id'))
+        if values.get("purchase_line_id"):
+            line = self.env["purchase.order.line"].browse(
+                values.get("purchase_line_id")
+            )
             fiscal_values = line._prepare_br_fiscal_dict()
             fiscal_values.update(values)
             values.update(fiscal_values)
