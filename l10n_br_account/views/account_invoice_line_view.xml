@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="invoice_line_form" model="ir.ui.view">
+    <record id="invoice_line_form" model="ir.ui.view" priority="30">
         <field name="name">l10n_br_account.invoice.line.form</field>
         <field name="model">account.invoice.line</field>
         <field name="inherit_id" ref="account.view_invoice_line_form"/>
