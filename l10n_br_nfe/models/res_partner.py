@@ -145,6 +145,6 @@ class ResPartner(spec_models.SpecModel):
             if self.country_id.code != 'BR':
                 return 'EX'
         if xsd_field == 'nfe40_idEstrangeiro':
-                return 'EXTERIOR'
             if self.country_id.code != 'BR':
+                return self.vat or self.cnpj_cpf or self.rg or "EXTERIOR"
         return super()._export_field(xsd_field, class_obj, member_spec)
