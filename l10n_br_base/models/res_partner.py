@@ -43,11 +43,13 @@ class Partner(models.Model):
             if not record.cnpj_cpf:
                 return
 
-            if self.env.context.get('disable_allow_cnpj_multi_ie'):
+            if self.env.context.get("disable_allow_cnpj_multi_ie"):
                 return
 
-            allow_cnpj_multi_ie = record.env["ir.config_parameter"].sudo().get_param(
-                "l10n_br_base.allow_cnpj_multi_ie", default=True
+            allow_cnpj_multi_ie = (
+                record.env["ir.config_parameter"]
+                .sudo()
+                .get_param("l10n_br_base.allow_cnpj_multi_ie", default=True)
             )
 
             if record.parent_id:
@@ -87,10 +89,13 @@ class Partner(models.Model):
         result = True
         for record in self:
 
-            disable_cnpj_ie_validation = record.env["ir.config_parameter"].sudo()\
-                .get_param(
+            disable_cnpj_ie_validation = record.env[
+                "ir.config_parameter"
+            ].sudo().get_param(
                 "l10n_br_base.disable_cpf_cnpj_validation", default=False
-            ) or self.env.context.get('disable_cpf_cnpj_validation')
+            ) or self.env.context.get(
+                "disable_cpf_cnpj_validation"
+            )
             if not disable_cnpj_ie_validation:
                 if record.country_id:
                     country_code = record.country_id.code
@@ -120,9 +125,9 @@ class Partner(models.Model):
 
             disable_ie_validation = record.env["ir.config_parameter"].sudo().get_param(
                 "l10n_br_base.disable_ie_validation", default=False
-            ) or self.env.context.get('disable_ie_validation')
+            ) or self.env.context.get("disable_ie_validation")
             if not disable_ie_validation:
-                if record.inscr_est == 'ISENTO':
+                if record.inscr_est == "ISENTO":
                     return
                 if record.inscr_est and record.is_company and record.state_id:
                     state_code = record.state_id.code or ""

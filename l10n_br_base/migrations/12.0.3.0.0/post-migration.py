@@ -7,10 +7,12 @@ from openupgradelib import openupgrade
 
 def rg_migrate(env):
     openupgrade.logged_query(
-        env.cr, """UPDATE res_partner set rg=inscr_est where is_company='f'""",
+        env.cr,
+        """UPDATE res_partner set rg=inscr_est where is_company='f'""",
     )
     openupgrade.logged_query(
-        env.cr, """UPDATE res_partner set inscr_est=null where is_company='f'""",
+        env.cr,
+        """UPDATE res_partner set inscr_est=null where is_company='f'""",
     )
 
 
