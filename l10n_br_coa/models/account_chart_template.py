@@ -50,11 +50,11 @@ class AccountChartTemplate(models.Model):
             group_accounts = {
                 int(p.res_id.split(',')[1]): {} for p in properties}
 
-            for property in properties:
-                group_accounts[int(property.res_id.split(',')[1])].update({
-                    property.fields_id.name:
+            for prop in properties:
+                group_accounts[int(prop.res_id.split(',')[1])].update({
+                    prop.fields_id.name:
                     account_ref.get(
-                        (int(property.value_reference.split(',')[1])), False)
+                        (int(prop.value_reference.split(',')[1])), False)
                 })
 
             taxes = self.env['account.tax'].browse(taxes_ref.values())
