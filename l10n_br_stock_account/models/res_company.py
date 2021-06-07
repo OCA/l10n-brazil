@@ -5,23 +5,19 @@ from odoo import fields, models
 
 
 class ResCompany(models.Model):
-    _inherit = 'res.company'
+    _inherit = "res.company"
 
     stock_fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        domain=[('state', '=', 'approved')],
+        comodel_name="l10n_br_fiscal.operation",
+        domain=[("state", "=", "approved")],
     )
 
     stock_in_fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        domain=[
-            ('state', '=', 'approved'),
-            ('fiscal_operation_type', '=', 'in')],
+        comodel_name="l10n_br_fiscal.operation",
+        domain=[("state", "=", "approved"), ("fiscal_operation_type", "=", "in")],
     )
 
     stock_out_fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        domain=[
-            ('state', '=', 'approved'),
-            ('fiscal_operation_type', '=', 'out')],
+        comodel_name="l10n_br_fiscal.operation",
+        domain=[("state", "=", "approved"), ("fiscal_operation_type", "=", "out")],
     )
