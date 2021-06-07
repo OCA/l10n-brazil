@@ -6,7 +6,7 @@ from odoo import fields, models
 
 
 class StockInvoiceOnshipping(models.TransientModel):
-    _inherit = 'stock.invoice.onshipping'
+    _inherit = "stock.invoice.onshipping"
 
     def _build_invoice_values_from_pickings(self, pickings):
         """
@@ -18,11 +18,9 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         pick = fields.first(pickings)
         if pick.purchase_id:
-            values['purchase_id'] = pick.purchase_id.id
-            if pick.purchase_id.payment_term_id.id != values['payment_term_id']:
-                values.update({
-                    'payment_term_id': pick.purchase_id.payment_term_id.id
-                })
+            values["purchase_id"] = pick.purchase_id.id
+            if pick.purchase_id.payment_term_id.id != values["payment_term_id"]:
+                values.update({"payment_term_id": pick.purchase_id.payment_term_id.id})
 
         return invoice, values
 
@@ -53,14 +51,13 @@ class StockInvoiceOnshipping(models.TransientModel):
         :return: dict
         """
 
-        values = super()._get_invoice_line_values(
-            moves, invoice_values, invoice)
+        values = super()._get_invoice_line_values(moves, invoice_values, invoice)
         # Devido ao KEY com purchase_line_id aqui
         # vem somente um registro
         if len(moves) == 1:
             # Caso venha apenas uma linha porem sem
             # purchase_line_id é preciso ignora-la
             if moves.purchase_line_id:
-                values['purchase_line_id'] = moves.purchase_line_id.id
+                values["purchase_line_id"] = moves.purchase_line_id.id
 
         return values
