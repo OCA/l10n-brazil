@@ -6,13 +6,14 @@ from odoo.tests import SavepointCase
 
 
 class L10nBrBaseOnchangeTest(SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.company_01 = cls.env["res.company"].with_context(
-            tracking_disable=True).create(
+        cls.company_01 = (
+            cls.env["res.company"]
+            .with_context(tracking_disable=True)
+            .create(
                 {
                     "name": "Company Test 1",
                     "cnpj_cpf": "02.960.895/0001-31",
@@ -20,15 +21,17 @@ class L10nBrBaseOnchangeTest(SavepointCase):
                     "zip": "29161-695",
                 }
             )
+        )
 
         cls.bank_01 = cls.env["res.bank"].create(
             {"name": "Bank Test 1", "zip": "29161-695"}
         )
 
-        cls.partner_01 = cls.env["res.partner"].with_context(
-            tracking_disable=True).create(
-                {"name": "Partner Test 01", "zip": "29161-695"}
-            )
+        cls.partner_01 = (
+            cls.env["res.partner"]
+            .with_context(tracking_disable=True)
+            .create({"name": "Partner Test 01", "zip": "29161-695"})
+        )
 
     def test_onchange(self):
         """
@@ -100,6 +103,5 @@ class L10nBrBaseOnchangeTest(SavepointCase):
             display_address,
             "Avenida Paulista, 807 CJ 2315\nCentro"
             "\n01311-915 - São Paulo-SP\nBrazil",
-            "The function _display_address with parameter"
-            " without_company failed.",
+            "The function _display_address with parameter" " without_company failed.",
         )
