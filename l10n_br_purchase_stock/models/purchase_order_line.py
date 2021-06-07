@@ -6,7 +6,7 @@ from odoo import models
 
 
 class PurchaseOrderLine(models.Model):
-    _inherit = 'purchase.order.line'
+    _inherit = "purchase.order.line"
 
     def _prepare_stock_moves(self, picking):
         """Prepare the stock moves data for one order line.
@@ -16,7 +16,9 @@ class PurchaseOrderLine(models.Model):
         values = super()._prepare_stock_moves(picking)
         for v in values:
             v.update(self._prepare_br_fiscal_dict())
-            if (self.env.user.company_id.purchase_create_invoice_policy
-                    == 'stock_picking'):
-                v['invoice_state'] = '2binvoiced'
+            if (
+                self.env.user.company_id.purchase_create_invoice_policy
+                == "stock_picking"
+            ):
+                v["invoice_state"] = "2binvoiced"
         return values
