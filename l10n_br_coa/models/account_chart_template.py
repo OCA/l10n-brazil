@@ -1,13 +1,14 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import models
 
 
 class AccountChartTemplate(models.Model):
     _inherit = 'account.chart.template'
 
     def load_for_current_company(self, sale_tax_rate, purchase_tax_rate):
+        self.ensure_one()
         super().load_for_current_company(sale_tax_rate, purchase_tax_rate)
         # Remove Company default taxes configuration
         if self.currency_id == self.env.ref('base.BRL'):
@@ -16,9 +17,9 @@ class AccountChartTemplate(models.Model):
                 'account_purchase_tax_id': False,
             })
 
-    @api.multi
     def _load_template(self, company, code_digits=None,
                        account_ref=None, taxes_ref=None):
+        self.ensure_one()
         account_ref, taxes_ref = super()._load_template(
             company, code_digits, account_ref, taxes_ref
         )
