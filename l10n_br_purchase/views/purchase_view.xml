@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
       <!--busca por cnpj_cpf e razao social nos pedidos de compra -->
       <record id="l10n_br_purchase_order_filter" model="ir.ui.view">
           <field name="name">l10n_br_purchase.partner.filter</field>
           <field name="model">purchase.order</field>
-          <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+          <field name="inherit_id" ref="purchase.view_purchase_order_filter" />
           <field name="arch" type="xml">
               <field name="name" position="after">
-                  <field name="legal_name" string="Razão Social"/>
-                  <field name="cnpj_cpf" string="CNPJ/CPF"/>
-                  <field name="ie" string="Inscr. Estadual"/>
+                  <field name="legal_name" string="Razão Social" />
+                  <field name="cnpj_cpf" string="CNPJ/CPF" />
+                  <field name="ie" string="Inscr. Estadual" />
               </field>
           </field>
       </record>
@@ -17,61 +17,104 @@
       <record id="l10n_br_purchase_order_form" model="ir.ui.view">
           <field name="name">l10n_br_purchase.order.form</field>
           <field name="model">purchase.order</field>
-          <field name="inherit_id" ref="purchase.purchase_order_form"/>
+          <field name="inherit_id" ref="purchase.purchase_order_form" />
           <field name="priority">36</field>
           <field name="arch" type="xml">
               <xpath expr="//field[@name='company_id']" position="after">
-                  <field name="fiscal_operation_id" required="1"/>
+                  <field name="fiscal_operation_id" required="1" />
               </xpath>
               <xpath expr="//field[@name='order_line']" position="attributes">
-                  <attribute name="context">{'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id}</attribute>
+                  <attribute
+                    name="context"
+                >{'default_fiscal_operation_id': fiscal_operation_id, 'default_company_id': company_id, 'default_partner_id': partner_id}</attribute>
               </xpath>
               <!-- Edit order_line Tree view -->
               <xpath expr="//field[@name='order_line']/tree" position="attributes">
-                  <attribute name="editable"/>
+                  <attribute name="editable" />
               </xpath>
-              <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="attributes">
+              <xpath
+                expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
+                position="attributes"
+            >
                   <attribute name="invisible">1</attribute>
               </xpath>
-              <xpath expr="//field[@name='order_line']/tree/field[@name='taxes_id']" position="before">
-                  <field name="fiscal_tax_ids" widget="many2many_tags"/>
+              <xpath
+                expr="//field[@name='order_line']/tree/field[@name='taxes_id']"
+                position="before"
+            >
+                  <field name="fiscal_tax_ids" widget="many2many_tags" />
               </xpath>
-              <xpath expr="//field[@name='order_line']/tree/field[@name='company_id']" position="attributes">
+              <xpath
+                expr="//field[@name='order_line']/tree/field[@name='company_id']"
+                position="attributes"
+            >
                   <attribute name="invisible">1</attribute>
               </xpath>
               <!-- Edit order_line Form view -->
               <xpath expr="//field[@name='order_line']/form" position="inside">
                   <group name="fiscal_fields" invisible="1">
-                      <field name="fiscal_operation_type" invisible="1" readonly="1"/>
-                      <field name="fiscal_genre_code" invisible="1"/>
-                      <field name="tax_framework" invisible="1"/>
+                      <field name="fiscal_operation_type" invisible="1" readonly="1" />
+                      <field name="fiscal_genre_code" invisible="1" />
+                      <field name="tax_framework" invisible="1" />
                   </group>
               </xpath>
-              <xpath expr="//field[@name='order_line']/form//field[@name='taxes_id']" position="replace">
-                  <field name="fiscal_operation_id" required="1" options="{'no_create': True}"/>
-                  <field name="fiscal_operation_line_id" required="1" options="{'no_create': True}"/>
-                  <field name="cfop_id" options="{'no_create': True}"/>
+              <xpath
+                expr="//field[@name='order_line']/form//field[@name='taxes_id']"
+                position="replace"
+            >
+                  <field
+                    name="fiscal_operation_id"
+                    required="1"
+                    options="{'no_create': True}"
+                />
+                  <field
+                    name="fiscal_operation_line_id"
+                    required="1"
+                    options="{'no_create': True}"
+                />
+                  <field name="cfop_id" options="{'no_create': True}" />
               </xpath>
-              <xpath expr="//field[@name='order_line']/form//notebook/page[1]" position="before">
-                  <page name="fiscal_taxes" string="Taxes"/>
-                  <page name="fiscal_line_extra_info" string="Extra Info"/>
+              <xpath
+                expr="//field[@name='order_line']/form//notebook/page[1]"
+                position="before"
+            >
+                  <page name="fiscal_taxes" string="Taxes" />
+                  <page name="fiscal_line_extra_info" string="Extra Info" />
                   <page name="others" string="Outros Custos">
                       <group>
-                          <field name="insurance_value"/>
-                          <field name="other_value"/>
-                          <field name="freight_value"/>
+                          <field name="insurance_value" />
+                          <field name="other_value" />
+                          <field name="freight_value" />
                       </group>
                   </page>
                   <page name="accounting" string="Accounting">
                       <group>
-                          <field name="taxes_id" widget="many2many_tags" options="{'no_create': True}" context="{'search_view_ref': 'account.account_tax_view_search'}" domain="[('type_tax_use','=','purchase'),('company_id','=',parent.company_id)]"/>
+                          <field
+                            name="taxes_id"
+                            widget="many2many_tags"
+                            options="{'no_create': True}"
+                            context="{'search_view_ref': 'account.account_tax_view_search'}"
+                            domain="[('type_tax_use','=','purchase'),('company_id','=',parent.company_id)]"
+                        />
                       </group>
                   </page>
               </xpath>
               <xpath expr="//field[@name='amount_untaxed']" position="after">
-                  <field name="amount_freight_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                  <field name="amount_insurance_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                  <field name="amount_other_value" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                  <field
+                    name="amount_freight_value"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id'}"
+                />
+                  <field
+                    name="amount_insurance_value"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id'}"
+                />
+                  <field
+                    name="amount_other_value"
+                    widget="monetary"
+                    options="{'currency_field': 'currency_id'}"
+                />
               </xpath>
           </field>
       </record>
@@ -80,7 +123,7 @@
       <record id="l10n_br_purchase_order_line_form" model="ir.ui.view">
           <field name="name">l10n_br_purchase.order.line.form</field>
           <field name="model">purchase.order.line</field>
-          <field name="inherit_id" ref="purchase.purchase_order_line_form2"/>
+          <field name="inherit_id" ref="purchase.purchase_order_line_form2" />
           <field name="arch" type="xml">
             <xpath expr="//form/sheet/group" position="after">
                 <group id="l10n_br_fiscal">
