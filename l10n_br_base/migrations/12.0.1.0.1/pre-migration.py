@@ -7,4 +7,9 @@ from openupgradelib import openupgrade
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
     openupgrade.update_module_names(
-        env.cr, [('l10n_br_simple', 'l10n_br_coa_simple'), ], merge_modules=True,)
+        env.cr,
+        [
+            ("l10n_br_simple", "l10n_br_coa_simple"),
+        ],
+        merge_modules=True,
+    )
