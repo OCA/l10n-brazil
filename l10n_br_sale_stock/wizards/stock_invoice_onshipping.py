@@ -6,7 +6,7 @@ from odoo import fields, models
 
 class StockInvoiceOnshipping(models.TransientModel):
 
-    _inherit = 'stock.invoice.onshipping'
+    _inherit = "stock.invoice.onshipping"
 
     def _build_invoice_values_from_pickings(self, pickings):
         """
@@ -18,19 +18,23 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         pick = fields.first(pickings)
         if pick.sale_id:
-            values.update({
-                'partner_id': pick.sale_id.partner_invoice_id.id,
-            })
-            if pick.sale_id.payment_term_id.id != values['payment_term_id']:
-                values.update({
-                    'payment_term_id': pick.sale_id.payment_term_id.id
-                })
+            values.update(
+                {
+                    "partner_id": pick.sale_id.partner_invoice_id.id,
+                }
+            )
+            if pick.sale_id.payment_term_id.id != values["payment_term_id"]:
+                values.update({"payment_term_id": pick.sale_id.payment_term_id.id})
             if pick.sale_id.copy_note:
-                values.update({
-                    'customer_additional_data':
-                        pick.sale_id.customer_additional_data +
-                        ' TERMOS E CONDIÇÕES: ' + pick.sale_id.note,
-                })
+                values.update(
+                    {
+                        "customer_additional_data": (
+                            pick.sale_id.customer_additional_data
+                            + " TERMOS E CONDIÇÕES: "
+                            + pick.sale_id.note,
+                        )
+                    }
+                )
 
         return invoice, values
 
@@ -66,14 +70,13 @@ class StockInvoiceOnshipping(models.TransientModel):
         :return: dict
         """
 
-        values = super()._get_invoice_line_values(
-            moves, invoice_values, invoice)
+        values = super()._get_invoice_line_values(moves, invoice_values, invoice)
         # Devido ao KEY com sale_line_id aqui
         # vem somente um registro
         if len(moves) == 1:
             # Caso venha apenas uma linha porem sem
             # sale_line_id é preciso ignora-la
             if moves.sale_line_id:
-                values['sale_line_ids'] = [(6, 0, moves.sale_line_id.ids)]
+                values["sale_line_ids"] = [(6, 0, moves.sale_line_id.ids)]
 
         return values
