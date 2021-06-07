@@ -101,7 +101,7 @@ class ResPartner(spec_models.SpecModel):
         """Set schema data which are not just related fields"""
         for rec in self:
             if rec.cnpj_cpf:
-                if rec.company_id.partner_id.country_id != rec.country_id:
+                if rec.country_id.code != 'BR':
                     rec.nfe40_choice7 = 'nfe40_idEstrangeiro'
                 elif rec.is_company:
                     rec.nfe40_CNPJ = punctuation_rm(
@@ -145,6 +145,6 @@ class ResPartner(spec_models.SpecModel):
             if self.country_id.code != 'BR':
                 return 'EX'
         if xsd_field == 'nfe40_idEstrangeiro':
-            if self.company_id.partner_id.country_id != self.country_id:
                 return 'EXTERIOR'
+            if self.country_id.code != 'BR':
         return super()._export_field(xsd_field, class_obj, member_spec)
