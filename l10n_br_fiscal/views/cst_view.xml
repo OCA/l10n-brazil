@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="cst_search" model="ir.ui.view">
@@ -6,12 +6,17 @@
         <field name="model">l10n_br_fiscal.cst</field>
         <field name="arch" type="xml">
             <search string="CST">
-                <field name="code"/>
-                <field name="name"/>
-                <field name="tax_group_id"/>
-                <field name="tax_domain"/>
+                <field name="code" />
+                <field name="name" />
+                <field name="tax_group_id" />
+                <field name="tax_domain" />
                 <group expand='0' string='Group By...'>
-                    <filter string='Tax Group' name="tax_group_id" domain="[]" context="{'group_by' : 'tax_group_id'}"/>
+                    <filter
+                        string='Tax Group'
+                        name="tax_group_id"
+                        domain="[]"
+                        context="{'group_by' : 'tax_group_id'}"
+                    />
                 </group>
             </search>
         </field>
@@ -22,10 +27,10 @@
         <field name="model">l10n_br_fiscal.cst</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="code"/>
-                <field name="name"/>
-                <field name="cst_type"/>
-                <field name="tax_group_id"/>
+                <field name="code" />
+                <field name="name" />
+                <field name="cst_type" />
+                <field name="tax_group_id" />
             </tree>
         </field>
     </record>
@@ -37,10 +42,10 @@
             <form string="CST">
                 <sheet>
                     <group>
-                      <field name="code"/>
-                      <field name="name"/>
-                      <field name="cst_type"/>
-                      <field name="tax_group_id"/>
+                      <field name="code" />
+                      <field name="name" />
+                      <field name="cst_type" />
+                      <field name="tax_group_id" />
                     </group>
                 </sheet>
             </form>

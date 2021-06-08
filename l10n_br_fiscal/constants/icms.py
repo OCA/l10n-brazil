@@ -48,22 +48,10 @@ ICMS_ORIGIN = [
 ICMS_ORIGIN_DEFAULT = "0"
 
 
-ICMS_ORIGIN_TAX_IMPORTED = ['1', '2', '3', '8']
+ICMS_ORIGIN_TAX_IMPORTED = ["1", "2", "3", "8"]
 
 
-ICMS_CST = [
-    "00",
-    "10",
-    "20",
-    "30",
-    "40",
-    "41",
-    "50",
-    "51",
-    "60",
-    "70",
-    "90"
-]
+ICMS_CST = ["00", "10", "20", "30", "40", "41", "50", "51", "60", "70", "90"]
 
 
 ICMS_BASE_TYPE = [
@@ -90,64 +78,55 @@ ICMS_ST_BASE_TYPE = [
 ICMS_ST_BASE_TYPE_DEFAULT = "4"
 
 
-ICMS_SN_CST = [
-    "101",
-    "102",
-    "103",
-    "201",
-    "202",
-    "203",
-    "300",
-    "400",
-    "500",
-    "900"
-]
+ICMS_SN_CST = ["101", "102", "103", "201", "202", "203", "300", "400", "500", "900"]
 
 
-ICMS_SN_CST_WITH_CREDIT = [
-    "101",
-    "201"
-]
+ICMS_SN_CST_WITH_CREDIT = ["101", "201"]
 
 
-ICMS_SN_CST_WITHOUT_CREDIT = [
-    "102",
-    "103",
-    "202",
-    "203",
-    "300",
-    "400",
-    "500",
-    "900"
-]
+ICMS_SN_CST_WITHOUT_CREDIT = ["102", "103", "202", "203", "300", "400", "500", "900"]
 
 
 ICMS_DIFAL_PARTITION = {
-    2016: {
-        'difal_origin_perc': 60.00,
-        'difal_dest_perc': 40.00},
-    2017:  {
-        'difal_origin_perc': 40.00,
-        'difal_dest_perc': 60.00},
-    2018:  {
-        'difal_origin_perc': 20.00,
-        'difal_dest_perc': 80.00},
-    2019: {
-        'difal_origin_perc': 0.00,
-        'difal_dest_perc': 100.00}
+    2016: {"difal_origin_perc": 60.00, "difal_dest_perc": 40.00},
+    2017: {"difal_origin_perc": 40.00, "difal_dest_perc": 60.00},
+    2018: {"difal_origin_perc": 20.00, "difal_dest_perc": 80.00},
+    2019: {"difal_origin_perc": 0.00, "difal_dest_perc": 100.00},
 }
 
 
 ICMS_DIFAL_UNIQUE_BASE = [
-    'AC', 'AM', 'AP', 'CE', 'DF', 'ES', 'MA',
-    'MT', 'MS', 'PB', 'RJ', 'RN', 'RR', 'SC',
-    'SP']
+    "AC",
+    "AM",
+    "AP",
+    "CE",
+    "DF",
+    "ES",
+    "MA",
+    "MT",
+    "MS",
+    "PB",
+    "RJ",
+    "RN",
+    "RR",
+    "SC",
+    "SP",
+]
 
 
 ICMS_DIFAL_DOUBLE_BASE = [
-    'AL', 'BA', 'GO', 'MG', 'PA', 'PI',
-    'PE', 'PR', 'RO', 'RS', 'SE', 'TO']
+    "AL",
+    "BA",
+    "GO",
+    "MG",
+    "PA",
+    "PI",
+    "PE",
+    "PR",
+    "RO",
+    "RS",
+    "SE",
+    "TO",
+]
 
-ICSM_CST_CSOSN_ST_BASE = [
-    '10', '30', '70', '90',
-    '201', '202', '203', '900']
+ICSM_CST_CSOSN_ST_BASE = ["10", "30", "70", "90", "201", "202", "203", "900"]

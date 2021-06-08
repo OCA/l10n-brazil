@@ -6,9 +6,9 @@ from odoo import models
 
 
 class DocumentCancelWizard(models.TransientModel):
-    _name = 'l10n_br_fiscal.document.cancel.wizard'
-    _description = 'Fiscal Document Cancel Wizard'
-    _inherit = 'l10n_br_fiscal.base.wizard.mixin'
+    _name = "l10n_br_fiscal.document.cancel.wizard"
+    _description = "Fiscal Document Cancel Wizard"
+    _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
     def do_cancel(self):
         self.document_id._document_cancel(self.justification)

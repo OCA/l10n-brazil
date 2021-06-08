@@ -12,7 +12,7 @@ CST_IPI_IN_OUT = {
     "03": "53",
     "04": "54",
     "05": "55",
-    "49": "99"
+    "49": "99",
 }
 
 CST_IPI_OUT_IN = {
@@ -22,7 +22,7 @@ CST_IPI_OUT_IN = {
     "53": "03",
     "54": "04",
     "55": "05",
-    "99": "49"
+    "99": "49",
 }
 
 
@@ -31,4 +31,5 @@ IPI_GUIDELINE_GROUP = [
     ("suspensao", "Suspensão"),
     ("isencao", "Isenção"),
     ("reducao", "Redução"),
-    ("outros", "Outros")]
+    ("outros", "Outros"),
+]

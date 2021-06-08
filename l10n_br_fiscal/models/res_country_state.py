@@ -6,10 +6,10 @@ from odoo import fields, models
 
 
 class ResCountryState(models.Model):
-    _inherit = 'res.country.state'
+    _inherit = "res.country.state"
 
     tax_definition_ids = fields.Many2many(
-        comodel_name='l10n_br_fiscal.tax.definition',
-        string='Tax Definitions',
+        comodel_name="l10n_br_fiscal.tax.definition",
+        string="Tax Definitions",
         domain="['|', ('state_from_ids', '=', id), ('state_to_ids', '=', id)]",
     )

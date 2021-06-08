@@ -4,12 +4,10 @@
 
 import logging
 
-from odoo import _, api, tools, SUPERUSER_ID
+from odoo import SUPERUSER_ID, _, api, tools
 
+from .constants.fiscal import CERTIFICATE_TYPE_ECNPJ
 from .tools import misc
-from .constants.fiscal import (
-    CERTIFICATE_TYPE_ECNPJ
-)
 
 _logger = logging.getLogger(__name__)
 
@@ -33,8 +31,7 @@ def post_init_hook(cr, registry):
         "data/l10n_br_fiscal_tax_icms_data.xml",
     ]
 
-    _logger.info(
-        _("Loading l10n_br_fiscal fiscal files. It may take a minute..."))
+    _logger.info(_("Loading l10n_br_fiscal fiscal files. It may take a minute..."))
 
     for file in files:
         tools.convert_file(
@@ -95,9 +92,9 @@ def post_init_hook(cr, registry):
             )
 
         companies = [
-            env.ref('base.main_company', raise_if_not_found=False),
-            env.ref('l10n_br_base.empresa_lucro_presumido', raise_if_not_found=False),
-            env.ref('l10n_br_base.empresa_simples_nacional', raise_if_not_found=False),
+            env.ref("base.main_company", raise_if_not_found=False),
+            env.ref("l10n_br_base.empresa_lucro_presumido", raise_if_not_found=False),
+            env.ref("l10n_br_base.empresa_simples_nacional", raise_if_not_found=False),
         ]
 
         for company in companies:
@@ -125,9 +122,11 @@ def post_init_hook(cr, registry):
         if not tools.config.get("skip_cest"):
             prodfiles.append("data/l10n_br_fiscal.cest.csv")
 
-        _logger.info(_(
-            "Loading l10n_br_fiscal production files. It may take at least"
-            " 3 minutes...")
+        _logger.info(
+            _(
+                "Loading l10n_br_fiscal production files. It may take at least"
+                " 3 minutes..."
+            )
         )
 
         for f in prodfiles:
@@ -147,9 +146,7 @@ def post_init_hook(cr, registry):
         "data/l10n_br_fiscal_icms_tax_definition_data.xml",
     ]
 
-    _logger.info(
-        _("Loading l10n_br_fiscal post init files. It may take a minute...")
-    )
+    _logger.info(_("Loading l10n_br_fiscal post init files. It may take a minute..."))
 
     for file in posloadfiles:
         tools.convert_file(

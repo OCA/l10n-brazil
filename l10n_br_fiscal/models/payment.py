@@ -9,9 +9,7 @@ class FiscalPayment(models.Model):
     _name = "l10n_br_fiscal.payment"
     _description = "Fiscal Payment"
 
-    name = fields.Char(
-        string='Name',
-        required=True)
+    name = fields.Char(string="Name", required=True)
 
     indPag = fields.Selection(
         selection=[
@@ -20,7 +18,8 @@ class FiscalPayment(models.Model):
             ("2", "Outros"),
         ],
         string=u"Indicador de Pagamento",
-        default="1")
+        default="1",
+    )
 
     payment_type = fields.Selection(
         selection=[
