@@ -6,9 +6,9 @@ from odoo import models
 
 
 class DocumentCorrectionWizard(models.TransientModel):
-    _name = 'l10n_br_fiscal.document.correction.wizard'
-    _description = 'Fiscal Document Correction Wizard'
-    _inherit = 'l10n_br_fiscal.base.wizard.mixin'
+    _name = "l10n_br_fiscal.document.correction.wizard"
+    _description = "Fiscal Document Correction Wizard"
+    _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
     def doit(self):
         for wizard in self:

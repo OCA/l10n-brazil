@@ -5,54 +5,48 @@
 from __future__ import division, print_function, unicode_literals
 
 from odoo import fields, models
-from ..constants.fiscal import (
-    SITUACAO_EDOC,
-)
 
+from ..constants.fiscal import SITUACAO_EDOC
 
 SUBSEQUENT_CONDITION = [
-    ('manual', 'Manualmente'),
-    ('nota_de_cupom', 'Gerar Nota Fiscal de Cupons Fiscais'),
-    ('nota_de_remessa', 'Gerar Nota Fiscal de Remessa'),
+    ("manual", "Manualmente"),
+    ("nota_de_cupom", "Gerar Nota Fiscal de Cupons Fiscais"),
+    ("nota_de_remessa", "Gerar Nota Fiscal de Remessa"),
 ]
 
 SUBSEQUENT_OPERATION = SITUACAO_EDOC + SUBSEQUENT_CONDITION
 
 
 class SubsequentOperation(models.Model):
-    """ We must be aware that some subsequent operations do not generate
+    """We must be aware that some subsequent operations do not generate
     financial moves"""
 
-    _name = 'l10n_br_fiscal.subsequent.operation'
-    _description = 'Subsequent Operation'
-    _rec_name = 'fiscal_operation_id'
-    _order = 'sequence'
+    _name = "l10n_br_fiscal.subsequent.operation"
+    _description = "Subsequent Operation"
+    _rec_name = "fiscal_operation_id"
+    _order = "sequence"
 
     sequence = fields.Integer(
         string="Sequence",
         default=10,
-        help="Gives the sequence order when displaying a list"
+        help="Gives the sequence order when displaying a list",
     )
     fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Origin operation',
+        comodel_name="l10n_br_fiscal.operation",
+        string="Origin operation",
         required=True,
-        ondelete='cascade',
-
+        ondelete="cascade",
     )
     subsequent_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Operation to be performed',
+        comodel_name="l10n_br_fiscal.operation",
+        string="Operation to be performed",
     )
-    partner_id = fields.Many2one(
-        comodel_name='res.partner',
-        string='Partner'
-    )
+    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
     generation_situation = fields.Selection(
         string="Generation Situation",
         selection=SUBSEQUENT_OPERATION,
         required=True,
-        default='manual',
+        default="manual",
     )
     reference_document = fields.Boolean(
         string="Referencing source document",

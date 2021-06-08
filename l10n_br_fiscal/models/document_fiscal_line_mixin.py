@@ -2,17 +2,19 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from odoo import api, fields, models
+
 from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
     CFOP_DESTINATION,
-    PRODUCT_FISCAL_TYPE,
+    FISCAL_COMMENT_LINE,
     FISCAL_IN_OUT,
+    PRODUCT_FISCAL_TYPE,
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
     TAX_DOMAIN_COFINS,
-    TAX_DOMAIN_COFINS_WH,
     TAX_DOMAIN_COFINS_ST,
+    TAX_DOMAIN_COFINS_WH,
     TAX_DOMAIN_CSLL,
     TAX_DOMAIN_CSLL_WH,
     TAX_DOMAIN_ICMS,
@@ -28,22 +30,19 @@ from ..constants.fiscal import (
     TAX_DOMAIN_ISSQN,
     TAX_DOMAIN_ISSQN_WH,
     TAX_DOMAIN_PIS,
-    TAX_DOMAIN_PIS_WH,
     TAX_DOMAIN_PIS_ST,
+    TAX_DOMAIN_PIS_WH,
     TAX_FRAMEWORK_SIMPLES_ALL,
-    FISCAL_COMMENT_LINE,
     TAX_ICMS_OR_ISSQN,
 )
-
 from ..constants.icms import (
-    ICMS_ORIGIN,
-    ICMS_ORIGIN_DEFAULT,
     ICMS_BASE_TYPE,
     ICMS_BASE_TYPE_DEFAULT,
+    ICMS_ORIGIN,
+    ICMS_ORIGIN_DEFAULT,
     ICMS_ST_BASE_TYPE,
-    ICMS_ST_BASE_TYPE_DEFAULT
+    ICMS_ST_BASE_TYPE_DEFAULT,
 )
-
 from ..constants.issqn import (
     ISSQN_ELIGIBILITY,
     ISSQN_ELIGIBILITY_DEFAULT,
@@ -64,11 +63,12 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     @api.model
     def _default_icmssn_range_id(self):
         company = self.env.user.company_id
-        stax_range_id = self.env['l10n_br_fiscal.simplified.tax.range']
+        stax_range_id = self.env["l10n_br_fiscal.simplified.tax.range"]
 
         if self.env.context.get("default_company_id"):
-            company = self.env['res.company'].browse(
-                self.env.context.get("default_company_id"))
+            company = self.env["res.company"].browse(
+                self.env.context.get("default_company_id")
+            )
 
         if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
             stax_range_id = company.simplifed_tax_range_id
@@ -77,38 +77,32 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     @api.model
     def _operation_domain(self):
-        domain = [('state', '=', 'approved')]
+        domain = [("state", "=", "approved")]
         return domain
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Currency",
-        default=lambda self: self.env.ref('base.BRL'))
+        default=lambda self: self.env.ref("base.BRL"),
+    )
 
-    product_id = fields.Many2one(
-        comodel_name="product.product",
-        string="Product")
+    product_id = fields.Many2one(comodel_name="product.product", string="Product")
 
     tax_icms_or_issqn = fields.Selection(
         selection=TAX_ICMS_OR_ISSQN,
-        string='ICMS or ISSQN Tax',
+        string="ICMS or ISSQN Tax",
         default=TAX_DOMAIN_ICMS,
     )
 
     price_unit = fields.Float(
-        string="Price Unit",
-        digits=dp.get_precision("Product Price"))
+        string="Price Unit", digits=dp.get_precision("Product Price")
+    )
 
-    partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Partner")
+    partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
 
-    partner_company_type = fields.Selection(
-        related="partner_id.company_type")
+    partner_company_type = fields.Selection(related="partner_id.company_type")
 
-    uom_id = fields.Many2one(
-        comodel_name="uom.uom",
-        string="UOM")
+    uom_id = fields.Many2one(comodel_name="uom.uom", string="UOM")
 
     quantity = fields.Float(
         string="Quantity",
@@ -116,71 +110,72 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=1.0,
     )
 
-    fiscal_type = fields.Selection(
-        selection=PRODUCT_FISCAL_TYPE,
-        string="Fiscal Type")
+    fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Fiscal Type")
 
     ncm_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.ncm",
-        index=True,
-        string="NCM")
+        comodel_name="l10n_br_fiscal.ncm", index=True, string="NCM"
+    )
 
     nbm_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.nbm",
         index=True,
         string="NBM",
-        domain="[('ncm_ids', '=', ncm_id)]")
+        domain="[('ncm_ids', '=', ncm_id)]",
+    )
 
     cest_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cest",
         index=True,
         string="CEST",
-        domain="[('ncm_ids', '=', ncm_id)]")
+        domain="[('ncm_ids', '=', ncm_id)]",
+    )
 
     nbs_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.nbs",
-        index=True,
-        string="NBS")
+        comodel_name="l10n_br_fiscal.nbs", index=True, string="NBS"
+    )
 
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Operation",
         domain=lambda self: self._operation_domain(),
-        default=_default_operation)
+        default=_default_operation,
+    )
 
     fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
         related="fiscal_operation_id.fiscal_operation_type",
         string="Fiscal Operation Type",
-        readonly=True)
+        readonly=True,
+    )
 
     fiscal_operation_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation.line",
         string="Operation Line",
         domain="[('fiscal_operation_id', '=', fiscal_operation_id), "
-               "('state', '=', 'approved')]")
+        "('state', '=', 'approved')]",
+    )
 
     cfop_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cfop",
         string="CFOP",
-        domain="[('type_in_out', '=', fiscal_operation_type)]")
+        domain="[('type_in_out', '=', fiscal_operation_type)]",
+    )
 
     cfop_destination = fields.Selection(
         selection=CFOP_DESTINATION,
         related="cfop_id.destination",
-        string="CFOP Destination")
+        string="CFOP Destination",
+    )
 
     fiscal_price = fields.Float(
-        string="Fiscal Price",
-        digits=dp.get_precision("Product Price"))
+        string="Fiscal Price", digits=dp.get_precision("Product Price")
+    )
 
-    uot_id = fields.Many2one(
-        comodel_name="uom.uom",
-        string="Tax UoM")
+    uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
 
     fiscal_quantity = fields.Float(
-        string="Fiscal Quantity",
-        digits=dp.get_precision("Product Unit of Measure"))
+        string="Fiscal Quantity", digits=dp.get_precision("Product Unit of Measure")
+    )
 
     discount_value = fields.Monetary(string="Discount Value")
 
@@ -191,80 +186,78 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     freight_value = fields.Monetary(string="Freight Value")
 
     fiscal_tax_ids = fields.Many2many(
-        comodel_name='l10n_br_fiscal.tax',
-        relation='fiscal_tax_rel',
-        column1='document_id',
-        column2='fiscal_tax_id',
-        string="Fiscal Taxes")
+        comodel_name="l10n_br_fiscal.tax",
+        relation="fiscal_tax_rel",
+        column1="document_id",
+        column2="fiscal_tax_id",
+        string="Fiscal Taxes",
+    )
 
     amount_fiscal = fields.Monetary(
-        string='Amount Fiscal',
-        compute='_compute_amounts',
+        string="Amount Fiscal",
+        compute="_compute_amounts",
     )
 
     price_gross = fields.Monetary(
-        compute='_compute_amounts',
-        string='Amount Gross',
+        compute="_compute_amounts",
+        string="Amount Gross",
         store=True,
         readonly=True,
         help="Amount without discount.",
     )
 
     amount_untaxed = fields.Monetary(
-        string='Amount Untaxed',
-        compute='_compute_amounts',
+        string="Amount Untaxed",
+        compute="_compute_amounts",
     )
 
     amount_tax = fields.Monetary(
-        string='Amount Tax',
-        compute='_compute_amounts',
+        string="Amount Tax",
+        compute="_compute_amounts",
     )
 
     amount_taxed = fields.Monetary(
-        string='Amount Taxed',
-        compute='_compute_amounts',
+        string="Amount Taxed",
+        compute="_compute_amounts",
     )
 
     amount_total = fields.Monetary(
-        string='Amount Total',
-        compute='_compute_amounts',
+        string="Amount Total",
+        compute="_compute_amounts",
     )
 
     amount_tax_not_included = fields.Monetary(string="Amount Tax not Included")
 
-    amount_tax_withholding = fields.Monetary(
-        string="(-) Amount Tax Withholding")
+    amount_tax_withholding = fields.Monetary(string="(-) Amount Tax Withholding")
 
     fiscal_genre_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.product.genre",
-        string="Fiscal Product Genre")
+        comodel_name="l10n_br_fiscal.product.genre", string="Fiscal Product Genre"
+    )
 
     fiscal_genre_code = fields.Char(
-        related="fiscal_genre_id.code",
-        string="Fiscal Product Genre Code")
+        related="fiscal_genre_id.code", string="Fiscal Product Genre Code"
+    )
 
     service_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.service.type",
         string="Service Type LC 166",
-        domain="[('internal_type', '=', 'normal')]")
+        domain="[('internal_type', '=', 'normal')]",
+    )
 
     city_taxation_code_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.city.taxation.code',
-        string='City Taxation Code')
+        comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
+    )
 
-    partner_order = fields.Char(
-        string='Partner Order (xPed)',
-        size=15)
+    partner_order = fields.Char(string="Partner Order (xPed)", size=15)
 
-    partner_order_line = fields.Char(
-        string='Partner Order Line (nItemPed)',
-        size=6)
+    partner_order_line = fields.Char(string="Partner Order Line (nItemPed)", size=6)
 
     # ISSQN Fields
     issqn_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ISSQN",
-        domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_ISSQN)],
+    )
 
     issqn_fg_city_id = fields.Many2one(
         comodel_name="res.city",
@@ -286,14 +279,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     # indISS
     issqn_eligibility = fields.Selection(
         selection=ISSQN_ELIGIBILITY,
-        string='ISSQN Eligibility',
+        string="ISSQN Eligibility",
         default=ISSQN_ELIGIBILITY_DEFAULT,
     )
 
     # indIncentivo
     issqn_incentive = fields.Selection(
         selection=ISSQN_INCENTIVE,
-        string='ISSQN Incentive',
+        string="ISSQN Incentive",
         default=ISSQN_INCENTIVE_DEFAULT,
     )
 
@@ -308,7 +301,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     issqn_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ISSQN RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_ISSQN_WH)],
+    )
 
     issqn_wh_base = fields.Monetary(string="ISSQN RET Base")
 
@@ -322,28 +316,29 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icms_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS",
-        domain=[('tax_domain', '=', TAX_DOMAIN_ICMS)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_ICMS)],
+    )
 
     icms_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST ICMS",
         domain="[('tax_domain', '=', {'1': 'icmssn', '2': 'icmssn', "
-               "'3': 'icms'}.get(tax_framework))]")
+        "'3': 'icms'}.get(tax_framework))]",
+    )
 
     icms_cst_code = fields.Char(
-        related="icms_cst_id.code",
-        string="ICMS CST Code",
-        store=True)
+        related="icms_cst_id.code", string="ICMS CST Code", store=True
+    )
 
     icms_base_type = fields.Selection(
         selection=ICMS_BASE_TYPE,
         string="ICMS Base Type",
-        default=ICMS_BASE_TYPE_DEFAULT)
+        default=ICMS_BASE_TYPE_DEFAULT,
+    )
 
     icms_origin = fields.Selection(
-        selection=ICMS_ORIGIN,
-        string="ICMS Origin",
-        default=ICMS_ORIGIN_DEFAULT)
+        selection=ICMS_ORIGIN, string="ICMS Origin", default=ICMS_ORIGIN_DEFAULT
+    )
 
     # vBC - Valor da base de cálculo do ICMS
     icms_base = fields.Monetary(string="ICMS Base")
@@ -365,8 +360,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     # motDesICMS - Motivo da desoneração do ICMS
     icms_relief_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.icms.relief",
-        string="ICMS Relief")
+        comodel_name="l10n_br_fiscal.icms.relief", string="ICMS Relief"
+    )
 
     # vICMSDeson - Valor do ICMS desonerado
     icms_relief_value = fields.Monetary(string="ICMS Relief Value")
@@ -375,13 +370,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmsst_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS ST",
-        domain=[('tax_domain', '=', TAX_DOMAIN_ICMS_ST)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_ICMS_ST)],
+    )
 
     # modBCST - Modalidade de determinação da BC do ICMS ST
     icmsst_base_type = fields.Selection(
         selection=ICMS_ST_BASE_TYPE,
         string="ICMS ST Base Type",
-        default=ICMS_ST_BASE_TYPE_DEFAULT)
+        default=ICMS_ST_BASE_TYPE_DEFAULT,
+    )
 
     # pMVAST - Percentual da margem de valor Adicionado do ICMS ST
     icmsst_mva_percent = fields.Float(string="ICMS ST MVA %")
@@ -411,7 +408,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmsfcp_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS FCP",
-        domain=[('tax_domain', '=', TAX_DOMAIN_ICMS_FCP)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_ICMS_FCP)],
+    )
 
     # vBCFCPUFDest
     icmsfcp_base = fields.Monetary(
@@ -453,12 +451,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmssn_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
         string="Simplified Range Tax",
-        default=_default_icmssn_range_id)
+        default=_default_icmssn_range_id,
+    )
 
     icmssn_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax ICMS SN",
-        domain=[('tax_domain', '=', TAX_DOMAIN_ICMS_SN)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_ICMS_SN)],
+    )
 
     icmssn_base = fields.Monetary(string="ICMS SN Base")
 
@@ -496,23 +496,23 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     ipi_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IPI",
-        domain=[('tax_domain', '=', TAX_DOMAIN_IPI)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_IPI)],
+    )
 
     ipi_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST IPI",
         domain="[('cst_type', '=', fiscal_operation_type),"
-               "('tax_domain', '=', 'ipi')]")
+        "('tax_domain', '=', 'ipi')]",
+    )
 
     ipi_cst_code = fields.Char(
-        related="ipi_cst_id.code",
-        string="IPI CST Code",
-        store=True)
+        related="ipi_cst_id.code", string="IPI CST Code", store=True
+    )
 
     ipi_base_type = fields.Selection(
-        selection=TAX_BASE_TYPE,
-        string="IPI Base Type",
-        default=TAX_BASE_TYPE_PERCENT)
+        selection=TAX_BASE_TYPE, string="IPI Base Type", default=TAX_BASE_TYPE_PERCENT
+    )
 
     ipi_base = fields.Monetary(string="IPI Base")
 
@@ -526,55 +526,53 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.tax.ipi.guideline",
         string="IPI Guideline",
         domain="['|', ('cst_in_id', '=', ipi_cst_id),"
-               "('cst_out_id', '=', ipi_cst_id)]")
+        "('cst_out_id', '=', ipi_cst_id)]",
+    )
 
     # II Fields
     ii_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax II",
-        domain=[('tax_domain', '=', TAX_DOMAIN_II)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_II)],
+    )
 
-    ii_base = fields.Float(
-        string='II Base',
-        digits=dp.get_precision('Account'))
+    ii_base = fields.Float(string="II Base", digits=dp.get_precision("Account"))
 
     ii_percent = fields.Float(string="II %")
 
-    ii_value = fields.Float(
-        string='II Value',
-        digits=dp.get_precision('Account'))
+    ii_value = fields.Float(string="II Value", digits=dp.get_precision("Account"))
 
-    ii_iof_value = fields.Float(
-        string='IOF Value',
-        digits=dp.get_precision('Account'))
+    ii_iof_value = fields.Float(string="IOF Value", digits=dp.get_precision("Account"))
 
     ii_customhouse_charges = fields.Float(
-        string='Despesas Aduaneiras',
-        digits=dp.get_precision('Account'))
+        string="Despesas Aduaneiras", digits=dp.get_precision("Account")
+    )
 
     # PIS/COFINS Fields
     # COFINS
     cofins_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax COFINS",
-        domain=[('tax_domain', '=', TAX_DOMAIN_COFINS)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_COFINS)],
+    )
 
     cofins_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST COFINS",
         domain="['|', ('cst_type', '=', fiscal_operation_type),"
-               "('cst_type', '=', 'all'),"
-               "('tax_domain', '=', 'cofins')]")
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'cofins')]",
+    )
 
     cofins_cst_code = fields.Char(
-        related="cofins_cst_id.code",
-        string="COFINS CST Code",
-        store=True)
+        related="cofins_cst_id.code", string="COFINS CST Code", store=True
+    )
 
     cofins_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS Base Type",
-        default=TAX_BASE_TYPE_PERCENT)
+        default=TAX_BASE_TYPE_PERCENT,
+    )
 
     cofins_base = fields.Monetary(string="COFINS Base")
 
@@ -585,35 +583,37 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofins_value = fields.Monetary(string="COFINS Value")
 
     cofins_base_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax.pis.cofins.base",
-        string="COFINS Base Code")
+        comodel_name="l10n_br_fiscal.tax.pis.cofins.base", string="COFINS Base Code"
+    )
 
     cofins_credit_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax.pis.cofins.credit",
-        string="COFINS Credit Code")
+        comodel_name="l10n_br_fiscal.tax.pis.cofins.credit", string="COFINS Credit Code"
+    )
 
     # COFINS ST
     cofinsst_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax COFINS ST",
-        domain=[('tax_domain', '=', TAX_DOMAIN_COFINS_ST)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_COFINS_ST)],
+    )
 
     cofinsst_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST COFINS ST",
         domain="['|', ('cst_type', '=', fiscal_operation_type),"
-               "('cst_type', '=', 'all'),"
-               "('tax_domain', '=', 'cofinsst')]")
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'cofinsst')]",
+    )
 
     cofinsst_cst_code = fields.Char(
-        related="cofinsst_cst_id.code",
-        string="COFINS ST CST Code",
-        store=True)
+        related="cofinsst_cst_id.code", string="COFINS ST CST Code", store=True
+    )
 
     cofinsst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS ST Base Type",
-        default=TAX_BASE_TYPE_PERCENT)
+        default=TAX_BASE_TYPE_PERCENT,
+    )
 
     cofinsst_base = fields.Monetary(string="COFINS ST Base")
 
@@ -626,12 +626,14 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     cofins_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax COFINS RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_COFINS_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_COFINS_WH)],
+    )
 
     cofins_wh_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="COFINS WH Base Type",
-        default=TAX_BASE_TYPE_PERCENT)
+        default=TAX_BASE_TYPE_PERCENT,
+    )
 
     cofins_wh_base = fields.Monetary(string="COFINS RET Base")
 
@@ -645,24 +647,24 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pis_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax PIS",
-        domain=[('tax_domain', '=', TAX_DOMAIN_PIS)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_PIS)],
+    )
 
     pis_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST PIS",
         domain="['|', ('cst_type', '=', fiscal_operation_type),"
-               "('cst_type', '=', 'all'),"
-               "('tax_domain', '=', 'pis')]")
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'pis')]",
+    )
 
     pis_cst_code = fields.Char(
-        related="pis_cst_id.code",
-        string="PIS CST Code",
-        store=True)
+        related="pis_cst_id.code", string="PIS CST Code", store=True
+    )
 
     pis_base_type = fields.Selection(
-        selection=TAX_BASE_TYPE,
-        string="PIS Base Type",
-        default=TAX_BASE_TYPE_PERCENT)
+        selection=TAX_BASE_TYPE, string="PIS Base Type", default=TAX_BASE_TYPE_PERCENT
+    )
 
     pis_base = fields.Monetary(string="PIS Base")
 
@@ -673,35 +675,37 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     pis_value = fields.Monetary(string="PIS Value")
 
     pis_base_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax.pis.cofins.base",
-        string="PIS Base Code")
+        comodel_name="l10n_br_fiscal.tax.pis.cofins.base", string="PIS Base Code"
+    )
 
     pis_credit_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.tax.pis.cofins.credit",
-        string="PIS Credit")
+        comodel_name="l10n_br_fiscal.tax.pis.cofins.credit", string="PIS Credit"
+    )
 
     # PIS ST
     pisst_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax PIS ST",
-        domain=[('tax_domain', '=', TAX_DOMAIN_PIS_ST)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_PIS_ST)],
+    )
 
     pisst_cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST PIS ST",
         domain="['|', ('cst_type', '=', fiscal_operation_type),"
-               "('cst_type', '=', 'all'),"
-               "('tax_domain', '=', 'pisst')]")
+        "('cst_type', '=', 'all'),"
+        "('tax_domain', '=', 'pisst')]",
+    )
 
     pisst_cst_code = fields.Char(
-        related="pisst_cst_id.code",
-        string="PIS ST CST Code",
-        store=True)
+        related="pisst_cst_id.code", string="PIS ST CST Code", store=True
+    )
 
     pisst_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS ST Base Type",
-        default=TAX_BASE_TYPE_PERCENT)
+        default=TAX_BASE_TYPE_PERCENT,
+    )
 
     pisst_base = fields.Monetary(string="PIS ST Base")
 
@@ -709,18 +713,19 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     pisst_reduction = fields.Float(string="PIS ST % Reduction")
 
-    pisst_value = fields.Monetary(
-        string="PIS ST Value")
+    pisst_value = fields.Monetary(string="PIS ST Value")
 
     pis_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax PIS RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_PIS_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_PIS_WH)],
+    )
 
     pis_wh_base_type = fields.Selection(
         selection=TAX_BASE_TYPE,
         string="PIS WH Base Type",
-        default=TAX_BASE_TYPE_PERCENT)
+        default=TAX_BASE_TYPE_PERCENT,
+    )
 
     pis_wh_base = fields.Monetary(string="PIS RET Base")
 
@@ -734,7 +739,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     csll_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax CSLL",
-        domain=[('tax_domain', '=', TAX_DOMAIN_CSLL)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_CSLL)],
+    )
 
     csll_base = fields.Monetary(string="CSLL Base")
 
@@ -747,7 +753,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     csll_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax CSLL RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_CSLL_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_CSLL_WH)],
+    )
 
     csll_wh_base = fields.Monetary(string="CSLL RET Base")
 
@@ -760,7 +767,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     irpj_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IRPJ",
-        domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_IRPJ)],
+    )
 
     irpj_base = fields.Monetary(string="IRPJ Base")
 
@@ -773,7 +781,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     irpj_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax IRPJ RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_IRPJ_WH)],
+    )
 
     irpj_wh_base = fields.Monetary(string="RPJ RET Base")
 
@@ -786,7 +795,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     inss_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax INSS",
-        domain=[('tax_domain', '=', TAX_DOMAIN_INSS)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_INSS)],
+    )
 
     inss_base = fields.Monetary(string="INSS Base")
 
@@ -799,7 +809,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     inss_wh_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax INSS RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_INSS_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_INSS_WH)],
+    )
 
     inss_wh_base = fields.Monetary(string="INSS RET Base")
 
@@ -812,19 +823,20 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     simple_value = fields.Monetary(string="National Simple Taxes")
 
     simple_without_icms_value = fields.Monetary(
-        string="National Simple Taxes without ICMS")
-
-    comment_ids = fields.Many2many(
-        comodel_name='l10n_br_fiscal.comment',
-        relation='l10n_br_fiscal_document_line_mixin_comment_rel',
-        column1='document_line_mixin_id',
-        column2='comment_id',
-        string='Comments',
-        domain=[('object', '=', FISCAL_COMMENT_LINE)],
+        string="National Simple Taxes without ICMS"
     )
 
-    additional_data = fields.Char(string='Additional Data')
+    comment_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.comment",
+        relation="l10n_br_fiscal_document_line_mixin_comment_rel",
+        column1="document_line_mixin_id",
+        column2="comment_id",
+        string="Comments",
+        domain=[("object", "=", FISCAL_COMMENT_LINE)],
+    )
+
+    additional_data = fields.Char(string="Additional Data")
 
     amount_estimate_tax = fields.Monetary(
-        string='Amount Estimate Tax',
+        string="Amount Estimate Tax",
     )
