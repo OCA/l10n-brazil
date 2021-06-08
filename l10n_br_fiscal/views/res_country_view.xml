@@ -1,17 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="view_l10n_br_country_state_icms_table_form" model="ir.ui.view">
         <field name="name">res.country.state</field>
         <field name="model">res.country.state</field>
-        <field name="inherit_id" ref="l10n_br_base.view_l10n_br_country_state_form"/>
+        <field name="inherit_id" ref="l10n_br_base.view_l10n_br_country_state_form" />
         <field name="arch" type="xml">
             <field name="ibge_code" position="after">
                 <group colspan="4">
                     <notebook>
                         <page string="Impostos">
-                            <separator colspan="4" string="Impostos sobre Produtos"/>
-                            <field colspan="2" nolabel="1" widget="one2many_list" name="product_tax_definition_line"/>
+                            <separator colspan="4" string="Impostos sobre Produtos" />
+                            <field
+                                colspan="2"
+                                nolabel="1"
+                                widget="one2many_list"
+                                name="product_tax_definition_line"
+                            />
                         </page>
                     </notebook>
                 </group>
@@ -24,10 +29,13 @@
         <field name="model">l10n_br_tax.definition.state.product</field>
         <field name="arch" type="xml">
             <form string="Definição de Impostos">
-                <field name="fiscal_classification_id"/>
-                <field name="cest_id"/>
-                <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
-                <field name="cst_id"/>
+                <field name="fiscal_classification_id" />
+                <field name="cest_id" />
+                <field
+                    name="tax_id"
+                    domain="[('type_tax_use', 'in', ('sale', 'all'))]"
+                />
+                <field name="cst_id" />
             </form>
         </field>
     </record>
@@ -37,10 +45,13 @@
         <field name="model">l10n_br_tax.definition.state.product</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="fiscal_classification_id"/>
-                <field name="cest_id"/>
-                <field name="tax_id" domain="[('type_tax_use', 'in', ('sale', 'all'))]"/>
-                <field name="cst_id"/>
+                <field name="fiscal_classification_id" />
+                <field name="cest_id" />
+                <field
+                    name="tax_id"
+                    domain="[('type_tax_use', 'in', ('sale', 'all'))]"
+                />
+                <field name="cst_id" />
             </tree>
         </field>
     </record>
