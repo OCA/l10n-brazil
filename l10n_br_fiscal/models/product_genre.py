@@ -5,9 +5,8 @@ from odoo import fields, models
 
 
 class ProductGenre(models.Model):
-    _name = 'l10n_br_fiscal.product.genre'
-    _inherit = 'l10n_br_fiscal.data.product.abstract'
-    _description = 'Fiscal Fiscal Product Genre'
+    _name = "l10n_br_fiscal.product.genre"
+    _inherit = "l10n_br_fiscal.data.product.abstract"
+    _description = "Fiscal Fiscal Product Genre"
 
-    product_tmpl_ids = fields.One2many(
-        inverse_name='fiscal_genre_id')
+    product_tmpl_ids = fields.One2many(inverse_name="fiscal_genre_id")

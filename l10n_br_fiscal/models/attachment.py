@@ -2,36 +2,37 @@
 # License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
 #
 
+import logging
 import ntpath
 import os
 import shutil
 import tarfile
 
+from odoo import _, fields, models
 from odoo.exceptions import UserError
-from odoo import fields, models, _
-import logging
+
 _logger = logging.getLogger(__name__)
 
 
 class Attachment(models.TransientModel):
-    _name = 'l10n_br_fiscal.attachment'
+    _name = "l10n_br_fiscal.attachment"
     _description = "Fiscal Attachment"
 
     attachment = fields.Binary(
-        string='Attachment',
+        string="Attachment",
         readonly=True,
     )
     file_name = fields.Char(
-        string='Filename',
-        default='attachments',
+        string="Filename",
+        default="attachments",
     )
     attachment_ids = fields.Many2many(
-        comodel_name='ir.attachment',
-        string='Attachments',
+        comodel_name="ir.attachment",
+        string="Attachments",
     )
 
     def build_compressed_attachment(self, record_ids=None):
-        '''
+        """
 
         Compacta os anexos recebidos e os retorno como um novo único anexo
 
@@ -50,10 +51,10 @@ class Attachment(models.TransientModel):
         :return:
         Um record do tipo ir.attachment contendo todos os anexos recebidos
         compactados em um único arquivo.
-        '''
+        """
 
-        attachment_obj = self.env['ir.attachment']
-        config_obj = self.env['ir.config_parameter']
+        attachment_obj = self.env["ir.attachment"]
+        config_obj = self.env["ir.config_parameter"]
 
         if record_ids:
             attachment_ids = record_ids
@@ -64,19 +65,18 @@ class Attachment(models.TransientModel):
                     attachs += record
                 attachment_ids = attachs
 
-            if attachment_ids._name != 'ir.attachment':
+            if attachment_ids._name != "ir.attachment":
                 ids = attachment_obj
                 for record in attachment_ids:
-                    ids += \
-                        attachment_obj.search([('res_id', '=', record.id)])
+                    ids += attachment_obj.search([("res_id", "=", record.id)])
                 attachment_ids = ids
 
             self.attachment_ids = attachment_ids
 
         attachment_ids = self.attachment_ids
 
-        filestore_path = os.path.join(attachment_obj._filestore(), '')
-        attachment_dir = filestore_path + 'attachments'
+        filestore_path = os.path.join(attachment_obj._filestore(), "")
+        attachment_dir = filestore_path + "attachments"
 
         # Cria o diretório e move seu conteúdo
         if not os.path.exists(attachment_dir):
@@ -85,16 +85,16 @@ class Attachment(models.TransientModel):
             shutil.rmtree(attachment_dir)
             os.makedirs(attachment_dir)
 
-        file_name = 'attachments'
-        base_url = config_obj.search([('key', '=', 'web.base.url')], limit=0)
+        file_name = "attachments"
+        base_url = config_obj.search([("key", "=", "web.base.url")], limit=0)
         if not base_url or not self.id:
             return False
 
-        attachment_obj.search([('active', '=', False)]).unlink()
+        attachment_obj.search([("active", "=", False)]).unlink()
 
         # tar_dir = attachment_dir + '/' + file_name
         tar_dir = os.path.join(attachment_dir, file_name)
-        tFile = tarfile.open(tar_dir, 'w:gz')
+        tFile = tarfile.open(tar_dir, "w:gz")
 
         # alterando o diretório de trabalho, caso contrário o arquivo
         # será misturado com os arquivos do diretório pai
@@ -108,8 +108,7 @@ class Attachment(models.TransientModel):
 
         for attachment in attachment_obj.browse(filter_attachments):
             # caminho do arquivo
-            full_path = attachment_obj._full_path(
-                attachment.store_fname)
+            full_path = attachment_obj._full_path(attachment.store_fname)
             attachment_name = attachment.datas_fname
             new_file = os.path.join(attachment_dir, attachment_name)
 
@@ -133,14 +132,14 @@ class Attachment(models.TransientModel):
         os.chdir(original_dir)
 
         values = {
-            'name': file_name + '.tar.gz',
-            'datas_fname': file_name + '.tar.gz',
-            'res_model': 'l10n_br_fiscal.attachment',
-            'res_id': self.id,
-            'type': 'binary',
-            'store_fname': 'attachments/attachments',
-            'active': False,
+            "name": file_name + ".tar.gz",
+            "datas_fname": file_name + ".tar.gz",
+            "res_model": "l10n_br_fiscal.attachment",
+            "res_id": self.id,
+            "type": "binary",
+            "store_fname": "attachments/attachments",
+            "active": False,
         }
-        attachment_id = self.env['ir.attachment'].create(values)
+        attachment_id = self.env["ir.attachment"].create(values)
 
         return attachment_id

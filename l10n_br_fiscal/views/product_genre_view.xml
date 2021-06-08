@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="product_genre_search" model="ir.ui.view">
@@ -6,8 +6,8 @@
         <field name="model">l10n_br_fiscal.product.genre</field>
         <field name="arch" type="xml">
             <search string="Fiscal Product Genre">
-                <field name="code"/>
-                <field name="name"/>
+                <field name="code" />
+                <field name="name" />
             </search>
         </field>
     </record>
@@ -17,8 +17,8 @@
         <field name="model">l10n_br_fiscal.product.genre</field>
         <field name="arch" type="xml">
             <tree>
-              <field name="code"/>
-              <field name="name"/>
+              <field name="code" />
+              <field name="name" />
             </tree>
         </field>
     </record>
@@ -30,19 +30,25 @@
             <form string="Fiscal Product Genre">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                      <button type="action"
-                              class="oe_stat_button"
-                              id="product_tmpl_button"
-                              icon="fa-bars"
-                              name="%(product.product_template_action_all)d"
-                              context="{'search_default_product_genre_id': active_id}"
-                              attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}">
-                          <field string="Products" widget="statinfo" name="product_tmpl_qty"/>
+                      <button
+                            type="action"
+                            class="oe_stat_button"
+                            id="product_tmpl_button"
+                            icon="fa-bars"
+                            name="%(product.product_template_action_all)d"
+                            context="{'search_default_product_genre_id': active_id}"
+                            attrs="{'invisible': [('product_tmpl_qty', '=', 0)]}"
+                        >
+                          <field
+                                string="Products"
+                                widget="statinfo"
+                                name="product_tmpl_qty"
+                            />
                       </button>
                     </div>
                     <group>
-                      <field name="code"/>
-                      <field name="name"/>
+                      <field name="code" />
+                      <field name="name" />
                     </group>
                 </sheet>
             </form>

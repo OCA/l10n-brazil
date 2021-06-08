@@ -6,16 +6,16 @@ from odoo import api, models
 from ..constants.fiscal import (
     NCM_FOR_SERVICE_REF,
     PRODUCT_FISCAL_TYPE_SERVICE,
-    TAX_DOMAIN_ISSQN,
     TAX_DOMAIN_ICMS,
+    TAX_DOMAIN_ISSQN,
 )
 
 
 class ProductMixin(models.AbstractModel):
-    _name = 'l10n_br_fiscal.product.mixin'
-    _description = 'Fiscal Product Mixin'
+    _name = "l10n_br_fiscal.product.mixin"
+    _description = "Fiscal Product Mixin"
 
-    @api.onchange('fiscal_type')
+    @api.onchange("fiscal_type")
     def _onchange_fiscal_type(self):
         for r in self:
             if r.fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
@@ -24,13 +24,13 @@ class ProductMixin(models.AbstractModel):
             else:
                 r.tax_icms_or_issqn = TAX_DOMAIN_ICMS
 
-    @api.onchange('ncm_id', 'fiscal_genre_id')
+    @api.onchange("ncm_id", "fiscal_genre_id")
     def _onchange_ncm_id(self):
         for r in self:
             if r.ncm_id:
-                r.fiscal_genre_id = self.env[
-                    'l10n_br_fiscal.product.genre'].search(
-                        [('code', '=', r.ncm_id.code[0:2])])
+                r.fiscal_genre_id = self.env["l10n_br_fiscal.product.genre"].search(
+                    [("code", "=", r.ncm_id.code[0:2])]
+                )
 
             if r.fiscal_genre_id.code == PRODUCT_FISCAL_TYPE_SERVICE:
                 r.ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
