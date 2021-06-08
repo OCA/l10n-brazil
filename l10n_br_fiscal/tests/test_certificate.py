@@ -7,6 +7,7 @@ from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests import common
 from odoo.tools.misc import format_date
+
 from ..tools import misc
 
 
@@ -34,11 +35,19 @@ class TestCertificate(common.TransactionCase):
         )
 
         self.certificate_valid = misc.create_fake_certificate_file(
-            valid=True, passwd=self.cert_passwd, issuer=self.cert_issuer_a,
-            country=self.cert_country, subject=self.cert_subject_valid)
+            valid=True,
+            passwd=self.cert_passwd,
+            issuer=self.cert_issuer_a,
+            country=self.cert_country,
+            subject=self.cert_subject_valid,
+        )
         self.certificate_invalid = misc.create_fake_certificate_file(
-            valid=False, passwd=self.cert_passwd, issuer=self.cert_issuer_b,
-            country=self.cert_country, subject=self.cert_subject_invalid)
+            valid=False,
+            passwd=self.cert_passwd,
+            issuer=self.cert_issuer_b,
+            country=self.cert_country,
+            subject=self.cert_subject_invalid,
+        )
 
     def _create_compay(self):
         """Creating a company"""
@@ -65,10 +74,10 @@ class TestCertificate(common.TransactionCase):
         """Create and check a valid certificate"""
         cert = self.certificate_model.create(
             {
-                'type': 'nf-e',
-                'subtype': 'a1',
-                'password': self.cert_passwd,
-                'file': self.certificate_valid
+                "type": "nf-e",
+                "subtype": "a1",
+                "password": self.cert_passwd,
+                "file": self.certificate_valid,
             }
         )
 
@@ -83,19 +92,23 @@ class TestCertificate(common.TransactionCase):
     def test_certificate_wrong_password(self):
         """Write a valid certificate with wrong password"""
         with self.assertRaises(ValidationError):
-            self.certificate_model.create({
-                'type': 'nf-e',
-                'subtype': 'a1',
-                'password': 'INVALID',
-                'file': self.certificate_valid
-            })
+            self.certificate_model.create(
+                {
+                    "type": "nf-e",
+                    "subtype": "a1",
+                    "password": "INVALID",
+                    "file": self.certificate_valid,
+                }
+            )
 
     def test_invalid_certificate(self):
         """Create and check a invalid certificate"""
         with self.assertRaises(ValidationError):
-            self.certificate_model.create({
-                'type': 'nf-e',
-                'subtype': 'a1',
-                'password': self.cert_passwd,
-                'file': self.certificate_invalid
-            })
+            self.certificate_model.create(
+                {
+                    "type": "nf-e",
+                    "subtype": "a1",
+                    "password": self.cert_passwd,
+                    "file": self.certificate_invalid,
+                }
+            )

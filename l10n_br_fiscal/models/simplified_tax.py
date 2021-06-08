@@ -6,28 +6,28 @@ from odoo import fields, models
 
 
 class SimplifiedTax(models.Model):
-    _name = 'l10n_br_fiscal.simplified.tax'
-    _description = 'National Simplified Tax'
+    _name = "l10n_br_fiscal.simplified.tax"
+    _description = "National Simplified Tax"
 
-    name = fields.Char(
-        string='Name',
-        required=True)
+    name = fields.Char(string="Name", required=True)
 
     cnae_ids = fields.Many2many(
-        comodel_name='l10n_br_fiscal.cnae',
-        relation='fiscal_simplified_tax_cnae_rel',
-        column1='simplified_tax_id',
-        column2='cnae_id',
+        comodel_name="l10n_br_fiscal.cnae",
+        relation="fiscal_simplified_tax_cnae_rel",
+        column1="simplified_tax_id",
+        column2="cnae_id",
         domain="[('internal_type', '=', 'normal')]",
-        string='CNAEs')
+        string="CNAEs",
+    )
 
     simplified_tax_range_ids = fields.One2many(
-        comodel_name='l10n_br_fiscal.simplified.tax.range',
-        inverse_name='simplified_tax_id',
-        string='Simplified Tax Range',
-        copy=False)
+        comodel_name="l10n_br_fiscal.simplified.tax.range",
+        inverse_name="simplified_tax_id",
+        string="Simplified Tax Range",
+        copy=False,
+    )
 
     coefficient_r = fields.Boolean(
-        string='Coefficient R',
+        string="Coefficient R",
         readonly=True,
     )
