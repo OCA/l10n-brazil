@@ -10,32 +10,31 @@ class Cnae(models.Model):
     _inherit = "l10n_br_fiscal.data.abstract"
     _description = "CNAE"
 
-    code = fields.Char(
-        size=16)
+    code = fields.Char(size=16)
 
-    version = fields.Char(
-        string="Version",
-        size=16,
-        required=True)
+    version = fields.Char(string="Version", size=16, required=True)
 
     parent_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cnae",
-        string="Parent CNAE")
+        comodel_name="l10n_br_fiscal.cnae", string="Parent CNAE"
+    )
 
     child_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.cnae",
         inverse_name="parent_id",
-        string="Children CNAEs")
+        string="Children CNAEs",
+    )
 
     internal_type = fields.Selection(
-        selection=[
-            ("view", "View"),
-            ("normal", "Normal")],
+        selection=[("view", "View"), ("normal", "Normal")],
         string="Internal Type",
         required=True,
-        default="normal")
+        default="normal",
+    )
 
-    _sql_constraints = [(
-        "fiscal_cnae_code_uniq",
-        "unique (code)",
-        _("CNAE already exists with this code !"))]
+    _sql_constraints = [
+        (
+            "fiscal_cnae_code_uniq",
+            "unique (code)",
+            _("CNAE already exists with this code !"),
+        )
+    ]

@@ -6,59 +6,55 @@ from lxml import etree
 from odoo import api, models
 from odoo.osv.orm import setup_modifiers
 
+from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
 from .tax import TAX_DICT_VALUES
-from ..constants.icms import (
-    ICMS_BASE_TYPE_DEFAULT,
-    ICMS_ST_BASE_TYPE_DEFAULT
-)
 
 FISCAL_TAX_ID_FIELDS = [
-    'cofins_tax_id',
-    'cofins_wh_tax_id',
-    'cofinsst_tax_id',
-    'csll_tax_id',
-    'csll_wh_tax_id',
-    'icms_tax_id',
-    'icmsfcp_tax_id',
-    'icmssn_tax_id',
-    'icmsst_tax_id',
-    'ii_tax_id',
-    'inss_tax_id',
-    'inss_wh_tax_id',
-    'ipi_tax_id',
-    'irpj_tax_id',
-    'irpj_wh_tax_id',
-    'issqn_tax_id',
-    'issqn_wh_tax_id',
-    'pis_tax_id',
-    'pis_wh_tax_id',
-    'pisst_tax_id',
+    "cofins_tax_id",
+    "cofins_wh_tax_id",
+    "cofinsst_tax_id",
+    "csll_tax_id",
+    "csll_wh_tax_id",
+    "icms_tax_id",
+    "icmsfcp_tax_id",
+    "icmssn_tax_id",
+    "icmsst_tax_id",
+    "ii_tax_id",
+    "inss_tax_id",
+    "inss_wh_tax_id",
+    "ipi_tax_id",
+    "irpj_tax_id",
+    "irpj_wh_tax_id",
+    "issqn_tax_id",
+    "issqn_wh_tax_id",
+    "pis_tax_id",
+    "pis_wh_tax_id",
+    "pisst_tax_id",
 ]
 
 FISCAL_CST_ID_FIELDS = [
-    'icms_cst_id',
-    'ipi_cst_id',
-    'pis_cst_id',
-    'pisst_cst_id',
-    'cofins_cst_id',
-    'cofinsst_cst_id'
+    "icms_cst_id",
+    "ipi_cst_id",
+    "pis_cst_id",
+    "pisst_cst_id",
+    "cofins_cst_id",
+    "cofinsst_cst_id",
 ]
 
 
 class FiscalDocumentLineMixinMethods(models.AbstractModel):
-    _name = 'l10n_br_fiscal.document.line.mixin.methods'
-    _description = 'Document Fiscal Mixin Methods'
+    _name = "l10n_br_fiscal.document.line.mixin.methods"
+    _description = "Document Fiscal Mixin Methods"
 
     @api.model
     def fiscal_form_view(self, form_view_arch):
         try:
 
-            fiscal_view = self.env.ref(
-                "l10n_br_fiscal.document_fiscal_line_mixin_form")
+            fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_line_mixin_form")
 
             view_template_tags = {
-                'group': ['fiscal_fields'],
-                'page': ['fiscal_taxes', 'fiscal_line_extra_info'],
+                "group": ["fiscal_fields"],
+                "page": ["fiscal_taxes", "fiscal_line_extra_info"],
             }
 
             fsc_doc = etree.fromstring(fiscal_view["arch"])
@@ -67,10 +63,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             for tag, tag_names in view_template_tags.items():
                 for tag_name in tag_names:
                     fiscal_node = fsc_doc.xpath(
-                        "//{0}[@name='{1}']".format(tag, tag_name))[0]
+                        "//{}[@name='{}']".format(tag, tag_name)
+                    )[0]
 
-                    doc_node = doc.xpath(
-                        "//{0}[@name='{1}']".format(tag, tag_name))[0]
+                    doc_node = doc.xpath("//{}[@name='{}']".format(tag, tag_name))[0]
 
                     setup_modifiers(doc_node)
                     for n in doc_node.getiterator():
@@ -78,79 +74,72 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
                     doc_node.getparent().replace(doc_node, fiscal_node)
 
-            form_view_arch = etree.tostring(doc, encoding='unicode')
+            form_view_arch = etree.tostring(doc, encoding="unicode")
         except Exception:
             return form_view_arch
 
         return form_view_arch
 
     @api.model
-    def fields_view_get(self, view_id=None, view_type="form",
-                        toolbar=False, submenu=False):
-        model_view = super().fields_view_get(
-            view_id, view_type, toolbar, submenu)
+    def fields_view_get(
+        self, view_id=None, view_type="form", toolbar=False, submenu=False
+    ):
+        model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
-        if view_type == 'form':
+        if view_type == "form":
             model_view["arch"] = self.fiscal_form_view(model_view["arch"])
 
-        View = self.env['ir.ui.view']
+        View = self.env["ir.ui.view"]
         # Override context for postprocessing
-        if view_id and model_view.get('base_model', self._name) != self._name:
-            View = View.with_context(base_model_name=model_view['base_model'])
+        if view_id and model_view.get("base_model", self._name) != self._name:
+            View = View.with_context(base_model_name=model_view["base_model"])
 
         # Apply post processing, groups and modifiers etc...
         xarch, xfields = View.postprocess_and_fields(
-            self._name, etree.fromstring(model_view['arch']), view_id)
-        model_view['arch'] = xarch
-        model_view['fields'] = xfields
+            self._name, etree.fromstring(model_view["arch"]), view_id
+        )
+        model_view["arch"] = xarch
+        model_view["fields"] = xfields
         return model_view
 
     @api.depends(
-        'fiscal_price',
-        'discount_value',
-        'insurance_value',
-        'other_value',
-        'freight_value',
-        'fiscal_quantity',
-        'amount_tax_not_included',
-        'uot_id',
-        'product_id',
-        'partner_id',
-        'company_id')
+        "fiscal_price",
+        "discount_value",
+        "insurance_value",
+        "other_value",
+        "freight_value",
+        "fiscal_quantity",
+        "amount_tax_not_included",
+        "uot_id",
+        "product_id",
+        "partner_id",
+        "company_id",
+    )
     def _compute_amounts(self):
         for record in self:
             round_curr = record.currency_id.round
             # Valor dos produtos
-            record.price_gross = round_curr(
-                record.price_unit * record.quantity)
+            record.price_gross = round_curr(record.price_unit * record.quantity)
 
-            record.amount_untaxed = (
-                record.price_gross - record.discount_value)
+            record.amount_untaxed = record.price_gross - record.discount_value
 
-            record.amount_fiscal = (round_curr(
-                record.fiscal_price * record.fiscal_quantity) -
-                record.discount_value)
+            record.amount_fiscal = (
+                round_curr(record.fiscal_price * record.fiscal_quantity)
+                - record.discount_value
+            )
 
             record.amount_tax = record.amount_tax_not_included
 
-            add_to_amount = sum(
-                [record[a] for a in record._add_fields_to_amount()])
-            rm_to_amount = sum(
-                [record[r] for r in record._rm_fields_to_amount()])
+            add_to_amount = sum([record[a] for a in record._add_fields_to_amount()])
+            rm_to_amount = sum([record[r] for r in record._rm_fields_to_amount()])
 
             # Valor do documento (NF)
             record.amount_total = (
-                record.amount_untaxed +
-                record.amount_tax +
-                add_to_amount -
-                rm_to_amount
+                record.amount_untaxed + record.amount_tax + add_to_amount - rm_to_amount
             )
 
             # Valor Liquido (TOTAL + IMPOSTOS - RETENÇÕES)
-            record.amount_taxed = (
-                record.amount_total -
-                record.amount_tax_withholding
-            )
+            record.amount_taxed = record.amount_total - record.amount_tax_withholding
 
             # Valor financeiro
             if (
@@ -185,7 +174,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             operation_line=self.fiscal_operation_line_id,
             icmssn_range=self.icmssn_range_id,
             icms_origin=self.icms_origin,
-            icms_cst_id=self.icms_cst_id)
+            icms_cst_id=self.icms_cst_id,
+        )
 
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
@@ -195,7 +185,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         vals = self._convert_to_write(self.read(fields)[0])
 
         # remove id field to avoid conflicts
-        vals.pop('id', None)
+        vals.pop("id", None)
 
         if default:  # in case you want to use new rather than write later
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
@@ -203,7 +193,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _get_all_tax_id_fields(self):
         self.ensure_one()
-        taxes = self.env['l10n_br_fiscal.tax']
+        taxes = self.env["l10n_br_fiscal.tax"]
 
         for fiscal_tax_field in FISCAL_TAX_ID_FIELDS:
             taxes |= self[fiscal_tax_field]
@@ -240,22 +230,22 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     def _update_fiscal_tax_ids(self, taxes):
         for line in self:
-            taxes_groups = line.fiscal_tax_ids.mapped('tax_domain')
+            taxes_groups = line.fiscal_tax_ids.mapped("tax_domain")
             fiscal_taxes = line.fiscal_tax_ids.filtered(
-                lambda ft: ft.tax_domain not in taxes_groups)
+                lambda ft: ft.tax_domain not in taxes_groups
+            )
 
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
     def _update_taxes(self):
         for line in self:
             compute_result = self._compute_taxes(line.fiscal_tax_ids)
-            computed_taxes = compute_result.get('taxes', {})
+            computed_taxes = compute_result.get("taxes", {})
             line.amount_tax_not_included = compute_result.get(
-                'amount_not_included', 0.0)
-            line.amount_tax_withholding = compute_result.get(
-                'amount_withholding', 0.0)
-            line.amount_estimate_tax = compute_result.get(
-                'amount_estimate_tax', 0.0)
+                "amount_not_included", 0.0
+            )
+            line.amount_tax_withholding = compute_result.get("amount_withholding", 0.0)
+            line.amount_estimate_tax = compute_result.get("amount_estimate_tax", 0.0)
             for tax in line.fiscal_tax_ids:
                 computed_tax = computed_taxes.get(tax.tax_domain, {})
                 if hasattr(line, "%s_tax_id" % (tax.tax_domain,)):
@@ -267,29 +257,29 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _get_product_price(self):
         self.ensure_one()
         price = {
-            'sale_price': self.product_id.list_price,
-            'cost_price': self.product_id.standard_price,
+            "sale_price": self.product_id.list_price,
+            "cost_price": self.product_id.standard_price,
         }
 
-        self.price_unit = price.get(
-            self.fiscal_operation_id.default_price_unit, 0.00)
+        self.price_unit = price.get(self.fiscal_operation_id.default_price_unit, 0.00)
 
     def __document_comment_vals(self):
         self.ensure_one()
         return {
-            'user': self.env.user,
-            'ctx': self._context,
-            'doc': self.document_id,
-            'item': self,
+            "user": self.env.user,
+            "ctx": self._context,
+            "doc": self.document_id,
+            "item": self,
         }
 
     def _document_comment(self):
-        for d in self.filtered('comment_ids'):
-            d.additional_data = d.additional_data or ''
+        for d in self.filtered("comment_ids"):
+            d.additional_data = d.additional_data or ""
             d.additional_data += d.comment_ids.compute_message(
-                d.__document_comment_vals())
+                d.__document_comment_vals()
+            )
 
-    @api.onchange('fiscal_operation_id')
+    @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
             if not self.price_unit:
@@ -300,7 +290,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
                 partner=self.partner_id,
-                product=self.product_id)
+                product=self.product_id,
+            )
 
             self._onchange_fiscal_operation_line_id()
 
@@ -318,12 +309,13 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 ncm=self.ncm_id,
                 nbm=self.nbm_id,
                 nbs=self.nbs_id,
-                cest=self.cest_id)
+                cest=self.cest_id,
+            )
 
-            self.ipi_guideline_id = mapping_result['ipi_guideline']
-            self.cfop_id = mapping_result['cfop']
-            taxes = self.env['l10n_br_fiscal.tax']
-            for tax in mapping_result['taxes'].values():
+            self.ipi_guideline_id = mapping_result["ipi_guideline"]
+            self.cfop_id = mapping_result["cfop"]
+            taxes = self.env["l10n_br_fiscal.tax"]
+            for tax in mapping_result["taxes"].values():
                 taxes |= tax
             self.fiscal_tax_ids = [(6, 0, taxes.ids)]
             self._update_taxes()
@@ -350,7 +342,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             if self.product_id.city_taxation_code_id:
                 company_city_id = self.company_id.city_id
                 city_id = self.product_id.city_taxation_code_id.filtered(
-                    lambda r: r.city_id == company_city_id)
+                    lambda r: r.city_id == company_city_id
+                )
                 if city_id:
                     self.city_taxation_code_id = city_id
                     self.issqn_fg_city_id = company_city_id
@@ -380,11 +373,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.issqn_reduction = tax_dict.get("percent_reduction")
             self.issqn_value = tax_dict.get("tax_value")
 
-    @api.onchange(
-        "issqn_base",
-        "issqn_percent",
-        "issqn_reduction",
-        "issqn_value")
+    @api.onchange("issqn_base", "issqn_percent", "issqn_reduction", "issqn_value")
     def _onchange_issqn_fields(self):
         pass
 
@@ -397,10 +386,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.issqn_wh_value = tax_dict.get("tax_value")
 
     @api.onchange(
-        "issqn_wh_base",
-        "issqn_wh_percent",
-        "issqn_wh_reduction",
-        "issqn_wh_value")
+        "issqn_wh_base", "issqn_wh_percent", "issqn_wh_reduction", "issqn_wh_value"
+    )
     def _onchange_issqn_wh_fields(self):
         pass
 
@@ -412,11 +399,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.csll_reduction = tax_dict.get("percent_reduction")
             self.csll_value = tax_dict.get("tax_value")
 
-    @api.onchange(
-        "csll_base",
-        "csll_percent",
-        "csll_reduction",
-        "csll_value")
+    @api.onchange("csll_base", "csll_percent", "csll_reduction", "csll_value")
     def _onchange_csll_fields(self):
         pass
 
@@ -429,10 +412,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.csll_wh_value = tax_dict.get("tax_value")
 
     @api.onchange(
-        "csll_wh_base",
-        "csll_wh_percent",
-        "csll_wh_reduction",
-        "csll_wh_value")
+        "csll_wh_base", "csll_wh_percent", "csll_wh_reduction", "csll_wh_value"
+    )
     def _onchange_csll_wh_fields(self):
         pass
 
@@ -444,11 +425,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.irpj_reduction = tax_dict.get("percent_reduction")
             self.irpj_value = tax_dict.get("tax_value")
 
-    @api.onchange(
-        "irpj_base",
-        "irpj_percent",
-        "irpj_reduction",
-        "irpj_value")
+    @api.onchange("irpj_base", "irpj_percent", "irpj_reduction", "irpj_value")
     def _onchange_irpj_fields(self):
         pass
 
@@ -461,10 +438,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.irpj_wh_value = tax_dict.get("tax_value")
 
     @api.onchange(
-        "irpj_wh_base",
-        "irpj_wh_percent",
-        "irpj_wh_reduction",
-        "irpj_wh_value")
+        "irpj_wh_base", "irpj_wh_percent", "irpj_wh_reduction", "irpj_wh_value"
+    )
     def _onchange_irpj_wh_fields(self):
         pass
 
@@ -476,11 +451,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.inss_reduction = tax_dict.get("percent_reduction")
             self.inss_value = tax_dict.get("tax_value")
 
-    @api.onchange(
-        "inss_base",
-        "inss_percent",
-        "inss_reduction",
-        "inss_value")
+    @api.onchange("inss_base", "inss_percent", "inss_reduction", "inss_value")
     def _onchange_inss_fields(self):
         pass
 
@@ -493,10 +464,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.inss_wh_value = tax_dict.get("tax_value")
 
     @api.onchange(
-        "inss_wh_base",
-        "inss_wh_percent",
-        "inss_wh_reduction",
-        "inss_wh_value")
+        "inss_wh_base", "inss_wh_percent", "inss_wh_reduction", "inss_wh_value"
+    )
     def _onchange_inss_wh_fields(self):
         pass
 
@@ -504,8 +473,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.ensure_one()
         if tax_dict:
             self.icms_cst_id = tax_dict.get("cst_id")
-            self.icms_base_type = tax_dict.get(
-                "icms_base_type", ICMS_BASE_TYPE_DEFAULT)
+            self.icms_base_type = tax_dict.get("icms_base_type", ICMS_BASE_TYPE_DEFAULT)
             self.icms_base = tax_dict.get("base")
             self.icms_percent = tax_dict.get("percent_amount")
             self.icms_reduction = tax_dict.get("percent_reduction")
@@ -540,7 +508,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "icms_origin_percent",
         "icms_destination_percent",
         "icms_sharing_percent",
-        "icms_origin_value")
+        "icms_origin_value",
+    )
     def _onchange_icms_fields(self):
         pass
 
@@ -555,17 +524,16 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.simple_without_icms_value = self.simple_value - self.icmssn_credit_value
 
     @api.onchange(
-        "icmssn_base",
-        "icmssn_percent",
-        "icmssn_reduction",
-        "icmssn_credit_value")
+        "icmssn_base", "icmssn_percent", "icmssn_reduction", "icmssn_credit_value"
+    )
     def _onchange_icmssn_fields(self):
         pass
 
     def _set_fields_icmsst(self, tax_dict):
         self.ensure_one()
         self.icmsst_base_type = tax_dict.get(
-            "icmsst_base_type", ICMS_ST_BASE_TYPE_DEFAULT)
+            "icmsst_base_type", ICMS_ST_BASE_TYPE_DEFAULT
+        )
         self.icmsst_mva_percent = tax_dict.get("icmsst_mva_percent")
         self.icmsst_percent = tax_dict.get("percent_amount")
         self.icmsst_reduction = tax_dict.get("percent_reduction")
@@ -584,7 +552,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "icmsst_base",
         "icmsst_value",
         "icmsst_wh_base",
-        "icmsst_wh_value")
+        "icmsst_wh_value",
+    )
     def _onchange_icmsst_fields(self):
         pass
 
@@ -595,9 +564,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         self.icmsfcp_value = tax_dict.get("tax_value", 0.0)
         self.icmsfcpst_value = tax_dict.get("fcpst_value", 0.0)
 
-    @api.onchange(
-        "icmsfcp_percent",
-        "icmsfcp_value")
+    @api.onchange("icmsfcp_percent", "icmsfcp_value")
     def _onchange_icmsfcp_fields(self):
         pass
 
@@ -611,11 +578,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.ipi_reduction = tax_dict.get("percent_reduction", 0.00)
             self.ipi_value = tax_dict.get("tax_value", 0.00)
 
-    @api.onchange(
-        "ipi_base",
-        "ipi_percent",
-        "ipi_reduction",
-        "ipi_value")
+    @api.onchange("ipi_base", "ipi_percent", "ipi_reduction", "ipi_value")
     def _onchange_ipi_fields(self):
         pass
 
@@ -626,10 +589,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.ii_percent = tax_dict.get("percent_amount", 0.00)
             self.ii_value = tax_dict.get("tax_value", 0.00)
 
-    @api.onchange(
-        "ii_base",
-        "ii_percent",
-        "ii_value")
+    @api.onchange("ii_base", "ii_percent", "ii_value")
     def _onchange_ii_fields(self):
         pass
 
@@ -644,11 +604,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.pis_value = tax_dict.get("tax_value", 0.00)
 
     @api.onchange(
-        "pis_base_type",
-        "pis_base",
-        "pis_percent",
-        "pis_reduction",
-        "pis_value")
+        "pis_base_type", "pis_base", "pis_percent", "pis_reduction", "pis_value"
+    )
     def _onchange_pis_fields(self):
         pass
 
@@ -666,7 +623,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "pis_wh_base",
         "pis_wh_percent",
         "pis_wh_reduction",
-        "pis_wh_value")
+        "pis_wh_value",
+    )
     def _onchange_pis_wh_fields(self):
         pass
 
@@ -685,7 +643,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "pisst_base",
         "pisst_percent",
         "pisst_reduction",
-        "pisst_value")
+        "pisst_value",
+    )
     def _onchange_pisst_fields(self):
         pass
 
@@ -704,7 +663,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "cofins_base",
         "cofins_percent",
         "cofins_reduction",
-        "cofins_value")
+        "cofins_value",
+    )
     def _onchange_cofins_fields(self):
         pass
 
@@ -722,7 +682,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "cofins_wh_base",
         "cofins_wh_percent",
         "cofins_wh_reduction",
-        "cofins_wh_value")
+        "cofins_wh_value",
+    )
     def _onchange_cofins_wh_fields(self):
         pass
 
@@ -741,7 +702,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "cofinsst_base",
         "cofinsst_percent",
         "cofinsst_reduction",
-        "cofinsst_value")
+        "cofinsst_value",
+    )
     def _onchange_cofinsst_fields(self):
         pass
 
@@ -771,28 +733,22 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         "discount_value",
         "insurance_value",
         "other_value",
-        "freight_value")
+        "freight_value",
+    )
     def _onchange_fiscal_taxes(self):
         self._update_fiscal_tax_ids(self._get_all_tax_id_fields())
         self._update_taxes()
 
     @api.model
-    def _update_fiscal_quantity(self, product_id, price, quantity,
-                                uom_id, uot_id):
-        result = {
-            'uot_id': uom_id,
-            'fiscal_quantity': quantity,
-            'fiscal_price': price
-        }
+    def _update_fiscal_quantity(self, product_id, price, quantity, uom_id, uot_id):
+        result = {"uot_id": uom_id, "fiscal_quantity": quantity, "fiscal_price": price}
 
         if uom_id != uot_id:
-            result['uot_id'] = uot_id
+            result["uot_id"] = uot_id
             if product_id and price and quantity:
-                product = self.env['product.product'].browse(product_id)
-                result['fiscal_price'] = (
-                    price / (product.uot_factor or 1.0))
-                result['fiscal_quantity'] = (
-                    quantity * (product.uot_factor or 1.0))
+                product = self.env["product.product"].browse(product_id)
+                result["fiscal_price"] = price / (product.uot_factor or 1.0)
+                result["fiscal_quantity"] = quantity * (product.uot_factor or 1.0)
 
         return result
 
@@ -801,15 +757,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         product_id = False
         if self.product_id:
             product_id = self.product_id.id
-        self.update(self._update_fiscal_quantity(
-            product_id, self.price_unit, self.quantity,
-            self.uom_id, self.uot_id))
+        self.update(
+            self._update_fiscal_quantity(
+                product_id, self.price_unit, self.quantity, self.uom_id, self.uot_id
+            )
+        )
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
         self._onchange_fiscal_operation_id()
 
-    @api.onchange('fiscal_tax_ids')
+    @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         self._update_taxes()
 
@@ -820,8 +778,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.model
     def _add_fields_to_amount(self):
-        return ['insurance_value', 'other_value', 'freight_value']
+        return ["insurance_value", "other_value", "freight_value"]
 
     @api.model
     def _rm_fields_to_amount(self):
-        return ['icms_relief_value']
+        return ["icms_relief_value"]
