@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="document_type_tree" model="ir.ui.view">
@@ -6,9 +6,9 @@
         <field name="model">l10n_br_fiscal.document.type</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="code"/>
-                <field name="name"/>
-                <field name="electronic"/>
+                <field name="code" />
+                <field name="name" />
+                <field name="electronic" />
             </tree>
         </field>
     </record>
@@ -18,21 +18,27 @@
         <field name="model">l10n_br_fiscal.document.type</field>
         <field name="arch" type="xml">
             <form string="Fiscal Document Type">
-                <field name="id" invisible="1"/>
+                <field name="id" invisible="1" />
                 <sheet>
                     <group>
-                        <field name="code"/>
-                        <field name="name"/>
-                        <field name="prefix"/>
-                        <field name="sufix"/>
-                        <field name="electronic"/>
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="prefix" />
+                        <field name="sufix" />
+                        <field name="electronic" />
                     </group>
                     <notebook>
                         <page name="document_serie" string="Series">
-                            <field name="document_serie_ids" context="{'default_document_type_id': id}"/>
+                            <field
+                                name="document_serie_ids"
+                                context="{'default_document_type_id': id}"
+                            />
                         </page>
                         <page name="document_email" string="Email Templates">
-                            <field name="document_email_ids" context="{'default_document_type_id': id}"/>
+                            <field
+                                name="document_email_ids"
+                                context="{'default_document_type_id': id}"
+                            />
                         </page>
                     </notebook>
                 </sheet>
