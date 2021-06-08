@@ -4,7 +4,6 @@
 from odoo import fields, models
 
 from ..constants.fiscal import FISCAL_IN, FISCAL_OUT, TAX_DOMAIN_IPI
-
 from ..constants.ipi import IPI_GUIDELINE_GROUP
 
 
@@ -16,20 +15,17 @@ class TaxIpiGuideline(models.Model):
     code = fields.Char(size=3)
 
     cst_group = fields.Selection(
-        selection=IPI_GUIDELINE_GROUP,
-        string="Group",
-        required=True)
+        selection=IPI_GUIDELINE_GROUP, string="Group", required=True
+    )
 
     cst_in_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
-        domain=[
-            ("domain", "=", TAX_DOMAIN_IPI),
-            ("cst_type", "=", FISCAL_IN)],
-        string="CST In")
+        domain=[("domain", "=", TAX_DOMAIN_IPI), ("cst_type", "=", FISCAL_IN)],
+        string="CST In",
+    )
 
     cst_out_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
-        domain=[
-            ("domain", "=", TAX_DOMAIN_IPI),
-            ("cst_type", "=", FISCAL_OUT)],
-        string="CST Out")
+        domain=[("domain", "=", TAX_DOMAIN_IPI), ("cst_type", "=", FISCAL_OUT)],
+        string="CST Out",
+    )

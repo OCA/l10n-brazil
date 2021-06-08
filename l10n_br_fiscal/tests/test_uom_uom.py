@@ -5,18 +5,18 @@ from odoo.tests.common import TransactionCase
 
 
 class TestUomUom(TransactionCase):
-
     def setUp(self):
         super().setUp()
-        self.uom_uom_kg = self.env.ref('uom.product_uom_kgm')
+        self.uom_uom_kg = self.env.ref("uom.product_uom_kgm")
 
     def test_uom_uom_alternative(self):
-        uom_uom_alternative = self.env['uom.uom.alternative'].create({
-            'code': 'kg',
-            'uom_id': self.uom_uom_kg.id
-        })
+        uom_uom_alternative = self.env["uom.uom.alternative"].create(
+            {"code": "kg", "uom_id": self.uom_uom_kg.id}
+        )
 
         self.assertIn(uom_uom_alternative, self.uom_uom_kg.alternative_ids)
 
-        self.assertEqual(self.env['uom.uom'].search([('code', '=', 'KG')]),
-                         self.env['uom.uom'].search([('code', '=', 'kg')]))
+        self.assertEqual(
+            self.env["uom.uom"].search([("code", "=", "KG")]),
+            self.env["uom.uom"].search([("code", "=", "kg")]),
+        )
