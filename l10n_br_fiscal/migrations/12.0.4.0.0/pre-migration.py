@@ -4,12 +4,11 @@
 from openupgradelib import openupgrade
 
 _columns_rename = {
-    'l10n_br_fiscal_document': [
-        ('additional_data', 'fiscal_additional_data')],
+    "l10n_br_fiscal_document": [("additional_data", "fiscal_additional_data")],
 }
 
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    if openupgrade.column_exists(env.cr, 'l10n_br_fiscal_document', 'additional_data'):
+    if openupgrade.column_exists(env.cr, "l10n_br_fiscal_document", "additional_data"):
         openupgrade.rename_columns(env.cr, _columns_rename)

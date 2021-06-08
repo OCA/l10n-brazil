@@ -3,15 +3,12 @@
 
 from odoo import api, models
 
-from ..constants.fiscal import (
-    COMMENT_TYPE_FISCAL,
-    COMMENT_TYPE_COMMERCIAL,
-)
+from ..constants.fiscal import COMMENT_TYPE_COMMERCIAL, COMMENT_TYPE_FISCAL
 
 
 class FiscalDocumentMixinMethods(models.AbstractModel):
-    _name = 'l10n_br_fiscal.document.mixin.methods'
-    _description = 'Document Fiscal Mixin Methods'
+    _name = "l10n_br_fiscal.document.mixin.methods"
+    _description = "Document Fiscal Mixin Methods"
 
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
@@ -21,7 +18,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         vals = self._convert_to_write(self.read(fields)[0])
 
         # remove id field to avoid conflicts
-        vals.pop('id', None)
+        vals.pop("id", None)
 
         if default:  # in case you want to use new rather than write later
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
@@ -29,13 +26,13 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
-        return self.mapped('line_ids')
+        return self.mapped("line_ids")
 
     @api.model
     def _get_amount_fields(self):
         """Get all fields with 'amount_' prefix"""
         fields = self.env["l10n_br_fiscal.document.mixin"]._fields.keys()
-        amount_fields = [f for f in fields if f.startswith('amount_')]
+        amount_fields = [f for f in fields if f.startswith("amount_")]
         return amount_fields
 
     def _compute_amount(self):
@@ -46,39 +43,43 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 for field in fields:
                     if field in line._fields.keys():
                         values[field] += line[field]
-                    if field.replace('amount_', '') in line._fields.keys():
-                        values[field] += line[field.replace('amount_', '')]
+                    if field.replace("amount_", "") in line._fields.keys():
+                        values[field] += line[field.replace("amount_", "")]
             doc.update(values)
 
     def __document_comment_vals(self):
         return {
-            'user': self.env.user,
-            'ctx': self._context,
-            'doc': self,
+            "user": self.env.user,
+            "ctx": self._context,
+            "doc": self,
         }
 
     def _document_comment(self):
         for d in self:
             # Fiscal Comments
             fsc_comments = []
-            fsc_comments.append(d.fiscal_additional_data or '')
-            fsc_comments.append(d.comment_ids.filtered(
-                lambda c: c.comment_type == COMMENT_TYPE_FISCAL
-                ).compute_message(d.__document_comment_vals()) or '')
-            d.fiscal_additional_data = ', '.join(
-                [c for c in fsc_comments if c])
+            fsc_comments.append(d.fiscal_additional_data or "")
+            fsc_comments.append(
+                d.comment_ids.filtered(
+                    lambda c: c.comment_type == COMMENT_TYPE_FISCAL
+                ).compute_message(d.__document_comment_vals())
+                or ""
+            )
+            d.fiscal_additional_data = ", ".join([c for c in fsc_comments if c])
 
             # Commercial Comments
             com_comments = []
-            com_comments.append(d.customer_additional_data or '')
-            com_comments.append(d.comment_ids.filtered(
-                lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
-                ).compute_message(d.__document_comment_vals()) or '')
-            d.customer_additional_data = ', '.join(
-                [c for c in com_comments if c])
+            com_comments.append(d.customer_additional_data or "")
+            com_comments.append(
+                d.comment_ids.filtered(
+                    lambda c: c.comment_type == COMMENT_TYPE_COMMERCIAL
+                ).compute_message(d.__document_comment_vals())
+                or ""
+            )
+            d.customer_additional_data = ", ".join([c for c in com_comments if c])
             d.line_ids._document_comment()
 
-    @api.onchange('fiscal_operation_id')
+    @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
         if self.fiscal_operation_id:
             self.operation_name = self.fiscal_operation_id.name

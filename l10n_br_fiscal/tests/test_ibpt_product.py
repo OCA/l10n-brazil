@@ -5,7 +5,6 @@ from odoo.tests import SavepointCase
 
 
 class TestIbptProduct(SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -32,10 +31,12 @@ class TestIbptProduct(SavepointCase):
     @classmethod
     def _switch_user_company(cls, user, company):
         """ Add a company to the user's allowed & set to current. """
-        user.write({
-            'company_ids': [(6, 0, (company + user.company_ids).ids)],
-            'company_id': company.id,
-        })
+        user.write(
+            {
+                "company_ids": [(6, 0, (company + user.company_ids).ids)],
+                "company_id": company.id,
+            }
+        )
 
     @classmethod
     def _create_compay(cls):

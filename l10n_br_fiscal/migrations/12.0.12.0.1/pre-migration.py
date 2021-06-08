@@ -4,12 +4,14 @@
 
 from openupgradelib import openupgrade
 
-
 _field_renames = [
-    ('l10n_br_fiscal.document.related',
-     'l10n_br_fiscal_document_related', 'date', 'document_date'),
-    ('l10n_br_fiscal.document', 'l10n_br_fiscal_document', 'date',
-     'document_date'),
+    (
+        "l10n_br_fiscal.document.related",
+        "l10n_br_fiscal_document_related",
+        "date",
+        "document_date",
+    ),
+    ("l10n_br_fiscal.document", "l10n_br_fiscal_document", "date", "document_date"),
 ]
 
 

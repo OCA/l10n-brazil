@@ -22,22 +22,23 @@ OPERATION_FISCAL_TYPE = [
     ("sale", "Sale"),
     ("sale_refund", "Sale Return"),
     ("return_out", "Return Out"),
-    ("other", "Other")]
-
-
-OPERATION_FISCAL_TYPE_DEFAULT = 'other'
-
-
-COMMENT_TYPE = [
-    ('fiscal', 'Fiscal'),
-    ('commercial', 'Commercial'),
+    ("other", "Other"),
 ]
 
 
-COMMENT_TYPE_FISCAL = 'fiscal'
+OPERATION_FISCAL_TYPE_DEFAULT = "other"
 
 
-COMMENT_TYPE_COMMERCIAL = 'commercial'
+COMMENT_TYPE = [
+    ("fiscal", "Fiscal"),
+    ("commercial", "Commercial"),
+]
+
+
+COMMENT_TYPE_FISCAL = "fiscal"
+
+
+COMMENT_TYPE_COMMERCIAL = "commercial"
 
 
 PRODUCT_FISCAL_TYPE = [
@@ -98,18 +99,10 @@ TAX_DOMAIN_SIMPLES = "simples"
 TAX_DOMAIN_OTHERS = "others"
 
 
-TAX_DOMAIN_PCC = (
-    TAX_DOMAIN_PIS,
-    TAX_DOMAIN_COFINS,
-    TAX_DOMAIN_CSLL
-)
+TAX_DOMAIN_PCC = (TAX_DOMAIN_PIS, TAX_DOMAIN_COFINS, TAX_DOMAIN_CSLL)
 
 
-TAX_DOMAIN_PCC_RET = (
-    TAX_DOMAIN_PIS_WH,
-    TAX_DOMAIN_COFINS_WH,
-    TAX_DOMAIN_CSLL_WH
-)
+TAX_DOMAIN_PCC_RET = (TAX_DOMAIN_PIS_WH, TAX_DOMAIN_COFINS_WH, TAX_DOMAIN_CSLL_WH)
 
 
 TAX_DOMAIN = [
@@ -135,7 +128,7 @@ TAX_DOMAIN = [
     (TAX_DOMAIN_INSS, "INSS"),
     (TAX_DOMAIN_INSS_WH, "INSS WH"),
     (TAX_DOMAIN_SIMPLES, "Simples Nacional"),
-    (TAX_DOMAIN_OTHERS, "Outros")
+    (TAX_DOMAIN_OTHERS, "Outros"),
 ]
 
 
@@ -258,8 +251,11 @@ CEST_SEGMENT = [
     ("10", "Materiais de construção e congêneres"),
     ("11", "Materiais de limpeza"),
     ("12", "Materiais elétricos"),
-    ("13", "Medicamentos de uso humano e outros produtos"
-           " farmacêuticos para uso humano ou veterinário"),
+    (
+        "13",
+        "Medicamentos de uso humano e outros produtos"
+        " farmacêuticos para uso humano ou veterinário",
+    ),
     ("14", "Papéis, plásticos, produtos cerâmicos e vidros"),
     ("15", "Pneumáticos, câmaras de ar e protetores de borracha"),
     ("16", "Produtos alimentícios"),
@@ -289,26 +285,23 @@ NFE_IND_IE_DEST_9 = "9"
 
 
 NFE_IND_PRES = [
-    ('0', 'Não se aplica'),
-    ('1', 'Operação presencial'),
-    ('2', 'Não presencial, internet'),
-    ('3', 'Não presencial, teleatendimento'),
-    ('4', 'NFC-e entrega em domicílio'),
-    ('5', 'Operação presencial, fora do estabelecimento'),
-    ('9', 'Não presencial, outros')
+    ("0", "Não se aplica"),
+    ("1", "Operação presencial"),
+    ("2", "Não presencial, internet"),
+    ("3", "Não presencial, teleatendimento"),
+    ("4", "NFC-e entrega em domicílio"),
+    ("5", "Operação presencial, fora do estabelecimento"),
+    ("9", "Não presencial, outros"),
 ]
 
 
-NFE_IND_PRES_DEFAULT = '0'
+NFE_IND_PRES_DEFAULT = "0"
 
-FINAL_CUSTOMER = [
-    ('0', 'Não'),
-    ('1', 'Sim')
-]
+FINAL_CUSTOMER = [("0", "Não"), ("1", "Sim")]
 
 
-FINAL_CUSTOMER_NO = '0'
-FINAL_CUSTOMER_YES = '1'
+FINAL_CUSTOMER_NO = "0"
+FINAL_CUSTOMER_YES = "1"
 
 
 CFOP_TYPE_MOVE = [
@@ -369,10 +362,10 @@ CANCELADO = CANCELADO_DENTRO_PRAZO + CANCELADO_FORA_PRAZO + CANCELAMENTO_HOMOLOG
 
 AUTORIZADO_OU_DENEGADO = AUTORIZADO + DENEGADO
 
-EVENTO_REGISTRADO_E_VINCULADO = '135'
-EVENTO_REGISTRADO_NAO_VINCULADO = '136'
+EVENTO_REGISTRADO_E_VINCULADO = "135"
+EVENTO_REGISTRADO_NAO_VINCULADO = "136"
 
-EVENTO_RECEBIDO = ['135', '136']
+EVENTO_RECEBIDO = ["135", "136"]
 
 SITUACAO_EDOC_EM_DIGITACAO = "em_digitacao"
 SITUACAO_EDOC_A_ENVIAR = "a_enviar"
@@ -472,27 +465,27 @@ WORKFLOW_EDOC = WORKFLOW_DOCUMENTO_NAO_ELETRONICO + [
     (SITUACAO_EDOC_REJEITADA, SITUACAO_EDOC_REJEITADA),
 ]
 
-PROCESSADOR_NENHUM = 'nenhum'
-PROCESSADOR_OCA = 'oca'
+PROCESSADOR_NENHUM = "nenhum"
+PROCESSADOR_OCA = "oca"
 
 PROCESSADOR = [
-    (PROCESSADOR_NENHUM, 'Sem Integração'),
-    (PROCESSADOR_OCA, 'Odoo Community')
+    (PROCESSADOR_NENHUM, "Sem Integração"),
+    (PROCESSADOR_OCA, "Odoo Community"),
 ]
 
 FISCAL_COMMENT_OBJECTS = [
-    ('l10n_br_fiscal.document.mixin', 'Fiscal Document'),
-    ('l10n_br_fiscal.document.line.mixin', 'Fiscal Document Line')
+    ("l10n_br_fiscal.document.mixin", "Fiscal Document"),
+    ("l10n_br_fiscal.document.line.mixin", "Fiscal Document Line"),
 ]
 
-FISCAL_COMMENT_DOCUMENT = 'l10n_br_fiscal.document.mixin'
+FISCAL_COMMENT_DOCUMENT = "l10n_br_fiscal.document.mixin"
 
-FISCAL_COMMENT_LINE = 'l10n_br_fiscal.document.line.mixin'
+FISCAL_COMMENT_LINE = "l10n_br_fiscal.document.line.mixin"
 
-EVENT_ENV_PROD = 'prod'
-EVENT_ENV_HML = 'hml'
+EVENT_ENV_PROD = "prod"
+EVENT_ENV_HML = "hml"
 
 EVENT_ENVIRONMENT = [
-    (EVENT_ENV_PROD, 'Production'),
-    (EVENT_ENV_HML, 'Homologation'),
+    (EVENT_ENV_PROD, "Production"),
+    (EVENT_ENV_HML, "Homologation"),
 ]
