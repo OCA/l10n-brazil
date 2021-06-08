@@ -5,5 +5,5 @@ from odoo import models
 
 
 class ProductProduct(models.Model):
-    _name = 'product.product'
-    _inherit = ['product.product', 'l10n_br_fiscal.product.mixin']
+    _name = "product.product"
+    _inherit = ["product.product", "l10n_br_fiscal.product.mixin"]

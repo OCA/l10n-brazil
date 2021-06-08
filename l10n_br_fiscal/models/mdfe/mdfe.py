@@ -8,24 +8,25 @@ import logging
 
 from odoo import _, fields, models
 
-from ...constants.mdfe import (
-    OPERATION_TYPE,
-    SITUACAO_MANIFESTACAO,
-    SITUACAO_NFE
-)
+from ...constants.mdfe import OPERATION_TYPE, SITUACAO_MANIFESTACAO, SITUACAO_NFE
 
 _logger = logging.getLogger(__name__)
 
 
 class MDFe(models.Model):
     _name = "l10n_br_fiscal.mdfe"
-    _description = 'Recipient Manifestation'
+    _description = "Recipient Manifestation"
 
     def name_get(self):
-        return [(rec.id,
-                 u"NFº: {0} ({1}): {2}".format(
-                     rec.document_number, rec.cnpj_cpf, rec.company_id.legal_name)
-                 ) for rec in self]
+        return [
+            (
+                rec.id,
+                "NFº: {} ({}): {}".format(
+                    rec.document_number, rec.cnpj_cpf, rec.company_id.legal_name
+                ),
+            )
+            for rec in self
+        ]
 
     company_id = fields.Many2one(
         comodel_name="res.company",
@@ -158,13 +159,13 @@ class MDFe(models.Model):
     def download_attachment(self, attachment_id=None):
 
         action = {
-            'name': _('Download Attachment'),
-            'view_mode': 'form',
-            'res_model': 'ir.attachment',
-            'type': 'ir.actions.act_window',
-            'target': 'new',
-            'flags': {'mode': 'readonly'},  # default is 'edit'
-            'res_id': attachment_id.id,
+            "name": _("Download Attachment"),
+            "view_mode": "form",
+            "res_model": "ir.attachment",
+            "type": "ir.actions.act_window",
+            "target": "new",
+            "flags": {"mode": "readonly"},  # default is 'edit'
+            "res_id": attachment_id.id,
         }
 
         return action
