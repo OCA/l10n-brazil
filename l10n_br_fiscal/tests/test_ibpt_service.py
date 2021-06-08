@@ -5,7 +5,6 @@ from odoo.tests import SavepointCase
 
 
 class TestIbptService(SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -16,16 +15,16 @@ class TestIbptService(SavepointCase):
         cls.nbs_124043300 = cls.env.ref("l10n_br_fiscal.nbs_124043300")
         cls.product_tmpl_model = cls.env["product.template"]
         cls.product_tmpl_1 = cls._create_product_tmpl(
-            name="Service Test 1 - With NBS: 1.1506.90.00",
-            nbs=cls.nbs_115069000)
+            name="Service Test 1 - With NBS: 1.1506.90.00", nbs=cls.nbs_115069000
+        )
 
         cls.product_tmpl_2 = cls._create_product_tmpl(
-            name="Product Test 2 - With NBS: 1.1506.90.00",
-            nbs=cls.nbs_115069000)
+            name="Product Test 2 - With NBS: 1.1506.90.00", nbs=cls.nbs_115069000
+        )
 
         cls.product_tmpl_3 = cls._create_product_tmpl(
-            name="Product Test 3 - With NBS: 1.2404.33.00",
-            nbs=cls.nbs_124043300)
+            name="Product Test 3 - With NBS: 1.2404.33.00", nbs=cls.nbs_124043300
+        )
 
         cls.tax_estimate_model = cls.env["l10n_br_fiscal.tax.estimate"]
         cls.nbs_model = cls.env["l10n_br_fiscal.nbs"]
@@ -33,10 +32,12 @@ class TestIbptService(SavepointCase):
     @classmethod
     def _switch_user_company(cls, user, company):
         """ Add a company to the user's allowed & set to current. """
-        user.write({
-            'company_ids': [(6, 0, (company + user.company_ids).ids)],
-            'company_id': company.id,
-        })
+        user.write(
+            {
+                "company_ids": [(6, 0, (company + user.company_ids).ids)],
+                "company_id": company.id,
+            }
+        )
 
     @classmethod
     def _create_compay(cls):
@@ -60,9 +61,7 @@ class TestIbptService(SavepointCase):
     @classmethod
     def _create_product_tmpl(cls, name, nbs):
         # Creating a product
-        product = cls.product_tmpl_model.create({
-            "name": name,
-            "nbs_id": nbs.id})
+        product = cls.product_tmpl_model.create({"name": name, "nbs_id": nbs.id})
         return product
 
     def test_update_ibpt_service(self):
