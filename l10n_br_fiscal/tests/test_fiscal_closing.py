@@ -6,33 +6,32 @@ import os
 import tempfile
 import zipfile
 
-from odoo.tests.common import TransactionCase
 from odoo import fields
-from ..constants.fiscal import (
-    SITUACAO_EDOC_AUTORIZADA,
-    EVENT_ENV_PROD,
-)
+from odoo.tests.common import TransactionCase
+
+from ..constants.fiscal import EVENT_ENV_PROD, SITUACAO_EDOC_AUTORIZADA
 
 
 class TestFiscalClosing(TransactionCase):
-
     def setUp(self):
         super(TestFiscalClosing, self).setUp()
 
-        self.nfe_export = self.env.ref(
-            'l10n_br_fiscal.demo_nfe_export'
-        )
+        self.nfe_export = self.env.ref("l10n_br_fiscal.demo_nfe_export")
         self.nfe_export.document_date = fields.Datetime.now()
         self.nfe_export.date_in_out = fields.Datetime.now()
-        self.closing_all = self.env['l10n_br_fiscal.closing'].create({
-            'export_type': 'all',
-        })
+        self.closing_all = self.env["l10n_br_fiscal.closing"].create(
+            {
+                "export_type": "all",
+            }
+        )
 
-        self.closing_period = self.env['l10n_br_fiscal.closing'].create({
-            'export_type': 'period',
-            'year': str(self.nfe_export.document_date.year),
-            'month': str(self.nfe_export.document_date.month),
-        })
+        self.closing_period = self.env["l10n_br_fiscal.closing"].create(
+            {
+                "export_type": "period",
+                "year": str(self.nfe_export.document_date.year),
+                "month": str(self.nfe_export.document_date.month),
+            }
+        )
 
     def test_event_to_fiscal_close(self):
         """ Test Fiscal Close Export """
@@ -47,10 +46,10 @@ class TestFiscalClosing(TransactionCase):
         )
         self.nfe_export._onchange_company_id()
         event_id.set_done(
-            status_code='101',
-            response='Teste Autorizado',
+            status_code="101",
+            response="Teste Autorizado",
             protocol_date=self.nfe_export.document_date,
-            protocol_number='12345678',
+            protocol_number="12345678",
             file_response_xml=xml_file,
         )
         self.nfe_export.authorization_event_id = event_id
@@ -71,8 +70,10 @@ class TestFiscalClosing(TransactionCase):
         temp_zip_period.seek(os.SEEK_SET)
         zip_file_period = zipfile.ZipFile(temp_zip_period.name)
 
-        self.assertTrue(zip_file_all.namelist(),
-                        "Zip File for export all documents is empty")
+        self.assertTrue(
+            zip_file_all.namelist(), "Zip File for export all documents is empty"
+        )
 
-        self.assertTrue(zip_file_period.namelist(),
-                        "Zip File for period export documents is empty")
+        self.assertTrue(
+            zip_file_period.namelist(), "Zip File for period export documents is empty"
+        )

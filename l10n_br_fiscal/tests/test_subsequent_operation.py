@@ -5,29 +5,22 @@ from odoo.tests.common import TransactionCase
 
 
 class TestSubsequentOperation(TransactionCase):
-
     def setUp(self):
         super(TestSubsequentOperation, self).setUp()
 
         self.nfe_simples_faturamento = self.env.ref(
-            'l10n_br_fiscal.demo_nfe_so_simples_faturamento'
+            "l10n_br_fiscal.demo_nfe_so_simples_faturamento"
         ).copy()
 
         self.so_simples_faturamento = self.env.ref(
-            'l10n_br_fiscal.so_simples_faturamento'
+            "l10n_br_fiscal.so_simples_faturamento"
         )
 
-        self.tax_icms_12 = self.env.ref(
-            'l10n_br_fiscal.tax_icms_12'
-        )
+        self.tax_icms_12 = self.env.ref("l10n_br_fiscal.tax_icms_12")
 
-        self.pis_tax_0 = self.env.ref(
-            'l10n_br_fiscal.tax_pis_0'
-        )
+        self.pis_tax_0 = self.env.ref("l10n_br_fiscal.tax_pis_0")
 
-        self.cofins_tax_0 = self.env.ref(
-            'l10n_br_fiscal.tax_cofins_0'
-        )
+        self.cofins_tax_0 = self.env.ref("l10n_br_fiscal.tax_cofins_0")
 
     def test_subsequent_operation_simple_faturamento(self):
         """ Test Fiscal Subsequent Operation Simples Faturamento"""
@@ -42,19 +35,20 @@ class TestSubsequentOperation(TransactionCase):
 
         self.nfe_simples_faturamento.action_document_confirm()
 
-        subsequent_documents = self.nfe_simples_faturamento.\
-            document_subsequent_ids
+        subsequent_documents = self.nfe_simples_faturamento.document_subsequent_ids
 
         for document in subsequent_documents:
 
-            self.assertTrue(document.subsequent_document_id,
-                            "Subsequent document was not created")
+            self.assertTrue(
+                document.subsequent_document_id, "Subsequent document was not created"
+            )
 
             # Subsequent Document operation
             self.assertEqual(
                 document.subsequent_document_id.fiscal_operation_id.id,
                 self.so_simples_faturamento.subsequent_operation_id.id,
-                "Operation of the generated document is incorrect")
+                "Operation of the generated document is incorrect",
+            )
 
             # Subsequent Lines
             for product in document.subsequent_document_id.line_ids:
@@ -63,16 +57,17 @@ class TestSubsequentOperation(TransactionCase):
                 self.assertEqual(
                     product.icms_tax_id.id,
                     self.tax_icms_12.id,
-                    "ICMS tax value is not 12%")
+                    "ICMS tax value is not 12%",
+                )
 
                 # Document Line PIS tax
                 self.assertEqual(
-                    product.pis_tax_id.id,
-                    self.pis_tax_0.id,
-                    "PIS tax value is not 0%")
+                    product.pis_tax_id.id, self.pis_tax_0.id, "PIS tax value is not 0%"
+                )
 
                 # Document Line COFINS tax
                 self.assertEqual(
                     product.cofins_tax_id.id,
                     self.cofins_tax_0.id,
-                    "COFINS tax value is not 0%")
+                    "COFINS tax value is not 0%",
+                )

@@ -6,20 +6,20 @@ from odoo import fields, models
 
 class CityTaxationCode(models.Model):
 
-    _name = 'l10n_br_fiscal.city.taxation.code'
+    _name = "l10n_br_fiscal.city.taxation.code"
     _inherit = "l10n_br_fiscal.data.abstract"
-    _description = 'City Taxation Code'
+    _description = "City Taxation Code"
 
     service_type_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.service.type',
-        string='Service Type',
-        domain=[('internal_type', '=', 'normal')]
+        comodel_name="l10n_br_fiscal.service.type",
+        string="Service Type",
+        domain=[("internal_type", "=", "normal")],
     )
 
     state_id = fields.Many2one(
-        comodel_name='res.country.state',
+        comodel_name="res.country.state",
         string="State",
-        domain=[('country_id.code', '=', 'BR')]
+        domain=[("country_id.code", "=", "BR")],
     )
 
     city_id = fields.Many2one(
@@ -29,6 +29,6 @@ class CityTaxationCode(models.Model):
     )
 
     cnae_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.cnae',
-        string='CNAE Code',
+        comodel_name="l10n_br_fiscal.cnae",
+        string="CNAE Code",
     )
