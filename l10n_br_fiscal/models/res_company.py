@@ -5,9 +5,11 @@
 import logging
 
 from odoo import api, fields, models
+
 from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
+    COEFFICIENT_R,
     INDUSTRY_TYPE,
     INDUSTRY_TYPE_TRANSFORMATION,
     PROCESSADOR,
@@ -33,7 +35,6 @@ from ..constants.fiscal import (
     TAX_FRAMEWORK_NORMAL,
     TAX_FRAMEWORK_SIMPLES,
     TAX_FRAMEWORK_SIMPLES_ALL,
-    COEFFICIENT_R,
 )
 
 _logger = logging.getLogger(__name__)
@@ -45,10 +46,12 @@ class ResCompany(models.Model):
     def _get_company_address_fields(self, partner):
         """ Read the l10n_br specific functional fields. """
         partner_fields = super()._get_company_address_fields(partner)
-        partner_fields.update({
-            'tax_framework': partner.tax_framework,
-            'cnae_main_id': partner.cnae_main_id,
-        })
+        partner_fields.update(
+            {
+                "tax_framework": partner.tax_framework,
+                "cnae_main_id": partner.cnae_main_id,
+            }
+        )
         return partner_fields
 
     def _inverse_cnae_main_id(self):
@@ -61,23 +64,22 @@ class ResCompany(models.Model):
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
 
-    @api.depends(
-        "cnae_main_id", "annual_revenue", "payroll_amount")
+    @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
     def _compute_simplifed_tax(self):
         for record in self:
             record.coefficient_r = False
             if record.payroll_amount and record.annual_revenue:
-                coefficient_r_percent = (
-                    record.payroll_amount / record.annual_revenue
-                )
+                coefficient_r_percent = record.payroll_amount / record.annual_revenue
                 if coefficient_r_percent > COEFFICIENT_R:
                     record.coefficient_r = True
                 record.coefficient_r_percent = coefficient_r_percent
 
-            simplified_tax_id = self.env["l10n_br_fiscal.simplified.tax"].search([
-                ("cnae_ids", "=", record.cnae_main_id.id),
-                ("coefficient_r", "=", record.coefficient_r),
-            ])
+            simplified_tax_id = self.env["l10n_br_fiscal.simplified.tax"].search(
+                [
+                    ("cnae_ids", "=", record.cnae_main_id.id),
+                    ("coefficient_r", "=", record.coefficient_r),
+                ]
+            )
             record.simplifed_tax_id = simplified_tax_id
 
             if simplified_tax_id:
@@ -93,11 +95,21 @@ class ResCompany(models.Model):
                 record.simplifed_tax_range_id = tax_range
 
                 if record.simplifed_tax_range_id and record.annual_revenue:
-                    record.simplifed_tax_percent = round((
-                        ((record.annual_revenue *
-                          record.simplifed_tax_range_id.total_tax_percent / 100) -
-                         record.simplifed_tax_range_id.amount_deduced) /
-                        record.annual_revenue) * 100, record.currency_id.decimal_places)
+                    record.simplifed_tax_percent = round(
+                        (
+                            (
+                                (
+                                    record.annual_revenue
+                                    * record.simplifed_tax_range_id.total_tax_percent
+                                    / 100
+                                )
+                                - record.simplifed_tax_range_id.amount_deduced
+                            )
+                            / record.annual_revenue
+                        )
+                        * 100,
+                        record.currency_id.decimal_places,
+                    )
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
@@ -105,199 +117,221 @@ class ResCompany(models.Model):
         inverse="_inverse_cnae_main_id",
         domain="[('internal_type', '=', 'normal'), "
         "('id', 'not in', cnae_secondary_ids)]",
-        string="Main CNAE")
+        string="Main CNAE",
+    )
 
     cnae_secondary_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.cnae",
         relation="res_company_fiscal_cnae_rel",
         column1="company_id",
         column2="cnae_id",
-        domain="[('internal_type', '=', 'normal'), "
-               "('id', '!=', cnae_main_id)]",
-        string="Secondary CNAE")
+        domain="[('internal_type', '=', 'normal'), " "('id', '!=', cnae_main_id)]",
+        string="Secondary CNAE",
+    )
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_NORMAL,
         compute="_compute_address",
         inverse="_inverse_tax_framework",
-        string="Tax Framework")
+        string="Tax Framework",
+    )
 
     profit_calculation = fields.Selection(
         selection=PROFIT_CALCULATION,
         default=PROFIT_CALCULATION_PRESUMED,
-        string="Profit Calculation")
+        string="Profit Calculation",
+    )
 
     is_industry = fields.Boolean(
         string="Is Industry",
         help="If your company is industry or ......",
-        default=False)
+        default=False,
+    )
 
     industry_type = fields.Selection(
         selection=INDUSTRY_TYPE,
         default=INDUSTRY_TYPE_TRANSFORMATION,
-        string="Industry Type")
+        string="Industry Type",
+    )
 
     annual_revenue = fields.Monetary(
         string="Annual Revenue",
         currency_field="currency_id",
-        digits=dp.get_precision("Fiscal Documents"))
+        digits=dp.get_precision("Fiscal Documents"),
+    )
 
     simplifed_tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax",
         compute="_compute_simplifed_tax",
         string="Simplified Tax",
-        readonly=True)
+        readonly=True,
+    )
 
     simplifed_tax_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
         compute="_compute_simplifed_tax",
         store=True,
         readyonly=True,
-        string="Simplified Tax Range")
+        string="Simplified Tax Range",
+    )
 
     simplifed_tax_percent = fields.Float(
         string="Simplifed Tax Percent",
-        compute='_compute_simplifed_tax',
+        compute="_compute_simplifed_tax",
         store=True,
-        digits=dp.get_precision("Fiscal Tax Percent"))
+        digits=dp.get_precision("Fiscal Tax Percent"),
+    )
 
     payroll_amount = fields.Monetary(
         string="Last Period Payroll Amount",
         currency_field="currency_id",
-        digits=dp.get_precision("Fiscal Documents"))
+        digits=dp.get_precision("Fiscal Documents"),
+    )
 
     coefficient_r = fields.Boolean(
-        compute='_compute_simplifed_tax',
-        string='Coefficient R',
+        compute="_compute_simplifed_tax",
+        string="Coefficient R",
         store=True,
-        readonly=True)
+        readonly=True,
+    )
 
     coefficient_r_percent = fields.Float(
-        compute='_compute_simplifed_tax',
-        string='Coefficient R (%)',
+        compute="_compute_simplifed_tax",
+        string="Coefficient R (%)",
         store=True,
-        readonly=True)
+        readonly=True,
+    )
 
-    ibpt_api = fields.Boolean(
-        string="Use IBPT API",
-        default=False)
+    ibpt_api = fields.Boolean(string="Use IBPT API", default=False)
 
-    ibpt_token = fields.Char(
-        string="IBPT Token")
+    ibpt_token = fields.Char(string="IBPT Token")
 
-    ibpt_update_days = fields.Integer(
-        string="IBPT Token Updates",
-        default=15)
+    ibpt_update_days = fields.Integer(string="IBPT Token Updates", default=15)
 
     certificate_ecnpj_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.certificate",
         string="E-CNPJ",
-        domain="[('type', '=', 'e-cnpj')]")
+        domain="[('type', '=', 'e-cnpj')]",
+    )
 
     certificate_nfe_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.certificate",
         string="NFe",
-        domain="[('type', '=', 'nf-e')]")
+        domain="[('type', '=', 'nf-e')]",
+    )
 
-    accountant_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Accountant")
+    accountant_id = fields.Many2one(comodel_name="res.partner", string="Accountant")
 
     technical_support_id = fields.Many2one(
-        comodel_name="res.partner",
-        string="Technical Support")
+        comodel_name="res.partner", string="Technical Support"
+    )
 
     piscofins_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.pis.cofins",
         string="PIS/COFINS",
-        domain="[('piscofins_type', '=', 'company')]")
+        domain="[('piscofins_type', '=', 'company')]",
+    )
 
     tax_cofins_wh_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default COFINS RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_COFINS_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_COFINS_WH)],
+    )
 
     tax_pis_wh_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default PIS RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_PIS_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_PIS_WH)],
+    )
 
     tax_csll_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default CSLL",
-        domain=[('tax_domain', '=', TAX_DOMAIN_CSLL)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_CSLL)],
+    )
 
     tax_csll_wh_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default CSLL RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_CSLL_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_CSLL_WH)],
+    )
 
-    ripi = fields.Boolean(
-        string="RIPI")
+    ripi = fields.Boolean(string="RIPI")
 
     tax_ipi_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default IPI",
-        domain=[("tax_domain", "=", TAX_DOMAIN_IPI)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_IPI)],
+    )
 
     tax_icms_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default ICMS",
-        domain=[('tax_domain', 'in', (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN))])
+        domain=[("tax_domain", "in", (TAX_DOMAIN_ICMS, TAX_DOMAIN_ICMS_SN))],
+    )
 
     icms_regulation_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.icms.regulation",
-        string="ICMS Regulation")
+        comodel_name="l10n_br_fiscal.icms.regulation", string="ICMS Regulation"
+    )
 
     tax_issqn_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default ISSQN",
-        domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_ISSQN)],
+    )
 
     tax_issqn_wh_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default ISSQN RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_ISSQN_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_ISSQN_WH)],
+    )
 
     tax_irpj_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default IRPJ",
-        domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_IRPJ)],
+    )
 
     tax_irpj_wh_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default IRPJ RET",
-        domain=[('tax_domain', '=', TAX_DOMAIN_IRPJ_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_IRPJ_WH)],
+    )
 
     tax_inss_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default INSS",
-        domain=[('tax_domain', '=', TAX_DOMAIN_INSS)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_INSS)],
+    )
 
     tax_inss_wh_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Default INSS RET",
-        domain=[('tax_domain', '=',  TAX_DOMAIN_INSS_WH)])
+        domain=[("tax_domain", "=", TAX_DOMAIN_INSS_WH)],
+    )
 
     tax_definition_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax.definition",
         inverse_name="company_id",
-        string="Tax Definition")
+        string="Tax Definition",
+    )
 
     processador_edoc = fields.Selection(
         selection=PROCESSADOR,
-        string='Processador documentos eletrônicos',
-        default=PROCESSADOR_NENHUM)
+        string="Processador documentos eletrônicos",
+        default=PROCESSADOR_NENHUM,
+    )
 
     document_type_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.document.type',
-        string='Default Document Type')
+        comodel_name="l10n_br_fiscal.document.type", string="Default Document Type"
+    )
 
     document_email_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.email",
         inverse_name="company_id",
-        string="Email Template Definition")
+        string="Email Template Definition",
+    )
 
     document_save_disk = fields.Boolean(
         string="Save Documents to disk",

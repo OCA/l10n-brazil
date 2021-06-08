@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
   <record id="invalidate_number_search" model="ir.ui.view">
@@ -6,8 +6,8 @@
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
       <search string="Invalidate Number">
-        <field name="document_serie_id"/>
-        <field name="company_id"/>
+        <field name="document_serie_id" />
+        <field name="company_id" />
       </search>
     </field>
   </record>
@@ -17,12 +17,12 @@
     <field name="model">l10n_br_fiscal.invalidate.number</field>
     <field name="arch" type="xml">
       <tree string="Invalidate Number">
-          <field name="company_id"/>
-          <field name="document_type_id"/>
-          <field name="document_serie_id"/>
-          <field name="number_start"/>
-          <field name="number_end"/>
-          <field name="state"/>
+          <field name="company_id" />
+          <field name="document_type_id" />
+          <field name="document_serie_id" />
+          <field name="number_start" />
+          <field name="number_end" />
+          <field name="state" />
       </tree>
     </field>
   </record>
@@ -33,22 +33,28 @@
     <field name="arch" type="xml">
       <form string="Invalidate Number">
           <header>
-              <field name="state" widget="statusbar"/>
-              <button name="action_invalidate" type="object" string="Confirmar" states="draft" class="oe_highlight"/>
+              <field name="state" widget="statusbar" />
+              <button
+                        name="action_invalidate"
+                        type="object"
+                        string="Confirmar"
+                        states="draft"
+                        class="oe_highlight"
+                    />
           </header>
           <group>
-              <field name="company_id"/>
-              <field name="document_type_id"/>
-              <field name="document_serie_id"/>
+              <field name="company_id" />
+              <field name="document_type_id" />
+              <field name="document_serie_id" />
           </group>
           <group>
-              <field name="number_start"/>
-              <field name="number_end"/>
-              <field name="justification"/>
+              <field name="number_start" />
+              <field name="number_end" />
+              <field name="justification" />
           </group>
           <notebook>
               <page string="Events">
-                  <field name="event_ids"/>
+                  <field name="event_ids" />
               </page>
           </notebook>
       </form>

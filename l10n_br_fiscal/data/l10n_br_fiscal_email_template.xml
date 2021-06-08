@@ -1,16 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
 
     <record id="fiscal_document_change_state_template" model="mail.template">
       <field name="name">Fiscal Document Change State Notification Email</field>
-      <field name="model_id" ref="model_l10n_br_fiscal_document"/>
+      <field name="model_id" ref="model_l10n_br_fiscal_document" />
       <field name="email_from">${object.company_id.partner_id.email}</field>
-      <field name="email_cc">${not object.partner_id and object.partner_email or ''|safe},</field>
-      <field name="subject">${object.document_type_id.name}: ${object.document_number} Serie: ${object.document_serie} is: ${dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}</field>
+      <field
+            name="email_cc"
+        >${not object.partner_id and object.partner_email or ''|safe},</field>
+      <field
+            name="subject"
+        >${object.document_type_id.name}: ${object.document_number} Serie: ${object.document_serie} is: ${dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}</field>
       <field name="partner_to">${object.partner_id.id}</field>
-      <field name="auto_delete" eval="False"/>
+      <field name="auto_delete" eval="False" />
       <field name="lang">${object.partner_id.lang}</field>
-      <field name="body_html"><![CDATA[<html>
+      <field
+            name="body_html"
+        ><![CDATA[<html>
                 <head></head>
                 <body style="margin: 0; padding: 0;">
                 <table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;">
@@ -89,14 +95,20 @@
 
     <record id="fiscal_document_change_state_template_nfse" model="mail.template">
       <field name="name">NFSe Fiscal Document Change State Notification Email</field>
-      <field name="model_id" ref="model_l10n_br_fiscal_document"/>
+      <field name="model_id" ref="model_l10n_br_fiscal_document" />
       <field name="email_from">${object.company_id.partner_id.email}</field>
-      <field name="email_cc">${not object.partner_id and object.partner_email or ''|safe},</field>
-      <field name="subject">${object.document_type_id.name}: ${object.document_number} Serie: ${object.document_serie} is: ${dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}</field>
+      <field
+            name="email_cc"
+        >${not object.partner_id and object.partner_email or ''|safe},</field>
+      <field
+            name="subject"
+        >${object.document_type_id.name}: ${object.document_number} Serie: ${object.document_serie} is: ${dict(object.fields_get('state').get('state').get('selection')).get(object.state, '')}</field>
       <field name="partner_to">${object.partner_id.id}</field>
-      <field name="auto_delete" eval="False"/>
+      <field name="auto_delete" eval="False" />
       <field name="lang">${object.partner_id.lang}</field>
-      <field name="body_html"><![CDATA[<html>
+      <field
+            name="body_html"
+        ><![CDATA[<html>
                 <head></head>
                 <body style="margin: 0; padding: 0;">
                 <table border="0" width="100%" cellpadding="0" bgcolor="#ededed" style="padding: 20px; background-color: #ededed; border-collapse:separate;">

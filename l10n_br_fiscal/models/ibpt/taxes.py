@@ -5,6 +5,7 @@
 from collections import namedtuple
 
 import requests
+
 from odoo import _
 from odoo.exceptions import UserError
 

@@ -5,15 +5,17 @@ from odoo import models
 
 
 class DocumentStatusWizard(models.TransientModel):
-    _name = 'l10n_br_fiscal.document.status.wizard'
-    _description = 'Fiscal Document Status Wizard'
-    _inherit = 'l10n_br_fiscal.base.wizard.mixin'
+    _name = "l10n_br_fiscal.document.status.wizard"
+    _description = "Fiscal Document Status Wizard"
+    _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
     def get_document_status(self):
-        self.write({
-            "document_status": self.document_id._document_status(),
-            "state": "done",
-        })
+        self.write(
+            {
+                "document_status": self.document_id._document_status(),
+                "state": "done",
+            }
+        )
         return self._reopen()
 
     def doit(self):
