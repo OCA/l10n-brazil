@@ -26,7 +26,6 @@ exclude: |
   ^l10n_br_purchase_stock/|
   ^l10n_br_repair/|
   ^l10n_br_resource/|
-  ^l10n_br_sale/|
   ^l10n_br_sale_stock/|
   ^l10n_br_stock/|
   ^l10n_br_stock_account/|

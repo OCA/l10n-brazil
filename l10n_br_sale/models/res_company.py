@@ -5,14 +5,14 @@ from odoo import fields, models
 
 
 class Company(models.Model):
-    _inherit = 'res.company'
+    _inherit = "res.company"
 
     sale_fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Operação Fiscal Padrão de Vendas',
+        comodel_name="l10n_br_fiscal.operation",
+        string="Operação Fiscal Padrão de Vendas",
     )
 
     copy_note = fields.Boolean(
-        string='Copy Sale note on invoice',
+        string="Copy Sale note on invoice",
         default=False,
     )
