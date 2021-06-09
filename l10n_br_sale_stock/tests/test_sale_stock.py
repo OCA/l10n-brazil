@@ -8,12 +8,12 @@ from odoo.tests import SavepointCase, tagged
 @tagged("post_install", "-at_install")
 class TestSaleStock(SavepointCase):
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.invoice_model = self.env["account.invoice"]
-        self.invoice_wizard = self.env["stock.invoice.onshipping"]
-        self.stock_return_picking = self.env["stock.return.picking"]
-        self.stock_picking = self.env["stock.picking"]
+        cls.invoice_model = cls.env["account.invoice"]
+        cls.invoice_wizard = cls.env["stock.invoice.onshipping"]
+        cls.stock_return_picking = cls.env["stock.return.picking"]
+        cls.stock_picking = cls.env["stock.picking"]
 
         # TODO: Em uma instalção direta do modulo
         #  $ odoo -d test -i l10n_br_sale_stock --stop-after-init
@@ -31,16 +31,16 @@ class TestSaleStock(SavepointCase):
         #  l10n_br_sale/demo/fiscal_operation_simple.xml#L10 mas por algum
         #  motivo não vem carregado aqui, mesmo tendo o l10n_br_sale como
         #  dependencia.
-        self.fiscal_operation_venda = self.env.ref("l10n_br_fiscal.fo_venda")
-        if not self.fiscal_operation_venda.journal_id:
-            self.fiscal_operation_venda.journal_id = self.env.ref(
+        cls.fiscal_operation_venda = cls.env.ref("l10n_br_fiscal.fo_venda")
+        if not cls.fiscal_operation_venda.journal_id:
+            cls.fiscal_operation_venda.journal_id = cls.env.ref(
                 "l10n_br_coa_simple.sale_journal_main_company"
             )
-        self.fiscal_operation_dev_venda = self.env.ref(
+        cls.fiscal_operation_dev_venda = cls.env.ref(
             "l10n_br_fiscal.fo_devolucao_venda"
         )
-        if not self.fiscal_operation_dev_venda.journal_id:
-            self.fiscal_operation_dev_venda.journal_id = self.env.ref(
+        if not cls.fiscal_operation_dev_venda.journal_id:
+            cls.fiscal_operation_dev_venda.journal_id = cls.env.ref(
                 "l10n_br_coa_simple.general_journal_main_company"
             )
 
