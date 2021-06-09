@@ -5,28 +5,28 @@ from odoo import fields, models
 
 
 class AccountTaxGroup(models.Model):
-    _inherit = 'account.tax.group'
+    _inherit = "account.tax.group"
 
     account_id = fields.Many2one(
-        comodel_name='account.account.template',
-        string='Tax Account',
+        comodel_name="account.account.template",
+        string="Tax Account",
         company_dependent=True,
     )
 
     refund_account_id = fields.Many2one(
-        comodel_name='account.account.template',
-        string='Tax Account on Credit Notes',
+        comodel_name="account.account.template",
+        string="Tax Account on Credit Notes",
         company_dependent=True,
     )
 
     ded_account_id = fields.Many2one(
-        comodel_name='account.account.template',
-        string='Deductible Tax Account',
+        comodel_name="account.account.template",
+        string="Deductible Tax Account",
         company_dependent=True,
     )
 
     ded_refund_account_id = fields.Many2one(
-        comodel_name='account.account.template',
-        string='Deductible Tax Account on Credit Notes',
+        comodel_name="account.account.template",
+        string="Deductible Tax Account on Credit Notes",
         company_dependent=True,
     )

@@ -5,10 +5,10 @@ from odoo import fields, models
 
 
 class AccountTaxMixin(models.AbstractModel):
-    _name = 'account.tax.mixin'
-    _description = 'Account Tax Mixin'
+    _name = "account.tax.mixin"
+    _description = "Account Tax Mixin"
 
     deductible = fields.Boolean(
-        string='Deductible Tax?',
+        string="Deductible Tax?",
         default=True,
     )
