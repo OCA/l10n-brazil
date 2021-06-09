@@ -115,18 +115,18 @@ class SaleOrderLine(models.Model):
     def _compute_amount(self):
         """Compute the amounts of the SO line."""
         super()._compute_amount()
-        for l in self:
+        for line in self:
             # Update taxes fields
-            l._update_taxes()
+            line._update_taxes()
             # Call mixin compute method
-            l._compute_amounts()
+            line._compute_amounts()
             # Update record
-            l.update(
+            line.update(
                 {
-                    "price_subtotal": l.amount_untaxed,
-                    "price_tax": l.amount_tax,
-                    "price_gross": l.amount_untaxed + l.discount_value,
-                    "price_total": l.amount_total,
+                    "price_subtotal": line.amount_untaxed,
+                    "price_tax": line.amount_tax,
+                    "price_gross": line.amount_untaxed + line.discount_value,
+                    "price_total": line.amount_total,
                 }
             )
 
