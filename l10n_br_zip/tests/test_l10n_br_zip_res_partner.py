@@ -44,7 +44,7 @@ class L10nBRZipTest(TransactionCase):
         self.res_partner_1.street = False
         try:
             result = self.res_partner_1.zip_search()
-        except:
+        except Exception:
             result = False
         self.assertFalse(
             result, "Error to search by address without all required fields."
@@ -77,7 +77,7 @@ class L10nBRZipTest(TransactionCase):
         self.res_partner_1.street = False
         try:
             result = self.res_partner_1.zip_search()
-        except:
+        except Exception:
             result = False
         self.assertFalse(
             result, "Error to search by address without all required fields."
@@ -167,7 +167,7 @@ class L10nBRZipTest(TransactionCase):
         self.res_partner.zip = "00000000"
         try:
             result = self.res_partner.zip_search()
-        except:
+        except Exception:
             result = False
         self.assertFalse(result, "Error to search by invalid ZIP on PyCEP-Correios.")
 
