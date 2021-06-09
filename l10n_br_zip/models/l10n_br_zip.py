@@ -16,13 +16,13 @@ except ImportError:
 _logger = logging.getLogger(__name__)
 
 try:
-    from pycep_correios import get_address_from_cep, WebService
+    from pycep_correios import WebService, get_address_from_cep
 except ImportError:
     _logger.warning("Library PyCEP-Correios not installed !")
 
 
 class L10nBrZip(models.Model):
-    """ Este objeto persiste todos os códigos postais que podem ser
+    """Este objeto persiste todos os códigos postais que podem ser
     utilizados para pesquisar e auxiliar o preenchimento dos endereços.
     """
 
@@ -120,9 +120,9 @@ class L10nBrZip(models.Model):
         zip_str = misc.punctuation_rm(zip_code)
         try:
             cep_ws_providers = {
-                'apicep': WebService.APICEP,
-                'viacep': WebService.VIACEP,
-                'correios': WebService.CORREIOS,
+                "apicep": WebService.APICEP,
+                "viacep": WebService.VIACEP,
+                "correios": WebService.CORREIOS,
             }
             cep_ws_provide = str(
                 self.env["ir.config_parameter"]
@@ -130,25 +130,26 @@ class L10nBrZip(models.Model):
                 .get_param("l10n_zip.cep_ws_provider", default="correios")
             )
             cep = get_address_from_cep(
-                zip_str, webservice=cep_ws_providers.get(cep_ws_provide))
+                zip_str, webservice=cep_ws_providers.get(cep_ws_provide)
+            )
         except Exception as e:
             raise UserError(_("Erro no PyCEP-Correios : ") + str(e))
 
         values = {}
         if cep and any(cep.values()):
             # Search Brazil id
-            country = self.env["res.country"].search(
-                [("code", "=", "BR")], limit=1)
+            country = self.env["res.country"].search([("code", "=", "BR")], limit=1)
 
             # Search state with state_code and country id
-            state = self.env["res.country.state"].search([
-                ("code", "=", cep.get("uf")),
-                ("country_id", "=", country.id)], limit=1)
+            state = self.env["res.country.state"].search(
+                [("code", "=", cep.get("uf")), ("country_id", "=", country.id)], limit=1
+            )
 
             # search city with name and state
-            city = self.env["res.city"].search([
-                ("name", "=", cep.get("cidade")),
-                ("state_id.id", "=", state.id)], limit=1)
+            city = self.env["res.city"].search(
+                [("name", "=", cep.get("cidade")), ("state_id.id", "=", state.id)],
+                limit=1,
+            )
 
             values = {
                 "zip_code": zip_str,
