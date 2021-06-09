@@ -4,16 +4,15 @@
 from openupgradelib import openupgrade
 
 _column_copies = {
-    'product_template': [
-        ('service_type_id', None, None),
-        ('ncm_id', None, None),
-        ('fiscal_classification_id', None, None),
+    "product_template": [
+        ("service_type_id", None, None),
+        ("ncm_id", None, None),
+        ("fiscal_classification_id", None, None),
     ],
-
-    'res_partner': [
-        ('partner_fiscal_type_id', None, None),
+    "res_partner": [
+        ("partner_fiscal_type_id", None, None),
     ],
-    }
+}
 
 _model_renames = [
     ("l10n_br_account.partner.fiscal.type", "l10n_br_fiscal.partner.profile"),
@@ -3056,12 +3055,9 @@ _xml_ids_cfop_renames = [
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    if (
-            openupgrade.column_exists(
-                env.cr,
-                'product_template',
-                'fiscal_classification_id')
-            ):
+    if openupgrade.column_exists(
+        env.cr, "product_template", "fiscal_classification_id"
+    ):
         openupgrade.copy_columns(env.cr, _column_copies)
 
     # TODO cnae is only on company, remove them + set null?
@@ -3074,17 +3070,10 @@ def migrate(env, version):
     openupgrade.rename_tables(env.cr, _table_renames)
 
     # nullifies relations that will be set back in post scripts:
+    openupgrade.logged_query(env.cr, "UPDATE product_template SET service_type_id=NULL")
+    openupgrade.logged_query(env.cr, "UPDATE product_template SET ncm_id=NULL")
     openupgrade.logged_query(
-        env.cr,
-        "UPDATE product_template SET service_type_id=NULL"
-    )
-    openupgrade.logged_query(
-        env.cr,
-        "UPDATE product_template SET ncm_id=NULL"
-    )
-    openupgrade.logged_query(
-        env.cr,
-        "UPDATE product_template SET fiscal_classification_id=NULL"
+        env.cr, "UPDATE product_template SET fiscal_classification_id=NULL"
     )
 
     # the next records will be reset properly by l10n_br_fiscal installation,
@@ -3097,42 +3086,26 @@ def migrate(env, version):
     # is what will trash the old tables and feel the new ones that
     # we trash here. Is it smart??)
     # TODO what about the xmlids? (seems Odoo will trash them)
-#    openupgrade.logged_query(env.cr,
-#            "DELETE from l10n_br_fiscal_partner_profile")
-    openupgrade.logged_query(
-        env.cr,
-        "DELETE from l10n_br_fiscal_tax_estimate"
-    )
+    #    openupgrade.logged_query(env.cr,
+    #            "DELETE from l10n_br_fiscal_partner_profile")
+    openupgrade.logged_query(env.cr, "DELETE from l10n_br_fiscal_tax_estimate")
     # TODO we want to keep the operation, but then we should update their xmlid
     # or can we search in the new ones by code?
-    openupgrade.logged_query(
-        env.cr,
-        "DELETE from l10n_br_fiscal_operation"
-    )
+    openupgrade.logged_query(env.cr, "DELETE from l10n_br_fiscal_operation")
     # TODO we may want to keep the serie, but then we sould update their xmlid
-    openupgrade.logged_query(
-        env.cr,
-        "DELETE from l10n_br_fiscal_document_serie"
-    )
-    openupgrade.logged_query(
-        env.cr,
-        "DELETE from l10n_br_fiscal_document_type"
-    )
-    openupgrade.logged_query(
-        env.cr,
-        "DELETE from l10n_br_fiscal_cnae"
-    )
-    openupgrade.logged_query(
-        env.cr,
-        "DELETE from l10n_br_fiscal_cfop"
-    )
-#    openupgrade.logged_query(env.cr,
-#            "DELETE from l10n_br_fiscal_cest")
+    openupgrade.logged_query(env.cr, "DELETE from l10n_br_fiscal_document_serie")
+    openupgrade.logged_query(env.cr, "DELETE from l10n_br_fiscal_document_type")
+    openupgrade.logged_query(env.cr, "DELETE from l10n_br_fiscal_cnae")
+    openupgrade.logged_query(env.cr, "DELETE from l10n_br_fiscal_cfop")
+    #    openupgrade.logged_query(env.cr,
+    #            "DELETE from l10n_br_fiscal_cest")
 
     openupgrade.logged_query(
         env.cr,
         "DELETE FROM ir_model_data\
-        WHERE model='account.product.fiscal.classification.template'"
+        WHERE model='account.product.fiscal.classification.template'",
     )
+
+
 #    openupgrade.logged_query(env.cr,
 #            "DELETE from l10n_br_fiscal_ncm")
