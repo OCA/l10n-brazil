@@ -6,12 +6,8 @@ from unittest import mock
 
 from odoo.tests.common import TransactionCase
 
-_module_ns = 'odoo.addons.l10n_br_zip'
-_provider_class = (
-    _module_ns
-    + '.models.l10n_br_zip'
-    + '.L10nBrZip'
-)
+_module_ns = "odoo.addons.l10n_br_zip"
+_provider_class = _module_ns + ".models.l10n_br_zip" + ".L10nBrZip"
 
 
 class L10nBRZipTest(TransactionCase):
@@ -178,20 +174,20 @@ class L10nBRZipTest(TransactionCase):
     def test_return_pycep_correios(self):
         """Test search with PyCEP CORREIOS in res_partner."""
         mocked_response = {
-            'zip_code': '01310930',
-            'street': 'Avenida Paulista, 2100',
-            'zip_complement': None,
-            'district': 'Bela Vista',
-            "city_id": self.env.ref('l10n_br_base.city_3550308').id,
-            "state_id": self.env.ref('base.state_br_sp').id,
-            "country_id": self.env.ref('base.br').id,
+            "zip_code": "01310930",
+            "street": "Avenida Paulista, 2100",
+            "zip_complement": None,
+            "district": "Bela Vista",
+            "city_id": self.env.ref("l10n_br_base.city_3550308").id,
+            "state_id": self.env.ref("base.state_br_sp").id,
+            "country_id": self.env.ref("base.br").id,
         }
 
         self.res_partner.zip = "01310930"
 
         with mock.patch(
-                _provider_class + '._consultar_cep',
-                return_value=mocked_response,
+            _provider_class + "._consultar_cep",
+            return_value=mocked_response,
         ):
             self.res_partner.zip_search()
         self.assertEqual(
