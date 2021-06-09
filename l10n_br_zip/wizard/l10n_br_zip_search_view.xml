@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="l10n_br_zip_search_form" model="ir.ui.view">
@@ -7,24 +7,41 @@
         <field name="arch" type="xml">
             <form string="Pesquisar CEP">
                 <group colspan="8" col="8" states="init">
-                    <field colspan="8" name="zip"/>
-                    <field colspan="8" name="street"/>
-                    <field colspan="4" name="district"/>
-                    <field colspan="4" name="country_id" required="True"/>
-                    <field colspan="4" name="state_id" required="True"/>
-                    <field colspan="4" name="city_id" required="True"/>
-                    <field colspan="4" name="state" invisible="1"/>
+                    <field colspan="8" name="zip" />
+                    <field colspan="8" name="street" />
+                    <field colspan="4" name="district" />
+                    <field colspan="4" name="country_id" required="True" />
+                    <field colspan="4" name="state_id" required="True" />
+                    <field colspan="4" name="city_id" required="True" />
+                    <field colspan="4" name="state" invisible="1" />
                 </group>
                 <group colspan="8" col="8" states="done">
-                    <field colspan="8" height="130" nolabel="1" name="zip_ids" wizard="one2many_list" readonly="1"/>
+                    <field
+                        colspan="8"
+                        height="130"
+                        nolabel="1"
+                        name="zip_ids"
+                        wizard="one2many_list"
+                        readonly="1"
+                    />
                 </group>
                 <footer states="init">
-                    <button name="zip_search" string="Pesquisar" type="object" class="oe_highlight"/>
-                    <button special="cancel" string="Cancelar" class="oe_link"/>
+                    <button
+                        name="zip_search"
+                        string="Pesquisar"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <button special="cancel" string="Cancelar" class="oe_link" />
                 </footer>
                 <footer states="done">
-                    <button special="cancel" string="Cancelar" class="oe_link"/>
-                    <button name="zip_new_search" string="Nova Pesquisa" type="object" class="oe_highlight"/>
+                    <button special="cancel" string="Cancelar" class="oe_link" />
+                    <button
+                        name="zip_new_search"
+                        string="Nova Pesquisa"
+                        type="object"
+                        class="oe_highlight"
+                    />
                 </footer>
             </form>
         </field>
