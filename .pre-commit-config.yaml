@@ -9,7 +9,6 @@ exclude: |
   ^l10n_br_coa_generic/|
   ^l10n_br_coa_simple/|
   ^l10n_br_contract/|
-  ^l10n_br_crm/|
   ^l10n_br_currency_rate_update/|
   ^l10n_br_delivery/|
   ^l10n_br_hr/|
