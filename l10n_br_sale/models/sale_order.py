@@ -307,12 +307,12 @@ class SaleOrder(models.Model):
             res = sorted(res.items(), key=lambda l: l[0].sequence)
             order.amount_by_group = [
                 (
-                    l[0].name,
-                    l[1]["amount"],
-                    l[1]["base"],
-                    fmt(l[1]["amount"]),
-                    fmt(l[1]["base"]),
+                    line[0].name,
+                    line[1]["amount"],
+                    line[1]["base"],
+                    fmt(line[1]["amount"]),
+                    fmt(line[1]["base"]),
                     len(res),
                 )
-                for l in res
+                for line in res
             ]
