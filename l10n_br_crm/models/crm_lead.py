@@ -9,8 +9,8 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 try:
-    from erpbrasil.base.fiscal import cnpj_cpf, ie
     from erpbrasil.base import misc
+    from erpbrasil.base.fiscal import cnpj_cpf, ie
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
 
@@ -101,7 +101,7 @@ class Lead(models.Model):
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
-        """ Ao alterar o campo l10n_br_city_id que é um campo relacional
+        """Ao alterar o campo l10n_br_city_id que é um campo relacional
         com o l10n_br_base.city que são os municípios do IBGE, copia o nome
         do município para o campo city que é o campo nativo do módulo base
         para manter a compatibilidade entre os demais módulos que usam o
@@ -138,11 +138,11 @@ class Lead(models.Model):
 
     @api.multi
     def _create_lead_partner_data(self, name, is_company, parent_id=False):
-        """ extract data from lead to create a partner
-            :param name : furtur name of the partner
-            :param is_company : True if the partner is a company
-            :param parent_id : id of the parent partner (False if no parent)
-            :returns res.partner record
+        """extract data from lead to create a partner
+        :param name : furtur name of the partner
+        :param is_company : True if the partner is a company
+        :param parent_id : id of the parent partner (False if no parent)
+        :returns res.partner record
         """
         values = super(Lead, self)._create_lead_partner_data(
             name, is_company, parent_id
