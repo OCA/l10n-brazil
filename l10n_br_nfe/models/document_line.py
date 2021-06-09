@@ -350,23 +350,8 @@ class NFeLine(spec_models.StackedModel):
             'vBCST': str("%.02f" % self.icmsst_base),
             'pICMSST': str("%.04f" % self.icmsst_percent),
             'vICMSST': str("%.02f" % self.icmsst_value),
-            # 'pBCOp': '',
             'UFST': self.partner_id.state_id.code,
 
-            # ICMS ST Dest
-            'vBCSTRet': '',
-            'pST': '',
-            'vICMSSubstituto': '',
-            'vICMSSTRet': '',
-            'vBCFCPSTRet': '',
-            'pFCPSTRet': '',
-            'vFCPSTRet': '',
-            'vBCSTDest': '',
-            'vICMSSTDest': '',
-            'pRedBCEfet': '',
-            'vBCEfet': '',
-            'pICMSEfet': '',
-            'vICMSEfet': '',
         }
         return icms
 
