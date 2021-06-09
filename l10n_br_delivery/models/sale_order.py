@@ -11,6 +11,8 @@ class SaleOrder(models.Model):
 
     amount_freight_value = fields.Monetary(
         inverse='_inverse_amount_freight',
+        compute=False,
+        store=True,
     )
 
     amount_insurance_value = fields.Monetary(
@@ -22,6 +24,13 @@ class SaleOrder(models.Model):
         inverse='_inverse_amount_other',
         readonly=False,
     )
+
+    @api.model
+    def _get_amount_fields(self):
+        """Get all fields with 'amount_' prefix"""
+        amount_fields = super()._get_amount_fields()
+        amount_fields.remove('amount_freight_value')
+        return amount_fields
 
     @api.multi
     def set_delivery_line(self):
@@ -45,6 +54,7 @@ class SaleOrder(models.Model):
         return True
 
     @api.multi
+    @api.onchange('order_line')
     def _inverse_amount_freight(self):
         for record in self.filtered(lambda so: so.order_line):
             amount_freight_value = record.amount_freight_value
@@ -74,7 +84,7 @@ class SaleOrder(models.Model):
             record.write({
                 name: value
                 for name, value in record._cache.items()
-                if record._fields[name].compute == '_amount_all' and
+                if record._fields[name].compute == '_compute_amounts' and
                 not record._fields[name].inverse
             })
 
@@ -108,7 +118,7 @@ class SaleOrder(models.Model):
             record.write({
                 name: value
                 for name, value in record._cache.items()
-                if record._fields[name].compute == '_amount_all' and
+                if record._fields[name].compute == '_compute_amounts' and
                 not record._fields[name].inverse
             })
 
@@ -143,6 +153,6 @@ class SaleOrder(models.Model):
             record.write({
                 name: value
                 for name, value in record._cache.items()
-                if record._fields[name].compute == '_amount_all' and
+                if record._fields[name].compute == '_compute_amounts' and
                 not record._fields[name].inverse
             })
