@@ -4,7 +4,6 @@
 
 from datetime import datetime
 from xmldiff import main
-from xmldiff import formatting
 
 from odoo.tools import config
 import os
@@ -12,7 +11,6 @@ import logging
 
 from odoo.tests.common import TransactionCase
 from odoo.addons import l10n_br_nfe
-from odoo.addons.l10n_br_fiscal.constants.fiscal import PROCESSADOR_OCA
 from odoo.addons.spec_driven_model import hooks
 
 _logger = logging.getLogger(__name__)
@@ -23,45 +21,48 @@ class TestNFeExport(TransactionCase):
         super(TestNFeExport, self).setUp()
         hooks.register_hook(self.env, 'l10n_br_nfe',
                             'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe')
-        self.nfe = self.env.ref('l10n_br_nfe.demo_nfe_same_state')
-        self.nfe.write(
-            {'document_type_id': self.env.ref('l10n_br_fiscal.document_55').id,
-             'company_id': self.env.ref('l10n_br_base.empresa_lucro_presumido').id,
-             'company_number': 3,
-             'processador_edoc': PROCESSADOR_OCA,
-             })
-        self.nfe.company_id.processador_edoc = PROCESSADOR_OCA
-        if self.nfe.state != 'em_digitacao':  # 2nd test run
-            self.nfe.action_document_back2draft()
+        self.nfe_list = []
 
-        for line in self.nfe.line_ids:
+    def prepare_test_nfe(self, nfe):
+        """
+        Performs actions necessary to prepare an NFe of the demo data to
+        perform the tests
+        """
+        if nfe.state != 'em_digitacao':  # 2nd test run
+            nfe.action_document_back2draft()
+
+        for line in nfe.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_operation_line_id()
 
-        self.nfe.company_id.street_number = '3'
-
     def test_serialize_xml(self):
-        xml_path = os.path.join(
-            l10n_br_nfe.__path__[0], 'tests', 'nfe', 'v4_00', 'leiauteNFe',
-            'NFe35200697231608000169550010000000111855451724-nf-e.xml')
-        self.nfe.document_date = datetime.strptime(
-            '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
-        self.nfe.date_in_out = datetime.strptime(
-            '2020-06-04T11:58:46', '%Y-%m-%dT%H:%M:%S')
-        self.nfe.nfe40_cNF = '06277716'
-        self.nfe.nfe40_serie = '1'
-        financial_vals = self.nfe._prepare_amount_financial(
-            '0', '01', self.nfe.amount_financial
-        )
-        self.nfe.nfe40_detPag = [(5, 0, 0), (0, 0, financial_vals)]
-        self.nfe.with_context(lang='pt_BR').action_document_confirm()
-        output = os.path.join(config['data_dir'], 'filestore',
-                              self.cr.dbname, self.nfe.send_file_id.store_fname)
-        _logger.info("XML file saved at %s" % (output,))
-        self.nfe.company_id.country_id.name = 'Brazil'  # clean mess
-        diff = main.diff_files(
-            xml_path, output, formatter=formatting.DiffFormatter(pretty_print=True)
-        )
-        _logger.info("Diff with expected XML (if any): \n%s" % (diff,))
-        assert len(diff) == 0
+        for nfe in self.nfe_list:
+            nfe_id = nfe['record_id']
+
+            self.prepare_test_nfe(nfe_id)
+
+            xml_path = os.path.join(
+                l10n_br_nfe.__path__[0], 'tests', 'nfe', 'v4_00', 'leiauteNFe',
+                nfe['xml_file'])
+            nfe_id.action_document_confirm()
+            nfe_id.document_date = datetime.strptime(
+                '2020-01-01T11:00:00', '%Y-%m-%dT%H:%M:%S')
+            nfe_id.date_in_out = datetime.strptime(
+                '2020-01-01T11:00:00', '%Y-%m-%dT%H:%M:%S')
+            nfe_id.nfe40_cNF = '06277716'
+            nfe_id.nfe40_Id = 'NFeTest'
+            nfe_id.nfe40_nNF = '1'
+            nfe_id.nfe40_cDV = '1'
+            financial_vals = nfe_id._prepare_amount_financial(
+                '0', '01', nfe_id.amount_financial
+            )
+            nfe_id.nfe40_detPag = [(5, 0, 0), (0, 0, financial_vals)]
+            nfe_id.with_context(lang='pt_BR')._document_export()
+            output = os.path.join(config['data_dir'], 'filestore',
+                                  self.cr.dbname,  nfe_id.send_file_id.store_fname)
+            _logger.info("XML file saved at %s" % (output,))
+            nfe_id.company_id.country_id.name = 'Brazil'  # clean mess
+            diff = main.diff_files(output, xml_path)
+            _logger.info("Diff with expected XML (if any): %s" % (diff,))
+            assert len(diff) == 0
