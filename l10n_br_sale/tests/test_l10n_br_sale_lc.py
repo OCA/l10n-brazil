@@ -8,9 +8,9 @@ from .test_l10n_br_sale import L10nBrSaleBaseTest
 
 class TestL10nBrSaleLC(L10nBrSaleBaseTest):
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.company = self.env.ref("l10n_br_base.empresa_lucro_presumido")
-        self.so_products = self.env.ref("l10n_br_sale.lc_so_only_products")
-        self.so_services = self.env.ref("l10n_br_sale.lc_so_only_services")
-        self.so_prod_srv = self.env.ref("l10n_br_sale.lc_so_product_service")
+        cls.company = cls.env.ref("l10n_br_base.empresa_lucro_presumido")
+        cls.so_products = cls.env.ref("l10n_br_sale.lc_so_only_products")
+        cls.so_services = cls.env.ref("l10n_br_sale.lc_so_only_services")
+        cls.so_prod_srv = cls.env.ref("l10n_br_sale.lc_so_product_service")
