@@ -24,7 +24,7 @@ class SaleOrder(models.Model):
         else:
             if self.company_id.sale_create_invoice_policy == "stock_picking":
                 # A criação de Fatura de Serviços deve ser possível via Pedido
-                if not any(l.product_id.type == "service" for l in lines):
+                if not any(line.product_id.type == "service" for line in lines):
                     button_create_invoice_invisible = True
             else:
                 # No caso da Politica de criação baseada no Pedido de Venda
