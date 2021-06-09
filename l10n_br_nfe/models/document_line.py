@@ -369,7 +369,6 @@ class NFeLine(spec_models.StackedModel):
             'CSOSN': self.icms_cst_id.code,
             'pCredSN': str('%.04f' % self.icmssn_percent),
             'vCredICMSSN': str("%.02f" % self.icmssn_credit_value),
-
         }
         return icms
 
