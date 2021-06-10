@@ -42,7 +42,7 @@ msgid "Internal Transfers"
 msgstr ""
 
 #. module: l10n_br_stock
-#: code:addons/l10n_br_stock/hooks.py:74
+#: code:addons/l10n_br_stock/hooks.py:88
 #, python-format
 msgid "Loading l10n_br_stock warehouse external ids..."
 msgstr ""
