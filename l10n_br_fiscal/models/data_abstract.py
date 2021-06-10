@@ -33,15 +33,14 @@ class DataAbstract(models.AbstractModel):
     ):
         model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
-        if view_type == "search":
-            doc = etree.XML(model_view["arch"])
-            for node in doc.xpath("//field[@name='name']"):
+        if view_type == 'search':
+            doc = etree.XML(model_view['arch'])
+            for node in doc.xpath("//field[@name='code']"):
                 node.set(
-                    "filter_domain",
-                    "'|', '|', ('code', operator, name), "
-                    "('code_unmasked', 'ilike', name + '%'),"
-                    "('name', 'ilike', name + '%')",
-                )
+                    'filter_domain',
+                    "['|', '|', ('code', 'ilike', self), "
+                    "('code_unmasked', 'ilike', self + '%'),"
+                    "('name', 'ilike', self + '%')]")
 
             orm.setup_modifiers(node)
             model_view["arch"] = etree.tostring(doc)
