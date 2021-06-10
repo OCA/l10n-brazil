@@ -14,6 +14,5 @@ class ResConfigSettings(models.TransientModel):
     )
 
     delivery_costs = fields.Selection(
-        related='company_id.delivery_costs',
-        readonly=False
+        related="company_id.delivery_costs", readonly=False
     )
