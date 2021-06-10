@@ -18,12 +18,9 @@ class Company(models.Model):
     )
 
     delivery_costs = fields.Selection(
-        selection=[
-            ('line', _('By Line')),
-            ('total', _('By Total'))
-        ],
-        string='Delivery costs should be define in Line or Total.',
-        help='Define if costs of Insurance, Freight and Other Costs'
-             ' should be informed in Line or Total.',
-        default='total'
+        selection=[("line", _("By Line")), ("total", _("By Total"))],
+        string="Delivery costs should be define in Line or Total.",
+        help="Define if costs of Insurance, Freight and Other Costs"
+        " should be informed in Line or Total.",
+        default="total",
     )
