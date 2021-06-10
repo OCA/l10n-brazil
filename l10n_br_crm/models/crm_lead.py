@@ -21,16 +21,16 @@ class Lead(models.Model):
     _inherit = "crm.lead"
 
     legal_name = fields.Char(
-        string="Legal Name", size=128, help="nome utilizado em documentos fiscais"
+        string="Legal Name", help="nome utilizado em documentos fiscais"
     )
 
-    cnpj = fields.Char(string="CNPJ", size=18)
+    cnpj = fields.Char(string="CNPJ")
 
-    inscr_est = fields.Char(string="Inscr. Estadual/RG", size=16)
+    inscr_est = fields.Char(string="Inscr. Estadual/RG")
 
-    inscr_mun = fields.Char(string="Inscr. Municipal", size=18)
+    inscr_mun = fields.Char(string="Inscr. Municipal")
 
-    suframa = fields.Char(string="Suframa", size=18)
+    suframa = fields.Char(string="Suframa")
 
     city_id = fields.Many2one(
         comodel_name="res.city",
@@ -40,19 +40,18 @@ class Lead(models.Model):
 
     country_id = fields.Many2one(default=lambda self: self.env.ref("base.br"))
 
-    district = fields.Char(string="District", size=32)
+    district = fields.Char(string="District")
 
-    street_number = fields.Char(string="Número", size=10)
+    street_number = fields.Char(string="Número")
 
     name_surname = fields.Char(
-        string="Nome e sobrenome", size=128, help="Nome utilizado em documentos fiscais"
+        string="Nome e sobrenome", help="Nome utilizado em documentos fiscais"
     )
 
-    cpf = fields.Char(string="CPF", size=18)
+    cpf = fields.Char(string="CPF")
 
-    rg = fields.Char(string="RG", size=16)
+    rg = fields.Char(string="RG")
 
-    @api.multi
     @api.constrains("cnpj")
     def _check_cnpj(self):
         for record in self:
@@ -63,7 +62,6 @@ class Lead(models.Model):
                     raise ValidationError(_("CNPJ inválido!"))
             return True
 
-    @api.multi
     @api.constrains("cpf")
     def _check_cpf(self):
         for record in self:
@@ -74,7 +72,6 @@ class Lead(models.Model):
                     raise ValidationError(_("CPF inválido!"))
             return True
 
-    @api.multi
     @api.constrains("inscr_est")
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
@@ -136,7 +133,6 @@ class Lead(models.Model):
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
 
-    @api.multi
     def _create_lead_partner_data(self, name, is_company, parent_id=False):
         """extract data from lead to create a partner
         :param name : furtur name of the partner
