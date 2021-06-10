@@ -6,7 +6,7 @@ from odoo import api, models
 
 
 class AccountIncoterms(models.Model):
-    _inherit = 'account.incoterms'
+    _inherit = "account.incoterms"
 
     @api.multi
     def name_get(self):
@@ -22,9 +22,6 @@ class AccountIncoterms(models.Model):
             # visualização, ao clicar em Pesquisar é mostrado o
             # name completo
             if len(record.name) > 150:
-                name = record.name[:150] + ' ...'
-            result.append((
-                record.id,  '%s - %s' % (
-                    record.code, name)
-            ))
+                name = record.name[:150] + " ..."
+            result.append((record.id, "%s - %s" % (record.code, name)))
         return result
