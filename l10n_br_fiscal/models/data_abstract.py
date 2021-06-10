@@ -5,7 +5,7 @@ from erpbrasil.base import misc
 from lxml import etree
 
 from odoo import api, fields, models
-from odoo.osv import orm
+from odoo.osv import expression, orm
 
 
 class DataAbstract(models.AbstractModel):
@@ -33,14 +33,15 @@ class DataAbstract(models.AbstractModel):
     ):
         model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
-        if view_type == 'search':
-            doc = etree.XML(model_view['arch'])
+        if view_type == "search":
+            doc = etree.XML(model_view["arch"])
             for node in doc.xpath("//field[@name='code']"):
                 node.set(
-                    'filter_domain',
+                    "filter_domain",
                     "['|', '|', ('code', 'ilike', self), "
                     "('code_unmasked', 'ilike', self + '%'),"
-                    "('name', 'ilike', self + '%')]")
+                    "('name', 'ilike', self + '%')]",
+                )
 
             orm.setup_modifiers(node)
             model_view["arch"] = etree.tostring(doc)
@@ -51,17 +52,25 @@ class DataAbstract(models.AbstractModel):
     def _name_search(
         self, name, args=None, operator="ilike", limit=100, name_get_uid=None
     ):
-        args = args or []
-        domain = []
-        if name:
-            domain = [
-                "|",
-                "|",
-                ("code", operator, name),
-                ("code_unmasked", "ilike", name + "%"),
-            ]
-
-        return super()._name_search(name, domain + args, operator, limit, name_get_uid)
+        if operator == "ilike" and not (name or "").strip():
+            domain = []
+        elif operator in ("ilike", "like", "=", "=like", "=ilike"):
+            domain = expression.AND(
+                [
+                    args or [],
+                    [
+                        "|",
+                        "|",
+                        ("name", operator, name),
+                        ("code", operator, name),
+                        ("code_unmasked", "ilike", name + "%"),
+                    ],
+                ]
+            )
+            return self._search(domain, limit=limit, access_rights_uid=name_get_uid)
+        return super()._name_search(
+            name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
+        )
 
     def name_get(self):
         def truncate_name(name):
