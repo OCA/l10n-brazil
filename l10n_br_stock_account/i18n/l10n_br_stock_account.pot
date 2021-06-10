@@ -84,7 +84,7 @@ msgid "Group pickings/moves to create invoice(s):\n"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:33
+#: code:addons/l10n_br_stock_account/wizards/stock_invoice_onshipping.py:32
 #, python-format
 msgid "Invalid Journal! There is not journal defined for this company: %s in fiscal operation: %s !"
 msgstr ""
@@ -102,7 +102,7 @@ msgid "Invoiced: an invoice already exists\n"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: code:addons/l10n_br_stock_account/models/stock_rule.py:31
+#: code:addons/l10n_br_stock_account/models/stock_rule.py:29
 #: selection:stock.rule,invoice_state:0
 #, python-format
 msgid "Not Applicable"
@@ -195,7 +195,7 @@ msgid "Taxes"
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:31
+#: code:addons/l10n_br_stock_account/wizards/stock_return_picking.py:33
 #, python-format
 msgid "This Fiscal Operation does not has Fiscal Operation for Returns!"
 msgstr ""
@@ -206,7 +206,7 @@ msgid "This is the quantity of products from an inventory point of view. For mov
 msgstr ""
 
 #. module: l10n_br_stock_account
-#: code:addons/l10n_br_stock_account/models/stock_rule.py:30
+#: code:addons/l10n_br_stock_account/models/stock_rule.py:29
 #: selection:stock.rule,invoice_state:0
 #, python-format
 msgid "To Be Invoiced"
