@@ -18,17 +18,23 @@
                         </div>
                     </div>
                 </div>
-                <div id="sales_settings_delivery_costs"
-                     class="col-12 col-lg-6 o_setting_box"
-                     title="The Delivery Costs should be informed by Line or by Total ?">
+                <div
+                    id="sales_settings_delivery_costs"
+                    class="col-12 col-lg-6 o_setting_box"
+                    title="The Delivery Costs should be informed by Line or by Total ?"
+                >
                     <div class="o_setting_right_pane">
-                        <label for="delivery_costs"/>
+                        <label for="delivery_costs" />
                         <div class="text-muted">
                             Define if Delivery Costs should be informed by Line or by Total
                         </div>
                         <div class="content-group">
                             <div class="mt16">
-                                <field name="delivery_costs" class="o_light_label" widget="radio"/>
+                                <field
+                                    name="delivery_costs"
+                                    class="o_light_label"
+                                    widget="radio"
+                                />
                             </div>
                         </div>
                     </div>
