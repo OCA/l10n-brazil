@@ -2,37 +2,37 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from dateutil.relativedelta import relativedelta
+
 from odoo import fields
 from odoo.tests import SavepointCase
 
 
 class TestCurrencyRateUpdateBCB(SavepointCase):
-
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.Company = self.env["res.company"]
-        self.CurrencyRate = self.env["res.currency.rate"]
-        self.CurrencyRateProvider = self.env["res.currency.rate.provider"]
+        cls.Company = cls.env["res.company"]
+        cls.CurrencyRate = cls.env["res.currency.rate"]
+        cls.CurrencyRateProvider = cls.env["res.currency.rate.provider"]
 
-        self.today = fields.Date.today()
-        self.brl_currency = self.env.ref("base.BRL")
-        self.brl_currency.write({"active": True})
-        self.eur_currency = self.env.ref("base.EUR")
-        self.usd_currency = self.env.ref("base.USD")
-        self.usd_currency.write({"active": True})
-        self.company = self.Company.create(
-            {"name": "Test company BRL", "currency_id": self.brl_currency.id}
+        cls.today = fields.Date.today()
+        cls.brl_currency = cls.env.ref("base.BRL")
+        cls.brl_currency.write({"active": True})
+        cls.eur_currency = cls.env.ref("base.EUR")
+        cls.usd_currency = cls.env.ref("base.USD")
+        cls.usd_currency.write({"active": True})
+        cls.company = cls.Company.create(
+            {"name": "Test company BRL", "currency_id": cls.brl_currency.id}
         )
-        self.env.user.company_ids += self.company
-        self.env.user.company_id = self.company
-        self.bcb_provider = self.CurrencyRateProvider.create(
+        cls.env.user.company_ids += cls.company
+        cls.env.user.company_id = cls.company
+        cls.bcb_provider = cls.CurrencyRateProvider.create(
             {
                 "service": "BCB",
-                "currency_ids": [(4, self.usd_currency.id), (4, self.eur_currency.id)],
+                "currency_ids": [(4, cls.usd_currency.id), (4, cls.eur_currency.id)],
             }
         )
-        self.CurrencyRate.search([]).unlink()
+        cls.CurrencyRate.search([]).unlink()
 
     def test_get_supported_currencies(self):
         currencies = self.bcb_provider._get_supported_currencies()
