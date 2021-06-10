@@ -94,13 +94,13 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:177
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:178
 #, python-format
 msgid "Erro a Carregar Atributo: "
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:135
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:136
 #, python-format
 msgid "Erro no PyCEP-Correios : "
 msgstr ""
