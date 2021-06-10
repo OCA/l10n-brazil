@@ -2,7 +2,7 @@
 <odoo noupdate="0">
 
     <!-- ICMS 18% with a reduction of 51.11% for NCM 17029000-->
-    <record id="l10n_br_fiscal.tax_icms_regulation_sp_sp_icms_18_red_51_11" model="l10n_br_fiscal.tax.definition">
+    <record id="tax_icms_regulation_sp_sp_icms_18_red_51_11" model="l10n_br_fiscal.tax.definition">
         <field name="icms_regulation_id" ref="l10n_br_fiscal.tax_icms_regulation"/>
         <field name="state_from_id" ref="base.state_br_sp"/>
         <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]"/>
