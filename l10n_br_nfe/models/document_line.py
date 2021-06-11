@@ -492,7 +492,7 @@ class NFeLine(spec_models.StackedModel):
         if xsd_field == 'nfe40_indIncentivo':
             return self.issqn_incentive
         if xsd_field == 'nfe40_xProd':
-            return self.name
+            return self.name[:120]
 
         if xsd_field in ['nfe40_cEAN', 'nfe40_cEANTrib'] and \
                 not self[xsd_field]:
