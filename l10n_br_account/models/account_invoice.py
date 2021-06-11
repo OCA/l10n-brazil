@@ -342,6 +342,7 @@ class AccountInvoice(models.Model):
                 icmssn_range=line.icmssn_range_id)['taxes']
 
             line._update_taxes()
+            line.comment_ids = self.fiscal_operation_line_id.comment_ids
 
             for tax in taxes:
                 if tax.get('amount', 0.0) != 0.0:
