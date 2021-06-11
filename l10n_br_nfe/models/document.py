@@ -423,6 +423,9 @@ class NFe(spec_models.StackedModel):
             ]
         self.nfe40_detPag.__class__._field_prefix = "nfe40_"
 
+        if not self.nfe40_detPag:  # (empty list)
+            raise UserError(_("Favor preencher os dados do pagamento"))
+
     @api.multi
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
