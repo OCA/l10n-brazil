@@ -396,6 +396,21 @@ class AccountInvoice(models.Model):
         for invoice in self:
             if invoice.document_type_id:
                 if invoice.issuer == DOCUMENT_ISSUER_COMPANY:
+                    if (
+                        not invoice.comment_ids
+                        and invoice.fiscal_operation_id.comment_ids
+                    ):
+                        invoice.comment_ids |= self.fiscal_operation_id.comment_ids
+
+                    for line in invoice.invoice_line_ids:
+                        if (
+                            not line.comment_ids
+                            and line.fiscal_operation_line_id.comment_ids
+                        ):
+                            line.comment_ids |= (
+                                line.fiscal_operation_line_id.comment_ids
+                            )
+
                     invoice.fiscal_document_id._document_date()
                     invoice.fiscal_document_id._document_number()
 
