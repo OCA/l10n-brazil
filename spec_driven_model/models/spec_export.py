@@ -77,6 +77,8 @@ class AbstractSpecMixin(models.AbstractModel):
                 self[xsd_field] is not False:
             return self._export_float_monetary(
                 xsd_field, member_spec, class_obj, xsd_required)
+        elif type(self[xsd_field]) == str:
+            return self[xsd_field].strip()
         else:
             return self[xsd_field]
 
