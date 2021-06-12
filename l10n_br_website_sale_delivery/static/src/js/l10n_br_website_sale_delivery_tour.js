@@ -1,15 +1,17 @@
-odoo.define('l10n_br_website_sale_delivery.tour', function (require) {
-    'use strict';
+odoo.define("l10n_br_website_sale_delivery.tour", function (require) {
+    "use strict";
 
-    var tour = require('web_tour.tour');
+    var tour = require("web_tour.tour");
     var base = require("web_editor.base");
 
     tour.register(
-        'l10n_br_website_sale_delivery_tour', {
+        "l10n_br_website_sale_delivery_tour",
+        {
             test: true,
-            url: '/shop',
+            url: "/shop",
             wait_for: base.ready(),
-        }, [
+        },
+        [
             {
                 content: "search storage box",
                 trigger: 'form input[name="search"]',
@@ -26,14 +28,15 @@ odoo.define('l10n_br_website_sale_delivery.tour', function (require) {
             },
             {
                 content: "click on add to cart",
-                trigger: '#product_detail form[action^="/shop/cart/update"]' +
-                    ' .btn-primary',
+                trigger:
+                    '#product_detail form[action^="/shop/cart/update"]' +
+                    " .btn-primary",
             },
             {
                 content: "click in modal on 'Proceed to checkout' button",
                 trigger: 'a:contains("Process Checkout")',
                 run: function () {
-                    window.location.href = '/shop/address';
+                    window.location.href = "/shop/address";
                     // Redirect in JS to avoid the RPC loop (20x1sec)
                 },
                 timeout: 20000,
@@ -58,7 +61,7 @@ odoo.define('l10n_br_website_sale_delivery.tour', function (require) {
                 trigger: 'select[name=state_id]:contains("São Paulo")',
                 run: function () {
                     setTimeout(function () {
-                        console.log('wait for zip');
+                        console.log("wait for zip");
                     }, 8000);
                 },
                 timeout: 5000,
@@ -85,7 +88,8 @@ odoo.define('l10n_br_website_sale_delivery.tour', function (require) {
             },
             {
                 content: "finish",
-                trigger: '.oe_website_sale:contains("Pending... ' +
+                trigger:
+                    '.oe_website_sale:contains("Pending... ' +
                     'The order will be validated after the payment.")',
                 // Leave /shop/confirmation to prevent RPC loop to
                 //      /shop/payment/get_status.
@@ -93,11 +97,10 @@ odoo.define('l10n_br_website_sale_delivery.tour', function (require) {
                 //      killed (and the session), leading to crashes
                 run: function () {
                     // Redirect in JS to avoid the RPC loop (20x1sec)
-                    window.location.href = '/aboutus';
+                    window.location.href = "/aboutus";
                 },
                 timeout: 30000,
             },
         ]
     );
-
 });
