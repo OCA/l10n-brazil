@@ -6,30 +6,30 @@ from odoo.tests.common import SavepointCase, Form
 
 class TestL10nBrContract(SavepointCase):
     @classmethod
-    def setUpClass(self):
-        super(TestL10nBrContract, self).setUpClass()
+    def setUpClass(cls):
+        super(TestL10nBrContract, cls).setUpClass()
 
         # Create contract with 3 lines, two resale products and one service
-        contract_form = Form(self.env['contract.contract'])
+        contract_form = Form(cls.env['contract.contract'])
         contract_form.name = 'Test Contract'
-        contract_form.partner_id = self.env.ref(
+        contract_form.partner_id = cls.env.ref(
             'l10n_br_base.res_partner_kmee')
 
-        self.contract_id = contract_form.save()
+        cls.contract_id = contract_form.save()
 
-        with Form(self.contract_id) as contract:
+        with Form(cls.contract_id) as contract:
             with contract.contract_line_ids.new() as line:
-                line.product_id = self.env.ref('product.product_delivery_01')
+                line.product_id = cls.env.ref('product.product_delivery_01')
             with contract.contract_line_ids.new() as line:
-                line.product_id = self.env.ref('product.product_delivery_02')
+                line.product_id = cls.env.ref('product.product_delivery_02')
             with contract.contract_line_ids.new() as line:
-                line.product_id = self.env.ref(
+                line.product_id = cls.env.ref(
                     'l10n_br_fiscal.customized_development_sale')
-                line.fiscal_operation_id = self.env.ref(
+                line.fiscal_operation_id = cls.env.ref(
                     'l10n_br_fiscal.fo_venda')
 
         # Create Invoice and Fiscal Documents related to the contract
-        self.contract_id.recurring_create_invoice()
+        cls.contract_id.recurring_create_invoice()
 
     def test_created_fiscal_documents(self):
         """
