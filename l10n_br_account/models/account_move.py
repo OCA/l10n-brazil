@@ -4,21 +4,23 @@
 from odoo import models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    SITUACAO_EDOC_AUTORIZADA,
     DOCUMENT_ISSUER_COMPANY,
+    SITUACAO_EDOC_AUTORIZADA,
 )
 
 
 class AccountMove(models.Model):
-    _inherit = 'account.move'
+    _inherit = "account.move"
 
     def post(self, invoice=False):
-        dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
+        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
         result = super().post(invoice)
         if invoice:
-            if (invoice.fiscal_document_id != dummy_doc
-                    and invoice.document_electronic
-                    and invoice.issuer == DOCUMENT_ISSUER_COMPANY
-                    and invoice.state_edoc != SITUACAO_EDOC_AUTORIZADA):
+            if (
+                invoice.fiscal_document_id != dummy_doc
+                and invoice.document_electronic
+                and invoice.issuer == DOCUMENT_ISSUER_COMPANY
+                and invoice.state_edoc != SITUACAO_EDOC_AUTORIZADA
+            ):
                 self.button_cancel()
         return result
