@@ -1,4 +1,5 @@
 from dateutil.relativedelta import relativedelta
+
 from odoo.exceptions import ValidationError
 from odoo.fields import Date
 from odoo.tests import TransactionCase
