@@ -11,36 +11,30 @@
     "depends": ["account_cancel", "l10n_br_coa", "l10n_br_fiscal"],
     "data": [
         # security
-        'security/ir.model.access.csv',
-
+        "security/ir.model.access.csv",
         # data
         "data/account_tax_group.xml",
         "data/account_tax_template.xml",
-
         # Views
         "views/account_tax_view.xml",
         "views/account_tax_template_view.xml",
         "views/fiscal_operation_view.xml",
-        'views/fiscal_operation_line_view.xml',
-        'views/account_invoice_view.xml',
-        'views/account_invoice_line_view.xml',
-        'views/document_line_view.xml',
-        'views/document_view.xml',
-        'views/fiscal_invoice_view.xml',
-        'views/fiscal_invoice_line_view.xml',
-
+        "views/fiscal_operation_line_view.xml",
+        "views/account_invoice_view.xml",
+        "views/account_invoice_line_view.xml",
+        "views/document_line_view.xml",
+        "views/document_view.xml",
+        "views/fiscal_invoice_view.xml",
+        "views/fiscal_invoice_line_view.xml",
         # Wizards
-        'wizards/account_invoice_refund_view.xml',
-        'wizards/wizard_document_status.xml',
-
+        "wizards/account_invoice_refund_view.xml",
+        "wizards/wizard_document_status.xml",
         # Actions
         "views/l10n_br_account_action.xml",
-
         # Menus
         "views/l10n_br_account_menu.xml",
-
         # Report
-        "report/account_invoice_report_view.xml"
+        "report/account_invoice_report_view.xml",
     ],
     "demo": [
         "demo/res_users_demo.xml",
