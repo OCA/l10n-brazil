@@ -6,7 +6,6 @@ exclude: |
   ^l10n_br_account_payment_brcobranca/tests/data/|  # (skip reformat in test data)
   ^l10n_br_nfe_spec/models/v4_00/leiauteNFe.py|  # (don't reformat generated code)
   ^l10n_br_nfse_ginfes/|
-  ^l10n_br_website_sale/|
   ^payment_cielo/|
   ^spec_driven_model/tests/|  # (tests include generated code)
   ^l10n_br_nfse_issnet/tests/nfse/|   # (skip reformat in test data)
