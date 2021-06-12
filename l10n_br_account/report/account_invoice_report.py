@@ -3,11 +3,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models
-from odoo.addons import decimal_precision as dp
 
+from odoo.addons import decimal_precision as dp
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    PRODUCT_FISCAL_TYPE,
     DOCUMENT_ISSUER,
+    PRODUCT_FISCAL_TYPE,
 )
 
 
@@ -17,12 +17,12 @@ class AccountInvoiceReport(models.Model):
 
     issuer = fields.Selection(
         selection=DOCUMENT_ISSUER,
-        string='Issuer',
+        string="Issuer",
     )
 
     fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Operation',
+        comodel_name="l10n_br_fiscal.operation",
+        string="Operation",
     )
 
     fiscal_operation_line_id = fields.Many2one(
@@ -31,66 +31,45 @@ class AccountInvoiceReport(models.Model):
     )
 
     document_type_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.document.type',
+        comodel_name="l10n_br_fiscal.document.type",
     )
 
     document_serie_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.document.serie',
+        comodel_name="l10n_br_fiscal.document.serie",
     )
 
-    fiscal_type = fields.Selection(
-        selection=PRODUCT_FISCAL_TYPE,
-        string='Tipo Fiscal'
-    )
+    fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Tipo Fiscal")
 
     cfop_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.cfop',
-        string='CFOP',
+        comodel_name="l10n_br_fiscal.cfop",
+        string="CFOP",
     )
 
-    icms_value = fields.Float(
-        string='Valor ICMS',
-        digits=dp.get_precision('Account')
-    )
+    icms_value = fields.Float(string="Valor ICMS", digits=dp.get_precision("Account"))
 
     icmsst_value = fields.Float(
-        string='Valor ICMS ST',
-        digits=dp.get_precision('Account')
+        string="Valor ICMS ST", digits=dp.get_precision("Account")
     )
 
-    ipi_value = fields.Float(
-        string='Valor IPI',
-        digits=dp.get_precision('Account')
-    )
+    ipi_value = fields.Float(string="Valor IPI", digits=dp.get_precision("Account"))
 
-    pis_value = fields.Float(
-        string='Valor PIS',
-        digits=dp.get_precision('Account')
-    )
+    pis_value = fields.Float(string="Valor PIS", digits=dp.get_precision("Account"))
 
     cofins_value = fields.Float(
-        string='Valor COFINS',
-        digits=dp.get_precision('Account')
+        string="Valor COFINS", digits=dp.get_precision("Account")
     )
 
-    ii_value = fields.Float(
-        string='Valor II',
-        digits=dp.get_precision('Account')
-    )
+    ii_value = fields.Float(string="Valor II", digits=dp.get_precision("Account"))
 
     total_with_taxes = fields.Float(
-        string='Total com Impostos',
-        rdigits=dp.get_precision('Account')
+        string="Total com Impostos", rdigits=dp.get_precision("Account")
     )
     cest_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cest",
         string="CEST",
     )
 
-    ncm_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.ncm",
-        string="NCM"
-    )
+    ncm_id = fields.Many2one(comodel_name="l10n_br_fiscal.ncm", string="NCM")
 
     def _select(self):
         select_str = super()._select()
