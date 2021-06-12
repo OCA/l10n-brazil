@@ -9,8 +9,7 @@ class HrContract(models.Model):
     _order = "employee_id"
 
     admission_type_id = fields.Many2one(
-        string="Admission type",
-        comodel_name="hr.contract.admission.type"
+        string="Admission type", comodel_name="hr.contract.admission.type"
     )
 
     labor_bond_type_id = fields.Many2one(
@@ -46,7 +45,7 @@ class HrContract(models.Model):
         comodel_name="res.partner",
         domain=[("union_entity_code", "!=", False)],
         help="Sindicato é um partner que tem código de sindicato "
-             "(union_entity_code) definido.",
+        "(union_entity_code) definido.",
     )
 
     union_name = fields.Char(
@@ -54,9 +53,7 @@ class HrContract(models.Model):
     )
 
     union_cnpj = fields.Char(
-        string="Union CNPJ",
-        related="partner_union.cnpj_cpf",
-        readonly=True
+        string="Union CNPJ", related="partner_union.cnpj_cpf", readonly=True
     )
 
     union_entity_code = fields.Char(
@@ -72,8 +69,7 @@ class HrContract(models.Model):
     resignation_date = fields.Date(string="Resignation date")
 
     resignation_cause_id = fields.Many2one(
-        comodel_name="hr.contract.resignation.cause",
-        string="Resignation cause"
+        comodel_name="hr.contract.resignation.cause", string="Resignation cause"
     )
 
     notice_of_termination_id = fields.Many2one(
@@ -86,8 +82,7 @@ class HrContract(models.Model):
     )
 
     by_death = fields.Char(
-        string="By death",
-        help="Death certificate/Process/Beneficiary"
+        string="By death", help="Death certificate/Process/Beneficiary"
     )
 
     resignation_code = fields.Char(
@@ -105,8 +100,7 @@ class HrContract(models.Model):
         for record in self:
             if record.employee_id:
                 if not record.job_id == record.employee_id.job_id:
-                    record.employee_id.with_context(
-                        alteracaocontratual=True).write(
+                    record.employee_id.with_context(alteracaocontratual=True).write(
                         {"job_id": record.job_id.id}
                     )
 
