@@ -2,4 +2,3 @@
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * [MIG] Migration to version 10.0
-
