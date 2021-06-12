@@ -18,49 +18,49 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 class L10nBrPurchaseBaseTest(SavepointCase):
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         super().setUpClass()
-        self.main_company = self.env.ref("base.main_company")
-        self.company = self.env.ref("base.main_company")
-        self.po_products = self.env.ref("l10n_br_purchase.main_po_only_products")
-        # self.po_services = self.env.ref(
+        cls.main_company = cls.env.ref("base.main_company")
+        cls.company = cls.env.ref("base.main_company")
+        cls.po_products = cls.env.ref("l10n_br_purchase.main_po_only_products")
+        # cls.po_services = cls.env.ref(
         #     'l10n_br_purchase.main_po_only_services')
-        # self.po_prod_srv = self.env.ref(
+        # cls.po_prod_srv = cls.env.ref(
         #     'l10n_br_purchase.main_po_product_service')
-        self.fsc_op_purchase = self.env.ref("l10n_br_fiscal.fo_compras")
-        self.fsc_op_line_purchase = self.env.ref("l10n_br_fiscal.fo_compras_compras")
-        self.fsc_op_line_purchase_resale = self.env.ref(
+        cls.fsc_op_purchase = cls.env.ref("l10n_br_fiscal.fo_compras")
+        cls.fsc_op_line_purchase = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
+        cls.fsc_op_line_purchase_resale = cls.env.ref(
             "l10n_br_fiscal.fo_compras_compras_comercializacao"
         )
-        self.fsc_op_line_purchase_asset = self.env.ref(
+        cls.fsc_op_line_purchase_asset = cls.env.ref(
             "l10n_br_fiscal.fo_compras_compras_ativo"
         )
-        self.fsc_op_line_purchase_use = self.env.ref(
+        cls.fsc_op_line_purchase_use = cls.env.ref(
             "l10n_br_fiscal.fo_compras_compras_uso_consumo"
         )
 
-        self.fsc_op_line_dist = self.env.ref("l10n_br_fiscal.fo_compras_compras")
-        self.fsc_op_line_serv = self.env.ref("l10n_br_fiscal.fo_venda_servico")
+        cls.fsc_op_line_dist = cls.env.ref("l10n_br_fiscal.fo_compras_compras")
+        cls.fsc_op_line_serv = cls.env.ref("l10n_br_fiscal.fo_venda_servico")
 
         TAXES_NORMAL = {
             "icms": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_icms_12"),
-                "cst": self.env.ref("l10n_br_fiscal.cst_icms_00"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_icms_12"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_icms_00"),
             },
             "issqn": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_issqn_5"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_issqn_5"),
             },
             "ipi": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_ipi_5"),
-                "cst": self.env.ref("l10n_br_fiscal.cst_ipi_00"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_ipi_5"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_ipi_00"),
             },
             "pis": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_pis_0_65"),
-                "cst": self.env.ref("l10n_br_fiscal.cst_pis_50"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_pis_0_65"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_pis_50"),
             },
             "cofins": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_cofins_3"),
-                "cst": self.env.ref("l10n_br_fiscal.cst_pis_50"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_cofins_3"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_pis_50"),
             },
             "icmsfcp": {
                 "tax": False,
@@ -70,23 +70,23 @@ class L10nBrPurchaseBaseTest(SavepointCase):
 
         TAXES_SIMPLES = {
             "icms": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_icms_sn_com_credito"),
-                "cst": self.env.ref("l10n_br_fiscal.cst_icmssn_101"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_icms_sn_com_credito"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_icmssn_101"),
             },
             "issqn": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_issqn_5"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_issqn_5"),
             },
             "ipi": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_ipi_outros"),
-                "cst": self.env.ref("l10n_br_fiscal.cst_ipi_49"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_ipi_outros"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_ipi_49"),
             },
             "pis": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_pis_outros"),
-                "cst": self.env.ref("l10n_br_fiscal.cst_pis_98"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_pis_outros"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_pis_98"),
             },
             "cofins": {
-                "tax": self.env.ref("l10n_br_fiscal.tax_cofins_outros"),
-                "cst": self.env.ref("l10n_br_fiscal.cst_cofins_98"),
+                "tax": cls.env.ref("l10n_br_fiscal.tax_cofins_outros"),
+                "cst": cls.env.ref("l10n_br_fiscal.cst_cofins_98"),
             },
             "icmsfcp": {
                 "tax": False,
@@ -94,53 +94,53 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             },
         }
 
-        self.FISCAL_DEFS = {
+        cls.FISCAL_DEFS = {
             CFOP_DESTINATION_INTERNAL: {
-                self.fsc_op_line_purchase.name: {
-                    "cfop": self.env.ref("l10n_br_fiscal.cfop_1101"),
+                cls.fsc_op_line_purchase.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_1101"),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
-                self.fsc_op_line_purchase_resale.name: {
-                    "cfop": self.env.ref("l10n_br_fiscal.cfop_1102"),
+                cls.fsc_op_line_purchase_resale.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_1102"),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
-                self.fsc_op_line_purchase_asset.name: {
-                    "cfop": self.env.ref("l10n_br_fiscal.cfop_1551"),
+                cls.fsc_op_line_purchase_asset.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_1551"),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
-                self.fsc_op_line_purchase_use.name: {
-                    "cfop": self.env.ref("l10n_br_fiscal.cfop_1556"),
+                cls.fsc_op_line_purchase_use.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_1556"),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
             },
             CFOP_DESTINATION_EXTERNAL: {
-                self.fsc_op_line_purchase.name: {
-                    "cfop": self.env.ref("l10n_br_fiscal.cfop_2101"),
+                cls.fsc_op_line_purchase.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_2101"),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
-                self.fsc_op_line_purchase_resale.name: {
-                    "cfop": self.env.ref("l10n_br_fiscal.cfop_2102"),
+                cls.fsc_op_line_purchase_resale.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_2102"),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
-                self.fsc_op_line_purchase_asset.name: {
-                    "cfop": self.env.ref("l10n_br_fiscal.cfop_2551"),
+                cls.fsc_op_line_purchase_asset.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_2551"),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
-                self.fsc_op_line_purchase_use.name: {
-                    "cfop": self.env.ref("l10n_br_fiscal.cfop_2556"),
+                cls.fsc_op_line_purchase_use.name: {
+                    "cfop": cls.env.ref("l10n_br_fiscal.cfop_2556"),
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
                 },
             },
             "service": {
-                self.fsc_op_line_serv.name: {
+                cls.fsc_op_line_serv.name: {
                     "cfop": False,
                     TAX_FRAMEWORK_SIMPLES: TAXES_SIMPLES,
                     TAX_FRAMEWORK_NORMAL: TAXES_NORMAL,
