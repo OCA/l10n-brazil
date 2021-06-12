@@ -5,7 +5,7 @@
         <field name="name">l10n_br_purchase_stock.order.form</field>
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form" />
-        <field name="priority">99</field>
+        <field name="priority">120</field>
         <field name="arch" type="xml">
             <field name="fiscal_operation_id" position="after">
                 <field name="purchase_create_invoice_policy" invisible="1" />
