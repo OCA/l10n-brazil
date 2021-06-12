@@ -40,6 +40,7 @@
       <field name="model">account.invoice</field>
       <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
       <field name="mode">primary</field>
+      <field name="priority">100</field>
       <field name="arch" type="xml">
         <xpath expr="//header" position="inside">
             <field name="state" invisible="1"/>
