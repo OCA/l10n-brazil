@@ -2,38 +2,36 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'NFS-e',
-    'summary': """
+    "name": "NFS-e",
+    "summary": """
         NFS-e""",
-    'version': '12.0.4.1.0',
-    'license': 'AGPL-3',
-    'author': 'KMEE, Odoo Community Association (OCA)',
-    'maintainers': ['gabrielcardoso21', 'mileo', 'luismalta'],
-    'website': 'https://github.com/OCA/l10n-brazil',
-    'external_dependencies': {
-        'python': [
-            'erpbrasil.edoc',
-            'erpbrasil.assinatura',
-            'erpbrasil.transmissao',
-            'erpbrasil.base',
+    "version": "12.0.4.1.0",
+    "license": "AGPL-3",
+    "author": "KMEE, Odoo Community Association (OCA)",
+    "maintainers": ["gabrielcardoso21", "mileo", "luismalta"],
+    "website": "https://github.com/OCA/l10n-brazil",
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.edoc",
+            "erpbrasil.assinatura",
+            "erpbrasil.transmissao",
+            "erpbrasil.base",
         ],
     },
-    'depends': [
-        'l10n_br_fiscal',
+    "depends": [
+        "l10n_br_fiscal",
     ],
-    'data': [
-        'security/ir.model.access.csv',
-
-        'views/document_view.xml',
-        'views/product_template_view.xml',
-        'views/product_product_view.xml',
-        'views/document_line_view.xml',
-        'views/res_company_view.xml',
-
-        'report/danfse.xml',
+    "data": [
+        "security/ir.model.access.csv",
+        "views/document_view.xml",
+        "views/product_template_view.xml",
+        "views/product_product_view.xml",
+        "views/document_line_view.xml",
+        "views/res_company_view.xml",
+        "report/danfse.xml",
     ],
-    'demo': [
-        'demo/product_demo.xml',
-        'demo/fiscal_document_demo.xml',
+    "demo": [
+        "demo/product_demo.xml",
+        "demo/fiscal_document_demo.xml",
     ],
 }
