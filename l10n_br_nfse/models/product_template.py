@@ -4,9 +4,9 @@ from odoo import fields, models
 
 
 class ProductTemplate(models.Model):
-    _inherit = 'product.template'
+    _inherit = "product.template"
 
     fiscal_deductions_value = fields.Monetary(
-        string='Fiscal Deductions',
+        string="Fiscal Deductions",
         default=0.00,
     )
