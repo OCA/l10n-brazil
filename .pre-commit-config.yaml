@@ -22,7 +22,6 @@ exclude: |
   ^l10n_br_portal/|
   ^l10n_br_product_contract/|
   ^l10n_br_purchase/|
-  ^l10n_br_purchase_stock/|
   ^l10n_br_repair/|
   ^l10n_br_resource/|
   ^l10n_br_website_sale/|
