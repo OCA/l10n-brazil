@@ -9,7 +9,6 @@ class ResPartner(models.Model):
 
     is_employee_dependent = fields.Boolean(string="Is an employee dependent")
 
-    @api.multi
     def create_depentent(self):
         for record in self.with_context(active_test=False):
             self.env["hr.employee.dependent"].create({"partner_id": record.id})
@@ -32,7 +31,6 @@ class ResPartner(models.Model):
             partner.with_context(create_depentent=True).create_depentent()
         return partner
 
-    @api.multi
     def write(self, vals):
         res = super(ResPartner, self).write(vals)
         if "is_employee_dependent" in vals and not self.is_employee_dependent:
