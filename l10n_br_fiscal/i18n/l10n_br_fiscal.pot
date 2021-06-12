@@ -5847,7 +5847,7 @@ msgid "Lista Positiva (valor)"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:80
+#: code:addons/l10n_br_fiscal/hooks.py:81
 #, python-format
 msgid "Loading l10n_br_fiscal demo files."
 msgstr ""
@@ -5859,13 +5859,13 @@ msgid "Loading l10n_br_fiscal fiscal files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:149
+#: code:addons/l10n_br_fiscal/hooks.py:150
 #, python-format
 msgid "Loading l10n_br_fiscal post init files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:126
+#: code:addons/l10n_br_fiscal/hooks.py:127
 #, python-format
 msgid "Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
 msgstr ""
