@@ -5,7 +5,7 @@ from odoo import models
 
 
 class InvalidateNumberWizard(models.TransientModel):
-    _inherit = 'l10n_br_fiscal.invalidate.number.wizard'
+    _inherit = "l10n_br_fiscal.invalidate.number.wizard"
 
     def do_invalidate(self):
         super().do_invalidate()
