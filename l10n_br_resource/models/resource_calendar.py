@@ -93,7 +93,7 @@ class ResourceCalendar(models.Model):
         return leaves
 
     @api.multi
-    def data_eh_feriado(self, data_referencia=datetime.now()):
+    def data_eh_feriado(self, data):
         """Verificar se uma data é feriado.
         :param datetime data_referencia: Se nenhuma data referencia for passada
                                     verifique se hoje eh feriado no calendario
@@ -106,7 +106,8 @@ class ResourceCalendar(models.Model):
         :return boolean True se a data referencia for feriado
                         False se a data referencia nao for feriado
         """
-        data = data_referencia
+        if not data:
+            data = datetime.now()
         for leave in self.leave_ids:
             if leave.date_from <= data:
                 if leave.date_to >= data:
@@ -115,7 +116,7 @@ class ResourceCalendar(models.Model):
         return False
 
     @api.multi
-    def data_eh_feriado_bancario(self, data_referencia=datetime.now()):
+    def data_eh_feriado_bancario(self, data_referencia):
         """Verificar se uma data é feriado bancário.
         :param datetime data_referencia: Se nenhuma data referencia for
                                     passada verifique se hoje é feriado
@@ -127,6 +128,8 @@ class ResourceCalendar(models.Model):
         :return int leaves_count: +1 se for feriado bancário
                                    0 se a data nao for feriado bancário
         """
+        if not data_referencia:
+            data_referencia = datetime.now()
         domain = [
             ("date_from", "<=", data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
             ("date_to", ">=", data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
@@ -136,7 +139,7 @@ class ResourceCalendar(models.Model):
         return leaves_count
 
     @api.multi
-    def data_eh_feriado_emendado(self, data_referencia=datetime.now()):
+    def data_eh_feriado_emendado(self, data_referencia):
         """Verificar se uma data é feriado emendado.
         :param datetime data_referencia: Se nenhuma data referencia for passada
                                    verifique se hoje é feriado emendado.
@@ -146,6 +149,8 @@ class ResourceCalendar(models.Model):
 
         :return retorna True ou False
         """
+        if not data_referencia:
+            data_referencia = datetime.now()
         eh_feriado = self.data_eh_feriado(data_referencia)
         dia_antes = data_referencia - timedelta(days=1)
         dia_depois = data_referencia + timedelta(days=1)
@@ -164,19 +169,19 @@ class ResourceCalendar(models.Model):
         return eh_feriado and (dia_antes_eh_segunda or dia_depois_eh_sexta)
 
     @api.multi
-    def data_eh_dia_util(self, data=datetime.now()):
+    def data_eh_dia_util(self, data):
         """Verificar se data é dia util.
         :param datetime data: Se nenhuma data referencia for passada
                               verifique o dia de hoje.
         :return boolean True: Se for dia útil
                         False: Se Não for dia útil
         """
+        if not data:
+            data = datetime.now()
         return not self.data_eh_feriado(data) and data.weekday() <= 4 or False
 
     @api.multi
-    def quantidade_dias_uteis(
-        self, data_inicio=datetime.now(), data_fim=datetime.now()
-    ):
+    def quantidade_dias_uteis(self, data_inicio, data_fim):
         """Calcular a quantidade de dias úteis em determinado período.
         :param datetime data_inicio: Se nenhuma data referencia for passada
                                    verifique o dia de hoje.
@@ -184,6 +189,10 @@ class ResourceCalendar(models.Model):
                                    verifique o dia de hoje.
         :return int: Quantidade de dias úteis
         """
+        if not data_inicio:
+            data_inicio = datetime.now()
+        if not data_fim:
+            data_fim = datetime.now()
         dias_uteis = 0
         while data_inicio <= data_fim:
             if self.data_eh_dia_util(data_inicio):
@@ -193,12 +202,14 @@ class ResourceCalendar(models.Model):
         return dias_uteis
 
     @api.multi
-    def proximo_dia_util(self, data_referencia=datetime.now()):
+    def proximo_dia_util(self, data_referencia):
         """Retornar o próximo dia util.
         :param datetime data_referencia: Se nenhuma data referencia for passada
                                    verifique se amanha é dia útil.
         :return datetime Proximo dia util apartir da data referencia
         """
+        if not data_referencia:
+            data_referencia = datetime.now()
         data_referencia += timedelta(days=1)
         while data_referencia:
             if self.data_eh_dia_util(data_referencia):
@@ -206,15 +217,17 @@ class ResourceCalendar(models.Model):
             data_referencia += timedelta(days=1)
 
     @api.multi
-    def get_dias_base(
-        self, data_from=datetime.now(), data_to=datetime.now(), mes_comercial=True
-    ):
+    def get_dias_base(self, data_from, data_to, mes_comercial=True):
         """Calcular a quantidade de dias que devem ser remunerados em
         determinado intervalo de tempo.
         :param datetime data_from: Data inicial do intervalo de tempo.
                datetime data_end: Data final do intervalo
         :return int : quantidade de dias que devem ser remunerada
         """
+        if not data_from:
+            data_from = datetime.now()
+        if not data_to:
+            data_to = datetime.now()
         # Mes comercial sempre será 30 dias
         if mes_comercial:
             return 30 - data_from.day + 1
@@ -226,13 +239,15 @@ class ResourceCalendar(models.Model):
             return quantidade_dias
 
     @api.multi
-    def data_eh_dia_util_bancario(self, data=datetime.now()):
+    def data_eh_dia_util_bancario(self, data):
         """Verificar se data é dia util.
         :param datetime data: Se nenhuma data referencia for passada
                               verifique o dia de hoje.
         :return boolean True: Se for dia útil
                         False: Se Não for dia útil
         """
+        if not data:
+            data = datetime.now()
         if data.weekday() >= 5:
             return False
         elif self.data_eh_feriado_bancario(data):
@@ -240,12 +255,14 @@ class ResourceCalendar(models.Model):
         return True
 
     @api.multi
-    def proximo_dia_util_bancario(self, data_referencia=datetime.now()):
+    def proximo_dia_util_bancario(self, data_referencia):
         """Retornar o próximo dia util.
         :param datetime data_referencia: Se nenhuma data referencia for passada
                                    verifique se amanha é dia útil.
         :return datetime Proximo dia util apartir da data referencia
         """
+        if not data_referencia:
+            data_referencia = datetime.now()
         data_referencia += timedelta(days=1)
         if self.data_eh_dia_util_bancario(data_referencia):
             return data_referencia
