@@ -1,7 +1,7 @@
 # Copyright (C) 2016  Daniel Sadamo - KMEE Informática
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class HrContractSalaryUnit(models.Model):
@@ -19,7 +19,6 @@ class HrContractSalaryUnit(models.Model):
         required=True,
     )
 
-    @api.multi
     def name_get(self):
         return [(record.id, "{} - {} ".format(record.code, record.name))
                 for record in self]

@@ -1,7 +1,7 @@
 # Copyright (C) 2016  Daniel Sadamo - KMEE Informática
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class HrContractLaborBondType(models.Model):
@@ -12,7 +12,6 @@ class HrContractLaborBondType(models.Model):
 
     code = fields.Char(string="Code", required=True)
 
-    @api.multi
     def name_get(self):
         result = []
         for record in self:
