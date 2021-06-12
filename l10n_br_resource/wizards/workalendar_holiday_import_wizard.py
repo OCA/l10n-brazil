@@ -5,6 +5,7 @@ import logging
 
 import pytz
 from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
 
 from ..tools.brazil_all_holidays_set import brazil_all_holidays_set
@@ -22,7 +23,7 @@ _INTERVALS = {
 class WorkalendarHolidayImport(models.TransientModel):
 
     _name = "wizard.workalendar.holiday.import"
-    _description = 'Wizard de import de feriados'
+    _description = "Wizard de import de feriados"
 
     @api.multi
     @api.depends("start_date", "interval_number", "interval_type")
