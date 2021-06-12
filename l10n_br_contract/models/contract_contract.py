@@ -5,66 +5,68 @@ from odoo import _, api, fields, models
 
 
 class ContractContract(models.Model):
-    _name = 'contract.contract'
-    _inherit = [_name, 'l10n_br_fiscal.document.mixin']
+    _name = "contract.contract"
+    _inherit = [_name, "l10n_br_fiscal.document.mixin"]
 
     @api.model
     def _fiscal_operation_domain(self):
-        domain = [('state', '=', 'approved')]
+        domain = [("state", "=", "approved")]
         return domain
 
     @api.model
     def default_get(self, fields_list):
         vals = super().default_get(fields_list)
-        contract_type = vals.get('contract_type')
+        contract_type = vals.get("contract_type")
         if contract_type:
-            company_id = vals.get('company_id')
+            company_id = vals.get("company_id")
             if company_id:
-                company_id = self.env['res.company'].browse(company_id)
+                company_id = self.env["res.company"].browse(company_id)
             else:
                 company_id = self.env.user.company_id
-            if contract_type == 'sale':
+            if contract_type == "sale":
                 fiscal_operation_id = company_id.contract_sale_fiscal_operation_id
             else:
                 fiscal_operation_id = company_id.contract_purchase_fiscal_operation_id
-            vals.update({
-                'fiscal_operation_id': fiscal_operation_id.id,
-            })
+            vals.update(
+                {
+                    "fiscal_operation_id": fiscal_operation_id.id,
+                }
+            )
         return vals
 
     cnpj_cpf = fields.Char(
-        string='CNPJ/CPF',
-        related='partner_id.cnpj_cpf',
+        string="CNPJ/CPF",
+        related="partner_id.cnpj_cpf",
     )
 
     legal_name = fields.Char(
-        string='Legal Name',
-        related='partner_id.legal_name',
+        string="Legal Name",
+        related="partner_id.legal_name",
     )
 
     ie = fields.Char(
-        string='State Tax Number/RG',
-        related='partner_id.inscr_est',
+        string="State Tax Number/RG",
+        related="partner_id.inscr_est",
     )
 
     fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Fiscal Operation',
+        comodel_name="l10n_br_fiscal.operation",
+        string="Fiscal Operation",
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
     comment_ids = fields.Many2many(
-        comodel_name='l10n_br_fiscal.comment',
-        relation='contract_comment_rel',
-        column1='contract_id',
-        column2='comment_id',
-        string='Comments',
+        comodel_name="l10n_br_fiscal.comment",
+        relation="contract_comment_rel",
+        column1="contract_id",
+        column2="comment_id",
+        string="Comments",
     )
 
     @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
-        return self.mapped('contract_line_ids')
+        return self.mapped("contract_line_ids")
 
     @api.multi
     def _prepare_invoice(self, date_invoice, journal=None):
@@ -97,7 +99,7 @@ class ContractContract(models.Model):
 
         if not self.fiscal_operation_id:
             for inv_id in super_inv_id:
-                inv_id['document_type_id'] = False
+                inv_id["document_type_id"] = False
             return super_inv_id
 
         if not isinstance(super_inv_id, list):
@@ -109,31 +111,41 @@ class ContractContract(models.Model):
         for invoice_id in super_inv_id:
 
             # Identify how many Document Types exist
-            for inv_line in invoice_id.get('invoice_line_ids'):
+            for inv_line in invoice_id.get("invoice_line_ids"):
                 if type(inv_line[2]) == list:
                     continue
-                operation_line_id = \
-                    self.env['l10n_br_fiscal.operation.line'].browse(
-                        inv_line[2].get('fiscal_operation_line_id'))
+                operation_line_id = self.env["l10n_br_fiscal.operation.line"].browse(
+                    inv_line[2].get("fiscal_operation_line_id")
+                )
 
-                fiscal_document_type = \
-                    operation_line_id.get_document_type(self.company_id)
+                fiscal_document_type = operation_line_id.get_document_type(
+                    self.company_id
+                )
 
                 if fiscal_document_type.id not in document_type_list:
                     document_type_list.append(fiscal_document_type.id)
                     inv_to_append = invoice_id.copy()
-                    inv_to_append['invoice_line_ids'] = [inv_line]
-                    inv_to_append['document_type_id'] = fiscal_document_type.id
-                    inv_to_append['document_serie_id'] = \
-                        self.env['l10n_br_fiscal.document.serie'].search([
-                            ('document_type_id', '=',
-                             inv_to_append['document_type_id']),
-                            ('company_id', '=', self.company_id.id),
-                        ], limit=1).id
+                    inv_to_append["invoice_line_ids"] = [inv_line]
+                    inv_to_append["document_type_id"] = fiscal_document_type.id
+                    inv_to_append["document_serie_id"] = (
+                        self.env["l10n_br_fiscal.document.serie"]
+                        .search(
+                            [
+                                (
+                                    "document_type_id",
+                                    "=",
+                                    inv_to_append["document_type_id"],
+                                ),
+                                ("company_id", "=", self.company_id.id),
+                            ],
+                            limit=1,
+                        )
+                        .id
+                    )
                     inv_ids.append(inv_to_append)
                 else:
                     index = document_type_list.index(fiscal_document_type.id)
-                    inv_ids[index]['invoice_line_ids'].append(inv_line)
+                    inv_ids[index]["invoice_line_ids"].append(inv_line)
 
         return inv_ids
 
@@ -146,9 +158,10 @@ class ContractContract(models.Model):
         for invoice in invoices:
             self.message_post(
                 body=_(
-                    'Contract manually invoiced: '
+                    "Contract manually invoiced: "
                     '<a href="#" data-oe-model="%s" data-oe-id="%s">Invoice'
-                    '</a>'
-                ) % (invoice._name, invoice.id)
+                    "</a>"
+                )
+                % (invoice._name, invoice.id)
             )
         return invoices
