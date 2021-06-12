@@ -6,10 +6,10 @@ from odoo import fields, models
 
 
 class OperationLine(models.Model):
-    _inherit = 'l10n_br_fiscal.operation.line'
+    _inherit = "l10n_br_fiscal.operation.line"
 
     fiscal_position_id = fields.Many2one(
-        comodel_name='account.fiscal.position',
-        string='Fiscal Position',
+        comodel_name="account.fiscal.position",
+        string="Fiscal Position",
         company_dependent=True,
     )
