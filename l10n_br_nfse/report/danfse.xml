@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <odoo>
 
     <report
@@ -7,7 +7,8 @@
         model="l10n_br_fiscal.document"
         report_type="qweb-pdf"
         file="l10n_br_nfse.main_template_br_nfse_danfe"
-        name="l10n_br_nfse.main_template_br_nfse_danfe" />
+        name="l10n_br_nfse.main_template_br_nfse_danfe"
+    />
 
       <record id="paperformat_br_nfse_danfse" model="report.paperformat">
           <field name="name">Danfe NFS-e</field>
@@ -22,70 +23,86 @@
       </record>
 
     <record id="report_br_nfse_danfe" model="ir.actions.report">
-        <field name="paperformat_id" ref="paperformat_br_nfse_danfse"/>
+        <field name="paperformat_id" ref="paperformat_br_nfse_danfse" />
         <field name="name">Nota de Serviço</field>
-        <field name="print_report_name">'%s - NF - %s' % (object.document_number, object.partner_id.name)</field>
+        <field
+            name="print_report_name"
+        >'%s - NF - %s' % (object.document_number, object.partner_id.name)</field>
     </record>
 
     <template id="danfse_report_template">
         <div class="page" style="font-size:12px;">
             <style type="text/css">
-                .col-1, .col-2, .col-3,.col-4,.col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
-                    padding:0px;
-                }
-                td, th {
-                    padding: 0 4px;
-                }
-                .bt {
-                    border-top: 1px solid black;
-                }
-                .bb {
-                    border-bottom: 1px solid black;
-                }
-                .bl {
-                    border-left: 1px solid black;
-                }
-                .br {
-                    border-right: 1px solid black;
-                }
-                .rotulo {
-                    padding: 8px 0px;
-                    font-size: 10px;
-                    text-align: center;
-                    font-weight: bold;
-                }
-                .rotulo-header {
-                    padding: 8px 0px;
-                    font-size: 10px;
-                    text-align: center;
-                }
-                .linha {
-                    min-height:30px;
-                    padding: 5px 2px;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                }
-                .direita {
-                    text-align: right;
-                    padding-right: 1%;
-                }
-                .esquerda {
-                    text-align: left;
-                    padding-left: 1%;
-                }
-                .centro {
-                    text-align:center;
-                }
-                row {
-                    cols: 10
-                }
+.col-1,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-10,
+.col-11,
+.col-12 {
+    padding: 0px;
+}
+td,
+th {
+    padding: 0 4px;
+}
+.bt {
+    border-top: 1px solid black;
+}
+.bb {
+    border-bottom: 1px solid black;
+}
+.bl {
+    border-left: 1px solid black;
+}
+.br {
+    border-right: 1px solid black;
+}
+.rotulo {
+    padding: 8px 0px;
+    font-size: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+.rotulo-header {
+    padding: 8px 0px;
+    font-size: 10px;
+    text-align: center;
+}
+.linha {
+    min-height: 30px;
+    padding: 5px 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.direita {
+    text-align: right;
+    padding-right: 1%;
+}
+.esquerda {
+    text-align: left;
+    padding-left: 1%;
+}
+.centro {
+    text-align: center;
+}
+row {
+    cols: 10;
+}
             </style>
 
              <div class="row bt bb br bl">
                 <div class="col-2">
-                    <img t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.nfse_city_logo)"
-                         style="max-height:80px; margin-top:4px; margin-left:10px;"/>
+                    <img
+                        t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.nfse_city_logo)"
+                        style="max-height:80px; margin-top:4px; margin-left:10px;"
+                    />
                 </div>
                 <div class="col-7 br" style="text-align: center; font-size: 20px;">
                     Prefeitura do Município de <span t-field="doc.company_id.city_id" />
@@ -97,7 +114,7 @@
                 <div class="col-3">
                     <div style="padding: 3px; text-align: center;">
                         <span>Número da NFS-e</span><br />
-                        <strong t-field="doc.document_number"></strong>
+                        <strong t-field="doc.document_number" />
                     </div>
                 </div>
             </div>
@@ -113,7 +130,10 @@
                     Competência
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.document_date" t-options='{"format": "MM/yyyy"}' />
+                    <span
+                        t-field="doc.document_date"
+                        t-options='{"format": "MM/yyyy"}'
+                    />
                 </div>
                  <div class="col-2 rotulo br">
                     Código de Verificação
@@ -139,7 +159,9 @@
                     Local da Prestação
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.company_id.city_id" /> - <span t-field="doc.company_id.state_id.code" />
+                    <span t-field="doc.company_id.city_id" /> - <span
+                        t-field="doc.company_id.state_id.code"
+                    />
                 </div>
             </div>
 
@@ -150,8 +172,10 @@
             </div>
              <div class="row bb br bl">
                 <div class="col-2">
-                    <img style="max-height: 150px; padding-left: 25px; padding-top: 25px; max-width: 125px;"
-                        t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo)" /><br />
+                    <img
+                        style="max-height: 150px; padding-left: 25px; padding-top: 25px; max-width: 125px;"
+                        t-att-src="'data:image/png;base64,%s' % to_text(doc.company_id.logo)"
+                    /><br />
                 </div>
                 <div class="col-10">
                     <div class="row">
@@ -159,7 +183,7 @@
                             Razão Social/Nome
                         </div>
                         <div class="col-10 linha esquerda bb bl">
-                            <span t-field="doc.company_id.legal_name"/>
+                            <span t-field="doc.company_id.legal_name" />
                         </div>
                     </div>
                     <div class="row">
@@ -181,13 +205,15 @@
                             Insc. Municipal
                         </div>
                         <div class="col-2 linha centro bl bb">
-                            <span t-field="doc.company_id.inscr_mun"/>
+                            <span t-field="doc.company_id.inscr_mun" />
                         </div>
                         <div class="col-1 rotulo bl bb">
                             Município
                         </div>
                         <div class="col-3 linha centro bl bb">
-                            <span t-field="doc.company_id.city_id" /> - <span t-field="doc.company_id.state_id.code" />
+                            <span t-field="doc.company_id.city_id" /> - <span
+                                t-field="doc.company_id.state_id.code"
+                            />
                         </div>
                     </div>
                     <div class="row">
@@ -206,7 +232,10 @@
                             Complemento:
                         </div>
                         <div class="col-2 linha centro bl">
-                            <span style="font-size:11px;" t-field="doc.company_id.street2" />
+                            <span
+                                style="font-size:11px;"
+                                t-field="doc.company_id.street2"
+                            />
                         </div>
                         <div class="col-1 rotulo bl">
                             Telefone:
@@ -254,7 +283,9 @@
                     Município
                 </div>
                 <div class="col-3 linha esquerda">
-                    <span t-field="doc.partner_id.city_id" /> - <span t-field="doc.partner_id.state_id.code" />
+                    <span t-field="doc.partner_id.city_id" /> - <span
+                        t-field="doc.partner_id.state_id.code"
+                    />
                 </div>
             </div>
              <div class="row bb br bl">
@@ -296,7 +327,7 @@
              <div class="row bb br bl" style="padding: 7.5px 10px; min-height: 150px;">
                 <div class="col-12">
                     <t t-foreach="doc.line_ids" t-as="line">
-                        <p t-field="line.name"></p>
+                        <p t-field="line.name" />
                     </t>
 <!--                    <span t-field="doc.informacoes_legais"></span>-->
 <!--                    <span t-field="doc.informacoes_complementares"></span>-->
@@ -541,8 +572,11 @@
                     Avisos
                 </div>
                 <div class="col-11">
-                    1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo Tomador dos Serviços.<br />
-                    2- A autenticidade desta Nota Fiscal poderá ser verificada no site, <span t-field="doc.company_id.nfse_website" /> com a utilização do Código de Verificação.<br />
+                    1- Uma via desta Nota Fiscal será enviada através do e-mail fornecido pelo Tomador dos Serviços.<br
+                    />
+                    2- A autenticidade desta Nota Fiscal poderá ser verificada no site, <span
+                        t-field="doc.company_id.nfse_website"
+                    /> com a utilização do Código de Verificação.<br />
                     <t t-if="doc.company_id.tax_framework != '3'">
                         3 - Documento emitido por ME ou EPP optante pelo Simples Nacional.Não gera direito a crédito fiscal de ISS e IPI.
                     </t>
@@ -555,7 +589,10 @@
         <t t-call="web.html_container">
             <div class="article">
                 <t t-foreach="docs" t-as="doc">
-                    <t t-call="l10n_br_nfse.danfse_report_template" t-lang="doc.company_id.partner_id.lang"/>
+                    <t
+                        t-call="l10n_br_nfse.danfse_report_template"
+                        t-lang="doc.company_id.partner_id.lang"
+                    />
                 </t>
             </div>
         </t>
