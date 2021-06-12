@@ -5,14 +5,14 @@ from odoo import fields, models
 
 
 class AccountTax(models.Model):
-    _inherit = 'account.tax'
+    _inherit = "account.tax"
 
     fiscal_tax_ids = fields.Many2many(
-        comodel_name='l10n_br_fiscal.tax',
-        relation='fiscal_account_tax_rel',
-        column1='account_tax_id',
-        column2='fiscal_tax_id',
-        string='Fiscal Taxes',
+        comodel_name="l10n_br_fiscal.tax",
+        relation="fiscal_account_tax_rel",
+        column1="account_tax_id",
+        column2="fiscal_tax_id",
+        string="Fiscal Taxes",
     )
 
     def compute_all(
@@ -36,9 +36,9 @@ class AccountTax(models.Model):
         fiscal_quantity=None,
         uot=None,
         icmssn_range=None,
-        icms_origin=None
+        icms_origin=None,
     ):
-        """ Returns all information required to apply taxes
+        """Returns all information required to apply taxes
             (in self + their children in case of a tax goup).
             We consider the sequence of the parent for group of taxes.
                 Eg. considering letters as taxes and alphabetic order
@@ -57,15 +57,16 @@ class AccountTax(models.Model):
                 'refund_account_id': int,
                 'analytic': boolean,
             }]
-        } """
+        }"""
 
         taxes_results = super().compute_all(
-            price_unit, currency, quantity, product, partner)
+            price_unit, currency, quantity, product, partner
+        )
 
         if not fiscal_taxes:
-            fiscal_taxes = self.env['l10n_br_fiscal.tax']
+            fiscal_taxes = self.env["l10n_br_fiscal.tax"]
 
-        product = product or self.env['product.product']
+        product = product or self.env["product.product"]
 
         # FIXME Should get company from document?
         fiscal_taxes_results = fiscal_taxes.compute_taxes(
@@ -88,38 +89,41 @@ class AccountTax(models.Model):
             freight_value=freight_value,
             operation_line=operation_line,
             icmssn_range=icmssn_range,
-            icms_origin=icms_origin or product.icms_origin)
+            icms_origin=icms_origin or product.icms_origin,
+        )
 
         account_taxes_by_domain = {}
         for tax in self:
             tax_domain = tax.tax_group_id.fiscal_tax_group_id.tax_domain
             account_taxes_by_domain.update({tax.id: tax_domain})
 
-        for account_tax in taxes_results['taxes']:
-            fiscal_tax = fiscal_taxes_results['taxes'].get(
-                account_taxes_by_domain.get(account_tax.get('id'))
+        for account_tax in taxes_results["taxes"]:
+            fiscal_tax = fiscal_taxes_results["taxes"].get(
+                account_taxes_by_domain.get(account_tax.get("id"))
             )
 
             if fiscal_tax:
-                tax = self.filtered(lambda t: t.id == account_tax.get('id'))
-                if not fiscal_tax.get('tax_include') and not tax.deductible:
-                    taxes_results['total_included'] += fiscal_tax.get(
-                        'tax_value')
+                tax = self.filtered(lambda t: t.id == account_tax.get("id"))
+                if not fiscal_tax.get("tax_include") and not tax.deductible:
+                    taxes_results["total_included"] += fiscal_tax.get("tax_value")
 
-                account_tax.update({
-                    'id': account_tax.get('id'),
-                    'name': '{0} ({1})'.format(
-                        account_tax.get('name'),
-                        fiscal_tax.get('name')
-                    ),
-                    'amount': fiscal_tax.get('tax_value'),
-                    'base': fiscal_tax.get('base'),
-                    'tax_include': fiscal_tax.get('tax_include'),
-                })
+                account_tax.update(
+                    {
+                        "id": account_tax.get("id"),
+                        "name": "{} ({})".format(
+                            account_tax.get("name"), fiscal_tax.get("name")
+                        ),
+                        "amount": fiscal_tax.get("tax_value"),
+                        "base": fiscal_tax.get("base"),
+                        "tax_include": fiscal_tax.get("tax_include"),
+                    }
+                )
 
                 if tax.deductible:
-                    account_tax.update({
-                        'amount': fiscal_tax.get('tax_value', 0.0) * -1,
-                    })
+                    account_tax.update(
+                        {
+                            "amount": fiscal_tax.get("tax_value", 0.0) * -1,
+                        }
+                    )
 
         return taxes_results
