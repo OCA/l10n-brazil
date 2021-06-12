@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: "off", no-undef: "off" */
+
 odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
     "use strict";
 
@@ -7,7 +9,7 @@ odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
     var $checkout_autoformat_selector = $(".checkout_autoformat");
 
     if (!$checkout_autoformat_selector.length) {
-        return $.Deferred().reject("DOM doesn't contain" + " '.checkout_autoformat'");
+        return $.Deferred().reject("DOM doesn't contain '.checkout_autoformat'");
     }
 
     if ($("#input_cnpj_cpf").length) {
@@ -113,7 +115,7 @@ odoo.define("l10n_br_website_sale.l10n_br_address", function (require) {
                     city_id_selector[0].val = data.city_id;
                     state_id_selector.val(data.state_id);
                     state_id_selector.change();
-                    $('a:contains("Next")').attr("display: block " + "!important;");
+                    $('a:contains("Next")').attr("display: block !important;");
                 }
             });
         });
