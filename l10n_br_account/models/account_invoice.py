@@ -2,6 +2,7 @@
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # Copyright (C) 2020 - TODAY Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
+# pylint: disable=api-one-deprecated
 
 from lxml import etree
 
@@ -291,14 +292,14 @@ class AccountInvoice(models.Model):
         lines = super().finalize_invoice_move_lines(move_lines)
         dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
         financial_lines = [
-            l for l in lines if l[2]['account_id'] == self.account_id.id]
-
+            line for line in lines if line[2]["account_id"] == self.account_id.id
+        ]
         count = 1
 
-        for l in financial_lines:
-            if l[2]['debit'] or l[2]['credit']:
+        for line in financial_lines:
+            if line[2]['debit'] or line['credit']:
                 if self.fiscal_document_id != dummy_doc:
-                    l[2]['name'] = '{}/{}-{}'.format(
+                    line['name'] = '{}/{}-{}'.format(
                         self.fiscal_document_id.with_context(
                             fiscal_document_no_company=True
                         )._compute_document_name(),
