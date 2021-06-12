@@ -25,7 +25,6 @@ class WorkalendarHolidayImport(models.TransientModel):
     _name = "wizard.workalendar.holiday.import"
     _description = "Wizard de import de feriados"
 
-    @api.multi
     @api.depends("start_date", "interval_number", "interval_type")
     def _compute_end_date(self):
         for wiz in self:
@@ -49,19 +48,16 @@ class WorkalendarHolidayImport(models.TransientModel):
     )
     calendar_id = fields.Many2one("resource.calendar", string="Work Time")
 
-    @api.multi
     def get_state_from_calendar(self, holiday):
         state = self.env["res.country.state"].search(
             [("ibge_code", "=", holiday.estado_ibge)]
         )
         return state or False
 
-    @api.multi
     def get_country_from_calendar(self, holiday):
         country = self.env.ref("base.br")
         return country or False
 
-    @api.multi
     def get_calendar_for_country(self):
         country = self.env.ref("base.br")
         if not self.env["resource.calendar"].search_count(
@@ -80,7 +76,6 @@ class WorkalendarHolidayImport(models.TransientModel):
                 [("country_id", "=", country.id)]
             )[0]
 
-    @api.multi
     def get_calendar_for_state(self, holiday):
         state = self.get_state_from_calendar(holiday)
         if not self.env["resource.calendar"].search_count(
@@ -101,7 +96,6 @@ class WorkalendarHolidayImport(models.TransientModel):
                 0
             ]
 
-    @api.multi
     def get_calendar_for_city(self, holiday):
         if not self.env["res.city"].search_count(
             [("ibge_code", "=", holiday.municipio_ibge)]
@@ -142,7 +136,6 @@ class WorkalendarHolidayImport(models.TransientModel):
                 [("l10n_br_city_id", "=", city_id.id)]
             )[0]
 
-    @api.multi
     def holiday_import(self):
         tz_br = pytz.timezone("America/Sao_Paulo")
 
