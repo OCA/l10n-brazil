@@ -5,6 +5,7 @@
         <field name="name">l10n_br_account.invoice.line.form</field>
         <field name="model">account.invoice.line</field>
         <field name="inherit_id" ref="account.view_invoice_line_form"/>
+        <field name="priority">100</field>
         <field name="arch" type="xml">
             <field name="invoice_line_tax_ids" position="replace"/>
             <xpath expr="//form/group/group/field[@name='company_id']" position="replace"/>
