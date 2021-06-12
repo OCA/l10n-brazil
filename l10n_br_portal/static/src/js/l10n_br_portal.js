@@ -16,11 +16,11 @@ odoo.define("l10n_br_portal.l10n_br_portal", function (require) {
         numericOnly: true,
         onValueChanged: function (e) {
             if (e.target.rawValue.length > 11) {
-                this.properties["blocks"] = [2, 3, 3, 4, 2];
-                this.properties["delimiters"] = [".", ".", "/", "-"];
+                this.properties.blocks = [2, 3, 3, 4, 2];
+                this.properties.delimiters = [".", ".", "/", "-"];
             } else {
-                this.properties["blocks"] = [3, 3, 3, 3];
-                this.properties["delimiters"] = [".", ".", "-"];
+                this.properties.blocks = [3, 3, 3, 3];
+                this.properties.delimiters = [".", ".", "-"];
             }
         },
     });
