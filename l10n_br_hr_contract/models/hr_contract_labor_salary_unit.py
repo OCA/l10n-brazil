@@ -6,8 +6,10 @@ from odoo import fields, models
 
 class HrContractSalaryUnit(models.Model):
     _name = "hr.contract.salary.unit"
-    _description = "Unidade de pagamento da parte fixa da remuneração " \
-                   "e-Social - S-2200 undSalFixo"
+    _description = (
+        "Unidade de pagamento da parte fixa da remuneração "
+        "e-Social - S-2200 undSalFixo"
+    )
 
     name = fields.Char(
         string="Salary unit",
@@ -20,5 +22,6 @@ class HrContractSalaryUnit(models.Model):
     )
 
     def name_get(self):
-        return [(record.id, "{} - {} ".format(record.code, record.name))
-                for record in self]
+        return [
+            (record.id, "{} - {} ".format(record.code, record.name)) for record in self
+        ]
