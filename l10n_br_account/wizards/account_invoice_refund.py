@@ -18,83 +18,81 @@ class AccountInvoiceRefund(models.TransientModel):
         string="Force Fiscal Operation")
 
     def compute_refund(self, mode="refund"):
-        inv_obj = self.env["account.invoice"]
-        context = dict(self.env.context)
+        result = super(AccountInvoiceRefund, self).compute_refund(mode)
+        if not result.get('domain'):
+            return result
 
-        for send_invoice in inv_obj.browse(context.get("active_ids")):
-            result = super(AccountInvoiceRefund, self).compute_refund(mode)
-            domain = result["domain"]
+        domain = result["domain"]
+        ids_domain = [x for x in domain if x[0] == "id"][0]
+        invoice_ids = ids_domain[2]
+        for invoice in self.env["account.invoice"].browse(invoice_ids):
 
-            ids_domain = [x for x in domain if x[0] == "id"][0]
-            invoice_ids = ids_domain[2]
-            for invoice in inv_obj.browse(invoice_ids):
+            if not invoice.document_type_id:
+                continue
 
-                if not invoice.document_type_id:
-                    continue
+            if (
+                not self.force_fiscal_operation_id
+                and not invoice.fiscal_operation_id
+            ):
+                raise UserError(_("Document without Operation !"))
 
+            if (
+                not self.force_fiscal_operation_id
+                and
+                not invoice.fiscal_operation_id.return_fiscal_operation_id
+            ):
+                raise UserError(
+                    _(
+                        "Fiscal Operation: There is not Return Operation "
+                        "for %s !"
+                    )
+                    % invoice.fiscal_operation_id.name
+                )
+
+            invoice.fiscal_operation_id = (
+                self.force_fiscal_operation_id.id
+                or
+                invoice.fiscal_operation_id.return_fiscal_operation_id.id
+            )
+
+            invoice_values = {
+                "fiscal_operation_id": invoice.fiscal_operation_id.id,
+            }
+
+            for line in invoice.invoice_line_ids:
                 if (
                     not self.force_fiscal_operation_id
-                    and not invoice.fiscal_operation_id
+                    and not line.fiscal_operation_id
                 ):
-                    raise UserError(_("Document without Operation !"))
+                    raise UserError(_("Document line without Operation !"))
 
                 if (
                     not self.force_fiscal_operation_id
-                    and
-                    not invoice.fiscal_operation_id.return_fiscal_operation_id
+                    and not line.fiscal_operation_id.refund_operation_id
                 ):
                     raise UserError(
                         _(
-                            "Fiscal Operation: There is not Return Operation "
-                            "for %s !"
+                            "Fiscal Operation: There is not Return "
+                            "Operation for %s !"
                         )
-                        % invoice.fiscal_operation_id.name
+                        % line.fiscal_operation_id.name
                     )
 
-                invoice.fiscal_operation_id = (
+                line.fiscal_operation_id = (
                     self.force_fiscal_operation_id.id
                     or
-                    invoice.fiscal_operation_id.return_fiscal_operation_id.id
+                    line.fiscal_operation_id.return_fiscal_operation_id
                 )
 
-                invoice_values = {
-                    "fiscal_operation_id": invoice.fiscal_operation_id.id,
+                line._onchange_fiscal_operation_id()
+
+                line_values = {
+                    "fiscal_operation_id": line.fiscal_operation_id.id,
+                    "fiscal_operation_line_id": line.fiscal_operation_line_id.id,
                 }
-
-                for line in invoice.invoice_line_ids:
-                    if (
-                        not self.force_fiscal_operation_id
-                        and not line.fiscal_operation_id
-                    ):
-                        raise UserError(_("Document line without Operation !"))
-
-                    if (
-                        not self.force_fiscal_operation_id
-                        and not line.fiscal_operation_id.refund_operation_id
-                    ):
-                        raise UserError(
-                            _(
-                                "Fiscal Operation: There is not Return "
-                                "Operation for %s !"
-                            )
-                            % line.fiscal_operation_id.name
-                        )
-
-                    line.fiscal_operation_id = (
-                        self.force_fiscal_operation_id.id
-                        or
-                        line.fiscal_operation_id.return_fiscal_operation_id
-                    )
-
-                    line._onchange_fiscal_operation_id()
-
-                    line_values = {
-                        "fiscal_operation_id": line.fiscal_operation_id.id,
-                        "fiscal_operation_line_id": line.fiscal_operation_line_id.id,
-                    }
-                    line.write(line_values)
-                invoice.write(invoice_values)
-            return result
+                line.write(line_values)
+            invoice.write(invoice_values)
+        return result
 
     @api.model
     def fields_view_get(self, view_id=None, view_type="form", toolbar=False,
