@@ -79,6 +79,7 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
             active_id=order.id
         ).create({
             'date_type': 'due',
+            'target_move': 'all',
             'due_date': datetime.now()
         })
         line_created_due.populate()
