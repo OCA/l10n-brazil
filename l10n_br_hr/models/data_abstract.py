@@ -14,7 +14,6 @@ class DataAbstract(models.AbstractModel):
 
     name = fields.Text(string="Name", required=True, index=True)
 
-    @api.multi
     def name_get(self):
         return [(r.id, "{} - {}".format(r.code, r.name)) for r in self]
 
