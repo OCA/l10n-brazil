@@ -6,7 +6,6 @@ from odoo.tests import SavepointCase
 
 
 class TestCustomerInvoice(SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -54,9 +53,9 @@ class TestCustomerInvoice(SavepointCase):
                                     ),
                                     (
                                         "company_id",
-                                        '=',
+                                        "=",
                                         cls.env.user.company_id.id,
-                                    )
+                                    ),
                                 ],
                                 limit=1,
                             )
@@ -122,9 +121,9 @@ class TestCustomerInvoice(SavepointCase):
                                     ),
                                     (
                                         "company_id",
-                                        '=',
+                                        "=",
                                         cls.env.user.company_id.id,
-                                    )
+                                    ),
                                 ],
                                 limit=1,
                             )
@@ -153,7 +152,7 @@ class TestCustomerInvoice(SavepointCase):
                 "name": "Tax 20.0% (Discount)",
                 "amount": 20.0,
                 "amount_type": "percent",
-                "include_base_amount": False
+                "include_base_amount": False,
             }
         )
         cls.invoice_3 = cls.env["account.invoice"].create(
@@ -182,9 +181,9 @@ class TestCustomerInvoice(SavepointCase):
                                     ),
                                     (
                                         "company_id",
-                                        '=',
+                                        "=",
                                         cls.env.user.company_id.id,
-                                    )
+                                    ),
                                 ],
                                 limit=1,
                             )
@@ -244,12 +243,14 @@ class TestCustomerInvoice(SavepointCase):
         self.invoice_3.action_invoice_open()
         assert self.invoice_3.move_id, "Move Receivable not created for open invoice"
         self.assertEqual(
-            self.invoice_3.state, "open", "Invoice should be in state Open")
+            self.invoice_3.state, "open", "Invoice should be in state Open"
+        )
 
     def test_invoice_line_ids_write(self):
-        self.invoice_3.invoice_line_ids.write({'invoice_id': self.invoice_3.id})
+        self.invoice_3.invoice_line_ids.write({"invoice_id": self.invoice_3.id})
         for line in self.invoice_3.invoice_line_ids:
             self.assertEqual(
                 line.document_id.id,
                 self.invoice_3.fiscal_document_id.id,
-                "line.document_id should be equal account.fiscal_document_id")
+                "line.document_id should be equal account.fiscal_document_id",
+            )
