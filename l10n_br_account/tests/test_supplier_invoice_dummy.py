@@ -13,7 +13,8 @@ class TestSupplierInvoice(TransactionCase):
                 code="X1020",
                 name="Product Purchase - (test)",
                 user_type_id=self.env.ref("account.data_account_type_revenue").id,
-            ))
+            )
+        )
 
         self.purchase_journal = self.env["account.journal"].create(
             dict(
@@ -51,9 +52,9 @@ class TestSupplierInvoice(TransactionCase):
                                     ),
                                     (
                                         "company_id",
-                                        '=',
+                                        "=",
                                         self.env.user.company_id.id,
-                                    )
+                                    ),
                                 ],
                                 limit=1,
                             )

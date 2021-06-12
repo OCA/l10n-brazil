@@ -4,22 +4,22 @@
 from lxml import etree
 
 from odoo import _, api, fields, models
-from odoo.osv.orm import setup_modifiers
 from odoo.exceptions import Warning as UserError
+from odoo.osv.orm import setup_modifiers
 
-from ..models.account_invoice import REFUND_TO_OPERATION, FISCAL_TYPE_REFUND
+from ..models.account_invoice import FISCAL_TYPE_REFUND, REFUND_TO_OPERATION
 
 
 class AccountInvoiceRefund(models.TransientModel):
     _inherit = "account.invoice.refund"
 
     force_fiscal_operation_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.operation",
-        string="Force Fiscal Operation")
+        comodel_name="l10n_br_fiscal.operation", string="Force Fiscal Operation"
+    )
 
     def compute_refund(self, mode="refund"):
         result = super(AccountInvoiceRefund, self).compute_refund(mode)
-        if not result.get('domain'):
+        if not result.get("domain"):
             return result
 
         domain = result["domain"]
@@ -30,29 +30,21 @@ class AccountInvoiceRefund(models.TransientModel):
             if not invoice.document_type_id:
                 continue
 
-            if (
-                not self.force_fiscal_operation_id
-                and not invoice.fiscal_operation_id
-            ):
+            if not self.force_fiscal_operation_id and not invoice.fiscal_operation_id:
                 raise UserError(_("Document without Operation !"))
 
             if (
                 not self.force_fiscal_operation_id
-                and
-                not invoice.fiscal_operation_id.return_fiscal_operation_id
+                and not invoice.fiscal_operation_id.return_fiscal_operation_id
             ):
                 raise UserError(
-                    _(
-                        "Fiscal Operation: There is not Return Operation "
-                        "for %s !"
-                    )
+                    _("Fiscal Operation: There is not Return Operation " "for %s !")
                     % invoice.fiscal_operation_id.name
                 )
 
             invoice.fiscal_operation_id = (
                 self.force_fiscal_operation_id.id
-                or
-                invoice.fiscal_operation_id.return_fiscal_operation_id.id
+                or invoice.fiscal_operation_id.return_fiscal_operation_id.id
             )
 
             invoice_values = {
@@ -60,10 +52,7 @@ class AccountInvoiceRefund(models.TransientModel):
             }
 
             for line in invoice.invoice_line_ids:
-                if (
-                    not self.force_fiscal_operation_id
-                    and not line.fiscal_operation_id
-                ):
+                if not self.force_fiscal_operation_id and not line.fiscal_operation_id:
                     raise UserError(_("Document line without Operation !"))
 
                 if (
@@ -71,17 +60,13 @@ class AccountInvoiceRefund(models.TransientModel):
                     and not line.fiscal_operation_id.refund_operation_id
                 ):
                     raise UserError(
-                        _(
-                            "Fiscal Operation: There is not Return "
-                            "Operation for %s !"
-                        )
+                        _("Fiscal Operation: There is not Return " "Operation for %s !")
                         % line.fiscal_operation_id.name
                     )
 
                 line.fiscal_operation_id = (
                     self.force_fiscal_operation_id.id
-                    or
-                    line.fiscal_operation_id.return_fiscal_operation_id
+                    or line.fiscal_operation_id.return_fiscal_operation_id
                 )
 
                 line._onchange_fiscal_operation_id()
@@ -95,17 +80,18 @@ class AccountInvoiceRefund(models.TransientModel):
         return result
 
     @api.model
-    def fields_view_get(self, view_id=None, view_type="form", toolbar=False,
-                        submenu=False):
+    def fields_view_get(
+        self, view_id=None, view_type="form", toolbar=False, submenu=False
+    ):
         result = super(AccountInvoiceRefund, self).fields_view_get(
-            view_id, view_type, toolbar, submenu)
+            view_id, view_type, toolbar, submenu
+        )
 
         invoice_type = self.env.context.get("type", "out_invoice")
         fiscal_operation_type = REFUND_TO_OPERATION[invoice_type]
         fiscal_type = FISCAL_TYPE_REFUND[fiscal_operation_type]
         eview = etree.fromstring(result["arch"])
-        fiscal_operation_id = eview.xpath(
-            "//field[@name='force_fiscal_operation_id']")
+        fiscal_operation_id = eview.xpath("//field[@name='force_fiscal_operation_id']")
 
         for field in fiscal_operation_id:
             field.set(
