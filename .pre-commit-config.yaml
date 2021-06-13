@@ -15,7 +15,6 @@ exclude: |
   ^l10n_br_mis_report/|
   ^l10n_br_nfe/|
   ^l10n_br_nfe_spec/|
-  ^l10n_br_nfse/|
   ^l10n_br_nfse_ginfes/|
   ^l10n_br_nfse_issnet/|
   ^l10n_br_nfse_paulistana/|
