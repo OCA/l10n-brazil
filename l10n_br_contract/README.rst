@@ -54,11 +54,6 @@ Known issues / Roadmap
 
 * TODO!
 
-Changelog
-=========
-
-
-
 Bug Tracker
 ===========
 
