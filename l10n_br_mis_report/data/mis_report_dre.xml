@@ -66,7 +66,7 @@
         <field name="report_id" ref="dre"/>
         <field name="description">Custo dos Produtos, Mercadorias e Serviços</field>
         <field name="name">custo_vendas</field>
-        <field name="expression">bale[('user_type_id', '=', ref('account.data_account_type_direct_costs').id)]</field>
+        <field name="expression">balp[('user_type_id', '=', ref('account.data_account_type_direct_costs').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True"/>
@@ -100,7 +100,7 @@
         <field name="report_id" ref="dre"/>
         <field name="description">Despesas Administrativas</field>
         <field name="name">despesas_administrativas</field>
-        <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_admin_expenses').id)]</field>
+        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_admin_expenses').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True"/>
@@ -111,7 +111,7 @@
         <field name="report_id" ref="dre"/>
         <field name="description">Despesas com Vendas</field>
         <field name="name">despesas_vendas</field>
-        <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_sale_expenses').id)]</field>
+        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_sale_expenses').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True"/>
@@ -122,7 +122,7 @@
         <field name="report_id" ref="dre"/>
         <field name="description">Outras Despesas Gerais</field>
         <field name="name">despesas_gerais</field>
-        <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_general_expenses').id)]</field>
+        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_general_expenses').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True"/>
@@ -155,7 +155,7 @@
         <field name="report_id" ref="dre"/>
         <field name="description">Receitas Financeiras</field>
         <field name="name">receitas_financeiras</field>
-        <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_financial').id)]</field>
+        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_financial').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True"/>
@@ -166,7 +166,7 @@
         <field name="report_id" ref="dre"/>
         <field name="description">(-) Despesas Financeiras</field>
         <field name="name">despesas_financeiras</field>
-        <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expenses_financial').id)]</field>
+        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expenses_financial').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="auto_expand_accounts" eval="True"/>
@@ -178,7 +178,7 @@
         <field name="report_id" ref="dre"/>
         <field name="description">(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS</field>
         <field name="name">outras_receitas_despesas_op</field>
-        <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_operational_expenses').id)]</field>
+        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_operational_expenses').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
         <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
@@ -202,7 +202,7 @@
         <field name="report_id" ref="dre"/>
         <field name="description">(-) Despesa com Contribuição Social</field>
         <field name="name">contribuicao_social</field>
-        <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_csll').id)]</field>
+        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_csll').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
     </record>
@@ -212,7 +212,7 @@
         <field name="report_id" ref="dre"/>
         <field name="description">(-) Despesa com Imposto de Renda da Pessoa Jurídica</field>
         <field name="name">imposto_renda_pj</field>
-        <field name="expression">bale[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_irpj').id)]</field>
+        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_irpj').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
     </record>
