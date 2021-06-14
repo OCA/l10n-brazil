@@ -70,9 +70,9 @@ class CNABFileParser(FileParser):
         )
         if not api_address:
             raise UserError(
-                    "Não é possível gerar o retorno.\n"
-                    "Informe o Endereço IP ou Nome do"
-                    " Boleto CNAB API."
+                "Não é possível gerar o retorno.\n"
+                "Informe o Endereço IP ou Nome do"
+                " Boleto CNAB API."
             )
         # Ex.: "http://boleto_cnab_api:9292/api/retorno"
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
@@ -291,7 +291,10 @@ class CNABFileParser(FileParser):
                 "move_line_id": account_move_line.id,
                 "company_title_identification": linha_cnab["documento_numero"]
                 or account_move_line.document_number,
-                "favored_bank_account_id": account_move_line.payment_mode_id.fixed_journal_id.bank_account_id.id,
+                "favored_bank_account_id": (
+                    account_move_line.payment_mode_id.
+                    fixed_journal_id.bank_account_id.id
+                ),
                 # TODO: Campo Segmento é referente ao CNAB 240, o
                 #  BRCobranca parece não informar esse campo no retorno,
                 #  é preciso validar isso nesse caso.
@@ -336,7 +339,10 @@ class CNABFileParser(FileParser):
                                 + account_move_line.document_number,
                                 "debit": valor_desconto,
                                 "credit": 0.0,
-                                "account_id": account_move_line.payment_mode_id.discount_account_id.id,
+                                "account_id": (
+                                    account_move_line.payment_mode_id.
+                                    discount_account_id.id
+                                ),
                                 "type": "desconto",
                                 "ref": account_move_line.document_number,
                                 "invoice_id": account_move_line.invoice_id.id,
@@ -370,7 +376,10 @@ class CNABFileParser(FileParser):
                                 "debit": 0.0,
                                 "credit": valor_juros_mora,
                                 "type": "juros_mora",
-                                "account_id": account_move_line.payment_mode_id.interest_fee_account_id.id,
+                                "account_id": (
+                                    account_move_line.payment_mode_id.
+                                    interest_fee_account_id.id
+                                ),
                                 "ref": account_move_line.document_number,
                                 "invoice_id": account_move_line.invoice_id.id,
                                 "partner_id": account_move_line.partner_id.id,
@@ -419,7 +428,10 @@ class CNABFileParser(FileParser):
                                 "debit": valor_tarifa,
                                 "credit": 0.0,
                                 "type": "tarifa",
-                                "account_id": account_move_line.payment_mode_id.tariff_charge_account_id.id,
+                                "account_id": (
+                                    account_move_line.payment_mode_id.
+                                    tariff_charge_account_id.id
+                                ),
                                 "ref": account_move_line.document_number,
                                 "invoice_id": account_move_line.invoice_id.id,
                             }
@@ -438,7 +450,10 @@ class CNABFileParser(FileParser):
                                 + account_move_line.document_number,
                                 "debit": valor_abatimento,
                                 "credit": 0.0,
-                                "account_id": account_move_line.payment_mode_id.rebate_account_id.id,
+                                "account_id": (
+                                    account_move_line.payment_mode_id.
+                                    rebate_account_id.id
+                                ),
                                 "type": "abatimento",
                                 "ref": account_move_line.document_number,
                                 "invoice_id": account_move_line.invoice_id.id,
