@@ -3,30 +3,29 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 import base64
-import requests
-import json
 import datetime
+import json
+
+import requests
 
 from odoo import api
 from odoo.exceptions import Warning as UserError
 
-from odoo.addons.account_move_base_import.parser.file_parser import (
-    FileParser,
-)
+from odoo.addons.account_move_base_import.parser.file_parser import FileParser
 
 dict_brcobranca_bank = {
-    '001': 'banco_brasil',
-    '041': 'banrisul',
-    '237': 'bradesco',
-    '104': 'caixa',
-    '399': 'hsbc',
-    '341': 'itau',
-    '033': 'santander',
-    '748': 'sicred',
-    '004': 'banco_nordeste',
-    '021': 'banestes',
-    '756': 'sicoob',
-    '136': 'unicred',
+    "001": "banco_brasil",
+    "041": "banrisul",
+    "237": "bradesco",
+    "104": "caixa",
+    "399": "hsbc",
+    "341": "itau",
+    "033": "santander",
+    "748": "sicred",
+    "004": "banco_nordeste",
+    "021": "banestes",
+    "756": "sicoob",
+    "136": "unicred",
 }
 
 
@@ -55,34 +54,37 @@ class CNABFileParser(FileParser):
 
     @classmethod
     def parser_for(cls, parser_name):
-        if parser_name == 'cnab400':
-            return parser_name == 'cnab400'
-        elif parser_name == 'cnab240':
-            return parser_name == 'cnab240'
+        if parser_name == "cnab400":
+            return parser_name == "cnab400"
+        elif parser_name == "cnab240":
+            return parser_name == "cnab240"
 
     def parse(self, filebuffer):
 
-        files = {'data': base64.b64decode(filebuffer)}
+        files = {"data": base64.b64decode(filebuffer)}
 
-        api_address = self.env[
-            'ir.config_parameter'].sudo().get_param(
-            'l10n_br_account_payment_brcobranca.boleto_cnab_api')
+        api_address = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_account_payment_brcobranca.boleto_cnab_api")
+        )
         if not api_address:
             raise UserError(
-                ('Não é possível gerar o retorno.\n'
-                 'Informe o Endereço IP ou Nome do'
-                 ' Boleto CNAB API.'))
+                    "Não é possível gerar o retorno.\n"
+                    "Informe o Endereço IP ou Nome do"
+                    " Boleto CNAB API."
+            )
         # Ex.: "http://boleto_cnab_api:9292/api/retorno"
-        bank_name_brcobranca = \
-            dict_brcobranca_bank[self.bank.code_bc]
-        api_service_address = \
-            'http://' + api_address + ':9292/api/retorno'
+        bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
+        api_service_address = "http://" + api_address + ":9292/api/retorno"
         res = requests.post(
             api_service_address,
             data={
-                'type': self.journal.import_type,
-                'bank': bank_name_brcobranca,
-            }, files=files)
+                "type": self.journal.import_type,
+                "bank": bank_name_brcobranca,
+            },
+            files=files,
+        )
 
         if res.status_code != 201:
             raise UserError(res.text)
@@ -163,7 +165,7 @@ class CNABFileParser(FileParser):
 
         for linha_cnab in data:
 
-            if int(linha_cnab['codigo_registro']) != 1:
+            if int(linha_cnab["codigo_registro"]) != 1:
                 # Bradesco
                 # Existe o codigo de registro 9 que eh um totalizador
                 # porem os campos estao colocados em outras posicoes
@@ -174,50 +176,51 @@ class CNABFileParser(FileParser):
                 # continue
                 continue
 
-            bank_name_brcobranca = \
-                dict_brcobranca_bank[self.bank.code_bc]
+            bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
 
-            valor_titulo = self.cnab_str_to_float(
-                linha_cnab['valor_titulo'])
+            valor_titulo = self.cnab_str_to_float(linha_cnab["valor_titulo"])
 
             data_ocorrencia = datetime.date.today()
-            cod_ocorrencia = str(linha_cnab['codigo_ocorrencia'])
+            cod_ocorrencia = str(linha_cnab["codigo_ocorrencia"])
             # Cada Banco pode possuir um Codigo de Ocorrencia distinto,
             # mesmo no caso do 240, ver Unicred na pasta de dados do
             # l10n_br_account_payment_order
-            payment_method_cnab = self.env['account.payment.method'].search([
-                ('payment_type', '=', 'inbound'),
-                ('code', '=', self.parser_name[4:7])
-            ])
-            cnab_return_move_code = self.env[
-                'l10n_br_cnab.return.move.code'].search([
-                    ('bank_ids', 'in', self.bank.id),
-                    ('payment_method_ids', 'in', payment_method_cnab.id),
-                    ('code', '=', cod_ocorrencia)
-                ])
+            payment_method_cnab = self.env["account.payment.method"].search(
+                [("payment_type", "=", "inbound"), ("code", "=", self.parser_name[4:7])]
+            )
+            cnab_return_move_code = self.env["l10n_br_cnab.return.move.code"].search(
+                [
+                    ("bank_ids", "in", self.bank.id),
+                    ("payment_method_ids", "in", payment_method_cnab.id),
+                    ("code", "=", cod_ocorrencia),
+                ]
+            )
             if cnab_return_move_code:
-                descricao_ocorrencia = \
-                    cod_ocorrencia + '-' + cnab_return_move_code.name
+                descricao_ocorrencia = cod_ocorrencia + "-" + cnab_return_move_code.name
             else:
-                descricao_ocorrencia = \
-                    cod_ocorrencia + '-' + 'CÓDIGO DA DESCRIÇÃO NÃO ENCONTRADO'
+                descricao_ocorrencia = (
+                    cod_ocorrencia + "-" + "CÓDIGO DA DESCRIÇÃO NÃO ENCONTRADO"
+                )
 
             # Campo especifico do Bradesco
-            if bank_name_brcobranca == 'bradesco':
-                if (linha_cnab['data_ocorrencia'] == '000000' or
-                        not linha_cnab['data_ocorrencia']):
-                    data_ocorrencia = linha_cnab['data_de_ocorrencia']
+            if bank_name_brcobranca == "bradesco":
+                if (
+                    linha_cnab["data_ocorrencia"] == "000000"
+                    or not linha_cnab["data_ocorrencia"]
+                ):
+                    data_ocorrencia = linha_cnab["data_de_ocorrencia"]
                 else:
                     data_ocorrencia = datetime.datetime.strptime(
-                        str(linha_cnab['data_ocorrencia']), "%d%m%y").date()
+                        str(linha_cnab["data_ocorrencia"]), "%d%m%y"
+                    ).date()
 
             # Nosso numero vem com o Digito Verificador
             # ex.: 00000000000002010
-            nosso_numero_sem_dig = linha_cnab['nosso_numero'][:-1]
+            nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
 
             # nosso_numero_sem_dig.strip("0")
             # ex.: 201
-            nosso_numero_sem_zeros = nosso_numero_sem_dig.strip('0')
+            nosso_numero_sem_zeros = nosso_numero_sem_dig.strip("0")
 
             # No arquivo de retorno do CNAB o campo pode ter um tamanho
             # diferente, o tamanho do campo é preenchido na totalidade
@@ -233,26 +236,29 @@ class CNABFileParser(FileParser):
             # Podem existir sequencias do nosso numero/own_number iguais entre
             # bancos diferentes, porém os Diario/account.journal
             # não pode ser o mesmo.
-            account_move_line = self.env['account.move.line'].search([
-                ('own_number_without_zfill', '=', nosso_numero_sem_zeros),
-                ('journal_payment_mode_id', '=', self.journal.id)
-            ])
+            account_move_line = self.env["account.move.line"].search(
+                [
+                    ("own_number_without_zfill", "=", nosso_numero_sem_zeros),
+                    ("journal_payment_mode_id", "=", self.journal.id),
+                ]
+            )
 
             # Linha não encontrada
             if not account_move_line:
-                self.cnab_return_events.append({
-                    'occurrences': descricao_ocorrencia,
-                    'occurrence_date': data_ocorrencia,
-                    'str_motiv_a':
-                        ' * - BOLETO NÃO ENCONTRADO.',
-                    'own_number': linha_cnab['nosso_numero'],
-                    'your_number': linha_cnab['documento_numero'],
-                    'title_value': valor_titulo,
-                })
+                self.cnab_return_events.append(
+                    {
+                        "occurrences": descricao_ocorrencia,
+                        "occurrence_date": data_ocorrencia,
+                        "str_motiv_a": " * - BOLETO NÃO ENCONTRADO.",
+                        "own_number": linha_cnab["nosso_numero"],
+                        "your_number": linha_cnab["documento_numero"],
+                        "title_value": valor_titulo,
+                    }
+                )
                 continue
 
-            payment_line = self.env['account.payment.line'].search(
-                [('move_line_id', '=', account_move_line.id)]
+            payment_line = self.env["account.payment.line"].search(
+                [("move_line_id", "=", account_move_line.id)]
             )
 
             # A Linha de Pagamento pode ter N bank.payment.line
@@ -260,33 +266,32 @@ class CNABFileParser(FileParser):
             # o CNAB
             # TODO: Deveria relacionar todas ?
             bank_line = payment_line.bank_line_id.filtered(
-                lambda b: b.mov_instruction_code_id.id ==
-                          payment_line.payment_mode_id.
-                              cnab_sending_code_id.id)
+                lambda b: b.mov_instruction_code_id.id
+                == payment_line.payment_mode_id.cnab_sending_code_id.id
+            )
 
             # Codigos de Movimento de Retorno - Liquidação
             cnab_liq_move_code = []
-            for move_code in account_move_line.payment_mode_id.\
-                    cnab_liq_return_move_code_ids:
+            for (
+                move_code
+            ) in account_move_line.payment_mode_id.cnab_liq_return_move_code_ids:
                 cnab_liq_move_code.append(move_code.code)
 
             cnab_return_log_event = {
-                'occurrences': descricao_ocorrencia,
-                'occurrence_date': data_ocorrencia,
-                'own_number': account_move_line.own_number,
-                'your_number': account_move_line.document_number,
-                'title_value': valor_titulo,
-                'bank_payment_line_id': bank_line.id or False,
-                'invoice_id': account_move_line.invoice_id.id,
-                'due_date': datetime.datetime.strptime(
-                    str(linha_cnab['data_vencimento']), "%d%m%y").date(),
-                'move_line_id': account_move_line.id,
-                'company_title_identification':
-                    linha_cnab['documento_numero'] or
-                    account_move_line.document_number,
-                'favored_bank_account_id':
-                    account_move_line.payment_mode_id.
-                        fixed_journal_id.bank_account_id.id,
+                "occurrences": descricao_ocorrencia,
+                "occurrence_date": data_ocorrencia,
+                "own_number": account_move_line.own_number,
+                "your_number": account_move_line.document_number,
+                "title_value": valor_titulo,
+                "bank_payment_line_id": bank_line.id or False,
+                "invoice_id": account_move_line.invoice_id.id,
+                "due_date": datetime.datetime.strptime(
+                    str(linha_cnab["data_vencimento"]), "%d%m%y"
+                ).date(),
+                "move_line_id": account_move_line.id,
+                "company_title_identification": linha_cnab["documento_numero"]
+                or account_move_line.document_number,
+                "favored_bank_account_id": account_move_line.payment_mode_id.fixed_journal_id.bank_account_id.id,
                 # TODO: Campo Segmento é referente ao CNAB 240, o
                 #  BRCobranca parece não informar esse campo no retorno,
                 #  é preciso validar isso nesse caso.
@@ -300,179 +305,194 @@ class CNABFileParser(FileParser):
 
             if cod_ocorrencia in cnab_liq_move_code:
 
-                valor_recebido = valor_desconto = valor_juros_mora =\
-                    valor_abatimento = valor_tarifa = 0.0
+                valor_recebido = (
+                    valor_desconto
+                ) = valor_juros_mora = valor_abatimento = valor_tarifa = 0.0
 
-                if linha_cnab['valor_recebido']:
+                if linha_cnab["valor_recebido"]:
                     # Campo Valor Recebido vem com o Valor da Tarifa:
                     # valor recebido = valor pago + valor da tarifa
                     valor_recebido = self.cnab_str_to_float(
-                        linha_cnab['valor_recebido'])
+                        linha_cnab["valor_recebido"]
+                    )
 
-                if (linha_cnab['data_credito'] == '000000' or
-                        not linha_cnab['data_credito']):
-                    data_credito = linha_cnab['data_credito']
+                if (
+                    linha_cnab["data_credito"] == "000000"
+                    or not linha_cnab["data_credito"]
+                ):
+                    data_credito = linha_cnab["data_credito"]
                 else:
                     data_credito = datetime.datetime.strptime(
-                        str(linha_cnab['data_credito']), "%d%m%y").date()
+                        str(linha_cnab["data_credito"]), "%d%m%y"
+                    ).date()
 
                 # Valor Desconto
-                if linha_cnab.get('desconto'):
-                    valor_desconto = self.cnab_str_to_float(
-                        linha_cnab['desconto'])
+                if linha_cnab.get("desconto"):
+                    valor_desconto = self.cnab_str_to_float(linha_cnab["desconto"])
                     if valor_desconto > 0.0:
-                        row_list.append({
-                            'name': 'Desconto (boleto) ' +
-                                    account_move_line.document_number,
-                            'debit': valor_desconto,
-                            'credit': 0.0,
-                            'account_id': account_move_line.payment_mode_id.
-                            discount_account_id.id,
-                            'type': 'desconto',
-                            'ref': account_move_line.document_number,
-                            'invoice_id': account_move_line.invoice_id.id,
-                        })
+                        row_list.append(
+                            {
+                                "name": "Desconto (boleto) "
+                                + account_move_line.document_number,
+                                "debit": valor_desconto,
+                                "credit": 0.0,
+                                "account_id": account_move_line.payment_mode_id.discount_account_id.id,
+                                "type": "desconto",
+                                "ref": account_move_line.document_number,
+                                "invoice_id": account_move_line.invoice_id.id,
+                            }
+                        )
 
-                        row_list.append({
-                            'name': 'Desconto (boleto) ' +
-                                    account_move_line.document_number,
-                            'debit': 0.0,
-                            'credit': valor_desconto,
-                            'type': 'desconto',
-                            'account_id':
-                            self.journal.default_credit_account_id.id,
-                            'ref': account_move_line.document_number,
-                            'invoice_id': account_move_line.invoice_id.id,
-                            'partner_id': account_move_line.partner_id.id,
-                        })
+                        row_list.append(
+                            {
+                                "name": "Desconto (boleto) "
+                                + account_move_line.document_number,
+                                "debit": 0.0,
+                                "credit": valor_desconto,
+                                "type": "desconto",
+                                "account_id": self.journal.default_credit_account_id.id,
+                                "ref": account_move_line.document_number,
+                                "invoice_id": account_move_line.invoice_id.id,
+                                "partner_id": account_move_line.partner_id.id,
+                            }
+                        )
 
                 # Valor Juros Mora - valor de mora e multa pagos pelo sacado
-                if linha_cnab.get('juros_mora'):
-                    valor_juros_mora = self.cnab_str_to_float(
-                        linha_cnab['juros_mora'])
+                if linha_cnab.get("juros_mora"):
+                    valor_juros_mora = self.cnab_str_to_float(linha_cnab["juros_mora"])
 
                     if valor_juros_mora > 0.0:
 
-                        row_list.append({
-                            'name': 'Valor Juros Mora (boleto) ' +
-                                    account_move_line.document_number,
-                            'debit': 0.0,
-                            'credit': valor_juros_mora,
-                            'type': 'juros_mora',
-                            'account_id': account_move_line.payment_mode_id.
-                            interest_fee_account_id.id,
-                            'ref': account_move_line.document_number,
-                            'invoice_id': account_move_line.invoice_id.id,
-                            'partner_id': account_move_line.partner_id.id,
-                        })
+                        row_list.append(
+                            {
+                                "name": "Valor Juros Mora (boleto) "
+                                + account_move_line.document_number,
+                                "debit": 0.0,
+                                "credit": valor_juros_mora,
+                                "type": "juros_mora",
+                                "account_id": account_move_line.payment_mode_id.interest_fee_account_id.id,
+                                "ref": account_move_line.document_number,
+                                "invoice_id": account_move_line.invoice_id.id,
+                                "partner_id": account_move_line.partner_id.id,
+                            }
+                        )
 
-                        row_list.append({
-                            'name': 'Valor Juros Mora (boleto) ' +
-                                    account_move_line.document_number,
-                            'debit': valor_juros_mora,
-                            'credit': 0.0,
-                            'account_id':
-                            self.journal.default_credit_account_id.id,
-                            'journal_id': account_move_line.journal_id.id,
-                            'type': 'juros_mora',
-                            'ref': account_move_line.document_number,
-                            'invoice_id': account_move_line.invoice_id.id,
-                            'partner_id': account_move_line.partner_id.id,
-                        })
+                        row_list.append(
+                            {
+                                "name": "Valor Juros Mora (boleto) "
+                                + account_move_line.document_number,
+                                "debit": valor_juros_mora,
+                                "credit": 0.0,
+                                "account_id": self.journal.default_credit_account_id.id,
+                                "journal_id": account_move_line.journal_id.id,
+                                "type": "juros_mora",
+                                "ref": account_move_line.document_number,
+                                "invoice_id": account_move_line.invoice_id.id,
+                                "partner_id": account_move_line.partner_id.id,
+                            }
+                        )
 
                 # Valor Tarifa
-                if linha_cnab.get('valor_tarifa'):
-                    valor_tarifa = self.cnab_str_to_float(
-                        linha_cnab['valor_tarifa'])
+                if linha_cnab.get("valor_tarifa"):
+                    valor_tarifa = self.cnab_str_to_float(linha_cnab["valor_tarifa"])
 
                     if valor_tarifa > 0.0:
                         # Usado para Conciliar a Fatura
-                        row_list.append({
-                            'name': 'Tarifas bancárias (boleto) ' +
-                                    account_move_line.document_number,
-                            'debit': 0.0,
-                            'credit': valor_tarifa,
-                            'account_id':
-                            self.journal.default_credit_account_id.id,
-                            'type': 'tarifa',
-                            'ref': account_move_line.document_number,
-                            'invoice_id': account_move_line.invoice_id.id,
-                            'partner_id': account_move_line.company_id.partner_id.id,
-                        })
+                        row_list.append(
+                            {
+                                "name": "Tarifas bancárias (boleto) "
+                                + account_move_line.document_number,
+                                "debit": 0.0,
+                                "credit": valor_tarifa,
+                                "account_id": self.journal.default_credit_account_id.id,
+                                "type": "tarifa",
+                                "ref": account_move_line.document_number,
+                                "invoice_id": account_move_line.invoice_id.id,
+                                "partner_id": account_move_line.company_id.partner_id.id,
+                            }
+                        )
 
-                        row_list.append({
-                            'name': 'Tarifas bancárias (boleto) ' +
-                                    account_move_line.document_number,
-                            'debit': valor_tarifa,
-                            'credit': 0.0,
-                            'type': 'tarifa',
-                            'account_id': account_move_line.payment_mode_id.
-                            tariff_charge_account_id.id,
-                            'ref': account_move_line.document_number,
-                            'invoice_id': account_move_line.invoice_id.id,
-                        })
+                        row_list.append(
+                            {
+                                "name": "Tarifas bancárias (boleto) "
+                                + account_move_line.document_number,
+                                "debit": valor_tarifa,
+                                "credit": 0.0,
+                                "type": "tarifa",
+                                "account_id": account_move_line.payment_mode_id.tariff_charge_account_id.id,
+                                "ref": account_move_line.document_number,
+                                "invoice_id": account_move_line.invoice_id.id,
+                            }
+                        )
 
                 # Valor Abatimento
-                if linha_cnab.get('valor_abatimento'):
+                if linha_cnab.get("valor_abatimento"):
                     valor_abatimento = self.cnab_str_to_float(
-                        linha_cnab['valor_abatimento'])
+                        linha_cnab["valor_abatimento"]
+                    )
 
                     if valor_abatimento:
-                        row_list.append({
-                            'name': 'Abatimento (boleto) ' +
-                                    account_move_line.document_number,
-                            'debit': valor_abatimento,
-                            'credit': 0.0,
-                            'account_id': account_move_line.payment_mode_id.
-                            rebate_account_id.id,
-                            'type': 'abatimento',
-                            'ref': account_move_line.document_number,
-                            'invoice_id': account_move_line.invoice_id.id,
-                        })
+                        row_list.append(
+                            {
+                                "name": "Abatimento (boleto) "
+                                + account_move_line.document_number,
+                                "debit": valor_abatimento,
+                                "credit": 0.0,
+                                "account_id": account_move_line.payment_mode_id.rebate_account_id.id,
+                                "type": "abatimento",
+                                "ref": account_move_line.document_number,
+                                "invoice_id": account_move_line.invoice_id.id,
+                            }
+                        )
 
-                        row_list.append({
-                            'name': 'Abatimento (boleto) ' +
-                                    account_move_line.document_number,
-                            'debit': 0.0,
-                            'credit': valor_abatimento,
-                            'type': 'abatimento',
-                            'account_id':
-                            self.journal.default_credit_account_id.id,
-                            'ref': account_move_line.document_number,
-                            'invoice_id': account_move_line.invoice_id.id,
-                            'partner_id': account_move_line.partner_id.id,
-                        })
+                        row_list.append(
+                            {
+                                "name": "Abatimento (boleto) "
+                                + account_move_line.document_number,
+                                "debit": 0.0,
+                                "credit": valor_abatimento,
+                                "type": "abatimento",
+                                "account_id": self.journal.default_credit_account_id.id,
+                                "ref": account_move_line.document_number,
+                                "invoice_id": account_move_line.invoice_id.id,
+                                "partner_id": account_move_line.partner_id.id,
+                            }
+                        )
 
                 # Linha da Fatura a ser reconciliada com o Pagamento em Aberto,
                 # necessário atualizar o Valor Recebido pois o Odoo não
                 # aceita a conciliação nem com um Valor Menor ou Maior.
-                valor_recebido_calculado =\
-                    (valor_recebido + valor_desconto +
-                     valor_abatimento) - valor_juros_mora
+                valor_recebido_calculado = (
+                    valor_recebido + valor_desconto + valor_abatimento
+                ) - valor_juros_mora
 
-                row_list.append({
-                     'name': account_move_line.invoice_id.number,
-                     'debit': 0.0,
-                     'credit': valor_recebido_calculado,
-                     'move_line': account_move_line,
-                     'invoice_id': account_move_line.invoice_id.id,
-                     'type': 'liquidado',
-                    'bank_payment_line_id': bank_line.id or False,
-                     'ref': account_move_line.own_number,
-                     'account_id': account_move_line.account_id.id,
-                     'partner_id': account_move_line.partner_id.id,
-                     'date': data_credito,
-                })
+                row_list.append(
+                    {
+                        "name": account_move_line.invoice_id.number,
+                        "debit": 0.0,
+                        "credit": valor_recebido_calculado,
+                        "move_line": account_move_line,
+                        "invoice_id": account_move_line.invoice_id.id,
+                        "type": "liquidado",
+                        "bank_payment_line_id": bank_line.id or False,
+                        "ref": account_move_line.own_number,
+                        "account_id": account_move_line.account_id.id,
+                        "partner_id": account_move_line.partner_id.id,
+                        "date": data_credito,
+                    }
+                )
 
                 # CNAB LOG
-                cnab_return_log_event.update({
-                    'real_payment_date': data_credito.strftime("%Y-%m-%d"),
-                    'payment_value': valor_recebido,
-                    'discount_value': valor_desconto,
-                    'interest_fee_value': valor_juros_mora,
-                    'rebate_value': valor_abatimento,
-                    'tariff_charge': valor_tarifa,
-                })
+                cnab_return_log_event.update(
+                    {
+                        "real_payment_date": data_credito.strftime("%Y-%m-%d"),
+                        "payment_value": valor_recebido,
+                        "discount_value": valor_desconto,
+                        "interest_fee_value": valor_juros_mora,
+                        "rebate_value": valor_abatimento,
+                        "tariff_charge": valor_tarifa,
+                    }
+                )
                 self.cnab_return_events.append(cnab_return_log_event)
                 result_row_list.append(row_list)
             else:
@@ -483,11 +503,11 @@ class CNABFileParser(FileParser):
                 #  exceções ?
                 #  Caso exista será preciso criar o campo no payment.mode
                 #  para informa-lo como nos outros casos.
-                if cod_ocorrencia == '02':
-                    account_move_line.cnab_state = 'accepted'
-                elif cod_ocorrencia == '03':
+                if cod_ocorrencia == "02":
+                    account_move_line.cnab_state = "accepted"
+                elif cod_ocorrencia == "03":
                     # TODO - algo a mais a ser feito ?
-                    account_move_line.cnab_state = 'not_accepted'
+                    account_move_line.cnab_state = "not_accepted"
 
                 self.cnab_return_events.append(cnab_return_log_event)
 
@@ -497,9 +517,7 @@ class CNABFileParser(FileParser):
         # Até onde vi independente do tamanho do campo os
         # 2 ultimos caracteres se referem ao decimal
         decimal_point = len(value) - 2
-        value_float = float(
-            str(value[0:decimal_point] +
-                '.' + value[decimal_point:]))
+        value_float = float(str(value[0:decimal_point] + "." + value[decimal_point:]))
         return value_float
 
     def get_move_vals(self):
@@ -508,9 +526,11 @@ class CNABFileParser(FileParser):
         :return: dict of vals that represent additional infos for the statement
         """
         return {
-            'name': 'Retorno CNAB - Banco ' + self.bank.short_name + ' - Conta '
-                    + self.journal.bank_account_id.acc_number,
-            'is_cnab': True,
+            "name": "Retorno CNAB - Banco "
+            + self.bank.short_name
+            + " - Conta "
+            + self.journal.bank_account_id.acc_number,
+            "is_cnab": True,
         }
 
     def get_move_line_vals(self, line, *args, **kwargs):
@@ -532,20 +552,23 @@ class CNABFileParser(FileParser):
                 }
         """
         vals = {
-            'name': line['name'] or line.get('source'),
-            'credit': line['credit'],
-            'debit': line['debit'],
-            'partner_id': None,
-            'ref': line['ref'],
-            'account_id': line['account_id'],
-            'invoice_id': line['invoice_id'],
-            'already_completed': True,
+            "name": line["name"] or line.get("source"),
+            "credit": line["credit"],
+            "debit": line["debit"],
+            "partner_id": None,
+            "ref": line["ref"],
+            "account_id": line["account_id"],
+            "invoice_id": line["invoice_id"],
+            "already_completed": True,
         }
-        if line['type'] in (
-                'liquidado', 'tarifa', 'juros_mora',
-                'desconto', 'abatimento') and line['credit'] > 0.0:
-            vals.update({
-                'partner_id': line['partner_id'],
+        if (
+            line["type"]
+            in ("liquidado", "tarifa", "juros_mora", "desconto", "abatimento")
+            and line["credit"] > 0.0
+        ):
+            vals.update(
+                {
+                    "partner_id": line["partner_id"],
                 }
             )
 
