@@ -57,7 +57,7 @@ class TestPaymentOrder(SavepointCase):
         self.invoice_unicred.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEquals(self.invoice_unicred.state, "open")
+        self.assertEqual(self.invoice_unicred.state, "open")
 
         # Geração do Boleto
         self.invoice_unicred.view_boleto_pdf()
@@ -66,19 +66,19 @@ class TestPaymentOrder(SavepointCase):
             [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
         )
 
-        self.assertEquals(len(payment_order.payment_line_ids), 2)
-        self.assertEquals(len(payment_order.bank_line_ids), 0)
+        self.assertEqual(len(payment_order.payment_line_ids), 2)
+        self.assertEqual(len(payment_order.bank_line_ids), 0)
 
         # Open payment order
         payment_order.draft2open()
 
         # Criação da Bank Line
-        self.assertEquals(len(payment_order.bank_line_ids), 2)
+        self.assertEqual(len(payment_order.bank_line_ids), 2)
 
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         # Ordem de Pagto CNAB não pode ser apagada
         with self.assertRaises(UserError):
@@ -88,16 +88,16 @@ class TestPaymentOrder(SavepointCase):
         with self.assertRaises(UserError):
             payment_order.action_done_cancel()
 
-        self.assertEquals(len(self.invoice_unicred.move_id), 1)
+        self.assertEqual(len(self.invoice_unicred.move_id), 1)
         # Testar Cancelamento
         self.invoice_unicred.action_invoice_cancel()
 
         # Caso de Ordem de Pagamento já confirmado a Linha
         # e a account.move não pode ser apagadas
-        self.assertEquals(len(payment_order.payment_line_ids), 2)
+        self.assertEqual(len(payment_order.payment_line_ids), 2)
         # TODO: A account.move está sendo apagada nesse caso deveria ser
         #  mantida ? As account.move.line relacionas continuam exisitindo
-        self.assertEquals(len(self.invoice_unicred.move_id), 0)
+        self.assertEqual(len(self.invoice_unicred.move_id), 0)
 
         # Criação do Pedido de Baixa
         payment_order = self.env["account.payment.order"].search(
@@ -109,7 +109,7 @@ class TestPaymentOrder(SavepointCase):
 
         for line in payment_order.payment_line_ids:
             # Caso de Baixa do Titulo
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_write_off_code_id.name,
             )
@@ -141,17 +141,17 @@ class TestPaymentOrder(SavepointCase):
         for line in payment_order.payment_line_ids:
             if line.amount_currency == 300:
                 # Caso de Baixa do Titulo
-                self.assertEquals(
+                self.assertEqual(
                     line.mov_instruction_code_id.name,
                     line.order_id.payment_mode_id.cnab_write_off_code_id.name,
                 )
             else:
                 # Caso de alteração do valor do titulo por pagamento parcial
-                self.assertEquals(
+                self.assertEqual(
                     line.mov_instruction_code_id.name,
                     line.order_id.payment_mode_id.cnab_code_change_title_value_id.name,
                 )
-                self.assertEquals(
+                self.assertEqual(
                     line.move_line_id.amount_residual, line.amount_currency
                 )
 
@@ -182,7 +182,7 @@ class TestPaymentOrder(SavepointCase):
             ]
         )
         for line in payment_order.payment_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_change_maturity_date_id.name,
             )
@@ -192,7 +192,7 @@ class TestPaymentOrder(SavepointCase):
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         # Protesto
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
@@ -206,7 +206,7 @@ class TestPaymentOrder(SavepointCase):
             ]
         )
         for line in payment_order.payment_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_protest_title_id.name,
             )
@@ -215,7 +215,7 @@ class TestPaymentOrder(SavepointCase):
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         # Suspender Protesto e manter em carteira
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
@@ -231,7 +231,7 @@ class TestPaymentOrder(SavepointCase):
             ]
         )
         for line in payment_order.payment_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id.name,
             )
@@ -240,7 +240,7 @@ class TestPaymentOrder(SavepointCase):
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         # Caso Conceder Abatimento
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
@@ -257,24 +257,24 @@ class TestPaymentOrder(SavepointCase):
             ]
         )
         for line in payment_order.payment_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_grant_rebate_id.name,
             )
-            self.assertEquals(line.rebate_value, 10.0)
+            self.assertEqual(line.rebate_value, 10.0)
 
         # Open payment order
         payment_order.draft2open()
         for line in payment_order.bank_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_grant_rebate_id.name,
             )
-            self.assertEquals(line.rebate_value, 10.0)
+            self.assertEqual(line.rebate_value, 10.0)
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         # Caso Cancelar Abatimento
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
@@ -288,7 +288,7 @@ class TestPaymentOrder(SavepointCase):
             ]
         )
         for line in payment_order.payment_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_cancel_rebate_id.name,
             )
@@ -298,7 +298,7 @@ class TestPaymentOrder(SavepointCase):
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         # Caso Conceder Desconto
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
@@ -315,24 +315,24 @@ class TestPaymentOrder(SavepointCase):
             ]
         )
         for line in payment_order.payment_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_grant_discount_id.name,
             )
-            self.assertEquals(line.discount_value, 10.0)
+            self.assertEqual(line.discount_value, 10.0)
 
         # Open payment order
         payment_order.draft2open()
         for line in payment_order.bank_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_grant_discount_id.name,
             )
-            self.assertEquals(line.discount_value, 10.0)
+            self.assertEqual(line.discount_value, 10.0)
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         # Caso Cancelar discount
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
@@ -346,7 +346,7 @@ class TestPaymentOrder(SavepointCase):
             ]
         )
         for line in payment_order.payment_line_ids:
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_cancel_discount_id.name,
             )
@@ -356,7 +356,7 @@ class TestPaymentOrder(SavepointCase):
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         # Suspender Protesto e dar Baixa
         # TODO: Especificar melhor esse caso
@@ -371,9 +371,9 @@ class TestPaymentOrder(SavepointCase):
             {"change_type": "not_payment"}
         )
         aml_cnab_change.doit()
-        self.assertEquals(aml_to_change.payment_situation, "nao_pagamento")
-        self.assertEquals(aml_to_change.cnab_state, "done")
-        self.assertEquals(aml_to_change.reconciled, True)
+        self.assertEqual(aml_to_change.payment_situation, "nao_pagamento")
+        self.assertEqual(aml_to_change.cnab_state, "done")
+        self.assertEqual(aml_to_change.reconciled, True)
         payment_order = self.env["account.payment.order"].search(
             [
                 ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
@@ -382,7 +382,7 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             # Baixa do Titulo
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_write_off_code_id.name,
             )
@@ -403,7 +403,7 @@ class TestPaymentOrder(SavepointCase):
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         payment = self.env["account.payment"].create(
             {
@@ -432,18 +432,18 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             # Caso de alteração do valor do titulo por pagamento parcial
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_change_title_value_id.name,
             )
-            self.assertEquals(line.move_line_id.amount_residual, line.amount_currency)
+            self.assertEqual(line.move_line_id.amount_residual, line.amount_currency)
 
         # Open payment order
         payment_order.draft2open()
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         payment = self.env["account.payment"].create(
             {
@@ -472,18 +472,18 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             # Caso de alteração do valor do titulo por pagamento parcial
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_code_change_title_value_id.name,
             )
-            self.assertEquals(line.move_line_id.amount_residual, line.amount_currency)
+            self.assertEqual(line.move_line_id.amount_residual, line.amount_currency)
 
         # Open payment order
         payment_order.draft2open()
         # Generate and upload
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        self.assertEquals(payment_order.state, "done")
+        self.assertEqual(payment_order.state, "done")
 
         payment = self.env["account.payment"].create(
             {
@@ -512,7 +512,7 @@ class TestPaymentOrder(SavepointCase):
         )
         for line in payment_order.payment_line_ids:
             # Baixa do Titulo
-            self.assertEquals(
+            self.assertEqual(
                 line.mov_instruction_code_id.name,
                 line.order_id.payment_mode_id.cnab_write_off_code_id.name,
             )
@@ -521,6 +521,6 @@ class TestPaymentOrder(SavepointCase):
             #  validaria essas atualizações ?
             #  l.move_line_id.amount_residual = 0.0
             #  l.amount_currency = 300
-            # self.assertEquals(
+            # self.assertEqual(
             #    l.move_line_id.amount_residual,
             #    l.amount_currency)
