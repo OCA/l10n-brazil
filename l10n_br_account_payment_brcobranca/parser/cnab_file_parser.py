@@ -8,7 +8,6 @@ import json
 
 import requests
 
-from odoo import api
 from odoo.exceptions import Warning as UserError
 
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
@@ -96,7 +95,6 @@ class CNABFileParser(FileParser):
 
         yield self.result_row_list
 
-    @api.multi
     def process_return_file(self, data):
 
         #          Forma de Lançamento do Retorno
@@ -292,8 +290,7 @@ class CNABFileParser(FileParser):
                 "company_title_identification": linha_cnab["documento_numero"]
                 or account_move_line.document_number,
                 "favored_bank_account_id": (
-                    account_move_line.payment_mode_id.
-                    fixed_journal_id.bank_account_id.id
+                    account_move_line.payment_mode_id.fixed_journal_id.bank_account_id.id
                 ),
                 # TODO: Campo Segmento é referente ao CNAB 240, o
                 #  BRCobranca parece não informar esse campo no retorno,
@@ -340,8 +337,7 @@ class CNABFileParser(FileParser):
                                 "debit": valor_desconto,
                                 "credit": 0.0,
                                 "account_id": (
-                                    account_move_line.payment_mode_id.
-                                    discount_account_id.id
+                                    account_move_line.payment_mode_id.discount_account_id.id
                                 ),
                                 "type": "desconto",
                                 "ref": account_move_line.document_number,
@@ -377,8 +373,7 @@ class CNABFileParser(FileParser):
                                 "credit": valor_juros_mora,
                                 "type": "juros_mora",
                                 "account_id": (
-                                    account_move_line.payment_mode_id.
-                                    interest_fee_account_id.id
+                                    account_move_line.payment_mode_id.interest_fee_account_id.id
                                 ),
                                 "ref": account_move_line.document_number,
                                 "invoice_id": account_move_line.invoice_id.id,
@@ -429,8 +424,7 @@ class CNABFileParser(FileParser):
                                 "credit": 0.0,
                                 "type": "tarifa",
                                 "account_id": (
-                                    account_move_line.payment_mode_id.
-                                    tariff_charge_account_id.id
+                                    account_move_line.payment_mode_id.tariff_charge_account_id.id
                                 ),
                                 "ref": account_move_line.document_number,
                                 "invoice_id": account_move_line.invoice_id.id,
@@ -451,8 +445,7 @@ class CNABFileParser(FileParser):
                                 "debit": valor_abatimento,
                                 "credit": 0.0,
                                 "account_id": (
-                                    account_move_line.payment_mode_id.
-                                    rebate_account_id.id
+                                    account_move_line.payment_mode_id.rebate_account_id.id
                                 ),
                                 "type": "abatimento",
                                 "ref": account_move_line.document_number,
