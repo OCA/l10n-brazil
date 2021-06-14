@@ -315,9 +315,9 @@ class AccountInvoice(models.Model):
         count = 1
 
         for line in financial_lines:
-            if line[2]["debit"] or line["credit"]:
+            if line[2]["debit"] or line[2]["credit"]:
                 if self.fiscal_document_id != dummy_doc:
-                    line["name"] = "{}/{}-{}".format(
+                    line[2]["name"] = "{}/{}-{}".format(
                         self.fiscal_document_id.with_context(
                             fiscal_document_no_company=True
                         )._compute_document_name(),
