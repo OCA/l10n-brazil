@@ -9,7 +9,7 @@ import tempfile
 
 import requests
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import Warning as UserError
 
 
@@ -26,11 +26,11 @@ class AccountInvoice(models.Model):
     # Usado para deixar invisivel o botão
     # Imprimir Boleto, quando não for o caso
     button_print_boleto_invisible = fields.Boolean(
-        compute="_get_button_print_boleto_invisible"
+        compute="_compute_button_print_boleto_invisible"
     )
 
     @api.depends("state")
-    def _get_button_print_boleto_invisible(self):
+    def _compute_button_print_boleto_invisible(self):
 
         # Foi preciso criar um compute para isso pois o
         # states="open" não funciona em conjunto com o attrs
@@ -57,9 +57,11 @@ class AccountInvoice(models.Model):
         boletos = receivable_ids.send_payment()
         if not boletos:
             raise UserError(
-                "Não é possível gerar os boletos\n"
-                "Certifique-se que a fatura esteja confirmada e o "
-                "forma de pagamento seja duplicatas"
+                _(
+                    "It is not possible generated boletos\n"
+                    "Make sure the Invoice are in Confirm state and "
+                    "Payment Mode method are CNAB."
+                )
             )
 
         content = json.dumps(boletos)
@@ -76,9 +78,11 @@ class AccountInvoice(models.Model):
 
         if not api_address:
             raise UserError(
-                "Não é possível gerar os boletos.\n"
-                "Informe o Endereço IP ou Nome do"
-                " Boleto CNAB API."
+                _(
+                    "It is not possible generated boletos.\n"
+                    "Inform the IP address or Name of server"
+                    " where Boleto CNAB API are running."
+                )
             )
 
         api_service_address = "http://" + api_address + ":9292/api/boleto/multi"
