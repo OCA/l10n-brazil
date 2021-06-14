@@ -189,19 +189,10 @@ class CNABFileParser(FileParser):
             payment_method_cnab = self.env["account.payment.method"].search(
                 [("payment_type", "=", "inbound"), ("code", "=", self.parser_name[4:7])]
             )
-            cnab_return_move_code = self.env["l10n_br_cnab.return.move.code"].search(
-                [
-                    ("bank_ids", "in", self.bank.id),
-                    ("payment_method_ids", "in", payment_method_cnab.id),
-                    ("code", "=", cod_ocorrencia),
-                ]
+
+            descricao_ocorrencia = self._get_description_occurrence(
+                payment_method_cnab, cod_ocorrencia
             )
-            if cnab_return_move_code:
-                descricao_ocorrencia = cod_ocorrencia + "-" + cnab_return_move_code.name
-            else:
-                descricao_ocorrencia = (
-                    cod_ocorrencia + "-" + "CÓDIGO DA DESCRIÇÃO NÃO ENCONTRADO"
-                )
 
             # Campo especifico do Bradesco
             if bank_name_brcobranca == "bradesco":
@@ -304,210 +295,14 @@ class CNABFileParser(FileParser):
                 # 'tipo_moeda': evento.credito_moeda_tipo,
             }
 
-            row_list = []
-
+            # Caso de Pagamento deve criar os Lançamentos de Diário
             if cod_ocorrencia in cnab_liq_move_code:
 
-                valor_recebido = (
-                    valor_desconto
-                ) = valor_juros_mora = valor_abatimento = valor_tarifa = 0.0
-
-                if linha_cnab["valor_recebido"]:
-                    # Campo Valor Recebido vem com o Valor da Tarifa:
-                    # valor recebido = valor pago + valor da tarifa
-                    valor_recebido = self.cnab_str_to_float(
-                        linha_cnab["valor_recebido"]
-                    )
-
-                if (
-                    linha_cnab["data_credito"] == "000000"
-                    or not linha_cnab["data_credito"]
-                ):
-                    data_credito = linha_cnab["data_credito"]
-                else:
-                    data_credito = datetime.datetime.strptime(
-                        str(linha_cnab["data_credito"]), "%d%m%y"
-                    ).date()
-
-                # Valor Desconto
-                if linha_cnab.get("desconto"):
-                    valor_desconto = self.cnab_str_to_float(linha_cnab["desconto"])
-                    if valor_desconto > 0.0:
-                        row_list.append(
-                            {
-                                "name": "Desconto (boleto) "
-                                + account_move_line.document_number,
-                                "debit": valor_desconto,
-                                "credit": 0.0,
-                                "account_id": (
-                                    account_move_line.payment_mode_id.discount_account_id.id
-                                ),
-                                "type": "desconto",
-                                "ref": account_move_line.document_number,
-                                "invoice_id": account_move_line.invoice_id.id,
-                            }
-                        )
-
-                        row_list.append(
-                            {
-                                "name": "Desconto (boleto) "
-                                + account_move_line.document_number,
-                                "debit": 0.0,
-                                "credit": valor_desconto,
-                                "type": "desconto",
-                                "account_id": self.journal.default_credit_account_id.id,
-                                "ref": account_move_line.document_number,
-                                "invoice_id": account_move_line.invoice_id.id,
-                                "partner_id": account_move_line.partner_id.id,
-                            }
-                        )
-
-                # Valor Juros Mora - valor de mora e multa pagos pelo sacado
-                if linha_cnab.get("juros_mora"):
-                    valor_juros_mora = self.cnab_str_to_float(linha_cnab["juros_mora"])
-
-                    if valor_juros_mora > 0.0:
-
-                        row_list.append(
-                            {
-                                "name": "Valor Juros Mora (boleto) "
-                                + account_move_line.document_number,
-                                "debit": 0.0,
-                                "credit": valor_juros_mora,
-                                "type": "juros_mora",
-                                "account_id": (
-                                    account_move_line.payment_mode_id.interest_fee_account_id.id
-                                ),
-                                "ref": account_move_line.document_number,
-                                "invoice_id": account_move_line.invoice_id.id,
-                                "partner_id": account_move_line.partner_id.id,
-                            }
-                        )
-
-                        row_list.append(
-                            {
-                                "name": "Valor Juros Mora (boleto) "
-                                + account_move_line.document_number,
-                                "debit": valor_juros_mora,
-                                "credit": 0.0,
-                                "account_id": self.journal.default_credit_account_id.id,
-                                "journal_id": account_move_line.journal_id.id,
-                                "type": "juros_mora",
-                                "ref": account_move_line.document_number,
-                                "invoice_id": account_move_line.invoice_id.id,
-                                "partner_id": account_move_line.partner_id.id,
-                            }
-                        )
-
-                # Valor Tarifa
-                if linha_cnab.get("valor_tarifa"):
-                    valor_tarifa = self.cnab_str_to_float(linha_cnab["valor_tarifa"])
-
-                    if valor_tarifa > 0.0:
-                        # Usado para Conciliar a Fatura
-                        row_list.append(
-                            {
-                                "name": "Tarifas bancárias (boleto) "
-                                + account_move_line.document_number,
-                                "debit": 0.0,
-                                "credit": valor_tarifa,
-                                "account_id": self.journal.default_credit_account_id.id,
-                                "type": "tarifa",
-                                "ref": account_move_line.document_number,
-                                "invoice_id": account_move_line.invoice_id.id,
-                                "partner_id": account_move_line.company_id.partner_id.id,
-                            }
-                        )
-
-                        # Avoid error in pre commit
-                        tariff_charge_account = (
-                            account_move_line.payment_mode_id.tariff_charge_account_id
-                        )
-                        row_list.append(
-                            {
-                                "name": "Tarifas bancárias (boleto) "
-                                + account_move_line.document_number,
-                                "debit": valor_tarifa,
-                                "credit": 0.0,
-                                "type": "tarifa",
-                                "account_id": tariff_charge_account.id,
-                                "ref": account_move_line.document_number,
-                                "invoice_id": account_move_line.invoice_id.id,
-                            }
-                        )
-
-                # Valor Abatimento
-                if linha_cnab.get("valor_abatimento"):
-                    valor_abatimento = self.cnab_str_to_float(
-                        linha_cnab["valor_abatimento"]
-                    )
-
-                    if valor_abatimento:
-                        row_list.append(
-                            {
-                                "name": "Abatimento (boleto) "
-                                + account_move_line.document_number,
-                                "debit": valor_abatimento,
-                                "credit": 0.0,
-                                "account_id": (
-                                    account_move_line.payment_mode_id.rebate_account_id.id
-                                ),
-                                "type": "abatimento",
-                                "ref": account_move_line.document_number,
-                                "invoice_id": account_move_line.invoice_id.id,
-                            }
-                        )
-
-                        row_list.append(
-                            {
-                                "name": "Abatimento (boleto) "
-                                + account_move_line.document_number,
-                                "debit": 0.0,
-                                "credit": valor_abatimento,
-                                "type": "abatimento",
-                                "account_id": self.journal.default_credit_account_id.id,
-                                "ref": account_move_line.document_number,
-                                "invoice_id": account_move_line.invoice_id.id,
-                                "partner_id": account_move_line.partner_id.id,
-                            }
-                        )
-
-                # Linha da Fatura a ser reconciliada com o Pagamento em Aberto,
-                # necessário atualizar o Valor Recebido pois o Odoo não
-                # aceita a conciliação nem com um Valor Menor ou Maior.
-                valor_recebido_calculado = (
-                    valor_recebido + valor_desconto + valor_abatimento
-                ) - valor_juros_mora
-
-                row_list.append(
-                    {
-                        "name": account_move_line.invoice_id.number,
-                        "debit": 0.0,
-                        "credit": valor_recebido_calculado,
-                        "move_line": account_move_line,
-                        "invoice_id": account_move_line.invoice_id.id,
-                        "type": "liquidado",
-                        "bank_payment_line_id": bank_line.id or False,
-                        "ref": account_move_line.own_number,
-                        "account_id": account_move_line.account_id.id,
-                        "partner_id": account_move_line.partner_id.id,
-                        "date": data_credito,
-                    }
+                row_list, log_event_payment = self._get_accounting_entries(
+                    linha_cnab, account_move_line, bank_line
                 )
-
-                # CNAB LOG
-                cnab_return_log_event.update(
-                    {
-                        "real_payment_date": data_credito.strftime("%Y-%m-%d"),
-                        "payment_value": valor_recebido,
-                        "discount_value": valor_desconto,
-                        "interest_fee_value": valor_juros_mora,
-                        "rebate_value": valor_abatimento,
-                        "tariff_charge": valor_tarifa,
-                    }
-                )
-                self.cnab_return_events.append(cnab_return_log_event)
                 result_row_list.append(row_list)
+                cnab_return_log_event.update(log_event_payment)
             else:
                 # Nos codigos de retorno cadastrados no Data do modulo
                 # l10n_br_account_payment_order o 02 se refere a
@@ -522,9 +317,221 @@ class CNABFileParser(FileParser):
                     # TODO - algo a mais a ser feito ?
                     account_move_line.cnab_state = "not_accepted"
 
-                self.cnab_return_events.append(cnab_return_log_event)
+            # Inclui o LOG do Evento CNAB
+            self.cnab_return_events.append(cnab_return_log_event)
 
         return result_row_list
+
+    def _get_description_occurrence(self, payment_method_cnab, cod_ocorrencia):
+        cnab_return_move_code = self.env["l10n_br_cnab.return.move.code"].search(
+            [
+                ("bank_ids", "in", self.bank.id),
+                ("payment_method_ids", "in", payment_method_cnab.id),
+                ("code", "=", cod_ocorrencia),
+            ]
+        )
+        if cnab_return_move_code:
+            descricao_ocorrencia = cod_ocorrencia + "-" + cnab_return_move_code.name
+        else:
+            descricao_ocorrencia = (
+                cod_ocorrencia + "-" + "CÓDIGO DA DESCRIÇÃO NÃO ENCONTRADO"
+            )
+
+        return descricao_ocorrencia
+
+    def _get_accounting_entries(self, linha_cnab, account_move_line, bank_line):
+        row_list = []
+        valor_recebido = (
+            valor_desconto
+        ) = valor_juros_mora = valor_abatimento = valor_tarifa = 0.0
+
+        if linha_cnab["valor_recebido"]:
+            # Campo Valor Recebido vem com o Valor da Tarifa:
+            # valor recebido = valor pago + valor da tarifa
+            valor_recebido = self.cnab_str_to_float(linha_cnab["valor_recebido"])
+
+        if linha_cnab["data_credito"] == "000000" or not linha_cnab["data_credito"]:
+            data_credito = linha_cnab["data_credito"]
+        else:
+            data_credito = datetime.datetime.strptime(
+                str(linha_cnab["data_credito"]), "%d%m%y"
+            ).date()
+
+        # Valor Desconto
+        if linha_cnab.get("desconto"):
+            valor_desconto = self.cnab_str_to_float(linha_cnab["desconto"])
+            if valor_desconto > 0.0:
+                row_list.append(
+                    {
+                        "name": "Desconto (boleto) "
+                        + account_move_line.document_number,
+                        "debit": valor_desconto,
+                        "credit": 0.0,
+                        "account_id": (
+                            account_move_line.payment_mode_id.discount_account_id.id
+                        ),
+                        "type": "desconto",
+                        "ref": account_move_line.document_number,
+                        "invoice_id": account_move_line.invoice_id.id,
+                    }
+                )
+
+                row_list.append(
+                    {
+                        "name": "Desconto (boleto) "
+                        + account_move_line.document_number,
+                        "debit": 0.0,
+                        "credit": valor_desconto,
+                        "type": "desconto",
+                        "account_id": self.journal.default_credit_account_id.id,
+                        "ref": account_move_line.document_number,
+                        "invoice_id": account_move_line.invoice_id.id,
+                        "partner_id": account_move_line.partner_id.id,
+                    }
+                )
+
+        # Valor Juros Mora - valor de mora e multa pagos pelo sacado
+        if linha_cnab.get("juros_mora"):
+            valor_juros_mora = self.cnab_str_to_float(linha_cnab["juros_mora"])
+
+            if valor_juros_mora > 0.0:
+
+                row_list.append(
+                    {
+                        "name": "Valor Juros Mora (boleto) "
+                        + account_move_line.document_number,
+                        "debit": 0.0,
+                        "credit": valor_juros_mora,
+                        "type": "juros_mora",
+                        "account_id": (
+                            account_move_line.payment_mode_id.interest_fee_account_id.id
+                        ),
+                        "ref": account_move_line.document_number,
+                        "invoice_id": account_move_line.invoice_id.id,
+                        "partner_id": account_move_line.partner_id.id,
+                    }
+                )
+
+                row_list.append(
+                    {
+                        "name": "Valor Juros Mora (boleto) "
+                        + account_move_line.document_number,
+                        "debit": valor_juros_mora,
+                        "credit": 0.0,
+                        "account_id": self.journal.default_credit_account_id.id,
+                        "journal_id": account_move_line.journal_id.id,
+                        "type": "juros_mora",
+                        "ref": account_move_line.document_number,
+                        "invoice_id": account_move_line.invoice_id.id,
+                        "partner_id": account_move_line.partner_id.id,
+                    }
+                )
+
+        # Valor Tarifa
+        if linha_cnab.get("valor_tarifa"):
+            valor_tarifa = self.cnab_str_to_float(linha_cnab["valor_tarifa"])
+
+            if valor_tarifa > 0.0:
+                # Usado para Conciliar a Fatura
+                row_list.append(
+                    {
+                        "name": "Tarifas bancárias (boleto) "
+                        + account_move_line.document_number,
+                        "debit": 0.0,
+                        "credit": valor_tarifa,
+                        "account_id": self.journal.default_credit_account_id.id,
+                        "type": "tarifa",
+                        "ref": account_move_line.document_number,
+                        "invoice_id": account_move_line.invoice_id.id,
+                        "partner_id": account_move_line.company_id.partner_id.id,
+                    }
+                )
+
+                # Avoid error in pre commit
+                tariff_charge_account = (
+                    account_move_line.payment_mode_id.tariff_charge_account_id
+                )
+                row_list.append(
+                    {
+                        "name": "Tarifas bancárias (boleto) "
+                        + account_move_line.document_number,
+                        "debit": valor_tarifa,
+                        "credit": 0.0,
+                        "type": "tarifa",
+                        "account_id": tariff_charge_account.id,
+                        "ref": account_move_line.document_number,
+                        "invoice_id": account_move_line.invoice_id.id,
+                    }
+                )
+
+        # Valor Abatimento
+        if linha_cnab.get("valor_abatimento"):
+            valor_abatimento = self.cnab_str_to_float(linha_cnab["valor_abatimento"])
+
+            if valor_abatimento:
+                row_list.append(
+                    {
+                        "name": "Abatimento (boleto) "
+                        + account_move_line.document_number,
+                        "debit": valor_abatimento,
+                        "credit": 0.0,
+                        "account_id": (
+                            account_move_line.payment_mode_id.rebate_account_id.id
+                        ),
+                        "type": "abatimento",
+                        "ref": account_move_line.document_number,
+                        "invoice_id": account_move_line.invoice_id.id,
+                    }
+                )
+
+                row_list.append(
+                    {
+                        "name": "Abatimento (boleto) "
+                        + account_move_line.document_number,
+                        "debit": 0.0,
+                        "credit": valor_abatimento,
+                        "type": "abatimento",
+                        "account_id": self.journal.default_credit_account_id.id,
+                        "ref": account_move_line.document_number,
+                        "invoice_id": account_move_line.invoice_id.id,
+                        "partner_id": account_move_line.partner_id.id,
+                    }
+                )
+
+        # Linha da Fatura a ser reconciliada com o Pagamento em Aberto,
+        # necessário atualizar o Valor Recebido pois o Odoo não
+        # aceita a conciliação nem com um Valor Menor ou Maior.
+        valor_recebido_calculado = (
+            valor_recebido + valor_desconto + valor_abatimento
+        ) - valor_juros_mora
+
+        row_list.append(
+            {
+                "name": account_move_line.invoice_id.number,
+                "debit": 0.0,
+                "credit": valor_recebido_calculado,
+                "move_line": account_move_line,
+                "invoice_id": account_move_line.invoice_id.id,
+                "type": "liquidado",
+                "bank_payment_line_id": bank_line.id or False,
+                "ref": account_move_line.own_number,
+                "account_id": account_move_line.account_id.id,
+                "partner_id": account_move_line.partner_id.id,
+                "date": data_credito,
+            }
+        )
+
+        # CNAB LOG
+        log_event_payment = {
+            "real_payment_date": data_credito.strftime("%Y-%m-%d"),
+            "payment_value": valor_recebido,
+            "discount_value": valor_desconto,
+            "interest_fee_value": valor_juros_mora,
+            "rebate_value": valor_abatimento,
+            "tariff_charge": valor_tarifa,
+        }
+
+        return row_list, log_event_payment
 
     def cnab_str_to_float(self, value):
         # Até onde vi independente do tamanho do campo os
