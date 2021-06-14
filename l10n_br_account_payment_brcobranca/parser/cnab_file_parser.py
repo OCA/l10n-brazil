@@ -269,6 +269,9 @@ class CNABFileParser(FileParser):
             ) in account_move_line.payment_mode_id.cnab_liq_return_move_code_ids:
                 cnab_liq_move_code.append(move_code.code)
 
+            favored_bank_account = (
+                account_move_line.payment_mode_id.fixed_journal_id.bank_account_id
+            )
             cnab_return_log_event = {
                 "occurrences": descricao_ocorrencia,
                 "occurrence_date": data_ocorrencia,
@@ -283,9 +286,7 @@ class CNABFileParser(FileParser):
                 "move_line_id": account_move_line.id,
                 "company_title_identification": linha_cnab["documento_numero"]
                 or account_move_line.document_number,
-                "favored_bank_account_id": (
-                    account_move_line.payment_mode_id.fixed_journal_id.bank_account_id.id
-                ),
+                "favored_bank_account_id": favored_bank_account.id,
                 # TODO: Campo Segmento é referente ao CNAB 240, o
                 #  BRCobranca parece não informar esse campo no retorno,
                 #  é preciso validar isso nesse caso.
