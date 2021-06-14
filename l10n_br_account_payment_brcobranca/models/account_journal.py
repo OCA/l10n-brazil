@@ -106,8 +106,6 @@ class AccountJournal(models.Model):
         if ftype == "csv":
             super()._move_import(parser, file_stream, result_row_list=None, ftype="csv")
 
-        move_obj = self.env["account.move"]
-        move_line_obj = self.env["account.move.line"]
         attachment_obj = self.env["ir.attachment"]
         if result_row_list is None:
             result_row_list = parser.result_row_list
@@ -120,6 +118,33 @@ class AccountJournal(models.Model):
             raise UserError(_("Nothing to import: " "The file is empty"))
 
         # Creation of CNAB Return Log
+        cnab_return_log, file_name = self._create_cnab_return_log(parser)
+
+        attachment_data = {
+            "name": file_name,
+            "datas": file_stream,
+            "datas_fname": file_name,
+            "res_model": "l10n_br_cnab.return.log",
+            "res_id": cnab_return_log.id,
+        }
+        attachment_obj.create(attachment_data)
+
+        if not result_row_list:
+            return cnab_return_log
+
+        moves = self._get_moves(parser, result_row_list)
+
+        cnab_return_log.move_ids = moves.ids
+        for move in moves:
+            # CNAB Return Log
+            move.cnab_return_log_id = cnab_return_log.id
+            # Lançamento Automatico do Diário
+            if self.return_auto_reconcile:
+                move.post()
+
+        return moves
+
+    def _create_cnab_return_log(self, parser):
         context = self.env.context
         cnab_return_log = self.env["l10n_br_cnab.return.log"].create(
             {
@@ -166,18 +191,11 @@ class AccountJournal(models.Model):
         cnab_return_log.amount_total_discount = amount_total_discount
         cnab_return_log.amount_total_rebate = amount_total_rebate
 
-        attachment_data = {
-            "name": context.get("file_name"),
-            "datas": file_stream,
-            "datas_fname": context.get("file_name"),
-            "res_model": "l10n_br_cnab.return.log",
-            "res_id": cnab_return_log.id,
-        }
-        attachment_obj.create(attachment_data)
+        return cnab_return_log, context.get("file_name")
 
-        if not result_row_list:
-            return cnab_return_log
-
+    def _get_moves(self, parser, result_row_list):
+        move_obj = self.env["account.move"]
+        move_line_obj = self.env["account.move.line"]
         moves = self.env["account.move"]
         # Cada retorno precisa ser feito um único account.move para que o campo
         # Date tanto da account.move quanto o account.move.line tenha o mesmo
@@ -256,13 +274,5 @@ class AccountJournal(models.Model):
                     _("Statement import error " "The statement cannot be created: %s")
                     % st
                 )
-
-        cnab_return_log.move_ids = moves.ids
-        for move in moves:
-            # CNAB Return Log
-            move.cnab_return_log_id = cnab_return_log.id
-            # Lançamento Automatico do Diário
-            if self.return_auto_reconcile:
-                move.post()
 
         return moves
