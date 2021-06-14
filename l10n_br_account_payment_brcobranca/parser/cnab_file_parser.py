@@ -8,6 +8,7 @@ import json
 
 import requests
 
+from odoo import _
 from odoo.exceptions import Warning as UserError
 
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
@@ -69,9 +70,11 @@ class CNABFileParser(FileParser):
         )
         if not api_address:
             raise UserError(
-                "Não é possível gerar o retorno.\n"
-                "Informe o Endereço IP ou Nome do"
-                " Boleto CNAB API."
+                _(
+                    "It is not possible generated return.\n"
+                    "Inform the IP address or Name of server"
+                    " where Boleto CNAB API are running."
+                )
             )
         # Ex.: "http://boleto_cnab_api:9292/api/retorno"
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
@@ -416,6 +419,10 @@ class CNABFileParser(FileParser):
                             }
                         )
 
+                        # Avoid error in pre commit
+                        tariff_charge_account = (
+                            account_move_line.payment_mode_id.tariff_charge_account_id
+                        )
                         row_list.append(
                             {
                                 "name": "Tarifas bancárias (boleto) "
@@ -423,9 +430,7 @@ class CNABFileParser(FileParser):
                                 "debit": valor_tarifa,
                                 "credit": 0.0,
                                 "type": "tarifa",
-                                "account_id": (
-                                    account_move_line.payment_mode_id.tariff_charge_account_id.id
-                                ),
+                                "account_id": tariff_charge_account.id,
                                 "ref": account_move_line.document_number,
                                 "invoice_id": account_move_line.invoice_id.id,
                             }
