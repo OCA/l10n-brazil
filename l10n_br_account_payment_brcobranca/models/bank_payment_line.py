@@ -4,7 +4,7 @@
 # @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import models
 
 
 class BankPaymentLine(models.Model):
@@ -58,7 +58,7 @@ class BankPaymentLine(models.Model):
             )
             if bank_method:
                 bank_method(payment_mode_id, linhas_pagamentos)
-        except:
+        except Exception:
             pass
 
         # Cada Banco pode possuir seus Codigos de Instrução
@@ -103,8 +103,8 @@ class BankPaymentLine(models.Model):
                     self.date.strftime('%Y/%m/%d')
                 linhas_pagamentos['valor_desconto'] = round(
                     self.amount_currency * (
-                            payment_mode_id.boleto_discount_perc / 100),
-                    precision_account)
+                        payment_mode_id.boleto_discount_perc / 100
+                    ), precision_account)
 
             # Protesto
             if payment_mode_id.boleto_protest_code:
