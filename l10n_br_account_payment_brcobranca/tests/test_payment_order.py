@@ -230,10 +230,14 @@ class TestPaymentOrder(SavepointCase):
                 ("state", "=", "draft"),
             ]
         )
+
+        cnab_code_suspend_protest_keep_wallet = (
+            line.order_id.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id
+        )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
                 line.mov_instruction_code_id.name,
-                line.order_id.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id.name,
+                cnab_code_suspend_protest_keep_wallet.name,
             )
         # Open payment order
         payment_order.draft2open()
