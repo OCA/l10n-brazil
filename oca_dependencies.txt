@@ -2,5 +2,6 @@ currency
 bank-payment
 account-payment
 account-invoicing
+account-reconcile
 mis-builder
 contract
