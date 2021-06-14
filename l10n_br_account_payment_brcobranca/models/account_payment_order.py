@@ -91,7 +91,8 @@ class PaymentOrder(models.Model):
         # https://github.com/kivanio/brcobranca/tree/master/lib/brcobranca/remessa/cnab240
         # https://github.com/kivanio/brcobranca/tree/master/lib/brcobranca/remessa/cnab400
         # and a test here:
-        # https://github.com/kivanio/brcobranca/blob/master/spec/brcobranca/remessa/cnab400/itau_spec.rb
+        # https://github.com/kivanio/brcobranca/blob/master/spec/
+        # brcobranca/remessa/cnab400/itau_spec.rb
 
         cnab_type = self.payment_mode_id.payment_method_code
         bank_account_id = self.journal_id.bank_account_id
@@ -163,9 +164,11 @@ class PaymentOrder(models.Model):
 
         if not api_address:
             raise UserError(
-                "Não é possível gerar os remessa\n"
-                "Informe o Endereço IP ou Nome do"
-                "Boleto CNAB API."
+                _(
+                    "It is not possible generated CNAB File.\n"
+                    "Inform the IP address or Name of server"
+                    " where Boleto CNAB API are running."
+                )
             )
 
         # EX.: "http://boleto_cnab_api:9292/api/remessa"
