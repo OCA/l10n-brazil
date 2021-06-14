@@ -143,9 +143,10 @@ class AccountMoveLine(models.Model):
                 )
 
             if bank_account_id.bank_id.code_bc in ("021", "004"):
+                digito_conta_corrente = move_line.payment_mode_id.bank_id.acc_number_dig
                 boleto_cnab_api_data.update(
                     {
-                        "digito_conta_corrente": move_line.payment_mode_id.bank_id.acc_number_dig,
+                        "digito_conta_corrente": digito_conta_corrente,
                     }
                 )
 
