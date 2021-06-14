@@ -134,7 +134,7 @@ class PaymentOrder(models.Model):
             )
             if bank_method:
                 bank_method(remessa_values)
-        except:
+        except Exception:
             pass
 
         content = json.dumps(remessa_values)
