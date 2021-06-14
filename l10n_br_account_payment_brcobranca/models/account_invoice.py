@@ -57,9 +57,9 @@ class AccountInvoice(models.Model):
         boletos = receivable_ids.send_payment()
         if not boletos:
             raise UserError(
-                    "Não é possível gerar os boletos\n"
-                    "Certifique-se que a fatura esteja confirmada e o "
-                    "forma de pagamento seja duplicatas"
+                "Não é possível gerar os boletos\n"
+                "Certifique-se que a fatura esteja confirmada e o "
+                "forma de pagamento seja duplicatas"
             )
 
         content = json.dumps(boletos)
@@ -76,9 +76,9 @@ class AccountInvoice(models.Model):
 
         if not api_address:
             raise UserError(
-                    "Não é possível gerar os boletos.\n"
-                    "Informe o Endereço IP ou Nome do"
-                    " Boleto CNAB API."
+                "Não é possível gerar os boletos.\n"
+                "Informe o Endereço IP ou Nome do"
+                " Boleto CNAB API."
             )
 
         api_service_address = "http://" + api_address + ":9292/api/boleto/multi"
