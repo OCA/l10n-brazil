@@ -10,7 +10,7 @@ import tempfile
 
 import requests
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import Warning as UserError
 
 from ..constants.br_cobranca import DICT_BRCOBRANCA_CNAB_TYPE, get_brcobranca_bank
@@ -82,7 +82,6 @@ class PaymentOrder(models.Model):
                 str(self.file_number),
             )
 
-    @api.multi
     def generate_payment_file(self):
         """Returns (payment file as string, filename)"""
         self.ensure_one()
@@ -164,9 +163,9 @@ class PaymentOrder(models.Model):
 
         if not api_address:
             raise UserError(
-                    "Não é possível gerar os remessa\n"
-                    "Informe o Endereço IP ou Nome do"
-                    "Boleto CNAB API."
+                "Não é possível gerar os remessa\n"
+                "Informe o Endereço IP ou Nome do"
+                "Boleto CNAB API."
             )
 
         # EX.: "http://boleto_cnab_api:9292/api/remessa"
@@ -196,7 +195,6 @@ class PaymentOrder(models.Model):
 
         return remessa, self.get_file_name(cnab_type)
 
-    @api.multi
     def generated2uploaded(self):
         super().generated2uploaded()
         for payment_line in self.payment_line_ids:
