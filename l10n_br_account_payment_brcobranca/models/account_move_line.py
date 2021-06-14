@@ -99,8 +99,7 @@ class AccountMoveLine(models.Model):
             # Instrução Multa
             if move_line.payment_mode_id.boleto_fee_perc > 0.0:
                 valor_multa = round(
-                    move_line.debit
-                    * (move_line.payment_mode_id.boleto_fee_perc / 100),
+                    move_line.debit * (move_line.payment_mode_id.boleto_fee_perc / 100),
                     precision_account,
                 )
                 instrucao_multa = (

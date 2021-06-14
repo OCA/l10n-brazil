@@ -6,7 +6,7 @@ import os
 import sys
 import traceback
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.account_move_base_import.parser.parser import new_move_parser
@@ -25,7 +25,6 @@ class AccountJournal(models.Model):
         default=False,
     )
 
-    @api.multi
     def _write_extra_move_lines(self, parser, move):
         """Insert extra lines after the main statement lines.
 
