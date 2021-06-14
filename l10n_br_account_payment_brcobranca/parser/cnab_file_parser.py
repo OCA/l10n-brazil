@@ -7,12 +7,11 @@ import requests
 import json
 import datetime
 
-from odoo import models, fields, api, _
+from odoo import api
 from odoo.exceptions import Warning as UserError
 
 from odoo.addons.account_move_base_import.parser.file_parser import (
     FileParser,
-    float_or_zero,
 )
 
 dict_brcobranca_bank = {
