@@ -258,6 +258,11 @@ class Document(models.Model):
 
             if not protocolo:
                 for edoc in record.serialize():
+                    try:
+                        processador.valida_xml(edoc)
+                    except Exception as e:
+                        raise UserError(_(
+                            "Erro de validação do XML: {}".format(e)))
                     processo = None
                     for p in processador.processar_documento(edoc):
                         processo = p
