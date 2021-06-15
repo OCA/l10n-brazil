@@ -70,7 +70,6 @@ Changelog
 
 * [MIG] Migration to version 10.0
 
-
 Bug Tracker
 ===========
 
