@@ -18,7 +18,6 @@ exclude: |
   ^l10n_br_portal/|
   ^l10n_br_product_contract/|
   ^l10n_br_repair/|
-  ^l10n_br_resource/|
   ^l10n_br_website_sale/|
   ^l10n_br_website_sale_delivery/|
   ^payment_cielo/|

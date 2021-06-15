@@ -2,62 +2,60 @@
 # Copyright 2016 KMEE - Hendrix Costa <hendrix.costa@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
 from datetime import datetime, timedelta
+
+from odoo import _, api, fields, models
 
 
 class ResourceCalendar(models.Model):
 
-    _inherit = 'resource.calendar'
+    _inherit = "resource.calendar"
     _parent_store = True
 
     def _compute_recursive_leaves(self, calendar):
-        res = self.env['resource.calendar.leaves']
-        res |= self.env['resource.calendar.leaves'].search([
-            ('calendar_id', '=', calendar.id)
-        ])
+        res = self.env["resource.calendar.leaves"]
+        res |= self.env["resource.calendar.leaves"].search(
+            [("calendar_id", "=", calendar.id)]
+        )
         if calendar.parent_id:
             res |= self._compute_recursive_leaves(calendar.parent_id)
         return res
 
-    @api.multi
-    @api.depends('parent_id')
+    @api.depends("parent_id")
     def _compute_leave_ids(self):
         for calendar in self:
             calendar.leave_ids = self._compute_recursive_leaves(calendar)
 
     parent_id = fields.Many2one(
-        'resource.calendar',
-        string='Parent Calendar',
-        ondelete='restrict',
-        index=True)
+        "resource.calendar", string="Parent Calendar", ondelete="restrict", index=True
+    )
     child_ids = fields.One2many(
-        'resource.calendar', 'parent_id',
-        string='Child Calendar')
+        "resource.calendar", "parent_id", string="Child Calendar"
+    )
 
     parent_path = fields.Char(index=True)
 
-    country_id = fields.Many2one('res.country', u'País')
+    country_id = fields.Many2one("res.country", u"País")
     state_id = fields.Many2one(
-        'res.country.state', u'Estado',
-        domain="[('country_id','=',country_id)]")
+        "res.country.state", u"Estado", domain="[('country_id','=',country_id)]"
+    )
     l10n_br_city_id = fields.Many2one(
-        'res.city', u'Municipio',
-        domain="[('state_id','=',state_id)]")
+        "res.city", u"Municipio", domain="[('state_id','=',state_id)]"
+    )
     leave_ids = fields.Many2many(
-        comodel_name='resource.calendar.leaves',
-        compute='_compute_leave_ids'
+        comodel_name="resource.calendar.leaves", compute="_compute_leave_ids"
     )
 
-    @api.constrains('parent_id')
+    @api.constrains("parent_id")
     def _check_hierarchy(self):
         if not self._check_recursion():
-            raise models.ValidationError(_(
-                'Error! You cannot create recursive calendars.'))
+            raise models.ValidationError(
+                _("Error! You cannot create recursive calendars.")
+            )
 
-    @api.multi
-    def get_leave_intervals(self, resource_id=None, start_datetime=None,
-                            end_datetime=None):
+    def get_leave_intervals(
+        self, resource_id=None, start_datetime=None, end_datetime=None
+    ):
         """Get the leaves of the calendar. Leaves can be filtered on the
         resource, the start datetime or the end datetime.
 
@@ -92,8 +90,7 @@ class ResourceCalendar(models.Model):
             leaves.append(leave)
         return leaves
 
-    @api.multi
-    def data_eh_feriado(self, data_referencia=datetime.now()):
+    def data_eh_feriado(self, data):
         """Verificar se uma data é feriado.
         :param datetime data_referencia: Se nenhuma data referencia for passada
                                     verifique se hoje eh feriado no calendario
@@ -106,16 +103,16 @@ class ResourceCalendar(models.Model):
         :return boolean True se a data referencia for feriado
                         False se a data referencia nao for feriado
         """
-        data = data_referencia
+        if not data:
+            data = datetime.now()
         for leave in self.leave_ids:
             if leave.date_from <= data:
                 if leave.date_to >= data:
-                    if leave.leave_type == 'F':
+                    if leave.leave_type == "F":
                         return True
         return False
 
-    @api.multi
-    def data_eh_feriado_bancario(self, data_referencia=datetime.now()):
+    def data_eh_feriado_bancario(self, data_referencia):
         """Verificar se uma data é feriado bancário.
         :param datetime data_referencia: Se nenhuma data referencia for
                                     passada verifique se hoje é feriado
@@ -127,18 +124,17 @@ class ResourceCalendar(models.Model):
         :return int leaves_count: +1 se for feriado bancário
                                    0 se a data nao for feriado bancário
         """
+        if not data_referencia:
+            data_referencia = datetime.now()
         domain = [
-            ('date_from', '<=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
-            ('date_to', '>=', data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
-            ('leave_type', 'in', ['F', 'B']),
+            ("date_from", "<=", data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
+            ("date_to", ">=", data_referencia.strftime("%Y-%m-%d %H:%M:%S")),
+            ("leave_type", "in", ["F", "B"]),
         ]
-        leaves_count = self.env['resource.calendar.leaves'].search_count(
-            domain
-        )
+        leaves_count = self.env["resource.calendar.leaves"].search_count(domain)
         return leaves_count
 
-    @api.multi
-    def data_eh_feriado_emendado(self, data_referencia=datetime.now()):
+    def data_eh_feriado_emendado(self, data_referencia):
         """Verificar se uma data é feriado emendado.
         :param datetime data_referencia: Se nenhuma data referencia for passada
                                    verifique se hoje é feriado emendado.
@@ -148,34 +144,37 @@ class ResourceCalendar(models.Model):
 
         :return retorna True ou False
         """
+        if not data_referencia:
+            data_referencia = datetime.now()
         eh_feriado = self.data_eh_feriado(data_referencia)
         dia_antes = data_referencia - timedelta(days=1)
         dia_depois = data_referencia + timedelta(days=1)
 
-        dia_antes_eh_segunda = \
-            True if dia_antes.weekday() == 0 or self.data_eh_feriado(
-                dia_antes
-            ) else False
-        dia_depois_eh_sexta = \
-            True if dia_depois.weekday() == 4 or self.data_eh_feriado(
-                dia_depois
-            ) else False
+        dia_antes_eh_segunda = (
+            True
+            if dia_antes.weekday() == 0 or self.data_eh_feriado(dia_antes)
+            else False
+        )
+        dia_depois_eh_sexta = (
+            True
+            if dia_depois.weekday() == 4 or self.data_eh_feriado(dia_depois)
+            else False
+        )
 
         return eh_feriado and (dia_antes_eh_segunda or dia_depois_eh_sexta)
 
-    @api.multi
-    def data_eh_dia_util(self, data=datetime.now()):
+    def data_eh_dia_util(self, data):
         """Verificar se data é dia util.
         :param datetime data: Se nenhuma data referencia for passada
                               verifique o dia de hoje.
         :return boolean True: Se for dia útil
                         False: Se Não for dia útil
         """
+        if not data:
+            data = datetime.now()
         return not self.data_eh_feriado(data) and data.weekday() <= 4 or False
 
-    @api.multi
-    def quantidade_dias_uteis(
-            self, data_inicio=datetime.now(), data_fim=datetime.now()):
+    def quantidade_dias_uteis(self, data_inicio, data_fim):
         """Calcular a quantidade de dias úteis em determinado período.
         :param datetime data_inicio: Se nenhuma data referencia for passada
                                    verifique o dia de hoje.
@@ -183,6 +182,10 @@ class ResourceCalendar(models.Model):
                                    verifique o dia de hoje.
         :return int: Quantidade de dias úteis
         """
+        if not data_inicio:
+            data_inicio = datetime.now()
+        if not data_fim:
+            data_fim = datetime.now()
         dias_uteis = 0
         while data_inicio <= data_fim:
             if self.data_eh_dia_util(data_inicio):
@@ -191,28 +194,31 @@ class ResourceCalendar(models.Model):
 
         return dias_uteis
 
-    @api.multi
-    def proximo_dia_util(self, data_referencia=datetime.now()):
+    def proximo_dia_util(self, data_referencia):
         """Retornar o próximo dia util.
         :param datetime data_referencia: Se nenhuma data referencia for passada
                                    verifique se amanha é dia útil.
         :return datetime Proximo dia util apartir da data referencia
         """
+        if not data_referencia:
+            data_referencia = datetime.now()
         data_referencia += timedelta(days=1)
         while data_referencia:
             if self.data_eh_dia_util(data_referencia):
                 return data_referencia
             data_referencia += timedelta(days=1)
 
-    @api.multi
-    def get_dias_base(self, data_from=datetime.now(), data_to=datetime.now(),
-                      mes_comercial=True):
+    def get_dias_base(self, data_from, data_to, mes_comercial=True):
         """Calcular a quantidade de dias que devem ser remunerados em
         determinado intervalo de tempo.
         :param datetime data_from: Data inicial do intervalo de tempo.
                datetime data_end: Data final do intervalo
         :return int : quantidade de dias que devem ser remunerada
         """
+        if not data_from:
+            data_from = datetime.now()
+        if not data_to:
+            data_to = datetime.now()
         # Mes comercial sempre será 30 dias
         if mes_comercial:
             return 30 - data_from.day + 1
@@ -223,27 +229,29 @@ class ResourceCalendar(models.Model):
         else:
             return quantidade_dias
 
-    @api.multi
-    def data_eh_dia_util_bancario(self, data=datetime.now()):
+    def data_eh_dia_util_bancario(self, data):
         """Verificar se data é dia util.
         :param datetime data: Se nenhuma data referencia for passada
                               verifique o dia de hoje.
         :return boolean True: Se for dia útil
                         False: Se Não for dia útil
         """
+        if not data:
+            data = datetime.now()
         if data.weekday() >= 5:
             return False
         elif self.data_eh_feriado_bancario(data):
             return False
         return True
 
-    @api.multi
-    def proximo_dia_util_bancario(self, data_referencia=datetime.now()):
+    def proximo_dia_util_bancario(self, data_referencia):
         """Retornar o próximo dia util.
         :param datetime data_referencia: Se nenhuma data referencia for passada
                                    verifique se amanha é dia útil.
         :return datetime Proximo dia util apartir da data referencia
         """
+        if not data_referencia:
+            data_referencia = datetime.now()
         data_referencia += timedelta(days=1)
         if self.data_eh_dia_util_bancario(data_referencia):
             return data_referencia
