@@ -63,6 +63,13 @@ class CNABFileParser(FileParser):
 
         files = {"data": base64.b64decode(filebuffer)}
 
+        data = self._get_data_from_brcobranca(files)
+
+        self.result_row_list = self.process_return_file(data)
+
+        yield self.result_row_list
+
+    def _get_data_from_brcobranca(self, files):
         api_address = (
             self.env["ir.config_parameter"]
             .sudo()
@@ -94,9 +101,7 @@ class CNABFileParser(FileParser):
         string_result = res.json()
         data = json.loads(string_result)
 
-        self.result_row_list = self.process_return_file(data)
-
-        yield self.result_row_list
+        return data
 
     def process_return_file(self, data):
 
