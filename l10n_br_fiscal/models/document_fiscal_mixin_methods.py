@@ -76,7 +76,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 ).compute_message(d.__document_comment_vals())
                 or ""
             )
-            if new_comment not in d.customer_additional_data:
+            if new_comment not in (d.customer_additional_data or ""):
                 com_comments.append(new_comment)
                 d.customer_additional_data = ", ".join([c for c in com_comments if c])
             d.line_ids._document_comment()
