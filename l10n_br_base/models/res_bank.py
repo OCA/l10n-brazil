@@ -34,15 +34,12 @@ class ResBank(models.Model):
     @api.multi
     def name_get(self):
         name_template = super().name_get()
-        name_dict = dict([(x[0], x[1]) for x in name_template])
+        name_dict = {x[0]: x[1] for x in name_template}
 
         result = []
         for br_template in self:
             if br_template.code_bc:
-                name = '[{}] {}'.format(
-                    br_template.code_bc,
-                    name_dict[br_template.id]
-                )
+                name = "[{}] {}".format(br_template.code_bc, name_dict[br_template.id])
             else:
                 name = name_dict[br_template.id]
             result.append([br_template.id, name])
@@ -50,18 +47,21 @@ class ResBank(models.Model):
 
     @api.model
     def _name_search(
-            self, name, args=None, operator='ilike', limit=100, name_get_uid=None):
+        self, name, args=None, operator="ilike", limit=100, name_get_uid=None
+    ):
         args = args or []
         domain = []
         if name:
-            domain = ['|',
-                      ('code_bc', '=ilike', name + '%'),
-                      '|',
-                      ('bic', '=ilike', name + '%'),
-                      ('name', operator, name)
-                      ]
+            domain = [
+                "|",
+                ("code_bc", "=ilike", name + "%"),
+                "|",
+                ("bic", "=ilike", name + "%"),
+                ("name", operator, name),
+            ]
             if operator in expression.NEGATIVE_TERM_OPERATORS:
-                domain = ['&'] + domain
+                domain = ["&"] + domain
         bank_ids = self._search(
-            domain + args, limit=limit, access_rights_uid=name_get_uid)
+            domain + args, limit=limit, access_rights_uid=name_get_uid
+        )
         return self.browse(bank_ids).name_get()
