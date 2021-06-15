@@ -374,6 +374,9 @@ class Document(models.Model):
             return status
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
-        super(Document, self)._exec_before_SITUACAO_EDOC_CANCELADA(
-            old_state, new_state)
-        return self.cancel_document_paulistana()
+        docs = self.filtered(filter_oca_nfse).filtered(filter_paulistana)
+        if docs:
+            return docs.cancel_document_paulistana()
+        return super(
+            Document, self - docs
+        )._exec_before_SITUACAO_EDOC_CANCELADA(old_state, new_state)
