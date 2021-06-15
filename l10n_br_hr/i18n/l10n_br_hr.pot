@@ -24,7 +24,7 @@ msgid "# Vendor Bills"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:190
+#: code:addons/l10n_br_hr/models/hr_employee.py:191
 #, python-format
 msgid "A dependent with the same level of relatedness already exists for dependent %s"
 msgstr ""
@@ -902,13 +902,13 @@ msgid "Internal Reference"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:201
+#: code:addons/l10n_br_hr/models/hr_employee.py:202
 #, python-format
 msgid "Invalid PIS/PASEP"
 msgstr ""
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:174
+#: code:addons/l10n_br_hr/models/hr_employee.py:175
 #, python-format
 msgid "Invalid birth date for dependent %s"
 msgstr ""
