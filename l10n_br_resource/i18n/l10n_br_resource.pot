@@ -64,7 +64,7 @@ msgid "End Date"
 msgstr ""
 
 #. module: l10n_br_resource
-#: code:addons/l10n_br_resource/models/resource_calendar.py:55
+#: code:addons/l10n_br_resource/models/resource_calendar.py:53
 #, python-format
 msgid "Error! You cannot create recursive calendars."
 msgstr ""
