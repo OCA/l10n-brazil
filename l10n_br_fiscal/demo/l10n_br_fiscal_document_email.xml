@@ -7,6 +7,9 @@
         model="l10n_br_fiscal.document.email"
     >
         <field name="issuer">company</field>
+        <field name="state_autorizada" eval="True" />
+        <field name="state_cancelada" eval="True" />
+        <field name="state_denegada" eval="True" />
         <field
             name="email_template_id"
             ref="l10n_br_fiscal.fiscal_document_change_state_template"
@@ -20,6 +23,9 @@
     >
         <field name="document_type_id" ref="l10n_br_fiscal.document_SE" />
         <field name="issuer">company</field>
+        <field name="state_autorizada" eval="True" />
+        <field name="state_cancelada" eval="True" />
+        <field name="state_denegada" eval="True" />
         <field
             name="email_template_id"
             ref="l10n_br_fiscal.fiscal_document_change_state_template_nfse"
@@ -32,6 +38,9 @@
         model="l10n_br_fiscal.document.email"
     >
         <field name="issuer">company</field>
+        <field name="state_autorizada" eval="True" />
+        <field name="state_cancelada" eval="True" />
+        <field name="state_denegada" eval="True" />
         <field
             name="email_template_id"
             ref="l10n_br_fiscal.fiscal_document_change_state_template"
@@ -45,6 +54,9 @@
     >
         <field name="document_type_id" ref="l10n_br_fiscal.document_SE" />
         <field name="issuer">company</field>
+        <field name="state_autorizada" eval="True" />
+        <field name="state_cancelada" eval="True" />
+        <field name="state_denegada" eval="True" />
         <field
             name="email_template_id"
             ref="l10n_br_fiscal.fiscal_document_change_state_template_nfse"
