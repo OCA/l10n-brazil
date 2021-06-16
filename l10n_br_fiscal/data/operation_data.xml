@@ -9,22 +9,6 @@
         <field name="active">True</field>
     </record>
 
-    <record id="fiscal_document_dummy" model="l10n_br_fiscal.document">
-        <field name="document_key">dummy</field>
-        <field name="document_number">0</field>
-        <field name="active">False</field>
-        <field name="partner_id" ref="base.main_partner" />
-        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
-        <field name="document_serie_id" ref="l10n_br_fiscal.document_55_serie_1" />
-        <field name="fiscal_operation_type">out</field>
-        <field name="company_id" eval="False" />
-    </record>
-
-    <record id="fiscal_document_line_dummy" model="l10n_br_fiscal.document.line">
-        <field name="active">False</field>
-        <field name="document_id" ref="fiscal_document_dummy" />
-    </record>
-
     <!-- l10n_br_fiscal.operation -->
     <record id="fo_venda" model="l10n_br_fiscal.operation">
         <field name="code">Venda</field>
