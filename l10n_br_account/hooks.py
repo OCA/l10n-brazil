@@ -17,22 +17,34 @@ def pre_init_hook(cr):
     that we use to fill these new foreign keys.
     """
     env = api.Environment(cr, SUPERUSER_ID, {})
+    # Create fiscal_document_id fields
     if not column_exists(cr, "account_invoice", "fiscal_document_id"):
         create_column(cr, "account_invoice", "fiscal_document_id", "INTEGER")
-    fiscal_doc_id = env.ref("l10n_br_fiscal.fiscal_document_dummy").id
-    cr.execute(
-        """update account_invoice set fiscal_document_id=%s
-               where fiscal_document_id IS NULL;""",
-        (fiscal_doc_id,),
-    )
-    fiscal_doc_line_id = env.ref("l10n_br_fiscal.fiscal_document_line_dummy").id
+
+    # Create fiscal_document_line_id fields
     if not column_exists(cr, "account_invoice_line", "fiscal_document_line_id"):
         create_column(cr, "account_invoice_line", "fiscal_document_line_id", "INTEGER")
-    cr.execute(
-        """update account_invoice_line set fiscal_document_line_id=%s
-               where fiscal_document_line_id IS NULL;""",
-        (fiscal_doc_line_id,),
-    )
+
+    companies = env['res.company'].search([])
+    for company in companies:
+        cr.execute(
+            """
+            UPDATE
+                account_invoice
+            SET fiscal_document_id=%s
+            WHERE
+                fiscal_document_id IS NULL;""", (company.fiscal_dummy_id.id,),
+        )
+        import pudb; pudb.set_trace()
+        cr.execute(
+            """
+            UPDATE
+                account_invoice_line
+            SET
+                fiscal_document_line_id=%s
+            WHERE
+                fiscal_document_line_id IS NULL;""", (company.fiscal_dummy_id.line_ids[0].id,),
+        )
 
 
 def load_fiscal_taxes(env, l10n_br_coa_chart):
