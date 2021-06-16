@@ -3,9 +3,14 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 import time
+from unittest import mock
 
 from odoo.exceptions import UserError
+from odoo.modules import get_resource_path
 from odoo.tests import SavepointCase, tagged
+
+_module_ns = "odoo.addons.l10n_br_account_payment_brcobranca"
+_provider_class = _module_ns + ".models.account_payment_order" + ".PaymentOrder"
 
 
 @tagged("post_install", "-at_install")
@@ -37,8 +42,22 @@ class TestPaymentOrder(SavepointCase):
         )
         # Open payment order
         payment_order.draft2open()
-        # Generate and upload
-        payment_order.open2generated()
+
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-1.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
 
         # Journal
@@ -75,8 +94,21 @@ class TestPaymentOrder(SavepointCase):
         # Criação da Bank Line
         self.assertEqual(len(payment_order.bank_line_ids), 2)
 
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-unicred_400-1.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -189,8 +221,21 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-2-data_venc.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -212,8 +257,21 @@ class TestPaymentOrder(SavepointCase):
             )
         # Open payment order
         payment_order.draft2open()
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-3-protesto.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -241,8 +299,21 @@ class TestPaymentOrder(SavepointCase):
             )
         # Open payment order
         payment_order.draft2open()
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-4-sust_prot_mant_carteira.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -275,8 +346,22 @@ class TestPaymentOrder(SavepointCase):
                 line.order_id.payment_mode_id.cnab_code_grant_rebate_id.name,
             )
             self.assertEqual(line.rebate_value, 10.0)
-        # Generate and upload
-        payment_order.open2generated()
+
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-5-conceder_abatimento.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -299,8 +384,21 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-6-cancelar_abatimento.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -333,8 +431,21 @@ class TestPaymentOrder(SavepointCase):
                 line.order_id.payment_mode_id.cnab_code_grant_discount_id.name,
             )
             self.assertEqual(line.discount_value, 10.0)
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-7-conceder_desconto.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -357,8 +468,21 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-8-cancelar_desconto.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -404,8 +528,21 @@ class TestPaymentOrder(SavepointCase):
         )
         # Open payment order
         payment_order.draft2open()
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-1.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -444,8 +581,21 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-9-alt_valor_titulo.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
@@ -484,8 +634,21 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate and upload
-        payment_order.open2generated()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "teste_remessa-cef_240-10-alt_valor_titulo.REM",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class + "._get_data_from_brcobranca",
+                return_value=mocked_response,
+            ):
+                payment_order.open2generated()
+
+        # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
