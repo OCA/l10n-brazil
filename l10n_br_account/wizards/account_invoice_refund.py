@@ -18,9 +18,12 @@ class AccountInvoiceRefund(models.TransientModel):
     )
 
     def invoice_refund(self):
-        return super(AccountInvoiceRefund, self.with_context(
-            force_fiscal_operation_id=self.force_fiscal_operation_id.id
-        )).invoice_refund()
+        return super(
+            AccountInvoiceRefund,
+            self.with_context(
+                force_fiscal_operation_id=self.force_fiscal_operation_id.id
+            ),
+        ).invoice_refund()
 
     @api.model
     def fields_view_get(
