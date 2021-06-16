@@ -3,6 +3,7 @@ exclude: |
   # NOT INSTALLABLE ADDONS
   # END NOT INSTALLABLE ADDONS
   ^l10n_br_account_bank_statement_import_cnab/|
+  ^l10n_br_account_payment_brcobranca/tests/data/|
   ^l10n_br_account_payment_order/|
   ^l10n_br_coa_complete/|
   ^l10n_br_coa_generic/|
