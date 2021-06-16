@@ -338,6 +338,65 @@ class ResCompany(models.Model):
         default=True,
     )
 
+    fiscal_dummy_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Fiscal Dummy Document",
+        ondelete="restrict",
+    )
+
+    def _fiscal_dummy_doc_domain(self):
+        return [
+            ("active", "=", False),
+            ("document_type_id", "=", False),
+            ("company_id", "=", self.id),
+        ]
+
+    def _prepare_create_fiscal_dummy_doc(self):
+        return {
+            "document_key": "dummy",
+            "document_number": "0",
+            "active": False,
+            "document_type_id": False,
+            "fiscal_operation_type": "out",
+            "partner_id": self.partner_id.id,
+            "company_id": self.id,
+            "line_ids": [(0, 0, {"name": "dummy", "company_id": self.id})],
+        }
+
+    def _create_fiscal_dummy_doc_id(self):
+        self.ensure_one()
+        dummy_doc = self.env["l10n_br_fiscal.document"].search(
+            self._fiscal_dummy_doc_domain(),
+            limit=1
+        )
+        if not dummy_doc:
+            dummy_doc = self.env["l10n_br_fiscal.document"].create(
+                self._prepare_create_fiscal_dummy_doc()
+            )
+        return dummy_doc
+
+    def get_fiscal_dummy_doc(self):
+        self.ensure_one()
+        if self.fiscal_dummy_id:
+            dummy_doc = self.fiscal_dummy_id
+        else:
+            dummy_doc = self.env["l10n_br_fiscal.document"].search(
+                self._fiscal_dummy_doc_domain(),
+                limit=1
+            )
+
+        if not dummy_doc:
+            dummy_doc = self._create_fiscal_dummy_doc_id()
+            self.fiscal_dummy_id = dummy_doc
+        return dummy_doc
+
+    @api.model
+    def create(self, values):
+        company = super().create(values)
+        if not values.get('fiscal_dummy_id'):
+            values['fiscal_dummy_id'] = company.get_fiscal_dummy_doc().id
+        return company
+
     def _del_tax_definition(self, tax_domain):
         tax_def = self.tax_definition_ids.filtered(
             lambda d: d.tax_group_id.tax_domain != tax_domain
