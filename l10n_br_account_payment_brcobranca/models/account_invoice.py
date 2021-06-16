@@ -64,6 +64,24 @@ class AccountInvoice(models.Model):
                 )
             )
 
+        pdf_string = self._get_brcobranca_boleto(boletos)
+
+        inv_number = self.get_invoice_fiscal_number().split("/")[-1].zfill(8)
+        file_name = "boleto_nf-" + inv_number + ".pdf"
+
+        self.file_pdf_id = self.env["ir.attachment"].create(
+            {
+                "name": file_name,
+                "datas_fname": file_name,
+                "res_model": self._name,
+                "res_id": self.id,
+                "datas": base64.b64encode(pdf_string),
+                "mimetype": "application/pdf",
+                "type": "binary",
+            }
+        )
+
+    def _get_brcobranca_boleto(self, boletos):
         content = json.dumps(boletos)
         f = open(tempfile.mktemp(), "w")
         f.write(content)
@@ -93,20 +111,7 @@ class AccountInvoice(models.Model):
         else:
             raise UserError(res.text.encode("utf-8"))
 
-        inv_number = self.get_invoice_fiscal_number().split("/")[-1].zfill(8)
-        file_name = "boleto_nf-" + inv_number + ".pdf"
-
-        self.file_pdf_id = self.env["ir.attachment"].create(
-            {
-                "name": file_name,
-                "datas_fname": file_name,
-                "res_model": self._name,
-                "res_id": self.id,
-                "datas": base64.b64encode(pdf_string),
-                "mimetype": "application/pdf",
-                "type": "binary",
-            }
-        )
+        return pdf_string
 
     def _target_new_tab(self, attachment_id):
         if attachment_id:
