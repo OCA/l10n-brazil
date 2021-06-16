@@ -10,7 +10,10 @@ from odoo.modules import get_resource_path
 from odoo.tests import SavepointCase, tagged
 
 _module_ns = "odoo.addons.l10n_br_account_payment_brcobranca"
-_provider_class = _module_ns + ".models.account_payment_order" + ".PaymentOrder"
+_provider_class_pay_order = (
+    _module_ns + ".models.account_payment_order" + ".PaymentOrder"
+)
+_provider_class_acc_invoice = _module_ns + ".models.account_invoice" + ".AccountInvoice"
 
 
 @tagged("post_install", "-at_install")
@@ -53,7 +56,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -80,7 +83,20 @@ class TestPaymentOrder(SavepointCase):
         self.assertEqual(self.invoice_unicred.state, "open")
 
         # Geração do Boleto
-        self.invoice_unicred.view_boleto_pdf()
+        # Generate
+        file_name = get_resource_path(
+            "l10n_br_account_payment_brcobranca",
+            "tests",
+            "data",
+            "boleto_teste_unicred400.pdf",
+        )
+        with open(file_name, "rb") as f:
+            mocked_response = f.read()
+            with mock.patch(
+                _provider_class_acc_invoice + "._get_brcobranca_boleto",
+                return_value=mocked_response,
+            ):
+                self.invoice_unicred.view_boleto_pdf()
 
         payment_order = self.env["account.payment.order"].search(
             [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
@@ -105,7 +121,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -233,7 +249,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -270,7 +286,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -313,7 +329,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -362,7 +378,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -400,7 +416,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -448,7 +464,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -486,7 +502,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -547,7 +563,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -601,7 +617,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
@@ -655,7 +671,7 @@ class TestPaymentOrder(SavepointCase):
         with open(file_name, "rb") as f:
             mocked_response = f.read()
             with mock.patch(
-                _provider_class + "._get_data_from_brcobranca",
+                _provider_class_pay_order + "._get_data_from_brcobranca",
                 return_value=mocked_response,
             ):
                 payment_order.open2generated()
