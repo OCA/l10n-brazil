@@ -47,6 +47,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-1.REM",
         )
         with open(file_name, "rb") as f:
@@ -98,6 +99,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-unicred_400-1.REM",
         )
         with open(file_name, "rb") as f:
@@ -225,6 +227,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-2-data_venc.REM",
         )
         with open(file_name, "rb") as f:
@@ -261,6 +264,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-3-protesto.REM",
         )
         with open(file_name, "rb") as f:
@@ -303,6 +307,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-4-sust_prot_mant_carteira.REM",
         )
         with open(file_name, "rb") as f:
@@ -351,6 +356,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-5-conceder_abatimento.REM",
         )
         with open(file_name, "rb") as f:
@@ -388,6 +394,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-6-cancelar_abatimento.REM",
         )
         with open(file_name, "rb") as f:
@@ -435,6 +442,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-7-conceder_desconto.REM",
         )
         with open(file_name, "rb") as f:
@@ -472,6 +480,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-8-cancelar_desconto.REM",
         )
         with open(file_name, "rb") as f:
@@ -532,6 +541,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-1.REM",
         )
         with open(file_name, "rb") as f:
@@ -585,6 +595,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-9-alt_valor_titulo.REM",
         )
         with open(file_name, "rb") as f:
@@ -638,6 +649,7 @@ class TestPaymentOrder(SavepointCase):
         file_name = get_resource_path(
             "l10n_br_account_payment_brcobranca",
             "tests",
+            "data",
             "teste_remessa-cef_240-10-alt_valor_titulo.REM",
         )
         with open(file_name, "rb") as f:
