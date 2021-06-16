@@ -8,40 +8,45 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 
 
 class L10nBrPortal(CustomerPortal):
-    MANDATORY_BILLING_FIELDS = list(
-        set(CustomerPortal.MANDATORY_BILLING_FIELDS)
-    ) + [
-        "state_id", "city_id", "district", "street_number", "legal_name",
-        "cnpj_cpf", "zipcode", "inscr_est"
+    MANDATORY_BILLING_FIELDS = list(set(CustomerPortal.MANDATORY_BILLING_FIELDS)) + [
+        "state_id",
+        "city_id",
+        "district",
+        "street_number",
+        "legal_name",
+        "cnpj_cpf",
+        "zipcode",
+        "inscr_est",
     ]
     OPTIONAL_BILLING_FIELDS = list(
-        set(CustomerPortal.OPTIONAL_BILLING_FIELDS) - set(["state_id"])
+        set(CustomerPortal.OPTIONAL_BILLING_FIELDS) - {"state_id"}
     ) + ["inscr_mun", "street2", "mobile"]
 
     def _prepare_portal_layout_values(self):
         values = super(L10nBrPortal, self)._prepare_portal_layout_values()
-        cities = request.env['res.city'].sudo().search([])
-        values.update({
-            'cities': cities,
-        })
+        cities = request.env["res.city"].sudo().search([])
+        values.update(
+            {
+                "cities": cities,
+            }
+        )
         return values
 
-    @http.route(['/my/account'], type='http', auth='user', website=True)
+    @http.route(["/my/account"], type="http", auth="user", website=True)
     def account(self, redirect=None, **post):
-        if post and post.get('city_id'):
-            city_id = request.env['res.city'].sudo().browse(
-                int(post.get('city_id')))
+        if post and post.get("city_id"):
+            city_id = request.env["res.city"].sudo().browse(int(post.get("city_id")))
             if city_id:
-                post['city'] = city_id.name
+                post["city"] = city_id.name
         res = super(L10nBrPortal, self).account(redirect, **post)
         return res
 
-    @http.route('/l10n_br/zip_search', type='json', auth="user", website=True)
+    @http.route("/l10n_br/zip_search", type="json", auth="user", website=True)
     def zip_search(self, zipcode):
         try:
-            return request.env['l10n_br.zip'].sudo()._consultar_cep(zipcode)
+            return request.env["l10n_br.zip"].sudo()._consultar_cep(zipcode)
         except Exception as e:
             return {
-                'error': 'zip',
-                'error_message': e,
+                "error": "zip",
+                "error_message": e,
             }
