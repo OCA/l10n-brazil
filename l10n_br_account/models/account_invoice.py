@@ -134,9 +134,8 @@ class AccountInvoice(models.Model):
         return vals
 
     def _write_shadowed_fields(self):
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
         for invoice in self:
-            if invoice.fiscal_document_id != dummy_doc:
+            if invoice.document_type_id:
                 shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
 
@@ -193,14 +192,10 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, values):
-        if not values.get("document_type_id"):
-            values.update(
-                {
-                    "fiscal_document_id": self.env.ref(
-                        "l10n_br_fiscal.fiscal_document_dummy"
-                    ).id
-                }
-            )
+        if not values.get('document_type_id'):
+            values.update({
+                'fiscal_document_id': self.env.user.company_id.get_fiscal_dummy_doc().id,
+            })
         invoice = super().create(values)
         invoice._write_shadowed_fields()
         return invoice
@@ -220,9 +215,8 @@ class AccountInvoice(models.Model):
     @api.returns("self", lambda value: value.id)
     def copy(self, default=None):
         default = default or {}
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        if self.fiscal_document_id != dummy_doc:
-            default["line_ids"] = False
+        if self.document_type_id:
+            default['line_ids'] = False
         return super().copy(default)
 
     @api.one
@@ -308,7 +302,6 @@ class AccountInvoice(models.Model):
 
     def finalize_invoice_move_lines(self, move_lines):
         lines = super().finalize_invoice_move_lines(move_lines)
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
         financial_lines = [
             line for line in lines if line[2]["account_id"] == self.account_id.id
         ]
@@ -316,7 +309,7 @@ class AccountInvoice(models.Model):
 
         for line in financial_lines:
             if line[2]["debit"] or line[2]["credit"]:
-                if self.fiscal_document_id != dummy_doc:
+                if self.document_type_id:
                     line[2]["name"] = "{}/{}-{}".format(
                         self.fiscal_document_id.with_context(
                             fiscal_document_no_company=True
@@ -328,11 +321,6 @@ class AccountInvoice(models.Model):
         return lines
 
     def get_taxes_values(self):
-        # uncomment these lines
-        # dummy_doc = self.env.ref('l10n_br_fiscal.fiscal_document_dummy')
-        # if self.fiscal_document_id == dummy_doc:
-        #     return super().get_taxes_values()
-
         tax_grouped = {}
         round_curr = self.currency_id.round
         for line in self.invoice_line_ids:
@@ -406,24 +394,20 @@ class AccountInvoice(models.Model):
         fiscal e numeração do documento fiscal para ser usado nas linhas
         dos lançamentos contábeis."""
         super().action_date_assign()
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
         for invoice in self:
-            if invoice.fiscal_document_id != dummy_doc:
+            if invoice.document_type_id:
                 if invoice.issuer == DOCUMENT_ISSUER_COMPANY:
                     invoice.fiscal_document_id._document_date()
                     invoice.fiscal_document_id._document_number()
 
     def action_move_create(self):
         result = super().action_move_create()
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        self.mapped("fiscal_document_id").filtered(
-            lambda d: d != dummy_doc
-        ).action_document_confirm()
+        self.mapped('fiscal_document_id').filtered(
+            lambda d: d.document_type_id).action_document_confirm()
         return result
 
     def action_invoice_draft(self):
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+        for i in self.filtered(lambda d: d.document_type_id):
             if i.state_edoc == SITUACAO_EDOC_CANCELADA:
                 if i.issuer == DOCUMENT_ISSUER_COMPANY:
                     raise UserError(
@@ -439,40 +423,34 @@ class AccountInvoice(models.Model):
         return super().action_invoice_draft()
 
     def action_document_send(self):
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        invoices = self.filtered(lambda d: d.fiscal_document_id != dummy_doc)
+        invoices = self.filtered(lambda d: d.document_type_id)
         if invoices:
             invoices.mapped("fiscal_document_id").action_document_send()
             for invoice in invoices:
                 invoice.move_id.post(invoice=invoice)
 
     def action_document_cancel(self):
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+        for i in self.filtered(lambda d: d.document_type_id):
             return i.fiscal_document_id.action_document_cancel()
 
     def action_document_correction(self):
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+        for i in self.filtered(lambda d: d.document_type_id):
             return i.fiscal_document_id.action_document_correction()
 
     def action_document_invalidate(self):
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+        for i in self.filtered(lambda d: d.document_type_id):
             return i.fiscal_document_id.action_document_invalidate()
 
     def action_document_back2draft(self):
         """Sets fiscal document to draft state and cancel and set to draft
         the related invoice for both documents remain equivalent state."""
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
+        for i in self.filtered(lambda d: d.document_type_id):
             i.action_cancel()
             i.action_invoice_draft()
 
     def action_invoice_cancel(self):
-        dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        for i in self.filtered(lambda d: d.fiscal_document_id != dummy_doc):
-            return i.fiscal_document_id.action_document_cancel()
+        for i in self.filtered(lambda d: d.document_type_id):
+            i.fiscal_document_id.action_document_cancel()
         return super().action_invoice_cancel()
 
     def view_xml(self):
