@@ -12,6 +12,18 @@ from .tools import misc
 _logger = logging.getLogger(__name__)
 
 
+def _create_fiscal_dummy_doc_id(env):
+    """Creates Fiscal dummy document for olders companies"""
+    _logger.info(_("Creating fiscal document dummy..."))
+    companies = env['res.company'].search([('fiscal_dummy_id', '=', False)])
+    for company in companies:
+        company.write(
+            {
+                'fiscal_dummy_id': company.get_fiscal_dummy_doc().id,
+            }
+        )
+
+
 def post_init_hook(cr, registry):
     """Import XML data to change core data"""
     env = api.Environment(cr, SUPERUSER_ID, {})
@@ -160,3 +172,5 @@ def post_init_hook(cr, registry):
             kind="init",
             report=None,
         )
+
+    _create_fiscal_dummy_doc_id(env)
