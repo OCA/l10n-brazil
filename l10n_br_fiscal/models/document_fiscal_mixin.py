@@ -63,7 +63,7 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     fiscal_operation_tax_calc = fields.Selection(
-        related='fiscal_operation_id.tax_calc',
+        related="fiscal_operation_id.tax_calc",
         readonly=True,
     )
 

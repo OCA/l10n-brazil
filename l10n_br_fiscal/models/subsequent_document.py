@@ -81,7 +81,7 @@ class SubsequentDocument(models.Model):
                 "referenciado_ids",
                 self.source_document_id._prepare_referenced_subsequent(
                     new_document_id=self.subsequent_document_id,
-                )
+                ),
             )
         return []
 

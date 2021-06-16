@@ -489,12 +489,12 @@ EVENT_ENVIRONMENT = [
     (EVENT_ENV_PROD, "Production"),
     (EVENT_ENV_HML, "Homologation"),
 ]
-TAX_CALC_AUTO = 'tax_calc_auto'
-TAX_CALC_ONLY = 'tax_calc_only'
-TAX_CALC_MANUAL = 'tax_calc_manual'
+TAX_CALC_AUTO = "tax_calc_auto"
+TAX_CALC_ONLY = "tax_calc_only"
+TAX_CALC_MANUAL = "tax_calc_manual"
 
 TAX_CALC = [
-    (TAX_CALC_AUTO, 'Automático'),
-    (TAX_CALC_ONLY, 'Semi-Automático'),
-    (TAX_CALC_MANUAL, 'Manual'),
+    (TAX_CALC_AUTO, "Automático"),
+    (TAX_CALC_ONLY, "Semi-Automático"),
+    (TAX_CALC_MANUAL, "Manual"),
 ]

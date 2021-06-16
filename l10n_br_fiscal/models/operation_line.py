@@ -80,7 +80,7 @@ class OperationLine(models.Model):
     )
 
     tax_calc = fields.Selection(
-        related='fiscal_operation_id.tax_calc',
+        related="fiscal_operation_id.tax_calc",
         readonly=True,
     )
 
@@ -202,9 +202,7 @@ class OperationLine(models.Model):
         nbs=None,
         cest=None,
     ):
-        tax_calc = self.env.context.get(
-            "TAX_CALC_OVERRIDE", self.tax_calc
-        )
+        tax_calc = self.env.context.get("TAX_CALC_OVERRIDE", self.tax_calc)
 
         mapping_result = {
             "taxes": {},

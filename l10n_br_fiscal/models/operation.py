@@ -137,7 +137,7 @@ class Operation(models.Model):
 
     tax_calc = fields.Selection(
         selection=TAX_CALC,
-        string='Calculo tributação',
+        string="Calculo tributação",
         help="""Determina se o calculo da tributação deve ser:\n
               - Automático: O sistema determina nas aliquotas, cfop e entre outros;\n
               - Semi-Automático: O usuário informa a cfop, aliquotas e o

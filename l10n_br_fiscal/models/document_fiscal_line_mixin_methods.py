@@ -6,13 +6,9 @@ from lxml import etree
 from odoo import api, models
 from odoo.osv.orm import setup_modifiers
 
+from ..constants.fiscal import TAX_CALC_MANUAL, TAX_CALC_ONLY
 from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
 from .tax import TAX_DICT_VALUES
-
-from ..constants.fiscal import (
-    TAX_CALC_ONLY,
-    TAX_CALC_MANUAL,
-)
 
 FISCAL_TAX_ID_FIELDS = [
     "cofins_tax_id",
@@ -206,8 +202,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return taxes
 
     def _remove_all_fiscal_tax_ids(self):
-        tax_calc = self.env.context.get('TAX_CALC_OVERRIDE',
-                                        self.fiscal_operation_line_id.tax_calc)
+        tax_calc = self.env.context.get(
+            "TAX_CALC_OVERRIDE", self.fiscal_operation_line_id.tax_calc
+        )
         if tax_calc in (TAX_CALC_MANUAL, TAX_CALC_ONLY):
             return
         for line in self:
@@ -306,8 +303,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.onchange("fiscal_operation_line_id")
     def _onchange_fiscal_operation_line_id(self):
-        tax_calc = self.env.context.get('TAX_CALC_OVERRIDE',
-                                        self.fiscal_operation_line_id.tax_calc)
+        tax_calc = self.env.context.get(
+            "TAX_CALC_OVERRIDE", self.fiscal_operation_line_id.tax_calc
+        )
         if tax_calc == TAX_CALC_MANUAL:
             return
 
