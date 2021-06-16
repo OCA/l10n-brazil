@@ -41,7 +41,10 @@
                                 name="journal_id"
                                 attrs="{'readonly': [('state', '!=', 'draft')]}"
                             />
-                            <field name="account_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field
+                                name="account_id"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
                             <field
                                 name="fiscal_position_id"
                                 attrs="{'readonly': [('state', '!=', 'draft')]}"

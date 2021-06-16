@@ -6,10 +6,10 @@ from odoo import fields, models
 
 class Cfop(models.Model):
 
-    _inherit = 'l10n_br_fiscal.cfop'
+    _inherit = "l10n_br_fiscal.cfop"
 
     account_id = fields.Many2one(
-        comodel_name='account.account',
-        string='Account',
+        comodel_name="account.account",
+        string="Account",
         company_dependent=True,
     )

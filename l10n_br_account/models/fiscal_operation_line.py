@@ -15,7 +15,7 @@ class OperationLine(models.Model):
     )
 
     account_id = fields.Many2one(
-        comodel_name='account.account',
-        string='Account',
+        comodel_name="account.account",
+        string="Account",
         company_dependent=True,
     )

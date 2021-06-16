@@ -1,17 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright 2021 KMEE - Luis Felipe Mileo <mileo@kmee.com.br>
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
 
       <record model="ir.ui.view" id="l10n_br_fiscal_cfop_form_view">
         <field name="name">l10n_br_fiscal.cfop.form (in l10n_br_account)</field>
         <field name="model">l10n_br_fiscal.cfop</field>
-        <field name="inherit_id" ref="l10n_br_fiscal.cfop_form"/>
+        <field name="inherit_id" ref="l10n_br_fiscal.cfop_form" />
         <field name="arch" type="xml">
           <group name="move_settings" position="after">
             <group name="account_settings" string="Account Settings">
-              <field name="account_id"/>
+              <field name="account_id" />
             </group>
           </group>
 
@@ -21,10 +20,10 @@
       <record model="ir.ui.view" id="l10n_br_fiscal_cfop_search_view">
         <field name="name">l10n_br_fiscal.cfop.search (in l10n_br_account)</field>
         <field name="model">l10n_br_fiscal.cfop</field>
-        <field name="inherit_id" ref="l10n_br_fiscal.cfop_search"/>
+        <field name="inherit_id" ref="l10n_br_fiscal.cfop_search" />
         <field name="arch" type="xml">
           <field name="name">
-            <field name="account_id"/>
+            <field name="account_id" />
           </field>
         </field>
       </record>
@@ -32,10 +31,10 @@
       <record model="ir.ui.view" id="l10n_br_fiscal_cfop_tree_view">
         <field name="name">l10n_br_fiscal.cfop.tree (in l10n_br_account)</field>
         <field name="model">l10n_br_fiscal.cfop</field>
-        <field name="inherit_id" ref="l10n_br_fiscal.cfop_tree"/>
+        <field name="inherit_id" ref="l10n_br_fiscal.cfop_tree" />
         <field name="arch" type="xml">
           <field name="type_move">
-            <field name="account_id"/>
+            <field name="account_id" />
           </field>
         </field>
       </record>
