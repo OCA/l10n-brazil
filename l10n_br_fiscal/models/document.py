@@ -14,6 +14,8 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     FISCAL_IN_OUT_DICT,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
 )
 
 
@@ -378,22 +380,45 @@ class Document(models.Model):
 
     def _get_email_template(self):
         self.ensure_one()
-        return self.document_type_id.document_email_ids.search(
-            [
-                "|",
-                ("state_edoc", "=", False),
-                ("state_edoc", "=", self.state),
-                ("issuer", "=", self.issuer),
-                "|",
-                ("document_type_id", "=", False),
-                ("document_type_id", "=", self.document_type_id.id),
-            ],
-            limit=1,
-            order="state_edoc, document_type_id",
-        ).mapped("email_template_id")
+        domain = []
+        if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+            domain += [
+                "&",
+                ("state_autorizada", "=", self.state_edoc == SITUACAO_EDOC_AUTORIZADA),
+            ]
+        if self.state_edoc == SITUACAO_EDOC_CANCELADA:
+            domain += [
+                "&",
+                ("state_cancelada", "=", self.state_edoc == SITUACAO_EDOC_CANCELADA),
+            ]
+        if self.state_edoc == SITUACAO_EDOC_DENEGADA:
+            domain += [
+                "&",
+                ("state_denegada", "=", self.state_edoc == SITUACAO_EDOC_DENEGADA),
+            ]
+
+        domain += [
+            "&",
+            ("issuer", "=", self.issuer),
+            "|",
+            ("document_type_id", "=", False),
+            ("document_type_id", "=", self.document_type_id.id),
+        ]
+        return (
+            self.env["l10n_br_fiscal.document.email"]
+            .search(domain)
+            .mapped("email_template_id")
+        )
 
     def send_email(self):
         self.ensure_one()
+        if self.state_edoc not in (
+            SITUACAO_EDOC_AUTORIZADA,
+            SITUACAO_EDOC_CANCELADA,
+            SITUACAO_EDOC_DENEGADA,
+        ):
+            return
+
         email_template_id = self._get_email_template()
         if email_template_id:
             partner_ids = self.partner_id.filtered("edoc_send_email")
