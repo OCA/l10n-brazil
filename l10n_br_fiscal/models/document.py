@@ -376,13 +376,13 @@ class Document(models.Model):
 
         return action
 
-    def _get_email_template(self, state):
+    def _get_email_template(self):
         self.ensure_one()
         return self.document_type_id.document_email_ids.search(
             [
                 "|",
                 ("state_edoc", "=", False),
-                ("state_edoc", "=", state),
+                ("state_edoc", "=", self.state),
                 ("issuer", "=", self.issuer),
                 "|",
                 ("document_type_id", "=", False),
@@ -392,20 +392,19 @@ class Document(models.Model):
             order="state_edoc, document_type_id",
         ).mapped("email_template_id")
 
-    def send_email(self, state):
+    def send_email(self):
         self.ensure_one()
-        email_template = self._get_email_template(state)
-
-        partner_ids = self.partner_id.filtered('edoc_send_email')
-        partner_ids |= self.partner_id.child_ids.filtered('edoc_send_email')
-
-        if email_template:
-            email_template.send_mail(self.id)
+        email_template_id = self._get_email_template()
+        if email_template_id:
+            partner_ids = self.partner_id.filtered("edoc_send_email")
+            partner_ids |= self.partner_id.child_ids.filtered("edoc_send_email")
+            self.message_subscribe(partner_ids=partner_ids.ids)
+            self.message_post_with_template(template_id=email_template_id.id)
 
     def _after_change_state(self, old_state, new_state):
         self.ensure_one()
         super()._after_change_state(old_state, new_state)
-        self.send_email(new_state)
+        self.send_email()
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
@@ -501,7 +500,7 @@ class Document(models.Model):
         template message loaded by default
         """
         self.ensure_one()
-        template = self._get_email_template(self.state)
+        template = self._get_email_template()
         compose_form = self.env.ref("mail.email_compose_message_wizard_form", False)
         lang = self.env.context.get("lang")
         if template and template.lang:
