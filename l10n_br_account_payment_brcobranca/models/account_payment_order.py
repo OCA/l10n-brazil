@@ -11,7 +11,7 @@ import tempfile
 import requests
 
 from odoo import _, fields, models
-from odoo.exceptions import Warning as UserError
+from odoo.exceptions import Warning as ValidationError
 
 from ..constants.br_cobranca import DICT_BRCOBRANCA_CNAB_TYPE, get_brcobranca_bank
 
@@ -95,34 +95,50 @@ class PaymentOrder(models.Model):
         # brcobranca/remessa/cnab400/itau_spec.rb
 
         cnab_type = self.payment_mode_id.payment_method_code
+
+        # Se não for um caso CNAB deve chamar o super
+        if cnab_type not in ("240", "400", "500"):
+            return super().generate_payment_file()
+
         bank_account_id = self.journal_id.bank_account_id
         bank_brcobranca = get_brcobranca_bank(bank_account_id)
 
+        # Verificar campos que não podem ser usados no CNAB
+        fields_forbidden_cnab = []
         if self.payment_mode_id.group_lines:
-            raise UserError(
+            fields_forbidden_cnab.append("Group Lines")
+        if self.payment_mode_id.generate_move:
+            fields_forbidden_cnab.append("Generated Moves")
+        if self.payment_mode_id.post_move:
+            fields_forbidden_cnab.append("Post Moves")
+
+        for field in fields_forbidden_cnab:
+            raise ValidationError(
                 _(
-                    "The Payment mode can not be used with the group lines active, \n "
-                    "please uncheck it on payment mode configuration to continue"
+                    "The Payment Mode can not be used for CNAB with the field"
+                    " %s active. \n Please uncheck it to continue."
                 )
+                % field
             )
-        if self.payment_mode_id.generate_move or self.payment_mode_id.post_move:
-            raise UserError(
-                _(
-                    "The Payment mode can not be used with the generated moves or"
-                    " post moves active \n Please uncheck it on payment mode"
-                    " configuration to continue"
-                )
-            )
+
         if cnab_type not in bank_brcobranca.remessa:
             # Informa se o CNAB especifico de um Banco não está implementado
             # no BRCobranca, evitando a mensagem de erro mais extensa da lib
-            raise UserError(
+            raise ValidationError(
                 _("The CNAB %s for Bank %s are not implemented in BRCobranca.")
                 % (
                     cnab_type,
                     bank_account_id.bank_id.name,
                 )
             )
+
+        remessa = self._get_data_from_brcobranca(
+            bank_brcobranca, bank_account_id, cnab_type
+        )
+
+        return remessa, self.get_file_name(cnab_type)
+
+    def _get_data_from_brcobranca(self, bank_brcobranca, bank_account_id, cnab_type):
 
         pagamentos = []
         for line in self.bank_line_ids:
@@ -163,7 +179,7 @@ class PaymentOrder(models.Model):
         )
 
         if not api_address:
-            raise UserError(
+            raise ValidationError(
                 _(
                     "It is not possible generated CNAB File.\n"
                     "Inform the IP address or Name of server"
@@ -194,9 +210,9 @@ class PaymentOrder(models.Model):
             # https://github.com/kivanio/brcobranca/tree/master/spec/fixtures/remessa
             remessa = res.content
         else:
-            raise UserError(res.text)
+            raise ValidationError(res.text)
 
-        return remessa, self.get_file_name(cnab_type)
+        return remessa
 
     def generated2uploaded(self):
         super().generated2uploaded()
