@@ -486,22 +486,23 @@ class AccountInvoice(models.Model):
     def _get_refund_common_fields(self):
         fields = super()._get_refund_common_fields()
         fields += [
-            'fiscal_operation_id',
-            'document_type_id',
-            'document_serie_id',
+            "fiscal_operation_id",
+            "document_type_id",
+            "document_serie_id",
         ]
         return fields
 
     @api.multi
-    @api.returns('self')
+    @api.returns("self")
     def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
         new_invoices = super(AccountInvoice, self).refund(
-            date_invoice, date, description, journal_id)
+            date_invoice, date, description, journal_id
+        )
 
         force_fiscal_operation_id = False
-        if self.env.context.get('force_fiscal_operation_id'):
-            force_fiscal_operation_id = self.env['l10n_br_fiscal.operation'].browse(
-                self.env.context.get('force_fiscal_operation_id')
+        if self.env.context.get("force_fiscal_operation_id"):
+            force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
+                self.env.context.get("force_fiscal_operation_id")
             )
 
         my_new_invoices = self.browse(new_invoices.ids)
@@ -509,31 +510,45 @@ class AccountInvoice(models.Model):
         for r in my_new_invoices:
             if not r.document_type_id:
                 continue
-            if (not force_fiscal_operation_id and
-                    not r.fiscal_operation_id.return_fiscal_operation_id):
+            if (
+                not force_fiscal_operation_id
+                and not r.fiscal_operation_id.return_fiscal_operation_id
+            ):
                 raise UserError(
-                    _("""Document without Return Fiscal Operation! \n Force one!"""))
+                    _("""Document without Return Fiscal Operation! \n Force one!""")
+                )
 
             r.fiscal_operation_id = (
-                force_fiscal_operation_id or
-                r.fiscal_operation_id.return_fiscal_operation_id)
+                force_fiscal_operation_id
+                or r.fiscal_operation_id.return_fiscal_operation_id
+            )
 
             for line in r.invoice_line_ids:
-                if (not force_fiscal_operation_id and
-                        not line.fiscal_operation_id.return_fiscal_operation_id):
+                if (
+                    not force_fiscal_operation_id
+                    and not line.fiscal_operation_id.return_fiscal_operation_id
+                ):
                     raise UserError(
-                        _("""Line without Return Fiscal Operation! \n
-                            Please force one! \n{}""".format(line.name)))
+                        _(
+                            """Line without Return Fiscal Operation! \n
+                            Please force one! \n{}""".format(
+                                line.name
+                            )
+                        )
+                    )
 
                 line.fiscal_operation_id = (
-                    force_fiscal_operation_id or
-                    line.fiscal_operation_id.return_fiscal_operation_id)
+                    force_fiscal_operation_id
+                    or line.fiscal_operation_id.return_fiscal_operation_id
+                )
                 line._onchange_fiscal_operation_id()
 
             refund_invoice_id = my_new_invoices.refund_invoice_id
 
-            if (refund_invoice_id.fiscal_document_id and
-                    my_new_invoices.fiscal_document_id):
+            if (
+                refund_invoice_id.fiscal_document_id
+                and my_new_invoices.fiscal_document_id
+            ):
                 refund_invoice_id.fiscal_document_id._prepare_referenced_subsequent(
                     new_document_id=my_new_invoices.fiscal_document_id
                 )
@@ -543,12 +558,12 @@ class AccountInvoice(models.Model):
     def _refund_cleanup_lines(self, lines):
         result = super(AccountInvoice, self)._refund_cleanup_lines(lines)
         for _a, _b, vals in result:
-            if vals.get('fiscal_document_line_id'):
-                vals.pop('fiscal_document_line_id')
+            if vals.get("fiscal_document_line_id"):
+                vals.pop("fiscal_document_line_id")
 
         for i, line in enumerate(lines):
-            for name, field in line._fields.items():
-                if name == 'fiscal_tax_ids':
+            for name, _field in line._fields.items():
+                if name == "fiscal_tax_ids":
                     result[i][2][name] = [(6, 0, line[name].ids)]
 
         return result
