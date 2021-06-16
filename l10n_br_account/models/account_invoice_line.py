@@ -129,11 +129,7 @@ class AccountInvoiceLine(models.Model):
     def _compute_price(self):
         """Compute the amounts of the SO line."""
         super()._compute_price()
-        dummy_doc_line_id = self.env.ref("l10n_br_fiscal.fiscal_document_line_dummy")
-        if (
-            self.fiscal_document_line_id
-            and self.fiscal_document_line_id != dummy_doc_line_id
-        ):
+        if self.document_type_id:
             # Update taxes fields
             self._update_taxes()
             # Call mixin compute method
@@ -193,28 +189,24 @@ class AccountInvoiceLine(models.Model):
 
     @api.model
     def create(self, values):
-        dummy_doc_line_id = self.env.ref("l10n_br_fiscal.fiscal_document_line_dummy").id
-        dummy_doc_id = self.env.ref("l10n_br_fiscal.fiscal_document_dummy").id
-        fiscal_doc_id = (
-            self.env["account.invoice"]
-            .browse(values["invoice_id"])
-            .fiscal_document_id.id
-        )
-        if dummy_doc_id == fiscal_doc_id:
-            values["fiscal_document_line_id"] = dummy_doc_line_id
+        dummy_doc = self.env.user.company_id.get_fiscal_dummy_doc()
+        fiscal_doc_id = self.env['account.invoice'].browse(
+            values['invoice_id']).fiscal_document_id.id
+        if dummy_doc.id == fiscal_doc_id:
+            values['fiscal_document_line_id'] = fields.first(dummy_doc.line_ids).id
 
         values.update(
             self._update_fiscal_quantity(
-                values.get("product_id"),
-                values.get("price_unit"),
-                values.get("quantity"),
-                values.get("uom_id"),
-                values.get("uot_id"),
+                values.get('product_id'),
+                values.get('price_unit'),
+                values.get('quantity'),
+                values.get('uom_id'),
+                values.get('uot_id')
             )
         )
 
         line = super().create(values)
-        if dummy_doc_id != fiscal_doc_id:
+        if dummy_doc.id != fiscal_doc_id:
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.invoice_id.fiscal_document_id.id
             shadowed_fiscal_vals["document_id"] = doc_id
@@ -222,7 +214,8 @@ class AccountInvoiceLine(models.Model):
         return line
 
     def write(self, values):
-        dummy_line = self.env.ref("l10n_br_fiscal.fiscal_document_line_dummy")
+        dummy_doc = self.env.user.company_id.get_fiscal_dummy_doc()
+        dummy_line = fields.first(dummy_doc.line_ids)
         if values.get("invoice_id"):
             values["document_id"] = (
                 self.env["account.invoice"]
@@ -237,12 +230,13 @@ class AccountInvoiceLine(models.Model):
         return result
 
     def unlink(self):
-        dummy_doc_line_id = self.env.ref("l10n_br_fiscal.fiscal_document_line_dummy").id
+        dummy_doc = self.env.user.company_id.get_fiscal_dummy_doc()
+        dummy_line = fields.first(dummy_doc.line_ids)
         unlink_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
         for inv_line in self:
             if not inv_line.exists():
                 continue
-            if inv_line.fiscal_document_line_id.id != dummy_doc_line_id:
+            if inv_line.fiscal_document_line_id.id != dummy_line.id:
                 unlink_fiscal_lines |= inv_line.fiscal_document_line_id
         result = super().unlink()
         unlink_fiscal_lines.unlink()
