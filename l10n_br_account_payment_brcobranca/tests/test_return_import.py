@@ -210,6 +210,7 @@ class TestReturnImport(common.TransactionCase):
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
                 "tests",
+                "data",
                 "CNAB400UNICRED_valor_menor_1.RET",
             )
             log = self._import_file(file_name)
@@ -357,6 +358,7 @@ class TestReturnImport(common.TransactionCase):
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
                 "tests",
+                "data",
                 "CNAB400UNICRED_valor_menor_2.RET",
             )
             log = self._import_file(file_name)
@@ -503,6 +505,7 @@ class TestReturnImport(common.TransactionCase):
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
                 "tests",
+                "data",
                 "CNAB400UNICRED_valor_maior_3.RET",
             )
             log = self._import_file(file_name)
@@ -651,6 +654,7 @@ class TestReturnImport(common.TransactionCase):
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
                 "tests",
+                "data",
                 "CNAB400UNICRED_valor_maior_4.RET",
             )
             log = self._import_file(file_name)
