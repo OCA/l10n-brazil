@@ -51,11 +51,6 @@ To use this module, you need go to portal and edit your contact info:
    :alt: campos
    :width: 800 px
 
-Known issues / Roadmap
-======================
-
-
-
 Changelog
 =========
 
@@ -86,7 +81,6 @@ Contributors
 ~~~~~~~~~~~~
 
 * Luis Felipe Mileo <mileo@kmee.com.br> (https://www.kmee.com.br)
-
 
 Maintainers
 ~~~~~~~~~~~
