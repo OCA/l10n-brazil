@@ -55,8 +55,13 @@ class StockInvoiceOnshipping(models.TransientModel):
         if document_serie:
             fiscal_vals["document_serie_id"] = document_serie.id
 
-        if pick.fiscal_operation_id and pick.fiscal_operation_id.journal_id:
-            fiscal_vals["journal_id"] = pick.fiscal_operation_id.journal_id.id
+        if pick.fiscal_operation_id:
+
+            if pick.fiscal_operation_id.journal_id:
+                fiscal_vals["journal_id"] = pick.fiscal_operation_id.journal_id.id
+
+            if pick.fiscal_operation_id.journal_id:
+                fiscal_vals["account_id"] = pick.fiscal_operation_id.account_id.id
 
         # Endereço de Entrega diferente do Endereço de Faturamento
         # so informado quando é diferente
@@ -88,6 +93,14 @@ class StockInvoiceOnshipping(models.TransientModel):
         # price_unit
         del fiscal_values["price_unit"]
         fiscal_values["fiscal_price"] = abs(fiscal_values.get("fiscal_price"))
+
+        if move.fiscal_operation_id and move.fiscal_operation_line_id:
+            if move.fiscal_operation_line_id.account_id:
+                fiscal_values[
+                    "account_id"
+                ] = move.fiscal_operation_line_id.account_id.id
+            if move.cfop_id.account_id:
+                fiscal_values["account_id"] = move.cfop_id.account_id.id
 
         # Como é usada apenas uma move para chamar o _prepare_br_fiscal_dict
         # a quantidade/quantity do dicionario traz a quantidade referente a
