@@ -2,7 +2,6 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo.exceptions import UserError
 from odoo.tests import SavepointCase
 
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
@@ -976,15 +975,3 @@ class TestFiscalDocumentGeneric(SavepointCase):
             self.nfe_same_state.fiscal_operation_id.return_fiscal_operation_id.id,
             "Error on creation return",
         )
-
-    def test_unlink_dummy_document(self):
-        """ Test Dummy Fiscal Document Unlink Restrictions """
-        dummy_document = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        with self.assertRaises(UserError):
-            dummy_document.unlink()
-
-    def test_unlink_dummy_document_line(self):
-        """ Test Dummy Fiscal Document Line Unlink Restrictions """
-        dummy_line = self.env.ref("l10n_br_fiscal.fiscal_document_line_dummy")
-        with self.assertRaises(UserError):
-            dummy_line.unlink()
