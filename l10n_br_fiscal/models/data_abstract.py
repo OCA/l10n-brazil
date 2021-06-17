@@ -43,7 +43,7 @@ class DataAbstract(models.AbstractModel):
                     "('name', 'ilike', self + '%')]",
                 )
 
-            orm.setup_modifiers(node)
+                orm.setup_modifiers(node)
             model_view["arch"] = etree.tostring(doc)
 
         return model_view
