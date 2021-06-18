@@ -7,18 +7,21 @@ from unittest import mock
 
 from odoo import tools
 from odoo.modules import get_resource_path
-from odoo.tests import common
+from odoo.tests import SavepointCase, tagged
 
 _module_ns = "odoo.addons.l10n_br_account_payment_brcobranca"
 _provider_class = _module_ns + ".parser.cnab_file_parser" + ".CNABFileParser"
 
 
-class TestReturnImport(common.TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.company_a = self.browse_ref("base.main_company")
+@tagged("post_install", "-at_install")
+class TestReturnImport(SavepointCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company_a = cls.env.ref("base.main_company")
         tools.convert_file(
-            self.cr,
+            cls.cr,
             "account",
             get_resource_path("account", "test", "account_minimal_test.xml"),
             {},
@@ -26,25 +29,25 @@ class TestReturnImport(common.TransactionCase):
             False,
             "test",
         )
-        self.account_move_obj = self.env["account.move"]
-        self.account_move_line_obj = self.env["account.move.line"]
-        self.cnab_log_obj = self.env["l10n_br_cnab.return.log"]
-        self.account_id = self.ref("account.a_recv")
-        self.bank_account = self.browse_ref("account.bnk")
-        self.journal = self.browse_ref("account.bank_journal")
-        self.import_wizard_obj = self.env["credit.statement.import"]
-        self.partner = self.browse_ref("base.res_partner_12")
-        self.journal.write(
+        cls.account_move_obj = cls.env["account.move"]
+        cls.account_move_line_obj = cls.env["account.move.line"]
+        cls.cnab_log_obj = cls.env["l10n_br_cnab.return.log"]
+        cls.account_id = cls.env.ref("account.a_recv")
+        cls.bank_account = cls.env.ref("account.bnk")
+        cls.journal = cls.env.ref("account.bank_journal")
+        cls.import_wizard_obj = cls.env["credit.statement.import"]
+        cls.partner = cls.env.ref("base.res_partner_12")
+        cls.journal.write(
             {
                 "used_for_import": True,
                 "import_type": "cnab400",
-                "partner_id": self.partner.id,
-                "commission_account_id": self.account_id,
-                "receivable_account_id": self.account_id,
+                "partner_id": cls.partner.id,
+                "commission_account_id": cls.account_id.id,
+                "receivable_account_id": cls.account_id.id,
                 "create_counterpart": True,
-                "bank_account_id": self.ref(
+                "bank_account_id": cls.env.ref(
                     "l10n_br_account_payment_order.main_company_bank_unicredi"
-                ),
+                ).id,
             }
         )
 
