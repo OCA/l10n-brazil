@@ -1,9 +1,11 @@
 # Copyright 2021 Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
+from odoo_test_helper import FakeModelLoader
+
 from odoo.models import NewId
 from odoo.tests import SavepointCase
-from odoo_test_helper import FakeModelLoader
+
 from ..hooks import get_remaining_spec_models
 
 
@@ -29,20 +31,15 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
 
         # import generated spec mixins
         from .fake_mixin import PoXsdMixin
-        from .spec_poxsd import (
-            Item,
-            Items,
-            USAddress,
-            PurchaseOrder,
-        )
+        from .spec_poxsd import Item, Items, PurchaseOrder, USAddress
 
         cls.loader.update_registry((PoXsdMixin, Item, Items, USAddress, PurchaseOrder))
 
         # inject the mixins into existing Odoo models
         from .spec_purchase import (
-            ResPartner,
-            PurchaseOrderLine,
             PurchaseOrder as PurchaseOrder2,
+            PurchaseOrderLine,
+            ResPartner,
         )
 
         cls.loader.update_registry((ResPartner, PurchaseOrderLine, PurchaseOrder2))
@@ -61,7 +58,7 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
             "spec_driven_model",
             "odoo.addons.spec_driven_model.tests.spec_poxsd",
         )
-        self.assertEqual(remaining_spec_models, set(["poxsd.10.dangling_model"]))
+        self.assertEqual(remaining_spec_models, {"poxsd.10.dangling_model"})
 
     def test_spec_models(self):
         self.assertTrue(
