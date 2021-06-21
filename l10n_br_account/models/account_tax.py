@@ -97,36 +97,39 @@ class AccountTax(models.Model):
             tax_domain = tax.tax_group_id.fiscal_tax_group_id.tax_domain
             account_taxes_by_domain.update({tax.id: tax_domain})
 
-        for account_tax in taxes_results['taxes']:
-            tax = self.filtered(lambda t: t.id == account_tax.get('id'))
-            fiscal_tax = fiscal_taxes_results['taxes'].get(
+        for account_tax in taxes_results["taxes"]:
+            tax = self.filtered(lambda t: t.id == account_tax.get("id"))
+            fiscal_tax = fiscal_taxes_results["taxes"].get(
                 account_taxes_by_domain.get(tax.id)
             )
 
-            account_tax.update({
-                'tax_group_id': tax.tax_group_id.id,
-                'deductible': tax.deductible,
-            })
+            account_tax.update(
+                {
+                    "tax_group_id": tax.tax_group_id.id,
+                    "deductible": tax.deductible,
+                }
+            )
 
             if fiscal_tax:
-                if not fiscal_tax.get('tax_include') and not tax.deductible:
-                    taxes_results['total_included'] += fiscal_tax.get(
-                        'tax_value')
+                if not fiscal_tax.get("tax_include") and not tax.deductible:
+                    taxes_results["total_included"] += fiscal_tax.get("tax_value")
 
                 fiscal_group = tax.tax_group_id.fiscal_tax_group_id
-                tax_amount = fiscal_tax.get('tax_value', 0.0)
+                tax_amount = fiscal_tax.get("tax_value", 0.0)
                 if tax.deductible or fiscal_group.tax_withholding:
-                    tax_amount = fiscal_tax.get('tax_value', 0.0) * -1
+                    tax_amount = fiscal_tax.get("tax_value", 0.0) * -1
 
-                account_tax.update({
-                    'id': account_tax.get('id'),
-                    'name': fiscal_group.name,
-                    'fiscal_name': fiscal_tax.get('name'),
-                    'base': fiscal_tax.get('base'),
-                    'tax_include': fiscal_tax.get('tax_include'),
-                    'amount': tax_amount,
-                    'fiscal_tax_id': fiscal_tax.get('fiscal_tax_id'),
-                    'tax_withholding': fiscal_group.tax_withholding
-                })
+                account_tax.update(
+                    {
+                        "id": account_tax.get("id"),
+                        "name": fiscal_group.name,
+                        "fiscal_name": fiscal_tax.get("name"),
+                        "base": fiscal_tax.get("base"),
+                        "tax_include": fiscal_tax.get("tax_include"),
+                        "amount": tax_amount,
+                        "fiscal_tax_id": fiscal_tax.get("fiscal_tax_id"),
+                        "tax_withholding": fiscal_group.tax_withholding,
+                    }
+                )
 
         return taxes_results
