@@ -8,8 +8,9 @@ class SpecMixin(models.AbstractModel):
     """putting this mixin here makes it possible for generated schemas mixins
     to be installed without depending on the fiscal module.
     """
+
     _description = "root abstract model meant for xsd generated fiscal models"
-    _name = 'spec.mixin'
+    _name = "spec.mixin"
     _stacking_points = {}
     # _spec_module = 'override.with.your.python.module'
     # _binding_module = 'your.pyhthon.binding.module'
