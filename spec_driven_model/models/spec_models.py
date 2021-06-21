@@ -185,7 +185,7 @@ class SpecModel(models.AbstractModel):
 
     @classmethod
     def _odoo_name_to_class(cls, odoo_name, spec_module):
-        for name, base_class in cls.spec_module_classes(spec_module):
+        for _name, base_class in cls.spec_module_classes(spec_module):
             if base_class._name == odoo_name:
                 return base_class
         return None
@@ -294,10 +294,9 @@ class StackedModel(SpecModel):
             fields[i[0]] = {
                 "type": i[1].type,
                 # TODO get with a function (lambda?)
-                "comodel_name": getattr(i[1], "comodel_name"),
-                "xsd_required": hasattr(i[1], "xsd_required")
-                and getattr(i[1], "xsd_required"),
-                "choice": hasattr(i[1], "choice") and getattr(i[1], "choice"),
+                "comodel_name": i[1].comodel_name,
+                "xsd_required": hasattr(i[1], "xsd_required") and i[1].xsd_required,
+                "choice": hasattr(i[1], "choice") and i[1].choice,
             }
         for name, f in fields.items():
             if f["type"] not in ["many2one", "one2many"] or name in cls._stack_skip:
