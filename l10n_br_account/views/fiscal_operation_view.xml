@@ -45,6 +45,10 @@
                                 name="fiscal_position_id"
                                 attrs="{'readonly': [('state', '!=', 'draft')]}"
                             />
+                            <field
+                                name="deductible_taxes"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
                         </group>
                     </group>
                 </page>
