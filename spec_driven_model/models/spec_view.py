@@ -111,7 +111,7 @@ class SpecViewMixin(models.AbstractModel):
                 lib_model = self.fiscal_document_line_id
             else:
                 lib_model = self
-            classes = [getattr(x, "_name", None) for x in type(lib_model).mro()]
+            classes = [x._name for x in type(lib_model).mro()]
             # _logger.info("#####", lib_model, classes)
             for c in set(classes):
                 if c is None or not c.startswith("%s." % (self._schema_name,)):
@@ -139,7 +139,7 @@ class SpecViewMixin(models.AbstractModel):
         wrapper_group = None
         wrapper_notebook = None
         inside_notebook = False
-        stacked_classes = [getattr(x, "_name", None) for x in type(self).mro()]
+        stacked_classes = [x._name for x in type(self).mro()]
 
         # for spec in lib_node.member_data_items_:
         for field_name, field in lib_node._fields.items():
@@ -164,7 +164,7 @@ class SpecViewMixin(models.AbstractModel):
 
             # should we create a choice block?
             if hasattr(field, "choice"):
-                choice = getattr(field, "choice")
+                choice = field.choice
                 selector_name = "%s%s" % (
                     choice_prefix,
                     choice,
@@ -182,7 +182,7 @@ class SpecViewMixin(models.AbstractModel):
                 selector_name = None
 
             if hasattr(field, "view_attrs"):
-                attrs = getattr(field, "view_attrs")
+                attrs = field.view_attrs
             else:
                 if False:  # TODO getattr(field, 'xsd_required', None):
                     required = True
@@ -207,7 +207,7 @@ class SpecViewMixin(models.AbstractModel):
                 # _logger.info('STACKED', field_name, field.comodel_name)
                 wrapper_group = None
                 if hasattr(field, "original_comodel_name"):
-                    lib_child = self.env[getattr(field, "original_comodel_name")]
+                    lib_child = self.env[field.original_comodel_name]
                 else:
                     lib_child = self.env[field.comodel_name]
 
@@ -270,7 +270,7 @@ class SpecViewMixin(models.AbstractModel):
                 #     path = getattr(field, '_stack_path')
 
                 if hasattr(field, "original_comodel_name"):
-                    spec_class = getattr(field, "original_comodel_name")
+                    spec_class = field.original_comodel_name
                     field_tag = E.field(
                         name=field_name, context="{'spec_class': '%s'})" % (spec_class,)
                     )
