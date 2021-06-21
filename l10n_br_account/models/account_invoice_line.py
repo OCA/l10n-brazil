@@ -3,9 +3,10 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 # pylint: disable=api-one-deprecated
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK  # FISCAL_IN_OUT,
+from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 from .account_invoice import INVOICE_TO_OPERATION
 
@@ -110,6 +111,12 @@ class AccountInvoiceLine(models.Model):
     pisst_cst_code = fields.Char(
         related="pisst_cst_id.code",
         string="PIS ST CST Code",
+    )
+
+    wh_move_line_id = fields.Many2one(
+        comodel_name="account.move.line",
+        string="WH Account Move Line",
+        ondelete="restrict",
     )
 
     @api.one
@@ -225,6 +232,12 @@ class AccountInvoiceLine(models.Model):
             )
         result = super().write(values)
         for line in self:
+            if line.wh_move_line_id and (
+                "quantity" in values or "price_unit" in values
+            ):
+                raise UserError(
+                    _("You can't edit one invoice related a withholding entry")
+                )
             if line.fiscal_document_line_id != dummy_line:
                 shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
                 line.fiscal_document_line_id.write(shadowed_fiscal_vals)
