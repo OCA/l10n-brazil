@@ -10,14 +10,14 @@ class AccountMoveLine(models.Model):
     _order = "date_maturity, date desc, id desc"
 
     fiscal_tax_ids = fields.Many2many(
-        comodel_name='l10n_br_fiscal.tax',
-        relation='account_move_line_tax_rel',
-        column1='document_id',
-        column2='fiscal_tax_id',
-        string='Fiscal Taxes',
+        comodel_name="l10n_br_fiscal.tax",
+        relation="account_move_line_tax_rel",
+        column1="document_id",
+        column2="fiscal_tax_id",
+        string="Fiscal Taxes",
     )
 
     fiscal_tax_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.tax',
-        string='Fiscal Tax',
+        comodel_name="l10n_br_fiscal.tax",
+        string="Fiscal Tax",
     )
