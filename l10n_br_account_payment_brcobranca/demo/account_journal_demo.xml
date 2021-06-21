@@ -6,7 +6,10 @@
     <record id="l10n_br_account_payment_order.unicred_journal" model="account.journal">
         <field name="used_for_import">True</field>
         <field name="import_type">cnab400</field>
-        <field name="bank_account_id" ref="l10n_br_account_payment_order.main_company_bank_unicredi"/>
+        <field
+            name="bank_account_id"
+            ref="l10n_br_account_payment_order.main_company_bank_unicredi"
+        />
         <field name="return_auto_reconcile">True</field>
     </record>
 
