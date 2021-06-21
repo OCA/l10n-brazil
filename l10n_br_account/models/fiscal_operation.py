@@ -35,6 +35,11 @@ class Operation(models.Model):
         company_dependent=True,
     )
 
+    deductible_taxes = fields.Boolean(
+        string='Deductible Taxes',
+        company_dependent=True,
+    )
+
     def _change_action_view(self, action):
         fiscal_op_type = action.get("context")
         if fiscal_op_type == "out":
