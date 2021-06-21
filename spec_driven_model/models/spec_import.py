@@ -4,13 +4,15 @@
 import logging
 import re
 from datetime import datetime
+
 from odoo import api, models
+
 from .spec_models import SpecModel
 
 _logger = logging.getLogger(__name__)
 
 
-tz_datetime = re.compile(r'.*[-+]0[0-9]:00$')
+tz_datetime = re.compile(r".*[-+]0[0-9]:00$")
 
 
 class AbstractSpecMixin(models.AbstractModel):
@@ -20,7 +22,8 @@ class AbstractSpecMixin(models.AbstractModel):
     Here we take into account the concrete Odoo objects where the schema
     mixins where injected and possible matcher or builder overrides.
     """
-    _inherit = 'spec.mixin'
+
+    _inherit = "spec.mixin"
 
     @api.model
     def build(self, node, dry_run=False):
@@ -47,23 +50,29 @@ class AbstractSpecMixin(models.AbstractModel):
             return model.create(attrs)
 
     @api.model
-    def build_attrs(self, node, path=''):
+    def build_attrs(self, node, path=""):
         """
         Builds a new odoo model instance from a Python binding element or
         sub-element. Iterates over the binding fields to populate the Odoo fields.
         """
         fields = self._fields
         # no default image for easier debugging
-        vals = self.default_get([f for f, v in fields.items()
-                                 if v.type not in ['binary', 'integer',
-                                                   'float', 'monetary']])
+        vals = self.default_get(
+            [
+                f
+                for f, v in fields.items()
+                if v.type not in ["binary", "integer", "float", "monetary"]
+            ]
+        )
         # TODO deal with default values but take them from self._context
         # if path == '':
         #    vals.update(defaults)
         # we sort attrs to be able to define m2o related values
-        sorted_attrs = sorted(node.member_data_items_,
-                              key=lambda a: a.get_container() in [0, 1],
-                              reverse=True)
+        sorted_attrs = sorted(
+            node.member_data_items_,
+            key=lambda a: a.get_container() in [0, 1],
+            reverse=True,
+        )
         for attr in sorted_attrs:
             self._build_attr(node, fields, vals, path, attr)
 
@@ -78,20 +87,26 @@ class AbstractSpecMixin(models.AbstractModel):
         value = getattr(node, attr.get_name())
         if value is None or value == []:
             return False
-        key = "%s%s" % (self._field_prefix, attr.get_name(),)
-        child_path = '%s.%s' % (path, key)
-        binding_type = attr.get_child_attrs().get('type')
-        if binding_type is None or binding_type.startswith('xs:')\
-                or binding_type.startswith('xsd:'):
+        key = "%s%s" % (
+            self._field_prefix,
+            attr.get_name(),
+        )
+        child_path = "%s.%s" % (path, key)
+        binding_type = attr.get_child_attrs().get("type")
+        if (
+            binding_type is None
+            or binding_type.startswith("xs:")
+            or binding_type.startswith("xsd:")
+        ):
             # SimpleType
 
-            if fields.get(key) and fields[key].type == 'datetime':
-                if 'T' in value:
+            if fields.get(key) and fields[key].type == "datetime":
+                if "T" in value:
                     if tz_datetime.match(value):
                         old_value = value
                         value = old_value[:19]
                         # TODO see python3/pysped/xml_sped/base.py#L692
-                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S')
+                    value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S")
 
             self._build_string_not_simple_type(key, vals, value, node)
 
@@ -103,11 +118,10 @@ class AbstractSpecMixin(models.AbstractModel):
                 key = fields[key].related[-1]  # -1 works with _inherits
                 comodel_name = fields[key].comodel_name
             else:
-                clean_type = attr.get_child_attrs()[
-                    'type'].replace('Type', '').lower()
+                clean_type = attr.get_child_attrs()["type"].replace("Type", "").lower()
                 comodel_name = "%s.%s.%s" % (
                     self._schema_name,
-                    self._schema_version.replace('.', '')[0:2],
+                    self._schema_version.replace(".", "")[0:2],
                     clean_type,
                 )
 
@@ -117,20 +131,17 @@ class AbstractSpecMixin(models.AbstractModel):
 
             if attr.get_container() == 0:
                 # m2o
-                new_value = comodel.build_attrs(value,
-                                                path=child_path)
+                new_value = comodel.build_attrs(value, path=child_path)
                 child_defaults = self._extract_related_values(vals, key)
 
                 new_value.update(child_defaults)
                 # FIXME comodel._build_many2one
-                self._build_many2one(comodel, vals, new_value, key,
-                                     value, child_path)
+                self._build_many2one(comodel, vals, new_value, key, value, child_path)
             elif attr.get_container() == 1:
                 # o2m
                 lines = []
                 for line in [l for l in value if l]:
-                    line_vals = comodel.build_attrs(line,
-                                                    path=child_path)
+                    line_vals = comodel.build_attrs(line, path=child_path)
                     lines.append((0, 0, line_vals))
                 vals[key] = lines
 
@@ -149,9 +160,10 @@ class AbstractSpecMixin(models.AbstractModel):
     @api.model
     def get_concrete_model(self, comodel_name):
         "Lookup for concrete models where abstract schema mixins were injected"
-        if hasattr(models.MetaModel, 'mixin_mappings') \
-                and models.MetaModel.mixin_mappings.get(comodel_name)\
-                is not None:
+        if (
+            hasattr(models.MetaModel, "mixin_mappings")
+            and models.MetaModel.mixin_mappings.get(comodel_name) is not None
+        ):
             return self.env[models.MetaModel.mixin_mappings[comodel_name]]
         else:
             return self.env.get(comodel_name)
@@ -164,11 +176,13 @@ class AbstractSpecMixin(models.AbstractModel):
         """
         key_vals = {}
         for k, v in self._fields.items():
-            if hasattr(v, 'related')\
-                    and hasattr(v.related, '__len__')\
-                    and len(v.related) == 2\
-                    and v.related[0] == key\
-                    and vals.get(k) is not None:
+            if (
+                hasattr(v, "related")
+                and hasattr(v.related, "__len__")
+                and len(v.related) == 2
+                and v.related[0] == key
+                and vals.get(k) is not None
+            ):
                 key_vals[v.related[1]] = vals[k]
         return key_vals
 
@@ -186,40 +200,36 @@ class AbstractSpecMixin(models.AbstractModel):
         fields = model._fields
         for k, v in fields.items():
             # select schema choices for a friendly UI:
-            if k.startswith('%schoice' % (self._field_prefix,)):
-                for item in (getattr(v, 'selection') or []):
+            if k.startswith("%schoice" % (self._field_prefix,)):
+                for item in getattr(v, "selection") or []:
                     if vals.get(item[0]) not in [None, []]:
                         vals[k] = item[0]
                         break
 
             # reverse map related fields as much as possible
-            elif getattr(v, 'related') is not None and vals.get(k) is not None:
-                if len(getattr(v, 'related')) == 1:
-                    vals[getattr(v, 'related')[0]] = vals.get(k)
-                elif (
-                    len(getattr(v, 'related')) == 2
-                    and k.startswith(self._field_prefix)
+            elif getattr(v, "related") is not None and vals.get(k) is not None:
+                if len(getattr(v, "related")) == 1:
+                    vals[getattr(v, "related")[0]] = vals.get(k)
+                elif len(getattr(v, "related")) == 2 and k.startswith(
+                    self._field_prefix
                 ):
-                    related_m2o = getattr(v, 'related')[0]
+                    related_m2o = getattr(v, "related")[0]
                     # don't mess with _inherits write system
-                    if not any(related_m2o == i[1]
-                               for i in model._inherits.items()):
+                    if not any(related_m2o == i[1] for i in model._inherits.items()):
                         key_vals = related_many2ones.get(related_m2o, {})
-                        key_vals[getattr(v, 'related')[1]] = vals.get(k)
+                        key_vals[getattr(v, "related")[1]] = vals.get(k)
                         related_many2ones[related_m2o] = key_vals
 
         # now we deal with the related m2o with compound related
         # (example: create Nfe lines product)
         for related_m2o, sub_val in related_many2ones.items():
-            comodel_name = getattr(fields[related_m2o], 'comodel_name')
+            comodel_name = getattr(fields[related_m2o], "comodel_name")
             comodel = model.get_concrete_model(comodel_name)
-            related_many2ones = \
-                model._verify_related_many2ones(related_many2ones)
-            if hasattr(comodel, 'match_or_create_m2o'):
+            related_many2ones = model._verify_related_many2ones(related_many2ones)
+            if hasattr(comodel, "match_or_create_m2o"):
                 vals[related_m2o] = comodel.match_or_create_m2o(sub_val, vals)
             else:  # search res.country with Brasil for instance
-                vals[related_m2o] = model.match_or_create_m2o(sub_val, vals,
-                                                              comodel)
+                vals[related_m2o] = model.match_or_create_m2o(sub_val, vals, comodel)
         return vals
 
     @api.model
@@ -235,27 +245,25 @@ class AbstractSpecMixin(models.AbstractModel):
         """
         if model is None:
             model = self
-        default_key = [model._rec_name or 'name']
+        default_key = [model._rec_name or "name"]
         search_keys = "_%s_search_keys" % (self._schema_name)
         if hasattr(model, search_keys):
             keys = getattr(model, search_keys) + default_key
         else:
-            keys = [model._rec_name or 'name']
+            keys = [model._rec_name or "name"]
         keys = self._get_aditional_keys(model, rec_dict, keys)
         for key in keys:
             if rec_dict.get(key):
                 # TODO enable to build criteria using parent_dict
                 # such as state_id when searching for a city
-                if hasattr(model, '_nfe_extra_domain'):
-                    domain = model._nfe_extra_domain + [(key, '=',
-                                                         rec_dict.get(key))]
+                if hasattr(model, "_nfe_extra_domain"):
+                    domain = model._nfe_extra_domain + [(key, "=", rec_dict.get(key))]
                 else:
-                    domain = [(key, '=', rec_dict.get(key))]
+                    domain = [(key, "=", rec_dict.get(key))]
                 match_ids = model.search(domain)
                 if match_ids:
                     if len(match_ids) > 1:
-                        _logger.warning(
-                            "!! WARNING more than 1 record found!!")
+                        _logger.warning("!! WARNING more than 1 record found!!")
                     return match_ids[0].id
         return False
 
@@ -273,18 +281,19 @@ class AbstractSpecMixin(models.AbstractModel):
         # TODO log things in chatter like in base_business_document_import
         if model is None:
             model = self
-        if hasattr(model, '_match_record'):
+        if hasattr(model, "_match_record"):
             rec_id = model.match_record(rec_dict, parent_dict, model)
         else:
             rec_id = self.match_record(rec_dict, parent_dict, model)
         if not rec_id:
             rec_dict = self._prepare_import_dict(rec_dict, model)
-            create_dict = {k: v for k, v in rec_dict.items()
-                           if k in self._fields.keys()}
-            if self._context.get('dry_run'):
+            create_dict = {
+                k: v for k, v in rec_dict.items() if k in self._fields.keys()
+            }
+            if self._context.get("dry_run"):
                 rec_id = model.new(create_dict).id
             else:
-                rec_id = model.with_context(
-                    parent_dict=parent_dict
-                ).create(create_dict).id
+                rec_id = (
+                    model.with_context(parent_dict=parent_dict).create(create_dict).id
+                )
         return rec_id
