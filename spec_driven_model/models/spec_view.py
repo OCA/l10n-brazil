@@ -111,7 +111,7 @@ class SpecViewMixin(models.AbstractModel):
                 lib_model = self.fiscal_document_line_id
             else:
                 lib_model = self
-            classes = [x._name for x in type(lib_model).mro()]
+            classes = [x._name for x in type(lib_model).mro() if hasattr(x, "_name")]
             # _logger.info("#####", lib_model, classes)
             for c in set(classes):
                 if c is None or not c.startswith("%s." % (self._schema_name,)):
@@ -137,9 +137,8 @@ class SpecViewMixin(models.AbstractModel):
         # _logger.info("BUILD ARCH", lib_node)
         choices = set()
         wrapper_group = None
-        wrapper_notebook = None
         inside_notebook = False
-        stacked_classes = [x._name for x in type(self).mro()]
+        stacked_classes = [x._name for x in type(self).mro() if hasattr(x, "_name")]
 
         # for spec in lib_node.member_data_items_:
         for field_name, field in lib_node._fields.items():
@@ -185,11 +184,11 @@ class SpecViewMixin(models.AbstractModel):
                 attrs = field.view_attrs
             else:
                 if False:  # TODO getattr(field, 'xsd_required', None):
-                    required = True
+                    pass
                     # TODO if inside optionaly visible group, required should
                     # be optional too
                 else:  # assume dynamically required via attrs
-                    required = False
+                    pass
                 if selector_name is not None:
                     invisible = [("%s" % (selector_name,), "!=", field_name)]
                     attrs = {"invisible": invisible}
@@ -202,103 +201,129 @@ class SpecViewMixin(models.AbstractModel):
                 and field.type == "many2one"
                 and field.comodel_name in stacked_classes
             ):
-                # TODO is is a suficient condition?
-                # study what happen in res.partner with dest#nfe_enderDest
-                # _logger.info('STACKED', field_name, field.comodel_name)
-                wrapper_group = None
-                if hasattr(field, "original_comodel_name"):
-                    lib_child = self.env[field.original_comodel_name]
-                else:
-                    lib_child = self.env[field.comodel_name]
-
-                child_string = field.string
-                # if isinstance(child_string, str):
-                #     child_string = child_string  # .decode('utf-8')
-                # if hasattr(lib_child, '_stack_path'): # TODO
-                #     child_string = lib_child._stack_path
-                if depth == 0:
-                    view_child = E.group(string=child_string)
-                    if attrs:
-                        view_child.set("attrs", "%s" % (attrs,))
-                        setup_modifiers(view_child)
-                    view_node.append(view_child)
-                    self.build_arch(lib_child, view_child, fields, depth + 1)
-                else:
-                    page = E.page(string=child_string)
-                    invisible = False
-                    if attrs:
-                        page.set("attrs", "%s" % (attrs,))
-                        setup_modifiers(page)
-                    if not inside_notebook:
-                        # first page
-                        # this makes a difference in invoice line forms:
-                        wrapper_notebook = E.notebook(colspan="2")
-                        view_node.set("colspan", "2")
-                        view_node.append(wrapper_notebook)
-                        inside_notebook = True
-                        if invisible:
-                            # in case the notebook has only one page,
-                            # the visibility should be carried by the
-                            # notebook itself
-                            wrapper_notebook.set(
-                                "attrs", "{'invisible':%s}" % (invisible,)
-                            )
-                            setup_modifiers(wrapper_notebook)
-                    else:
-                        # cancel notebook dynamic visbility
-                        wrapper_notebook.set("attrs", "")
-                        wrapper_notebook.set("modifiers", "")
-                    view_child = E.group()
-                    page.append(view_child)
-                    wrapper_notebook.append(page)  # TODO attrs / choice
-                    # TODO inherit required
-                    self.build_arch(lib_child, view_child, fields, 0)
+                self._build_form_complex_type(
+                    field, fields, attrs, view_node, inside_notebook, depth
+                )
 
             # simple type, o2m or m2o mapped to an Odoo object
             else:
-                wrapper_notebook = None
-                inside_notebook = False
-                fields.append(field_name)
+                self._build_form_simple_type(
+                    field,
+                    fields,
+                    attrs,
+                    view_node,
+                    field_name,
+                    selector_name,
+                    wrapper_group,
+                )
 
-                if required and attrs:
-                    dyn_required = "[('%s','=','%s')]" % (selector_name, field_name)
-                    attrs["required"] = dyn_required
+    @api.model
+    def _build_form_simple_type(
+        self,
+        field,
+        fields,
+        attrs,
+        view_node,
+        field_name,
+        selector_name,
+        wrapper_group,
+    ):
+        fields.append(field_name)
 
-                # TODO the _stack_path assignation doesn't work
-                # if hasattr(field, '_stack_path'):  # and
-                # field.args.get('_stack_path') is not None:
-                #     path = getattr(field, '_stack_path')
+        # TODO if inside optionaly visible group, required should optional too
+        required = False
+        if required and attrs:
+            dyn_required = "[('%s','=','%s')]" % (selector_name, field_name)
+            attrs["required"] = dyn_required
 
-                if hasattr(field, "original_comodel_name"):
-                    spec_class = field.original_comodel_name
-                    field_tag = E.field(
-                        name=field_name, context="{'spec_class': '%s'})" % (spec_class,)
-                    )
-                else:
-                    field_tag = E.field(name=field_name)
-                if attrs:
-                    field_tag.set("attrs", "%s" % (attrs,))
-                elif required:
-                    field_tag.set("required", "True")
+        # TODO the _stack_path assignation doesn't work
+        # if hasattr(field, '_stack_path'):  # and
+        # field.args.get('_stack_path') is not None:
+        #     path = getattr(field, '_stack_path')
 
-                if field.type in ("one2many", "many2many", "text", "html"):
-                    if self.fields_get(field_name)[field_name].get("related"):
-                        # avoid cluttering the view with large related fields
-                        continue
-                    field_tag.set("colspan", "4")
-                    view_node.append(E.newline())
-                    if wrapper_group is not None:
-                        view_node.append(wrapper_group)
-                        wrapper_group.append(field_tag)
-                    else:
-                        view_node.append(field_tag)
-                        view_node.append(E.newline())
-                else:
-                    if wrapper_group is not None:
-                        view_node.append(wrapper_group)
-                        wrapper_group.append(field_tag)
-                    else:
-                        view_node.append(field_tag)
+        if hasattr(field, "original_comodel_name"):
+            spec_class = field.original_comodel_name
+            field_tag = E.field(
+                name=field_name, context="{'spec_class': '%s'})" % (spec_class,)
+            )
+        else:
+            field_tag = E.field(name=field_name)
+        if attrs:
+            field_tag.set("attrs", "%s" % (attrs,))
+        elif required:
+            field_tag.set("required", "True")
+
+        if field.type in ("one2many", "many2many", "text", "html"):
+            if self.fields_get(field_name)[field_name].get("related"):
+                # avoid cluttering the view with large related fields
+                return
+            field_tag.set("colspan", "4")
+            view_node.append(E.newline())
+            if wrapper_group is not None:
+                view_node.append(wrapper_group)
+                wrapper_group.append(field_tag)
+            else:
+                view_node.append(field_tag)
+                view_node.append(E.newline())
+        else:
+            if wrapper_group is not None:
+                view_node.append(wrapper_group)
+                wrapper_group.append(field_tag)
+            else:
+                view_node.append(field_tag)
+
+    @api.model
+    def _build_form_complex_type(
+        self, field, fields, attrs, view_node, inside_notebook, depth
+    ):
+        # TODO is is a suficient condition?
+        # study what happen in res.partner with dest#nfe_enderDest
+        # _logger.info('STACKED', field_name, field.comodel_name)
+        if hasattr(field, "original_comodel_name"):
+            lib_child = self.env[field.original_comodel_name]
+        else:
+            lib_child = self.env[field.comodel_name]
+
+        child_string = field.string
+        # if isinstance(child_string, str):
+        #     child_string = child_string  # .decode('utf-8')
+        # if hasattr(lib_child, '_stack_path'): # TODO
+        #     child_string = lib_child._stack_path
+        if depth == 0:
+            view_child = E.group(string=child_string)
+            if attrs:
+                view_child.set("attrs", "%s" % (attrs,))
+                setup_modifiers(view_child)
+            view_node.append(view_child)
+            self.build_arch(lib_child, view_child, fields, depth + 1)
+        else:
+            page = E.page(string=child_string)
+            invisible = False
+            if attrs:
+                page.set("attrs", "%s" % (attrs,))
+                setup_modifiers(page)
+            if not inside_notebook:
+                # first page
+                # this makes a difference in invoice line forms:
+                wrapper_notebook = E.notebook(colspan="2")
+                view_node.set("colspan", "2")
+                view_node.append(wrapper_notebook)
+                inside_notebook = True
+                if invisible:
+                    # in case the notebook has only one page,
+                    # the visibility should be carried by the
+                    # notebook itself
+                    wrapper_notebook.set("attrs", "{'invisible':%s}" % (invisible,))
+                    setup_modifiers(wrapper_notebook)
+            else:
+                # cancel notebook dynamic visbility
+                wrapper_notebook.set("attrs", "")
+                wrapper_notebook.set("modifiers", "")
+            view_child = E.group()
+            page.append(view_child)
+            wrapper_notebook.append(page)  # TODO attrs / choice
+            # TODO inherit required
+            self.build_arch(lib_child, view_child, fields, 0)
 
     @api.model
     def _get_default_tree_view(self):
