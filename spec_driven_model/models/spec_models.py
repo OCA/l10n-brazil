@@ -1,11 +1,12 @@
 # Copyright 2019-TODAY Akretion - Raphael Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
 
-import sys
 import collections
-from inspect import getmembers, isclass
-from odoo import api, models, SUPERUSER_ID, _
 import logging
+import sys
+from inspect import getmembers, isclass
+
+from odoo import SUPERUSER_ID, _, api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -20,9 +21,10 @@ class SpecModel(models.AbstractModel):
     inherited the Python way YourModel(spec_models.SpecModel)
     and not through _inherit.
     """
-    _inherit = 'spec.mixin'
-    _auto = True                # automatically create database backend
-    _register = False           # not visible in ORM registry
+
+    _inherit = "spec.mixin"
+    _auto = True  # automatically create database backend
+    _register = False  # not visible in ORM registry
     _abstract = False
     _transient = False
 
@@ -61,21 +63,26 @@ class SpecModel(models.AbstractModel):
             else:
                 super_parents = super_parents or []
             for super_parent in super_parents:
-                if super_parent.startswith('spec.mixin.'):
+                if super_parent.startswith("spec.mixin."):
                     cr.execute(
                         "SELECT name FROM ir_module_module "
                         "WHERE name=%s "
                         "AND state in ('to install', 'to upgrade', 'to remove')",
-                        (pool[super_parent]._odoo_module,))
+                        (pool[super_parent]._odoo_module,),
+                    )
                     if cr.fetchall():
-                        setattr(pool, '_%s_need_hook'
-                                % (pool[super_parent]._odoo_module,), True)
+                        setattr(
+                            pool,
+                            "_%s_need_hook" % (pool[super_parent]._odoo_module,),
+                            True,
+                        )
 
                     cls._map_concrete(parent, cls._name)
-                    if not hasattr(pool[parent], 'build'):  # FIXME BRITTLE
-                        pool[parent]._inherit = super_parents + ['spec.mixin']
-                        pool[parent].__bases__ = ((pool['spec.mixin'],)
-                                                  + pool[parent].__bases__)
+                    if not hasattr(pool[parent], "build"):  # FIXME BRITTLE
+                        pool[parent]._inherit = super_parents + ["spec.mixin"]
+                        pool[parent].__bases__ = (pool["spec.mixin"],) + pool[
+                            parent
+                        ].__bases__
         return super(SpecModel, cls)._build_model(pool, cr)
 
     @api.model
@@ -89,53 +96,69 @@ class SpecModel(models.AbstractModel):
         """
         cls = type(self)
         for klass in cls.__bases__:
-            if not hasattr(klass, '_name')\
-                    or not hasattr(klass, '_fields')\
-                    or klass._name is None\
-                    or not klass._name.startswith(self.env[cls._name]._schema_name):
+            if (
+                not hasattr(klass, "_name")
+                or not hasattr(klass, "_fields")
+                or klass._name is None
+                or not klass._name.startswith(self.env[cls._name]._schema_name)
+            ):
                 continue
             if klass._name != cls._name:
                 cls._map_concrete(klass._name, cls._name)
                 klass._table = cls._table
 
-        stacked_parents = [getattr(x, '_name', None) for x in cls.mro()]
+        stacked_parents = [getattr(x, "_name", None) for x in cls.mro()]
         for name, field in cls._fields.items():
-            if hasattr(field, 'comodel_name') and field.comodel_name:
+            if hasattr(field, "comodel_name") and field.comodel_name:
                 comodel_name = field.comodel_name
                 comodel = self.env[comodel_name]
                 concrete_class = cls._get_concrete(comodel._name)
 
-                if field.type == 'many2one' and concrete_class is not None\
-                        and comodel_name not in stacked_parents:
-                    _logger.debug("    MUTATING m2o %s (%s) -> %s",
-                                  name, comodel_name, concrete_class)
+                if (
+                    field.type == "many2one"
+                    and concrete_class is not None
+                    and comodel_name not in stacked_parents
+                ):
+                    _logger.debug(
+                        "    MUTATING m2o %s (%s) -> %s",
+                        name,
+                        comodel_name,
+                        concrete_class,
+                    )
                     field.original_comodel_name = comodel_name
                     field.comodel_name = concrete_class
 
-                elif field.type == 'one2many':
+                elif field.type == "one2many":
                     if concrete_class is not None:
-                        _logger.debug("    MUTATING o2m %s (%s) -> %s",
-                                      name, comodel_name, concrete_class)
+                        _logger.debug(
+                            "    MUTATING o2m %s (%s) -> %s",
+                            name,
+                            comodel_name,
+                            concrete_class,
+                        )
                         field.original_comodel_name = comodel_name
                         field.comodel_name = concrete_class
-                    if not hasattr(field, 'inverse_name'):
+                    if not hasattr(field, "inverse_name"):
                         continue
                     inv_name = field.inverse_name
                     for n, f in comodel._fields.items():
-                        if n == inv_name and f.args.get('comodel_name'):
-                            _logger.debug("    MUTATING m2o %s.%s (%s) -> %s",
-                                          comodel._name.split('.')[-1], n,
-                                          f.args['comodel_name'], cls._name)
-                            f.args['original_comodel_name'] = f.args[
-                                'comodel_name']
-                            f.args['comodel_name'] = self._name
+                        if n == inv_name and f.args.get("comodel_name"):
+                            _logger.debug(
+                                "    MUTATING m2o %s.%s (%s) -> %s",
+                                comodel._name.split(".")[-1],
+                                n,
+                                f.args["comodel_name"],
+                                cls._name,
+                            )
+                            f.args["original_comodel_name"] = f.args["comodel_name"]
+                            f.args["comodel_name"] = self._name
 
         return super()._setup_fields()
 
     @classmethod
     def _map_concrete(cls, key, target, quiet=False):
         # TODO bookkeep according to a key to allow multiple injection contexts
-        if not hasattr(models.MetaModel, 'mixin_mappings'):
+        if not hasattr(models.MetaModel, "mixin_mappings"):
             models.MetaModel.mixin_mappings = {}
         if not quiet:
             _logger.debug("%s ---> %s" % (key, target))
@@ -143,7 +166,7 @@ class SpecModel(models.AbstractModel):
 
     @classmethod
     def _get_concrete(cls, key):
-        if not hasattr(models.MetaModel, 'mixin_mappings'):
+        if not hasattr(models.MetaModel, "mixin_mappings"):
             models.MetaModel.mixin_mappings = {}
         return models.MetaModel.mixin_mappings.get(key)
 
@@ -153,7 +176,7 @@ class SpecModel(models.AbstractModel):
         Cache the list of spec_module classes to save calls to
         slow reflection API.
         """
-        spec_module_attr = "_spec_cache_%s" % (spec_module.replace('.', '_'),)
+        spec_module_attr = "_spec_cache_%s" % (spec_module.replace(".", "_"),)
         if not hasattr(cls, spec_module_attr):
             setattr(
                 cls, spec_module_attr, getmembers(sys.modules[spec_module], isclass)
@@ -172,6 +195,7 @@ class SpecModel(models.AbstractModel):
         load_key = "_%s_loaded" % (self._spec_module,)
         if not hasattr(self.env.registry, load_key):
             from .. import hooks  # importing here avoids loop
+
             hooks.register_hook(self.env, self._odoo_module, self._spec_module)
             self.env.registry.load_key = True
         return res
@@ -191,6 +215,7 @@ class StackedModel(SpecModel):
     during module loading it should be inherited the Python way
     with MyModel(spec_models.StackedModel).
     """
+
     _register = False  # forces you to inherit StackeModel properly
 
     # define _stacked in your submodel to define the model of the XML tags
@@ -207,12 +232,10 @@ class StackedModel(SpecModel):
     def _build_model(cls, pool, cr):
         # inject all stacked m2o as inherited classes
         if cls._stacked:
-            _logger.info("\n\n====  BUILDING StackedModel %s %s\n"
-                         % (cls._name, cls))
+            _logger.info("\n\n====  BUILDING StackedModel %s %s\n" % (cls._name, cls))
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
             classes = set()
-            cls._visit_stack(node, classes, cls._stacked.split('.')[-1], pool,
-                             cr)
+            cls._visit_stack(node, classes, cls._stacked.split(".")[-1], pool, cr)
             for klass in [c for c in classes if c not in cls.__bases__]:
                 cls.__bases__ = (klass,) + cls.__bases__
         return super(StackedModel, cls)._build_model(pool, cr)
@@ -262,43 +285,39 @@ class StackedModel(SpecModel):
         # otherwise the model spec will not have its fields loaded yet.
         # TODO we may pass this env further instead of re-creating it.
         # TODO move setup_base just before the _visit_stack next call
-        if node._name != cls._name or\
-                len(registry[node._name]._fields.items() == 0):
+        if node._name != cls._name or len(registry[node._name]._fields.items() == 0):
             env[node._name]._prepare_setup()
             env[node._name]._setup_base()
 
-        field_items = [(k, f) for k, f in registry[
-            node._name]._fields.items()]
+        field_items = [(k, f) for k, f in registry[node._name]._fields.items()]
         for i in field_items:
             fields[i[0]] = {
-                'type': i[1].type,
+                "type": i[1].type,
                 # TODO get with a function (lambda?)
-                'comodel_name': getattr(i[1], 'comodel_name'),
-                'xsd_required': hasattr(
-                    i[1], 'xsd_required') and getattr(i[1], 'xsd_required'),
-                'choice': hasattr(i[1], 'choice') and getattr(i[1], 'choice'),
+                "comodel_name": getattr(i[1], "comodel_name"),
+                "xsd_required": hasattr(i[1], "xsd_required")
+                and getattr(i[1], "xsd_required"),
+                "choice": hasattr(i[1], "choice") and getattr(i[1], "choice"),
             }
         for name, f in fields.items():
-            if f['type'] not in ['many2one', 'one2many']\
-                    or name in cls._stack_skip:
+            if f["type"] not in ["many2one", "one2many"] or name in cls._stack_skip:
                 # TODO change for view or export
                 continue
-            child = cls._odoo_name_to_class(f['comodel_name'],
-                                            cls._spec_module)
+            child = cls._odoo_name_to_class(f["comodel_name"], cls._spec_module)
             if child is None:  # Not a spec field
                 continue
             child_concrete = SpecModel._get_concrete(child._name)
-            field_path = name.replace(registry[node._name]._field_prefix, '')
-            if f['type'] == 'one2many':
+            field_path = name.replace(registry[node._name]._field_prefix, "")
+            if f["type"] == "one2many":
                 # _logger.info("%s    \u2261 <%s> %s" % (
                 #     indent, field_path, child_concrete or child._name))
                 continue
             # TODO this elif and next elif should in fact be replaced by the
             # inicial if where we look if node has a concrete model or not.
             # many2one
-            elif (child_concrete is None or child_concrete == cls._name)\
-                    and (f['xsd_required'] or f['choice']
-                         or path in cls._force_stack_paths):
+            elif (child_concrete is None or child_concrete == cls._name) and (
+                f["xsd_required"] or f["choice"] or path in cls._force_stack_paths
+            ):
                 # then we will STACK the child in the current class
                 # TODO if model not used in any other field!!
                 child._stack_path = path
