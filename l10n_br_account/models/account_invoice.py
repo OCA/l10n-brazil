@@ -36,6 +36,13 @@ FISCAL_TYPE_REFUND = {
     "in": ["sale_refund", "out_return"],
 }
 
+INVOICE_TAX_USER_TYPE = {
+    'out_invoice': 'sale',
+    'in_invoice': 'purchase',
+    'out_refund': 'sale',
+    'in_refund': 'purchase',
+}
+
 SHADOWED_FIELDS = [
     "partner_id",
     "company_id",
@@ -276,8 +283,12 @@ class AccountInvoice(models.Model):
         move_lines_dict = super().invoice_line_move_line_get()
         new_mv_lines_dict = []
         for line in move_lines_dict:
-            invoice_line = self.invoice_line_ids.browse(line.get("invl_id"))
+            invoice_line = self.invoice_line_ids.filtered(
+                lambda l: l.id == line.get("invl_id")
+            )
+
             line["price"] = invoice_line.price_total
+
             if invoice_line.cfop_id:
                 if invoice_line.cfop_id.finance_move:
                     new_mv_lines_dict.append(line)
@@ -289,14 +300,34 @@ class AccountInvoice(models.Model):
     @api.model
     def tax_line_move_line_get(self):
         tax_lines_dict = super().tax_line_move_line_get()
-        # new_tax_lines_dict = []
-        # for tax in tax_lines_dict:
-        #     new_tax_lines_dict.append(tax)
-        #
-        #     new_tax = tax.copy()
-        #     new_tax['type'] = 'src'
-        #
-        #     new_tax_lines_dict.append(new_tax)
+        if self.fiscal_operation_id and self.fiscal_operation_id.deductible_taxes:
+            for tax_line in self.tax_line_ids:
+                analytic_tag_ids = [
+                    (4, analytic_tag.id, None)
+                    for analytic_tag in tax_line.analytic_tag_ids
+                ]
+
+                deductible_tax = tax_line.tax_id.tax_group_id.deductible_tax(
+                    INVOICE_TAX_USER_TYPE[self.type]
+                )
+
+                if deductible_tax:
+                    account = deductible_tax.account_id or tax_line.account_id
+                    tax_line_vals = {
+                        "invoice_tax_line_id": tax_line.id,
+                        "tax_line_id": tax_line.tax_id.id,
+                        "type": "tax",
+                        "name": tax_line.name or invoice_tax.name,
+                        "price_unit": tax_line.amount_total * -1,
+                        "quantity": 1,
+                        "price": tax_line.amount_total * -1,
+                        "account_id": account.id,
+                        "account_analytic_id": tax_line.account_analytic_id.id,
+                        "analytic_tag_ids": analytic_tag_ids,
+                        "invoice_id": self.id,
+                    }
+                    tax_lines_dict.append(tax_line_vals)
+
         return tax_lines_dict
 
     def finalize_invoice_move_lines(self, move_lines):
@@ -326,7 +357,7 @@ class AccountInvoice(models.Model):
             if not line.account_id or line.display_type:
                 continue
 
-            taxes = line.invoice_line_tax_ids.compute_all(
+            computed_taxes = line.invoice_line_tax_ids.compute_all(
                 price_unit=line.price_unit,
                 currency=line.invoice_id.currency_id,
                 quantity=line.quantity,
@@ -348,7 +379,7 @@ class AccountInvoice(models.Model):
                 icmssn_range=line.icmssn_range_id,
             )["taxes"]
 
-            for tax in taxes:
+            for tax in computed_taxes:
                 if tax.get("amount", 0.0) != 0.0:
                     val = self._prepare_tax_line_vals(line, tax)
                     key = (
