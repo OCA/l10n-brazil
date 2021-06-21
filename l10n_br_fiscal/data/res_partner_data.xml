@@ -12,4 +12,25 @@
         <field name="customer">True</field>
     </record>
 
+    <record id="res_partner_ministerio_fazenda" model="res.partner">
+        <field name="name">Ministério da Fazenda</field>
+        <field name="legal_name">Ministério da Fazenda</field>
+        <field name="is_company">True</field>
+        <field name="supplier">True</field>
+    </record>
+
+    <record id="res_partner_previdencia_social" model="res.partner">
+        <field name="name">Previdência Social</field>
+        <field name="legal_name">Previdência Social</field>
+        <field name="is_company">True</field>
+        <field name="supplier">True</field>
+    </record>
+
+    <record id="res_partner_prefeitura_municipal" model="res.partner">
+        <field name="name">Prefeitura Municipal</field>
+        <field name="legal_name">Previdência Social</field>
+        <field name="is_company">True</field>
+        <field name="supplier">True</field>
+    </record>
+
 </odoo>
