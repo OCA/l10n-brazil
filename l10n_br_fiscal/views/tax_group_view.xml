@@ -73,6 +73,12 @@
                             attrs="{'invisible': [('tax_withholding', '=', False)]}"
                         >
                             <group>
+                                <group>
+                                    <field name='partner_id'/>
+                                    <field name='wh_due_day'/>
+                                </group>
+                                <group>
+                                </group>
                             </group>
                         </page>
                     </notebook>
