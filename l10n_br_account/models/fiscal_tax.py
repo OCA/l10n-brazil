@@ -7,13 +7,14 @@ from odoo import api, fields, models
 class FiscalTax(models.Model):
     _inherit = "l10n_br_fiscal.tax"
 
-    def account_taxes(self, user_type='sale', deductible=False):
+    def account_taxes(self, user_type="sale", deductible=False):
         account_taxes = self.env["account.tax"]
         for fiscal_tax in self:
             taxes = fiscal_tax._account_taxes()
             account_taxes |= taxes.filtered(
-                lambda t: t.type_tax_use == user_type and t.active and
-                t.deductible == deductible
+                lambda t: t.type_tax_use == user_type
+                and t.active
+                and t.deductible == deductible
             )
         return account_taxes
 
