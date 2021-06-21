@@ -21,7 +21,6 @@ _provider_class = _module_ns + ".parser.cnab_file_parser" + ".CNABFileParser"
 
 @tagged("post_install", "-at_install")
 class TestReturnImport(SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -52,9 +51,7 @@ class TestReturnImport(SavepointCase):
             "demo_invoice_brcobranca_unicred_cnab400"
         )
 
-        cls.journal = cls.env.ref(
-            "l10n_br_account_payment_order.unicred_journal"
-        )
+        cls.journal = cls.env.ref("l10n_br_account_payment_order.unicred_journal")
 
         # I validate invoice by creating on
         cls.invoice_unicred_1.action_invoice_open()
