@@ -215,24 +215,30 @@ class CNABFileParser(FileParser):
             # ex.: 00000000000002010
             nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
 
-            # nosso_numero_sem_dig.strip("0")
-            # ex.: 201
-            nosso_numero_sem_zeros = nosso_numero_sem_dig.strip("0")
-
             # No arquivo de retorno do CNAB o campo pode ter um tamanho
             # diferente, o tamanho do campo é preenchido na totalidade
             # com zeros a esquerda, e no odoo o tamanho do sequencial pode
             # estar diferente
             # ex.: retorno cnab 0000000000000201 own_number 0000000201
-            # o campo own_number_without_zfill foi a forma que encontrei
-            # para poder usar o nosso_numero_cnab_retorno.strip("0") e
+            #
+            # O campo own_number_without_zfill foi a forma que encontrei
+            # para poder fazer um search o nosso_numero_cnab_retorno.lstrip("0") e
             # ter algo:
-            #  ex.: retorno cnab 201 own_number_without_zfill 201
-            # Assim o search consegue encontrar a move line
-            # relacionada ao Evento.
+            # ex.:
+            # arquivo retorno cnab 201 own_number_without_zfill 201
+            #
+            # É usado o lstrip() para manter os zeros a direita, exemplo:
+            #    VALOR '0000000090'
+            #    | strip | rstrip | lstrip | 9 000000009 90
+            #    Valor '00000000201'
+            #    | strip | rstrip | lstrip | 201 00000000201 201
+
+            nosso_numero_sem_zeros = nosso_numero_sem_dig.lstrip("0")
+
             # Podem existir sequencias do nosso numero/own_number iguais entre
             # bancos diferentes, porém os Diario/account.journal
             # não pode ser o mesmo.
+
             account_move_line = self.env["account.move.line"].search(
                 [
                     ("own_number_without_zfill", "=", nosso_numero_sem_zeros),
