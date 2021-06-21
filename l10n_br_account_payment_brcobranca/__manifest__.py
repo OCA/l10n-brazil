@@ -20,5 +20,8 @@
         "security/ir.model.access.csv",
         "wizard/import_statement_view.xml",
     ],
-    "demo": ["demo/account_journal_demo.xml"],
+    "demo": [
+        "demo/account_journal_demo.xml",
+        "demo/account_invoice_demo.xml",
+    ],
 }
