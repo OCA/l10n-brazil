@@ -16,10 +16,14 @@ from nfselib.paulistana.v02.PedidoEnvioLoteRPS import (
 )
 
 from odoo import models, _
+from odoo.exceptions import UserError
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_REJEITADA,
     PROCESSADOR_OCA,
+    EVENT_ENV_PROD,
+    EVENT_ENV_HML,
 )
 
 from ..constants.paulistana import (
@@ -91,10 +95,10 @@ class Document(models.Model):
             transacao=False,  # TODO: Verficar origem do dado
             dtInicio=self.convert_type_nfselib(
                 CabecalhoType, 'dtInicio',
-                dados_lote_rps['data_emissao'].split('T', 1)[0]),
+                dados_lote_rps['date_in_out'].split('T', 1)[0]),
             dtFim=self.convert_type_nfselib(
                 CabecalhoType, 'dtFim',
-                dados_lote_rps['data_emissao'].split('T', 1)[0]),
+                dados_lote_rps['date_in_out'].split('T', 1)[0]),
             QtdRPS=self.convert_type_nfselib(CabecalhoType, 'QtdRPS', '1'),
             ValorTotalServicos=self.convert_type_nfselib(
                 CabecalhoType, 'ValorTotalServicos',
@@ -303,7 +307,7 @@ class Document(models.Model):
                                 if processo.resposta.Cabecalho.Sucesso:
                                     record._change_state(
                                         SITUACAO_EDOC_AUTORIZADA)
-                                    vals['codigo_motivo_situacao'] = \
+                                    vals['status_name'] = \
                                         _('Procesado com Sucesso')
                                     vals['edoc_error_message'] = ''
                                 else:
@@ -318,58 +322,80 @@ class Document(models.Model):
 
                                     vals['edoc_error_message'] = \
                                         mensagem_erro
-                                    vals['codigo_motivo_situacao'] = \
+                                    vals['status_name'] = \
                                         _('Procesado com Erro')
+                                    record._change_state(
+                                        SITUACAO_EDOC_REJEITADA)
 
                         if processo.webservice in CONSULTA_LOTE:
                             if processo.resposta.Cabecalho.Sucesso:
-                                record.autorizacao_event_id.set_done(
-                                    processo.retorno)
                                 nfse = retorno.find('.//NFe')
                                 # TODO: Verificar resposta do ConsultarLote
-                                vals['number'] = nfse.find(
+                                vals['document_number'] = nfse.find(
                                     './/NumeroNFe').text
-                                vals['data_hora_autorizacao'] = \
+                                vals['authorization_date'] = \
                                     nfse.find('.//DataEmissaoRPS').text
                                 vals['verify_code'] = \
                                     nfse.find('.//CodigoVerificacao').text
+                                record.authorization_event_id.set_done(
+                                    status_code=4,
+                                    response=vals['status_name'],
+                                    protocol_date=vals['authorization_date'],
+                                    protocol_number=protocolo,
+                                    file_response_xml=processo.retorno
+                                )
 
                 record.write(vals)
         return
 
-    def action_consultar_nfse_rps(self):
+    def _document_status(self):
         for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
             processador = record._processador_erpbrasil_nfse()
             processo = processador.consulta_nfse_rps(
-                numero_rps=self.rps_number,
-                serie_rps=self.document_serie,
+                numero_rps=record.rps_number,
+                serie_rps=record.document_serie,
                 insc_prest=misc.punctuation_rm(
-                    self.company_id.partner_id.inscr_mun or '') or None,
+                    record.company_id.partner_id.inscr_mun or '') or None,
                 cnpj_prest=misc.punctuation_rm(
-                    self.company_id.partner_id.cnpj_cpf),
+                    record.company_id.partner_id.cnpj_cpf),
             )
             consulta = processador.analisa_retorno_consulta(processo)
             if isinstance(consulta, dict):
                 record.write({
                     'verify_code': consulta['codigo_verificacao'],
-                    'number': consulta['numero'],
+                    'document_number': consulta['numero'],
                     'data_hora_autorizacao': consulta['data_emissao']
                 })
                 record.autorizacao_event_id.set_done(processo.retorno)
             return _(consulta)
 
     def cancel_document_paulistana(self):
-        doc_dict = {
-            'numero_nfse': self.number,
-            'codigo_verificacao': self.verify_code,
-        }
+        def doc_dict(record):
+            return {
+                'numero_nfse': record.document_number,
+                'codigo_verificacao': record.verify_code,
+            }
 
         for record in self.filtered(filter_oca_nfse).filtered(filter_paulistana):
             processador = record._processador_erpbrasil_nfse()
-            processo = processador.cancela_documento(doc_numero=doc_dict)
+            processo = processador.cancela_documento(doc_numero=doc_dict(record))
 
             status, message =\
                 processador.analisa_retorno_cancelamento_paulistana(processo)
+
+            if not status:
+                raise UserError(_(message))
+
+            record.cancel_event_id = record.event_ids.create_event_save_xml(
+                company_id=record.company_id,
+                environment=(
+                    EVENT_ENV_PROD if record.nfse_environment == '1'
+                    else EVENT_ENV_HML
+                ),
+                event_type='2',
+                xml_file=processo.envio_xml.decode('utf-8'),
+                document_id=record,
+            )
 
             return status
 
