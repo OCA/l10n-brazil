@@ -370,6 +370,13 @@ class NFeLine(spec_models.StackedModel):
             'pCredSN': str('%.04f' % self.icmssn_percent),
             'vCredICMSSN': str("%.02f" % self.icmssn_credit_value),
         }
+        if self.icmsfcp_percent:
+            icms.update({
+                # FUNDO DE COMBATE À POBREZA
+                'vBCFCPST': str('%.02f' % self.icmsfcp_base),
+                'pFCPST': str('%.04f' % self.icmsfcp_percent),
+                'vFCPST': str('%.02f' % self.icmsfcpst_value),
+            })
         return icms
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
