@@ -78,5 +78,9 @@ class StockInvoiceOnshipping(models.TransientModel):
             # sale_line_id é preciso ignora-la
             if moves.sale_line_id:
                 values["sale_line_ids"] = [(6, 0, moves.sale_line_id.ids)]
+                line = moves.sale_line_id
+                if line.quantity != values['quantity'] and line.discount:
+                    values['discount_value'] = values['quantity'] * \
+                        values['price_unit'] * (line.discount / 100)
 
         return values
