@@ -6,14 +6,16 @@ from odoo import models
 
 class SaleOrderLine(models.Model):
 
-    _inherit = 'sale.order.line'
+    _inherit = "sale.order.line"
 
     def _prepare_contract_line_values(
         self, contract, predecessor_contract_line_id=False
     ):
         self.ensure_one()
         vals = self._prepare_br_fiscal_dict()
-        vals.update(super()._prepare_contract_line_values(
-            contract, predecessor_contract_line_id
-        ))
+        vals.update(
+            super()._prepare_contract_line_values(
+                contract, predecessor_contract_line_id
+            )
+        )
         return vals
