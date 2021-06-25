@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+from datetime import datetime
 
 from .arquivo_certificado import ArquivoCertificado
 from odoo import api, fields, models, _
@@ -113,3 +114,25 @@ class AccountMoveLine(models.Model):
         except Exception as error:
             raise UserError(_(error))
 
+    def search_bank_slip(self):
+        try:
+            for order in self.payment_line_ids:
+                with ArquivoCertificado(order.order_id.journal_id, 'w') as (key, cert):
+                    self.api = ApiInter(
+                        cert=(cert, key),
+                        conta_corrente=(
+                            order.order_id.company_partner_bank_id.acc_number +
+                            order.order_id.company_partner_bank_id.acc_number_dig
+                        )
+                    )
+                    resultado = self.api.boleto_consulta(nosso_numero = self.own_number)
+                    # self.update_data(resultado)
+        except Exception as error:
+            raise UserError(_(error))
+
+    def update_data(self, resultado):
+        pass
+        # if resultado:
+        #     date = datetime.strptime(resultado['dataVencimento'], '%d/%m/%Y').date()
+        #     self.date_maturity = date
+        #     self.debit = resultado['valorNominal']

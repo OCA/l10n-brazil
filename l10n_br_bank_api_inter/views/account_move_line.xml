@@ -13,6 +13,8 @@
                 <button name="print_pdf_boleto" type="object" string="PDF Boleto" class="oe_highlight" />
                 <button name="drop_bank_slip" type="object" string="Dar Baixa"
                         class="btn btn-danger"/>
+                <button name="search_bank_slip" type="object" string="Consulta"
+                        class="btn btn-warning" />
             </field>
 
             <field name="bank_payment_line_id" position="after">
