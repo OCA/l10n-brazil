@@ -10,7 +10,9 @@
         <field name="inherit_id" ref="account_payment_order.invoice_form"/>
         <field name="arch" type="xml">
             <button name="preview_invoice" position="after">
-                <button name="action_pdf_boleto" type="object" string="PDFs Boletos" />
+                <button name="action_pdf_boleto" type="object" string="PDFs Boletos"
+                        attrs="{'invisible': [('state', 'not in', ('open', 'in_payment', 'paid'))]}"
+                />
             </button>
         </field>
     </record>
