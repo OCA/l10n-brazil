@@ -132,14 +132,6 @@ class PaymentOrder(models.Model):
                 )
             )
 
-        remessa = self._get_data_from_brcobranca(
-            bank_brcobranca, bank_account_id, cnab_type
-        )
-
-        return remessa, self.get_file_name(cnab_type)
-
-    def _get_data_from_brcobranca(self, bank_brcobranca, bank_account_id, cnab_type):
-
         pagamentos = []
         for line in self.bank_line_ids:
             pagamentos.append(line.prepare_bank_payment_line(bank_brcobranca))
@@ -165,6 +157,14 @@ class PaymentOrder(models.Model):
                 bank_method(remessa_values)
         except Exception:
             pass
+
+        remessa = self._get_data_from_brcobranca(
+            bank_brcobranca, remessa_values, cnab_type
+        )
+
+        return remessa, self.get_file_name(cnab_type)
+
+    def _get_data_from_brcobranca(self, bank_brcobranca, remessa_values, cnab_type):
 
         content = json.dumps(remessa_values)
         f = open(tempfile.mktemp(), "w")
