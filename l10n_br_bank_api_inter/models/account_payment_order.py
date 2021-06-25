@@ -4,7 +4,6 @@
 import logging
 from .arquivo_certificado import ArquivoCertificado
 
-from odoo import api, models
 from odoo import api, models, _
 from odoo.exceptions import UserError
 
@@ -70,7 +69,7 @@ class AccountPaymentOrder(models.Model):
                 payer=payer,
                 issue_date=line.create_date,
                 due_date=line.date,
-                identifier=line.document_number,
+                identifier=line.name,
                 instructions=[
                     'TESTE 1',
                     'TESTE 2',
@@ -92,7 +91,7 @@ class AccountPaymentOrder(models.Model):
             for item in data:
                 resposta = self.api.boleto_inclui(item._emissao_data())
                 payment_line_id = self.payment_line_ids.filtered(
-                    lambda line: line.document_number == item._identifier)
+                    lambda line: line.bank_line_id.name == item._identifier)
                 if payment_line_id:
                     payment_line_id.move_line_id.own_number = \
                         resposta['nossoNumero']
