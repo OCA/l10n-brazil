@@ -80,3 +80,11 @@ class AccountInvoice(models.Model):
             # raise UserError(error)
             raise error
 
+    @api.multi
+    def action_invoice_cancel(self):
+        try:
+            financial_move_line_ids = self.financial_move_line_ids
+            financial_move_line_ids.drop_bank_slip()
+            return super().action_invoice_cancel()
+        except Exception as error:
+            raise UserError(_(error))
