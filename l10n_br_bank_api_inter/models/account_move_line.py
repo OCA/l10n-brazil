@@ -5,6 +5,7 @@ import logging
 
 from .arquivo_certificado import ArquivoCertificado
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -13,6 +14,17 @@ try:
     from erpbrasil.bank.inter.api import ApiInter
 except ImportError:
     _logger.error("Biblioteca erpbrasil.bank.inter não instalada")
+
+BAIXAS = [
+    ('acertos', 'Acertos'),
+    ('protestado', 'Protestado'),
+    ('devolucao', 'Devolução'),
+    ('protestoaposbaixa', 'Protesto após baixa'),
+    ('pagodiretoaocliente', 'Pago direto ao cliente'),
+    ('substituicao', 'Substituição'),
+    ('faltadesolucao', 'Falta de solução'),
+    ('apedidodocliente', 'A pedido do cliente'),
+]
 
 class AccountMoveLine(models.Model):
 
@@ -23,6 +35,13 @@ class AccountMoveLine(models.Model):
         string='PDF Boleto',
         ondelete='cascade'
     )
+
+    write_off_choice = fields.Selection(
+        selection=BAIXAS,
+        string='Drop Bank Slip Options',
+        default='apedidodocliente',
+    )
+
 
     def generate_pdf_boleto(self):
         """
@@ -73,3 +92,24 @@ class AccountMoveLine(models.Model):
                 "url": str(base_url) + str(download_url),
                 "target": "new",
             }
+
+    def drop_bank_slip(self):
+        try:
+            if self.write_off_choice:
+                codigo_baixa = self.write_off_choice.upper()
+            else:
+                codigo_baixa = "APEDIDODOCLIENTE"
+            order_id = self.payment_line_ids.order_id
+            if self.own_number:
+                with ArquivoCertificado(order_id.journal_id, 'w') as (key, cert):
+                    self.api = ApiInter(
+                        cert=(cert, key),
+                        conta_corrente=(
+                            order_id.company_partner_bank_id.acc_number +
+                            order_id.company_partner_bank_id.acc_number_dig
+                        )
+                    )
+                    self.api.boleto_baixa(self.own_number, codigo_baixa)
+        except Exception as error:
+            raise UserError(_(error))
+
