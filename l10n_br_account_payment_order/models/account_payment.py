@@ -37,4 +37,4 @@ class AccountPayment(models.Model):
                     ' direct Payments, just used in Payment Orders,'
                     ' choose another one.'))
 
-            super().post()
+        return super().post()
