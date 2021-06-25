@@ -2,6 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+import os
 import time
 from unittest import mock
 
@@ -46,20 +47,24 @@ class TestPaymentOrder(SavepointCase):
         # Open payment order
         payment_order.draft2open()
 
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-1.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-1.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -82,21 +87,24 @@ class TestPaymentOrder(SavepointCase):
         # I check that the invoice state is "Open"
         self.assertEqual(self.invoice_unicred.state, "open")
 
-        # Geração do Boleto
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "boleto_teste_unicred400.pdf",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_acc_invoice + "._get_brcobranca_boleto",
-                return_value=mocked_response,
-            ):
-                self.invoice_unicred.view_boleto_pdf()
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Geração do Boleto
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "boleto_teste_unicred400.pdf",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_acc_invoice + "._get_brcobranca_boleto",
+                    return_value=mocked_response,
+                ):
+                    self.invoice_unicred.view_boleto_pdf()
+        else:
+            self.invoice_unicred.view_boleto_pdf()
 
         payment_order = self.env["account.payment.order"].search(
             [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
@@ -239,20 +247,24 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-2-data_venc.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-2-data_venc.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -276,20 +288,25 @@ class TestPaymentOrder(SavepointCase):
             )
         # Open payment order
         payment_order.draft2open()
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-3-protesto.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-3-protesto.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -319,20 +336,25 @@ class TestPaymentOrder(SavepointCase):
             )
         # Open payment order
         payment_order.draft2open()
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-4-sust_prot_mant_carteira.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-4-sust_prot_mant_carteira.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -368,20 +390,24 @@ class TestPaymentOrder(SavepointCase):
             )
             self.assertEqual(line.rebate_value, 10.0)
 
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-5-conceder_abatimento.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-5-conceder_abatimento.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -406,20 +432,25 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-6-cancelar_abatimento.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-6-cancelar_abatimento.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -454,20 +485,25 @@ class TestPaymentOrder(SavepointCase):
                 line.order_id.payment_mode_id.cnab_code_grant_discount_id.name,
             )
             self.assertEqual(line.discount_value, 10.0)
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-7-conceder_desconto.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-7-conceder_desconto.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -492,20 +528,25 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-8-cancelar_desconto.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-8-cancelar_desconto.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -553,20 +594,25 @@ class TestPaymentOrder(SavepointCase):
         )
         # Open payment order
         payment_order.draft2open()
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-1.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-1.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -607,20 +653,25 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-9-alt_valor_titulo.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-9-alt_valor_titulo.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -661,20 +712,25 @@ class TestPaymentOrder(SavepointCase):
 
         # Open payment order
         payment_order.draft2open()
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-cef_240-10-alt_valor_titulo.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-cef_240-10-alt_valor_titulo.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
