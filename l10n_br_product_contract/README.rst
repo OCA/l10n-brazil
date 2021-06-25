@@ -55,7 +55,6 @@ To use this module, you need to:
 #. Configure the products as contracts;
 #. Create a sale order, with this product and confirm.
 
-
 Changelog
 =========
 
@@ -88,7 +87,6 @@ Contributors
 
 * Luis Felipe Mileo <mileo@kmee.com.br>
 * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
-
 
 Other credits
 ~~~~~~~~~~~~~
