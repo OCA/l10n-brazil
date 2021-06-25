@@ -213,12 +213,13 @@ class TestPaymentOrder(SavepointCase):
                     line.move_line_id.amount_residual, line.amount_currency
                 )
 
-    def test_cnab_change_methods(self):
+    def test_cnab_change_due_date(self):
         """
-        Test CNAB Change Methods
+        Test CNAB Change Due Date
         """
         aml_to_change = self.invoice_cef.financial_move_line_ids[0]
         ctx = {"active_model": "account.move.line", "active_ids": [aml_to_change.id]}
+
         dict_change_due_date = {
             "change_type": "change_date_maturity",
         }
@@ -270,6 +271,13 @@ class TestPaymentOrder(SavepointCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
+    def test_cnab_protest(self):
+        """
+        Test CNAB Protesto
+        """
+        aml_to_change = self.invoice_cef.financial_move_line_ids[0]
+        ctx = {"active_model": "account.move.line", "active_ids": [aml_to_change.id]}
+
         # Protesto
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
             {"change_type": "protest_tittle"}
@@ -312,6 +320,12 @@ class TestPaymentOrder(SavepointCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
+    def test_cnab_suspend_protest_and_keep_wallet(self):
+        """
+        Test CNAB Suspend Protest and Keep Wallet
+        """
+        aml_to_change = self.invoice_cef.financial_move_line_ids[0]
+        ctx = {"active_model": "account.move.line", "active_ids": [aml_to_change.id]}
         # Suspender Protesto e manter em carteira
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
             {
@@ -327,7 +341,7 @@ class TestPaymentOrder(SavepointCase):
         )
 
         cnab_code_suspend_protest_keep_wallet = (
-            line.order_id.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id
+            aml_to_change.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id
         )
         for line in payment_order.payment_line_ids:
             self.assertEqual(
@@ -359,6 +373,13 @@ class TestPaymentOrder(SavepointCase):
         # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
+
+    def test_cnab_grant_rebate(self):
+        """
+        Test CNAB Grant Rebate
+        """
+        aml_to_change = self.invoice_cef.financial_move_line_ids[0]
+        ctx = {"active_model": "account.move.line", "active_ids": [aml_to_change.id]}
 
         # Caso Conceder Abatimento
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
@@ -413,6 +434,13 @@ class TestPaymentOrder(SavepointCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
+    def test_cnab_cancel_rebate(self):
+        """
+        Test CNAB Cancel Rebate
+        """
+        aml_to_change = self.invoice_cef.financial_move_line_ids[0]
+        ctx = {"active_model": "account.move.line", "active_ids": [aml_to_change.id]}
+
         # Caso Cancelar Abatimento
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
             {"change_type": "cancel_rebate"}
@@ -456,6 +484,12 @@ class TestPaymentOrder(SavepointCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
+    def test_cnab_grant_discount(self):
+        """
+        Test CNAB Grant Discount
+        """
+        aml_to_change = self.invoice_cef.financial_move_line_ids[0]
+        ctx = {"active_model": "account.move.line", "active_ids": [aml_to_change.id]}
         # Caso Conceder Desconto
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
             {
@@ -508,6 +542,13 @@ class TestPaymentOrder(SavepointCase):
         # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
+
+    def test_cnab_cancel_discount(self):
+        """
+        Test CNAB Cancel Discount
+        """
+        aml_to_change = self.invoice_cef.financial_move_line_ids[0]
+        ctx = {"active_model": "account.move.line", "active_ids": [aml_to_change.id]}
 
         # Caso Cancelar discount
         aml_cnab_change = self.aml_cnab_change_model.with_context(ctx).create(
