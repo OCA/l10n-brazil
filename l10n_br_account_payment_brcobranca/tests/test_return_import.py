@@ -77,20 +77,24 @@ class TestReturnImport(SavepointCase):
         # Open payment order
         payment_order.draft2open()
 
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-unicred_400-1.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_data_from_brcobranca",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                "teste_remessa-unicred_400-1.REM",
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_data_from_brcobranca",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
@@ -99,6 +103,7 @@ class TestReturnImport(SavepointCase):
         """import a file using the wizard
         return the create account.bank.statement object
         """
+
         with open(file_name, "rb") as f:
             content = f.read()
             self.wizard = self.import_wizard_obj.create(
@@ -252,6 +257,7 @@ class TestReturnImport(SavepointCase):
                 "documento_numero": None,
             },
         ]
+
         with mock.patch(
             _provider_class + "._get_data_from_brcobranca",
             return_value=mocked_response,
@@ -415,6 +421,7 @@ class TestReturnImport(SavepointCase):
             )
             # Se for um codigo cnab de liquidação retorna as account.move criadas.
             moves = self._import_file(file_name)
+
         self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 371", moves.name)
         # I check that the invoice state is "Paid"
         self.assertEqual(self.invoice_unicred_1.state, "paid")
@@ -710,7 +717,6 @@ class TestReturnImport(SavepointCase):
             _provider_class + "._get_data_from_brcobranca",
             return_value=mocked_response,
         ):
-
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
                 "tests",
