@@ -92,24 +92,25 @@ class Document(models.Model):
         pdf = self.env.ref("l10n_br_nfse.report_br_nfse_danfe").render_qweb_pdf(
             self.ids
         )[0]
-        self.file_report_id.unlink()
 
         if self.document_number:
             filename = "NFS-e-" + self.document_number + ".pdf"
         else:
             filename = "RPS-" + self.rps_number + ".pdf"
 
-        self.file_report_id = self.env["ir.attachment"].create(
-            {
-                "name": filename,
-                "datas_fname": filename,
-                "res_model": self._name,
-                "res_id": self.id,
-                "datas": base64.b64encode(pdf),
-                "mimetype": "application/pdf",
-                "type": "binary",
-            }
-        )
+        vals_dict = {
+            "name": filename,
+            "datas_fname": filename,
+            "res_model": self._name,
+            "res_id": self.id,
+            "datas": base64.b64encode(pdf),
+            "mimetype": "application/pdf",
+            "type": "binary",
+        }
+        if self.file_report_id:
+            self.file_report_id.write(vals_dict)
+        else:
+            self.file_report_id = self.env["ir.attachment"].create(vals_dict)
 
     def _processador_erpbrasil_nfse(self):
         certificado = cert.Certificado(
@@ -149,6 +150,7 @@ class Document(models.Model):
             )
             _logger.debug(xml_file)
             record.authorization_event_id = event_id
+            record.make_pdf()
 
     def _prepare_dados_servico(self):
         self.line_ids.ensure_one()
