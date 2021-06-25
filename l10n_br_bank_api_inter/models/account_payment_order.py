@@ -5,6 +5,8 @@ import logging
 from .arquivo_certificado import ArquivoCertificado
 
 from odoo import api, models
+from odoo import api, models, _
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -109,10 +111,13 @@ class AccountPaymentOrder(models.Model):
     @api.multi
     def generate_payment_file(self):
         self.ensure_one()
-        if (self.company_partner_bank_id.bank_id ==
-                self.env.ref('l10n_br_base.res_bank_077') and
-                self.payment_method_id.code == 'electronic'):
-            return self._gererate_bank_inter_api()
-        else:
-            return super().generate_payment_file()
+        try:
+            if (self.company_partner_bank_id.bank_id ==
+                    self.env.ref('l10n_br_base.res_bank_077') and
+                    self.payment_method_id.code == 'electronic'):
+                return self._gererate_bank_inter_api()
+            else:
+                return super().generate_payment_file()
+        except Exception as error:
+            raise UserError(_(error))
 

@@ -6,6 +6,7 @@ from base64 import b64decode, b64encode
 from PyPDF2 import PdfFileMerger
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class AccountInvoice(models.Model):
@@ -22,7 +23,7 @@ class AccountInvoice(models.Model):
         pdf_merger = PdfFileMerger()
 
         temp_files = []
-        for move_line in self.move_line_receivable_ids:
+        for move_line in self.financial_move_line_ids:
             move_line.generate_pdf_boleto()
 
             if move_line.pdf_boleto_id:
@@ -60,17 +61,22 @@ class AccountInvoice(models.Model):
         invoice
         :return: actions.act_window
         """
-        if not self.pdf_boletos_id:
-            self._merge_pdf_boletos()
+        try:
+            if not self.pdf_boletos_id:
+                self._merge_pdf_boletos()
 
-        boleto_id = self.pdf_boletos_id
-        base_url = self.env['ir.config_parameter'].get_param(
-            'web.base.url')
-        download_url = '/web/content/%s/%s?download=True' % (
-            str(boleto_id.id), boleto_id.name)
+            boleto_id = self.pdf_boletos_id
+            base_url = self.env['ir.config_parameter'].get_param(
+                'web.base.url')
+            download_url = '/web/content/%s/%s?download=True' % (
+                str(boleto_id.id), boleto_id.name)
 
-        return {
-            "type": "ir.actions.act_url",
-            "url": str(base_url) + str(download_url),
-            "target": "new",
-        }
+            return {
+                "type": "ir.actions.act_url",
+                "url": str(base_url) + str(download_url),
+                "target": "new",
+            }
+        except Exception as error:
+            # raise UserError(error)
+            raise error
+
