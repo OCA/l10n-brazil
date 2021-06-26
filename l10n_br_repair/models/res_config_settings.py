@@ -5,10 +5,10 @@ from odoo import fields, models
 
 
 class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
+    _inherit = "res.config.settings"
 
     copy_repair_quotation_notes = fields.Boolean(
-        string='Copy repair quotation notes in Fiscal documents',
-        related='company_id.copy_repair_quotation_notes',
+        string="Copy repair quotation notes in Fiscal documents",
+        related="company_id.copy_repair_quotation_notes",
         readonly=False,
     )

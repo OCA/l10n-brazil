@@ -4,8 +4,7 @@
 from openupgradelib import openupgrade
 
 _columns_rename = {
-    'repair_order': [
-        ('amount_gross', 'amount_price_gross')],
+    "repair_order": [("amount_gross", "amount_price_gross")],
 }
 
 
@@ -14,5 +13,4 @@ def migrate(env, version):
     for table in _columns_rename.keys():
         for rename_column in _columns_rename[table]:
             if openupgrade.column_exists(env.cr, table, rename_column[0]):
-                openupgrade.rename_columns(
-                    env.cr, {table: [rename_column]})
+                openupgrade.rename_columns(env.cr, {table: [rename_column]})
