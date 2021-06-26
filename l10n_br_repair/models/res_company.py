@@ -6,12 +6,13 @@ from odoo import fields, models
 
 class ResCompany(models.Model):
 
-    _inherit = 'res.company'
+    _inherit = "res.company"
 
     repair_fiscal_operation_id = fields.Many2one(
-        comodel_name='l10n_br_fiscal.operation',
-        string='Operação Fiscal Padrão de Reparos')
+        comodel_name="l10n_br_fiscal.operation",
+        string="Operação Fiscal Padrão de Reparos",
+    )
 
     copy_repair_quotation_notes = fields.Boolean(
-        string='Copy Repair quotation notes on invoice',
-        default=False)
+        string="Copy Repair quotation notes on invoice", default=False
+    )
