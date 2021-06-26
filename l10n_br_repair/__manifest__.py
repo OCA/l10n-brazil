@@ -2,35 +2,30 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'Brazilian Localization Repair',
-    'summary': """
+    "name": "Brazilian Localization Repair",
+    "summary": """
         Brazilian Localization Repair""",
-    'version': '12.0.5.1.0',
-    'category': 'Localisation',
-    'license': 'AGPL-3',
-    'author':
-        'Escodoo, '
-        'Odoo Community Association (OCA)',
-    'maintainers': ['marcelsavegnago'],
-    'development_status': 'Alpha',
-    'website': 'https://github.com/OCA/l10n-brazil',
-    'images': ['static/description/banner.png'],
-    'conflicts': ['repair_discount'],
-    'depends': [
-        'repair',
-        'l10n_br_stock_account',
+    "version": "12.0.5.1.0",
+    "category": "Localisation",
+    "license": "AGPL-3",
+    "author": "Escodoo, " "Odoo Community Association (OCA)",
+    "maintainers": ["marcelsavegnago"],
+    "development_status": "Alpha",
+    "website": "https://github.com/OCA/l10n-brazil",
+    "images": ["static/description/banner.png"],
+    "conflicts": ["repair_discount"],
+    "depends": [
+        "repair",
+        "l10n_br_stock_account",
     ],
-    'data': [
-        'data/res_company.xml',
-        'security/l10n_br_repair_security.xml',
-        'views/res_company.xml',
-        'views/repair_order.xml',
-        'views/repair_fee.xml',
-        'views/repair_line.xml',
+    "data": [
+        "data/res_company.xml",
+        "security/l10n_br_repair_security.xml",
+        "views/res_company.xml",
+        "views/repair_order.xml",
+        "views/repair_fee.xml",
+        "views/repair_line.xml",
     ],
-    'demo': [
-        'demo/res_company.xml',
-        'demo/repair_order.xml'
-    ],
-    'installable': True,
+    "demo": ["demo/res_company.xml", "demo/repair_order.xml"],
+    "installable": True,
 }
