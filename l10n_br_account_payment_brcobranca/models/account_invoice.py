@@ -7,14 +7,14 @@ import json
 import logging
 import tempfile
 
-logger = logging.getLogger(__name__)
-
 import requests
 
 from odoo import _, api, fields, models
 from odoo.exceptions import Warning as UserError
 
 from ..constants.br_cobranca import get_brcobranca_api_url
+
+logger = logging.getLogger(__name__)
 
 
 class AccountInvoice(models.Model):
