@@ -78,7 +78,7 @@ class TestReturnImport(SavepointCase):
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
-        if os.environ.get("CI") and os.environ.get("TRAVIS"):
+        if os.environ.get("CI"):
             # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
