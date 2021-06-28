@@ -4,6 +4,7 @@
 # @author Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import os
 from collections import namedtuple
 
 from odoo import _
@@ -48,3 +49,19 @@ def get_brcobranca_bank(bank_account_id):
             % bank_account_id.bank_id.name
         )
     return bank_name_brcobranca
+
+
+def get_brcobranca_api_url():
+    brcobranca_api_url = os.environ.get("BRCOBRANCA_API_URL")
+
+    if not brcobranca_api_url:
+        raise UserError(
+            _(
+                "Inform the URL where BRCobranca API are running"
+                " in Odoo Configuration file or if you are using docky"
+                " in the docker-compose.yml file. Example:\n"
+                "BRCOBRANCA_API_URL=http://boleto_cnab_api:9292"
+            )
+        )
+
+    return brcobranca_api_url
