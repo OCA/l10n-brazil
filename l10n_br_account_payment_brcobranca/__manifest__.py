@@ -13,11 +13,12 @@
         "account_move_base_import",
     ],
     "data": [
-        "views/account_invoice_view.xml",
-        "views/res_config_settings_view.xml",
-        "views/account_journal_view.xml",
-        "data/res_config_settings_data.xml",
+        # Security
         "security/ir.model.access.csv",
+        # Views
+        "views/account_invoice_view.xml",
+        "views/account_journal_view.xml",
+        # Wizard
         "wizard/import_statement_view.xml",
     ],
     "demo": [
