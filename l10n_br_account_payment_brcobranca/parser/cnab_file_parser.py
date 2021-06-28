@@ -5,13 +5,17 @@
 import base64
 import datetime
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 import requests
 
-from odoo import _
 from odoo.exceptions import Warning as UserError
 
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
+
+from ..constants.br_cobranca import get_brcobranca_api_url
 
 dict_brcobranca_bank = {
     "001": "banco_brasil",
@@ -70,24 +74,18 @@ class CNABFileParser(FileParser):
         yield self.result_row_list
 
     def _get_data_from_brcobranca(self, files):
-        api_address = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("l10n_br_account_payment_brcobranca.boleto_cnab_api")
-        )
-        if not api_address:
-            raise UserError(
-                _(
-                    "It is not possible generated return.\n"
-                    "Inform the IP address or Name of server"
-                    " where Boleto CNAB API are running."
-                )
-            )
-        # Ex.: "http://boleto_cnab_api:9292/api/retorno"
+
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
-        api_service_address = "http://" + api_address + ":9292/api/retorno"
+        brcobranca_api_url = get_brcobranca_api_url()
+        # Ex.: "http://boleto_cnab_api:9292/api/retorno"
+        brcobranca_service_url = brcobranca_api_url + "/api/retorno"
+        logger.info(
+            "Connecting to %s to get CNAB-RETORNO of file name %s",
+            brcobranca_service_url,
+            self.env.context.get("file_name"),
+        )
         res = requests.post(
-            api_service_address,
+            brcobranca_service_url,
             data={
                 "type": self.journal.import_type,
                 "bank": bank_name_brcobranca,

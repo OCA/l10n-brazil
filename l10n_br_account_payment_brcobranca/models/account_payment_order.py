@@ -13,14 +13,18 @@ import requests
 from odoo import _, fields, models
 from odoo.exceptions import Warning as ValidationError
 
-from ..constants.br_cobranca import DICT_BRCOBRANCA_CNAB_TYPE, get_brcobranca_bank
+from ..constants.br_cobranca import (
+    DICT_BRCOBRANCA_CNAB_TYPE,
+    get_brcobranca_api_url,
+    get_brcobranca_bank,
+)
 
-_logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 try:
     from erpbrasil.base import misc
 except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
+    logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class PaymentOrder(models.Model):
@@ -172,25 +176,16 @@ class PaymentOrder(models.Model):
         f.close()
         files = {"data": open(f.name, "rb")}
 
-        api_address = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("l10n_br_account_payment_brcobranca.boleto_cnab_api")
-        )
-
-        if not api_address:
-            raise ValidationError(
-                _(
-                    "It is not possible generated CNAB File.\n"
-                    "Inform the IP address or Name of server"
-                    " where Boleto CNAB API are running."
-                )
-            )
-
+        brcobranca_api_url = get_brcobranca_api_url()
         # EX.: "http://boleto_cnab_api:9292/api/remessa"
-        api_service_address = "http://" + api_address + ":9292/api/remessa"
+        brcobranca_service_url = brcobranca_api_url + "/api/remessa"
+        logger.info(
+            "Connecting to %s to generate CNAB-REMESSA file for Payment Order %s",
+            brcobranca_service_url,
+            self.name,
+        )
         res = requests.post(
-            api_service_address,
+            brcobranca_service_url,
             data={
                 "type": DICT_BRCOBRANCA_CNAB_TYPE[cnab_type],
                 "bank": bank_brcobranca.name,
