@@ -81,7 +81,7 @@ class TestPaymentOrder(SavepointCase):
         cls.aml_to_change = cls.invoice_cef.financial_move_line_ids[0]
         cls.ctx_change_cnab = {
             "active_model": "account.move.line",
-            "active_ids": [cls.aml_to_change.id]
+            "active_ids": [cls.aml_to_change.id],
         }
 
     def test_create_payment_order_with_brcobranca(self):
@@ -229,18 +229,14 @@ class TestPaymentOrder(SavepointCase):
         }
         aml_cnab_change = self.aml_cnab_change_model.with_context(
             self.ctx_change_cnab
-        ).create(
-            dict_change_due_date
-        )
+        ).create(dict_change_due_date)
         # Teste alteração com a mesma data não permitido
         with self.assertRaises(UserError):
             aml_cnab_change.doit()
         dict_change_due_date.update({"date_maturity": time.strftime("%Y") + "-07-15"})
         aml_cnab_change = self.aml_cnab_change_model.with_context(
             self.ctx_change_cnab
-        ).create(
-            dict_change_due_date
-        )
+        ).create(dict_change_due_date)
         aml_cnab_change.doit()
         payment_order = self.env["account.payment.order"].search(
             [
@@ -286,9 +282,7 @@ class TestPaymentOrder(SavepointCase):
         # Protesto
         aml_cnab_change = self.aml_cnab_change_model.with_context(
             self.ctx_change_cnab
-        ).create(
-            {"change_type": "protest_tittle"}
-        )
+        ).create({"change_type": "protest_tittle"})
         aml_cnab_change.doit()
         payment_order = self.env["account.payment.order"].search(
             [
@@ -334,11 +328,7 @@ class TestPaymentOrder(SavepointCase):
         # Suspender Protesto e manter em carteira
         aml_cnab_change = self.aml_cnab_change_model.with_context(
             self.ctx_change_cnab
-        ).create(
-            {
-                "change_type": "suspend_protest_keep_wallet",
-            }
-        )
+        ).create({"change_type": "suspend_protest_keep_wallet"})
         aml_cnab_change.doit()
         payment_order = self.env["account.payment.order"].search(
             [
@@ -447,9 +437,7 @@ class TestPaymentOrder(SavepointCase):
         # Caso Cancelar Abatimento
         aml_cnab_change = self.aml_cnab_change_model.with_context(
             self.ctx_change_cnab
-        ).create(
-            {"change_type": "cancel_rebate"}
-        )
+        ).create({"change_type": "cancel_rebate"})
         aml_cnab_change.doit()
         payment_order = self.env["account.payment.order"].search(
             [
@@ -555,9 +543,7 @@ class TestPaymentOrder(SavepointCase):
         # Caso Cancelar discount
         aml_cnab_change = self.aml_cnab_change_model.with_context(
             self.ctx_change_cnab
-        ).create(
-            {"change_type": "cancel_discount"}
-        )
+        ).create({"change_type": "cancel_discount"})
         aml_cnab_change.doit()
         payment_order = self.env["account.payment.order"].search(
             [
@@ -606,9 +592,7 @@ class TestPaymentOrder(SavepointCase):
         """
         aml_cnab_change = self.aml_cnab_change_model.with_context(
             self.ctx_change_cnab
-        ).create(
-            {"change_type": "not_payment"}
-        )
+        ).create({"change_type": "not_payment"})
         aml_cnab_change.doit()
         self.assertEqual(self.aml_to_change.payment_situation, "nao_pagamento")
         self.assertEqual(self.aml_to_change.cnab_state, "done")
