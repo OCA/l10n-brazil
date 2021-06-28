@@ -467,6 +467,12 @@ class NFe(spec_models.StackedModel):
         if not self.nfe40_detPag:
             raise UserError(_('Favor preencher os dados do pagamento'))
 
+    def _compute_amount(self):
+        super()._compute_amount()
+        for record in self:
+            if record.payment_mode == '90':
+                record.amount_financial = 0.0
+
     @api.multi
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
