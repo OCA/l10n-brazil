@@ -2,15 +2,19 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-
 import base64
 import json
+import logging
 import tempfile
+
+logger = logging.getLogger(__name__)
 
 import requests
 
 from odoo import _, api, fields, models
 from odoo.exceptions import Warning as UserError
+
+from ..constants.br_cobranca import get_brcobranca_api_url
 
 
 class AccountInvoice(models.Model):
@@ -82,29 +86,21 @@ class AccountInvoice(models.Model):
         )
 
     def _get_brcobranca_boleto(self, boletos):
+
         content = json.dumps(boletos)
         f = open(tempfile.mktemp(), "w")
         f.write(content)
         f.close()
         files = {"data": open(f.name, "rb")}
 
-        api_address = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("l10n_br_account_payment_brcobranca.boleto_cnab_api")
+        brcobranca_api_url = get_brcobranca_api_url()
+        brcobranca_service_url = brcobranca_api_url + "/api/boleto/multi"
+        logger.info(
+            "Connecting to %s to get Boleto of invoice %s",
+            brcobranca_service_url,
+            self.name,
         )
-
-        if not api_address:
-            raise UserError(
-                _(
-                    "It is not possible generated boletos.\n"
-                    "Inform the IP address or Name of server"
-                    " where Boleto CNAB API are running."
-                )
-            )
-
-        api_service_address = "http://" + api_address + ":9292/api/boleto/multi"
-        res = requests.post(api_service_address, data={"type": "pdf"}, files=files)
+        res = requests.post(brcobranca_service_url, data={"type": "pdf"}, files=files)
 
         if str(res.status_code)[0] == "2":
             pdf_string = res.content
