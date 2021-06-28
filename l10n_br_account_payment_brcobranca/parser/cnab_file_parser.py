@@ -7,8 +7,6 @@ import datetime
 import json
 import logging
 
-logger = logging.getLogger(__name__)
-
 import requests
 
 from odoo.exceptions import Warning as UserError
@@ -16,6 +14,8 @@ from odoo.exceptions import Warning as UserError
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
 
 from ..constants.br_cobranca import get_brcobranca_api_url
+
+logger = logging.getLogger(__name__)
 
 dict_brcobranca_bank = {
     "001": "banco_brasil",
