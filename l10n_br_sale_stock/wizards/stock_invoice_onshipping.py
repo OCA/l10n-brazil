@@ -73,12 +73,15 @@ class StockInvoiceOnshipping(models.TransientModel):
         values = super()._get_invoice_line_values(moves, invoice_values, invoice)
         # Devido ao KEY com sale_line_id aqui
         # vem somente um registro
-        if len(moves) == 1:
+        if len(moves) == 1 or len(moves.mapped('sale_line_id')) == 1:
             # Caso venha apenas uma linha porem sem
             # sale_line_id é preciso ignora-la
+            moves = moves[0]
             if moves.sale_line_id:
                 values["sale_line_ids"] = [(6, 0, moves.sale_line_id.ids)]
                 line = moves.sale_line_id
+                if line.price_unit != values['price_unit']:
+                    values['price_unit'] = values['fiscal_price'] = line.price_unit
                 if line.quantity != values['quantity'] and line.discount:
                     values['discount_value'] = values['quantity'] * \
                         values['price_unit'] * (line.discount / 100)
