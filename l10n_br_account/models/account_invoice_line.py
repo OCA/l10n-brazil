@@ -190,18 +190,21 @@ class AccountInvoiceLine(models.Model):
     @api.model
     def create(self, values):
         dummy_doc = self.env.user.company_id.get_fiscal_dummy_doc()
-        fiscal_doc_id = self.env['account.invoice'].browse(
-            values['invoice_id']).fiscal_document_id.id
+        fiscal_doc_id = (
+            self.env["account.invoice"]
+            .browse(values["invoice_id"])
+            .fiscal_document_id.id
+        )
         if dummy_doc.id == fiscal_doc_id:
-            values['fiscal_document_line_id'] = fields.first(dummy_doc.line_ids).id
+            values["fiscal_document_line_id"] = fields.first(dummy_doc.line_ids).id
 
         values.update(
             self._update_fiscal_quantity(
-                values.get('product_id'),
-                values.get('price_unit'),
-                values.get('quantity'),
-                values.get('uom_id'),
-                values.get('uot_id')
+                values.get("product_id"),
+                values.get("price_unit"),
+                values.get("quantity"),
+                values.get("uom_id"),
+                values.get("uot_id"),
             )
         )
 
