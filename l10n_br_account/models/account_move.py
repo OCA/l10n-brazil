@@ -49,7 +49,6 @@ class AccountMove(models.Model):
                 line._set_additional_fields(invoice)
             invoice._onchange_cash_rounding()
 
-    @api.multi
     def create_wh_invoices(self):
         for move in self:
             for line in move.line_ids.filtered(lambda l: l.tax_line_id):
@@ -72,7 +71,6 @@ class AccountMove(models.Model):
                         self._finalize_invoices(invoice)
                         invoice.action_invoice_open()
 
-    @api.multi
     def _withholding_validate(self):
         for m in self:
             invoices = (
@@ -99,7 +97,6 @@ class AccountMove(models.Model):
                 self.button_cancel()
         return result
 
-    @api.multi
     def button_cancel(self):
         self._withholding_validate()
         return super().button_cancel()
