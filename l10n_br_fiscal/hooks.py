@@ -13,13 +13,13 @@ _logger = logging.getLogger(__name__)
 
 
 def _create_fiscal_dummy_doc_id(env):
-    """Creates Fiscal dummy document for olders companies"""
+    """Creates Fiscal dummy document for existing companies"""
     _logger.info(_("Creating fiscal document dummy..."))
-    companies = env['res.company'].search([('fiscal_dummy_id', '=', False)])
+    companies = env["res.company"].search([("fiscal_dummy_id", "=", False)])
     for company in companies:
         company.write(
             {
-                'fiscal_dummy_id': company.get_fiscal_dummy_doc().id,
+                "fiscal_dummy_id": company.get_fiscal_dummy_doc().id,
             }
         )
 
