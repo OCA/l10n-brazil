@@ -1,7 +1,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountTaxGroup(models.Model):
@@ -12,7 +12,6 @@ class AccountTaxGroup(models.Model):
         string="Fiscal Tax Group",
     )
 
-    @api.multi
     def deductible_tax(self, type_tax_use="sale"):
         return self.env["account.tax"].search(
             [
