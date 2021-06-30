@@ -192,10 +192,14 @@ class AccountInvoice(models.Model):
 
     @api.model
     def create(self, values):
-        if not values.get('document_type_id'):
-            values.update({
-                'fiscal_document_id': self.env.user.company_id.get_fiscal_dummy_doc().id,
-            })
+        if not values.get("document_type_id"):
+            values.update(
+                {
+                    "fiscal_document_id": (
+                        self.env.user.company_id.get_fiscal_dummy_doc().id
+                    ),
+                }
+            )
         invoice = super().create(values)
         invoice._write_shadowed_fields()
         return invoice
@@ -216,7 +220,7 @@ class AccountInvoice(models.Model):
     def copy(self, default=None):
         default = default or {}
         if self.document_type_id:
-            default['line_ids'] = False
+            default["line_ids"] = False
         return super().copy(default)
 
     @api.one
@@ -402,8 +406,9 @@ class AccountInvoice(models.Model):
 
     def action_move_create(self):
         result = super().action_move_create()
-        self.mapped('fiscal_document_id').filtered(
-            lambda d: d.document_type_id).action_document_confirm()
+        self.mapped("fiscal_document_id").filtered(
+            lambda d: d.document_type_id
+        ).action_document_confirm()
         return result
 
     def action_invoice_draft(self):
