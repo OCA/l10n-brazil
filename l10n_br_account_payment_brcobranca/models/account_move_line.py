@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import api, models
+from odoo import models
 
 from ..constants.br_cobranca import DICT_BRCOBRANCA_CURRENCY, get_brcobranca_bank
 
