@@ -63,12 +63,12 @@ class TaxGroup(models.Model):
     )
 
     partner_id = fields.Many2one(
-        comodel_name='res.partner',
-        string='WH Partner',
+        comodel_name="res.partner",
+        string="WH Partner",
     )
 
     wh_due_day = fields.Integer(
-        string='Due Day',
+        string="Due Day",
     )
 
     _sql_constraints = [
