@@ -366,8 +366,7 @@ class ResCompany(models.Model):
     def _create_fiscal_dummy_doc_id(self):
         self.ensure_one()
         dummy_doc = self.env["l10n_br_fiscal.document"].search(
-            self._fiscal_dummy_doc_domain(),
-            limit=1
+            self._fiscal_dummy_doc_domain(), limit=1
         )
         if not dummy_doc:
             dummy_doc = self.env["l10n_br_fiscal.document"].create(
@@ -381,8 +380,7 @@ class ResCompany(models.Model):
             dummy_doc = self.fiscal_dummy_id
         else:
             dummy_doc = self.env["l10n_br_fiscal.document"].search(
-                self._fiscal_dummy_doc_domain(),
-                limit=1
+                self._fiscal_dummy_doc_domain(), limit=1
             )
 
         if not dummy_doc:
@@ -393,8 +391,8 @@ class ResCompany(models.Model):
     @api.model
     def create(self, values):
         company = super().create(values)
-        if not values.get('fiscal_dummy_id'):
-            values['fiscal_dummy_id'] = company.get_fiscal_dummy_doc().id
+        if not values.get("fiscal_dummy_id"):
+            values["fiscal_dummy_id"] = company.get_fiscal_dummy_doc().id
         return company
 
     def _del_tax_definition(self, tax_domain):
