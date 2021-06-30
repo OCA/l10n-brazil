@@ -20,7 +20,6 @@ class AccountMoveLine(models.Model):
     # https://github.com/kivanio/brcobranca/blob/master/spec/
     # brcobranca/boleto/itau_spec.rb
 
-    @api.multi
     def send_payment(self):
 
         # super(AccountMoveLine, self).send_payment()
