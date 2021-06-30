@@ -25,7 +25,7 @@ def pre_init_hook(cr):
     if not column_exists(cr, "account_invoice_line", "fiscal_document_line_id"):
         create_column(cr, "account_invoice_line", "fiscal_document_line_id", "INTEGER")
 
-    companies = env['res.company'].search([])
+    companies = env["res.company"].search([])
     for company in companies:
         cr.execute(
             """
@@ -33,9 +33,9 @@ def pre_init_hook(cr):
                 account_invoice
             SET fiscal_document_id=%s
             WHERE
-                fiscal_document_id IS NULL;""", (company.fiscal_dummy_id.id,),
+                fiscal_document_id IS NULL;""",
+            (company.fiscal_dummy_id.id,),
         )
-        import pudb; pudb.set_trace()
         cr.execute(
             """
             UPDATE
@@ -43,7 +43,8 @@ def pre_init_hook(cr):
             SET
                 fiscal_document_line_id=%s
             WHERE
-                fiscal_document_line_id IS NULL;""", (company.fiscal_dummy_id.line_ids[0].id,),
+                fiscal_document_line_id IS NULL;""",
+            (company.fiscal_dummy_id.line_ids[0].id,),
         )
 
 
