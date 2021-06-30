@@ -107,23 +107,10 @@ class PaymentOrder(models.Model):
         bank_account_id = self.journal_id.bank_account_id
         bank_brcobranca = get_brcobranca_bank(bank_account_id)
 
-        # Verificar campos que não podem ser usados no CNAB
-        fields_forbidden_cnab = []
-        if self.payment_mode_id.group_lines:
-            fields_forbidden_cnab.append("Group Lines")
-        if self.payment_mode_id.generate_move:
-            fields_forbidden_cnab.append("Generated Moves")
-        if self.payment_mode_id.post_move:
-            fields_forbidden_cnab.append("Post Moves")
-
-        for field in fields_forbidden_cnab:
-            raise ValidationError(
-                _(
-                    "The Payment Mode can not be used for CNAB with the field"
-                    " %s active. \n Please uncheck it to continue."
-                )
-                % field
-            )
+        # Verificar campos que não podem ser usados no CNAB, já é
+        # feito ao criar um Modo de Pagamento, porém para evitar
+        # erros devido alterações e re-validado aqui
+        self.payment_mode_id._check_cnab_restriction()
 
         if cnab_type not in bank_brcobranca.remessa:
             # Informa se o CNAB especifico de um Banco não está implementado
