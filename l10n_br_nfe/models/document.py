@@ -98,12 +98,14 @@ class NFe(spec_models.StackedModel):
     nfe_version = fields.Selection(
         selection=NFE_VERSIONS,
         string='NFe Version',
+        copy=False,
         default=lambda self: self.env.user.company_id.nfe_version,
     )
 
     nfe_environment = fields.Selection(
         selection=NFE_ENVIRONMENTS,
         string='NFe Environment',
+        copy=False,
         default=lambda self: self.env.user.company_id.nfe_environment,
     )
 
