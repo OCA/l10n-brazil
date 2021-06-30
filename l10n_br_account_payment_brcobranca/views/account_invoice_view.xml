@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="account.invoice_form" />
         <field name="arch" type="xml">
             <field name="partner_id" position="before">
-                <field name="button_print_boleto_invisible" invisible="1" />
+                <field name="payment_method_code" invisible="1" />
             </field>
             <button name="action_invoice_draft" position="after">
                 <button
@@ -15,7 +15,7 @@
                     type="object"
                     string="Imprimir Boleto"
                     class="btn-primary"
-                    attrs="{'invisible': [('button_print_boleto_invisible', '=', True)]}"
+                    attrs="{'invisible': ['|', ('state', '!=', 'open'), ('payment_method_code', 'not in', ('240', '400', '500'))]}"
                 />
             </button>
         </field>
