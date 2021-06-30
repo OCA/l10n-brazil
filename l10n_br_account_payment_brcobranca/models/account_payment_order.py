@@ -149,13 +149,13 @@ class PaymentOrder(models.Model):
         except Exception:
             pass
 
-        remessa = self._get_data_from_brcobranca(
+        remessa = self._get_brcobranca_remessa(
             bank_brcobranca, remessa_values, cnab_type
         )
 
         return remessa, self.get_file_name(cnab_type)
 
-    def _get_data_from_brcobranca(self, bank_brcobranca, remessa_values, cnab_type):
+    def _get_brcobranca_remessa(self, bank_brcobranca, remessa_values, cnab_type):
 
         content = json.dumps(remessa_values)
         f = open(tempfile.mktemp(), "w")

@@ -67,13 +67,13 @@ class CNABFileParser(FileParser):
 
         files = {"data": base64.b64decode(filebuffer)}
 
-        data = self._get_data_from_brcobranca(files)
+        data = self._get_brcobranca_retorno(files)
 
         self.result_row_list = self.process_return_file(data)
 
         yield self.result_row_list
 
-    def _get_data_from_brcobranca(self, files):
+    def _get_brcobranca_retorno(self, files):
 
         bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
         brcobranca_api_url = get_brcobranca_api_url()
