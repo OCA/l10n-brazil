@@ -37,10 +37,10 @@ FISCAL_TYPE_REFUND = {
 }
 
 INVOICE_TAX_USER_TYPE = {
-    'out_invoice': 'sale',
-    'in_invoice': 'purchase',
-    'out_refund': 'sale',
-    'in_refund': 'purchase',
+    "out_invoice": "sale",
+    "in_invoice": "purchase",
+    "out_refund": "sale",
+    "in_refund": "purchase",
 }
 
 SHADOWED_FIELDS = [
