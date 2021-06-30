@@ -9,7 +9,7 @@ import tempfile
 
 import requests
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import Warning as UserError
 
 from ..constants.br_cobranca import get_brcobranca_api_url
@@ -29,9 +29,7 @@ class AccountInvoice(models.Model):
 
     # Usado para deixar invisivel o botão
     # Imprimir Boleto, quando não for o caso
-    payment_method_code = fields.Char(
-        related="payment_mode_id.payment_method_id.code"
-    )
+    payment_method_code = fields.Char(related="payment_mode_id.payment_method_id.code")
 
     def gera_boleto_pdf(self):
         file_pdf = self.file_boleto_pdf_id
