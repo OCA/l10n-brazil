@@ -74,8 +74,8 @@
                         >
                             <group>
                                 <group>
-                                    <field name='partner_id'/>
-                                    <field name='wh_due_day'/>
+                                    <field name='partner_id' />
+                                    <field name='wh_due_day' />
                                 </group>
                                 <group>
                                 </group>
