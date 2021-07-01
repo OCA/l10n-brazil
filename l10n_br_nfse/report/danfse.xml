@@ -490,7 +490,7 @@ row {
                     (-) Retenções Federais
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.amount_tax_withholding" />
+                    <span t-esc="doc.amount_tax_withholding - doc.line_ids[0].issqn_wh_value"/>
                 </div>
                 <div class="col-2 linha centro br">
                     0 - Nenhum
