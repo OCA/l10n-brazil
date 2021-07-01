@@ -41,8 +41,4 @@
         <field name="account_id" ref="l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
-    <function model="account.invoice" name="action_invoice_open">
-        <value eval="[ref('demo_invoice_inter_api_1'),ref('demo_invoice_inter_api_2')]"/>
-    </function>
-
 </odoo>

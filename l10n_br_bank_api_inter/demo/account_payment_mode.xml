@@ -15,13 +15,6 @@
         <field name="group_lines">False</field>
         <field name="own_number_sequence_id" ref="sequence_cobranca_inter_api"/>
         <field name="auto_create_payment_order">True</field>
-<!--        <field name="boleto_convetion">06</field>-->
-<!--        <field name="boleto_wallet">03</field>-->
-<!--        <field name="boleto_modality">DM</field>-->
-<!--        <field name="boleto_variation">19</field>-->
-<!--        <field name="boleto_accept">S</field>-->
-<!--        <field name="cnab_sequence_id" ref="sequence_cnab_number"/>-->
-<!--        <field name="code_convetion">0001222130126</field>-->
     </record>
 
 </odoo>
