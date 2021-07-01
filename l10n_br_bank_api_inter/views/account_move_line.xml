@@ -19,6 +19,8 @@
 
             <field name="bank_payment_line_id" position="after">
                 <field name="write_off_choice" string="Write Off" />
+                <field name="bank_inter_state" string="State"
+                       domain="[('payment_mode_id', '=', 'payment_mode_cobranca_inter_api')]"/>
             </field>
             
         </field>

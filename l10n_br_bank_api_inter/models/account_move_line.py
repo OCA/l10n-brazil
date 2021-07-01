@@ -27,6 +27,15 @@ BAIXAS = [
     ('apedidodocliente', 'A pedido do cliente'),
 ]
 
+ESTADO = [
+    ('emaberto', 'Em Aberto'),
+    ('pago', 'Pago'),
+    ('expirado', 'Expirado'),
+    ('vencido', 'Vencido'),
+    ('baixado', 'Baixado'),
+]
+
+
 class AccountMoveLine(models.Model):
 
     _inherit = 'account.move.line'
@@ -43,6 +52,12 @@ class AccountMoveLine(models.Model):
         default='apedidodocliente',
     )
 
+    bank_inter_state = fields.Selection(
+        selection=ESTADO,
+        string="State",
+        readonly=True,
+        default="emaberto",
+    )
 
     def generate_pdf_boleto(self):
         """
@@ -101,16 +116,18 @@ class AccountMoveLine(models.Model):
             else:
                 codigo_baixa = "APEDIDODOCLIENTE"
             order_id = self.payment_line_ids.order_id
-            if self.own_number:
-                with ArquivoCertificado(order_id.journal_id, 'w') as (key, cert):
-                    self.api = ApiInter(
-                        cert=(cert, key),
-                        conta_corrente=(
-                            order_id.company_partner_bank_id.acc_number +
-                            order_id.company_partner_bank_id.acc_number_dig
+            if self.bank_inter_state != "pago":
+                if self.own_number:
+                    with ArquivoCertificado(order_id.journal_id, 'w') as (key, cert):
+                        self.api = ApiInter(
+                            cert=(cert, key),
+                            conta_corrente=(
+                                order_id.company_partner_bank_id.acc_number +
+                                order_id.company_partner_bank_id.acc_number_dig
+                            )
                         )
-                    )
-                    self.api.boleto_baixa(self.own_number, codigo_baixa)
+                        self.api.boleto_baixa(self.own_number, codigo_baixa)
+                        self.bank_inter_state = "baixado"
         except Exception as error:
             raise UserError(_(error))
 
@@ -126,13 +143,6 @@ class AccountMoveLine(models.Model):
                         )
                     )
                     resultado = self.api.boleto_consulta(nosso_numero = self.own_number)
-                    # self.update_data(resultado)
+                    self.bank_inter_state = resultado['situacao'].lower()
         except Exception as error:
             raise UserError(_(error))
-
-    def update_data(self, resultado):
-        pass
-        # if resultado:
-        #     date = datetime.strptime(resultado['dataVencimento'], '%d/%m/%Y').date()
-        #     self.date_maturity = date
-        #     self.debit = resultado['valorNominal']
