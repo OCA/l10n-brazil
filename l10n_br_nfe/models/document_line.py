@@ -440,19 +440,6 @@ class NFeLine(spec_models.StackedModel):
                 xsd_fields.remove('nfe40_vBC')
                 xsd_fields.remove('nfe40_pCOFINS')
 
-        if class_obj._name == 'nfe.40.icmsufdest':
-            # DIFAL
-            self.nfe40_vBCUFDest = str("%.02f" % self.icms_destination_base)
-            self.nfe40_vBCFCPUFDest = str("%.02f" % self.icmsfcp_base)
-            self.nfe40_pFCPUFDest = str("%.04f" % self.icmsfcp_percent)
-            self.nfe40_pICMSUFDest = str("%.04f" % self.icms_destination_percent)
-            if self.icms_origin_percent:
-                self.nfe40_pICMSInter = str("%.02f" % self.icms_origin_percent)
-            self.nfe40_pICMSInterPart = str("%.04f" % self.icms_sharing_percent)
-            self.nfe40_vFCPUFDest = str("%.02f" % self.icmsfcp_value)
-            self.nfe40_vICMSUFDest = str("%.02f" % self.icms_destination_value)
-            self.nfe40_vICMSUFRemet = str("%.02f" % self.icms_origin_value)
-
         self.nfe40_NCM = self.ncm_id.code_unmasked or False
         self.nfe40_CEST = self.cest_id and self.cest_id.code_unmasked or False
         self.nfe40_qCom = self.quantity
