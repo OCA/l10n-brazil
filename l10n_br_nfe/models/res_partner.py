@@ -39,7 +39,7 @@ class ResPartner(spec_models.SpecModel):
                              inverse='_inverse_nfe40_CNPJ',
                              store=True)
     nfe40_CPF = fields.Char(compute='_compute_nfe_data',
-                            inverse='_inverse_nfe40_CNPJ',
+                            inverse='_inverse_nfe40_CPF',
                             store=True)
     nfe40_xLgr = fields.Char(related='street', readonly=False)
     nfe40_nro = fields.Char(related='street_number', readonly=False)
@@ -58,7 +58,7 @@ class ResPartner(spec_models.SpecModel):
 
     # nfe.40.dest
     nfe40_xNome = fields.Char(related='legal_name')
-    nfe40_enderDest = fields.Many2one('res.partner',
+    nfe40_enderDest = fields.Many2one(comodel_name='res.partner',
                                       compute='_compute_nfe40_enderDest')
     nfe40_indIEDest = fields.Selection(related='ind_ie_dest')
     nfe40_IE = fields.Char(related='inscr_est')
@@ -69,17 +69,22 @@ class ResPartner(spec_models.SpecModel):
     # nfe.40.infresptec
     nfe40_xContato = fields.Char(related='legal_name')
 
-    nfe40_choice2 = fields.Selection([
-        ('nfe40_CNPJ', 'CNPJ'),
-        ('nfe40_CPF', 'CPF')],
-        "CNPJ/CPF do Parceiro")
+    nfe40_choice2 = fields.Selection(
+        selection=[
+            ('nfe40_CNPJ', 'CNPJ'),
+            ('nfe40_CPF', 'CPF')
+        ],
+        string="CNPJ/CPF do Parceiro",
+    )
 
-    nfe40_choice7 = fields.Selection([
-        ('nfe40_CNPJ', 'CNPJ'),
-        ('nfe40_CPF', 'CPF'),
-        ('nfe40_idEstrangeiro', 'idEstrangeiro')],
+    nfe40_choice7 = fields.Selection(
+        selection=[
+            ('nfe40_CNPJ', 'CNPJ'),
+            ('nfe40_CPF', 'CPF'),
+            ('nfe40_idEstrangeiro', 'idEstrangeiro')],
         compute='_compute_nfe_data',
-        string="CNPJ/CPF/idEstrangeiro")
+        string="CNPJ/CPF/idEstrangeiro",
+    )
 
     @api.multi
     def _compute_nfe40_xEnder(self):
