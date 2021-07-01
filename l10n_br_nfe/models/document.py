@@ -60,10 +60,14 @@ def filter_processador_edoc_nfe(record):
 
 class NFe(spec_models.StackedModel):
     _name = 'l10n_br_fiscal.document'
-    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe", "nfe.40.infadic",
-                "nfe.40.exporta"]
+    _inherit = [
+        "l10n_br_fiscal.document",
+        "nfe.40.infnfe",
+        "nfe.40.infadic",
+        "nfe.40.exporta"
+    ]
     _stacked = 'nfe.40.infnfe'
-    _stack_skip = ('nfe40_veicTransp')
+    _stack_skip = ('nfe40_veicTransp', 'nfe40_exporta')
     _field_prefix = 'nfe40_'
     _schema_name = 'nfe'
     _schema_version = '4.0.0'
