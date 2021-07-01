@@ -199,7 +199,7 @@ class DocumentEletronic(models.AbstractModel):
 
     def view_pdf(self):
         self.ensure_one()
-        if not self.file_report_id:
+        if not self.file_report_id or not self.authorization_file_id:
             self.make_pdf()
         return self._target_new_tab(self.file_report_id)
 
