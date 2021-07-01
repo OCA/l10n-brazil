@@ -108,7 +108,7 @@ class DocumentLine(models.Model):
             "outras_retencoes": self.other_retentions_value,
             "base_calculo": self.issqn_base or self.issqn_wh_base,
             "aliquota": (self.issqn_percent / 100) or (self.issqn_wh_percent / 100),
-            "valor_liquido_nfse": self.amount_taxed,
+            "valor_liquido_nfse": round(self.amount_taxed, 2),
             "item_lista_servico": self.service_type_id.code
             and self.service_type_id.code.replace(".", ""),
             "codigo_tributacao_municipio": self.city_taxation_code_id.code or "",
