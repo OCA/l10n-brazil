@@ -116,6 +116,8 @@ class Certificate(models.Model):
                     c.owner_name or "",
                     format_date(self.env, c.date_expiration),
                 )
+            else:
+                c.name = False
 
     @api.depends("date_expiration")
     def _compute_is_valid(self):
