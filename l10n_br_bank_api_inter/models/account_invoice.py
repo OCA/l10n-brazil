@@ -77,8 +77,8 @@ class AccountInvoice(models.Model):
                 "target": "new",
             }
         except Exception as error:
-            # raise UserError(error)
-            raise error
+            raise UserError(error)
+            # raise error
 
     @api.multi
     def action_invoice_cancel(self):

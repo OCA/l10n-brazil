@@ -4,7 +4,7 @@
     <!-- Fatura/Invoice Inter ABERTO -->
     <record id="demo_invoice_inter_api_1" model="account.invoice">
         <field name="name">Test Payment Order</field>
-        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="payment_term_id" ref="account.account_payment_term"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee"/>
         <field name="type">out_invoice</field>
         <field name="user_id" ref="base.user_demo"/>
@@ -17,14 +17,14 @@
         <field name="product_id" ref="product.product_product_5"/>
         <field name="uom_id" ref="uom.product_uom_unit"/>
         <field name="price_unit">100.01</field>
-        <field name="quantity">10</field>
+        <field name="quantity">1</field>
         <field name="account_id" ref="l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error"/>
     </record>
 
-        <!-- Fatura/Invoice Inter ABERTO -->
+    <!-- Fatura/Invoice Inter ABERTO -->
     <record id="demo_invoice_inter_api_2" model="account.invoice">
         <field name="name">Test Payment Order</field>
-        <field name="payment_term_id" ref="account.account_payment_term_advance"/>
+        <field name="payment_term_id" ref="account.account_payment_term"/>
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee"/>
         <field name="type">out_invoice</field>
         <field name="user_id" ref="base.user_demo"/>
