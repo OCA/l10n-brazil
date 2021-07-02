@@ -53,7 +53,7 @@
             </field>
             <field name="amount_total" position="after">
                 <field
-                    name="amount_financial"
+                    name="amount_financial_total"
                     widget='monetary'
                     options="{'currency_field': 'currency_id'}"
                 />
