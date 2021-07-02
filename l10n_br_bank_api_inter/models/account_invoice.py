@@ -84,7 +84,13 @@ class AccountInvoice(models.Model):
     def action_invoice_cancel(self):
         try:
             financial_move_line_ids = self.financial_move_line_ids
-            financial_move_line_ids.drop_bank_slip()
-            return super().action_invoice_cancel()
+            if financial_move_line_ids.bank_inter_state == "baixado":
+                financial_move_line_ids.drop_bank_slip()
+                return super().action_invoice_cancel()
+            else:
+                raise UserError(
+                    _("All Account Move Line related to Invoice must haver their "
+                      "status set to 'write off' to be able to cancel.")
+                )
         except Exception as error:
             raise UserError(_(error))

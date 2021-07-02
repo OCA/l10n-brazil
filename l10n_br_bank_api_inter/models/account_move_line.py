@@ -127,7 +127,7 @@ class AccountMoveLine(models.Model):
                             )
                         )
                         self.api.boleto_baixa(self.own_number, codigo_baixa)
-                        self.bank_inter_state = "baixado"
+                self.bank_inter_state = "baixado"
         except Exception as error:
             raise UserError(_(error))
 
