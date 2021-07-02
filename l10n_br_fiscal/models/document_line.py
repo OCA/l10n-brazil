@@ -83,11 +83,6 @@ class DocumentLine(models.Model):
         compute="_compute_amounts",
     )
 
-    amount_financial = fields.Monetary(
-        string="Amount Financial",
-        compute="_compute_amounts",
-    )
-
     amount_total = fields.Monetary(
         string="Amount Total",
         compute="_compute_amounts",
