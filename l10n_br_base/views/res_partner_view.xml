@@ -148,7 +148,7 @@
         </field>
     </record>
 
-    <record id="l10n_br_base_partner_contact_form" model="ir.ui.view">
+    <!--record id="l10n_br_base_partner_contact_form" model="ir.ui.view">
         <field name="name">l10n_br_base.res.partner.contact.form</field>
         <field name="model">res.partner</field>
         <field name="priority">9999</field>
@@ -162,13 +162,9 @@
                         style="width: 70%"
                         class="o_address_zip"
                     />
-                    <!-- Some dummy field because i will be automatically replaced
-                    by odoo.src.odoo.addons.base.models.res_partner.FormatAddressMixin._fields_view_get_address
-                    loading l10n_br_base.l10n_br_base_res_partner_address and all of it's inheritances.
-                    -->
                 </div>
             </xpath>
         </field>
-    </record>
+    </record-->
 
 </odoo>
