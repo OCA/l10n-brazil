@@ -237,6 +237,8 @@ class NFeLine(spec_models.StackedModel):
                     'NFKD', record.additional_data
                 ).encode('ASCII', 'ignore').decode('ASCII').replace(
                     '\n', '').replace('\r', '')
+            else:
+                record.nfe40_infAdProd = False
 
     @api.depends('icms_cst_id')
     def _compute_choice11(self):
