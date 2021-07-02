@@ -15,17 +15,20 @@ class SpecMixin(models.AbstractModel):
         #    'xsd_required')
 
         if (
-            class_obj._fields[xsd_field]._attrs.get("xsd_type") in ("TCnpj", "TCpf")
+            hasattr(class_obj._fields[xsd_field], "xsd_type")
+            and class_obj._fields[xsd_field].xsd_type in ("TCnpj", "TCpf")
             and self[xsd_field] is not False
         ):
             return misc.punctuation_rm(self[xsd_field])
         elif (
-            "TIe" in class_obj._fields[xsd_field]._attrs.get("xsd_type", "")
+            hasattr(class_obj._fields[xsd_field], "xsd_type")
+            and "TIe" in class_obj._fields[xsd_field].xsd_type
             and self[xsd_field] is not False
         ):
             return misc.punctuation_rm(self[xsd_field])
         elif (
-            "foneType" in class_obj._fields[xsd_field]._attrs.get("xsd_type", "")
+            hasattr(class_obj._fields[xsd_field], "xsd_type")
+            and "foneType" in class_obj._fields[xsd_field].xsd_type
             and self[xsd_field] is not False
         ):
             return (
@@ -37,7 +40,8 @@ class SpecMixin(models.AbstractModel):
                 .replace("+", "")
             )
         elif (
-            "CEPType" in class_obj._fields[xsd_field]._attrs.get("xsd_type", "")
+            hasattr(class_obj._fields[xsd_field], "xsd_type")
+            and "CEPType" in class_obj._fields[xsd_field].xsd_type
             and self[xsd_field] is not False
         ):
             return self[xsd_field].replace("-", "")
