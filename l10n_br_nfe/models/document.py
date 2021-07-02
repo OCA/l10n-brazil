@@ -274,6 +274,8 @@ class NFe(spec_models.StackedModel):
     @api.depends('fiscal_additional_data', 'fiscal_additional_data')
     def _compute_nfe40_additional_data(self):
         for record in self:
+            record.nfe40_infCpl = False
+            record.nfe40_infAdFisco = False
             if record.fiscal_additional_data:
                 record.nfe40_infAdFisco = normalize(
                     'NFKD', record.fiscal_additional_data
