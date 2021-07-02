@@ -174,10 +174,10 @@ class Partner(models.Model):
         fields that are synced from the parent."""
         return super()._address_fields() + ["district"]
 
-    def get_street_fields(self):
+    def _get_street_fields(self):
         """Returns the fields that can be used in a street format.
         Overwrite this function if you want to add your own fields."""
-        return super().get_street_fields() + ["street"]
+        return super()._get_street_fields() + ["street"]
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
