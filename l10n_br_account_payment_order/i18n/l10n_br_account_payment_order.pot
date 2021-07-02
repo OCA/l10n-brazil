@@ -2444,11 +2444,6 @@ msgid "RECIBO"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.view_l10n_br_account_invoice_form_inherit
-msgid "Receivable"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__activity_user_id
 msgid "Responsible User"
 msgstr ""
