@@ -554,7 +554,7 @@ row {
                     (=) Valor Líquido R$
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.amount_financial" />
+                    <span t-field="doc.amount_financial_total" />
                 </div>
                 <div class="col-2 rotulo br">
                     Incentivador Cultural: 2 - Não
