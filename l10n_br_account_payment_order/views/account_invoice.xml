@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <!-- Inherit Form View to Modify it -->
-    <record id="view_l10n_br_account_invoice_form_inherit" model="ir.ui.view">
-        <field name="name">view.l10n_br_account.invoice.form.form.inherit</field>
-        <field name="model">account.invoice</field>
-        <field name="priority">99</field>
-        <field name="inherit_id" ref="account_payment_order.invoice_form"/>
-        <field name="arch" type="xml">
-            <notebook position="inside">
-                <page string="Receivable" name="financial_move_line_ids">
-                    <field name="financial_move_line_ids" context="{'tree_view_ref':'account_due_list.view_payments_tree'}"/>
-                </page>
-            </notebook>
-        </field>
-    </record>
-
     <record id="view_account_invoice_filter_inherit" model="ir.ui.view">
         <field name="name">view.account.invoice.filter.inherit</field>
         <field name="model">account.invoice</field>
