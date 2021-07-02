@@ -66,7 +66,7 @@ class TestNFeExport(TransactionCase):
             nfe_id.nfe40_nNF = "1"
             nfe_id.nfe40_cDV = "1"
             financial_vals = nfe_id._prepare_amount_financial(
-                "0", "01", nfe_id.amount_financial
+                "0", "01", nfe_id.amount_financial_total
             )
             nfe_id.nfe40_detPag = [(5, 0, 0), (0, 0, financial_vals)]
             nfe_id.with_context(lang="pt_BR")._document_export()
