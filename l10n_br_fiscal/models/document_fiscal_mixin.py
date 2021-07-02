@@ -295,7 +295,7 @@ class FiscalDocumentMixin(models.AbstractModel):
         string="Amount Tax Withholding", compute="_compute_amount"
     )
 
-    amount_financial = fields.Monetary(
+    amount_financial_total = fields.Monetary(
         string="Amount Financial",
         compute="_compute_amount",
     )
