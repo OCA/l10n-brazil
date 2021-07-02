@@ -226,6 +226,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_amounts",
     )
 
+    financial_total = fields.Monetary(
+        string="Amount Financial",
+        compute="_compute_amounts",
+    )
+
     amount_tax_not_included = fields.Monetary(string="Amount Tax not Included")
 
     amount_tax_withholding = fields.Monetary(string="(-) Amount Tax Withholding")
