@@ -157,15 +157,17 @@
             <xpath expr="//div[@name='div_address']" position="replace">
                 <div class="o_address_format">
                     <field
+                        name="street"
+                        placeholder="Street..."
+                        class="o_address_street"
+                        invisible="1"
+                    />
+                    <field
                         name="zip"
                         placeholder="Zip code..."
                         style="width: 70%"
                         class="o_address_zip"
                     />
-                    <!-- Some dummy field because i will be automatically replaced
-                    by odoo.src.odoo.addons.base.models.res_partner.FormatAddressMixin._fields_view_get_address
-                    loading l10n_br_base.l10n_br_base_res_partner_address and all of it's inheritances.
-                    -->
                 </div>
             </xpath>
         </field>
