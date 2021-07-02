@@ -450,6 +450,7 @@ class NFeLine(spec_models.StackedModel):
         self.nfe40_pCredSN = self.icmssn_percent
         return super()._export_fields(xsd_fields, class_obj, export_dict)
 
+    # flake8: noqa: C901
     def _export_field(self, xsd_field, class_obj, member_spec):
         # ISSQN
         if xsd_field == "nfe40_cMunFG":
@@ -672,6 +673,7 @@ class NFeLine(spec_models.StackedModel):
             elif node.original_tagname_.startswith("COFINS"):
                 vals["cofins_base"] = value
 
+    # flake8: noqa: C901
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         ICMS_TAGS = [
             "ICMS00",
