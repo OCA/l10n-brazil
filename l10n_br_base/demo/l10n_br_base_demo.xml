@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-
     <!--
     Resource: res.partner.title
     -->
@@ -8,7 +7,6 @@
         <field name="name">Corp.</field>
         <field name="shortcut">Corp.</field>
     </record>
-
     <!--
     Resource: res.partner
     -->
@@ -28,12 +26,9 @@
         <field name="phone">(11) 3365-5500</field>
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">623.343.911.173</field>
-        <field name="customer" eval="0" />
-        <field name="supplier" eval="1" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_amd" model="res.partner">
         <field name="name">AMD do Brasil</field>
         <field name="legal_name">AMD South America Ltda</field>
@@ -50,12 +45,9 @@
         <field name="phone">(55-11) 3478-2150</field>
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">621.240.850.633</field>
-        <field name="customer" eval="0" />
-        <field name="supplier" eval="1" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_lg" model="res.partner">
         <field name="name">LG do Brasil</field>
         <field name="legal_name">LG ELECTRONICS DA AMAZÔNIA LTDA</field>
@@ -73,12 +65,9 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">86.015.623-0</field>
         <field name="suframa">550309012</field>
-        <field name="customer" eval="0" />
-        <field name="supplier" eval="1" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_samsungpe" model="res.partner">
         <field name="name">Samsung Recife</field>
         <field name="legal_name">Samsung Recife LTDA</field>
@@ -96,12 +85,9 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">4386525-92</field>
         <field name="suframa" />
-        <field name="customer" eval="0" />
-        <field name="supplier" eval="1" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_positivo" model="res.partner">
         <field name="name">Positivo Informatica</field>
         <field name="legal_name">Positivo Informatica S/A</field>
@@ -119,12 +105,9 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">80320143-90</field>
         <field name="suframa" />
-        <field name="customer" eval="0" />
-        <field name="supplier" eval="1" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_dell" model="res.partner">
         <field name="name">Dell Computadores do Brasil</field>
         <field name="legal_name">Dell Computadores do Brasil LTDA</field>
@@ -142,12 +125,9 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">074/2864251</field>
         <field name="suframa" />
-        <field name="customer" eval="0" />
-        <field name="supplier" eval="1" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_infobahia" model="res.partner">
         <field name="name">Info Bahia</field>
         <field name="legal_name">Informatica Bahia LTDA</field>
@@ -165,12 +145,9 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">2004915-45</field>
         <field name="suframa" />
-        <field name="customer" eval="0" />
-        <field name="supplier" eval="1" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_infomanaus" model="res.partner">
         <field name="name">Informatica Manaus</field>
         <field name="legal_name">Informatica Manaus</field>
@@ -188,12 +165,9 @@
         <field name="email">teste@teste.com.br</field>
         <field name="inscr_est">78.002.376-5</field>
         <field name="suframa">101160100</field>
-        <field name="customer" eval="0" />
-        <field name="supplier" eval="1" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_cliente1_sp" model="res.partner">
         <field name="name">Cliente 1 SP Contribuinte</field>
         <field name="legal_name">Cliente 1 SP</field>
@@ -210,12 +184,9 @@
         <field name="phone">(55-11) 3478-2150</field>
         <field name="email">cliente1@cliente1.com.br</field>
         <field name="inscr_est">460.429.771.334</field>
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_cliente2_sp" model="res.partner">
         <field name="name">Cliente 2 -SP - Simples Nacional</field>
         <field name="legal_name">Cliente 2 - SP</field>
@@ -232,12 +203,9 @@
         <field name="phone">(11) 7777-7777</field>
         <field name="email">cliente2@cliente2.com.br</field>
         <field name="inscr_est">887.273.429.152</field>
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_cliente3_am" model="res.partner">
         <field name="name">Cliente 3 - Z/F Manaus - Contribuinte</field>
         <field name="legal_name">Cliente 3 - Manaus</field>
@@ -255,12 +223,9 @@
         <field name="email">cliente3@cliente3.com.br</field>
         <field name="inscr_est">78.217.504-0</field>
         <field name="suframa">101362102</field>
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_cliente4_am" model="res.partner">
         <field name="name">Cliente 4 - Z/F Manaus - Simples Nacional</field>
         <field name="legal_name">Cliente 4 - Manaus</field>
@@ -278,12 +243,9 @@
         <field name="email">cliente4@cliente4.com.br</field>
         <field name="inscr_est">09.569.321-1</field>
         <field name="suframa">100695108</field>
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_cliente5_pe" model="res.partner">
         <field name="name">Cliente 5 - Contribuinte - PE</field>
         <field name="legal_name">Cliente 5 PE</field>
@@ -301,12 +263,9 @@
         <field name="email">cliente5@cliente5.com.br</field>
         <field name="inscr_est">8700737-10</field>
         <field name="suframa" />
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_cliente6_pe" model="res.partner">
         <field name="name">Cliente 6 - Simples Nacional- PE</field>
         <field name="legal_name">Cliente 6 Recife LTDA</field>
@@ -324,12 +283,9 @@
         <field name="email">cliente6@cliente6.com.br</field>
         <field name="inscr_est">7055493-56</field>
         <field name="suframa" />
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_cliente7_rs" model="res.partner">
         <field name="name">Cliente 7 RS - Contribuinte</field>
         <field name="legal_name">Cliente 7 - RS</field>
@@ -347,12 +303,9 @@
         <field name="email">cliente7@cliente7.com.br</field>
         <field name="inscr_est">176/1256758</field>
         <field name="suframa" />
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_cliente8_rs" model="res.partner">
         <field name="name">Cliente 8 RS - Simples Nacional</field>
         <field name="legal_name">Cliente 7 - RS</field>
@@ -370,18 +323,13 @@
         <field name="email">cliente8@cliente8.com.br</field>
         <field name="inscr_est">383/4127240</field>
         <field name="suframa" />
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_akretion" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="cnpj_cpf">11.034.414/0001-58</field>
         <field eval="0" name="employee" />
-        <field eval="1" name="customer" />
-        <field eval="1" name="supplier" />
         <field name="is_company" eval="1" />
         <field eval="1" name="active" />
         <field name="legal_name">AKRETION LTDA</field>
@@ -396,17 +344,14 @@
         <field name="city_id" ref="l10n_br_base.city_3550308" />
         <field name="state_id" ref="base.state_br_sp" />
         <field
-            name="image"
+            name="image_128"
             type="base64"
             file="l10n_br_base/static/img/res_partner_akretion-image.jpg"
         />
     </record>
-
     <record id="res_partner_address_ak2" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd" />
         <field eval="0" name="employee" />
-        <field eval="1" name="customer" />
-        <field eval="1" name="supplier" />
         <field eval="1" name="active" />
         <field name="is_company" eval="1" />
         <field name="legal_name">AKRETION LTDA</field>
@@ -424,19 +369,16 @@
         <field name="website">http://www.akretion.com</field>
         <field name="state_id" ref="base.state_br_rj" />
         <field
-            name="image"
+            name="image_128"
             type="base64"
             file="l10n_br_base/static/img/res_partner_akretion-image.jpg"
         />
     </record>
-
     <record id="res_partner_address_ak3" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="cnpj_cpf">11.034.414/0003-10</field>
         <field name="inscr_mun">1448</field>
         <field eval="0" name="employee" />
-        <field eval="1" name="customer" />
-        <field eval="1" name="supplier" />
         <field eval="1" name="active" />
         <field name="is_company" eval="1" />
         <field name="legal_name">AKRETION LTDA</field>
@@ -453,12 +395,11 @@
         <field name="website">http://www.akretion.com</field>
         <field name="state_id" ref="base.state_br_sp" />
         <field
-            name="image"
+            name="image_128"
             type="base64"
             file="l10n_br_base/static/img/res_partner_akretion-image.jpg"
         />
     </record>
-
     <record id="res_partner_cliente9_mg" model="res.partner">
         <field name="name">Cliente 9 MG - PJ Não Contribuinte</field>
         <field name="legal_name">Cliente 9 MG</field>
@@ -475,12 +416,9 @@
         <field name="phone">(35) 3622-7085</field>
         <field name="email">cliente9@cliente9.com.br</field>
         <field name="suframa" />
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="1" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_cliente10_mg" model="res.partner">
         <field name="name">Cliente 10 MG - PF Não Contribuinte</field>
         <field name="legal_name">Cliente 10 PF</field>
@@ -497,18 +435,13 @@
         <field name="phone">(35) 3622-7085</field>
         <field name="email">cliente10@cliente10.com.br</field>
         <field name="suframa" />
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="0" />
         <field name="active" eval="1" />
     </record>
-
     <record id="res_partner_kmee" model="res.partner">
         <field name="title" ref="res_partner_title_pvt_ltd" />
         <field name="cnpj_cpf">23.130.935/0001-98</field>
         <field eval="0" name="employee" />
-        <field eval="1" name="customer" />
-        <field eval="1" name="supplier" />
         <field name="is_company" eval="1" />
         <field eval="1" name="active" />
         <field name="legal_name">KMEE INFORMATICA LTDA</field>
@@ -522,17 +455,13 @@
         <field name="city_id" ref="l10n_br_base.city_3132404" />
         <field name="state_id" ref="base.state_br_mg" />
         <field
-            name="image"
+            name="image_128"
             type="base64"
             file="l10n_br_base/static/img/res_partner_kmee.png"
         />
     </record>
-
     <record id="res_partner_exterior" model="res.partner">
         <field name="name">Cliente Exterior</field>
-        <field name="supplier">1</field>
-        <field name="customer">1</field>
-        <field name="is_company">1</field>
         <field name="street">3404  Edgewood Road</field>
         <field name="city">Jonesboro</field>
         <field
@@ -546,7 +475,6 @@
         <field name="email">exteior@example.com</field>
         <field name="website">http://www.exterior.com</field>
     </record>
-
     <record id="res_partner_cliente11_sp" model="res.partner">
         <field name="name">Cliente 11 SP - PF Não Contribuinte</field>
         <field name="legal_name">Cliente 11 PF</field>
@@ -563,10 +491,7 @@
         <field name="phone">(11) 3881-7417</field>
         <field name="email">cliente11@cliente11.com.br</field>
         <field name="suframa" />
-        <field name="customer" eval="1" />
-        <field name="supplier" eval="0" />
         <field name="is_company" eval="0" />
         <field name="active" eval="1" />
     </record>
-
 </odoo>
