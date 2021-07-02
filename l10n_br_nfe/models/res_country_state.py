@@ -5,6 +5,6 @@ from odoo import models
 
 
 class ResCountryState(models.Model):
-    _inherit = 'res.country.state'
-    _nfe_search_keys = ['ibge_code', 'code']
-    _nfe_extra_domain = [('ibge_code', '!=', False)]
+    _inherit = "res.country.state"
+    _nfe_search_keys = ["ibge_code", "code"]
+    _nfe_extra_domain = [("ibge_code", "!=", False)]

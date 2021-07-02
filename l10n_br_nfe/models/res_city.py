@@ -6,5 +6,5 @@ from odoo import models
 
 
 class ResCity(models.Model):
-    _inherit = 'res.city'
-    _nfe_search_keys = ['ibge_code']
+    _inherit = "res.city"
+    _nfe_search_keys = ["ibge_code"]
