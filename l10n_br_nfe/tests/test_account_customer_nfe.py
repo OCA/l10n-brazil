@@ -169,12 +169,9 @@ class TestCustomerNFe(TransactionCase):
         self.invoice_other_costs._onchange_fiscal()
         for line in self.invoice_other_costs.invoice_line_ids:
             line._onchange_fiscal()
-            self.assertEqual(
-                line.freight_value, 100.0, "Freight value is not 100.0")
-            self.assertEqual(
-                line.insurance_value, 10.0, "Insurance value is not 10.0")
-            self.assertEqual(
-                line.other_value, 10.0, "Other Costs value is not 10.0")
+            self.assertEqual(line.freight_value, 100.0, "Freight value is not 100.0")
+            self.assertEqual(line.insurance_value, 10.0, "Insurance value is not 10.0")
+            self.assertEqual(line.other_value, 10.0, "Other Costs value is not 10.0")
 
         self.invoice_other_costs.with_context(
             {"fiscal_document_code": "55"}
