@@ -12,37 +12,44 @@ from odoo import api, models
 
 
 class ProductProduct(models.Model):
-    _inherit = 'product.product'
-    _nfe_search_keys = ['default_code', 'barcode']
+    _inherit = "product.product"
+    _nfe_search_keys = ["default_code", "barcode"]
 
     @api.model
     def create(self, values):
-        parent_dict = self._context.get('parent_dict', {})
-        if parent_dict.get('nfe40_xProd'):
-            values['name'] = parent_dict['nfe40_xProd']
+        parent_dict = self._context.get("parent_dict", {})
+        if parent_dict.get("nfe40_xProd"):
+            values["name"] = parent_dict["nfe40_xProd"]
 
         # Price Unit
-        if parent_dict.get('nfe40_vUnCom'):
-            values['standard_price'] = parent_dict.get('nfe40_vUnCom')
-            values['list_price'] = parent_dict.get('nfe40_vUnCom')
+        if parent_dict.get("nfe40_vUnCom"):
+            values["standard_price"] = parent_dict.get("nfe40_vUnCom")
+            values["list_price"] = parent_dict.get("nfe40_vUnCom")
 
         # Barcode
-        if (parent_dict.get('nfe40_cEAN')
-                and parent_dict['nfe40_cEAN'] != 'SEM GTIN'):
-            values['barcode'] = parent_dict['nfe40_cEAN']
+        if parent_dict.get("nfe40_cEAN") and parent_dict["nfe40_cEAN"] != "SEM GTIN":
+            values["barcode"] = parent_dict["nfe40_cEAN"]
 
         # NCM
-        if parent_dict.get('nfe40_NCM'):
-            ncm = self.env['l10n_br_fiscal.ncm'].search(
-                [('code_unmasked', '=', parent_dict['nfe40_NCM'])], limit=1)
+        if parent_dict.get("nfe40_NCM"):
+            ncm = self.env["l10n_br_fiscal.ncm"].search(
+                [("code_unmasked", "=", parent_dict["nfe40_NCM"])], limit=1
+            )
 
-            values['ncm_id'] = ncm.id
+            values["ncm_id"] = ncm.id
 
             if not ncm:  # FIXME should not happen with prod data
-                ncm = self.env['l10n_br_fiscal.ncm'].sudo().create(
-                    {'name': parent_dict['nfe40_NCM'],
-                     'code': parent_dict['nfe40_NCM']})
-                values['ncm_id'] = ncm.id
+                ncm = (
+                    self.env["l10n_br_fiscal.ncm"]
+                    .sudo()
+                    .create(
+                        {
+                            "name": parent_dict["nfe40_NCM"],
+                            "code": parent_dict["nfe40_NCM"],
+                        }
+                    )
+                )
+                values["ncm_id"] = ncm.id
         product = super().create(values)
         product.product_tmpl_id._onchange_ncm_id()
         return product

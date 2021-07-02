@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <!-- NF-e Document -->
@@ -8,7 +8,10 @@
         <field name="res_model">l10n_br_fiscal.document</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="domain" eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_55'))]"/>
+        <field
+            name="domain"
+            eval="[('document_type_id', '=', ref('l10n_br_fiscal.document_55'))]"
+        />
 <!--        <field name="view_id" ref="nfe_document_tree"/>-->
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
