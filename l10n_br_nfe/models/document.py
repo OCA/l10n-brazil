@@ -5,77 +5,78 @@
 import base64
 import logging
 from datetime import datetime
-
 from unicodedata import normalize
 
-from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.assinatura import certificado as cert
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.v4_00 import retEnviNFe as leiauteNFe
+from requests import Session
+
+from odoo import _, api, fields
+from odoo.exceptions import UserError
+
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
-    DENEGADO,
     CANCELADO,
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
-    EVENTO_RECEBIDO,
+    DENEGADO,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
+    EVENTO_RECEBIDO,
     LOTE_PROCESSADO,
-    MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
     PROCESSADOR_OCA,
-    SITUACAO_EDOC_REJEITADA,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_REJEITADA,
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
 from odoo.addons.spec_driven_model.models import spec_models
-from odoo.exceptions import UserError
-from requests import Session
 
-from odoo import _, api, fields
-from ..constants.nfe import (
-    NFE_ENVIRONMENTS,
-    NFE_VERSIONS,
-)
+from ..constants.nfe import NFE_ENVIRONMENTS, NFE_VERSIONS
 
 _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfe(record):
-    if (record.processador_edoc == PROCESSADOR_OCA and
-            record.document_type_id.code in [
-                MODELO_FISCAL_NFE,
-                MODELO_FISCAL_NFCE,
-            ]):
+    if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
+        MODELO_FISCAL_NFE,
+        MODELO_FISCAL_NFCE,
+    ]:
         return True
     return False
 
 
 class NFe(spec_models.StackedModel):
-    _name = 'l10n_br_fiscal.document'
-    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe", "nfe.40.infadic",
-                "nfe.40.exporta"]
-    _stacked = 'nfe.40.infnfe'
-    _stack_skip = ('nfe40_veicTransp')
-    _field_prefix = 'nfe40_'
-    _schema_name = 'nfe'
-    _schema_version = '4.0.0'
-    _odoo_module = 'l10n_br_nfe'
-    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
-    _spec_tab_name = 'NFe'
+    _name = "l10n_br_fiscal.document"
+    _inherit = [
+        "l10n_br_fiscal.document",
+        "nfe.40.infnfe",
+        "nfe.40.infadic",
+        "nfe.40.exporta",
+    ]
+    _stacked = "nfe.40.infnfe"
+    _stack_skip = "nfe40_veicTransp"
+    _field_prefix = "nfe40_"
+    _schema_name = "nfe"
+    _schema_version = "4.0.0"
+    _odoo_module = "l10n_br_nfe"
+    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
+    _spec_tab_name = "NFe"
     _stacking_points = {}
-#    _concrete_skip = ('nfe.40.det',) # will be mixed in later
-    _nfe_search_keys = ['nfe40_Id']
+    #    _concrete_skip = ('nfe.40.det',) # will be mixed in later
+    _nfe_search_keys = ["nfe40_Id"]
 
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = ('infnfe.total', 'infnfe.infAdic')
+    _force_stack_paths = ("infnfe.total", "infnfe.infAdic")
 
     def _compute_emit(self):
         for doc in self:  # TODO if out
@@ -84,239 +85,225 @@ class NFe(spec_models.StackedModel):
     # emit and dest are not related fields as their related fields
     # can change depending if it's and incoming our outgoing NFe
     # specially when importing (ERP NFe migration vs supplier Nfe).
-    nfe40_emit = fields.Many2one('res.company', compute='_compute_emit',
-                                 readonly=True, string="Emit")
+    nfe40_emit = fields.Many2one(
+        "res.company", compute="_compute_emit", readonly=True, string="Emit"
+    )
 
-    @api.depends('partner_id')
+    @api.depends("partner_id")
     def _compute_dest(self):
         for doc in self:  # TODO if out
             doc.nfe40_dest = doc.partner_id
 
-    nfe40_dest = fields.Many2one('res.partner', compute='_compute_dest',
-                                 readonly=True, string="Dest")
+    nfe40_dest = fields.Many2one(
+        "res.partner", compute="_compute_dest", readonly=True, string="Dest"
+    )
 
     nfe_version = fields.Selection(
         selection=NFE_VERSIONS,
-        string='NFe Version',
+        string="NFe Version",
         copy=False,
         default=lambda self: self.env.user.company_id.nfe_version,
     )
 
     nfe_environment = fields.Selection(
         selection=NFE_ENVIRONMENTS,
-        string='NFe Environment',
+        string="NFe Environment",
         copy=False,
         default=lambda self: self.env.user.company_id.nfe_environment,
     )
 
     nfe40_finNFe = fields.Selection(
-        related='edoc_purpose',
+        related="edoc_purpose",
     )
 
     nfe40_versao = fields.Char(
-        related='document_version',
+        related="document_version",
     )
 
     nfe40_nNF = fields.Char(
-        related='document_number',
+        related="document_number",
     )
 
     nfe40_Id = fields.Char(
-        related='document_key',
+        related="document_key",
     )
 
     # TODO should be done by framework?
     nfe40_det = fields.One2many(
-        comodel_name='l10n_br_fiscal.document.line',
-        inverse_name='document_id',
-        related='line_ids',
+        comodel_name="l10n_br_fiscal.document.line",
+        inverse_name="document_id",
+        related="line_ids",
     )
 
     nfe40_NFref = fields.One2many(
-        comodel_name='l10n_br_fiscal.document.related',
-        related='document_related_ids',
-        inverse_name='document_id',
+        comodel_name="l10n_br_fiscal.document.related",
+        related="document_related_ids",
+        inverse_name="document_id",
     )
 
     nfe40_dhEmi = fields.Datetime(
-        related='document_date',
+        related="document_date",
     )
 
     nfe40_dhSaiEnt = fields.Datetime(
-        related='date_in_out',
+        related="date_in_out",
     )
 
     nfe40_natOp = fields.Char(
-        related='operation_name',
+        related="operation_name",
     )
 
-    nfe40_serie = fields.Char(
-        related='document_serie'
-    )
+    nfe40_serie = fields.Char(related="document_serie")
 
     nfe40_indFinal = fields.Selection(
-        related='ind_final',
+        related="ind_final",
     )
 
     nfe40_indPres = fields.Selection(
-        related='ind_pres',
+        related="ind_pres",
     )
 
     nfe40_vNF = fields.Monetary(
-        related='amount_total',
+        related="amount_total",
     )
 
     nfe40_tpAmb = fields.Selection(
-        related='nfe_environment',
+        related="nfe_environment",
     )
 
     nfe40_indIEDest = fields.Selection(
-        related='partner_ind_ie_dest',
-        string='Contribuinte do ICMS (NFe)'
+        related="partner_ind_ie_dest", string="Contribuinte do ICMS (NFe)"
     )
 
     nfe40_tpNF = fields.Selection(
-        compute='_compute_nfe_data',
-        inverse='_inverse_nfe40_tpNF',
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_tpNF",
     )
 
     nfe40_tpImp = fields.Selection(
-        default='1',
+        default="1",
     )
 
     nfe40_modFrete = fields.Selection(
-        default='9',
+        default="9",
     )
 
     nfe40_tpEmis = fields.Selection(
-        default='1',
+        default="1",
     )
 
     nfe40_procEmi = fields.Selection(
-        default='0',
+        default="0",
     )
 
     nfe40_verProc = fields.Char(
-        default='Odoo Brasil v12.0',  # Shound be an ir.parameter?
+        default="Odoo Brasil v12.0",  # Shound be an ir.parameter?
     )
 
     nfe40_CRT = fields.Selection(
-        related='company_tax_framework',
-        string='Código de Regime Tributário (NFe)',
-
+        related="company_tax_framework",
+        string="Código de Regime Tributário (NFe)",
     )
 
     nfe40_vFrete = fields.Monetary(
-        related='amount_freight_value',
+        related="amount_freight_value",
     )
 
     nfe40_vFCPUFDest = fields.Monetary(
-        related='amount_icmsfcp_value',
+        related="amount_icmsfcp_value",
     )
 
-    nfe40_vDesc = fields.Monetary(
-        related='amount_discount_value')
+    nfe40_vDesc = fields.Monetary(related="amount_discount_value")
 
-    nfe40_vTotTrib = fields.Monetary(
-        related='amount_estimate_tax'
-    )
+    nfe40_vTotTrib = fields.Monetary(related="amount_estimate_tax")
 
     nfe40_vBC = fields.Monetary(
-        string='BC do ICMS',
-        related='amount_icms_base',
+        string="BC do ICMS",
+        related="amount_icms_base",
     )
-    nfe40_vBCST = fields.Monetary(
-        related='amount_icmsst_base'
-    )
+    nfe40_vBCST = fields.Monetary(related="amount_icmsst_base")
 
-    nfe40_vICMS = fields.Monetary(
-        related='amount_icms_value'
-    )
-    nfe40_vST = fields.Monetary(
-        related='amount_icmsst_value'
-    )
+    nfe40_vICMS = fields.Monetary(related="amount_icms_value")
+    nfe40_vST = fields.Monetary(related="amount_icmsst_value")
 
     nfe40_vPIS = fields.Monetary(
-        string='Valor do PIS (NFe)',
-        related='amount_pis_value'
+        string="Valor do PIS (NFe)", related="amount_pis_value"
     )
 
-    nfe40_vIPI = fields.Monetary(
-        related='amount_ipi_value'
-    )
+    nfe40_vIPI = fields.Monetary(related="amount_ipi_value")
 
     nfe40_vCOFINS = fields.Monetary(
-        string='valor do COFINS (NFe)',
-        related='amount_cofins_value'
+        string="valor do COFINS (NFe)", related="amount_cofins_value"
     )
 
     nfe40_infAdFisco = fields.Char(
-        compute='_compute_nfe40_additional_data',
+        compute="_compute_nfe40_additional_data",
     )
 
     nfe40_infCpl = fields.Char(
-        compute='_compute_nfe40_additional_data',
+        compute="_compute_nfe40_additional_data",
     )
 
-    nfe40_transporta = fields.Many2one(
-        comodel_name='res.partner'
-    )
+    nfe40_transporta = fields.Many2one(comodel_name="res.partner")
 
     nfe40_infRespTec = fields.Many2one(
-        comodel_name='res.partner',
-        related='company_id.technical_support_id'
+        comodel_name="res.partner", related="company_id.technical_support_id"
     )
 
     nfe40_idDest = fields.Selection(
-        compute='_compute_nfe40_idDest',
+        compute="_compute_nfe40_idDest",
     )
 
-    @api.depends('fiscal_additional_data', 'fiscal_additional_data')
+    @api.depends("fiscal_additional_data", "fiscal_additional_data")
     def _compute_nfe40_additional_data(self):
         for record in self:
             record.nfe40_infCpl = False
             record.nfe40_infAdFisco = False
             if record.fiscal_additional_data:
-                record.nfe40_infAdFisco = normalize(
-                    'NFKD', record.fiscal_additional_data
-                ).encode('ASCII', 'ignore').decode('ASCII').replace(
-                    '\n', '').replace('\r', '')
+                record.nfe40_infAdFisco = (
+                    normalize("NFKD", record.fiscal_additional_data)
+                    .encode("ASCII", "ignore")
+                    .decode("ASCII")
+                    .replace("\n", "")
+                    .replace("\r", "")
+                )
             if record.customer_additional_data:
-                record.nfe40_infCpl = normalize(
-                    'NFKD', record.customer_additional_data
-                ).encode('ASCII', 'ignore').decode('ASCII').replace(
-                    '\n', '').replace('\r', '')
+                record.nfe40_infCpl = (
+                    normalize("NFKD", record.customer_additional_data)
+                    .encode("ASCII", "ignore")
+                    .decode("ASCII")
+                    .replace("\n", "")
+                    .replace("\r", "")
+                )
 
     @api.multi
-    @api.depends('fiscal_operation_type')
+    @api.depends("fiscal_operation_type")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
             operation_2_tpNF = {
-                'out': '1',
-                'in': '0',
+                "out": "1",
+                "in": "0",
             }
             rec.nfe40_tpNF = operation_2_tpNF[rec.fiscal_operation_type]
 
     @api.multi
-    @api.depends('partner_id', 'company_id')
+    @api.depends("partner_id", "company_id")
     def _compute_nfe40_idDest(self):
         for rec in self:
-            if rec.company_id.partner_id.state_id == \
-                    rec.partner_id.state_id:
-                rec.nfe40_idDest = '1'
-            elif rec.company_id.partner_id.country_id == \
-                    rec.partner_id.country_id:
-                rec.nfe40_idDest = '2'
+            if rec.company_id.partner_id.state_id == rec.partner_id.state_id:
+                rec.nfe40_idDest = "1"
+            elif rec.company_id.partner_id.country_id == rec.partner_id.country_id:
+                rec.nfe40_idDest = "2"
             else:
-                rec.nfe40_idDest = '3'
+                rec.nfe40_idDest = "3"
 
     def _inverse_nfe40_tpNF(self):
         for rec in self:
             if rec.nfe40_tpNF:
                 tpNF_2_operation = {
-                    '1': 'out',
-                    '0': 'in',
+                    "1": "out",
+                    "0": "in",
                 }
                 rec.fiscal_operation_type = tpNF_2_operation[rec.nfe40_tpNF]
 
@@ -333,15 +320,13 @@ class NFe(spec_models.StackedModel):
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
-        for record in (self.with_context(
-                       {'lang': 'pt_BR'}).filtered(filter_processador_edoc_nfe)):
+        for record in self.with_context({"lang": "pt_BR"}).filtered(
+            filter_processador_edoc_nfe
+        ):
             inf_nfe = record.export_ds()[0]
 
-            tnfe = leiauteNFe.TNFe(
-                infNFe=inf_nfe,
-                infNFeSupl=None,
-                Signature=None)
-            tnfe.original_tagname_ = 'NFe'
+            tnfe = leiauteNFe.TNFe(infNFe=inf_nfe, infNFeSupl=None, Signature=None)
+            tnfe.original_tagname_ = "NFe"
 
             edocs.append(tnfe)
 
@@ -359,8 +344,10 @@ class NFe(spec_models.StackedModel):
         session.verify = False
         transmissao = TransmissaoSOAP(certificado, session)
         return edoc_nfe(
-            transmissao, self.company_id.state_id.ibge_code,
-            versao=self.nfe_version, ambiente=self.nfe_environment
+            transmissao,
+            self.company_id.state_id.ibge_code,
+            versao=self.nfe_version,
+            ambiente=self.nfe_environment,
         )
 
     @api.multi
@@ -370,13 +357,15 @@ class NFe(spec_models.StackedModel):
             record._export_fields_pagamentos()
             edoc = record.serialize()[0]
             processador = record._processador()
-            xml_file = processador.\
-                _generateds_to_string_etree(edoc, pretty_print=pretty_print)[0]
+            xml_file = processador._generateds_to_string_etree(
+                edoc, pretty_print=pretty_print
+            )[0]
             _logger.debug(xml_file)
             event_id = self.event_ids.create_event_save_xml(
                 company_id=self.company_id,
                 environment=(
-                    EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
+                    EVENT_ENV_PROD if self.nfe_environment == "1" else EVENT_ENV_HML
+                ),
                 event_type="0",
                 xml_file=xml_file,
                 document_id=self,
@@ -398,12 +387,11 @@ class NFe(spec_models.StackedModel):
             state = SITUACAO_EDOC_REJEITADA
         if self.authorization_event_id and infProt.nProt:
             if type(infProt.dhRecbto) == datetime:
-                protocol_date = fields.Datetime.to_string(
-                    infProt.dhRecbto
-                )
+                protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
             else:
                 protocol_date = fields.Datetime.to_string(
-                    datetime.fromisoformat(infProt.dhRecbto))
+                    datetime.fromisoformat(infProt.dhRecbto)
+                )
 
             self.authorization_event_id.set_done(
                 status_code=infProt.cStat,
@@ -412,26 +400,28 @@ class NFe(spec_models.StackedModel):
                 protocol_number=infProt.nProt,
                 file_response_xml=xml_file,
             )
-        self.write({
-            'status_code': infProt.cStat,
-            'status_name': infProt.xMotivo,
-        })
+        self.write(
+            {
+                "status_code": infProt.cStat,
+                "status_name": infProt.xMotivo,
+            }
+        )
         self._change_state(state)
 
     def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
         return {
-            'nfe40_indPag': ind_pag,
-            'nfe40_tPag': t_pag,
-            'nfe40_vPag': v_pag,
+            "nfe40_indPag": ind_pag,
+            "nfe40_tPag": t_pag,
+            "nfe40_vPag": v_pag,
         }
 
     def _export_fields_pagamentos(self):
         if not self.amount_financial:
             self.nfe40_detPag = [
                 (5, 0, 0),
-                (0, 0, self._prepare_amount_financial('0', '90', 0.00))
+                (0, 0, self._prepare_amount_financial("0", "90", 0.00)),
             ]
-        self.nfe40_detPag.__class__._field_prefix = 'nfe40_'
+        self.nfe40_detPag.__class__._field_prefix = "nfe40_"
 
     @api.multi
     def _eletronic_document_send(self):
@@ -443,15 +433,14 @@ class NFe(spec_models.StackedModel):
                 processo = None
                 for p in processador.processar_documento(edoc):
                     processo = p
-                    if processo.webservice == 'nfeAutorizacaoLote':
+                    if processo.webservice == "nfeAutorizacaoLote":
                         record.authorization_event_id._save_event_file(
-                            processo.envio_xml.decode('utf-8'), "xml"
+                            processo.envio_xml.decode("utf-8"), "xml"
                         )
 
-            if processo.resposta.cStat in LOTE_PROCESSADO + ['100']:
+            if processo.resposta.cStat in LOTE_PROCESSADO + ["100"]:
                 record.atualiza_status_nfe(
-                    processo.protocolo.infProt,
-                    processo.processo_xml.decode('utf-8')
+                    processo.protocolo.infProt, processo.processo_xml.decode("utf-8")
                 )
                 if processo.protocolo.infProt.cStat in AUTORIZADO:
                     try:
@@ -463,17 +452,19 @@ class NFe(spec_models.StackedModel):
 
                         # Se der problema que apareça quando
                         # o usuário clicar no gera PDF novamente.
-                        _logger.error('DANFE Error \n {}'.format(e))
+                        _logger.error("DANFE Error \n {}".format(e))
 
-            elif processo.resposta.cStat == '225':
+            elif processo.resposta.cStat == "225":
                 state = SITUACAO_EDOC_REJEITADA
 
                 self._change_state(state)
 
-                self.write({
-                    'status_code': processo.resposta.cStat,
-                    'status_name': processo.resposta.xMotivo,
-                })
+                self.write(
+                    {
+                        "status_code": processo.resposta.cStat,
+                        "status_name": processo.resposta.xMotivo,
+                    }
+                )
         return
 
     @api.multi
@@ -485,72 +476,73 @@ class NFe(spec_models.StackedModel):
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if self.company_id.partner_id.state_id.ibge_code:
-            self.nfe40_cUF = \
-                self.company_id.partner_id.state_id.ibge_code
+            self.nfe40_cUF = self.company_id.partner_id.state_id.ibge_code
         if self.document_type_id.code:
             self.nfe40_mod = self.document_type_id.code
         self.nfe40_cMunFG = self.company_id.partner_id.city_id.ibge_code
-        return super(NFe, self)._export_fields(
-            xsd_fields, class_obj, export_dict)
+        return super(NFe, self)._export_fields(xsd_fields, class_obj, export_dict)
 
     def _export_field(self, xsd_field, class_obj, member_spec):
-        if xsd_field in ('nfe40_vICMSUFDest', 'nfe40_vICMSUFRemet'):
-            if self.ind_final == '1' and self.nfe40_idDest == '2' and \
-                    self.nfe40_indIEDest == '9':
-                self.nfe40_vICMSUFDest = sum(
-                    self.line_ids.mapped('nfe40_vICMSUFDest'))
+        if xsd_field in ("nfe40_vICMSUFDest", "nfe40_vICMSUFRemet"):
+            if (
+                self.ind_final == "1"
+                and self.nfe40_idDest == "2"
+                and self.nfe40_indIEDest == "9"
+            ):
+                self.nfe40_vICMSUFDest = sum(self.line_ids.mapped("nfe40_vICMSUFDest"))
                 self.nfe40_vICMSUFRemet = sum(
-                    self.line_ids.mapped('nfe40_vICMSUFRemet'))
+                    self.line_ids.mapped("nfe40_vICMSUFRemet")
+                )
             else:
                 self.nfe40_vICMSUFDest = 0.0
                 self.nfe40_vICMSUFRemet = 0.0
-        if xsd_field == 'nfe40_tpAmb':
+        if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
-            self.env.context.update({'tpAmb': self[xsd_field]})
-        elif xsd_field == 'nfe40_fat':
-            self._stacking_points['nfe40_fat'] = self._fields['nfe40_fat']
+            self.env.context.update({"tpAmb": self[xsd_field]})
+        elif xsd_field == "nfe40_fat":
+            self._stacking_points["nfe40_fat"] = self._fields["nfe40_fat"]
             res = super()._export_field(xsd_field, class_obj, member_spec)
-            self._stacking_points.pop('nfe40_fat')
+            self._stacking_points.pop("nfe40_fat")
             return res
-        return super(NFe, self)._export_field(
-            xsd_field, class_obj, member_spec)
+        return super(NFe, self)._export_field(xsd_field, class_obj, member_spec)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
         self.ensure_one()
         if field_name in self._stacking_points.keys():
-            if field_name == 'nfe40_ISSQNtot' and not any(
-                    t == 'issqn' for t in
-                    self.nfe40_det.mapped('product_id.tax_icms_or_issqn')
+            if field_name == "nfe40_ISSQNtot" and not any(
+                t == "issqn"
+                for t in self.nfe40_det.mapped("product_id.tax_icms_or_issqn")
             ):
                 return False
 
-            elif (not xsd_required) and field_name not in ['nfe40_enderDest']:
-                comodel = self.env[self._stacking_points.get(
-                    field_name).comodel_name]
-                fields = [f for f in comodel._fields
-                          if f.startswith(self._field_prefix)]
+            elif (not xsd_required) and field_name not in ["nfe40_enderDest"]:
+                comodel = self.env[self._stacking_points.get(field_name).comodel_name]
+                fields = [
+                    f for f in comodel._fields if f.startswith(self._field_prefix)
+                ]
                 sub_tag_read = self.read(fields)[0]
-                if not any(v for k, v in sub_tag_read.items()
-                           if k.startswith(self._field_prefix)):
+                if not any(
+                    v
+                    for k, v in sub_tag_read.items()
+                    if k.startswith(self._field_prefix)
+                ):
                     return False
 
         return super(NFe, self)._export_many2one(field_name, xsd_required, class_obj)
 
-    def _export_float_monetary(self, field_name, member_spec, class_obj,
-                               xsd_required):
-        if field_name == 'nfe40_vProd' and \
-                class_obj._name == 'nfe.40.icmstot':
-            self[field_name] = sum(
-                self['nfe40_det'].mapped('nfe40_vProd'))
+    def _export_float_monetary(self, field_name, member_spec, class_obj, xsd_required):
+        if field_name == "nfe40_vProd" and class_obj._name == "nfe.40.icmstot":
+            self[field_name] = sum(self["nfe40_det"].mapped("nfe40_vProd"))
         return super(NFe, self)._export_float_monetary(
-            field_name, member_spec, class_obj, xsd_required)
+            field_name, member_spec, class_obj, xsd_required
+        )
 
     def _export_one2many(self, field_name, class_obj=None):
         res = super(NFe, self)._export_one2many(field_name, class_obj)
         i = 0
         for field_data in res:
             i += 1
-            if class_obj._fields[field_name].comodel_name == 'nfe.40.det':
+            if class_obj._fields[field_name].comodel_name == "nfe.40.det":
                 field_data.nItem = i
         return res
 
@@ -558,36 +550,42 @@ class NFe(spec_models.StackedModel):
         key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
         value = getattr(node, attr.get_name())
 
-        if key == 'nfe40_mod':
-            vals['document_type_id'] = \
-                self.env['l10n_br_fiscal.document.type'].search([
-                    ('code', '=', value)], limit=1).id
+        if key == "nfe40_mod":
+            vals["document_type_id"] = (
+                self.env["l10n_br_fiscal.document.type"]
+                .search([("code", "=", value)], limit=1)
+                .id
+            )
 
         return super(NFe, self)._build_attr(node, fields, vals, path, attr)
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
-        if key == 'nfe40_emit' and self.env.context.get('edoc_type') == 'in':
-            enderEmit_value = (self.env['res.partner'].build_attrs(value.enderEmit,
-                               path=path))
+        if key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
+            enderEmit_value = self.env["res.partner"].build_attrs(
+                value.enderEmit, path=path
+            )
             new_value.update(enderEmit_value)
-            new_value['is_company'] = True
-            new_value['cnpj_cpf'] = new_value.get('nfe40_CNPJ')
-            super()._build_many2one(self.env['res.partner'],
-                                    vals, new_value,
-                                    'partner_id', value, path)
-        elif self.env.context.get('edoc_type') == 'in'\
-                and key in ['nfe40_dest', 'nfe40_enderDest']:
+            new_value["is_company"] = True
+            new_value["cnpj_cpf"] = new_value.get("nfe40_CNPJ")
+            super()._build_many2one(
+                self.env["res.partner"], vals, new_value, "partner_id", value, path
+            )
+        elif self.env.context.get("edoc_type") == "in" and key in [
+            "nfe40_dest",
+            "nfe40_enderDest",
+        ]:
             # this would be the emit/company data, but we won't update it on
             # NFe import so just do nothing
             return
-        elif self._name == 'account.invoice'\
-                and comodel._name == 'l10n_br_fiscal.document':
+        elif (
+            self._name == "account.invoice"
+            and comodel._name == "l10n_br_fiscal.document"
+        ):
             # module l10n_br_account_nfe
             # stacked m2o
             vals.update(new_value)
         else:
-            super(NFe, self)._build_many2one(comodel, vals, new_value,
-                                             key, value, path)
+            super(NFe, self)._build_many2one(comodel, vals, new_value, key, value, path)
 
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
@@ -619,10 +617,10 @@ class NFe(spec_models.StackedModel):
         # TODO: Alterar a opção output_dir para devolter também o arquivo do XML
         # no retorno, evitando a releitura do arquivo.
 
-        self.file_report_id = self.env['ir.attachment'].create(
+        self.file_report_id = self.env["ir.attachment"].create(
             {
-                "name": self.document_key + '.pdf',
-                "datas_fname": self.document_key + '.pdf',
+                "name": self.document_key + ".pdf",
+                "datas_fname": self.document_key + ".pdf",
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(pdf),
@@ -634,18 +632,18 @@ class NFe(spec_models.StackedModel):
     def temp_xml_autorizacao(self, xml_string):
         """ TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
         root = etree.fromstring(xml_string)
-        ns = {None: 'http://www.portalfiscal.inf.br/nfe'}
-        new_root = etree.Element('nfeProc', nsmap=ns)
+        ns = {None: "http://www.portalfiscal.inf.br/nfe"}
+        new_root = etree.Element("nfeProc", nsmap=ns)
 
-        protNFe_node = etree.Element('protNFe')
-        infProt = etree.SubElement(protNFe_node, 'infProt')
-        etree.SubElement(infProt, 'tpAmb').text = '2'
-        etree.SubElement(infProt, 'verAplic').text = ''
-        etree.SubElement(infProt, 'dhRecbto').text = None
-        etree.SubElement(infProt, 'nProt').text = ''
-        etree.SubElement(infProt, 'digVal').text = ''
-        etree.SubElement(infProt, 'cStat').text = ''
-        etree.SubElement(infProt, 'xMotivo').text = ''
+        protNFe_node = etree.Element("protNFe")
+        infProt = etree.SubElement(protNFe_node, "infProt")
+        etree.SubElement(infProt, "tpAmb").text = "2"
+        etree.SubElement(infProt, "verAplic").text = ""
+        etree.SubElement(infProt, "dhRecbto").text = None
+        etree.SubElement(infProt, "nProt").text = ""
+        etree.SubElement(infProt, "digVal").text = ""
+        etree.SubElement(infProt, "cStat").text = ""
+        etree.SubElement(infProt, "xMotivo").text = ""
 
         new_root.append(root)
         new_root.append(protNFe_node)
@@ -663,24 +661,23 @@ class NFe(spec_models.StackedModel):
         processador = self._processador()
 
         if not self.authorization_protocol:
-            raise UserError(_('Authorization Protocol Not Found!'))
+            raise UserError(_("Authorization Protocol Not Found!"))
 
         evento = processador.cancela_documento(
             chave=self.document_key[3:],
             protocolo_autorizacao=self.authorization_protocol,
-            justificativa=self.cancel_reason.replace('\n', '\\n')
+            justificativa=self.cancel_reason.replace("\n", "\\n"),
         )
-        processo = processador.enviar_lote_evento(
-            lista_eventos=[evento]
-        )
+        processo = processador.enviar_lote_evento(lista_eventos=[evento])
         # Gravamos o arquivo no disco e no filestore ASAP.
 
         self.cancel_event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
             environment=(
-                EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
-            event_type='2',
-            xml_file=processo.envio_xml.decode('utf-8'),
+                EVENT_ENV_PROD if self.nfe_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="2",
+            xml_file=processo.envio_xml.decode("utf-8"),
             document_id=self,
         )
 
@@ -689,9 +686,9 @@ class NFe(spec_models.StackedModel):
                 continue
 
             if retevento.infEvento.cStat not in CANCELADO:
-                mensagem = 'Erro no cancelamento'
-                mensagem += '\nCódigo: ' + retevento.infEvento.cStat
-                mensagem += '\nMotivo: ' + retevento.infEvento.xMotivo
+                mensagem = "Erro no cancelamento"
+                mensagem += "\nCódigo: " + retevento.infEvento.cStat
+                mensagem += "\nMotivo: " + retevento.infEvento.xMotivo
                 raise UserError(mensagem)
 
             if retevento.infEvento.cStat == CANCELADO_FORA_PRAZO:
@@ -704,9 +701,10 @@ class NFe(spec_models.StackedModel):
                 status_code=retevento.infEvento.cStat,
                 response=retevento.infEvento.xMotivo,
                 protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)),
+                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                ),
                 protocol_number=retevento.infEvento.nProt,
-                file_response_xml=processo.retorno.content.decode('utf-8'),
+                file_response_xml=processo.retorno.content.decode("utf-8"),
             )
 
     @api.multi
@@ -722,26 +720,25 @@ class NFe(spec_models.StackedModel):
         processador = self._processador()
 
         numeros = self.event_ids.filtered(
-            lambda e: e.type == '14' and e.state == 'done'
-        ).mapped('sequence')
+            lambda e: e.type == "14" and e.state == "done"
+        ).mapped("sequence")
 
-        sequence = str(int(max(numeros)) + 1) if numeros else '1'
+        sequence = str(int(max(numeros)) + 1) if numeros else "1"
 
         evento = processador.carta_correcao(
             chave=self.document_key[3:],
             sequencia=sequence,
-            justificativa=justificative.replace('\n', '\\n')
+            justificativa=justificative.replace("\n", "\\n"),
         )
-        processo = processador.enviar_lote_evento(
-            lista_eventos=[evento]
-        )
+        processo = processador.enviar_lote_evento(lista_eventos=[evento])
         # Gravamos o arquivo no disco e no filestore ASAP.
         event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
             environment=(
-                EVENT_ENV_PROD if self.nfe_environment == '1' else EVENT_ENV_HML),
-            event_type='14',
-            xml_file=processo.envio_xml.decode('utf-8'),
+                EVENT_ENV_PROD if self.nfe_environment == "1" else EVENT_ENV_HML
+            ),
+            event_type="14",
+            xml_file=processo.envio_xml.decode("utf-8"),
             document_id=self,
             sequence=sequence,
             justification=justificative,
@@ -751,16 +748,17 @@ class NFe(spec_models.StackedModel):
                 continue
 
             if retevento.infEvento.cStat not in EVENTO_RECEBIDO:
-                mensagem = 'Erro na carta de correção'
-                mensagem += '\nCódigo: ' + retevento.infEvento.cStat
-                mensagem += '\nMotivo: ' + retevento.infEvento.xMotivo
+                mensagem = "Erro na carta de correção"
+                mensagem += "\nCódigo: " + retevento.infEvento.cStat
+                mensagem += "\nMotivo: " + retevento.infEvento.xMotivo
                 raise UserError(mensagem)
 
             event_id.set_done(
                 status_code=retevento.infEvento.cStat,
                 response=retevento.infEvento.xMotivo,
                 protocol_date=fields.Datetime.to_string(
-                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)),
+                    datetime.fromisoformat(retevento.infEvento.dhRegEvento)
+                ),
                 protocol_number=retevento.infEvento.nProt,
-                file_response_xml=processo.retorno.content.decode('utf-8'),
+                file_response_xml=processo.retorno.content.decode("utf-8"),
             )
