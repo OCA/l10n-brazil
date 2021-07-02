@@ -416,7 +416,7 @@ class NFe(spec_models.StackedModel):
         }
 
     def _export_fields_pagamentos(self):
-        if not self.amount_financial:
+        if not self.amount_financial_total:
             self.nfe40_detPag = [
                 (5, 0, 0),
                 (0, 0, self._prepare_amount_financial("0", "90", 0.00)),
