@@ -130,7 +130,7 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
                 data.file_type,
             )
 
-            func = getattr(mod_serializer, "nfe_export")
+            func = mod_serializer.nfe_export
 
             for invoice in invoices:
                 invoice.nfe_export_date = datetime.now()
