@@ -1,35 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
   <record id="nfe_document_form_inherit" model="ir.ui.view">
       <field name="name">l10n_br_nfe.document.form.inherit</field>
       <field name="model">l10n_br_fiscal.document</field>
       <field name="priority">5</field>
-      <field name="inherit_id" ref="l10n_br_fiscal.document_form"/>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
       <field name="arch" type="xml">
           <page name="delivery" position="inside">
-              <group name="nfe_transport" attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}">
-                  <field name="nfe40_modFrete"/>
-                  <field name="nfe40_transporta"/>
+              <group
+                    name="nfe_transport"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                  <field name="nfe40_modFrete" />
+                  <field name="nfe40_transporta" />
+              </group>
+              <group attrs="{'invisible': [('nfe40_idDest', '!=', '3')]}">
+                  <field name="nfe40_idDest" invisible="1" />
+                  <field name="nfe40_UFSaidaPais" />
+                  <field name="nfe40_xLocExporta" />
+                  <field name="nfe40_xLocDespacho" />
               </group>
               <group
-                  attrs="{'invisible': [('nfe40_idDest', '!=', '3')]}">
-                  <field name="nfe40_idDest" invisible="1"/>
-                  <field name="nfe40_UFSaidaPais"/>
-                  <field name="nfe40_xLocExporta"/>
-                  <field name="nfe40_xLocDespacho"/>
-              </group>
-              <group name="nfe_vol" attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}">
-                  <field name="nfe40_vol"/>
+                    name="nfe_vol"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                  <field name="nfe40_vol" />
               </group>
           </page>
           <page name="finance" position="inside">
-              <group name="nfe_finance" attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}">
-                  <field name="nfe40_detPag"/>
+              <group
+                    name="nfe_finance"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                  <field name="nfe40_detPag" />
               </group>
           </page>
           <field name="customer_additional_data" position="after">
-              <field name="nfe40_infAdic" attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"/>
+              <field
+                    name="nfe40_infAdic"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                />
           </field>
       </field>
   </record>
@@ -40,7 +51,7 @@
       <field name="arch" type="xml">
           <form>
               <group>
-                  <field name="nfe40_infCpl"/>
+                  <field name="nfe40_infCpl" />
               </group>
           </form>
       </field>
@@ -52,9 +63,9 @@
       <field name="arch" type="xml">
           <form>
               <group>
-                  <field name="nfe40_qVol"/>
-                  <field name="nfe40_pesoL"/>
-                  <field name="nfe40_pesoB"/>
+                  <field name="nfe40_qVol" />
+                  <field name="nfe40_pesoL" />
+                  <field name="nfe40_pesoB" />
               </group>
           </form>
       </field>
