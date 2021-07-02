@@ -508,7 +508,7 @@ class NFeLine(spec_models.StackedModel):
                 field_name,
                 member_spec,
                 class_obj,
-                class_obj._fields[xsd_field]._attrs.get("xsd_required"),
+                class_obj._fields[xsd_field].xsd_required,
             )
         elif xsd_field in (
             "nfe40_vBCSTRet",
