@@ -18,33 +18,32 @@ from odoo.addons.spec_driven_model.models import spec_models
 
 
 class NFeRelated(spec_models.StackedModel):
-    _name = 'l10n_br_fiscal.document.related'
-    _inherit = ['l10n_br_fiscal.document.related', 'nfe.40.nfref']
-    _stacked = 'nfe.40.nfref'
-    _field_prefix = 'nfe40_'
-    _schema_name = 'nfe'
-    _schema_version = '4.0.0'
-    _odoo_module = 'l10n_br_nfe'
-    _spec_module = 'odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe'
-    _spec_tab_name = 'NFe'
-    _stack_skip = 'nfe40_NFref_ide_id'
+    _name = "l10n_br_fiscal.document.related"
+    _inherit = ["l10n_br_fiscal.document.related", "nfe.40.nfref"]
+    _stacked = "nfe.40.nfref"
+    _field_prefix = "nfe40_"
+    _schema_name = "nfe"
+    _schema_version = "4.0.0"
+    _odoo_module = "l10n_br_nfe"
+    _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
+    _spec_tab_name = "NFe"
+    _stack_skip = "nfe40_NFref_ide_id"
     # all m2o below this level will be stacked even if not required:
-    _rec_name = 'nfe40_refNFe'
+    _rec_name = "nfe40_refNFe"
 
     nfe40_choice4 = fields.Selection(
-        compute='_compute_nfe_data',
-        inverse='_inverse_nfe40_choice4',
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_choice4",
     )
 
     nfe40_refNFe = fields.Char(
-        compute='_compute_nfe_data',
-        inverse='_inverse_nfe40_refNFe',
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_refNFe",
     )
 
-    nfe40_choice5 = fields.Selection([
-        ('nfe40_CNPJ', 'CNPJ'),
-        ('nfe40_CPF', 'CPF')],
-        "CNPJ/CPF do Produtor")
+    nfe40_choice5 = fields.Selection(
+        [("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")], "CNPJ/CPF do Produtor"
+    )
 
     # TODO
     # nfe40_refNF = fields.Many2one(
@@ -66,37 +65,42 @@ class NFeRelated(spec_models.StackedModel):
     # )
 
     @api.multi
-    @api.depends('document_type_id')
+    @api.depends("document_type_id")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
             document = rec.document_related_id
-            document_key = document.document_key[3:] if document.document_key else ''
+            document_key = document.document_key[3:] if document.document_key else ""
             if rec.document_type_id:
                 if rec.document_type_id.code in (
                     MODELO_FISCAL_NFE,
                     MODELO_FISCAL_NFCE,
                     MODELO_FISCAL_CFE,
                 ):
-                    rec.nfe40_choice4 = 'nfe40_refNFe'
+                    rec.nfe40_choice4 = "nfe40_refNFe"
                     rec.nfe40_refNFe = document_key
                 elif rec.document_type_id.code == MODELO_FISCAL_CTE:
-                    rec.nfe40_choice4 = 'nfe40_refCTe'
+                    rec.nfe40_choice4 = "nfe40_refCTe"
                     rec.nfe40_refCTe = document_key
                 else:
                     if rec.document_type_id.code == MODELO_FISCAL_RL:
-                        rec.nfe40_choice4 = 'nfe40_refNFP'
+                        rec.nfe40_choice4 = "nfe40_refNFP"
                     elif rec.document_type_id.code == MODELO_FISCAL_CUPOM_FISCAL_ECF:
-                        rec.nfe40_choice4 = 'nfe40_refECF'
+                        rec.nfe40_choice4 = "nfe40_refECF"
                     elif rec.document_type_id.code in (
-                        MODELO_FISCAL_01, MODELO_FISCAL_04
+                        MODELO_FISCAL_01,
+                        MODELO_FISCAL_04,
                     ):
-                        rec.nfe40_choice4 = 'nfe40_refNF'
+                        rec.nfe40_choice4 = "nfe40_refNF"
                     rec.nfe40_cUF = document.partner_id.state_id.ibge_code
-                    rec.nfe40_AAMM = fields.Datetime.from_string(
-                        document.authorization_date).strftime("%y%m") \
-                        if document.authorization_date else ''
-                    if rec.cpfcnpj_type == 'cpf':
+                    rec.nfe40_AAMM = (
+                        fields.Datetime.from_string(
+                            document.authorization_date
+                        ).strftime("%y%m")
+                        if document.authorization_date
+                        else ""
+                    )
+                    if rec.cpfcnpj_type == "cpf":
                         rec.nfe40_CPF = rec.cnjp_cpf
                     else:
                         rec.nfe40_CNPJ = rec.cnpj_cpf
@@ -107,9 +111,8 @@ class NFeRelated(spec_models.StackedModel):
 
     def _inverse_nfe40_choice4(self):
         for rec in self:
-            if rec.nfe40_choice4 == 'nfe40_refNFe':
-                rec.document_type_id = self.env.ref(
-                    'l10n_br_fiscal.document_55')
+            if rec.nfe40_choice4 == "nfe40_refNFe":
+                rec.document_type_id = self.env.ref("l10n_br_fiscal.document_55")
 
     def _inverse_nfe40_refNFe(self):
         for rec in self:
@@ -117,8 +120,11 @@ class NFeRelated(spec_models.StackedModel):
                 rec.document_key = rec.nfe40_refNFe
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
-        if class_obj._name == 'nfe.40.nfref':
-            xsd_fields = [f for f in xsd_fields if f not in [
-                i[0] for i in class_obj._fields['nfe40_choice4'].selection]]
+        if class_obj._name == "nfe.40.nfref":
+            xsd_fields = [
+                f
+                for f in xsd_fields
+                if f not in [i[0] for i in class_obj._fields["nfe40_choice4"].selection]
+            ]
             xsd_fields += [self.nfe40_choice4]
         return super()._export_fields(xsd_fields, class_obj, export_dict)
