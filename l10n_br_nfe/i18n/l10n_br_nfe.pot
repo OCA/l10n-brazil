@@ -257,8 +257,8 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:350
-#: code:addons/l10n_br_nfe/models/invalidate_number.py:33
+#: code:addons/l10n_br_nfe/models/document.py:337
+#: code:addons/l10n_br_nfe/models/invalidate_number.py:30
 #, python-format
 msgid "Certificado não encontrado"
 msgstr ""
