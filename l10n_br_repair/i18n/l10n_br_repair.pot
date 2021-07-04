@@ -85,6 +85,11 @@ msgid "Amount Estimate Tax"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__financial_total
+msgid "Amount Financial"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_fiscal
 msgid "Amount Fiscal"
 msgstr ""
