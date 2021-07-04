@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: spec_driven_model
-#: code:addons/spec_driven_model/models/spec_models.py:44
+#: code:addons/spec_driven_model/models/spec_models.py:46
 #, python-format
 msgid "Abrir..."
 msgstr ""
