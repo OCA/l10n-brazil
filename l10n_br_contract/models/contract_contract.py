@@ -8,6 +8,10 @@ class ContractContract(models.Model):
     _name = "contract.contract"
     _inherit = [_name, "l10n_br_fiscal.document.mixin"]
 
+    currency_id = fields.Many2one(
+        readonly=False,
+    )
+
     @api.model
     def _fiscal_operation_domain(self):
         domain = [("state", "=", "approved")]
