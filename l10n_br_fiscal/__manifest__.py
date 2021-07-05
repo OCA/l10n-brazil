@@ -13,7 +13,6 @@
     "development_status": "Production/Stable",
     "depends": [
         "uom",
-        "decimal_precision",
         "product",
         "l10n_br_base",
     ],

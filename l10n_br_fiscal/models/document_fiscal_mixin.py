@@ -27,12 +27,12 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     @api.model
     def _operation_domain(self):
-        domain = [
-            ("state", "=", "approved"),
-            "|",
-            ("company_id", "=", self.env.user.company_id.id),
-            ("company_id", "=", False),
-        ]
+        domain = (
+            "[('state', '=', 'approved'),"
+            "'|',"
+            "('company_id', '=', %s),"
+            "('company_id', '=', False),"
+        ) % (self.env.company.id,)
         return domain
 
     fiscal_operation_id = fields.Many2one(
@@ -101,7 +101,7 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     currency_id = fields.Many2one(
         comodel_name="res.currency",
-        default=lambda self: self.env.user.company_id.currency_id,
+        default=lambda self: self.env.company.currency_id,
         store=True,
         readonly=True,
     )
@@ -109,7 +109,6 @@ class FiscalDocumentMixin(models.AbstractModel):
     amount_price_gross = fields.Monetary(
         compute="_compute_amount",
         string="Amount Gross",
-        readonly=True,
         help="Amount without discount.",
     )
 

@@ -22,15 +22,15 @@
             <form string="Fiscal Document Serie">
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        
+
             <field name="active" invisible="1" />
             <widget
-                name="web_ribbon"
-                title="Archived"
-                bg_color="bg-danger"
-                attrs="{'invisible': [('active', '=', True)]}"
-            />
-            
+                            name="web_ribbon"
+                            title="Archived"
+                            bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"
+                        />
+
                     </div>
                     <group>
                         <field name="code" />

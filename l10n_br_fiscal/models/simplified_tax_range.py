@@ -4,7 +4,6 @@
 from odoo import fields, models
 
 
-
 class SimplifiedTaxRange(models.Model):
     _name = "l10n_br_fiscal.simplified.tax.range"
     _description = "National Simplified Tax Range"
@@ -39,9 +38,7 @@ class SimplifiedTaxRange(models.Model):
         digits="Fiscal Documents",
     )
 
-    total_tax_percent = fields.Float(
-        string="Tax Percent", digits="Fiscal Tax Percent"
-    )
+    total_tax_percent = fields.Float(string="Tax Percent", digits="Fiscal Tax Percent")
 
     tax_cpp_percent = fields.Float(
         string="Tax CPP Percent", digits="Fiscal Tax Percent"

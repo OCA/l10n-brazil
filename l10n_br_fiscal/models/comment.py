@@ -99,7 +99,7 @@ class Comment(models.Model):
     # msg We'll call this function when setting the variables env below
     def format_amount(self, env, amount, currency):
         fmt = "%.{}f".format(currency.decimal_places)
-        lang = env["res.lang"]._lang_get("pt_BR")
+        lang = env.ref("base.lang_pt_BR")
 
         formatted_amount = (
             lang.format(fmt, currency.round(amount), grouping=True, monetary=True)
