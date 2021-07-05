@@ -228,7 +228,7 @@ class Operation(models.Model):
     def line_definition(self, company, partner, product):
         self.ensure_one()
         if not company:
-            company = self.env.user.company_id
+            company = self.env.company
 
         line = self.line_ids.search(
             self._line_domain(company, partner, product), limit=1

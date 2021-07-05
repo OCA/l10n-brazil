@@ -6,7 +6,6 @@ import logging
 
 from odoo import api, fields, models, tools
 
-
 from ..constants.fiscal import (
     COEFFICIENT_R,
     INDUSTRY_TYPE,
@@ -205,6 +204,7 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.simplified.tax",
         compute="_compute_simplifed_tax",
         string="Simplified Tax",
+        store=True,
         readonly=True,
     )
 
