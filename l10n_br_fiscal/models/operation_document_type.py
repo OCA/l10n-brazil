@@ -33,9 +33,7 @@ class OperationDocumentType(models.Model):
         comodel_name="res.company",
         string="Company",
         required=True,
-        default=lambda self: self.env["res.company"]._company_default_get(
-            "l10n_br_fiscal.document"
-        ),
+        default=lambda self: self.env.company,
     )
 
     name = fields.Char(

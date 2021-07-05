@@ -213,7 +213,7 @@ class FiscalClosing(models.Model):
         return date_min, date_max
 
     def _save_tempfile(self, document_path, anexo, temp_dir):
-        filename = os.path.join(temp_dir.name, document_path, anexo.datas_fname)
+        filename = os.path.join(temp_dir.name, document_path, anexo.name)
         if not os.path.exists(os.path.dirname(filename)):
             os.makedirs(os.path.dirname(filename))
 

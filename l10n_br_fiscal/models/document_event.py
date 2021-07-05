@@ -304,7 +304,6 @@ class Event(models.Model):
         attachment_id = self.env["ir.attachment"].create(
             {
                 "name": file_name,
-                "datas_fname": file_name,
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(file.encode("utf-8")),
