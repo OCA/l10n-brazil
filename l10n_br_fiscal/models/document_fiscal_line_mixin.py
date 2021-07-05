@@ -3,7 +3,6 @@
 
 from odoo import api, fields, models
 
-
 from ..constants.fiscal import (
     CFOP_DESTINATION,
     FISCAL_COMMENT_LINE,
@@ -61,7 +60,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     @api.model
     def _default_icmssn_range_id(self):
-        company = self.env.user.company_id
+        company = self.env.company
         stax_range_id = self.env["l10n_br_fiscal.simplified.tax.range"]
 
         if self.env.context.get("default_company_id"):
@@ -93,9 +92,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=TAX_DOMAIN_ICMS,
     )
 
-    price_unit = fields.Float(
-        string="Price Unit", digits="Product Price"
-    )
+    price_unit = fields.Float(string="Price Unit", digits="Product Price")
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
 
@@ -166,9 +163,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="CFOP Destination",
     )
 
-    fiscal_price = fields.Float(
-        string="Fiscal Price", digits="Product Price"
-    )
+    fiscal_price = fields.Float(string="Fiscal Price", digits="Product Price")
 
     uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
 
@@ -201,6 +196,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         compute="_compute_amounts",
         string="Amount Gross",
         store=True,
+        compute_sudo=False,
         readonly=True,
         help="Amount without discount.",
     )

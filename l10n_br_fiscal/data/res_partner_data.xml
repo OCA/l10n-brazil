@@ -9,7 +9,6 @@
             ref="l10n_br_fiscal.partner_fiscal_profile_pfnc"
         />
         <field name="ind_ie_dest">9</field>
-        <field name="customer">True</field>
     </record>
 
 </odoo>
