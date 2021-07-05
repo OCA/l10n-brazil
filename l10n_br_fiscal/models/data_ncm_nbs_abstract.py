@@ -1,6 +1,7 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import json
 import logging
 from datetime import timedelta
 
@@ -8,8 +9,6 @@ from erpbrasil.base import misc
 from lxml import etree
 
 from odoo import _, api, fields, models
-from odoo.osv import orm
-
 
 from .ibpt.taxes import DeOlhoNoImposto
 
@@ -54,7 +53,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
             last_estimated = record.env["l10n_br_fiscal.tax.estimate"].search(
                 [
                     (object_field, "=", record.id),
-                    ("company_id", "=", record.env.user.company_id.id),
+                    ("company_id", "=", record.env.company.id),
                 ],
                 order="create_date DESC",
                 limit=1,
@@ -77,7 +76,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
         return False
 
     def action_ibpt_inquiry(self):
-        if not self.env.user.company_id.ibpt_api:
+        if not self.env.company.ibpt_api:
             return False
 
         object_name = OBJECT_NAMES.get(self._name)
@@ -85,7 +84,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
         for record in self:
             try:
-                company = self.env.user.company_id
+                company = self.env.company
 
                 config = DeOlhoNoImposto(
                     company.ibpt_token,
@@ -129,7 +128,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
         _logger.info(_("Scheduled {} estimate taxes update...").format(object_name))
 
-        config_date = self.env.user.company_id.ibpt_update_days
+        config_date = self.env.company.ibpt_update_days
         today = fields.date.today()
         data_max = today - timedelta(days=config_date)
 
@@ -184,10 +183,11 @@ class DataNcmNbsAbstract(models.AbstractModel):
         if view_type == "form":
             xml = etree.XML(res["arch"])
             xml_button = xml.xpath("//button[@name='action_ibpt_inquiry']")
-            if xml_button and not self.env.user.company_id.ibpt_api:
-                xml_button[0].attrib["invisible"] = "1"
-                orm.setup_modifiers(xml_button[0])
+            if xml_button and not self.env.company.ibpt_api:
+                modifiers = json.loads(xml_button[0].get("modifiers", "{}"))
+                modifiers["invisible"] = 1
+                xml_button[0].set("modifiers", json.dumps(modifiers))
                 res["arch"] = etree.tostring(xml, pretty_print=True)
-        if res.get("toolbar") and not self.env.user.company_id.ibpt_api:
+        if res.get("toolbar") and not self.env.company.ibpt_api:
             res["toolbar"]["action"] = []
         return res
