@@ -153,9 +153,7 @@ class Document(models.Model):
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
-        default=lambda self: self.env["res.company"]._company_default_get(
-            "l10n_br_fiscal.document"
-        ),
+        default=lambda self: self.env.company,
     )
 
     line_ids = fields.One2many(
