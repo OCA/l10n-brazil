@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-from datetime import datetime
+from datetime import datetime, date
 
 from .arquivo_certificado import ArquivoCertificado
 from odoo import api, fields, models, _
@@ -37,7 +37,6 @@ ESTADO = [
 
 
 class AccountMoveLine(models.Model):
-
     _inherit = 'account.move.line'
 
     pdf_boleto_id = fields.Many2one(
@@ -55,7 +54,7 @@ class AccountMoveLine(models.Model):
     bank_inter_state = fields.Selection(
         selection=ESTADO,
         string="State",
-        readonly=True,
+        # readonly=True,
         default="emaberto",
     )
 
@@ -72,15 +71,15 @@ class AccountMoveLine(models.Model):
             self.api = ApiInter(
                 cert=(cert, key),
                 conta_corrente=(
-                    order_id.company_partner_bank_id.acc_number +
-                    order_id.company_partner_bank_id.acc_number_dig
+                        order_id.company_partner_bank_id.acc_number +
+                        order_id.company_partner_bank_id.acc_number_dig
                 )
             )
             datas = self.api.boleto_pdf(self.own_number)
             self.pdf_boleto_id = self.env['ir.attachment'].create(
                 {
                     'name': (
-                        "Boleto %s" % self.bank_payment_line_id.display_name),
+                            "Boleto %s" % self.bank_payment_line_id.display_name),
                     'datas': datas,
                     'datas_fname': ("boleto_%s.pdf" %
                                     self.bank_payment_line_id.display_name),
@@ -122,8 +121,8 @@ class AccountMoveLine(models.Model):
                         self.api = ApiInter(
                             cert=(cert, key),
                             conta_corrente=(
-                                order_id.company_partner_bank_id.acc_number +
-                                order_id.company_partner_bank_id.acc_number_dig
+                                    order_id.company_partner_bank_id.acc_number +
+                                    order_id.company_partner_bank_id.acc_number_dig
                             )
                         )
                         self.api.boleto_baixa(self.own_number, codigo_baixa)
@@ -138,11 +137,30 @@ class AccountMoveLine(models.Model):
                     self.api = ApiInter(
                         cert=(cert, key),
                         conta_corrente=(
-                            order.order_id.company_partner_bank_id.acc_number +
-                            order.order_id.company_partner_bank_id.acc_number_dig
+                                order.order_id.company_partner_bank_id.acc_number +
+                                order.order_id.company_partner_bank_id.acc_number_dig
                         )
                     )
-                    resultado = self.api.boleto_consulta(nosso_numero = self.own_number)
+                    resultado = self.api.boleto_consulta(nosso_numero=self.own_number)
+
+                    if resultado['situacao'].lower() != self.bank_inter_state:
+                        if resultado['situacao'] == 'pago':
+                            payment = self.env["account.payment"].create(
+                                {
+                                    "payment_type": "inbound",
+                                    "partner_type": "customer",
+                                    "partner_id": self.partner_id.id,
+                                    "amount": self.amount_residual,
+                                    "journal_id": self.journal_payment_mode_id.id,
+                                    "payment_date": date.today(),
+                                    'currency_id': self.company_currency_id.id,
+                                        'payment_method_id': self.env.ref(
+                                'account.account_payment_method_manual_in').id,
+                                }
+                            )
+                            payment.post()
+                            (payment.move_line_ids[1] + self).reconcile()
+
                     self.bank_inter_state = resultado['situacao'].lower()
         except Exception as error:
             raise UserError(_(error))

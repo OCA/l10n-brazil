@@ -119,4 +119,3 @@ class AccountPaymentOrder(models.Model):
                 return super().generate_payment_file()
         except Exception as error:
             raise UserError(_(error))
-
