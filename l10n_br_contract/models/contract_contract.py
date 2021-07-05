@@ -87,6 +87,9 @@ class ContractContract(models.Model):
                 line._onchange_product_id_fiscal()
                 line.price_unit = line.contract_line_id.price_unit
                 line._onchange_fiscal_operation_id()
+                line._onchange_fiscal_tax_ids()
+
+            invoice._onchange_invoice_line_ids()
 
     @api.multi
     def _prepare_recurring_invoices_values(self, date_ref=False):
