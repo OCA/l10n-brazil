@@ -1,3 +1,5 @@
 # generated from manifests external_dependencies
-erpbrasil.base
+erpbrasil.assinatura==1.2.0
+erpbrasil.base==2.2.2
 num2words
+pyOpenSSL
