@@ -4,7 +4,6 @@
 from odoo import fields, models
 
 
-
 class TaxEstimate(models.Model):
     _name = "l10n_br_fiscal.tax.estimate"
     _description = "Fiscal Tax Estimate"
@@ -47,7 +46,5 @@ class TaxEstimate(models.Model):
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
-        default=lambda self: self.env["res.company"]._company_default_get(
-            "l10n_br_fiscal.tax.estimate"
-        ),
+        default=lambda self: self.env.company,
     )
