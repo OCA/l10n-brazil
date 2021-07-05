@@ -1,11 +1,13 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import json
+
 from erpbrasil.base import misc
 from lxml import etree
 
 from odoo import api, fields, models
-from odoo.osv import expression, orm
+from odoo.osv import expression
 
 
 class DataAbstract(models.AbstractModel):
@@ -36,14 +38,13 @@ class DataAbstract(models.AbstractModel):
         if view_type == "search":
             doc = etree.XML(model_view["arch"])
             for node in doc.xpath("//field[@name='code']"):
-                node.set(
-                    "filter_domain",
+                modifiers = json.loads(node.get("modifiers", "{}"))
+                modifiers["filter_domain"] = (
                     "['|', '|', ('code', 'ilike', self), "
                     "('code_unmasked', 'ilike', self + '%'),"
-                    "('name', 'ilike', self + '%')]",
+                    "('name', 'ilike', self + '%')]"
                 )
-
-                orm.setup_modifiers(node)
+                node.set("modifiers", json.dumps(modifiers))
             model_view["arch"] = etree.tostring(doc)
 
         return model_view
