@@ -4,7 +4,6 @@
 from lxml import etree
 
 from odoo import api, models
-from odoo.osv.orm import setup_modifiers
 
 from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
 from .tax import TAX_DICT_VALUES
@@ -68,9 +67,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
                     doc_node = doc.xpath("//{}[@name='{}']".format(tag, tag_name))[0]
 
-                    setup_modifiers(doc_node)
-                    for n in doc_node.getiterator():
-                        setup_modifiers(n)
+                    # setup_modifiers(doc_node)
+                    # for n in doc_node.getiterator():
+                    #     setup_modifiers(n)
 
                     doc_node.getparent().replace(doc_node, fiscal_node)
 
@@ -117,15 +116,14 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     )
     def _compute_amounts(self):
         for record in self:
-            record._update_taxes()
-            round_curr = record.currency_id.round
+            round_curr = record.currency_id or self.env.ref("base.BRL")
             # Valor dos produtos
-            record.price_gross = round_curr(record.price_unit * record.quantity)
+            record.price_gross = round_curr.round(record.price_unit * record.quantity)
 
             record.amount_untaxed = record.price_gross - record.discount_value
 
             record.amount_fiscal = (
-                round_curr(record.fiscal_price * record.fiscal_quantity)
+                round_curr.round(record.fiscal_price * record.fiscal_quantity)
                 - record.discount_value
             )
 
