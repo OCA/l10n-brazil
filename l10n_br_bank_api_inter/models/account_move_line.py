@@ -146,3 +146,13 @@ class AccountMoveLine(models.Model):
                     self.bank_inter_state = resultado['situacao'].lower()
         except Exception as error:
             raise UserError(_(error))
+
+    def all_search_bank_slip(self):
+        try:
+            move_line_ids = self.env["account.move.line"].search([("bank_inter_state",
+                                                                   "in", ["emaberto",
+                                                                          "vencido"])])
+            for move_line in move_line_ids:
+                move_line.search_bank_slip()
+        except Exception as error:
+            raise UserError(_(error))

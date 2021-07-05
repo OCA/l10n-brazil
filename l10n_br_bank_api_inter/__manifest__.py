@@ -18,6 +18,8 @@
         'views/account_invoice.xml',
         'views/account_move_line.xml',
         'views/account_journal.xml',
+
+        'data/cron.xml',
     ],
     'demo': [
         'demo/res_partner_bank.xml',
