@@ -141,27 +141,35 @@ class AccountMoveLine(models.Model):
                                 order.order_id.company_partner_bank_id.acc_number_dig
                         )
                     )
-                    resultado = self.api.boleto_consulta(nosso_numero=self.own_number)
+                    resposta = self.api.boleto_consulta(nosso_numero=self.own_number)
 
-                    if resultado['situacao'].lower() != self.bank_inter_state:
-                        if resultado['situacao'] == 'pago':
-                            payment = self.env["account.payment"].create(
-                                {
-                                    "payment_type": "inbound",
-                                    "partner_type": "customer",
-                                    "partner_id": self.partner_id.id,
-                                    "amount": self.amount_residual,
-                                    "journal_id": self.journal_payment_mode_id.id,
-                                    "payment_date": date.today(),
-                                    'currency_id': self.company_currency_id.id,
-                                        'payment_method_id': self.env.ref(
-                                'account.account_payment_method_manual_in').id,
-                                }
-                            )
-                            payment.post()
-                            (payment.move_line_ids[1] + self).reconcile()
+                    if resposta['situacao'].lower() != self.bank_inter_state:
+                        if resposta['situacao'] == 'pago':
+                            move_id = self.env['account.move'].create({
+                                'date': date.today(),
+                                'ref': self.ref,
+                                'journal_id': self.journal_payment_mode_id.id,
+                                'company_id': self.company_id.id,
+                                'line_ids': [(0, 0, {
+                                    'account_id': self.account_id.id,
+                                    'partner_id': self.partner_id.id,
+                                    'debit': self.move_id.line_ids[0].credit,
+                                    'credit': self.move_id.line_ids[0].debit,
+                                    'date_maturity': self.date_maturity,
+                                }),
+                                             (0, 0, {
+                                    'account_id': self.account_id.id,
+                                    'partner_id': self.company_id.id,
+                                    'debit': self.move_id.line_ids[1].credit,
+                                    'credit': self.move_id.line_ids[1].debit,
+                                    'date_maturity': self.date_maturity,
+                                })]
+                            })
+                            move_id.post()
+                            (move_id.line_ids[0] + self).reconcile()
 
-                    self.bank_inter_state = resultado['situacao'].lower()
+
+                    self.bank_inter_state = resposta['situacao'].lower()
         except Exception as error:
             raise UserError(_(error))
 
