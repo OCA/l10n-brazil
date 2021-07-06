@@ -10,6 +10,7 @@ from odoo.addons.spec_driven_model.models import spec_models
 _logger = logging.getLogger(__name__)
 
 try:
+    from erpbrasil.base.fiscal import cnpj_cpf
     from erpbrasil.base.misc import punctuation_rm
 except ImportError:
     _logger.error("Biblioteca erpbrasil.base não instalada")
@@ -68,7 +69,7 @@ class ResPartner(spec_models.SpecModel):
         comodel_name="res.partner", compute="_compute_nfe40_enderDest"
     )
     nfe40_indIEDest = fields.Selection(related="ind_ie_dest")
-    nfe40_IE = fields.Char(related="inscr_est")
+    nfe40_IE = fields.Char(compute="_compute_nfe_data", inverse="_inverse_nfe40_IE")
     nfe40_ISUF = fields.Char(related="suframa")
     nfe40_email = fields.Char(related="email")
     nfe40_xEnder = fields.Char(compute="_compute_nfe40_xEnder")
@@ -105,8 +106,7 @@ class ResPartner(spec_models.SpecModel):
         for rec in self:
             rec.nfe40_enderDest = rec.id
 
-    @api.multi
-    @api.depends("company_type", "cnpj_cpf", "country_id")
+    @api.depends("company_type", "inscr_est", "cnpj_cpf", "country_id")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
@@ -120,17 +120,25 @@ class ResPartner(spec_models.SpecModel):
                     rec.nfe40_CPF = punctuation_rm(rec.cnpj_cpf)
                     rec.nfe40_choice7 = "nfe40_CPF"
 
+            if rec.inscr_est and rec.is_company:
+                rec.nfe40_IE = punctuation_rm(rec.inscr_est)
+
     def _inverse_nfe40_CNPJ(self):
         for rec in self:
             if rec.nfe40_CNPJ:
                 rec.is_company = True
-                rec.cnpj_cpf = rec.nfe40_CNPJ
+                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.nfe40_CNPJ))
 
     def _inverse_nfe40_CPF(self):
         for rec in self:
             if rec.nfe40_CPF:
                 rec.is_company = False
-                rec.cnpj_cpf = rec.nfe40_CPF
+                rec.cnpj_cpf = cnpj_cpf.formata(str(rec.nfe40_CPF))
+
+    def _inverse_nfe40_IE(self):
+        for rec in self:
+            if rec.nfe40_IE:
+                rec.inscr_est = str(rec.nfe40_IE)
 
     def _export_field(self, xsd_field, class_obj, member_spec):
         if xsd_field == "nfe40_xNome" and class_obj._name == "nfe.40.dest":
