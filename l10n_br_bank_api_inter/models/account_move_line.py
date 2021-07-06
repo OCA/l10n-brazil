@@ -54,8 +54,14 @@ class AccountMoveLine(models.Model):
     bank_inter_state = fields.Selection(
         selection=ESTADO,
         string="State",
-        # readonly=True,
+        readonly=True,
         default="emaberto",
+    )
+
+    write_off_by_api = fields.Boolean(
+        string='Slip write off by Bank Inter Api',
+        default=False,
+        readonly=True,
     )
 
     def generate_pdf_boleto(self):
@@ -168,6 +174,8 @@ class AccountMoveLine(models.Model):
                             move_id.post()
                             (move_id.line_ids[0] + self).reconcile()
 
+                        if resposta['situacao'] == 'baixado':
+                            self.write_off_by_api = True
 
                     self.bank_inter_state = resposta['situacao'].lower()
         except Exception as error:
@@ -175,9 +183,9 @@ class AccountMoveLine(models.Model):
 
     def all_search_bank_slip(self):
         try:
-            move_line_ids = self.env["account.move.line"].search([("bank_inter_state",
-                                                                   "in", ["emaberto",
-                                                                          "vencido"])])
+            move_line_ids = self.env["account.move.line"].search([
+                ("bank_inter_state", "in", ["emaberto", "vencido"])
+            ])
             for move_line in move_line_ids:
                 move_line.search_bank_slip()
         except Exception as error:
