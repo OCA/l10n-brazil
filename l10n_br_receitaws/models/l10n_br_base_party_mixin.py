@@ -68,10 +68,10 @@ class PartyMixin(models.AbstractModel):
                 self.street2 = data['complemento'].title()
             if data.get('cep') != '':
                 self.zip = data['cep']
-            if data.get('numero') != '':
-                self.street_number = data['numero']
             if data.get('logradouro') != '':
                 self.street = data['logradouro'].title()
+            if data.get('numero') != '':
+                self.street_number = data['numero']
             if data.get('bairro') != '':
                 self.district = data['bairro'].title()
 
