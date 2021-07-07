@@ -342,6 +342,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             self.fiscal_genre_id = self.product_id.fiscal_genre_id
             self.service_type_id = self.product_id.service_type_id
             self.uot_id = self.product_id.uot_id or self.product_id.uom_id
+            if self.tax_icms_or_issqn == "icms":
+                self.ipi_guideline_id = self.env.ref("l10n_br_fiscal.tax_guideline_999")
             if self.product_id.city_taxation_code_id:
                 company_city_id = self.company_id.city_id
                 city_id = self.product_id.city_taxation_code_id.filtered(
