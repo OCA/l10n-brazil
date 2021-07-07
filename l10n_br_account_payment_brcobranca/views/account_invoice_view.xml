@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_account_payment_brcobranca_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="before">
+                <field name="payment_method_code" invisible="1" />
+            </field>
+            <button name="action_invoice_draft" position="after">
+                <button
+                    name="view_boleto_pdf"
+                    type="object"
+                    string="Imprimir Boleto"
+                    class="btn-primary"
+                    attrs="{'invisible': ['|', ('state', '!=', 'open'), ('payment_method_code', 'not in', ('240', '400', '500'))]}"
+                />
+            </button>
+        </field>
+    </record>
+
+</odoo>

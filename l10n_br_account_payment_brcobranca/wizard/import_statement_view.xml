@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <menuitem
+        id="move_importer_menu_brcobranca"
+        name="Import Batch File"
+        action="account_move_base_import.move_importer_action"
+        parent="account_payment_order.payment_root"
+        sequence="998"
+    />
+
+</odoo>
