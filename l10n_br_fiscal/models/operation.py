@@ -223,6 +223,9 @@ class Operation(models.Model):
             ("tax_icms_or_issqn", "=", False),
         ]
 
+        if self._context.get("is_st"):
+            domain += [('is_st', '=', True)]
+
         return domain
 
     def line_definition(self, company, partner, product):

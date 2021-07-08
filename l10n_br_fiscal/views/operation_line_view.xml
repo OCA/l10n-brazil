@@ -32,6 +32,7 @@
                 <sheet>
                     <group>
                         <field name="name" />
+                        <field name="is_st" />
                     </group>
                     <notebook>
                       <page name="general" string="General">
