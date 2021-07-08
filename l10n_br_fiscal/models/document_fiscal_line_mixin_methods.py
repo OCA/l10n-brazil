@@ -306,8 +306,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         tax_calc = self.env.context.get(
             "TAX_CALC_OVERRIDE", self.fiscal_operation_line_id.tax_calc
         )
-        if tax_calc == TAX_CALC_MANUAL:
-            return
 
         # Reset Taxes
         self._remove_all_fiscal_tax_ids()
@@ -325,6 +323,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
             self.ipi_guideline_id = mapping_result["ipi_guideline"]
             self.cfop_id = mapping_result["cfop"]
+
+            if tax_calc == TAX_CALC_MANUAL:
+                return
 
             if mapping_result.get("taxes"):
                 taxes = self.env["l10n_br_fiscal.tax"]
