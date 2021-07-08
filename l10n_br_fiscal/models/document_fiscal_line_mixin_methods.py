@@ -6,6 +6,7 @@ from lxml import etree
 from odoo import api, models
 from odoo.osv.orm import setup_modifiers
 
+from ..constants.fiscal import TAX_FRAMEWORK_NORMAL
 from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
 from .tax import TAX_DICT_VALUES
 
@@ -286,6 +287,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 self._get_product_price()
 
             self._onchange_commercial_quantity()
+
+            if self.company_id.tax_framework == TAX_FRAMEWORK_NORMAL:
+                if self.company_id.icms_regulation_id.map_tax_icmsst(
+                        company=self.company_id,
+                        partner=self.partner_id,
+                        product=self.product_id,
+                        nbm=self.product_id.nbm_id
+                ):
+                    self = self.with_context(is_st=True)
 
             self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
