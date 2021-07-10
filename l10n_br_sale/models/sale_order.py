@@ -390,6 +390,8 @@ class SaleOrder(models.Model):
                 )
             )
 
+            invoice_created_by_super.fiscal_document_id._compute_amount()
+
         return inv_ids
 
     # TODO open by default Invoice view with Fiscal Details Button
