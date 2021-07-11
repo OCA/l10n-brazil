@@ -453,7 +453,7 @@ row {
                     (-) Desconto Incondicionado
                 </div>
                 <div class="col-2 linha centro br">
-                    0
+                    <span t-field="doc.amount_discount_value" />
                 </div>
                 <div class="col-2 linha centro br" style="word-break: normal;">
                     1 - Tributação no <br>município</br>
