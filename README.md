@@ -85,7 +85,7 @@ addon | version | summary
 [l10n_br_coa_complete](l10n_br_coa_complete/) | 12.0.1.0.0 | Plano de Contas Completo para empresas Simples, Presumido, Real, SA, Consolidação
 [l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.4.1.0 | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 12.0.2.2.0 | Brazilian Simple Chart of Account
-[l10n_br_contract](l10n_br_contract/) | 12.0.4.1.0 | Customization of Contract module for implementations in Brazil.
+[l10n_br_contract](l10n_br_contract/) | 12.0.4.1.1 | Customization of Contract module for implementations in Brazil.
 [l10n_br_crm](l10n_br_crm/) | 12.0.1.0.0 | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 12.0.1.0.0 | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 12.0.3.0.0 | This module changes the delivery model strategy to match brazilian standards.
