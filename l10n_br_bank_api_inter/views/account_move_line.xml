@@ -7,22 +7,41 @@
     <record model="ir.ui.view" id="account_move_line_form_view">
         <field name="name">account.move.line.form (in l10n_br_bank_api_inter)</field>
         <field name="model">account.move.line</field>
-        <field name="inherit_id" ref="l10n_br_account_payment_order.cnab_view_move_line_form_inherit"/>
+        <field
+                name="inherit_id"
+                ref="l10n_br_account_payment_order.cnab_view_move_line_form_inherit"
+        />
         <field name="arch" type="xml">
             <field name="payment_method_code" position="after">
-                <button name="print_pdf_boleto" type="object" string="PDF Boleto" class="oe_highlight" />
-                <button name="drop_bank_slip" type="object" string="Dar Baixa"
-                        class="btn btn-danger"/>
-                <button name="search_bank_slip" type="object" string="Consulta"
-                        class="btn btn-warning" />
+                <button
+                        name="print_pdf_boleto"
+                        type="object"
+                        string="PDF Boleto"
+                        class="oe_highlight"
+                />
+                <button
+                        name="drop_bank_slip"
+                        type="object"
+                        string="Dar Baixa"
+                        class="btn btn-danger"
+                />
+                <button
+                        name="search_bank_slip"
+                        type="object"
+                        string="Consulta"
+                        class="btn btn-warning"
+                />
             </field>
 
             <field name="bank_payment_line_id" position="after">
                 <field name="write_off_choice" string="Write Off" />
-                <field name="bank_inter_state" string="State"
-                       domain="[('payment_mode_id', '=', 'payment_mode_cobranca_inter_api')]"/>
+                <field name="bank_inter_state"
+                       string="State"
+                       domain="[('payment_mode_id', '=', 'payment_mode_cobranca_inter_api')]"
+                />
+                <field name="write_off_by_api" stromg="Write Off by API" />
             </field>
-            
+
         </field>
     </record>
 
