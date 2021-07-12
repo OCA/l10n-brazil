@@ -7,14 +7,6 @@ from unittest import mock
 from odoo.tests import SavepointCase
 from odoo.exceptions import UserError
 
-# from fixtures import (
-#     mock_test_00,
-#     mock_test_02,
-#     mock_test_04,
-#     mock_test_05,
-#     mock_test_06,
-# )
-
 mock_test_write_off = {
     "nossoNumero": "54687321546",
     "seuNumero": "5",
@@ -78,7 +70,7 @@ mock_test_splip_query = {
     "tipoPessoaPagador": "JURIDICA",
     "cnpjCpfPagador": "23130935000198",
     "codigoEspecie": "OUTROS",
-    "dataLimitePagamento": "10/01/2021",
+    "dataLimitePagamento": "28/02/2021",
     "valorAbatimento": 0.00,
     "situacao": "EMABERTO",
     "mensagem": {
@@ -116,9 +108,6 @@ mock_test_splip_query = {
 _module_ns = "odoo.addons.l10n_br_bank_api_inter"
 _provider_class_pay_order = (
     _module_ns + ".models.account_payment_order" + ".AccountPaymentOrder"
-)
-_provider_class_acc_invoice = (
-    _module_ns + ".models.account_invoice" + ".AccountInvoice"
 )
 _provider_class_aml = (
     _module_ns + ".models.account_move_line" + ".AccountMoveLine"
@@ -183,6 +172,9 @@ class TestBankInter(SavepointCase):
         with self.assertRaises(UserError):
             payment_order.open2generated()
 
+    # TODO: Esse caso de teste está com problema, pois com a validação de cancelar a
+    #   Invoice apenas quando todas as AML estiverem canceladas, impede que ele continue
+    #   Necessário ver uma forma de cancelar o AML para que ela passe.
     def test_cancel_invoice(self):
         """
         Cancel the Invoice and, at the same time, cancel the bank skip that is lin-
@@ -209,8 +201,43 @@ class TestBankInter(SavepointCase):
 
         payment_order.generated2uploaded()
 
+        with mock.patch(
+            _provider_class_aml + ".drop_bank_slip",
+            return_value=mock_test_write_off
+        ):
+            write_off = payment_order.move_ids.line_ids.drop_bank_slip()
+            self.assertEqual(write_off["situacao"], "BAIXADO")
+
         self.invoice_kmee_02.action_invoice_cancel()
         self.assertEqual(self.invoice_kmee_02.state, "cancel")
+
+    def test_cancel_invoice_wt_cancel_aml(self):
+        """
+        Try to cancel the invoice without cancel the slip bank.
+        """
+        self.invoice_kmee_02.action_invoice_open()
+        self.assertEqual(self.invoice_kmee_02.state, "open")
+
+        payment_order = self.env["account.payment.order"].search(
+            [("payment_mode_id", "=", self.invoice_kmee_02.payment_mode_id.id)]
+        )
+
+        self.assertEqual(len(payment_order.payment_line_ids), 1)
+        self.assertEqual(len(payment_order.bank_line_ids), 0)
+
+        payment_order.draft2open()
+        self.assertEqual(len(payment_order.bank_line_ids), 1)
+
+        with mock.patch(
+                _provider_class_pay_order + ".generate_payment_file",
+                return_value=(False, False)
+        ):
+            payment_order.open2generated()
+
+        payment_order.generated2uploaded()
+
+        with self.assertRaises(UserError):
+            self.invoice_kmee_02.action_invoice_cancel()
 
     def test_see_pdf_without_slip(self):
         """
@@ -251,7 +278,8 @@ class TestBankInter(SavepointCase):
             _provider_class_aml + ".drop_bank_slip",
             return_value=mock_test_write_off
         ):
-            payment_order.move_ids.line_ids.drop_bank_slip()
+            writeoff = payment_order.move_ids.line_ids.drop_bank_slip()
+            self.assertEqual(writeoff["situacao"], "BAIXADO")
 
     def test_slip_query(self):
         """
@@ -282,4 +310,5 @@ class TestBankInter(SavepointCase):
                 _provider_class_aml + ".search_bank_slip",
                 return_value=mock_test_splip_query
         ):
-            payment_order.move_ids.line_ids.search_bank_slip()
+            slip_query = payment_order.move_ids.line_ids.search_bank_slip()
+            self.assertEqual(slip_query["situacao"], "EMABERTO")
