@@ -7,6 +7,7 @@ from datetime import datetime, date
 from .arquivo_certificado import ArquivoCertificado
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from odoo.addons.l10n_br_bank_api_inter.parser.inter_file_parser import InterFileParser
 
 _logger = logging.getLogger(__name__)
 
@@ -54,7 +55,7 @@ class AccountMoveLine(models.Model):
     bank_inter_state = fields.Selection(
         selection=ESTADO,
         string="State",
-        readonly=True,
+        # readonly=True,
         default="emaberto",
     )
 
@@ -138,6 +139,7 @@ class AccountMoveLine(models.Model):
 
     def search_bank_slip(self):
         try:
+            parser = InterFileParser(self.journal_payment_mode_id)
             for order in self.payment_line_ids:
                 with ArquivoCertificado(order.order_id.journal_id, 'w') as (key, cert):
                     self.api = ApiInter(
@@ -148,6 +150,8 @@ class AccountMoveLine(models.Model):
                         )
                     )
                     resposta = self.api.boleto_consulta(nosso_numero=self.own_number)
+
+                    parser.parse(resposta)
 
                     if resposta['situacao'].lower() != self.bank_inter_state:
                         if resposta['situacao'] == 'pago':

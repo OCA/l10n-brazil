@@ -20,7 +20,7 @@ class InterFileParser():
 
     def __init__(self, journal, *args, **kwargs):
         # The name of the parser as it will be called
-        self.parser_name = journal.import_type
+        # self.parser_name = journal.import_type
         # The result as a list of row. One row per line of data in the file,
         # but not the commission one!
         self.result_row_list = None
