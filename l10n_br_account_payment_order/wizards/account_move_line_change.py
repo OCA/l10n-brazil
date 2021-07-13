@@ -59,7 +59,6 @@ class AccountMoveLineCNABChange(models.TransientModel):
     rebate_value = fields.Float(string="Valor de Abatimento")
     discount_value = fields.Float(string="Valor de Desconto")
 
-    @api.multi
     def doit(self):
         self.account_move_line_ids._identify_cnab_change(
             change_type=self.change_type,
