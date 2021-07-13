@@ -233,11 +233,12 @@ class L10nBrCnab(models.Model):
                     invoice = move_line.invoice_id
                     payment_mode = invoice.payment_mode_id
                     if bank_state == "liquidada" and invoice.state == "open":
+                        ident_titulo_empresa = evento.identificacao_titulo_empresa
                         line_dict = {
                             "name": evento.nosso_numero,
                             "nosso_numero": evento.nosso_numero,
                             "numero_documento": evento.numero_documento,
-                            "identificacao_titulo_empresa": evento.identificacao_titulo_empresa,
+                            "identificacao_titulo_empresa": ident_titulo_empresa,
                             "credit": float(evento.valor_principal)
                             + float(evento.tarifa_cobranca),
                             "account_id": payment_mode.default_account_id.id
