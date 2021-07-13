@@ -103,7 +103,6 @@ class AccountPaymentOrder(models.Model):
 
         return result
 
-    @api.multi
     def open2generated(self):
         result = super().open2generated()
 
@@ -113,8 +112,8 @@ class AccountPaymentOrder(models.Model):
             if record.bank_line_error_ids:
                 record.message_post(
                     body=_(
-                            "Erro ao gerar o arquivo, "
-                            "verifique a aba Linhas com problemas."
+                        "Erro ao gerar o arquivo, "
+                        "verifique a aba Linhas com problemas."
                     )
                 )
                 for payment_line in record.payment_line_ids:
@@ -128,7 +127,6 @@ class AccountPaymentOrder(models.Model):
 
         return result
 
-    @api.multi
     def unlink(self):
         for order in self:
             # TODO: Existe o caso de se apagar uma Ordem de Pagto
@@ -140,7 +138,6 @@ class AccountPaymentOrder(models.Model):
                 raise UserError(_("You cannot delete CNAB order."))
         return super().unlink()
 
-    @api.multi
     def action_done_cancel(self):
         for order in self:
             # TODO: Existe o caso de se Cancelar uma Ordem de Pagto
@@ -152,7 +149,6 @@ class AccountPaymentOrder(models.Model):
                 raise UserError(_("You cannot Cancel CNAB order."))
         return super().unlink()
 
-    @api.multi
     def generate_payment_file(self):
         """Esse modo deve ser usado somente para testes,
         com ele é possível passarmos por todos os fluxos de

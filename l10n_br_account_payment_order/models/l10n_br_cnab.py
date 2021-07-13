@@ -538,7 +538,6 @@ class L10nBrCnab(models.Model):
         )
         return cnab_name
 
-    @api.multi
     def write(self, vals):
         if any(v in vals for v in ["data", "filename"]):
             data = vals.get("data") or self.data

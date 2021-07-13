@@ -146,7 +146,6 @@ class AccountPaymentLine(models.Model):
     # com a account.invoice referente, já que a AML pode ser apagada
     invoice_id = fields.Many2one(comodel_name="account.invoice", string="Fatura")
 
-    @api.multi
     @api.depends("percent_interest", "amount_currency", "currency_id")
     def _compute_interest(self):
         for record in self:
