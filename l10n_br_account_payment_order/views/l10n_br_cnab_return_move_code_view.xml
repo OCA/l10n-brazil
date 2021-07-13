@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="l10n_br_cnab_return_move_code_tree_view" model="ir.ui.view">
@@ -6,10 +6,10 @@
         <field name="model">l10n_br_cnab.return.move.code</field>
         <field name="arch" type="xml">
             <tree string="CNAB Return Move Code">
-                <field name="code"/>
-                <field name="name"/>
-                <field name="bank_ids" widget="many2many_tags"/>
-                <field name="payment_method_ids" widget="many2many_tags"/>
+                <field name="code" />
+                <field name="name" />
+                <field name="bank_ids" widget="many2many_tags" />
+                <field name="payment_method_ids" widget="many2many_tags" />
             </tree>
         </field>
     </record>
@@ -21,13 +21,13 @@
             <form string="CNAB Return Move Code">
                 <sheet>
                     <group>
-                        <field name="code"/>
-                        <field name="name"/>
-                        <field name="bank_ids" widget="many2many_tags"/>
-                        <field name="payment_method_ids" widget="many2many_tags"/>
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="bank_ids" widget="many2many_tags" />
+                        <field name="payment_method_ids" widget="many2many_tags" />
                     </group>
                     <div class="oe_chatter">
-                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="message_ids" widget="mail_thread" />
                     </div>
                 </sheet>
             </form>
@@ -41,9 +41,12 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_l10n_br_cnab_return_move_code"
-              parent="account.account_management_menu"
-              name="CNAB Return Move Code" sequence="999"
-              action="l10n_br_cnab_return_move_code_action"/>
+    <menuitem
+        id="menu_l10n_br_cnab_return_move_code"
+        parent="account.account_management_menu"
+        name="CNAB Return Move Code"
+        sequence="999"
+        action="l10n_br_cnab_return_move_code_action"
+    />
 
 </odoo>

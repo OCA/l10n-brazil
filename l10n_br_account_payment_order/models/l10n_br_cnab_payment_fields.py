@@ -12,30 +12,30 @@ from ..constants import (
 
 
 class L10nBrCNABPaymentFields(models.Model):
-    _name = 'l10n_br_cnab.payment.fields'
-    _description = 'CNAB - Payment Fields.'
+    _name = "l10n_br_cnab.payment.fields"
+    _description = "CNAB - Payment Fields."
 
     doc_finality_code = fields.Selection(
         selection=COMPLEMENTO_TIPO_SERVICO,
-        string='Complemento do Tipo de Serviço',
-        help='Campo P005 do CNAB',
+        string="Complemento do Tipo de Serviço",
+        help="Campo P005 do CNAB",
     )
 
     ted_finality_code = fields.Selection(
         selection=CODIGO_FINALIDADE_TED,
-        string='Código Finalidade da TED',
-        help='Campo P011 do CNAB',
+        string="Código Finalidade da TED",
+        help="Campo P011 do CNAB",
     )
 
     complementary_finality_code = fields.Char(
-        string='Código de finalidade complementar',
+        string="Código de finalidade complementar",
         size=2,
-        help='Campo P013 do CNAB',
+        help="Campo P013 do CNAB",
     )
 
     favored_warning = fields.Selection(
         selection=AVISO_FAVORECIDO,
-        string='Aviso ao Favorecido',
-        help='Campo P006 do CNAB',
+        string="Aviso ao Favorecido",
+        help="Campo P006 do CNAB",
         default=0,
     )

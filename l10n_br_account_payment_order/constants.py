@@ -1,11 +1,11 @@
 # © 2012 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-CODE_CNAB_240 = '240'
-CODE_CNAB_400 = '400'
-CODE_CNAB_500 = '500'
+CODE_CNAB_240 = "240"
+CODE_CNAB_400 = "400"
+CODE_CNAB_500 = "500"
 
-CODE_MANUAL_TEST = 'manual_test'
+CODE_MANUAL_TEST = "manual_test"
 
 BR_CODES_PAYMENT_ORDER = (
     CODE_CNAB_240,
@@ -476,7 +476,7 @@ SITUACAO_PAGAMENTO = [
     ("baixa", "Baixa Simples"),
     ("baixa_liquidacao", "Baixa por Liquidação fora do CNAB"),
     ("nao_pagamento", "Baixa por Não Pagamento/Inadimplência"),
-    ("fatura_cancelada", "Baixa por Cancelamento da Fatura")
+    ("fatura_cancelada", "Baixa por Cancelamento da Fatura"),
 ]
 
 BOLETO_ESPECIE = [
@@ -499,7 +499,7 @@ BOLETO_ESPECIE = [
 STATE_CNAB = [
     ("draft", "Novo"),
     ("done", "Processado"),
-    ("error", "Erro no Processamento")
+    ("error", "Erro no Processamento"),
 ]
 
 TIPO_OPERACAO_CNAB = {
