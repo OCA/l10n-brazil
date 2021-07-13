@@ -246,6 +246,7 @@ class AccountInvoice(models.Model):
         default = default or {}
         if self.document_type_id:
             default["line_ids"] = False
+            default["fiscal_payment_ids"] = False
         return super().copy(default)
 
     @api.one
