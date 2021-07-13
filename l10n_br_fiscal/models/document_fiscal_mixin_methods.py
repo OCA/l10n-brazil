@@ -43,8 +43,10 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                 for field in fields:
                     if field in line._fields.keys():
                         values[field] += line[field]
-                    if field.replace("amount_", "") in line._fields.keys():
-                        values[field] += line[field.replace("amount_", "")]
+                    field_limpo = field.replace("amount_", "")
+                    field_limpo = field_limpo.replace("_ret_", "_wh_")
+                    if field_limpo in line._fields.keys():
+                        values[field] += line[field_limpo]
             doc.update(values)
 
     def __document_comment_vals(self):
