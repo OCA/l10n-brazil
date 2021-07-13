@@ -3,7 +3,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountMove(models.Model):
@@ -22,7 +22,6 @@ class AccountMove(models.Model):
     # relacionado ao CNAB na visao
     is_cnab = fields.Boolean(string="Is CNAB?")
 
-    @api.multi
     def unlink(self):
 
         # Verificar se é necessário solicitar a Baixa no caso de CNAB

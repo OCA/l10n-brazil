@@ -5,7 +5,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountPaymentLineCreate(models.TransientModel):
@@ -20,7 +20,6 @@ class AccountPaymentLineCreate(models.TransientModel):
         string="Permitir linhas com retorno rejeitado",
     )
 
-    @api.multi
     def _prepare_move_line_domain(self):
         """Nenhuma linha deve ser adicionada novamente a nao ser que o
         retorno do cnab informe que o registro falhou,

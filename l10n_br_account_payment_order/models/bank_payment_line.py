@@ -130,7 +130,6 @@ class BankPaymentLine(models.Model):
         help="Campo G061 do CNAB",
     )
 
-    @api.multi
     def unlink(self):
         for record in self:
             if not record.last_cnab_state:

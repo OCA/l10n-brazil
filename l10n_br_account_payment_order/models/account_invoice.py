@@ -13,7 +13,6 @@ from ..constants import BR_CODES_PAYMENT_ORDER
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    @api.multi
     @api.depends("move_id.line_ids", "move_id.state")
     def _compute_financial(self):
         for invoice in self:
@@ -84,7 +83,6 @@ class AccountInvoice(models.Model):
                 }
             )
 
-    @api.multi
     def action_invoice_cancel(self):
         for record in self:
             if record.payment_mode_id.payment_method_code in BR_CODES_PAYMENT_ORDER:
@@ -95,7 +93,6 @@ class AccountInvoice(models.Model):
 
         return super().action_invoice_cancel()
 
-    @api.multi
     def get_invoice_fiscal_number(self):
         """Como neste modulo nao temos o numero do documento fiscal,
         vamos retornar o numero do core e deixar este metodo
@@ -103,7 +100,6 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         return self.number
 
-    @api.multi
     def _pos_action_move_create(self):
         for inv in self:
             # Se não possui Modo de Pagto não há nada a ser feito
@@ -150,13 +146,11 @@ class AccountInvoice(models.Model):
                     inv.payment_mode_id.cnab_sending_code_id.id
                 )
 
-    @api.multi
     def action_move_create(self):
         result = super().action_move_create()
         self._pos_action_move_create()
         return result
 
-    @api.multi
     def invoice_validate(self):
         result = super().invoice_validate()
         filtered_invoice_ids = self.filtered(
