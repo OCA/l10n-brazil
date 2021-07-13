@@ -1,11 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <report id="action_insert_reports_print_button_account_move_line"
-            name="l10n_br_account_payment_boleto.report"
-            model="account.move.line"
-            string="Boleto"/>
-    <report id="action_insert_reports_print_button_account_invoice"
-            name="l10n_br_account_payment_boleto.report"
-            model="account.invoice"
-            string="Boleto"/>
+    <report
+        id="action_insert_reports_print_button_account_move_line"
+        name="l10n_br_account_payment_boleto.report"
+        model="account.move.line"
+        string="Boleto"
+    />
+    <report
+        id="action_insert_reports_print_button_account_invoice"
+        name="l10n_br_account_payment_boleto.report"
+        model="account.invoice"
+        string="Boleto"
+    />
 </odoo>
