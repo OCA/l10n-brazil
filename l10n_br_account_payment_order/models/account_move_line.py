@@ -125,7 +125,6 @@ class AccountMoveLine(models.Model):
             else:
                 record.journal_entry_ref = "*" + str(record.move_id.id)
 
-    @api.multi
     def _prepare_payment_line_vals(self, payment_order):
         vals = super()._prepare_payment_line_vals(payment_order)
         # Preenchendo apenas nos casos CNAB
@@ -165,7 +164,6 @@ class AccountMoveLine(models.Model):
 
         return vals
 
-    @api.multi
     def create_payment_line_from_move_line(self, payment_order):
         """
         Altera estado do cnab para adicionado a ordem
@@ -182,11 +180,9 @@ class AccountMoveLine(models.Model):
 
         return super().create_payment_line_from_move_line(payment_order)
 
-    @api.multi
     def generate_boleto(self, validate=True):
         raise NotImplementedError
 
-    @api.multi
     def write(self, values):
         """
         Sobrescrita do método Write. Não deve ser possível voltar o cnab_state
@@ -211,7 +207,6 @@ class AccountMoveLine(models.Model):
 
         return super().write(values)
 
-    @api.multi
     def get_balance(self):
         """
         Return the balance of any set of move lines.
@@ -224,7 +219,6 @@ class AccountMoveLine(models.Model):
             total += (line.debit or 0.0) - (line.credit or 0.0)
         return total
 
-    @api.multi
     @api.depends("own_number")
     def _compute_own_number_without_zfill(self):
         """
@@ -253,7 +247,6 @@ class AccountMoveLine(models.Model):
             if record.own_number:
                 record.own_number_without_zfill = record.own_number.lstrip("0")
 
-    @api.multi
     @api.depends("payment_mode_id")
     def _compute_journal_payment_mode(self):
         for record in self:
@@ -264,7 +257,6 @@ class AccountMoveLine(models.Model):
                         record.payment_mode_id.fixed_journal_id.id
                     )
 
-    @api.multi
     def reconcile(self, writeoff_acc_id=False, writeoff_journal_id=False):
 
         res = super().reconcile(writeoff_acc_id, writeoff_journal_id)
