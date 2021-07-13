@@ -2,14 +2,13 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import SUPERUSER_ID, _, api, models
+from odoo import SUPERUSER_ID, _, models
 from odoo.exceptions import ValidationError
 
 
 class IrAttachment(models.Model):
     _inherit = "ir.attachment"
 
-    @api.multi
     def unlink(self):
         for rec in self:
             if (
