@@ -118,7 +118,6 @@ class AccountPaymentMode(models.Model):
         if not self.product_tax_id:
             self.tax_account_id = False
 
-    @api.multi
     def get_own_number_sequence(self, inv, numero_documento):
         if inv.company_id.own_number_type == "0":
             # SEQUENCIAL_EMPRESA
