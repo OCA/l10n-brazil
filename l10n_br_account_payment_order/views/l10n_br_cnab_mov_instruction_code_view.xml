@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="l10n_br_cnab_mov_instruction_code_tree_view" model="ir.ui.view">
@@ -6,10 +6,10 @@
         <field name="model">l10n_br_cnab.mov.instruction.code</field>
         <field name="arch" type="xml">
             <tree string="CNAB Movement Instruction Code">
-                <field name="code"/>
-                <field name="name"/>
-                <field name="bank_ids" widget="many2many_tags"/>
-                <field name="payment_method_ids" widget="many2many_tags"/>
+                <field name="code" />
+                <field name="name" />
+                <field name="bank_ids" widget="many2many_tags" />
+                <field name="payment_method_ids" widget="many2many_tags" />
             </tree>
         </field>
     </record>
@@ -21,15 +21,15 @@
             <form string="CNAB Movement Instruction Code">
                 <sheet>
                     <group>
-                        <field name="code"/>
-                        <field name="name"/>
-                        <field name="bank_ids" widget="many2many_tags"/>
-                        <field name="payment_method_ids" widget="many2many_tags"/>
-                        <field name="comment"/>
+                        <field name="code" />
+                        <field name="name" />
+                        <field name="bank_ids" widget="many2many_tags" />
+                        <field name="payment_method_ids" widget="many2many_tags" />
+                        <field name="comment" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="message_ids" widget="mail_thread" />
                 </div>
             </form>
         </field>
@@ -42,9 +42,12 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_l10n_br_cnab_mov_instruction_code"
-              parent="account.account_management_menu"
-              name="CNAB Movement Instruction Code" sequence="999"
-              action="l10n_br_cnab_mov_instruction_code_action"/>
+    <menuitem
+        id="menu_l10n_br_cnab_mov_instruction_code"
+        parent="account.account_management_menu"
+        name="CNAB Movement Instruction Code"
+        sequence="999"
+        action="l10n_br_cnab_mov_instruction_code_action"
+    />
 
 </odoo>
