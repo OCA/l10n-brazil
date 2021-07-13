@@ -5,7 +5,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, models
+from odoo import _, models
 from odoo.exceptions import UserError
 
 from ..constants import BR_CODES_PAYMENT_ORDER
@@ -14,7 +14,6 @@ from ..constants import BR_CODES_PAYMENT_ORDER
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    @api.multi
     def post(self):
 
         for record in self:
