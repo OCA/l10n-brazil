@@ -104,7 +104,6 @@ class L10nBrCnab(models.Model):
     number_lots = fields.Integer(string="Número de Lotes")
     state = fields.Selection(string="Estágio", selection=STATE_CNAB, default="draft")
 
-    @api.one
     @api.depends("name")
     def _compute_display_name(self):
         self.display_name = self.name
