@@ -5,14 +5,14 @@
 from openupgradelib import openupgrade
 
 _table_renames = [
-    ('cnab_return_move_code', 'l10n_br_cnab_return_move_code'),
+    ("cnab_return_move_code", "l10n_br_cnab_return_move_code"),
 ]
 
 _model_renames = [
-    ('cnab.return.move.code', 'l10n_br_cnab.return.move.code'),
-    ('cnab.return.log', 'l10n_br_cnab.return.log'),
-    ('cnab.return.event', 'l10n_br_cnab.return.event'),
-    ('cnab.return.lot', 'l10n_br_cnab.return.lot'),
+    ("cnab.return.move.code", "l10n_br_cnab.return.move.code"),
+    ("cnab.return.log", "l10n_br_cnab.return.log"),
+    ("cnab.return.event", "l10n_br_cnab.return.event"),
+    ("cnab.return.lot", "l10n_br_cnab.return.lot"),
 ]
 
 

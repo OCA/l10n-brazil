@@ -5,23 +5,23 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models, _
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
-from ..constants import (
-    BR_CODES_PAYMENT_ORDER,
-)
+from ..constants import BR_CODES_PAYMENT_ORDER
 
 
 class AccountPayment(models.Model):
-    _inherit = 'account.payment'
+    _inherit = "account.payment"
 
     @api.multi
     def post(self):
 
         for record in self:
-            if record.payment_method_code in BR_CODES_PAYMENT_ORDER and\
-                    record.payment_method_id.payment_type == 'inbound':
+            if (
+                record.payment_method_code in BR_CODES_PAYMENT_ORDER
+                and record.payment_method_id.payment_type == "inbound"
+            ):
                 # TODO - Idealmente isso deveria ser resolvido com um
                 #  domain=[('code', 'not in', BR_CODES_PAYMENT_ORDER)]
                 #  no campo payment_method_id, mas mesmo adicionando isso na
@@ -32,9 +32,12 @@ class AccountPayment(models.Model):
                 #  incluir o domain no campo como comentado acima e testar
                 #  na tela.
                 #  Testar na migração.
-                raise UserError(_(
-                    "CNAB Payment Method can't be used to make"
-                    ' direct Payments, just used in Payment Orders,'
-                    ' choose another one.'))
+                raise UserError(
+                    _(
+                        "CNAB Payment Method can't be used to make"
+                        " direct Payments, just used in Payment Orders,"
+                        " choose another one."
+                    )
+                )
 
         return super().post()

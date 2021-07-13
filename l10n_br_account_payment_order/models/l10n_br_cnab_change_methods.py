@@ -2,16 +2,17 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models, _
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
 class L10nBrCNABChangeMethods(models.Model):
-    _name = 'l10n_br_cnab.change.methods'
-    _description = 'Methods used to make changes in CNAB Movement.'
+    _name = "l10n_br_cnab.change.methods"
+    _description = "Methods used to make changes in CNAB Movement."
 
-    def _identify_cnab_change(self, change_type, new_date, rebate_value,
-                              discount_value, reason='', **kwargs):
+    def _identify_cnab_change(
+        self, change_type, new_date, rebate_value, discount_value, reason="", **kwargs
+    ):
         """
         CNAB - Alterações possíveis
         :param change_type:
@@ -28,36 +29,38 @@ class L10nBrCNABChangeMethods(models.Model):
 
             payorder, new_payorder = record._get_payment_order(record.invoice_id)
 
-            if change_type == 'change_date_maturity':
+            if change_type == "change_date_maturity":
                 cnab_code = record._get_cnab_date_maturity(new_date)
                 record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-            elif change_type == 'change_payment_mode':
+            elif change_type == "change_payment_mode":
                 record._change_payment_mode(reason, **kwargs)
-            elif change_type == 'baixa':
+            elif change_type == "baixa":
                 record._create_baixa(reason, **kwargs)
-            elif change_type == 'not_payment':
+            elif change_type == "not_payment":
                 record._create_cnab_not_payment(payorder, new_payorder, reason)
-            elif change_type == 'protest_tittle':
+            elif change_type == "protest_tittle":
                 cnab_code = record._get_cnab_protest_tittle()
                 record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-            elif change_type == 'suspend_protest_keep_wallet':
+            elif change_type == "suspend_protest_keep_wallet":
                 cnab_code = record._get_cnab_suspend_protest_keep_wallet()
                 record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-            elif change_type == 'suspend_protest_writte_off':
+            elif change_type == "suspend_protest_writte_off":
                 cnab_code = record._get_cnab_suspend_protest_writte_off()
                 record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-            elif change_type == 'grant_rebate':
+            elif change_type == "grant_rebate":
                 cnab_code = record._get_cnab_grant_rebate()
-                record.with_context(rebate_value=rebate_value). \
-                    _make_cnab_change(cnab_code, new_payorder, payorder, reason)
-            elif change_type == 'cancel_rebate':
+                record.with_context(rebate_value=rebate_value)._make_cnab_change(
+                    cnab_code, new_payorder, payorder, reason
+                )
+            elif change_type == "cancel_rebate":
                 cnab_code = record._get_cnab_cancel_rebate()
                 record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
-            elif change_type == 'grant_discount':
+            elif change_type == "grant_discount":
                 cnab_code = record._get_cnab_grant_discount()
-                record.with_context(discount_value=discount_value). \
-                    _make_cnab_change(cnab_code, new_payorder, payorder, reason)
-            elif change_type == 'cancel_discount':
+                record.with_context(discount_value=discount_value)._make_cnab_change(
+                    cnab_code, new_payorder, payorder, reason
+                )
+            elif change_type == "cancel_discount":
                 cnab_code = record._get_cnab_cancel_discount()
                 record._make_cnab_change(cnab_code, new_payorder, payorder, reason)
 
@@ -69,12 +72,16 @@ class L10nBrCNABChangeMethods(models.Model):
         """
 
         # Verificar Ordem de Pagto
-        apo = self.env['account.payment.order']
+        apo = self.env["account.payment.order"]
         # Existe a possibilidade de uma Fatura ter diferentes
         # Modos de Pagto nas linhas no caso CNAB ?
-        payorder = apo.search([
-            ('payment_mode_id', '=', invoice.payment_mode_id.id),
-            ('state', '=', 'draft')], limit=1)
+        payorder = apo.search(
+            [
+                ("payment_mode_id", "=", invoice.payment_mode_id.id),
+                ("state", "=", "draft"),
+            ],
+            limit=1,
+        )
         new_payorder = False
         if not payorder:
             payorder = apo.create(
@@ -91,16 +98,22 @@ class L10nBrCNABChangeMethods(models.Model):
         :return: Mensagem de Erro caso exista
         """
         payment_line_to_be_send = self.payment_line_ids.filtered(
-            lambda t: t.order_id.state in ('draft', 'open', 'generated'))
+            lambda t: t.order_id.state in ("draft", "open", "generated")
+        )
         if payment_line_to_be_send:
-            raise UserError(_(
-                'There is a CNAB Payment Order %s in status %s'
-                ' related to invoice %s created, the CNAB file'
-                ' should be sent to bank, because only after'
-                ' that it is possible make another CNAB Instruction.'
-            ) % (payment_line_to_be_send.order_id.name,
-                 payment_line_to_be_send.order_id.state, self.invoice_id.number))
-        pass
+            raise UserError(
+                _(
+                    "There is a CNAB Payment Order %s in status %s"
+                    " related to invoice %s created, the CNAB file"
+                    " should be sent to bank, because only after"
+                    " that it is possible make another CNAB Instruction."
+                )
+                % (
+                    payment_line_to_be_send.order_id.name,
+                    payment_line_to_be_send.order_id.state,
+                    self.invoice_id.number,
+                )
+            )
 
     def _msg_cnab_payment_order_at_invoice(self, new_payorder, payorder, reason):
         """
@@ -110,22 +123,30 @@ class L10nBrCNABChangeMethods(models.Model):
         :return:
         """
 
-        cnab_instruction = \
-            self.mov_instruction_code_id.code + ' - ' + \
-            self.mov_instruction_code_id.name
+        cnab_instruction = (
+            self.mov_instruction_code_id.code
+            + " - "
+            + self.mov_instruction_code_id.name
+        )
         if new_payorder:
-            self.invoice_id.message_post(body=_(
-                'Payment line added to the the new draft payment '
-                'order %s which has been automatically created,'
-                ' to send CNAB Instruction %s for OWN NUMBER %s.\n'
-                'Justification: %s'
-            ) % (payorder.name, cnab_instruction, self.own_number, reason))
+            self.invoice_id.message_post(
+                body=_(
+                    "Payment line added to the the new draft payment "
+                    "order %s which has been automatically created,"
+                    " to send CNAB Instruction %s for OWN NUMBER %s.\n"
+                    "Justification: %s"
+                )
+                % (payorder.name, cnab_instruction, self.own_number, reason)
+            )
         else:
-            self.invoice_id.message_post(body=_(
-                'Payment line added to the existing draft '
-                'order %s to send CNAB Instruction %s for OWN NUMBER %s.\n'
-                'Justification: %s'
-            ) % (payorder.name, cnab_instruction, self.own_number, reason))
+            self.invoice_id.message_post(
+                body=_(
+                    "Payment line added to the existing draft "
+                    "order %s to send CNAB Instruction %s for OWN NUMBER %s.\n"
+                    "Justification: %s"
+                )
+                % (payorder.name, cnab_instruction, self.own_number, reason)
+            )
 
     def _msg_error_cnab_missing(self, payment_mode_name, missing):
         """
@@ -134,10 +155,13 @@ class L10nBrCNABChangeMethods(models.Model):
         :param missing: descrição do que falta
         :return: Mensagem de Erro
         """
-        raise UserError(_(
-            "Payment Mode %s don't has %s for making CNAB change,"
-            " check if should have."
-        ) % (payment_mode_name, missing))
+        raise UserError(
+            _(
+                "Payment Mode %s don't has %s for making CNAB change,"
+                " check if should have."
+            )
+            % (payment_mode_name, missing)
+        )
 
     def _cnab_already_start(self):
 
@@ -145,7 +169,8 @@ class L10nBrCNABChangeMethods(models.Model):
         # Se existir uma Ordem já gerada, exportada ou concluída
         # significa que o processo desse CNAB já foi iniciado no Banco
         cnab_already_start = self.payment_line_ids.filtered(
-            lambda t: t.order_id.state in ('generated', 'uploaded', 'done'))
+            lambda t: t.order_id.state in ("generated", "uploaded", "done")
+        )
 
         if cnab_already_start:
             result = True
@@ -157,9 +182,10 @@ class L10nBrCNABChangeMethods(models.Model):
         cnab_already_start = self._cnab_already_start()
         if cnab_already_start:
             reason_write_off = (
-                ('Movement Instruction Code Updated for Request to Write Off,'
-                 ' because Invoice %s was Cancel.') % self.invoice_id.name)
-            payment_situation = 'fatura_cancelada'
+                "Movement Instruction Code Updated for Request to Write Off,"
+                " because Invoice %s was Cancel."
+            ) % self.invoice_id.name
+            payment_situation = "fatura_cancelada"
             self.create_cnab_write_off(reason_write_off, payment_situation)
         else:
             # Processo de CNAB ainda não iniciado a linha será apenas excluida
@@ -174,14 +200,16 @@ class L10nBrCNABChangeMethods(models.Model):
         """
 
         if new_date == self.date_maturity:
-            raise UserError(_(
-                'New Date Maturity %s is equal to actual Date Maturity %s'
-            ) % (new_date, self.date_maturity))
+            raise UserError(
+                _("New Date Maturity %s is equal to actual Date Maturity %s")
+                % (new_date, self.date_maturity)
+            )
 
         # Modo de Pagto usado precisa ter o codigo de alteração do vencimento
         if not self.invoice_id.payment_mode_id.cnab_code_change_maturity_date_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Date Maturity Code')
+                self.payment_mode_id.name, "Date Maturity Code"
+            )
 
         self.date_maturity = new_date
 
@@ -197,73 +225,74 @@ class L10nBrCNABChangeMethods(models.Model):
         # Não Pagamento/Inadimplencia
         if not self.invoice_id.payment_mode_id.not_payment_account_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'the Account to Not Payment')
+                self.payment_mode_id.name, "the Account to Not Payment"
+            )
 
         if not self.invoice_id.payment_mode_id.cnab_write_off_code_id:
-            self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Writte Off Code')
+            self._msg_error_cnab_missing(self.payment_mode_id.name, "Writte Off Code")
 
         # TODO: O codigo usado seria o mesmo do writte off ?
         #  Em todos os casos?
-        self.mov_instruction_code_id = \
-            self.payment_mode_id.cnab_write_off_code_id
+        self.mov_instruction_code_id = self.payment_mode_id.cnab_write_off_code_id
 
         # Reconciliação e Baixa do Título
-        move_obj = self.env['account.move']
-        move_line_obj = self.env['account.move.line']
+        move_obj = self.env["account.move"]
+        move_line_obj = self.env["account.move.line"]
         journal = self.payment_mode_id.fixed_journal_id
-        move = move_obj.create({
-            'name': 'CNAB - Banco ' + journal.bank_id.short_name + ' - Conta '
-                    + journal.bank_account_id.acc_number + '- Inadimplência',
-            'date': fields.Datetime.now(),
-            # TODO  - Campo está sendo preenchido em outro lugar
-            'ref': 'CNAB Baixa por Inadimplêcia',
-            # O Campo abaixo é usado apenas para mostrar ou não a aba
-            # referente ao LOG do CNAB mas nesse caso não há.
-            # 'is_cnab': True,
-            'journal_id': journal.id,
-        })
+        move = move_obj.create(
+            {
+                "name": "CNAB - Banco "
+                + journal.bank_id.short_name
+                + " - Conta "
+                + journal.bank_account_id.acc_number
+                + "- Inadimplência",
+                "date": fields.Datetime.now(),
+                # TODO  - Campo está sendo preenchido em outro lugar
+                "ref": "CNAB Baixa por Inadimplêcia",
+                # O Campo abaixo é usado apenas para mostrar ou não a aba
+                # referente ao LOG do CNAB mas nesse caso não há.
+                # 'is_cnab': True,
+                "journal_id": journal.id,
+            }
+        )
         # Linha a ser conciliada
         counterpart_values = {
-            'credit': self.amount_residual,
-            'debit': 0.0,
-            'account_id': self.account_id.id,
+            "credit": self.amount_residual,
+            "debit": 0.0,
+            "account_id": self.account_id.id,
         }
         # linha referente a Conta Contabil de Inadimplecia
         move_not_payment_values = {
-            'debit': self.amount_residual,
-            'credit': 0.0,
-            'account_id': self.invoice_id.payment_mode_id.not_payment_account_id.id,
+            "debit": self.amount_residual,
+            "credit": 0.0,
+            "account_id": self.invoice_id.payment_mode_id.not_payment_account_id.id,
         }
 
         commom_move_values = {
-            'move_id': move.id,
-            'partner_id': self.partner_id.id,
-            'already_completed': True,
-            'ref': self.own_number,
-            'journal_id': journal.id,
-            'company_id': self.company_id.id,
-            'currency_id': self.currency_id.id,
-            'company_currency_id': self.company_id.currency_id.id,
+            "move_id": move.id,
+            "partner_id": self.partner_id.id,
+            "already_completed": True,
+            "ref": self.own_number,
+            "journal_id": journal.id,
+            "company_id": self.company_id.id,
+            "currency_id": self.currency_id.id,
+            "company_currency_id": self.company_id.currency_id.id,
         }
 
         counterpart_values.update(commom_move_values)
         move_not_payment_values.update(commom_move_values)
 
-        moves = move_line_obj.with_context(
-            check_move_validity=False).create(
+        moves = move_line_obj.with_context(check_move_validity=False).create(
             (counterpart_values, move_not_payment_values)
         )
 
-        move_line_to_reconcile = moves.filtered(
-            lambda m: m.credit > 0.0)
-        (self + move_line_to_reconcile).with_context(
-            not_payment=True).reconcile()
+        move_line_to_reconcile = moves.filtered(lambda m: m.credit > 0.0)
+        (self + move_line_to_reconcile).with_context(not_payment=True).reconcile()
 
         self.create_payment_line_from_move_line(payorder)
         # Proceso CNAB encerrado
-        self.cnab_state = 'done'
-        self.payment_situation = 'nao_pagamento'
+        self.cnab_state = "done"
+        self.payment_situation = "nao_pagamento"
 
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
@@ -280,7 +309,7 @@ class L10nBrCNABChangeMethods(models.Model):
         # será apagada a linha
         self.payment_situation = payment_situation
         # TODO criar um state removed ?
-        self.cnab_state = 'done'
+        self.cnab_state = "done"
         self.invoice_id.message_post(body=_(reason))
 
     def create_cnab_write_off(self, reason, payment_situation):
@@ -293,17 +322,18 @@ class L10nBrCNABChangeMethods(models.Model):
         payment_lines_removed = False
         if not cnab_already_start:
             # So tem uma linha nesse caso
-            if self.payment_line_ids[0].order_id.state == 'draft':
-                reason = 'Removed Payline that would be sent to Bank' \
-                         ' by CNAB because amount payment was made' \
-                         ' before sending.'
-                payment_situation = 'baixa_liquidacao'
+            if self.payment_line_ids[0].order_id.state == "draft":
+                reason = (
+                    "Removed Payline that would be sent to Bank"
+                    " by CNAB because amount payment was made"
+                    " before sending."
+                )
+                payment_situation = "baixa_liquidacao"
                 self.remove_payment_line(reason, payment_situation)
                 payment_lines_removed = True
 
         if not self.invoice_id.payment_mode_id.cnab_write_off_code_id:
-            self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Write Off Code')
+            self._msg_error_cnab_missing(self.payment_mode_id.name, "Write Off Code")
 
         if not payment_lines_removed:
             # Checar se existe uma Instrução de CNAB ainda a ser enviada
@@ -311,39 +341,39 @@ class L10nBrCNABChangeMethods(models.Model):
 
             payorder, new_payorder = self._get_payment_order(self.invoice_id)
 
-            self.mov_instruction_code_id = \
-                self.payment_mode_id.cnab_write_off_code_id
+            self.mov_instruction_code_id = self.payment_mode_id.cnab_write_off_code_id
             self.payment_situation = payment_situation
 
             self.create_payment_line_from_move_line(payorder)
-            self.cnab_state = 'added_paid'
+            self.cnab_state = "added_paid"
 
             # Registra as Alterações na Fatura
-            self._msg_cnab_payment_order_at_invoice(
-                new_payorder, payorder, reason)
+            self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
     def create_cnab_change_tittle_value(self):
         """
         CNAB - Alteração do Valor do Título.
         """
         if not self.payment_mode_id.cnab_code_change_title_value_id:
-            self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Tittle Value Code')
+            self._msg_error_cnab_missing(self.payment_mode_id.name, "Tittle Value Code")
 
         # Checar se existe uma Instrução de CNAB ainda a ser enviada
         self._check_cnab_instruction_to_be_send()
 
         payorder, new_payorder = self._get_payment_order(self.invoice_id)
 
-        self.mov_instruction_code_id = \
+        self.mov_instruction_code_id = (
             self.payment_mode_id.cnab_code_change_title_value_id
-        reason = (('Movement Instruction Code Updated for Request to '
-                   'Change Title Value, because partial payment '
-                   'of %d done.') % (self.debit - self.amount_residual))
+        )
+        reason = (
+            "Movement Instruction Code Updated for Request to "
+            "Change Title Value, because partial payment "
+            "of %d done."
+        ) % (self.debit - self.amount_residual)
 
         self.create_payment_line_from_move_line(payorder)
 
-        self.cnab_state = 'added'
+        self.cnab_state = "added"
 
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
@@ -354,7 +384,8 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         if not self.payment_mode_id.cnab_code_protest_title_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Protest Tittle Code')
+                self.payment_mode_id.name, "Protest Tittle Code"
+            )
 
         return self.payment_mode_id.cnab_code_protest_title_id
 
@@ -364,8 +395,8 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         if not self.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name,
-                'Suspend Protest and Keep in Wallet Code')
+                self.payment_mode_id.name, "Suspend Protest and Keep in Wallet Code"
+            )
 
         return self.payment_mode_id.cnab_code_suspend_protest_keep_wallet_id
 
@@ -378,8 +409,8 @@ class L10nBrCNABChangeMethods(models.Model):
 
         if not self.payment_mode_id.cnab_code_suspend_protest_write_off_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name,
-                'Suspend Protest and Writte Off Code')
+                self.payment_mode_id.name, "Suspend Protest and Writte Off Code"
+            )
 
         return self.payment_mode_id.cnab_code_suspend_protest_write_off_id
 
@@ -390,8 +421,7 @@ class L10nBrCNABChangeMethods(models.Model):
         :param reason: Descrição sobre alteração
         """
         if not self.payment_mode_id.cnab_code_grant_rebate_id:
-            self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Grant Rebate Code')
+            self._msg_error_cnab_missing(self.payment_mode_id.name, "Grant Rebate Code")
 
         return self.payment_mode_id.cnab_code_grant_rebate_id
 
@@ -402,7 +432,8 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         if not self.payment_mode_id.cnab_code_cancel_rebate_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Cancel Rebate Code')
+                self.payment_mode_id.name, "Cancel Rebate Code"
+            )
 
         return self.payment_mode_id.cnab_code_cancel_rebate_id
 
@@ -414,7 +445,8 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         if not self.payment_mode_id.cnab_code_grant_discount_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Grant Discount Code')
+                self.payment_mode_id.name, "Grant Discount Code"
+            )
 
         return self.payment_mode_id.cnab_code_grant_discount_id
 
@@ -425,7 +457,8 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         if not self.payment_mode_id.cnab_code_cancel_discount_id:
             self._msg_error_cnab_missing(
-                self.payment_mode_id.name, 'Cancel Discount Code')
+                self.payment_mode_id.name, "Cancel Discount Code"
+            )
 
         return self.payment_mode_id.cnab_code_cancel_discount_id
 
@@ -440,18 +473,18 @@ class L10nBrCNABChangeMethods(models.Model):
         """
 
         rebate_value = discount_value = False
-        if self.env.context.get('rebate_value'):
-            rebate_value = self.env.context.get('rebate_value')
+        if self.env.context.get("rebate_value"):
+            rebate_value = self.env.context.get("rebate_value")
 
-        if self.env.context.get('discount_value'):
-            discount_value = self.env.context.get('discount_value')
+        if self.env.context.get("discount_value"):
+            discount_value = self.env.context.get("discount_value")
 
         self.mov_instruction_code_id = cnab_code
         self.with_context(
-            rebate_value=rebate_value, discount_value=discount_value). \
-            create_payment_line_from_move_line(payorder)
+            rebate_value=rebate_value, discount_value=discount_value
+        ).create_payment_line_from_move_line(payorder)
 
-        self.cnab_state = 'added'
+        self.cnab_state = "added"
         # Registra as Alterações na Fatura
         self._msg_cnab_payment_order_at_invoice(new_payorder, payorder, reason)
 
@@ -462,32 +495,38 @@ class L10nBrCNABChangeMethods(models.Model):
 
     def _change_payment_mode(self, reason, new_payment_mode_id, **kwargs):
         moves_to_sync = self.filtered(
-            lambda m: m.payment_mode_id != new_payment_mode_id)
+            lambda m: m.payment_mode_id != new_payment_mode_id
+        )
         moves_to_sync._create_payment_order_change(
-            new_payment_mode_id=new_payment_mode_id, **kwargs)
-        moves_to_sync.write({
-            'payment_mode_id': new_payment_mode_id.id,
-            'last_change_reason': reason,
-        })
+            new_payment_mode_id=new_payment_mode_id, **kwargs
+        )
+        moves_to_sync.write(
+            {
+                "payment_mode_id": new_payment_mode_id.id,
+                "last_change_reason": reason,
+            }
+        )
 
     def _create_baixa(self, reason, **kwargs):
         moves_to_sync = self.filtered(lambda m: True)
         # TODO: Verificar restrições possíveis
         moves_to_sync._create_payment_order_change(baixa=True, **kwargs)
-        moves_to_sync.write({
-            'last_change_reason': reason,
-            'payment_situation': 'baixa',  # FIXME: Podem ser múltiplos motivos
-        })
+        moves_to_sync.write(
+            {
+                "last_change_reason": reason,
+                "payment_situation": "baixa",  # FIXME: Podem ser múltiplos motivos
+            }
+        )
 
     def create_payment_outside_cnab(self, amount_payment):
 
         if self.amount_residual == 0.0:
             reason_write_off = (
-                ('Movement Instruction Code Updated for'
-                 ' Request to Write Off, because payment'
-                 ' of %s done outside CNAB.') % amount_payment)
-            payment_situation = 'baixa_liquidacao'
-            self.create_cnab_write_off(
-                reason_write_off, payment_situation)
+                "Movement Instruction Code Updated for"
+                " Request to Write Off, because payment"
+                " of %s done outside CNAB."
+            ) % amount_payment
+            payment_situation = "baixa_liquidacao"
+            self.create_cnab_write_off(reason_write_off, payment_situation)
         else:
             self.create_cnab_change_tittle_value()
