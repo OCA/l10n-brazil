@@ -106,10 +106,10 @@ class TestPaymentOrderInbound(SavepointCase):
         )
 
         # Verifica os campos CNAB na linhas de pagamentos
-        for l in payment_order.payment_line_ids:
-            assert l.own_number, "own_number field is not filled in Payment Line."
+        for line in payment_order.payment_line_ids:
+            assert line.own_number, "own_number field is not filled in Payment Line."
             assert (
-                l.mov_instruction_code_id
+                line.mov_instruction_code_id
             ), "mov_instruction_code_id field are not filled in Payment Line."
 
         # Ordem de Pagto CNAB não pode ser apagada
@@ -131,10 +131,10 @@ class TestPaymentOrderInbound(SavepointCase):
         self.assertEqual(payment_order.state, "open")
 
         # Verifica os campos CNAB na linhas de bancarias
-        for l in payment_order.bank_line_ids:
-            assert l.own_number, "own_number field is not filled in Payment Line."
+        for line in payment_order.bank_line_ids:
+            assert line.own_number, "own_number field is not filled in Payment Line."
             assert (
-                l.mov_instruction_code_id
+                line.mov_instruction_code_id
             ), "mov_instruction_code_id field are not filled in Payment Line."
 
         # Ordem de Pagto CNAB não pode ser Cancelada

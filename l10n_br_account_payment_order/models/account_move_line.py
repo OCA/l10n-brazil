@@ -277,10 +277,10 @@ class AccountMoveLine(models.Model):
                 ):
                     continue
                 if record.matched_credit_ids:
-                    for l in record.matched_credit_ids:
-                        if not l.already_send_cnab:
-                            record.create_payment_outside_cnab(l.amount)
-                            l.already_send_cnab = True
+                    for line in record.matched_credit_ids:
+                        if not line.already_send_cnab:
+                            record.create_payment_outside_cnab(line.amount)
+                            line.already_send_cnab = True
 
         return res
 
