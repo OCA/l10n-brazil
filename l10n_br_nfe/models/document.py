@@ -499,11 +499,17 @@ class NFe(spec_models.StackedModel):
         if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
             self.env.context.update({"tpAmb": self[xsd_field]})
-        elif xsd_field == "nfe40_fat":
+        elif xsd_field == "nfe40_fat" and (
+            self.nfe40_detPag and self.nfe40_detPag[0].nfe40_tPag != "90"
+        ):
             self._stacking_points["nfe40_fat"] = self._fields["nfe40_fat"]
             res = super()._export_field(xsd_field, class_obj, member_spec)
             self._stacking_points.pop("nfe40_fat")
             return res
+        elif xsd_field == "nfe40_vTroco" and (
+            self.nfe40_detPag and self.nfe40_detPag[0].nfe40_tPag == "90"
+        ):
+            return False
         return super(NFe, self)._export_field(xsd_field, class_obj, member_spec)
 
     def _export_many2one(self, field_name, xsd_required, class_obj=None):
