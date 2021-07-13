@@ -4,23 +4,21 @@
 
 from datetime import datetime
 
-from odoo.tests import tagged
-from odoo.tests import SavepointCase
-
 from odoo.exceptions import UserError
+from odoo.tests import SavepointCase, tagged
 
 
-@tagged('post_install', '-at_install')
+@tagged("post_install", "-at_install")
 class TestL10nBrAccountPaymentOder(SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.move_line_change_id = cls.env['account.move.line.cnab.change']
+        cls.move_line_change_id = cls.env["account.move.line.cnab.change"]
 
-        cls.chance_view_id = 'l10n_br_account_payment_order.' \
-            'account_move_line_cnab_change_form_view'
+        cls.chance_view_id = (
+            "l10n_br_account_payment_order." "account_move_line_cnab_change_form_view"
+        )
 
     def _payment_order_all_workflow(self, payment_order_id):
         """ Run all Payment Order Workflow"""
@@ -31,10 +29,12 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
 
     def _invoice_payment_order_all_workflow(self, invoice):
         """ Search for the payment order related to the invoice"""
-        payment_order_id = self.env['account.payment.order'].search([
-            ('state', '=', 'draft'),
-            ('payment_mode_id', '=', invoice.payment_mode_id.id)
-        ])
+        payment_order_id = self.env["account.payment.order"].search(
+            [
+                ("state", "=", "draft"),
+                ("payment_mode_id", "=", invoice.payment_mode_id.id),
+            ]
+        )
         assert payment_order_id, "Payment Order not created."
         self._payment_order_all_workflow(payment_order_id)
         return payment_order_id
@@ -42,17 +42,16 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
     def _prepare_change_view(self, financial_move_line_ids):
         """ Prepare context of the change view"""
         ctx = dict(
-            active_ids=financial_move_line_ids.ids,
-            active_model='account.move.line'
+            active_ids=financial_move_line_ids.ids, active_model="account.move.line"
         )
         return self.move_line_change_id.with_context(ctx)
 
-    def import_with_po_wizard(self, payment_mode_id, payment_type='inbound', aml=False):
+    def import_with_po_wizard(self, payment_mode_id, payment_type="inbound", aml=False):
         order_vals = {
-            'payment_type': payment_type,
-            'payment_mode_id': payment_mode_id.id,
+            "payment_type": payment_type,
+            "payment_mode_id": payment_mode_id.id,
         }
-        order = self.env['account.payment.order'].create(order_vals)
+        order = self.env["account.payment.order"].create(order_vals)
         with self.assertRaises(UserError):
             order.draft2open()
         order.payment_mode_id_change()
@@ -62,29 +61,25 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
         with self.assertRaises(UserError):
             order.draft2open()
 
-        line_create = self.env['account.payment.line.create'].with_context(
-            active_model='account.payment.order',
-            active_id=order.id
-        ).create({
-            'date_type': 'move',
-            'move_date': datetime.now()
-        })
-        line_create.payment_mode = 'same'
+        line_create = (
+            self.env["account.payment.line.create"]
+            .with_context(active_model="account.payment.order", active_id=order.id)
+            .create({"date_type": "move", "move_date": datetime.now()})
+        )
+        line_create.payment_mode = "same"
         line_create.move_line_filters_change()
         line_create.populate()
         line_create.create_payment_lines()
-        line_created_due = self.env[
-            'account.payment.line.create'].with_context(
-            active_model='account.payment.order',
-            active_id=order.id
-        ).create({
-            'date_type': 'due',
-            'target_move': 'all',
-            'due_date': datetime.now()
-        })
+        line_created_due = (
+            self.env["account.payment.line.create"]
+            .with_context(active_model="account.payment.order", active_id=order.id)
+            .create(
+                {"date_type": "due", "target_move": "all", "due_date": datetime.now()}
+            )
+        )
         line_created_due.populate()
         line_created_due.create_payment_lines()
         self.assertGreater(len(order.payment_line_ids), 0)
         self._payment_order_all_workflow(order)
-        self.assertEqual(order.state, 'done')
+        self.assertEqual(order.state, "done")
         return order

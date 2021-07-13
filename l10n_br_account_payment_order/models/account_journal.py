@@ -6,6 +6,6 @@ from odoo import fields, models
 
 class AccountJournal(models.Model):
 
-    _inherit = 'account.journal'
+    _inherit = "account.journal"
 
-    bank_code_bc = fields.Char(related='bank_id.code_bc')
+    bank_code_bc = fields.Char(related="bank_id.code_bc")

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!--ADD LOTE VIEW TREE ACT WINDOW-->
     <record id="action_l10n_br_cnab_evento" model="ir.actions.act_window">
