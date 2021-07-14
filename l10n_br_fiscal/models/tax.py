@@ -588,27 +588,131 @@ class Tax(models.Model):
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_issqn(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_issqn_wh(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_csll(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_csll_wh(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_irpj(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_irpj_wh(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_inss(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_inss_wh(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_ipi(self, tax, taxes_dict, **kwargs):
@@ -634,18 +738,83 @@ class Tax(models.Model):
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_ii(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_pis(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_pis_wh(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_cofins(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_cofins_wh(self, tax, taxes_dict, **kwargs):
+        discount_value = kwargs.get("discount_value", 0.00)
+        remove_from_base = [discount_value]
+
+        kwargs.update(
+            {
+                "remove_from_base": sum(remove_from_base),
+            }
+        )
+
+        taxes_dict[tax.tax_domain].update(
+            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
+        )
+
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_generic(self, tax, taxes_dict, **kwargs):
