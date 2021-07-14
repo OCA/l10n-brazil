@@ -364,9 +364,13 @@ class Document(models.Model):
                 record.write({
                     'verify_code': consulta['codigo_verificacao'],
                     'document_number': consulta['numero'],
-                    'data_hora_autorizacao': consulta['data_emissao']
+                    'authorization_date': consulta['data_emissao']
                 })
-                record.autorizacao_event_id.set_done(processo.retorno)
+                record.authorization_event_id.set_done(
+                    status_code=4, response=_('Procesado com Sucesso'),
+                    protocol_date=consulta['data_emissao'],
+                    protocol_number=record.authorization_protocol,
+                    file_response_xml=processo.retorno)
             return _(consulta)
 
     def cancel_document_paulistana(self):
@@ -393,7 +397,7 @@ class Document(models.Model):
                     else EVENT_ENV_HML
                 ),
                 event_type='2',
-                xml_file=processo.envio_xml.decode('utf-8'),
+                xml_file=processo.envio_xml,
                 document_id=record,
             )
 
