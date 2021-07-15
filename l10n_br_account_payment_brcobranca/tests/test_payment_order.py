@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 import os
-import time
+from datetime import date, timedelta
 from unittest import mock
 
 from odoo.exceptions import UserError
@@ -187,7 +187,7 @@ class TestPaymentOrder(SavepointCase):
         ctx = {"active_model": "account.invoice", "active_ids": [self.invoice_cef.id]}
         register_payments = self.register_payments_model.with_context(ctx).create(
             {
-                "payment_date": time.strftime("%Y") + "-07-15",
+                "payment_date": date.today(),
                 "journal_id": self.journal_cash.id,
                 "payment_method_id": self.payment_method_manual_in.id,
                 "amount": 600.0,
@@ -233,7 +233,8 @@ class TestPaymentOrder(SavepointCase):
         # Teste alteração com a mesma data não permitido
         with self.assertRaises(UserError):
             aml_cnab_change.doit()
-        dict_change_due_date.update({"date_maturity": time.strftime("%Y") + "-07-15"})
+        new_date = date.today() + timedelta(days=30)
+        dict_change_due_date.update({"date_maturity": new_date})
         aml_cnab_change = self.aml_cnab_change_model.with_context(
             self.ctx_change_cnab
         ).create(dict_change_due_date)
