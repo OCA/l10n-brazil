@@ -45,6 +45,8 @@ TAX_DICT_VALUES = {
     "value_amount": 0.00,
     "uot_id": False,
     "tax_value": 0.00,
+    "add_to_base": 0.00,
+    "remove_from_base": 0.00,
     "compute_reduction": True,
 }
 
@@ -183,9 +185,14 @@ class Tax(models.Model):
         precision = currency.decimal_places
         fiscal_price = kwargs.get("fiscal_price", 0.00)
         fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
-        add_to_base = kwargs.get("add_to_base", 0.00)
-        remove_from_base = kwargs.get("remove_from_base", 0.00)
         compute_reduction = kwargs.get("compute_reduction", True)
+        discount_value = kwargs.get("discount_value", 0.00)
+        insurance_value = kwargs.get("insurance_value", 0.00)
+        freight_value = kwargs.get("freight_value", 0.00)
+        other_value = kwargs.get("other_value", 0.00)
+
+        tax_dict["add_to_base"] += sum([freight_value, insurance_value, other_value])
+        tax_dict["remove_from_base"] += sum([discount_value])
 
         base = 0.00
 
@@ -206,7 +213,7 @@ class Tax(models.Model):
             base = round(fiscal_price * fiscal_quantity, precision)
 
         # Update Base Value
-        base_amount = (base + add_to_base) - remove_from_base
+        base_amount = (base + tax_dict["add_to_base"]) - tax_dict["remove_from_base"]
 
         # Compute Tax Base Reduction
         base_reduction = round(
@@ -233,7 +240,7 @@ class Tax(models.Model):
         return tax_dict
 
     def _compute_tax(self, tax, taxes_dict, **kwargs):
-
+        """Generic calculation of Brazilian taxes"""
         tax_dict = taxes_dict.get(tax.tax_domain)
         tax_dict["name"] = tax.name
         tax_dict["base_type"] = tax.tax_base_type
@@ -248,32 +255,12 @@ class Tax(models.Model):
         # partner = kwargs.get("partner")
         currency = kwargs.get("currency", company.currency_id)
         precision = currency.decimal_places
-        # product = kwargs.get("product")
-        # price_unit = kwargs.get("price_unit", 0.00)
-        # quantity = kwargs.get("quantity", 0.00)
-        # uom_id = kwargs.get("uom_id")
-        # fiscal_price = kwargs.get("fiscal_price", 0.00)
-        # fiscal_quantity = kwargs.get("fiscal_quantity", 0.00)
-        # uot_id = kwargs.get("uot_id")
-        discount_value = kwargs.get("discount_value", 0.00)
-        # insurance_value = kwargs.get("insurance_value", 0.00)
-        # other_value = kwargs.get("other_value", 0.00)
-        # freight_value = kwargs.get("freight_value", 0.00)
-        # ncm = kwargs.get("ncm")
-        # cest = kwargs.get("cest")
         operation_line = kwargs.get("operation_line")
-        remove_from_base = [discount_value]
 
         if tax.tax_group_id.base_without_icms:
             # Get Computed ICMS Tax
             tax_dict_icms = taxes_dict.get("icms", {})
-            remove_from_base.append(tax_dict_icms.get("tax_value", 0.00))
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
+            tax_dict["remove_from_base"] += tax_dict_icms.get("tax_value", 0.00)
 
         # TODO futuramente levar em consideração outros tipos de base de calculo
         if float_is_zero(tax_dict.get("base", 0.00), precision):
@@ -335,6 +322,7 @@ class Tax(models.Model):
         return amount_estimate_tax
 
     def _compute_icms(self, tax, taxes_dict, **kwargs):
+        tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
         company = kwargs.get("company")
         product = kwargs.get("product")
@@ -344,14 +332,7 @@ class Tax(models.Model):
         nbm = kwargs.get("nbm")
         cest = kwargs.get("cest")
         operation_line = kwargs.get("operation_line")
-        discount_value = kwargs.get("discount_value", 0.00)
-        insurance_value = kwargs.get("insurance_value", 0.00)
-        freight_value = kwargs.get("freight_value", 0.00)
-        other_value = kwargs.get("other_value", 0.00)
         ind_final = kwargs.get("ind_final", FINAL_CUSTOMER_NO)
-
-        add_to_base = [insurance_value, freight_value, other_value]
-        remove_from_base = [discount_value]
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
@@ -360,23 +341,13 @@ class Tax(models.Model):
             ind_final == FINAL_CUSTOMER_YES
         ):
             # Add IPI in ICMS Base
-            add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
+            tax_dict['add_to_base'] += tax_dict_ipi.get("tax_value", 0.00)
 
-        kwargs.update(
-            {
-                "add_to_base": sum(add_to_base),
-                "remove_from_base": sum(remove_from_base),
-                "icms_base_type": tax.icms_base_type,
-            }
-        )
+        # tax_dict.update(self._compute_tax_base(tax, tax_dict, **kwargs))
 
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
+        tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
 
-        taxes_dict[tax.tax_domain].update(self._compute_tax(tax, taxes_dict, **kwargs))
-
-        taxes_dict[tax.tax_domain].update({"icms_base_type": tax.icms_base_type})
+        # tax_dict.update({"icms_base_type": tax.icms_base_type})
 
         # DIFAL
         # TODO
@@ -385,7 +356,8 @@ class Tax(models.Model):
             company.state_id != partner.state_id
             and operation_line.fiscal_operation_type == FISCAL_OUT
             and partner.ind_ie_dest == NFE_IND_IE_DEST_9
-            and taxes_dict[tax.tax_domain].get("tax_value")
+            and not partner.is_company
+            and tax_dict.get("tax_value")
         ):
             tax_icms_difal = company.icms_regulation_id.map_tax_icms_difal(
                 company, partner, product, ncm, nbm, cest, operation_line
@@ -395,10 +367,10 @@ class Tax(models.Model):
             )
 
             # Difal - Origin Percent
-            icms_origin_perc = taxes_dict[tax.tax_domain].get("percent_amount")
+            icms_origin_perc = tax_dict.get("percent_amount")
 
             # Difal - Origin Value
-            icms_origin_value = taxes_dict[tax.tax_domain].get("tax_value")
+            icms_origin_value = tax_dict.get("tax_value")
 
             # Difal - Destination Percent
             icms_dest_perc = 0.00
@@ -411,7 +383,7 @@ class Tax(models.Model):
                 icmsfcp_perc = tax_icmsfcp_difal[0].percent_amount
 
             # Difal - Base
-            icms_base = taxes_dict[tax.tax_domain].get("base")
+            icms_base = tax_dict.get("base")
             difal_icms_base = 0.00
 
             # Difal - ICMS Dest Value
@@ -437,25 +409,25 @@ class Tax(models.Model):
             date_year = fields.Date.today().year
 
             if date_year >= 2019:
-                taxes_dict[tax.tax_domain].update(ICMS_DIFAL_PARTITION[2019])
+                tax_dict.update(ICMS_DIFAL_PARTITION[2019])
             else:
                 if date_year == 2018:
-                    taxes_dict[tax.tax_domain].update(ICMS_DIFAL_PARTITION[2018])
+                    tax_dict.update(ICMS_DIFAL_PARTITION[2018])
                 if date_year == 2017:
-                    taxes_dict[tax.tax_domain].update(ICMS_DIFAL_PARTITION[2017])
+                    tax_dict.update(ICMS_DIFAL_PARTITION[2017])
                 else:
-                    taxes_dict[tax.tax_domain].update(ICMS_DIFAL_PARTITION[2016])
+                    tax_dict.update(ICMS_DIFAL_PARTITION[2016])
 
-            difal_share_origin = taxes_dict[tax.tax_domain].get("difal_origin_perc")
+            difal_share_origin = tax_dict.get("difal_origin_perc")
 
-            difal_share_dest = taxes_dict[tax.tax_domain].get("difal_dest_perc")
+            difal_share_dest = tax_dict.get("difal_dest_perc")
 
             difal_origin_value = round(
                 difal_value * difal_share_origin / 100, precision
             )
             difal_dest_value = round(difal_value * difal_share_dest / 100, precision)
 
-            taxes_dict[tax.tax_domain].update(
+            tax_dict.update(
                 {
                     "icms_origin_perc": icms_origin_perc,
                     "icms_dest_perc": icms_dest_perc,
@@ -470,51 +442,43 @@ class Tax(models.Model):
 
     def _compute_icmsfcp(self, tax, taxes_dict, **kwargs):
         """Compute ICMS FCP"""
+        tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
         company = kwargs.get("company")
         icms_cst_id = kwargs.get("icms_cst_id")
 
         if taxes_dict.get("icms"):
             if company.state_id != partner.state_id:
-                taxes_dict[tax.tax_domain]["base"] = taxes_dict["icms"].get(
+                tax_dict["base"] = taxes_dict["icms"].get(
                     "icms_dest_base", 0.0
                 )
             else:
-                taxes_dict[tax.tax_domain]["base"] = taxes_dict["icms"].get("base", 0.0)
+                tax_dict["base"] = taxes_dict["icms"].get("base", 0.0)
         elif taxes_dict.get("icmssn"):
-            taxes_dict[tax.tax_domain]["base"] = taxes_dict["icmssn"].get("base", 0.0)
+            tax_dict["base"] = taxes_dict["icmssn"].get("base", 0.0)
 
-        taxes_dict[tax.tax_domain].pop("percent_amount", None)
+        tax_dict.pop("percent_amount", None)
 
-        taxes_dict[tax.tax_domain].update(self._compute_tax(tax, taxes_dict, **kwargs))
+        tax_dict.update(self._compute_tax(tax, taxes_dict, **kwargs))
 
-        taxes_dict[tax.tax_domain].update({"icms_base_type": tax.icms_base_type})
+        tax_dict.update({"icms_base_type": tax.icms_base_type})
 
-        taxes_dict[tax.tax_domain]["fcpst_base"] = taxes_dict.get("icmsst", {}).get(
-            "base", 0.00
+        tax_dict["fcpst_base"] = taxes_dict.get("icmsst", {}).get("base", 0.00
         )
 
         # TODO Improve this condition
         if icms_cst_id.code in ICSM_CST_CSOSN_ST_BASE:
-            taxes_dict[tax.tax_domain]["fcpst_value"] = taxes_dict[tax.tax_domain][
+            tax_dict["fcpst_value"] = tax_dict[
                 "fcpst_base"
-            ] * (taxes_dict[tax.tax_domain]["percent_amount"] / 100)
-            taxes_dict[tax.tax_domain]["fcpst_value"] -= taxes_dict[tax.tax_domain][
-                "tax_value"
-            ]
+            ] * (tax_dict["percent_amount"] / 100)
+            tax_dict["fcpst_value"] -= tax_dict["tax_value"]
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_icmsst(self, tax, taxes_dict, **kwargs):
         # partner = kwargs.get("partner")
         # company = kwargs.get("company")
-        discount_value = kwargs.get("discount_value", 0.00)
-        insurance_value = kwargs.get("insurance_value", 0.00)
-        freight_value = kwargs.get("freight_value", 0.00)
-        other_value = kwargs.get("other_value", 0.00)
-
-        add_to_base = [insurance_value, freight_value, other_value]
-        remove_from_base = [discount_value]
+        add_to_base = []
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
@@ -523,7 +487,6 @@ class Tax(models.Model):
         kwargs.update(
             {
                 "add_to_base": sum(add_to_base),
-                "remove_from_base": sum(remove_from_base),
                 "icmsst_base_type": tax.icmsst_base_type,
             }
         )
@@ -545,14 +508,9 @@ class Tax(models.Model):
         partner = kwargs.get("partner")
         company = kwargs.get("company")
         cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
-        discount_value = kwargs.get("discount_value", 0.00)
-        insurance_value = kwargs.get("insurance_value", 0.00)
-        freight_value = kwargs.get("freight_value", 0.00)
-        other_value = kwargs.get("other_value", 0.00)
         icmssn_range = kwargs.get("icmssn_range")
 
-        add_to_base = [insurance_value, freight_value, other_value]
-        remove_from_base = [discount_value]
+        add_to_base = []
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
@@ -577,7 +535,6 @@ class Tax(models.Model):
         kwargs.update(
             {
                 "add_to_base": sum(add_to_base),
-                "remove_from_base": sum(remove_from_base),
             }
         )
 
@@ -588,240 +545,48 @@ class Tax(models.Model):
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def _compute_issqn(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_issqn_wh(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_csll(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_csll_wh(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_irpj(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_irpj_wh(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_inss(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_inss_wh(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_ipi(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        insurance_value = kwargs.get("insurance_value", 0.00)
-        freight_value = kwargs.get("freight_value", 0.00)
-        other_value = kwargs.get("other_value", 0.00)
-
-        add_to_base = [insurance_value, freight_value, other_value]
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "add_to_base": sum(add_to_base),
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_ii(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_pis(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_pis_wh(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_cofins(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_cofins_wh(self, tax, taxes_dict, **kwargs):
-        discount_value = kwargs.get("discount_value", 0.00)
-        remove_from_base = [discount_value]
-
-        kwargs.update(
-            {
-                "remove_from_base": sum(remove_from_base),
-            }
-        )
-
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_generic(tax, taxes_dict, **kwargs)
 
     def _compute_generic(self, tax, taxes_dict, **kwargs):
-        taxes_dict[tax.tax_domain].update(
-            self._compute_tax_base(tax, taxes_dict.get(tax.tax_domain), **kwargs)
-        )
-
         return self._compute_tax(tax, taxes_dict, **kwargs)
 
     def compute_taxes(self, **kwargs):
