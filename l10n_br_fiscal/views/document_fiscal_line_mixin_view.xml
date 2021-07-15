@@ -41,10 +41,7 @@
                             >
                 <group>
                   <field name="issqn_tax_id" />
-                  <field
-                                        name="issqn_fg_city_id"
-                                        attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"
-                                    />
+                  <field name="issqn_fg_city_id" />
                   <field
                                         name="issqn_eligibility"
                                         attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"
