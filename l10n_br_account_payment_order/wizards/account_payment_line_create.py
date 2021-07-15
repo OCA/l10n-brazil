@@ -5,24 +5,23 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class AccountPaymentLineCreate(models.TransientModel):
-    _inherit = 'account.payment.line.create'
+    _inherit = "account.payment.line.create"
 
     allow_error = fields.Boolean(
         string="Permitir linhas com erro na exportação, "
-               "já incluidas em outras ordens",
+        "já incluidas em outras ordens",
     )
 
     allow_rejected = fields.Boolean(
         string="Permitir linhas com retorno rejeitado",
     )
 
-    @api.multi
     def _prepare_move_line_domain(self):
-        """ Nenhuma linha deve ser adicionada novamente a nao ser que o
+        """Nenhuma linha deve ser adicionada novamente a nao ser que o
         retorno do cnab informe que o registro falhou,
 
         entretanto o super tem um trecho:
