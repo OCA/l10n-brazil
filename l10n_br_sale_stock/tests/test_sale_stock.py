@@ -94,9 +94,6 @@ class TestSaleStock(SavepointCase):
 
         # validate stock.picking
         stock_picking = self.so.picking_ids
-        self.env["stock.immediate.transfer"].create(
-            {"pick_ids": [(4, stock_picking.id)]}
-        ).process()
 
         # compare sale.order.line with stock.move
         stock_move = stock_picking.move_lines
@@ -110,6 +107,40 @@ class TestSaleStock(SavepointCase):
             "display_name",
             "state",
         ]
+        common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
+
+        for field in common_fields:
+            self.assertEqual(
+                stock_move[field],
+                sale_order_line[field],
+                "Field %s failed to transfer from "
+                "sale.order.line to stock.move" % field,
+            )
+
+        self.env["stock.immediate.transfer"].create(
+            {"pick_ids": [(4, stock_picking.id)]}
+        ).process()
+
+        # O valor do price_unit da stock.move é alterado ao Confirmar o
+        # stock.picking de acordo com a forma de valorização de estoque
+        # definida( ex.: metodo _run_fifo é chamado e altera o valor do
+        # price_unit https://github.com/odoo/odoo/blob/12.0/addons
+        # /stock_account/models/stock.py#L255 ), por isso os campos
+        # relacionados a esse valor não são iguais.
+        # O teste está sendo feito novamente para essa questão ficar clara
+        # em alterações e migrações.
+        skipped_fields_after_confirm = [
+            "price_gross",
+            "amount_taxed",
+            "financial_total",
+            "fiscal_price",
+            "amount_fiscal",
+            "price_unit",
+            "amount_untaxed",
+            "amount_total",
+        ]
+        skipped_fields[len(skipped_fields) :] = skipped_fields_after_confirm
+
         common_fields = list(set(sm_fields) & set(sol_fields) - set(skipped_fields))
 
         for field in common_fields:
@@ -149,6 +180,10 @@ class TestSaleStock(SavepointCase):
         # Force product availability
         for move in picking.move_ids_without_package:
             move.quantity_done = move.product_uom_qty
+            # Usado para validar a transferencia dos campos da linha
+            # do Pedido de Venda para a linha da Fatura/Invoice
+            sale_order_line = move.sale_line_id
+
         picking.button_validate()
         self.assertEqual(picking.state, "done")
         wizard_obj = self.invoice_wizard.with_context(
@@ -194,6 +229,30 @@ class TestSaleStock(SavepointCase):
                 # A quantidade Faturada deve ser igual
                 # a Quantidade do Produto
                 self.assertEqual(line.product_uom_qty, line.qty_invoiced)
+
+        # Checar se os campos das linhas do Pedido de Vendas
+        # estão iguais as linhas da Fatura/Invoice.
+        sol_fields = [key for key in self.env["sale.order.line"]._fields.keys()]
+
+        acl_fields = [key for key in self.env["account.invoice.line"]._fields.keys()]
+
+        skipped_fields = [
+            "id",
+            "display_name",
+            "state",
+            "create_date",
+        ]
+
+        common_fields = list(set(acl_fields) & set(sol_fields) - set(skipped_fields))
+        invoice_lines = picking.invoice_ids.invoice_line_ids
+
+        for field in common_fields:
+            self.assertEqual(
+                sale_order_line[field],
+                invoice_lines[field],
+                "Field %s failed to transfer from "
+                "sale.order.line to account.invoice.line" % field,
+            )
 
         # Teste de Retorno
         self.return_wizard = self.stock_return_picking.with_context(
