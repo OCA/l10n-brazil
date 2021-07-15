@@ -140,7 +140,7 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:664
+#: code:addons/l10n_br_nfe/models/document.py:670
 #, python-format
 msgid "Authorization Protocol Not Found!"
 msgstr ""
