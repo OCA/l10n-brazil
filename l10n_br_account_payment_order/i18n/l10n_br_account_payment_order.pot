@@ -706,7 +706,7 @@ msgid "Arquivo gerado com problemas..."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:124
+#: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:126
 #, python-format
 msgid "Arquivo gerado com sucesso."
 msgstr ""
@@ -1144,7 +1144,7 @@ msgid "Carteira"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:111
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:114
 #, python-format
 msgid "Carteira no banco Itaú é obrigatória"
 msgstr ""
@@ -1636,6 +1636,12 @@ msgid "Erro ao exportar"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:114
+#, python-format
+msgid "Erro ao gerar o arquivo, verifique a aba Linhas com problemas."
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__boleto_species
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__boleto_species
 msgid "Espécie do Título"
@@ -1670,7 +1676,7 @@ msgid "Fatura"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:130
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:133
 #, python-format
 msgid "Favor acessar aba Cobrança da configuração da sua empresa para determinar o tipo de sequencia utilizada nas cobrancas"
 msgstr ""
@@ -1861,14 +1867,14 @@ msgid "Invoice"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__is_cnab
-msgid "Is CNAB ?"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_event__is_cnab_lot
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__is_cnab_lot
 msgid "Is CNAB Lot?"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
+#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_move__is_cnab
+msgid "Is CNAB?"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2107,7 +2113,7 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:177
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:204
 #, python-format
 msgid "New Date Maturity %s is equal to actual Date Maturity %s"
 msgstr ""
@@ -2241,7 +2247,7 @@ msgid "Número sequencial do arquivo"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:144
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:147
 #, python-format
 msgid "O percentual deve ser um valor entre 0 a 100."
 msgstr ""
@@ -2332,7 +2338,7 @@ msgid "Payment Mode"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:137
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:159
 #, python-format
 msgid "Payment Mode %s don't has %s for making CNAB change, check if should have."
 msgstr ""
@@ -2348,14 +2354,14 @@ msgid "Payment Order"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:124
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:143
 #, python-format
 msgid "Payment line added to the existing draft order %s to send CNAB Instruction %s for OWN NUMBER %s.\n"
 "Justification: %s"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:117
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:133
 #, python-format
 msgid "Payment line added to the the new draft payment order %s which has been automatically created, to send CNAB Instruction %s for OWN NUMBER %s.\n"
 "Justification: %s"
@@ -2480,13 +2486,13 @@ msgid "Sending Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:181
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:188
 #, python-format
 msgid "Sequence CNAB Sequence already in use by %s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:167
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:173
 #, python-format
 msgid "Sequence Own Number already in use by %s."
 msgstr ""
@@ -2535,7 +2541,7 @@ msgid "Situação do Pagamento"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/ir_attachment.py:17
+#: code:addons/l10n_br_account_payment_order/models/ir_attachment.py:20
 #, python-format
 msgid "Sorry, you are not allowed to delete the attachment."
 msgstr ""
@@ -2582,7 +2588,7 @@ msgid "Taxas"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:54
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:53
 #, python-format
 msgid "The Code %s already exist %s for Bank and CNAB type."
 msgstr ""
@@ -2595,13 +2601,13 @@ msgid "The Payment Mode can not be used for CNAB with the field %s active. \n"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:40
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:36
 #, python-format
 msgid "The field Code should have two characters."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:96
+#: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_change_methods.py:105
 #, python-format
 msgid "There is a CNAB Payment Order %s in status %s related to invoice %s created, the CNAB file should be sent to bank, because only after that it is possible make another CNAB Instruction."
 msgstr ""
@@ -2834,13 +2840,13 @@ msgid "Write Off Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:148
+#: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:149
 #, python-format
 msgid "You cannot Cancel CNAB order."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:136
+#: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:138
 #, python-format
 msgid "You cannot delete CNAB order."
 msgstr ""
