@@ -13,8 +13,6 @@ exclude: |
   ^l10n_br_nfse_ginfes/|
   ^l10n_br_nfse_issnet/|
   ^l10n_br_nfse_paulistana/|
-  # ^l10n_br_product_contract/|
-  ^l10n_br_repair/|
   ^l10n_br_website_sale/|
   ^l10n_br_website_sale_delivery/|
   ^payment_cielo/|
