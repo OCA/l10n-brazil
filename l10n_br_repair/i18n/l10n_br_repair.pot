@@ -1065,13 +1065,13 @@ msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:395
+#: code:addons/l10n_br_repair/models/repair_order.py:402
 #, python-format
 msgid "No account defined for partner \"%s\"."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:422
+#: code:addons/l10n_br_repair/models/repair_order.py:407
 #, python-format
 msgid "No product defined on fees."
 msgstr ""
@@ -1291,19 +1291,19 @@ msgid "Percent"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:302
+#: code:addons/l10n_br_repair/models/repair_order.py:334
 #, python-format
 msgid "Please define an accounting sales journal for this company."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:295
+#: code:addons/l10n_br_repair/models/repair_order.py:324
 #, python-format
 msgid "Please define an default document type for this company."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/fiscal_line_mixin.py:91
+#: code:addons/l10n_br_repair/models/fiscal_line_mixin.py:100
 #, python-format
 msgid "Please define income account for this product: \"%s\" (id:%d) - or for its category: \"%s\"."
 msgstr ""
@@ -1574,7 +1574,7 @@ msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:377
+#: code:addons/l10n_br_repair/models/repair_order.py:396
 #, python-format
 msgid "You have to select an invoice address in the repair form."
 msgstr ""
