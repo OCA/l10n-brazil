@@ -842,6 +842,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     additional_data = fields.Char(string="Additional Data")
 
+    manual_additional_data = fields.Char(string="Manual Additional Data", help="Additional data manually entered by user")
+
     amount_estimate_tax = fields.Monetary(
         string="Amount Estimate Tax",
     )
