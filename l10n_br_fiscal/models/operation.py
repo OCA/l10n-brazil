@@ -17,7 +17,7 @@ from ..constants.fiscal import (
 class Operation(models.Model):
     _name = "l10n_br_fiscal.operation"
     _description = "Fiscal Operation"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "l10n_br_fiscal.data.abstract"]
 
     code = fields.Char(
         string="Code",
