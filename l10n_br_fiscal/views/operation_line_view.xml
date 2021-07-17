@@ -7,6 +7,11 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="name" />
+                <field name="cfop_internal_id" context="{'show_code_only': 1}" />
+                <field name="cfop_external_id" context="{'show_code_only': 1}" />
+                <field name="cfop_export_id" context="{'show_code_only': 1}" />
+                <field name="tax_definition_ids" widget="many2many_tags" />
+                <field name="state" />
             </tree>
         </field>
     </record>
@@ -30,30 +35,32 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
-                    <group>
+                    <h2>
+                        <label for="name" />
                         <field name="name" />
-                    </group>
-                    <notebook>
-                      <page name="general" string="General">
-                        <group string="Tax Framework" name="tax_framework">
-                            <field name="partner_tax_framework" />
+                    </h2>
+                    <group>
+                        <group string="Company and Partner" name="tax_framework">
                             <field name="company_tax_framework" />
+                            <field name="partner_tax_framework" />
                             <field name="ind_ie_dest" />
-                            <field name="document_type_id" />
                         </group>
-                        <group>
+                        <group string="Product Information">
                             <field name="product_type" />
                             <field name="tax_icms_or_issqn" />
                             <field name="icms_origin" />
-                            <field name="add_to_amount" />
                         </group>
-                      </page>
-                      <page
-                            name="cfop"
-                            string="CFOPs"
-                            attrs="{'invisible': [('fiscal_operation_type', '=', 'all')]}"
-                        >
-                          <group>
+                    </group>
+                    <notebook>
+                        <page name="general" string="General">
+                            <group name="gereral_settings">
+                                <field name="document_type_id" />
+                                <field name="add_to_amount" />
+                            </group>
+                            <group
+                                name="general_cfop"
+                                attrs="{'invisible': [('fiscal_operation_type', '=', 'all')]}"
+                            >
                             <field
                                     name="cfop_internal_id"
                                     options="{'no_create': True, 'no_create_edit': True}"
@@ -66,8 +73,8 @@
                                     name="cfop_export_id"
                                     options="{'no_create': True, 'no_create_edit': True}"
                                 />
-                          </group>
-                      </page>
+                            </group>
+                        </page>
                       <page name="tax_definitions" string="Tax Definitions">
                           <field
                                 name="tax_definition_ids"

@@ -107,7 +107,7 @@ class OperationLine(models.Model):
     )
 
     company_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK, string="Copmpany Tax Framework"
+        selection=TAX_FRAMEWORK, string="Company Tax Framework"
     )
 
     add_to_amount = fields.Boolean(string="Add to Document Amount?", default=True)
