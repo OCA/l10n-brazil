@@ -27,7 +27,7 @@
                         class="oe_highlight"
                         groups="l10n_br_fiscal.group_manager"
                     />
-                    <field name="state" widget="statusbar" />
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}" />
                 </header>
                 <sheet>
                     <group>
