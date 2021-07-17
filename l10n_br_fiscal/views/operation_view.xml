@@ -78,6 +78,7 @@
                         <group>
                             <field name="fiscal_operation_type" />
                             <field name="fiscal_type" />
+                            <field name="edoc_purpose" />
                         </group>
                         <group>
                             <field name="company_id" groups="base.group_multi_company"/>

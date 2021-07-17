@@ -185,6 +185,7 @@
         <field name="fiscal_type">sale_refund</field>
         <field name="default_price_unit">cost_price</field>
         <field name="state">approved</field>
+        <field name="edoc_purpose">4</field>
     </record>
 
     <record
@@ -273,6 +274,7 @@
         <field name="fiscal_type">purchase_refund</field>
         <field name="default_price_unit">cost_price</field>
         <field name="state">approved</field>
+        <field name="edoc_purpose">4</field>
     </record>
 
     <record
