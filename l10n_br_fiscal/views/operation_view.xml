@@ -27,6 +27,10 @@
             <tree>
                 <field name="code" />
                 <field name="name" />
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="fiscal_operation_type" />
+                <field name="fiscal_type" />
+                <field name="ind_final" />
                 <field name="state" />
             </tree>
         </field>
@@ -74,6 +78,7 @@
                             <field name="fiscal_type" />
                             <field name="company_id" />
                             <field name="edoc_purpose" />
+                            <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <group>
                             <field name="default_price_unit" />
