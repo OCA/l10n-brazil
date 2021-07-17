@@ -70,10 +70,22 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
+                    <h1 class="o_row row no-gutters d-flex">
+                        <div class="col-2">
+                            <label for="code" class="oe_edit_only" />
+                            <div class="o_row">
+                                <field name="code" class="oe_inline" />
+                            </div>
+                        </div>
+                        <div class="col-10">
+                            <label for="name" class="oe_edit_only" />
+                            <div class="o_row d-flex">
+                                <field name="name" class="oe_inline" />
+                            </div>
+                        </div>
+                    </h1>
                     <group>
                         <group>
-                            <field name="code" />
-                            <field name="name" />
                             <field name="fiscal_operation_type" />
                             <field name="fiscal_type" />
                             <field name="company_id" />
@@ -84,6 +96,10 @@
                             />
                         </group>
                         <group>
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                            />
                             <field name="default_price_unit" />
                             <field name="return_fiscal_operation_id" />
                             <field name="inverse_fiscal_operation_id" />
@@ -95,14 +111,6 @@
                                 name="line_ids"
                                 context="{'default_fiscal_operation_id': id, 'default_fiscal_type': fiscal_type, 'default_fiscal_operation_type': fiscal_operation_type, 'form_view_ref': 'l10n_br_fiscal.operation_line_form' , 'show_code_only': 1}"
                             >
-                                <tree>
-                                    <field name="name" />
-                                    <field name="cfop_internal_id" />
-                                    <field name="cfop_external_id" />
-                                    <field name="cfop_export_id" />
-                                    <field name="fiscal_operation_type" />
-                                    <field name="state" />
-                                </tree>
                             </field>
                         </page>
                         <page name="operation_document_type" string="Fiscal Documents">
@@ -129,10 +137,11 @@
                                 </form>
                             </field>
                         </page>
-                        <page
-                            name="subsequent_operation"
-                            string="Subsequent Operations"
-                        >
+                        <page name="subsequent_operation" string="Operations">
+                            <group>
+                                <field name="return_fiscal_operation_id" />
+                                <field name="inverse_fiscal_operation_id" />
+                            </group>
                             <field name="operation_subsequent_ids" />
                         </page>
                         <page name="notes" string="Notes">
