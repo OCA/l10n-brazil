@@ -41,6 +41,17 @@ class Operation(models.Model):
         states={"draft": [("readonly", False)]},
     )
 
+    edoc_purpose = fields.Selection(
+        selection=[
+            ("1", "Normal"),
+            ("2", "Complementar"),
+            ("3", "Ajuste"),
+            ("4", "Devolução de mercadoria"),
+        ],
+        string="Finalidade",
+        default="1",
+    )
+
     default_price_unit = fields.Selection(
         selection=[("sale_price", _("Sale Price")), ("cost_price", _("Cost Price"))],
         string="Default Price Unit?",

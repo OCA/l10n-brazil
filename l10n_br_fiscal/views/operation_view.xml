@@ -73,6 +73,7 @@
                             <field name="fiscal_operation_type" />
                             <field name="fiscal_type" />
                             <field name="company_id" />
+                            <field name="edoc_purpose" />
                         </group>
                         <group>
                             <field name="default_price_unit" />
