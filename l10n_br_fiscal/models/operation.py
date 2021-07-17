@@ -238,8 +238,11 @@ class Operation(models.Model):
             company = self.env.company
 
         line = self.line_ids.search(
-            self._line_domain(company, partner, product), limit=1
+            self._line_domain(company, partner, product)
         )
+
+        if len(line) > 1:
+            raise UserError(_('Mais de uma linha de operação selecionada'))
 
         return line
 
