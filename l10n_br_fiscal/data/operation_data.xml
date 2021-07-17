@@ -42,6 +42,58 @@
         <field name="product_type">00</field>
     </record>
 
+  <record id="fo_venda_venda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="name">Venda</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5101" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6101" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7101" />
+        <field name="state">approved</field>
+        <field name="product_type">04</field>
+    </record>
+
+    <record id="fo_venda_revenda" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="name">Revenda</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5102" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6102" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7102" />
+        <field name="state">approved</field>
+        <field name="product_type">00</field>
+    </record>
+
+  <record id="fo_venda_venda_st_substituido" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="name">Venda ST contribuinte substituto</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5401" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6401" />
+        <field name="state">approved</field>
+        <field name="product_type">04</field>
+    </record>
+
+    <record id="fo_venda_revenda_st_substituto" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="name">Revenda ST contribuinte substituto</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5403" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6403" />
+        <field name="state">approved</field>
+        <field name="product_type">00</field>
+    </record>
+
+    <record id="fo_venda_revenda_st_substituído" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="name">Revenda ST contribuinte substituído</field>
+        <field name="ind_ie_dest">1</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5405" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6404" />
+        <field name="state">approved</field>
+        <field name="product_type">00</field>
+    </record>
+
     <record id="fo_venda_venda_nao_contribuinte" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="name">Venda não Contribuinte</field>
