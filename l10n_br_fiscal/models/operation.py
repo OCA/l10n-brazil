@@ -135,15 +135,19 @@ class Operation(models.Model):
 
     def action_review(self):
         self.write({"state": "review"})
-        self.line_ids.write({"state": "review"})
+        self.line_ids.filtered(lambda l: l.state == "draft").write({"state": "review"})
 
     def action_approve(self):
         self.write({"state": "approved"})
-        self.line_ids.write({"state": "approved"})
+        self.line_ids.filtered(lambda l: l.state == "review").write(
+            {"state": "approved"}
+        )
 
     def action_draft(self):
         self.write({"state": "draft"})
-        self.line_ids.write({"state": "draft"})
+        self.line_ids.filtered(lambda l: l.state == "approved").write(
+            {"state": "draft"}
+        )
 
     def unlink(self):
         operations = self.filtered(lambda l: l.state == "approved")
@@ -222,12 +226,10 @@ class Operation(models.Model):
         if not company:
             company = self.env.user.company_id
 
-        line = self.line_ids.search(
-            self._line_domain(company, partner, product)
-        )
+        line = self.line_ids.search(self._line_domain(company, partner, product))
 
         if len(line) > 1:
-            raise UserError(_('Mais de uma linha de operação selecionada'))
+            raise UserError(_("Mais de uma linha de operação selecionada"))
 
         return line
 
