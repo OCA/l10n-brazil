@@ -423,7 +423,7 @@
                   <group string="ICMS">
                     <field name="amount_icms_base" />
                     <field name="amount_icms_value" />
-                    <field name="amount_icmssn_value" />
+                    <field name="amount_icmssn_credit_value" />
                   </group>
                   <group string="ICMS ST">
                     <field name="amount_icmsst_base" />
