@@ -130,8 +130,8 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute="_compute_amount",
     )
 
-    amount_icmssn_value = fields.Monetary(
-        string="ICMSSN Value",
+    amount_icmssn_credit_value = fields.Monetary(
+        string="ICMSSN Credit Value",
         compute="_compute_amount",
     )
 
