@@ -199,7 +199,7 @@ class Operation(models.Model):
 
         return serie
 
-    def _line_domain(self, company, partner, product):
+    def _line_domain(self, company, partner, product, icms_regulation):
 
         domain = [
             ("fiscal_operation_id", "=", self.id),
@@ -246,6 +246,12 @@ class Operation(models.Model):
             ("tax_icms_or_issqn", "=", False),
         ]
 
+        domain += [
+            "|",
+            ("icms_regulation_id", "=", icms_regulation.id),
+            ("icms_regulation_id", "=", False),
+        ]
+
         return domain
 
     def line_definition(self, company, partner, product, icms_regulation):
@@ -253,7 +259,9 @@ class Operation(models.Model):
         if not company:
             company = self.env.user.company_id
 
-        line = self.line_ids.search(self._line_domain(company, partner, product))
+        line = self.line_ids.search(
+            self._line_domain(company, partner, product, icms_regulation)
+        )
 
         if len(line) > 1:
             line = line.filtered(lambda x: x.icms_regulation_id == icms_regulation)

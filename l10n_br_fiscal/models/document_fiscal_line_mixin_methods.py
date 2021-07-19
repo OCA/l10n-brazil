@@ -5,6 +5,7 @@ from lxml import etree
 
 from odoo import api, models
 from odoo.osv.orm import setup_modifiers
+from odoo.exceptions import UserError
 
 from ..constants.icms import ICMS_BASE_TYPE_DEFAULT, ICMS_ST_BASE_TYPE_DEFAULT
 from .tax import TAX_DICT_VALUES
@@ -312,10 +313,19 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             if self.product_id and self.product_id.tax_definition_ids:
                 tax_definition_ids |= self.product_id.tax_definition_ids
             if tax_definition_ids:
+                tax_definition_ids = tax_definition_ids.map_tax_definition(
+                    company=self.company_id,
+                    partner=self.partner_id,
+                    product=self.product_id,
+                )
                 icms_regulation_id |= tax_definition_ids.mapped("icms_regulation_id")
 
         if not icms_regulation_id and self.company_id.icms_regulation_id:
             icms_regulation_id |= self.company_id.icms_regulation_id
+
+        if len(icms_regulation_id) > 1:
+            raise UserError(_("""Multiplos Regulamentos do ICMS encontrados, 
+                favor revisar a parametrização fiscal"""))
 
         self.icms_regulation_id = icms_regulation_id
 
