@@ -248,7 +248,7 @@ class Operation(models.Model):
 
         return domain
 
-    def line_definition(self, company, partner, product):
+    def line_definition(self, company, partner, product, icms_regulation):
         self.ensure_one()
         if not company:
             company = self.env.user.company_id
@@ -256,7 +256,10 @@ class Operation(models.Model):
         line = self.line_ids.search(self._line_domain(company, partner, product))
 
         if len(line) > 1:
-            raise UserError(_("Mais de uma linha de operação selecionada"))
+            line = line.filtered(lambda x: x.icms_regulation_id == icms_regulation)
+
+            if len(line) > 1:
+                raise UserError(_("Mais de uma linha de operação selecionada"))
 
         return line
 

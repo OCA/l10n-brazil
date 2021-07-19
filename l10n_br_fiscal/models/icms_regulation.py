@@ -1304,6 +1304,18 @@ class ICMSRegulation(models.Model):
                 ("tax_group_id", "=", tax_group_icms.id),
                 ("state_from_id", "=", company.state_id.id),
                 ("state_to_ids", "=", partner.state_id.id),
+                "|",
+                ("ncm_ids", "=", False),
+                ("ncm_ids", "=", ncm.id),
+                "|",
+                ("nbm_ids", "=", False),
+                ("nbm_ids", "=", nbm.id),
+                "|",
+                ("cest_ids", "=", False),
+                ("cest_ids", "=", cest.id),
+                "|",
+                ("product_ids", "=", False),
+                ("product_ids", "=", product.id),
             ]
 
             icms_defs = tax_definitions.search(domain)
@@ -1358,13 +1370,21 @@ class ICMSRegulation(models.Model):
         domain = [
             ("icms_regulation_id", "=", self.id),
             ("state", "=", "approved"),
-            ("state_from_id", "=", company.state_id.id),
             ("tax_group_id", "=", tax_group_icmsst.id),
-            "|",
+            ("state_from_id", "=", company.state_id.id),
             ("state_to_ids", "=", partner.state_id.id),
-            ("state_to_ids", "=", company.state_id.id),
+            "|",
+            ("ncm_ids", "=", False),
             ("ncm_ids", "=", ncm.id),
+            "|",
+            ("nbm_ids", "=", False),
+            ("nbm_ids", "=", nbm.id),
+            "|",
+            ("cest_ids", "=", False),
             ("cest_ids", "=", cest.id),
+            "|",
+            ("product_ids", "=", False),
+            ("product_ids", "=", product.id),
         ]
 
         icmsst_defs = tax_definitions.search(domain)

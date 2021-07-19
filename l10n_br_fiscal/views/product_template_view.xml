@@ -65,6 +65,7 @@
                                 name="icms_origin"
                                 attrs="{'required': [('fiscal_type', '!=', '09')], 'invisible': [('fiscal_type', '=', '09')]}"
                             />
+                            <field name="icms_regulation_id" />
                             <field name="ncm_id" required="1" />
                             <field name="tax_icms_or_issqn" required="1" />
                             <field

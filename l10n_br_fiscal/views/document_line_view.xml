@@ -62,6 +62,7 @@
                 <field name="fiscal_operation_type" invisible="1" readonly="1" />
                 <field name="fiscal_operation_id" required="1" />
                 <field name="fiscal_operation_line_id" required="1" />
+                <field name="icms_regulation_id" />
                 <field
                                     name="cfop_id"
                                     attrs="{'invisible': [('fiscal_type', '=', '00'), ('cfop_id', '=', False)]}"

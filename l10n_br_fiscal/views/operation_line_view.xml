@@ -10,6 +10,8 @@
                 <field name="cfop_internal_id" context="{'show_code_only': 1}" />
                 <field name="cfop_external_id" context="{'show_code_only': 1}" />
                 <field name="cfop_export_id" context="{'show_code_only': 1}" />
+                <field name="icms_regulation_id" />
+                <field name="force_icms_regulation_id" />
                 <field name="tax_definition_ids" widget="many2many_tags" />
                 <field name="state" />
             </tree>
@@ -39,15 +41,17 @@
                     />
                 </header>
                 <sheet>
-                    <h2>
-                        <label for="name" />
-                        <field name="name" />
-                    </h2>
+                    <h1>
+                        <label for="name" class="oe_edit_only" />
+                        <field name="name" class="oe_inline" />
+                    </h1>
                     <group>
                         <group string="Company and Partner" name="tax_framework">
                             <field name="company_tax_framework" />
                             <field name="partner_tax_framework" />
                             <field name="ind_ie_dest" />
+                            <field name="icms_regulation_id" />
+                            <field name="force_icms_regulation_id" />
                         </group>
                         <group string="Product Information">
                             <field name="product_type" />
