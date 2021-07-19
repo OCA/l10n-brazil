@@ -232,7 +232,7 @@ class Operation(models.Model):
 
         return domain
 
-    def line_definition(self, company, partner, product):
+    def line_definition(self, company, partner, product, icms_regulation):
         self.ensure_one()
         if not company:
             company = self.env.company
@@ -242,7 +242,14 @@ class Operation(models.Model):
         )
 
         if len(line) > 1:
+<<<<<<< HEAD
             raise UserError(_('Mais de uma linha de operação selecionada'))
+=======
+            line = line.filtered(lambda x: x.icms_regulation_id == icms_regulation)
+
+            if len(line) > 1:
+                raise UserError(_("Mais de uma linha de operação selecionada"))
+>>>>>>> 6f61446a6... [IMP] Fiscal mapping with icms regulation
 
         return line
 

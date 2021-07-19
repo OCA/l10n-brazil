@@ -134,6 +134,14 @@ class OperationLine(models.Model):
         copy=False,
     )
 
+    icms_regulation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.icms.regulation", string="Tax Regulation"
+    )
+
+    force_icms_regulation_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.icms.regulation", string="Force Tax Regulation"
+    )
+
     date_start = fields.Datetime(string="Start Date")
 
     date_end = fields.Datetime(string="End Date")
@@ -194,6 +202,7 @@ class OperationLine(models.Model):
         cest=None,
         city_taxation_code=None,
         ind_final=None,
+        icms_regulation=None,
     ):
 
         mapping_result = {
@@ -234,8 +243,9 @@ class OperationLine(models.Model):
                 mapping_result["taxes"][tax_ii.tax_domain] = tax_ii
 
             # 3 From ICMS Regulation
-            if company.icms_regulation_id:
-                tax_icms_ids = company.icms_regulation_id.map_tax(
+            icms_regulation_id = icms_regulation or company.icms_regulation_id
+            if icms_regulation_id:
+                tax_icms_ids = icms_regulation_id.map_tax(
                     company=company,
                     partner=partner,
                     product=product,
