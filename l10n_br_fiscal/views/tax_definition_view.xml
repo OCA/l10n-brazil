@@ -27,6 +27,10 @@
         <field name="tax_group_id" invisible="1" />
         <field name="state_from_id" />
         <field name="state_to_ids" />
+        <field name="nbm_ids" />
+        <field name="ncm_ids" />
+        <field name="cest_ids" />
+        <field name="product_ids" />
         <field name="tax_id" />
         <field name="cst_code" />
       </tree>
