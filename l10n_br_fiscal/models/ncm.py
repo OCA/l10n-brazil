@@ -42,6 +42,15 @@ class Ncm(models.Model):
 
     tax_estimate_ids = fields.One2many(inverse_name="ncm_id")
 
+    tax_definition_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        relation="tax_definition_ncm_rel",
+        column1="ncm_id",
+        column2="tax_definition_id",
+        readonly=True,
+        string="Tax Definition",
+    )
+
     _sql_constraints = [
         (
             "fiscal_ncm_code_exception_uniq",
