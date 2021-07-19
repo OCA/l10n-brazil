@@ -5,7 +5,7 @@ from copy import deepcopy
 
 from lxml import etree
 
-from odoo import api, models
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import CFOP_DESTINATION_EXPORT, FISCAL_IN
@@ -312,7 +312,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 d.__document_comment_vals(), d.manual_additional_data
             )
 
-    @api.onchange("fiscal_operation_id")
+    @api.onchange("fiscal_operation_id", "product_id")
     def _onchange_fiscal_operation_id(self):
         if not self.fiscal_operation_id or not self.product_id:
             return
@@ -349,14 +349,21 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icms_regulation_id |= self.company_id.icms_regulation_id
 
         if len(icms_regulation_id) > 1:
-            raise UserError(_("""Multiplos Regulamentos do ICMS encontrados, 
-                favor revisar a parametrização fiscal"""))
+            raise UserError(
+                _(
+                    """Multiplos Regulamentos do ICMS encontrados,
+                favor revisar a parametrização fiscal"""
+                )
+            )
 
         self.icms_regulation_id = icms_regulation_id
+        self._onchange_icms_regulation_id()
 
-    @api.onchange("fiscal_operation_id", "icms_regulation_id")
+    @api.onchange("fiscal_operation_id", "icms_regulation_id", "product_id")
     def _onchange_icms_regulation_id(self):
-        if not self.fiscal_operation_id or not self.icms_regulation_id:
+        if not (
+            self.fiscal_operation_id and self.icms_regulation_id and self.product_id
+        ):
             return
         self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
             company=self.company_id,
