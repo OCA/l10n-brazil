@@ -30,7 +30,6 @@
                 <field name="company_id" groups="base.group_multi_company" />
                 <field name="fiscal_operation_type" />
                 <field name="fiscal_type" />
-                <field name="ind_final" />
                 <field name="state" />
             </tree>
         </field>
