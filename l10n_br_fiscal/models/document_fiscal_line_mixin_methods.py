@@ -323,6 +323,17 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if not icms_regulation_id and self.company_id.icms_regulation_id:
             icms_regulation_id |= self.company_id.icms_regulation_id
 
+        if not icms_regulation_id and not self.company_id.icms_regulation_id:
+            icms_regulation_id |= self.env.ref("l10n_br_fiscal.tax_icms_regulation")
+
+        if not icms_regulation_id:
+            raise UserError(
+                _(
+                    """Nenhum regulamento do ICMS encontrado,
+                favor revisar a parametrização fiscal"""
+                )
+            )
+
         if len(icms_regulation_id) > 1:
             raise UserError(
                 _(
