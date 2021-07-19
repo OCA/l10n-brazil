@@ -35,6 +35,15 @@ class Cest(models.Model):
         string="NCMs",
     )
 
+    tax_definition_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        relation="tax_definition_cest_rel",
+        column1="cest_id",
+        column2="tax_definition_id",
+        readonly=True,
+        string="Tax Definition",
+    )
+
     @api.model
     def create(self, values):
         create_super = super(Cest, self).create(values)
