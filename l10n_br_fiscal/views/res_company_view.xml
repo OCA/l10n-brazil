@@ -108,11 +108,7 @@
                                         domain="{'3': [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icms)d)]}.get(tax_framework, [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icmssn)d)])"
                                         options="{'no_create': True, 'no_create_edit': True}"
                                     />
-                                      <field
-                                        name="icms_regulation_id"
-                                        attrs="{'invisible': [('tax_framework', '!=', '3')], 'required': [('tax_framework', '=', '3')]}"
-                                        options="{'no_create': True, 'no_create_edit': True}"
-                                    />
+                                      <field name="icms_regulation_id" />
                                   </group>
                                   <group name="issqn_taxes" string="ISSQN">
                                       <field name="tax_issqn_id" />
