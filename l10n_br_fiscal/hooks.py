@@ -27,6 +27,7 @@ def post_init_hook(cr, registry):
         "data/l10n_br_fiscal.tax.pis.cofins.credit.csv",
         "data/l10n_br_fiscal.service.type.csv",
         "data/simplified_tax_data.xml",
+        "data/l10n_br_fiscal_icms_regulation_data.xml",
         "data/operation_data.xml",
         "data/l10n_br_fiscal_tax_icms_data.xml",
     ]

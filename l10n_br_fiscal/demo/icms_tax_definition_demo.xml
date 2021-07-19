@@ -2,6 +2,61 @@
 <!-- pylint:disable=file-not-used -->
 <odoo noupdate="1">
 
+    <!-- ICMS ST -->
+    <!-- SP -->
+    <record id="tax_icmsst_definition_sp_st_18" model="l10n_br_fiscal.tax.definition">
+        <field name="icms_regulation_id" ref="tax_icms_substituto_regulation" />
+        <field name="state_from_id" ref="base.state_br_sp" />
+        <field name="state_to_ids" eval="[(6, 0, [ref('base.state_br_sp')])]" />
+        <field name="is_taxed" eval="True" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="cests">21.123.00,21.124.00</field>
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_10" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_st_18" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="tax_icmsst_definition_others_st_18"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="icms_regulation_id" ref="tax_icms_substituto_regulation" />
+        <field name="state_from_id" ref="base.state_br_sp" />
+        <field
+            name="state_to_ids"
+            eval="[(6, 0, [ref('base.state_br_mg'), ref('base.state_br_rj'), ref('base.state_br_rs'), ref('base.state_br_sc')])]"
+        />
+        <field name="is_taxed" eval="True" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="cests">21.123.00,21.124.00</field>
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_10" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_st_18" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="tax_icmsst_definition_sp_st_mva_47"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="icms_regulation_id" ref="tax_icms_substituto_regulation" />
+        <field name="state_from_id" ref="base.state_br_sp" />
+        <field
+            name="state_to_ids"
+            eval="[(6, 0, [ref('base.state_br_mg'), ref('base.state_br_rj'), ref('base.state_br_rs'), ref('base.state_br_sc'), ref('base.state_br_sp')])]"
+        />
+        <field name="is_taxed" eval="True" />
+        <field name="is_debit_credit" eval="True" />
+        <field name="custom_tax" eval="True" />
+        <field name="cests">21.123.00,21.124.00</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icmsst_47" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmsst" />
+        <field name="state">approved</field>
+    </record>
+
     <!-- ICMS 18% with a reduction of 51.11% for NCM 17029000-->
     <record
         id="tax_icms_regulation_sp_sp_icms_18_red_51_11"

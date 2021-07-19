@@ -126,6 +126,7 @@
     <record id="product.product_product_7" model="product.product">
         <field name="ncm_id" ref="l10n_br_fiscal.ncm_73269090" />
         <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_73" />
+        <field name="icms_regulation_id" ref="tax_icms_substituido_regulation" />
         <field name="fiscal_type">00</field>
         <field name="icms_origin">5</field>
     </record>
