@@ -183,7 +183,7 @@ class Operation(models.Model):
 
         return serie
 
-    def _line_domain(self, company, partner, product):
+    def _line_domain(self, company, partner, product, icms_regulation):
 
         domain = [
             ("fiscal_operation_id", "=", self.id),
@@ -230,6 +230,12 @@ class Operation(models.Model):
             ("tax_icms_or_issqn", "=", False),
         ]
 
+        domain += [
+            "|",
+            ("icms_regulation_id", "=", icms_regulation.id),
+            ("icms_regulation_id", "=", False),
+        ]
+
         return domain
 
     def line_definition(self, company, partner, product, icms_regulation):
@@ -238,18 +244,14 @@ class Operation(models.Model):
             company = self.env.company
 
         line = self.line_ids.search(
-            self._line_domain(company, partner, product)
+            self._line_domain(company, partner, product, icms_regulation)
         )
 
         if len(line) > 1:
-<<<<<<< HEAD
-            raise UserError(_('Mais de uma linha de operação selecionada'))
-=======
             line = line.filtered(lambda x: x.icms_regulation_id == icms_regulation)
 
             if len(line) > 1:
                 raise UserError(_("Mais de uma linha de operação selecionada"))
->>>>>>> 6f61446a6... [IMP] Fiscal mapping with icms regulation
 
         return line
 
