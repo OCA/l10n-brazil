@@ -10,6 +10,7 @@
         <field name="tax_group_id" />
         <field name="is_taxed" />
         <field name="tax_id" />
+        <field name="cst_code" />
       </tree>
     </field>
   </record>
@@ -31,6 +32,7 @@
         <field name="cest_ids" />
         <field name="product_ids" />
         <field name="tax_id" />
+        <field name="cst_code" />
       </tree>
     </field>
   </record>
