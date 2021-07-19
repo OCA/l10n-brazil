@@ -72,6 +72,7 @@
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6401" />
         <field name="state">approved</field>
         <field name="product_type">04</field>
+        <field name="icms_regulation_id" ref="tax_icms_substituto_regulation" />
     </record>
 
     <record id="fo_venda_revenda_st_substituto" model="l10n_br_fiscal.operation.line">
@@ -82,9 +83,22 @@
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6403" />
         <field name="state">approved</field>
         <field name="product_type">00</field>
+        <field name="icms_regulation_id" ref="tax_icms_substituto_regulation" />
     </record>
 
-    <record id="fo_venda_revenda_st_substituído" model="l10n_br_fiscal.operation.line">
+    <record
+        id="fo_venda_revenda_st_substituto_ipi_nt"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_venda_revenda_st_substituto" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_venda_revenda_st_substituido" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="name">Revenda ST contribuinte substituído</field>
         <field name="ind_ie_dest">1</field>
@@ -92,6 +106,43 @@
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6404" />
         <field name="state">approved</field>
         <field name="product_type">00</field>
+        <field name="icms_regulation_id" ref="tax_icms_substituido_regulation" />
+    </record>
+
+    <record
+        id="tax_icmsst_st_cobrado_anteriormente"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_venda_revenda_st_substituido" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_antst" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icms" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icms_60" />
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="tax_icmsst_st_simples_cobrado_anteriormente"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_venda_revenda_st_substituido" />
+        <field name="custom_tax" eval="True" />
+        <field name="tax_id" ref="l10n_br_fiscal.tax_icms_sn_cobrado_ant_st" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_icmssn" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_icmssn_500" />
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="fo_venda_revenda_st_substituido_ipi_nt"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="fo_venda_revenda_st_substituido" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_ipi" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_ipi_nt" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_ipi_53" />
+        <field name="state">approved</field>
     </record>
 
     <record id="fo_venda_venda_nao_contribuinte" model="l10n_br_fiscal.operation.line">

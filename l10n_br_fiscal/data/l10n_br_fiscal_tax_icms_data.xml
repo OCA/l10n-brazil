@@ -7,6 +7,16 @@
     <field name="icms_imported_tax_id" ref="l10n_br_fiscal.tax_icms_4" />
   </record>
 
+  <record id="tax_icms_substituido_regulation" model="l10n_br_fiscal.icms.regulation">
+    <field name="name">ICMS ST Substituído</field>
+    <field name="icms_imported_tax_id" ref="l10n_br_fiscal.tax_icms_4" />
+  </record>
+
+  <record id="tax_icms_substituto_regulation" model="l10n_br_fiscal.icms.regulation">
+    <field name="name">ICMS ST Substituto</field>
+    <field name="icms_imported_tax_id" ref="l10n_br_fiscal.tax_icms_4" />
+  </record>
+
   <!-- ICMS - Simples Faturamento -->
   <record
         id="tax_icms_definition_simples_faturamento"
