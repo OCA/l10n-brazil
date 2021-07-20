@@ -339,8 +339,6 @@ class DocumentWorkflow(models.AbstractModel):
         self.cancel_reason = justificative
         if self._change_state(SITUACAO_EDOC_CANCELADA):
             self.cancel_reason = justificative
-            msg = "Cancelamento: {}".format(justificative)
-            self.message_post(body=msg)
 
     def action_document_cancel(self):
         self.ensure_one()
@@ -372,8 +370,6 @@ class DocumentWorkflow(models.AbstractModel):
     def _document_correction(self, justificative):
         self.ensure_one()
         self.correction_reason = justificative
-        msg = "Carta de correção: {}".format(justificative)
-        self.message_post(body=msg)
 
     def action_document_correction(self):
         self.ensure_one()
