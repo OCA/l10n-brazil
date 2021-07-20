@@ -38,8 +38,6 @@ class Document(models.Model):
 
     _name = "l10n_br_fiscal.document"
     _inherit = [
-        "mail.thread",
-        "mail.activity.mixin",
         "l10n_br_fiscal.document.mixin",
         "l10n_br_fiscal.document.electronic",
         "l10n_br_fiscal.document.invoice.mixin",
