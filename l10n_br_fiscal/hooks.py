@@ -55,28 +55,26 @@ def post_init_hook(cr, registry):
             "demo/company_demo.xml",
             "demo/product_demo.xml",
             "demo/partner_demo.xml",
-            "demo/fiscal_document_demo.xml",
+            "demo/fiscal_document_nfse_demo.xml",
             "demo/fiscal_operation_demo.xml",
             "demo/subsequent_operation_demo.xml",
             "demo/l10n_br_fiscal_document_email.xml",
-            "demo/fiscal_document_nfse_demo.xml",
             "demo/res_users_demo.xml",
             "demo/icms_tax_definition_demo.xml",
         ]
 
         # Load only demo CSV files with few lines instead of thousands
         # unless a flag mention the contrary
-        if tools.config.get("load_ncm"):
-            demofiles.append("data/l10n_br_fiscal.ncm.csv")
+        short_files = {
+            "load_ncm": "data/l10n_br_fiscal.ncm.csv",
+            "load_nbm": "data/l10n_br_fiscal.nbm.csv",
+            "load_nbs": "data/l10n_br_fiscal.nbs.csv",
+            "load_cest": "data/l10n_br_fiscal.cest.csv",
+        }
 
-        if tools.config.get("load_nbm"):
-            demofiles.append("data/l10n_br_fiscal.nbm.csv")
-
-        if tools.config.get("load_nbs"):
-            demofiles.append("data/l10n_br_fiscal.nbs.csv")
-
-        if not tools.config.get("load_cest"):
-            demofiles.append("data/l10n_br_fiscal.cest.csv")
+        for short_file in short_files.keys():
+            if tools.config.get(short_file):
+                demofiles.append(short_files[short_file])
 
         _logger.info(_("Loading l10n_br_fiscal demo files."))
 
@@ -107,21 +105,20 @@ def post_init_hook(cr, registry):
                 misc.prepare_fake_certificate_vals(cert_type=CERTIFICATE_TYPE_ECNPJ)
             )
 
-    elif tools.config["without_demo"]:
+    if tools.config["without_demo"]:
         prodfiles = []
         # Load full CSV files with few lines unless a flag
         # mention the contrary
-        if not tools.config.get("skip_ncm"):
-            prodfiles.append("data/l10n_br_fiscal.ncm.csv")
+        skip_prodfiles = {
+            "skip_ncm": "data/l10n_br_fiscal.ncm.csv",
+            "skip_nbm": "data/l10n_br_fiscal.nbm.csv",
+            "skip_nbs": "data/l10n_br_fiscal.nbs.csv",
+            "skip_cest": "data/l10n_br_fiscal.cest.csv",
+        }
 
-        if not tools.config.get("skip_nbm"):
-            prodfiles.append("data/l10n_br_fiscal.nbm.csv")
-
-        if not tools.config.get("skip_nbs"):
-            prodfiles.append("data/l10n_br_fiscal.nbs.csv")
-
-        if not tools.config.get("skip_cest"):
-            prodfiles.append("data/l10n_br_fiscal.cest.csv")
+        for skip_prodfile in skip_prodfiles.keys():
+            if not tools.config.get(skip_prodfile):
+                prodfiles.append(skip_prodfiles[skip_prodfile])
 
         _logger.info(
             _(
@@ -160,3 +157,25 @@ def post_init_hook(cr, registry):
             kind="init",
             report=None,
         )
+
+    # Load post demo files
+    if not tools.config["without_demo"]:
+        posdemofiles = [
+            "demo/fiscal_document_demo.xml",
+        ]
+
+        _logger.info(
+            _("Loading l10n_br_fiscal post demo files. It may take a minute...")
+        )
+
+        for file in posdemofiles:
+            tools.convert_file(
+                cr,
+                "l10n_br_fiscal",
+                file,
+                None,
+                mode="demo",
+                noupdate=True,
+                kind="init",
+                report=None,
+            )
