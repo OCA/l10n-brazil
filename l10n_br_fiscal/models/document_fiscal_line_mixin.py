@@ -167,6 +167,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         string="CFOP Destination",
     )
 
+    rel_tax_calc = fields.Selection(related="fiscal_operation_id.tax_calc")
+
     fiscal_price = fields.Float(
         string="Fiscal Price", digits=dp.get_precision("Product Price")
     )

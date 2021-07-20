@@ -88,6 +88,8 @@ class DocumentLine(models.Model):
         compute="_compute_amounts",
     )
 
+    rel_tax_calc = fields.Selection(related="fiscal_operation_id.tax_calc")
+
     def unlink(self):
         if self.env.ref("l10n_br_fiscal.fiscal_document_line_dummy") in self:
             raise UserError(_("You cannot unlink Fiscal Document Line Dummy !"))

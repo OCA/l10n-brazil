@@ -30,6 +30,7 @@
           <field name="fiscal_quantity" force_save="1" invisible="1" />
           <field name="tax_icms_or_issqn" force_save="1" invisible="1" />
           <field name="fiscal_tax_ids" force_save="1" invisible="1" readonly="1" />
+          <field name="rel_tax_calc" force_save="1" invisible="1" readonly="1" />
         </group>
         <notebook>
           <page name="fiscal_taxes" string="Taxes">
@@ -40,7 +41,10 @@
                                 attrs="{'invisible': [('tax_icms_or_issqn', '!=', 'issqn')]}"
                             >
                 <group>
-                  <field name="issqn_tax_id" />
+                  <field
+                                        name="issqn_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                   <field
                                         name="issqn_fg_city_id"
                                         attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"
@@ -106,7 +110,10 @@
                   </group>
                 </group>
                   <group string="Retenções">
-                    <field name="issqn_wh_tax_id" />
+                    <field
+                                        name="issqn_wh_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                   </group>
                   <group>
                       <group>
@@ -143,7 +150,7 @@
                   <group name="icms" string="ICMS">
                     <field
                                         name="icms_tax_id"
-                                        attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"
+                                        attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))], 'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
                                     />
                     <field
                                         name="icmssn_tax_id"
@@ -241,7 +248,7 @@
                                     >
                         <field
                                             name="icmsst_tax_id"
-                                            attrs="{'invisible': [('icms_cst_code', 'in', ('60', '500'))]}"
+                                            attrs="{'invisible': [('icms_cst_code', 'in', ('60', '500'))], 'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
                                         />
                         <field
                                             name="icmsst_base_type"
@@ -296,7 +303,7 @@
                                     >
                           <field
                                             name="icmsfcp_tax_id"
-                                            attrs="{'invisible': [('icms_cst_code', '=', '500')]}"
+                                            attrs="{'invisible': [('icms_cst_code', '=', '500')], 'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
                                         />
                         <field
                                             name="icmsfcp_base"
@@ -404,7 +411,10 @@
                                 attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"
                             >
                   <group string="IPI">
-                      <field name="ipi_tax_id" />
+                      <field
+                                        name="ipi_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                       <field
                                         name="ipi_cst_id"
                                         force_save="1"
@@ -455,7 +465,10 @@
                                 attrs="{'invisible': [('cfop_destination', '!=', '3')]}"
                             >
                 <group string="II">
-                    <field name="ii_tax_id" />
+                    <field
+                                        name="ii_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                 </group>
                 <group>
                   <group>
@@ -470,7 +483,10 @@
               </page>
               <page name="pis" string="PIS">
                   <group name="pis" string="PIS">
-                    <field name="pis_tax_id" />
+                    <field
+                                        name="pis_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                     <field
                                         name="pis_cst_id"
                                         force_save="1"
@@ -520,7 +536,10 @@
                     </group>
                   </group>
                   <group name="pis_st" string="PIS ST">
-                    <field name="pisst_tax_id" />
+                    <field
+                                        name="pisst_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                     <field
                                         name="pisst_cst_id"
                                         force_save="1"
@@ -560,7 +579,10 @@
                     </group>
                   </group>
                   <group string="Retenções">
-                      <field name="pis_wh_tax_id" />
+                      <field
+                                        name="pis_wh_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                   </group>
                   <group>
                       <group>
@@ -591,7 +613,10 @@
               </page>
               <page name="cofins" string="COFINS">
                 <group name="cofins" string="COFINS">
-                  <field name="cofins_tax_id" />
+                  <field
+                                        name="cofins_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                   <field
                                         name="cofins_cst_id"
                                         force_save="1"
@@ -641,7 +666,10 @@
                   </group>
                 </group>
                 <group name="cofins_st" string="COFINS ST">
-                  <field name="cofinsst_tax_id" />
+                  <field
+                                        name="cofinsst_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                   <field
                                         name="cofinsst_cst_id"
                                         force_save="1"
@@ -681,7 +709,10 @@
                   </group>
                 </group>
                   <group string="Retenções">
-                      <field name="cofins_wh_tax_id" />
+                      <field
+                                        name="cofins_wh_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                   </group>
                   <group>
                       <group>
@@ -716,7 +747,10 @@
                                 attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
                             >
                     <group>
-                        <field name="csll_tax_id" />
+                        <field
+                                        name="csll_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                     </group>
                     <group>
                         <group>
@@ -745,7 +779,10 @@
                         </group>
                     </group>
                     <group string="Retenções">
-                        <field name="csll_wh_tax_id" />
+                        <field
+                                        name="csll_wh_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                     </group>
                     <group>
                         <group>
@@ -780,7 +817,10 @@
                                 attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"
                             >
                     <group>
-                        <field name="irpj_tax_id" />
+                        <field
+                                        name="irpj_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                     </group>
                     <group>
                         <group>
@@ -809,7 +849,10 @@
                         </group>
                     </group>
                     <group string="Retenções">
-                        <field name="irpj_wh_tax_id" />
+                        <field
+                                        name="irpj_wh_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                     </group>
                     <group>
                         <group>
@@ -844,7 +887,10 @@
                                 attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"
                             >
                     <group>
-                        <field name="inss_tax_id" />
+                        <field
+                                        name="inss_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                     </group>
                     <group>
                         <group>
@@ -873,7 +919,10 @@
                         </group>
                     </group>
                     <group string="Retenções">
-                        <field name="inss_wh_tax_id" />
+                        <field
+                                        name="inss_wh_tax_id"
+                                        attrs="{'readonly': [('rel_tax_calc', '=', 'tax_calc_manual')]}"
+                                    />
                     </group>
                     <group>
                         <group>

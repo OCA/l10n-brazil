@@ -14,6 +14,7 @@
             <field name="fiscal_genre_id" invisible="1" />
             <field name="fiscal_genre_code" invisible="1" />
             <field name="fiscal_type" invisible="1" />
+            <field name="rel_tax_calc" invisible="1" />
         </group>
         <group>
           <field
@@ -73,15 +74,36 @@
           <page name="amounts" string="Amounts">
             <group>
               <group>
-                <field name="amount_untaxed" />
-                <field name="amount_fiscal" />
-                <field name="amount_tax" />
-                <field name="amount_estimate_tax" />
+                <field
+                                    name="amount_untaxed"
+                                    attrs="{'readonly': [('rel_tax_calc', '!=', 'tax_calc_manual')]}"
+                                />
+                <field
+                                    name="amount_fiscal"
+                                    attrs="{'readonly': [('rel_tax_calc', '!=', 'tax_calc_manual')]}"
+                                />
+                <field
+                                    name="amount_tax"
+                                    attrs="{'readonly': [('rel_tax_calc', '!=', 'tax_calc_manual')]}"
+                                />
+                <field
+                                    name="amount_estimate_tax"
+                                    attrs="{'readonly': [('rel_tax_calc', '!=', 'tax_calc_manual')]}"
+                                />
               </group>
               <group>
-                <field name="amount_total" />
-                <field name="amount_tax_withholding" />
-                <field name="amount_taxed" />
+                <field
+                                    name="amount_total"
+                                    attrs="{'readonly': [('rel_tax_calc', '!=', 'tax_calc_manual')]}"
+                                />
+                <field
+                                    name="amount_tax_withholding"
+                                    attrs="{'readonly': [('rel_tax_calc', '!=', 'tax_calc_manual')]}"
+                                />
+                <field
+                                    name="amount_taxed"
+                                    attrs="{'readonly': [('rel_tax_calc', '!=', 'tax_calc_manual')]}"
+                                />
               </group>
             </group>
           </page>
