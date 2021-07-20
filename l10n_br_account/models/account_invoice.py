@@ -433,8 +433,10 @@ class AccountInvoice(models.Model):
     def action_move_create(self):
         result = super().action_move_create()
         dummy_doc = self.env.ref("l10n_br_fiscal.fiscal_document_dummy")
-        self.filtered(
-            lambda i: i.fiscal_document_id != dummy_doc).generate_financial()
+        if not self.fiscal_payment_ids:
+            self.filtered(
+                lambda i: i.fiscal_document_id != dummy_doc
+            ).generate_financial()
         self.mapped("fiscal_document_id").filtered(
             lambda d: d.document_type_id
         ).action_document_confirm()
