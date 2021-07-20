@@ -3,4 +3,5 @@
 from . import base_wizard_mixin
 from . import account_invoice_refund
 from . import wizard_document_cancel
+from . import wizard_document_correction
 from . import wizard_document_invalidate
