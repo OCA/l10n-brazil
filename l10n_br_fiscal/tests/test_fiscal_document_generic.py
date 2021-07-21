@@ -6,6 +6,7 @@ from psycopg2 import IntegrityError
 
 from odoo.exceptions import UserError
 from odoo.tests import SavepointCase
+from odoo.tools import mute_logger
 
 from ..constants.icms import ICMS_ORIGIN_TAX_IMPORTED
 
@@ -982,7 +983,9 @@ class TestFiscalDocumentGeneric(SavepointCase):
     def test_unlink_dummy_document(self):
         """ Test Dummy Fiscal Document Unlink Restrictions """
         dummy_document = self.env.user.company_id.fiscal_dummy_id
-        with self.assertRaises(IntegrityError):
+        with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"):
+            # as much as possible we ensure technical dummy fiscal documents
+            # cannot be removed by mistake easily even from SQL
             dummy_document.unlink()
 
     def test_unlink_dummy_document_line(self):
