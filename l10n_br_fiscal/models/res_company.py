@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import api, fields, models
+from odoo import api, fields, models, tools
 
 from odoo.addons import decimal_precision as dp
 
@@ -87,14 +87,23 @@ class ResCompany(models.Model):
 
     @api.model
     def _default_fiscal_dummy_id(self):
-        dummy_doc = self.env["l10n_br_fiscal.document"].search(
-            self._fiscal_dummy_doc_domain(), limit=1
-        )
+        if tools.table_exists(self.env.cr, "l10n_br_fiscal_document"):
+            # happens during res.company#auto_init() when setting
+            # the default fiscal_dummy_id value
+            dummy_doc = self.env["l10n_br_fiscal.document"].search(
+                self._fiscal_dummy_doc_domain(), limit=1
+            )
+        else:
+            self.env["l10n_br_fiscal.document"]._auto_init()
+            dummy_doc = False
+
         if not dummy_doc:
+            if not tools.table_exists(self.env.cr, "l10n_br_fiscal_document_line"):
+                self.env["l10n_br_fiscal.document.line"]._auto_init()
+
             dummy_doc = self.env["l10n_br_fiscal.document"].create(
                 self._prepare_create_fiscal_dummy_doc()
             )
-            self.fiscal_dummy_id = dummy_doc
         return dummy_doc
 
     @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
