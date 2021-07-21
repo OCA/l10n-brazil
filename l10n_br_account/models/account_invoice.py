@@ -527,14 +527,14 @@ class AccountInvoice(models.Model):
                 )
                 line._onchange_fiscal_operation_id()
 
-            refund_invoice_id = my_new_invoices.refund_invoice_id
+            refund_inv_id = my_new_invoices.refund_invoice_id
 
             if (
-                refund_invoice_id.fiscal_document_id
+                refund_inv_id.fiscal_document_id
                 and my_new_invoices.fiscal_document_id
             ):
                 reference_ids = (
-                    refund_invoice_id.fiscal_document_id._prepare_referenced_subsequent()
+                    refund_inv_id.fiscal_document_id._prepare_referenced_subsequent()
                 )
                 my_new_invoices.fiscal_document_id._document_reference(reference_ids)
 
