@@ -533,9 +533,9 @@ class AccountInvoice(models.Model):
                 refund_invoice_id.fiscal_document_id
                 and my_new_invoices.fiscal_document_id
             ):
-                refund_invoice_id.fiscal_document_id._prepare_referenced_subsequent(
-                    new_document_id=my_new_invoices.fiscal_document_id
-                )
+                reference_ids = refund_invoice_id.fiscal_document_id\
+                    ._prepare_referenced_subsequent()
+                my_new_invoices.fiscal_document_id._document_reference(reference_ids)
 
         return new_invoices
 
