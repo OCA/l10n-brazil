@@ -1,8 +1,8 @@
 # Copyright (C) 2021  Ygor Carvalho - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo.tests.common import TransactionCase
 from odoo.exceptions import UserError
+from odoo.tests.common import TransactionCase
 
 
 class TestInvoiceRefund(TransactionCase):
@@ -30,7 +30,8 @@ class TestInvoiceRefund(TransactionCase):
                             "product_id": self.env.ref("product.product_product_6").id,
                             "quantity": 1.0,
                             "price_unit": 100.0,
-                            "account_id": self.env["account.account"].search(
+                            "account_id": self.env["account.account"]
+                            .search(
                                 [
                                     (
                                         "user_type_id",
@@ -48,7 +49,8 @@ class TestInvoiceRefund(TransactionCase):
                                     ),
                                 ],
                                 limit=1,
-                            ).id,
+                            )
+                            .id,
                             "name": "Refund Test",
                             "uom_id": self.env.ref("uom.product_uom_unit").id,
                         },
@@ -60,12 +62,16 @@ class TestInvoiceRefund(TransactionCase):
     def test_refund(self):
         invoice = self.invoice
         self.assertEqual(
-            invoice.state, "draft", "Invoice should be in state Draft",
+            invoice.state,
+            "draft",
+            "Invoice should be in state Draft",
         )
 
         invoice.action_invoice_open()
         self.assertEqual(
-            invoice.state, "open", "Invoice should be in state Open",
+            invoice.state,
+            "open",
+            "Invoice should be in state Open",
         )
 
         invoice._get_refund_common_fields()
@@ -75,7 +81,7 @@ class TestInvoiceRefund(TransactionCase):
         with self.assertRaises(UserError):
             invoice.refund()
 
-        invoice["fiscal_operation_id"] = self.env.ref("l10n_br_fiscal.fo_venda").id,
+        invoice["fiscal_operation_id"] = (self.env.ref("l10n_br_fiscal.fo_venda").id,)
 
         # Second functionality error, when there is a fiscal operation, but there
         #   is no fiscal operation line.
@@ -83,10 +89,12 @@ class TestInvoiceRefund(TransactionCase):
             invoice.refund()
 
         for line_id in invoice.invoice_line_ids:
-            line_id["fiscal_operation_id"] = self.env.ref(
-                "l10n_br_fiscal.fo_venda").id,
+            line_id["fiscal_operation_id"] = (
+                self.env.ref("l10n_br_fiscal.fo_venda").id,
+            )
             line_id["fiscal_operation_line_id"] = self.env.ref(
-                "l10n_br_fiscal.fo_venda_venda").id
+                "l10n_br_fiscal.fo_venda_venda"
+            ).id
 
         new_invoice = invoice.refund()
 
@@ -97,5 +105,5 @@ class TestInvoiceRefund(TransactionCase):
         self.assertEqual(
             new_invoice.operation_name,
             "Devolução de Venda",
-            "The refund process was unsuccessful."
+            "The refund process was unsuccessful.",
         )
