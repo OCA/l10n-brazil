@@ -158,11 +158,11 @@ class Comment(models.Model):
         mako_safe_env = copy.copy(mako_template_env)
         mako_safe_env.autoescape = False
 
-        result = ""
+        result = []
         for record in self:
             template = mako_safe_env.from_string(tools.ustr(record.comment))
             render_result = template.render(vals)
-            result += render_result + "\n"
+            result.append(render_result)
         return result
 
     def action_test_message(self):
