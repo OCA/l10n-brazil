@@ -189,7 +189,7 @@ class AccountInvoiceLine(models.Model):
 
     @api.model
     def create(self, values):
-        dummy_doc = self.env.user.company_id.get_fiscal_dummy_doc()
+        dummy_doc = self.env.user.company_id.fiscal_dummy_id
         fiscal_doc_id = (
             self.env["account.invoice"]
             .browse(values["invoice_id"])
@@ -217,7 +217,7 @@ class AccountInvoiceLine(models.Model):
         return line
 
     def write(self, values):
-        dummy_doc = self.env.user.company_id.get_fiscal_dummy_doc()
+        dummy_doc = self.env.user.company_id.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.line_ids)
         if values.get("invoice_id"):
             values["document_id"] = (
@@ -233,7 +233,7 @@ class AccountInvoiceLine(models.Model):
         return result
 
     def unlink(self):
-        dummy_doc = self.env.user.company_id.get_fiscal_dummy_doc()
+        dummy_doc = self.env.user.company_id.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.line_ids)
         unlink_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
         for inv_line in self:
