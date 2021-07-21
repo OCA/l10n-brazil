@@ -81,8 +81,18 @@ class FiscalDocumentMixin(models.AbstractModel):
         string="Fiscal Additional Data",
     )
 
+    manual_fiscal_additional_data = fields.Char(
+        string="Manual Fiscal Additional Data",
+        help="Fiscal Additional data manually entered by user",
+    )
+
     customer_additional_data = fields.Text(
         string="Customer Additional Data",
+    )
+
+    manual_customer_additional_data = fields.Char(
+        string="Manual Customer Additional Data",
+        help="Customer Additional data manually entered by user",
     )
 
     ind_final = fields.Selection(
