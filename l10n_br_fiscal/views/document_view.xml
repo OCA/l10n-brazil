@@ -489,8 +489,10 @@
             <page name="extra_info" string="Extra Info">
                 <group>
                     <field name="comment_ids" widget="many2many_tags" />
-                    <field name="fiscal_additional_data" />
-                    <field name="customer_additional_data" />
+                    <field name="manual_fiscal_additional_data" />
+                    <field name="fiscal_additional_data" readonly="1" />
+                    <field name="manual_customer_additional_data" />
+                    <field name="customer_additional_data" readonly="1" />
                 </group>
             </page>
           </notebook>
