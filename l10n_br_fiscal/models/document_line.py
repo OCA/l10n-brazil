@@ -89,6 +89,7 @@ class DocumentLine(models.Model):
     )
 
     def unlink(self):
-        if self.env.ref("l10n_br_fiscal.fiscal_document_line_dummy") in self:
+        dummy_docs = self.env["res.company"].search([]).mapped("fiscal_dummy_id")
+        if any(line.document_id in dummy_docs for line in self):
             raise UserError(_("You cannot unlink Fiscal Document Line Dummy !"))
         return super().unlink()
