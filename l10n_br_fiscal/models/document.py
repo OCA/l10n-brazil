@@ -438,10 +438,9 @@ class Document(models.Model):
     def _prepare_referenced_subsequent(self):
         self.ensure_one()
         vals = {
-            "fiscal_document_id": self.id,
-            "partner_id": self.partner_id.id,
-            "document_type_id": self.document_type,
-            "serie": self.document_serie,
+            "document_id": self.id,
+            "document_type_id": self.document_type_id.id,
+            "document_serie": self.document_serie,
             "document_number": self.document_number,
             "document_date": self.document_date,
             "document_key": self.document_key,
