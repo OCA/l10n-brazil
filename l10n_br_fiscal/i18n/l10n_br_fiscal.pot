@@ -1737,7 +1737,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:489
+#: code:addons/l10n_br_fiscal/models/document.py:484
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -3487,6 +3487,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 msgid "Fiscal Documents"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__fiscal_dummy_id
+msgid "Fiscal Dummy Document"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7965,7 +7970,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:516
+#: code:addons/l10n_br_fiscal/models/document.py:511
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8780,8 +8785,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:345
-#: code:addons/l10n_br_fiscal/models/document.py:359
+#: code:addons/l10n_br_fiscal/models/document.py:340
+#: code:addons/l10n_br_fiscal/models/document.py:354
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -9245,13 +9250,7 @@ msgid "You cannot invalidate this document"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:329
-#, python-format
-msgid "You cannot unlink Fiscal Document Dummy !"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_line.py:93
+#: code:addons/l10n_br_fiscal/models/document_line.py:94
 #, python-format
 msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
