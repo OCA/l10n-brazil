@@ -466,6 +466,10 @@ class NFe(spec_models.StackedModel):
         string="Valor do PIS (NFe)", related="amount_pis_value"
     )
 
+    nfe40_vIPI = fields.Monetary(related="amount_ipi_value")
+
+    nfe40_vII = fields.Monetary(related="amount_ii_value")
+
     nfe40_vCOFINS = fields.Monetary(
         string="valor do COFINS (NFe)", related="amount_cofins_value"
     )
