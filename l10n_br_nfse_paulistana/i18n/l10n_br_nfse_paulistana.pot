@@ -51,6 +51,7 @@ msgstr ""
 
 #. module: l10n_br_nfse_paulistana
 #: code:addons/l10n_br_nfse_paulistana/models/document.py:311
+#: code:addons/l10n_br_nfse_paulistana/models/document.py:370
 #, python-format
 msgid "Procesado com Sucesso"
 msgstr ""
