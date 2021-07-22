@@ -5,7 +5,7 @@
 from ast import literal_eval
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
     DOCUMENT_ISSUER,
@@ -323,11 +323,6 @@ class Document(models.Model):
         if not values.get("document_date"):
             values["document_date"] = self._date_server_format()
         return super().create(values)
-
-    def unlink(self):
-        if self.env.ref("l10n_br_fiscal.fiscal_document_dummy") in self:
-            raise UserError(_("You cannot unlink Fiscal Document Dummy !"))
-        return super().unlink()
 
     @api.onchange("company_id")
     def _onchange_company_id(self):
