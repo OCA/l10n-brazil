@@ -73,17 +73,9 @@ def load_fiscal_taxes(env, l10n_br_coa_chart):
 def post_init_hook(cr, registry):
     """Relate fiscal taxes to account taxes."""
     env = api.Environment(cr, SUPERUSER_ID, {})
-    l10n_br_coa_charts = (
-        env["account.chart.template"]
-        .search([])
-        .filtered(
-            lambda chart: chart.get_external_id()
-            .get(chart.id)
-            .split(".")[0]
-            .startswith("l10n_br_coa_")
-            if chart.get_external_id().get(chart.id)
-            else False
-        )
+    l10n_br_coa_charts = env["account.chart.template"].search(
+        [("parent_id", "=", env.ref("l10n_br_coa.l10n_br_coa_template").id)]
     )
+
     for l10n_br_coa_chart in l10n_br_coa_charts:
         load_fiscal_taxes(env, l10n_br_coa_chart)
