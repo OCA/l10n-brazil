@@ -481,11 +481,6 @@ msgid "Fiscal Document Count"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_order_form_view
-msgid "Fiscal Documents"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model:ir.model,name:l10n_br_repair.model_l10n_br_repair_fiscal_line_mixin
 msgid "Fiscal Line Mixin"
 msgstr ""
