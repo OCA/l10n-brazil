@@ -115,7 +115,7 @@ class Comment(models.Model):
 
         return u"{pre}{0}{post}".format(formatted_amount, pre=pre, post=post)
 
-    def compute_message(self, vals):
+    def compute_message(self, vals, manual_comment=None):
         from jinja2.sandbox import SandboxedEnvironment
 
         mako_template_env = SandboxedEnvironment(
@@ -158,12 +158,11 @@ class Comment(models.Model):
         mako_safe_env = copy.copy(mako_template_env)
         mako_safe_env.autoescape = False
 
-        result = []
+        comments = [manual_comment] if manual_comment else []
         for record in self:
             template = mako_safe_env.from_string(tools.ustr(record.comment))
-            render_result = template.render(vals)
-            result.append(render_result)
-        return result
+            comments.append(template.render(vals))
+        return " - ".join(comments)
 
     def action_test_message(self):
         vals = {"user": self.env.user, "ctx": self._context, "doc": self.object_id}
