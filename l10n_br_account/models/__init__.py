@@ -15,3 +15,5 @@ from . import fiscal_document_line
 from . import account_move
 from . import account_move_line
 from . import l10n_br_fiscal_cfop
+from . import document_fiscal_mixin_methods
+from . import document_fiscal_line_mixin_methods
