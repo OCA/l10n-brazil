@@ -119,7 +119,7 @@ class Comment(models.Model):
 
         if self.ids:
             return False
-            
+
         from jinja2.sandbox import SandboxedEnvironment
 
         mako_template_env = SandboxedEnvironment(
