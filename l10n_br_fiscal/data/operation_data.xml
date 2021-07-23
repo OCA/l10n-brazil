@@ -53,7 +53,7 @@
         <field name="product_type">00</field>
     </record>
 
-  <record id="fo_venda_venda_st_substituido" model="l10n_br_fiscal.operation.line">
+  <record id="fo_venda_venda_st_substituto" model="l10n_br_fiscal.operation.line">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="name">Venda ST contribuinte substituto</field>
         <field name="ind_ie_dest">1</field>
