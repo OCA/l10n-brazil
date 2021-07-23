@@ -317,7 +317,7 @@ class AccountInvoice(models.Model):
                         "invoice_tax_line_id": tax_line.id,
                         "tax_line_id": tax_line.tax_id.id,
                         "type": "tax",
-                        "name": tax_line.name or invoice_tax.name,
+                        "name": tax_line.name or deductible_tax.name,
                         "price_unit": tax_line.amount_total * -1,
                         "quantity": 1,
                         "price": tax_line.amount_total * -1,
