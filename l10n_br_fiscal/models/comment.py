@@ -116,6 +116,10 @@ class Comment(models.Model):
         return u"{pre}{0}{post}".format(formatted_amount, pre=pre, post=post)
 
     def compute_message(self, vals, manual_comment=None):
+
+        if self.ids:
+            return False
+            
         from jinja2.sandbox import SandboxedEnvironment
 
         mako_template_env = SandboxedEnvironment(
