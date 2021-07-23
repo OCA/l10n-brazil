@@ -3,7 +3,7 @@
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, fields, models
+from odoo import models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
@@ -15,7 +15,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def _prepare_wh_invoice(self, move_line, fiscal_group):
-        wh_date_invoice = fields.Date.context_today(self)
+        wh_date_invoice = move_line.invoice_id.date_invoice
         wh_due_invoice = wh_date_invoice.replace(day=fiscal_group.wh_due_day)
         values = {
             "partner_id": fiscal_group.partner_id.id,
