@@ -14,7 +14,12 @@
                     attrs="{'invisible': [('product_id', '!=', False)], 'required': [('product_id', '=', False)]}"
                 />
             </field>
+            <page name="fiscal_taxes" position="before">
+                <page name="nfe40_di" string="Declaração de Importação">
+                    <field name="nfe40_DI" context="{'form_view_ref': 'nfe_di_form', 'tree_view_ref': 'l10n_br_nfe.nfe_di_tree'}" />
+                </page>
+            </page>
         </field>
-  </record>
+    </record>
 
 </odoo>

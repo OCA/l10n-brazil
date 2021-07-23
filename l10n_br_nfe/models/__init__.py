@@ -14,6 +14,7 @@ from . import document_type
 from . import document_related
 from . import document
 from . import document_line
+from . import nfe_di
 from . import res_city
 from . import res_config_settings
 from . import cfop
