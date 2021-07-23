@@ -45,7 +45,7 @@
             <CEP>4576060</CEP>
         </EnderecoTomador>
         <EmailTomador>cliente1@cliente1.com.br</EmailTomador>
-        <Discriminacao>[ODOO_DEV] Customized Odoo Development|Documento emitido por: Marc Demo||</Discriminacao>
+        <Discriminacao>[ODOO_DEV] Customized Odoo Development|Documento emitido por: Marc Demo|</Discriminacao>
         <ValorCargaTributaria>0</ValorCargaTributaria>
         <FonteCargaTributaria>100.0</FonteCargaTributaria>
     </RPS>
