@@ -525,10 +525,7 @@ class AccountInvoice(models.Model):
 
             refund_inv_id = my_new_invoices.refund_invoice_id
 
-            if (
-                refund_inv_id.fiscal_document_id
-                and my_new_invoices.fiscal_document_id
-            ):
+            if refund_inv_id.fiscal_document_id and my_new_invoices.fiscal_document_id:
                 reference_ids = (
                     refund_inv_id.fiscal_document_id._prepare_referenced_subsequent()
                 )
