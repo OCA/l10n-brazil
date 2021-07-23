@@ -76,7 +76,7 @@ Available addons
 ----------------
 addon | version | summary
 --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 12.0.8.0.0 | Brazilian Localization Account
+[l10n_br_account](l10n_br_account/) | 12.0.8.1.0 | Brazilian Localization Account
 [l10n_br_account_bank_statement_import_cnab](l10n_br_account_bank_statement_import_cnab/) | 12.0.1.0.0 | Importação de Extrato Bancário CNAB 240 - Segmento E
 [l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 12.0.1.0.0 | L10n Br Account Payment BRCobranca
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.3.0.1 | Brazilian Payment Order
@@ -89,7 +89,7 @@ addon | version | summary
 [l10n_br_crm](l10n_br_crm/) | 12.0.1.0.0 | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 12.0.1.0.0 | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 12.0.3.0.0 | This module changes the delivery model strategy to match brazilian standards.
-[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.17.0.0 | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.17.1.0 | Brazilian fiscal core module.
 [l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.1.0 | Brazilian Localization HR Contract
 [l10n_br_mis_report](l10n_br_mis_report/) | 12.0.1.3.0 | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
