@@ -28,6 +28,8 @@
         # Views
         "views/res_company_view.xml",
         "views/nfe_document_view.xml",
+        "views/nfe_document_line_view.xml",
+        "views/nfe_di_view.xml",
         "views/res_config_settings_view.xml",
         "views/mde/mde_views.xml",
         "views/dfe/dfe_views.xml",
