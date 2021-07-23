@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  <record id="nfe_di_tree" model="ir.ui.view">
+      <field name="name">nfe.40.di.tree</field>
+      <field name="model">nfe.40.di</field>
+      <field name="arch" type="xml">
+          <tree string="Declaração de Importação">
+              <field name="nfe40_nDI" />
+              <field name="nfe40_dDI" />
+              <field name="nfe40_UFDesemb" />
+              <field name="nfe40_xLocDesemb" />
+              <field name="nfe40_dDesemb" />
+              <field name="nfe40_tpViaTransp" />
+              <field name="nfe40_tpIntermedio" />
+              <field name="partner_acquirer_id" />
+          </tree>
+      </field>
+  </record>
+
+  <record id="nfe_di_form" model="ir.ui.view">
+      <field name="name">nfe.40.di.form</field>
+      <field name="model">nfe.40.di</field>
+      <field name="arch" type="xml">
+          <form string="Declaração de Importação">
+              <group>
+                <group>
+                    <field name="nfe40_nDI" />
+                    <field name="nfe40_dDI" />
+                    <field name="nfe40_tpViaTransp" />
+                    <field name="nfe40_tpIntermedio" />
+                    <field name="partner_acquirer_id" />
+                    <field name="nfe40_CNPJ" invisible="1" />
+                    <field name="nfe40_UFTerceiro" invisible="1" />
+                    <field name="nfe40_cExportador" invisible="1" />
+                    <field name="nfe40_vAFRMM" />
+                </group>
+                <group>
+                    <field name="nfe40_UFDesemb" />
+                    <field name="nfe40_xLocDesemb" />
+                    <field name="nfe40_dDesemb" />
+                </group>
+              </group>
+              <field name="nfe40_adi">
+                  <tree>
+                      <field name="nfe40_nSeqAdic" />
+                      <field name="nfe40_cFabricante" />
+                      <field name="nfe40_vDescDI" />
+                      <field name="nfe40_nDraw" />
+                  </tree>
+                  <form>
+                      <group>
+                          <field name="nfe40_nSeqAdic" />
+                          <field name="nfe40_cFabricante" />
+                          <field name="nfe40_vDescDI" />
+                          <field name="nfe40_nDraw" />
+                      </group>
+                  </form>
+              </field>
+          </form>
+      </field>
+  </record>
+
+</odoo>
