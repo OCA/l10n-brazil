@@ -37,5 +37,6 @@ class ContractLine(models.Model):
     @api.multi
     def _prepare_invoice_line(self, invoice_id=False, invoice_values=False):
         values = super()._prepare_invoice_line(invoice_id, invoice_values)
-        values.update(self._prepare_br_fiscal_dict())
+        if values:
+            values.update(self._prepare_br_fiscal_dict())
         return values
