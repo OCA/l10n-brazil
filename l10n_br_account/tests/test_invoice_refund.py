@@ -9,15 +9,33 @@ class TestInvoiceRefund(TransactionCase):
     def setUp(self):
         super().setUp()
 
+        self.sale_account = self.env["account.account"].create(
+            dict(
+                code="X1020",
+                name="Product Refund Sales - (test)",
+                user_type_id=self.env.ref("account.data_account_type_revenue").id,
+                reconcile=True,
+            )
+        )
+
+        self.refund_journal = self.env["account.journal"].create(
+            dict(
+                name="Refund Journal - (test)",
+                code="TREJ",
+                type="sale",
+                refund_sequence=True,
+                default_debit_account_id=self.sale_account.id,
+                default_credit_account_id=self.sale_account.id,
+                update_posted=True,
+            )
+        )
+
         self.invoice = self.env["account.invoice"].create(
             dict(
                 name="Test Refund Invoice",
                 payment_term_id=self.env.ref("account.account_payment_term_advance").id,
                 partner_id=self.env.ref("l10n_br_base.res_partner_cliente1_sp").id,
-                company_id=self.env.ref("l10n_br_base.empresa_lucro_presumido").id,
-                journal_id=self.env.ref(
-                    "l10n_br_coa_generic.sale_journal_empresa_lp"
-                ).id,
+                journal_id=self.refund_journal.id,
                 document_type_id=self.env.ref("l10n_br_fiscal.document_55").id,
                 document_serie_id=self.env.ref(
                     "l10n_br_fiscal.empresa_lc_document_55_serie_1"
@@ -43,9 +61,7 @@ class TestInvoiceRefund(TransactionCase):
                                     (
                                         "company_id",
                                         "=",
-                                        self.env.ref(
-                                            "l10n_br_base.empresa_lucro_presumido"
-                                        ).id,
+                                        self.env.user.company_id.id,
                                     ),
                                 ],
                                 limit=1,
