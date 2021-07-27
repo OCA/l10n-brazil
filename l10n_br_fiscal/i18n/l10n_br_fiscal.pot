@@ -718,6 +718,12 @@ msgid "Additional Data"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line__manual_additional_data
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__manual_additional_data
+msgid "Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
 msgid "Advanced Taxes"
 msgstr ""
@@ -2486,6 +2492,12 @@ msgid "Customer Additional Data"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__manual_customer_additional_data
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__manual_customer_additional_data
+msgid "Customer Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:product.product,name:l10n_br_fiscal.customized_development_sale
 #: model:product.template,name:l10n_br_fiscal.customized_development_sale_product_template
 msgid "Customized Odoo Development"
@@ -3336,6 +3348,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_additional_data
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__fiscal_additional_data
 msgid "Fiscal Additional Data"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document__manual_fiscal_additional_data
+#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__manual_fiscal_additional_data
+msgid "Fiscal Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5985,6 +6003,24 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/partner_profile.py:89
 #, python-format
 msgid "Mantenha apenas um tipo fiscal padrão para Pessoa Física ou para Pessoa Jurídica!"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__manual_additional_data
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__manual_additional_data
+msgid "Manual Additional Data"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__manual_customer_additional_data
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__manual_customer_additional_data
+msgid "Manual Customer Additional Data"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__manual_fiscal_additional_data
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__manual_fiscal_additional_data
+msgid "Manual Fiscal Additional Data"
 msgstr ""
 
 #. module: l10n_br_fiscal
