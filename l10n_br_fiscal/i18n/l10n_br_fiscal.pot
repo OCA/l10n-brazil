@@ -1737,7 +1737,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:489
+#: code:addons/l10n_br_fiscal/models/document.py:484
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -3490,6 +3490,11 @@ msgid "Fiscal Documents"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__fiscal_dummy_id
+msgid "Fiscal Dummy Document"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_document_electronic
 msgid "Fiscal Eletronic Document"
 msgstr ""
@@ -4741,9 +4746,9 @@ msgid "ICMS relief"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_icmssn_value
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_icmssn_value
-msgid "ICMSSN Value"
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_icmssn_credit_value
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_icmssn_credit_value
+msgid "ICMSSN Credit Value"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -5848,7 +5853,7 @@ msgid "Lista Positiva (valor)"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:81
+#: code:addons/l10n_br_fiscal/hooks.py:79
 #, python-format
 msgid "Loading l10n_br_fiscal demo files."
 msgstr ""
@@ -5860,13 +5865,19 @@ msgid "Loading l10n_br_fiscal fiscal files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:150
+#: code:addons/l10n_br_fiscal/hooks.py:168
+#, python-format
+msgid "Loading l10n_br_fiscal post demo files. It may take a minute..."
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/hooks.py:147
 #, python-format
 msgid "Loading l10n_br_fiscal post init files. It may take a minute..."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/hooks.py:127
+#: code:addons/l10n_br_fiscal/hooks.py:124
 #, python-format
 msgid "Loading l10n_br_fiscal production files. It may take at least 3 minutes..."
 msgstr ""
@@ -7965,7 +7976,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:516
+#: code:addons/l10n_br_fiscal/models/document.py:511
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8780,8 +8791,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:345
-#: code:addons/l10n_br_fiscal/models/document.py:359
+#: code:addons/l10n_br_fiscal/models/document.py:340
+#: code:addons/l10n_br_fiscal/models/document.py:354
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -9245,13 +9256,7 @@ msgid "You cannot invalidate this document"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:329
-#, python-format
-msgid "You cannot unlink Fiscal Document Dummy !"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_line.py:93
+#: code:addons/l10n_br_fiscal/models/document_line.py:94
 #, python-format
 msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""

@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import api, fields, models
+from odoo import api, fields, models, tools
 
 from odoo.addons import decimal_precision as dp
 
@@ -63,6 +63,48 @@ class ResCompany(models.Model):
         """ Write the l10n_br specific functional fields. """
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
+
+    @api.model
+    def _fiscal_dummy_doc_domain(self):
+        return [
+            ("active", "=", False),
+            ("document_type_id", "=", False),
+            ("company_id", "=", self.id),
+        ]
+
+    @api.model
+    def _prepare_create_fiscal_dummy_doc(self):
+        return {
+            "document_key": "dummy",
+            "document_number": "0",
+            "active": False,
+            "document_type_id": False,
+            "fiscal_operation_type": "out",
+            "partner_id": self.partner_id.id,
+            "company_id": self.id,
+            "line_ids": [(0, 0, {"name": "dummy", "company_id": self.id})],
+        }
+
+    @api.model
+    def _default_fiscal_dummy_id(self):
+        if tools.table_exists(self.env.cr, "l10n_br_fiscal_document"):
+            # happens during res.company#auto_init() when setting
+            # the default fiscal_dummy_id value
+            dummy_doc = self.env["l10n_br_fiscal.document"].search(
+                self._fiscal_dummy_doc_domain(), limit=1
+            )
+        else:
+            self.env["l10n_br_fiscal.document"]._auto_init()
+            dummy_doc = False
+
+        if not dummy_doc:
+            if not tools.table_exists(self.env.cr, "l10n_br_fiscal_document_line"):
+                self.env["l10n_br_fiscal.document.line"]._auto_init()
+
+            dummy_doc = self.env["l10n_br_fiscal.document"].create(
+                self._prepare_create_fiscal_dummy_doc()
+            )
+        return dummy_doc
 
     @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
     def _compute_simplifed_tax(self):
@@ -336,6 +378,14 @@ class ResCompany(models.Model):
     document_save_disk = fields.Boolean(
         string="Save Documents to disk",
         default=True,
+    )
+
+    fiscal_dummy_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.document",
+        string="Fiscal Dummy Document",
+        required=True,
+        default=_default_fiscal_dummy_id,
+        ondelete="restrict",
     )
 
     def _del_tax_definition(self, tax_domain):
