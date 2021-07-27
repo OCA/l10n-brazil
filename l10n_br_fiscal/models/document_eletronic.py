@@ -4,7 +4,12 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import PROCESSADOR_NENHUM, SITUACAO_EDOC_AUTORIZADA
+from ..constants.fiscal import (
+    DOCUMENT_ISSUER,
+    DOCUMENT_ISSUER_COMPANY,
+    PROCESSADOR_NENHUM,
+    SITUACAO_EDOC_AUTORIZADA,
+)
 
 
 def filter_processador(record):
@@ -17,6 +22,13 @@ class DocumentEletronic(models.AbstractModel):
     _name = "l10n_br_fiscal.document.electronic"
     _description = "Fiscal Eletronic Document"
     _inherit = "l10n_br_fiscal.document.workflow"
+
+    issuer = fields.Selection(
+        selection=DOCUMENT_ISSUER,
+        default=DOCUMENT_ISSUER_COMPANY,
+        required=True,
+        string="Issuer",
+    )
 
     status_code = fields.Char(
         string="Status Code",
@@ -163,7 +175,10 @@ class DocumentEletronic(models.AbstractModel):
             record._change_state(SITUACAO_EDOC_AUTORIZADA)
 
     def _document_send(self):
-        no_electronic = self.filtered(lambda d: not d.document_electronic)
+        no_electronic = self.filtered(
+            lambda d: not d.document_electronic
+            or not d.issuer == DOCUMENT_ISSUER_COMPANY
+        )
         no_electronic._no_eletronic_document_send()
         electronic = self - no_electronic
         electronic._eletronic_document_send()
