@@ -34,8 +34,12 @@
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
         <field name="notes">TESTE - TERMOS E CONDIÇÕES</field>
-        <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
-        <field name="fiscal_additional_data">TESTE - FISCAL ADDITIONAL DATA</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA</field>
     </record>
 
     <function model="purchase.order" name="_onchange_fiscal_operation_id">
@@ -57,7 +61,7 @@
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
         <field name="partner_order">999999</field>
         <field name="partner_order_line">001</field>
-        <field name="additional_data">Teste - Additional Data</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
         <field name="insurance_value">10</field>
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
@@ -86,7 +90,7 @@
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
         <field name="partner_order">999999</field>
         <field name="partner_order_line">002</field>
-        <field name="additional_data">Teste - Additional Data</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
         <field name="insurance_value">10</field>
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
@@ -110,8 +114,12 @@
         <field name="user_id" ref="base.user_admin" />
         <field name="company_id" ref="base.main_company" />
         <field name="notes">TESTE - TERMOS E CONDIÇÕES</field>
-        <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
-        <field name="fiscal_additional_data">TESTE - FISCAL ADDITIONAL DATA</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA</field>
     </record>
 
     <function model="purchase.order" name="_onchange_fiscal_operation_id">
@@ -133,7 +141,7 @@
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
         <field name="partner_order">0000001</field>
         <field name="partner_order_line">001</field>
-        <field name="additional_data">Teste - Additional Data</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
         <field name="insurance_value">10</field>
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
@@ -162,7 +170,7 @@
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
         <field name="partner_order">0000001</field>
         <field name="partner_order_line">002</field>
-        <field name="additional_data">Teste - Additional Data</field>
+        <field name="manual_additional_data">Teste - Additional Data</field>
         <field name="insurance_value">10</field>
         <field name="other_value">10</field>
         <field name="freight_value">10</field>
