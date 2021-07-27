@@ -273,10 +273,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         }
 
     def _document_comment(self):
-        for d in self.filtered("comment_ids"):
-            d.additional_data = d.additional_data or ""
-            d.additional_data += d.comment_ids.compute_message(
-                d.__document_comment_vals()
+        for d in self:
+            d.additional_data = d.comment_ids.compute_message(
+                d.__document_comment_vals(), d.manual_additional_data
             )
 
     @api.onchange("fiscal_operation_id")

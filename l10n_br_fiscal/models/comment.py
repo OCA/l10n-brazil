@@ -98,7 +98,6 @@ class Comment(models.Model):
     # This way we can format numbers in currency template on fiscal observation
     # msg We'll call this function when setting the variables env below
     def format_amount(self, env, amount, currency):
-        self.ensure_one()
         fmt = "%.{}f".format(currency.decimal_places)
         lang = env["res.lang"]._lang_get("pt_BR")
 
@@ -116,7 +115,11 @@ class Comment(models.Model):
 
         return u"{pre}{0}{post}".format(formatted_amount, pre=pre, post=post)
 
-    def compute_message(self, vals):
+    def compute_message(self, vals, manual_comment=None):
+
+        if not self.ids and not manual_comment:
+            return False
+
         from jinja2.sandbox import SandboxedEnvironment
 
         mako_template_env = SandboxedEnvironment(
@@ -159,12 +162,11 @@ class Comment(models.Model):
         mako_safe_env = copy.copy(mako_template_env)
         mako_safe_env.autoescape = False
 
-        result = ""
+        comments = [manual_comment] if manual_comment else []
         for record in self:
             template = mako_safe_env.from_string(tools.ustr(record.comment))
-            render_result = template.render(vals)
-            result += render_result + "\n"
-        return result
+            comments.append(template.render(vals))
+        return " - ".join(comments)
 
     def action_test_message(self):
         vals = {"user": self.env.user, "ctx": self._context, "doc": self.object_id}
