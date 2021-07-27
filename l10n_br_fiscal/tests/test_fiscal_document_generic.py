@@ -993,3 +993,10 @@ class TestFiscalDocumentGeneric(SavepointCase):
         dummy_line = self.env.user.company_id.fiscal_dummy_id.line_ids[0]
         with self.assertRaises(UserError):
             dummy_line.unlink()
+
+    def test_nfe_comments(self):
+        self.nfe_not_taxpayer._document_comment()
+        additional_data = self.nfe_not_taxpayer.line_ids[0].additional_data
+        self.assertEqual(
+            additional_data, "manual comment test - Val Aprox Tributos Federal R$ 0.00"
+        )
