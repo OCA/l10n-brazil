@@ -10,8 +10,10 @@
             <field name="fiscal_operation_id" required="1" />
         </group>
         <group name="l10n_br_fiscal_comment">
-            <field name="fiscal_additional_data" />
-            <field name="customer_additional_data" />
+            <field name="manual_fiscal_additional_data" />
+            <field name="fiscal_additional_data" readonly="1" />
+            <field name="manual_customer_additional_data" />
+            <field name="customer_additional_data" readonly="1" />
         </group>
       </form>
     </field>
