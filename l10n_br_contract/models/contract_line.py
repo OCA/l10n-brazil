@@ -40,3 +40,11 @@ class ContractLine(models.Model):
         if values:
             values.update(self._prepare_br_fiscal_dict())
         return values
+
+    @api.model
+    def create(self, values):
+        res = super().create(values)
+        if res.contract_id.fiscal_operation_id and not res.fiscal_operation_id:
+            res.fiscal_operation_id = res.contract_id.fiscal_operation_id
+            res._onchange_fiscal_operation_id()
+        return res
