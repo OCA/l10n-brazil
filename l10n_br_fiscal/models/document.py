@@ -8,7 +8,6 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from ..constants.fiscal import (
-    DOCUMENT_ISSUER,
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
@@ -83,13 +82,6 @@ class Document(models.Model):
         string="Key",
         copy=False,
         index=True,
-    )
-
-    issuer = fields.Selection(
-        selection=DOCUMENT_ISSUER,
-        default=DOCUMENT_ISSUER_COMPANY,
-        required=True,
-        string="Issuer",
     )
 
     document_date = fields.Datetime(
