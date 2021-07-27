@@ -117,7 +117,7 @@ class Comment(models.Model):
 
     def compute_message(self, vals, manual_comment=None):
 
-        if self.ids:
+        if not self.ids and not manual_comment:
             return False
 
         from jinja2.sandbox import SandboxedEnvironment
