@@ -75,6 +75,11 @@ msgid "Additional Data"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,help:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__manual_additional_data
+msgid "Additional data manually entered by user"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:res.groups,name:l10n_br_repair.group_total_discount
 msgid "Allow Amount Discount on Repair Orders"
 msgstr ""
@@ -1006,6 +1011,11 @@ msgstr ""
 #. module: l10n_br_repair
 #: selection:l10n_br_repair.fiscal.line.mixin,icmsst_base_type:0
 msgid "Lista Positiva (valor)"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__manual_additional_data
+msgid "Manual Additional Data"
 msgstr ""
 
 #. module: l10n_br_repair
