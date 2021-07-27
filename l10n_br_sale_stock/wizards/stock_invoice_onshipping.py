@@ -28,8 +28,8 @@ class StockInvoiceOnshipping(models.TransientModel):
             if pick.sale_id.copy_note and pick.sale_id.note:
                 values.update(
                     {
-                        "customer_additional_data": (
-                            pick.sale_id.customer_additional_data
+                        "manual_customer_additional_data": (
+                            pick.sale_id.manual_customer_additional_data
                             + " TERMOS E CONDIÇÕES: "
                             + pick.sale_id.note,
                         )

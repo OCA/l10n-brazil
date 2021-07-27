@@ -48,8 +48,12 @@
         <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
         <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
-        <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
-        <field name="fiscal_additional_data">TESTE - FISCAL ADDITIONAL DATA</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA</field>
     </record>
 
     <record id="main_sl_l10n_br_sale_stock_1_1" model="sale.order.line">
@@ -130,8 +134,12 @@
         <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
         <field name="note">TESTE de criação de duas Notas de Serviço e Produto</field>
-        <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
-        <field name="fiscal_additional_data">TESTE - FISCAL ADDITIONAL DATA</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA</field>
     </record>
 
     <record id="main_sl_l10n_br_sale_stock_2_1" model="sale.order.line">
@@ -192,8 +200,12 @@
         <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
         <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
-        <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
-        <field name="fiscal_additional_data">TESTE - FISCAL ADDITIONAL DATA</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA</field>
     </record>
 
     <record id="main_sl_l10n_br_sale_stock_3_1" model="sale.order.line">
@@ -274,8 +286,12 @@
         <field name="company_id" ref="base.main_company" />
         <field name="copy_note">True</field>
         <field name="note">TESTE - TERMOS E CONDIÇÕES</field>
-        <field name="customer_additional_data">TESTE - CUSTOMER ADDITIONAL DATA</field>
-        <field name="fiscal_additional_data">TESTE - FISCAL ADDITIONAL DATA</field>
+        <field
+            name="manual_customer_additional_data"
+        >TESTE - CUSTOMER ADDITIONAL DATA</field>
+        <field
+            name="manual_fiscal_additional_data"
+        >TESTE - FISCAL ADDITIONAL DATA</field>
     </record>
 
     <record id="main_sl_l10n_br_sale_stock_4_1" model="sale.order.line">
