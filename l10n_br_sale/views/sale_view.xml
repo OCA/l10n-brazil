@@ -69,8 +69,8 @@
                         name="note"
                         placeholder="Terms and conditions... (note: you can setup default ones in the Configuration menu)"
                     />
-                    <field name="customer_additional_data" />
-                    <field name="fiscal_additional_data" />
+                    <field name="manual_customer_additional_data" />
+                    <field name="manual_fiscal_additional_data" />
                 </group>
             </field>
             <xpath expr="//field[@name='order_line']" position="attributes">
