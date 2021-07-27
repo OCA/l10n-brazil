@@ -68,8 +68,8 @@
             <field name="quotation_notes" position="after">
                 <group>
                     <field name="copy_repair_quotation_notes" />
-                    <field name="customer_additional_data" />
-                    <field name="fiscal_additional_data" />
+                    <field name="manual_customer_additional_data" />
+                    <field name="manual_fiscal_additional_data" />
                 </group>
             </field>
 
