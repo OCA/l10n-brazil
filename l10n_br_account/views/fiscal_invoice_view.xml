@@ -126,6 +126,13 @@
                     context="{'form_view_ref': 'l10n_br_account.fiscal_invoice_line_form', 'default_document_id': fiscal_document_id, 'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'no_subcall': True}"
                 />
         </xpath>
+        <xpath expr="//sheet" position="after">
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers" />
+                <field name="activity_ids" widget="mail_activity" />
+                <field name="message_ids" widget="mail_thread" />
+            </div>
+        </xpath>
       </field>
     </record>
 
