@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Main template -->
+    <template id="main_report_stock_account_p7_view">
+        <t t-call="web.html_container">
+            <t t-call="l10n_br_stock_account_report.report_account_stock_p7_view" t-lang="language"/>
+        </t>
+    </template>
+
+    <template id="report_account_stock_p7_view">
+        <t t-call="web.html_container">
+
+            <style type="text/css">
+                body,div,table,thead,tbody,tfoot,tr,th,td,
+                p { font-family:"Arial"; font-size:x-small; white-space:nowrap; },
+            </style>
+
+            <t t-call="web.layout">
+
+                <div class="page">
+
+                    <t-body>
+
+                        <table cellspacing="0" border="0" >
+                            <colgroup width="188"></colgroup>
+                            <colgroup span="2" width="97"></colgroup>
+                            <colgroup width="85"></colgroup>
+                            <colgroup width="61"></colgroup>
+                            <colgroup span="3" width="85"></colgroup>
+                            <tr>
+                                <td colspan="7" height="25" align="center" valign="middle">
+                                    <b>
+                                        <font size="4">REGISTRATION INVENTORY</font>
+                                    </b>
+                                </td>
+                                <td align="left"><b>P7 Model</b></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" height="17" align="left"
+                                    valign="middle">
+                                    <b>Company Name: </b><t t-esc="header['company_name']"/>
+                                </td>
+                                <td align="left"><br></br></td>
+                                <td colspan="3" align="left"
+                                    valign="middle">
+                                    <b>CNPJ: </b><t t-esc="header['cnpj']"/>
+                                </td>
+                                </tr>
+                            <tr>
+                                <td colspan="4" height="17" align="left"
+                                    valign="middle">
+                                    <b>State Registration: </b><t t-esc="header['inscr_est']"/>
+                                </td>
+                                <td align="left"><br></br></td>
+                                <td colspan="3" align="left"
+                                    valign="middle">
+                                    <b>Existing Stocks at </b><t t-esc="header['date']"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="17" align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                            </tr>
+                            <tr>
+                                <td height="17" align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                            </tr>
+                            <tr>
+                                <td style="border-top: 1px solid #000000;
+                                 border-bottom: 1px solid #000000; border-left: 1px
+                                  solid #000000; border-right: 1px solid #000000"
+                                    rowspan="2" height="34" align="center"
+                                    valign="middle"> <b>Fiscal Classification</b> </td>
+                                <td style="border-top: 1px solid #000000;
+                                 border-bottom: 1px solid #000000; border-left: 1px
+                                  solid #000000; border-right: 1px solid #000000"
+                                    colspan="2" rowspan="2" align="center" valign="middle">
+                                    <b>Discrimination</b></td>
+                                <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                 solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                  solid #000000" rowspan="2" align="center" valign="middle"> <b>Quantity</b>
+                                </td>
+                                <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                 solid #000000; border-left: 1px solid #000000;
+                                  border-right: 1px solid #000000" rowspan="2" align="center"
+                                    valign="middle"> <b>Unit</b> </td>
+                                <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                 solid #000000; border-right: 1px solid #000000"
+                                    colspan="3" align="center" valign="middle"><b>Value</b></td>
+                                </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid #000000;
+                                 border-right: 1px solid #000000" align="center"> <b>Unitary</b> </td>
+                                <td style="border-bottom: 1px solid #000000;
+                                 border-right: 1px solid #000000" align="center"> <b>Partial</b> </td>
+                                <td style="border-bottom: 1px solid #000000;
+                                 border-right: 1px solid #000000" align="center"> <b>Total</b> </td>
+                            </tr>
+
+                            <t t-foreach="lines" t-as="l" >
+                                <!--<p><t t-esc="l"/></p>-->
+                                <tr t-if="l['ncm_controller'] == False">
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                      solid #000000" height="17" align="center">
+                                        <br>
+                                            <p><t t-esc="l['ncm']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000;
+                                      border-right: 1px solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['product_code']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000;
+                                      border-right: 1px solid #000000" align="center" width="700">
+                                        <br>
+                                            <p><t t-esc="l['product_name']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                      solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['product_qty']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000;
+                                      border-right: 1px solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['product_uom']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                      solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['price_unit']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                     solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['partial_total_value']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                      solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['total_value_ncm']"/></p>
+                                        </br>
+                                    </td>
+                                </tr>
+
+                                <tr t-if="l['ncm_controller'] == True">
+                                    <td style="border-top: 3px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                      solid #000000" height="17" align="center">
+                                        <br>
+                                            <p><t t-esc="l['ncm']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 3px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000;
+                                      border-right: 1px solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['product_code']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 3px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000;
+                                      border-right: 1px solid #000000" align="center" width="700">
+                                        <br>
+                                            <p><t t-esc="l['product_name']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 3px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                      solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['product_qty']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 3px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000;
+                                      border-right: 1px solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['product_uom']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 3px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                      solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['price_unit']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 3px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                     solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['partial_total_value']"/></p>
+                                        </br>
+                                    </td>
+                                    <td style="border-top: 3px solid #000000; border-bottom: 1px
+                                     solid #000000; border-left: 1px solid #000000; border-right: 1px
+                                      solid #000000" align="center">
+                                        <br>
+                                            <p><t t-esc="l['total_value_ncm']"/></p>
+                                        </br>
+                                    </td>
+                                </tr>
+
+                            </t>
+                            <p style="page-break-after:always;"></p>
+
+                            <tr>
+                                <td height="30" align="left">
+                                    <br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                            </tr>
+
+                            <tr>
+                                <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000"
+                                    colspan="5" height="30" align="left" valign="middle">Total Geral</td>
+                                <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000"
+                                    align="right">
+                                    <t t-esc="total['total']"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="30" align="left">
+                                    <br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                                <td align="left"><br></br></td>
+                            </tr>
+                            <tr>
+                                <td style="border-bottom: 1px solid #000000" height="30"
+                                    align="left">Resumo</td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                            </tr>
+
+                            <t t-foreach="total_product_types" t-as="product_type">
+
+                                <tr>
+                                    <td align="left" height="30">
+                                        <t t-esc="product_type['name']"/>
+                                    </td>
+                                    <td align="left"><br></br></td>
+                                    <td align="left"><br></br></td>
+                                    <td align="left"><br></br></td>
+                                    <td align="left"><br></br></td>
+                                    <td align="right">
+                                        <t t-esc="product_type['value']"/>
+                                    </td>
+                                </tr>
+
+                            </t>
+
+                            <tr>
+                                <td style="border-bottom: 1px solid #000000" height="30" align="left"><br></br></td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                                <td style="border-bottom: 1px solid #000000" align="left"><br></br></td>
+                            </tr>
+
+
+                        </table>
+                    </t-body>
+
+                </div>
+                <div class="footer">
+                    <div class="text-center" style="border-top: 1px solid black;">
+                        <span>
+                            User: <t t-esc="footer['user_name']"/>
+                            | Generation Date: <t t-esc="footer['date_generate']"/>
+                            | Page: <span class="page"/> / <span class="topage"/>
+                        </span>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>
