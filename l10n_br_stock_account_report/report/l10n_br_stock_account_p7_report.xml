@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Formato A4 com margens menores -->
+    <record id="paperformat_lowmargin" model="report.paperformat">
+            <field name="name">European A4 low margin</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">8</field>
+            <field name="margin_bottom">13</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+    </record>
+
+    <!-- TODO o print_report_name por algum motivo não funciona -->
+    <report
+            id="report_stock_account_p7"
+            string="Stock Account P7 Report"
+            model="stock.account.p7.wizard"
+            report_type="qweb-pdf"
+            paperformat="l10n_br_stock_account_report.paperformat_lowmargin"
+            file="l10n_br_stock_account_report.main_report_stock_account_p7_view"
+            name="l10n_br_stock_account_report.main_report_stock_account_p7_view"
+            menu="False"
+            print_report_name="test"
+    />
+
+</odoo>
