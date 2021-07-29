@@ -17,16 +17,14 @@ class StockAccountP7Wizard(models.TransientModel):
 
     compute_at_date = fields.Selection(
         selection=[(0, _("Current Inventory")), (1, _("At a Specific Date"))],
-        string=_("Compute"),
-        help=_(
-            "Choose to analyze the current inventory or from"
-            " a specific date in the past."
-        ),
+        string="Compute",
+        help="Choose to analyze the current inventory or from"
+        " a specific date in the past.",
     )
 
     date = fields.Datetime(
-        string=_("Inventory at Date"),
-        help=_("Choose a date to get the inventory at that date"),
+        string="Inventory at Date",
+        help="Choose a date to get the inventory at that date",
         default=fields.Datetime.now,
     )
 
