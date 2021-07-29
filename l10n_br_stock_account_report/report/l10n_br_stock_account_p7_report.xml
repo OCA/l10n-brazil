@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <!-- Formato A4 com margens menores -->
@@ -20,15 +20,15 @@
 
     <!-- TODO o print_report_name por algum motivo não funciona -->
     <report
-            id="report_stock_account_p7"
-            string="Stock Account P7 Report"
-            model="stock.account.p7.wizard"
-            report_type="qweb-pdf"
-            paperformat="l10n_br_stock_account_report.paperformat_lowmargin"
-            file="l10n_br_stock_account_report.main_report_stock_account_p7_view"
-            name="l10n_br_stock_account_report.main_report_stock_account_p7_view"
-            menu="False"
-            print_report_name="test"
+        id="report_stock_account_p7"
+        string="Stock Account P7 Report"
+        model="stock.account.p7.wizard"
+        report_type="qweb-pdf"
+        paperformat="l10n_br_stock_account_report.paperformat_lowmargin"
+        file="l10n_br_stock_account_report.main_report_stock_account_p7_view"
+        name="l10n_br_stock_account_report.main_report_stock_account_p7_view"
+        menu="False"
+        print_report_name="test"
     />
 
 </odoo>
