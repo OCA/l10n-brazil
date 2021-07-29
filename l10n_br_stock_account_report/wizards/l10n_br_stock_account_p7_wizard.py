@@ -2,70 +2,74 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import pytz
 from datetime import datetime
 
-from odoo import api, fields, models, _
+import pytz
+
+from odoo import _, api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import PRODUCT_FISCAL_TYPE
 
 
 class StockAccountP7Wizard(models.TransientModel):
-    _name = 'stock.account.p7.wizard'
-    _description = 'Stock Account P7 Report Wizard'
+    _name = "stock.account.p7.wizard"
+    _description = "Inventory Valuation - Model P7"
 
     compute_at_date = fields.Selection(
-        selection=[
-            (0, _('Current Inventory')),
-            (1, _('At a Specific Date'))
-        ],
-        string=_('Compute'),
-        help=_('Choose to analyze the current inventory or from'
-             ' a specific date in the past.'))
+        selection=[(0, _("Current Inventory")), (1, _("At a Specific Date"))],
+        string=_("Compute"),
+        help=_(
+            "Choose to analyze the current inventory or from"
+            " a specific date in the past."
+        ),
+    )
 
     date = fields.Datetime(
-        string=_('Inventory at Date'),
-        help=_('Choose a date to get the inventory at that date'),
-        default=fields.Datetime.now
+        string=_("Inventory at Date"),
+        help=_("Choose a date to get the inventory at that date"),
+        default=fields.Datetime.now,
     )
 
     def print_report(self):
 
         data = self.read()[0]
         result = self.get_report_values()
-        data.update({
-            'language': self.env.user.lang,
-            'lines': result['lines'],
-            'header': result['header'],
-            'total': result['total'],
-            'total_product_types': result['total_product_types'],
-            'footer': result['footer'],
-        })
+        data.update(
+            {
+                "language": self.env.user.lang,
+                "lines": result["lines"],
+                "header": result["header"],
+                "total": result["total"],
+                "total_product_types": result["total_product_types"],
+                "footer": result["footer"],
+            }
+        )
 
         return self.env.ref(
-            'l10n_br_stock_account_report.report_stock_account_p7'
+            "l10n_br_stock_account_report.report_stock_account_p7"
         ).report_action(self, data=data)
 
     @api.model
     def get_report_values(self):
 
         # Informar no relatorio o fuso/horario do usuario
-        if self.env.context.get('tz'):
-            time_zone = pytz.timezone(self.env.context.get('tz'))
+        if self.env.context.get("tz"):
+            time_zone = pytz.timezone(self.env.context.get("tz"))
         else:
             time_zone = pytz.utc
-        to_date_with_tz = pytz.utc.localize(
-            self.date, '%Y-%m-%d %H:%M:%S').astimezone(time_zone)
+        to_date_with_tz = pytz.utc.localize(self.date, "%Y-%m-%d %H:%M:%S").astimezone(
+            time_zone
+        )
 
         header, footer = self.header_footer(to_date_with_tz, time_zone)
         lines, total, total_product_types = self.lines()
 
         result = {
-            'lines': lines,
-            'header': header,
-            'total': total,
-            'total_product_types': total_product_types,
-            'footer': footer,
+            "lines": lines,
+            "header": header,
+            "total": total,
+            "total_product_types": total_product_types,
+            "footer": footer,
         }
 
         return result
@@ -74,16 +78,15 @@ class StockAccountP7Wizard(models.TransientModel):
 
         company = self.env.user.company_id
         header = {
-            'company_name': company.name,
-            'cnpj': company.cnpj_cpf,
-            'inscr_est': company.inscr_est,
-            'date': to_date_with_tz.strftime('%d/%m/%Y')
+            "company_name": company.name,
+            "cnpj": company.cnpj_cpf,
+            "inscr_est": company.inscr_est,
+            "date": to_date_with_tz.strftime("%d/%m/%Y"),
         }
 
         footer = {
-            'date_generate': datetime.now(
-                tz=time_zone).strftime('%d/%m/%Y %H:%M:%S'),
-            'user_name':  self.env.user.name
+            "date_generate": datetime.now(tz=time_zone).strftime("%d/%m/%Y %H:%M:%S"),
+            "user_name": self.env.user.name,
         }
 
         return header, footer
@@ -91,26 +94,25 @@ class StockAccountP7Wizard(models.TransientModel):
     def lines(self):
 
         # Precision
-        obj_precision = self.env['decimal.precision']
-        account_precision = obj_precision.precision_get('Account')
-        price_precision = obj_precision.precision_get('Product Price')
+        obj_precision = self.env["decimal.precision"]
+        account_precision = obj_precision.precision_get("Account")
+        price_precision = obj_precision.precision_get("Product Price")
 
         # TODO: Teria outra forma de fazer isso na v12 ?
         # Format Lang
-        fmt = '%f' if account_precision is None else '%.{precision}f'
-        lang_code = self.env.user.lang or 'pt_BR'
-        obj_lang = self.env['res.lang'].search([
-            ('code', '=', lang_code)
-        ])
+        fmt = "%f" if account_precision is None else "%.{precision}f"
+        lang_code = self.env.user.lang or "pt_BR"
+        obj_lang = self.env["res.lang"].search([("code", "=", lang_code)])
 
         # Apenas produto com NCM e com Quantidades
         # maiores que zero devem ser considerados
-        products = self.env['product.product'].with_context(
-            to_date=self.date,
-            default_compute_at_date=self.env.context[
-                'default_compute_at_date'],
-        ).search(
-            [('ncm_id', '!=', False), ('qty_available', '>', 0.0)]
+        products = (
+            self.env["product.product"]
+            .with_context(
+                to_date=self.date,
+                default_compute_at_date=self.env.context["default_compute_at_date"],
+            )
+            .search([("ncm_id", "!=", False), ("qty_available", ">", 0.0)])
         )
 
         # Ordena a lista pelo NCM
@@ -131,7 +133,7 @@ class StockAccountP7Wizard(models.TransientModel):
             )
 
             # TODO: ainda é necessário fazer essa validação decimal
-            decimal = product.qty_available-int(product.qty_available)
+            decimal = product.qty_available - int(product.qty_available)
             if decimal:
                 qty_precision = account_precision
             else:
@@ -141,38 +143,49 @@ class StockAccountP7Wizard(models.TransientModel):
             product_inventory_value = product.qty_available * price_used
 
             # Calcula o Total por NCM
-            tmp_total_value_ncm += round(
-                product_inventory_value, account_precision)
+            tmp_total_value_ncm += round(product_inventory_value, account_precision)
 
             if product.ncm_id.code != tmp_ncm_controler:
                 tmp_ncm_controler = product.ncm_id.code
-                tmp_total_value_ncm = round(
-                    product_inventory_value, account_precision)
+                tmp_total_value_ncm = round(product_inventory_value, account_precision)
                 # A validação abaixo é necessária p/
                 # não preencher a primeira linha
                 if type(tmp_ncm_controler) != bool:
                     tmp_ncm_controler_line = True
 
-            result_lines.append({
-                'product_name': product.name or '',
-                'product_code': product.default_code or '',
-                'product_uom': product.uom_id.name,
-                'product_qty': obj_lang.format(
-                    fmt.format(precision=qty_precision),
-                    product.qty_available, True, True),
-                'price_unit': obj_lang.format(
-                    fmt.format(precision=price_precision),
-                    round(price_used, price_precision), True, True),
-                'partial_total_value': obj_lang.format(
-                    fmt.format(precision=account_precision),
-                    round(product_inventory_value, account_precision),
-                    True, True),
-                'ncm': product.ncm_id.code,
-                'total_value_ncm': obj_lang.format(
-                    fmt.format(precision=account_precision),
-                    tmp_total_value_ncm, True, True),
-                'ncm_controller': tmp_ncm_controler_line,
-            })
+            result_lines.append(
+                {
+                    "product_name": product.name or "",
+                    "product_code": product.default_code or "",
+                    "product_uom": product.uom_id.name,
+                    "product_qty": obj_lang.format(
+                        fmt.format(precision=qty_precision),
+                        product.qty_available,
+                        True,
+                        True,
+                    ),
+                    "price_unit": obj_lang.format(
+                        fmt.format(precision=price_precision),
+                        round(price_used, price_precision),
+                        True,
+                        True,
+                    ),
+                    "partial_total_value": obj_lang.format(
+                        fmt.format(precision=account_precision),
+                        round(product_inventory_value, account_precision),
+                        True,
+                        True,
+                    ),
+                    "ncm": product.ncm_id.code,
+                    "total_value_ncm": obj_lang.format(
+                        fmt.format(precision=account_precision),
+                        tmp_total_value_ncm,
+                        True,
+                        True,
+                    ),
+                    "ncm_controller": tmp_ncm_controler_line,
+                }
+            )
 
             # Calcula o Valor Total do Inventário
             tmp_total_value += product_inventory_value
@@ -194,15 +207,13 @@ class StockAccountP7Wizard(models.TransientModel):
             #     ("99", "Outras"),
             # )
             for fiscal_type in PRODUCT_FISCAL_TYPE:
-                if fiscal_type[0] == \
-                        product.product_tmpl_id.fiscal_type:
+                if fiscal_type[0] == product.product_tmpl_id.fiscal_type:
                     if not fiscal_type_dict.get(fiscal_type[1]):
-                        fiscal_type_dict[fiscal_type[1]] = \
-                            product_inventory_value
+                        fiscal_type_dict[fiscal_type[1]] = product_inventory_value
                     else:
-                        fiscal_type_dict[fiscal_type[1]] = \
-                            fiscal_type_dict[fiscal_type[1]] + \
-                            product_inventory_value
+                        fiscal_type_dict[fiscal_type[1]] = (
+                            fiscal_type_dict[fiscal_type[1]] + product_inventory_value
+                        )
 
         # Organiza o resultado do Valor Total por Tipo Fiscal
         result_product_types = []
@@ -211,16 +222,23 @@ class StockAccountP7Wizard(models.TransientModel):
         # variar entre os relatorios impressos
         list_fiscal_type.sort()
         for fiscal_type_name in list_fiscal_type:
-            result_product_types.append({
-                'name': fiscal_type_name,
-                'value': obj_lang.format(
-                    fmt.format(precision=account_precision),
-                    fiscal_type_dict.get(fiscal_type_name), True, True)
-            })
+            result_product_types.append(
+                {
+                    "name": fiscal_type_name,
+                    "value": obj_lang.format(
+                        fmt.format(precision=account_precision),
+                        fiscal_type_dict.get(fiscal_type_name),
+                        True,
+                        True,
+                    ),
+                }
+            )
 
         # Valor Total do Inventário
-        total = {'total': obj_lang.format(
-            fmt.format(precision=account_precision),
-            tmp_total_value, True, True)}
+        total = {
+            "total": obj_lang.format(
+                fmt.format(precision=account_precision), tmp_total_value, True, True
+            )
+        }
 
         return result_lines, total, result_product_types
