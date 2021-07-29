@@ -238,6 +238,11 @@ msgid "Fiscal Document Cancel Wizard"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_correction_wizard
+msgid "Fiscal Document Correction Wizard"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_line
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_document_line_id
 msgid "Fiscal Document Line"
