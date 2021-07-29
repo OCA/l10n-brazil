@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <odoo>
 
 	<record id="l10n_br_stock_account_p7_wizard_report" model="ir.ui.view">
@@ -8,36 +8,34 @@
 			<form string="Choose your date">
 				<group>
 					<group>
-						<field name="compute_at_date" widget="radio"/>
-						<field name="date" attrs="{'invisible': [('compute_at_date', '=', 0)]}"/>
+						<field name="compute_at_date" widget="radio" />
+						<field name="date" attrs="{'invisible': [('compute_at_date', '=', 0)]}" />
 					</group>
 				</group>
 				<footer>
-					<button name="print_report"
-							string="Create Report"
-							type="object" class="btn-primary"/>
-					<button string="Cancel" class="btn-secondary" special="cancel"/>
+					<button name="print_report" string="Create Report" type="object" class="btn-primary" />
+					<button string="Cancel" class="btn-secondary" special="cancel" />
 				</footer>
 			</form>
 		</field>
 	</record>
 
 	<record id="action_stock_account_p7_wizard_report" model="ir.actions.act_window">
-			<field name="name">Stock Account Report - Model P7</field>
+			<field name="name">Inventory Valuation - Model P7</field>
 			<field name="res_model">stock.account.p7.wizard</field>
 			<field name="view_type">form</field>
 			<field name="view_mode">form</field>
-			<field name="view_id" ref="l10n_br_stock_account_p7_wizard_report"/>
+			<field name="view_id" ref="l10n_br_stock_account_p7_wizard_report" />
 			<field name="target">new</field>
 			<field name="context">{'default_compute_at_date': 0}</field>
 	</record>
 
 	<menuitem
-			action="action_stock_account_p7_wizard_report"
-			id="menu_legal_stock_valuation_wizard_report"
-			parent="stock.menu_warehouse_report"
-			sequence="100"
-			string="Stock Account Report - Model P7"
-	/>
+        action="action_stock_account_p7_wizard_report"
+        id="menu_legal_stock_valuation_wizard_report"
+        parent="stock.menu_warehouse_report"
+        sequence="100"
+        string="Inventory Valuation - Model P7"
+    />
 
 </odoo>
