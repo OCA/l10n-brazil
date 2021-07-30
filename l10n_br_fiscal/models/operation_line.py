@@ -17,6 +17,7 @@ from ..constants.fiscal import (
     TAX_DOMAIN_ISSQN,
     TAX_FRAMEWORK,
     TAX_FRAMEWORK_NORMAL,
+    TAX_FRAMEWORK_SIMPLES_ALL,
     TAX_ICMS_OR_ISSQN,
 )
 from ..constants.icms import ICMS_ORIGIN
@@ -210,17 +211,24 @@ class OperationLine(models.Model):
         cfop = self._get_cfop(company, partner)
         mapping_result["cfop"] = cfop
 
-        # 1 Get Tax Defs from Company
+        # Get Tax Defs from Company
         for tax_definition in company.tax_definition_ids.map_tax_definition(
             company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
-        # 2 From NCM
+        # From NCM
         if not ncm and product:
             ncm = product.ncm_id
 
-        if company.tax_framework == TAX_FRAMEWORK_NORMAL:
+        if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
+            # From Operation Line
+            for tax_definition in self.tax_definition_ids.map_tax_definition(
+                company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
+            ):
+                self._build_mapping_result(mapping_result, tax_definition)
+
+        elif company.tax_framework == TAX_FRAMEWORK_NORMAL:
             tax_ipi = ncm.tax_ipi_id
             tax_ii = ncm.tax_ii_id
             mapping_result["taxes"][tax_ipi.tax_domain] = tax_ipi
@@ -228,7 +236,7 @@ class OperationLine(models.Model):
             if mapping_result["cfop"].destination == CFOP_DESTINATION_EXPORT:
                 mapping_result["taxes"][tax_ii.tax_domain] = tax_ii
 
-            # 3 From ICMS Regulation
+            # From ICMS Regulation
             if company.icms_regulation_id:
                 tax_icms_ids = company.icms_regulation_id.map_tax(
                     company=company,
@@ -243,19 +251,19 @@ class OperationLine(models.Model):
                 for tax in tax_icms_ids:
                     mapping_result["taxes"][tax.tax_domain] = tax
 
-            # 4 From Operation Line
+            # From Operation Line
             for tax_definition in self.tax_definition_ids.map_tax_definition(
                 company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
             ):
                 self._build_mapping_result(mapping_result, tax_definition)
 
-            # 5 From CFOP
+            # From CFOP
             for tax_definition in cfop.tax_definition_ids.map_tax_definition(
                 company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
             ):
                 self._build_mapping_result(mapping_result, tax_definition)
 
-            # 6 From Partner Profile
+            # From Partner Profile
             for (
                 tax_definition
             ) in partner.fiscal_profile_id.tax_definition_ids.map_tax_definition(
