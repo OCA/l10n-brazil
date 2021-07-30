@@ -31,8 +31,8 @@ class ResPartner(models.Model):
 
     @api.model
     def create_from_ui(self, partner):
-        from odoo.addons.l10n_br_base.tools import misc
-        cnpj_cpf = misc.punctuation_rm(partner['cnpj_cpf'])
+        from erpbrasil.base import misc
+        cnpj_cpf = misc.punctuation_rm(partner['vat'])
         cnpj_cpf_type = 'cpf' if len(cnpj_cpf) == 11 else 'cnpj'
         partner['data_alteracao'] = fields.Date.today()
         partner['cnpj_cpf'] = self._mask_cnpj_cpf(cnpj_cpf_type, cnpj_cpf)
@@ -48,8 +48,8 @@ class ResPartner(models.Model):
         partner_id.legal_name = partner['name']
         if partner_id.company_id:
             partner_id.company_id = False
-        if cnpj_cpf_type:
-            fiscal_type = self.env.ref('l10n_br_account.partner_fiscal_type_4')
-            partner_id.partner_fiscal_type_id = fiscal_type.id
+        # if cnpj_cpf_type:
+        #     fiscal_type = self.env.ref('l10n_br_account.partner_fiscal_type_4')
+        #     partner_id.partner_fiscal_type_id = fiscal_type.id
 
         return res

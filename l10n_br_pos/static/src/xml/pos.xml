@@ -403,41 +403,41 @@
         </t>
     </t>
 
-    <t t-extend="ClientDetailsEdit">
-        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-country)" t-operation="after">
-            <div class='client-detail'>
-                <span class='label'>Estado</span>
-                <select class='detail client-address-state' name='state_id'>
-                    <option value=''>None</option>
-                    <t t-foreach='widget.pos.states' t-as='state'>
-                        <option t-att-value='state.id' t-att-selected="partner.state_id ? ((state.id === partner.state_id[0]) ? true : undefined) : undefined">
-                            <t t-esc='state.name'/>
-                        </option>
-                    </t>
-                </select>
-            </div>
-        </t>
-    </t>
+<!--    <t t-extend="ClientDetailsEdit">-->
+<!--        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-country)" t-operation="after">-->
+<!--            <div class='client-detail'>-->
+<!--                <span class='label'>Estado</span>-->
+<!--                <select class='detail client-address-state' name='state_id'>-->
+<!--                    <option value=''>None</option>-->
+<!--                    <t t-foreach='widget.pos.states' t-as='state'>-->
+<!--                        <option t-att-value='state.id' t-att-selected="partner.state_id ? ((state.id === partner.state_id[0]) ? true : undefined) : undefined">-->
+<!--                            <t t-esc='state.name'/>-->
+<!--                        </option>-->
+<!--                    </t>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </t>-->
+<!--    </t>-->
     <t t-extend="ClientDetailsEdit">
         <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-city)" t-operation="replace">
         </t>
     </t>
 
-    <t t-extend="ClientDetailsEdit">
-        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-state)" t-operation="after">
-            <div class='client-detail'>
-                <span class='label'>Cidade</span>
-                <select class='detail client-address-city' name='l10n_br_city_id'>
-                    <option value=''>None</option>
-                    <t t-foreach='widget.pos.cities' t-as='city'>
-                        <option t-att-value='city.id' t-att-selected="partner.l10n_br_city_id ? ((city.id === partner.l10n_br_city_id[0]) ? true : undefined) : undefined">
-                            <t t-esc='city.name'/>
-                        </option>
-                    </t>
-                </select>
-            </div>
-        </t>
-    </t>
+<!--    <t t-extend="ClientDetailsEdit">-->
+<!--        <t t-jquery="div.client-details-left > div.client-detail:has(.client-address-state)" t-operation="after">-->
+<!--            <div class='client-detail'>-->
+<!--                <span class='label'>Cidade</span>-->
+<!--                <select class='detail client-address-city' name='l10n_br_city_id'>-->
+<!--                    <option value=''>None</option>-->
+<!--                    <t t-foreach='widget.pos.cities' t-as='city'>-->
+<!--                        <option t-att-value='city.id' t-att-selected="partner.l10n_br_city_id ? ((city.id === partner.l10n_br_city_id[0]) ? true : undefined) : undefined">-->
+<!--                            <t t-esc='city.name'/>-->
+<!--                        </option>-->
+<!--                    </t>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </t>-->
+<!--    </t>-->
 
     <t t-extend="PosWidget">
         <t t-jquery="div.pads" t-operation="before">
