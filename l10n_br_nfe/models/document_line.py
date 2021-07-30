@@ -43,6 +43,10 @@ class NFeLine(spec_models.StackedModel):
         related="ncm_id.code_unmasked",
     )
 
+    nfe40_EXTIPI = fields.Char(
+        related="ncm_id.exception",
+    )
+
     nfe40_CEST = fields.Char(
         related="cest_id.code_unmasked",
     )
@@ -59,8 +63,18 @@ class NFeLine(spec_models.StackedModel):
         related="product_id.barcode",
     )
 
+    nfe40_qCom = fields.Float(
+        related="quantity",
+        string="NFe Quantity Related",
+    )
+
     nfe40_uCom = fields.Char(
         related="uom_id.code",
+    )
+
+    nfe40_qTrib = fields.Float(
+        related="fiscal_quantity",
+        string="NFe Fiscal Quantity Related",
     )
 
     nfe40_uTrib = fields.Char(
@@ -448,8 +462,6 @@ class NFeLine(spec_models.StackedModel):
                 xsd_fields.remove("nfe40_vBC")
                 xsd_fields.remove("nfe40_pCOFINS")
 
-        self.nfe40_qCom = self.quantity
-        self.nfe40_qTrib = self.fiscal_quantity
         self.nfe40_pICMS = self.icms_percent
         self.nfe40_pICMSST = self.icmsst_percent
         self.nfe40_pMVAST = self.icmsst_mva_percent
@@ -608,10 +620,11 @@ class NFeLine(spec_models.StackedModel):
             vals["nfe40_choice15"] = key
 
         if key == "nfe40_vUnCom":
-            vals["price_unit"] = float(value)
+            vals["price_unit"] = float(value or 0.00)
         if key == "nfe40_qCom":
-            vals["quantity"] = float(value)
-            vals["fiscal_quantity"] = float(value)
+            vals["quantity"] = float(value or 0.00)
+        if key == "nfe40_qTrib":
+            vals["fiscal_quantity"] = float(value or 0.00)
         if key == "nfe40_pICMS":
             vals["icms_percent"] = float(value or 0.00)
         if key == "nfe40_pIPI":
