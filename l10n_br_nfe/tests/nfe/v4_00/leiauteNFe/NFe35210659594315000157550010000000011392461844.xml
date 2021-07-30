@@ -89,12 +89,9 @@
                 </ICMS>
                 <IPI>
                     <cEnq>999</cEnq>
-                    <IPITrib>
-                        <CST>99</CST>
-                        <vBC>0.00</vBC>
-                        <pIPI>0.0000</pIPI>
-                        <vIPI>0.00</vIPI>
-                    </IPITrib>
+                    <IPINT>
+                        <CST>53</CST>
+                    </IPINT>
                 </IPI>
                 <PIS>
                     <PISOutr>
