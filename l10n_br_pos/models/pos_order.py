@@ -18,17 +18,14 @@ class PosOrder(models.Model):
 
     @api.model
     def _order_fields(self, ui_order):
-        return {
-            'name':           ui_order['name'],
-            'user_id':        ui_order['user_id'] or False,
-            'session_id':     ui_order['pos_session_id'],
-            'lines':          ui_order['lines'],
-            'pos_reference':  ui_order['name'],
-            'partner_id':     ui_order['partner_id'] or False,
-            'cfe_return':     ui_order['cfe_return'],
-            'num_sessao_sat': ui_order['num_sessao_sat'],
-            'chave_cfe':      ui_order['chave_cfe'],
+        result = super()._order_fields(ui_order)
+        temp = {
+            "cfe_return": ui_order.get("cfe_return"),
+            "num_sessao_sat": ui_order.get("num_sessao_sat"),
+            "chave_cfe": ui_order.get("chafe_cfe"),
         }
+        result.update(temp)
+        return result
 
     @api.model
     def _pos_order_type(self):
@@ -91,40 +88,40 @@ class PosOrder(models.Model):
                          order.session_id.config_id.simplified_invoice_type
                      })
 
-    @api.multi
-    def write(self, vals):
-        result = super(PosOrder, self).write(vals)
-        self.simplified_limit_check()
-        return result
-
-    @api.model
-    def create(self, vals):
-        order = super(PosOrder, self).create(vals)
-        pos_config = order.session_id.config_id
-        if pos_config.iface_sat_via_proxy:
-            sequence = pos_config.sequence_id
-            cfe = ChaveCFeSAT(vals['chave_cfe'])
-            order.name = sequence._interpolate_value("%s / %s" % (
-                cfe.numero_serie,
-                cfe.numero_cupom_fiscal,
-            ))
-        order.simplified_limit_check()
-        return order
+    # @api.multi
+    # def write(self, vals):
+    #     result = super(PosOrder, self).write(vals)
+    #     self.simplified_limit_check()
+    #     return result
+    #
+    # @api.model
+    # def create(self, vals):
+    #     order = super(PosOrder, self).create(vals)
+    #     pos_config = order.session_id.config_id
+    #     if pos_config.iface_sat_via_proxy:
+    #         sequence = pos_config.sequence_id
+    #         cfe = ChaveCFeSAT(vals['chave_cfe'])
+    #         order.name = sequence._interpolate_value("%s / %s" % (
+    #             cfe.numero_serie,
+    #             cfe.numero_cupom_fiscal,
+    #         ))
+    #     order.simplified_limit_check()
+    #     return order
 
     @api.model
     def _process_order(self, order):
-        order_id = super(PosOrder, self)._process_order(order)
-        order_id = self.browse(order_id)
-        for statement in order_id.statement_ids:
-            if statement.journal_id.sat_payment_mode == '05' and statement.journal_id.pagamento_funcionarios:
-                order_id.partner_id.credit_funcionario -= statement.amount
-            elif statement.journal_id.sat_payment_mode == "05":
-                order_id.partner_id.credit_limit -= statement.amount
+        order_id = super()._process_order(order)
+        # order_id = self.browse(order_id)
+        # for statement in order_id.statement_ids:
+        #     if statement.journal_id.sat_payment_mode == '05' and statement.journal_id.pagamento_funcionarios:
+        #         order_id.partner_id.credit_funcionario -= statement.amount
+        #     elif statement.journal_id.sat_payment_mode == "05":
+        #         order_id.partner_id.credit_limit -= statement.amount
         return order_id.id
 
     @api.multi
     def create_picking(self):
-        super(PosOrder, self).create_picking()
+        super().create_picking()
         fiscal_category = self.session_id.config_id.fiscal_operation_id
         self.picking_id.fiscal_operation_id = \
             fiscal_category.id
