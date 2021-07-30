@@ -498,6 +498,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         return self.fiscal_document_id.view_pdf()
 
+<<<<<<< HEAD
     def _get_refund_common_fields(self):
         fields = super()._get_refund_common_fields()
         fields += [
@@ -574,3 +575,6 @@ class AccountInvoice(models.Model):
                     result[i][2][name] = [(6, 0, line[name].ids)]
 
         return result
+    
+    def action_send_email(self):
+        return self.fiscal_document_id.action_send_email()
