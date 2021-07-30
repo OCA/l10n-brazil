@@ -1,151 +1,131 @@
-/******************************************************************************
-*    Point Of Sale - L10n Brazil Localization for POS Odoo
-*    Copyright (C) 2016 KMEE INFORMATICA LTDA (http://www.kmee.com.br)
-*    @author Luis Felipe Miléo <mileo@kmee.com.br>
-*    @author Luiz Felipe do Divino <luiz.divino@kmee.com.br>
-*
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU Affero General Public License as
-*    published by the Free Software Foundation, either version 3 of the
-*    License, or (at your option) any later version.
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU Affero General Public License for more details.
-*    You should have received a copy of the GNU Affero General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*
-******************************************************************************/
+// Copyright 2016 KMEE INFORMÁTICA LTDA
+// Copyright 2021 KMEE INFORMÁTICA LTDA
+// License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-function l10n_br_pos_db(instance, module) {
+odoo.define('l10n_br_pos.db', function (require) {
+    "use strict";
 
-    module.PosDB = module.PosDB.extend({
-        init: function (options) {
-            options = options || {};
-            this._super(options);
+    var models = require("point_of_sale.models");
+    var PosDB = require('point_of_sale.DB');
+
+    PosDB.include({
+        init: function(options) {
+            this._super(this, options);
         },
-        _partner_search_string: function(partner){
-            // FIXME: Call super
-            //var str = this._super(partner);
-            var str =  partner.name;
-            if(partner.ean13){
-                str += '|' + partner.ean13;
+        _partner_search_string: function(partner) {
+
+            var str = this._super(this, options);
+
+            if (partner.ean13) {
+                str += "|" + partner.ean13;
             }
-            if(partner.address){
-                str += '|' + partner.address;
+
+            if (partner.cnpj_cpf) {
+                var cnpj_cpf = partner.cnpj_cpf;
+                cnpj_cpf = cnpj_cpf.replace(".", "").replace("", "").replace("/", "");
+                str += "|" + cnpj_cpf;
             }
-            if(partner.phone){
-                str += '|' + partner.phone.split(' ').join('');
-            }
-            if(partner.mobile){
-                str += '|' + partner.mobile.split(' ').join('');
-            }
-            if(partner.email){
-                str += '|' + partner.email;
-            }
-            if(partner.cnpj_cpf){
-                var cnpj_cpf =  partner.cnpj_cpf
-                str += '|' + cnpj_cpf;
-                cnpj_cpf = cnpj_cpf.replace(
-                    '.','').replace('/','').replace('-','')
-                str += '|' + cnpj_cpf;
-            }
-            str = '' + partner.id + ':' + str.replace(':','') + '\n';
+
             return str;
         },
-
-        today_date: function(){
+        today_date: function() {
             var today = new Date();
-            var dd = today.getDay();
-            var mm = today.getMonth()+1; //January is 0!
-            var yyyy = today.getFullYear();
+            var day = today.getDay();
+            // January has index 0
+            var month = today.getMonth() + 1;
+            var year = today.getFullYear();
 
-            if(dd<10) {
-                dd = '0'+dd
+            if (day < 10) {
+                day = "0" + month;
             }
 
-            if(mm<10) {
-                mm = '0'+mm
+            if (month < 10) {
+                month = "0" + month;
             }
 
-            return yyyy + '-' + mm + '-' + dd;
+            return year + "-" + month + "-" + day;
         },
-        tempo_cliente: function(create_date){
-            if(create_date){
+        partner_time: function(create_date) {
+            if (create_date) {
                 var today = new Date();
-                if (parseInt(create_date.substr(8,2)) < 12){
-                    create_date = create_date.substr(0, 4) + '-' + create_date.substr(8, 2) + '-' + create_date.substr(5, 2) //dia,mes e ano
+
+                if (parseInt(create_date.substr(8, 2)) < 12) {
+                    create_date = create_date.substr(0, 4) + "-"
+                        + create_date.substr(8, 2) + "-" + create_date.substr(5, 2);
                 }
+
                 if (create_date.substr(8, 2) == "") {
-                    create_date = create_date.substr(0, 4) + '-'+ '01' + '-' + create_date.substr(5, 2)
+                    create_date = create_date.substr(0, 4) + "-"
+                        + "01" + "-" + create_date.substr(5, 2);
                 }
-                var date_partner = new Date(create_date.substr(0,4)+'-'+create_date.substr(5,2)+'-'+create_date.substr(8,2));
-                var tempo = parseInt(((today.getTime() - date_partner.getTime())*3.81E-10)+0.5)
-                return tempo < 0? 0: tempo;
+
+                var date_partner = new Date(create_date.substr(0, 4)
+                    + "-" + create_date.substr(5, 2)
+                    + "-" + create_date.substr(8, 2));
+
+                var time = parseInt(((today.getTime()
+                    - date_partner.getTime()) * 3.81E-10) + 0.5);
+
+                return time < 0 ? 0 : time;
             }
         },
-        get_partner_by_identification: function(partners, identification){
-            var identification_with_pontuation = this.add_pontuation_document(identification);
-            for (var i = 0; i < partners.length; i++){
+        get_partner_by_identification: function(partners, id) {
+            var id_with_pontuation = this.add_pontuation_document(id);
+
+            for (var i = 0; i < partners.length; i++) {
                 var cnpj_cpf = partners[i].cnpj_cpf;
-                if (cnpj_cpf){
-                    if ((cnpj_cpf == identification) || (cnpj_cpf == identification_with_pontuation)){
-                        partners[i].create_date = partners[i].create_date? partners[i].create_date.substr(0,7): (this.today_date()).substr(0,7);
+
+                if (cnpj_cpf) {
+                    if ((cnpj_cpf === id) || (cnpj_cpf == id_with_pontuation)) {
+                        partners[i].create_date = partners[i].create_date ?
+                            partners[i].create_date.substr(0, 7):
+                            (this.today_date()).substr(0, 7);
                         return partners[i];
                     }
                 }
             }
-            return false;
         },
-        add_pontuation_document: function(document){
-            var document_with_pontuation = '';
-            if(document.length <= 11){
-                for (var j = 1; j <= document.length; j++){
-                    if ((j == 3) || (j == 6)){
-                        document_with_pontuation += document.split('')[j-1] + ".";
-                    }else if (j == 9){
-                        document_with_pontuation += document.split('')[j-1] + "-";
-                    }else{
-                        document_with_pontuation += document.split('')[j-1];
+        add_pontuation_document: function(document) {
+            var document_with_pontuation = "";
+
+            if (document.length <= 11) {
+                for (var i = 1; i <= document.length; i++) {
+                    if ((i === 3) || (i === 6)) {
+                        document_with_pontuation += document.split("")[i - 1] + ".";
+                    } else {
+                        if (i === 9) {
+                            document_with_pontuation += document.split("")[i - 1] + "-";
+                        } else {
+                            document_with_pontuation += document.split("")[i - 1];
+                        }
                     }
                 }
-            }else if(document.length > 11 && document.length <= 14){
-                for (var j = 1; j <= document.length; j++){
-                    if ((j == 2) || (j == 5)){
-                        document_with_pontuation += document.split('')[j-1] + ".";
-                    }else if (j == 8){
-                        document_with_pontuation += document.split('')[j-1] + "/";
-                    }else if (j == 12){
-                        document_with_pontuation += document.split('')[j-1] + "-";
-                    }else{
-                        document_with_pontuation += document.split('')[j-1];
+            } else {
+                if (document.length > 11 && document.length <= 14) {
+                    for (var i = 1; i <= document.length; i++) {
+                        if ((i === 2) || (j == 5)) {
+                            document_with_pontuation +=  document.split("")[i - 1] + ".";
+                        } else {
+                            if (i === 8) {
+                                document_with_pontuation += document.split("")[i - 1] + "/";
+                            } else {
+                                if (i === 12 ) {
+                                    document_with_pontuation += document.split("")[i - 1] + "-";
+                                } else {
+                                    document_with_pontuation += document.split("")[i - 1];
+                                }
+                            }
+                        }
                     }
                 }
             }
+
             return document_with_pontuation;
         },
-        search_partner: function(query){
-            try {
-                query = query.replace(/[\[\]\(\)\+\*\?\.\-\!\&\^\$\|\~\_\{\}\:\,\\\/]/g,'.');
-                query = query.replace(' ','.+');
-                var re = RegExp("([0-9]+):.*?"+query,"gi");
-            }catch(e){
-                return [];
-            }
-            var results = [];
-            for(var i = 0; i < this.limit; i++){
-                r = re.exec(this.partner_search_string);
-                if(r){
-                    var id = Number(r[1]);
-                    results.push(this.get_partner_by_id(id));
-                }else{
-                    break;
-                }
-            }
-            return results;
-        }
-    })
-}
+        search_partner: function(query) {
+            var result = this._super(this, query);
+            return result;
+        },
 
-
-
+    });
+});
