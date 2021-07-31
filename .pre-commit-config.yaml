@@ -8,7 +8,6 @@ exclude: |
   ^l10n_br_coa_generic/|
   ^l10n_br_coa_simple/|
   ^l10n_br_delivery/|
-  ^l10n_br_mis_report/|
   ^l10n_br_nfe_spec/|
   ^l10n_br_nfse_ginfes/|
   ^l10n_br_nfse_issnet/|
