@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <!-- Account Journal xml ref -->
     <function model="ir.model.data" name="_update_xmlids">
-        <value model="base" eval="[{
+        <value
+            model="base"
+            eval="[{
                 'xml_id': 'l10n_br_coa_simple.sale_journal_main_company',
                 'record': obj().env['account.journal'].sudo().search([('type', '=', 'sale'), ('company_id', '=', obj().env.ref('base.main_company').id)], limit=1),
                 'noupdate': True,
@@ -32,31 +34,32 @@
                 'xml_id': 'l10n_br_coa_simple.general_journal_empresa_sn',
                 'record': obj().env['account.journal'].sudo().search([('type', '=', 'general'), ('company_id', '=', obj().env.ref('l10n_br_base.empresa_simples_nacional').id)], limit=1),
                 'noupdate': True,
-            },]"/>
+            },]"
+        />
     </function>
 
     <record id="sale_journal_main_company" model="account.journal">
-        <field name="update_posted" eval="True"/>
+        <field name="update_posted" eval="True" />
     </record>
 
     <record id="sale_journal_empresa_sn" model="account.journal">
-        <field name="update_posted" eval="True"/>
+        <field name="update_posted" eval="True" />
     </record>
 
     <record id="purchase_journal_main_company" model="account.journal">
-        <field name="update_posted" eval="True"/>
+        <field name="update_posted" eval="True" />
     </record>
 
     <record id="purchase_journal_empresa_sn" model="account.journal">
-        <field name="update_posted" eval="True"/>
+        <field name="update_posted" eval="True" />
     </record>
 
     <record id="general_journal_main_company" model="account.journal">
-        <field name="update_posted" eval="True"/>
+        <field name="update_posted" eval="True" />
     </record>
 
     <record id="general_journal_empresa_sn" model="account.journal">
-        <field name="update_posted" eval="True"/>
-    </record>    
+        <field name="update_posted" eval="True" />
+    </record>
 
 </odoo>
