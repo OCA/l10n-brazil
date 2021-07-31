@@ -9,10 +9,11 @@ class L10nBrCoaComplete(TransactionCase):
         super().setUp()
 
         self.l10n_br_coa_complete = self.env.ref(
-            'l10n_br_coa_complete.l10n_br_coa_complete_template')
-        self.l10n_br_company = self.env['res.company'].create({
-            'name': 'Empresa Teste do Plano de Contas CFC'
-        })
+            "l10n_br_coa_complete.l10n_br_coa_complete_template"
+        )
+        self.l10n_br_company = self.env["res.company"].create(
+            {"name": "Empresa Teste do Plano de Contas CFC"}
+        )
 
     def test_l10n_br_coa_complete(self):
         """Test to install the chart of accounts template in a new company"""
@@ -21,4 +22,5 @@ class L10nBrCoaComplete(TransactionCase):
         self.l10n_br_coa_complete.try_loading_for_current_company()
 
         self.assertEqual(
-            self.l10n_br_coa_complete, self.l10n_br_company.chart_template_id)
+            self.l10n_br_coa_complete, self.l10n_br_company.chart_template_id
+        )
