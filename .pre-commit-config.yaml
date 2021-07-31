@@ -5,7 +5,6 @@ exclude: |
   ^l10n_br_account_bank_statement_import_cnab/|
   ^l10n_br_account_payment_brcobranca/tests/data/|  # (skip reformat in test data)
   ^l10n_br_delivery/|
-  ^l10n_br_mis_report/|
   ^l10n_br_nfe_spec/|
   ^l10n_br_nfse_ginfes/|
   ^l10n_br_nfse_issnet/|
