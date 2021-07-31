@@ -1,231 +1,267 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
     <record id="dre" model="mis.report">
         <field name="name">DRE</field>
         <field name="description">DEMONSTRAÇÃO DO RESULTADO DO EXERCÍCIO</field>
-        <field name="move_lines_source" ref="account.model_account_move_line"/>
+        <field name="move_lines_source" ref="account.model_account_move_line" />
     </record>
 
     <record id="dre_header_receita" model="mis.report.kpi">
         <field name="sequence">10</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">VENDAS DE PRODUTOS, MERCADORIAS E SERVIÇOS</field>
         <field name="name">header_receita</field>
         <field name="expression">""</field>
         <field name="type">str</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
     </record>
 
     <record id="dre_receita_vendas" model="mis.report.kpi">
         <field name="sequence">20</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">Vendas de Produtos, Mercadorias e Serviços</field>
         <field name="name">receita_vendas</field>
-        <field name="expression">-bal[('user_type_id', '=', ref('account.data_account_type_revenue').id)]</field>
+        <field
+            name="expression"
+        >-bal[('user_type_id', '=', ref('account.data_account_type_revenue').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True"/>
+        <field name="auto_expand_accounts" eval="True" />
     </record>
 
     <record id="dre_deducoes_receita" model="mis.report.kpi">
         <field name="sequence">30</field>
-        <field name="report_id" ref="dre"/>
-        <field name="description">(-) Deduções de Tributos, Abatimentos e Devoluções</field>
+        <field name="report_id" ref="dre" />
+        <field
+            name="description"
+        >(-) Deduções de Tributos, Abatimentos e Devoluções</field>
         <field name="name">deducoes_receita</field>
-        <field name="expression">bal[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_deduction').id)]</field>
+        <field
+            name="expression"
+        >bal[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_deduction').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True"/>
+        <field name="auto_expand_accounts" eval="True" />
     </record>
 
     <record id="dre_receita" model="mis.report.kpi">
         <field name="sequence">40</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">= RECEITA</field>
         <field name="name">receita</field>
         <field name="expression">receita_vendas-deducoes_receita</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
 
     </record>
 
     <record id="dre_header_custo_vendas" model="mis.report.kpi">
         <field name="sequence">50</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">(-) CUSTO DAS VENDAS</field>
         <field name="name">header_custo_vendas</field>
         <field name="expression">""</field>
         <field name="type">str</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
 
     </record>
 
     <record id="dre_custo_vendas" model="mis.report.kpi">
         <field name="sequence">60</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">Custo dos Produtos, Mercadorias e Serviços</field>
         <field name="name">custo_vendas</field>
-        <field name="expression">balp[('user_type_id', '=', ref('account.data_account_type_direct_costs').id)]</field>
+        <field
+            name="expression"
+        >balp[('user_type_id', '=', ref('account.data_account_type_direct_costs').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True"/>
+        <field name="auto_expand_accounts" eval="True" />
     </record>
 
     <record id="dre_lucro_bruto" model="mis.report.kpi">
         <field name="sequence">70</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">= LUCRO BRUTO</field>
         <field name="name">lucro_bruto</field>
         <field name="expression">receita-custo_vendas</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
 
     </record>
 
     <record id="dre_header_despesas_operacionais" model="mis.report.kpi">
         <field name="sequence">80</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">(-) DESPESAS OPERACIONAIS</field>
         <field name="name">depesas_operacionais</field>
-        <field name="expression">despesas_administrativas+despesas_vendas+despesas_gerais</field>
+        <field
+            name="expression"
+        >despesas_administrativas+despesas_vendas+despesas_gerais</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
     </record>
 
     <record id="dre_despesas_administrativas" model="mis.report.kpi">
         <field name="sequence">90</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">Despesas Administrativas</field>
         <field name="name">despesas_administrativas</field>
-        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_admin_expenses').id)]</field>
+        <field
+            name="expression"
+        >balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_admin_expenses').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True"/>
+        <field name="auto_expand_accounts" eval="True" />
     </record>
 
     <record id="dre_despesas_vendas" model="mis.report.kpi">
         <field name="sequence">100</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">Despesas com Vendas</field>
         <field name="name">despesas_vendas</field>
-        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_sale_expenses').id)]</field>
+        <field
+            name="expression"
+        >balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_sale_expenses').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True"/>
+        <field name="auto_expand_accounts" eval="True" />
     </record>
 
     <record id="dre_despesas_gerais" model="mis.report.kpi">
         <field name="sequence">110</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">Outras Despesas Gerais</field>
         <field name="name">despesas_gerais</field>
-        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_general_expenses').id)]</field>
+        <field
+            name="expression"
+        >balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_general_expenses').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True"/>
+        <field name="auto_expand_accounts" eval="True" />
     </record>
 
     <record id="dre_resultado_operacional" model="mis.report.kpi">
         <field name="sequence">120</field>
-        <field name="report_id" ref="dre"/>
-        <field name="description">= RESULTADO OPERACIONAL ANTES DO RESULTADO FINANCEIRO</field>
+        <field name="report_id" ref="dre" />
+        <field
+            name="description"
+        >= RESULTADO OPERACIONAL ANTES DO RESULTADO FINANCEIRO</field>
         <field name="name">resultado_operacional</field>
         <field name="expression">lucro_bruto-depesas_operacionais</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
     </record>
 
     <record id="dre_resultado_financeiro" model="mis.report.kpi">
         <field name="sequence">130</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">(+/-) RESULTADO FINANCEIRO</field>
         <field name="name">resultado_financeiro</field>
         <field name="expression">receitas_financeiras+despesas_financeiras</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
     </record>
 
     <record id="dre_receitas_financeiras" model="mis.report.kpi">
         <field name="sequence">140</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">Receitas Financeiras</field>
         <field name="name">receitas_financeiras</field>
-        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_financial').id)]</field>
+        <field
+            name="expression"
+        >balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_revenue_financial').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True"/>
+        <field name="auto_expand_accounts" eval="True" />
     </record>
 
     <record id="dre_despesas_financeiras" model="mis.report.kpi">
         <field name="sequence">150</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">(-) Despesas Financeiras</field>
         <field name="name">despesas_financeiras</field>
-        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expenses_financial').id)]</field>
+        <field
+            name="expression"
+        >balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expenses_financial').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="auto_expand_accounts" eval="True"/>
+        <field name="auto_expand_accounts" eval="True" />
     </record>
 
 
     <record id="dre_outras_receitas_despesas_operacionais" model="mis.report.kpi">
         <field name="sequence">160</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS</field>
         <field name="name">outras_receitas_despesas_op</field>
-        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_operational_expenses').id)]</field>
+        <field
+            name="expression"
+        >balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_other_operational_expenses').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
-        <field name="auto_expand_accounts" eval="True"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
+        <field name="auto_expand_accounts" eval="True" />
     </record>
 
 
     <record id="dre_resultado_antes_lucro" model="mis.report.kpi">
         <field name="sequence">170</field>
-        <field name="report_id" ref="dre"/>
-        <field name="description">= RESULTADO ANTES DAS DESPESAS COM TRIBUTOS SOBRE O LUCRO</field>
+        <field name="report_id" ref="dre" />
+        <field
+            name="description"
+        >= RESULTADO ANTES DAS DESPESAS COM TRIBUTOS SOBRE O LUCRO</field>
         <field name="name">resultado_antes_lucro</field>
-        <field name="expression">resultado_operacional+resultado_financeiro+outras_receitas_despesas_op</field>
+        <field
+            name="expression"
+        >resultado_operacional+resultado_financeiro+outras_receitas_despesas_op</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
     </record>
 
     <record id="dre_contribuicao_social" model="mis.report.kpi">
         <field name="sequence">180</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">(-) Despesa com Contribuição Social</field>
         <field name="name">contribuicao_social</field>
-        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_csll').id)]</field>
+        <field
+            name="expression"
+        >balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_csll').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
     </record>
 
     <record id="dre_imposto_renda_pj" model="mis.report.kpi">
         <field name="sequence">190</field>
-        <field name="report_id" ref="dre"/>
-        <field name="description">(-) Despesa com Imposto de Renda da Pessoa Jurídica</field>
+        <field name="report_id" ref="dre" />
+        <field
+            name="description"
+        >(-) Despesa com Imposto de Renda da Pessoa Jurídica</field>
         <field name="name">imposto_renda_pj</field>
-        <field name="expression">balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_irpj').id)]</field>
+        <field
+            name="expression"
+        >balp[('user_type_id', '=', ref('l10n_br_coa.data_account_type_expense_irpj').id)]</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
     </record>
 
     <record id="dre_resultado" model="mis.report.kpi">
         <field name="sequence">200</field>
-        <field name="report_id" ref="dre"/>
+        <field name="report_id" ref="dre" />
         <field name="description">= RESULTADO LÍQUIDO DO PERÍODO</field>
         <field name="name">resultado</field>
-        <field name="expression">resultado_antes_lucro+contribuicao_social+imposto_renda_pj</field>
+        <field
+            name="expression"
+        >resultado_antes_lucro+contribuicao_social+imposto_renda_pj</field>
         <field name="type">num</field>
         <field name="compare_method">pct</field>
-        <field name="style_id" ref="mis_report_style_l10n_br_negrito"/>
+        <field name="style_id" ref="mis_report_style_l10n_br_negrito" />
     </record>
 
 </odoo>
