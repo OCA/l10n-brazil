@@ -1,7 +1,7 @@
 # Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
@@ -54,3 +54,34 @@ class RepairLine(models.Model):
         related="repair_id.company_id",
         store=True,
     )
+
+    @api.one
+    @api.depends(
+        "price_unit",
+        "repair_id",
+        "product_uom_qty",
+        "product_id",
+        "repair_id.invoice_method",
+    )
+    def _compute_price_subtotal(self):
+        super()._compute_price_subtotal()
+        for line in self:
+            # Update taxes fields
+            line._update_taxes()
+            # Call mixin compute method
+            line._compute_amounts()
+            # Update record
+            line.update(
+                {
+                    "price_subtotal": line.amount_untaxed,
+                    # 'price_tax': line.amount_tax,
+                    "price_gross": line.amount_untaxed + line.discount_value,
+                    "price_total": line.amount_total,
+                }
+            )
+
+    @api.onchange("product_uom", "product_uom_qty")
+    def _onchange_product_uom(self):
+        """To call the method in the mixin to update
+        the price and fiscal quantity."""
+        self._onchange_commercial_quantity()
