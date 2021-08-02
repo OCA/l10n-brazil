@@ -55,7 +55,6 @@ class RepairFee(models.Model):
         store=True,
     )
 
-    @api.one
     @api.depends(
         "price_unit",
         "repair_id",
