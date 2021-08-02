@@ -57,34 +57,6 @@ class FiscalLineMixin(models.AbstractModel):
             "fiscal_operation_line_id",
         ]
 
-    @api.depends(
-        "product_uom_qty",
-        "price_unit",
-        "fiscal_price",
-        "fiscal_quantity",
-        "discount_value",
-        "freight_value",
-        "insurance_value",
-        "other_value",
-        "tax_id",
-    )
-    def _compute_price_subtotal(self):
-        super()._compute_price_subtotal()
-        for line in self:
-            # Update taxes fields
-            line._update_taxes()
-            # Call mixin compute method
-            line._compute_amounts()
-            # Update record
-            line.update(
-                {
-                    "price_subtotal": line.amount_untaxed,
-                    "price_tax": line.amount_tax,
-                    "price_gross": line.amount_untaxed + line.discount_value,
-                    "price_total": line.amount_total,
-                }
-            )
-
     @api.multi
     def _prepare_invoice_line(self, qty):
         self.ensure_one()
@@ -128,12 +100,6 @@ class FiscalLineMixin(models.AbstractModel):
 
         res.update(self._prepare_br_fiscal_dict())
         return res
-
-    @api.onchange("product_uom", "product_uom_qty")
-    def _onchange_product_uom(self):
-        """To call the method in the mixin to update
-        the price and fiscal quantity."""
-        self._onchange_commercial_quantity()
 
     @api.onchange("discount", "product_uom_qty", "price_unit")
     def _onchange_discount_percent(self):
