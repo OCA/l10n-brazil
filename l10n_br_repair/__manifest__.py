@@ -25,6 +25,7 @@
         "views/repair_order.xml",
         "views/repair_fee.xml",
         "views/repair_line.xml",
+        "report/repair_templates_repair_order.xml",
     ],
     "demo": ["demo/res_company.xml", "demo/repair_order.xml"],
     "installable": True,
