@@ -499,6 +499,10 @@ class RepairOrder(models.Model):
                     if fiscal_document_type.id == document_type.id:
                         inv_line.invoice_id = invoice.id
                         inv_line.document_id = invoice.fiscal_document_id
+                invoice.fiscal_document_id._compute_amount()
+                invoice._onchange_invoice_line_ids()
+            invoice_created_by_super.fiscal_document_id._compute_amount()
+            invoice_created_by_super._onchange_invoice_line_ids()
 
     @api.multi
     def action_invoice_create(self, group=False):
