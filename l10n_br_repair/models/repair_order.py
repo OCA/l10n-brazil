@@ -386,6 +386,7 @@ class RepairOrder(models.Model):
                 "company_id": company_id,
                 "comment": self.quotation_notes,
                 "fiscal_position_id": fp_id,
+                "payment_term_id": self.payment_term_id.id,
             }
         )
 
