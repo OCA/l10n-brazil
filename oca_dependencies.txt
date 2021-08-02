@@ -5,3 +5,4 @@ account-invoicing
 account-reconcile
 mis-builder
 contract
+manufacture
