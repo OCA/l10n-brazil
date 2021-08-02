@@ -152,6 +152,8 @@ class FiscalLineMixin(models.AbstractModel):
                 self.discount = (self.discount_value * 100) / (
                     self.product_uom_qty * self.price_unit
                 )
+            else:
+                self.discount = 0
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
