@@ -15,7 +15,7 @@
     "images": ["static/description/banner.png"],
     "conflicts": ["repair_discount"],
     "depends": [
-        "repair",
+        "repair_payment_term",
         "l10n_br_stock_account",
     ],
     "data": [
