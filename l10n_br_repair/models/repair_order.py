@@ -119,7 +119,6 @@ class RepairOrder(models.Model):
         """Compute the total amounts of the RO."""
         self._compute_amount()
 
-    @api.one
     @api.depends(
         "operations.price_subtotal",
         "invoice_method",
@@ -129,7 +128,6 @@ class RepairOrder(models.Model):
     def _amount_untaxed(self):
         self._compute_amount()
 
-    @api.one
     @api.depends(
         "operations.price_unit",
         "operations.product_uom_qty",
@@ -143,7 +141,6 @@ class RepairOrder(models.Model):
     def _amount_tax(self):
         self._compute_amount()
 
-    @api.one
     @api.depends("amount_untaxed", "amount_tax")
     def _amount_total(self):
         self._compute_amount()

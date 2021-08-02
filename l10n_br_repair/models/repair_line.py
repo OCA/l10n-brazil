@@ -55,7 +55,6 @@ class RepairLine(models.Model):
         store=True,
     )
 
-    @api.one
     @api.depends(
         "price_unit",
         "repair_id",
