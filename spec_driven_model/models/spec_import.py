@@ -292,6 +292,11 @@ class AbstractSpecMixin(models.AbstractModel):
                 rec_id = model.new(create_dict).id
             else:
                 rec_id = (
-                    model.with_context(parent_dict=parent_dict).create(create_dict).id
+                    model.with_context(
+                        parent_dict=parent_dict,
+                        lang="en_US",
+                    )
+                    .create(create_dict)
+                    .id
                 )
         return rec_id
