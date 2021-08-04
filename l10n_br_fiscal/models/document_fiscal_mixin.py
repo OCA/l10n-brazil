@@ -156,6 +156,16 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute="_compute_amount",
     )
 
+    amount_icms_destination_value = fields.Monetary(
+        string="ICMS Destination Value",
+        compute="_compute_amount",
+    )
+
+    amount_icms_origin_value = fields.Monetary(
+        string="ICMS Origin Value",
+        compute="_compute_amount",
+    )
+
     amount_ipi_base = fields.Monetary(
         string="IPI Base",
         compute="_compute_amount",
