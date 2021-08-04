@@ -95,7 +95,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
         # Apply post processing, groups and modifiers etc...
         xarch, xfields = View.postprocess_and_fields(
-            self._name, etree.fromstring(model_view["arch"]), view_id
+            etree.fromstring(model_view["arch"]), self._name
         )
         model_view["arch"] = xarch
         model_view["fields"] = xfields
