@@ -209,7 +209,7 @@
                             attrs="{'readonly': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_electronic', '=', True)], 'invisible': [('document_electronic', '=', False)]}"
                         >
               <field name="document_key" force_save="1" class="oe_inline" />
-              <button
+              <!--button
                                 name="action_search_key"
                                 type="object"
                                 class="oe_inline btn-sm btn-link mb4 fa fa-search oe_edit_only"
@@ -222,7 +222,7 @@
                                 class="oe_inline btn-sm btn-link mb4 fa fa-upload oe_edit_only"
                                 aria-label="Upload"
                                 title="Upload"
-                            />
+                            /-->
             </div>
           </group>
           <group>
