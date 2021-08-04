@@ -3,7 +3,6 @@
 
     <record id="product_uom_categ_AREA" model="uom.category">
         <field name="name">Area</field>
-        <field name="measure_type">area</field>
     </record>
 
     <record id="uom.product_uom_km" model="uom.uom">
