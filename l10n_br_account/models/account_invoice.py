@@ -287,7 +287,14 @@ class AccountInvoice(models.Model):
                 lambda l: l.id == line.get("invl_id")
             )
 
-            line["price"] = invoice_line.price_total
+            if invoice_line.fiscal_operation_id:
+                if invoice_line.fiscal_operation_id.deductible_taxes:
+                    line["price"] = invoice_line.price_total
+                else:
+                    line["price"] = invoice_line.price_total - (
+                        invoice_line.amount_tax_withholding
+                        + invoice_line.amount_tax_included
+                    )
 
             if invoice_line.cfop_id:
                 if invoice_line.cfop_id.finance_move:
