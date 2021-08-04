@@ -72,7 +72,7 @@
                             class="oe_stat_button"
                             icon="fa-file"
                         />
-                        <button
+                        <!--button
                             type="action"
                             class="oe_stat_button"
                             id="product_tmpl_button"
@@ -87,7 +87,7 @@
                                 widget="statinfo"
                                 name="product_tmpl_qty"
                             />
-                        </button>
+                        </button-->
                     </div>
                     <group>
                         <field name="code" readonly="1" />

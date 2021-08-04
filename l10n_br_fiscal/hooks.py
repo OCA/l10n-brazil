@@ -42,7 +42,6 @@ def post_init_hook(cr, registry):
             mode="init",
             noupdate=True,
             kind="init",
-            report=None,
         )
 
     if not tools.config["without_demo"]:
@@ -87,7 +86,6 @@ def post_init_hook(cr, registry):
                 mode="init",
                 noupdate=True,
                 kind="demo",
-                report=None,
             )
 
         companies = [
@@ -136,7 +134,6 @@ def post_init_hook(cr, registry):
                 mode="init",
                 noupdate=True,
                 kind="init",
-                report=None,
             )
 
     # Load post files
@@ -155,7 +152,6 @@ def post_init_hook(cr, registry):
             mode="init",
             noupdate=True,
             kind="init",
-            report=None,
         )
 
     # Load post demo files
@@ -177,5 +173,4 @@ def post_init_hook(cr, registry):
                 mode="demo",
                 noupdate=True,
                 kind="init",
-                report=None,
             )
