@@ -246,9 +246,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         for line in self:
             compute_result = self._compute_taxes(line.fiscal_tax_ids)
             computed_taxes = compute_result.get("taxes", {})
-            line.amount_tax_included = compute_result.get(
-                "amount_included", 0.0
-            )
+            line.amount_tax_included = compute_result.get("amount_included", 0.0)
             line.amount_tax_not_included = compute_result.get(
                 "amount_not_included", 0.0
             )
