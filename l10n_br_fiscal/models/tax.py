@@ -341,7 +341,7 @@ class Tax(models.Model):
             ind_final == FINAL_CUSTOMER_YES
         ):
             # Add IPI in ICMS Base
-            tax_dict['add_to_base'] += tax_dict_ipi.get("tax_value", 0.00)
+            tax_dict["add_to_base"] += tax_dict_ipi.get("tax_value", 0.00)
 
         # tax_dict.update(self._compute_tax_base(tax, tax_dict, **kwargs))
 
@@ -449,9 +449,7 @@ class Tax(models.Model):
 
         if taxes_dict.get("icms"):
             if company.state_id != partner.state_id:
-                tax_dict["base"] = taxes_dict["icms"].get(
-                    "icms_dest_base", 0.0
-                )
+                tax_dict["base"] = taxes_dict["icms"].get("icms_dest_base", 0.0)
             else:
                 tax_dict["base"] = taxes_dict["icms"].get("base", 0.0)
         elif taxes_dict.get("icmssn"):
@@ -463,14 +461,13 @@ class Tax(models.Model):
 
         tax_dict.update({"icms_base_type": tax.icms_base_type})
 
-        tax_dict["fcpst_base"] = taxes_dict.get("icmsst", {}).get("base", 0.00
-        )
+        tax_dict["fcpst_base"] = taxes_dict.get("icmsst", {}).get("base", 0.00)
 
         # TODO Improve this condition
         if icms_cst_id.code in ICSM_CST_CSOSN_ST_BASE:
-            tax_dict["fcpst_value"] = tax_dict[
-                "fcpst_base"
-            ] * (tax_dict["percent_amount"] / 100)
+            tax_dict["fcpst_value"] = tax_dict["fcpst_base"] * (
+                tax_dict["percent_amount"] / 100
+            )
             tax_dict["fcpst_value"] -= tax_dict["tax_value"]
 
         return self._compute_tax(tax, taxes_dict, **kwargs)
