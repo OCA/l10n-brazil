@@ -28,7 +28,10 @@
         </field>
     </record>
 
-    <record id="l10n_br_p7_model_inventory_report_wizard_action" model="ir.actions.act_window">
+    <record
+        id="l10n_br_p7_model_inventory_report_wizard_action"
+        model="ir.actions.act_window"
+    >
             <field name="name">Brazilian P7 Model Inventory Report</field>
             <field name="res_model">l10n_br.p7.model.inventory.report.wizard</field>
             <field name="view_type">form</field>
