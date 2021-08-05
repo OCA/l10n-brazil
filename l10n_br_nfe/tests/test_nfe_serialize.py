@@ -54,6 +54,10 @@ class TestNFeExport(TransactionCase):
                 "leiauteNFe",
                 nfe["xml_file"],
             )
+            financial_vals = nfe_id._prepare_amount_financial(
+                "0", "01", nfe_id.amount_financial_total
+            )
+            nfe_id.nfe40_detPag = [(5, 0, 0), (0, 0, financial_vals)]
             nfe_id.action_document_confirm()
             nfe_id.document_date = datetime.strptime(
                 "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
@@ -65,10 +69,6 @@ class TestNFeExport(TransactionCase):
             nfe_id.nfe40_Id = "NFeTest"
             nfe_id.nfe40_nNF = "1"
             nfe_id.nfe40_cDV = "1"
-            financial_vals = nfe_id._prepare_amount_financial(
-                "0", "01", nfe_id.amount_financial_total
-            )
-            nfe_id.nfe40_detPag = [(5, 0, 0), (0, 0, financial_vals)]
             nfe_id.with_context(lang="pt_BR")._document_export()
             output = os.path.join(
                 config["data_dir"],
