@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
 <odoo>
 
-    <record id="l10n_br_stock_account_p7_wizard_report" model="ir.ui.view">
-        <field name="name">Stock Account P7 Report</field>
-        <field name="model">stock.account.p7.wizard</field>
+    <record id="l10n_br_p7_model_inventory_report_wizard_view" model="ir.ui.view">
+        <field name="name">Brazilian P7 Model Inventory Report</field>
+        <field name="model">l10n_br.p7.model.inventory.report.wizard</field>
         <field name="arch" type="xml">
             <form string="Choose your date">
                 <group>
@@ -28,22 +28,22 @@
         </field>
     </record>
 
-    <record id="action_stock_account_p7_wizard_report" model="ir.actions.act_window">
-            <field name="name">Inventory Valuation - Model P7</field>
-            <field name="res_model">stock.account.p7.wizard</field>
+    <record id="l10n_br_p7_model_inventory_report_wizard_action" model="ir.actions.act_window">
+            <field name="name">Brazilian P7 Model Inventory Report</field>
+            <field name="res_model">l10n_br.p7.model.inventory.report.wizard</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="l10n_br_stock_account_p7_wizard_report" />
+            <field name="view_id" ref="l10n_br_p7_model_inventory_report_wizard_view" />
             <field name="target">new</field>
             <field name="context">{'default_compute_at_date': 0}</field>
     </record>
 
     <menuitem
-        action="action_stock_account_p7_wizard_report"
-        id="menu_legal_stock_valuation_wizard_report"
+        action="l10n_br_p7_model_inventory_report_wizard_action"
+        id="l10n_p7_model_inventory_report_wizard_menu"
         parent="stock.menu_warehouse_report"
         sequence="100"
-        string="Inventory Valuation - Model P7"
+        string="Brazilian P7 Model Inventory Report"
     />
 
 </odoo>
