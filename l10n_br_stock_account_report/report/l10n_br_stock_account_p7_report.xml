@@ -20,13 +20,13 @@
 
     <!-- TODO o print_report_name por algum motivo não funciona -->
     <report
-        id="report_stock_account_p7"
-        string="Stock Account P7 Report"
-        model="stock.account.p7.wizard"
+        id="l10n_br_p7_model_inventory_report"
+        string="Brazilian P7 Model Invetory Report"
+        model="l10n_br.p7.model.inventory.report.wizard"
         report_type="qweb-pdf"
         paperformat="l10n_br_stock_account_report.paperformat_lowmargin"
-        file="l10n_br_stock_account_report.main_report_stock_account_p7_view"
-        name="l10n_br_stock_account_report.main_report_stock_account_p7_view"
+        file="l10n_br_stock_account_report.main_l10n_br_p7_model_inventory_report_view"
+        name="l10n_br_stock_account_report.main_l10n_br_p7_model_inventory_report_view"
         menu="False"
         print_report_name="test"
     />
