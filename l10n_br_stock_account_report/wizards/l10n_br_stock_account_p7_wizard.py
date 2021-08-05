@@ -11,9 +11,9 @@ from odoo import _, api, fields, models
 from odoo.addons.l10n_br_fiscal.constants.fiscal import PRODUCT_FISCAL_TYPE
 
 
-class StockAccountP7Wizard(models.TransientModel):
-    _name = "stock.account.p7.wizard"
-    _description = "Inventory Valuation - Model P7"
+class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
+    _name = "l10n_br.p7.model.inventory.report.wizard"
+    _description = "Brazilian P7 Model Inventory Report Wizard"
 
     compute_at_date = fields.Selection(
         selection=[(0, _("Current Inventory")), (1, _("At a Specific Date"))],
@@ -44,7 +44,7 @@ class StockAccountP7Wizard(models.TransientModel):
         )
 
         return self.env.ref(
-            "l10n_br_stock_account_report.report_stock_account_p7"
+            "l10n_br_stock_account_report.l10n_br_p7_model_inventory_report"
         ).report_action(self, data=data)
 
     @api.model
