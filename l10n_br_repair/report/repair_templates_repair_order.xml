@@ -3,14 +3,14 @@
     <template id="report_repair_order" inherit_id="repair.report_repairorder">
 
         <xpath
-            expr="//table[@class='table table-sm o_main_table']//tr//t/th[3]"
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tr//t/th[3]"
             position="before"
         >
             <th class="text-right">Discount Value</th>
         </xpath>
 
         <xpath
-            expr="//table[@class='table table-sm o_main_table']//tbody//t[1]/tr[1]"
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/tr[1]"
             position="replace"
         >
             <tr class="bg-200 o_line_section"><td colspan="6"><strong
@@ -18,7 +18,7 @@
         </xpath>
 
         <xpath
-            expr="//table[@class='table table-sm o_main_table']//tbody//t[2]/tr[1]"
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[2]/tr[1]"
             position="replace"
         >
             <tr class="bg-200 o_line_section"><td colspan="6"><strong
@@ -26,7 +26,7 @@
         </xpath>
 
         <xpath
-            expr="//table[@class='table table-sm o_main_table']//tbody//t[1]/td[@class='text-right o_price_total']"
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/td[hasclass('text-right', 'o_price_total')]"
             position="before"
         >
             <td class="text-right">
@@ -35,7 +35,7 @@
         </xpath>
 
         <xpath
-            expr="//table[@class='table table-sm o_main_table']//tbody//t[2]//td[@class='text-right o_price_total']"
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[2]//td[hasclass('text-right', 'o_price_total')]"
             position="before"
         >
             <td class="text-right">
@@ -44,7 +44,7 @@
         </xpath>
 
          <xpath
-            expr="//table[@class='table table-sm o_main_table']//tbody//t[1]/td[@class='text-center']"
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[1]/td[hasclass('text-center')]"
             position="replace"
         >
             <td
@@ -76,7 +76,7 @@
         </xpath>
 
         <xpath
-            expr="//table[@class='table table-sm o_main_table']//tbody//t[2]//td[@class='text-center']"
+            expr="//table[hasclass('table', 'table-sm', 'o_main_table')]//tbody//t[2]//td[hasclass('text-center')]"
             position="replace"
         >
             <td
@@ -109,7 +109,7 @@
 
         <!-- Inclusão de outros Totais usados no Brasil -->
         <xpath
-            expr="//div[@id='total']/div/table/t/tr[@class='border-black o_subtotal']"
+            expr="//div[@id='total']/div/table/t/tr[hasclass('border-black', 'o_subtotal')]"
             position="replace"
         >
             <!-- Replace foi necessário para colocar os Totais na ordem desejada. -->
