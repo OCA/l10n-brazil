@@ -128,8 +128,7 @@ class Document(models.Model):
                 InscricaoMunicipal=self.convert_type_nfselib(
                     tcIdentificacaoTomador, 'InscricaoMunicipal',
                     dados['inscricao_municipal'])
-                if dados['codigo_municipio'] == int('%s%s' % (
-                    self.company_id.partner_id.state_id.ibge_code,
+                if dados['codigo_municipio'] == int('%s' % (
                     self.company_id.partner_id.city_id.ibge_code
                 )) else None,
             ),
