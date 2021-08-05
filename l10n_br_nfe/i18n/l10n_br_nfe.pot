@@ -140,7 +140,7 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:670
+#: code:addons/l10n_br_nfe/models/document.py:673
 #, python-format
 msgid "Authorization Protocol Not Found!"
 msgstr ""
@@ -455,6 +455,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vBC
 msgid "FIXME Não usar esse campo!"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: code:addons/l10n_br_nfe/models/document.py:427
+#, python-format
+msgid "Favor preencher os dados do pagamento"
 msgstr ""
 
 #. module: l10n_br_nfe
