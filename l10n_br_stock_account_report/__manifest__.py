@@ -18,7 +18,6 @@
     "data": [
         # Wizard
         "wizards/l10n_br_p7_model_inventory_report_wizard_view.xml",
-
         # Report
         "report/l10n_br_p7_model_inventory_report.xml",
         "report/l10n_br_p7_model_inventory_report_view.xml",
