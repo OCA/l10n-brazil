@@ -2,16 +2,16 @@
 <odoo>
 
     <!-- Main template -->
-    <template id="main_report_stock_account_p7_view">
+    <template id="main_l10n_br_p7_model_inventory_report_view">
         <t t-call="web.html_container">
             <t
-                t-call="l10n_br_stock_account_report.report_account_stock_p7_view"
+                t-call="l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view"
                 t-lang="language"
             />
         </t>
     </template>
 
-    <template id="report_account_stock_p7_view">
+    <template id="l10n_br_p7_model_inventory_report_view">
         <t t-call="web.html_container">
 
             <style type="text/css">
