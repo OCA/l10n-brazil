@@ -119,6 +119,32 @@ class RepairOrder(models.Model):
         """Compute the total amounts of the RO."""
         self._compute_amount()
 
+    @api.depends(
+        "operations.price_subtotal",
+        "invoice_method",
+        "fees_lines.price_subtotal",
+        "pricelist_id.currency_id",
+    )
+    def _amount_untaxed(self):
+        self._compute_amount()
+
+    @api.depends(
+        "operations.price_unit",
+        "operations.product_uom_qty",
+        "operations.product_id",
+        "fees_lines.price_unit",
+        "fees_lines.product_uom_qty",
+        "fees_lines.product_id",
+        "pricelist_id.currency_id",
+        "partner_id",
+    )
+    def _amount_tax(self):
+        self._compute_amount()
+
+    @api.depends("amount_untaxed", "amount_tax")
+    def _amount_total(self):
+        self._compute_amount()
+
     @api.depends("state", "operations.invoice_line_id", "fees_lines.invoice_line_id")
     def _compute_get_invoiced(self):
         """
