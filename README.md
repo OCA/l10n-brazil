@@ -103,7 +103,7 @@ addon | version | summary
 [l10n_br_product_contract](l10n_br_product_contract/) | 12.0.1.0.0 | Criação de contratos através dos Pedidos de Vendas
 [l10n_br_purchase](l10n_br_purchase/) | 12.0.4.3.0 | Brazilian Localization Purchase
 [l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.2.1.0 | Brazilian Localization Purchase Stock
-[l10n_br_repair](l10n_br_repair/) | 12.0.5.2.0 | Brazilian Localization Repair
+[l10n_br_repair](l10n_br_repair/) | 12.0.6.0.0 | Brazilian Localization Repair
 [l10n_br_resource](l10n_br_resource/) | 12.0.1.1.0 | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
 [l10n_br_sale](l10n_br_sale/) | 12.0.6.1.0 | Brazilian Localization Sale
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 12.0.5.4.0 | Brazilian Localization Sales and Warehouse
