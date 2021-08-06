@@ -1,6 +1,6 @@
 # Copyright 2020 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-# Generated Thu May 20 10:35:34 2021 by https://github.com/akretion/generateds-odoo
+# Generated Fri Aug  6 17:41:26 2021 by https://github.com/akretion/generateds-odoo
 # and generateDS.py.
 # Python 3.8.5 (default, Jul 28 2020, 12:59:40)  [GCC 9.3.0]
 #
@@ -726,6 +726,18 @@ INDSINC_TENVINFE = [
     ("1", "1"),
 ]
 
+# Indica se o valor da COFINS ST compõe o valor total da NFe
+INDSOMACOFINSST_COFINSST = [
+    ("0", "0"),
+    ("1", "1"),
+]
+
+# Indica se o valor do PISST compõe o valor total da NF-e
+INDSOMAPISST_PISST = [
+    ("0", "0"),
+    ("1", "1"),
+]
+
 # Este campo deverá ser preenchido com:
 INDTOT_PROD = [
     ("0", "0 – o valor do item (vProd) não compõe o valor total da NF-e "
@@ -762,8 +774,8 @@ MODBCST_ICMS70 = [
     ("2", "2 - Lista Positiva (valor)"),
     ("3", "3 - Lista Neutra (valor)"),
     ("4", "4 - Margem Valor Agregado (%)"),
-    ("5", "5 - Pauta (valor)."),
-    ("6", "6 - Valor da Operação"),
+    ("5", "5 - Pauta (valor)"),
+    ("6", "6 - Valor da Operação."),
 ]
 
 # Modalidade de determinação da BC do ICMS ST:
@@ -919,6 +931,27 @@ MOD_REFECF = [
     ("2D", "2D"),
 ]
 
+# Motivo da desoneração do ICMS-ST
+MOTDESICMSST_ICMS10 = [
+    ("3", "3-Uso na agropecuária"),
+    ("9", "9-Outros"),
+    ("12", "12-Fomento agropecuário."),
+]
+
+# Motivo da desoneração do ICMS-ST
+MOTDESICMSST_ICMS70 = [
+    ("3", "3-Uso na agropecuária"),
+    ("9", "9-Outros"),
+    ("12", "12-Fomento agropecuário."),
+]
+
+# Motivo da desoneração do ICMS-ST
+MOTDESICMSST_ICMS90 = [
+    ("3", "3-Uso na agropecuária"),
+    ("9", "9-Outros"),
+    ("12", "12-Fomento agropecuário."),
+]
+
 # Motivo da desoneração do ICMS
 MOTDESICMS_ICMS20 = [
     ("3", "3-Uso na agropecuária"),
@@ -978,103 +1011,6 @@ PICMSINTER_ICMSUFDEST = [
     ("12.00", "12.00"),
 ]
 
-# Bandeira da operadora de cartão de crédito/débito
-# 01–Visa
-# 02–Mastercard
-# 03–American Express
-# 04–Sorocred
-# 05-Diners Club
-# 06-Elo
-# 07-Hipercard
-# 08-Aura
-# 09-Cabal
-# 10-Alelo
-# 11-Banes Card
-# 12-CalCard
-# 13-Credz
-# 14-Discover
-# 15-GoodCard
-# 16-GreenCard
-# 17-Hiper
-# 18-JcB
-# 19-Mais
-# 20-MaxVan
-# 21-Policard
-# 22-RedeCompras
-# 23-Sodexo
-# 24-ValeCard
-# 25-Verocheque
-# 26-VR
-# 27-Ticket
-# 99–Outros
-TBAND_CARD = [
-    ("01", "01"),
-    ("02", "02"),
-    ("03", "03"),
-    ("04", "04"),
-    ("05", "05"),
-    ("06", "06"),
-    ("07", "07"),
-    ("08", "08"),
-    ("09", "09"),
-    ("10", "10"),
-    ("11", "11"),
-    ("12", "12"),
-    ("13", "13"),
-    ("14", "14"),
-    ("15", "15"),
-    ("16", "16"),
-    ("17", "17"),
-    ("18", "18"),
-    ("19", "19"),
-    ("20", "20"),
-    ("21", "21"),
-    ("22", "22"),
-    ("23", "23"),
-    ("24", "24"),
-    ("25", "25"),
-    ("26", "26"),
-    ("27", "27"),
-    ("99", "99"),
-]
-
-# Forma de Pagamento
-# 01-Dinheiro
-# 02-Cheque
-# 03-Cartão de Crédito
-# 04-Cartão de Débito
-# 05-Crédito Loja
-# 10-Vale Alimentação
-# 11-Vale Refeição
-# 12-Vale Presente
-# 13-Vale Combustível
-# 14 - Duplicata Mercantil
-# 15 - Boleto Bancario
-# 16 Depósito Bancário
-# 17 Pagamento Instantâneo (PIX)
-# 18 Transferência bancária, Carteira Digital
-# 19 Programa de fidelidade, Cashback, Crédito Virtual 90 - Sem Pagamento
-# 99 - Outros
-TPAG_DETPAG = [
-    ("01", "01"),
-    ("02", "02"),
-    ("03", "03"),
-    ("04", "04"),
-    ("05", "05"),
-    ("10", "10"),
-    ("11", "11"),
-    ("12", "12"),
-    ("13", "13"),
-    ("14", "14"),
-    ("15", "15"),
-    ("16", "16"),
-    ("17", "17"),
-    ("18", "18"),
-    ("19", "19"),
-    ("90", "90"),
-    ("99", "99"),
-]
-
 # Indicador do tipo de arma de fogo (0 - Uso permitido; 1 - Uso
 # restrito)
 TPARMA_ARMA = [
@@ -1086,7 +1022,7 @@ TPARMA_ARMA = [
 TPEMIS_IDE = [
     ("1", "1 - Normal"),
     ("2", "2 - Contingência FS"),
-    ("3", "3 - Contingência SCAN"),
+    ("3", "3 - Regime Especial NFF (NT 2021.002)"),
     ("4", "4 - Contingência DPEC"),
     ("5", "5 - Contingência FSDA"),
     ("6", "6 - Contingência SVC - AN"),
@@ -1150,7 +1086,8 @@ TPREST_VEICPROD = [
 
 # Via de transporte internacional informada na DI
 # 1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-Rodoviar
-# ia;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta.
+# ia;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta;
+# 11-Courier;12-Em maos;13-Por reboque.
 TPVIATRANSP_DI = [
     ("1", "1"),
     ("2", "2"),
@@ -1164,6 +1101,7 @@ TPVIATRANSP_DI = [
     ("10", "10"),
     ("11", "11"),
     ("12", "12"),
+    ("13", "13"),
 ]
 
 # Nome do país
@@ -1214,7 +1152,7 @@ class COFINSAliq(models.AbstractModel):
         CST_COFINSALIQ,
         string="Código de Situação Tributária do COFINS",
         xsd_required=True,
-        xsd_type="CSTType45",
+        xsd_type="CSTType47",
         help="Código de Situação Tributária do COFINS."
         "\n01 – Operação Tributável - Base de Cálculo = Valor da Operação"
         "\nAlíquota Normal (Cumulativo/Não Cumulativo);"
@@ -1252,7 +1190,7 @@ class COFINSNT(models.AbstractModel):
         CST_COFINSNT,
         string="Código de Situação Tributária do COFINS",
         xsd_required=True,
-        xsd_type="CSTType47",
+        xsd_type="CSTType49",
         help="Código de Situação Tributária do COFINS:"
         "\n04 - Operação Tributável - Tributação Monofásica - (Alíquota Zero);"
         "\n05 - Operação Tributável (ST);"
@@ -1318,7 +1256,7 @@ class COFINSOutr(models.AbstractModel):
         CST_COFINSOUTR,
         string="Código de Situação Tributária do COFINS",
         xsd_required=True,
-        xsd_type="CSTType48",
+        xsd_type="CSTType50",
         help="Código de Situação Tributária do COFINS:"
         "\n49 - Outras Operações de Saída"
         "\n50 - Operação com Direito a Crédito - Vinculada Exclusivamente a"
@@ -1404,7 +1342,7 @@ class COFINSQtde(models.AbstractModel):
         CST_COFINSQTDE,
         string="Código de Situação Tributária do COFINS",
         xsd_required=True,
-        xsd_type="CSTType46",
+        xsd_type="CSTType48",
         help="Código de Situação Tributária do COFINS."
         "\n03 - Operação Tributável - Base de Calculo = Quantidade Vendida x"
         "\nAlíquota por Unidade de Produto;")
@@ -1469,6 +1407,10 @@ class COFINSST(models.AbstractModel):
         digits=2, string="Valor do COFINS ST",
         xsd_required=True,
         xsd_type="TDec_1302")
+    nfe40_indSomaCOFINSST = fields.Selection(
+        INDSOMACOFINSST_COFINSST,
+        string="Indica se o valor da COFINS ST compõe o valor total da NFe",
+        xsd_type="indSomaCOFINSSTType")
 
 
 class COFINS(models.AbstractModel):
@@ -1604,7 +1546,8 @@ class DI(models.AbstractModel):
         xsd_required=True,
         help="Via de transporte internacional informada na DI"
         "\n1-Maritima;2-Fluvial;3-Lacustre;4-Aerea;5-Postal;6-Ferroviaria;7-Ro"
-        "\ndoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta.")
+        "\ndoviaria;8-Conduto;9-Meios Proprios;10-Entrada/Saida Ficta;"
+        "\n11-Courier;12-Em maos;13-Por reboque.")
     nfe40_vAFRMM = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="vAFRMM",
@@ -1657,7 +1600,7 @@ class ICMSPart(models.AbstractModel):
     nfe40_CST = fields.Selection(
         CST_ICMSPART,
         string="Tributação pelo ICMS", xsd_required=True,
-        xsd_type="CSTType28",
+        xsd_type="CSTType30",
         help="Tributação pelo ICMS"
         "\n10 - Tributada e com cobrança do ICMS por substituição tributária;"
         "\n90 – Outros.")
@@ -1686,7 +1629,7 @@ class ICMSPart(models.AbstractModel):
         MODBCST_ICMSPART,
         string="Modalidade de determinação da BC do ICMS ST",
         xsd_required=True,
-        xsd_type="modBCSTType30",
+        xsd_type="modBCSTType32",
         help="Modalidade de determinação da BC do ICMS ST:"
         "\n0 – Preço tabelado ou máximo sugerido;"
         "\n1 - Lista Negativa (valor);"
@@ -1748,7 +1691,7 @@ class ICMSST(models.AbstractModel):
     nfe40_CST = fields.Selection(
         CST_ICMSST,
         string="Tributção pelo ICMS", xsd_required=True,
-        xsd_type="CSTType31",
+        xsd_type="CSTType33",
         help="Tributção pelo ICMS"
         "\n41-Não Tributado."
         "\n60-Cobrado anteriormente por substituição tributária.")
@@ -2112,7 +2055,7 @@ class IPINT(models.AbstractModel):
         CST_IPINT,
         string="Código da Situação Tributária do IPI",
         xsd_required=True,
-        xsd_type="CSTType82",
+        xsd_type="CSTType84",
         help="Código da Situação Tributária do IPI:"
         "\n01-Entrada tributada com alíquota zero"
         "\n02-Entrada isenta"
@@ -2143,7 +2086,7 @@ class IPITrib(models.AbstractModel):
         CST_IPITRIB,
         string="Código da Situação Tributária do IPI",
         xsd_required=True,
-        xsd_type="CSTType81",
+        xsd_type="CSTType83",
         help="Código da Situação Tributária do IPI:"
         "\n00-Entrada com recuperação de crédito"
         "\n49 - Outras entradas"
@@ -2405,7 +2348,7 @@ class PISAliq(models.AbstractModel):
         CST_PISALIQ,
         string="Código de Situação Tributária do PIS",
         xsd_required=True,
-        xsd_type="CSTType41",
+        xsd_type="CSTType43",
         help="Código de Situação Tributária do PIS."
         "\n01 – Operação Tributável - Base de Cálculo = Valor da Operação"
         "\nAlíquota Normal (Cumulativo/Não Cumulativo);"
@@ -2443,7 +2386,7 @@ class PISNT(models.AbstractModel):
         CST_PISNT,
         string="Código de Situação Tributária do PIS",
         xsd_required=True,
-        xsd_type="CSTType43",
+        xsd_type="CSTType45",
         help="Código de Situação Tributária do PIS."
         "\n04 - Operação Tributável - Tributação Monofásica - (Alíquota Zero);"
         "\n05 - Operação Tributável (ST);"
@@ -2517,7 +2460,7 @@ class PISQtde(models.AbstractModel):
         CST_PISQTDE,
         string="Código de Situação Tributária do PIS",
         xsd_required=True,
-        xsd_type="CSTType42",
+        xsd_type="CSTType44",
         help="Código de Situação Tributária do PIS."
         "\n03 - Operação Tributável - Base de Calculo = Quantidade Vendida x"
         "\nAlíquota por Unidade de Produto;")
@@ -2579,6 +2522,10 @@ class PISST(models.AbstractModel):
         currency_field="brl_currency_id",
         digits=2, string="Valor do PIS ST", xsd_required=True,
         xsd_type="TDec_1302")
+    nfe40_indSomaPISST = fields.Selection(
+        INDSOMAPISST_PISST,
+        string="Indica se o valor do PISST compõe o valor total da NF",
+        help="Indica se o valor do PISST compõe o valor total da NF-e")
 
 
 class PIS(models.AbstractModel):
@@ -2669,40 +2616,40 @@ class TEnderEmi(models.AbstractModel):
 
     nfe40_xLgr = fields.Char(
         string="Logradouro", xsd_required=True,
-        xsd_type="xLgrType59")
+        xsd_type="xLgrType61")
     nfe40_nro = fields.Char(
         string="Número", xsd_required=True,
-        xsd_type="nroType60")
+        xsd_type="nroType62")
     nfe40_xCpl = fields.Char(
         string="Complemento",
-        xsd_type="xCplType61")
+        xsd_type="xCplType63")
     nfe40_xBairro = fields.Char(
         string="Bairro", xsd_required=True,
-        xsd_type="xBairroType62")
+        xsd_type="xBairroType64")
     nfe40_cMun = fields.Char(
         string="Código do município", xsd_required=True,
         xsd_type="TCodMunIBGE")
     nfe40_xMun = fields.Char(
         string="Nome do município", xsd_required=True,
-        xsd_type="xMunType63")
+        xsd_type="xMunType65")
     nfe40_UF = fields.Selection(
         TUFEMI,
         string="Sigla da UF", xsd_required=True,
         xsd_type="TUfEmi")
     nfe40_CEP = fields.Char(
         string="CEP - NT 2011/004", xsd_required=True,
-        xsd_type="CEPType64")
+        xsd_type="CEPType66")
     nfe40_cPais = fields.Selection(
         CPAIS_TENDEREMI,
         string="Código do país",
-        xsd_type="cPaisType65")
+        xsd_type="cPaisType67")
     nfe40_xPais = fields.Selection(
         XPAIS_TENDEREMI,
         string="Nome do país",
-        xsd_type="xPaisType66")
+        xsd_type="xPaisType68")
     nfe40_fone = fields.Char(
         string="Preencher com Código DDD + número do telefone",
-        xsd_type="foneType67",
+        xsd_type="foneType69",
         help="Preencher com Código DDD + número do telefone (v.2.0)")
 
 
@@ -2733,7 +2680,7 @@ class TEndereco(models.AbstractModel):
         "\n9999999 para operações com o exterior.")
     nfe40_xMun = fields.Char(
         string="Nome do município", xsd_required=True,
-        xsd_type="xMunType56",
+        xsd_type="xMunType58",
         help="Nome do município, informar EXTERIOR para operações com o"
         "\nexterior.")
     nfe40_UF = fields.Selection(
@@ -2746,13 +2693,13 @@ class TEndereco(models.AbstractModel):
         xsd_type="CEPType")
     nfe40_cPais = fields.Char(
         string="Código de Pais",
-        xsd_type="cPaisType57")
+        xsd_type="cPaisType59")
     nfe40_xPais = fields.Char(
         string="Nome do país",
         xsd_type="xPaisType")
     nfe40_fone = fields.Char(
         string="Telefone",
-        xsd_type="foneType58",
+        xsd_type="foneType60",
         help="Telefone, preencher com Código DDD + número do telefone , nas"
         "\noperações com exterior é permtido informar o código"
         "\ndo país + código da localidade + número do telefone")
@@ -2804,12 +2751,12 @@ class TInfRespTec(models.AbstractModel):
         "\ndocumento fiscal eletrônico.")
     nfe40_email = fields.Char(
         string="Informar o e", xsd_required=True,
-        xsd_type="emailType79",
+        xsd_type="emailType81",
         help="Informar o e-mail da pessoa a ser contatada na empresa"
         "\ndesenvolvedora do sistema.")
     nfe40_fone = fields.Char(
         string="fone", xsd_required=True,
-        xsd_type="foneType80",
+        xsd_type="foneType82",
         help="Informar o telefone da pessoa a ser contatada na empresa"
         "\ndesenvolvedora do sistema. Preencher com o Código DDD"
         "\n+ número do telefone.")
@@ -2887,48 +2834,48 @@ class TLocal(models.AbstractModel):
         xsd_type="TCpf")
     nfe40_xNome = fields.Char(
         string="Razão Social ou Nome do Expedidor/Recebedor",
-        xsd_type="xNomeType68")
+        xsd_type="xNomeType70")
     nfe40_xLgr = fields.Char(
         string="Logradouro", xsd_required=True,
-        xsd_type="xLgrType69")
+        xsd_type="xLgrType71")
     nfe40_nro = fields.Char(
         string="Número", xsd_required=True,
-        xsd_type="nroType70")
+        xsd_type="nroType72")
     nfe40_xCpl = fields.Char(
         string="Complemento",
-        xsd_type="xCplType71")
+        xsd_type="xCplType73")
     nfe40_xBairro = fields.Char(
         string="Bairro", xsd_required=True,
-        xsd_type="xBairroType72")
+        xsd_type="xBairroType74")
     nfe40_cMun = fields.Char(
         string="Código do município", xsd_required=True,
         xsd_type="TCodMunIBGE",
         help="Código do município (utilizar a tabela do IBGE)")
     nfe40_xMun = fields.Char(
         string="Nome do município", xsd_required=True,
-        xsd_type="xMunType73")
+        xsd_type="xMunType75")
     nfe40_UF = fields.Selection(
         TUF,
         string="Sigla da UF", xsd_required=True,
         xsd_type="TUf")
     nfe40_CEP = fields.Char(
         string="CEP",
-        xsd_type="CEPType74")
+        xsd_type="CEPType76")
     nfe40_cPais = fields.Char(
         string="Código de Pais",
-        xsd_type="cPaisType75")
+        xsd_type="cPaisType77")
     nfe40_xPais = fields.Char(
         string="Nome do país",
-        xsd_type="xPaisType76")
+        xsd_type="xPaisType78")
     nfe40_fone = fields.Char(
         string="Telefone",
-        xsd_type="foneType77",
+        xsd_type="foneType79",
         help="Telefone, preencher com Código DDD + número do telefone , nas"
         "\noperações com exterior é permtido informar o código"
         "\ndo país + código da localidade + número do telefone")
     nfe40_email = fields.Char(
         string="Informar o e",
-        xsd_type="emailType78",
+        xsd_type="emailType80",
         help="Informar o e-mail do expedidor/Recebedor. O campo pode ser"
         "\nutilizado para informar o e-mail de recepção da NF-e"
         "\nindicada pelo expedidor")
@@ -3045,12 +2992,12 @@ class TRetConsReciNFe(models.AbstractModel):
         "\ndo recebimento do Lote de NF-e enviado.")
     nfe40_cMsg = fields.Char(
         string="Código da Mensagem (v2.0)",
-        xsd_type="cMsgType54",
+        xsd_type="cMsgType56",
         help="Código da Mensagem (v2.0)"
         "\nalterado para tamanho variavel 1-4. (NT2011/004)")
     nfe40_xMsg = fields.Char(
         string="Mensagem da SEFAZ para o emissor",
-        xsd_type="xMsgType55",
+        xsd_type="xMsgType57",
         help="Mensagem da SEFAZ para o emissor. (v2.0)")
     nfe40_protNFe = fields.One2many(
         "nfe.40.tprotnfe",
@@ -3133,7 +3080,7 @@ class TVeiculo(models.AbstractModel):
         xsd_type="placaType")
     nfe40_UF = fields.Selection(
         TUF,
-        string="Sigla da UF", xsd_required=True,
+        string="Sigla da UF",
         xsd_type="TUf")
     nfe40_RNTC = fields.Char(
         string="Registro Nacional de Transportador de Carga",
@@ -3152,7 +3099,7 @@ class Adi(models.AbstractModel):
     nfe40_adi_DI_id = fields.Many2one(
         "nfe.40.di")
     nfe40_nAdicao = fields.Char(
-        string="Número da Adição", xsd_required=True,
+        string="Número da Adição",
         xsd_type="nAdicaoType")
     nfe40_nSeqAdic = fields.Char(
         string="Número seqüencial do item dentro da Adição",
@@ -3354,38 +3301,9 @@ class Card(models.AbstractModel):
     nfe40_CNPJ = fields.Char(
         string="CNPJ da instituição de pagamento",
         xsd_type="TCnpj")
-    nfe40_tBand = fields.Selection(
-        TBAND_CARD,
-        string="tBand",
-        help="Bandeira da operadora de cartão de crédito/débito"
-        "\n01–Visa"
-        "\n02–Mastercard"
-        "\n03–American Express"
-        "\n04–Sorocred"
-        "\n05-Diners Club"
-        "\n06-Elo"
-        "\n07-Hipercard"
-        "\n08-Aura"
-        "\n09-Cabal"
-        "\n10-Alelo"
-        "\n11-Banes Card"
-        "\n12-CalCard"
-        "\n13-Credz"
-        "\n14-Discover"
-        "\n15-GoodCard"
-        "\n16-GreenCard"
-        "\n17-Hiper"
-        "\n18-JcB"
-        "\n19-Mais"
-        "\n20-MaxVan"
-        "\n21-Policard"
-        "\n22-RedeCompras"
-        "\n23-Sodexo"
-        "\n24-ValeCard"
-        "\n25-Verocheque"
-        "\n26-VR"
-        "\n27-Ticket"
-        "\n99–Outros")
+    nfe40_tBand = fields.Char(
+        string="Bandeira da operadora de cartão",
+        xsd_type="tBandType")
     nfe40_cAut = fields.Char(
         string="Número de autorização da operação cartão de crédito/débito",
         xsd_type="cAutType")
@@ -3508,7 +3426,7 @@ class Compra(models.AbstractModel):
         "\n(NT2011/004)")
     nfe40_xPed = fields.Char(
         string="Informação do pedido",
-        xsd_type="xPedType53")
+        xsd_type="xPedType55")
     nfe40_xCont = fields.Char(
         string="Informação do contrato",
         xsd_type="xContType")
@@ -3633,28 +3551,9 @@ class DetPag(models.AbstractModel):
         help="Indicador da Forma de Pagamento"
         "\n0-Pagamento à Vista"
         "\n1-Pagamento à Prazo")
-    nfe40_tPag = fields.Selection(
-        TPAG_DETPAG,
-        string="Forma de Pagamento:01",
-        xsd_required=True,
-        help="Forma de Pagamento"
-        "\n01-Dinheiro"
-        "\n02-Cheque"
-        "\n03-Cartão de Crédito"
-        "\n04-Cartão de Débito"
-        "\n05-Crédito Loja"
-        "\n10-Vale Alimentação"
-        "\n11-Vale Refeição"
-        "\n12-Vale Presente"
-        "\n13-Vale Combustível"
-        "\n14 - Duplicata Mercantil"
-        "\n15 - Boleto Bancario"
-        "\n16 Depósito Bancário"
-        "\n17 Pagamento Instantâneo (PIX)"
-        "\n18 Transferência bancária, Carteira Digital"
-        "\n19 Programa de fidelidade, Cashback, Crédito Virtual 90 - Sem"
-        "\nPagamento"
-        "\n99 - Outros")
+    nfe40_tPag = fields.Char(
+        string="Forma de Pagamento", xsd_required=True,
+        xsd_type="tPagType")
     nfe40_xPag = fields.Char(
         string="Descrição do Meio de Pagamento",
         xsd_type="xPagType")
@@ -3994,7 +3893,7 @@ class Ide(models.AbstractModel):
         help="Forma de emissão da NF-e"
         "\n1 - Normal;"
         "\n2 - Contingência FS"
-        "\n3 - Contingência SCAN"
+        "\n3 - Regime Especial NFF (NT 2021.002)"
         "\n4 - Contingência DPEC"
         "\n5 - Contingência FSDA"
         "\n6 - Contingência SVC - AN"
@@ -4325,6 +4224,49 @@ class InfNFe(models.AbstractModel):
         "nfe.40.tinfresptec",
         string="Informações do Responsável Técnico pela emissão do DF",
         help="Informações do Responsável Técnico pela emissão do DF-e")
+    nfe40_infSolicNFF = fields.Many2one(
+        "nfe.40.infsolicnff",
+        string="Grupo para informações da solicitação da NFF")
+
+
+class InfProdEmb(models.AbstractModel):
+    "Informações mais detalhadas do produto (usada na NFF)"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = 'nfe.40.infprodemb'
+    _inherit = 'spec.mixin.nfe'
+    _generateds_type = 'infProdEmbType'
+    _concrete_rec_name = 'nfe40_xEmb'
+
+    nfe40_xEmb = fields.Char(
+        string="Embalagem do produto", xsd_required=True,
+        xsd_type="xEmbType")
+    nfe40_qVolEmb = fields.Monetary(
+        currency_field="brl_currency_id",
+        digits=3, string="Volume do produto na embalagem",
+        xsd_required=True,
+        xsd_type="TDec_0803v")
+    nfe40_uEmb = fields.Char(
+        string="Unidade de Medida da Embalagem",
+        xsd_required=True,
+        xsd_type="uEmbType")
+
+
+class InfProdNFF(models.AbstractModel):
+    "Informações mais detalhadas do produto (usada na NFF)"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = 'nfe.40.infprodnff'
+    _inherit = 'spec.mixin.nfe'
+    _generateds_type = 'infProdNFFType'
+    _concrete_rec_name = 'nfe40_cProdFisco'
+
+    nfe40_cProdFisco = fields.Char(
+        string="Código Fiscal do Produto",
+        xsd_required=True,
+        xsd_type="cProdFiscoType")
+    nfe40_cOperNFF = fields.Char(
+        string="cOperNFF", xsd_required=True,
+        xsd_type="cOperNFFType",
+        help="Código da operação selecionada na NFF e relacionada ao item")
 
 
 class InfProt(models.AbstractModel):
@@ -4414,6 +4356,20 @@ class InfRec(models.AbstractModel):
         "\n5 minutos")
 
 
+class InfSolicNFF(models.AbstractModel):
+    "Grupo para informações da solicitação da NFF"
+    _description = textwrap.dedent("    %s" % (__doc__,))
+    _name = 'nfe.40.infsolicnff'
+    _inherit = 'spec.mixin.nfe'
+    _generateds_type = 'infSolicNFFType'
+    _concrete_rec_name = 'nfe40_xSolic'
+
+    nfe40_xSolic = fields.Char(
+        string="Solicitação do pedido de emissão da NFF",
+        xsd_required=True,
+        xsd_type="xSolicType")
+
+
 class Lacres(models.AbstractModel):
     _description = 'lacres'
     _name = 'nfe.40.lacres'
@@ -4494,7 +4450,7 @@ class ObsFisco(models.AbstractModel):
         xsd_type="string")
     nfe40_xTexto = fields.Char(
         string="xTexto", xsd_required=True,
-        xsd_type="xTextoType51")
+        xsd_type="xTextoType53")
 
 
 class Pag(models.AbstractModel):
@@ -4576,6 +4532,9 @@ class Prod(models.AbstractModel):
         xsd_type="cEANType",
         help="GTIN (Global Trade Item Number) do produto, antigo código EAN"
         "\nou código de barras")
+    nfe40_cBarra = fields.Char(
+        string="Codigo de barras diferente do padrão GTIN",
+        xsd_type="cBarraType")
     nfe40_xProd = fields.Char(
         string="Descrição do produto ou serviço",
         xsd_required=True,
@@ -4647,6 +4606,11 @@ class Prod(models.AbstractModel):
         xsd_type="cEANTribType",
         help="GTIN (Global Trade Item Number) da unidade tributável, antigo"
         "\ncódigo EAN ou código de barras")
+    nfe40_cBarraTrib = fields.Char(
+        string="cBarraTrib",
+        xsd_type="cBarraTribType",
+        help="Código de barras da unidade tributável diferente do padrão"
+        "\nGTIN")
     nfe40_uTrib = fields.Char(
         string="Unidade Tributável", xsd_required=True,
         xsd_type="uTribType")
@@ -4720,6 +4684,14 @@ class Prod(models.AbstractModel):
         "nfe40_rastro_prod_id",
         string="rastro"
     )
+    nfe40_infProdNFF = fields.Many2one(
+        "nfe.40.infprodnff",
+        string="Informações mais detalhadas do produto",
+        help="Informações mais detalhadas do produto (usada na NFF)")
+    nfe40_infProdEmb = fields.Many2one(
+        "nfe.40.infprodemb",
+        string="Informações mais detalhadas do produto (infProdEmb)",
+        help="Informações mais detalhadas do produto (usada na NFF)")
     nfe40_veicProd = fields.Many2one(
         "nfe.40.veicprod",
         choice='9',
@@ -4932,7 +4904,7 @@ class RetTransp(models.AbstractModel):
     nfe40_CFOP = fields.Char(
         string="Código Fiscal de Operações e Prestações",
         xsd_required=True,
-        xsd_type="CFOPType50")
+        xsd_type="CFOPType52")
     nfe40_cMunFG = fields.Char(
         string="Código do Município de Ocorrência do Fato Gerador",
         xsd_required=True,
@@ -5079,7 +5051,7 @@ class Transporta(models.AbstractModel):
         xsd_type="TCpf")
     nfe40_xNome = fields.Char(
         string="Razão Social ou nome do transportador",
-        xsd_type="xNomeType49")
+        xsd_type="xNomeType51")
     nfe40_IE = fields.Char(
         string="Inscrição Estadual (v2.0)",
         xsd_type="TIeDest")
