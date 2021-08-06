@@ -75,9 +75,9 @@ class ResCurrencyRateProviderBCB(models.Model):
                         ).strftime(DEFAULT_SERVER_DATE_FORMAT)
 
                         if data.get(rate_date):
-                            data[rate_date][cur] = rate.get("cotacaoVenda")
+                            data[rate_date][cur] = 1 / rate.get("cotacaoVenda")
                         else:
-                            rate_dict = {cur: rate.get("cotacaoVenda")}
+                            rate_dict = {cur: 1 / rate.get("cotacaoVenda")}
                             data[rate_date] = rate_dict
 
             return data
