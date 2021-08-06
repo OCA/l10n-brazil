@@ -14,10 +14,10 @@
     <template id="l10n_br_p7_model_inventory_report_view">
         <t t-call="web.html_container">
 
-            <style type="text/css">
+            <!--<style type="text/css">
                 body,div,table,thead,tbody,tfoot,tr,th,td,
                 p { font-family:"Arial"; font-size:x-small; white-space:nowrap; },
-            </style>
+            </style>-->
 
             <t t-call="web.layout">
 
@@ -162,7 +162,6 @@
                             </tr>
 
                             <t t-foreach="lines" t-as="l">
-                                <!--<p><t t-esc="l"/></p>-->
                                 <tr t-if="l['ncm_controller'] == False">
                                     <td
                                         style="border-top: 1px solid #000000; border-bottom: 1px
