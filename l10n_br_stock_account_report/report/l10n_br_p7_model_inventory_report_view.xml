@@ -356,7 +356,7 @@
                                     height="30"
                                     align="left"
                                     valign="middle"
-                                >Total Geral</td>
+                                >Grand Total</td>
                                 <td
                                     style="border-top: 1px solid #000000; border-bottom: 1px solid #000000"
                                     align="right"
@@ -378,7 +378,7 @@
                                     style="border-bottom: 1px solid #000000"
                                     height="30"
                                     align="left"
-                                >Resumo</td>
+                                >Resume</td>
                                 <td
                                     style="border-bottom: 1px solid #000000"
                                     align="left"
