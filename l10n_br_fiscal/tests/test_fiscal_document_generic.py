@@ -616,12 +616,38 @@ class TestFiscalDocumentGeneric(SavepointCase):
                     "Error to mappping CFOP 5102"
                     " for Revenda de Simples Nacional Dentro do Estado.",
                 )
+                # IPI
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    "IPI NT",
+                    "Error to mapping IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
+                self.assertEqual(
+                    line.ipi_cst_id.code,
+                    "53",
+                    "Error to mapping CST 53 from IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
             else:
                 self.assertEqual(
                     line.cfop_id.code,
                     "5101",
                     "Error to mapping CFOP 5101"
                     " for Venda de Simples Nacional Dentro do Estado.",
+                )
+                # IPI
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    "IPI Outros",
+                    "Error to mapping IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
+                self.assertEqual(
+                    line.ipi_cst_id.code,
+                    "99",
+                    "Error to mapping CST 99 from IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
                 )
 
             # ICMS
@@ -643,20 +669,6 @@ class TestFiscalDocumentGeneric(SavepointCase):
             #    line.icmsfcp_tax_id.name, 'FCP 2%',
             #    "Erro ao mapear ICMS FCP 2%"
             #    " para Venda de Simples Nacional Dentro do Estado.")
-
-            # IPI
-            self.assertEqual(
-                line.ipi_tax_id.name,
-                "IPI Outros",
-                "Error to mapping IPI Simples Nacional"
-                " for Venda de Simples Nacional Fora do Estado.",
-            )
-            self.assertEqual(
-                line.ipi_cst_id.code,
-                "99",
-                "Error to mapping CST 99 from IPI Simples Nacional"
-                " for Venda de Simples Nacional Fora do Estado.",
-            )
 
             # PIS
             self.assertEqual(
@@ -709,11 +721,37 @@ class TestFiscalDocumentGeneric(SavepointCase):
                     "Error to mappping CFOP 6102"
                     " for Revenda de Simples Nacional Fora do Estado.",
                 )
+                # IPI
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    "IPI NT",
+                    "Error to mapping IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
+                self.assertEqual(
+                    line.ipi_cst_id.code,
+                    "53",
+                    "Error to mapping CST 53 from IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
             else:
                 self.assertEqual(
                     line.cfop_id.code,
                     "6101",
                     "Error to mapping CFOP 6101"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
+                # IPI
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    "IPI Outros",
+                    "Error to mapping IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
+                self.assertEqual(
+                    line.ipi_cst_id.code,
+                    "99",
+                    "Error to mapping CST 99 from IPI Simples Nacional"
                     " for Venda de Simples Nacional Fora do Estado.",
                 )
 
@@ -736,20 +774,6 @@ class TestFiscalDocumentGeneric(SavepointCase):
             #    line.icmsfcp_tax_id.name, 'FCP 2%',
             #    "Erro ao mapear ICMS FCP 2%"
             #    " para Venda de Simples Nacional Fora do Estado.")
-
-            # IPI
-            self.assertEqual(
-                line.ipi_tax_id.name,
-                "IPI Outros",
-                "Error to mapping IPI Simples Nacional"
-                " for Venda de Simples Nacional Fora do Estado.",
-            )
-            self.assertEqual(
-                line.ipi_cst_id.code,
-                "99",
-                "Error to mapping CST 99 from IPI Simples Nacional"
-                " for Venda de Simples Nacional Fora do Estado.",
-            )
 
             # PIS
             self.assertEqual(
@@ -895,12 +919,38 @@ class TestFiscalDocumentGeneric(SavepointCase):
                     "Error to mapping CFOP 7102"
                     " for Revenda de Contribuinte p/ o Exterior.",
                 )
+                # IPI
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    "IPI NT",
+                    "Error to mapping IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
+                self.assertEqual(
+                    line.ipi_cst_id.code,
+                    "53",
+                    "Error to mapping CST 53 from IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
             else:
                 self.assertEqual(
                     line.cfop_id.code,
                     "7101",
                     "Error to mapping CFOP 7101"
                     " for Venda de Contribuinte p/ o Exterior.",
+                )
+                # IPI
+                self.assertEqual(
+                    line.ipi_tax_id.name,
+                    "IPI Outros",
+                    "Error to mapping IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
+                )
+                self.assertEqual(
+                    line.ipi_cst_id.code,
+                    "99",
+                    "Error to mapping CST 99 from IPI Simples Nacional"
+                    " for Venda de Simples Nacional Fora do Estado.",
                 )
 
             # ICMS
@@ -922,20 +972,6 @@ class TestFiscalDocumentGeneric(SavepointCase):
             #    line.icmsfcp_tax_id.name, 'FCP 2%',
             #    "Erro ao mapear ICMS FCP 2%"
             #    " para Venda de Contribuinte p/ o Exterior.")
-
-            # IPI
-            self.assertEqual(
-                line.ipi_tax_id.name,
-                "IPI Outros",
-                "Error to mapping IPI Simples Nacional"
-                " for Venda de Simples Nacional Fora do Estado.",
-            )
-            self.assertEqual(
-                line.ipi_cst_id.code,
-                "99",
-                "Error to mapping CST 99 from IPI Simples Nacional"
-                " for Venda de Simples Nacional Fora do Estado.",
-            )
 
             # PIS
             self.assertEqual(
