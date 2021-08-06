@@ -64,6 +64,46 @@ msgid "8 – Nacional – mercadoria ou bem com Conteúdo de Importação superi
 msgstr ""
 
 #. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
+msgid "<strong>Amount Discount</strong>"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
+msgid "<strong>Amount Gross</strong>"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
+msgid "<strong>Amount Untaxed</strong>"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
+msgid "<strong>Freight</strong>"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
+msgid "<strong>Insurance</strong>"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
+msgid "<strong>Operations</strong>"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
+msgid "<strong>Other Costs</strong>"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
+msgid "<strong>Parts</strong>"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_fee_form_view
 #: model_terms:ir.ui.view,arch_db:l10n_br_repair.repair_line_form_view
 msgid "Accounting"
@@ -421,6 +461,7 @@ msgstr ""
 
 #. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__discount_value
+#: model_terms:ir.ui.view,arch_db:l10n_br_repair.report_repair_order
 msgid "Discount Value"
 msgstr ""
 
@@ -1070,13 +1111,13 @@ msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:402
+#: code:addons/l10n_br_repair/models/repair_order.py:428
 #, python-format
 msgid "No account defined for partner \"%s\"."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:407
+#: code:addons/l10n_br_repair/models/repair_order.py:433
 #, python-format
 msgid "No product defined on fees."
 msgstr ""
@@ -1296,19 +1337,19 @@ msgid "Percent"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:334
+#: code:addons/l10n_br_repair/models/repair_order.py:360
 #, python-format
 msgid "Please define an accounting sales journal for this company."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:324
+#: code:addons/l10n_br_repair/models/repair_order.py:350
 #, python-format
 msgid "Please define an default document type for this company."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/fiscal_line_mixin.py:100
+#: code:addons/l10n_br_repair/models/fiscal_line_mixin.py:72
 #, python-format
 msgid "Please define income account for this product: \"%s\" (id:%d) - or for its category: \"%s\"."
 msgstr ""
@@ -1579,7 +1620,7 @@ msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:396
+#: code:addons/l10n_br_repair/models/repair_order.py:422
 #, python-format
 msgid "You have to select an invoice address in the repair form."
 msgstr ""
