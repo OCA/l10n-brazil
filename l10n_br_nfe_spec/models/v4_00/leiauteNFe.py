@@ -1,6 +1,6 @@
 # Copyright 2020 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-# Generated Fri Aug  6 17:41:26 2021 by https://github.com/akretion/generateds-odoo
+# Generated Fri Aug  6 18:53:26 2021 by https://github.com/akretion/generateds-odoo
 # and generateDS.py.
 # Python 3.8.5 (default, Jul 28 2020, 12:59:40)  [GCC 9.3.0]
 #
@@ -1107,7 +1107,6 @@ TPVIATRANSP_DI = [
 # Nome do país
 XPAIS_TENDEREMI = [
     ("Brasil", "Brasil"),
-    ("BRASIL", "BRASIL"),
 ]
 
 
@@ -1117,8 +1116,6 @@ class CIDE(models.AbstractModel):
     _name = 'nfe.40.cide'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'CIDEType'
-    _concrete_rec_name = 'nfe40_qBCProd'
-
     nfe40_qBCProd = fields.Monetary(
         currency_field="brl_currency_id",
         digits=4, string="BC do CIDE", xsd_required=True,
@@ -1146,8 +1143,6 @@ class COFINSAliq(models.AbstractModel):
     _name = 'nfe.40.cofinsaliq'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'COFINSAliqType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_CST = fields.Selection(
         CST_COFINSALIQ,
         string="Código de Situação Tributária do COFINS",
@@ -1184,8 +1179,6 @@ class COFINSNT(models.AbstractModel):
     _name = 'nfe.40.cofinsnt'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'COFINSNTType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_CST = fields.Selection(
         CST_COFINSNT,
         string="Código de Situação Tributária do COFINS",
@@ -1244,8 +1237,6 @@ class COFINSOutr(models.AbstractModel):
     _name = 'nfe.40.cofinsoutr'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'COFINSOutrType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_choice16 = fields.Selection([
         ('nfe40_vBC', 'vBC'),
         ('nfe40_pCOFINS', 'pCOFINS'),
@@ -1336,8 +1327,6 @@ class COFINSQtde(models.AbstractModel):
     _name = 'nfe.40.cofinsqtde'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'COFINSQtdeType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_CST = fields.Selection(
         CST_COFINSQTDE,
         string="Código de Situação Tributária do COFINS",
@@ -1370,8 +1359,6 @@ class COFINSST(models.AbstractModel):
     _name = 'nfe.40.cofinsst'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'COFINSSTType'
-    _concrete_rec_name = 'nfe40_vBC'
-
     nfe40_choice17 = fields.Selection([
         ('nfe40_vBC', 'vBC'),
         ('nfe40_pCOFINS', 'pCOFINS'),
@@ -1419,8 +1406,6 @@ class COFINS(models.AbstractModel):
     _name = 'nfe.40.cofins'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'COFINSType'
-    _concrete_rec_name = 'nfe40_COFINSAliq'
-
     nfe40_choice15 = fields.Selection([
         ('nfe40_COFINSAliq', 'COFINSAliq'),
         ('nfe40_COFINSQtde', 'COFINSQtde'),
@@ -1511,8 +1496,6 @@ class DI(models.AbstractModel):
     _name = 'nfe.40.di'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'DIType'
-    _concrete_rec_name = 'nfe40_nDI'
-
     nfe40_DI_prod_id = fields.Many2one(
         "nfe.40.prod")
     nfe40_nDI = fields.Char(
@@ -1590,8 +1573,6 @@ class ICMSPart(models.AbstractModel):
     _name = 'nfe.40.icmspart'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'ICMSPartType'
-    _concrete_rec_name = 'nfe40_orig'
-
     nfe40_orig = fields.Selection(
         TORIG,
         string="origem da mercadoria: 0 - Nacional",
@@ -1681,8 +1662,6 @@ class ICMSST(models.AbstractModel):
     _name = 'nfe.40.icmsst'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'ICMSSTType'
-    _concrete_rec_name = 'nfe40_orig'
-
     nfe40_orig = fields.Selection(
         TORIG,
         string="origem da mercadoria: 0 - Nacional",
@@ -1771,8 +1750,6 @@ class ICMSTot(models.AbstractModel):
     _name = 'nfe.40.icmstot'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'ICMSTotType'
-    _concrete_rec_name = 'nfe40_vBC'
-
     nfe40_vBC = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="BC do ICMS", xsd_required=True,
@@ -1900,8 +1877,6 @@ class ICMS(models.AbstractModel):
     _name = 'nfe.40.icms'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'ICMSType'
-    _concrete_rec_name = 'nfe40_ICMS00'
-
     nfe40_choice11 = fields.Selection([
         ('nfe40_ICMS00', 'ICMS00'),
         ('nfe40_ICMS10', 'ICMS10'),
@@ -1949,8 +1924,6 @@ class ICMSUFDest(models.AbstractModel):
     _name = 'nfe.40.icmsufdest'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'ICMSUFDestType'
-    _concrete_rec_name = 'nfe40_vBCUFDest'
-
     nfe40_vBCUFDest = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2,
@@ -2020,8 +1993,6 @@ class II(models.AbstractModel):
     _name = 'nfe.40.ii'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'IIType'
-    _concrete_rec_name = 'nfe40_vBC'
-
     nfe40_vBC = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="Base da BC do Imposto de Importação",
@@ -2049,8 +2020,6 @@ class IPINT(models.AbstractModel):
     _name = 'nfe.40.ipint'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'IPINTType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_CST = fields.Selection(
         CST_IPINT,
         string="Código da Situação Tributária do IPI",
@@ -2074,8 +2043,6 @@ class IPITrib(models.AbstractModel):
     _name = 'nfe.40.ipitrib'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'IPITribType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_choice20 = fields.Selection([
         ('nfe40_vBC', 'vBC'),
         ('nfe40_pIPI', 'pIPI'),
@@ -2128,8 +2095,6 @@ class IPI(models.AbstractModel):
     _name = 'nfe.40.ipi'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'IPIType'
-    _concrete_rec_name = 'nfe40_vIPIDevol'
-
     nfe40_vIPIDevol = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="Valor do IPI devolvido",
@@ -2143,8 +2108,6 @@ class ISSQN(models.AbstractModel):
     _name = 'nfe.40.issqn'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'ISSQNType'
-    _concrete_rec_name = 'nfe40_vBC'
-
     nfe40_vBC = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="Valor da BC do ISSQN", xsd_required=True,
@@ -2225,8 +2188,6 @@ class ISSQNtot(models.AbstractModel):
     _name = 'nfe.40.issqntot'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'ISSQNtotType'
-    _concrete_rec_name = 'nfe40_vServ'
-
     nfe40_vServ = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="Valor Total dos Serviços sob não",
@@ -2286,8 +2247,6 @@ class NFref(models.AbstractModel):
     _name = 'nfe.40.nfref'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'NFrefType'
-    _concrete_rec_name = 'nfe40_refNFe'
-
     nfe40_NFref_ide_id = fields.Many2one(
         "nfe.40.ide")
     nfe40_choice4 = fields.Selection([
@@ -2342,8 +2301,6 @@ class PISAliq(models.AbstractModel):
     _name = 'nfe.40.pisaliq'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'PISAliqType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_CST = fields.Selection(
         CST_PISALIQ,
         string="Código de Situação Tributária do PIS",
@@ -2380,8 +2337,6 @@ class PISNT(models.AbstractModel):
     _name = 'nfe.40.pisnt'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'PISNTType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_CST = fields.Selection(
         CST_PISNT,
         string="Código de Situação Tributária do PIS",
@@ -2403,8 +2358,6 @@ class PISOutr(models.AbstractModel):
     _name = 'nfe.40.pisoutr'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'PISOutrType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_choice13 = fields.Selection([
         ('nfe40_vBC', 'vBC'),
         ('nfe40_pPIS', 'pPIS'),
@@ -2454,8 +2407,6 @@ class PISQtde(models.AbstractModel):
     _name = 'nfe.40.pisqtde'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'PISQtdeType'
-    _concrete_rec_name = 'nfe40_CST'
-
     nfe40_CST = fields.Selection(
         CST_PISQTDE,
         string="Código de Situação Tributária do PIS",
@@ -2487,8 +2438,6 @@ class PISST(models.AbstractModel):
     _name = 'nfe.40.pisst'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'PISSTType'
-    _concrete_rec_name = 'nfe40_vBC'
-
     nfe40_choice14 = fields.Selection([
         ('nfe40_vBC', 'vBC'),
         ('nfe40_pPIS', 'pPIS'),
@@ -2534,8 +2483,6 @@ class PIS(models.AbstractModel):
     _name = 'nfe.40.pis'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'PISType'
-    _concrete_rec_name = 'nfe40_PISAliq'
-
     nfe40_choice12 = fields.Selection([
         ('nfe40_PISAliq', 'PISAliq'),
         ('nfe40_PISQtde', 'PISQtde'),
@@ -2587,8 +2534,6 @@ class TConsReciNFe(models.AbstractModel):
     _name = 'nfe.40.tconsrecinfe'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TConsReciNFe'
-    _concrete_rec_name = 'nfe40_versao'
-
     nfe40_versao = fields.Char(
         string="versao", xsd_required=True,
         xsd_type="string")
@@ -2612,8 +2557,6 @@ class TEnderEmi(models.AbstractModel):
     _name = 'nfe.40.tenderemi'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TEnderEmi'
-    _concrete_rec_name = 'nfe40_xLgr'
-
     nfe40_xLgr = fields.Char(
         string="Logradouro", xsd_required=True,
         xsd_type="xLgrType61")
@@ -2659,8 +2602,6 @@ class TEndereco(models.AbstractModel):
     _name = 'nfe.40.tendereco'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TEndereco'
-    _concrete_rec_name = 'nfe40_xLgr'
-
     nfe40_xLgr = fields.Char(
         string="Logradouro", xsd_required=True,
         xsd_type="xLgrType")
@@ -2711,8 +2652,6 @@ class TEnviNFe(models.AbstractModel):
     _name = 'nfe.40.tenvinfe'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TEnviNFe'
-    _concrete_rec_name = 'nfe40_versao'
-
     nfe40_versao = fields.Char(
         string="versao", xsd_required=True,
         xsd_type="string")
@@ -2738,8 +2677,6 @@ class TInfRespTec(models.AbstractModel):
     _name = 'nfe.40.tinfresptec'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TInfRespTec'
-    _concrete_rec_name = 'nfe40_CNPJ'
-
     nfe40_CNPJ = fields.Char(
         string="CNPJ", xsd_required=True,
         xsd_type="TCnpjOpc")
@@ -2777,8 +2714,6 @@ class TIpi(models.AbstractModel):
     _name = 'nfe.40.tipi'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TIpi'
-    _concrete_rec_name = 'nfe40_CNPJProd'
-
     nfe40_choice3 = fields.Selection([
         ('nfe40_IPITrib', 'IPITrib'),
         ('nfe40_IPINT', 'IPINT')],
@@ -2818,8 +2753,6 @@ class TLocal(models.AbstractModel):
     _name = 'nfe.40.tlocal'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TLocal'
-    _concrete_rec_name = 'nfe40_CNPJ'
-
     nfe40_choice2 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
@@ -2890,8 +2823,6 @@ class TNFe(models.AbstractModel):
     _name = 'nfe.40.tnfe'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TNFe'
-    _concrete_rec_name = 'nfe40_infNFe'
-
     nfe40_NFe_TEnviNFe_id = fields.Many2one(
         "nfe.40.tenvinfe")
     nfe40_infNFe = fields.Many2one(
@@ -2909,8 +2840,6 @@ class TNfeProc(models.AbstractModel):
     _name = 'nfe.40.tnfeproc'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TNfeProc'
-    _concrete_rec_name = 'nfe40_versao'
-
     nfe40_versao = fields.Char(
         string="versao", xsd_required=True,
         xsd_type="string")
@@ -2928,8 +2857,6 @@ class TProtNFe(models.AbstractModel):
     _name = 'nfe.40.tprotnfe'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TProtNFe'
-    _concrete_rec_name = 'nfe40_versao'
-
     nfe40_protNFe_TRetConsReciNFe_id = fields.Many2one(
         "nfe.40.tretconsrecinfe")
     nfe40_versao = fields.Char(
@@ -2948,8 +2875,6 @@ class TRetConsReciNFe(models.AbstractModel):
     _name = 'nfe.40.tretconsrecinfe'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TRetConsReciNFe'
-    _concrete_rec_name = 'nfe40_versao'
-
     nfe40_versao = fields.Char(
         string="versao", xsd_required=True,
         xsd_type="string")
@@ -3013,8 +2938,6 @@ class TRetEnviNFe(models.AbstractModel):
     _name = 'nfe.40.tretenvinfe'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TRetEnviNFe'
-    _concrete_rec_name = 'nfe40_versao'
-
     nfe40_choice1 = fields.Selection([
         ('nfe40_infRec', 'infRec'),
         ('nfe40_protNFe', 'protNFe')],
@@ -3070,8 +2993,6 @@ class TVeiculo(models.AbstractModel):
     _name = 'nfe.40.tveiculo'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'TVeiculo'
-    _concrete_rec_name = 'nfe40_placa'
-
     nfe40_reboque_transp_id = fields.Many2one(
         "nfe.40.transp")
     nfe40_placa = fields.Char(
@@ -3094,8 +3015,6 @@ class Adi(models.AbstractModel):
     _name = 'nfe.40.adi'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'adiType'
-    _concrete_rec_name = 'nfe40_nAdicao'
-
     nfe40_adi_DI_id = fields.Many2one(
         "nfe.40.di")
     nfe40_nAdicao = fields.Char(
@@ -3126,8 +3045,6 @@ class Arma(models.AbstractModel):
     _name = 'nfe.40.arma'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'armaType'
-    _concrete_rec_name = 'nfe40_tpArma'
-
     nfe40_arma_prod_id = fields.Many2one(
         "nfe.40.prod")
     nfe40_tpArma = fields.Selection(
@@ -3160,8 +3077,6 @@ class AutXML(models.AbstractModel):
     _name = 'nfe.40.autxml'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'autXMLType'
-    _concrete_rec_name = 'nfe40_CNPJ'
-
     nfe40_autXML_infNFe_id = fields.Many2one(
         "nfe.40.infnfe")
     nfe40_choice8 = fields.Selection([
@@ -3184,8 +3099,6 @@ class Avulsa(models.AbstractModel):
     _name = 'nfe.40.avulsa'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'avulsaType'
-    _concrete_rec_name = 'nfe40_CNPJ'
-
     nfe40_CNPJ = fields.Char(
         string="CNPJ do Órgão emissor",
         xsd_required=True,
@@ -3233,8 +3146,6 @@ class Cana(models.AbstractModel):
     _name = 'nfe.40.cana'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'canaType'
-    _concrete_rec_name = 'nfe40_safra'
-
     nfe40_safra = fields.Char(
         string="Identificação da safra",
         xsd_required=True,
@@ -3291,8 +3202,6 @@ class Card(models.AbstractModel):
     _name = 'nfe.40.card'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'cardType'
-    _concrete_rec_name = 'nfe40_tpIntegra'
-
     nfe40_tpIntegra = fields.Selection(
         TPINTEGRA_CARD,
         string="tpIntegra", xsd_required=True,
@@ -3315,8 +3224,6 @@ class Cobr(models.AbstractModel):
     _name = 'nfe.40.cobr'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'cobrType'
-    _concrete_rec_name = 'nfe40_fat'
-
     nfe40_fat = fields.Many2one(
         "nfe.40.fat",
         string="Dados da fatura")
@@ -3333,8 +3240,6 @@ class Comb(models.AbstractModel):
     _name = 'nfe.40.comb'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'combType'
-    _concrete_rec_name = 'nfe40_cProdANP'
-
     nfe40_cProdANP = fields.Char(
         string="Código de produto da ANP",
         xsd_required=True,
@@ -3417,8 +3322,6 @@ class Compra(models.AbstractModel):
     _name = 'nfe.40.compra'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'compraType'
-    _concrete_rec_name = 'nfe40_xNEmp'
-
     nfe40_xNEmp = fields.Char(
         string="Informação da Nota de Empenho de compras públicas",
         xsd_type="xNEmpType",
@@ -3438,8 +3341,6 @@ class Deduc(models.AbstractModel):
     _name = 'nfe.40.deduc'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'deducType'
-    _concrete_rec_name = 'nfe40_xDed'
-
     nfe40_deduc_cana_id = fields.Many2one(
         "nfe.40.cana")
     nfe40_xDed = fields.Char(
@@ -3457,8 +3358,6 @@ class Dest(models.AbstractModel):
     _name = 'nfe.40.dest'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'destType'
-    _concrete_rec_name = 'nfe40_CNPJ'
-
     nfe40_choice7 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF'),
@@ -3523,8 +3422,6 @@ class DetExport(models.AbstractModel):
     _name = 'nfe.40.detexport'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'detExportType'
-    _concrete_rec_name = 'nfe40_nDraw'
-
     nfe40_detExport_prod_id = fields.Many2one(
         "nfe.40.prod")
     nfe40_nDraw = fields.Char(
@@ -3541,8 +3438,6 @@ class DetPag(models.AbstractModel):
     _name = 'nfe.40.detpag'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'detPagType'
-    _concrete_rec_name = 'nfe40_indPag'
-
     nfe40_detPag_pag_id = fields.Many2one(
         "nfe.40.pag")
     nfe40_indPag = fields.Selection(
@@ -3575,8 +3470,6 @@ class Det(models.AbstractModel):
     _name = 'nfe.40.det'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'detType'
-    _concrete_rec_name = 'nfe40_nItem'
-
     nfe40_det_infNFe_id = fields.Many2one(
         "nfe.40.infnfe")
     nfe40_nItem = fields.Char(
@@ -3608,8 +3501,6 @@ class Dup(models.AbstractModel):
     _name = 'nfe.40.dup'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'dupType'
-    _concrete_rec_name = 'nfe40_nDup'
-
     nfe40_dup_cobr_id = fields.Many2one(
         "nfe.40.cobr")
     nfe40_nDup = fields.Char(
@@ -3632,8 +3523,6 @@ class Emit(models.AbstractModel):
     _name = 'nfe.40.emit'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'emitType'
-    _concrete_rec_name = 'nfe40_CNPJ'
-
     nfe40_choice6 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
@@ -3686,8 +3575,6 @@ class Encerrante(models.AbstractModel):
     _name = 'nfe.40.encerrante'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'encerranteType'
-    _concrete_rec_name = 'nfe40_nBico'
-
     nfe40_nBico = fields.Char(
         string="Numero de identificação do Bico utilizado no abastecimento",
         xsd_required=True,
@@ -3720,8 +3607,6 @@ class ExportInd(models.AbstractModel):
     _name = 'nfe.40.exportind'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'exportIndType'
-    _concrete_rec_name = 'nfe40_nRE'
-
     nfe40_nRE = fields.Char(
         string="Registro de exportação",
         xsd_required=True,
@@ -3744,8 +3629,6 @@ class Exporta(models.AbstractModel):
     _name = 'nfe.40.exporta'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'exportaType'
-    _concrete_rec_name = 'nfe40_UFSaidaPais'
-
     nfe40_UFSaidaPais = fields.Selection(
         TUFEMI,
         string="Sigla da UF de Embarque ou de transposição de fronteira",
@@ -3766,8 +3649,6 @@ class Fat(models.AbstractModel):
     _name = 'nfe.40.fat'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'fatType'
-    _concrete_rec_name = 'nfe40_nFat'
-
     nfe40_nFat = fields.Char(
         string="Número da fatura",
         xsd_type="nFatType")
@@ -3791,8 +3672,6 @@ class ForDia(models.AbstractModel):
     _name = 'nfe.40.fordia'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'forDiaType'
-    _concrete_rec_name = 'nfe40_dia'
-
     nfe40_forDia_cana_id = fields.Many2one(
         "nfe.40.cana")
     nfe40_dia = fields.Char(
@@ -3813,8 +3692,6 @@ class Ide(models.AbstractModel):
     _name = 'nfe.40.ide'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'ideType'
-    _concrete_rec_name = 'nfe40_cUF'
-
     nfe40_cUF = fields.Selection(
         TCODUFIBGE,
         string="Código da UF do emitente do Documento Fiscal",
@@ -3985,8 +3862,6 @@ class ImpostoDevol(models.AbstractModel):
     _name = 'nfe.40.impostodevol'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'impostoDevolType'
-    _concrete_rec_name = 'nfe40_pDevol'
-
     nfe40_pDevol = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="Percentual de mercadoria devolvida",
@@ -4004,8 +3879,6 @@ class Imposto(models.AbstractModel):
     _name = 'nfe.40.imposto'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'impostoType'
-    _concrete_rec_name = 'nfe40_vTotTrib'
-
     nfe40_choice10 = fields.Selection([
         ('nfe40_ICMS', 'ICMS'),
         ('nfe40_II', 'II'),
@@ -4062,8 +3935,6 @@ class InfAdic(models.AbstractModel):
     _name = 'nfe.40.infadic'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'infAdicType'
-    _concrete_rec_name = 'nfe40_infAdFisco'
-
     nfe40_infAdFisco = fields.Char(
         string="Informações adicionais de interesse do Fisco",
         xsd_type="infAdFiscoType",
@@ -4101,8 +3972,6 @@ class InfIntermed(models.AbstractModel):
     _name = 'nfe.40.infintermed'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'infIntermedType'
-    _concrete_rec_name = 'nfe40_CNPJ'
-
     nfe40_CNPJ = fields.Char(
         string="CNPJ do Intermediador da Transação",
         xsd_required=True,
@@ -4122,8 +3991,6 @@ class InfNFeSupl(models.AbstractModel):
     _name = 'nfe.40.infnfesupl'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'infNFeSuplType'
-    _concrete_rec_name = 'nfe40_qrCode'
-
     nfe40_qrCode = fields.Char(
         string="Texto com o QR", xsd_required=True,
         xsd_type="qrCodeType",
@@ -4144,8 +4011,6 @@ class InfNFe(models.AbstractModel):
     _name = 'nfe.40.infnfe'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'infNFeType'
-    _concrete_rec_name = 'nfe40_versao'
-
     nfe40_versao = fields.Char(
         string="versao", xsd_required=True,
         xsd_type="string")
@@ -4235,8 +4100,6 @@ class InfProdEmb(models.AbstractModel):
     _name = 'nfe.40.infprodemb'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'infProdEmbType'
-    _concrete_rec_name = 'nfe40_xEmb'
-
     nfe40_xEmb = fields.Char(
         string="Embalagem do produto", xsd_required=True,
         xsd_type="xEmbType")
@@ -4257,8 +4120,6 @@ class InfProdNFF(models.AbstractModel):
     _name = 'nfe.40.infprodnff'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'infProdNFFType'
-    _concrete_rec_name = 'nfe40_cProdFisco'
-
     nfe40_cProdFisco = fields.Char(
         string="Código Fiscal do Produto",
         xsd_required=True,
@@ -4275,8 +4136,6 @@ class InfProt(models.AbstractModel):
     _name = 'nfe.40.infprot'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'infProtType'
-    _concrete_rec_name = 'nfe40_Id'
-
     nfe40_Id = fields.Char(
         string="Id",
         xsd_type="string")
@@ -4343,8 +4202,6 @@ class InfRec(models.AbstractModel):
     _name = 'nfe.40.infrec'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'infRecType'
-    _concrete_rec_name = 'nfe40_nRec'
-
     nfe40_nRec = fields.Char(
         string="Número do Recibo", xsd_required=True,
         xsd_type="TRec")
@@ -4362,8 +4219,6 @@ class InfSolicNFF(models.AbstractModel):
     _name = 'nfe.40.infsolicnff'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'infSolicNFFType'
-    _concrete_rec_name = 'nfe40_xSolic'
-
     nfe40_xSolic = fields.Char(
         string="Solicitação do pedido de emissão da NFF",
         xsd_required=True,
@@ -4375,8 +4230,6 @@ class Lacres(models.AbstractModel):
     _name = 'nfe.40.lacres'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'lacresType'
-    _concrete_rec_name = 'nfe40_nLacre'
-
     nfe40_lacres_vol_id = fields.Many2one(
         "nfe.40.vol")
     nfe40_nLacre = fields.Char(
@@ -4391,8 +4244,6 @@ class Med(models.AbstractModel):
     _name = 'nfe.40.med'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'medType'
-    _concrete_rec_name = 'nfe40_cProdANVISA'
-
     nfe40_cProdANVISA = fields.Char(
         string="cProdANVISA", xsd_required=True,
         xsd_type="cProdANVISAType",
@@ -4421,8 +4272,6 @@ class ObsCont(models.AbstractModel):
     _name = 'nfe.40.obscont'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'obsContType'
-    _concrete_rec_name = 'nfe40_xCampo'
-
     nfe40_obsCont_infAdic_id = fields.Many2one(
         "nfe.40.infadic")
     nfe40_xCampo = fields.Char(
@@ -4441,8 +4290,6 @@ class ObsFisco(models.AbstractModel):
     _name = 'nfe.40.obsfisco'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'obsFiscoType'
-    _concrete_rec_name = 'nfe40_xCampo'
-
     nfe40_obsFisco_infAdic_id = fields.Many2one(
         "nfe.40.infadic")
     nfe40_xCampo = fields.Char(
@@ -4459,8 +4306,6 @@ class Pag(models.AbstractModel):
     _name = 'nfe.40.pag'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'pagType'
-    _concrete_rec_name = 'nfe40_detPag'
-
     nfe40_detPag = fields.One2many(
         "nfe.40.detpag",
         "nfe40_detPag_pag_id",
@@ -4479,8 +4324,6 @@ class ProcRef(models.AbstractModel):
     _name = 'nfe.40.procref'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'procRefType'
-    _concrete_rec_name = 'nfe40_nProc'
-
     nfe40_procRef_infAdic_id = fields.Many2one(
         "nfe.40.infadic")
     nfe40_nProc = fields.Char(
@@ -4509,8 +4352,6 @@ class Prod(models.AbstractModel):
     _name = 'nfe.40.prod'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'prodType'
-    _concrete_rec_name = 'nfe40_cProd'
-
     nfe40_choice9 = fields.Selection([
         ('nfe40_veicProd', 'veicProd'),
         ('nfe40_med', 'med'),
@@ -4723,8 +4564,6 @@ class Rastro(models.AbstractModel):
     _name = 'nfe.40.rastro'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'rastroType'
-    _concrete_rec_name = 'nfe40_nLote'
-
     nfe40_rastro_prod_id = fields.Many2one(
         "nfe.40.prod")
     nfe40_nLote = fields.Char(
@@ -4757,8 +4596,6 @@ class RefECF(models.AbstractModel):
     _name = 'nfe.40.refecf'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'refECFType'
-    _concrete_rec_name = 'nfe40_mod'
-
     nfe40_mod = fields.Selection(
         MOD_REFECF,
         string="Código do modelo do Documento Fiscal",
@@ -4787,8 +4624,6 @@ class RefNFP(models.AbstractModel):
     _name = 'nfe.40.refnfp'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'refNFPType'
-    _concrete_rec_name = 'nfe40_cUF'
-
     nfe40_choice5 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
@@ -4841,8 +4676,6 @@ class RefNF(models.AbstractModel):
     _name = 'nfe.40.refnf'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'refNFType'
-    _concrete_rec_name = 'nfe40_cUF'
-
     nfe40_cUF = fields.Selection(
         TCODUFIBGE,
         string="Código da UF do emitente do Documento Fiscal",
@@ -4880,8 +4713,6 @@ class RetTransp(models.AbstractModel):
     _name = 'nfe.40.rettransp'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'retTranspType'
-    _concrete_rec_name = 'nfe40_vServ'
-
     nfe40_vServ = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="Valor do Serviço", xsd_required=True,
@@ -4919,8 +4750,6 @@ class RetTrib(models.AbstractModel):
     _name = 'nfe.40.rettrib'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'retTribType'
-    _concrete_rec_name = 'nfe40_vRetPIS'
-
     nfe40_vRetPIS = fields.Monetary(
         currency_field="brl_currency_id",
         digits=2, string="Valor Retido de PIS",
@@ -4957,8 +4786,6 @@ class Total(models.AbstractModel):
     _name = 'nfe.40.total'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'totalType'
-    _concrete_rec_name = 'nfe40_ICMSTot'
-
     nfe40_ICMSTot = fields.Many2one(
         "nfe.40.icmstot",
         string="Totais referentes ao ICMS",
@@ -4977,8 +4804,6 @@ class Transp(models.AbstractModel):
     _name = 'nfe.40.transp'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'transpType'
-    _concrete_rec_name = 'nfe40_modFrete'
-
     nfe40_choice18 = fields.Selection([
         ('nfe40_veicTransp', 'veicTransp'),
         ('nfe40_reboque', 'reboque'),
@@ -5035,8 +4860,6 @@ class Transporta(models.AbstractModel):
     _name = 'nfe.40.transporta'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'transportaType'
-    _concrete_rec_name = 'nfe40_CNPJ'
-
     nfe40_choice19 = fields.Selection([
         ('nfe40_CNPJ', 'CNPJ'),
         ('nfe40_CPF', 'CPF')],
@@ -5073,8 +4896,6 @@ class VeicProd(models.AbstractModel):
     _name = 'nfe.40.veicprod'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'veicProdType'
-    _concrete_rec_name = 'nfe40_tpOp'
-
     nfe40_tpOp = fields.Selection(
         TPOP_VEICPROD,
         string="Tipo da Operação", xsd_required=True,
@@ -5199,8 +5020,6 @@ class Vol(models.AbstractModel):
     _name = 'nfe.40.vol'
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'volType'
-    _concrete_rec_name = 'nfe40_qVol'
-
     nfe40_vol_transp_id = fields.Many2one(
         "nfe.40.transp")
     nfe40_qVol = fields.Char(
