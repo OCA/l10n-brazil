@@ -61,7 +61,7 @@ class TestInvoiceRefund(TransactionCase):
                                     (
                                         "company_id",
                                         "=",
-                                        self.env.user.company_id.id,
+                                        self.env.company.id,
                                     ),
                                 ],
                                 limit=1,
