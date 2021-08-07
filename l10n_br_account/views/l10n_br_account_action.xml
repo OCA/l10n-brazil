@@ -4,8 +4,8 @@
     <!-- NF-e Documents -->
     <record id="fiscal_invoice_nfe_action" model="ir.actions.act_window">
         <field name="name">NF-e</field>
-        <field name="res_model">account.invoice</field>
-        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field
             name="domain"
@@ -43,8 +43,8 @@
     <!-- NFS-e Documents -->
     <record id="fiscal_invoice_nfse_action" model="ir.actions.act_window">
         <field name="name">NFS-e</field>
-        <field name="res_model">account.invoice</field>
-        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field
             name="domain"
@@ -82,8 +82,8 @@
     <!-- Incomming Documents -->
     <record id="fiscal_invoice_in_action" model="ir.actions.act_window">
         <field name="name">Incomming Document</field>
-        <field name="res_model">account.invoice</field>
-        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field
             name="domain"
@@ -117,8 +117,8 @@
     <!-- Outgoing Documents -->
     <record id="fiscal_invoice_out_action" model="ir.actions.act_window">
         <field name="name">Outgoing Document</field>
-        <field name="res_model">account.invoice</field>
-        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field
             name="domain"
@@ -137,17 +137,17 @@
         </field>
     </record>
 
-     <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+    <!--record id="account.action_move_out_invoice_type" model="ir.actions.act_window">
         <field
             name="context"
         >{'type':'out_invoice', 'journal_type': 'sale', 'default_fiscal_operation_type': 'out'}</field>
-     </record>
+    </record>
 
-    <record id="account.action_invoice_out_refund" model="ir.actions.act_window">
+    <record id="account.action_move_out_refund_type" model="ir.actions.act_window">
         <field
             name="context"
         >{'default_type': 'out_refund', 'type': 'out_refund', 'journal_type': 'sale', 'default_fiscal_operation_type':'in'}</field>
-    </record>
+    </record-->
 
     <record id="fiscal_invoice_out_action_tree" model="ir.actions.act_window.view">
         <field eval="1" name="sequence" />
@@ -166,8 +166,8 @@
     <!-- All Documents -->
     <record id="fiscal_invoice_all_action" model="ir.actions.act_window">
         <field name="name">All Documents</field>
-        <field name="res_model">account.invoice</field>
-        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
         <field name="help" type="html">
