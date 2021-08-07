@@ -52,7 +52,7 @@ class Operation(models.Model):
         # TODO FIXME migrate!
         journal_type = "TODO"  # TYPE2JOURNAL[invoice_type]
         new_action["context"] = {
-            "type": invoice_type,
+            "move_type": invoice_type,
             "default_fiscal_operation_type": self.fiscal_type,
             "default_fiscal_operation_id": self.id,
             "journal_type": journal_type,
