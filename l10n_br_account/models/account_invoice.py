@@ -59,7 +59,7 @@ class AccountInvoice(models.Model):
         "l10n_br_fiscal.document.invoice.mixin",
     ]
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
-    _order = "date_invoice DESC, number DESC"
+    _order = "invoice_date DESC, name DESC"
 
     # initial account.invoice inherits on fiscal.document that are
     # disable with active=False in their fiscal_document table.
@@ -130,8 +130,9 @@ class AccountInvoice(models.Model):
                 shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
 
+    # TODO FIXME migrate!
     @api.model
-    def fields_view_get(
+    def fields_view_get_TODO(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
 
@@ -265,13 +266,13 @@ class AccountInvoice(models.Model):
                 self.amount_total,
                 self.company_id.currency_id,
                 self.company_id,
-                self.date_invoice or fields.Date.today(),
+                self.invoice_date or fields.Date.today(),
             )
             amount_untaxed_signed = currency_id._convert(
                 self.amount_untaxed,
                 self.company_id.currency_id,
                 self.company_id,
-                self.date_invoice or fields.Date.today(),
+                self.invoice_date or fields.Date.today(),
             )
         sign = self.type in ["in_refund", "out_refund"] and -1 or 1
         self.amount_total_company_signed = amount_total_company_signed * sign
