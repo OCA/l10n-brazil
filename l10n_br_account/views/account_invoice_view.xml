@@ -3,7 +3,7 @@
 
     <record id="invoice_search" model="ir.ui.view">
         <field name="name">l10n_br_account.invoice.search</field>
-        <field name="model">account.invoice</field>
+        <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_account_invoice_filter" />
         <field name="arch" type="xml">
             <field name="partner_id" position="before">
@@ -11,10 +11,10 @@
                 <field name="cnpj_cpf" string="CNPJ/CPF" />
                 <field name="ie" string="State Tax Number" />
             </field>
-            <field name="number" position="attributes">
+            <field name="name" position="attributes">
                 <attribute
                     name="filter_domain"
-                >['|','|','|', '|', ('document_number','ilike',self), ('number','ilike',self), ('origin','ilike',self), ('reference', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
+                >['|','|','|', '|', ('document_number','ilike',self), ('name','ilike',self), ('origin','ilike',self), ('reference', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
                 <attribute name="string">Account Number</attribute>
             </field>
         </field>
@@ -22,10 +22,10 @@
 
     <record id="invoice_tree" model="ir.ui.view">
         <field name="name">l10n_br_account.invoice.tree</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_tree" />
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
         <field name="arch" type="xml">
-            <field name="number" position="before">
+            <field name="name" position="before">
                 <field name="document_type_id" invisible="1" />
                 <field name="document_number" />
                 <button
@@ -42,8 +42,8 @@
     <!-- Customer Invoice views -->
     <record id="invoice_form" model="ir.ui.view">
         <field name="name">l10n_br_account.invoice.form</field>
-        <field name="model">account.invoice</field>
-        <field name="inherit_id" ref="account.invoice_form" />
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
                 <button
@@ -56,12 +56,12 @@
                     <span>Fiscal Details</span>
                 </button>
             </div>
-            <xpath expr="//form/sheet/h1[1]" position="attributes">
+            <xpath expr="//form/sheet/div/h1[1]" position="attributes">
                 <attribute
                     name="attrs"
                 >{'invisible': [('document_type_id', '!=', False)]}</attribute>
             </xpath>
-            <xpath expr="//form/sheet/h1[1]" position="after">
+            <xpath expr="//form/sheet/div/h1[1]" position="after">
                 <h1 class="mt0">
                     <div attrs="{'invisible': [('document_type_id', '=', False)]}">
                         <span class="oe_inline">
@@ -80,7 +80,7 @@
                     <field name="id" invisible="1" />
                     <field name="document_electronic" invisible="1" />
                     <field name="fiscal_operation_type" invisible="1" />
-                    <field name="number" invisible="1" />
+                    <field name="name" invisible="1" />
                     <field name="edoc_purpose" invisible="1" />
                     <field name="ind_final" invisible="1" />
                     <field name="ind_pres" invisible="1" />
@@ -88,7 +88,7 @@
                     <field name="create_date" invisible="1" />
                 </group>
             </xpath>
-            <field name="cash_rounding_id" position="after">
+            <field name="invoice_cash_rounding_id" position="after">
                 <field name="document_type" invisible="1" />
                 <field
                     name="document_type_id"
@@ -131,7 +131,7 @@
                     name="context"
                 >{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
             </xpath>
-            <xpath
+            <!--xpath
                 expr="//field[@name='line_ids']/tree/field[@name='invoice_line_tax_ids']"
                 position="after"
             >
@@ -145,24 +145,24 @@
                     widget="many2many_tags"
                     options="{'no_create': True}"
                 />
-            </xpath>
-            <xpath
+            </xpath-->
+            <!--xpath
                 expr="//field[@name='line_ids']/tree/field[@name='invoice_line_tax_ids']"
                 position="attributes"
             >
                 <attribute name="invisible">1</attribute>
-            </xpath>
+            </xpath-->
             <field name="amount_untaxed" position="after">
                 <field string="(-) Discount" name="amount_discount_value" />
             </field>
-            <field name="amount_tax" position="after">
+            <field name="amount_total" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding" />
             </field>
         </field>
     </record>
 
     <!-- Vendor Bill -->
-    <record id="invoice_supplier_form" model="ir.ui.view">
+    <!--record id="invoice_supplier_form" model="ir.ui.view">
         <field name="name">l10n_br_account.invoice.supplier.form</field>
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_supplier_form" />
@@ -261,6 +261,6 @@
                 <field string="(-) Tax Withholding" name="amount_tax_withholding" />
             </field>
         </field>
-    </record>
+    </record-->
 
 </odoo>
