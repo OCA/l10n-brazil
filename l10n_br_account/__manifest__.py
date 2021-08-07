@@ -34,9 +34,9 @@
 #        "wizards/account_invoice_refund_view.xml",
 #        "wizards/wizard_document_status.xml",
         # Actions
-#        "views/l10n_br_account_action.xml",
+        "views/l10n_br_account_action.xml",
         # Menus
-#        "views/l10n_br_account_menu.xml",
+        "views/l10n_br_account_menu.xml",
         # Report
 #        "report/account_invoice_report_view.xml",
     ],
