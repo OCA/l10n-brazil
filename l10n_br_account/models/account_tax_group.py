@@ -18,7 +18,7 @@ class AccountTaxGroup(models.Model):
                 ("type_tax_use", "=", type_tax_use),
                 ("tax_group_id", "=", self.id),
                 ("deductible", "=", True),
-                ("company_id", "=", self.env.user.company_id.id),
+                ("company_id", "=", self.env.company.id),
             ],
             limit=1,
         )
