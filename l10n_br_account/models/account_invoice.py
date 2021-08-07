@@ -237,47 +237,49 @@ class AccountInvoice(models.Model):
         "type",
     )
     def _compute_amount(self):
-        inv_lines = self.line_ids.filtered(
-            lambda l: not l.fiscal_operation_line_id
-            or l.fiscal_operation_line_id.add_to_amount
-        )
-        for inv_line in inv_lines:
-            if inv_line.cfop_id:
-                if inv_line.cfop_id.finance_move:
-                    self.amount_untaxed += inv_line.price_subtotal
-                    self.amount_tax += inv_line.price_tax
-                    self.amount_total += inv_line.price_total
-            else:
-                self.amount_untaxed += inv_line.price_subtotal
-                self.amount_tax += inv_line.price_tax
-                self.amount_total += inv_line.price_total
-
-        self.amount_total -= self.amount_tax_withholding
-
-        amount_total_company_signed = self.amount_total
-        amount_untaxed_signed = self.amount_untaxed
-        if (
-            self.currency_id
-            and self.company_id
-            and self.currency_id != self.company_id.currency_id
-        ):
-            currency_id = self.currency_id
-            amount_total_company_signed = currency_id._convert(
-                self.amount_total,
-                self.company_id.currency_id,
-                self.company_id,
-                self.invoice_date or fields.Date.today(),
+        for move in self:
+            inv_lines = move.line_ids.filtered(
+                lambda l: not l.fiscal_operation_line_id
+                or l.fiscal_operation_line_id.add_to_amount
             )
-            amount_untaxed_signed = currency_id._convert(
-                self.amount_untaxed,
-                self.company_id.currency_id,
-                self.company_id,
-                self.invoice_date or fields.Date.today(),
-            )
-        sign = self.type in ["in_refund", "out_refund"] and -1 or 1
-        self.amount_total_company_signed = amount_total_company_signed * sign
-        self.amount_total_signed = self.amount_total * sign
-        self.amount_untaxed_signed = amount_untaxed_signed * sign
+            for inv_line in inv_lines:
+                if inv_line.cfop_id:
+                    if inv_line.cfop_id.finance_move:
+                        move.amount_untaxed += inv_line.price_subtotal
+                        move.amount_tax += inv_line.price_tax
+                        move.amount_total += inv_line.price_total
+                else:
+                    move.amount_untaxed += inv_line.price_subtotal
+# TODO FIXME migrate!
+#                    move.amount_tax += inv_line.price_tax
+                    move.amount_total += inv_line.price_total
+
+            move.amount_total -= move.amount_tax_withholding
+
+            amount_total_company_signed = move.amount_total
+            amount_untaxed_signed = move.amount_untaxed
+            if (
+                move.currency_id
+                and move.company_id
+                and move.currency_id != move.company_id.currency_id
+            ):
+                currency_id = move.currency_id
+                amount_total_company_signed = currency_id._convert(
+                    move.amount_total,
+                    move.company_id.currency_id,
+                    move.company_id,
+                    move.invoice_date or fields.Date.today(),
+                )
+                amount_untaxed_signed = currency_id._convert(
+                    move.amount_untaxed,
+                    move.company_id.currency_id,
+                    move.company_id,
+                    move.invoice_date or fields.Date.today(),
+                )
+            sign = move.type in ["in_refund", "out_refund"] and -1 or 1
+            move.amount_total_company_signed = amount_total_company_signed * sign
+            move.amount_total_signed = move.amount_total * sign
+            move.amount_untaxed_signed = amount_untaxed_signed * sign
 
     @api.model
     def invoice_line_move_line_get(self):
