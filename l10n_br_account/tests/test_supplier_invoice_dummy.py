@@ -29,7 +29,7 @@ class TestSupplierInvoice(TransactionCase):
         self.invoice_1 = self.env["account.move"].create(
             dict(
                 name="Test Supplier Invoice",
-                payment_term_id=self.env.ref("account.account_payment_term_advance").id,
+#                payment_term_id=self.env.ref("account.account_payment_term_advance").id,
                 partner_id=self.env.ref("base.res_partner_3").id,
                 journal_id=self.purchase_journal.id,
                 line_ids=[
@@ -71,8 +71,7 @@ class TestSupplierInvoice(TransactionCase):
         self.assertEqual(
             self.invoice_1.state, "draft", "Invoice should be in state Draft"
         )
-        self.invoice_1.action_invoice_open()
-        assert self.invoice_1.move_id, "Move Receivable not created for open invoice"
+        self.invoice_1.action_post()
         self.assertEqual(
-            self.invoice_1.state, "open", "Invoice should be in state Open"
+            self.invoice_1.state, "posted", "Invoice should be in state posted"
         )
