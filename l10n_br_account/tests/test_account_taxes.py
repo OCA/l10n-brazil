@@ -12,8 +12,8 @@ class TestAccountTaxes(TransactionCase):
             {"name": "Empresa Teste do Plano de Contas Simplificado"}
         )
 
-        self.env.user.company_ids += self.l10n_br_company
-        self.env.user.company_id = self.l10n_br_company
+        self.env.companys += self.l10n_br_company
+        self.env.company = self.l10n_br_company
 
     def test_account_taxes(self):
         """Test if account taxes are related with fiscal taxes"""
