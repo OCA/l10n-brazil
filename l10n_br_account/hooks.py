@@ -7,7 +7,7 @@ from odoo.tools.sql import column_exists, create_column
 
 def pre_init_hook(cr):
     """
-    account.invoice and account.move.line inherits from
+    account.move and account.move.line inherits from
     l10n_br_account.fiscal_document and l10n_br_account.fiscal_document.line
     respectively.
     But the problem is that you may have existing invoice and lines (like demo
@@ -18,19 +18,19 @@ def pre_init_hook(cr):
     """
     env = api.Environment(cr, SUPERUSER_ID, {})
     # Create fiscal_document_id fields
-    if not column_exists(cr, "account_invoice", "fiscal_document_id"):
-        create_column(cr, "account_invoice", "fiscal_document_id", "INTEGER")
+    if not column_exists(cr, "account_move", "fiscal_document_id"):
+        create_column(cr, "account_move", "fiscal_document_id", "INTEGER")
 
     # Create fiscal_document_line_id fields
-    if not column_exists(cr, "account_invoice_line", "fiscal_document_line_id"):
-        create_column(cr, "account_invoice_line", "fiscal_document_line_id", "INTEGER")
+    if not column_exists(cr, "account_move_line", "fiscal_document_line_id"):
+        create_column(cr, "account_move_line", "fiscal_document_line_id", "INTEGER")
 
     companies = env["res.company"].search([])
     for company in companies:
         cr.execute(
             """
             UPDATE
-                account_invoice
+                account_move
             SET fiscal_document_id=%s
             WHERE
                 fiscal_document_id IS NULL;""",
@@ -39,7 +39,7 @@ def pre_init_hook(cr):
         cr.execute(
             """
             UPDATE
-                account_invoice_line
+                account_move_line
             SET
                 fiscal_document_line_id=%s
             WHERE
