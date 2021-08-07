@@ -28,7 +28,7 @@
                 <!--field name="reference" invisible="1" /-->
                 <field name="name" invisible="1" />
                 <field name="journal_id" invisible="1" />
-                <field name="type" invisible="context.get('type',True)" />
+                <field name="move_type" invisible="context.get('move_type',True)" />
                 <field name="currency_id" invisible="1" />
                 <field name="company_currency_id" invisible="1" />
             </xpath>
@@ -44,6 +44,7 @@
       <field name="arch" type="xml">
         <xpath expr="//header" position="inside">
             <field name="state" invisible="1" />
+            <field name="suitable_journal_ids" invisible="1" />
             <field name="fiscal_document_id" required="0" invisible="1" />
         </xpath>
         <xpath expr="//button[@name='action_document_confirm']" position="replace">
@@ -72,13 +73,13 @@
                     type='action'
                     string='Devolver'
                     groups="account.group_account_invoice"
-                    attrs="{'invisible': ['|',('type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"
+                    attrs="{'invisible': ['|',('move_type', 'in', ['in_refund','out_refund']),('state','not in',('open','in_payment','paid'))]}"
                 />
         </xpath>
         <xpath expr="//page[@name='finance']" position="inside">
             <group>
                 <field name="name" invisible="1" />
-                <field name="type" invisible="1" />
+                <field name="move_type" invisible="1" />
                 <group name="accounting_financial" groups="account.group_account_user">
                     <field
                             name="journal_id"

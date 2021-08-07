@@ -148,7 +148,7 @@ class AccountInvoice(models.Model):
                     sub_form_view
                 )
                 sub_arch, sub_fields = view.postprocess_and_fields(
-                    "account.move.line", sub_form_node, None
+                    sub_form_node, "account.move.line", False
                 )
                 line_field_name = "invoice_line_ids"
                 invoice_view["fields"][line_field_name]["views"]["form"] = {
@@ -169,7 +169,7 @@ class AccountInvoice(models.Model):
                         sub_form_view
                     )
                     sub_arch, sub_fields = view.postprocess_and_fields(
-                        "account.move.line", sub_form_node, None
+                        sub_form_node, "account.move.line", False
                     )
                     line_field_name = "invoice_line_ids"
                     invoice_view["fields"][line_field_name]["views"]["form"] = {
@@ -189,7 +189,7 @@ class AccountInvoice(models.Model):
                         sub_form_view
                     )
                     sub_arch, sub_fields = view.postprocess_and_fields(
-                        "account.move.line", sub_form_node, None
+                        sub_form_node, "account.move.line", False
                     )
                     line_field_name = "line_ids"
                     invoice_view["fields"][line_field_name]["views"]["tree"] = {
@@ -202,7 +202,7 @@ class AccountInvoice(models.Model):
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
-        invoice_type = self.env.context.get("default_type", "out_invoice")
+        invoice_type = self.env.context.get("default_move_type", "out_invoice")
         defaults["fiscal_operation_type"] = INVOICE_TO_OPERATION[invoice_type]
         if defaults["fiscal_operation_type"] == FISCAL_OUT:
             defaults["issuer"] = DOCUMENT_ISSUER_COMPANY
@@ -259,7 +259,7 @@ class AccountInvoice(models.Model):
         "currency_id",
         "company_id",
         "invoice_date",
-        "type",
+        "move_type",
     )
     def _compute_amount(self):
         for move in self:
@@ -305,9 +305,9 @@ class AccountInvoice(models.Model):
                     move.company_id,
                     move.invoice_date or fields.Date.today(),
                 )
-            sign = move.type in ["in_refund", "out_refund"] and -1 or 1
+            sign = move.move_type in ["in_refund", "out_refund"] and -1 or 1
             # TODO FIXME migrate, no more amount_total_company_signed in Odoo v13+
-            move.amount_total_company_signed = amount_total_company_signed * sign
+            # move.amount_total_company_signed = amount_total_company_signed * sign
             move.amount_total_signed = move.amount_total * sign
             move.amount_untaxed_signed = amount_untaxed_signed * sign
 
@@ -348,7 +348,7 @@ class AccountInvoice(models.Model):
                 ]
 
                 deductible_tax = tax_line.tax_id.tax_group_id.deductible_tax(
-                    INVOICE_TAX_USER_TYPE[self.type]
+                    INVOICE_TAX_USER_TYPE[self.move_type]
                 )
 
                 if deductible_tax:
@@ -443,9 +443,9 @@ class AccountInvoice(models.Model):
             self.journal_id = self.fiscal_operation_id.journal_id
 
     def open_fiscal_document(self):
-        if self.env.context.get("type", "") == "out_invoice":
+        if self.env.context.get("move_type", "") == "out_invoice":
             action = self.env.ref("l10n_br_account.fiscal_invoice_out_action").read()[0]
-        elif self.env.context.get("type", "") == "in_invoice":
+        elif self.env.context.get("move_type", "") == "in_invoice":
             action = self.env.ref("l10n_br_account.fiscal_invoice_in_action").read()[0]
         else:
             action = self.env.ref("l10n_br_account.fiscal_invoice_all_action").read()[0]
