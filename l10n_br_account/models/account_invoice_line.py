@@ -160,7 +160,7 @@ class AccountInvoiceLine(models.Model):
                 price_subtotal_signed = currency._convert(
                     price_subtotal_signed,
                     self.invoice_id.company_id.currency_id,
-                    self.company_id or self.env.user.company_id,
+                    self.company_id or self.env.company,
                     date or fields.Date.today(),
                 )
             sign = self.invoice_id.type in ["in_refund", "out_refund"] and -1 or 1
@@ -193,7 +193,7 @@ class AccountInvoiceLine(models.Model):
 
     @api.model
     def create(self, values):
-        dummy_doc = self.env.user.company_id.fiscal_dummy_id
+        dummy_doc = self.env.company.fiscal_dummy_id
         fiscal_doc_id = (
             self.env["account.invoice"]
             .browse(values["invoice_id"])
@@ -221,7 +221,7 @@ class AccountInvoiceLine(models.Model):
         return line
 
     def write(self, values):
-        dummy_doc = self.env.user.company_id.fiscal_dummy_id
+        dummy_doc = self.env.company.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.line_ids)
         if values.get("invoice_id"):
             values["document_id"] = (
@@ -243,7 +243,7 @@ class AccountInvoiceLine(models.Model):
         return result
 
     def unlink(self):
-        dummy_doc = self.env.user.company_id.fiscal_dummy_id
+        dummy_doc = self.env.company.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.line_ids)
         unlink_fiscal_lines = self.env["l10n_br_fiscal.document.line"]
         for inv_line in self:
