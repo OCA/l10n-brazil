@@ -227,11 +227,12 @@ class AccountInvoice(models.Model):
 
     @api.depends(
         "line_ids.price_total",
-        "tax_line_ids.amount",
-        "tax_line_ids.amount_rounding",
+# TODO FIXME migrate!
+#        "tax_line_ids.amount",
+#        "tax_line_ids.amount_rounding",
         "currency_id",
         "company_id",
-        "date_invoice",
+        "invoice_date",
         "type",
     )
     def _compute_amount(self):
