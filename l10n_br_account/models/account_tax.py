@@ -70,7 +70,7 @@ class AccountTax(models.Model):
 
         # FIXME Should get company from document?
         fiscal_taxes_results = fiscal_taxes.compute_taxes(
-            company=self.env.user.company_id,
+            company=self.env.company,
             partner=partner,
             product=product,
             price_unit=price_unit,
