@@ -28,7 +28,7 @@
 #        "views/account_invoice_line_view.xml",
         "views/document_line_view.xml",
         "views/document_view.xml",
-#        "views/fiscal_invoice_view.xml",
+        "views/fiscal_invoice_view.xml",
 #        "views/fiscal_invoice_line_view.xml",
         # Wizards
 #        "wizards/account_invoice_refund_view.xml",

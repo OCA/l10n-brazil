@@ -3,12 +3,12 @@
 
     <record id="fiscal_invoice_search" model="ir.ui.view">
         <field name="name">l10n_br_account.fiscal.invoice.search</field>
-        <field name="model">account.invoice</field>
+        <field name="model">account.move</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_search" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
           <xpath expr="//field[@name='document_number']" position="after">
-              <field name="number" string="Account Number" invisible="1" />
+              <field name="name" string="Account Number" invisible="1" />
               <field name="legal_name" string="Legal Name" />
               <field name="cnpj_cpf" string="CNPJ/CPF" />
               <field name="ie" string="State Tax Number" />
@@ -18,14 +18,14 @@
 
     <record id="fiscal_invoice_tree" model="ir.ui.view">
         <field name="name">l10n_br_account.fiscal.invoice.tree</field>
-        <field name="model">account.invoice</field>
+        <field name="model">account.move</field>
         <field name="inherit_id" ref="l10n_br_fiscal.document_tree" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='document_number']" position="after">
-                <field name="number" string="Account Number" invisible="1" />
+                <field name="name" string="Account Number" invisible="1" />
                 <field name="commercial_partner_id" invisible="1" />
-                <field name="reference" invisible="1" />
+                <!--field name="reference" invisible="1" /-->
                 <field name="name" invisible="1" />
                 <field name="journal_id" invisible="1" />
                 <field name="type" invisible="context.get('type',True)" />
@@ -37,7 +37,7 @@
 
     <record id="fiscal_invoice_form" model="ir.ui.view">
       <field name="name">l10n_br_account.fiscal.invoice.form</field>
-      <field name="model">account.invoice</field>
+      <field name="model">account.move</field>
       <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
       <field name="mode">primary</field>
       <field name="priority">100</field>
@@ -48,7 +48,7 @@
         </xpath>
         <xpath expr="//button[@name='action_document_confirm']" position="replace">
             <button
-                    name="action_invoice_open"
+                    name="action_post"
                     type="object"
                     states="draft"
                     string="Validate"
@@ -68,7 +68,7 @@
         </xpath>
         <xpath expr="//button[@name='action_create_return']" position="replace">
           <button
-                    name="%(account.action_account_invoice_refund)d"
+                    name="%(account.menu_action_move_out_refund_type)d"
                     type='action'
                     string='Devolver'
                     groups="account.group_account_invoice"
@@ -77,45 +77,45 @@
         </xpath>
         <xpath expr="//page[@name='finance']" position="inside">
             <group>
-                <field name="move_name" invisible="1" />
+                <field name="name" invisible="1" />
                 <field name="type" invisible="1" />
                 <group name="accounting_financial" groups="account.group_account_user">
                     <field
                             name="journal_id"
                             groups="account.group_account_user"
                             options="{'no_create': True}"
-                            attrs="{'readonly':[('move_name','!=',False)]}"
+                            attrs="{'readonly':[('name','!=',False)]}"
                         />
-                    <field
+                    <!--field
                             domain="[('company_id', '=', company_id),('internal_type','=', 'receivable'), ('deprecated', '=', False)]"
                             name="account_id"
                             groups="account.group_account_user"
-                        />
+                        /-->
                     <field
                             name="company_id"
                             options="{'no_create': True}"
                             groups="base.group_multi_company"
                         />
-                    <field
+                    <!--field
                             name="reference"
                             attrs="{'readonly':[('state','!=','draft')]}"
-                        />
+                        /-->
                     <field name="name" />
                 </group>
                 <group groups="account.group_account_user">
-                    <field name="incoterm_id" options="{'no_create': True}" />
+                    <!--field name="incoterm_id" options="{'no_create': True}" /-->
                     <field name="fiscal_position_id" options="{'no_create': True}" />
-                    <field
+                    <!--field
                             name="move_id"
                             groups="account.group_account_user"
                             attrs="{'invisible': [('move_id', '=', False)]}"
-                        />
-                    <field
+                        /-->
+                    <!--field
                             name="origin"
                             groups="base.group_user"
                             attrs="{'invisible': [('origin', '=', False)]}"
-                        />
-                    <field name="partner_bank_id" />
+                        /-->
+                    <!--field name="partner_bank_id" /-->
                 </group>
             </group>
             <field name="financial_move_line_ids" />
