@@ -63,6 +63,7 @@ class Tax(models.Model):
         related="tax_group_id.sequence",
         help="The sequence field is used to define the "
         "order in which taxes are displayed.",
+        store=True,
     )
 
     compute_sequence = fields.Integer(
@@ -122,8 +123,8 @@ class Tax(models.Model):
         selection=TAX_DOMAIN,
         related="tax_group_id.tax_domain",
         string="Tax Domain",
-        required=True,
         readonly=True,
+        store=True,
     )
 
     cst_in_id = fields.Many2one(
