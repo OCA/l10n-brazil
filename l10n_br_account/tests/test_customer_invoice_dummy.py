@@ -54,7 +54,7 @@ class TestCustomerInvoice(SavepointCase):
                                     (
                                         "company_id",
                                         "=",
-                                        cls.env.user.company_id.id,
+                                        cls.env.company.id,
                                     ),
                                 ],
                                 limit=1,
@@ -122,7 +122,7 @@ class TestCustomerInvoice(SavepointCase):
                                     (
                                         "company_id",
                                         "=",
-                                        cls.env.user.company_id.id,
+                                        cls.env.company.id,
                                     ),
                                 ],
                                 limit=1,
@@ -182,7 +182,7 @@ class TestCustomerInvoice(SavepointCase):
                                     (
                                         "company_id",
                                         "=",
-                                        cls.env.user.company_id.id,
+                                        cls.env.company.id,
                                     ),
                                 ],
                                 limit=1,
