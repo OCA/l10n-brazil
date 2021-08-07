@@ -30,7 +30,7 @@ class AccountInvoiceRefund(models.TransientModel):
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
         result = super().fields_view_get(view_id, view_type, toolbar, submenu)
-        invoice_type = self.env.context.get("type", "out_invoice")
+        invoice_type = self.env.context.get("move_type", "out_invoice")
         fiscal_operation_type = REFUND_TO_OPERATION[invoice_type]
         fiscal_type = FISCAL_TYPE_REFUND[fiscal_operation_type]
         eview = etree.fromstring(result["arch"])

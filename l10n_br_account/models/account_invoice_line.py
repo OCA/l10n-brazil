@@ -161,7 +161,7 @@ class AccountInvoiceLine(models.Model):
                     self.company_id or self.env.company,
                     date or fields.Date.today(),
                 )
-            sign = self.move_id.type in ["in_refund", "out_refund"] and -1 or 1
+            sign = self.move_id.move_type in ["in_refund", "out_refund"] and -1 or 1
             self.price_subtotal_signed = price_subtotal_signed * sign
 
     @api.depends("price_total")
@@ -249,6 +249,6 @@ class AccountInvoiceLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
         user_type = "sale"
-        if self.move_id.type in ("in_invoice", "in_refund"):
+        if self.move_id.move_type in ("in_invoice", "in_refund"):
             user_type = "purchase"
         self.tax_ids |= self.fiscal_tax_ids.account_taxes(user_type=user_type)
