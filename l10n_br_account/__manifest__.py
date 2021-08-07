@@ -22,12 +22,12 @@
         # Views
         "views/account_tax_view.xml",
         "views/account_tax_template_view.xml",
-#        "views/fiscal_operation_view.xml",
-#        "views/fiscal_operation_line_view.xml",
+        "views/fiscal_operation_view.xml",
+        "views/fiscal_operation_line_view.xml",
 #        "views/account_invoice_view.xml",
 #        "views/account_invoice_line_view.xml",
-#        "views/document_line_view.xml",
-#        "views/document_view.xml",
+        "views/document_line_view.xml",
+        "views/document_view.xml",
 #        "views/fiscal_invoice_view.xml",
 #        "views/fiscal_invoice_line_view.xml",
         # Wizards
