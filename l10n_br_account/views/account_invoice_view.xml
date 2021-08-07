@@ -196,7 +196,7 @@
                             <field name="fiscal_price" invisible="1" />
                             <field name="discount_value" invisible="1" />
 
-                    <group name="fiscal_fields" invisible="1" />
+                    <!--group name="fiscal_fields" invisible="1" /-->
 
                     <field name="freight_value" invisible="1" />
                     <field name="insurance_value" invisible="1" />
@@ -204,12 +204,12 @@
                     <field name="estimate_tax" invisible="1" />
 
                   <!-- TODO adapt these placeholders for tree view for fiscal_form_view -->
-                    <group name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                    <!--group name="fiscal_taxes_fields" string="Taxes" invisible="1" />
                     <group
                     name="fiscal_line_extra_info_fields"
                     string="Extra Info"
                     invisible="1"
-                />
+                /-->
             </xpath>
 
 
@@ -309,7 +309,7 @@
                         <group>
                             <field
                                 name="tax_ids"
-                                context="{'type': parent.type}"
+                                context="{'move_type': parent.move_type}"
                                 domain="[('type_tax_use','!=','none'),('company_id', '=', company_id)]"
                                 widget="many2many_tags"
                                 options="{'no_create': True}"
