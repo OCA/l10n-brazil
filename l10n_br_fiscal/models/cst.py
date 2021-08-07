@@ -28,8 +28,8 @@ class CST(models.Model):
         selection=TAX_DOMAIN,
         related="tax_group_id.tax_domain",
         string="Tax Domain",
-        required=True,
         readonly=True,
+        store=True,
     )
 
     _sql_constraints = [
