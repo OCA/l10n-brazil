@@ -185,7 +185,7 @@ class AccountInvoice(models.Model):
     def create(self, values):
         if not values.get("document_type_id"):
             values.update(
-                {"fiscal_document_id": self.env.user.company_id.fiscal_dummy_id.id}
+                {"fiscal_document_id": self.env.company.fiscal_dummy_id.id}
             )
         invoice = super().create(values)
         invoice._write_shadowed_fields()
@@ -209,7 +209,7 @@ class AccountInvoice(models.Model):
             if (
                 invoice.fiscal_document_id
                 and invoice.fiscal_document_id
-                != self.env.user.company_id.fiscal_dummy_id.id
+                != self.env.company.fiscal_dummy_id.id
             ):
                 unlink_documents |= invoice.fiscal_document_id
             unlink_invoices |= invoice
