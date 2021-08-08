@@ -12,8 +12,6 @@ from ..constants.fiscal import (
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
-    PROCESSADOR,
-    PROCESSADOR_NENHUM,
     SITUACAO_EDOC,
     SITUACAO_EDOC_A_ENVIAR,
     SITUACAO_EDOC_AUTORIZADA,
@@ -66,12 +64,6 @@ class DocumentWorkflow(models.AbstractModel):
 
     correction_reason = fields.Char(
         string="Correction Reason",
-    )
-
-    processador_edoc = fields.Selection(
-        string="Processador",
-        selection=PROCESSADOR,
-        default=PROCESSADOR_NENHUM,
     )
 
     def _direct_draft_send(self):
