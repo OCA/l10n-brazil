@@ -28,12 +28,18 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     @api.model
     def _operation_domain(self):
-        domain = [
-            ("state", "=", "approved"),
-            "|",
-            ("company_id", "=", self.env.user.company_id.id),
-            ("company_id", "=", False),
-        ]
+        domain = (
+            "[('state', '=', 'approved'),"
+            "'|',"
+            "('company_id', '=', %s),"
+            "('company_id', '=', False),"
+            "'|',"
+            "('fiscal_operation_type', '=', fiscal_operation_type),"
+            "('fiscal_operation_type', '=', 'all')]"
+        ) % (self.env.user.company_id.id,)
+        # FIXME if fiscal_operation_type is not set you cannot
+        # select an operation. We could imagine you could still select the
+        # operation an onchange would then set the fiscal_operation_type
         return domain
 
     fiscal_operation_id = fields.Many2one(
@@ -57,9 +63,6 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     fiscal_operation_type = fields.Selection(
         selection=FISCAL_IN_OUT,
-        related="fiscal_operation_id.fiscal_operation_type",
-        string="Fiscal Operation Type",
-        readonly=True,
     )
 
     ind_pres = fields.Selection(

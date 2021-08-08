@@ -56,16 +56,6 @@ class Document(models.Model):
         index=True,
     )
 
-    fiscal_operation_id = fields.Many2one(
-        domain="[('state', '=', 'approved'), "
-        "'|', ('fiscal_operation_type', '=', fiscal_operation_type),"
-        " ('fiscal_operation_type', '=', 'all')]",
-    )
-
-    fiscal_operation_type = fields.Selection(
-        related=False,
-    )
-
     document_number = fields.Char(
         string="Document Number",
         copy=False,
@@ -149,10 +139,6 @@ class Document(models.Model):
         ),
     )
 
-    processador_edoc = fields.Selection(
-        related="company_id.processador_edoc",
-        store=True,
-    )
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
