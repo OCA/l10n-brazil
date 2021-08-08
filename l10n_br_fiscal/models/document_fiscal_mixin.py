@@ -8,7 +8,6 @@ from ..constants.fiscal import (
     FINAL_CUSTOMER,
     FINAL_CUSTOMER_YES,
     FISCAL_COMMENT_DOCUMENT,
-    FISCAL_IN_OUT,
     NFE_IND_PRES,
     NFE_IND_PRES_DEFAULT,
 )
@@ -56,7 +55,6 @@ class FiscalDocumentMixin(models.AbstractModel):
     )
 
     fiscal_operation_type = fields.Selection(
-        selection=FISCAL_IN_OUT,
         related="fiscal_operation_id.fiscal_operation_type",
         string="Fiscal Operation Type",
         readonly=True,
