@@ -4,8 +4,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from ..constants.fiscal import TAX_FRAMEWORK
-
 
 class DocumentLine(models.Model):
     _name = "l10n_br_fiscal.document.line"
@@ -46,7 +44,6 @@ class DocumentLine(models.Model):
     )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         related="company_id.tax_framework",
         string="Tax Framework",
     )

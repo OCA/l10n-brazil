@@ -9,7 +9,6 @@ from ..constants.fiscal import (
     FISCAL_OUT,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
-    TAX_DOMAIN,
 )
 from ..tools import misc
 
@@ -67,7 +66,6 @@ class TaxDefinition(models.Model):
     )
 
     tax_domain = fields.Selection(
-        selection=TAX_DOMAIN,
         related="tax_group_id.tax_domain",
         store=True,
         string="Tax Domain",

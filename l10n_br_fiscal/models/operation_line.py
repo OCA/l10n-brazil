@@ -7,9 +7,7 @@ from odoo.exceptions import UserError
 from ..constants.fiscal import (
     CFOP_DESTINATION_EXPORT,
     FISCAL_COMMENT_LINE,
-    FISCAL_IN_OUT_ALL,
     NFE_IND_IE_DEST,
-    OPERATION_FISCAL_TYPE,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
     PRODUCT_FISCAL_TYPE,
@@ -63,7 +61,6 @@ class OperationLine(models.Model):
     )
 
     fiscal_operation_type = fields.Selection(
-        selection=FISCAL_IN_OUT_ALL,
         related="fiscal_operation_id.fiscal_operation_type",
         string="Fiscal Operation Type",
         store=True,
@@ -71,7 +68,6 @@ class OperationLine(models.Model):
     )
 
     fiscal_type = fields.Selection(
-        selection=OPERATION_FISCAL_TYPE,
         related="fiscal_operation_id.fiscal_type",
         string="Fiscal Type",
         store=True,
