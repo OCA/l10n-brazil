@@ -3,7 +3,7 @@
 
 from odoo import _, fields, models
 
-from ..constants.fiscal import FISCAL_IN_OUT_ALL, TAX_DOMAIN
+from ..constants.fiscal import FISCAL_IN_OUT_ALL
 
 
 class CST(models.Model):
@@ -25,7 +25,6 @@ class CST(models.Model):
     )
 
     tax_domain = fields.Selection(
-        selection=TAX_DOMAIN,
         related="tax_group_id.tax_domain",
         string="Tax Domain",
         readonly=True,
