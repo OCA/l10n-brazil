@@ -63,7 +63,7 @@ class Document(models.Model):
     )
 
     fiscal_operation_type = fields.Selection(
-        related=False,
+        store=True,
     )
 
     document_number = fields.Char(
@@ -147,10 +147,6 @@ class Document(models.Model):
         default=lambda self: self.env.company,
     )
 
-    processador_edoc = fields.Selection(
-        related="company_id.processador_edoc",
-        store=True,
-    )
     line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",

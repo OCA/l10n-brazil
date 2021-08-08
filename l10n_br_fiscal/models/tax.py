@@ -14,7 +14,6 @@ from ..constants.fiscal import (
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
     TAX_BASE_TYPE_VALUE,
-    TAX_DOMAIN,
 )
 from ..constants.icms import (
     ICMS_BASE_TYPE,
@@ -118,7 +117,6 @@ class Tax(models.Model):
     )
 
     tax_domain = fields.Selection(
-        selection=TAX_DOMAIN,
         related="tax_group_id.tax_domain",
         string="Tax Domain",
         readonly=True,

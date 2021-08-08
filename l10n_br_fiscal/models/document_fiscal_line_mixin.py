@@ -4,9 +4,7 @@
 from odoo import api, fields, models
 
 from ..constants.fiscal import (
-    CFOP_DESTINATION,
     FISCAL_COMMENT_LINE,
-    FISCAL_IN_OUT,
     PRODUCT_FISCAL_TYPE,
     TAX_BASE_TYPE,
     TAX_BASE_TYPE_PERCENT,
@@ -138,7 +136,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     fiscal_operation_type = fields.Selection(
-        selection=FISCAL_IN_OUT,
         related="fiscal_operation_id.fiscal_operation_type",
         string="Fiscal Operation Type",
         readonly=True,
@@ -158,7 +155,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     cfop_destination = fields.Selection(
-        selection=CFOP_DESTINATION,
         related="cfop_id.destination",
         string="CFOP Destination",
     )
