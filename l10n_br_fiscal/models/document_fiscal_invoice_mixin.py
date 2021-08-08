@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import DOCUMENT_ISSUER_COMPANY, NFE_IND_IE_DEST, TAX_FRAMEWORK
+from ..constants.fiscal import DOCUMENT_ISSUER_COMPANY
 
 
 class FiscalDocumentInvoiceMixin(models.AbstractModel):
@@ -35,7 +35,6 @@ class FiscalDocumentInvoiceMixin(models.AbstractModel):
     )
 
     partner_ind_ie_dest = fields.Selection(
-        selection=NFE_IND_IE_DEST,
         string="Contribuinte do ICMS",
         related="partner_id.ind_ie_dest",
     )
@@ -57,7 +56,6 @@ class FiscalDocumentInvoiceMixin(models.AbstractModel):
     )
 
     partner_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         string="Tax Framework",
         related="partner_id.tax_framework",
     )
@@ -161,7 +159,6 @@ class FiscalDocumentInvoiceMixin(models.AbstractModel):
     )
 
     company_tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         string="Company Tax Framework",
         related="company_id.tax_framework",
     )
