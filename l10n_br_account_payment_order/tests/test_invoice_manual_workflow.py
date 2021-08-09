@@ -4,9 +4,7 @@
 
 from odoo.tests import tagged
 
-from odoo.addons.l10n_br_account_payment_order.tests.test_base_class import (
-    TestL10nBrAccountPaymentOder,
-)
+from .test_base_class import TestL10nBrAccountPaymentOder
 
 
 @tagged("post_install", "-at_install")
