@@ -84,23 +84,21 @@ class TestPaymentOrder(SavepointCase):
             "active_ids": [cls.aml_to_change.id],
         }
 
-    def test_create_payment_order_with_brcobranca(self):
-        """ Test Create Payment Order with BRCobranca."""
+    def _run_boleto_remessa(self, invoice, boleto_file, remessa_file):
 
-        # I validate invoice by creating on
-        self.invoice_unicred.action_invoice_open()
+        # I validate invoice
+        invoice.action_invoice_open()
 
         # I check that the invoice state is "Open"
-        self.assertEqual(self.invoice_unicred.state, "open")
+        self.assertEqual(invoice.state, "open")
 
+        # Imprimir Boleto
         if os.environ.get("CI"):
-            # Geração do Boleto
-            # Generate
             file_name = get_resource_path(
                 "l10n_br_account_payment_brcobranca",
                 "tests",
                 "data",
-                "boleto_teste_unicred400.pdf",
+                boleto_file,
             )
             with open(file_name, "rb") as f:
                 mocked_response = f.read()
@@ -108,12 +106,12 @@ class TestPaymentOrder(SavepointCase):
                     _provider_class_acc_invoice + "._get_brcobranca_boleto",
                     return_value=mocked_response,
                 ):
-                    self.invoice_unicred.view_boleto_pdf()
+                    invoice.view_boleto_pdf()
         else:
-            self.invoice_unicred.view_boleto_pdf()
+            invoice.view_boleto_pdf()
 
         payment_order = self.env["account.payment.order"].search(
-            [("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id)]
+            [("payment_mode_id", "=", invoice.payment_mode_id.id)]
         )
 
         self.assertEqual(len(payment_order.payment_line_ids), 2)
@@ -125,24 +123,77 @@ class TestPaymentOrder(SavepointCase):
         # Criação da Bank Line
         self.assertEqual(len(payment_order.bank_line_ids), 2)
 
-        # Generate
-        file_name = get_resource_path(
-            "l10n_br_account_payment_brcobranca",
-            "tests",
-            "data",
-            "teste_remessa-unicred_400-1.REM",
-        )
-        with open(file_name, "rb") as f:
-            mocked_response = f.read()
-            with mock.patch(
-                _provider_class_pay_order + "._get_brcobranca_remessa",
-                return_value=mocked_response,
-            ):
-                payment_order.open2generated()
+        # Verifica se deve testar com o mock
+        if os.environ.get("CI"):
+            # Generate
+            file_name = get_resource_path(
+                "l10n_br_account_payment_brcobranca",
+                "tests",
+                "data",
+                remessa_file,
+            )
+            with open(file_name, "rb") as f:
+                mocked_response = f.read()
+                with mock.patch(
+                    _provider_class_pay_order + "._get_brcobranca_remessa",
+                    return_value=mocked_response,
+                ):
+                    payment_order.open2generated()
+        else:
+            payment_order.open2generated()
 
         # Confirm Upload
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
+
+    def test_banco_brasil_cnab_400(self):
+        """Teste Boleto e Remessa Banco do Brasil - CNAB 400"""
+        invoice_bb_cnab_400 = self.env.ref(
+            "l10n_br_account_payment_order.demo_invoice_payment_order_bb_cnab400"
+        )
+        self._run_boleto_remessa(
+            invoice_bb_cnab_400, "boleto_teste_bb400.pdf", "teste_remessa_bb400.REM"
+        )
+
+    def test_banco_itau_cnab_400(self):
+        """Teste Boleto e Remessa Banco Itau - CNAB 400"""
+        invoice_itau_cnab_400 = self.env.ref(
+            "l10n_br_account_payment_order.demo_invoice_payment_order_itau_cnab400"
+        )
+        self._run_boleto_remessa(
+            invoice_itau_cnab_400,
+            "boleto_teste_itau400.pdf",
+            "teste_remessa_itau400.REM",
+        )
+
+    def test_banco_bradesco_cnab_400(self):
+        """Teste Boleto e Remessa Banco Bradesco - CNAB 400"""
+        invoice_bradesco_cnab_400 = self.env.ref(
+            "l10n_br_account_payment_order.demo_invoice_payment_order"
+        )
+        self._run_boleto_remessa(
+            invoice_bradesco_cnab_400,
+            "boleto_teste_bradesco400.pdf",
+            "teste_remessa_bradesco400.REM",
+        )
+
+    def test_banco_unicred_cnab_400(self):
+        """Teste Boleto e Remessa Banco Unicred - CNAB 400"""
+        invoice_unicred_cnab_400 = self.env.ref(
+            "l10n_br_account_payment_order.demo_invoice_payment_order_unicred_cnab400"
+        )
+        self._run_boleto_remessa(
+            invoice_unicred_cnab_400,
+            "boleto_teste_unicred400.pdf",
+            "teste_remessa-unicred_400-1.REM",
+        )
+
+    def test_payment_order_invoice_cancel_process(self):
+        """ Test Payment Order and Invoice Cancel process."""
+
+        payment_order = self.env["account.payment.order"].search(
+            [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
+        )
 
         # Ordem de Pagto CNAB não pode ser apagada
         with self.assertRaises(UserError):
@@ -152,21 +203,21 @@ class TestPaymentOrder(SavepointCase):
         with self.assertRaises(UserError):
             payment_order.action_done_cancel()
 
-        self.assertEqual(len(self.invoice_unicred.move_id), 1)
+        self.assertEqual(len(self.invoice_cef.move_id), 1)
         # Testar Cancelamento
-        self.invoice_unicred.action_invoice_cancel()
+        self.invoice_cef.action_invoice_cancel()
 
         # Caso de Ordem de Pagamento já confirmado a Linha
         # e a account.move não pode ser apagadas
         self.assertEqual(len(payment_order.payment_line_ids), 2)
         # TODO: A account.move está sendo apagada nesse caso deveria ser
         #  mantida ? As account.move.line relacionas continuam exisitindo
-        self.assertEqual(len(self.invoice_unicred.move_id), 0)
+        self.assertEqual(len(self.invoice_cef.move_id), 0)
 
         # Criação do Pedido de Baixa
         payment_order = self.env["account.payment.order"].search(
             [
-                ("payment_mode_id", "=", self.invoice_unicred.payment_mode_id.id),
+                ("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id),
                 ("state", "=", "draft"),
             ]
         )
