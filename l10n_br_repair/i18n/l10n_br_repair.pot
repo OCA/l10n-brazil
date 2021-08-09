@@ -1111,13 +1111,13 @@ msgid "National Simple Taxes without ICMS"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:428
+#: code:addons/l10n_br_repair/models/repair_order.py:429
 #, python-format
 msgid "No account defined for partner \"%s\"."
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:433
+#: code:addons/l10n_br_repair/models/repair_order.py:434
 #, python-format
 msgid "No product defined on fees."
 msgstr ""
@@ -1620,7 +1620,7 @@ msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
 msgstr ""
 
 #. module: l10n_br_repair
-#: code:addons/l10n_br_repair/models/repair_order.py:422
+#: code:addons/l10n_br_repair/models/repair_order.py:423
 #, python-format
 msgid "You have to select an invoice address in the repair form."
 msgstr ""
