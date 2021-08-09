@@ -62,7 +62,7 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
-msgid "3 - Contingência SCAN"
+msgid "3 - Regime Especial NFF (NT 2021.002)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -493,7 +493,7 @@ msgstr ""
 msgid "Forma de emissão da NF-e\n"
 "1 - Normal;\n"
 "2 - Contingência FS\n"
-"3 - Contingência SCAN\n"
+"3 - Regime Especial NFF (NT 2021.002)\n"
 "4 - Contingência DPEC\n"
 "5 - Contingência FSDA\n"
 "6 - Contingência SVC - AN\n"
