@@ -8,6 +8,7 @@ from unicodedata import normalize
 from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
+from odoo.addons.l10n_br_fiscal.constants.IPI import CST_IPI_TAXED
 from odoo.addons.spec_driven_model.models import spec_models
 
 ICMSSN_CST_CODES_USE_102 = ("102", "103", "300", "400")
@@ -57,8 +58,6 @@ class NFeLine(spec_models.StackedModel):
         related="cest_id.code_unmasked",
     )
 
-    nfe40_cEnq = fields.Char(related="ipi_guideline_id.code_unmasked")
-
     nfe40_CFOP = fields.Char(related="cfop_id.code")
 
     nfe40_uCom = fields.Char(related="uom_id.code")
@@ -72,9 +71,7 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_vProd = fields.Monetary(related="price_gross")
 
-    nfe40_cEANTrib = fields.Char(
-        related="product_id.barcode",
-    )
+    nfe40_cEANTrib = fields.Char(related="product_id.barcode")
 
     nfe40_uTrib = fields.Char(related="uot_id.code")
 
@@ -217,6 +214,24 @@ class NFeLine(spec_models.StackedModel):
         }
         return icms
     
+    def _export_fields_icms_difal(self, xsd_fields, export_dict):
+        binding_module = sys.modules[self._binding_module]
+        icms_binding = getattr(binding_module, "ICMSUFDest" + "Type")
+
+        icms_difal = {
+            "nfe40_vBCUFDest": str("%.02f" % self.icms_destination_base),
+            "nfe40_vBCFCPUFDest": str("%.02f" % self.icmsfcp_base),
+            "nfe40_pFCPUFDest": str("%.04f" % self.icmsfcp_percent),
+            "nfe40_pICMSUFDest": str("%.04f" % self.icms_destination_percent),
+            "nfe40_pICMSInter": self.icms_origin_percent and str("%.02f" % self.icms_origin_percent) or False,
+            "nfe40_pICMSInterPart": str("%.04f" % self.icms_sharing_percent),
+            "nfe40_vFCPUFDest": str("%.02f" % self.icmsfcp_value),
+            "nfe40_vICMSUFDest": str("%.02f" % self.icms_destination_value),
+            "nfe40_vICMSUFRemet": str("%.02f" % self.icms_origin_value),
+        }
+        export_dict = icms_binding(**icms_difal)
+        return xsd_fields, export_dict
+    
     def _export_fields_icms_st(self):
         """ICMS SUBSTITUIÇÃO TRIBUTÁRIA"""
         icms_st = {
@@ -253,6 +268,9 @@ class NFeLine(spec_models.StackedModel):
     ##########################
     # NF-e tag: II
     ##########################
+
+    # Fields related and definitions
+    
     nfe40_vDespAdu = fields.Monetary(
         related=""
     )
@@ -271,7 +289,12 @@ class NFeLine(spec_models.StackedModel):
 
     # Fields related and definitions
 
-    # nfe40_CST TODO
+    # nfe40_CST # TODO
+    # nfe40_CNPJProd
+    # nfe40_cSelo
+    # nfe40_qSelo
+
+    nfe40_cEnq = fields.Char(related="ipi_guideline_id.code_unmasked")
 
     nfe40_pIPI = fields.Float(
         related="ipi_percent",
@@ -282,7 +305,7 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_choice3 = fields.Selection(
-        compute="_compute_choice3",
+        compute="_compute_nfe40_choice3",
         store=True,
     )
 
@@ -294,9 +317,9 @@ class NFeLine(spec_models.StackedModel):
     # Tag Computes
 
     @api.depends("ipi_cst_id")
-    def _compute_choice3(self):
+    def _compute_nfe40_choice3(self):
         for record in self:
-            if record.ipi_cst_id.code in ["00", "49", "50", "99"]:
+            if record.ipi_cst_id.code in CST_IPI_TAXED:
                 record.nfe40_choice3 = "nfe40_IPITrib"
             else:
                 record.nfe40_choice3 = "nfe40_IPINT"
@@ -318,7 +341,7 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_pPIS = fields.Float(related="pis_percent")
 
-    nfe40_choice12 = fields.Selection(compute="_compute_choice12", store=True)
+    nfe40_choice12 = fields.Selection(compute="_compute_nfe40_choice12", store=True)
 
     nfe40_vPIS = fields.Monetary(
         related="pis_value",
@@ -332,7 +355,7 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_PISAliq = fields.Many2one(
-        "nfe.40.pisaliq",
+        comodel_name="nfe.40.pisaliq",
         string="Código de Situação Tributária do PIS (Alíquota)",
         help="Código de Situação Tributária do PIS."
         "\n01 – Operação Tributável - Base de Cálculo = Valor da Operação"
@@ -344,7 +367,7 @@ class NFeLine(spec_models.StackedModel):
     # Tag Computes
 
     @api.depends("pis_cst_id")
-    def _compute_choice12(self):
+    def _compute_nfe40_choice12(self):
         for record in self:
             if record.pis_cst_id.code in ["01", "02"]:
                 record.nfe40_choice12 = "nfe40_PISAliq"
@@ -473,53 +496,60 @@ class NFeLine(spec_models.StackedModel):
             xsd_fields, export_dict = self._export_fields_imposto(
                 xsd_fields, export_dict)
 
-        elif class_obj._name == "nfe.40.icms":
-
+        if class_obj._name == "nfe.40.icms":
             xsd_fields = [self.nfe40_choice11]
             icms_tag = self.nfe40_choice11.replace("nfe40_", "")  # FIXME
             binding_module = sys.modules[self._binding_module]
             icms_binding = getattr(binding_module, icms_tag + "Type")
             icms_dict = self._export_fields_icms()
             export_dict[icms_tag] = icms_binding(**icms_dict)
-        elif class_obj._name == "nfe.40.icmsufdest":
-            # DIFAL
-            self.nfe40_vBCUFDest = str("%.02f" % self.icms_destination_base)
-            self.nfe40_vBCFCPUFDest = str("%.02f" % self.icmsfcp_base)
-            self.nfe40_pFCPUFDest = str("%.04f" % self.icmsfcp_percent)
-            self.nfe40_pICMSUFDest = str("%.04f" % self.icms_destination_percent)
-            if self.icms_origin_percent:
-                self.nfe40_pICMSInter = str("%.02f" % self.icms_origin_percent)
-            self.nfe40_pICMSInterPart = str("%.04f" % self.icms_sharing_percent)
-            self.nfe40_vFCPUFDest = str("%.02f" % self.icmsfcp_value)
-            self.nfe40_vICMSUFDest = str("%.02f" % self.icms_destination_value)
-            self.nfe40_vICMSUFRemet = str("%.02f" % self.icms_origin_value)
-        elif class_obj._name == "nfe.40.tipi":
+
+        if class_obj._name == "nfe.40.icmsufdest":
+            xsd_fields, export_dict = self._export_fields_icms_difal(
+                xsd_fields, export_dict)
+        
+        if class_obj._name == "nfe.40.tipi": # if class_obj._name == "nfe.40.tipi":
             xsd_fields = [
                 f
                 for f in xsd_fields
                 if f not in [i[0] for i in class_obj._fields["nfe40_choice3"].selection]
             ]
             xsd_fields += [self.nfe40_choice3]
-        elif class_obj._name == "nfe.40.pis":
-            xsd_fields = [self.nfe40_choice12]
-        elif class_obj._name == "nfe.40.cofins":
-            xsd_fields = [self.nfe40_choice15]
-        elif class_obj._name == "nfe.40.ipitrib":
-            xsd_fields = [i for i in xsd_fields]
             if self.nfe40_choice20 == "nfe40_pIPI":
                 xsd_fields.remove("nfe40_qUnid")
                 xsd_fields.remove("nfe40_vUnid")
             else:
                 xsd_fields.remove("nfe40_vBC")
                 xsd_fields.remove("nfe40_pIPI")
+
+        if class_obj._name.startswith == "nfe.40.pis":
+            xsd_fields, export_dict = self._export_fields_pis(
+                xsd_fields, class_obj, export_dict)
+
+            def _export_fields_pis(xsd_fields, class_obj, export_dict):
+                xsd_fields = [self.nfe40_choice12]
+
+                if class_obj._name == "nfe.40.pisoutr":
+                    xsd_fields = [i for i in xsd_fields]
+                    if self.nfe40_choice13 == "nfe40_pPIS":
+                        xsd_fields.remove("nfe40_qBCProd")
+                        xsd_fields.remove("nfe40_vAliqProd")
+                    else:
+                        xsd_fields.remove("nfe40_vBC")
+                        xsd_fields.remove("nfe40_pPIS")
+                return xsd_fields, export_dict
+
+
+            
+
+
+            
+        elif class_obj._name == "nfe.40.cofins":
+            xsd_fields = [self.nfe40_choice15]
+        elif class_obj._name == "nfe.40.ipitrib":
+            
         elif class_obj._name == "nfe.40.pisoutr":
-            xsd_fields = [i for i in xsd_fields]
-            if self.nfe40_choice13 == "nfe40_pPIS":
-                xsd_fields.remove("nfe40_qBCProd")
-                xsd_fields.remove("nfe40_vAliqProd")
-            else:
-                xsd_fields.remove("nfe40_vBC")
-                xsd_fields.remove("nfe40_pPIS")
+            
         elif class_obj._name == "nfe.40.cofinsoutr":
             xsd_fields = [i for i in xsd_fields]
             if self.nfe40_choice16 == "nfe40_pCOFINS":

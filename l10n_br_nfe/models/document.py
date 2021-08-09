@@ -232,11 +232,6 @@ class NFe(spec_models.StackedModel):
 
     nfe40_vBCST = fields.Monetary(related="amount_icmsst_base")
 
-<<<<<<< Updated upstream
-    nfe40_vFCPUFDest = fields.Monetary(
-        related="amount_icmsfcp_value",
-    )
-=======
     nfe40_vST = fields.Monetary(related="amount_icmsst_value")
 
     # <vFCPST>0.00</vFCPST>
@@ -247,7 +242,6 @@ class NFe(spec_models.StackedModel):
     nfe40_vFrete = fields.Monetary(related="amount_freight_value")
 
     nfe40_vSeg = fields.Monetary(related="amount_insurance_value")
->>>>>>> Stashed changes
 
     nfe40_vDesc = fields.Monetary(related="amount_discount_value")
 
@@ -261,11 +255,6 @@ class NFe(spec_models.StackedModel):
         string="Valor do PIS (NFe)", related="amount_pis_value"
     )
 
-<<<<<<< Updated upstream
-    nfe40_vIPI = fields.Monetary(related="amount_ipi_value")
-
-=======
->>>>>>> Stashed changes
     nfe40_vCOFINS = fields.Monetary(
         string="valor do COFINS (NFe)", related="amount_cofins_value"
     )
@@ -289,6 +278,20 @@ class NFe(spec_models.StackedModel):
     ##########################
     # NF-e tag: pag
     ##########################
+    def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
+        return {
+            "nfe40_indPag": ind_pag,
+            "nfe40_tPag": t_pag,
+            "nfe40_vPag": v_pag,
+        }
+
+    def _export_fields_pagamentos(self):
+        if not self.amount_financial_total:
+            self.nfe40_detPag = [
+                (5, 0, 0),
+                (0, 0, self._prepare_amount_financial("0", "90", 0.00)),
+            ]
+        self.nfe40_detPag.__class__._field_prefix = "nfe40_"
 
     ##########################
     # NF-e tag: infAdic
@@ -434,26 +437,6 @@ class NFe(spec_models.StackedModel):
         )
         self._change_state(state)
 
-    def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
-        return {
-            "nfe40_indPag": ind_pag,
-            "nfe40_tPag": t_pag,
-            "nfe40_vPag": v_pag,
-        }
-
-    def _export_fields_pagamentos(self):
-        if not self.amount_financial_total:
-            self.nfe40_detPag = [
-                (5, 0, 0),
-                (0, 0, self._prepare_amount_financial("0", "90", 0.00)),
-            ]
-        self.nfe40_detPag.__class__._field_prefix = "nfe40_"
-
-        # the following was disabled because it blocks the normal
-        # invoice validation https://github.com/OCA/l10n-brazil/issues/1559
-        # if not self.nfe40_detPag:  # (empty list)
-        #    raise UserError(_("Favor preencher os dados do pagamento"))
-
     @api.multi
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
@@ -566,7 +549,7 @@ class NFe(spec_models.StackedModel):
                 .id
             )
 
-        return super(NFe, self)._build_attr(node, fields, vals, path, attr)
+        return super()._build_attr(node, fields, vals, path, attr)
 
     def _build_many2one(self, comodel, vals, new_value, key, value, path):
         if key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
@@ -594,7 +577,7 @@ class NFe(spec_models.StackedModel):
             # stacked m2o
             vals.update(new_value)
         else:
-            super(NFe, self)._build_many2one(comodel, vals, new_value, key, value, path)
+            super()._build_many2one(comodel, vals, new_value, key, value, path)
 
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
@@ -658,9 +641,8 @@ class NFe(spec_models.StackedModel):
         new_root.append(protNFe_node)
         return etree.tostring(new_root)
 
-    @api.multi
     def _document_cancel(self, justificative):
-        super(NFe, self)._document_cancel(justificative)
+        super()._document_cancel(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_cancel()
@@ -716,14 +698,12 @@ class NFe(spec_models.StackedModel):
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
 
-    @api.multi
     def _document_correction(self, justificative):
-        super(NFe, self)._document_correction(justificative)
+        super()._document_correction(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_correction(justificative)
 
-    @api.multi
     def _nfe_correction(self, justificative):
         self.ensure_one()
         processador = self._processador()
