@@ -91,6 +91,8 @@
         <field eval="1" name="number_next" />
         <field eval="1" name="number_increment" />
         <field eval="False" name="company_id" />
+        <!-- O campo do convenio varia de acordo com o tamanho da sequencia -->
+        <field eval="7" name="padding" />
     </record>
 
     <record id="sequence_cnab_number_bb_240" model="ir.sequence">
