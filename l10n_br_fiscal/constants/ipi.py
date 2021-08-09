@@ -25,6 +25,7 @@ CST_IPI_OUT_IN = {
     "99": "49",
 }
 
+CST_IPI_TAXED = ["00", "49", "50", "99"]
 
 IPI_GUIDELINE_GROUP = [
     ("imunidade", "Imunidade"),
