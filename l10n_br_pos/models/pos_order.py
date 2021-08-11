@@ -117,25 +117,25 @@ class PosOrder(models.Model):
         #         order_id.partner_id.credit_funcionario -= statement.amount
         #     elif statement.journal_id.sat_payment_mode == "05":
         #         order_id.partner_id.credit_limit -= statement.amount
-        return order_id.id
+        return order_id
 
-    @api.multi
-    def create_picking(self):
-        super().create_picking()
-        fiscal_category = self.session_id.config_id.fiscal_operation_id
-        self.picking_id.fiscal_operation_id = \
-            fiscal_category.id
-        obj_fp_rule = self.env['account.fiscal.position.rule']
-        kwargs = {
-            'partner_id': self.picking_id.company_id.partner_id.id,
-            'partner_shipping_id': self.picking_id.company_id.partner_id.id,
-            'fiscal_operation_id': fiscal_category.id,
-            'company_id': self.picking_id.company_id.id,
-        }
-        self.picking_id.fiscal_position = obj_fp_rule.apply_fiscal_mapping(
-            {'value': {}}, **kwargs
-        )['value']['fiscal_position']
-        return True
+    # @api.multi
+    # def create_picking(self):
+    #     super().create_picking()
+    #     fiscal_category = self.session_id.config_id.fiscal_operation_id
+    #     self.picking_id.fiscal_operation_id = \
+    #         fiscal_category.id
+    #     obj_fp_rule = self.env['account.fiscal.position.rule']
+    #     kwargs = {
+    #         'partner_id': self.picking_id.company_id.partner_id.id,
+    #         'partner_shipping_id': self.picking_id.company_id.partner_id.id,
+    #         'fiscal_operation_id': fiscal_category.id,
+    #         'company_id': self.picking_id.company_id.id,
+    #     }
+    #     self.picking_id.fiscal_position = obj_fp_rule.apply_fiscal_mapping(
+    #         {'value': {}}, **kwargs
+    #     )['value']['fiscal_position']
+    #     return True
 
     @api.model
     def return_orders_from_session(self, **kwargs):
