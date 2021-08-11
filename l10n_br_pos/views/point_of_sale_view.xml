@@ -127,54 +127,5 @@
 <!--        </field>-->
 <!--    </record>-->
 
-<!--    &lt;!&ndash; POS config form &ndash;&gt;-->
-<!--    <record id="view_pos_config_form" model="ir.ui.view">-->
-<!--        <field name="name">POS Order (add simplified invoice limit option)</field>-->
-<!--        <field name="model">pos.config</field>-->
-<!--        <field name="inherit_id"-->
-<!--               ref="pos_pricelist.view_pos_config_form_pos_pricelist"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <field name="display_price_with_taxes" position="after">-->
-<!--                <field name="simplified_invoice_limit"/>-->
-<!--                <field name="simplified_invoice_type"/>-->
-<!--            </field>-->
-<!--            <field name="iface_invoicing" position="after">-->
-<!--                <field name="save_identity_automatic"/>-->
-<!--                <field name="cpf_nota"/>-->
-<!--                <field name="enviar_pedido_cupom_fiscal"/>-->
-<!--            </field>-->
-<!--            <field name="iface_print_via_proxy" position="after">-->
-<!--                <field name="iface_sat_via_proxy"/>-->
-<!--            </field>-->
-<!--            <field name="simplified_invoice_type" position="after">-->
-<!--                <field name="lim_data_alteracao"/>-->
-<!--                <field name="crm_ativo"/>-->
-<!--            </field>-->
-<!--            <group string="Hardware Proxy" position="after">-->
-<!--                <group string="Configuraçoes SAT"-->
-<!--                       attrs="{'invisible': [('iface_sat_via_proxy', '=', False)]}">-->
-<!--                    <group>-->
-<!--                        <field name='sat_ambiente' invisible='1'/>-->
-<!--                        <field name="cnpj_homologacao"-->
-<!--                               attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>-->
-<!--                        <field name="ie_homologacao"-->
-<!--                               attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>-->
-<!--                        <field name="cnpj_software_house"/>-->
-<!--                        <field name="sat_path"/>-->
-<!--                        <field name="cod_ativacao"/>-->
-<!--                        <field name="numero_caixa"/>-->
-<!--                        <field name="impressora"/>-->
-<!--                        <field name="printer_params"/>-->
-<!--                        <field name="out_pos_fiscal_operation_id"/>-->
-<!--                        <field name="refund_pos_fiscal_operation_id"/>-->
-<!--                        <field name="assinatura_sat"/>-->
-<!--                    </group>-->
-<!--                    <group>-->
-<!--                        <field name="fiscal_operation_id" required="1"/>-->
-<!--                    </group>-->
-<!--                </group>-->
-<!--            </group>-->
-<!--        </field>-->
-<!--    </record>-->
 
 </odoo>

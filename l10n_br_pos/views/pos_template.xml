@@ -20,13 +20,13 @@
     </xpath>
 </template>
 
-<template id="pos_l10n_br_assets"
-          name="pos_l10n_br_css"
-          inherit_id="point_of_sale.index">
-    <xpath expr="//script[@id='loading-script']" position="before">
-        <link rel="stylesheet" href="/l10n_br_pos/static/src/css/pos.css"/>
-    </xpath>
-</template>
+<!--<template id="pos_l10n_br_assets"-->
+<!--          name="pos_l10n_br_css"-->
+<!--          inherit_id="point_of_sale.index">-->
+<!--    <xpath expr="//script[@id='loading-script']" position="before">-->
+<!--        <link rel="stylesheet" href="/l10n_br_pos/static/src/css/pos.css"/>-->
+<!--    </xpath>-->
+<!--</template>-->
 
 </data>
 </odoo>
