@@ -5,6 +5,7 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
+odoo.define("l10n_br_pos.screens", function (require) {
 // function l10n_br_pos_screens(instance, module) {
 //     var QWeb = instance.web.qweb;
 //     var _t = instance.web._t;
@@ -66,19 +67,19 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 //             return false
 //         },
 //
-//         calcula_diferenca_data: function(data_alteracao){
-//             if(data_alteracao){
-//                 var today = new Date();
-//                 if (parseInt(data_alteracao.substr(8,2)) < 12){
-//                     data_alteracao = data_alteracao.substr(0, 4) + '-' + data_alteracao.substr(8, 2) + '-' + data_alteracao.substr(5, 2) //dia,mes e ano
-//                 }
-//                 var date_partner = new Date(data_alteracao);
-//                 var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
-//                 if( Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) <= lim_data_alteracao)
-//                     return true;
-//             }
-//             return false;
-//         },
+//         // calcula_diferenca_data: function(data_alteracao){
+//         //     if(data_alteracao){
+//         //         var today = new Date();
+//         //         if (parseInt(data_alteracao.substr(8,2)) < 12){
+//         //             data_alteracao = data_alteracao.substr(0, 4) + '-' + data_alteracao.substr(8, 2) + '-' + data_alteracao.substr(5, 2) //dia,mes e ano
+//         //         }
+//         //         var date_partner = new Date(data_alteracao);
+//         //         var lim_data_alteracao = parseInt(this.pos.config.lim_data_alteracao);
+//         //         if( Math.floor((today.getTime() - date_partner.getTime())*3.81E-10) <= lim_data_alteracao)
+//         //             return true;
+//         //     }
+//         //     return false;
+//         // },
 //
 //         bind_order_events: function() {
 //         var self = this;
@@ -957,7 +958,6 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 //         }
 //     });
 //
-//
 //     module.PosOrderListScreenWidget = module.ScreenWidget.extend({
 //         template: 'PosOrderListScreenWidget',
 //
@@ -1180,4 +1180,4 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 //             this._super();
 //         }
 //     });
-// }
+});

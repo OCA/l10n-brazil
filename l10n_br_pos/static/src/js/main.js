@@ -3,7 +3,7 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 @author: Luis Felipe Mileo <mileo@kmee.com.br>
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
-
+//
 // // Check jQuery available
 // if (typeof jQuery === 'undefined') { throw new Error('l10n_br POS Simplified invoice Addon requires jQuery') }
 //
