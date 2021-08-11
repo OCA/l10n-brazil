@@ -188,6 +188,18 @@ class TestPaymentOrder(SavepointCase):
             "teste_remessa-unicred_400-1.REM",
         )
 
+    def test_banco_sicred_cnab_240(self):
+        """Teste Boleto e Remessa Banco SICREDI - CNAB 240"""
+        invoice_sicred_cnab_240 = self.env.ref(
+            "l10n_br_account_payment_order.demo_invoice_payment_order_sicredi_cnab240"
+        )
+
+        self._run_boleto_remessa(
+            invoice_sicred_cnab_240,
+            "boleto_teste_sicredi_cnab240.pdf",
+            "teste_remessa_sicredi240.REM",
+        )
+
     def test_payment_order_invoice_cancel_process(self):
         """ Test Payment Order and Invoice Cancel process."""
 
