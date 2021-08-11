@@ -5,207 +5,704 @@
     Podem existir diferente Codigos de Instrução do Movimento, mesmo no 240.
     -->
 
-  <!-- CNAB 240 v10.7 - https://portal.febraban.org.br/pagina/3053/33/pt-br/layout-240
-   TODO: adcionar outros bancos que usem esse padrão, por enquanto apenas o Itau e
-    Bradesco mapeados.
-   -->
-  <record
-        id="cnab_240-mov_instruction_code_00"
+    <!-- Banco Itau CNAB 240 - https://download.itau.com.br/bankline/cobranca_cnab240.pdf -->
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_01"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field name="name">Inclusão de Registro Detalhe Liberado</field>
-    <field name="code">00</field>
-    <field
+        <field name="name">REMESSA</field>
+        <field name="code">01</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_09"
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_02"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field name="name">Inclusão do Registro Detalhe Bloqueado</field>
-    <field name="code">09</field>
-    <field
+        <field name="name">PEDIDO DE BAIXA</field>
+        <field name="code">02</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_10"
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_04"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field name="name">Alteração do Pagamento Liberado para Bloqueado (Bloqueio)</field>
-    <field name="code">10</field>
-    <field
+        <field name="name">CONCESSÃO DE ABATIMENTO</field>
+        <field name="code">04</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_11"
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_05"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field
+        <field name="name">CANCELAMENTO DE ABATIMENTO</field>
+        <field name="code">05</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
+
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_06"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">ALTERAÇÃO DO VENCIMENTO</field>
+        <field name="code">06</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
+
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_09"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">PROTESTAR</field>
+        <field name="code">09</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
+
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_10"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">NÃO PROTESTAR (INIBE O PROTESTO AUTOMÁTICO)</field>
+        <field name="code">10</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
+
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_18"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">SUSTAR O PROTESTO</field>
+        <field name="code">18</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
+
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_31"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">ALTERAÇÃO DE OUTROS DADOS CAMPOS A ALTERAR</field>
+        <field name="code">31</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
+
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_38"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field
             name="name"
-        >Alteração do Pagamento Bloqueado para Liberado (Liberação)</field>
-    <field name="code">11</field>
-    <field
+        >BENEFICIÁRIO NÃO CONCORDA COM A ALEGAÇÃO DO PAGADOR CÓDIGO DA ALEGAÇÃO</field>
+        <field name="code">38</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_17"
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_41"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field name="name">Alteração do Valor do Título</field>
-    <field name="code">17</field>
-    <field
+        <field name="name">EXCLUSÃO DE SACADOR AVALISTA</field>
+        <field name="code">41</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_19"
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_49"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field name="name">Alteração da Data de Pagamento</field>
-    <field name="code">19</field>
-    <field
+        <field name="name">ALTERAÇÃO DE DADOS EXTRAS (REGISTRO DE MULTA)</field>
+        <field name="code">49</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_23"
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_66"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field name="name">Pagamento Direto ao Fornecedor - Baixar</field>
-    <field name="code">23</field>
-    <field
+        <field name="name">ENTRADA EM NEGATIVAÇÃO EXPRESSA</field>
+        <field name="code">66</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_25"
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_67"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field name="name">Manutenção em Carteira - Não Pagar</field>
-    <field name="code">25</field>
-    <field
+        <field name="name">NÃO NEGATIVAR (INIBE ENTRADA EM NEGATIVAÇÃO EXPRESSA)</field>
+        <field name="code">67</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_27"
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_68"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field name="name">Retirada de Carteira - Não Pagar</field>
-    <field name="code">27</field>
-    <field
+        <field name="name">EXCLUIR NEGATIVAÇÃO EXPRESSA (ATÉ 15 DIAS CORRIDOS APÓS A
+            ENTRADA EM NEGATIVAÇÃO EXPRESSA)</field>
+        <field name="code">68</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_33"
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_69"
         model="l10n_br_cnab.mov.instruction.code"
     >
-    <field
+        <field name="name">CANCELAR NEGATIVAÇÃO EXPRESSA (APÓS TÍTULO TER SIDO
+            NEGATIVADO)</field>
+        <field name="code">69</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
+
+    <record
+        id="banco_itau_cnab_240-mov_instruction_code_93"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">DESCONTAR TÍTULOS ENCAMINHADOS NO DIA</field>
+        <field name="code">93</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_341')])]" />
+    </record>
+
+    <!-- Banco Bradesco CNAB 240 - https://banco.bradesco/assets/pessoajuridica/pdf/4008-523-0687-layout-multipag.pdf -->
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_01"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Entrada de Títulos</field>
+        <field name="code">01</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_02"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Pedido de Baixa</field>
+        <field name="code">02</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_03"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Protesto para Fins Falimentares</field>
+        <field name="code">03</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_04"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Concessão de Abatimento</field>
+        <field name="code">04</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_05"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Cancelamento de Abatimento</field>
+        <field name="code">05</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_06"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Vencimento</field>
+        <field name="code">06</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_07"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Concessão de Desconto</field>
+        <field name="code">07</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_08"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Cancelamento de Desconto</field>
+        <field name="code">08</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_09"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Protestar</field>
+        <field name="code">09</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_10"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Sustar Protesto e Baixar Título</field>
+        <field name="code">10</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_11"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Sustar Protesto e Manter em Carteira</field>
+        <field name="code">11</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_12"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Juros de Mora</field>
+        <field name="code">12</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_13"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Dispensar Cobrança de Juros de Mora</field>
+        <field name="code">13</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_14"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Valor/Percentual de Multa</field>
+        <field name="code">14</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_15"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Dispensar Cobrança de Multa</field>
+        <field name="code">15</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_16"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração do Valor de Desconto</field>
+        <field name="code">16</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_17"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Não conceder Desconto</field>
+        <field name="code">17</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_18"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração do Valor de Abatimento</field>
+        <field name="code">18</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_19"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Prazo Limite de Recebimento - Alterar</field>
+        <field name="code">19</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_20"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Prazo Limite de Recebimento - Dispensar</field>
+        <field name="code">20</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_21"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alterar número do título dado pelo cedente</field>
+        <field name="code">21</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_22"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alterar número controle do Participante</field>
+        <field name="code">22</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_23"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alterar dados do Sacado</field>
+        <field name="code">23</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_24"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alterar dados do Sacador/Avalista</field>
+        <field name="code">24</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_30"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Recusa da Alegação do Sacado</field>
+        <field name="code">30</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_31"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Outros Dados</field>
+        <field name="code">31</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_33"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração dos Dados do Rateio de Crédito</field>
+        <field name="code">33</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_34"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Pedido de Cancelamento dos Dados do Rateio de Crédito</field>
+        <field name="code">34</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_35"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Pedido de Desagendamento do Débito Automático</field>
+        <field name="code">35</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_40"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Carteira</field>
+        <field name="code">40</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_41"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Cancelar protesto</field>
+        <field name="code">41</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_42"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Espécie de Título</field>
+        <field name="code">42</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_43"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Transferência de carteira/modalidade de cobrança</field>
+        <field name="code">43</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_44"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de contrato de cobrança</field>
+        <field name="code">44</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_45"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Negativação Sem Protesto</field>
+        <field name="code">45</field>
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
+
+    <record
+        id="banco_bradesco_cnab_240-mov_instruction_code_46"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field
             name="name"
-        >Estorno por Devolução da Câmara Centralizadora (somente para Tipo de Movimento = '3')</field>
-    <field name="code">33</field>
-    <field
+        >Solicitação de Baixa de Título Negativado Sem Protesto</field>
+        <field name="code">46</field>
+        <field
             name="payment_method_ids"
             eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
         />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_237')])]" />
+    </record>
 
-  <record
-        id="cnab_240-mov_instruction_code_40"
-        model="l10n_br_cnab.mov.instruction.code"
-    >
-    <field name="name">Alegação do Pagador</field>
-    <field name="code">40</field>
-    <field
-            name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
-        />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
-
-  <record
-        id="cnab_240-mov_instruction_code_99"
-        model="l10n_br_cnab.mov.instruction.code"
-    >
-    <field name="name">Exclusão do Registro Detalhe Incluído Anteriormente</field>
-    <field name="code">99</field>
-    <field
-            name="payment_method_ids"
-            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
-        />
-    <field
-            name="bank_ids"
-            eval="[(6,0,[ref('l10n_br_base.res_bank_341'), ref('l10n_br_base.res_bank_237')])]"
-        />
-  </record>
-
-  <!-- Unicred CNAB 400-->
+  <!-- Unicred CNAB 400 240 -->
   <record
         id="unicred_cnab_400-mov_instruction_code_01"
         model="l10n_br_cnab.mov.instruction.code"
@@ -1364,7 +1861,7 @@
         id="itau_cnab_400-mov_instruction_code_06"
         model="l10n_br_cnab.mov.instruction.code"
     >
-        <field name="name">ALTERAÇÃO DO VENCIMENTO VENCIMENTO</field>
+        <field name="name">ALTERAÇÃO DO VENCIMENTO</field>
         <field name="code">06</field>
         <field
             name="payment_method_ids"
