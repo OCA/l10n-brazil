@@ -277,7 +277,7 @@
             name="cnab_code_suspend_protest_write_off_id"
             ref="bradesco_cnab_400-mov_instruction_code_18"
         />
-        <field
+                <field
             name="cnab_code_grant_rebate_id"
             ref="bradesco_cnab_400-mov_instruction_code_04"
         />
@@ -329,17 +329,53 @@
         <field name="code_convetion">0001222130126</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09')])]"
+            eval="[(6,0,[ref('banco_bradesco_cnab_240-mov_return_code_06'),
+             ref('banco_bradesco_cnab_240-mov_return_code_17'), ref('banco_bradesco_cnab_240-mov_return_code_45')])]"
         />
-        <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00" />
-        <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23" />
+        <field
+            name="cnab_sending_code_id"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_01"
+        />
+        <field
+            name="cnab_write_off_code_id"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_02"
+        />
+        <!-- TODO: codigo de alteração do valor do título não encontrado
         <field
             name="cnab_code_change_title_value_id"
             ref="cnab_240-mov_instruction_code_17"
-        />
+        />-->
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="cnab_240-mov_instruction_code_19"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_06"
+        />
+        <field
+            name="cnab_code_protest_title_id"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_09"
+        />
+        <field
+            name="cnab_code_suspend_protest_keep_wallet_id"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_11"
+        />
+        <field
+            name="cnab_code_suspend_protest_write_off_id"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_10"
+        />
+        <field
+            name="cnab_code_grant_rebate_id"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_04"
+        />
+        <field
+            name="cnab_code_cancel_rebate_id"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_05"
+        />
+        <field
+            name="cnab_code_grant_discount_id"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_16"
+        />
+        <field
+            name="cnab_code_cancel_discount_id"
+            ref="banco_bradesco_cnab_240-mov_instruction_code_41"
         />
     </record>
 
@@ -553,17 +589,28 @@
         <field name="code_convetion">12345</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09')])]"
+            eval="[(6,0,[ref('banco_itau_cnab_240-mov_return_code_06'),
+             ref('banco_itau_cnab_240-mov_return_code_08')])]"
         />
-        <field name="cnab_sending_code_id" ref="cnab_240-mov_instruction_code_00" />
-        <field name="cnab_write_off_code_id" ref="cnab_240-mov_instruction_code_23" />
+        <field
+            name="cnab_sending_code_id"
+            ref="banco_itau_cnab_240-mov_instruction_code_01"
+        />
+        <field
+            name="cnab_write_off_code_id"
+            ref="banco_itau_cnab_240-mov_instruction_code_02"
+        />
         <field
             name="cnab_code_change_title_value_id"
-            ref="cnab_240-mov_instruction_code_17"
+            ref="banco_itau_cnab_240-mov_instruction_code_31"
         />
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="cnab_240-mov_instruction_code_19"
+            ref="banco_itau_cnab_240-mov_instruction_code_06"
+        />
+        <field
+            name="cnab_code_protest_title_id"
+            ref="banco_itau_cnab_240-mov_instruction_code_09"
         />
     </record>
 
@@ -674,8 +721,7 @@
         <field name="code_convetion">000122</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('cnab_240-mov_return_code_06'), ref('cnab_240-mov_return_code_09'),
-               ref('cnab_240-mov_return_code_17')])]"
+            eval="[(6,0,[ref('banco_cef_cnab_240-mov_return_code_06'), ref('banco_cef_cnab_240-mov_return_code_46')])]"
         />
         <field name="cnab_sending_code_id" ref="cef_cnab_240-mov_instruction_code_01" />
         <field
