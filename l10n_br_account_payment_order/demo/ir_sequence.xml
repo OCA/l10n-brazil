@@ -103,6 +103,14 @@
         <field eval="False" name="company_id" />
     </record>
 
+    <record id="sequence_cnab_number_sicredi_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - SICREDI 240</field>
+        <field name="code">Sequencia Arquivo CNAB - SICREDI 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
     <record id="sequence_cnab_number_main_company" model="ir.sequence">
         <field name="name">Sequencia Arquivo CNAB - Main Company</field>
         <field name="code">Sequencia Arquivo CNAB - Main Company</field>
@@ -238,6 +246,15 @@
     <record id="sequence_own_number_bb_240" model="ir.sequence">
         <field name="name">Nosso número - BB 240</field>
         <field name="code">nosso.numero - BB 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_sicredi_240" model="ir.sequence">
+        <field name="name">Nosso número - SICREDI 240</field>
+        <field name="code">nosso.numero - SICREDI 240</field>
         <field eval="1" name="number_next" />
         <field eval="1" name="number_increment" />
         <field eval="False" name="company_id" />
