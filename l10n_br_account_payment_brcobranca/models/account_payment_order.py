@@ -31,16 +31,10 @@ class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
     def _prepare_remessa_banco_brasil_400(self, remessa_values):
-        # TODO - BRCobranca retornando erro de agencia deve ter 4 digitos,
-        #  mesmo o valor estando correto, é preciso verificar melhor
         remessa_values.update(
             {
                 "convenio": int(self.payment_mode_id.code_convetion),
                 "variacao_carteira": self.payment_mode_id.boleto_variation.zfill(3),
-                # TODO - Mapear e se necessário criar os campos abaixo devido
-                #  ao erro comentado acima não está sendo possível validar
-                "tipo_cobranca": "04DSC",
-                "convenio_lider": "7654321",
                 "carteira": str(self.payment_mode_id.boleto_wallet).zfill(2),
             }
         )
