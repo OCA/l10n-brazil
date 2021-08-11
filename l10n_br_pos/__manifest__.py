@@ -22,6 +22,7 @@
     #     "python": ['satcomum'],
     # },
     'data': [
+        'data/l10n_br_fiscal_cfop_data.xml',
         # "wizard/l10n_br_pos_order_return.xml",
         # "wizard/sat_xml_periodic_export.xml",
 
