@@ -31,7 +31,7 @@ DICT_BRCOBRANCA_BANK = {
     "341": BankRecord("itau", retorno=["400"], remessa=["400"]),
     "399": BankRecord("hsbc", retorno=[], remessa=[]),
     "745": BankRecord("citibank", retorno=[], remessa=["400"]),
-    "748": BankRecord("sicred", retorno=["240"], remessa=["240"]),
+    "748": BankRecord("sicredi", retorno=["240"], remessa=["240"]),
     "756": BankRecord("sicoob", retorno=["240"], remessa=["240", "400"]),
 }
 
