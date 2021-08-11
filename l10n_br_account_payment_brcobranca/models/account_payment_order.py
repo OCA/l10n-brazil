@@ -50,10 +50,14 @@ class PaymentOrder(models.Model):
     def _prepare_remessa_unicred_400(self, remessa_values):
         remessa_values["codigo_beneficiario"] = int(self.payment_mode_id.code_convetion)
 
-    def _prepare_remessa_sicred_240(self, remessa_values):
+    def _prepare_remessa_sicredi_240(self, remessa_values):
+
+        bank_account_id = self.journal_id.bank_account_id
         remessa_values.update(
             {
-                "codigo_transmissao": int(self.payment_mode_id.code_convetion),
+                # Aparentemente a validação do BRCobranca nesse caso gera erro
+                # quando é feito o int(misc.punctuation_rm(bank_account_id.acc_number))
+                "conta_corrente": misc.punctuation_rm(bank_account_id.acc_number),
                 "posto": self.payment_mode_id.boleto_post,
                 "byte_idt": self.payment_mode_id.boleto_byte_idt,
             }
