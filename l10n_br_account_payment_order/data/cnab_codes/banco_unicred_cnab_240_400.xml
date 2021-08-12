@@ -180,7 +180,9 @@
         id="unicred_cnab_400-mov_instruction_code_31"
         model="l10n_br_cnab.mov.instruction.code"
     >
-        <field name="name">Alteração de outros dados (Alteração de dados do pagador)</field>
+        <field
+            name="name"
+        >Alteração de outros dados (Alteração de dados do pagador)</field>
         <field name="code">31</field>
         <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
         <field
