@@ -243,6 +243,7 @@
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
         <field name="code_convetion">0001222130126</field>
+        <field name="boleto_discount_perc">1</field>
         <field
             name="cnab_liq_return_move_code_ids"
             eval="[(6,0,[ref('bradesco_cnab_400-mov_return_code_06'), ref('bradesco_cnab_400-mov_return_code_15'),
@@ -306,6 +307,7 @@
         <field name="generate_move">False</field>
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
+        <field name="boleto_discount_perc">1</field>
         <field
             name="tariff_charge_account_id"
             ref="1_account_template_32302_avoid_travis_error"
@@ -401,6 +403,7 @@
         <field name="boleto_interest_perc">2</field>
         <field name="boleto_fee_code">2</field>
         <field name="boleto_fee_perc">2</field>
+        <field name="boleto_discount_perc">1</field>
         <field name="generate_move">False</field>
         <field name="post_move">False</field>
         <field name="group_lines">False</field>
@@ -479,6 +482,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">N</field>
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_unicred_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_unicred_240" />
         <field name="boleto_protest_code">2</field>
@@ -560,6 +564,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_itau_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_itau_240" />
         <field name="generate_move">False</field>
@@ -628,6 +633,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_itau_400" />
         <field name="own_number_sequence_id" ref="sequence_own_number_itau_400" />
         <field name="generate_move">False</field>
@@ -692,6 +698,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_cef_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_cef_240" />
         <field name="generate_move">False</field>
@@ -780,6 +787,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_cef_400" />
         <field name="own_number_sequence_id" ref="sequence_own_number_cef_400" />
         <field name="generate_move">False</field>
@@ -823,6 +831,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_sicredi_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_sicredi_240" />
         <field name="generate_move">False</field>
@@ -929,6 +938,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_bb_400" />
         <field name="own_number_sequence_id" ref="sequence_own_number_bb_400" />
         <field name="product_tax_id" ref="product_tax_boleto" />
@@ -1021,6 +1031,7 @@
         <field name="boleto_modality">DM</field>
         <field name="boleto_variation">19</field>
         <field name="boleto_accept">S</field>
+        <field name="boleto_discount_perc">1</field>
         <field name="cnab_sequence_id" ref="sequence_cnab_number_bb_240" />
         <field name="own_number_sequence_id" ref="sequence_own_number_bb_240" />
         <field name="product_tax_id" ref="product_tax_boleto" />
