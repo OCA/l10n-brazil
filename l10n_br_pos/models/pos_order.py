@@ -117,7 +117,7 @@ class PosOrder(models.Model):
         #         order_id.partner_id.credit_funcionario -= statement.amount
         #     elif statement.journal_id.sat_payment_mode == "05":
         #         order_id.partner_id.credit_limit -= statement.amount
-        return order_id.id
+        return order_id
 
     @api.multi
     def create_picking(self):

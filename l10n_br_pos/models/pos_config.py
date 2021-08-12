@@ -4,10 +4,6 @@
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 
-from ..constants.fiscal import (
-    SIMPLIFIED_INVOICE_TYPE
-)
-
 PRINTER = [
     ('epson-tm-t20', 'Epson TM-T20'),
     ('bematech-mp4200th', 'Bematech MP4200TH'),

@@ -32,10 +32,10 @@
         # "views/res_partner.xml",
         # "views/account_invoice_view.xml"
 
-        "views/res_company.xml",
-        "views/point_of_sale_view.xml",
-        "views/pos_order_line_view.xml",
-        "views/account_journal_view.xml",
+        # "views/res_company.xml",
+        # "views/point_of_sale_view.xml",
+        # "views/pos_order_line_view.xml",
+        # "views/account_journal_view.xml",
 
         # "views/point_of_sale_report.xml",
         # "views/pos_template.xml",
