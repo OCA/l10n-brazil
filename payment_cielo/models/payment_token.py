@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-import pprint
 import requests
 import datetime
 
@@ -70,16 +69,11 @@ class PaymentTokenCielo(models.Model):
             "Brand": values['cc_brand'],
             }
 
-        _logger.info(
-            '_cielo_tokenize: Sending values to URL %s, values:\n%s',
-            api_url_create_card, pprint.pformat(tokenize_params))
+        _logger.info("_cielo_tokenize: Sending values to URL %s", api_url_create_card)
         r = requests.post(api_url_create_card,
                           json=tokenize_params,
                           headers=aquirer_id._get_cielo_api_headers())
         res = r.json()
-        _logger.info('_create_cielo_charge: Values received:\n%s',
-                     pprint.pformat(res))
-
         return res
 
     @api.model
