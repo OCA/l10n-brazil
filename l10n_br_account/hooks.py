@@ -47,6 +47,15 @@ def pre_init_hook(cr):
             (company.fiscal_dummy_id.line_ids[0].id,),
         )
 
+    cr.execute(
+        """
+        update res_company set anglo_saxon_accounting=True
+        where id in (select res_company.id from res_company
+        JOIN res_partner on partner_id=res_partner.id where country_id=%s);
+        """,
+        (env.ref('base.br').id,)
+    )
+
 
 def load_fiscal_taxes(env, l10n_br_coa_chart):
     companies = env["res.company"].search(
