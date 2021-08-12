@@ -423,8 +423,10 @@ class NFe(spec_models.StackedModel):
             ]
         self.nfe40_detPag.__class__._field_prefix = "nfe40_"
 
-        if not self.nfe40_detPag:  # (empty list)
-            raise UserError(_("Favor preencher os dados do pagamento"))
+        # the following was disabled because it blocks the normal
+        # invoice validation https://github.com/OCA/l10n-brazil/issues/1559
+        # if not self.nfe40_detPag:  # (empty list)
+        #    raise UserError(_("Favor preencher os dados do pagamento"))
 
     @api.multi
     def _eletronic_document_send(self):
