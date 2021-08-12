@@ -103,7 +103,9 @@ class PaymentOrder(models.Model):
             return super().generate_payment_file()
 
         bank_account_id = self.journal_id.bank_account_id
-        bank_brcobranca = get_brcobranca_bank(bank_account_id)
+        bank_brcobranca = get_brcobranca_bank(
+            bank_account_id, self.payment_mode_id.payment_method_code
+        )
 
         # Verificar campos que não podem ser usados no CNAB, já é
         # feito ao criar um Modo de Pagamento, porém para evitar
