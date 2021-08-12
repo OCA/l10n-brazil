@@ -128,7 +128,7 @@ class AccountMoveLine(models.Model):
                     "CONCEDER ABATIMENTO PERCENTUAL DE" + " %s %% "
                     "ATÉ O VENCIMENTO EM %s ( R$ %s )"
                     % (
-                        ("%.2f" % move_line.payment_term_id.discount_perc).replace(
+                        ("%.2f" % move_line.payment_mode_id.boleto_discount_perc).replace(
                             ".", ","
                         ),
                         move_line.date_maturity.strftime("%d/%m/%Y"),
@@ -159,4 +159,5 @@ class AccountMoveLine(models.Model):
                 )
 
             wrapped_boleto_list.append(boleto_cnab_api_data)
+
         return wrapped_boleto_list
