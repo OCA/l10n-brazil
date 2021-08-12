@@ -112,7 +112,7 @@ addon | version | summary
 [l10n_br_website_sale](l10n_br_website_sale/) | 12.0.1.2.0 | Website sale localização brasileira.
 [l10n_br_website_sale_delivery](l10n_br_website_sale_delivery/) | 12.0.2.1.0 | Implements Brazilian freight values for delivery.
 [l10n_br_zip](l10n_br_zip/) | 12.0.3.0.1 | Brazilian Localisation ZIP Codes
-[payment_cielo](payment_cielo/) | 12.0.3.2.0 | Payment Acquirer: Cielo Implementation
+[payment_cielo](payment_cielo/) | 12.0.3.2.1 | Payment Acquirer: Cielo Implementation
 [spec_driven_model](spec_driven_model/) | 12.0.1.1.0 | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
