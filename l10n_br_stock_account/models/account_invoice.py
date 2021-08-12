@@ -16,38 +16,38 @@ class AccountInvoice(models.Model):
         rslt = super(AccountInvoice, self)._get_last_step_stock_moves()
 
         # outgoing remessas:
-        for invoice in self.filtered(lambda x: x.type == 'out_invoice'):
-            rslt += invoice.mapped('invoice_line_ids.move_line_ids').filtered(
+        for invoice in self.filtered(lambda x: x.type == "out_invoice"):
+            rslt += invoice.mapped("invoice_line_ids.move_line_ids").filtered(
                 lambda x: (
                     x not in rslt
-                    and x.state == 'done'
-                    and x.location_dest_id.usage == 'customer'
+                    and x.state == "done"
+                    and x.location_dest_id.usage == "customer"
                 )
             )
         for invoice in self.filtered(lambda x: x.type == "out_refund"):
             rslt += invoice.mapped("invoice_line_ids.move_line_ids").filtered(
                 lambda x: (
                     x not in rslt
-                    and x.state == 'done'
-                    and x.location_id.usage == 'customer'
+                    and x.state == "done"
+                    and x.location_id.usage == "customer"
                 )
             )
 
         # incoming remessas:
-        for invoice in self.filtered(lambda x: x.type == 'in_invoice'):
-            rslt += invoice.mapped('invoice_line_ids.move_line_ids').filtered(
+        for invoice in self.filtered(lambda x: x.type == "in_invoice"):
+            rslt += invoice.mapped("invoice_line_ids.move_line_ids").filtered(
                 lambda x: (
                     x not in rslt
-                    and x.state == 'done'
-                    and x.location_dest_id.usage == 'supplier'
+                    and x.state == "done"
+                    and x.location_dest_id.usage == "supplier"
                 )
             )
         for invoice in self.filtered(lambda x: x.type == "in_refund"):
             rslt += invoice.mapped("invoice_line_ids.move_line_ids").filtered(
                 lambda x: (
                     x not in rslt
-                    and x.state == 'done'
-                    and x.location_id.usage == 'supplier'
+                    and x.state == "done"
+                    and x.location_id.usage == "supplier"
                 )
             )
 
@@ -72,13 +72,13 @@ class AccountInvoice(models.Model):
 
         product = i_line.product_id.with_context(force_company=self.company_id.id)
         if (
-                i_line.fiscal_operation_line_id
-                and i_line.fiscal_operation_line_id.fiscal_position_id
+            i_line.fiscal_operation_line_id
+            and i_line.fiscal_operation_line_id.fiscal_position_id
         ):
             fiscal_position = i_line.fiscal_operation_line_id.fiscal_position_id
         else:
             fiscal_position = inv.fiscal_position_id
-        return self.env['product.product']._anglo_saxon_sale_move_lines(
+        return self.env["product.product"]._anglo_saxon_sale_move_lines(
             i_line.name,
             product,
             i_line.uom_id,
@@ -88,5 +88,5 @@ class AccountInvoice(models.Model):
             amount_currency=amount_currency,
             fiscal_position=fiscal_position,
             account_analytic=i_line.account_analytic_id,
-            analytic_tags=i_line.analytic_tag_ids
+            analytic_tags=i_line.analytic_tag_ids,
         )

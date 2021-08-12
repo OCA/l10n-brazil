@@ -53,7 +53,7 @@ def pre_init_hook(cr):
         where id in (select res_company.id from res_company
         JOIN res_partner on partner_id=res_partner.id where country_id=%s);
         """,
-        (env.ref('base.br').id,)
+        (env.ref("base.br").id,),
     )
 
 

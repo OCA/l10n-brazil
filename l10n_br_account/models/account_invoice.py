@@ -315,15 +315,15 @@ class AccountInvoice(models.Model):
         # stock lines but it may not have "financial lines".
         # Here we filter out such a nullified financial total line if any:
         new_lines = [
-            line for line in lines if not (
+            line
+            for line in lines
+            if not (
                 line[2]["account_id"] == self.account_id.id
                 and float_is_zero(
-                    line[2]["debit"],
-                    precision_rounding=self.currency_id.rounding
+                    line[2]["debit"], precision_rounding=self.currency_id.rounding
                 )
                 and float_is_zero(
-                    line[2]["credit"],
-                    precision_rounding=self.currency_id.rounding
+                    line[2]["credit"], precision_rounding=self.currency_id.rounding
                 )
             )
         ]
@@ -332,7 +332,6 @@ class AccountInvoice(models.Model):
         financial_lines = [
             line for line in new_lines if line[2]["account_id"] == self.account_id.id
         ]
-        dummy_doc = self.env.user.company_id.fiscal_dummy_id
         count = 1
         for line in financial_lines:
             if line[2]["debit"] or line[2]["credit"]:

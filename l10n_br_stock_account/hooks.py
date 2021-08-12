@@ -12,13 +12,12 @@ def pre_init_hook(cr):
     if not tools.config["without_demo"]:
         env = api.Environment(cr, SUPERUSER_ID, {})
         default_category_valuation = env.ref(
-            "stock_account.default_category_valuation",
-            raise_if_not_found=False
+            "stock_account.default_category_valuation", raise_if_not_found=False
         )
         if default_category_valuation:
             cr.execute(
                 "update ir_property set value_text='real_time' where id=%s",
-                (default_category_valuation.id,)
+                (default_category_valuation.id,),
             )
 
 
