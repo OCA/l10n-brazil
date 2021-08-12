@@ -45,11 +45,11 @@ This module depends on:
 Configuration
 =============
 
-Verifique se o Banco e o tipo CNAB usado 240/400 possuem os Códigos de Instrução do Movimento e os Códigos de Retorno do Movimento em:
+Verifique se o Banco e o tipo CNAB usado 240 ou 400 possuem os Códigos de Instrução do Movimento e os Códigos de Retorno do Movimento em:
   * Faturamento > Configurações > Administração > CNAB Código de Movimento de Instrução
   * Faturamento > Configurações > Administração > CNAB Código de Retorno do Movimento
 
-Caso não estejam e seja preciso cadastrar por favor considere fazer um PR nesse modulo acrescentando em l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml assim em proximas implementações já não será preciso cadastra-los.
+Caso seja preciso cadastrar por favor considere fazer um PR nesse modulo acrescentando em l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml assim em proximas implementações já não será preciso cadastra-los.
 
 Informe os dados do CNAB usado no cadastro do:
 
