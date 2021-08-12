@@ -200,6 +200,21 @@ class TestPaymentOrder(SavepointCase):
             "teste_remessa_sicredi240.REM",
         )
 
+    def test_bank_cnab_not_implement_brcobranca(self):
+        """ Test Bank CNAB not implemented in BRCobranca."""
+        invoice = self.env.ref(
+            "l10n_br_account_payment_order.demo_invoice_payment_order_itau_cnab240"
+        )
+        # I validate invoice
+        invoice.action_invoice_open()
+
+        # I check that the invoice state is "Open"
+        self.assertEqual(invoice.state, "open")
+        # O Banco Itau CNAB 240 não está implementado no BRCobranca
+        # por isso deve gerar erro.
+        with self.assertRaises(UserError):
+            invoice.view_boleto_pdf()
+
     def test_payment_order_invoice_cancel_process(self):
         """ Test Payment Order and Invoice Cancel process."""
 
