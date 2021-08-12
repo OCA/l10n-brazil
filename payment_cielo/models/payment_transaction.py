@@ -69,9 +69,7 @@ class PaymentTransactionCielo(models.Model):
 
         self.payment_token_id.active = False
 
-        _logger.info(
-            '_create_cielo_charge: Sending values to URL %s, values:\n%s',
-            api_url_charge, pprint.pformat(charge_params))
+        _logger.info("_create_cielo_charge: Sending values to URL %s", api_url_charge)
         r = requests.post(api_url_charge,
                           json=charge_params,
                           headers=self.acquirer_id._get_cielo_api_headers())
