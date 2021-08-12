@@ -4,6 +4,24 @@
 from odoo import SUPERUSER_ID, api, tools
 
 
+def pre_init_hook(cr):
+    # here we active auto stock valuation on demo data if any,
+    # but because Odoo opts to disable auto-stock valuation by default,
+    # (because it can easily mess with basic financial accounting), we
+    # active it only on demo data and not for production by default.
+    if not tools.config["without_demo"]:
+        env = api.Environment(cr, SUPERUSER_ID, {})
+        default_category_valuation = env.ref(
+            "stock_account.default_category_valuation",
+            raise_if_not_found=False
+        )
+        if default_category_valuation:
+            cr.execute(
+                "update ir_property set value_text='real_time' where id=%s",
+                (default_category_valuation.id,)
+            )
+
+
 def post_init_hook(cr, registry):
 
     if not tools.config["without_demo"]:

@@ -34,6 +34,7 @@
         "demo/l10n_br_stock_account_demo.xml",
     ],
     "installable": True,
+    "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",
     "auto_install": True,
 }

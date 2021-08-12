@@ -129,6 +129,7 @@ class StockMove(models.Model):
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
         # de Saída precisam informar o Preço de Custo e não o de Venda
         # ex.: Simples Remessa, Remessa p/ Industrialiazação e etc.
+        # TODO are we sure this is needed now??
         if self.fiscal_operation_id.fiscal_operation_type == "out":
             result = self.product_id.standard_price
 
