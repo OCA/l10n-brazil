@@ -28,7 +28,9 @@ class AccountMoveLine(models.Model):
         for move_line in self:
 
             bank_account_id = move_line.payment_mode_id.fixed_journal_id.bank_account_id
-            bank_name_brcobranca = get_brcobranca_bank(bank_account_id)
+            bank_name_brcobranca = get_brcobranca_bank(
+                bank_account_id, move_line.payment_mode_id.payment_method_code
+            )
             precision = self.env["decimal.precision"]
             precision_account = precision.precision_get("Account")
 
@@ -128,9 +130,9 @@ class AccountMoveLine(models.Model):
                     "CONCEDER ABATIMENTO PERCENTUAL DE" + " %s %% "
                     "ATÉ O VENCIMENTO EM %s ( R$ %s )"
                     % (
-                        ("%.2f" % move_line.payment_mode_id.boleto_discount_perc).replace(
-                            ".", ","
-                        ),
+                        (
+                            "%.2f" % move_line.payment_mode_id.boleto_discount_perc
+                        ).replace(".", ","),
                         move_line.date_maturity.strftime("%d/%m/%Y"),
                         ("%.2f" % valor_desconto).replace(".", ","),
                     )
