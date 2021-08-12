@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.15.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils: http://docutils.sourceforge.net/" />
 <title>Brazilian Payment Order</title>
 <style type="text/css">
 
@@ -409,14 +409,14 @@ ul.auto-toc {
 <div class="section" id="configuration">
 <h1><a class="toc-backref" href="#id9">Configuration</a></h1>
 <dl class="docutils">
-<dt>Verifique se o Banco e o tipo CNAB usado 240/400 possuem os Códigos de Instrução do Movimento e os Códigos de Retorno do Movimento em:</dt>
+<dt>Verifique se o Banco e o tipo CNAB usado 240 ou 400 possuem os Códigos de Instrução do Movimento e os Códigos de Retorno do Movimento em:</dt>
 <dd><ul class="first last simple">
 <li>Faturamento &gt; Configurações &gt; Administração &gt; CNAB Código de Movimento de Instrução</li>
 <li>Faturamento &gt; Configurações &gt; Administração &gt; CNAB Código de Retorno do Movimento</li>
 </ul>
 </dd>
 </dl>
-<p>Caso não estejam e seja preciso cadastrar por favor considere fazer um PR nesse modulo acrescentando em l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml assim em proximas implementações já não será preciso cadastra-los.</p>
+<p>Caso seja preciso cadastrar por favor considere fazer um PR nesse modulo acrescentando em l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml assim em proximas implementações já não será preciso cadastra-los.</p>
 <p>Informe os dados do CNAB usado no cadastro do:</p>
 <blockquote>
 <ul class="simple">
