@@ -86,6 +86,10 @@ Known issues / Roadmap
 
 * Verificar a possibilidade na v14 de remoção do ondele='restrict' no campo "move_line_id" e o campo "related" "ml_maturity_date" do account.payment.line no modulo dependente https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39 para permitir o processo de Cancelamento de uma Fatura quando existe uma Ordem de Pagamento já confirmada/gerada/enviada( detalhes l10n_br_account_payment_order/models/account_payment_line.py#L130 )
 
+* Funcionalidade de Agrupar Por/Group By não funciona em campos do tipo Many2Many, aparentemente isso foi resolvido na v15(verfificar na migração), isso é usado nos objetos referentes aos Codigos CNAB de Instrução e Retorno.
+
+* Confirmar se existem Bancos que usam os mesmos conjuntos de Codigos CNAB de Instrução e Retorno para caso não existir remover o many2many do Banco e deixar apenas o many2one.
+
 Changelog
 =========
 
