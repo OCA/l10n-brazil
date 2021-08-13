@@ -450,6 +450,8 @@ ul.auto-toc {
 </li>
 <li>CNAB de Pagamento, verificar a integração com o PR <a class="reference external" href="https://github.com/OCA/l10n-brazil/pull/972">https://github.com/OCA/l10n-brazil/pull/972</a> e a possibilidade de multiplos modos de pagamento na mesma Ordem de Pagamento <a class="reference external" href="https://github.com/odoo-brazil/l10n-brazil/pull/112">https://github.com/odoo-brazil/l10n-brazil/pull/112</a></li>
 <li>Verificar a possibilidade na v14 de remoção do ondele=’restrict’ no campo “move_line_id” e o campo “related” “ml_maturity_date” do account.payment.line no modulo dependente <a class="reference external" href="https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39">https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39</a> para permitir o processo de Cancelamento de uma Fatura quando existe uma Ordem de Pagamento já confirmada/gerada/enviada( detalhes l10n_br_account_payment_order/models/account_payment_line.py#L130 )</li>
+<li>Funcionalidade de Agrupar Por/Group By não funciona em campos do tipo Many2Many, aparentemente isso foi resolvido na v15(verfificar na migração), isso é usado nos objetos referentes aos Codigos CNAB de Instrução e Retorno.</li>
+<li>Confirmar se existem Bancos que usam os mesmos conjuntos de Codigos CNAB de Instrução e Retorno para caso não existir remover o many2many do Banco e deixar apenas o many2one.</li>
 </ul>
 </div>
 <div class="section" id="changelog">
