@@ -1194,7 +1194,7 @@
 
     <!-- Codigos de Instrução do Movimento -->
     <record
-        id="bradesco_cnab_400-mov_instruction_code_01"
+        id="banco_bradesco_cnab_400-mov_instruction_code_01"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Remessa</field>
@@ -1207,7 +1207,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_02"
+        id="banco_bradesco_cnab_400-mov_instruction_code_02"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Pedido de Baixa</field>
@@ -1220,7 +1220,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_03"
+        id="banco_bradesco_cnab_400-mov_instruction_code_03"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Pedido de Protesto Falimentar</field>
@@ -1233,7 +1233,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_04"
+        id="banco_bradesco_cnab_400-mov_instruction_code_04"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Concessão de Abatimento</field>
@@ -1246,7 +1246,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_05"
+        id="banco_bradesco_cnab_400-mov_instruction_code_05"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Cancelamento de Abatimento Concedido</field>
@@ -1259,7 +1259,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_06"
+        id="banco_bradesco_cnab_400-mov_instruction_code_06"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração de Vencimento</field>
@@ -1272,7 +1272,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_07"
+        id="banco_bradesco_cnab_400-mov_instruction_code_07"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração do Controle do Participante</field>
@@ -1285,7 +1285,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_08"
+        id="banco_bradesco_cnab_400-mov_instruction_code_08"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração de seu Número</field>
@@ -1298,7 +1298,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_09"
+        id="banco_bradesco_cnab_400-mov_instruction_code_09"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Pedido de Protesto</field>
@@ -1311,7 +1311,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_12"
+        id="banco_bradesco_cnab_400-mov_instruction_code_12"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Ped. Exc. de Cadastro Pagador Débito</field>
@@ -1324,7 +1324,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_13"
+        id="banco_bradesco_cnab_400-mov_instruction_code_13"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Inclusão de Cadastro Pagador</field>
@@ -1337,7 +1337,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_14"
+        id="banco_bradesco_cnab_400-mov_instruction_code_14"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração Cadastro Pagador</field>
@@ -1350,7 +1350,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_18"
+        id="banco_bradesco_cnab_400-mov_instruction_code_18"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Sustar Protesto e Baixar Título</field>
@@ -1363,7 +1363,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_19"
+        id="banco_bradesco_cnab_400-mov_instruction_code_19"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Sustar Protesto e Manter em Carteira</field>
@@ -1376,7 +1376,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_20"
+        id="banco_bradesco_cnab_400-mov_instruction_code_20"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração de Valor*</field>
@@ -1389,7 +1389,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_22"
+        id="banco_bradesco_cnab_400-mov_instruction_code_22"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Transferência Cessão Crédito ID. Prod.10</field>
@@ -1402,7 +1402,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_23"
+        id="banco_bradesco_cnab_400-mov_instruction_code_23"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Transferência entre Carteiras</field>
@@ -1415,7 +1415,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_24"
+        id="banco_bradesco_cnab_400-mov_instruction_code_24"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Dev. Transferência entre Carteiras</field>
@@ -1428,7 +1428,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_31"
+        id="banco_bradesco_cnab_400-mov_instruction_code_31"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração de Outros Dados</field>
@@ -1441,7 +1441,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_32"
+        id="banco_bradesco_cnab_400-mov_instruction_code_32"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Instrução de Negativação</field>
@@ -1454,7 +1454,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_45"
+        id="banco_bradesco_cnab_400-mov_instruction_code_45"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Pedido de Negativação</field>
@@ -1467,7 +1467,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_46"
+        id="banco_bradesco_cnab_400-mov_instruction_code_46"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Excluir Negativação com Baixa</field>
@@ -1480,7 +1480,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_47"
+        id="banco_bradesco_cnab_400-mov_instruction_code_47"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Excluir Negativação e Manter Pendente</field>
@@ -1493,7 +1493,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_68"
+        id="banco_bradesco_cnab_400-mov_instruction_code_68"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Acerto nos Dados do Rateio de Crédito</field>
@@ -1506,7 +1506,7 @@
     </record>
 
     <record
-        id="bradesco_cnab_400-mov_instruction_code_69"
+        id="banco_bradesco_cnab_400-mov_instruction_code_69"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Cancelamento do Rateio de Crédito</field>
