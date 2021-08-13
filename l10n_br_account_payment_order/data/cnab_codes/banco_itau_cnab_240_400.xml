@@ -1237,7 +1237,7 @@
 
     <!-- Codigos de Instrução do Movimento -->
     <record
-        id="itau_cnab_400-mov_instruction_code_01"
+        id="banco_itau_cnab_400-mov_instruction_code_01"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">REMESSA</field>
@@ -1250,7 +1250,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_02"
+        id="banco_itau_cnab_400-mov_instruction_code_02"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">PEDIDO DE BAIXA</field>
@@ -1263,7 +1263,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_04"
+        id="banco_itau_cnab_400-mov_instruction_code_04"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">CONCESSÃO DE ABATIMENTO</field>
@@ -1276,7 +1276,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_05"
+        id="banco_itau_cnab_400-mov_instruction_code_05"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">CANCELAMENTO DE ABATIMENTO VALOR DO ABATIMENTO</field>
@@ -1289,7 +1289,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_06"
+        id="banco_itau_cnab_400-mov_instruction_code_06"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">ALTERAÇÃO DO VENCIMENTO</field>
@@ -1302,7 +1302,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_07"
+        id="banco_itau_cnab_400-mov_instruction_code_07"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">ALTERAÇÃO DO USO DA EMPRESA USO DA EMPRESA</field>
@@ -1315,7 +1315,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_08"
+        id="banco_itau_cnab_400-mov_instruction_code_08"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">ALTERAÇÃO DO SEU NÚMERO SEU NÚMERO</field>
@@ -1328,7 +1328,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_09"
+        id="banco_itau_cnab_400-mov_instruction_code_09"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">PROTESTAR</field>
@@ -1341,7 +1341,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_10"
+        id="banco_itau_cnab_400-mov_instruction_code_10"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">NÃO PROTESTAR</field>
@@ -1354,7 +1354,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_11"
+        id="banco_itau_cnab_400-mov_instruction_code_11"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">PROTESTO PARA FINS FALIMENTARES</field>
@@ -1367,7 +1367,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_18"
+        id="banco_itau_cnab_400-mov_instruction_code_18"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">SUSTAR O PROTESTO</field>
@@ -1380,7 +1380,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_30"
+        id="banco_itau_cnab_400-mov_instruction_code_30"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">EXCLUSÃO DE SACADOR AVALISTA</field>
@@ -1393,7 +1393,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_31"
+        id="banco_itau_cnab_400-mov_instruction_code_31"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">ALTERAÇÃO DE OUTROS DADOS CAMPOS A ALTERAR</field>
@@ -1406,7 +1406,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_34"
+        id="banco_itau_cnab_400-mov_instruction_code_34"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">BAIXA POR TER SIDO PAGO DIRETAMENTE AO BENEFICIÁRIO</field>
@@ -1419,7 +1419,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_35"
+        id="banco_itau_cnab_400-mov_instruction_code_35"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">CANCELAMENTO DE INSTRUÇÃO CÓDIGO DA INSTRUÇÃO</field>
@@ -1432,7 +1432,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_37"
+        id="banco_itau_cnab_400-mov_instruction_code_37"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">ALTERAÇÃO DO VENCIMENTO E SUSTAR PROTESTO VENCIMENTO</field>
@@ -1445,7 +1445,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_38"
+        id="banco_itau_cnab_400-mov_instruction_code_38"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field
@@ -1460,7 +1460,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_47"
+        id="banco_itau_cnab_400-mov_instruction_code_47"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">BENEFICIÁRIO SOLICITA DISPENSA DE JUROS</field>
@@ -1473,7 +1473,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_49"
+        id="banco_itau_cnab_400-mov_instruction_code_49"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">ALTERAÇÃO DE DADOS EXTRAS (REGISTRO DE MULTA)</field>
@@ -1486,7 +1486,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_66"
+        id="banco_itau_cnab_400-mov_instruction_code_66"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">ENTRADA EM NEGATIVAÇÃO EXPRESSA</field>
@@ -1499,7 +1499,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_67"
+        id="banco_itau_cnab_400-mov_instruction_code_67"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field
@@ -1514,7 +1514,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_68"
+        id="banco_itau_cnab_400-mov_instruction_code_68"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field
@@ -1529,7 +1529,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_69"
+        id="banco_itau_cnab_400-mov_instruction_code_69"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field
@@ -1544,7 +1544,7 @@
     </record>
 
     <record
-        id="itau_cnab_400-mov_instruction_code_93"
+        id="banco_itau_cnab_400-mov_instruction_code_93"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">DESCONTAR TÍTULOS ENCAMINHADOS NO DIA</field>
