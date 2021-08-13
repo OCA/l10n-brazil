@@ -6,7 +6,7 @@
 
     <!-- Codigos de Instrução do Movimento -->
     <record
-        id="bb_cnab_400-mov_instruction_code_01"
+        id="banco_bb_cnab_400-mov_instruction_code_01"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Registro de títulos</field>
@@ -19,7 +19,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_02"
+        id="banco_bb_cnab_400-mov_instruction_code_02"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Solicitação de baixa</field>
@@ -32,7 +32,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_03"
+        id="banco_bb_cnab_400-mov_instruction_code_03"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Pedido de débito em conta</field>
@@ -45,7 +45,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_04"
+        id="banco_bb_cnab_400-mov_instruction_code_04"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Concessão de abatimento</field>
@@ -58,7 +58,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_05"
+        id="banco_bb_cnab_400-mov_instruction_code_05"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Cancelamento de abatimento</field>
@@ -71,7 +71,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_06"
+        id="banco_bb_cnab_400-mov_instruction_code_06"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração de vencimento de título</field>
@@ -84,7 +84,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_07"
+        id="banco_bb_cnab_400-mov_instruction_code_07"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração do número de controle do participante</field>
@@ -97,7 +97,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_08"
+        id="banco_bb_cnab_400-mov_instruction_code_08"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração do número do titulo dado pelo Beneficiário</field>
@@ -110,7 +110,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_09"
+        id="banco_bb_cnab_400-mov_instruction_code_09"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Instrução para protestar (Nota 09)</field>
@@ -123,7 +123,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_10"
+        id="banco_bb_cnab_400-mov_instruction_code_10"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Instrução para sustar protesto</field>
@@ -136,7 +136,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_11"
+        id="banco_bb_cnab_400-mov_instruction_code_11"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Instrução para dispensar juros</field>
@@ -149,7 +149,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_12"
+        id="banco_bb_cnab_400-mov_instruction_code_12"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração de nome e endereço do Pagador</field>
@@ -162,7 +162,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_16"
+        id="banco_bb_cnab_400-mov_instruction_code_16"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alterar Juros de Mora (Vide Observações)</field>
@@ -175,7 +175,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_31"
+        id="banco_bb_cnab_400-mov_instruction_code_31"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Conceder desconto</field>
@@ -188,7 +188,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_32"
+        id="banco_bb_cnab_400-mov_instruction_code_32"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Não conceder desconto</field>
@@ -201,7 +201,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_33"
+        id="banco_bb_cnab_400-mov_instruction_code_33"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Retificar dados da concessão de desconto</field>
@@ -214,7 +214,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_34"
+        id="banco_bb_cnab_400-mov_instruction_code_34"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alterar data para concessão de desconto</field>
@@ -227,7 +227,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_35"
+        id="banco_bb_cnab_400-mov_instruction_code_35"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Cobrar multa (Nota 11)</field>
@@ -240,7 +240,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_36"
+        id="banco_bb_cnab_400-mov_instruction_code_36"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Dispensar multa (Nota 11)</field>
@@ -253,7 +253,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_37"
+        id="banco_bb_cnab_400-mov_instruction_code_37"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Dispensar indexador</field>
@@ -266,7 +266,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_38"
+        id="banco_bb_cnab_400-mov_instruction_code_38"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Dispensar prazo limite de recebimento (Nota 11)</field>
@@ -279,7 +279,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_39"
+        id="banco_bb_cnab_400-mov_instruction_code_39"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alterar prazo limite de recebimento (Nota 11)</field>
@@ -292,7 +292,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_40"
+        id="banco_bb_cnab_400-mov_instruction_code_40"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alterar modalidade (Vide Observações)</field>
@@ -305,7 +305,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_47"
+        id="banco_bb_cnab_400-mov_instruction_code_47"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Alteração de Valor Nominal do Boleto</field>
@@ -318,7 +318,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_85"
+        id="banco_bb_cnab_400-mov_instruction_code_85"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field
@@ -333,7 +333,7 @@
     </record>
 
     <record
-        id="bb_cnab_400-mov_instruction_code_86"
+        id="banco_bb_cnab_400-mov_instruction_code_86"
         model="l10n_br_cnab.mov.instruction.code"
     >
         <field name="name">Exclusão de Negativação Sem Protesto (Nota 09)</field>

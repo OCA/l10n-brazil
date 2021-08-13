@@ -252,39 +252,39 @@
         />
         <field
             name="cnab_sending_code_id"
-            ref="bradesco_cnab_400-mov_instruction_code_01"
+            ref="banco_bradesco_cnab_400-mov_instruction_code_01"
         />
         <field
             name="cnab_write_off_code_id"
-            ref="bradesco_cnab_400-mov_instruction_code_02"
+            ref="banco_bradesco_cnab_400-mov_instruction_code_02"
         />
         <field
             name="cnab_code_change_title_value_id"
-            ref="bradesco_cnab_400-mov_instruction_code_20"
+            ref="banco_bradesco_cnab_400-mov_instruction_code_20"
         />
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="bradesco_cnab_400-mov_instruction_code_06"
+            ref="banco_bradesco_cnab_400-mov_instruction_code_06"
         />
         <field
             name="cnab_code_protest_title_id"
-            ref="bradesco_cnab_400-mov_instruction_code_09"
+            ref="banco_bradesco_cnab_400-mov_instruction_code_09"
         />
         <field
             name="cnab_code_suspend_protest_keep_wallet_id"
-            ref="bradesco_cnab_400-mov_instruction_code_19"
+            ref="banco_bradesco_cnab_400-mov_instruction_code_19"
         />
         <field
             name="cnab_code_suspend_protest_write_off_id"
-            ref="bradesco_cnab_400-mov_instruction_code_18"
+            ref="banco_bradesco_cnab_400-mov_instruction_code_18"
         />
                 <field
             name="cnab_code_grant_rebate_id"
-            ref="bradesco_cnab_400-mov_instruction_code_04"
+            ref="banco_bradesco_cnab_400-mov_instruction_code_04"
         />
         <field
             name="cnab_code_cancel_rebate_id"
-            ref="bradesco_cnab_400-mov_instruction_code_05"
+            ref="banco_bradesco_cnab_400-mov_instruction_code_05"
         />
     </record>
 
@@ -668,19 +668,19 @@
         />
         <field
             name="cnab_sending_code_id"
-            ref="itau_cnab_400-mov_instruction_code_01"
+            ref="banco_itau_cnab_400-mov_instruction_code_01"
         />
         <field
             name="cnab_write_off_code_id"
-            ref="itau_cnab_400-mov_instruction_code_02"
+            ref="banco_itau_cnab_400-mov_instruction_code_02"
         />
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="itau_cnab_400-mov_instruction_code_06"
+            ref="banco_itau_cnab_400-mov_instruction_code_06"
         />
         <field
             name="cnab_code_protest_title_id"
-            ref="itau_cnab_400-mov_instruction_code_09"
+            ref="banco_itau_cnab_400-mov_instruction_code_09"
         />
     </record>
 
@@ -977,42 +977,45 @@
                ref('banco_brasil_cnab_400-07'), ref('banco_brasil_cnab_400-08'),
                ref('banco_brasil_cnab_400-15'), ref('banco_brasil_cnab_400-20'),])]"
         />
-        <field name="cnab_sending_code_id" ref="bb_cnab_400-mov_instruction_code_01" />
+        <field
+            name="cnab_sending_code_id"
+            ref="banco_bb_cnab_400-mov_instruction_code_01"
+        />
         <field
             name="cnab_write_off_code_id"
-            ref="bb_cnab_400-mov_instruction_code_02"
+            ref="banco_bb_cnab_400-mov_instruction_code_02"
         />
         <field
             name="cnab_code_change_title_value_id"
-            ref="bb_cnab_400-mov_instruction_code_47"
+            ref="banco_bb_cnab_400-mov_instruction_code_47"
         />
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="bb_cnab_400-mov_instruction_code_06"
+            ref="banco_bb_cnab_400-mov_instruction_code_06"
         />
         <field
             name="cnab_code_protest_title_id"
-            ref="bb_cnab_400-mov_instruction_code_09"
+            ref="banco_bb_cnab_400-mov_instruction_code_09"
         />
         <field
             name="cnab_code_suspend_protest_keep_wallet_id"
-            ref="bb_cnab_400-mov_instruction_code_10"
+            ref="banco_bb_cnab_400-mov_instruction_code_10"
         />
         <field
             name="cnab_code_grant_rebate_id"
-            ref="bb_cnab_400-mov_instruction_code_04"
+            ref="banco_bb_cnab_400-mov_instruction_code_04"
         />
         <field
             name="cnab_code_cancel_rebate_id"
-            ref="bb_cnab_400-mov_instruction_code_05"
+            ref="banco_bb_cnab_400-mov_instruction_code_05"
         />
         <field
             name="cnab_code_grant_discount_id"
-            ref="bb_cnab_400-mov_instruction_code_31"
+            ref="banco_bb_cnab_400-mov_instruction_code_31"
         />
         <field
             name="cnab_code_cancel_discount_id"
-            ref="bb_cnab_400-mov_instruction_code_32"
+            ref="banco_bb_cnab_400-mov_instruction_code_32"
         />
 
     </record>
