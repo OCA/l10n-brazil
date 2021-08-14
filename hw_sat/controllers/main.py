@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
 import logging
 import time
 from threading import Thread, Lock
 from requests import ConnectionError
 from decimal import Decimal
-import StringIO
-import openerp.addons.hw_proxy.controllers.main as hw_proxy
-from openerp import http
+import io
+from odoo.addons.hw_proxy.controllers import main as hw_proxy
+from odoo import http
 import base64
-import re, string
+import string
 
 _logger = logging.getLogger(__name__)
 
@@ -133,7 +132,7 @@ class Sat(Thread):
 
         detalhe = Detalhamento(
             produto=ProdutoServico(
-                cProd=unicode(item['product_default_code']),
+                cProd=str(item['product_default_code']),
                 xProd=item['product_name'],
                 CFOP='5102',
                 uCom=item['unit_name'],
@@ -291,16 +290,16 @@ class Sat(Thread):
         from escpos.serial import SerialSettings
 
         if self.impressora == 'epson-tm-t20':
-            _logger.info(u'SAT Impressao: Epson TM-T20')
+            _logger.info('SAT Impressao: Epson TM-T20')
             from escpos.impl.epson import TMT20 as Printer
         elif self.impressora == 'bematech-mp4200th':
-            _logger.info(u'SAT Impressao: Bematech MP4200TH')
+            _logger.info('SAT Impressao: Bematech MP4200TH')
             from escpos.impl.bematech import MP4200TH as Printer
         elif self.impressora == 'daruma-dr700':
-            _logger.info(u'SAT Impressao: Daruma Dr700')
+            _logger.info('SAT Impressao: Daruma Dr700')
             from escpos.impl.daruma import DR700 as Printer
         elif self.impressora == 'elgin-i9':
-            _logger.info(u'SAT Impressao: Elgin I9')
+            _logger.info('SAT Impressao: Elgin I9')
             from escpos.impl.elgin import ElginI9 as Printer
         else:
             return False
@@ -311,12 +310,11 @@ class Sat(Thread):
         printer.init()
         return printer
 
-
     def _print_extrato_venda(self, xml):
         if not self.printer:
             return False
         extrato = ExtratoCFeVenda(
-            StringIO.StringIO(base64.b64decode(xml)),
+            io.StringIO(base64.b64decode(xml)),
             self.printer
             )
         extrato.imprimir()
@@ -326,8 +324,8 @@ class Sat(Thread):
         if not self.printer:
             return False
         extrato = ExtratoCFeCancelamento(
-            StringIO.StringIO(base64.b64decode(xml_venda)),
-            StringIO.StringIO(base64.b64decode(xml_cancelamento)),
+            io.StringIO(base64.b64decode(xml_venda)),
+            io.StringIO(base64.b64decode(xml_cancelamento)),
             self.printer
             )
         extrato.imprimir()
