@@ -1739,7 +1739,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:474
+#: code:addons/l10n_br_fiscal/models/document.py:473
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -7990,7 +7990,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:501
+#: code:addons/l10n_br_fiscal/models/document.py:500
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
