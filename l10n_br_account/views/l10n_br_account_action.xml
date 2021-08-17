@@ -90,7 +90,7 @@
         <field eval="False" name="view_id" />
         <field
             name="domain"
-        >[('type','=','in_invoice'), ('fiscal_operation_type', '=', 'in')]</field>
+        >[('type', 'in', ('in_invoice', 'out_refund')), ('fiscal_operation_type', '=', 'in')]</field>
         <field name="context">{'type':'in_invoice', 'journal_type': 'purchase'}</field>
         <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
         <field name="help" type="html">
@@ -126,7 +126,7 @@
         <field eval="False" name="view_id" />
         <field
             name="domain"
-        >[('type','=','out_invoice'), ('fiscal_operation_type', '=', 'out')]</field>
+        >[('type', 'in', ('out_invoice', 'in_refund')), ('fiscal_operation_type', '=', 'out')]</field>
         <field
             name="context"
         >{'type':'out_invoice', 'journal_type': 'sale', 'default_fiscal_operation_type': 'out'}</field>
