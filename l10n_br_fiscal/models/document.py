@@ -427,24 +427,24 @@ class Document(models.Model):
         if self.document_serie_id and self.issuer == DOCUMENT_ISSUER_COMPANY:
             self.document_serie = self.document_serie_id.code
 
-    def _prepare_referenced_subsequent(self):
+    def _prepare_referenced_subsequent(self, doc_referenced):
         self.ensure_one()
-        vals = {
+        return {
             "document_id": self.id,
-            "document_type_id": self.document_type_id.id,
-            "document_serie": self.document_serie,
-            "document_number": self.document_number,
-            "document_date": self.document_date,
-            "document_key": self.document_key,
+            "document_related_id": doc_referenced.id,
+            "document_type_id": doc_referenced.document_type_id.id,
+            "document_serie": doc_referenced.document_serie,
+            "document_number": doc_referenced.document_number,
+            "document_date": doc_referenced.document_date,
+            "document_key": doc_referenced.document_key,
         }
-        reference_id = self.env["l10n_br_fiscal.document.related"].create(vals)
-        return reference_id
 
-    def _document_reference(self, reference_ids):
+    def _document_reference(self, documents_referenced):
         self.ensure_one()
-        for referenced_item in reference_ids:
-            referenced_item.document_related_ids = self.id
-            self.document_related_ids |= referenced_item
+        for doc_referenced in documents_referenced:
+            doc_related = self.env["l10n_br_fiscal.document.related"].create(
+                self._prepare_referenced_subsequent(doc_referenced)
+            )
 
     @api.depends("document_subsequent_ids.subsequent_document_id")
     def _compute_document_subsequent_generated(self):
