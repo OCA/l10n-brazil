@@ -12,6 +12,11 @@ addons:
   apt:
     packages:
       - expect-dev # provides unbuffer utility
+      - python-lxml # because pip installation is slow
+      - libxml2-dev
+      - libxmlsec1-dev
+      - libxslt-dev
+      - swig
 
 stages:
   - test
