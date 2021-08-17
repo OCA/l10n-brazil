@@ -9,9 +9,9 @@ erpbrasil.edoc.pdf==1.0.1
 nfselib.ginfes==0.2.0
 nfselib.issnet==0.2.0
 nfselib.paulistana==0.2.0
+nfelib==1.1
 xmldiff==2.4
 lxml==4.6.3
--e git+https://github.com/akretion/nfelib.git@master_gen_v4_00#egg=nfelib
 -e git+https://github.com/OCA/openupgradelib.git@master#egg=openupgradelib
 -e git://github.com/erpbrasil/febraban-python.git@v0.7.1#egg=febraban
 vcrpy
