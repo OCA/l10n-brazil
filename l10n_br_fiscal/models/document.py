@@ -442,7 +442,7 @@ class Document(models.Model):
     def _document_reference(self, documents_referenced):
         self.ensure_one()
         for doc_referenced in documents_referenced:
-            doc_related = self.env["l10n_br_fiscal.document.related"].create(
+            self.env["l10n_br_fiscal.document.related"].create(
                 self._prepare_referenced_subsequent(doc_referenced)
             )
 
