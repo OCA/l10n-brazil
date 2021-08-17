@@ -135,10 +135,11 @@ class Company(models.Model):
     def write(self, values):
         try:
             result = super(Company, self).write(values)
-        except Exception:
+        except Exception as e:
             if not config["without_demo"] and values.get("currency_id"):
+                # required for demo installation
                 result = models.Model.write(self, values)
             else:
-                raise Exception
+                raise e
 
         return result
