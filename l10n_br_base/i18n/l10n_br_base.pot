@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_base
+# 	* l10n_br_base
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -129,13 +129,11 @@ msgid "Acauã"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__acc_number_dig
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number_dig
 msgid "Account Digit"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__acc_number
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__acc_number
 msgid "Account Number"
 msgstr ""
@@ -458,7 +456,9 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
-msgid "Allows you to create more than one partner with the same CNPJ and different State Tax Number"
+msgid ""
+"Allows you to create more than one partner with the same CNPJ and different "
+"State Tax Number"
 msgstr ""
 
 #. module: l10n_br_base
@@ -701,12 +701,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3501152
-#: model:res.partner,nfe40_xMun:l10n_br_base.partner_demo_presumido
-#: model:res.partner,nfe40_xMun:l10n_br_base.partner_demo_simples
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_address_ak3
-#: model:res.partner,nfe40_xMun:l10n_br_base.simples_nacional_partner
-#: model:res.users,nfe40_xMun:l10n_br_base.user_demo_presumido
-#: model:res.users,nfe40_xMun:l10n_br_base.user_demo_simples
 msgid "Alumínio"
 msgstr ""
 
@@ -2051,7 +2045,6 @@ msgid "BIC/Swift Code"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bra_bank_bic
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_bank_bic
 msgid "BIC/Swift Final Code."
 msgstr ""
@@ -2238,7 +2231,6 @@ msgid "Bank"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bank_account_type
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bank_account_type
 msgid "Bank Account Type"
 msgstr ""
@@ -2249,19 +2241,17 @@ msgid "Bank Accounts"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bra_number
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_number
 msgid "Bank Branch"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_account_setup_bank_manual_config__bra_number_dig
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__bra_number_dig
 msgid "Bank Branch Digit"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:63
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid "Bank branch code must be four caracteres."
 msgstr ""
@@ -3526,39 +3516,6 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5203609
 msgid "Brazabrantes"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:res.partner,nfe40_xPais:l10n_br_base.lucro_presumido_partner
-#: model:res.partner,nfe40_xPais:l10n_br_base.partner_demo_presumido
-#: model:res.partner,nfe40_xPais:l10n_br_base.partner_demo_simples
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_address_ak2
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_address_ak3
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_akretion
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_amd
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente10_mg
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente11_sp
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente1_sp
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente2_sp
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente3_am
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente4_am
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente5_pe
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente6_pe
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente7_rs
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente8_rs
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_cliente9_mg
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_dell
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_infobahia
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_infomanaus
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_intel
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_kmee
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_lg
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_positivo
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_samsungpe
-#: model:res.partner,nfe40_xPais:l10n_br_base.simples_nacional_partner
-#: model:res.users,nfe40_xPais:l10n_br_base.user_demo_presumido
-#: model:res.users,nfe40_xPais:l10n_br_base.user_demo_simples
-msgid "Brazil"
 msgstr ""
 
 #. module: l10n_br_base
@@ -6564,43 +6521,43 @@ msgid "Constantina"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:13
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__11
 #, python-format
 msgid "Conta corrente conjunta"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:10
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__01
 #, python-format
 msgid "Conta corrente individual"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:15
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__13
 #, python-format
 msgid "Conta depósito judicial/Depósito em consignação conjunta"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:12
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__03
 #, python-format
 msgid "Conta depósito judicial/Depósito em consignação individual"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:14
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__12
 #, python-format
 msgid "Conta poupança conjunta"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:11
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__02
 #, python-format
 msgid "Conta poupança individual"
 msgstr ""
@@ -7304,7 +7261,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4106902
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_positivo
 msgid "Curitiba"
 msgstr ""
 
@@ -7512,19 +7468,6 @@ msgstr ""
 #: model:res.city,name:l10n_br_base.city_2103752
 #: model:res.city,name:l10n_br_base.city_5206909
 msgid "Davinópolis"
-msgstr ""
-
-#. module: l10n_br_base
-#: model:res.company,overdue_msg:l10n_br_base.empresa_lucro_presumido
-#: model:res.company,overdue_msg:l10n_br_base.empresa_simples_nacional
-msgid "Dear Sir/Madam,\n"
-"\n"
-"Our records indicate that some payments on your account are still due. Please find details below.\n"
-"If the amount has already been paid, please disregard this notice. Otherwise, please forward us the total amount stated below.\n"
-"If you have any queries regarding your account, Please contact us.\n"
-"\n"
-"Thank you in advance for your cooperation.\n"
-"Best Regards,"
 msgstr ""
 
 #. module: l10n_br_base
@@ -8413,7 +8356,7 @@ msgid "Espírito Santo do Turvo"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:137
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr ""
@@ -10908,7 +10851,7 @@ msgid "Inocência"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:151
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "Invalid State Tax Number!"
 msgstr ""
@@ -11465,9 +11408,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3132404
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente10_mg
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente9_mg
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_kmee
 msgid "Itajubá"
 msgstr ""
 
@@ -13504,7 +13444,6 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:ir.model.fields,help:l10n_br_base.field_account_setup_bank_manual_config__bra_bank_bic
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner_bank__bra_bank_bic
 msgid "Last part of BIC/Swift Code."
 msgstr ""
@@ -14195,10 +14134,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_1302603
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente3_am
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente4_am
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_infomanaus
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_lg
 msgid "Manaus"
 msgstr ""
 
@@ -19254,9 +19189,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4314902
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente7_rs
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente8_rs
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_dell
 msgid "Porto Alegre"
 msgstr ""
 
@@ -20142,9 +20074,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2611606
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente5_pe
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente6_pe
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_samsungpe
 msgid "Recife"
 msgstr ""
 
@@ -20748,7 +20677,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3304557
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_address_ak2
 msgid "Rio de Janeiro"
 msgstr ""
 
@@ -21217,7 +21145,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2927408
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_infobahia
 msgid "Salvador"
 msgstr ""
 
@@ -23183,7 +23110,7 @@ msgid "State Tax Number"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:167
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "State Tax Number already used %s"
 msgstr ""
@@ -24586,13 +24513,6 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3550308
-#: model:res.partner,nfe40_xMun:l10n_br_base.lucro_presumido_partner
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_akretion
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_amd
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente11_sp
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente1_sp
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_cliente2_sp
-#: model:res.partner,nfe40_xMun:l10n_br_base.res_partner_intel
 msgid "São Paulo"
 msgstr ""
 
@@ -25515,14 +25435,16 @@ msgid "Teófilo Otoni"
 msgstr ""
 
 #. module: l10n_br_base
-#: sql_constraint:state.tax.numbers:0
+#: model:ir.model.constraint,message:l10n_br_base.constraint_state_tax_numbers_l10n_br_base_state_tax_numbers_id_uniq
 msgid "The Partner already has a State Tax Number for that State!"
 msgstr ""
 
 #. module: l10n_br_base
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__vat
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__vat
-msgid "The Tax Identification Number. Complete it if the contact is subjected to government taxes. Used in some legal statements."
+msgid ""
+"The Tax Identification Number. Complete it if the contact is subjected to "
+"government taxes. Used in some legal statements."
 msgstr ""
 
 #. module: l10n_br_base
@@ -25531,25 +25453,25 @@ msgid "Theobroma"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:154
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:80
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this CNPJ !"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:84
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this CPF/RG!"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:73
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this Estadual Inscription !"
 msgstr ""
@@ -26297,11 +26219,6 @@ msgid "Unistalda"
 msgstr ""
 
 #. module: l10n_br_base
-#: model:res.partner,nfe40_xPais:l10n_br_base.res_partner_exterior
-msgid "United States"
-msgstr ""
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2211100
 msgid "União"
 msgstr ""
@@ -26339,6 +26256,12 @@ msgstr ""
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2709301
 msgid "União dos Palmares"
+msgstr ""
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner.py:0
+#, python-format
+msgid "Unrecognized field %s in street format."
 msgstr ""
 
 #. module: l10n_br_base
@@ -26474,7 +26397,9 @@ msgstr ""
 
 #. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_config_settings_form
-msgid "Use Brazilian postal service API to search partner address using postal zip code"
+msgid ""
+"Use Brazilian postal service API to search partner address using postal zip "
+"code"
 msgstr ""
 
 #. module: l10n_br_base
@@ -27234,7 +27159,7 @@ msgid "Zé Doca"
 msgstr ""
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:112
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "{} Invalid!"
 msgstr ""
@@ -27411,4 +27336,3 @@ msgstr ""
 #: model:res.city,name:l10n_br_base.city_3533809
 msgid "Óleo"
 msgstr ""
-
