@@ -8,7 +8,7 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <field name="picking_policy" position="before">
-                <field name="amount_weight"/>
+                <field name="amount_gross_weight"/>
                 <field name="amount_volume"/>
             </field>
         </field>
