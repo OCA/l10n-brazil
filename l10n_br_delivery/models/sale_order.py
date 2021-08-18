@@ -8,12 +8,15 @@ from odoo.exceptions import UserError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    # TODO: Na v12 o produto possui apenas o campo weight que é referente
-    #  ao Peso Liquido a parametrização do Peso Bruto parece ser feita
-    #  através do cadastro de embalagens
-    amount_weight = fields.Float(
-        string='Amount Weight',
-        compute='_compute_amount_weight'
+    # A partir da v9 existe apenas o campo weight, que é referente ao
+    # Peso Bruto/Gross Weight https://github.com/OCA/product-attribute/pull/894
+    # Caso a implementação precise do Peso Liquido o modulo do link deve ser
+    # cosiderado.
+    # Esse modulo l10n_br_delivery é pensando para ter aderencia com o
+    # product_net_weight (modulo link acima).
+    amount_gross_weight = fields.Float(
+        string='Amount Gross Weight',
+        compute='_compute_amount_gross_weight'
     )
 
     amount_volume = fields.Float(
@@ -50,13 +53,13 @@ class SaleOrder(models.Model):
                 order.amount_freight_value = price_unit
         return True
 
-    def _compute_amount_weight(self):
+    def _compute_amount_gross_weight(self):
 
         for record in self:
-            amount_weight = 0.0
+            amount_gross_weight = 0.0
             for line in record.order_line:
-                amount_weight += line.product_qty * line.product_id.weight
-            record.amount_weight = amount_weight
+                amount_gross_weight += line.product_qty * line.product_id.weight
+            record.amount_gross_weight = amount_gross_weight
 
     def _compute_amount_volume(self):
 
