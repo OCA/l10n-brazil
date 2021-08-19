@@ -3,7 +3,7 @@
 
 from odoo import fields, models
 
-from ..constants.nfe import NFE_ENVIRONMENTS, NFE_VERSIONS
+from ..constants.nfe import NFE_ENVIRONMENTS, NFE_VERSIONS, NFE_TRANSMISSIONS
 
 
 class ResConfigSettings(models.TransientModel):
@@ -22,3 +22,13 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.nfe_environment",
         readonly=False,
     )
+
+    nfe_transmission = fields.Selection(
+        string="NFe Transmission",
+        selection=NFE_TRANSMISSIONS,
+        related="company_id.nfe_transmission",
+        readonly=False,
+    )
+
+
+NFE_TRANSMISSIONS
