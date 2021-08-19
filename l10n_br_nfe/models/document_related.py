@@ -64,28 +64,22 @@ class NFeRelated(spec_models.StackedModel):
     #     store=True,
     # )
 
-    @api.multi
     @api.depends("document_type_id")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
-            document = rec.document_related_id
-            document_key = (
-                document.document_key[3:]
-                if document.document_key
-                else rec.document_key or ""
-            )
             if rec.document_type_id:
+                document = rec.document_related_id
                 if rec.document_type_id.code in (
                     MODELO_FISCAL_NFE,
                     MODELO_FISCAL_NFCE,
                     MODELO_FISCAL_CFE,
                 ):
                     rec.nfe40_choice4 = "nfe40_refNFe"
-                    rec.nfe40_refNFe = document_key
+                    rec.nfe40_refNFe = document.document_key
                 elif rec.document_type_id.code == MODELO_FISCAL_CTE:
                     rec.nfe40_choice4 = "nfe40_refCTe"
-                    rec.nfe40_refCTe = document_key
+                    rec.nfe40_refCTe = document.document_key
                 else:
                     if rec.document_type_id.code == MODELO_FISCAL_RL:
                         rec.nfe40_choice4 = "nfe40_refNFP"
