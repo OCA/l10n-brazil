@@ -4,11 +4,10 @@
 from odoo import fields, models
 
 from ..constants.nfe import (
-    NFE_ENVIRONMENTS,
-    NFE_VERSIONS,
-    NFE_TRANSMISSIONS,
     NFE_DANFE_LAYOUTS,
-    NFCE_DANFE_LAYOUTS,
+    NFE_ENVIRONMENTS,
+    NFE_TRANSMISSIONS,
+    NFE_VERSIONS,
 )
 
 
