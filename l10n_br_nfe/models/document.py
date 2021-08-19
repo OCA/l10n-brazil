@@ -4,6 +4,7 @@
 
 import base64
 import logging
+import re
 from datetime import datetime
 from unicodedata import normalize
 
@@ -17,7 +18,7 @@ from nfelib.v4_00 import retEnviNFe as leiauteNFe
 from requests import Session
 
 from odoo import _, api, fields
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
@@ -132,7 +133,8 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_Id = fields.Char(
-        related="document_key",
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_Id",
     )
 
     # TODO should be done by framework?
@@ -294,6 +296,13 @@ class NFe(spec_models.StackedModel):
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for record in self:
+            # id
+            if record.document_type_id and record.document_type_id.prefix:
+                record.nfe40_Id = (
+                    record.document_type_id.prefix +
+                    record.document_key
+                )
+
             # tpNF
             operation_2_tpNF = {
                 "out": "1",
@@ -333,6 +342,11 @@ class NFe(spec_models.StackedModel):
                 }
                 rec.fiscal_operation_type = tpNF_2_operation[rec.nfe40_tpNF]
 
+    def _inverse_nfe40_Id(self):
+        for record in self:
+            if record.nfe40_Id:
+                record.document_key = re.findall("\d+", record.nfe40_Id)[0]
+
     def _inverse_nfe40_tpEmis(self):
         for record in self:
             if record.nfe40_tpEmis:
@@ -350,9 +364,14 @@ class NFe(spec_models.StackedModel):
         super()._document_number()
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.document_key:
-                chave = ChaveEdoc(record.document_key)
-                record.nfe40_cNF = chave.codigo_aleatorio
-                record.nfe40_cDV = chave.digito_verificador
+                try:
+                    chave = ChaveEdoc(record.document_key)
+                    record.nfe40_cNF = chave.codigo_aleatorio
+                    record.nfe40_cDV = chave.digito_verificador
+                except Exception as e:
+                    raise  ValidationError(
+                        "{}:\n {}".format(record.document_type_id.name, e)
+                    )
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
@@ -711,7 +730,7 @@ class NFe(spec_models.StackedModel):
             raise UserError(_("Authorization Protocol Not Found!"))
 
         evento = processador.cancela_documento(
-            chave=self.document_key[3:],
+            chave=self.document_key,
             protocolo_autorizacao=self.authorization_protocol,
             justificativa=self.cancel_reason.replace("\n", "\\n"),
         )
@@ -729,7 +748,7 @@ class NFe(spec_models.StackedModel):
         )
 
         for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.document_key[3:]:
+            if not retevento.infEvento.chNFe == self.document_key:
                 continue
 
             if retevento.infEvento.cStat not in CANCELADO:
@@ -773,7 +792,7 @@ class NFe(spec_models.StackedModel):
         sequence = str(int(max(numeros)) + 1) if numeros else "1"
 
         evento = processador.carta_correcao(
-            chave=self.document_key[3:],
+            chave=self.document_key,
             sequencia=sequence,
             justificativa=justificative.replace("\n", "\\n"),
         )
@@ -791,7 +810,7 @@ class NFe(spec_models.StackedModel):
             justification=justificative,
         )
         for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.document_key[3:]:
+            if not retevento.infEvento.chNFe == self.document_key:
                 continue
 
             if retevento.infEvento.cStat not in EVENTO_RECEBIDO:
