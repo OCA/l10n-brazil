@@ -44,11 +44,11 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
-    NFE_ENVIRONMENTS,
-    NFE_VERSIONS,
-    NFE_TRANSMISSIONS,
-    NFE_DANFE_LAYOUTS,
     NFCE_DANFE_LAYOUTS,
+    NFE_DANFE_LAYOUTS,
+    NFE_ENVIRONMENTS,
+    NFE_TRANSMISSIONS,
+    NFE_VERSIONS,
 )
 
 _logger = logging.getLogger(__name__)
@@ -298,10 +298,7 @@ class NFe(spec_models.StackedModel):
         for record in self:
             # id
             if record.document_type_id and record.document_type_id.prefix:
-                record.nfe40_Id = (
-                    record.document_type_id.prefix +
-                    record.document_key
-                )
+                record.nfe40_Id = record.document_type_id.prefix + record.document_key
 
             # tpNF
             operation_2_tpNF = {
@@ -345,7 +342,7 @@ class NFe(spec_models.StackedModel):
     def _inverse_nfe40_Id(self):
         for record in self:
             if record.nfe40_Id:
-                record.document_key = re.findall("\d+", record.nfe40_Id)[0]
+                record.document_key = re.findall(r"\d+", record.nfe40_Id)[0]
 
     def _inverse_nfe40_tpEmis(self):
         for record in self:
@@ -369,7 +366,7 @@ class NFe(spec_models.StackedModel):
                     record.nfe40_cNF = chave.codigo_aleatorio
                     record.nfe40_cDV = chave.digito_verificador
                 except Exception as e:
-                    raise  ValidationError(
+                    raise ValidationError(
                         "{}:\n {}".format(record.document_type_id.name, e)
                     )
 
