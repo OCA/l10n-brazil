@@ -13,6 +13,10 @@ from ..constants.nfe import (
     NFE_VERSIONS,
     NFE_TRANSMISSIONS,
     NFE_TRANSMISSION_DEFAULT,
+    NFE_DANFE_LAYOUTS,
+    NFE_DANFE_LAYOUT_DEFAULT,
+    NFCE_DANFE_LAYOUTS,
+    NFCE_DANFE_LAYOUT_DEFAULT,
 )
 
 PROCESSADOR_ERPBRASIL_EDOC = "oca"
@@ -73,6 +77,18 @@ class ResCompany(spec_models.SpecModel):
         "\n9=Contingência off-line da NFC-e;"
         "\nObservação: Para a NFC-e somente é válida a opção de contingência:"
         "\n9-Contingência Off-Line e, a critério da UF, opção 4-Contingência EPEC. (NT 2015/002)"
+    )
+
+    nfe_danfe_layout = fields.Selection(
+        selection=NFE_DANFE_LAYOUTS,
+        string="NFe Layout",
+        default=NFE_DANFE_LAYOUT_DEFAULT,
+    )
+
+    nfce_danfe_layout = fields.Selection(
+        selection=NFCE_DANFE_LAYOUTS,
+        string="NFCe Layout",
+        default=NFCE_DANFE_LAYOUT_DEFAULT,
     )
 
     nfe_default_serie_id = fields.Many2one(
