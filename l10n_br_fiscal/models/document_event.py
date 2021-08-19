@@ -268,8 +268,9 @@ class Event(models.Model):
             self.document_id
             and self.document_id.document_key
             and self.document_id.document_electronic
+            and self.document_id.prefix
         ):
-            file_name = self.document_id.document_key
+            file_name = self.document_id.prefix + self.document_id.document_key
         else:
             file_name = self.document_number
         return file_name
