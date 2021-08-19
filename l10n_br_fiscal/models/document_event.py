@@ -272,8 +272,7 @@ class Event(models.Model):
             and self.document_id.document_type_id.prefix
         ):
             file_name = (
-                self.document_id.document_type_id.prefix +
-                self.document_id.document_key
+                self.document_id.document_type_id.prefix + self.document_id.document_key
             )
         else:
             file_name = self.document_number
