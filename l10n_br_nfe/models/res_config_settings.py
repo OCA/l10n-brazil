@@ -3,7 +3,13 @@
 
 from odoo import fields, models
 
-from ..constants.nfe import NFE_ENVIRONMENTS, NFE_VERSIONS, NFE_TRANSMISSIONS
+from ..constants.nfe import (
+    NFE_ENVIRONMENTS,
+    NFE_VERSIONS,
+    NFE_TRANSMISSIONS,
+    NFE_DANFE_LAYOUTS,
+    NFCE_DANFE_LAYOUTS,
+)
 
 
 class ResConfigSettings(models.TransientModel):
@@ -30,5 +36,16 @@ class ResConfigSettings(models.TransientModel):
         readonly=False,
     )
 
+    nfe_danfe_layout = fields.Selection(
+        string="NFe Layout",
+        selection=NFE_DANFE_LAYOUTS,
+        related="company_id.nfe_danfe_layout",
+        readonly=False,
+    )
 
-NFE_TRANSMISSIONS
+    nfce_danfe_layout = fields.Selection(
+        string="NFCe Layout",
+        selection=NFE_DANFE_LAYOUTS,
+        related="company_id.nfce_danfe_layout",
+        readonly=False,
+    )
