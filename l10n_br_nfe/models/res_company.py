@@ -7,16 +7,16 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
+    NFCE_DANFE_LAYOUT_DEFAULT,
+    NFCE_DANFE_LAYOUTS,
+    NFE_DANFE_LAYOUT_DEFAULT,
+    NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENT_DEFAULT,
     NFE_ENVIRONMENTS,
+    NFE_TRANSMISSION_DEFAULT,
+    NFE_TRANSMISSIONS,
     NFE_VERSION_DEFAULT,
     NFE_VERSIONS,
-    NFE_TRANSMISSIONS,
-    NFE_TRANSMISSION_DEFAULT,
-    NFE_DANFE_LAYOUTS,
-    NFE_DANFE_LAYOUT_DEFAULT,
-    NFCE_DANFE_LAYOUTS,
-    NFCE_DANFE_LAYOUT_DEFAULT,
 )
 
 PROCESSADOR_ERPBRASIL_EDOC = "oca"
@@ -76,7 +76,7 @@ class ResCompany(spec_models.SpecModel):
         "\n7=Contingência SVC-RS (SEFAZ Virtual de Contingência do RS);"
         "\n9=Contingência off-line da NFC-e;"
         "\nObservação: Para a NFC-e somente é válida a opção de contingência:"
-        "\n9-Contingência Off-Line e, a critério da UF, opção 4-Contingência EPEC. (NT 2015/002)"
+        "\n9-Contingência Off-Line e, a critério da UF, opção 4-Contingência EPEC. (NT 2015/002)",
     )
 
     nfe_danfe_layout = fields.Selection(
