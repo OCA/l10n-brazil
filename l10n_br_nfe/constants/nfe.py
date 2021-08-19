@@ -14,15 +14,35 @@ NFE_ENVIRONMENT_DEFAULT = "2"
 
 
 NFE_TRANSMISSIONS = [
-    ("1", "1 - Emissão Normal"),
-    ("2", "2 - Contingência FS-IA (Não Implementado)"),
-    ("3", "3 - Contingência SCAN (Não Implementado)"),
-    ("4", "4 - Contingência EPEC (Não Implementado)"),
-    ("5", "5 - Contingência FS-DA (Não Implementado)"),
-    ("6", "6 - Contingência SVC-AN (Não Implementado)"),
-    ("7", "7 - Contingência SVC-RS (Não Implementado)"),
-    ("9", "9 - Contingência off-line da NFC-e (Não Implementado)"),
+    ("1", "Emissão Normal"),
+    ("2", "Contingência FS-IA"),
+    ("3", "Contingência SCAN"),
+    ("4", "Contingência EPEC"),
+    ("5", "Contingência FS-DA"),
+    ("6", "Contingência SVC-AN"),
+    ("7", "Contingência SVC-RS"),
+    ("9", "Contingência off-line da NFC-e"),
 ]
 
 
 NFE_TRANSMISSION_DEFAULT = "1"
+
+
+NFE_DANFE_LAYOUTS = [
+    ("0", "Sem geração de DANFE;"),
+    ("1", "DANFE normal, Retrato;"),
+    ("2", "DANFE normal, Paisagem;"),
+    ("3", "DANFE Simplificado;"),
+]
+
+
+NFE_DANFE_LAYOUT_DEFAULT = "1"
+
+
+NFCE_DANFE_LAYOUTS = [
+    ("4", "DANFE NFC-e;"),
+    ("5", "DANFE NFC-e por email"),
+]
+
+
+NFCE_DANFE_LAYOUT_DEFAULT = "4"
