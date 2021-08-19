@@ -41,6 +41,11 @@ class NFeRelated(spec_models.StackedModel):
         inverse="_inverse_nfe40_refNFe",
     )
 
+    nfe40_refCTe = fields.Char(
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_refCTe",
+    )
+
     nfe40_choice5 = fields.Selection(
         [("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")], "CNPJ/CPF do Produtor"
     )
@@ -116,6 +121,11 @@ class NFeRelated(spec_models.StackedModel):
         for rec in self:
             if rec.nfe40_refNFe:
                 rec.document_key = rec.nfe40_refNFe
+
+    def _inverse_nfe40_refCTe(self):
+        for record in self:
+            if record.nfe40_refCTe:
+                record.document_key = record.nfe40_refCTe
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == "nfe.40.nfref":
