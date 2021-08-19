@@ -449,6 +449,25 @@ class AccountInvoice(models.Model):
             i.action_cancel()
             i.action_invoice_draft()
 
+    def action_invoice_open(self):
+        result = super().action_invoice_open()
+
+        for record in self.filtered(lambda i: i.refund_invoice_id):
+            if record.state == "open":
+                to_reconcile_lines = self.env["account.move.line"]
+                for line in record.move_id.line_ids:
+                    if line.account_id.id == record.account_id.id:
+                        to_reconcile_lines += line
+                    if line.reconciled:
+                        line.remove_move_reconcile()
+                for line in record.refund_invoice_id.move_id.line_ids:
+                    if line.account_id.id == record.refund_invoice_id.account_id.id:
+                        to_reconcile_lines += line
+
+                to_reconcile_lines.filtered(lambda l: l.reconciled).reconcile()
+
+        return result
+
     def action_invoice_cancel(self):
         for i in self.filtered(lambda d: d.document_type_id):
             i.fiscal_document_id.action_document_cancel()
