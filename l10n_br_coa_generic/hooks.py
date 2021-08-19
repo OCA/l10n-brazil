@@ -26,7 +26,9 @@ def post_init_hook(cr, registry):
         )
         if company:
             user_admin.company_id = company
-            coa_generic_tmpl.sudo(user=user_admin.id).try_loading_for_current_company()
+            coa_generic_tmpl.with_user(
+                user=user_admin.id
+            ).try_loading_for_current_company()
 
             tools.convert_file(
                 cr,
