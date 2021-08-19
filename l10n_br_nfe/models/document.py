@@ -41,7 +41,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.spec_driven_model.models import spec_models
 
-from ..constants.nfe import NFE_ENVIRONMENTS, NFE_VERSIONS
+from ..constants.nfe import NFE_ENVIRONMENTS, NFE_VERSIONS, NFE_TRANSMISSIONS
 
 _logger = logging.getLogger(__name__)
 
@@ -103,6 +103,13 @@ class NFe(spec_models.StackedModel):
         string="NFe Environment",
         copy=False,
         default=lambda self: self.env.user.company_id.nfe_environment,
+    )
+
+    nfe_transmission = fields.Selection(
+        selection=NFE_TRANSMISSIONS,
+        string="NFe Transmission",
+        copy=False,
+        default=lambda self: self.env.user.company_id.nfe_transmission,
     )
 
     nfe40_finNFe = fields.Selection(
@@ -182,7 +189,8 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_tpEmis = fields.Selection(
-        default="1",
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_tpEmis",
     )
 
     nfe40_procEmi = fields.Selection(
@@ -269,16 +277,17 @@ class NFe(spec_models.StackedModel):
                     .replace("\r", "")
                 )
 
-    @api.multi
-    @api.depends("fiscal_operation_type")
+    @api.depends("fiscal_operation_type", "nfe_transmission")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
-        for rec in self:
+        for record in self:
             operation_2_tpNF = {
                 "out": "1",
                 "in": "0",
             }
-            rec.nfe40_tpNF = operation_2_tpNF[rec.fiscal_operation_type]
+            record.nfe40_tpNF = operation_2_tpNF[record.fiscal_operation_type]
+            if record.nfe_transmission:
+                record.nfe40_tpEmis = record.nfe_transmission
 
     @api.multi
     @api.depends("partner_id", "company_id")
@@ -299,6 +308,11 @@ class NFe(spec_models.StackedModel):
                     "0": "in",
                 }
                 rec.fiscal_operation_type = tpNF_2_operation[rec.nfe40_tpNF]
+
+    def _inverse_nfe40_tpEmis(self):
+        for record in self:
+            if record.nfe40_tpEmis:
+                record.nfe_transmission = record.nfe40_tpEmis
 
     @api.multi
     def _document_number(self):
