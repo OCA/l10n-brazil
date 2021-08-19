@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <!-- Tipos de conta do Balanço Patrimonial -->
+
+        <record model="account.account.type" id="account.data_account_type_liquidity">
+            <field
+                name="name"
+            >Ativo / Circulante / Caixa e Equivalentes de Caixa</field>
+        </record>
+
+        <record model="account.account.type" id="account.data_account_type_receivable">
+            <field name="name">Ativo / Circulante / Contas a Receber</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_current_assets_receivable_loss"
+        >
+            <field
+                name="name"
+            >Ativo / Circulante / Perdas Estimadas com Créditos duvidosos</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_current_assets_stock"
+        >
+            <field name="name">Ativo / Circulante / Estoque</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_current_assets_other_credits"
+        >
+            <field name="name">Ativo / Circulante / Outros Créditos</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_non_current_assets_receivable"
+        >
+            <field name="name">Ativo / Não Circulante / Realizável a Longo Prazo</field>
+            <field name="type">receivable</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_non_current_investments"
+        >
+            <field name="name">Ativo / Não Circulante / Investimentos</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="account.data_account_type_fixed_assets"
+        >
+            <field name="name">Ativo / Não Circulante / Imobilizado</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="account.data_account_type_depreciation"
+        >
+            <field name="name">Ativo / Não Circulante / (-) Depreciação</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_intangible_assets">
+            <field name="name">Ativo / Não Circulante / Intangível</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_fixed_assets_amortization"
+        >
+            <field name="name">Ativo / Não Circulante / (-) Amortização</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record model="account.account.type" id="account.data_account_type_payable">
+            <field name="name">Passivo / Circulante / Fornecedores</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_current_liabilities_financial"
+        >
+            <field
+                name="name"
+            >Passivo / Circulante / Empréstimos e Financiamentos</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_current_liabilities_fiscal"
+        >
+            <field name="name">Passivo / Circulante / Obrigações Fiscais</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_current_liabilities_labor"
+        >
+            <field name="name">Passivo / Circulante / Obrigações Trabalhistas</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_current_liabilities">
+            <field name="name">Passivo / Circulante / Contas a Pagar</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_current_liabilities_reserve"
+        >
+            <field name="name">Passivo / Circulante / Provisões</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="account.data_account_type_non_current_liabilities"
+        >
+            <field name="name">Passivo / Não Circulante / Contas a pagar</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_non_current_liabilities_loan"
+        >
+            <field name="name">Passivo / Não Circulante / Financiamentos</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+        <record model="account.account.type" id="account.data_account_type_equity">
+            <field name="name">Patrimônio Líquido / Capital Social</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_net_worth_capital_reserve"
+        >
+            <field name="name">Patrimônio Líquido / Reserva de Capital</field>
+            <field name="type">other</field>
+            <field name="internal_group">equity</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_net_worth_profit_reserve"
+        >
+            <field name="name">Patrimônio Líquido / Reserva de Lucros</field>
+            <field name="type">other</field>
+            <field name="internal_group">equity</field>
+        </record>
+
+        <record model="account.account.type" id="account.data_unaffected_earnings">
+            <field name="name">Patrimônio Líquido / Lucros Acumulados</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_equity_accumulated_losses"
+        >
+            <field name="name">Patrimônio Líquido / (-) Prejuizos Acumulados</field>
+            <field name="type">other</field>
+            <field name="internal_group">equity</field>
+        </record>
+
+        <!-- Tipos de conta do DRE -->
+
+        <record model="account.account.type" id="account.data_account_type_revenue">
+            <field
+                name="name"
+            >Receitas / Vendas de Produtos, Mercadorias e Serviços</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_revenue_deduction">
+            <field
+                name="name"
+            >Receitas / (-) Deduções de Tributos, Abatimentos e Devoluções</field>
+            <field name="type">other</field>
+            <field name="internal_group">income</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="account.data_account_type_direct_costs"
+        >
+            <field
+                name="name"
+            >(-) CUSTO DAS VENDAS / Custo dos Produtos, Mercadorias e Serviços</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_admin_expenses">
+            <field
+                name="name"
+            >(-) DESPESAS OPERACIONAIS / Despesas Administrativas</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_sale_expenses">
+            <field name="name">(-) DESPESAS OPERACIONAIS / Despesas com Vendas</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_other_general_expenses"
+        >
+            <field
+                name="name"
+            >(-) DESPESAS OPERACIONAIS / Outras Despesas Gerais</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_revenue_financial">
+            <field name="name">(+/-) RESULTADO FINANCEIRO / Receitas Financeiras</field>
+            <field name="type">other</field>
+            <field name="internal_group">income</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_expenses_financial">
+            <field
+                name="name"
+            >(+/-) RESULTADO FINANCEIRO / (-) Despesas Financeiras</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_other_operational_expenses"
+        >
+            <field name="name">(+/-) OUTRAS RECEITAS E DESPESAS OPERACIONAIS</field>
+            <field name="type">other</field>
+            <field name="internal_group">income</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_expense_csll">
+            <field name="name">(-) Despesa com Contribuição Social</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_expense_irpj">
+            <field
+                name="name"
+            >(-) Despesa com Imposto de Renda da Pessoa Jurídica</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <!-- Outras Classificações -->
+
+        <record model="account.account.type" id="data_account_type_cost">
+            <field name="name">Custo</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_production">
+            <field name="name">Produção</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <record model="account.account.type" id="data_account_type_apuracao">
+            <field name="name">Apuração</field>
+            <field name="type">other</field>
+            <field name="internal_group">expense</field>
+        </record>
+
+        <!-- Grupos de Contas de Compensação para controlar remessas e retornos de itens/bens
+        que não criem uma obrigação à receber ou à pagar, contudo são de extrema importância para
+        o correto e efetivo controle das transações realizadas pela empresa. Importante, ressaltar
+        que essas transações, não impactam diretamente as contas de Resultado/Custo e as comuns do
+        Ativo/Passivo -->
+
+        <record model="account.account.type" id="data_account_type_compensation_assets">
+            <field name="name">Ativo / Outros / Compensação</field>
+            <field name="type">other</field>
+            <field name="internal_group">asset</field>
+        </record>
+
+        <record
+            model="account.account.type"
+            id="data_account_type_compensation_liability"
+        >
+            <field name="name">Passivo / Outros / Compensação</field>
+            <field name="type">other</field>
+            <field name="internal_group">liability</field>
+        </record>
+
+    </data>
+</odoo>

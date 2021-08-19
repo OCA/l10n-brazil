@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="tax_template_out_ipi" model="account.tax.template">
+        <field name="description">IPI</field>
+        <field name="name">IPI Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ipi" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_ipi" model="account.tax.template">
+        <field name="description">IPI</field>
+        <field name="name">IPI Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ipi" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_ipi_deductible" model="account.tax.template">
+        <field name="description">IPI</field>
+        <field name="name">IPI Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ipi" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_ipi_deductible" model="account.tax.template">
+        <field name="description">IPI</field>
+        <field name="name">IPI Saida Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ipi" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_ii" model="account.tax.template">
+        <field name="description">II</field>
+        <field name="name">II Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ii" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_ii" model="account.tax.template">
+        <field name="description">II</field>
+        <field name="name">II Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ii" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_ii_in_deductible" model="account.tax.template">
+        <field name="description">II</field>
+        <field name="name">II Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ii" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_ii_out_deductible" model="account.tax.template">
+        <field name="description">II</field>
+        <field name="name">II Saida Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_ii" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_icms" model="account.tax.template">
+        <field name="description">ICMS</field>
+        <field name="name">ICMS Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icms" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_icms" model="account.tax.template">
+        <field name="description">ICMS</field>
+        <field name="name">ICMS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icms" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_icms_in_deductible" model="account.tax.template">
+        <field name="description">ICMS</field>
+        <field name="name">ICMS Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icms" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_icms_out_deductible" model="account.tax.template">
+        <field name="description">ICMS</field>
+        <field name="name">ICMS Saida Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icms" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_icmssn" model="account.tax.template">
+        <field name="description">ICMS SN</field>
+        <field name="name">ICMS SN Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icmssn" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_icmssn" model="account.tax.template">
+        <field name="description">ICMS SN</field>
+        <field name="name">ICMS SN Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icmssn" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_icms_subist" model="account.tax.template">
+        <field name="description">ICMS Subist</field>
+        <field name="name">ICMS Saida Subist</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icmsst" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_icms_subist" model="account.tax.template">
+        <field name="description">ICMS Subist</field>
+        <field name="name">ICMS Entrada Subist</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icmsst" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_icmsfcp" model="account.tax.template">
+        <field name="description">ICMS FCP</field>
+        <field name="name">ICMS Saida FCP</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icmsfcp" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_icmsfcp" model="account.tax.template">
+        <field name="description">ICMS FCP</field>
+        <field name="name">ICMS Entrada FCP</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_icmsfcp" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_pis" model="account.tax.template">
+        <field name="description">PIS</field>
+        <field name="name">PIS Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_pis" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
+    <record id="tax_template_out_pisst" model="account.tax.template">
+        <field name="description">PIS ST</field>
+        <field name="name">PIS ST Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_pisst" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_pis_wh" model="account.tax.template">
+        <field name="description">PIS WH</field>
+        <field name="name">PIS WH Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_pis_wh" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_pis" model="account.tax.template">
+        <field name="description">PIS</field>
+        <field name="name">PIS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_pis" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_pisst" model="account.tax.template">
+        <field name="description">PIS ST</field>
+        <field name="name">PIS ST Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_pisst" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_pis_wh" model="account.tax.template">
+        <field name="description">PIS WH</field>
+        <field name="name">PIS WH Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_pis_wh" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_pis_deductible" model="account.tax.template">
+        <field name="description">PIS</field>
+        <field name="name">PIS Entrada Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_pis" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_pis_deductible" model="account.tax.template">
+        <field name="description">PIS</field>
+        <field name="name">PIS Saida Dedutível</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="1" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_pis" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_cofins" model="account.tax.template">
+        <field name="description">COFINS</field>
+        <field name="name">COFINS Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_cofins" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_cofinsst" model="account.tax.template">
+        <field name="description">COFINS ST</field>
+        <field name="name">COFINS ST Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_cofinsst" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_cofins_wh" model="account.tax.template">
+        <field name="description">COFINS WH</field>
+        <field name="name">COFINS WH Saida</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_cofinsst" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_cofins" model="account.tax.template">
+        <field name="description">COFINS</field>
+        <field name="name">COFINS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_cofins" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+   <record id="tax_template_in_cofinsst" model="account.tax.template">
+       <field name="description">COFINS ST</field>
+       <field name="name">COFINS ST Entrada</field>
+       <field name="amount">0.00</field>
+       <field name="type_tax_use">purchase</field>
+       <field eval="0" name="price_include" />
+       <field eval="0" name="deductible" />
+       <field name="tax_group_id" ref="tax_group_cofinsst" />
+       <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_cofins_wh" model="account.tax.template">
+        <field name="description">COFINS WH</field>
+        <field name="name">COFINS WH Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_cofins_wh" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
+     <record id="tax_template_cofins_in_deductible" model="account.tax.template">
+         <field name="description">COFINS</field>
+         <field name="name">COFINS Entrada Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">purchase</field>
+         <field eval="0" name="price_include" />
+         <field eval="1" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_cofins" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
+     <record id="tax_template_cofins_out_deductible" model="account.tax.template">
+         <field name="description">COFINS</field>
+         <field name="name">COFINS Saida Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">sale</field>
+         <field eval="0" name="price_include" />
+         <field eval="1" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_cofins" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
+     <record id="tax_template_out_issqn" model="account.tax.template">
+         <field name="description">ISSQN</field>
+         <field name="name">ISSQN Saida</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">sale</field>
+         <field eval="0" name="price_include" />
+         <field eval="0" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_issqn" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
+     <record id="tax_template_out_issqn_wh" model="account.tax.template">
+         <field name="description">ISSQN WH</field>
+         <field name="name">ISSQN WH Saida</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">sale</field>
+         <field eval="0" name="price_include" />
+         <field eval="0" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_issqn_wh" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
+     <record id="tax_template_in_issqn" model="account.tax.template">
+         <field name="description">ISSQN</field>
+         <field name="name">ISSQN Entrada</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">purchase</field>
+         <field eval="0" name="price_include" />
+         <field eval="0" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_issqn" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
+     <record id="tax_template_in_issqn_wh" model="account.tax.template">
+         <field name="description">ISSQN WH</field>
+         <field name="name">ISSQN WH Entrada</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">purchase</field>
+         <field eval="0" name="price_include" />
+         <field eval="0" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_issqn_wh" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
+    <record id="tax_template_out_irpj" model="account.tax.template">
+        <field name="description">IRPJ</field>
+        <field name="name">IRPJ</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_irpj" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_irpj_wh" model="account.tax.template">
+        <field name="description">IRPJ WH</field>
+        <field name="name">IRPJ WH</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_irpj_wh" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_irpj" model="account.tax.template">
+        <field name="description">IRPJ</field>
+        <field name="name">IRPJ</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_irpj" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_irpj_wh" model="account.tax.template">
+        <field name="description">IRPJ WH</field>
+        <field name="name">IRPJ WH</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_irpj_wh" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_csll" model="account.tax.template">
+        <field name="description">CSLL</field>
+        <field name="name">CSLL</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_csll" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_csll_wh" model="account.tax.template">
+        <field name="description">CSLL WH</field>
+        <field name="name">CSLL WH</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_csll_wh" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_csll" model="account.tax.template">
+        <field name="description">CSLL</field>
+        <field name="name">CSLL</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_csll" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_csll_wh" model="account.tax.template">
+        <field name="description">CSLL WH</field>
+        <field name="name">CSLL WH</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_csll_wh" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_inss" model="account.tax.template">
+        <field name="description">INSS</field>
+        <field name="name">INSS Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_inss" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_out_inss_wh" model="account.tax.template">
+        <field name="description">INSS WH</field>
+        <field name="name">INSS WH Saída</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">sale</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_inss_wh" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_inss" model="account.tax.template">
+        <field name="description">INSS</field>
+        <field name="name">INSS Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_inss" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_in_inss_wh" model="account.tax.template">
+        <field name="description">INSS WH</field>
+        <field name="name">INSS WH Entrada</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">purchase</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_inss_wh" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_simples" model="account.tax.template">
+        <field name="description">Simples Nacional</field>
+        <field name="name">Simples Nacional</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_simples" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+    <record id="tax_template_others" model="account.tax.template">
+        <field name="description">Others</field>
+        <field name="name">Others</field>
+        <field name="amount">0.00</field>
+        <field name="type_tax_use">none</field>
+        <field eval="0" name="price_include" />
+        <field eval="0" name="deductible" />
+        <field name="tax_group_id" ref="tax_group_others" />
+        <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+    </record>
+
+</odoo>

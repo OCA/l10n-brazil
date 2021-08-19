@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  <record id="l10n_br_coa_tax_form" model="ir.ui.view">
+      <field name="name">l10n_br_coa.tax.form</field>
+      <field name="model">account.tax</field>
+      <field name="inherit_id" ref="account.view_tax_form" />
+      <field name="arch" type="xml">
+          <field name="price_include" position="after">
+              <field name="deductible" />
+          </field>
+      </field>
+  </record>
+
+</odoo>
