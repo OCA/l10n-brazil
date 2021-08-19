@@ -25,6 +25,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
     DENEGADO,
+    DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
@@ -41,7 +42,13 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.spec_driven_model.models import spec_models
 
-from ..constants.nfe import NFE_ENVIRONMENTS, NFE_VERSIONS, NFE_TRANSMISSIONS
+from ..constants.nfe import (
+    NFE_ENVIRONMENTS,
+    NFE_VERSIONS,
+    NFE_TRANSMISSIONS,
+    NFE_DANFE_LAYOUTS,
+    NFCE_DANFE_LAYOUTS,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -180,8 +187,14 @@ class NFe(spec_models.StackedModel):
         inverse="_inverse_nfe40_tpNF",
     )
 
+    danfe_layout = fields.Selection(
+        selection=NFE_DANFE_LAYOUTS + NFCE_DANFE_LAYOUTS,
+        string="Danfe Layout",
+    )
+
     nfe40_tpImp = fields.Selection(
-        default="1",
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_tpEmis",
     )
 
     nfe40_modFrete = fields.Selection(
@@ -281,13 +294,24 @@ class NFe(spec_models.StackedModel):
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for record in self:
+            # tpNF
             operation_2_tpNF = {
                 "out": "1",
                 "in": "0",
             }
             record.nfe40_tpNF = operation_2_tpNF[record.fiscal_operation_type]
+
+            # TpEmis
             if record.nfe_transmission:
                 record.nfe40_tpEmis = record.nfe_transmission
+
+            # tpImp
+            if record.issuer == DOCUMENT_ISSUER_COMPANY:
+                if record.document_type_id.code == MODELO_FISCAL_NFE:
+                    record.nfe40_tpImp = record.company_id.nfe_danfe_layout
+
+                if record.document_type_id.code == MODELO_FISCAL_NFE:
+                    record.nfe40_tpImp = record.company_id.nfce_danfe_layout
 
     @api.multi
     @api.depends("partner_id", "company_id")
@@ -313,6 +337,11 @@ class NFe(spec_models.StackedModel):
         for record in self:
             if record.nfe40_tpEmis:
                 record.nfe_transmission = record.nfe40_tpEmis
+
+    def _inverse_nfe40_tpImp(self):
+        for record in self:
+            if record.nfe40_tpImp:
+                record.danfe_layout = record.nfe40_tpImp
 
     @api.multi
     def _document_number(self):
