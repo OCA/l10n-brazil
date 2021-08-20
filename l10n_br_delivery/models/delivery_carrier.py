@@ -27,6 +27,9 @@ class Carrier(models.Model):
         # TODO: Localização deveria ter uma maior aderencia
         #  aos metodos do core, mapear melhor os processos,
         #  com dados de demo e testes.
-        res['price'] = order.amount_freight_value
+        # Se o Valor Total de Frete estiver preenchido ele tem
+        # preferencia sobre o valor Calculado.
+        if order.amount_freight_value > 0.0:
+            res['price'] = order.amount_freight_value
 
         return res
