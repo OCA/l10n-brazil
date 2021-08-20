@@ -21,7 +21,7 @@
         'data/res_config_settings_data.xml',
         'data/account_incoterms_data.xml',
         # View
-        'views/carrier.xml',
+        'views/delivery_carrier_views.xml',
         'views/l10n_br_delivery_view.xml',
         'views/sale_order_view.xml',
         "views/account_incoterms_view.xml",
