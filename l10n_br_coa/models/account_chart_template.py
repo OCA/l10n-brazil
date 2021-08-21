@@ -80,12 +80,48 @@ class AccountChartTemplate(models.Model):
                         refund_account_id = group_account.get(
                             acc_names.get(tax.type_tax_use, {}).get("refund_account_id")
                         )
-
                     tax.write(
                         {
-                            "account_id": account_id,
-                            "refund_account_id": refund_account_id,
+                            "invoice_repartition_line_ids": [
+                                (5, 0, 0),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "factor_percent": 100,
+                                        "repartition_type": "base",
+                                    },
+                                ),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "factor_percent": 100,
+                                        "repartition_type": "tax",
+                                        "account_id": account_id,
+                                    },
+                                ),
+                            ],
+                            "refund_repartition_line_ids": [
+                                (5, 0, 0),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "factor_percent": 100,
+                                        "repartition_type": "base",
+                                    },
+                                ),
+                                (
+                                    0,
+                                    0,
+                                    {
+                                        "factor_percent": 100,
+                                        "repartition_type": "tax",
+                                        "account_id": refund_account_id,
+                                    },
+                                ),
+                            ],
                         }
                     )
-
         return account_ref, taxes_ref
