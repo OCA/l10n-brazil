@@ -6,7 +6,7 @@
     "name": "Base do plano de conta",
     "summary": """
         Base do plano de conta brasileiro""",
-    "version": "13.0.1.0.0",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
     "author": "Akretion, KMEE, Odoo Community Association (OCA)",
     "maitainers": ["renatonlima", "mileo"],
