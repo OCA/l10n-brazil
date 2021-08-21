@@ -38,28 +38,4 @@
         />
     </function>
 
-    <record id="sale_journal_main_company" model="account.journal">
-        <field name="update_posted" eval="True" />
-    </record>
-
-    <record id="sale_journal_empresa_sn" model="account.journal">
-        <field name="update_posted" eval="True" />
-    </record>
-
-    <record id="purchase_journal_main_company" model="account.journal">
-        <field name="update_posted" eval="True" />
-    </record>
-
-    <record id="purchase_journal_empresa_sn" model="account.journal">
-        <field name="update_posted" eval="True" />
-    </record>
-
-    <record id="general_journal_main_company" model="account.journal">
-        <field name="update_posted" eval="True" />
-    </record>
-
-    <record id="general_journal_empresa_sn" model="account.journal">
-        <field name="update_posted" eval="True" />
-    </record>
-
 </odoo>
