@@ -12,6 +12,13 @@ class Carrier(models.Model):
         size=32,
     )
 
+    vehicle_ids = fields.One2many(
+        comodel_name='l10n_br_delivery.carrier.vehicle',
+        inverse_name='carrier_id',
+        string='Vehicles',
+        ondelete='cascade',
+    )
+
     def rate_shipment(self, order):
         """ Compute the price of the order shipment
 
