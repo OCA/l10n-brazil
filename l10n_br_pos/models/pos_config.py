@@ -11,6 +11,12 @@ PRINTER = [
     ('elgin-i9', 'Elgin I9'),
 ]
 
+SIMPLIFIED_INVOICE_TYPE = [
+    ('nfce', 'NFC-E'),
+    ('sat', 'SAT'),
+    ('paf', 'PAF-ECF'),
+]
+
 
 class PosConfig(models.Model):
     _inherit = 'pos.config'
@@ -67,7 +73,7 @@ class PosConfig(models.Model):
 
     iface_nfce_via_proxy = fields.Boolean(
         string='NFC-e via IOT',
-        help="""A NFC-E pode ser emitida pela nuvem ou pelo IOT, 
+        help="""A NFC-E pode ser emitida pela nuvem ou pelo IOT,
              não exigindo que o servidor Odoo esteja ligado"""
     )
 
