@@ -74,6 +74,5 @@ class CarrierVehicle(models.Model):
         comodel_name='delivery.carrier',
         string='Carrier',
         index=True,
-        required=True,
         ondelete='cascade',
     )
