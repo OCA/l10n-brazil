@@ -54,6 +54,10 @@ install:
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - export WKHTMLTOPDF_VERSION=0.12.5
   - travis_install_nightly
+  - cwd=$(pwd)
+  - [[ $TESTS == "1" ]] && cd ${ODOO_PATH}
+  - [[ $TESTS == "1" ]] && git revert 13f02a60c8706b808a57535ac9648a1b0c0741a9 --no-edit
+  - cd $cwd
 
 script:
   - travis_run_tests
