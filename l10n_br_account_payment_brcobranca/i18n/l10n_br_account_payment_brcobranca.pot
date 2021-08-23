@@ -77,7 +77,7 @@ msgid "Imprimir Boleto"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
-#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:59
+#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:63
 #, python-format
 msgid "Inform the URL where BRCobranca API are running in Odoo Configuration file or if you are using docky in the docker-compose.yml file. Example:\n"
 "BRCOBRANCA_API_URL=http://boleto_cnab_api:9292"
@@ -129,9 +129,9 @@ msgid "Statement import error The statement cannot be created: %s"
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
-#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:48
+#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:52
 #, python-format
-msgid "The Bank %s is not implemented in BRCobranca."
+msgid "The Bank %s CNAB %s is not implemented in BRCobranca."
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
