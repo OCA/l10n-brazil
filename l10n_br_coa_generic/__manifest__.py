@@ -5,9 +5,11 @@
     "name": "Plano de Contas para empresas do Regime normal",
     "summary": """Plano de Contas para empresas do Regime normal
         (Micro e pequenas empresas)""",
-    "category": "Localization",
+    "category": "Accounting",
     "license": "AGPL-3",
     "author": "KMEE, " "Odoo Community Association (OCA)",
+    "maintainers": ["mileo"],
+    "development_status": "Production/Stable",
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "13.0.1.0.0",
     "depends": ["l10n_br_coa"],
