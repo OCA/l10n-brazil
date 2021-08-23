@@ -38,7 +38,7 @@
         # "views/account_journal_view.xml",
 
         # "views/point_of_sale_report.xml",
-        # "views/pos_template.xml",
+        "views/pos_template.xml",
     ],
     "qweb": [
         'static/src/xml/pos.xml',
