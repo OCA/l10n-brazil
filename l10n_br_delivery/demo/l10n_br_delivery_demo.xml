@@ -26,6 +26,39 @@
         <field name="active" eval="1"/>
     </record>
 
+    <!-- Dados do Veículo -->
+    <record id="test_l10n_br_delivery_carrier_vehicle_1" model="l10n_br_delivery.carrier.vehicle">
+        <field name="name">Teste - Veículo da Transportadora 1</field>
+        <field name="description">Teste - Veículo da Transportadora 1</field>
+        <field name="plate">ABC1234</field>
+        <field name="driver">Teste - Motorista 1</field>
+        <field name="rntc_code">Teste - Codigo RTNC 1</field>
+        <field name="country_id" ref="base.br"/>
+        <field name="state_id" ref="base.state_br_sp"/>
+        <field name="l10n_br_city_id" ref="l10n_br_base.city_3518800"/>
+        <field name="active" eval="1"/>
+        <field name="manufacture_year">2000</field>
+        <field name="model_year">2001</field>
+        <field name="model_year">2001</field>
+        <field name="type">bau</field>
+    </record>
+
+    <record id="test_l10n_br_delivery_carrier_vehicle_2" model="l10n_br_delivery.carrier.vehicle">
+        <field name="name">Teste - Veículo da Transportadora 2</field>
+        <field name="description">Teste - Veículo da Transportadora 2</field>
+        <field name="plate">DEF5678</field>
+        <field name="driver">Teste - Motorista 2</field>
+        <field name="rntc_code">Teste - Codigo RTNC 2</field>
+        <field name="country_id" ref="base.br"/>
+        <field name="state_id" ref="base.state_br_sp"/>
+        <field name="l10n_br_city_id" ref="l10n_br_base.city_3518800"/>
+        <field name="active" eval="1"/>
+        <field name="manufacture_year">2010</field>
+        <field name="model_year">2011</field>
+        <field name="model_year">2011</field>
+        <field name="type">bau</field>
+    </record>
+
     <!-- Metodo de Entrega -->
     <record id="test_br_delivery_carrier" model="delivery.carrier">
         <field name="name">Teste - l10n_br_delivery</field>
@@ -34,6 +67,14 @@
         <field name="delivery_type">fixed</field>
         <field name="product_id" ref="delivery.product_product_delivery_normal"/>
         <field name="partner_id" ref="test_carrier"/>
+        <field name="antt_code">Teste - Código ANTT</field>
+        <field name="vehicle_ids" />
+        <field
+            name="vehicle_ids"
+            eval="[(6,0,[ref('test_l10n_br_delivery_carrier_vehicle_1'),
+            ref('test_l10n_br_delivery_carrier_vehicle_2'),
+            ])]"
+        />
     </record>
 
     <!-- Resource: stock.inventory -->
