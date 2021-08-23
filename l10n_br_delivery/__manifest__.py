@@ -11,7 +11,6 @@
     'website': 'https://github.com/OCA/l10n-brazil',
     'version': '12.0.3.0.0',
     'depends': [
-        'l10n_br_account',
         'l10n_br_sale_stock',
         'delivery',
         'delivery_carrier_partner',
