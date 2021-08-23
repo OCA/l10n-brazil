@@ -5,7 +5,241 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
+const DOCUMENTO_CFE = '59'
+const DOCUMENTO_NFCE = '65'
+
 odoo.define("l10n_br_pos.screens", function (require) {
+    "use strict";
+    var screens = require('point_of_sale.screens');
+
+    screens.PaymentScreenWidget.include({
+        order_sat_is_valid: function (order) {
+            var status = this.pos.proxy.get('status');
+            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+            console.log('SAT Status: ');
+            console.log(sat_status);
+            // if (this.pos.config.cpf_nota) {
+            //     this.pos_widget.action_bar.set_button_disabled('validation', true);
+            // }
+            // if (!cpf_na_nota)
+            //     currentOrder.attributes.cpf_nota = null;
+            if (sat_status == 'connected') {
+                // this.pos_widget.action_bar.set_button_disabled('validation', true);
+                // var receipt = currentOrder.export_for_printing();
+                self.pos.proxy.send_order_sat(order);
+            }
+
+            // } else {
+            //     this.pos.push_order(currentOrder);
+            // }
+            //
+            // if (this.pos.config.iface_print_via_proxy) {
+            //     var receipt = currentOrder.export_for_printing();
+            //     this.pos.proxy.print_receipt(
+            //         QWeb.render('XmlReceipt', {
+            //             receipt: receipt, widget: self,
+            //         }));
+            //     this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
+            // } else {
+            //     this.pos_widget.screen_selector.set_current_screen(this.next_screen);
+            // }
+
+
+        },
+        order_nfe_nfse_is_valid: function (order) {
+            console.log('NF-E / NFS-E');
+        },
+        order_nfce_is_valid: function (order) {
+            console.log('NFC-E');
+        },
+        order_is_valid: function () {
+            var res = this._super.apply(this, arguments);
+            if (!res) {
+                return res; // Caso a venda não seja válida retornar
+            }
+            var order = this.pos.get_order();
+            if (order.is_to_invoice()) {
+                res |= this.order_nfe_nfse_is_valid(order);
+            } else if (this.pos.config.simplified_document_type == DOCUMENTO_CFE) {
+                res |= this.order_sat_is_valid(order);
+            } else if (this.pos.config.simplified_document_type == DOCUMENTO_NFCE) {
+                res |= this.order_nfce_is_valid(order);
+            }
+            return res;
+        },
+    });
+
+
+    // screens.PaymentScreenWidget = screens.PaymentScreenWidget.extend({
+    //     order_is_valid: function (parent, options) {
+    //         var res = PaymentScreenWidgetSuper.prototype.order_is_valid.call(this, parent, options);
+    //         return res;
+    //
+    //
+    //         options = options || {};
+    //         var currentOrder = this.pos.get('selectedOrder');
+    //
+    //         if (this.pos.config.iface_sat_via_proxy) {
+    //             var status = this.pos.proxy.get('status');
+    //             var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+    //             if (this.pos.config.cpf_nota) {
+    //                 this.pos_widget.action_bar.set_button_disabled('validation', true);
+    //             }
+    //             if (!cpf_na_nota)
+    //                 currentOrder.attributes.cpf_nota = null;
+    //             if (sat_status == 'connected') {
+    //                 if (options.invoice) {
+    //                     // deactivate the validation button while we try to send the order
+    //                     this.pos_widget.action_bar.set_button_disabled('validation', true);
+    //                     this.pos_widget.action_bar.set_button_disabled('invoice', true);
+    //
+    //                     var invoiced = this.pos.push_and_invoice_order(currentOrder);
+    //
+    //                     invoiced.fail(function (error) {
+    //                         if (this.pos.config.cpf_nota) {
+    //                             this.pos_widget.action_bar.set_button_disabled('validation', true);
+    //                         } else {
+    //                             this.pos_widget.action_bar.set_button_disabled('validation', false);
+    //                         }
+    //                         if (error === 'error-no-client') {
+    //                             this.pos_widget.screen_selector.show_popup('error', {
+    //                                 message: _t('An anonymous order cannot be invoiced'),
+    //                                 comment: _t('Please select a client for this order. This can be done by clicking the order tab'),
+    //                             });
+    //                         } else {
+    //                             this.pos_widget.screen_selector.show_popup('error', {
+    //                                 message: _t('The order could not be sent'),
+    //                                 comment: _t('Check your internet connection and try again.'),
+    //                             });
+    //                         }
+    //
+    //                         this.pos_widget.action_bar.set_button_disabled('invoice', false);
+    //                     });
+    //
+    //                     invoiced.done(function () {
+    //                         if (this.pos.config.cpf_nota) {
+    //                             this.pos_widget.action_bar.set_button_disabled('validation', true);
+    //                         } else {
+    //                             this.pos_widget.action_bar.set_button_disabled('validation', false);
+    //                         }
+    //                         this.pos_widget.action_bar.set_button_disabled('invoice', false);
+    //                         var ultima_venda = this.pos.get('selectedOrder');
+    //                         this.pos.get('selectedOrder').destroy();
+    //                     });
+    //
+    //                 } else {
+    //                     var retorno_sat = {};
+    //                     if (this.pos.config.iface_sat_via_proxy) {
+    //                         this.pos_widget.action_bar.set_button_disabled('validation', true);
+    //                         var receipt = currentOrder.export_for_printing();
+    //                         var json = currentOrder.export_for_printing();
+    //                         self.pos.proxy.send_order_sat(
+    //                             currentOrder,
+    //                             QWeb.render('XmlReceipt', {
+    //                                 receipt: receipt, widget: self,
+    //                             }), json);
+    //                     } else {
+    //                         this.pos.push_order(currentOrder);
+    //                     }
+    //
+    //                     if (this.pos.config.iface_print_via_proxy) {
+    //                         var receipt = currentOrder.export_for_printing();
+    //                         this.pos.proxy.print_receipt(
+    //                             QWeb.render('XmlReceipt', {
+    //                                 receipt: receipt, widget: self,
+    //                             }));
+    //                         this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
+    //                     } else {
+    //                         this.pos_widget.screen_selector.set_current_screen(this.next_screen);
+    //                     }
+    //                 }
+    //             } else {
+    //                 this.pos_widget.screen_selector.show_popup('error', {
+    //                     message: _t('SAT n\u00e3o est\u00e1 conectado'),
+    //                     comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
+    //                 });
+    //             }
+    //         } else {
+    //             this.pos.push_order(currentOrder);
+    //             if (this.pos.config.iface_print_via_proxy) {
+    //                 var receipt = currentOrder.export_for_printing();
+    //                 this.pos.proxy.print_receipt(QWeb.render('XmlReceipt', {
+    //                     receipt: receipt, widget: self,
+    //                 }));
+    //                 this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
+    //             } else {
+    //                 this.pos_widget.screen_selector.set_current_screen(this.next_screen);
+    //             }
+    //         }
+    //
+    //     }
+
+
+    // init: function(parent, options) {
+    //     var self = this;
+    //     this._super(parent, options);
+    //
+    //     this.hotkey_handler = function(event){
+    //         if (self.pos.config.cpf_nota) {
+    //             if(event.which === 13){
+    //                 self.validar_cpf_nota();
+    //                 $('.busca-cpf-cnpj-popup').focus();
+    //             }else if(event.which === 27){
+    //                 self.back();
+    //             }
+    //         } else {
+    //             if(event.which === 13){
+    //                 self.validate_order();
+    //             }else if(event.which === 27){
+    //                 self.back();
+    //             }
+    //         }
+    //     };
+    // },
+    // validar_cpf_nota: function() {
+    //     var self = this;
+    //     self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
+    //         message: _t('Deseja inserir o cpf no cupom fiscal?')
+    //     });
+    // },
+
+    // show: function(){
+    //     this._super();
+    //     var self = this;
+    //     if (this.pos.config.cpf_nota) {
+    //         this.pos_widget.action_bar.destroy_buttons();
+    //         this.add_action_button({
+    //             label: _t('Back'),
+    //             icon: '/point_of_sale/static/src/img/icons/png48/go-previous.png',
+    //             click: function(){
+    //                 self.back();
+    //             }
+    //         });
+    //         this.add_action_button({
+    //             label: _t('Venda SAT'),
+    //             name: 'venda_sat',
+    //             icon: '/point_of_sale/static/src/img/icons/png48/validate.png',
+    //             click: function () {
+    //                 if(!cpf_na_nota || (cpf_na_nota && self.pos.config.crm_ativo))
+    //                     self.pos_widget.payment_screen.validate_order();
+    //                 else
+    //                     self.validar_cpf_nota();
+    //             }
+    //         });
+    //         this.update_payment_summary();
+    //     }
+    // },
+    // update_payment_summary: function() {
+    //     this._super();
+    //     var self = this;
+    //
+    //     if(self.pos_widget.action_bar){
+    //         self.pos_widget.action_bar.set_button_disabled('venda_sat', !self.is_paid());
+    //     }
+    // }
+    // });
+
+
 // function l10n_br_pos_screens(instance, module) {
 //     var QWeb = instance.web.qweb;
 //     var _t = instance.web._t;
@@ -794,169 +1028,6 @@ odoo.define("l10n_br_pos.screens", function (require) {
 //         },
 //     });
 //
-//     module.PaymentScreenWidget = module.PaymentScreenWidget.extend({
-//         init: function(parent, options) {
-//             var self = this;
-//             this._super(parent, options);
-//
-//             this.hotkey_handler = function(event){
-//                 if (self.pos.config.cpf_nota) {
-//                     if(event.which === 13){
-//                         self.validar_cpf_nota();
-//                         $('.busca-cpf-cnpj-popup').focus();
-//                     }else if(event.which === 27){
-//                         self.back();
-//                     }
-//                 } else {
-//                     if(event.which === 13){
-//                         self.validate_order();
-//                     }else if(event.which === 27){
-//                         self.back();
-//                     }
-//                 }
-//             };
-//         },
-//         validar_cpf_nota: function() {
-//             var self = this;
-//             self.pos_widget.screen_selector.show_popup('cpf_nota_sat_popup',{
-//                 message: _t('Deseja inserir o cpf no cupom fiscal?')
-//             });
-//         },
-//         validate_order: function(options) {
-//             this._super();
-//             var self = this;
-//             options = options || {};
-//             var currentOrder = this.pos.get('selectedOrder');
-//
-//             if (this.pos.config.iface_sat_via_proxy){
-//                 var status = this.pos.proxy.get('status');
-//                 var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
-//                 if (this.pos.config.cpf_nota) {
-//                     this.pos_widget.action_bar.set_button_disabled('validation', true);
-//                 }
-//                 if(!cpf_na_nota)
-//                     currentOrder.attributes.cpf_nota = null;
-//                 if(sat_status == 'connected'){
-//                     if(options.invoice){
-//                         // deactivate the validation button while we try to send the order
-//                         this.pos_widget.action_bar.set_button_disabled('validation',true);
-//                         this.pos_widget.action_bar.set_button_disabled('invoice',true);
-//
-//                         var invoiced = this.pos.push_and_invoice_order(currentOrder);
-//
-//                         invoiced.fail(function(error){
-//                             if (this.pos.config.cpf_nota) {
-//                                 this.pos_widget.action_bar.set_button_disabled('validation',true);
-//                             } else {
-//                                 this.pos_widget.action_bar.set_button_disabled('validation',false);
-//                             }
-//                             if(error === 'error-no-client'){
-//                                 this.pos_widget.screen_selector.show_popup('error',{
-//                                     message: _t('An anonymous order cannot be invoiced'),
-//                                     comment: _t('Please select a client for this order. This can be done by clicking the order tab'),
-//                                 });
-//                             }else{
-//                                 this.pos_widget.screen_selector.show_popup('error',{
-//                                     message: _t('The order could not be sent'),
-//                                     comment: _t('Check your internet connection and try again.'),
-//                                 });
-//                             }
-//
-//                             this.pos_widget.action_bar.set_button_disabled('invoice',false);
-//                         });
-//
-//                         invoiced.done(function(){
-//                             if (this.pos.config.cpf_nota) {
-//                                 this.pos_widget.action_bar.set_button_disabled('validation',true);
-//                             } else {
-//                                 this.pos_widget.action_bar.set_button_disabled('validation',false);
-//                             }
-//                             this.pos_widget.action_bar.set_button_disabled('invoice',false);
-//                             ultima_venda = this.pos.get('selectedOrder');
-//                             this.pos.get('selectedOrder').destroy();
-//                         });
-//
-//                     }else{
-//                         var retorno_sat = {};
-//                         if(this.pos.config.iface_sat_via_proxy){
-//                             this.pos_widget.action_bar.set_button_disabled('validation',true);
-//                             var receipt = currentOrder.export_for_printing();
-//                             var json = currentOrder.export_for_printing();
-//                             self.pos.proxy.send_order_sat(
-//                                     currentOrder,
-//                                     QWeb.render('XmlReceipt',{
-//                                     receipt: receipt, widget: self,
-//                                 }), json);
-//                         }else{
-//                             this.pos.push_order(currentOrder);
-//                         }
-//
-//                         if(this.pos.config.iface_print_via_proxy){
-//                             var receipt = currentOrder.export_for_printing();
-//                             this.pos.proxy.print_receipt(
-//                                 QWeb.render('XmlReceipt',{
-//                                 receipt: receipt, widget: self,
-//                             }));
-//                             this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
-//                         }else{
-//                             this.pos_widget.screen_selector.set_current_screen(this.next_screen);
-//                         }
-//                     }
-//                 }else{
-//                     this.pos_widget.screen_selector.show_popup('error',{
-//                         message: _t('SAT n\u00e3o est\u00e1 conectado'),
-//                         comment: _t('Verifique se existe algum problema com o SAT e tente fazer a requisi\u00e7\u00e3o novamente.'),
-//                     });
-//                 }
-//             }else{
-//                 this.pos.push_order(currentOrder);
-//                 if(this.pos.config.iface_print_via_proxy){
-//                     var receipt = currentOrder.export_for_printing();
-//                     this.pos.proxy.print_receipt(QWeb.render('XmlReceipt',{
-//                         receipt: receipt, widget: self,
-//                     }));
-//                     this.pos.get('selectedOrder').destroy();    //finish order and go back to scan screen
-//                 }else{
-//                     this.pos_widget.screen_selector.set_current_screen(this.next_screen);
-//                 }
-//             }
-//
-//         },
-//         show: function(){
-//             this._super();
-//             var self = this;
-//             if (this.pos.config.cpf_nota) {
-//                 this.pos_widget.action_bar.destroy_buttons();
-//                 this.add_action_button({
-//                     label: _t('Back'),
-//                     icon: '/point_of_sale/static/src/img/icons/png48/go-previous.png',
-//                     click: function(){
-//                         self.back();
-//                     }
-//                 });
-//                 this.add_action_button({
-//                     label: _t('Venda SAT'),
-//                     name: 'venda_sat',
-//                     icon: '/point_of_sale/static/src/img/icons/png48/validate.png',
-//                     click: function () {
-//                         if(!cpf_na_nota || (cpf_na_nota && self.pos.config.crm_ativo))
-//                             self.pos_widget.payment_screen.validate_order();
-//                         else
-//                             self.validar_cpf_nota();
-//                     }
-//                 });
-//                 this.update_payment_summary();
-//             }
-//         },
-//         update_payment_summary: function() {
-//             this._super();
-//             var self = this;
-//
-//             if(self.pos_widget.action_bar){
-//                 self.pos_widget.action_bar.set_button_disabled('venda_sat', !self.is_paid());
-//             }
-//         }
-//     });
 //
 //     module.PosOrderListScreenWidget = module.ScreenWidget.extend({
 //         template: 'PosOrderListScreenWidget',
