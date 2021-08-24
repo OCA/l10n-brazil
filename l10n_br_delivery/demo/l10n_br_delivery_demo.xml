@@ -35,7 +35,7 @@
         <field name="rntc_code">Teste - Codigo RTNC 1</field>
         <field name="country_id" ref="base.br"/>
         <field name="state_id" ref="base.state_br_sp"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3518800"/>
+        <field name="city_id" ref="l10n_br_base.city_3518800"/>
         <field name="active" eval="1"/>
         <field name="manufacture_year">2000</field>
         <field name="model_year">2001</field>
@@ -51,7 +51,7 @@
         <field name="rntc_code">Teste - Codigo RTNC 2</field>
         <field name="country_id" ref="base.br"/>
         <field name="state_id" ref="base.state_br_sp"/>
-        <field name="l10n_br_city_id" ref="l10n_br_base.city_3518800"/>
+        <field name="city_id" ref="l10n_br_base.city_3518800"/>
         <field name="active" eval="1"/>
         <field name="manufacture_year">2010</field>
         <field name="model_year">2011</field>
