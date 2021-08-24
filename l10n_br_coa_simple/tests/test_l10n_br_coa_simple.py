@@ -16,11 +16,8 @@ class L10nBrSimpleCOA(TransactionCase):
         )
 
     def test_l10n_br_coa_simple(self):
-        """Test to install the chart of accounts template in a new company"""
-        self.env.user.company_ids += self.l10n_br_company
-        self.env.user.company_id = self.l10n_br_company
-        self.l10n_br_coa_simple.try_loading_for_current_company()
-
+        """Test installing the chart of accounts template in a new company"""
+        self.l10n_br_coa_simple.try_loading(company=self.l10n_br_company)
         self.assertEqual(
             self.l10n_br_coa_simple, self.l10n_br_company.chart_template_id
         )
