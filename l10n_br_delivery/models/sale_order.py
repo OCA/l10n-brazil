@@ -1,29 +1,38 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
-
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    amount_freight_value = fields.Monetary(
-        inverse='_inverse_amount_freight',
+    # A partir da v9 existe apenas o campo weight, que é referente ao
+    # Peso Bruto/Gross Weight https://github.com/OCA/product-attribute/pull/894
+    # Caso a implementação precise do Peso Liquido o modulo do link deve ser
+    # cosiderado.
+    # Esse modulo l10n_br_delivery é pensando para ter aderencia com o
+    # product_net_weight (modulo link acima).
+    amount_gross_weight = fields.Float(
+        string='Amount Gross Weight',
+        compute='_compute_amount_gross_weight'
     )
 
-    amount_insurance_value = fields.Monetary(
-        inverse='_inverse_amount_insurance',
-        readonly=False,
+    amount_volume = fields.Float(
+        string='Amount Volume',
+        compute='_compute_amount_volume'
     )
 
-    amount_other_value = fields.Monetary(
-        inverse='_inverse_amount_other',
-        readonly=False,
+    # Devido o campo no sale_order chamar apenas incoterm
+    # ao inves de incoterm_id como o padrão, a copia do
+    # arquivo não acontece, por isso é preciso fazer o
+    # related abaixo
+    # TODO: Verificar na migração se isso foi alterado
+    incoterm_id = fields.Many2one(
+        related='incoterm'
     )
 
-    @api.multi
     def set_delivery_line(self):
         # Remove delivery products from the sales order
         self._remove_delivery_line()
@@ -44,105 +53,18 @@ class SaleOrder(models.Model):
                 order.amount_freight_value = price_unit
         return True
 
-    @api.multi
-    def _inverse_amount_freight(self):
-        for record in self.filtered(lambda so: so.order_line):
-            amount_freight_value = record.amount_freight_value
-            if all(record.order_line.mapped('freight_value')):
-                amount_freight_old = sum(
-                    record.order_line.mapped('freight_value'))
-                for line in record.order_line[:-1]:
-                    line.freight_value = amount_freight_value * (
-                        line.freight_value / amount_freight_old)
-                record.order_line[-1].freight_value = (
-                    amount_freight_value -
-                    sum(line.freight_value
-                        for line in record.order_line[:-1])
-                )
-            else:
-                amount_total = sum(record.order_line.mapped('price_total'))
-                for line in record.order_line[:-1]:
-                    line.freight_value = amount_freight_value * (
-                        line.price_total / amount_total)
-                record.order_line[-1].freight_value = (
-                    amount_freight_value -
-                    sum(line.freight_value for line in record.order_line[:-1])
-                )
-            for line in record.order_line:
-                line._onchange_fiscal_taxes()
-            record._fields['amount_total'].compute_value(record)
-            record.write({
-                name: value
-                for name, value in record._cache.items()
-                if record._fields[name].compute == '_amount_all' and
-                not record._fields[name].inverse
-            })
+    def _compute_amount_gross_weight(self):
 
-    @api.multi
-    def _inverse_amount_insurance(self):
-        for record in self.filtered(lambda so: so.order_line):
-            amount_insurance_value = record.amount_insurance_value
-            if all(record.order_line.mapped('insurance_value')):
-                amount_insurance_old = sum(
-                    record.order_line.mapped('insurance_value'))
-                for line in record.order_line[:-1]:
-                    line.insurance_value = amount_insurance_value * (
-                        line.insurance_value / amount_insurance_old)
-                record.order_line[-1].insurance_value = \
-                    amount_insurance_value - sum(
-                        line.insurance_value
-                        for line in record.order_line[:-1]
-                    )
-            else:
-                amount_total = sum(record.order_line.mapped('price_total'))
-                for line in record.order_line[:-1]:
-                    line.insurance_value = amount_insurance_value * (
-                        line.price_total / amount_total)
-                record.order_line[-1].insurance_value = \
-                    amount_insurance_value - sum(
-                        line.insurance_value
-                        for line in record.order_line[:-1])
+        for record in self:
+            amount_gross_weight = 0.0
             for line in record.order_line:
-                line._onchange_fiscal_taxes()
-            record._fields['amount_total'].compute_value(record)
-            record.write({
-                name: value
-                for name, value in record._cache.items()
-                if record._fields[name].compute == '_amount_all' and
-                not record._fields[name].inverse
-            })
+                amount_gross_weight += line.product_qty * line.product_id.weight
+            record.amount_gross_weight = amount_gross_weight
 
-    @api.multi
-    def _inverse_amount_other(self):
-        for record in self.filtered(lambda so: so.order_line):
-            amount_other_value = record.amount_other_value
-            if all(record.order_line.mapped('other_value')):
-                amount_other_old = sum(
-                    record.order_line.mapped('other_value'))
-                for line in record.order_line[:-1]:
-                    line.other_value = amount_other_value * (
-                        line.other_value / amount_other_old)
-                record.order_line[-1].other_value = (
-                    amount_other_value -
-                    sum(line.other_value
-                        for line in record.order_line[:-1])
-                )
-            else:
-                amount_total = sum(record.order_line.mapped('price_total'))
-                for line in record.order_line[:-1]:
-                    line.other_value = amount_other_value * (
-                        line.price_total / amount_total)
-                record.order_line[-1].other_value = (
-                    amount_other_value -
-                    sum(line.other_value
-                        for line in record.order_line[:-1])
-                )
+    def _compute_amount_volume(self):
+
+        for record in self:
+            amount_volume = 0.0
             for line in record.order_line:
-                line._onchange_fiscal_taxes()
-            record._fields['amount_total'].compute_value(record)
-            record.write({
-                name: value
-                for name, value in record._cache.items()
-                if record._fields[name].compute == '_amount_all' and
-                not record._fields[name].inverse
-            })
+                amount_volume += line.product_qty * line.product_id.volume
+            record.amount_volume = amount_volume
