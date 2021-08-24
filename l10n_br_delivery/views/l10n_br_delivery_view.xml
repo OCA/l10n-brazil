@@ -19,7 +19,7 @@
                 <field name="rntc_code"/>
                 <field name="country_id"/>
                 <field name="state_id"/>
-                <field name="l10n_br_city_id"/>
+                <field name="city_id"/>
                 <field name="manufacture_year"/>
                 <field name="model_year"/>
                 <field name="type"/>

@@ -45,7 +45,7 @@ class CarrierVehicle(models.Model):
         domain="[('country_id', '=', country_id)]",
     )
 
-    l10n_br_city_id = fields.Many2one(
+    city_id = fields.Many2one(
         comodel_name='res.city',
         string='City',
         domain="[('state_id', '=', state_id)]",
