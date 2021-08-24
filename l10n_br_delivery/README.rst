@@ -84,7 +84,7 @@ Credits
 Authors
 ~~~~~~~
 
-* KMEE
+* Akretion
 
 Contributors
 ~~~~~~~~~~~~
