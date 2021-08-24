@@ -190,7 +190,7 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:497
+#: code:addons/l10n_br_account/models/account_invoice.py:498
 #, python-format
 msgid "Document without Return Fiscal Operation! \n"
 " Force one!"
@@ -318,6 +318,11 @@ msgid "Incomming Document"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_incoterms
+msgid "Incoterms"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_invalidate_number_wizard
 msgid "Invalidate Number Wizard"
 msgstr ""
@@ -381,7 +386,7 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:514
+#: code:addons/l10n_br_account/models/account_invoice.py:515
 #, python-format
 msgid "Line without Return Fiscal Operation! \n"
 "\n"
@@ -615,7 +620,7 @@ msgid "You can find a contact by its Name, TIN, Email or Internal Reference."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:417
+#: code:addons/l10n_br_account/models/account_invoice.py:418
 #, python-format
 msgid "You can't set this document number: {} to draft because this document is cancelled in SEFAZ"
 msgstr ""
