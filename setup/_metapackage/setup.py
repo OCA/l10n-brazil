@@ -10,6 +10,7 @@ setuptools.setup(
     install_requires=[
         'odoo13-addon-l10n_br_base',
         'odoo13-addon-l10n_br_coa',
+        'odoo13-addon-l10n_br_coa_simple',
     ],
     classifiers=[
         'Programming Language :: Python',
