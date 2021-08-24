@@ -101,7 +101,7 @@ msgid "Carrier Vehicle"
 msgstr ""
 
 #. module: l10n_br_delivery
-#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__l10n_br_city_id
+#: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle__city_id
 msgid "City"
 msgstr ""
 
