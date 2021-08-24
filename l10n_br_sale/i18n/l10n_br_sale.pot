@@ -65,6 +65,20 @@ msgid "Buyer Presence"
 msgstr ""
 
 #. module: l10n_br_sale
+#: code:addons/l10n_br_sale/models/res_company.py:21
+#: selection:res.company,delivery_costs:0
+#, python-format
+msgid "By Line"
+msgstr ""
+
+#. module: l10n_br_sale
+#: code:addons/l10n_br_sale/models/res_company.py:21
+#: selection:res.company,delivery_costs:0
+#, python-format
+msgid "By Total"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__cfop_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_report
 msgid "CFOP"
@@ -110,6 +124,27 @@ msgstr ""
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
 msgid "Copy sale order notes in fiscal document"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
+msgid "Define if Delivery Costs should be informed by Line or by Total"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_res_company__delivery_costs
+#: model:ir.model.fields,help:l10n_br_sale.field_res_config_settings__delivery_costs
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__delivery_costs
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__delivery_costs
+msgid "Define if costs of Insurance, Freight and Other Costs should be informed in Line or Total."
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__delivery_costs
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__delivery_costs
+msgid "Delivery costs should be define in Line or Total."
 msgstr ""
 
 #. module: l10n_br_sale
@@ -160,6 +195,11 @@ msgid "Fixed Discount?"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_freight_value
+msgid "Freight Value"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_gross
 msgid "Gross Amount"
 msgstr ""
@@ -167,6 +207,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
 msgid "Inscr. Estadual"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_insurance_value
+msgid "Insurance Value"
 msgstr ""
 
 #. module: l10n_br_sale
@@ -238,6 +283,11 @@ msgid "Operação presencial, fora do estabelecimento"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_other_value
+msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Others"
 msgstr ""
@@ -295,6 +345,11 @@ msgstr ""
 #. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
 msgid "Terms and conditions... (note: you can setup default ones in the Configuration menu)"
+msgstr ""
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
+msgid "The Delivery Costs should be informed by Line or by Total ?"
 msgstr ""
 
 #. module: l10n_br_sale
