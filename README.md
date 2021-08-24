@@ -20,6 +20,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [l10n_br_coa](l10n_br_coa/) | 14.0.1.0.0 |  | Base do plano de conta brasileiro
+[l10n_br_coa_simple](l10n_br_coa_simple/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
 
 [//]: # (end addons)
 
