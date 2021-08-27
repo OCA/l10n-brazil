@@ -41,10 +41,14 @@ class BankPaymentLine(models.Model):
         # 0 = Isento
         # 1 = Valor Fixo
         linhas_pagamentos["cod_desconto"] = "0"
-        # TODO - Tamanho do campo tem que ser 10 ao ser enviado
-        #  é preciso tratar isso de uma forma melhor
-        # 00000005/01
-        linhas_pagamentos["numero"] = str(self.document_number)[1:11]
+
+        # Tamanho do campo não pode se maior do que 10
+        doc_number = str(self.document_number)
+        if len(doc_number) > 10:
+            start_point = len(self.document_number) - 10
+            doc_number = doc_number[start_point : len(self.document_number)]
+
+        linhas_pagamentos["numero"] = doc_number
 
         if payment_mode_id.boleto_discount_perc:
             linhas_pagamentos["cod_desconto"] = "1"
