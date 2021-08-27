@@ -2,14 +2,15 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 {
-    "name": "Brazilian Fiscal",
+    "name": "Módulo fiscal brasileiro",
     "summary": "Brazilian fiscal core module.",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "12.0.17.2.0",
+    "version": "12.0.17.4.1",
+    "development_status": "Production/Stable",
     "depends": [
         "uom",
         "decimal_precision",

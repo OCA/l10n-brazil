@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Unicred CNAB 400 240 - site com os arquivos nao encontrado, por enquanto
+     acesso possível https://github.com/akretion/brcobranca/tree/unicred_cnab400/docs/unicred -->
+    <!-- Codigos de Instrução do Movimento -->
+    <record
+        id="unicred_cnab_400-mov_instruction_code_01"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Remessa*</field>
+        <field name="code">01</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Na inclusão de título em carteira, poderá ser definido “Protesto Automático” se forem
+            obrigatoriamente respeitados: 1.Beneficiário estiver habilitado para uso de Protesto e 2.forem informados: 158 a
+            158 - Código para Protesto e 159 a 160 - Número de Dias para Protesto.Para configurar “Protesto Automático” para
+            Títulos em Carteira deve ser utilizado a intrução 26 – Protesto automático.
+        </field>
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_02"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Pedido de Baixa</field>
+        <field name="code">02</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_04"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Concessão de Abatimento*</field>
+        <field name="code">04</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Necessário ao enviar esta instrução 4 e também inserir 206 a 218 Valor do Abatimento.</field>
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_05"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Cancelamento de Abatimento</field>
+        <field name="code">05</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_06"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de vencimento</field>
+        <field name="code">06</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_08"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Seu Número</field>
+        <field name="code">08</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_09"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Protestar*</field>
+        <field name="code">09</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >Instrução utilizada para títulos vencidos e que não possuam protesto automático registrado.
+            Neste caso, sem protesto automático cadastrado (automático é prioritário ao manual), o sistema encaminha o título
+            à protesto, pois o fato gerador já aconteceu, ou seja, título já vencido. Deverá ser usada como “Protesto
+            Manual”.Se for usado em título “À Vencer”, o sistema vai rejeitar instrução.IMPORTANTE: Carência 1 dia para
+            Protesto Tanto Protesto Automático quando Protesto Manual, terá sempre 1 dia a mais para iniciar o envio do pedido
+            de Protesto ao cartório. Esta carência é devido a ser possível receber pagamento via Compensação em D+1
+            (Correspondentes ou outro Bancos) Exemplos Título com data para vencimento hoje (D+0), será possível enviar
+            “protesto manual” apenas em D+2 (dia útil) e mesmo se estiver “protesto automático” cadastrado, só será enviado em
+            D+2 (dia útil ), respeitando a carência 1 dia útil.Caso seja enviado pedido de protesto sem respeitar o prazo de
+            “1 dia”, a instrução será rejeitada.
+        </field>
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_11"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Sustar Protesto e Manter em Carteira</field>
+        <field name="code">11</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_25"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Sustar Protesto e Baixar Título</field>
+        <field name="code">25</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_26"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Protesto automático</field>
+        <field name="code">26</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+        <field
+            name="comment"
+        >(Instrução para Criar, Alterar, Remover): Instrução indicada para títulos a vencer, utilizada
+            para protesto futuro, quando o fato gerador do protesto acontecer.Criar: Esta instrução deverá ser informada,
+            somente, para títulos a vencer, registrados na carteira e que não possuam ‘Código para Protesto’ e ‘Número de Dias
+            para Protesto’ cadastrados, ou seja, não foram registrados com as informações básicas de protesto (Código e Número
+            de Dias). Neste caso o sistema irá encaminhar o título para protesto quando o fato gerador acontecer.Deverá ser
+            informado um dos itens do ‘158 a 158 - Código para Protesto’ o Código ‘1’ ou o Código ‘2’ e ‘159 a 160 - Número de
+            Dias para Protesto’, maior que zeros.Alterar: Esta instrução deverá ser informada para títulos a vencer,
+            registrados na carteira e que possuam ‘Código para Protesto’ e ‘Número de Dias para Protesto’ cadastrados, com o
+            objetivo de alterar essas informações básicas de protesto (Código e Número de Dias). Neste caso o sistema irá
+            sobrescrever as informações enviadas sobre as informações cadastradas.Deverá ser informado um dos itens do ‘158 a
+            158 - Código para Protesto’ o Código ‘1’ ou o Código ‘2’ e ‘159 a 160 - Número de Dias para Protesto’, maior que
+            zeros. Remover: Esta instrução deverá ser informada para títulos, que o fato gerador do protesto não ocorreu,
+            registrados na carteira e que possuam ‘Código para Protesto’ e ‘Número de Dias para Protesto’ cadastrados, com o
+            objetivo de excluir essas informações básicas de protesto automático. Neste caso o sistema excluí a possibilidade
+            de protesto futuro automático.Deverá ser informado um dos itens do ‘158 a 158 - Código para Protesto’ o Código ‘3’
+            e ‘159 a 160 - Número de Dias para Protesto’, igual a zero.
+        </field>
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_31"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field
+            name="name"
+        >Alteração de outros dados (Alteração de dados do pagador)</field>
+        <field name="code">31</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_instruction_code_40"
+        model="l10n_br_cnab.mov.instruction.code"
+    >
+        <field name="name">Alteração de Carteira</field>
+        <field name="code">40</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <!-- Codigo de Retorno do Movimento -->
+    <record
+        id="unicred_cnab_400-mov_return_code_01"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field name="name">Pago (Título protestado pago em cartório)</field>
+        <field name="code">01</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_02"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field name="name">Instrução Confirmada*</field>
+        <field name="code">02</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_03"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field name="name">Instrução Rejeitada*</field>
+        <field name="code">03</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_04"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field
+            name="name"
+        >Sustado Judicial (Título protestado sustado judicialmente)</field>
+        <field name="code">04</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_06"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field name="name">Liquidação Normal *</field>
+        <field name="code">06</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_07"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field
+            name="name"
+        >Liquidação em Condicional (Título liquidado em cartório com cheque do próprio devedor)</field>
+        <field name="code">07</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_08"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field
+            name="name"
+        >Sustado Definitivo (Título protestado sustado judicialmente)</field>
+        <field name="code">08</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_09"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field name="name">Liquidação de Título Descontado</field>
+        <field name="code">09</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_10"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field name="name">Protesto solicitado</field>
+        <field name="code">10</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_11"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field name="name">Protesto Em cartório</field>
+        <field name="code">11</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+    <record
+        id="unicred_cnab_400-mov_return_code_12"
+        model="l10n_br_cnab.return.move.code"
+    >
+        <field name="name">Sustação solicitada</field>
+        <field name="code">12</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_136')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab400'), ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+
+</odoo>

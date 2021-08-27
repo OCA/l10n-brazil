@@ -31,16 +31,10 @@ class PaymentOrder(models.Model):
     _inherit = "account.payment.order"
 
     def _prepare_remessa_banco_brasil_400(self, remessa_values):
-        # TODO - BRCobranca retornando erro de agencia deve ter 4 digitos,
-        #  mesmo o valor estando correto, é preciso verificar melhor
         remessa_values.update(
             {
                 "convenio": int(self.payment_mode_id.code_convetion),
                 "variacao_carteira": self.payment_mode_id.boleto_variation.zfill(3),
-                # TODO - Mapear e se necessário criar os campos abaixo devido
-                #  ao erro comentado acima não está sendo possível validar
-                "tipo_cobranca": "04DSC",
-                "convenio_lider": "7654321",
                 "carteira": str(self.payment_mode_id.boleto_wallet).zfill(2),
             }
         )
@@ -56,10 +50,14 @@ class PaymentOrder(models.Model):
     def _prepare_remessa_unicred_400(self, remessa_values):
         remessa_values["codigo_beneficiario"] = int(self.payment_mode_id.code_convetion)
 
-    def _prepare_remessa_sicred_240(self, remessa_values):
+    def _prepare_remessa_sicredi_240(self, remessa_values):
+
+        bank_account_id = self.journal_id.bank_account_id
         remessa_values.update(
             {
-                "codigo_transmissao": int(self.payment_mode_id.code_convetion),
+                # Aparentemente a validação do BRCobranca nesse caso gera erro
+                # quando é feito o int(misc.punctuation_rm(bank_account_id.acc_number))
+                "conta_corrente": misc.punctuation_rm(bank_account_id.acc_number),
                 "posto": self.payment_mode_id.boleto_post,
                 "byte_idt": self.payment_mode_id.boleto_byte_idt,
             }
@@ -105,7 +103,9 @@ class PaymentOrder(models.Model):
             return super().generate_payment_file()
 
         bank_account_id = self.journal_id.bank_account_id
-        bank_brcobranca = get_brcobranca_bank(bank_account_id)
+        bank_brcobranca = get_brcobranca_bank(
+            bank_account_id, self.payment_mode_id.payment_method_code
+        )
 
         # Verificar campos que não podem ser usados no CNAB, já é
         # feito ao criar um Modo de Pagamento, porém para evitar

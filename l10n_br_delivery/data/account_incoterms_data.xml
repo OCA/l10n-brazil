@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- TODO: Mapear os Tipos de Frete nos dados
+ MODFRETE_TRANSP = [
+    ('0', '0 - Contratação do Frete por conta do Remetente (CIF)'),
+    ('1', '1 - Contratação do Frete por conta do'
+          ' destinatário/remetente (FOB)'),
+    ('2', '2 - Contratação do Frete por conta de terceiros'),
+    ('3', '3 - Transporte próprio por conta do remetente'),
+    ('4', '4 - Transporte próprio por conta do destinatário'),
+    ('9', '9 - Sem Ocorrência de transporte.'),
+]
+
+    <record id="account.incoterm_EXW" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_FCA" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_FAS" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record> -->
+
+    <record id="account.incoterm_FOB" model="account.incoterms">
+        <field name="freight_responsibility">1</field>
+    </record>
+
+    <!--<record id="incoterm_CFR" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record> -->
+
+    <record id="account.incoterm_CIF" model="account.incoterms">
+        <field name="freight_responsibility">0</field>
+    </record>
+
+    <!--<record id="account.incoterm_CPT" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_CIP" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_DAF" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_DES" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_DEQ" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_DDU" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_DAT" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_DAP" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record>
+
+    <record id="account.incoterm_DDP" model="account.incoterms">
+        <field name="freight_responsibility"></field>
+    </record> -->
+
+</odoo>

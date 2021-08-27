@@ -5,7 +5,7 @@
     "name": "Brazilian Localization Repair",
     "summary": """
         Brazilian Localization Repair""",
-    "version": "12.0.6.0.0",
+    "version": "12.0.7.0.0",
     "category": "Localisation",
     "license": "AGPL-3",
     "author": "Escodoo, " "Odoo Community Association (OCA)",
@@ -15,7 +15,7 @@
     "images": ["static/description/banner.png"],
     "conflicts": ["repair_discount"],
     "depends": [
-        "repair",
+        "repair_payment_term",
         "l10n_br_stock_account",
     ],
     "data": [

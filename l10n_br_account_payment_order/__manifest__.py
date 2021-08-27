@@ -4,7 +4,7 @@
 
 {
     "name": "Brazilian Payment Order",
-    "version": "12.0.3.0.1",
+    "version": "12.0.4.0.0",
     "license": "AGPL-3",
     "author": "KMEE, " "Akretion, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
@@ -24,10 +24,13 @@
         "data/l10n_br_payment_export_type.xml",
         "data/boleto_data.xml",
         "data/account_analytic_tag_data.xml",
-        "data/l10n_br_cnab_return_move_code_data.xml",
-        "data/l10n_br_cnab_mov_instruction_code_data.xml",
-        # Reports
-        "reports/report_print_button_view.xml",
+        # CNAB Mov. Instruction and Return Codes
+        "data/cnab_codes/banco_bradesco_cnab_240_400.xml",
+        "data/cnab_codes/banco_cef_cnab_240.xml",
+        "data/cnab_codes/banco_do_brasil_cnab_400.xml",
+        "data/cnab_codes/banco_itau_cnab_240_400.xml",
+        "data/cnab_codes/banco_sicred_cnab_240.xml",
+        "data/cnab_codes/banco_unicred_cnab_240_400.xml",
         # Wizards
         "wizards/account_payment_line_create_view.xml",
         "wizards/account_move_line_change.xml",

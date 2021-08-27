@@ -243,25 +243,25 @@ class OperationLine(models.Model):
                 for tax in tax_icms_ids:
                     mapping_result["taxes"][tax.tax_domain] = tax
 
-            # 4 From Operation Line
-            for tax_definition in self.tax_definition_ids.map_tax_definition(
-                company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
-            ):
-                self._build_mapping_result(mapping_result, tax_definition)
+        # 4 From Operation Line
+        for tax_definition in self.tax_definition_ids.map_tax_definition(
+            company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
+        ):
+            self._build_mapping_result(mapping_result, tax_definition)
 
-            # 5 From CFOP
-            for tax_definition in cfop.tax_definition_ids.map_tax_definition(
-                company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
-            ):
-                self._build_mapping_result(mapping_result, tax_definition)
+        # 5 From CFOP
+        for tax_definition in cfop.tax_definition_ids.map_tax_definition(
+            company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
+        ):
+            self._build_mapping_result(mapping_result, tax_definition)
 
-            # 6 From Partner Profile
-            for (
-                tax_definition
-            ) in partner.fiscal_profile_id.tax_definition_ids.map_tax_definition(
-                company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
-            ):
-                self._build_mapping_result(mapping_result, tax_definition)
+        # 6 From Partner Profile
+        for (
+            tax_definition
+        ) in partner.fiscal_profile_id.tax_definition_ids.map_tax_definition(
+            company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
+        ):
+            self._build_mapping_result(mapping_result, tax_definition)
 
         if product.tax_icms_or_issqn == TAX_DOMAIN_ICMS:
             mapping_result["taxes"].pop(TAX_DOMAIN_ISSQN, None)

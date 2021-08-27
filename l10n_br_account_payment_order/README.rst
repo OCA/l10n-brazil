@@ -45,11 +45,11 @@ This module depends on:
 Configuration
 =============
 
-Verifique se o Banco e o tipo CNAB usado 240/400 possuem os Códigos de Instrução do Movimento e os Códigos de Retorno do Movimento em:
+Verifique se o Banco e o tipo CNAB usado 240 ou 400 possuem os Códigos de Instrução do Movimento e os Códigos de Retorno do Movimento em:
   * Faturamento > Configurações > Administração > CNAB Código de Movimento de Instrução
   * Faturamento > Configurações > Administração > CNAB Código de Retorno do Movimento
 
-Caso não estejam e seja preciso cadastrar por favor considere fazer um PR nesse modulo acrescentando em l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml assim em proximas implementações já não será preciso cadastra-los.
+Caso seja preciso cadastrar por favor considere fazer um PR nesse modulo acrescentando em l10n_br_account_payment_order/data/cnab_codes/banco_X_cnab_Y_Z.xml assim em proximas implementações já não será preciso cadastra-los.
 
 Informe os dados do CNAB usado no cadastro do:
 
@@ -85,6 +85,10 @@ Known issues / Roadmap
 * CNAB de Pagamento, verificar a integração com o PR https://github.com/OCA/l10n-brazil/pull/972 e a possibilidade de multiplos modos de pagamento na mesma Ordem de Pagamento https://github.com/odoo-brazil/l10n-brazil/pull/112
 
 * Verificar a possibilidade na v14 de remoção do ondele='restrict' no campo "move_line_id" e o campo "related" "ml_maturity_date" do account.payment.line no modulo dependente https://github.com/OCA/bank-payment/blob/14.0/account_payment_order/models/account_payment_line.py#L39 para permitir o processo de Cancelamento de uma Fatura quando existe uma Ordem de Pagamento já confirmada/gerada/enviada( detalhes l10n_br_account_payment_order/models/account_payment_line.py#L130 )
+
+* Funcionalidade de Agrupar Por/Group By não funciona em campos do tipo Many2Many, aparentemente isso foi resolvido na v15(verfificar na migração), isso é usado nos objetos referentes aos Codigos CNAB de Instrução e Retorno.
+
+* Confirmar se existem Bancos que usam os mesmos conjuntos de Codigos CNAB de Instrução e Retorno para caso não existir remover o many2many do Banco e deixar apenas o many2one.
 
 Changelog
 =========
