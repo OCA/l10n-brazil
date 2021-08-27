@@ -110,6 +110,11 @@ Usage
   calculated_value_receive = (receive_amount + discount_amount + rebate_amount) - interest_amount
 * When the "Automatic Reconciliation" option is checked, the Entry of Journal will be moved to the status Posted automatically when importing the file, if not checked it should be done manually.
 
+Known issues / Roadmap
+======================
+
+* Incluir a posssibilidade de imprimir o boleto no menu Imprimir da Fatura, na v12 aparentemente não é possível chamar um metodo apenas um QWeb, verificar na migração para outras versões.
+
 Changelog
 =========
 
