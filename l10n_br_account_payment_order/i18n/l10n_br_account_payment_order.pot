@@ -795,8 +795,6 @@ msgid "Banks"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.actions.report,name:l10n_br_account_payment_order.action_insert_reports_print_button_account_invoice
-#: model:ir.actions.report,name:l10n_br_account_payment_order.action_insert_reports_print_button_account_move_line
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.res_company_form
 msgid "Boleto"
 msgstr ""
