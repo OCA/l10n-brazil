@@ -1,3 +1,5 @@
+import wdb
+
 import logging
 import time
 from threading import Thread, Lock
@@ -34,7 +36,7 @@ try:
     from satcfe.excecoes import ExcecaoRespostaSAT
     from satextrato import ExtratoCFeVenda
     from satextrato import ExtratoCFeCancelamento
-
+    from erpbrasil.base.misc import punctuation_rm
 except ImportError:
     _logger.error('Odoo module hw_l10n_br_pos depends on the satcfe module')
     satcfe = None
@@ -42,11 +44,6 @@ except ImportError:
 
 TWOPLACES = Decimal(10) ** -2
 FOURPLACES = Decimal(10) ** -4
-
-
-def punctuation_rm(string_value):
-    tmp_value = string_value.translate(None, string.punctuation)
-    return tmp_value
 
 
 class Sat(Thread):
@@ -124,27 +121,33 @@ class Sat(Thread):
 
     def __prepare_send_detail_cfe(self, item):
         kwargs = {}
-
         if item['discount']:
             kwargs['vDesc'] = Decimal((item['quantity'] * item['price']) -
                                       item['price_display']).quantize(TWOPLACES)
-        estimated_taxes = Decimal(item['estimated_taxes'] * item['price_display']).quantize(TWOPLACES)
+        estimated_taxes = Decimal(0.01 * item['price_display']).quantize(TWOPLACES)
+        # estimated_taxes = Decimal(item['estimated_taxes'] * item['price_display']).quantize(TWOPLACES)
 
+        wdb.set_trace()
+        produto = ProdutoServico(
+            cProd=str(item['product_default_code']),
+            # cEAN=str(item['product_ean']),
+            xProd=item['product_name'],
+            uCom=item['unit_code'],
+            CFOP='5102',
+            qCom=Decimal(item['quantity']).quantize(FOURPLACES),
+            vUnCom=Decimal(item['price']).quantize(TWOPLACES),
+            indRegra='A',
+            NCM=punctuation_rm(
+                item['ncm_id'][1][:10]  # FIXME:!!!!
+            ),
+            **kwargs
+            )
+        produto.validar()
         detalhe = Detalhamento(
-            produto=ProdutoServico(
-                cProd=str(item['product_default_code']),
-                xProd=item['product_name'],
-                CFOP='5102',
-                uCom=item['unit_name'],
-                qCom=Decimal(item['quantity']).quantize(FOURPLACES),
-                vUnCom=Decimal(item['price']).quantize(TWOPLACES),
-                indRegra='A',
-                NCM=punctuation_rm(item['fiscal_classification_id'][1]),
-                **kwargs
-                ),
+            produto=produto,
             imposto=Imposto(
                 vItem12741=estimated_taxes,
-                icms=ICMS00(Orig=item['origin'], CST='00', pICMS=Decimal('18.00')),
+                icms=ICMS00(Orig=item['icms_origin'], CST='00', pICMS=Decimal('18.00')),
                 pis=PISSN(CST='49'),
                 cofins=COFINSSN(CST='49'))
         )
@@ -153,11 +156,11 @@ class Sat(Thread):
 
     def __prepare_payment(self, json):
         kwargs = {}
-        if json['sat_card_accrediting']:
-            kwargs['cAdmC'] = json['sat_card_accrediting']
-
+        # if json['sat_card_accrediting']:
+        #     kwargs['cAdmC'] = json['sat_card_accrediting']
         pagamento = MeioPagamento(
-            cMP=json['sat_payment_mode'],
+            # cMP=json['sat_payment_mode'],
+            cMP='01',
             vMP=Decimal(json['amount']).quantize(
                 TWOPLACES),
             **kwargs
@@ -190,8 +193,7 @@ class Sat(Thread):
                 IE=punctuation_rm(json['company']['ie']),
                 indRatISSQN='N')
         emitente.validar()
-
-
+        wdb.set_trace()
         return CFeVenda(
             CNPJ=punctuation_rm(json['company']['cnpj_software_house']),
             signAC=self.assinatura,
@@ -205,6 +207,7 @@ class Sat(Thread):
 
     def _send_cfe(self, json):
         try:
+            wdb.set_trace()
             resposta = self.device.enviar_dados_venda(
                 self.__prepare_send_cfe(json))
             self._print_extrato_venda(resposta.arquivoCFeSAT)
@@ -287,11 +290,13 @@ class Sat(Thread):
 
     def _init_printer(self):
 
-        from escpos.serial import SerialSettings
+        from escpos.conn.serial import SerialSettings
 
         if self.impressora == 'epson-tm-t20':
             _logger.info('SAT Impressao: Epson TM-T20')
             from escpos.impl.epson import TMT20 as Printer
+            from escpos.conn.network import NetworkConnection
+            conn = NetworkConnection(host='192.168.0.200', port=9100)
         elif self.impressora == 'bematech-mp4200th':
             _logger.info('SAT Impressao: Bematech MP4200TH')
             from escpos.impl.bematech import MP4200TH as Printer
@@ -303,20 +308,19 @@ class Sat(Thread):
             from escpos.impl.elgin import ElginI9 as Printer
         else:
             return False
-        conn = SerialSettings.as_from(
-            self.printer_params).get_connection()
+            conn = SerialSettings.parse(self.printer_params).get_connection()
 
         printer = Printer(conn)
         printer.init()
         return printer
 
     def _print_extrato_venda(self, xml):
+        wdb.set_trace()
         if not self.printer:
             return False
         extrato = ExtratoCFeVenda(
-            io.StringIO(base64.b64decode(xml)),
-            self.printer
-            )
+            io.StringIO(base64.b64decode(xml).decode('utf-8')), self.printer
+        )
         extrato.imprimir()
         return True
 
@@ -366,6 +370,7 @@ class SatDriver(hw_proxy.Proxy):
 
     @http.route('/hw_proxy/enviar_cfe_sat/', type='json', auth='none', cors='*')
     def enviar_cfe_sat(self, json):
+        _logger.info(json)
         return hw_proxy.drivers['satcfe'].action_call_sat('send', json)
 
     @http.route('/hw_proxy/cancelar_cfe/', type='json', auth='none', cors='*')
