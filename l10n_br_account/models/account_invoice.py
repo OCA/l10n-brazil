@@ -41,7 +41,6 @@ SHADOWED_FIELDS = [
     "company_id",
     "currency_id",
     "partner_shipping_id",
-    "incoterm_id",
 ]
 
 
