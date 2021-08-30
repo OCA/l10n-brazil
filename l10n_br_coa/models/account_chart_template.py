@@ -28,9 +28,7 @@ class AccountChartTemplate(models.Model):
         )
 
         if self.parent_id:
-            chart_template_ref = self.get_external_id().get(self.id)
-            coa_name, _ = chart_template_ref.split(".")
-            coa_name = coa_name + "_"
+
             acc_names = {
                 "sale": {
                     "account_id": "account_id",
@@ -46,40 +44,29 @@ class AccountChartTemplate(models.Model):
                 },
             }
 
-            properties = self.env["ir.property"].search(
-                [
-                    ("name", "ilike", coa_name + "%"),
-                    ("company_id", "=", False),
-                    ("type", "=", "many2one"),
-                    ("res_id", "ilike", "account.tax.group,%"),
-                ]
-            )
-
-            group_accounts = {int(p.res_id.split(",")[1]): {} for p in properties}
-
-            for prop in properties:
-                group_accounts[int(prop.res_id.split(",")[1])].update(
-                    {
-                        prop.fields_id.name: account_ref.get(
-                            (int(prop.value_reference.split(",")[1])), False
-                        )
-                    }
-                )
-
             taxes = self.env["account.tax"].browse(taxes_ref.values())
             for tax in taxes:
-                group_account = group_accounts.get(tax.tax_group_id.id, {})
-                if group_account:
+                domain = [
+                    ("tax_group_id", "=", tax.tax_group_id.id),
+                    ("chart_template_id", "=", self.id),
+                ]
+                group_tax_account_template = self.env[
+                    "l10n_br_coa.account.tax.group.account.template"
+                ].search(domain)
+                if group_tax_account_template:
                     if tax.deductible:
-                        account_id = group_account.get("ded_account_id")
-                        refund_account_id = group_account.get("ded_refund_account_id")
+                        account_id = group_tax_account_template.ded_account_id
+                        refund_account_id = (
+                            group_tax_account_template.ded_refund_account_id
+                        )
                     else:
-                        account_id = group_account.get(
+                        account_id = group_tax_account_template[
                             acc_names.get(tax.type_tax_use, {}).get("account_id")
-                        )
-                        refund_account_id = group_account.get(
+                        ]
+                        refund_account_id = group_tax_account_template[
                             acc_names.get(tax.type_tax_use, {}).get("refund_account_id")
-                        )
+                        ]
+
                     tax.write(
                         {
                             "invoice_repartition_line_ids": [
@@ -98,7 +85,9 @@ class AccountChartTemplate(models.Model):
                                     {
                                         "factor_percent": 100,
                                         "repartition_type": "tax",
-                                        "account_id": account_id,
+                                        "account_id": account_ref.get(
+                                            account_id.id, False
+                                        ),
                                     },
                                 ),
                             ],
@@ -118,7 +107,9 @@ class AccountChartTemplate(models.Model):
                                     {
                                         "factor_percent": 100,
                                         "repartition_type": "tax",
-                                        "account_id": refund_account_id,
+                                        "account_id": account_ref.get(
+                                            refund_account_id.id, False
+                                        ),
                                     },
                                 ),
                             ],
