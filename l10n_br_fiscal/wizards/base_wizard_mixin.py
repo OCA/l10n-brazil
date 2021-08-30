@@ -74,7 +74,6 @@ class BaseWizardMixin(models.TransientModel):
             "document_key",
             "document_number",
             "document_serie",
-            "document_status",
             "document_type_id",
             "partner_id",
             "rps_number",
