@@ -1,32 +1,34 @@
-# Copyright (C) 2020 - TODAY Renato Lima - Akretion
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
 from odoo import fields, models
 
 
-class AccountTaxGroup(models.Model):
-    _inherit = "account.tax.group"
+class AccountTaxGroupAccountTemplate(models.Model):
+    _name = "l10n_br_coa.account.tax.group.account.template"
+    _description = "Account Tax Group Account Template"
+
+    chart_template_id = fields.Many2one(
+        comodel_name="account.chart.template", string="Chart Template", required=True
+    )
+
+    tax_group_id = fields.Many2one(
+        comodel_name="account.tax.group", string="Tax Group", required=True
+    )
 
     account_id = fields.Many2one(
         comodel_name="account.account.template",
         string="Tax Account",
-        company_dependent=True,
     )
 
     refund_account_id = fields.Many2one(
         comodel_name="account.account.template",
         string="Tax Account on Credit Notes",
-        company_dependent=True,
     )
 
     ded_account_id = fields.Many2one(
         comodel_name="account.account.template",
         string="Deductible Tax Account",
-        company_dependent=True,
     )
 
     ded_refund_account_id = fields.Many2one(
         comodel_name="account.account.template",
         string="Deductible Tax Account on Credit Notes",
-        company_dependent=True,
     )
