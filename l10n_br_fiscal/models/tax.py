@@ -170,20 +170,6 @@ class Tax(models.Model):
         ("fiscal_tax_code_uniq", "unique (name)", "Tax already exists with this name !")
     ]
 
-    def get_account_tax(self, fiscal_operation_type=FISCAL_OUT):
-        account_tax_type = {"out": "sale", "in": "purchase"}
-        type_tax_use = account_tax_type.get(fiscal_operation_type, "sale")
-
-        account_taxes = self.env["account.tax"].search(
-            [
-                ("fiscal_tax_id", "=", self.ids),
-                ("active", "=", True),
-                ("type_tax_use", "=", type_tax_use),
-            ]
-        )
-
-        return account_taxes
-
     def cst_from_tax(self, fiscal_operation_type=FISCAL_OUT):
         self.ensure_one()
         cst = self.env["l10n_br_fiscal.cst"]
@@ -712,8 +698,7 @@ class Tax(models.Model):
         taxes = {}
 
         for tax in self.sorted(key=lambda t: t.compute_sequence):
-            tax_dict = TAX_DICT_VALUES.copy()
-            taxes[tax.tax_domain] = tax_dict
+            taxes[tax.tax_domain] = dict(TAX_DICT_VALUES)
             try:
                 # Define CST FROM TAX
                 operation_line = kwargs.get("operation_line")
