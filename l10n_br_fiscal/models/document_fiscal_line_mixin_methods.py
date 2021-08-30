@@ -253,7 +253,11 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             for tax in line.fiscal_tax_ids:
                 computed_tax = computed_taxes.get(tax.tax_domain, {})
                 if hasattr(line, "%s_tax_id" % (tax.tax_domain,)):
-                    setattr(line, "%s_tax_id" % (tax.tax_domain,), tax)
+                    # since v13, when line is a new record,
+                    # line.fiscal_tax_ids recordset is made of
+                    # NewId records with an origin pointing back to the original
+                    # tax. tax.ids[0] is a way to the the single original tax back.
+                    setattr(line, "%s_tax_id" % (tax.tax_domain,), tax.ids[0])
                     method = getattr(self, "_set_fields_%s" % (tax.tax_domain,))
                     if method:
                         method(computed_tax)
