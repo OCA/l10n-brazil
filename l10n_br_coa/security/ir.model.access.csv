@@ -1,0 +1,2 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_account_tax_group_account_template","Account Tax Group  Account Template","model_l10n_br_coa_account_tax_group_account_template","account.group_account_manager","1","1","1","1"

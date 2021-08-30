@@ -14,6 +14,8 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": ["account"],
     "data": [
+        # security
+        "security/ir.model.access.csv",
         # Data
         "data/l10n_br_coa_template.xml",
         "data/account_tax_tag.xml",
