@@ -213,6 +213,11 @@ msgid "International Commercial Terms are a series of predefined commercial term
 msgstr ""
 
 #. module: l10n_br_delivery
+#: model:ir.model,name:l10n_br_delivery.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_delivery
 #: model:ir.model.fields,field_description:l10n_br_delivery.field_l10n_br_delivery_carrier_vehicle____last_update
 msgid "Last Modified on"
 msgstr ""
