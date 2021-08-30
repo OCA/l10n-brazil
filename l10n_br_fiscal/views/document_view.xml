@@ -106,7 +106,7 @@
                         string="Visualizar XML"
                         groups="l10n_br_fiscal.group_user"
                         class="btn-primary"
-                        attrs="{'invisible': [('state_edoc', '=', 'em_digitacao')]}"
+                        attrs="{'invisible': ['|', ('document_electronic', '=', False), ('state_edoc', '=', 'em_digitacao')]}"
                     />
             <button
                         name="action_document_cancel"
