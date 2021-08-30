@@ -77,7 +77,6 @@
         "views/document_view.xml",
         "views/document_related_view.xml",
         "views/document_line_view.xml",
-        "views/document_fiscal_mixin_view.xml",
         "views/document_fiscal_line_mixin_view.xml",
         "views/res_config_settings_view.xml",
         "views/subsequent_operation_view.xml",
