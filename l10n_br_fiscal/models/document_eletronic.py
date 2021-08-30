@@ -2,7 +2,8 @@
 # Copyright (C) 2019  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
     DOCUMENT_ISSUER,
@@ -207,6 +208,8 @@ class DocumentEletronic(models.AbstractModel):
         if not xml_file:
             self._document_export()
             xml_file = self.authorization_file_id or self.send_file_id
+        if not xml_file:
+            raise UserError(_("No XML file generated!"))
         return self._target_new_tab(xml_file)
 
     def make_pdf(self):
@@ -216,9 +219,11 @@ class DocumentEletronic(models.AbstractModel):
         self.ensure_one()
         if not self.file_report_id:
             self.make_pdf()
+        if not self.file_report_id:
+            raise UserError(_("No PDF file generated!"))
         return self._target_new_tab(self.file_report_id)
 
     def _document_status(self):
-        """Retorna o status do docuemnto em texto e se necessário,
+        """Retorna o status do documento em texto e se necessário,
         atualiza o status do documento"""
         return
