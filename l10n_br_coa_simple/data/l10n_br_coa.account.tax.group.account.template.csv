@@ -1,0 +1,6 @@
+"id","tax_group_id:id","account_id:id","refund_account_id:id",ded_account_id:id,chart_template_id:id
+"l10n_br_coa_simple.account_tax_group_account_template_icms","l10n_br_coa.tax_group_icms","l10n_br_coa_simple.account_template_21302","l10n_br_coa_simple.account_template_11402",,l10n_br_coa_simple_chart_template
+"l10n_br_coa_simple.account_tax_group_account_template_ipi","l10n_br_coa.tax_group_ipi","l10n_br_coa_simple.account_template_21304","l10n_br_coa_simple.account_template_11402",,l10n_br_coa_simple_chart_template
+"l10n_br_coa_simple.account_tax_group_account_template_pis","l10n_br_coa.tax_group_pis","l10n_br_coa_simple.account_template_21305","l10n_br_coa_simple.account_template_11402",,l10n_br_coa_simple_chart_template
+"l10n_br_coa_simple.account_tax_group_account_template_confins","l10n_br_coa.tax_group_cofins","l10n_br_coa_simple.account_template_21306","l10n_br_coa_simple.account_template_11402",,l10n_br_coa_simple_chart_template
+"l10n_br_coa_simple.account_tax_group_account_template_issqn","l10n_br_coa.tax_group_issqn","l10n_br_coa_simple.account_template_21303","l10n_br_coa_simple.account_template_11402",,l10n_br_coa_simple_chart_template
