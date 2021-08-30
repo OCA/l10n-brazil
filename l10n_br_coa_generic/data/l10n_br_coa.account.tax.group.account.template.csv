@@ -1,0 +1,5 @@
+"id","tax_group_id:id","account_id:id","refund_account_id:id",ded_account_id:id,ded_refund_account_id:id,chart_template_id:id
+"l10n_br_coa_generic.account_tax_group_account_template_icms","l10n_br_coa.tax_group_icms","l10n_br_coa_generic.coa_generic_217103","l10n_br_coa_generic.coa_generic_114102",l10n_br_coa_generic.coa_generic_611203,l10n_br_coa_generic.coa_generic_611223,l10n_br_coa_generic_template
+"l10n_br_coa_generic.account_tax_group_account_template_ipi","l10n_br_coa.tax_group_ipi","l10n_br_coa_generic.coa_generic_217102","l10n_br_coa_generic.coa_generic_114101",,,l10n_br_coa_generic_template
+"l10n_br_coa_generic.account_tax_group_account_template_pis","l10n_br_coa.tax_group_pis","l10n_br_coa_generic.coa_generic_217105","l10n_br_coa_generic.coa_generic_114105",l10n_br_coa_generic.coa_generic_611206,l10n_br_coa_generic.coa_generic_611226,l10n_br_coa_generic_template
+"l10n_br_coa_generic.account_tax_group_account_template_confins","l10n_br_coa.tax_group_cofins","l10n_br_coa_generic.coa_generic_217104","l10n_br_coa_generic.coa_generic_114104",l10n_br_coa_generic.coa_generic_611205,l10n_br_coa_generic.coa_generic_611225,l10n_br_coa_generic_template
