@@ -454,6 +454,9 @@ class AccountInvoice(models.Model):
 
         for record in self.filtered(lambda i: i.refund_invoice_id):
             if record.state == "open":
+                # Ao confirmar uma fatura/documento fiscal se é uma devolução
+                # é feito conciliado com o documento de origem para abater
+                # o valor devolvido pelo documento de refund
                 to_reconcile_lines = self.env["account.move.line"]
                 for line in record.move_id.line_ids:
                     if line.account_id.id == record.account_id.id:
