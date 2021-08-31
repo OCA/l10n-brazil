@@ -307,6 +307,9 @@ class StackedModel(SpecModel):
                 continue
             child_concrete = SpecModel._get_concrete(child._name)
             field_path = name.replace(registry[node._name]._field_prefix, "")
+            if path + '.' + field_path in cls._force_stack_paths:
+                classes.add(child)
+
             if f["type"] == "one2many":
                 # _logger.info("%s    \u2261 <%s> %s" % (
                 #     indent, field_path, child_concrete or child._name))
@@ -316,6 +319,7 @@ class StackedModel(SpecModel):
             # many2one
             elif (child_concrete is None or child_concrete == cls._name) and (
                 f["xsd_required"] or f["choice"] or path in cls._force_stack_paths
+                or path + '.' + field_path in cls._force_stack_paths
             ):
                 # then we will STACK the child in the current class
                 # TODO if model not used in any other field!!
