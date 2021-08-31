@@ -6386,6 +6386,18 @@ msgid "Next number of this sequence"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document_eletronic.py:223
+#, python-format
+msgid "No PDF file generated!"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document_eletronic.py:212
+#, python-format
+msgid "No XML file generated!"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.cnae,internal_type:0
 #: selection:l10n_br_fiscal.document,edoc_purpose:0
 #: selection:l10n_br_fiscal.service.type,internal_type:0
