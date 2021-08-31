@@ -57,10 +57,7 @@ def filter_processador_edoc_nfe(record):
 
 class NFe(spec_models.StackedModel):
     _name = "l10n_br_fiscal.document"
-    _inherit = [
-        "l10n_br_fiscal.document",
-        "nfe.40.infnfe",
-    ]
+    _inherit = ["l10n_br_fiscal.document", "nfe.40.infnfe"]
     _stacked = "nfe.40.infnfe"
     _stack_skip = "nfe40_veicTransp"
     _field_prefix = "nfe40_"
@@ -69,7 +66,6 @@ class NFe(spec_models.StackedModel):
     _odoo_module = "l10n_br_nfe"
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
     _spec_tab_name = "NFe"
-    #    _concrete_skip = ('nfe.40.det',) # will be mixed in later
     _nfe_search_keys = ["nfe40_Id"]
 
     # all m2o at this level will be stacked even if not required:
