@@ -60,8 +60,6 @@ class NFe(spec_models.StackedModel):
     _inherit = [
         "l10n_br_fiscal.document",
         "nfe.40.infnfe",
-        "nfe.40.infadic",
-        "nfe.40.exporta",
     ]
     _stacked = "nfe.40.infnfe"
     _stack_skip = "nfe40_veicTransp"
@@ -71,12 +69,11 @@ class NFe(spec_models.StackedModel):
     _odoo_module = "l10n_br_nfe"
     _spec_module = "odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe"
     _spec_tab_name = "NFe"
-    _stacking_points = {}
     #    _concrete_skip = ('nfe.40.det',) # will be mixed in later
     _nfe_search_keys = ["nfe40_Id"]
 
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = ("infnfe.total", "infnfe.infAdic")
+    _force_stack_paths = ("infnfe.total", "infnfe.infAdic", "infnfe.exporta")
 
     def _compute_emit(self):
         for doc in self:  # TODO if out
