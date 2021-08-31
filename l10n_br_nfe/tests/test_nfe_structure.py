@@ -54,15 +54,20 @@ class NFeStructure(SavepointCase):
     def test_m2o_stacked(self):
         # not stacked because optional
         nfe_model = self.env["l10n_br_fiscal.document"]
-        assert "nfe40_ide" not in nfe_model._fields.keys()
-        assert "nfe40_imposto" not in nfe_model._fields.keys()
+        # nfe40_cana is optional so its fields shoudn't be stacked
+        assert "nfe40_safra" not in nfe_model._fields.keys()
 
     def test_doc_stacking_points(self):
         doc_keys = [
             "nfe40_ICMSTot",
             "nfe40_ISSQNtot",
+            "nfe40_exporta",
             "nfe40_ide",
+            "nfe40_infAdic",
             "nfe40_pag",
+            "nfe40_refECF",
+            "nfe40_refNF",
+            "nfe40_refNFP",
             "nfe40_retTrib",
             "nfe40_total",
             "nfe40_transp",
