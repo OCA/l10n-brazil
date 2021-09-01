@@ -176,10 +176,7 @@ class DocumentEletronic(models.AbstractModel):
             record._change_state(SITUACAO_EDOC_AUTORIZADA)
 
     def _document_send(self):
-        no_electronic = self.filtered(
-            lambda d: not d.document_electronic
-            or not d.issuer == DOCUMENT_ISSUER_COMPANY
-        )
+        no_electronic = self.filtered(lambda d: not d.document_electronic)
         no_electronic._no_eletronic_document_send()
         electronic = self - no_electronic
         electronic._eletronic_document_send()
