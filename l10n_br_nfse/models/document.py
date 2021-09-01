@@ -13,6 +13,7 @@ from requests import Session
 from odoo import api, fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     MODELO_FISCAL_NFSE,
@@ -31,9 +32,11 @@ _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfse(record):
-    if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
-        MODELO_FISCAL_NFSE,
-    ]:
+    if (
+        record.processador_edoc == PROCESSADOR_OCA
+        and record.document_type_id.code == MODELO_FISCAL_NFSE
+        and record.issuer == DOCUMENT_ISSUER_COMPANY
+    ):
         return True
     return False
 
