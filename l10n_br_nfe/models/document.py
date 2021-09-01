@@ -25,6 +25,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
     DENEGADO,
+    DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
@@ -47,10 +48,15 @@ _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfe(record):
-    if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
-        MODELO_FISCAL_NFE,
-        MODELO_FISCAL_NFCE,
-    ]:
+    if (
+        record.processador_edoc == PROCESSADOR_OCA
+        and record.document_type_id.code
+        in [
+            MODELO_FISCAL_NFE,
+            MODELO_FISCAL_NFCE,
+        ]
+        and record.issuer == DOCUMENT_ISSUER_COMPANY
+    ):
         return True
     return False
 
