@@ -31,8 +31,8 @@ class StockReturnPicking(models.TransientModel):
                 if self.invoice_state == "2binvoiced":
                     raise UserError(
                         _(
-                            "This Fiscal Operation does not has Fiscal"
-                            " Operation for Returns!"
+                            "This Fiscal Operation has no Fiscal Operation"
+                            " for Returns defined!"
                         )
                     )
             else:
