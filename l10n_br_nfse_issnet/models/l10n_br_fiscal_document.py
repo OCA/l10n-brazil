@@ -284,14 +284,33 @@ class Document(models.Model):
                 rps_type=int(record.rps_type),
             )
 
-            return _(
-                processador.analisa_retorno_consulta(
-                    processo,
-                    record.document_number,
-                    record.company_cnpj_cpf,
-                    record.company_legal_name,
-                )
-            )
+            consulta = processador.analisa_retorno_consulta(
+                processo,
+                record.document_number,
+                record.company_cnpj_cpf,
+                record.company_legal_name)
+
+            if self.status_code == '2':
+                if isinstance(consulta, dict):
+                    record.write({
+                        'verify_code': consulta['codigo_verificacao'],
+                        'document_number': consulta['numero'],
+                        'authorization_date': consulta['data_emissao'],
+                        'status_code': 4,
+                        'status_name': _('Successfully Processed'),
+                    })
+                    record._compute_status_description()
+                    record.authorization_event_id.set_done(
+                        status_code=4, response=_('Successfully Processed'),
+                        protocol_date=consulta['data_emissao'],
+                        protocol_number=record.authorization_protocol,
+                        file_response_xml=processo.retorno)
+                    if record.state_edoc != 'autorizada':
+                        record._change_state(SITUACAO_EDOC_AUTORIZADA)
+            if isinstance(consulta, tuple):
+                return _(consulta[0])
+            else:
+                return consulta
 
     @api.multi
     def _eletronic_document_send(self):
