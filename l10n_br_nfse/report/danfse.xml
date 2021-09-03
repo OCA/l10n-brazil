@@ -381,7 +381,7 @@ row {
                        <span t-field="doc.amount_pis_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_pis_ret_value" />
+                       <span t-field="doc.amount_pis_wh_value" />
                     </t>
                 </div>
                 <div class="col-1 rotulo br">
@@ -392,7 +392,7 @@ row {
                        <span t-field="doc.amount_cofins_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_cofins_ret_value" />
+                       <span t-field="doc.amount_cofins_wh_value" />
                     </t>
                 </div>
                 <div class="col-1 rotulo br">
@@ -403,7 +403,7 @@ row {
                        <span t-field="doc.amount_csll_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_csll_ret_value" />
+                       <span t-field="doc.amount_csll_wh_value" />
                     </t>
                 </div>
                 <div class="col-1 rotulo br">
@@ -414,7 +414,7 @@ row {
                        <span t-field="doc.amount_csll_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_csll_ret_value" />
+                       <span t-field="doc.amount_csll_wh_value" />
                     </t>
                 </div>
                 <div class="col-1 rotulo br">
