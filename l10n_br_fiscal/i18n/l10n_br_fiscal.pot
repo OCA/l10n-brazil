@@ -1643,7 +1643,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_cancel_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_correction_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.invalidate_number_wizard
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.wizard_document_status_form
 msgid "Cancel"
 msgstr ""
 
@@ -1878,6 +1877,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_closing_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.wizard_document_status_form
 msgid "Close"
 msgstr ""
 
@@ -3765,6 +3765,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.subsequent.operation,generation_situation:0
 msgid "Gerar Nota Fiscal de Remessa"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.wizard_document_status_form
+msgid "Get Status"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6588,7 +6593,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_cancel_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_correction_wizard_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.invalidate_number_wizard
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.wizard_document_status_form
 msgid "OK"
 msgstr ""
 
