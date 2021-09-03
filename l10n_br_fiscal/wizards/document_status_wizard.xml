@@ -35,8 +35,13 @@
                     <field name="document_status" />
                 </group>
                 <footer>
-                    <button name="doit" string="OK" class="btn-primary" type="object" />
-                    <button string="Cancel" class="btn-default" special="cancel" />
+                    <button
+                        name="doit"
+                        string="Get Status"
+                        class="btn-primary"
+                        type="object"
+                    />
+                    <button string="Close" class="btn-default" special="cancel" />
                 </footer>
             </form>
         </field>
