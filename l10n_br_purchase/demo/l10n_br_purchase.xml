@@ -16,14 +16,14 @@
         <value eval="[ref('main_po_only_products')]" />
     </function>
 
-
     <record id="main_pl_only_products_1_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products" />
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <field name="price_unit">12.50</field>
+        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
+        <field name="price_unit">25.0</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
             name="fiscal_operation_line_id"
@@ -31,6 +31,10 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_products_1_2')]" />
+    </function>
 
     <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_pl_only_products_1_2')]" />
@@ -42,11 +46,11 @@
 
     <record id="main_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="main_po_only_products" />
-        <field name="name">Laptop Customized</field>
+        <field name="name">Drawer</field>
         <field name="product_id" ref="product.product_product_27" />
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
             name="fiscal_operation_line_id"
@@ -54,6 +58,10 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_pl_only_products_2_2')]" />
+    </function>
 
     <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_pl_only_products_2_2')]" />
@@ -78,14 +86,13 @@
         <value eval="[ref('lp_po_only_products')]" />
     </function>
 
-
     <record id="lp_pl_only_products_1_2" model="purchase.order.line">
         <field name="order_id" ref="lp_po_only_products" />
         <field name="name">Office Chair Black</field>
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">25.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
             name="fiscal_operation_line_id"
@@ -93,6 +100,10 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lp_pl_only_products_1_2')]" />
+    </function>
 
     <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lp_pl_only_products_1_2')]" />
@@ -104,11 +115,11 @@
 
     <record id="lp_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="lp_po_only_products" />
-        <field name="name">Laptop Customized</field>
+        <field name="name">Drawer</field>
         <field name="product_id" ref="product.product_product_27" />
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <field name="price_unit">12.50</field>
+        <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
             name="fiscal_operation_line_id"
@@ -116,6 +127,10 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lp_pl_only_products_2_2')]" />
+    </function>
 
     <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lp_pl_only_products_2_2')]" />
@@ -146,7 +161,7 @@
         <field name="product_id" ref="product.product_product_12" />
         <field name="product_qty">4</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">25.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
             name="fiscal_operation_line_id"
@@ -154,6 +169,10 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_pl_only_products_1_2')]" />
+    </function>
 
     <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_pl_only_products_1_2')]" />
@@ -165,11 +184,11 @@
 
     <record id="sn_pl_only_products_2_2" model="purchase.order.line">
         <field name="order_id" ref="sn_po_only_products" />
-        <field name="name">Laptop Customized</field>
+        <field name="name">Drawer</field>
         <field name="product_id" ref="product.product_product_27" />
         <field name="product_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
-        <field name="price_unit">3645.00</field>
+        <field name="price_unit">50.00</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
         <field
             name="fiscal_operation_line_id"
@@ -177,6 +196,10 @@
         />
         <field name="date_planned" eval="time.strftime('%Y-%m-%d')" />
     </record>
+
+    <function model="purchase.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_pl_only_products_2_2')]" />
+    </function>
 
     <function model="purchase.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_pl_only_products_2_2')]" />
