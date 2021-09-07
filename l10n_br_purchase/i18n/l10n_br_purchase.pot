@@ -19,9 +19,31 @@ msgid "Accounting"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Ativo Imobilizado"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__cest_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "CEST"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__cfop_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "CFOP"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__cnpj_cpf
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
 msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__cofins_value
+msgid "COFINS Value"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -32,6 +54,11 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_res_company__purchase_fiscal_operation_id
 msgid "Default Fiscal Operation for Purchase"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Embalagem"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -62,6 +89,31 @@ msgid "Freight"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__freight_value
+msgid "Freight Value"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__icmsst_value
+msgid "ICMS ST Value"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__icms_value
+msgid "ICMS Value"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__ii_value
+msgid "II Value"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__ipi_value
+msgid "IPI Value"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
 msgid "Inscr. Estadual"
 msgstr ""
@@ -69,6 +121,11 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
 msgid "Insurance"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__insurance_value
+msgid "Insurance Value"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -87,6 +144,21 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Material de Uso e Consumo"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Matéria-prima"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Mercadoria para Revenda"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__quantity
 msgid "Mixin Quantity"
 msgstr ""
@@ -94,6 +166,18 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__uom_id
 msgid "Mixin UOM"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__nbm_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "NBM"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__ncm_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "NCM"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -113,8 +197,48 @@ msgid "Other Costs"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__other_value
+msgid "Other Value"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Outras"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
 msgid "Outros Custos"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Outros insumos"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__pis_value
+msgid "PIS Value"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+msgid "Product Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Produto Acabado"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Produto Intermediário"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Produto em Processo"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -143,8 +267,18 @@ msgid "Razão Social"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Serviços"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__ie
 msgid "State Tax Number/RG"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: selection:purchase.report,fiscal_type:0
+msgid "Subproduto"
 msgstr ""
 
 #. module: l10n_br_purchase
@@ -155,6 +289,16 @@ msgstr ""
 #. module: l10n_br_purchase
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
 msgid "Taxes"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_type
+msgid "Tipo Fiscal"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__total_with_taxes
+msgid "Total with Taxes"
 msgstr ""
 
 #. module: l10n_br_purchase
