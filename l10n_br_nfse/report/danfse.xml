@@ -435,7 +435,7 @@ row {
                     Valor dos Serviços R$
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.line_ids[0].fiscal_price" />
+                    <span t-field="doc.amount_price_gross" />
                 </div>
                 <div class="col-2 rotulo br">
                     Natureza Operação
@@ -444,7 +444,7 @@ row {
                     Valor dos Serviços R$
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.amount_total" />
+                    <span t-field="doc.amount_price_gross" />
                 </div>
             </div>
 
