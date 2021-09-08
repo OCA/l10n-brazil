@@ -517,7 +517,12 @@ row {
                     (x) Alíquota %
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.line_ids[0].issqn_percent" />
+                    <t t-if="doc.line_ids[0].issqn_percent">
+                       <span t-field="doc.line_ids[0].issqn_percent" />
+                    </t>
+                    <t t-else="">
+                       <span t-field="doc.line_ids[0].issqn_wh_percent" />
+                    </t>
                 </div>
             </div>
 
