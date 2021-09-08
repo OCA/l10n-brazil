@@ -176,12 +176,12 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute="_compute_amount",
     )
 
-    amount_pis_ret_base = fields.Monetary(
+    amount_pis_wh_base = fields.Monetary(
         string="PIS Ret Base",
         compute="_compute_amount",
     )
 
-    amount_pis_ret_value = fields.Monetary(
+    amount_pis_wh_value = fields.Monetary(
         string="PIS Ret Value",
         compute="_compute_amount",
     )
@@ -196,12 +196,12 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute="_compute_amount",
     )
 
-    amount_cofins_ret_base = fields.Monetary(
+    amount_cofins_wh_base = fields.Monetary(
         string="COFINS Ret Base",
         compute="_compute_amount",
     )
 
-    amount_cofins_ret_value = fields.Monetary(
+    amount_cofins_wh_value = fields.Monetary(
         string="COFINS Ret Value",
         compute="_compute_amount",
     )
@@ -216,12 +216,12 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute="_compute_amount",
     )
 
-    amount_issqn_ret_base = fields.Monetary(
+    amount_issqn_wh_base = fields.Monetary(
         string="ISSQN Ret Base",
         compute="_compute_amount",
     )
 
-    amount_issqn_ret_value = fields.Monetary(
+    amount_issqn_wh_value = fields.Monetary(
         string="ISSQN Ret Value",
         compute="_compute_amount",
     )
@@ -236,12 +236,12 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute="_compute_amount",
     )
 
-    amount_csll_ret_base = fields.Monetary(
+    amount_csll_wh_base = fields.Monetary(
         string="CSLL Ret Base",
         compute="_compute_amount",
     )
 
-    amount_csll_ret_value = fields.Monetary(
+    amount_csll_wh_value = fields.Monetary(
         string="CSLL Ret Value",
         compute="_compute_amount",
     )
@@ -256,12 +256,12 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute="_compute_amount",
     )
 
-    amount_irpj_ret_base = fields.Monetary(
+    amount_irpj_wh_base = fields.Monetary(
         string="IRPJ Ret Base",
         compute="_compute_amount",
     )
 
-    amount_irpj_ret_value = fields.Monetary(
+    amount_irpj_wh_value = fields.Monetary(
         string="IRPJ Ret Value",
         compute="_compute_amount",
     )
