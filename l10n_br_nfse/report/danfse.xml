@@ -499,7 +499,7 @@ row {
                     Base de Cálculo
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.line_ids[0].fiscal_price" />
+                    <span t-field="doc.amount_total" />
                 </div>
             </div>
 
