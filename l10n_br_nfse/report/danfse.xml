@@ -490,7 +490,9 @@ row {
                     (-) Retenções Federais
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-esc="round(doc.amount_tax_withholding - doc.amount_issqn_ret_value, 2 )"/>
+                    <span
+                        t-esc="round(doc.amount_tax_withholding - doc.amount_issqn_ret_value, 2 )"
+                    />
                 </div>
                 <div class="col-2 linha centro br">
                     0 - Nenhum

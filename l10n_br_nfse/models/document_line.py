@@ -94,7 +94,8 @@ class DocumentLine(models.Model):
             "valor_deducoes": self.fiscal_deductions_value,
             "valor_pis": round(self.pis_value, 2) or round(self.pis_wh_value, 2),
             "valor_pis_retido": round(self.pis_wh_value, 2),
-            "valor_cofins": round(self.cofins_value, 2) or round(self.cofins_wh_value, 2),
+            "valor_cofins": round(self.cofins_value, 2)
+            or round(self.cofins_wh_value, 2),
             "valor_cofins_retido": round(self.cofins_wh_value, 2),
             "valor_inss": round(self.inss_value, 2) or round(self.inss_wh_value, 2),
             "valor_inss_retido": round(self.inss_wh_value, 2),
