@@ -410,11 +410,11 @@ row {
                     IR
                 </div>
                 <div class="col-1 linha centro br">
-                    <t t-if="doc.amount_csll_value">
-                       <span t-field="doc.amount_csll_value" />
+                    <t t-if="doc.amount_irpj_value">
+                       <span t-field="doc.amount_irpj_value" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.amount_csll_wh_value" />
+                       <span t-field="doc.amount_irpj_wh_value" />
                     </t>
                 </div>
                 <div class="col-1 rotulo br">
