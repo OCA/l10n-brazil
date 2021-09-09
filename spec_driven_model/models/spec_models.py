@@ -232,7 +232,7 @@ class StackedModel(SpecModel):
     def _build_model(cls, pool, cr):
         # inject all stacked m2o as inherited classes
         if cls._stacked:
-            _logger.info("\n\n====  BUILDING StackedModel %s %s\n" % (cls._name, cls))
+            _logger.info("building StackedModel %s %s" % (cls._name, cls))
             node = cls._odoo_name_to_class(cls._stacked, cls._spec_module)
             classes = set()
             cls._visit_stack(node, classes, cls._stacked.split(".")[-1], pool, cr)
