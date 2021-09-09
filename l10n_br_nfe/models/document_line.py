@@ -8,7 +8,7 @@ from unicodedata import normalize
 from odoo import api, fields
 
 from odoo.addons.l10n_br_fiscal.constants.icms import ICMS_CST, ICMS_SN_CST
-from odoo.addons.l10n_br_fiscal.constants.IPI import CST_IPI_TAXED
+from odoo.addons.l10n_br_fiscal.constants.ipi import CST_IPI_TAXED
 from odoo.addons.spec_driven_model.models import spec_models
 
 ICMSSN_CST_CODES_USE_102 = ("102", "103", "300", "400")
@@ -166,17 +166,29 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_modBCST = fields.Selection(related="icmsst_base_type")
 
-    nfe40_pMVAST = fields.Float(related="icmsst_mva_percent")
+    nfe40_pMVAST = fields.Float(
+        related="icmsst_mva_percent",
+        string="nfe40_pMVAST",
+    )
 
-    nfe40_pRedBCST = fields.Float(related="icmsst_reduction")
+    nfe40_pRedBCST = fields.Float(
+        related="icmsst_reduction",
+        string="nfe40_pRedBCST",
+    )
 
     nfe40_vBCST = fields.Monetary(related="icmsst_base")
 
-    nfe40_pICMSST = fields.Float(related="icmsst_percent")
+    nfe40_pICMSST = fields.Float(
+        related="icmsst_percent",
+        string="nfe40_pICMSST",
+    )
 
     nfe40_vICMSST = fields.Monetary(related="icmsst_value")
 
-    nfe40_pCredSN = fields.Float(related="icmssn_percent")
+    nfe40_pCredSN = fields.Float(
+        related="icmssn_percent",
+        string="nfe40_pCredSN",
+    )
 
     # nfe40_pBCOp TODO
 
@@ -271,17 +283,11 @@ class NFeLine(spec_models.StackedModel):
 
     # Fields related and definitions
     
-    nfe40_vDespAdu = fields.Monetary(
-        related=""
-    )
+    nfe40_vDespAdu = fields.Monetary(related="ii_customhouse_charges")
 
-    nfe40_vII = fields.Monetary(
-        related=""
-    )
+    nfe40_vII = fields.Monetary(related="ii_value")
 
-    nfe40_vIOF = fields.Monetary(
-        related=""
-    )
+    nfe40_vIOF = fields.Monetary(related="ii_iof_value")
 
     ##########################
     # NF-e tag: IPI
@@ -298,14 +304,13 @@ class NFeLine(spec_models.StackedModel):
 
     nfe40_pIPI = fields.Float(
         related="ipi_percent",
+        string="nfe40_pIPI",
     )
 
-    nfe40_vIPI = fields.Monetary(
-        related="ipi_value",
-    )
+    nfe40_vIPI = fields.Monetary(related="ipi_value")
 
     nfe40_choice3 = fields.Selection(
-        compute="_compute_nfe40_choice3",
+        compute="_compute_nfe40_choice3", 
         store=True,
     )
 
@@ -318,6 +323,31 @@ class NFeLine(spec_models.StackedModel):
 
     @api.depends("ipi_cst_id")
     def _compute_nfe40_choice3(self):
+        """Calcula o valor do campo nfe40_choice3 para definir
+        Qual tag será utilizada da TIPI:
+
+        nfe40_IPITrib: Quando existe a tributação do IPI e utilizado
+        as CSTs do IPI:
+            * 00 - Entrada com recuperação de crédito
+            * 49 - Outras entradas
+            * 50 - Saída tributada
+            * 99 - Outras saídas
+
+        nfe40_IPINT: Quando não há tributação do IPI e utilizado 
+        as CSTs do IPI:
+            * 01 - Entrada tributada com alíquota zero
+            * 02 - Entrada isenta
+            * 03 - Entrada não-tributada
+            * 04 - Entrada imune
+            * 05 - Entrada com suspensão
+            * 51 - Saída tributada com alíquota zero
+            * 52 - Saída isenta
+            * 53 - Saída não-tributada
+            * 54 - Saída imune
+            * 55 - Saída com suspensão
+        Returns:
+            None
+        """
         for record in self:
             if record.ipi_cst_id.code in CST_IPI_TAXED:
                 record.nfe40_choice3 = "nfe40_IPITrib"
@@ -326,12 +356,24 @@ class NFeLine(spec_models.StackedModel):
 
     @api.depends("ipi_base_type")
     def _compute_nfe40_choice20(self):
+        """Calcula o valor do campo nfe40_choice20 que defini 
+        Qual base será utilizada para tributação do IPI:
+
+        nfe40_pIPI: Alíquota do IPI
+        
+        nfe40_qUnid: Quantidade total na unidade padrão para tributação
+
+        nfe40_vUnid: Valor por Unidade Tributável. Informar o valor do imposto 
+        Pauta por unidade de medida.
+
+        Returns:
+            None
+        """
         for record in self:
             if record.ipi_base_type == "percent":
                 record.nfe40_choice20 = "nfe40_pIPI"
             else:
                 record.nfe40_choice20 = "nfe40_vUnid"
-
 
     ##########################
     # NF-e tag: PIS
@@ -339,7 +381,10 @@ class NFeLine(spec_models.StackedModel):
 
     # Fields related and definitions
 
-    nfe40_pPIS = fields.Float(related="pis_percent")
+    nfe40_pPIS = fields.Float(
+        related="pis_percent",
+        string="nfe40_pPIS",
+    )
 
     nfe40_choice12 = fields.Selection(compute="_compute_nfe40_choice12", store=True)
 
@@ -386,13 +431,30 @@ class NFeLine(spec_models.StackedModel):
             else:
                 record.nfe40_choice13 = "nfe40_vAliqProd"
 
+    
+    def _export_fields_pis(xsd_fields, class_obj, export_dict):
+        xsd_fields = [self.nfe40_choice12]
+
+        if class_obj._name == "nfe.40.pisoutr":
+            xsd_fields = [i for i in xsd_fields]
+            if self.nfe40_choice13 == "nfe40_pPIS":
+                xsd_fields.remove("nfe40_qBCProd")
+                xsd_fields.remove("nfe40_vAliqProd")
+            else:
+                xsd_fields.remove("nfe40_vBC")
+                xsd_fields.remove("nfe40_pPIS")
+        return xsd_fields, export_dict
+
     ##########################
     # NF-e tag: COFINS
     ##########################
 
     # Fields related and definitions
 
-    nfe40_pCOFINS = fields.Float(related="cofins_percent")
+    nfe40_pCOFINS = fields.Float(
+        related="cofins_percent",
+        string="nfe40_pCOFINS",
+    )
 
     nfe40_vCOFINS = fields.Monetary(
         string="Valor do COFINS (NFe)",
@@ -525,31 +587,13 @@ class NFeLine(spec_models.StackedModel):
         if class_obj._name.startswith == "nfe.40.pis":
             xsd_fields, export_dict = self._export_fields_pis(
                 xsd_fields, class_obj, export_dict)
-
-            def _export_fields_pis(xsd_fields, class_obj, export_dict):
-                xsd_fields = [self.nfe40_choice12]
-
-                if class_obj._name == "nfe.40.pisoutr":
-                    xsd_fields = [i for i in xsd_fields]
-                    if self.nfe40_choice13 == "nfe40_pPIS":
-                        xsd_fields.remove("nfe40_qBCProd")
-                        xsd_fields.remove("nfe40_vAliqProd")
-                    else:
-                        xsd_fields.remove("nfe40_vBC")
-                        xsd_fields.remove("nfe40_pPIS")
-                return xsd_fields, export_dict
-
-
-            
-
-
             
         elif class_obj._name == "nfe.40.cofins":
             xsd_fields = [self.nfe40_choice15]
         elif class_obj._name == "nfe.40.ipitrib":
-            
+            pass
         elif class_obj._name == "nfe.40.pisoutr":
-            
+            pass
         elif class_obj._name == "nfe.40.cofinsoutr":
             xsd_fields = [i for i in xsd_fields]
             if self.nfe40_choice16 == "nfe40_pCOFINS":

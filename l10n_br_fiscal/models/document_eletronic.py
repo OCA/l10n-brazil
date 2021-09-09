@@ -2,6 +2,8 @@
 # Copyright (C) 2019  KMEE INFORMATICA LTDA
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import logging
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -11,6 +13,13 @@ from ..constants.fiscal import (
     PROCESSADOR_NENHUM,
     SITUACAO_EDOC_AUTORIZADA,
 )
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from erpbrasil.base.fiscal.edoc import ChaveEdoc
+except ImportError:
+    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 def filter_processador(record):
@@ -23,6 +32,28 @@ class DocumentEletronic(models.AbstractModel):
     _name = "l10n_br_fiscal.document.electronic"
     _description = "Fiscal Eletronic Document"
     _inherit = "l10n_br_fiscal.document.workflow"
+
+    state_fiscal = fields.Selection(
+        selection=SITUACAO_FISCAL,
+        string="Situação Fiscal",
+        copy=False,
+        track_visibility="onchange",
+        index=True,
+    )
+
+    cancel_reason = fields.Char(
+        string="Cancel Reason",
+    )
+
+    correction_reason = fields.Char(
+        string="Correction Reason",
+    )
+
+    processador_edoc = fields.Selection(
+        string="Processador",
+        selection=PROCESSADOR,
+        default=PROCESSADOR_NENHUM,
+    )
 
     issuer = fields.Selection(
         selection=DOCUMENT_ISSUER,
@@ -137,9 +168,16 @@ class DocumentEletronic(models.AbstractModel):
         readonly=True,
     )
 
-    document_version = fields.Char(string="Version", default="4.00", readonly=True)
+    document_version = fields.Char(
+        string="Version",
+        default="4.00",
+        readonly=True,
+    )
 
-    is_edoc_printed = fields.Boolean(string="Is Printed?", readonly=True)
+    is_edoc_printed = fields.Boolean(
+        string="Is Printed?",
+        readonly=True,
+    )
 
     file_report_id = fields.Many2one(
         comodel_name="ir.attachment",
@@ -147,6 +185,17 @@ class DocumentEletronic(models.AbstractModel):
         ondelete="restrict",
         readonly=True,
         copy=False,
+    )
+
+    state_edoc = fields.Selection(
+        selection=SITUACAO_EDOC,
+        string="Situação e-doc",
+        default=SITUACAO_EDOC_EM_DIGITACAO,
+        copy=False,
+        required=True,
+        readonly=True,
+        track_visibility="onchange",
+        index=True,
     )
 
     @api.depends("status_code", "status_name")
@@ -184,13 +233,8 @@ class DocumentEletronic(models.AbstractModel):
         electronic = self - no_electronic
         electronic._eletronic_document_send()
 
-    def serialize(self):
-        edocs = []
-        self._serialize(edocs)
-        return edocs
-
     def _serialize(self, edocs):
-        return edocs
+        pass
 
     def _target_new_tab(self, attachment_id):
         if attachment_id:
@@ -222,8 +266,3 @@ class DocumentEletronic(models.AbstractModel):
         if not self.file_report_id:
             raise UserError(_("No PDF file generated!"))
         return self._target_new_tab(self.file_report_id)
-
-    def _document_status(self):
-        """Retorna o status do documento em texto e se necessário,
-        atualiza o status do documento"""
-        return

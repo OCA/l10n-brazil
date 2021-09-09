@@ -6,6 +6,8 @@ from . import res_partner
 from . import res_company
 from . import product_product
 from . import document_related
+from . import document_electronic
+from . import document_workflow
 from . import document
 from . import document_line
 from . import res_city
