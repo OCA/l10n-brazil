@@ -23,6 +23,7 @@
     # },
     'data': [
         "data/l10n_br_fiscal_cfop_data.xml",
+        "data/pos_config.xml",
 
         "views/pos_config_view.xml",
 
@@ -40,6 +41,9 @@
         # "views/point_of_sale_report.xml",
         "views/pos_template.xml",
     ],
+    'demo': [
+        "demo/pos_config.xml",
+        ],
     "qweb": [
         'static/src/xml/pos.xml',
     ],
