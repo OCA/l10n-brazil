@@ -10,5 +10,4 @@
     <field name="iface_tef" eval="True"/>
 </record>
 
-</data>
-</openerp>
+</odoo>

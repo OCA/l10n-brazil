@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 
-<openerp>
-    <data>
+<odoo>
         <record id="tef_credit_card" model="account.journal">
             <field name="name">Credit Card</field>
             <field name="code">CC01</field>
@@ -33,6 +32,5 @@
         <record id="account.check_journal" model="account.journal">
             <field name="payment_mode">check</field>
         </record>
-    </data>
-</openerp>
+</odoo>
 
