@@ -4,7 +4,7 @@ from openerp import models, fields, _
 
 
 class PosConfig(models.Model):
-    _inherit = 'pos.config'
+    _inherit = "pos.config"
 
     iface_tef = fields.Boolean(
         string="TEF",
@@ -13,22 +13,22 @@ class PosConfig(models.Model):
 
     institution_selection = fields.Selection(
         selection=[
-            ('Administradora', _('Administrator')),
-            ('Estabelecimento', _('Institute'))
+            ("Administradora", _("Administrator")),
+            ("Estabelecimento", _("Institute")),
         ],
         string=_("Institution"),
         help=_("Institution selection for installment payments"),
-        default='Estabelecimento',
+        default="Estabelecimento",
     )
 
     environment_selection = fields.Selection(
         selection=[
-            ('Producao', _('Production')),
-            ('Homologacao', _('Homologation'))
+            ("Producao", _("Production")),
+            ("Homologacao", _("Homologation")),
         ],
         string=_("Environment"),
         help=_("Environment Selection"),
-        default='Homologacao',
+        default="Homologacao",
     )
 
     credit_server = fields.Char(
