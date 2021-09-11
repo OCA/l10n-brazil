@@ -8,11 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <notebook>
-                    <page name="l10n_br_general" string="Localização Brasileira">
-                        <group>
-                            <field name="out_pos_fiscal_operation_id"/>
-                            <field name="refund_pos_fiscal_operation_id"/>
-                        </group>
+                    <page name="l10n_br_general" string="Geral">
                         <group>
                             <group string="Simplificado">
                                 <field name="simplified_document_type_id"/>
@@ -23,6 +19,16 @@
                                 <field name="detailed_document_type_id"/>
                                 <field name="detailed_document_type"/>
                             </group>
+                        </group>
+                    </page>
+                    <page name="l10n_br_tax" string="Tributação">
+                        <group string="Venda">
+                            <field name="out_pos_fiscal_operation_id"/>
+                            <field name="cfop_ids" widget="many2many_tags"/>
+                            <field name="out_pos_fiscal_operation_line_ids" widget="many2many_tags"/>
+                        </group>
+                        <group string="Devolução">
+                            <field name="refund_pos_fiscal_operation_id"/>
                         </group>
                     </page>
                     <page name="l10n_br_nfce" string="NFC-E">
