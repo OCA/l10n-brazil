@@ -9,6 +9,7 @@ setuptools.setup(
     version=version,
     install_requires=[
         'odoo14-addon-l10n_br_coa',
+        'odoo14-addon-l10n_br_coa_generic',
         'odoo14-addon-l10n_br_coa_simple',
     ],
     classifiers=[
