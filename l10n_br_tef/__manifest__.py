@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    Módulo Odoo para Terminal de Pagamento do POS
@@ -9,7 +8,7 @@
 
 {
     "name": "l10n_br_tef",
-    "version": "8.0.0.1.0",
+    "version": "12.0.1.0.0",
     "category": "Point Of Sale",
     "summary": "Manage Payment Terminal device from POS front end",
     "author": "KMEE Informatica LTDA",
