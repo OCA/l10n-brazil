@@ -29,17 +29,41 @@ class PosConfig(models.Model):
     def _default_refund_pos_fiscal_operation_id(self):
         return self.company_id.refund_pos_fiscal_operation_id
 
+    @api.depends('out_pos_fiscal_operation_id')
+    def _compute_allowed_tax(self):
+        for record in self:
+            record.cfop_ids = record.cfop_ids.search([('is_pos', '=', True)])
+            if record.cfop_ids and record.out_pos_fiscal_operation_id:
+                record.out_pos_fiscal_operation_line_ids = \
+                    record.out_pos_fiscal_operation_id.line_ids.filtered(
+                        lambda x: x.cfop_internal_id in record.cfop_ids
+                    )
+
     out_pos_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        string='Operação Fiscal de Padrão de Saida do POS',
+        string='Operação Padrão de Venda',
         # domain="[('journal_type','=','sale'), ('state', '=', 'approved'),"
         # " ('fiscal_type','=','product'), ('type','=','output')]",
         default=_default_out_pos_fiscal_operation_id,
     )
 
+    cfop_ids = fields.One2many(
+        string='CFOPs permitidas',
+        comodel_name='l10n_br_fiscal.cfop',
+        compute='_compute_allowed_tax',
+        readonly=True,
+    )
+
+    out_pos_fiscal_operation_line_ids = fields.One2many(
+        comodel_name='l10n_br_fiscal.operation.line',
+        string='Linhas de Operação de Venda',
+        compute='_compute_allowed_tax',
+        readonly=True,
+    )
+
     refund_pos_fiscal_operation_id = fields.Many2one(
         comodel_name='l10n_br_fiscal.operation',
-        string='Categoria Fiscal de Devolução do PDV',
+        string='Operação Padrão de Devolução',
         # domain="[('journal_type','=','sale_refund'),"
         # "('state', '=', 'approved'), ('fiscal_type','=','product'),"
         # " ('type','=','input')]",
@@ -59,6 +83,7 @@ class PosConfig(models.Model):
 
     simplified_document_type = fields.Char(
         related="simplified_document_type_id.code",
+        string='Simplified document type',
         store=True,
     )
 
@@ -68,6 +93,7 @@ class PosConfig(models.Model):
 
     detailed_document_type = fields.Char(
         related="detailed_document_type_id.code",
+        string='Detailed document type',
         store=True,
     )
 
