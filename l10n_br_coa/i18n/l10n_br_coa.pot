@@ -59,6 +59,11 @@ msgid "Account Chart Template"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:ir.model,name:l10n_br_coa.model_l10n_br_coa_account_tax_group_account_template
+msgid "Account Tax Group Account Template"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:ir.model,name:l10n_br_coa.model_account_tax_mixin
 msgid "Account Tax Mixin"
 msgstr ""
@@ -139,17 +144,32 @@ msgid "CSLL WH"
 msgstr ""
 
 #. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__chart_template_id
+msgid "Chart Template"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_br_coa
 #: model:account.account.type,name:l10n_br_coa.data_account_type_cost
 msgid "Custo"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__ded_account_id
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__ded_account_id
 msgid "Deductible Tax Account"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__ded_refund_account_id
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__ded_refund_account_id
 msgid "Deductible Tax Account on Credit Notes"
 msgstr ""
 
@@ -163,9 +183,9 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__display_name
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__display_name
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__display_name
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -192,9 +212,9 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_chart_template__id
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax__id
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__id
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template__id
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__id
 msgid "ID"
 msgstr ""
 
@@ -246,10 +266,20 @@ msgstr ""
 #. module: l10n_br_coa
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_chart_template____last_update
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax____last_update
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group____last_update
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_template____last_update
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template____last_update
 msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_br_coa
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__write_date
+msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_br_coa
@@ -343,17 +373,17 @@ msgid "Tax"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__account_id
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__account_id
 msgid "Tax Account"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model.fields,field_description:l10n_br_coa.field_account_tax_group__refund_account_id
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__refund_account_id
 msgid "Tax Account on Credit Notes"
 msgstr ""
 
 #. module: l10n_br_coa
-#: model:ir.model,name:l10n_br_coa.model_account_tax_group
+#: model:ir.model.fields,field_description:l10n_br_coa.field_l10n_br_coa_account_tax_group_account_template__tax_group_id
 msgid "Tax Group"
 msgstr ""
 
