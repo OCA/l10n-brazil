@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- pylint:disable=duplicate-xml-record-id -->
+<odoo>
+
+    <record id="l10n_br_coa_generic_template" model="account.chart.template">
+        <field name="property_account_receivable_id" ref="coa_generic_112101" />
+        <field name="property_account_payable_id" ref="coa_generic_211101" />
+        <field name="property_account_expense_categ_id" ref="coa_generic_511101" />
+        <field name="property_account_income_categ_id" ref="coa_generic_611101" />
+    </record>
+
+    <data noupdate="1">
+        <function model="account.chart.template" name="try_loading">
+            <value eval="[ref('l10n_br_coa_generic.l10n_br_coa_generic_template')]" />
+        </function>
+    </data>
+
+</odoo>

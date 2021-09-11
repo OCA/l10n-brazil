@@ -1,0 +1,329 @@
+id,code,name,note,user_type_id:id,reconcile,chart_template_id:id
+coa_generic_111101,1.1.1.1.01,Caixa Geral,,account.data_account_type_liquidity,1,l10n_br_coa_generic_template
+coa_generic_112101,1.1.2.1.01,Clientes,,account.data_account_type_receivable,1,l10n_br_coa_generic_template
+coa_generic_112201,1.1.2.2.01,(-) Duplicatas Descontadas,,account.data_account_type_receivable,1,l10n_br_coa_generic_template
+coa_generic_112901,1.1.2.9.01,Outros Valores a Receber,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_113101,1.1.3.1.01,Adto à Fornecedores de Mercadorias,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_113102,1.1.3.1.02,Adto à Fornecedores de Matéria Prima,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_113103,1.1.3.1.03,Adto à Fornecedores de Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_113104,1.1.3.1.04,Adto à Fornecedores de Despesas,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_113105,1.1.3.1.05,Adto à Fornecedores de Outros,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_113201,1.1.3.2.01,Adto Quinzenal,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_113202,1.1.3.2.02,Adto Salarial,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_113203,1.1.3.2.03,Adto de Férias,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_113204,1.1.3.2.04,Adto de Rescisão,,l10n_br_coa.data_account_type_current_assets_other_credits,1,l10n_br_coa_generic_template
+coa_generic_114101,1.1.4.1.01,IPI a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_114102,1.1.4.1.02,ICMS a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_114103,1.1.4.1.03,ICMS Antecipado a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_114104,1.1.4.1.04,COFINS a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_114105,1.1.4.1.05,PIS a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_114106,1.1.4.1.06,IRPJ a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_114107,1.1.4.1.07,CSLL a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_114108,1.1.4.1.08,IRRF a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_114109,1.1.4.1.09,ISSF a Compensar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_115101,1.1.5.1.01,Seguros a Apropriar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_115102,1.1.5.1.02,Encargos a Apropriar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_115103,1.1.5.1.03,IPTU a Apropriar,,l10n_br_coa.data_account_type_current_assets_other_credits,0,l10n_br_coa_generic_template
+coa_generic_119101,1.1.9.1.01,Estoque Inicial Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,1,l10n_br_coa_generic_template
+coa_generic_119102,1.1.9.1.02,Compras Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119103,1.1.9.1.03,Fretes e Carretos Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119104,1.1.9.1.04,ICMS – Substituição Tributária Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119105,1.1.9.1.05,ICMS – Antecipado Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119106,1.1.9.1.06,ICMS – Diferencial de Alíquota de Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119110,1.1.9.1.10,(-) Devoluções de Compras Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119111,1.1.9.1.11,(-) ICMS sobre Compras Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119112,1.1.9.1.12,(-) COFINS sobre Compras Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119113,1.1.9.1.13,(-) PIS sobre Compras Mercadorias,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119119,1.1.9.1.19,(-) Custo das Mercadorias Vendidas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119120,1.1.9.1.20,(-) Custo das Mercadorias Baixas Diversas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119201,1.1.9.2.01,Estoque Inicial Produtos Acabados,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119202,1.1.9.2.02,Produção Produtos Acabados,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119209,1.1.9.2.09,(-) Custo dos Produtos Vendidos,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119210,1.1.9.2.10,(-) Custo dos Produtos Baixas Diversas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119301,1.1.9.3.01,Estoque Inicial Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119302,1.1.9.3.02,Compras Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119303,1.1.9.3.03,Fretes e Carretos Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119304,1.1.9.3.04,ICMS – Substituição Tributária Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119305,1.1.9.3.05,ICMS – Antecipado Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119306,1.1.9.3.06,ICMS – Diferencial de Alíquota Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119310,1.1.9.3.10,(-) Devoluções de Compras Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119311,1.1.9.3.11,(-) ICMS sobre Compras Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119312,1.1.9.3.12,(-) COFINS sobre Compras Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119313,1.1.9.3.13,(-) PIS sobre Compras Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119314,1.1.9.3.14,(-) IPI sobre Compras Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119319,1.1.9.3.19,(-) Transferência para Consumo Matérias Primas,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119401,1.1.9.4.01,Estoque Inicial Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119402,1.1.9.4.02,Compras Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119403,1.1.9.4.03,Fretes e Carretos Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119404,1.1.9.4.04,ICMS – Substituição Tributária Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119405,1.1.9.4.05,ICMS – Antecipado Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119406,1.1.9.4.06,ICMS – Diferencial Alíquota de Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119410,1.1.9.4.10,(-) Devoluções de Compras Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119411,1.1.9.4.11,(-) ICMS sobre Compras Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119412,1.1.9.4.12,(-) COFINS sobre Compras Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119413,1.1.9.4.13,(-) PIS sobre Compras Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119414,1.1.9.4.14,(-) IPI sobre Compras Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119419,1.1.9.4.19,(-) Transferência para Consumo Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119901,1.1.9.9.01,Estoque Inicial Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119902,1.1.9.9.02,Compras Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119903,1.1.9.9.03,Fretes e Carretos Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119904,1.1.9.9.04,ICMS – Substituição Tributária Embalagens,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119905,1.1.9.9.05,ICMS – Antecipado Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119906,1.1.9.9.06,ICMS – Diferencial de Alíquota Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119910,1.1.9.9.10,(-) Devoluções de Compras Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119911,1.1.9.9.11,(-) ICMS sobre Compras Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119912,1.1.9.9.12,(-) COFINS sobre Compras Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119913,1.1.9.9.13,(-) PIS sobre Compras Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119914,1.1.9.9.14,(-) IPI sobre Compras Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_119919,1.1.9.9.19,(-) Transferência para Consumo Uso e Consumo,,l10n_br_coa.data_account_type_current_assets_stock,0,l10n_br_coa_generic_template
+coa_generic_122101,1.2.2.1.01,Clientes,,l10n_br_coa.data_account_type_non_current_assets_receivable,1,l10n_br_coa_generic_template
+coa_generic_123101,1.2.3.1.01,ICMS Ativo Imobilizado 1/48 Avos CIAP,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_123102,1.2.3.1.02,PIS Ativo Imobilizado 1/24 Avos - Valor do Bem,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_123103,1.2.3.1.03,COFINS Ativo Imobilizado 1/24 Avos - Valor do Bem,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_124101,1.2.4.1.01,Seguros a Apropriar,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_125101,1.2.5.1.01,Depósito Ação X,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_126101,1.2.6.1.01,Controlada X,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_127101,1.2.7.1.01,Consórcio Simples A,,l10n_br_coa.data_account_type_non_current_investments,0,l10n_br_coa_generic_template
+coa_generic_127102,1.2.7.1.02,Cooperativa de Crédito A,,l10n_br_coa.data_account_type_non_current_investments,0,l10n_br_coa_generic_template
+coa_generic_128101,1.2.8.1.01,Terrenos,,account.data_account_type_fixed_assets,0,l10n_br_coa_generic_template
+coa_generic_128102,1.2.8.1.02,Construções e Benfeitorias,,account.data_account_type_fixed_assets,0,l10n_br_coa_generic_template
+coa_generic_128103,1.2.8.1.03,"Máquinas, Aparelhos e Equipamentos",,account.data_account_type_fixed_assets,0,l10n_br_coa_generic_template
+coa_generic_128104,1.2.8.1.04,Ferramentas,,account.data_account_type_fixed_assets,0,l10n_br_coa_generic_template
+coa_generic_128105,1.2.8.1.05,Matrizes,,account.data_account_type_fixed_assets,0,l10n_br_coa_generic_template
+coa_generic_128106,1.2.8.1.06,Móveis & Utensílios,,account.data_account_type_fixed_assets,0,l10n_br_coa_generic_template
+coa_generic_128107,1.2.8.1.07,Equipamentos de Informática,,account.data_account_type_fixed_assets,0,l10n_br_coa_generic_template
+coa_generic_128108,1.2.8.1.08,Instalações Comerciais,,account.data_account_type_fixed_assets,0,l10n_br_coa_generic_template
+coa_generic_128109,1.2.8.1.09,Veículos e Acessórios,,account.data_account_type_fixed_assets,0,l10n_br_coa_generic_template
+coa_generic_128901,1.2.8.9.01,(-) Construções e Benfeitorias,,account.data_account_type_depreciation,0,l10n_br_coa_generic_template
+coa_generic_128902,1.2.8.9.02,"(-) Máquinas, Aparelhos e Equipamentos",,account.data_account_type_depreciation,0,l10n_br_coa_generic_template
+coa_generic_128903,1.2.8.9.03,(-) Ferramentas,,account.data_account_type_depreciation,0,l10n_br_coa_generic_template
+coa_generic_128904,1.2.8.9.04,(-) Matrizes,,account.data_account_type_depreciation,0,l10n_br_coa_generic_template
+coa_generic_128905,1.2.8.9.05,(-) Móveis & Utensílios,,account.data_account_type_depreciation,0,l10n_br_coa_generic_template
+coa_generic_128906,1.2.8.9.06,(-) Equipamentos de Informática,,account.data_account_type_depreciation,0,l10n_br_coa_generic_template
+coa_generic_128907,1.2.8.9.07,(-) Instalações Comerciais,,account.data_account_type_depreciation,0,l10n_br_coa_generic_template
+coa_generic_128908,1.2.8.9.08,(-) Veículos e Acessórios,,account.data_account_type_depreciation,0,l10n_br_coa_generic_template
+coa_generic_129101,1.2.9.1.01,Marcas e Patentes,,l10n_br_coa.data_account_type_intangible_assets,0,l10n_br_coa_generic_template
+coa_generic_129102,1.2.9.1.02,Sistemas Aplicativos (softwares),,l10n_br_coa.data_account_type_intangible_assets,0,l10n_br_coa_generic_template
+coa_generic_129601,1.2.9.6.01,(-) Marcas e Patentes,,l10n_br_coa.data_account_type_fixed_assets_amortization,0,l10n_br_coa_generic_template
+coa_generic_129602,1.2.9.6.02,(-) Sistemas Aplicativos (softwares),,l10n_br_coa.data_account_type_fixed_assets_amortization,0,l10n_br_coa_generic_template
+coa_generic_129801,1.2.9.8.01,Gastos de Organização e Administração,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_129802,1.2.9.8.02,Projetos e Desenvolvimento de Novos Produtos,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_129901,1.2.9.9.01,(-) Gastos de Organização e Administração,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_129902,1.2.9.9.02,(-) Projetos e Desenvolvimento de Novos Produtos,,account.data_account_type_non_current_assets,0,l10n_br_coa_generic_template
+coa_generic_191101,1.9.1.1.01,Bens envidados Conserto Terceiros (5.915/6.915),,l10n_br_coa.data_account_type_compensation_assets,1,l10n_br_coa_generic_template
+coa_generic_191102,1.9.1.1.02,Bens enviados Conserto ,,l10n_br_coa.data_account_type_compensation_assets,1,l10n_br_coa_generic_template
+coa_generic_191201,1.9.1.2.01,Produtos enviados para Armazenagem ,,l10n_br_coa.data_account_type_compensation_assets,1,l10n_br_coa_generic_template
+coa_generic_191203,1.9.1.2.03,Mercadorias enviadas para Armazenagem ,,l10n_br_coa.data_account_type_compensation_assets,1,l10n_br_coa_generic_template
+coa_generic_191204,1.9.1.2.04,Uso e Consumo enviados para Armazenagem ,,l10n_br_coa.data_account_type_compensation_assets,1,l10n_br_coa_generic_template
+coa_generic_191301,1.9.1.3.01,Remessa de Venda Produção p/ Entrega Futura (5.116/6.116),,l10n_br_coa.data_account_type_compensation_assets,1,l10n_br_coa_generic_template
+coa_generic_191303,1.9.1.3.03,Remessa de Venda Mercadorias p/ Entrega Futura (5.117/6.117),,l10n_br_coa.data_account_type_compensation_assets,1,l10n_br_coa_generic_template
+coa_generic_191304,1.9.1.3.04,Remessas,,l10n_br_coa.data_account_type_compensation_assets,1,l10n_br_coa_generic_template
+coa_generic_211101,2.1.1.1.01,Fornecedores,,account.data_account_type_payable,1,l10n_br_coa_generic_template
+coa_generic_212101,2.1.2.1.01,Aluguéis a Pagar,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_212102,2.1.2.1.02,Energia Elétrica a Pagar,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_212103,2.1.2.1.03,Telefone a Pagar,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_212104,2.1.2.1.04,Água e Esgotos a Pagar,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_213101,2.1.3.1.01,Pró-labore a Pagar,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_214201,2.1.4.2.01,Juros Passivos Provisão,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_215101,2.1.5.1.01,Salários,,l10n_br_coa.data_account_type_current_liabilities_labor,1,l10n_br_coa_generic_template
+coa_generic_215102,2.1.5.1.02,Férias a Pagar,,l10n_br_coa.data_account_type_current_liabilities_labor,1,l10n_br_coa_generic_template
+coa_generic_215103,2.1.5.1.03,13o Salário a Pagar,,l10n_br_coa.data_account_type_current_liabilities_labor,1,l10n_br_coa_generic_template
+coa_generic_215104,2.1.5.1.04,Rescisões/Indenizações Trabalh. a Pagar,,l10n_br_coa.data_account_type_current_liabilities_labor,1,l10n_br_coa_generic_template
+coa_generic_215105,2.1.5.1.05,Pensão Alimenticia a Pagar,,l10n_br_coa.data_account_type_current_liabilities_labor,1,l10n_br_coa_generic_template
+coa_generic_216101,2.1.6.1.01,INSS a Recolher,,l10n_br_coa.data_account_type_current_liabilities_labor,0,l10n_br_coa_generic_template
+coa_generic_216102,2.1.6.1.02,FGTS a Recolher,,l10n_br_coa.data_account_type_current_liabilities_labor,0,l10n_br_coa_generic_template
+coa_generic_216103,2.1.6.1.03,Contribuição Sindical a Recolher,,l10n_br_coa.data_account_type_current_liabilities_labor,0,l10n_br_coa_generic_template
+coa_generic_216104,2.1.6.1.04,IRRF Folha a Recolher,,l10n_br_coa.data_account_type_current_liabilities_labor,0,l10n_br_coa_generic_template
+coa_generic_217101,2.1.7.1.01,Simples Nacional a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217102,2.1.7.1.02,IPI a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217103,2.1.7.1.03,ICMS a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217104,2.1.7.1.04,COFINS a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217105,2.1.7.1.05,PIS a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217106,2.1.7.1.06,IRPJ a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217107,2.1.7.1.07,CSLL a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217108,2.1.7.1.08,ISS a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217109,2.1.7.1.09,IRF a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217110,2.1.7.1.10,ISSF a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217111,2.1.7.1.11,ICMS Substituição Tributária a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_217112,2.1.7.1.12,ICMS Diferencial de Alíquota a Recolher,,l10n_br_coa.data_account_type_current_liabilities_fiscal,0,l10n_br_coa_generic_template
+coa_generic_218101,2.1.8.1.01,Férias Provisão,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_218102,2.1.8.1.02,13o. Salário Provisão,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_218201,2.1.8.2.01,INSS s/ Férias Provisão,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_218202,2.1.8.2.02,FGTS s/ Férias Provisão,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_218203,2.1.8.2.03,INSS s/ 13o. Salário Provisão,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_218204,2.1.8.2.04,FGTS s/ 13o. Salário Provisão,,account.data_account_type_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_221101,2.2.1.1.01,Banco A,,l10n_br_coa.data_account_type_non_current_liabilities_loan,0,l10n_br_coa_generic_template
+coa_generic_222101,2.2.2.1.01,Contas a Pagar,,account.data_account_type_non_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_227101,2.2.7.1.01,Receitas de Obras em Andamento,,account.data_account_type_non_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_227102,2.2.7.1.02,Vendas Entrega Futura (5.922/6.922),,account.data_account_type_non_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_227201,2.2.7.2.01,(-) Custos de Obras em Andamento,,account.data_account_type_non_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_227202,2.2.7.2.02,(-) CMPV- Vendas para Entrega Futura (5.922/6.922),,account.data_account_type_non_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_227301,2.2.7.3.01,(-) Despesas de Obras em Andamento,,account.data_account_type_non_current_liabilities,0,l10n_br_coa_generic_template
+coa_generic_241101,2.4.1.1.01,Capital Nacional,,account.data_account_type_equity,0,l10n_br_coa_generic_template
+coa_generic_241201,2.4.1.2.01,Sócio A,,account.data_account_type_equity,0,l10n_br_coa_generic_template
+coa_generic_242101,2.4.2.1.01,Reserva de Incentivos Fiscais,,l10n_br_coa.data_account_type_net_worth_capital_reserve,0,l10n_br_coa_generic_template
+coa_generic_242201,2.4.2.2.01,Variações de Elementos Ativos,,l10n_br_coa.data_account_type_net_worth_capital_reserve,0,l10n_br_coa_generic_template
+coa_generic_242202,2.4.2.2.02,Variações de Elementos Passivos,,l10n_br_coa.data_account_type_net_worth_capital_reserve,0,l10n_br_coa_generic_template
+coa_generic_242301,2.4.2.3.01,Retenções de Lucros,,l10n_br_coa.data_account_type_net_worth_profit_reserve,0,l10n_br_coa_generic_template
+coa_generic_242302,2.4.2.3.02,Lucros a Realizar,,l10n_br_coa.data_account_type_net_worth_profit_reserve,0,l10n_br_coa_generic_template
+coa_generic_243101,2.4.3.1.01,Quotas de Capital Realizado,,l10n_br_coa.data_account_type_net_worth_profit_reserve,0,l10n_br_coa_generic_template
+coa_generic_244101,2.4.4.1.01,Lucros Acumulados,,l10n_br_coa.data_account_type_net_worth_profit_reserve,0,l10n_br_coa_generic_template
+coa_generic_244102,2.4.4.1.02,Prejuízos Acumulados,,l10n_br_coa.data_account_type_equity_accumulated_losses,0,l10n_br_coa_generic_template
+coa_generic_291101,2.9.1.1.01,NFS Bens envidados Conserto Terceiros (5.915/6.915),,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_291103,2.9.1.1.03,NFS Bens envidados,,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_291201,2.9.1.2.01,NFS Produtos enviados para Armazenagem ,,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_291203,2.9.1.2.03,NFS Mercadorias enviadas para Armazenagem ,,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_291204,2.9.1.2.04,NFS Uso e Consumo enviados para Armazenagem ,,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_291301,2.9.1.3.01,NFS Remessa de Venda Produção p/ Entrega Futura (5.116/6.116),,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_291302,2.9.1.3.02,NFS Remessa de Venda Mercadorias p/ Entrega Futura (5.117/6.117),,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_291303,2.9.1.3.03,NFS Remessas,,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_291401,2.9.1.4.01,NFS Remessa Producao a Ordem  (5.923),,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_291402,2.9.1.4.02,NFS Remessa Revenda a Ordem  (6.923),,l10n_br_coa.data_account_type_compensation_liability,1,l10n_br_coa_generic_template
+coa_generic_311101,3.1.1.1.01,Matérias-primas,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311102,3.1.1.1.02,Materiais de embalagem,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311201,3.1.1.2.01,Salários,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311202,3.1.1.2.02,Encargos Sociais,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311203,3.1.1.2.03,Vale Transporte,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311204,3.1.1.2.04,Refeições,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311205,3.1.1.2.05,Uniformes,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311206,3.1.1.2.06,Assistência Médica,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311301,3.1.1.3.01,Materiais de consumo,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311901,3.1.1.9.01,Salários,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311902,3.1.1.9.02,Encargos Sociais,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311903,3.1.1.9.03,Vale Transporte,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311904,3.1.1.9.04,Refeições,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311905,3.1.1.9.05,Uniformes,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311906,3.1.1.9.06,Assistência Médica,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311910,3.1.1.9.10,Energia elétrica,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311911,3.1.1.9.11,Manutenção,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311912,3.1.1.9.12,Aluguel de bens imóveis,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311913,3.1.1.9.13,Locação de bens móveis,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311914,3.1.1.9.14,Água e Esgoto,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311915,3.1.1.9.15,Materiais de consumo,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311990,3.1.1.9.90,Prêmios de Seguro,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_311991,3.1.1.9.91,Depreciação e Amortização,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312101,3.1.2.1.01,Materiais Aplicados,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312201,3.1.2.2.01,Salários,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312202,3.1.2.2.02,Encargos Sociais,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312203,3.1.2.2.03,Vale Transporte,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312204,3.1.2.2.04,Refeições,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312205,3.1.2.2.05,Uniformes,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312206,3.1.2.2.06,Assistência Médica,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312301,3.1.2.3.01,Materiais de consumo,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312901,3.1.2.9.01,Salários,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312902,3.1.2.9.02,Encargos Sociais,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312903,3.1.2.9.03,Vale Transporte,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312904,3.1.2.9.04,Refeições,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312905,3.1.2.9.05,Uniformes,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312906,3.1.2.9.06,Assistência Médica,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312910,3.1.2.9.10,Energia elétrica,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312911,3.1.2.9.11,Manutenção,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312912,3.1.2.9.12,Aluguel de bens imóveis,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312913,3.1.2.9.13,Locação de bens móveis,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312914,3.1.2.9.14,Água e Esgoto,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312915,3.1.2.9.15,Materiais de consumo,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312916,3.1.2.9.16,Ferramentas,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312990,3.1.2.9.90,Prêmios de Seguro,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_312991,3.1.2.9.91,Depreciação e Amortização,,l10n_br_coa.data_account_type_cost,0,l10n_br_coa_generic_template
+coa_generic_411101,4.1.1.1.01,(-) De Bens,,l10n_br_coa.data_account_type_production,0,l10n_br_coa_generic_template
+coa_generic_411102,4.1.1.1.02,(-) De Serviços,,l10n_br_coa.data_account_type_production,0,l10n_br_coa_generic_template
+coa_generic_411103,4.1.1.1.03,(-) Produto Acabado,,l10n_br_coa.data_account_type_production,0,l10n_br_coa_generic_template
+coa_generic_511101,5.1.1.1.01,Custo das Mercadorias Vendidas,,account.data_account_type_direct_costs,0,l10n_br_coa_generic_template
+coa_generic_511102,5.1.1.1.02,Custo dos Produtos Vendidos,,account.data_account_type_direct_costs,0,l10n_br_coa_generic_template
+coa_generic_511103,5.1.1.1.03,Custo dos Serviços Prestados,,account.data_account_type_direct_costs,0,l10n_br_coa_generic_template
+coa_generic_511104,5.1.1.1.04,Custo de Perdas/Brindes/Bonificações,,account.data_account_type_direct_costs,0,l10n_br_coa_generic_template
+coa_generic_511201,5.1.1.2.01,Salários,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511202,5.1.1.2.02,Encargos Sociais,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511203,5.1.1.2.03,Vale Transporte,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511204,5.1.1.2.04,Refeições,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511205,5.1.1.2.05,Uniformes,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511206,5.1.1.2.06,Assistência Médica,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511301,5.1.1.3.01,Pró-labore,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511302,5.1.1.3.02,Aluguel de Imóveis,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511303,5.1.1.3.03,Locação de Bens,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511304,5.1.1.3.04,Energia Elétrica,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511305,5.1.1.3.05,Telefone e Internet,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511306,5.1.1.3.06,Água e Esgoto,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511307,5.1.1.3.07,Tarifas Bancárias,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511308,5.1.1.3.08,Material de Consumo,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511309,5.1.1.3.09,Material de Expediente,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511310,5.1.1.3.10,Correios,,l10n_br_coa.data_account_type_admin_expenses,0,l10n_br_coa_generic_template
+coa_generic_511401,5.1.1.4.01,Fretes e Carretos,,l10n_br_coa.data_account_type_sale_expenses,0,l10n_br_coa_generic_template
+coa_generic_511402,5.1.1.4.02,Comissões e Corretagens,,l10n_br_coa.data_account_type_sale_expenses,0,l10n_br_coa_generic_template
+coa_generic_511403,5.1.1.4.03,Despesas de Viagens e Estadas,,l10n_br_coa.data_account_type_sale_expenses,0,l10n_br_coa_generic_template
+coa_generic_511404,5.1.1.4.04,Despesas com Marketing,,l10n_br_coa.data_account_type_sale_expenses,0,l10n_br_coa_generic_template
+coa_generic_511405,5.1.1.4.05,Bonificações (CFOP 5.910),,l10n_br_coa.data_account_type_sale_expenses,0,l10n_br_coa_generic_template
+coa_generic_511406,5.1.1.4.06,Bonificações (CFOP 6.910),,l10n_br_coa.data_account_type_sale_expenses,0,l10n_br_coa_generic_template
+coa_generic_511501,5.1.1.5.01,IPTU,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511502,5.1.1.5.02,IPVA,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511503,5.1.1.5.03,IOF,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511504,5.1.1.5.04,Multas Fiscais Dedutíveis,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511505,5.1.1.5.05,COFINS s/Outras Receitas,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511506,5.1.1.5.06,PIS s/Outras Receitas,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511507,5.1.1.5.07,IRPJ s/Aplicações Financeiras,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511508,5.1.1.5.08,Impostos e Taxas Diversas Federais,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511509,5.1.1.5.09,Impostos e Taxas Diversas Estaduais,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511510,5.1.1.5.10,Impostos e Taxas Diversas Municipais,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511511,5.1.1.5.11,ICMS s/ Outras Receitas,,l10n_br_coa.data_account_type_other_general_expenses,0,l10n_br_coa_generic_template
+coa_generic_511601,5.1.1.6.01,Juros Passivos,,l10n_br_coa.data_account_type_expenses_financial,0,l10n_br_coa_generic_template
+coa_generic_511602,5.1.1.6.02,Juros de Mora,,l10n_br_coa.data_account_type_expenses_financial,0,l10n_br_coa_generic_template
+coa_generic_511603,5.1.1.6.03,Descontos Concedidos,,l10n_br_coa.data_account_type_expenses_financial,0,l10n_br_coa_generic_template
+coa_generic_511604,5.1.1.6.04,Variações Monetárias Passivas,,l10n_br_coa.data_account_type_expenses_financial,0,l10n_br_coa_generic_template
+coa_generic_511605,5.1.1.6.05,Variações Cambiais Passivas,,l10n_br_coa.data_account_type_expenses_financial,0,l10n_br_coa_generic_template
+coa_generic_511701,5.1.1.7.01,Depreciação,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_511702,5.1.1.7.02,Amortização,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_511801,5.1.1.8.01,Perdas por Insolvência,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_512101,5.1.2.1.01,Multas de Trânsito,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_512102,5.1.2.1.02,Multas Fiscais,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_512103,5.1.2.1.03,Gastos com Festividades,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_512104,5.1.2.1.04,Brindes (CFOP 5910),,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_512105,5.1.2.1.05,Brindes (CFOP 6910),,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_512201,5.1.2.2.01,Valor residual de Ativo Permanente Vendido,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_512202,5.1.2.2.02,Valor residual de Ativo Permanente Baixado,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_611101,6.1.1.1.01,Vendas de Mercadorias,,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611102,6.1.1.1.02,Vendas de Mercadorias com Substituição Tributária,,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611103,6.1.1.1.03,Vendas de Mercadorias para o Exterior,,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611110,6.1.1.1.10,Vendas de Produtos de Fabricação Própria,,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611111,6.1.1.1.11,Vendas de Produtos de Fabricação Própria com Substituição Tributária,,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611112,6.1.1.1.12,Vendas de Produtos de Fabricação Própria para o Exterior,,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611120,6.1.1.1.20,Vendas de Serviços Prestados,,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611121,6.1.1.1.21,Vendas de Serviços Prestados com Substituição Tributária,,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611122,6.1.1.1.22,Vendas de Serviços Prestados para o Exterior,,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611130,6.1.1.1.30,Entrega de Venda Fabrigação Própria p/ Entrega Futura (5.116/6.116),,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611131,6.1.1.1.31,Entrega de Venda Mercadorias p/ Entrega Futura (5.117/6.117),,account.data_account_type_revenue,0,l10n_br_coa_generic_template
+coa_generic_611201,6.1.1.2.01,Simples Nacional s/ Faturamento,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611202,6.1.1.2.02,ISS Substituição Tributária s/ Prestação de Serviços,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611203,6.1.1.2.03,ICMS s/ Vendas,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611204,6.1.1.2.04,ISS s/ Prestação de Serviços,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611205,6.1.1.2.05,COFINS s/ Vendas,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611206,6.1.1.2.06,PIS s/ Vendas,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611207,6.1.1.2.07,ICMS ST s/ Vendas,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611208,6.1.1.2.08,IPI s/ Vendas,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611221,6.1.1.2.21,(-)  Simples Nacional Devolução,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611222,6.1.1.2.22,(-)  ISS Substituição Tributária Devolução,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611223,6.1.1.2.23,(-)  ICMS Devolução,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611224,6.1.1.2.24,(-)  ISS Devolução,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611225,6.1.1.2.25,(-)  COFINS Devolução,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611226,6.1.1.2.26,(-)  PIS Devolução,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611227,6.1.1.2.27,(-)  ICMS ST Devolução,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611228,6.1.1.2.28,(-)  IPI Devolução,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611301,6.1.1.3.01,(-) Devolução de Vendas de Mercadorias,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611302,6.1.1.3.02,(-) Devolução de Vendas de Mercadorias com Substituição Tributária,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611303,6.1.1.3.03,(-) Devolução de Vendas de Mercadorias para o Exterior,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611304,6.1.1.3.04,(-) Devolução de Vendas de Produtos de Fabricação Própria,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611305,6.1.1.3.05,(-) Devolução de Vendas de Produtos de Fabricação Própria com Substituição Tributária,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611306,6.1.1.3.06,(-) Devolução de Vendas de Produtos de Fabricação Própria para o Exterior,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611307,6.1.1.3.07,(-) Anulação de Vendas de Serviços Prestados,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611308,6.1.1.3.08,(-) Anulação Vendas de Serviços Prestados com Substituição Tributária,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_611309,6.1.1.3.09,(-) Anulação Vendas de Serviços Prestados para o Exterior,,l10n_br_coa.data_account_type_revenue_deduction,0,l10n_br_coa_generic_template
+coa_generic_612101,6.1.2.1.01,Juros Ativos,,l10n_br_coa.data_account_type_revenue_financial,0,l10n_br_coa_generic_template
+coa_generic_612102,6.1.2.1.02,Rendimentos de Aplicações Financeiras,,l10n_br_coa.data_account_type_revenue_financial,0,l10n_br_coa_generic_template
+coa_generic_613101,6.1.3.1.01,Recuperação de Despesas,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_616101,6.1.6.1.01,Ganhos de Capital,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_616102,6.1.6.1.02,Outras Receitas,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_616201,6.1.6.2.01,Venda de Bens do Ativo Imobilizado,,l10n_br_coa.data_account_type_other_operational_expenses,0,l10n_br_coa_generic_template
+coa_generic_711101,7.1.1.1.01,Ativo,,l10n_br_coa.data_account_type_apuracao,0,l10n_br_coa_generic_template
+coa_generic_711102,7.1.1.1.02,(-) Passivo,,l10n_br_coa.data_account_type_apuracao,0,l10n_br_coa_generic_template
+coa_generic_711201,7.1.1.2.01,Ativo,,l10n_br_coa.data_account_type_apuracao,0,l10n_br_coa_generic_template
+coa_generic_711202,7.1.1.2.02,(-) Passivo,,l10n_br_coa.data_account_type_apuracao,0,l10n_br_coa_generic_template
+coa_generic_712101,7.1.2.1.01,Resultado Final de Exercício,,account.data_unaffected_earnings,0,l10n_br_coa_generic_template
