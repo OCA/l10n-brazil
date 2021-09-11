@@ -27,18 +27,12 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
-        initialize: function (attributes) {
-            _super_order.initialize.apply(this,arguments);
+        initialize: function (attributes, options) {
+            _super_order.initialize.apply(this, arguments, options);
             // Inicializar o cnpj_cfp vazio
             // Inicializar a chave da nf-e vazia
             // Inicializar o tipo de documento fiscal
-            this.set({ cnpj_cpf: null });
-
-            if (options.json) {
-                console.log('!json');
-            } else {
-                console.log('!no json');
-            }
+            this.cnpj_cpf = this.cnpj_cpf || null;
             this.save_to_db();
         },
         get_return_cfe: function () {
@@ -58,6 +52,28 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
         set_num_sessao_sat: function (num_sessao_sat) {
             this.num_sessao_sat = num_sessao_sat;
+        },
+        set_cnpj_cpf: function(cnpj_cpf){
+            this.assert_editable();
+            this.cnpj_cpf = cnpj_cpf;
+            this.trigger('change', this);
+        },
+        get_cnpj_cpf: function(){
+            return this.cnpj_cpf;
+        },
+        clone: function () {
+            var order = _super_order.clone.call(this);
+            order.cnpj_cpf = null;
+            return order;
+        },
+        export_as_JSON: function () {
+            var json = _super_order.export_as_JSON.call(this);
+            json.cnpj_cpf = this.cnpj_cpf;
+            return json;
+        },
+        init_from_JSON: function (json) {
+            _super_order.init_from_JSON.apply(this, arguments);
+            this.cnpj_cpf = json.cnpj_cpf;
         },
         export_for_printing: function () {
             var result = _super_order.export_for_printing.apply(this, arguments);
@@ -199,7 +215,21 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
     });
 
-    // models.PosModel = models.PosModel.extend({
+    var _super_posmodel = models.PosModel.prototype;
+
+    models.PosModel = models.PosModel.extend({
+        // initialize: function(session, attributes) {
+        //     this.cnpj_cpf = null;
+        //     return _super_posmodel.initialize.call(this,session,attributes);
+        // },
+        get_cnpj_cpf: function() {
+            var order = this.get_order();
+            if (order) {
+                return order.get_cnpj_cpf();
+            }
+            return null;
+        },
+    });
     //     initialize: function (session, attributes) {
     //         this._super(this, session, attributes);
     //         PosModelParent.prototype.initialize.apply(this, arguments);
