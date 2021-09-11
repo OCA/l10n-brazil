@@ -22,7 +22,8 @@ class PosOrder(models.Model):
         temp = {
             "cfe_return": ui_order.get("cfe_return"),
             "num_sessao_sat": ui_order.get("num_sessao_sat"),
-            "chave_cfe": ui_order.get("chafe_cfe"),
+            "chave_cfe": ui_order.get("chave_cfe"),
+            "cnpj_cpf": ui_order.get("cnpj_cpf"),
         }
         result.update(temp)
         return result
@@ -59,7 +60,6 @@ class PosOrder(models.Model):
 
     cnpj_cpf = fields.Char(
         string='CNPJ/CPF',
-        related='partner_id.cnpj_cpf',
     )
 
     @api.one
