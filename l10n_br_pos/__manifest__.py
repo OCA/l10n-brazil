@@ -26,6 +26,7 @@
         "data/pos_config.xml",
 
         "views/pos_config_view.xml",
+        "views/pos_order_view.xml",
 
         # "wizard/l10n_br_pos_order_return.xml",
         # "wizard/sat_xml_periodic_export.xml",
@@ -34,7 +35,6 @@
         # "views/account_invoice_view.xml"
 
         # "views/res_company.xml",
-        # "views/point_of_sale_view.xml",
         # "views/pos_order_line_view.xml",
         # "views/account_journal_view.xml",
 

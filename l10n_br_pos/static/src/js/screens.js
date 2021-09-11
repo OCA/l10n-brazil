@@ -67,6 +67,27 @@ odoo.define("l10n_br_pos.screens", function (require) {
             }
             return res;
         },
+        click_set_cnpj_cpf: function(){
+            var self   = this;
+            var order  = this.pos.get_order();
+            var cnpj_cpf    = order.get_cnpj_cpf();
+            // TODO: Create a new pop-up without + numbers
+            this.gui.show_popup('number',{
+                'title': cnpj_cpf ? _t('Change CNPJ/CPF') : _t('Add CNPJ/CPF'),
+                'value': cnpj_cpf,
+                'confirm': function(value) {
+                    order.set_cnpj_cpf(value);
+                    self.renderElement();
+                }
+            });
+        },
+        renderElement: function() {
+            this._super();
+            var self = this;
+            this.$('.js_set_cnpj_cpf').click(function(){
+                self.click_set_cnpj_cpf();
+            });
+        }
     });
 
 
@@ -1251,4 +1272,5 @@ odoo.define("l10n_br_pos.screens", function (require) {
 //             this._super();
 //         }
 //     });
+    return screens;
 });
