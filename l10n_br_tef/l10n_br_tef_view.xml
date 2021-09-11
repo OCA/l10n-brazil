@@ -1,21 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
         <record id="view_pos_config_form_tef" model="ir.ui.view">
             <field name="name">pos.payment.terminal.config.form</field>
             <field name="model">pos.config</field>
-            <field name="inherit_id" ref="point_of_sale.view_pos_config_form"/>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_form" />
             <field name="arch" type="xml">
                 <field name="iface_cashdrawer" position="after">
-                    <field name="iface_tef"/>
+                    <field name="iface_tef" />
                 </field>
 
                 <group string="Hardware Proxy" position="after">
-                    <group string="TEF Configuration" attrs="{'invisible': [('iface_tef', '=', False)]}">
-                        <field name="environment_selection" attrs="{'required': [('iface_tef','=', True)]}"/>
-                        <field name="institution_selection" attrs="{'required': [('iface_tef','=', True)]}"/>
-                        <field name="credit_server" attrs="{'invisible': [('environment_selection','=', 'Producao')], 'required': [('iface_tef','=', True), ('environment_selection','=', 'Homologacao')]}"/>
-                        <field name="debit_server" attrs="{'invisible': [('environment_selection','=', 'Producao')], 'required': [('iface_tef','=', True), ('environment_selection','=', 'Homologacao')]}"/>
+                    <group
+                    string="TEF Configuration"
+                    attrs="{'invisible': [('iface_tef', '=', False)]}"
+                >
+                        <field
+                        name="environment_selection"
+                        attrs="{'required': [('iface_tef','=', True)]}"
+                    />
+                        <field
+                        name="institution_selection"
+                        attrs="{'required': [('iface_tef','=', True)]}"
+                    />
+                        <field
+                        name="credit_server"
+                        attrs="{'invisible': [('environment_selection','=', 'Producao')], 'required': [('iface_tef','=', True), ('environment_selection','=', 'Homologacao')]}"
+                    />
+                        <field
+                        name="debit_server"
+                        attrs="{'invisible': [('environment_selection','=', 'Producao')], 'required': [('iface_tef','=', True), ('environment_selection','=', 'Homologacao')]}"
+                    />
                     </group>
                 </group>
 
