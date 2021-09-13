@@ -13,6 +13,9 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     FISCAL_IN_OUT_DICT,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_INUTILIZADA,
 )
 
 
@@ -313,6 +316,27 @@ class Document(models.Model):
         if not values.get("document_date"):
             values["document_date"] = self._date_server_format()
         return super().create(values)
+
+    def unlink(self):
+        forbidden_states_unlink = [
+            SITUACAO_EDOC_AUTORIZADA,
+            SITUACAO_EDOC_CANCELADA,
+            SITUACAO_EDOC_DENEGADA,
+            SITUACAO_EDOC_INUTILIZADA,
+        ]
+
+        for record in self.filtered(
+            lambda d: d != self.env.user.company_id.fiscal_dummy_id
+            and d.state_edoc in forbidden_states_unlink
+        ):
+            raise ValidationError(
+                _(
+                    "You cannot delete fiscal document number {} with "
+                    "the status: {}!".format(record.document_number, record.state_edoc)
+                )
+            )
+
+        return super().unlink()
 
     @api.onchange("company_id")
     def _onchange_company_id(self):
