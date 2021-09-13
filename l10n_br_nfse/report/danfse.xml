@@ -533,7 +533,7 @@ row {
                     (-) ISS Retido
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.line_ids[0].issqn_wh_value" />
+                    <span t-field="doc.amount_issqn_wh_value" />
                 </div>
                 <div class="col-2 linha centro br">
                     <t t-if="doc.company_id.tax_framework != '3'">
@@ -547,10 +547,10 @@ row {
                     ISS a reter:
                 </div>
                 <div class="col-2 linha centro">
-                    <t t-if="not doc.line_ids[0].issqn_wh_value">
+                    <t t-if="not doc.amount_issqn_wh_value">
                         ( ) Sim (X) Não
                     </t>
-                    <t t-if="doc.line_ids[0].issqn_wh_value">
+                    <t t-if="doc.amount_issqn_wh_value">
                         (X) Sim ( ) Não
                     </t>
                 </div>
@@ -570,7 +570,7 @@ row {
                     (=) Valor do ISS: R$
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.line_ids[0].issqn_value" />
+                    <span t-field="doc.amount_issqn_value" />
                 </div>
             </div>
 
