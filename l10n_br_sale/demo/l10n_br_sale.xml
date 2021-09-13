@@ -23,11 +23,16 @@
         <field name="product_id" ref="product.product_product_27" />
         <field name="product_uom_qty">2</field>
         <field name="product_uom" ref="uom.product_uom_unit" />
+        <!-- Apesar do Preço ser defindo aqui o _onchange_product_id_fiscal altera o valor -->
         <field name="price_unit">500</field>
         <field name="fiscal_operation_type">out</field>
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_products_1_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_only_products_1_2')]" />
@@ -50,6 +55,10 @@
         <field name="discount_fixed">True</field>
         <field name="discount_value">50.0</field>
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_products_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_only_products_2_2')]" />
@@ -86,6 +95,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_services_1_2')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_only_services_1_2')]" />
     </function>
@@ -105,6 +118,10 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_services_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_only_services_2_2')]" />
@@ -141,6 +158,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_product_service_1_2')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_product_service_1_2')]" />
     </function>
@@ -163,6 +184,10 @@
             ref="l10n_br_fiscal.fo_venda_servico_ind"
         />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_product_service_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('main_sl_product_service_2_2')]" />
@@ -200,6 +225,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_products_1_2')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_sl_only_products_1_2')]" />
     </function>
@@ -219,6 +248,10 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_products_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_sl_only_products_2_2')]" />
@@ -255,6 +288,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_services_1_2')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_sl_only_services_1_2')]" />
     </function>
@@ -274,6 +311,10 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_services_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_sl_only_services_2_2')]" />
@@ -310,6 +351,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_product_service_1_2')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_sl_product_service_1_2')]" />
     </function>
@@ -332,6 +377,10 @@
             ref="l10n_br_fiscal.fo_venda_servico_ind"
         />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_product_service_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('sn_sl_product_service_2_2')]" />
@@ -369,6 +418,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_products_1_2')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lc_sl_only_products_1_2')]" />
     </function>
@@ -388,6 +441,10 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_products_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lc_sl_only_products_2_2')]" />
@@ -424,6 +481,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_services_1_2')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lc_sl_only_services_1_2')]" />
     </function>
@@ -443,6 +504,10 @@
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_services_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lc_sl_only_services_2_2')]" />
@@ -479,6 +544,10 @@
         <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
     </record>
 
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_product_service_1_2')]" />
+    </function>
+
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lc_sl_product_service_1_2')]" />
     </function>
@@ -501,6 +570,10 @@
             ref="l10n_br_fiscal.fo_venda_servico_ind"
         />
     </record>
+
+    <function model="sale.order.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_product_service_2_2')]" />
+    </function>
 
     <function model="sale.order.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('lc_sl_product_service_2_2')]" />
