@@ -210,7 +210,22 @@ class AccountInvoice(models.Model):
         self.filtered(lambda i: i.state in ("draft", "cancel")).write(
             {"move_name": False}
         )
-        return super().unlink()
+        unlink_invoices = self.env["account.invoice"]
+        unlink_documents = self.env["l10n_br_fiscal.document"]
+        for invoice in self:
+            if not invoice.exists():
+                continue
+            if (
+                invoice.fiscal_document_id
+                and invoice.fiscal_document_id
+                != self.env.user.company_id.fiscal_dummy_id.id
+            ):
+                unlink_documents |= invoice.fiscal_document_id
+            unlink_invoices |= invoice
+        result = super(AccountInvoice, unlink_invoices).unlink()
+        unlink_documents.unlink()
+        self.clear_caches()
+        return result
 
     @api.returns("self", lambda value: value.id)
     def copy(self, default=None):
