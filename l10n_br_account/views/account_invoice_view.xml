@@ -136,6 +136,9 @@
                 position="after"
             >
                 <field name="document_type_id" invisible="1" />
+                <field name="amount_tax_withholding" invisible="1" />
+                <field name="amount_tax_included" invisible="1" />
+                <field name="amount_tax_not_included" invisible="1" />
                 <field
                     name="fiscal_tax_ids"
                     attrs="{'invisible': [('document_type_id', '=', False)]}"
