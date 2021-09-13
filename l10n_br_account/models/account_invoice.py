@@ -32,8 +32,8 @@ REFUND_TO_OPERATION = {
 }
 
 FISCAL_TYPE_REFUND = {
-    "out": ["purchase_return", "in_return"],
-    "in": ["sale_return", "out_return"],
+    "out": ["purchase_refund", "in_return"],
+    "in": ["sale_refund", "out_return"],
 }
 
 SHADOWED_FIELDS = [
@@ -449,6 +449,28 @@ class AccountInvoice(models.Model):
             i.action_cancel()
             i.action_invoice_draft()
 
+    def action_invoice_open(self):
+        result = super().action_invoice_open()
+
+        for record in self.filtered(lambda i: i.refund_invoice_id):
+            if record.state == "open":
+                # Ao confirmar uma fatura/documento fiscal se é uma devolução
+                # é feito conciliado com o documento de origem para abater
+                # o valor devolvido pelo documento de refund
+                to_reconcile_lines = self.env["account.move.line"]
+                for line in record.move_id.line_ids:
+                    if line.account_id.id == record.account_id.id:
+                        to_reconcile_lines += line
+                    if line.reconciled:
+                        line.remove_move_reconcile()
+                for line in record.refund_invoice_id.move_id.line_ids:
+                    if line.account_id.id == record.refund_invoice_id.account_id.id:
+                        to_reconcile_lines += line
+
+                to_reconcile_lines.filtered(lambda l: l.reconciled).reconcile()
+
+        return result
+
     def action_invoice_cancel(self):
         for i in self.filtered(lambda d: d.document_type_id):
             i.fiscal_document_id.action_document_cancel()
@@ -474,9 +496,7 @@ class AccountInvoice(models.Model):
     @api.multi
     @api.returns("self")
     def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
-        new_invoices = super(AccountInvoice, self).refund(
-            date_invoice, date, description, journal_id
-        )
+        new_invoices = super().refund(date_invoice, date, description, journal_id)
 
         force_fiscal_operation_id = False
         if self.env.context.get("force_fiscal_operation_id"):
@@ -484,26 +504,22 @@ class AccountInvoice(models.Model):
                 self.env.context.get("force_fiscal_operation_id")
             )
 
-        my_new_invoices = self.browse(new_invoices.ids)
-
-        for r in my_new_invoices:
-            if not r.document_type_id:
-                continue
+        for record in new_invoices.filtered(lambda i: i.document_type_id):
             if (
                 not force_fiscal_operation_id
-                and not r.fiscal_operation_id.return_fiscal_operation_id
+                and not record.fiscal_operation_id.return_fiscal_operation_id
             ):
                 raise UserError(
                     _("""Document without Return Fiscal Operation! \n Force one!""")
                 )
 
-            r.fiscal_operation_id = (
+            record.fiscal_operation_id = (
                 force_fiscal_operation_id
-                or r.fiscal_operation_id.return_fiscal_operation_id
+                or record.fiscal_operation_id.return_fiscal_operation_id
             )
-            r.fiscal_document_id._onchange_fiscal_operation_id()
+            record.fiscal_document_id._onchange_fiscal_operation_id()
 
-            for line in r.invoice_line_ids:
+            for line in record.invoice_line_ids:
                 if (
                     not force_fiscal_operation_id
                     and not line.fiscal_operation_id.return_fiscal_operation_id
@@ -523,18 +539,17 @@ class AccountInvoice(models.Model):
                 )
                 line._onchange_fiscal_operation_id()
 
-            refund_inv_id = my_new_invoices.refund_invoice_id
+            refund_inv_id = record.refund_invoice_id
 
-            if refund_inv_id.fiscal_document_id and my_new_invoices.fiscal_document_id:
-                reference_ids = (
-                    refund_inv_id.fiscal_document_id._prepare_referenced_subsequent()
+            if record.refund_invoice_id.document_type_id:
+                record.fiscal_document_id._document_reference(
+                    refund_inv_id.fiscal_document_id
                 )
-                my_new_invoices.fiscal_document_id._document_reference(reference_ids)
 
         return new_invoices
 
     def _refund_cleanup_lines(self, lines):
-        result = super(AccountInvoice, self)._refund_cleanup_lines(lines)
+        result = super()._refund_cleanup_lines(lines)
         for _a, _b, vals in result:
             if vals.get("fiscal_document_line_id"):
                 vals.pop("fiscal_document_line_id")
