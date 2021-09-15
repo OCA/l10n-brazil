@@ -25,6 +25,8 @@
         "data/l10n_br_fiscal_cfop_data.xml",
         "data/pos_config.xml",
 
+        "data/account_journal_data.xml",
+
         "views/pos_config_view.xml",
         "views/pos_order_view.xml",
 
@@ -36,7 +38,7 @@
 
         # "views/res_company.xml",
         # "views/pos_order_line_view.xml",
-        # "views/account_journal_view.xml",
+        "views/account_journal_view.xml",
 
         # "views/point_of_sale_report.xml",
         "views/pos_template.xml",
