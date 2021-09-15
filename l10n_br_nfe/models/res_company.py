@@ -68,15 +68,19 @@ class ResCompany(spec_models.SpecModel):
         string="Transmission Type",
         default=NFE_TRANSMISSION_DEFAULT,
         help="1=Emissão normal (não em contingência);"
-        "\n2=Contingência FS-IA, com impressão do DANFE em Formulário de Segurança - Impressor Autônomo;"
-        "\n3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional); *Desativado * NT 2015/002"
+        "\n2=Contingência FS-IA, com impressão do DANFE em Formulário"
+        " de Segurança - Impressor Autônomo;"
+        "\n3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional);"
+        " *Desativado * NT 2015/002"
         "\n4=Contingência EPEC (Evento Prévio da Emissão em Contingência);"
-        "\n5=Contingência FS-DA, com impressão do DANFE em Formulário de Segurança - Documento Auxiliar;"
+        "\n5=Contingência FS-DA, com impressão do DANFE em Formulário "
+        "de Segurança - Documento Auxiliar;"
         "\n6=Contingência SVC-AN (SEFAZ Virtual de Contingência do AN);"
         "\n7=Contingência SVC-RS (SEFAZ Virtual de Contingência do RS);"
         "\n9=Contingência off-line da NFC-e;"
         "\nObservação: Para a NFC-e somente é válida a opção de contingência:"
-        "\n9-Contingência Off-Line e, a critério da UF, opção 4-Contingência EPEC. (NT 2015/002)",
+        "\n9-Contingência Off-Line e, a critério da UF, opção "
+        "4-Contingência EPEC. (NT 2015/002)",
     )
 
     nfe_danfe_layout = fields.Selection(
