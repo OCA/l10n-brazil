@@ -122,27 +122,26 @@ class Sat(Thread):
     def __prepare_send_detail_cfe(self, item):
         kwargs = {}
         if item['discount']:
-            kwargs['vDesc'] = Decimal((item['quantity'] * item['price']) -
-                                      item['price_display']).quantize(TWOPLACES)
-        estimated_taxes = Decimal(0.01 * item['price_display']).quantize(TWOPLACES)
-        # estimated_taxes = Decimal(item['estimated_taxes'] * item['price_display']).quantize(TWOPLACES)
+            kwargs['vDesc'] = Decimal(
+                (item['quantity'] * item['price']) - item['price_display']
+            ).quantize(TWOPLACES)
+        # estimated_taxes = Decimal(0.01 * item['price_display']).quantize(TWOPLACES)
+        estimated_taxes = Decimal(item['amount_estimate_tax'] * item['price_without_tax']).quantize(TWOPLACES)
 
-        wdb.set_trace()
         produto = ProdutoServico(
             cProd=str(item['product_default_code']),
             # cEAN=str(item['product_ean']),
             xProd=item['product_name'],
             uCom=item['unit_code'],
-            CFOP='5102',
+            CFOP=item['cfop'],
             qCom=Decimal(item['quantity']).quantize(FOURPLACES),
             vUnCom=Decimal(item['price']).quantize(TWOPLACES),
             indRegra='A',
-            NCM=punctuation_rm(
-                item['ncm_id'][1][:10]  # FIXME:!!!!
-            ),
+            NCM=punctuation_rm(item['ncm']),
             **kwargs
             )
         produto.validar()
+        # TODO: Fix impostos e detalhes dos itens
         detalhe = Detalhamento(
             produto=produto,
             imposto=Imposto(
@@ -193,7 +192,6 @@ class Sat(Thread):
                 IE=punctuation_rm(json['company']['ie']),
                 indRatISSQN='N')
         emitente.validar()
-        wdb.set_trace()
         return CFeVenda(
             CNPJ=punctuation_rm(json['company']['cnpj_software_house']),
             signAC=self.assinatura,
@@ -207,7 +205,6 @@ class Sat(Thread):
 
     def _send_cfe(self, json):
         try:
-            wdb.set_trace()
             resposta = self.device.enviar_dados_venda(
                 self.__prepare_send_cfe(json))
             self._print_extrato_venda(resposta.arquivoCFeSAT)
@@ -291,12 +288,11 @@ class Sat(Thread):
     def _init_printer(self):
 
         from escpos.conn.serial import SerialSettings
-
         if self.impressora == 'epson-tm-t20':
             _logger.info('SAT Impressao: Epson TM-T20')
             from escpos.impl.epson import TMT20 as Printer
             from escpos.conn.network import NetworkConnection
-            conn = NetworkConnection(host='192.168.0.200', port=9100)
+            conn = NetworkConnection(host='192.168.1.23', port=9100)
         elif self.impressora == 'bematech-mp4200th':
             _logger.info('SAT Impressao: Bematech MP4200TH')
             from escpos.impl.bematech import MP4200TH as Printer
@@ -315,13 +311,11 @@ class Sat(Thread):
         return printer
 
     def _print_extrato_venda(self, xml):
-        wdb.set_trace()
         if not self.printer:
             return False
-        extrato = ExtratoCFeVenda(
+        ExtratoCFeVenda(
             io.StringIO(base64.b64decode(xml).decode('utf-8')), self.printer
-        )
-        extrato.imprimir()
+        ).imprimir()
         return True
 
     def _print_extrato_cancelamento(self, xml_venda, xml_cancelamento):
