@@ -16,17 +16,18 @@ odoo.define("l10n_br_pos.screens", function (require) {
         order_sat_is_valid: function (order) {
             var status = this.pos.proxy.get('status');
             var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
-            console.log('SAT Status: ');
-            console.log(sat_status);
-            // if (this.pos.config.cpf_nota) {
-            //     this.pos_widget.action_bar.set_button_disabled('validation', true);
-            // }
-            // if (!cpf_na_nota)
-            //     currentOrder.attributes.cpf_nota = null;
+            console.log('SAT Status: ', sat_status);
+
+            var json = order.export_for_printing();
+
+            if (this.pos.debug) {
+                console.log(json);
+            }
+
             if (sat_status == 'connected') {
                 // this.pos_widget.action_bar.set_button_disabled('validation', true);
                 // var receipt = currentOrder.export_for_printing();
-                self.pos.proxy.send_order_sat(order);
+                this.pos.proxy.send_order_sat(json);
             }
 
             // } else {
@@ -60,9 +61,9 @@ odoo.define("l10n_br_pos.screens", function (require) {
             var order = this.pos.get_order();
             if (order.is_to_invoice()) {
                 res |= this.order_nfe_nfse_is_valid(order);
-            } else if (this.pos.config.simplified_document_type == DOCUMENTO_CFE) {
+            } else if (order.document_type == DOCUMENTO_CFE) {
                 res |= this.order_sat_is_valid(order);
-            } else if (this.pos.config.simplified_document_type == DOCUMENTO_NFCE) {
+            } else if (order.document_type == DOCUMENTO_NFCE) {
                 res |= this.order_nfce_is_valid(order);
             }
             return res;

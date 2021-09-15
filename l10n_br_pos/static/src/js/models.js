@@ -11,27 +11,69 @@ odoo.define("l10n_br_pos.models", function (require) {
     ]
     models.load_fields("res.partner", partner_company_fields);
     models.load_fields("res.company", partner_company_fields.concat([
-        "ambiente_sat", "cnpj_software_house", "sign_software_house",
+        "ambiente_sat", "cnpj_software_house", "sign_software_house", "tax_framework",
     ]));
     models.load_fields("uom.uom", ["code"]);
     models.load_fields("product.product", [
         "tax_icms_or_issqn", "fiscal_type", "icms_origin", "fiscal_genre_code",
-        "ncm_id", "nbm_id", "fiscal_genre_id", "service_type_id", "city_taxation_code_id",
-        "ipi_guideline_class_id", "ipi_control_seal_id", "nbs_id", "cest_id"
+        "ncm_id", "ncm_code", "ncm_code_exception", "nbm_id", "fiscal_genre_id", "service_type_id", "city_taxation_code_id",
+        "ipi_guideline_class_id", "ipi_control_seal_id", "nbs_id", "cest_id",
     ]);
     models.load_fields("account.journal", [
         "sat_payment_mode",
         "sat_card_accrediting",
     ]);
 
+    models.load_models({
+        model: 'l10n_br_pos.product_fiscal_map',
+        fields: [
+            // TODO: Load only required fields
+            // 'product_tmpl_id',
+            // 'icms_cst_code',
+            // 'icms_percent',
+            // 'icms_effective_percent',
+            // 'pis_cst_code',
+            // 'pis_base',
+            // 'pis_percent',
+            // 'cofins_cst_code',
+            // 'cofins_base',
+            // 'cofins_percent',
+            // 'cfop',
+            // 'additional_data',
+            // 'amount_estimate_tax',
+        ],
+        domain: function(self) {
+            return [
+                ["pos_config_id", "=", self.config.id],
+            ];
+        },
+        loaded: function (self, lines) {
+            self.fiscal_map = lines;
+            self.fiscal_map_by_template_id = {};
+            lines.forEach(function(line) {
+                self.fiscal_map_by_template_id[line.product_tmpl_id[0]] = line;
+            });
+        }
+    });
+
     var _super_order = models.Order.prototype;
     models.Order = models.Order.extend({
         initialize: function (attributes, options) {
             _super_order.initialize.apply(this, arguments, options);
+            var self = this;
             // Inicializar o cnpj_cfp vazio
             // Inicializar a chave da nf-e vazia
             // Inicializar o tipo de documento fiscal
             this.cnpj_cpf = this.cnpj_cpf || null;
+
+            if (options.json) {
+                this.init_from_JSON(options.json);
+            } else {
+                this.fiscal_operation_id = this.pos.config.out_pos_fiscal_operation_id[0];
+                this.document_type_id = this.pos.config.simplified_document_type_id[0];
+                this.document_type = this.pos.config.simplified_document_type;
+            }
+
             this.save_to_db();
         },
         get_return_cfe: function () {
@@ -52,12 +94,12 @@ odoo.define("l10n_br_pos.models", function (require) {
         set_num_sessao_sat: function (num_sessao_sat) {
             this.num_sessao_sat = num_sessao_sat;
         },
-        set_cnpj_cpf: function(cnpj_cpf){
+        set_cnpj_cpf: function (cnpj_cpf) {
             this.assert_editable();
             this.cnpj_cpf = cnpj_cpf;
             this.trigger('change', this);
         },
-        get_cnpj_cpf: function(){
+        get_cnpj_cpf: function () {
             return this.cnpj_cpf;
         },
         clone: function () {
@@ -68,11 +110,17 @@ odoo.define("l10n_br_pos.models", function (require) {
         export_as_JSON: function () {
             var json = _super_order.export_as_JSON.call(this);
             json.cnpj_cpf = this.cnpj_cpf;
+            json.fiscal_operation_id = this.fiscal_operation_id;
+            json.document_type = this.document_type;
+            json.document_type_id = this.document_type_id;
             return json;
         },
         init_from_JSON: function (json) {
             _super_order.init_from_JSON.apply(this, arguments);
             this.cnpj_cpf = json.cnpj_cpf;
+            this.fiscal_operation_id = json.fiscal_operation_id;
+            this.document_type = json.document_type;
+            this.document_type_id = json.document_type_id;
         },
         export_for_printing: function () {
             var result = _super_order.export_for_printing.apply(this, arguments);
@@ -99,12 +147,13 @@ odoo.define("l10n_br_pos.models", function (require) {
             result["company"]["cnpj"] = company.cnpj;
             result["company"]["ie"] = company.ie;
             result["company"]["cnpj_software_house"] = company.cnpj_software_house;
+            result["company"]["tax_framework"] = company.tax_framework;
             result["configs_sat"]["sat_path"] = pos_config.sat_path;
             result["configs_sat"]["numero_caixa"] = pos_config.numero_caixa;
             result["configs_sat"]["cod_ativacao"] = pos_config.cod_ativacao;
             result["configs_sat"]["impressora"] = pos_config.impressora;
             result["configs_sat"]["printer_params"] = pos_config.printer_params;
-            result["informacoes_adicionais"] = pos_config.company_id[1];
+            result["additional_data"] = pos_config.additional_data;
 
             return result;
         },
@@ -174,6 +223,7 @@ odoo.define("l10n_br_pos.models", function (require) {
     models.Orderline = models.Orderline.extend({
         export_for_printing: function () {
             var result = _super_order_line.export_for_printing.apply(this, arguments);
+            var self = this;
             product = this.get_product();
             // result["price"] = this.get_unit_price();
             // result["product_name"] = produto.name;
@@ -184,16 +234,31 @@ odoo.define("l10n_br_pos.models", function (require) {
             result["unit_code"] = this.get_unit().code;
             result["tax_icms_or_issqn"] = product.tax_icms_or_issqn;
             result["fiscal_type"] = product.fiscal_type;
-            result["icms_origin"] = product.icms_origin;
             result["fiscal_genre_id"] = product.fiscal_genre_id;
             result["fiscal_genre_code"] = product.fiscal_genre_code;
-            result["ncm_id"] = product.ncm_id;
             result["service_type_id"] = product.service_type_id;
             result["city_taxation_code_id"] = product.city_taxation_code_id;
             result["ipi_guideline_class_id"] = product.ipi_guideline_class_id;
             result["ipi_control_seal_id"] = product.ipi_control_seal_id;
             result["nbs_id"] = product.nbs_id;
             result["cest_id"] = product.cest_id;
+            result["icms_origin"] = product.icms_origin;
+            var product_fiscal_map = self.pos.fiscal_map_by_template_id[product.product_tmpl_id];
+            result["ncm"] = product_fiscal_map.ncm_code;
+            result["ncm_code_exception"] = product_fiscal_map.ncm_code_exception;
+            result["icms_cst_code"] = product_fiscal_map.icms_cst_code;
+            result["icms_percent"] = product_fiscal_map.icms_percent;
+            result["icmssn_percent"] = product_fiscal_map.icmssn_percent;
+            result["icms_effective_percent"] = product_fiscal_map.icms_effective_percent;
+            result["pis_cst_code"] = product_fiscal_map.pis_cst_code;
+            result["pis_base"] = product_fiscal_map.pis_base;
+            result["pis_percent"] = product_fiscal_map.pis_percent;
+            result["cofins_cst_code"] = product_fiscal_map.cofins_cst_code;
+            result["cofins_base"] = product_fiscal_map.cofins_base;
+            result["cofins_percent"] = product_fiscal_map.cofins_percent;
+            result["cfop"] = product_fiscal_map.cfop_code;
+            result["additional_data"] = product_fiscal_map.additional_data;
+            result["amount_estimate_tax"] = product_fiscal_map.amount_estimate_tax;
             return result;
         }
     });
@@ -221,7 +286,7 @@ odoo.define("l10n_br_pos.models", function (require) {
         //     this.cnpj_cpf = null;
         //     return _super_posmodel.initialize.call(this,session,attributes);
         // },
-        get_cnpj_cpf: function() {
+        get_cnpj_cpf: function () {
             var order = this.get_order();
             if (order) {
                 return order.get_cnpj_cpf();
