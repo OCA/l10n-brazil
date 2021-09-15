@@ -22,6 +22,8 @@
     #     "python": ['satcomum'],
     # },
     'data': [
+        'security/l10n_br_pos_product_fiscal_map.xml',
+        'views/l10n_br_pos_product_fiscal_map.xml',
         "data/l10n_br_fiscal_cfop_data.xml",
         "data/pos_config.xml",
 
