@@ -22,7 +22,6 @@ odoo.define("l10n_br_pos.models", function (require) {
     models.load_fields("account.journal", [
         "sat_payment_mode",
         "sat_card_accrediting",
-        "pagamento_funcionarios", // FIXME: Remover!
     ]);
 
     var _super_order = models.Order.prototype;
