@@ -13,6 +13,7 @@
                             <group string="Simplificado">
                                 <field name="simplified_document_type_id"/>
                                 <field name="simplified_document_type"/>
+                                <field name="anonymous_simplified_limit"/>
                                 <field name="simplified_invoice_limit"/>
                             </group>
                             <group string="Não simplificado">
@@ -24,12 +25,26 @@
                     <page name="l10n_br_tax" string="Tributação">
                         <group string="Venda">
                             <field name="out_pos_fiscal_operation_id"/>
+                            <field name="partner_id"/>
                             <field name="cfop_ids" widget="many2many_tags"/>
                             <field name="out_pos_fiscal_operation_line_ids" widget="many2many_tags"/>
+                            <field name="additional_data" />
                         </group>
                         <group string="Devolução">
                             <field name="refund_pos_fiscal_operation_id"/>
                         </group>
+                    </page>
+                    <page name="l10n_br_tax_product" string="Produtos">
+                        <button name="update_pos_fiscal_map" type="object" string="Update Pos TAX"/>
+                        <field name="pos_fiscal_map_ids" nolabel="1">
+                            <tree>
+                                <field name="product_tmpl_id"/>
+                                <field name="fiscal_operation_line_id"/>
+                                <field name="icms_regulation_id"/>
+                                <field name="cfop_id"/>
+                                <field name="fiscal_tax_ids" widget="many2many_tags"/>
+                            </tree>
+                        </field>
                     </page>
                     <page name="l10n_br_nfce" string="NFC-E">
                         <group>
