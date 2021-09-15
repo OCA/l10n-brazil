@@ -14,5 +14,5 @@ def migrate(env, version):
             l10n_br_fiscal_document
         SET
             document_key = regexp_replace(document_key, '[^0-9]+', '', 'g')
-        """
+        """,
     )
