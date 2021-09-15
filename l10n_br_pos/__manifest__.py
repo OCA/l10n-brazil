@@ -31,6 +31,7 @@
 
         "views/pos_config_view.xml",
         "views/pos_order_view.xml",
+        "views/product_template_view.xml",
 
         # "wizard/l10n_br_pos_order_return.xml",
         # "wizard/sat_xml_periodic_export.xml",
