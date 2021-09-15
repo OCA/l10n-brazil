@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!--  Crédito  -->
+
+    <record id="main_credito_visa" model="account.journal">
+        <field name="code" >POS-CV</field>
+        <field name="name" >Crédito Visa</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <record id="main_credito_master" model="account.journal">
+        <field name="code" >POS-CM</field>
+        <field name="name" >Crédito Master</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <record id="main_credito_elo" model="account.journal">
+        <field name="code" >POS-CE</field>
+        <field name="name" >Crédito Elo</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <record id="main_credito_amex" model="account.journal">
+        <field name="code" >POS-CA</field>
+        <field name="name" >Crédito Amex</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <record id="main_credito_hipercard" model="account.journal">
+        <field name="code" >POS-CH</field>
+        <field name="name" >Crédito Hipercard</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">03</field>
+    </record>
+
+    <!--  Débito  -->
+
+    <record id="main_debito_visa" model="account.journal">
+        <field name="code" >POS-DV</field>
+        <field name="name" >Débito Visa</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">04</field>
+    </record>
+
+    <record id="main_debito_master" model="account.journal">
+        <field name="code" >POS-DM</field>
+        <field name="name" >Débito Master</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">04</field>
+    </record>
+
+    <record id="main_debito_elo" model="account.journal">
+        <field name="code" >POS-DE</field>
+        <field name="name" >Débito Elo</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">04</field>
+    </record>
+
+    <!--  Alimentação  -->
+
+    <record id="main_vale_vr_ben" model="account.journal">
+        <field name="code" >POS-VR-Ben</field>
+        <field name="name" >VR Ben</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">11</field>
+    </record>
+
+    <record id="main_vale_vr_alelo" model="account.journal">
+        <field name="code" >POS-VR-Alelo</field>
+        <field name="name" >VR Alelo</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">11</field>
+    </record>
+
+    <record id="main_vale_vr_alelo" model="account.journal">
+        <field name="code" >POS-VR-Alelo</field>
+        <field name="name" >VR Alelo</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">11</field>
+    </record>
+
+    <record id="main_vale_vr_sodexo" model="account.journal">
+        <field name="code" >POS-VR-S</field>
+        <field name="name" >VR Sodexo</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">11</field>
+    </record>
+
+    <record id="main_vale_vr_tr" model="account.journal">
+        <field name="code" >POS-VR-TR</field>
+        <field name="name" >VR TR</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">11</field>
+    </record>
+
+    <!--  Outros  -->
+
+    <record id="main_pix" model="account.journal">
+        <field name="code" >POS-PIX</field>
+        <field name="name" >PIX</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">04</field>
+    </record>
+
+    <record id="main_delivery" model="account.journal">
+        <field name="code" >POS-Delivery</field>
+        <field name="name" >Delivery App</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">99</field>
+    </record>
+
+    <record id="main_voucher" model="account.journal">
+        <field name="code" >POS-Voucher</field>
+        <field name="name" >Vouchers</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">05</field>
+    </record>
+
+    <record id="main_convenio" model="account.journal">
+        <field name="code" >POS-Convenio</field>
+        <field name="name" >Convênios</field>
+        <field name="type" >bank</field>
+        <field name="journal_user" eval="True" />
+        <field name="sat_payment_mode">05</field>
+    </record>
+
+</odoo>

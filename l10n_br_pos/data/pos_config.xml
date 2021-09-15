@@ -6,6 +6,7 @@
         <field name="refund_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_venda" />
         <field name="simplified_document_type_id" ref="l10n_br_fiscal.document_59" />
         <field name="detailed_document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="journal_ids" eval="[(4, ref('l10n_br_pos.main_credito_visa')), (4, ref('l10n_br_pos.main_credito_master')), (4, ref('l10n_br_pos.main_debito_visa')), (4, ref('l10n_br_pos.main_pix'))]" />
     </record>
 
 </odoo>
