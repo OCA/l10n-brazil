@@ -23,12 +23,12 @@
     # },
     'data': [
         'security/l10n_br_pos_product_fiscal_map.xml',
-        'views/l10n_br_pos_product_fiscal_map.xml',
+
         "data/l10n_br_fiscal_cfop_data.xml",
+        "data/account_journal_data.xml",
         "data/pos_config.xml",
 
-        "data/account_journal_data.xml",
-
+        'views/l10n_br_pos_product_fiscal_map.xml',
         "views/pos_config_view.xml",
         "views/pos_order_view.xml",
         "views/product_template_view.xml",
@@ -47,6 +47,8 @@
         "views/pos_template.xml",
     ],
     'demo': [
+        'demo/l10n_br_pos_product_fiscal_map.xml',
+        "demo/account_journal_demo.xml",
         "demo/pos_config.xml",
         ],
     "qweb": [
