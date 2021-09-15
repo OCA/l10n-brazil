@@ -47,6 +47,11 @@ class PosConfig(models.Model):
         default=_default_out_pos_fiscal_operation_id,
     )
 
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+    )
+    # TODO: Isso pode ser uma one2many
+
     cfop_ids = fields.One2many(
         string='CFOPs permitidas',
         comodel_name='l10n_br_fiscal.cfop',
@@ -70,11 +75,18 @@ class PosConfig(models.Model):
         default=_default_refund_pos_fiscal_operation_id,
     )
 
+    anonymous_simplified_limit = fields.Float(
+        string='Anonymous simplified limit',
+        digits=dp.get_precision('Account'),
+        help='Over this amount is not legally posible to create a Anonymous NFC-E / CF-e',
+        default=10000
+    )
+
     simplified_invoice_limit = fields.Float(
         string='Simplified invoice limit',
         digits=dp.get_precision('Account'),
         help='Over this amount is not legally posible to create a simplified invoice',
-        default=3000
+        default=200000
     )
 
     simplified_document_type_id = fields.Many2one(
@@ -162,13 +174,34 @@ class PosConfig(models.Model):
         string='Printer parameters'
     )
 
-    # CRM
-    # save_identity_automatic = fields.Boolean(
-    #     string='Save new client',
-    #     help='Activating will save the customer identity automatic',
-    #     default=True
-    # )
-    #
+    save_identity_automatic = fields.Boolean(
+        string='Save new client',
+        help='Activating will create a new identity customer to the partners data',
+        default=False
+    )
+
+    ask_identity = fields.Boolean(
+        string='Ask Identity on Payment',
+        default=False
+    )
+
+    additional_data = fields.Text(
+        string="Aditional Information",
+    )
+
+    pos_fiscal_map_ids = fields.One2many(
+        comodel_name='l10n_br_pos.product_fiscal_map',
+        inverse_name='pos_config_id',
+    )
+
+    def update_pos_fiscal_map(self):
+        for record in self:
+            product_tmpl_ids = self.env['product.template'].search([
+                ('available_in_pos', '=', True)
+            ])
+            record.pos_fiscal_map_ids.unlink()
+            product_tmpl_ids.update_pos_fiscal_map()
+
     # lim_data_alteracao = fields.Integer(
     #     string="Atualizar dados (meses)",
     #     default=3,
@@ -179,10 +212,6 @@ class PosConfig(models.Model):
     #     default=False,
     # )
     #
-    # cpf_nota = fields.Boolean(
-    #     string='Inserir CPF na nota',
-    #     default=False
-    # )
 
     # @api.multi
     # def retornar_dados(self):
