@@ -54,9 +54,8 @@ odoo.define('l10n_br_pos.devices', function (require) {
                 status();
             }
         },
-        send_order_sat: function (order) {
+        send_order_sat: function (json) {
             var self = this;
-            var json = order.export_for_printing()
             this.receipt_queue.push(json);
             var aborted = false;
             function send_sat_job() {
