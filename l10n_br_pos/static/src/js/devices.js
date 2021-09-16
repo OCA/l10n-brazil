@@ -27,6 +27,7 @@ odoo.define('l10n_br_pos.devices', function (require) {
                 'codigo_ativacao': config.cod_ativacao,
                 'impressora': config.impressora,
                 'printer_params': config.printer_params,
+                'fiscal_printer_type': config.fiscal_printer_type,
                 'assinatura': config.assinatura_sat,
             };
             self.message('init', {json: j}, {timeout: 5000})

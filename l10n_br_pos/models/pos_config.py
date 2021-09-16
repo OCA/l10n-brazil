@@ -174,6 +174,17 @@ class PosConfig(models.Model):
         string='Impressora',
     )
 
+    fiscal_printer_type = fields.Selection(
+        selection=[
+            ('BluetoothConnection', 'Bluetooth'),
+            ('DummyConnection', 'Dummy'),
+            ('FileConnection', 'File'),
+            ('NetworkConnection', 'Network'),
+            ('SerialConnection', 'Serial'),
+            ('USBConnection', 'USB'),
+        ],
+    )
+
     printer_params = fields.Char(
         string='Printer parameters'
     )

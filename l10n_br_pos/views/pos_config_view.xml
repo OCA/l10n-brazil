@@ -70,6 +70,7 @@
                                 <field name="cod_ativacao"/>
                                 <field name="assinatura_sat"/>
                                 <field name="impressora"/>
+                                <field name="fiscal_printer_type"/>
                                 <field name="printer_params"/>
                             </group>
                         </group>
