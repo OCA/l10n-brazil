@@ -42,6 +42,7 @@
                     </page>
                     <page name="l10n_br_tax" string="Tributação">
                         <group string="Venda">
+                            <button name="update_pos_fiscal_map" type="object" string="Update Pos TAX"/>
                             <field name="out_pos_fiscal_operation_id"/>
                             <field name="partner_id"/>
                             <field name="cfop_ids" widget="many2many_tags"/>

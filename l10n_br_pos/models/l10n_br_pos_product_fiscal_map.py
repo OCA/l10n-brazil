@@ -76,6 +76,10 @@ class L10nBrPosProductFiscalMap(models.Model):
         related='ncm_id.exception',
     )
 
+    company_tax_framework = fields.Selection(
+        related="company_id.tax_framework",
+    )
+
     def _get_product_price(self):
         self.price_unit = 1
 
