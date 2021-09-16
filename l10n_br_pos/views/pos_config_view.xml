@@ -18,6 +18,12 @@
                 >
                 </button>
             </div>
+            <xpath expr="//div//label[@for='iface_customer_facing_display']/.." position="after">
+                <div class="row">
+                    <label string="Brasil Fiscal" for="iface_fiscal_via_proxy" class="col-lg-3 o_light_label"/>
+                    <field name="iface_fiscal_via_proxy"/>
+                </div>
+            </xpath>
             <xpath expr="//sheet" position="inside">
                 <notebook>
                     <page name="l10n_br_general" string="Geral">
