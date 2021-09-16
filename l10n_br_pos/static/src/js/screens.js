@@ -15,7 +15,7 @@ odoo.define("l10n_br_pos.screens", function (require) {
     screens.PaymentScreenWidget.include({
         order_sat_is_valid: function (order) {
             var status = this.pos.proxy.get('status');
-            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+            var sat_status = status.drivers.hw_fiscal ? status.drivers.hw_fiscal.status : false;
             console.log('SAT Status: ', sat_status);
 
             var json = order.export_for_printing();

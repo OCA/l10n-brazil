@@ -109,6 +109,10 @@ class PosConfig(models.Model):
         store=True,
     )
 
+    iface_fiscal_via_proxy = fields.Boolean(
+        string='Fiscal via IOT',
+    )
+
     iface_nfce_via_proxy = fields.Boolean(
         string='NFC-e via IOT',
         help="""A NFC-E pode ser emitida pela nuvem ou pelo IOT,
