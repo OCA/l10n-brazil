@@ -46,6 +46,7 @@ TWOPLACES = Decimal(10) ** -2
 FOURPLACES = Decimal(10) ** -4
 
 
+
 class Sat(Thread):
     def __init__(self, codigo_ativacao, sat_path, impressora, printer_params, assinatura):
         Thread.__init__(self)
@@ -142,6 +143,9 @@ class Sat(Thread):
             )
         produto.validar()
         # TODO: Fix impostos e detalhes dos itens
+
+
+
         detalhe = Detalhamento(
             produto=produto,
             imposto=Imposto(
@@ -359,18 +363,18 @@ class SatDriver(hw_proxy.Proxy):
 
     @http.route('/hw_proxy/init/', type='json', auth='none', cors='*')
     def init(self, json):
-        hw_proxy.drivers['satcfe'] = Sat(**json)
+        hw_proxy.drivers['hw_fiscal'] = Sat(**json)
         return True
 
     @http.route('/hw_proxy/enviar_cfe_sat/', type='json', auth='none', cors='*')
     def enviar_cfe_sat(self, json):
         _logger.info(json)
-        return hw_proxy.drivers['satcfe'].action_call_sat('send', json)
+        return hw_proxy.drivers['hw_fiscal'].action_call_sat('send', json)
 
     @http.route('/hw_proxy/cancelar_cfe/', type='json', auth='none', cors='*')
     def cancelar_cfe(self, json):
-        return hw_proxy.drivers['satcfe'].action_call_sat('cancel', json)
+        return hw_proxy.drivers['hw_fiscal'].action_call_sat('cancel', json)
 
     @http.route('/hw_proxy/reprint_cfe/', type='json', auth='none', cors='*')
     def reprint_cfe(self, json):
-        return hw_proxy.drivers['satcfe'].action_call_sat('reprint', json)
+        return hw_proxy.drivers['hw_fiscal'].action_call_sat('reprint', json)
