@@ -6,6 +6,18 @@
         <field name="model">pos.config</field>
         <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
         <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    type="action"
+                    class="oe_stat_button"
+                    id="product_pos_map_button"
+                    icon="fa-bars"
+                    name="%(l10n_br_pos.l10n_br_pos_product_fiscal_map_act_window)d"
+                    context="{'search_pos_config_id': active_id}"
+                    string="Tax x Products"
+                >
+                </button>
+            </div>
             <xpath expr="//sheet" position="inside">
                 <notebook>
                     <page name="l10n_br_general" string="Geral">
@@ -33,18 +45,6 @@
                         <group string="Devolução">
                             <field name="refund_pos_fiscal_operation_id"/>
                         </group>
-                    </page>
-                    <page name="l10n_br_tax_product" string="Produtos">
-                        <button name="update_pos_fiscal_map" type="object" string="Update Pos TAX"/>
-                        <field name="pos_fiscal_map_ids" nolabel="1">
-                            <tree>
-                                <field name="product_tmpl_id"/>
-                                <field name="fiscal_operation_line_id"/>
-                                <field name="icms_regulation_id"/>
-                                <field name="cfop_id"/>
-                                <field name="fiscal_tax_ids" widget="many2many_tags"/>
-                            </tree>
-                        </field>
                     </page>
                     <page name="l10n_br_nfce" string="NFC-E">
                         <group>

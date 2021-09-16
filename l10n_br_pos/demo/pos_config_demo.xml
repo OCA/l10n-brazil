@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
 
+    <record id="l10n_br_fiscal.res_partner_anonimo" model="res.partner">
+        <field name="state_id" ref="base.state_br_sp"/>
+    </record>
+
     <!-- TANCA SDK-1000 -->
     <record id="point_of_sale.pos_config_main" model="pos.config">
         <field name="cnpj_homologacao" >08.723.218/0001-86</field>
@@ -60,6 +64,7 @@
         <field name="refund_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_venda" />
         <field name="simplified_document_type_id" ref="l10n_br_fiscal.document_59" />
         <field name="detailed_document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field name="partner_id" ref="l10n_br_fiscal.res_partner_anonimo" />
         <field name="cnpj_homologacao" >08.723.218/0001-86</field>
         <field name="ie_homologacao" >149.626.224.113</field>
         <field name="cnpj_software_house" >16.716.114/0001-72</field>
@@ -71,5 +76,9 @@
 <!--        <field name="impressora">epson-tm-t20</field>-->
 <!--        <field name="printer_params"></field>-->
     </record>
+
+    <function model="pos.config" name="update_pos_fiscal_map">
+        <value eval="[ref('point_of_sale.pos_config_main'), ref('l10n_br_pos.pos_config_presumido')]" />
+    </function>
 
 </odoo>

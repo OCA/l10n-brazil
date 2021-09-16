@@ -54,7 +54,11 @@
         <field name="model">l10n_br_pos.product_fiscal_map</field>
         <field name="arch" type="xml">
             <search>
-                <!-- TODO -->
+                <field name="pos_config_id"/>
+                <field name="product_tmpl_id"/>
+                <field name="fiscal_operation_line_id"/>
+                <field name="icms_regulation_id"/>
+                <field name="cfop_id"/>
             </search>
         </field>
     </record>
@@ -63,8 +67,9 @@
         <field name="name">l10n_br_pos.product_fiscal_map.tree (in l10n_br_pos)</field>
         <field name="model">l10n_br_pos.product_fiscal_map</field>
         <field name="arch" type="xml">
-            <tree>
-                <!-- TODO -->
+            <tree edit="false" create="false">
+                <field name="pos_config_id"/>
+                <field name="product_tmpl_id"/>
                 <field name="fiscal_operation_line_id"/>
                 <field name="icms_regulation_id"/>
                 <field name="cfop_id"/>
