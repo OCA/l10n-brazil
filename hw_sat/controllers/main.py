@@ -4,7 +4,7 @@ import logging
 import time
 from threading import Thread, Lock
 from requests import ConnectionError
-from decimal import Decimal
+from decimal import Decimal as D
 import io
 from odoo.addons.hw_proxy.controllers import main as hw_proxy
 from odoo import http
@@ -25,13 +25,29 @@ try:
     from satcfe.entidades import Detalhamento
     from satcfe.entidades import ProdutoServico
     from satcfe.entidades import Imposto
-    from satcfe.entidades import ICMS00
-    from satcfe.entidades import PISSN
-    from satcfe.entidades import COFINSSN
     from satcfe.entidades import MeioPagamento
     from satcfe.entidades import CFeVenda
     from satcfe.entidades import DescAcrEntr
     from satcfe.entidades import CFeCancelamento
+    from satcfe.entidades import (
+        COFINSAliq,
+        COFINSNT,
+        COFINSOutr,
+        COFINSQtde,
+        COFINSSN,
+        COFINSST,
+        ICMS00,
+        ICMS40,
+        ICMSSN102,
+        ICMSSN900,
+        ISSQN,
+        PISAliq,
+        PISNT,
+        PISOutr,
+        PISQtde,
+        PISSN,
+        PISST,
+    )
     from satcfe.excecoes import ErroRespostaSATInvalida
     from satcfe.excecoes import ExcecaoRespostaSAT
     from satextrato import ExtratoCFeVenda
@@ -42,9 +58,12 @@ except ImportError:
     satcfe = None
 
 
-TWOPLACES = Decimal(10) ** -2
-FOURPLACES = Decimal(10) ** -4
+TAX_FRAMEWORK_SIMPLES = "1"
+TAX_FRAMEWORK_SIMPLES_EX = "2"
+TAX_FRAMEWORK_NORMAL = "3"
 
+TWOPLACES = D(10) ** -2
+FOURPLACES = D(10) ** -4
 
 
 class Sat(Thread):
@@ -124,11 +143,11 @@ class Sat(Thread):
     def __prepare_send_detail_cfe(self, item):
         kwargs = {}
         if item['discount']:
-            kwargs['vDesc'] = Decimal(
+            kwargs['vDesc'] = D(
                 (item['quantity'] * item['price']) - item['price_display']
             ).quantize(TWOPLACES)
-        # estimated_taxes = Decimal(0.01 * item['price_display']).quantize(TWOPLACES)
-        estimated_taxes = Decimal(item['amount_estimate_tax'] * item['price_without_tax']).quantize(TWOPLACES)
+        # estimated_taxes = D(0.01 * item['price_display']).quantize(TWOPLACES)
+        estimated_taxes = D(item['amount_estimate_tax'] * item['price_without_tax']).quantize(TWOPLACES)
 
         produto = ProdutoServico(
             cProd=str(item['product_default_code']),
@@ -136,8 +155,8 @@ class Sat(Thread):
             xProd=item['product_name'],
             uCom=item['unit_code'],
             CFOP=item['cfop'],
-            qCom=Decimal(item['quantity']).quantize(FOURPLACES),
-            vUnCom=Decimal(item['price']).quantize(TWOPLACES),
+            qCom=D(item['quantity']).quantize(FOURPLACES),
+            vUnCom=D(item['price']).quantize(TWOPLACES),
             indRegra='A',
             NCM=punctuation_rm(item['ncm']),
             **kwargs
@@ -145,27 +164,128 @@ class Sat(Thread):
         produto.validar()
         # TODO: Fix impostos e detalhes dos itens
 
+        icms = pis = cofins = None
 
+        if item['company_tax_framework'] == TAX_FRAMEWORK_SIMPLES:
+            if item['icms_cst_code'] in ['102', '300', '500']:
+                icms = ICMSSN102(
+                    Orig=item['icms_origin'],
+                    CSOSN=item['icms_cst_code'],
+                )
+            else:
+                icms = ICMSSN900(
+                    Orig=item['icms_origin'],
+                    CSOSN=item['icms_cst_code'],
+                    pICMS=D(item['icmssn_percent']).quantize(D('0.01')),
+                )
+
+            pis = PISSN(CST=item['pis_cst_code'])
+            cofins = COFINSSN(CST=item['cofins_cst_code'])
+        else:
+            if item['icms_cst_code'] in ['00', '20', '90']:
+                icms = ICMS00(
+                    Orig=item['icms_origin'],
+                    CST=item['icms_cst_code'],
+                    pICMS=D(item['al_efetiva_icms_proprio']).quantize(D('0.01')),
+                    # TODO: Implementar al_efetiva_icms_proprio
+                )
+            elif item['icms_cst_code'] in ['40', '41', '50', '60']:
+                icms = ICMS40(
+                    Orig=item['icms_origin'],
+                    CST=item['icms_cst_code']
+                )
+            #
+            # PIS
+            # TODO: Implementar pis ST
+
+            al_pis_proprio = D(item['pis_percent'] / 100).quantize(D('0.0001'))
+
+            if item['pis_cst_code'] in ['01', '02', '05']:
+                raise NotImplementedError
+                # bc_pis_proprio
+                pis = PISAliq(
+                    CST=item['pis_cst_code'],
+                    vBC=D(item['bc_pis_proprio']).quantize(D('0.01')),
+                    pPIS=al_pis_proprio,
+                )
+            elif item['pis_cst_code'] in ['04', '06', '07', '08', '09']:
+                pis = PISNT(
+                    CST=item['pis_cst_code']
+                )
+            elif item['pis_cst_code'] == '03':
+                raise NotImplementedError
+                # vr_pis_proprio
+                pis = PISQtde(
+                    CST=item['pis_cst_code'],
+                    qBCProd=D(item['quantidade']).quantize(D('0.01')),
+                    vAliqProd=D(item['vr_pis_proprio']).quantize(D('0.01'))
+                )
+            elif item['pis_cst_code'] == '99':
+                raise NotImplementedError
+                # bc_pis_proprio
+                pis = PISOutr(
+                    CST=item['pis_cst_code'],
+                    vBC=D(item['bc_pis_proprio']).quantize(D('0.01')),
+                    pPIS=al_pis_proprio,
+                )
+
+            #
+            # COFINS
+            # TODO: Implementar cofins ST
+
+            al_cofins_proprio = D(
+                item['cofins_percent'] / 100).quantize(D('0.0001'))
+
+            if item['cofins_cst_code'] in ['01', '02', '05']:
+                raise NotImplementedError
+                cofins = COFINSAliq(
+                    CST=item['cofins_cst_code'],
+                    vBC=D(item['bc_cofins_proprio']).quantize(D('0.01')),
+                    pCOFINS=al_cofins_proprio,
+                )
+            elif item['cofins_cst_code'] in ['04', '06', '07', '08', '09']:
+                cofins = COFINSNT(
+                    CST=item['cofins_cst_code']
+                )
+            elif item['cofins_cst_code'] == '03':
+                raise NotImplementedError
+                # vr_cofins_proprio
+                cofins = COFINSQtde(
+                    CST=item['cofins_cst_code'],
+                    qBCProd=D(item['quantidade']).quantize(D('0.01')),
+                    vAliqProd=D(item['vr_cofins_proprio']).quantize(D('0.01'))
+                )
+            elif item['cofins_cst_code'] == '99':
+                raise NotImplementedError
+                # bc_cofins_proprio
+                cofins = COFINSOutr(
+                    CST=item['cofins_cst_code'],
+                    vBC=D(item['bc_cofins_proprio']).quantize(D('0.01')),
+                    pCOFINS=al_cofins_proprio,
+                )
+
+        imposto = Imposto(
+            vItem12741=D(item['amount_estimate_tax']).quantize(D('0.01')),
+            icms=icms,
+            pis=pis,
+            cofins=cofins,
+        )
+        imposto.validar()
 
         detalhe = Detalhamento(
             produto=produto,
-            imposto=Imposto(
-                vItem12741=estimated_taxes,
-                icms=ICMS00(Orig=item['icms_origin'], CST='00', pICMS=Decimal('18.00')),
-                pis=PISSN(CST='49'),
-                cofins=COFINSSN(CST='49'))
+            imposto=imposto,
         )
         detalhe.validar()
         return detalhe, estimated_taxes
 
     def __prepare_payment(self, json):
         kwargs = {}
-        # if json['sat_card_accrediting']:
-        #     kwargs['cAdmC'] = json['sat_card_accrediting']
+        if json['sat_card_accrediting']:
+            kwargs['cAdmC'] = json['sat_card_accrediting']
         pagamento = MeioPagamento(
-            # cMP=json['sat_payment_mode'],
-            cMP='01',
-            vMP=Decimal(json['amount']).quantize(
+            cMP=json['sat_payment_mode'],
+            vMP=D(json['amount']).quantize(
                 TWOPLACES),
             **kwargs
         )
@@ -174,7 +294,7 @@ class Sat(Thread):
 
     def __prepare_send_cfe(self, json):
         detalhamentos = []
-        total_taxes = Decimal(0)
+        total_taxes = D(0)
         for item in json['orderlines']:
             detalhe, estimated_taxes = self.__prepare_send_detail_cfe(item)
             detalhamentos.append(detalhe)
