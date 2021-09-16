@@ -294,6 +294,19 @@ odoo.define("l10n_br_pos.models", function (require) {
             return null;
         },
     });
+
+    var _config = _.findWhere(
+        models.PosModel.prototype.models,
+        {model: "pos.config"}
+    );
+    var old_loaded = _config.loaded
+    _config.loaded = function (self, configs) {
+        old_loaded(self, configs);
+        if (self.config.iface_fiscal_via_proxy){
+            self.config.use_proxy = true;
+        }
+    }
+
     //     initialize: function (session, attributes) {
     //         this._super(this, session, attributes);
     //         PosModelParent.prototype.initialize.apply(this, arguments);

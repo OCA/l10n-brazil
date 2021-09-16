@@ -38,7 +38,7 @@ odoo.define('l10n_br_pos.devices', function (require) {
                 function status() {
                     self.connection.rpc('/hw_proxy/status_json', {}, {timeout: 2500})
                         .then(function (driver_status) {
-                            if (!driver_status.hasOwnProperty("satcfe")) {
+                            if (!driver_status.hasOwnProperty("hw_fiscal")) {
                                 self.pos.proxy.init_sat(self.pos.config);
                             } else {
                                 self.set_connection_status('connected', driver_status);
