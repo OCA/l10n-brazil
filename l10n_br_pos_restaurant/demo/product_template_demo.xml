@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="pos_restaurant.coke_product_template" model="product.template">
+        <field name="fiscal_type">00</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000"/>
+    </record>
+
+    <record id="pos_restaurant.minute_maid_product_template" model="product.template">
+        <field name="fiscal_type">04</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000"/>
+    </record>
+
+    <record id="pos_restaurant.water_product_template" model="product.template">
+        <field name="fiscal_type">04</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000"/>
+    </record>
+
+</odoo>
