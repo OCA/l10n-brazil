@@ -18,6 +18,7 @@ odoo.define('l10n_br_pos.devices', function (require) {
         init: function(parent, options){
             var res = ProxyDeviceSuper.prototype.init.call(this, parent, options);
             // this.customer_display_proxy = false;
+            this.fiscal_queue = [];
             return res;
         },
         init_sat: function (config) {
@@ -55,14 +56,21 @@ odoo.define('l10n_br_pos.devices', function (require) {
                 status();
             }
         },
-        send_order_sat: function (json) {
+        send_order_sat: function (order) {
             var self = this;
-            this.receipt_queue.push(json);
+
+            var json = order.export_for_printing();
+
+            if (this.pos.debug) {
+                console.log(json);
+            }
+
+            this.fiscal_queue.push(json);
             var aborted = false;
             function send_sat_job() {
-                if (self.receipt_queue.length > 0) {
-                    var j = self.receipt_queue.shift();
-                    // var r = self.receipt_queue.shift();
+                if (self.fiscal_queue.length > 0) {
+                    var j = self.fiscal_queue.shift();
+                    // var r = self.fiscal_queue.shift();
                     self.message('enviar_cfe_sat', {json: j}, {timeout: 5000})
                         .then(function (result) {
                             // TODO: Only one popup code!
@@ -73,12 +81,12 @@ odoo.define('l10n_br_pos.devices', function (require) {
                                 });
                             } else {
                                 if (!result['excessao']) {
-                                    currentOrder.set_return_cfe(result['xml']);
-                                    currentOrder.set_num_sessao_sat(result['numSessao']);
-                                    currentOrder.set_chave_cfe(result['chave_cfe']);
-                                    self.pos.push_order(currentOrder);
-                                    self.pos.pos_widget.posorderlist_screen.push_list_order_frontend(currentOrder);
-                                    self.pos.get('selectedOrder').destroy();
+                                    order.set_return_cfe(result['xml']);
+                                    order.set_num_sessao_sat(result['numSessao']);
+                                    order.set_chave_cfe(result['chave_cfe']);
+                                    // self.pos.push_order(order);
+                                    // self.pos.pos_widget.posorderlist_screen.push_list_order_frontend(order);
+                                    // self.pos.get('order').destroy();
                                 } else {
                                     self.pos.gui.show_popup('error-traceback', {
                                         'title': _t('Erro SAT: '),
@@ -94,8 +102,8 @@ odoo.define('l10n_br_pos.devices', function (require) {
                                 });
                                 return;
                             }
-                            self.receipt_queue.unshift(j)
-                            // self.receipt_queue.unshift(r)
+                            self.fiscal_queue.unshift(j)
+                            // self.fiscal_queue.unshift(r)
                         });
                 }
             }

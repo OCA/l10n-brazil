@@ -17,17 +17,10 @@ odoo.define("l10n_br_pos.screens", function (require) {
             var status = this.pos.proxy.get('status');
             var sat_status = status.drivers.hw_fiscal ? status.drivers.hw_fiscal.status : false;
             console.log('SAT Status: ', sat_status);
-
-            var json = order.export_for_printing();
-
-            if (this.pos.debug) {
-                console.log(json);
-            }
-
             if (sat_status == 'connected') {
                 // this.pos_widget.action_bar.set_button_disabled('validation', true);
                 // var receipt = currentOrder.export_for_printing();
-                this.pos.proxy.send_order_sat(json);
+                this.pos.proxy.send_order_sat(order);
             }
 
             // } else {
