@@ -162,12 +162,15 @@ class Sat(Thread):
             **kwargs
             )
         produto.validar()
-        # TODO: Fix impostos e detalhes dos itens
+
+        # wdb.set_trace()
 
         icms = pis = cofins = None
 
         if item['company_tax_framework'] == TAX_FRAMEWORK_SIMPLES:
-            if item['icms_cst_code'] in ['102', '300', '500']:
+            if item['icms_cst_code'] in ['101']:
+                raise ErroRespostaSATInvalida
+            elif item['icms_cst_code'] in ['102', '300', '500']:
                 icms = ICMSSN102(
                     Orig=item['icms_origin'],
                     CSOSN=item['icms_cst_code'],
@@ -186,8 +189,7 @@ class Sat(Thread):
                 icms = ICMS00(
                     Orig=item['icms_origin'],
                     CST=item['icms_cst_code'],
-                    pICMS=D(item['al_efetiva_icms_proprio']).quantize(D('0.01')),
-                    # TODO: Implementar al_efetiva_icms_proprio
+                    pICMS=D(item['icms_percent']).quantize(D('0.01')),
                 )
             elif item['icms_cst_code'] in ['40', '41', '50', '60']:
                 icms = ICMS40(
@@ -201,11 +203,10 @@ class Sat(Thread):
             al_pis_proprio = D(item['pis_percent'] / 100).quantize(D('0.0001'))
 
             if item['pis_cst_code'] in ['01', '02', '05']:
-                raise NotImplementedError
-                # bc_pis_proprio
                 pis = PISAliq(
                     CST=item['pis_cst_code'],
-                    vBC=D(item['bc_pis_proprio']).quantize(D('0.01')),
+                    vBC=D(item['pis_base'] * item['price_without_tax']).quantize(D('0.01')),
+                    # TODO: Verificar se é possível implementar no frontend
                     pPIS=al_pis_proprio,
                 )
             elif item['pis_cst_code'] in ['04', '06', '07', '08', '09']:
@@ -221,26 +222,21 @@ class Sat(Thread):
                     vAliqProd=D(item['vr_pis_proprio']).quantize(D('0.01'))
                 )
             elif item['pis_cst_code'] == '99':
-                raise NotImplementedError
-                # bc_pis_proprio
                 pis = PISOutr(
                     CST=item['pis_cst_code'],
-                    vBC=D(item['bc_pis_proprio']).quantize(D('0.01')),
+                    vBC=D(item['pis_base'] * item['price_without_tax']).quantize(D('0.01')),
                     pPIS=al_pis_proprio,
                 )
 
-            #
             # COFINS
-            # TODO: Implementar cofins ST
+            # TODO: Implementer cofins ST
 
-            al_cofins_proprio = D(
-                item['cofins_percent'] / 100).quantize(D('0.0001'))
+            al_cofins_proprio = D(item['cofins_percent'] / 100).quantize(D('0.0001'))
 
             if item['cofins_cst_code'] in ['01', '02', '05']:
-                raise NotImplementedError
                 cofins = COFINSAliq(
                     CST=item['cofins_cst_code'],
-                    vBC=D(item['bc_cofins_proprio']).quantize(D('0.01')),
+                    vBC=D(item['cofins_base'] * item['price_without_tax']).quantize(D('0.01')),
                     pCOFINS=al_cofins_proprio,
                 )
             elif item['cofins_cst_code'] in ['04', '06', '07', '08', '09']:
@@ -256,11 +252,9 @@ class Sat(Thread):
                     vAliqProd=D(item['vr_cofins_proprio']).quantize(D('0.01'))
                 )
             elif item['cofins_cst_code'] == '99':
-                raise NotImplementedError
-                # bc_cofins_proprio
                 cofins = COFINSOutr(
                     CST=item['cofins_cst_code'],
-                    vBC=D(item['bc_cofins_proprio']).quantize(D('0.01')),
+                    vBC=D(item['cofins_base'] * item['price_without_tax']).quantize(D('0.01')),
                     pCOFINS=al_cofins_proprio,
                 )
 
