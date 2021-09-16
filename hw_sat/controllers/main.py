@@ -48,12 +48,13 @@ FOURPLACES = Decimal(10) ** -4
 
 
 class Sat(Thread):
-    def __init__(self, codigo_ativacao, sat_path, impressora, printer_params, assinatura):
+    def __init__(self, codigo_ativacao, sat_path, impressora, printer_params, fiscal_printer_type, assinatura):
         Thread.__init__(self)
         self.codigo_ativacao = codigo_ativacao
         self.sat_path = sat_path
         self.impressora = impressora
         self.printer_params = printer_params
+        self.fiscal_printer_type = fiscal_printer_type
         self.lock = Lock()
         self.satlock = Lock()
         self.status = {'status': 'connecting', 'messages': []}
@@ -290,13 +291,29 @@ class Sat(Thread):
             return {'excessao': ex}
 
     def _init_printer(self):
+        if not self.impressora:
+            return False
 
-        from escpos.conn.serial import SerialSettings
+        if self.fiscal_printer_type == 'NetworkConnection':
+            from escpos.conn.network import NetworkConnection as Connection
+            conn = Connection(host=self.printer_params, port=9100)
+        elif self.fiscal_printer_type == 'BluetoothConnection':
+            from escpos.conn.network import BluetoothConnection as Connection
+        elif self.fiscal_printer_type == 'DummyConnection':
+            from escpos.conn.network import DummyConnection as Connection
+        elif self.fiscal_printer_type == 'FileConnection':
+            from escpos.conn.network import FileConnection as Connection
+        elif self.fiscal_printer_type == 'NetworkConnection':
+            from escpos.conn.network import NetworkConnection as Connection
+        elif self.fiscal_printer_type == 'SerialConnection':
+            from escpos.conn.network import SerialConnection as Connection
+            conn = Connection.parse(self.printer_params).get_connection()
+        elif self.fiscal_printer_type == 'USBConnection':
+            from escpos.conn.network import USBConnection as Connection
+
         if self.impressora == 'epson-tm-t20':
             _logger.info('SAT Impressao: Epson TM-T20')
             from escpos.impl.epson import TMT20 as Printer
-            from escpos.conn.network import NetworkConnection
-            conn = NetworkConnection(host='192.168.1.23', port=9100)
         elif self.impressora == 'bematech-mp4200th':
             _logger.info('SAT Impressao: Bematech MP4200TH')
             from escpos.impl.bematech import MP4200TH as Printer
@@ -308,18 +325,20 @@ class Sat(Thread):
             from escpos.impl.elgin import ElginI9 as Printer
         else:
             return False
-            conn = SerialSettings.parse(self.printer_params).get_connection()
 
         printer = Printer(conn)
         printer.init()
+        _logger.info('[HW FISCAL] Impressora - Inicializada')
         return printer
 
     def _print_extrato_venda(self, xml):
         if not self.printer:
+            _logger.info('[HW FISCAL] Impressora - Falha ao executar _print_extrato_venda')
             return False
         ExtratoCFeVenda(
             io.StringIO(base64.b64decode(xml).decode('utf-8')), self.printer
         ).imprimir()
+        _logger.info('[HW FISCAL] Impressora - OK - _print_extrato_venda')
         return True
 
     def _print_extrato_cancelamento(self, xml_venda, xml_cancelamento):
