@@ -13,6 +13,8 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_PARTNER,
     FISCAL_IN_OUT_DICT,
     SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
 )
 
 
@@ -361,32 +363,58 @@ class Document(models.Model):
 
         return action
 
-    def _get_email_template(self, state):
+    def _get_email_template(self):
         self.ensure_one()
-        return self.document_type_id.document_email_ids.search(
-            [
-                "|",
-                ("state_edoc", "=", False),
-                ("state_edoc", "=", state),
-                ("issuer", "=", self.issuer),
-                "|",
-                ("document_type_id", "=", False),
-                ("document_type_id", "=", self.document_type_id.id),
-            ],
-            limit=1,
-            order="state_edoc, document_type_id",
-        ).mapped("email_template_id")
+        domain = []
+        if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
+            domain += [
+                "&",
+                ("state_autorizada", "=", self.state_edoc == SITUACAO_EDOC_AUTORIZADA),
+            ]
+        if self.state_edoc == SITUACAO_EDOC_CANCELADA:
+            domain += [
+                "&",
+                ("state_cancelada", "=", self.state_edoc == SITUACAO_EDOC_CANCELADA),
+            ]
+        if self.state_edoc == SITUACAO_EDOC_DENEGADA:
+            domain += [
+                "&",
+                ("state_denegada", "=", self.state_edoc == SITUACAO_EDOC_DENEGADA),
+            ]
 
-    def send_email(self, state):
+        domain += [
+            "&",
+            ("issuer", "=", self.issuer),
+            "|",
+            ("document_type_id", "=", False),
+            ("document_type_id", "=", self.document_type_id.id),
+        ]
+        return (
+            self.env["l10n_br_fiscal.document.email"]
+            .search(domain)
+            .mapped("email_template_id")
+        )
+
+    def send_email(self):
         self.ensure_one()
-        email_template = self._get_email_template(state)
-        if email_template:
-            email_template.send_mail(self.id)
+        if self.state_edoc not in (
+            SITUACAO_EDOC_AUTORIZADA,
+            SITUACAO_EDOC_CANCELADA,
+            SITUACAO_EDOC_DENEGADA,
+        ):
+            return
+
+        email_template_id = self._get_email_template()
+        if email_template_id:
+            partner_ids = self.partner_id.filtered("edoc_send_email")
+            partner_ids |= self.partner_id.child_ids.filtered("edoc_send_email")
+            self.message_subscribe(partner_ids=partner_ids.ids)
+            self.message_post_with_template(template_id=email_template_id.id)
 
     def _after_change_state(self, old_state, new_state):
         self.ensure_one()
         super()._after_change_state(old_state, new_state)
-        self.send_email(new_state)
+        self.send_email()
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
@@ -481,7 +509,7 @@ class Document(models.Model):
         template message loaded by default
         """
         self.ensure_one()
-        template = self._get_email_template(self.state)
+        template = self._get_email_template()
         compose_form = self.env.ref("mail.email_compose_message_wizard_form", False)
         lang = self.env.context.get("lang")
         if template and template.lang:

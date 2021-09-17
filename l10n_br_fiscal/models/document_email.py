@@ -4,7 +4,7 @@
 
 from odoo import api, fields, models
 
-from ..constants.fiscal import DOCUMENT_ISSUER, DOCUMENT_ISSUER_COMPANY, SITUACAO_EDOC
+from ..constants.fiscal import DOCUMENT_ISSUER, DOCUMENT_ISSUER_COMPANY
 
 
 class DocumentEmail(models.Model):
@@ -43,11 +43,16 @@ class DocumentEmail(models.Model):
         string="Issuer",
     )
 
-    state_edoc = fields.Selection(
-        selection=SITUACAO_EDOC,
-        string="Situação e-doc",
-        copy=False,
-        index=True,
+    state_autorizada = fields.Boolean(
+        string="Autorizada",
+    )
+
+    state_cancelada = fields.Boolean(
+        string="Cancelada",
+    )
+
+    state_denegada = fields.Boolean(
+        string="Denegada",
     )
 
     email_template_id = fields.Many2one(
@@ -59,14 +64,12 @@ class DocumentEmail(models.Model):
         "this document state change.",
     )
 
-    @api.depends("document_type_id", "state_edoc")
+    @api.depends("document_type_id")
     def _compute_name(self):
         for record in self:
             document_type = record.document_type_id.name
             if not document_type:
                 document_type = "Others Document Types"
-            if record.state_edoc:
-                record.name = document_type + " - " + record.state_edoc
 
     _sql_constraints = [
         (
