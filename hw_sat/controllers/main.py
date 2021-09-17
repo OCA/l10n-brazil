@@ -53,10 +53,10 @@ try:
     from satextrato import ExtratoCFeVenda
     from satextrato import ExtratoCFeCancelamento
     from erpbrasil.base.misc import punctuation_rm
+    from satextrato.config import carregar, padrao
 except ImportError:
     _logger.error('Odoo module hw_l10n_br_pos depends on the satcfe module')
     satcfe = None
-
 
 TAX_FRAMEWORK_SIMPLES = "1"
 TAX_FRAMEWORK_SIMPLES_EX = "2"
@@ -97,9 +97,9 @@ class Sat(Thread):
                 self.status['messages'].append(message)
 
                 if status == 'error' and message:
-                    _logger.error('SAT Error: '+message)
+                    _logger.error('SAT Error: ' + message)
                 elif status == 'disconnected' and message:
-                    _logger.warning('Disconnected SAT: '+message)
+                    _logger.warning('Disconnected SAT: ' + message)
         else:
             self.status['status'] = status
             if message:
@@ -108,9 +108,9 @@ class Sat(Thread):
                 self.status['messages'] = []
 
             if status == 'error' and message:
-                _logger.error('SAT Error: '+message)
+                _logger.error('SAT Error: ' + message)
             elif status == 'disconnected' and message:
-                _logger.warning('Disconnected SAT: '+message)
+                _logger.warning('Disconnected SAT: ' + message)
 
     def _get_device(self):
         if not self.sat_path and not self.codigo_ativacao:
@@ -160,7 +160,7 @@ class Sat(Thread):
             indRegra='A',
             NCM=punctuation_rm(item['ncm']),
             **kwargs
-            )
+        )
         produto.validar()
 
         # wdb.set_trace()
@@ -307,9 +307,9 @@ class Sat(Thread):
             # TODO: Verificar se tamanho == 14: cnpj
             kwargs['destinatario'] = Destinatario(CPF=json['client'])
         emitente = Emitente(
-                CNPJ=punctuation_rm(json['company']['cnpj']),
-                IE=punctuation_rm(json['company']['ie']),
-                indRatISSQN='N')
+            CNPJ=punctuation_rm(json['company']['cnpj']),
+            IE=punctuation_rm(json['company']['ie']),
+            indRatISSQN='N')
         emitente.validar()
         return CFeVenda(
             CNPJ=punctuation_rm(json['company']['cnpj_software_house']),
@@ -440,7 +440,23 @@ class Sat(Thread):
         else:
             return False
 
+        try:
+            self.printer_conf = carregar('/odoo/sat/satextrato.ini')
+            _logger.info('[HW FISCAL] Impressora - Carregada a configuração personalizada')
+        except:
+            self.printer_conf = padrao()
+            _logger.info('[HW FISCAL] Impressora - Carregada a configuração padrão')
+
         printer = Printer(conn)
+
+        from escpos import feature
+        printer.hardware_features.update({
+            feature.COLUMNS: feature.Columns(
+                normal=42,
+                expanded=24,
+                condensed=56)
+        })
+
         printer.init()
         _logger.info('[HW FISCAL] Impressora - Inicializada')
         return printer
@@ -450,7 +466,7 @@ class Sat(Thread):
             _logger.info('[HW FISCAL] Impressora - Falha ao executar _print_extrato_venda')
             return False
         ExtratoCFeVenda(
-            io.StringIO(base64.b64decode(xml).decode('utf-8')), self.printer
+            fp=io.StringIO(base64.b64decode(xml).decode('utf-8')), impressora=self.printer, config=self.printer_conf
         ).imprimir()
         _logger.info('[HW FISCAL] Impressora - OK - _print_extrato_venda')
         return True
@@ -462,7 +478,7 @@ class Sat(Thread):
             io.StringIO(base64.b64decode(xml_venda)),
             io.StringIO(base64.b64decode(xml_cancelamento)),
             self.printer
-            )
+        )
         extrato.imprimir()
         return True
 
@@ -471,7 +487,7 @@ class Sat(Thread):
             return self._print_extrato_cancelamento(
                 json['xml_cfe_venda'], json['xml_cfe_cacelada'])
         else:
-            return self._print_extrato_venda( json['xml_cfe_venda'])
+            return self._print_extrato_venda(json['xml_cfe_venda'])
 
     def run(self):
         self.device = None
