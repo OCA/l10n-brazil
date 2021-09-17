@@ -15,7 +15,7 @@
         'l10n_br_base',
         # 'pos_payment_term',
         # 'pos_order_picking_link',
-        'stock_picking_invoice_link',
+        # 'stock_picking_invoice_link',
         'point_of_sale',
     ],
     # "external_dependencies": {
