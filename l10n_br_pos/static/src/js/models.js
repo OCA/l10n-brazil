@@ -143,7 +143,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             result["company"] = {};
             result["configs_sat"] = {};
             result["pos_session_id"] = this.pos.pos_session.id;
-            result["client"] = null;
+            result["client"] = this.get_cnpj_cpf();
             result["company"]["cnpj"] = company.cnpj;
             result["company"]["ie"] = company.ie;
             result["company"]["cnpj_software_house"] = company.cnpj_software_house;
@@ -250,7 +250,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             result["ipi_control_seal_id"] = product.ipi_control_seal_id;
             result["ipi_guideline_class_id"] = product.ipi_guideline_class_id;
             result["nbs_id"] = product.nbs_id;
-            result["ncm"] = product_fiscal_map.ncm_code;
+            result["ncm"] = product_fiscal_map.ncm_code || '99999999';
             result["ncm_code_exception"] = product_fiscal_map.ncm_code_exception;
             result["pis_base"] = product_fiscal_map.pis_base;
             result["pis_cst_code"] = product_fiscal_map.pis_cst_code;
