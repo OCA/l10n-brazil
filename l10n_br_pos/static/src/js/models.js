@@ -143,7 +143,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             result["company"] = {};
             result["configs_sat"] = {};
             result["pos_session_id"] = this.pos.pos_session.id;
-            result["client"] = null;
+            result["client"] = this.get_cnpj_cpf();
             result["company"]["cnpj"] = company.cnpj;
             result["company"]["ie"] = company.ie;
             result["company"]["cnpj_software_house"] = company.cnpj_software_house;
