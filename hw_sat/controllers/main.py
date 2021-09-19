@@ -154,7 +154,7 @@ class Sat(Thread):
             # cEAN=str(item['product_ean']),
             xProd=item['product_name'],
             uCom=item['unit_code'],
-            CFOP=item['cfop'],
+            CFOP=str(item['cfop']),
             qCom=D(item['quantity']).quantize(FOURPLACES),
             vUnCom=D(item['price']).quantize(TWOPLACES),
             indRegra='A',
