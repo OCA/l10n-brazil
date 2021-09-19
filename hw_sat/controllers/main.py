@@ -77,9 +77,16 @@ class Sat(Thread):
         self.lock = Lock()
         self.satlock = Lock()
         self.status = {'status': 'connecting', 'messages': []}
-        self.printer = self._init_printer()
+        # self.printer = self._init_printer()
         self.device = self._get_device()
         self.assinatura = assinatura
+
+        try:
+            self.printer_conf = carregar('/odoo/sat/satextrato.ini')
+            _logger.info('[HW FISCAL] Impressora - Carregada a configuração personalizada')
+        except Exception as e:
+            self.printer_conf = padrao()
+            _logger.info('[HW FISCAL] Impressora - Carregada a configuração padrão', e)
 
     def lockedstart(self):
         with self.lock:
@@ -163,7 +170,6 @@ class Sat(Thread):
             **kwargs
         )
         produto.validar()
-
         _logger.info(produto.erros)
         # wdb.set_trace()
 
@@ -461,13 +467,6 @@ class Sat(Thread):
         else:
             return False
 
-        try:
-            self.printer_conf = carregar('/odoo/sat/satextrato.ini')
-            _logger.info('[HW FISCAL] Impressora - Carregada a configuração personalizada')
-        except:
-            self.printer_conf = padrao()
-            _logger.info('[HW FISCAL] Impressora - Carregada a configuração padrão')
-
         printer = Printer(conn)
 
         from escpos import feature
@@ -477,18 +476,22 @@ class Sat(Thread):
                 expanded=24,
                 condensed=56)
         })
-
-        printer.init()
         _logger.info('[HW FISCAL] Impressora - Inicializada')
+        printer.init()
         return printer
 
     def _print_extrato_venda(self, xml):
-        if not self.printer:
-            _logger.info('[HW FISCAL] Impressora - Falha ao executar _print_extrato_venda')
-            return False
-        ExtratoCFeVenda(
-            fp=io.StringIO(base64.b64decode(xml).decode('utf-8')), impressora=self.printer, config=self.printer_conf
-        ).imprimir()
+
+        try:
+            printer = self._init_printer()
+
+            ExtratoCFeVenda(
+                fp=io.StringIO(base64.b64decode(xml).decode('utf-8')), impressora=printer, config=self.printer_conf
+            ).imprimir()
+
+        except Exception as e:
+            _logger.info('[HW FISCAL] Impressora - Falha ao imprimir')
+            _logger.info(e)
         _logger.info('[HW FISCAL] Impressora - OK - _print_extrato_venda')
         return True
 
@@ -539,6 +542,7 @@ class SatDriver(hw_proxy.Proxy):
     @http.route('/hw_proxy/enviar_cfe_sat/', type='json', auth='none', cors='*')
     def enviar_cfe_sat(self, json):
         _logger.info(json)
+        _logger.info('enviar_cfe_sat')
         return hw_proxy.drivers['hw_fiscal'].action_call_sat('send', json)
 
     @http.route('/hw_proxy/cancelar_cfe/', type='json', auth='none', cors='*')
