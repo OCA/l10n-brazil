@@ -334,8 +334,16 @@ class Sat(Thread):
 
     def _send_cfe(self, json):
         try:
-            resposta = self.device.enviar_dados_venda(
-                self.__prepare_send_cfe(json))
+            dados_venda = self.__prepare_send_cfe(json)
+            _logger.info(dados_venda.validar())
+            _logger.info(dados_venda.documento())
+            resposta = self.device.enviar_dados_venda(dados_venda=dados_venda)
+            _logger.info(resposta.numeroSessao)
+            _logger.info(resposta.EEEEE)
+            _logger.info(resposta.CCCC)
+            _logger.info(resposta.mensagem)
+            _logger.info(resposta.cod)
+            _logger.info(resposta.mensagemSEFAZ)
             self._print_extrato_venda(resposta.arquivoCFeSAT)
             return {
                 'xml': resposta.arquivoCFeSAT,
@@ -344,10 +352,13 @@ class Sat(Thread):
             }
         except Exception as e:
             if hasattr(e, 'resposta'):
+                _logger.info(e)
                 return e.resposta.mensagem
             elif hasattr(e, 'message'):
+                _logger.info(e)
                 return e.message
             else:
+                _logger.info(e)
                 return "Erro ao validar os dados para o xml! " \
                        "Contate o suporte técnico."
 
