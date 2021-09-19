@@ -50,11 +50,11 @@ class ProductTemplate(models.Model):
     def create(self, vals):
         product_id = super().create(vals)
         if vals.get('available_in_pos'):
-            product_id.update_pos_fiscal_map(vals)
+            product_id.update_pos_fiscal_map()
         return product_id
 
     @api.multi
     def write(self, vals):
         if vals.get('available_in_pos'):
-            self.update_pos_fiscal_map(vals)
+            self.update_pos_fiscal_map()
         return super().write(vals)
