@@ -141,6 +141,7 @@ class Sat(Thread):
                     self.device = None
 
     def __prepare_send_detail_cfe(self, item):
+        _logger.info(item)
         kwargs = {}
         if item['discount']:
             kwargs['vDesc'] = D(
@@ -163,6 +164,7 @@ class Sat(Thread):
         )
         produto.validar()
 
+        _logger.info(produto.erros)
         # wdb.set_trace()
 
         icms = pis = cofins = None
@@ -258,6 +260,10 @@ class Sat(Thread):
                     pCOFINS=al_cofins_proprio,
                 )
 
+        _logger.info(icms.erros)
+        _logger.info(pis.erros)
+        _logger.info(cofins.erros)
+
         imposto = Imposto(
             vItem12741=D(item['amount_estimate_tax']).quantize(D('0.01')),
             icms=icms,
@@ -266,11 +272,15 @@ class Sat(Thread):
         )
         imposto.validar()
 
+        _logger.info(imposto.erros)
+
         detalhe = Detalhamento(
             produto=produto,
             imposto=imposto,
         )
         detalhe.validar()
+        _logger.info(detalhe.erros)
+
         return detalhe, estimated_taxes
 
     def __prepare_payment(self, json):
