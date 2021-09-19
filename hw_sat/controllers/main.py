@@ -53,9 +53,8 @@ try:
     from satextrato import ExtratoCFeVenda
     from satextrato import ExtratoCFeCancelamento
     from erpbrasil.base.misc import punctuation_rm
-    from erpbrasil.base.fiscal import validar_cpf
-    from erpbrasil.base.fiscal import validar_cnpj
-    from satextrato.config import carregar, padrao
+    from erpbrasil.base.fiscal import cnpj_cpf
+    from satextrato import config
 except ImportError:
     _logger.error('Odoo module hw_l10n_br_pos depends on the satcfe module')
     satcfe = None
@@ -84,10 +83,10 @@ class Sat(Thread):
         self.assinatura = assinatura
 
         try:
-            self.printer_conf = carregar('/odoo/sat/satextrato.ini')
+            self.printer_conf = config.carregar('/odoo/sat/satextrato.ini')
             _logger.info('[HW FISCAL] Impressora - Carregada a configuração personalizada')
         except Exception as e:
-            self.printer_conf = padrao()
+            self.printer_conf = config.padrao()
             _logger.info('[HW FISCAL] Impressora - Carregada a configuração padrão', e)
 
     def lockedstart(self):
@@ -324,9 +323,9 @@ class Sat(Thread):
         if json['client']:
             # TODO: Verificar se tamanho == 14: cnpj
             documento = str(json['client'])
-            if validar_cnpj(documento):
+            if cnpj_cpf.validar_cnpj(documento):
                 kwargs['destinatario'] = Destinatario(CNPJ=documento)
-            if validar_cpf(documento):
+            if cnpj_cpf.validar_cpf(documento):
                 kwargs['destinatario'] = Destinatario(CPF=documento)
         emitente = Emitente(
             CNPJ=punctuation_rm(json['company']['cnpj']),
@@ -547,7 +546,6 @@ class SatDriver(hw_proxy.Proxy):
 
     @http.route('/hw_proxy/enviar_cfe_sat/', type='json', auth='none', cors='*')
     def enviar_cfe_sat(self, json):
-        _logger.info(json)
         _logger.info('enviar_cfe_sat')
         return hw_proxy.drivers['hw_fiscal'].action_call_sat('send', json)
 
