@@ -53,6 +53,8 @@ try:
     from satextrato import ExtratoCFeVenda
     from satextrato import ExtratoCFeCancelamento
     from erpbrasil.base.misc import punctuation_rm
+    from erpbrasil.base.fiscal import validar_cpf
+    from erpbrasil.base.fiscal import validar_cnpj
     from satextrato.config import carregar, padrao
 except ImportError:
     _logger.error('Odoo module hw_l10n_br_pos depends on the satcfe module')
@@ -321,7 +323,11 @@ class Sat(Thread):
         kwargs = {}
         if json['client']:
             # TODO: Verificar se tamanho == 14: cnpj
-            kwargs['destinatario'] = Destinatario(CPF=json['client'])
+            documento = str(json['client'])
+            if validar_cnpj(documento):
+                kwargs['destinatario'] = Destinatario(CNPJ=documento)
+            if validar_cpf(documento):
+                kwargs['destinatario'] = Destinatario(CPF=documento)
         emitente = Emitente(
             CNPJ=punctuation_rm(json['company']['cnpj']),
             IE=punctuation_rm(json['company']['ie']),
