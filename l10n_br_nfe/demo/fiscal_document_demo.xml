@@ -12,6 +12,7 @@
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         <field name="company_number">3</field>
         <field name="document_serie">1</field>
+        <field name="nfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="user_id" ref="base.user_demo" />
@@ -113,15 +114,13 @@
             ref="l10n_br_fiscal.empresa_sn_document_55_serie_1"
         />
         <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
-        <field name="company_number">1</field>
+        <field name="document_number">1</field>
+        <field name="document_key">35200159594315000157550010000000012062777161</field>
         <field name="document_serie">1</field>
+        <field name="nfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="user_id" ref="base.user_demo" />
-        <field name="partner_legal_name">Cliente 1 SP Contribuinte</field>
-        <field name="partner_name">Cliente 1 SP</field>
-        <field name="partner_cnpj_cpf">81.493.979/0001-89</field>
-        <field name="partner_inscr_est">460.429.771.334</field>
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -183,15 +182,13 @@
             ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="company_number">1</field>
+        <field name="document_number">2</field>
         <field name="document_serie">1</field>
+        <field name="document_key">35200159594315000157550010000000022062777169</field>
+        <field name="nfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente11_sp" />
         <field name="user_id" ref="base.user_demo" />
-        <field name="partner_legal_name">Cliente 11 SP - PF Não Contribuinte</field>
-        <field name="partner_name">Cliente 11 SP - PF</field>
-        <field name="partner_cnpj_cpf">765.865.078-12</field>
-        <field name="partner_inscr_est">525.424.040.648</field>
         <field name="fiscal_operation_type">out</field>
     </record>
 
@@ -253,15 +250,13 @@
             ref="l10n_br_fiscal.empresa_lc_document_55_serie_1"
         />
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="company_number">s/n</field>
+        <field name="document_number">3</field>
         <field name="document_serie">1</field>
+        <field name="document_key">35200159594315000157550010000000032062777166</field>
+        <field name="nfe_environment">2</field>
         <field name="processador_edoc">oca</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente4_am" />
         <field name="user_id" ref="base.user_demo" />
-        <field name="partner_legal_name">Cliente 4 - Manaus</field>
-        <field name="partner_name">Cliente 4 - Z/F Manaus - Simples Nacional</field>
-        <field name="partner_cnpj_cpf">84.148.732/0001-13</field>
-        <field name="partner_inscr_est">09.569.321-1</field>
         <field name="fiscal_operation_type">out</field>
     </record>
 
