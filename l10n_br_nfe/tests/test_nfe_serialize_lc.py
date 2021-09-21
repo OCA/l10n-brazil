@@ -12,10 +12,10 @@ class TestNFeExportLC(TestNFeExport):
                 "record_id": self.env.ref(
                     "l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11"
                 ),
-                "xml_file": "NFe35210681583054000129550010000000011760018069.xml",
+                "xml_file": "NFe35200159594315000157550010000000022062777169.xml",
             },
             {
                 "record_id": self.env.ref("l10n_br_nfe.demo_nfe_natural_icms_7_resale"),
-                "xml_file": "NFe35210681583054000129550010000000021760023175.xml",
+                "xml_file": "NFe35200159594315000157550010000000032062777166.xml",
             },
         ]
