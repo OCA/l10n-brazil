@@ -35,7 +35,7 @@ def post_init_hook(cr, registry):
             "nfe",
             "v4_00",
             "leiauteNFe",
-            "35180803102452000172550010000474491454651420-nfe.xml",
+            "35180834128745000152550010000474491454651420-nfe.xml",
         )
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
