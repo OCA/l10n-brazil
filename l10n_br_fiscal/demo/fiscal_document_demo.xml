@@ -790,7 +790,7 @@
         <field name="document_serie">1</field>
         <field
             name="document_key"
-        >NFe35200497231608000169550010000000371161029083</field>
+        >35200497231608000169550010000000371161029083</field>
         <field name="partner_id" ref="l10n_br_base.res_partner_cliente1_sp" />
         <field name="user_id" ref="base.user_demo" />
         <field name="fiscal_operation_type">out</field>
