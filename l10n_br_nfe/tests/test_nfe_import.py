@@ -25,8 +25,9 @@ class NFeImportTest(SavepointCase):
             "nfe",
             "v4_00",
             "leiauteNFe",
-            "35180803102452000172550010000474281920007498-nfe.xml",
+            "35180834128745000152550010000474281920007498-nfe.xml",
         )
+
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)
 
@@ -52,7 +53,7 @@ class NFeImportTest(SavepointCase):
             "nfe",
             "v4_00",
             "leiauteNFe",
-            "35180803102452000172550010000474281920007498-nfe.xml",
+            "35180834128745000152550010000474281920007498-nfe.xml",
         )
         resource_path = "/".join(res_items)
         nfe_stream = pkg_resources.resource_stream(nfelib.__name__, resource_path)

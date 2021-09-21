@@ -12,6 +12,6 @@ class TestNFeExportSN(TestNFeExport):
                 "record_id": self.env.ref(
                     "l10n_br_nfe.demo_nfe_national_sale_for_same_state"
                 ),
-                "xml_file": "NFe35210659594315000157550010000000011392461844.xml",
+                "xml_file": "NFe35200159594315000157550010000000012062777161.xml",
             }
         ]
