@@ -275,7 +275,7 @@ class DocumentWorkflow(models.AbstractModel):
                     modelo_documento=record.document_type_id.code or "",
                     numero_documento=record.document_number or "",
                     numero_serie=record.document_serie or "",
-                    validar=True,
+                    validar=False,
                 )
                 # TODO: Implementar campos no Odoo
                 # record.key_number = chave_edoc.campos
