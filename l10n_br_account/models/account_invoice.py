@@ -111,7 +111,7 @@ class AccountInvoice(models.Model):
         """Get object lines instaces used to compute fields"""
         return self.mapped("invoice_line_ids")
 
-    @api.depends("move_id.line_ids", "move_id.state")
+    @api.depends("move_id.line_ids")
     def _compute_financial(self):
         for invoice in self:
             lines = invoice.move_id.line_ids.filtered(
