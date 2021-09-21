@@ -88,7 +88,9 @@ class ContractContract(models.Model):
             invoice.fiscal_document_id._onchange_company_id()
 
             for line in invoice.invoice_line_ids:
+                name = line.name
                 line._onchange_product_id_fiscal()
+                line.name = name
                 line.price_unit = line.contract_line_id.price_unit
                 line._onchange_fiscal_operation_id()
                 line._onchange_fiscal_tax_ids()
