@@ -316,10 +316,9 @@ class NFe(spec_models.StackedModel):
                 if record.document_type_id.code == MODELO_FISCAL_NFE:
                     record.nfe40_tpImp = record.company_id.nfe_danfe_layout
 
-                if record.document_type_id.code == MODELO_FISCAL_NFE:
+                if record.document_type_id.code == MODELO_FISCAL_NFCE:
                     record.nfe40_tpImp = record.company_id.nfce_danfe_layout
 
-    @api.multi
     @api.depends("partner_id", "company_id")
     def _compute_nfe40_idDest(self):
         for rec in self:
@@ -342,7 +341,7 @@ class NFe(spec_models.StackedModel):
     def _inverse_nfe40_Id(self):
         for record in self:
             if record.nfe40_Id:
-                record.document_key = re.findall(r"\d+", record.nfe40_Id)[0]
+                record.document_key = re.findall(r"\d+", str(record.nfe40_Id))[0]
 
     def _inverse_nfe40_tpEmis(self):
         for record in self:
@@ -354,7 +353,6 @@ class NFe(spec_models.StackedModel):
             if record.nfe40_tpImp:
                 record.danfe_layout = record.nfe40_tpImp
 
-    @api.multi
     def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
         # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
