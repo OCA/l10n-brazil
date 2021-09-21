@@ -75,7 +75,6 @@ class ResCompany(models.Model):
     @api.model
     def _prepare_create_fiscal_dummy_doc(self):
         return {
-            "document_key": "dummy",
             "document_number": "0",
             "active": False,
             "document_type_id": False,
