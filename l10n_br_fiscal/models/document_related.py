@@ -6,6 +6,12 @@ from erpbrasil.base import fiscal
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
+from ..constants.fiscal import (
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFSE,
+)
 
 class DocumentRelated(models.Model):
     _name = "l10n_br_fiscal.document.related"
@@ -50,6 +56,14 @@ class DocumentRelated(models.Model):
     inscr_est = fields.Char(string="Inscr. Estadual/RG", size=16)
 
     document_date = fields.Date(string="Data")
+
+    @api.constrains("document_key")
+    def _check_key(self):
+        for record in self:
+            if not record.document_key:
+                return
+            if record.document_type in (MODELO_FISCAL_CTE, MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE,MODELO_FISCAL_NFSE):
+                ChaveEdoc(chave=record.document_key, validar=True)
 
     @api.constrains("cnpj_cpf")
     def _check_cnpj_cpf(self):
