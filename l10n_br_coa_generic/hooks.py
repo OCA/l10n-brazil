@@ -33,5 +33,4 @@ def post_init_hook(cr, registry):
                 mode="init",
                 noupdate=True,
                 kind="init",
-                report=None,
             )
