@@ -81,6 +81,7 @@ class AccountInvoice(models.Model):
     financial_move_line_ids = fields.Many2many(
         comodel_name="account.move.line",
         string="Financial Move Lines",
+        relation="account_invoice_account_financial_move_line_rel",
         store=True,
         compute="_compute_financial",
     )
@@ -111,7 +112,7 @@ class AccountInvoice(models.Model):
         """Get object lines instaces used to compute fields"""
         return self.mapped("invoice_line_ids")
 
-    @api.depends("move_id.line_ids")
+    @api.depends("move_id.line_ids", "move_id.state")
     def _compute_financial(self):
         for invoice in self:
             lines = invoice.move_id.line_ids.filtered(
