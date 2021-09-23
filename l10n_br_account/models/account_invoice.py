@@ -81,6 +81,7 @@ class AccountInvoice(models.Model):
     financial_move_line_ids = fields.Many2many(
         comodel_name="account.move.line",
         string="Financial Move Lines",
+        relation="account_invoice_account_financial_move_line_rel",
         store=True,
         compute="_compute_financial",
     )
