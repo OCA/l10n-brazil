@@ -30,7 +30,13 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         cls.partner_01 = (
             cls.env["res.partner"]
             .with_context(tracking_disable=True)
-            .create({"name": "Partner Test 01", "zip": "29161-695"})
+            .create(
+                {
+                    "name": "Partner Test 01",
+                    "zip": "29161-695",
+                    "city_id": cls.env.ref("l10n_br_base.city_3205002").id,
+                }
+            )
         )
 
     def test_onchange(self):
@@ -41,10 +47,17 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         self.company_01._onchange_city_id()
         self.company_01._onchange_zip()
         self.company_01._onchange_state()
+        # TODO: O metodo tanto no res.partner quanto no res.company chamam
+        #  _onchange_state e aqui também deveria, porém por algum motivo
+        #  ainda desconhecido se o metodo estiver com o mesmo nome não é
+        #  chamado, por isso existe outro metodo com o final _id
+        self.company_01._onchange_state_id()
 
         self.partner_01._onchange_cnpj_cpf()
         self.partner_01._onchange_city_id()
         self.partner_01._onchange_zip()
+        self.partner_01._onchange_state()
+        self.partner_01._onchange_state_id()
 
     def test_inverse_fields(self):
         self.company_01.inscr_mun = "692015742119"
