@@ -78,8 +78,12 @@ class PartyMixin(models.AbstractModel):
     def _onchange_zip(self):
         self.zip = misc.format_zipcode(self.zip, self.country_id.code)
 
+    # TODO: O metodo tanto no res.partner quanto no res.company chamam
+    #  _onchange_state e aqui também deveria, porém por algum motivo
+    #  ainda desconhecido se o metodo estiver com o mesmo nome não é
+    #  chamado, por isso aqui está sendo adicionado o final _id
     @api.onchange("state_id")
-    def _onchange_state(self):
+    def _onchange_state_id(self):
         self.city_id = None
 
     @api.onchange("city_id")
