@@ -145,6 +145,7 @@
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1201" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2201" />
         <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3201" />
+        <field name="product_type">04</field>
         <field name="state">approved</field>
     </record>
 
@@ -157,6 +158,7 @@
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1202" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2202" />
         <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3202" />
+        <field name="product_type">00</field>
         <field name="state">approved</field>
     </record>
 
