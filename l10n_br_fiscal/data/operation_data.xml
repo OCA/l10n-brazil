@@ -171,16 +171,6 @@
         <field name="state">approved</field>
     </record>
 
-    <record id="fo_compras_compras" model="l10n_br_fiscal.operation.line">
-        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
-        <field name="name">Compras</field>
-        <field name="tax_icms_or_issqn">icms</field>
-        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1101" />
-        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2101" />
-        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3101" />
-        <field name="state">approved</field>
-    </record>
-
     <record
         id="fo_compras_compras_comercializacao"
         model="l10n_br_fiscal.operation.line"
@@ -192,6 +182,16 @@
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1102" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2102" />
         <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3102" />
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_compras_compras" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_compras" />
+        <field name="name">Compra para industrialização</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_1101" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_2101" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_3101" />
         <field name="state">approved</field>
     </record>
 
@@ -228,14 +228,50 @@
     </record>
 
     <record
+        id="fo_devolucao_compras_comercializacao"
+        model="l10n_br_fiscal.operation.line"
+    >
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_compras" />
+        <field name="name">Devolução de Compras para Comercialização</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="product_type">00</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5202" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6202" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7202" />
+        <field name="state">approved</field>
+    </record>
+
+    <record
         id="fo_devolucao_compras_devolucao_compras"
         model="l10n_br_fiscal.operation.line"
     >
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_compras" />
-        <field name="name">Devolução de Compras</field>
+        <field name="name">Devolução de Compras para industrialização</field>
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5201" />
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6201" />
         <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7201" />
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_devolucao_compras_ativo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_compras" />
+        <field name="name">Devolução de Compras de Bem para o Ativo Imobilizado</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="product_type">08</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5553" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6553" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7553" />
+        <field name="state">approved</field>
+    </record>
+
+    <record id="fo_devolucao_compras_uso_consumo" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_compras" />
+        <field name="name">Devolução de Compras para Uso e Consumo</field>
+        <field name="tax_icms_or_issqn">icms</field>
+        <field name="product_type">07</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5556" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6556" />
+        <field name="cfop_export_id" ref="l10n_br_fiscal.cfop_7556" />
         <field name="state">approved</field>
     </record>
 
