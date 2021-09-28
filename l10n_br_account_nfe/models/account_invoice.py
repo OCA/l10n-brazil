@@ -30,6 +30,7 @@ class AccountInvoice(models.Model):
         for inv in self.filtered(filter_processador_edoc_nfe):
             if inv.amount_financial_total > 0:
                 self.generate_payment_info(inv)
+                self.generate_cobranca_info(inv)
 
     def generate_payment_info(self, inv):
         if not inv.payment_mode_id.fiscal_payment_mode:
@@ -52,3 +53,39 @@ class AccountInvoice(models.Model):
                 ),
             ),
         ]
+
+    def generate_cobranca_info(self, inv):
+
+        fat_id = self.env["nfe.40.fat"].create(
+            {
+                "nfe40_nFat": inv.number,
+                "nfe40_vOrig": inv.amount_financial_total_gross,
+                "nfe40_vDesc": inv.amount_financial_discount_value,
+                "nfe40_vLiq": inv.amount_financial_total,
+            }
+        )
+
+        duplicatas = self.env["nfe.40.dup"]
+        count = 1
+        for mov in inv.financial_move_line_ids:
+            duplicatas += duplicatas.create(
+                {
+                    "nfe40_nDup": str(count).zfill(3),
+                    "nfe40_dVenc": mov.date_maturity,
+                    "nfe40_vDup": mov.debit,
+                }
+            )
+            count += 1
+
+        cobr_id = self.env["nfe.40.cobr"].create(
+            {
+                "nfe40_fat": fat_id.id,
+                "nfe40_dup": [(6, 0, duplicatas.ids)],
+            }
+        )
+
+        inv.update(
+            {
+                "nfe40_cobr": cobr_id.id,
+            }
+        )
