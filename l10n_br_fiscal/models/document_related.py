@@ -13,6 +13,7 @@ from ..constants.fiscal import (
     MODELO_FISCAL_NFSE,
 )
 
+
 class DocumentRelated(models.Model):
     _name = "l10n_br_fiscal.document.related"
     _description = "Fiscal Document Related"
@@ -62,7 +63,12 @@ class DocumentRelated(models.Model):
         for record in self:
             if not record.document_key:
                 return
-            if record.document_type in (MODELO_FISCAL_CTE, MODELO_FISCAL_NFCE, MODELO_FISCAL_NFE,MODELO_FISCAL_NFSE):
+            if record.document_type in (
+                MODELO_FISCAL_CTE,
+                MODELO_FISCAL_NFCE,
+                MODELO_FISCAL_NFE,
+                MODELO_FISCAL_NFSE,
+            ):
                 ChaveEdoc(chave=record.document_key, validar=True)
 
     @api.constrains("cnpj_cpf")
