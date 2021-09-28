@@ -148,8 +148,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 and (not record.cfop_id or record.cfop_id.finance_move)
             ):
                 record.financial_total = record.amount_taxed
+                record.financial_total_gross = (
+                    record.financial_total + record.discount_value
+                )
+                record.financial_discount_value = record.discount_value
             else:
-                record.financial_total = 0.0
+                record.financial_total_gross = record.financial_total = 0.0
 
     def _compute_taxes(self, taxes, cst=None):
         self.ensure_one()
