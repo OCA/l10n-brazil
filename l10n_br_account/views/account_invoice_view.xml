@@ -155,14 +155,6 @@
             <field name="amount_tax" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding" />
             </field>
-            <notebook position="inside">
-                <page string="Receivable" name="financial_move_line_ids">
-                    <field name="financial_move_line_ids" />
-                </page>
-                <page string="Payments" name="payment_ids">
-                    <field name="payment_ids" />
-                </page>
-            </notebook>
         </field>
     </record>
 
@@ -265,14 +257,6 @@
             <field name="amount_tax" position="after">
                 <field string="(-) Tax Withholding" name="amount_tax_withholding" />
             </field>
-            <notebook position="inside">
-                <page string="Payable" name="financial_move_line_ids">
-                    <field name="financial_move_line_ids" />
-                </page>
-                <page string="Payments" name="payment_ids">
-                    <field name="payment_ids" />
-                </page>
-            </notebook>
         </field>
     </record>
 
