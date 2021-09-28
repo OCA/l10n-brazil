@@ -482,6 +482,8 @@
                     <field name="amount_total" />
                     <field name="amount_tax_withholding" />
                     <field name="amount_financial_total" />
+                    <field name="amount_financial_total_gross" />
+                    <field name="amount_financial_discount_value" />
                   </group>
                 </group>
               </group>
