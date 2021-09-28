@@ -13,15 +13,6 @@ from ..constants import BR_CODES_PAYMENT_ORDER
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    @api.depends("move_id.line_ids", "move_id.state")
-    def _compute_financial(self):
-        for invoice in self:
-            lines = invoice.move_id.line_ids.filtered(
-                lambda l: l.account_id == invoice.account_id
-                and l.account_id.internal_type in ("receivable", "payable")
-            )
-            invoice.financial_move_line_ids = lines.sorted()
-
     eval_payment_mode_instructions = fields.Text(
         string="Instruções de Cobrança do Modo de Pagamento",
         related="payment_mode_id.instructions",
@@ -40,15 +31,6 @@ class AccountInvoice(models.Model):
     #     store=True,
     #     index=True,
     # )
-
-    # TODO: Campo duplicado em l10n_br_account, para não ter dependencia direta
-    #  do modulo, aguardando separação l10n_br_account e l10n_br_account_fiscal
-    financial_move_line_ids = fields.Many2many(
-        comodel_name="account.move.line",
-        string="Financial Move Lines",
-        store=True,
-        compute="_compute_financial",
-    )
 
     @api.onchange("payment_mode_id")
     def _onchange_payment_mode_id(self):
