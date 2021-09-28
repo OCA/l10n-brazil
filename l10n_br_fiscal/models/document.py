@@ -3,6 +3,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from ast import literal_eval
+
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
 from odoo import _, api, fields, models
@@ -13,14 +14,14 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
     FISCAL_IN_OUT_DICT,
-    SITUACAO_EDOC_AUTORIZADA,
-    SITUACAO_EDOC_CANCELADA,
-    SITUACAO_EDOC_DENEGADA,
-    SITUACAO_EDOC_INUTILIZADA,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     MODELO_FISCAL_NFSE,
+    SITUACAO_EDOC_AUTORIZADA,
+    SITUACAO_EDOC_CANCELADA,
+    SITUACAO_EDOC_DENEGADA,
+    SITUACAO_EDOC_INUTILIZADA,
 )
 
 
@@ -237,13 +238,15 @@ class Document(models.Model):
                     ("company_id", "=", record.company_id.id),
                     ("issuer", "=", record.issuer),
                     ("document_key", "=", record.document_key),
-                    ("document_type", "in",
+                    (
+                        "document_type",
+                        "in",
                         (
                             MODELO_FISCAL_CTE,
                             MODELO_FISCAL_NFCE,
                             MODELO_FISCAL_NFE,
-                            MODELO_FISCAL_NFSE
-                        )
+                            MODELO_FISCAL_NFSE,
+                        ),
                     ),
                 ]
             )
