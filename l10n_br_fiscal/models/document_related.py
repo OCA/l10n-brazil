@@ -2,6 +2,7 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from erpbrasil.base import fiscal
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
