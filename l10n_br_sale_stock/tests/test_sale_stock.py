@@ -133,6 +133,7 @@ class TestSaleStock(SavepointCase):
             "price_gross",
             "amount_taxed",
             "financial_total",
+            "financial_total_gross",
             "fiscal_price",
             "amount_fiscal",
             "price_unit",
