@@ -314,6 +314,16 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute="_compute_amount",
     )
 
+    amount_financial_total_gross = fields.Monetary(
+        string="Amount Financial Gross",
+        compute="_compute_amounts",
+    )
+
+    amount_financial_discount_value = fields.Monetary(
+        string="Financial Discount Value",
+        compute="_compute_amounts",
+    )
+
     amount_insurance_value = fields.Monetary(
         string="Insurance Value",
         compute="_compute_amount",
