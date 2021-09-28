@@ -78,14 +78,6 @@ class AccountInvoice(models.Model):
         related="partner_id.inscr_est",
     )
 
-    financial_move_line_ids = fields.Many2many(
-        comodel_name="account.move.line",
-        string="Financial Move Lines",
-        relation="account_invoice_account_financial_move_line_rel",
-        store=True,
-        compute="_compute_financial",
-    )
-
     document_electronic = fields.Boolean(
         related="document_type_id.electronic",
         string="Electronic?",
@@ -111,15 +103,6 @@ class AccountInvoice(models.Model):
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("invoice_line_ids")
-
-    @api.depends("move_id.line_ids", "move_id.state")
-    def _compute_financial(self):
-        for invoice in self:
-            lines = invoice.move_id.line_ids.filtered(
-                lambda l: l.account_id == invoice.account_id
-                and l.account_id.internal_type in ("receivable", "payable")
-            )
-            invoice.financial_move_line_ids = lines.sorted()
 
     @api.model
     def _shadowed_fields(self):
