@@ -102,10 +102,23 @@ class TestGeneratePaymentInfo(TransactionCase):
         self.line._onchange_fiscal_operation_line_id()
         self.line._onchange_fiscal_taxes()
 
-    def test_generate_payment_info(self):
         self.invoice.action_invoice_open()
+
+    def test_generate_payment_info(self):
 
         for detPag in self.invoice.nfe40_detPag:
             self.assertEqual(detPag.nfe40_indPag, "1", "Error in nfe40_indPag field.")
             self.assertEqual(detPag.nfe40_tPag, "18", "Error in nfe40_tPag field.")
             self.assertEqual(detPag.nfe40_vPag, 472.5, "Error in nfe40_vPag field.")
+
+    def test_generate_cobr_info(self):
+        self.assertEqual(
+            self.invoice.nfe40_cobr.nfe40_fat.nfe40_nFat, self.invoice.number
+        )
+        self.assertEqual(self.invoice.nfe40_cobr.nfe40_fat.nfe40_vOrig, 472.5)
+        self.assertEqual(self.invoice.nfe40_cobr.nfe40_fat.nfe40_vDesc, 0.0)
+        self.assertEqual(self.invoice.nfe40_cobr.nfe40_fat.nfe40_vLiq, 472.5)
+        self.assertEqual(self.invoice.nfe40_cobr.nfe40_dup[0].nfe40_nDup, "001")
+        venc = self.invoice.financial_move_line_ids[0].date_maturity
+        self.assertEqual(self.invoice.nfe40_cobr.nfe40_dup[0].nfe40_dVenc, venc)
+        self.assertEqual(self.invoice.nfe40_cobr.nfe40_dup[0].nfe40_vDup, 472.5)
