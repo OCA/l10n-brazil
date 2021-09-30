@@ -78,6 +78,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [l10n_br_account](l10n_br_account/) | 12.0.9.0.1 |  | Brazilian Localization Account
 [l10n_br_account_bank_statement_import_cnab](l10n_br_account_bank_statement_import_cnab/) | 12.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Importação de Extrato Bancário CNAB 240 - Segmento E
+[l10n_br_account_due_list](l10n_br_account_due_list/) | 12.0.1.0.0 |  | Brazilian Account Due List
 [l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 12.0.2.0.0 |  | L10n Br Account Payment BRCobranca
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.4.0.0 |  | Brazilian Payment Order
 [l10n_br_base](l10n_br_base/) | 12.0.3.2.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
