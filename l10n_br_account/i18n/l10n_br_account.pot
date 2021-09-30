@@ -190,7 +190,7 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:529
+#: code:addons/l10n_br_account/models/account_invoice.py:512
 #, python-format
 msgid "Document without Return Fiscal Operation! \n"
 " Force one!"
@@ -209,11 +209,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_line_form
 msgid "Extra Info"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__financial_move_line_ids
-msgid "Financial Move Lines"
 msgstr ""
 
 #. module: l10n_br_account
@@ -386,7 +381,7 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:546
+#: code:addons/l10n_br_account/models/account_invoice.py:529
 #, python-format
 msgid "Line without Return Fiscal Operation! \n"
 "\n"
@@ -482,17 +477,6 @@ msgid "Partner"
 msgstr ""
 
 #. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_supplier_form
-msgid "Payable"
-msgstr ""
-
-#. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_supplier_form
-msgid "Payments"
-msgstr ""
-
-#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_product_view_account_invoice_report_search
 msgid "Product Fiscal Type"
 msgstr ""
@@ -510,11 +494,6 @@ msgstr ""
 #. module: l10n_br_account
 #: selection:account.invoice.report,fiscal_type:0
 msgid "Produto em Processo"
-msgstr ""
-
-#. module: l10n_br_account
-#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_form
-msgid "Receivable"
 msgstr ""
 
 #. module: l10n_br_account
@@ -620,7 +599,7 @@ msgid "You can find a contact by its Name, TIN, Email or Internal Reference."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:433
+#: code:addons/l10n_br_account/models/account_invoice.py:416
 #, python-format
 msgid "You can't set this document number: {} to draft because this document is cancelled in SEFAZ"
 msgstr ""
