@@ -1706,11 +1706,6 @@ msgid "Favorecido"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_invoice__financial_move_line_ids
-msgid "Financial Move Lines"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_data_abstract__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_mov_instruction_code__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_return_log__message_follower_ids
