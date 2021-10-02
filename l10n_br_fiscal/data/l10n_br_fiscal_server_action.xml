@@ -6,7 +6,7 @@
         <field name="model_id" ref="model_l10n_br_fiscal_ncm" />
         <field name="binding_model_id" ref="model_l10n_br_fiscal_ncm" />
         <field name="state">code</field>
-        <field name="code">records.get_ibpt()</field>
+        <field name="code">records.action_ibpt_inquiry()</field>
     </record>
 
     <record id="nbs_get_get_ibpt_action" model="ir.actions.server">
@@ -14,7 +14,7 @@
         <field name="model_id" ref="model_l10n_br_fiscal_nbs" />
         <field name="binding_model_id" ref="model_l10n_br_fiscal_nbs" />
         <field name="state">code</field>
-        <field name="code">records.get_ibpt()</field>
+        <field name="code">records.action_ibpt_inquiry()</field>
     </record>
 
 </odoo>
