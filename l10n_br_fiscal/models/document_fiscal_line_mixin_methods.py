@@ -117,6 +117,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     )
     def _compute_amounts(self):
         for record in self:
+            record._update_taxes()
             round_curr = record.currency_id.round
             # Valor dos produtos
             record.price_gross = round_curr(record.price_unit * record.quantity)
