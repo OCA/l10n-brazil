@@ -604,6 +604,14 @@ class TestFiscalDocumentGeneric(SavepointCase):
         for line in self.nfe_sn_same_state.line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
+
+            # set fake estimate tax
+            line.ncm_id.write(
+                {
+                    "estimate_tax_national": 33.00,
+                }
+            )
+
             line._onchange_ncm_id()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_operation_line_id()
@@ -699,6 +707,9 @@ class TestFiscalDocumentGeneric(SavepointCase):
                 " from COFINS Simples Nacional for Venda de"
                 " Simples Nacional Fora do Estado.",
             )
+
+        # ESTIMATE TAXES
+        self.assertEqual(self.nfe_sn_same_state.amount_estimate_tax, 1308.45)
 
     def test_nfe_sn_other_state(self):
         """ Test NFe SN other state. """
