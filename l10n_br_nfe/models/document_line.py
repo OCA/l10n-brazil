@@ -175,7 +175,7 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_vTotTrib = fields.Monetary(
-        related="amount_estimate_tax",
+        related="estimate_tax",
     )
 
     nfe40_PISAliq = fields.Many2one(
