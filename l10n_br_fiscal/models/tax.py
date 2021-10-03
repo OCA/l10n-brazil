@@ -692,7 +692,7 @@ class Tax(models.Model):
             "amount_included": 0.00,
             "amount_not_included": 0.00,
             "amount_withholding": 0.00,
-            "amount_estimate_tax": 0.00,
+            "estimate_tax": 0.00,
             "taxes": {},
         }
         taxes = {}
@@ -730,7 +730,7 @@ class Tax(models.Model):
                 continue
 
         # Estimate taxes
-        result_amounts["amount_estimate_tax"] = self._compute_estimate_taxes(**kwargs)
+        result_amounts["estimate_tax"] = self._compute_estimate_taxes(**kwargs)
         result_amounts["taxes"] = taxes
         return result_amounts
 
