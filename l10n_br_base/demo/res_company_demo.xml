@@ -4,7 +4,7 @@
     <record id="base.main_partner" model="res.partner">
         <field name="name">Sua Empresa</field>
         <field name="legal_name">Sua Empresa Ltda</field>
-        <field name="street">Avenida Paulista</field>
+        <field name="street_name">Avenida Paulista</field>
         <field name="street_number">1</field>
         <field name="city_id" ref="l10n_br_base.city_3550308" />
         <field name="zip">01311-000</field>
@@ -28,7 +28,7 @@
     <record id="lucro_presumido_partner" model="res.partner">
         <field name="name">Empresa Lucro Presumido</field>
         <field name="legal_name">Empresa Lucro Presumido Ltda</field>
-        <field name="street">Avenida Paulista</field>
+        <field name="street_name">Avenida Paulista</field>
         <field name="street_number">1</field>
         <field name="district">Bela Vista</field>
         <field name="state_id" ref="base.state_br_sp" />
@@ -54,7 +54,7 @@
     <record id="simples_nacional_partner" model="res.partner">
         <field name="name">TESTE - Simples Nacional</field>
         <field name="company_name">TESTE - Simples Nacional</field>
-        <field name="street">Rua Paulo Dias</field>
+        <field name="street_name">Rua Paulo Dias</field>
         <field name="street_number">586</field>
         <field name="city_id" ref="l10n_br_base.city_3501152" />
         <field name="zip">18125-000</field>
