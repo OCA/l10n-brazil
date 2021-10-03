@@ -15,7 +15,7 @@
                         class="o_address_zip"
                     />
                     <field
-                        name="street"
+                        name="street_name"
                         placeholder="Street..."
                         class="o_address_street"
                     />
