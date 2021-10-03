@@ -130,8 +130,6 @@ class AccountInvoiceLine(models.Model):
         """Compute the amounts of the SO line."""
         super()._compute_price()
         if self.document_type_id:
-            # Update taxes fields
-            self._update_taxes()
             # Call mixin compute method
             self._compute_amounts()
             # Update record
