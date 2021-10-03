@@ -76,7 +76,7 @@
                 <field name="amount_untaxed" />
                 <field name="amount_fiscal" />
                 <field name="amount_tax" />
-                <field name="amount_estimate_tax" />
+                <field name="estimate_tax" />
               </group>
               <group>
                 <field name="amount_total" />
