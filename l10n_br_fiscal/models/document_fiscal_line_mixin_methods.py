@@ -249,7 +249,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 "amount_not_included", 0.0
             )
             line.amount_tax_withholding = compute_result.get("amount_withholding", 0.0)
-            line.amount_estimate_tax = compute_result.get("amount_estimate_tax", 0.0)
+            line.estimate_tax = compute_result.get("estimate_tax", 0.0)
             for tax in line.fiscal_tax_ids:
                 computed_tax = computed_taxes.get(tax.tax_domain, {})
                 if hasattr(line, "%s_tax_id" % (tax.tax_domain,)):
