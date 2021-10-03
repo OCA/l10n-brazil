@@ -8,7 +8,7 @@
         <field name="name">Transportadora - Teste</field>
         <field name="legal_name">Transportadora - Teste</field>
         <field name="cnpj_cpf">21.221.265/0001-90</field>
-        <field name="street">Estrada do Caminho Velho</field>
+        <field name="street_name">Estrada do Caminho Velho</field>
         <field name="street_number">1</field>
         <field name="district">Jardim Nova Cidade</field>
         <field name="street2"></field>
