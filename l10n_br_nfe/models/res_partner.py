@@ -49,7 +49,7 @@ class ResPartner(spec_models.SpecModel):
         compute="_compute_nfe_data", inverse="_inverse_nfe40_CPF", store=True
     )
     nfe40_xLgr = fields.Char(related="street", readonly=False)
-    nfe40_nro = fields.Char(related="street_number", readonly=False)
+    nfe40_nro = fields.Char(related="street_number", readonly=True)
     nfe40_xCpl = fields.Char(related="street2", readonly=False)
     nfe40_xBairro = fields.Char(related="district", readonly=False)
     nfe40_cMun = fields.Char(related="city_id.ibge_code", readonly=True)
