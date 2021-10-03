@@ -17,7 +17,7 @@
         <field name="name">Demo Simples</field>
         <field name="company_id" eval="None" />
         <field name="company_name">Empresa Simples</field>
-        <field name="street">Rua Paulo Dias</field>
+        <field name="street_name">Rua Paulo Dias</field>
         <field name="street_number">586</field>
         <field name="city_id" ref="l10n_br_base.city_3501152" />
         <field name="zip">18125-000</field>
@@ -30,7 +30,7 @@
         <field name="name">Demo Presumido</field>
         <field name="company_id" eval="None" />
         <field name="company_name">Empresa Lucro Presumido</field>
-        <field name="street">AV Paulista</field>
+        <field name="street_name">AV Paulista</field>
         <field name="street_number">1001</field>
         <field name="city_id" ref="l10n_br_base.city_3501152" />
         <field name="zip">18125-000</field>
