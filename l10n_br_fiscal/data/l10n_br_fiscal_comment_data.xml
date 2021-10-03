@@ -11,7 +11,7 @@
         <field name="name">Total estimado dos impostos</field>
         <field
             name="comment"
-        >Val Aprox Tributos Federal ${format_amount(doc.amount_tax)}</field>
+        >Valor Aprox. dos Tributos: ${format_amount(item.estimate_tax)}</field>
         <field name="comment_type">fiscal</field>
         <field name="object">l10n_br_fiscal.document.line.mixin</field>
     </record>
