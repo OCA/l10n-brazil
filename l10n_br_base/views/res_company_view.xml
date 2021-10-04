@@ -27,6 +27,20 @@
                     </tree>
                 </field>
             </field>
+            <!-- TODO: Na v12 era desnecessario incluir o codigo abaixo para
+                  tornar invisivel o campo City/Char e incluir City_id/m2o,
+                  teria outra forma de fazer isso? -->
+            <field name="state_id" position="after">
+                <field
+                    name="city_id"
+                    class="o_address_city"
+                    placeholder="City"
+                    options='{"no_open": True}'
+                />
+            </field>
+            <field name="city" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
         </field>
     </record>
 
