@@ -122,16 +122,14 @@ class Company(models.Model):
     def _fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
-        res = super(Company, self)._fields_view_get(
-            view_id, view_type, toolbar, submenu
-        )
+        res = super()._fields_view_get(view_id, view_type, toolbar, submenu)
         if view_type == "form":
             res["arch"] = self._fields_view_get_address(res["arch"])
         return res
 
     def write(self, values):
         try:
-            result = super(Company, self).write(values)
+            result = super().write(values)
         except Exception as e:
             if not config["without_demo"] and values.get("currency_id"):
                 # required for demo installation
