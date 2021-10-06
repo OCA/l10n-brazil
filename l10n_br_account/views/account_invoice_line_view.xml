@@ -79,6 +79,7 @@
                             <field name="freight_value" />
                             <field name="insurance_value" />
                             <field name="other_value" />
+                            <field name="estimate_tax" invisible="1" />
                         </group>
                     </page>
                     <page name="fiscal_line_extra_info" string="Extra Info" />
