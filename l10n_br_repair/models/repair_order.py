@@ -110,7 +110,7 @@ class RepairOrder(models.Model):
         lines += [lin for lin in self.mapped("fees_lines")]
         return lines
 
-    @api.depends("operations.price_total", "fees_lines.price_total")
+    @api.depends("operations", "fees_lines")
     def _compute_amount(self):
         super()._compute_amount()
 
