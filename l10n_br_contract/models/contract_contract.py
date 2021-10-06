@@ -67,12 +67,14 @@ class ContractContract(models.Model):
         string="Comments",
     )
 
-    @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("contract_line_ids")
 
-    @api.multi
+    @api.depends("contract_line_ids")
+    def _compute_amount(self):
+        super()._compute_amount()
+
     def _prepare_invoice(self, date_invoice, journal=None):
         self.ensure_one()
         invoice_vals = self._prepare_br_fiscal_dict()
@@ -97,7 +99,6 @@ class ContractContract(models.Model):
 
             invoice._onchange_invoice_line_ids()
 
-    @api.multi
     def _prepare_recurring_invoices_values(self, date_ref=False):
         """
         Overwrite contract method to verify and create invoices according to
@@ -158,7 +159,6 @@ class ContractContract(models.Model):
 
         return inv_ids
 
-    @api.multi
     def recurring_create_invoice(self):
         """
         override the contract method to allow posting for more than one invoice
