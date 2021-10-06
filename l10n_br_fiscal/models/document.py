@@ -347,6 +347,10 @@ class Document(models.Model):
         for r in self:
             r.name = r._compute_document_name()
 
+    @api.depends("line_ids")
+    def _compute_amount(self):
+        super()._compute_amount()
+
     @api.model
     def create(self, values):
         if not values.get("document_date"):
