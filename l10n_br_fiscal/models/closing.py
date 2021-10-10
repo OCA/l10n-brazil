@@ -100,6 +100,8 @@ class FiscalClosing(models.Model):
 
     group_folder = fields.Boolean(string="Group documents")
 
+    include_pdf_file = fields.Boolean(string="Include PDF files")
+
     raiz = fields.Char(string="Folder structure path", default=False)
 
     document_nfe_ids = fields.One2many(
@@ -274,7 +276,8 @@ class FiscalClosing(models.Model):
             attachment_ids = document.authorization_event_id.mapped("file_response_id")
             attachment_ids |= document.cancel_event_id.mapped("file_response_id")
             attachment_ids |= document.correction_event_ids.mapped("file_response_id")
-            attachment_ids |= document.file_report_id
+            if self.include_pdf_file:
+                attachment_ids |= document.file_report_id
 
             if self.export_type == "period":
                 document.close_id = self.id
