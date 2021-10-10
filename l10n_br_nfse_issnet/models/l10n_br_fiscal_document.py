@@ -384,6 +384,8 @@ class Document(models.Model):
                     record._change_state(SITUACAO_EDOC_AUTORIZADA)
 
             record.write(vals)
+            if record.status_code == '4':
+                record.make_pdf()
         return
 
     def _exec_before_SITUACAO_EDOC_CANCELADA(self, old_state, new_state):
