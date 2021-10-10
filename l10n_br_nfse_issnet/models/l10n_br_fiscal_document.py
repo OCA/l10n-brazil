@@ -307,6 +307,7 @@ class Document(models.Model):
                         file_response_xml=processo.retorno)
                     if record.state_edoc != 'autorizada':
                         record._change_state(SITUACAO_EDOC_AUTORIZADA)
+                        record.make_pdf()
 
                     return _(consulta[0])
             return consulta
