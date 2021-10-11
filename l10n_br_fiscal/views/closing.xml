@@ -13,7 +13,7 @@
                 <field name="month" />
                 <field name="year" />
                 <field name="export_type" />
-                <field name="include_pdf_file"/>
+                <field name="include_pdf_file" />
             </tree>
         </field>
     </record>
