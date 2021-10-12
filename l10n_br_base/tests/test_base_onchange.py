@@ -102,7 +102,9 @@ class L10nBrBaseOnchangeTest(SavepointCase):
         display_address = partner._display_address()
         self.assertEqual(
             display_address,
-            "\n\nJonesboro AR 72401" "\nUnited States",
+            "Cliente Exterior\n3404  Edgewood"
+            " Road\n\nJonesboro"
+            " AR 72401\nUnited States",
             "The function _display_address for other country failed.",
         )
 
