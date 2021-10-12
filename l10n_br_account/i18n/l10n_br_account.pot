@@ -164,6 +164,11 @@ msgid "Credit Note"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__deductible_taxes
+msgid "Deductible Taxes"
+msgstr ""
+
+#. module: l10n_br_account
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_form
 msgid "Devolver"
 msgstr ""
@@ -190,7 +195,7 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:527
+#: code:addons/l10n_br_account/models/account_invoice.py:565
 #, python-format
 msgid "Document without Return Fiscal Operation! \n"
 " Force one!"
@@ -268,6 +273,7 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_tax
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_tax_id
 msgid "Fiscal Tax"
 msgstr ""
 
@@ -277,6 +283,7 @@ msgid "Fiscal Tax Group"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__fiscal_tax_ids
 msgid "Fiscal Taxes"
@@ -381,7 +388,7 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:544
+#: code:addons/l10n_br_account/models/account_invoice.py:582
 #, python-format
 msgid "Line without Return Fiscal Operation! \n"
 "\n"
@@ -594,12 +601,23 @@ msgid "Voltar para Digitação"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__wh_move_line_id
+msgid "WH Account Move Line"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_invoice_line__partner_id
 msgid "You can find a contact by its Name, TIN, Email or Internal Reference."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:431
+#: code:addons/l10n_br_account/models/account_invoice_line.py:241
+#, python-format
+msgid "You can't edit one invoice related a withholding entry"
+msgstr ""
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/account_invoice.py:469
 #, python-format
 msgid "You can't set this document number: {} to draft because this document is cancelled in SEFAZ"
 msgstr ""
