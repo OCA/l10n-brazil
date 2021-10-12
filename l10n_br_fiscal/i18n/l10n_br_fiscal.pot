@@ -864,6 +864,12 @@ msgid "Amount Tax"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_tax_included
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__amount_tax_included
+msgid "Amount Tax Included"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_tax_withholding
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_tax_withholding
 msgid "Amount Tax Withholding"
@@ -1103,6 +1109,9 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_anonimo
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_ministerio_fazenda
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_prefeitura_municipal
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_previdencia_social
 msgid "Brazil"
 msgstr ""
 
@@ -2961,6 +2970,11 @@ msgstr ""
 #: selection:l10n_br_fiscal.tax.definition,state:0
 #, python-format
 msgid "Draft"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__wh_due_day
+msgid "Due Day"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8537,7 +8551,7 @@ msgid "Tax Group"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_group.py:69
+#: code:addons/l10n_br_fiscal/models/tax_group.py:78
 #: sql_constraint:l10n_br_fiscal.tax.group:0
 #, python-format
 msgid "Tax Group already exists with this name !"
@@ -9134,6 +9148,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.dfe_manifestacao_tree
 msgid "WARNING - When saving the XML of a document, you will be informing the corresponding manifest about the issue. Do you wish to continue?"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__partner_id
+msgid "WH Partner"
 msgstr ""
 
 #. module: l10n_br_fiscal
