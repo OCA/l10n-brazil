@@ -1830,8 +1830,8 @@ msgid "Check if the contact is a company, otherwise it is a person"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/closing.py:270
-#: code:addons/l10n_br_fiscal/models/closing.py:290
+#: code:addons/l10n_br_fiscal/models/closing.py:272
+#: code:addons/l10n_br_fiscal/models/closing.py:294
 #, python-format
 msgid "Check write permissions in your system temp folder"
 msgstr ""
@@ -3097,10 +3097,10 @@ msgid "Error in the request: {}"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/closing.py:267
-#: code:addons/l10n_br_fiscal/models/closing.py:270
-#: code:addons/l10n_br_fiscal/models/closing.py:287
-#: code:addons/l10n_br_fiscal/models/closing.py:290
+#: code:addons/l10n_br_fiscal/models/closing.py:269
+#: code:addons/l10n_br_fiscal/models/closing.py:272
+#: code:addons/l10n_br_fiscal/models/closing.py:291
+#: code:addons/l10n_br_fiscal/models/closing.py:294
 #, python-format
 msgid "Error!"
 msgstr ""
@@ -3868,8 +3868,8 @@ msgid "House Number"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/closing.py:267
-#: code:addons/l10n_br_fiscal/models/closing.py:287
+#: code:addons/l10n_br_fiscal/models/closing.py:269
+#: code:addons/l10n_br_fiscal/models/closing.py:291
 #, python-format
 msgid "I/O Error"
 msgstr ""
@@ -5368,6 +5368,11 @@ msgstr ""
 #: selection:l10n_br_fiscal.tax.definition,type_in_out:0
 #, python-format
 msgid "In"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__include_pdf_file
+msgid "Include PDF files"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7762,7 +7767,7 @@ msgid "Remove ICMS value from Base"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/closing.py:294
+#: code:addons/l10n_br_fiscal/models/closing.py:298
 #, python-format
 msgid "Replication failed: document attachments [id =% s] is not present in the database."
 msgstr ""
