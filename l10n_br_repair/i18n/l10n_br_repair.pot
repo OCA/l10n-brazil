@@ -150,6 +150,11 @@ msgid "Amount Tax"
 msgstr ""
 
 #. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_included
+msgid "Amount Tax Included"
+msgstr ""
+
+#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_tax_not_included
 msgid "Amount Tax not Included"
 msgstr ""
