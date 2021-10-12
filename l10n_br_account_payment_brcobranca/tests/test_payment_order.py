@@ -701,6 +701,7 @@ class TestPaymentOrder(SavepointCase):
             [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
         )
         # Open payment order
+        payment_order.action_cancel()
         payment_order.draft2open()
 
         # Verifica se deve testar com o mock
