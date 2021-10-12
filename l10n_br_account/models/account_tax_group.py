@@ -11,3 +11,14 @@ class AccountTaxGroup(models.Model):
         comodel_name="l10n_br_fiscal.tax.group",
         string="Fiscal Tax Group",
     )
+
+    def deductible_tax(self, type_tax_use="sale"):
+        return self.env["account.tax"].search(
+            [
+                ("type_tax_use", "=", type_tax_use),
+                ("tax_group_id", "=", self.id),
+                ("deductible", "=", True),
+                ("company_id", "=", self.env.user.company_id.id),
+            ],
+            limit=1,
+        )
