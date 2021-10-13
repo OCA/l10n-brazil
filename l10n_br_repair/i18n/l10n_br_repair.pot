@@ -125,11 +125,6 @@ msgid "Allow Amount Discount on Repair Orders"
 msgstr ""
 
 #. module: l10n_br_repair
-#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__amount_estimate_tax
-msgid "Amount Estimate Tax"
-msgstr ""
-
-#. module: l10n_br_repair
 #: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__financial_total
 msgid "Amount Financial"
 msgstr ""
@@ -488,6 +483,11 @@ msgstr ""
 #. module: l10n_br_repair
 #: selection:l10n_br_repair.fiscal.line.mixin,fiscal_type:0
 msgid "Embalagem"
+msgstr ""
+
+#. module: l10n_br_repair
+#: model:ir.model.fields,field_description:l10n_br_repair.field_l10n_br_repair_fiscal_line_mixin__estimate_tax
+msgid "Estimate Tax"
 msgstr ""
 
 #. module: l10n_br_repair
