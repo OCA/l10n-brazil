@@ -64,7 +64,7 @@ class DocumentRelated(models.Model):
         for record in self:
             if not record.document_key:
                 return
-            if record.document_type in (
+            if record.document_type_id.code in (
                 MODELO_FISCAL_CTE,
                 MODELO_FISCAL_NFCE,
                 MODELO_FISCAL_NFE,
