@@ -314,7 +314,7 @@ class SaleOrder(models.Model):
             # Identify how many Document Types exist
             for inv_line in invoice_created_by_super.invoice_line_ids:
 
-                if inv_line.display_type:
+                if inv_line.display_type or not inv_line.fiscal_operation_line_id:
                     continue
 
                 fiscal_document_type = (
