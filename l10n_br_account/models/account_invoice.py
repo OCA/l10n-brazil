@@ -386,8 +386,6 @@ class AccountInvoice(models.Model):
                 icmssn_range=line.icmssn_range_id,
             )["taxes"]
 
-            line._update_taxes()
-
             for tax in computed_taxes:
                 if tax.get("amount", 0.0) != 0.0:
                     val = self._prepare_tax_line_vals(line, tax)
