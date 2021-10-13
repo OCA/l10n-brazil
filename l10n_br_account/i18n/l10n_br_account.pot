@@ -195,7 +195,7 @@ msgid "Document Type"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:565
+#: code:addons/l10n_br_account/models/account_invoice.py:563
 #, python-format
 msgid "Document without Return Fiscal Operation! \n"
 " Force one!"
@@ -388,7 +388,7 @@ msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:582
+#: code:addons/l10n_br_account/models/account_invoice.py:580
 #, python-format
 msgid "Line without Return Fiscal Operation! \n"
 "\n"
@@ -611,13 +611,13 @@ msgid "You can find a contact by its Name, TIN, Email or Internal Reference."
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice_line.py:241
+#: code:addons/l10n_br_account/models/account_invoice_line.py:239
 #, python-format
 msgid "You can't edit one invoice related a withholding entry"
 msgstr ""
 
 #. module: l10n_br_account
-#: code:addons/l10n_br_account/models/account_invoice.py:469
+#: code:addons/l10n_br_account/models/account_invoice.py:467
 #, python-format
 msgid "You can't set this document number: {} to draft because this document is cancelled in SEFAZ"
 msgstr ""
