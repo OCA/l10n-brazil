@@ -819,8 +819,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__amount_estimate_tax
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__amount_estimate_tax
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__amount_estimate_tax
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__amount_estimate_tax
 msgid "Amount Estimate Tax"
 msgstr ""
@@ -3109,6 +3107,12 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/document_related.py:96
 #, python-format
 msgid "Estadual Inscription Invalid !"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__estimate_tax
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line_mixin__estimate_tax
+msgid "Estimate Tax"
 msgstr ""
 
 #. module: l10n_br_fiscal
