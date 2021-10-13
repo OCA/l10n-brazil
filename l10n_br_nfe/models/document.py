@@ -299,6 +299,8 @@ class NFe(spec_models.StackedModel):
             # id
             if record.document_type_id and record.document_type_id.prefix:
                 record.nfe40_Id = record.document_type_id.prefix + record.document_key
+            else:
+                record.nfe40_Id = None
 
             # tpNF
             operation_2_tpNF = {
