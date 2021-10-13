@@ -246,46 +246,34 @@
         <field name="boleto_discount_perc">1</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('bradesco_cnab_400-mov_return_code_06'), ref('bradesco_cnab_400-mov_return_code_15'),
-            ref('bradesco_cnab_400-mov_return_code_16'), ref('bradesco_cnab_400-mov_return_code_17'),
+            eval="[(6,0,[ref('bradesco_400_return_06'), ref('bradesco_400_return_15'),
+            ref('bradesco_400_return_16'), ref('bradesco_400_return_17'),
             ])]"
         />
-        <field
-            name="cnab_sending_code_id"
-            ref="banco_bradesco_cnab_400-mov_instruction_code_01"
-        />
-        <field
-            name="cnab_write_off_code_id"
-            ref="banco_bradesco_cnab_400-mov_instruction_code_02"
-        />
+        <field name="cnab_sending_code_id" ref="bradesco_400_instruction_01" />
+        <field name="cnab_write_off_code_id" ref="bradesco_400_instruction_02" />
         <field
             name="cnab_code_change_title_value_id"
-            ref="banco_bradesco_cnab_400-mov_instruction_code_20"
+            ref="bradesco_400_instruction_20"
         />
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="banco_bradesco_cnab_400-mov_instruction_code_06"
+            ref="bradesco_400_instruction_06"
         />
-        <field
-            name="cnab_code_protest_title_id"
-            ref="banco_bradesco_cnab_400-mov_instruction_code_09"
-        />
+        <field name="cnab_code_protest_title_id" ref="bradesco_400_instruction_09" />
         <field
             name="cnab_code_suspend_protest_keep_wallet_id"
-            ref="banco_bradesco_cnab_400-mov_instruction_code_19"
+            ref="bradesco_400_instruction_19"
         />
         <field
             name="cnab_code_suspend_protest_write_off_id"
-            ref="banco_bradesco_cnab_400-mov_instruction_code_18"
+            ref="bradesco_400_instruction_18"
         />
                 <field
             name="cnab_code_grant_rebate_id"
-            ref="banco_bradesco_cnab_400-mov_instruction_code_04"
+            ref="bradesco_400_instruction_04"
         />
-        <field
-            name="cnab_code_cancel_rebate_id"
-            ref="banco_bradesco_cnab_400-mov_instruction_code_05"
-        />
+        <field name="cnab_code_cancel_rebate_id" ref="bradesco_400_instruction_05" />
     </record>
 
     <!-- Modo de Pagamento cobrança Bradesco 240 -->
@@ -331,17 +319,11 @@
         <field name="code_convetion">0001222130126</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('banco_bradesco_cnab_240-mov_return_code_06'),
-             ref('banco_bradesco_cnab_240-mov_return_code_17'), ref('banco_bradesco_cnab_240-mov_return_code_45')])]"
+            eval="[(6,0,[ref('bradesco_240_return_06'),
+             ref('bradesco_240_return_17'), ref('bradesco_240_return_45')])]"
         />
-        <field
-            name="cnab_sending_code_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_01"
-        />
-        <field
-            name="cnab_write_off_code_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_02"
-        />
+        <field name="cnab_sending_code_id" ref="bradesco_240_instruction_01" />
+        <field name="cnab_write_off_code_id" ref="bradesco_240_instruction_02" />
         <!-- TODO: codigo de alteração do valor do título não encontrado
         <field
             name="cnab_code_change_title_value_id"
@@ -349,36 +331,21 @@
         />-->
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_06"
+            ref="bradesco_240_instruction_06"
         />
-        <field
-            name="cnab_code_protest_title_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_09"
-        />
+        <field name="cnab_code_protest_title_id" ref="bradesco_240_instruction_09" />
         <field
             name="cnab_code_suspend_protest_keep_wallet_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_11"
+            ref="bradesco_240_instruction_11"
         />
         <field
             name="cnab_code_suspend_protest_write_off_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_10"
+            ref="bradesco_240_instruction_10"
         />
-        <field
-            name="cnab_code_grant_rebate_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_04"
-        />
-        <field
-            name="cnab_code_cancel_rebate_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_05"
-        />
-        <field
-            name="cnab_code_grant_discount_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_16"
-        />
-        <field
-            name="cnab_code_cancel_discount_id"
-            ref="banco_bradesco_cnab_240-mov_instruction_code_41"
-        />
+        <field name="cnab_code_grant_rebate_id" ref="bradesco_240_instruction_04" />
+        <field name="cnab_code_cancel_rebate_id" ref="bradesco_240_instruction_05" />
+        <field name="cnab_code_grant_discount_id" ref="bradesco_240_instruction_16" />
+        <field name="cnab_code_cancel_discount_id" ref="bradesco_240_instruction_41" />
     </record>
 
     <!-- Payment Mode Cobrança Unicred 400 -->
@@ -431,41 +398,26 @@
         <field name="code_convetion">92035760</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('unicred_cnab_400-mov_return_code_01'), ref('unicred_cnab_400-mov_return_code_06'),
-               ref('unicred_cnab_400-mov_return_code_07'), ref('unicred_cnab_400-mov_return_code_09')])]"
+            eval="[(6,0,[ref('unicred_240_400_return_01'), ref('unicred_240_400_return_06'),
+               ref('unicred_240_400_return_07'), ref('unicred_240_400_return_09')])]"
         />
-        <field
-            name="cnab_sending_code_id"
-            ref="unicred_cnab_400-mov_instruction_code_01"
-        />
-        <field
-            name="cnab_write_off_code_id"
-            ref="unicred_cnab_400-mov_instruction_code_02"
-        />
+        <field name="cnab_sending_code_id" ref="unicred_240_400_instruction_01" />
+        <field name="cnab_write_off_code_id" ref="unicred_240_400_instruction_02" />
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="unicred_cnab_400-mov_instruction_code_06"
+            ref="unicred_240_400_instruction_06"
         />
-        <field
-            name="cnab_code_protest_title_id"
-            ref="unicred_cnab_400-mov_instruction_code_09"
-        />
+        <field name="cnab_code_protest_title_id" ref="unicred_240_400_instruction_09" />
         <field
             name="cnab_code_suspend_protest_keep_wallet_id"
-            ref="unicred_cnab_400-mov_instruction_code_11"
+            ref="unicred_240_400_instruction_11"
         />
         <field
             name="cnab_code_suspend_protest_write_off_id"
-            ref="unicred_cnab_400-mov_instruction_code_25"
+            ref="unicred_240_400_instruction_25"
         />
-        <field
-            name="cnab_code_grant_rebate_id"
-            ref="unicred_cnab_400-mov_instruction_code_04"
-        />
-        <field
-            name="cnab_code_cancel_rebate_id"
-            ref="unicred_cnab_400-mov_instruction_code_05"
-        />
+        <field name="cnab_code_grant_rebate_id" ref="unicred_240_400_instruction_04" />
+        <field name="cnab_code_cancel_rebate_id" ref="unicred_240_400_instruction_05" />
     </record>
 
     <!-- Payment Mode Cobrança Unicred 240 -->
@@ -513,41 +465,26 @@
         />
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('unicred_cnab_400-mov_return_code_01'), ref('unicred_cnab_400-mov_return_code_06'),
-               ref('unicred_cnab_400-mov_return_code_07'), ref('unicred_cnab_400-mov_return_code_09')])]"
+            eval="[(6,0,[ref('unicred_240_400_return_01'), ref('unicred_240_400_return_06'),
+               ref('unicred_240_400_return_07'), ref('unicred_240_400_return_09')])]"
         />
-        <field
-            name="cnab_sending_code_id"
-            ref="unicred_cnab_400-mov_instruction_code_01"
-        />
-        <field
-            name="cnab_write_off_code_id"
-            ref="unicred_cnab_400-mov_instruction_code_02"
-        />
+        <field name="cnab_sending_code_id" ref="unicred_240_400_instruction_01" />
+        <field name="cnab_write_off_code_id" ref="unicred_240_400_instruction_02" />
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="unicred_cnab_400-mov_instruction_code_06"
+            ref="unicred_240_400_instruction_06"
         />
-        <field
-            name="cnab_code_protest_title_id"
-            ref="unicred_cnab_400-mov_instruction_code_09"
-        />
+        <field name="cnab_code_protest_title_id" ref="unicred_240_400_instruction_09" />
         <field
             name="cnab_code_suspend_protest_keep_wallet_id"
-            ref="unicred_cnab_400-mov_instruction_code_11"
+            ref="unicred_240_400_instruction_11"
         />
         <field
             name="cnab_code_suspend_protest_write_off_id"
-            ref="unicred_cnab_400-mov_instruction_code_25"
+            ref="unicred_240_400_instruction_25"
         />
-        <field
-            name="cnab_code_grant_rebate_id"
-            ref="unicred_cnab_400-mov_instruction_code_04"
-        />
-        <field
-            name="cnab_code_cancel_rebate_id"
-            ref="unicred_cnab_400-mov_instruction_code_05"
-        />
+        <field name="cnab_code_grant_rebate_id" ref="unicred_240_400_instruction_04" />
+        <field name="cnab_code_cancel_rebate_id" ref="unicred_240_400_instruction_05" />
     </record>
 
     <!-- Modo de Pagamento cobrança Itau 240 -->
@@ -594,29 +531,14 @@
         <field name="code_convetion">12345</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('banco_itau_cnab_240-mov_return_code_06'),
-             ref('banco_itau_cnab_240-mov_return_code_08')])]"
+            eval="[(6,0,[ref('itau_240_return_06'),
+             ref('itau_240_return_08')])]"
         />
-        <field
-            name="cnab_sending_code_id"
-            ref="banco_itau_cnab_240-mov_instruction_code_01"
-        />
-        <field
-            name="cnab_write_off_code_id"
-            ref="banco_itau_cnab_240-mov_instruction_code_02"
-        />
-        <field
-            name="cnab_code_change_title_value_id"
-            ref="banco_itau_cnab_240-mov_instruction_code_31"
-        />
-        <field
-            name="cnab_code_change_maturity_date_id"
-            ref="banco_itau_cnab_240-mov_instruction_code_06"
-        />
-        <field
-            name="cnab_code_protest_title_id"
-            ref="banco_itau_cnab_240-mov_instruction_code_09"
-        />
+        <field name="cnab_sending_code_id" ref="itau_240_instruction_01" />
+        <field name="cnab_write_off_code_id" ref="itau_240_instruction_02" />
+        <field name="cnab_code_change_title_value_id" ref="itau_240_instruction_31" />
+        <field name="cnab_code_change_maturity_date_id" ref="itau_240_instruction_06" />
+        <field name="cnab_code_protest_title_id" ref="itau_240_instruction_09" />
     </record>
 
     <!-- Modo de Pagamento cobrança Itau 400 -->
@@ -663,25 +585,13 @@
         <field name="code_convetion">12345</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('itau_cnab_400-mov_return_code_06'), ref('itau_cnab_400-mov_return_code_07'),
-            ref('itau_cnab_400-mov_return_code_08')])]"
+            eval="[(6,0,[ref('itau_400_return_06'), ref('itau_400_return_07'),
+            ref('itau_400_return_08')])]"
         />
-        <field
-            name="cnab_sending_code_id"
-            ref="banco_itau_cnab_400-mov_instruction_code_01"
-        />
-        <field
-            name="cnab_write_off_code_id"
-            ref="banco_itau_cnab_400-mov_instruction_code_02"
-        />
-        <field
-            name="cnab_code_change_maturity_date_id"
-            ref="banco_itau_cnab_400-mov_instruction_code_06"
-        />
-        <field
-            name="cnab_code_protest_title_id"
-            ref="banco_itau_cnab_400-mov_instruction_code_09"
-        />
+        <field name="cnab_sending_code_id" ref="itau_400_instruction_01" />
+        <field name="cnab_write_off_code_id" ref="itau_400_instruction_02" />
+        <field name="cnab_code_change_maturity_date_id" ref="itau_400_instruction_06" />
+        <field name="cnab_code_protest_title_id" ref="itau_400_instruction_09" />
     </record>
 
     <!-- Modo de Pagamento cobrança Caixa Economica Federal 240 -->
@@ -728,49 +638,25 @@
         <field name="code_convetion">000122</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('banco_cef_cnab_240-mov_return_code_06'), ref('banco_cef_cnab_240-mov_return_code_46')])]"
+            eval="[(6,0,[ref('cef_240_return_06'), ref('cef_240_return_46')])]"
         />
-        <field name="cnab_sending_code_id" ref="cef_cnab_240-mov_instruction_code_01" />
-        <field
-            name="cnab_write_off_code_id"
-            ref="cef_cnab_240-mov_instruction_code_02"
-        />
-        <field
-            name="cnab_code_change_title_value_id"
-            ref="cef_cnab_240-mov_instruction_code_47"
-        />
-        <field
-            name="cnab_code_change_maturity_date_id"
-            ref="cef_cnab_240-mov_instruction_code_06"
-        />
-        <field
-            name="cnab_code_protest_title_id"
-            ref="cef_cnab_240-mov_instruction_code_09"
-        />
+        <field name="cnab_sending_code_id" ref="cef_240_instruction_01" />
+        <field name="cnab_write_off_code_id" ref="cef_240_instruction_02" />
+        <field name="cnab_code_change_title_value_id" ref="cef_240_instruction_47" />
+        <field name="cnab_code_change_maturity_date_id" ref="cef_240_instruction_06" />
+        <field name="cnab_code_protest_title_id" ref="cef_240_instruction_09" />
         <field
             name="cnab_code_suspend_protest_keep_wallet_id"
-            ref="cef_cnab_240-mov_instruction_code_11"
+            ref="cef_240_instruction_11"
         />
         <field
             name="cnab_code_suspend_protest_write_off_id"
-            ref="cef_cnab_240-mov_instruction_code_10"
+            ref="cef_240_instruction_10"
         />
-        <field
-            name="cnab_code_grant_rebate_id"
-            ref="cef_cnab_240-mov_instruction_code_04"
-        />
-        <field
-            name="cnab_code_cancel_rebate_id"
-            ref="cef_cnab_240-mov_instruction_code_05"
-        />
-        <field
-            name="cnab_code_grant_discount_id"
-            ref="cef_cnab_240-mov_instruction_code_07"
-        />
-        <field
-            name="cnab_code_cancel_discount_id"
-            ref="cef_cnab_240-mov_instruction_code_08"
-        />
+        <field name="cnab_code_grant_rebate_id" ref="cef_240_instruction_04" />
+        <field name="cnab_code_cancel_rebate_id" ref="cef_240_instruction_05" />
+        <field name="cnab_code_grant_discount_id" ref="cef_240_instruction_07" />
+        <field name="cnab_code_cancel_discount_id" ref="cef_240_instruction_08" />
     </record>
 
     <!-- Modo de Pagamento cobrança Caixa Economica Federal 400 -->
@@ -864,52 +750,28 @@
         />
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('banco_sicredi_cnab_240-mov_return_code_06'), ref('banco_sicredi_cnab_240-mov_return_code_17')])]"
+            eval="[(6,0,[ref('sicredi_240_return_06'), ref('sicredi_240_return_17')])]"
         />
-        <field
-            name="cnab_sending_code_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_01"
-        />
-        <field
-            name="cnab_write_off_code_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_02"
-        />
-        <field
-            name="cnab_code_change_title_value_id"
-            ref="cef_cnab_240-mov_instruction_code_47"
-        />
+        <field name="cnab_sending_code_id" ref="sicredi_240_instruction_01" />
+        <field name="cnab_write_off_code_id" ref="sicredi_240_instruction_02" />
+        <field name="cnab_code_change_title_value_id" ref="cef_240_instruction_47" />
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_06"
+            ref="sicredi_240_instruction_06"
         />
-        <field
-            name="cnab_code_protest_title_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_09"
-        />
+        <field name="cnab_code_protest_title_id" ref="sicredi_240_instruction_09" />
         <field
             name="cnab_code_suspend_protest_keep_wallet_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_11"
+            ref="sicredi_240_instruction_11"
         />
         <field
             name="cnab_code_suspend_protest_write_off_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_10"
+            ref="sicredi_240_instruction_10"
         />
-        <field
-            name="cnab_code_grant_rebate_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_04"
-        />
-        <field
-            name="cnab_code_cancel_rebate_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_05"
-        />
-        <field
-            name="cnab_code_grant_discount_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_07"
-        />
-        <field
-            name="cnab_code_cancel_discount_id"
-            ref="banco_sicredi_cnab_240-mov_instruction_code_08"
-        />
+        <field name="cnab_code_grant_rebate_id" ref="sicredi_240_instruction_04" />
+        <field name="cnab_code_cancel_rebate_id" ref="sicredi_240_instruction_05" />
+        <field name="cnab_code_grant_discount_id" ref="sicredi_240_instruction_07" />
+        <field name="cnab_code_cancel_discount_id" ref="sicredi_240_instruction_08" />
     </record>
 
     <!-- Produto Taxa -->
@@ -973,50 +835,26 @@
         <field name="code_convetion">1234</field>
         <field
             name="cnab_liq_return_move_code_ids"
-            eval="[(6,0,[ref('banco_brasil_cnab_400-05'), ref('banco_brasil_cnab_400-06'),
-               ref('banco_brasil_cnab_400-07'), ref('banco_brasil_cnab_400-08'),
-               ref('banco_brasil_cnab_400-15'), ref('banco_brasil_cnab_400-20'),])]"
+            eval="[(6,0,[ref('brasil_400_return_05'), ref('brasil_400_return_06'),
+               ref('brasil_400_return_07'), ref('brasil_400_return_08'),
+               ref('brasil_400_return_15'), ref('brasil_400_return_20'),])]"
         />
-        <field
-            name="cnab_sending_code_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_01"
-        />
-        <field
-            name="cnab_write_off_code_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_02"
-        />
-        <field
-            name="cnab_code_change_title_value_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_47"
-        />
+        <field name="cnab_sending_code_id" ref="brasil_400_instruction_01" />
+        <field name="cnab_write_off_code_id" ref="brasil_400_instruction_02" />
+        <field name="cnab_code_change_title_value_id" ref="brasil_400_instruction_47" />
         <field
             name="cnab_code_change_maturity_date_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_06"
+            ref="brasil_400_instruction_06"
         />
-        <field
-            name="cnab_code_protest_title_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_09"
-        />
+        <field name="cnab_code_protest_title_id" ref="brasil_400_instruction_09" />
         <field
             name="cnab_code_suspend_protest_keep_wallet_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_10"
+            ref="brasil_400_instruction_10"
         />
-        <field
-            name="cnab_code_grant_rebate_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_04"
-        />
-        <field
-            name="cnab_code_cancel_rebate_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_05"
-        />
-        <field
-            name="cnab_code_grant_discount_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_31"
-        />
-        <field
-            name="cnab_code_cancel_discount_id"
-            ref="banco_bb_cnab_400-mov_instruction_code_32"
-        />
+        <field name="cnab_code_grant_rebate_id" ref="brasil_400_instruction_04" />
+        <field name="cnab_code_cancel_rebate_id" ref="brasil_400_instruction_05" />
+        <field name="cnab_code_grant_discount_id" ref="brasil_400_instruction_31" />
+        <field name="cnab_code_cancel_discount_id" ref="brasil_400_instruction_32" />
 
     </record>
 
