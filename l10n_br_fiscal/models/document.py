@@ -4,6 +4,8 @@
 
 from ast import literal_eval
 
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -12,6 +14,10 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
     FISCAL_IN_OUT_DICT,
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFSE,
     SITUACAO_EDOC_AUTORIZADA,
     SITUACAO_EDOC_CANCELADA,
     SITUACAO_EDOC_DENEGADA,
@@ -218,6 +224,42 @@ class Document(models.Model):
         compute="_compute_document_subsequent_generated",
         default=False,
     )
+
+    @api.constrains("document_key")
+    def _check_key(self):
+        for record in self:
+            if not record.document_key:
+                return
+
+            documents = record.env["l10n_br_fiscal.document"].search_count(
+                [
+                    ("id", "!=", record.id),
+                    ("active", "=", True),
+                    ("company_id", "=", record.company_id.id),
+                    ("issuer", "=", record.issuer),
+                    ("document_key", "=", record.document_key),
+                    (
+                        "document_type",
+                        "in",
+                        (
+                            MODELO_FISCAL_CTE,
+                            MODELO_FISCAL_NFCE,
+                            MODELO_FISCAL_NFE,
+                            MODELO_FISCAL_NFSE,
+                        ),
+                    ),
+                ]
+            )
+
+            if documents:
+                raise ValidationError(
+                    _(
+                        "There is already a fiscal document with this "
+                        "key: {} !".format(record.document_key)
+                    )
+                )
+            else:
+                ChaveEdoc(chave=record.document_key, validar=True)
 
     @api.constrains("document_number")
     def _check_number(self):

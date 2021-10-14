@@ -66,9 +66,6 @@ class TestNFeExport(TransactionCase):
                 "2020-01-01T11:00:00", "%Y-%m-%dT%H:%M:%S"
             )
             nfe_id.nfe40_cNF = "06277716"
-            nfe_id.nfe40_Id = "NFeTest"
-            nfe_id.nfe40_nNF = "1"
-            nfe_id.nfe40_cDV = "1"
             nfe_id.with_context(lang="pt_BR")._document_export()
             output = os.path.join(
                 config["data_dir"],

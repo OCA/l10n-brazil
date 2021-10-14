@@ -7,8 +7,14 @@ from odoo import api, fields
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
+    NFCE_DANFE_LAYOUT_DEFAULT,
+    NFCE_DANFE_LAYOUTS,
+    NFE_DANFE_LAYOUT_DEFAULT,
+    NFE_DANFE_LAYOUTS,
     NFE_ENVIRONMENT_DEFAULT,
     NFE_ENVIRONMENTS,
+    NFE_TRANSMISSION_DEFAULT,
+    NFE_TRANSMISSIONS,
     NFE_VERSION_DEFAULT,
     NFE_VERSIONS,
 )
@@ -55,6 +61,38 @@ class ResCompany(spec_models.SpecModel):
         selection=NFE_ENVIRONMENTS,
         string="NFe Environment",
         default=NFE_ENVIRONMENT_DEFAULT,
+    )
+
+    nfe_transmission = fields.Selection(
+        selection=NFE_TRANSMISSIONS,
+        string="Transmission Type",
+        default=NFE_TRANSMISSION_DEFAULT,
+        help="1=Emissão normal (não em contingência);"
+        "\n2=Contingência FS-IA, com impressão do DANFE em Formulário"
+        " de Segurança - Impressor Autônomo;"
+        "\n3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional);"
+        " *Desativado * NT 2015/002"
+        "\n4=Contingência EPEC (Evento Prévio da Emissão em Contingência);"
+        "\n5=Contingência FS-DA, com impressão do DANFE em Formulário "
+        "de Segurança - Documento Auxiliar;"
+        "\n6=Contingência SVC-AN (SEFAZ Virtual de Contingência do AN);"
+        "\n7=Contingência SVC-RS (SEFAZ Virtual de Contingência do RS);"
+        "\n9=Contingência off-line da NFC-e;"
+        "\nObservação: Para a NFC-e somente é válida a opção de contingência:"
+        "\n9-Contingência Off-Line e, a critério da UF, opção "
+        "4-Contingência EPEC. (NT 2015/002)",
+    )
+
+    nfe_danfe_layout = fields.Selection(
+        selection=NFE_DANFE_LAYOUTS,
+        string="NFe Layout",
+        default=NFE_DANFE_LAYOUT_DEFAULT,
+    )
+
+    nfce_danfe_layout = fields.Selection(
+        selection=NFCE_DANFE_LAYOUTS,
+        string="NFCe Layout",
+        default=NFCE_DANFE_LAYOUT_DEFAULT,
     )
 
     nfe_default_serie_id = fields.Many2one(

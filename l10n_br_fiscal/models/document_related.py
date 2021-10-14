@@ -2,9 +2,17 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 from erpbrasil.base import fiscal
+from erpbrasil.base.fiscal.edoc import ChaveEdoc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
+from ..constants.fiscal import (
+    MODELO_FISCAL_CTE,
+    MODELO_FISCAL_NFCE,
+    MODELO_FISCAL_NFE,
+    MODELO_FISCAL_NFSE,
+)
 
 
 class DocumentRelated(models.Model):
@@ -50,6 +58,19 @@ class DocumentRelated(models.Model):
     inscr_est = fields.Char(string="Inscr. Estadual/RG", size=16)
 
     document_date = fields.Date(string="Data")
+
+    @api.constrains("document_key")
+    def _check_key(self):
+        for record in self:
+            if not record.document_key:
+                return
+            if record.document_type_id.code in (
+                MODELO_FISCAL_CTE,
+                MODELO_FISCAL_NFCE,
+                MODELO_FISCAL_NFE,
+                MODELO_FISCAL_NFSE,
+            ):
+                ChaveEdoc(chave=record.document_key, validar=True)
 
     @api.constrains("cnpj_cpf")
     def _check_cnpj_cpf(self):

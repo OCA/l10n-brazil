@@ -41,6 +41,11 @@ class NFeRelated(spec_models.StackedModel):
         inverse="_inverse_nfe40_refNFe",
     )
 
+    nfe40_refCTe = fields.Char(
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_refCTe",
+    )
+
     nfe40_choice5 = fields.Selection(
         [("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")], "CNPJ/CPF do Produtor"
     )
@@ -64,28 +69,22 @@ class NFeRelated(spec_models.StackedModel):
     #     store=True,
     # )
 
-    @api.multi
     @api.depends("document_type_id")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
-            document = rec.document_related_id
-            document_key = (
-                document.document_key[3:]
-                if document.document_key
-                else rec.document_key or ""
-            )
             if rec.document_type_id:
+                document = rec.document_related_id
                 if rec.document_type_id.code in (
                     MODELO_FISCAL_NFE,
                     MODELO_FISCAL_NFCE,
                     MODELO_FISCAL_CFE,
                 ):
                     rec.nfe40_choice4 = "nfe40_refNFe"
-                    rec.nfe40_refNFe = document_key
+                    rec.nfe40_refNFe = document.document_key
                 elif rec.document_type_id.code == MODELO_FISCAL_CTE:
                     rec.nfe40_choice4 = "nfe40_refCTe"
-                    rec.nfe40_refCTe = document_key
+                    rec.nfe40_refCTe = document.document_key
                 else:
                     if rec.document_type_id.code == MODELO_FISCAL_RL:
                         rec.nfe40_choice4 = "nfe40_refNFP"
@@ -122,6 +121,11 @@ class NFeRelated(spec_models.StackedModel):
         for rec in self:
             if rec.nfe40_refNFe:
                 rec.document_key = rec.nfe40_refNFe
+
+    def _inverse_nfe40_refCTe(self):
+        for record in self:
+            if record.nfe40_refCTe:
+                record.document_key = record.nfe40_refCTe
 
     def _export_fields(self, xsd_fields, class_obj, export_dict):
         if class_obj._name == "nfe.40.nfref":

@@ -4,6 +4,7 @@
 
 import base64
 import logging
+import re
 from datetime import datetime
 from unicodedata import normalize
 
@@ -17,7 +18,7 @@ from nfelib.v4_00 import retEnviNFe as leiauteNFe
 from requests import Session
 
 from odoo import _, api, fields
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
@@ -25,6 +26,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     CANCELADO_DENTRO_PRAZO,
     CANCELADO_FORA_PRAZO,
     DENEGADO,
+    DOCUMENT_ISSUER_COMPANY,
     EVENT_ENV_HML,
     EVENT_ENV_PROD,
     EVENTO_RECEBIDO,
@@ -41,7 +43,13 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 )
 from odoo.addons.spec_driven_model.models import spec_models
 
-from ..constants.nfe import NFE_ENVIRONMENTS, NFE_VERSIONS
+from ..constants.nfe import (
+    NFCE_DANFE_LAYOUTS,
+    NFE_DANFE_LAYOUTS,
+    NFE_ENVIRONMENTS,
+    NFE_TRANSMISSIONS,
+    NFE_VERSIONS,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -105,6 +113,13 @@ class NFe(spec_models.StackedModel):
         default=lambda self: self.env.user.company_id.nfe_environment,
     )
 
+    nfe_transmission = fields.Selection(
+        selection=NFE_TRANSMISSIONS,
+        string="NFe Transmission",
+        copy=False,
+        default=lambda self: self.env.user.company_id.nfe_transmission,
+    )
+
     nfe40_finNFe = fields.Selection(
         related="edoc_purpose",
     )
@@ -118,7 +133,8 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_Id = fields.Char(
-        related="document_key",
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_Id",
     )
 
     # TODO should be done by framework?
@@ -173,8 +189,14 @@ class NFe(spec_models.StackedModel):
         inverse="_inverse_nfe40_tpNF",
     )
 
+    danfe_layout = fields.Selection(
+        selection=NFE_DANFE_LAYOUTS + NFCE_DANFE_LAYOUTS,
+        string="Danfe Layout",
+    )
+
     nfe40_tpImp = fields.Selection(
-        default="1",
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_tpEmis",
     )
 
     nfe40_modFrete = fields.Selection(
@@ -182,7 +204,8 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_tpEmis = fields.Selection(
-        default="1",
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_tpEmis",
     )
 
     nfe40_procEmi = fields.Selection(
@@ -269,18 +292,35 @@ class NFe(spec_models.StackedModel):
                     .replace("\r", "")
                 )
 
-    @api.multi
-    @api.depends("fiscal_operation_type")
+    @api.depends("fiscal_operation_type", "nfe_transmission")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
-        for rec in self:
+        for record in self:
+            # id
+            if record.document_type_id and record.document_type_id.prefix:
+                record.nfe40_Id = record.document_type_id.prefix + record.document_key
+            else:
+                record.nfe40_Id = None
+
+            # tpNF
             operation_2_tpNF = {
                 "out": "1",
                 "in": "0",
             }
-            rec.nfe40_tpNF = operation_2_tpNF[rec.fiscal_operation_type]
+            record.nfe40_tpNF = operation_2_tpNF[record.fiscal_operation_type]
 
-    @api.multi
+            # TpEmis
+            if record.nfe_transmission:
+                record.nfe40_tpEmis = record.nfe_transmission
+
+            # tpImp
+            if record.issuer == DOCUMENT_ISSUER_COMPANY:
+                if record.document_type_id.code == MODELO_FISCAL_NFE:
+                    record.nfe40_tpImp = record.company_id.nfe_danfe_layout
+
+                if record.document_type_id.code == MODELO_FISCAL_NFCE:
+                    record.nfe40_tpImp = record.company_id.nfce_danfe_layout
+
     @api.depends("partner_id", "company_id")
     def _compute_nfe40_idDest(self):
         for rec in self:
@@ -300,16 +340,35 @@ class NFe(spec_models.StackedModel):
                 }
                 rec.fiscal_operation_type = tpNF_2_operation[rec.nfe40_tpNF]
 
-    @api.multi
+    def _inverse_nfe40_Id(self):
+        for record in self:
+            if record.nfe40_Id:
+                record.document_key = re.findall(r"\d+", str(record.nfe40_Id))[0]
+
+    def _inverse_nfe40_tpEmis(self):
+        for record in self:
+            if record.nfe40_tpEmis:
+                record.nfe_transmission = record.nfe40_tpEmis
+
+    def _inverse_nfe40_tpImp(self):
+        for record in self:
+            if record.nfe40_tpImp:
+                record.danfe_layout = record.nfe40_tpImp
+
     def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
         # pois outros modelos também precisam dessescampos: CT-e, MDF-e etc
         super()._document_number()
         for record in self.filtered(filter_processador_edoc_nfe):
             if record.document_key:
-                chave = ChaveEdoc(record.document_key)
-                record.nfe40_cNF = chave.codigo_aleatorio
-                record.nfe40_cDV = chave.digito_verificador
+                try:
+                    chave = ChaveEdoc(record.document_key)
+                    record.nfe40_cNF = chave.codigo_aleatorio
+                    record.nfe40_cDV = chave.digito_verificador
+                except Exception as e:
+                    raise ValidationError(
+                        _("{}:\n {}".format(record.document_type_id.name, e))
+                    )
 
     def _serialize(self, edocs):
         edocs = super()._serialize(edocs)
@@ -668,7 +727,7 @@ class NFe(spec_models.StackedModel):
             raise UserError(_("Authorization Protocol Not Found!"))
 
         evento = processador.cancela_documento(
-            chave=self.document_key[3:],
+            chave=self.document_key,
             protocolo_autorizacao=self.authorization_protocol,
             justificativa=self.cancel_reason.replace("\n", "\\n"),
         )
@@ -686,7 +745,7 @@ class NFe(spec_models.StackedModel):
         )
 
         for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.document_key[3:]:
+            if not retevento.infEvento.chNFe == self.document_key:
                 continue
 
             if retevento.infEvento.cStat not in CANCELADO:
@@ -730,7 +789,7 @@ class NFe(spec_models.StackedModel):
         sequence = str(int(max(numeros)) + 1) if numeros else "1"
 
         evento = processador.carta_correcao(
-            chave=self.document_key[3:],
+            chave=self.document_key,
             sequencia=sequence,
             justificativa=justificative.replace("\n", "\\n"),
         )
@@ -748,7 +807,7 @@ class NFe(spec_models.StackedModel):
             justification=justificative,
         )
         for retevento in processo.resposta.retEvento:
-            if not retevento.infEvento.chNFe == self.document_key[3:]:
+            if not retevento.infEvento.chNFe == self.document_key:
                 continue
 
             if retevento.infEvento.cStat not in EVENTO_RECEBIDO:
