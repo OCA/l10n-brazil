@@ -45,6 +45,21 @@ msgid "1.10"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe_transmission
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_config_settings__nfe_transmission
+msgid "1=Emissão normal (não em contingência);\n"
+"2=Contingência FS-IA, com impressão do DANFE em Formulário de Segurança - Impressor Autônomo;\n"
+"3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional); *Desativado * NT 2015/002\n"
+"4=Contingência EPEC (Evento Prévio da Emissão em Contingência);\n"
+"5=Contingência FS-DA, com impressão do DANFE em Formulário de Segurança - Documento Auxiliar;\n"
+"6=Contingência SVC-AN (SEFAZ Virtual de Contingência do AN);\n"
+"7=Contingência SVC-RS (SEFAZ Virtual de Contingência do RS);\n"
+"9=Contingência off-line da NFC-e;\n"
+"Observação: Para a NFC-e somente é válida a opção de contingência:\n"
+"9-Contingência Off-Line e, a critério da UF, opção 4-Contingência EPEC. (NT 2015/002)"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
 msgid "2 - Contingência FS"
 msgstr ""
@@ -119,8 +134,20 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
+msgid "<span class=\"o_form_label\">DANFE Print Layout</span>\n"
+"                                <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "<span class=\"o_form_label\">NF-e Default Environment</span>\n"
 "                            <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
+msgid "<span class=\"o_form_label\">NF-e Default Transmission</span>\n"
+"                              <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -140,7 +167,7 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:668
+#: code:addons/l10n_br_nfe/models/document.py:727
 #, python-format
 msgid "Authorization Protocol Not Found!"
 msgstr ""
@@ -257,7 +284,7 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:330
+#: code:addons/l10n_br_nfe/models/document.py:389
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:30
 #, python-format
 msgid "Certificado não encontrado"
@@ -311,6 +338,48 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_res_partner
 msgid "Contact"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,nfe_transmission:0
+#: selection:res.company,nfe_transmission:0
+msgid "Contingência EPEC"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,nfe_transmission:0
+#: selection:res.company,nfe_transmission:0
+msgid "Contingência FS-DA"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,nfe_transmission:0
+#: selection:res.company,nfe_transmission:0
+msgid "Contingência FS-IA"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,nfe_transmission:0
+#: selection:res.company,nfe_transmission:0
+msgid "Contingência SCAN"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,nfe_transmission:0
+#: selection:res.company,nfe_transmission:0
+msgid "Contingência SVC-AN"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,nfe_transmission:0
+#: selection:res.company,nfe_transmission:0
+msgid "Contingência SVC-RS"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,nfe_transmission:0
+#: selection:res.company,nfe_transmission:0
+msgid "Contingência off-line da NFC-e"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -376,6 +445,36 @@ msgid "Código do produto ou serviço. Preencher com CFOP caso se\n"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,danfe_layout:0
+#: selection:res.company,nfce_danfe_layout:0
+msgid "DANFE NFC-e por email"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,danfe_layout:0
+#: selection:res.company,nfce_danfe_layout:0
+msgid "DANFE NFC-e;"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,danfe_layout:0
+#: selection:res.company,nfe_danfe_layout:0
+msgid "DANFE Simplificado;"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,danfe_layout:0
+#: selection:res.company,nfe_danfe_layout:0
+msgid "DANFE normal, Paisagem;"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,danfe_layout:0
+#: selection:res.company,nfe_danfe_layout:0
+msgid "DANFE normal, Retrato;"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_enderDest
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_enderDest
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_enderDest
@@ -390,6 +489,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_det
 msgid "Dados dos detalhes da NF-e"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__danfe_layout
+msgid "Danfe Layout"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -422,6 +526,12 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_dest
 msgid "Dest"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,nfe_transmission:0
+#: selection:res.company,nfe_transmission:0
+msgid "Emissão Normal"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -933,6 +1043,12 @@ msgid "NF-e Version"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfce_danfe_layout
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfce_danfe_layout
+msgid "NFCe Layout"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_environment
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_environment
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_environment
@@ -940,8 +1056,20 @@ msgid "NFe Environment"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_danfe_layout
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_danfe_layout
+msgid "NFe Layout"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:res.groups,name:l10n_br_nfe.group_manager
 msgid "NFe Manager"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_transmission
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_transmission
+msgid "NFe Transmission"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1101,6 +1229,22 @@ msgid "Sem Integração"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: selection:l10n_br_fiscal.document,danfe_layout:0
+#: selection:res.company,nfe_danfe_layout:0
+msgid "Sem geração de DANFE;"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
+msgid "Set default print DANFE for print new NF-e and NFC-e documents"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
+msgid "Set nf-e default transmission type used to create new NF-e documents"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
 msgid "Set nf-e default version used to create new NF-e documents"
 msgstr ""
@@ -1197,6 +1341,11 @@ msgid "Tipo do Documento Fiscal (0 - entrada; 1 - saída)"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_transmission
+msgid "Transmission Type"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_uTrib
 msgid "Unidade Tributável"
 msgstr ""
@@ -1212,6 +1361,17 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_xNome
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_xNome
 msgid "Used in fiscal documents"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refCTe
+msgid "Utilizar esta TAG para referenciar um CT"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refCTe
+msgid "Utilizar esta TAG para referenciar um CT-e emitido\n"
+"anteriormente, vinculada a NF-e atual"
 msgstr ""
 
 #. module: l10n_br_nfe
