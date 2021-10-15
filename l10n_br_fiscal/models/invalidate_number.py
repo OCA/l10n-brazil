@@ -69,7 +69,6 @@ class InvalidateNumber(models.Model):
 
     justification = fields.Char(
         string="Justification",
-        size=255,
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
