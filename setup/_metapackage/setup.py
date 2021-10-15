@@ -12,9 +12,11 @@ setuptools.setup(
         'odoo13-addon-l10n_br_coa',
         'odoo13-addon-l10n_br_coa_generic',
         'odoo13-addon-l10n_br_coa_simple',
+        'odoo13-addon-l10n_br_fiscal',
     ],
     classifiers=[
         'Programming Language :: Python',
         'Framework :: Odoo',
+        'Framework :: Odoo :: 13.0',
     ]
 )
