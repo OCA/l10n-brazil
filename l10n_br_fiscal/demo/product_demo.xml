@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- pylint:disable=file-not-used -->
+<odoo noupdate="1">
+
+    <!-- Service products -->
+    <!-- Virtual Interior Design -->
+    <record id="product.product_product_1" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+        <field name="fiscal_type">09</field>
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
+        <field name="icms_origin" eval="" />
+        <field name="service_type_id" ref="l10n_br_fiscal.service_type_701" />
+        <field name="nbs_id" ref="l10n_br_fiscal.nbs_114021100" />
+    </record>
+
+    <!-- Virtual Home Staging -->
+    <record id="product.product_product_2" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+        <field name="fiscal_type">09</field>
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
+        <field name="icms_origin" eval="" />
+        <field name="service_type_id" ref="l10n_br_fiscal.service_type_701" />
+        <field name="nbs_id" ref="l10n_br_fiscal.nbs_114021100" />
+    </record>
+
+    <record id="product.expense_hotel" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+        <field name="fiscal_type">09</field>
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
+        <field name="icms_origin" eval="" />
+        <field name="service_type_id" ref="l10n_br_fiscal.service_type_901" />
+        <field name="nbs_id" ref="l10n_br_fiscal.nbs_114021100" />
+    </record>
+
+    <!-- Physical Products -->
+    <!-- Office Chair -->
+    <record id="product.product_delivery_01" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94013090" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">5</field>
+    </record>
+
+    <!-- Office Lamp -->
+    <record id="product.product_delivery_02" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94052000" />
+        <field name="cest_id" ref="l10n_br_fiscal.cest_2112400" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">5</field>
+    </record>
+
+    <!-- Office Design Software -->
+    <record id="product.product_order_01" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">5</field>
+    </record>
+
+    <!-- Desk Combination -->
+    <record id="product.product_product_3" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">04</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Customizable Desk -->
+    <record id="product.product_product_4_product_template" model="product.template">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">04</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- FURN_0096 - Customizable Desk -->
+    <record id="product.product_product_4" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">04</field>
+        <field name="icms_origin">5</field>
+    </record>
+
+    <!-- FURN_0097 - Customizable Desk -->
+    <record id="product.product_product_4b" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">04</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- FURN_0098 - Customizable Desk -->
+    <record id="product.product_product_4c" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">04</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- DESK0004 - Customizable Desk -->
+    <record id="product.product_product_4d" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">04</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Corner Desk Right Sit -->
+    <record id="product.product_product_5" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Large Cabinet -->
+    <record id="product.product_product_6" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">5</field>
+    </record>
+
+    <!-- Storage Box -->
+    <record id="product.product_product_7" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_73269090" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_73" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">5</field>
+    </record>
+
+    <!-- Large Desk -->
+    <record id="product.product_product_8" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">5</field>
+    </record>
+
+    <!-- Pedal Bin -->
+    <record id="product.product_product_9" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_73239900" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_73" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">2</field>
+    </record>
+
+    <!-- Cabinet with Doors -->
+    <record id="product.product_product_10" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Conference Chair -->
+    <record id="product.product_product_11" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94031000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Conference Chair -->
+    <record id="product.product_product_11b" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94031000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- MRP Demo Data-->
+    <!-- Office Chair Black -->
+    <record id="product.product_product_12" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94013090" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Corner Desk Black -->
+    <record id="product.product_product_13" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Drawer Black -->
+    <record id="product.product_product_16" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">5</field>
+    </record>
+
+    <!-- Flipover -->
+    <record id="product.product_product_20" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_96100000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_96" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Desk Stand with Screen -->
+    <record id="product.product_product_22" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Individual Workplace -->
+    <record id="product.product_product_24" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Acoustic Bloc Screens -->
+    <record id="product.product_product_25" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">3</field>
+    </record>
+
+    <!-- Drawer -->
+    <record id="product.product_product_27" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">04</field>
+        <field name="icms_origin">5</field>
+    </record>
+
+    <!-- Four Person Desk -->
+    <record id="product.consu_delivery_03" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Large Meeting Table -->
+    <record id="product.consu_delivery_02" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94033000" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">00</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- Three-Seat Sofa -->
+    <record id="product.consu_delivery_01" model="product.product">
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_94016100" />
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_94" />
+        <field name="fiscal_type">04</field>
+        <field name="icms_origin">0</field>
+    </record>
+
+    <!-- TODO: Restaurant Expenses: How expenses must be record at fiscal? -->
+    <record id="product.expense_product" model="product.product">
+        <field name="fiscal_type">99</field>
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+    </record>
+
+    <!-- Service products -->
+    <!-- Customized Development-->
+    <record id="customized_development_sale" model="product.product">
+        <field name="name">Customized Odoo Development</field>
+        <field name="list_price">100.0</field>
+        <field name="standard_price">0.0</field>
+        <field name="type">service</field>
+        <field name="default_code">ODOO_DEV</field>
+        <field name="uom_id" ref="uom.product_uom_hour" />
+        <field name="uom_po_id" ref="uom.product_uom_hour" />
+        <field name="categ_id" ref="product.product_category_4" />
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+        <field name="fiscal_type">09</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
+        <field name="icms_origin" eval="" />
+        <field name="service_type_id" ref="l10n_br_fiscal.service_type_105" />
+    </record>
+
+</odoo>
