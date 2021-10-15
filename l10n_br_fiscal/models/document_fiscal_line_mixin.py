@@ -3,7 +3,6 @@
 
 from odoo import api, fields, models
 
-from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
     FISCAL_COMMENT_LINE,
@@ -93,7 +92,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     price_unit = fields.Float(
-        string="Price Unit", digits=dp.get_precision("Product Price")
+        string="Price Unit", digits="Product Price"
     )
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Partner")
@@ -104,7 +103,7 @@ class FiscalDocumentLineMixin(models.AbstractModel):
 
     quantity = fields.Float(
         string="Quantity",
-        digits=dp.get_precision("Product Unit of Measure"),
+        digits="Product Unit of Measure",
         default=1.0,
     )
 
@@ -164,13 +163,13 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     )
 
     fiscal_price = fields.Float(
-        string="Fiscal Price", digits=dp.get_precision("Product Price")
+        string="Fiscal Price", digits="Product Price"
     )
 
     uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
 
     fiscal_quantity = fields.Float(
-        string="Fiscal Quantity", digits=dp.get_precision("Product Unit of Measure")
+        string="Fiscal Quantity", digits="Product Unit of Measure"
     )
 
     discount_value = fields.Monetary(string="Discount Value")
@@ -549,16 +548,16 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_II)],
     )
 
-    ii_base = fields.Float(string="II Base", digits=dp.get_precision("Account"))
+    ii_base = fields.Float(string="II Base", digits="Account")
 
     ii_percent = fields.Float(string="II %")
 
-    ii_value = fields.Float(string="II Value", digits=dp.get_precision("Account"))
+    ii_value = fields.Float(string="II Value", digits="Account")
 
-    ii_iof_value = fields.Float(string="IOF Value", digits=dp.get_precision("Account"))
+    ii_iof_value = fields.Float(string="IOF Value", digits="Account")
 
     ii_customhouse_charges = fields.Float(
-        string="Despesas Aduaneiras", digits=dp.get_precision("Account")
+        string="Despesas Aduaneiras", digits="Account"
     )
 
     # PIS/COFINS Fields
