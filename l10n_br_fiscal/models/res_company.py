@@ -193,7 +193,6 @@ class ResCompany(models.Model):
     annual_revenue = fields.Monetary(
         string="Annual Revenue",
         currency_field="currency_id",
-        digits="Fiscal Documents",
     )
 
     simplifed_tax_id = fields.Many2one(
@@ -222,7 +221,6 @@ class ResCompany(models.Model):
     payroll_amount = fields.Monetary(
         string="Last Period Payroll Amount",
         currency_field="currency_id",
-        digits="Fiscal Documents",
     )
 
     coefficient_r = fields.Boolean(
