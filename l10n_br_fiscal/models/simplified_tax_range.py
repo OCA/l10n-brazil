@@ -3,7 +3,6 @@
 
 from odoo import fields, models
 
-from odoo.addons import decimal_precision as dp
 
 
 class SimplifiedTaxRange(models.Model):
@@ -24,54 +23,54 @@ class SimplifiedTaxRange(models.Model):
     amount_deduced = fields.Monetary(
         string="Amount to be Deducted",
         currency_field="currency_id",
-        digits=dp.get_precision("Fiscal Documents"),
+        digits="Fiscal Documents",
         required=True,
     )
 
     inital_revenue = fields.Monetary(
         string="Initial Revenue",
         currency_field="currency_id",
-        digits=dp.get_precision("Fiscal Documents"),
+        digits="Fiscal Documents",
     )
 
     final_revenue = fields.Monetary(
         string="Final Revenue",
         currency_field="currency_id",
-        digits=dp.get_precision("Fiscal Documents"),
+        digits="Fiscal Documents",
     )
 
     total_tax_percent = fields.Float(
-        string="Tax Percent", digits=dp.get_precision("Fiscal Tax Percent")
+        string="Tax Percent", digits="Fiscal Tax Percent"
     )
 
     tax_cpp_percent = fields.Float(
-        string="Tax CPP Percent", digits=dp.get_precision("Fiscal Tax Percent")
+        string="Tax CPP Percent", digits="Fiscal Tax Percent"
     )
 
     tax_csll_percent = fields.Float(
-        string="Tax CSLL Percent", digits=dp.get_precision("Fiscal Tax Percent")
+        string="Tax CSLL Percent", digits="Fiscal Tax Percent"
     )
 
     tax_ipi_percent = fields.Float(
-        string="Tax IPI Percent", digits=dp.get_precision("Fiscal Tax Percent")
+        string="Tax IPI Percent", digits="Fiscal Tax Percent"
     )
 
     tax_icms_percent = fields.Float(
-        string="Tax ICMS Percent", digits=dp.get_precision("Fiscal Tax Percent")
+        string="Tax ICMS Percent", digits="Fiscal Tax Percent"
     )
 
     tax_iss_percent = fields.Float(
-        string="Tax ISS Percent", digits=dp.get_precision("Fiscal Tax Percent")
+        string="Tax ISS Percent", digits="Fiscal Tax Percent"
     )
 
     tax_irpj_percent = fields.Float(
-        string="Tax IRPJ Percent", digits=dp.get_precision("Fiscal Tax Percent")
+        string="Tax IRPJ Percent", digits="Fiscal Tax Percent"
     )
 
     tax_cofins_percent = fields.Float(
-        string="Tax COFINS Percent", digits=dp.get_precision("Fiscal Tax Percent")
+        string="Tax COFINS Percent", digits="Fiscal Tax Percent"
     )
 
     tax_pis_percent = fields.Float(
-        string="Tax PIS Percent", digits=dp.get_precision("Fiscal Tax Percent")
+        string="Tax PIS Percent", digits="Fiscal Tax Percent"
     )
