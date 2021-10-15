@@ -10,7 +10,6 @@ from lxml import etree
 from odoo import _, api, fields, models
 from odoo.osv import orm
 
-from odoo.addons import decimal_precision as dp
 
 from .ibpt.taxes import DeOlhoNoImposto
 
@@ -36,7 +35,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
         string="Estimate Tax Nacional Percent",
         store=True,
         readonly=True,
-        digits=dp.get_precision("Fiscal Tax Percent"),
+        digits="Fiscal Tax Percent",
         compute="_compute_amount",
     )
 
@@ -44,7 +43,7 @@ class DataNcmNbsAbstract(models.AbstractModel):
         string="Estimate Tax Imported Percent",
         store=True,
         readonly=True,
-        digits=dp.get_precision("Fiscal Tax Percent"),
+        digits="Fiscal Tax Percent",
         compute="_compute_amount",
     )
 
