@@ -46,7 +46,7 @@ class DocumentWorkflow(models.AbstractModel):
         copy=False,
         required=True,
         readonly=True,
-        tracking=True,
+        # tracking=True,
         index=True,
     )
 
@@ -54,7 +54,7 @@ class DocumentWorkflow(models.AbstractModel):
         selection=SITUACAO_FISCAL,
         string="Situação Fiscal",
         copy=False,
-        tracking=True,
+        # tracking=True,
         index=True,
     )
 
