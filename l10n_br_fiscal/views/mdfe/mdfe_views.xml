@@ -172,7 +172,6 @@ action= {
     <record model="ir.actions.act_window" id="l10n_br_fiscal_mdfe_action">
         <field name="name">Manifestation</field>
         <field name="res_model">l10n_br_fiscal.mdfe</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
