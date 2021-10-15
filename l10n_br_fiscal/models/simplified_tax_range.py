@@ -22,20 +22,17 @@ class SimplifiedTaxRange(models.Model):
     amount_deduced = fields.Monetary(
         string="Amount to be Deducted",
         currency_field="currency_id",
-        digits="Fiscal Documents",
         required=True,
     )
 
     inital_revenue = fields.Monetary(
         string="Initial Revenue",
         currency_field="currency_id",
-        digits="Fiscal Documents",
     )
 
     final_revenue = fields.Monetary(
         string="Final Revenue",
         currency_field="currency_id",
-        digits="Fiscal Documents",
     )
 
     total_tax_percent = fields.Float(string="Tax Percent", digits="Fiscal Tax Percent")
