@@ -6,7 +6,6 @@ import logging
 
 from odoo import api, fields, models, tools
 
-from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
     COEFFICIENT_R,
@@ -199,7 +198,7 @@ class ResCompany(models.Model):
     annual_revenue = fields.Monetary(
         string="Annual Revenue",
         currency_field="currency_id",
-        digits=dp.get_precision("Fiscal Documents"),
+        digits="Fiscal Documents",
     )
 
     simplifed_tax_id = fields.Many2one(
@@ -221,13 +220,13 @@ class ResCompany(models.Model):
         string="Simplifed Tax Percent",
         compute="_compute_simplifed_tax",
         store=True,
-        digits=dp.get_precision("Fiscal Tax Percent"),
+        digits="Fiscal Tax Percent",
     )
 
     payroll_amount = fields.Monetary(
         string="Last Period Payroll Amount",
         currency_field="currency_id",
-        digits=dp.get_precision("Fiscal Documents"),
+        digits="Fiscal Documents",
     )
 
     coefficient_r = fields.Boolean(
