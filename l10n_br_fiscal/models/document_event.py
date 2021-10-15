@@ -156,14 +156,14 @@ class Event(models.Model):
         comodel_name="ir.attachment",
         string="XML",
         copy=False,
-        readony=True,
+        readonly=True,
     )
 
     file_response_id = fields.Many2one(
         comodel_name="ir.attachment",
         string="XML Response",
         copy=False,
-        readony=True,
+        readonly=True,
     )
 
     file_path = fields.Char(
