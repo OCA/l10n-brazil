@@ -135,7 +135,7 @@ class OperationLine(models.Model):
         default=OPERATION_STATE_DEFAULT,
         index=True,
         readonly=True,
-        track_visibility="onchange",
+        tracking=True,
         copy=False,
     )
 
