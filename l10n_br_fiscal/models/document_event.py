@@ -92,7 +92,6 @@ class Event(models.Model):
 
     origin = fields.Char(
         string="Source Document",
-        size=64,
         readonly=True,
         help="Document reference that generated this event.",
     )
@@ -145,7 +144,6 @@ class Event(models.Model):
 
     justification = fields.Char(
         string="Justification",
-        size=255,
     )
 
     display_name = fields.Char(
