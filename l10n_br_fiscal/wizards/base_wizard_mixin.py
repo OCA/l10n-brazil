@@ -51,7 +51,6 @@ class BaseWizardMixin(models.TransientModel):
 
     justification = fields.Text(
         string="Justification",
-        size=255,
     )
 
     document_status = fields.Text(string="Status", readonly=True)
