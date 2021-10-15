@@ -212,7 +212,7 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.simplified.tax.range",
         compute="_compute_simplifed_tax",
         store=True,
-        readyonly=True,
+        readonly=True,
         string="Simplified Tax Range",
     )
 
