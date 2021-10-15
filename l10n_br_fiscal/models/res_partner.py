@@ -29,7 +29,7 @@ class ResPartner(models.Model):
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_NORMAL,
         string="Tax Framework",
-        track_visibility="onchange",
+        tracking=True,
     )
 
     cnae_main_id = fields.Many2one(
@@ -43,7 +43,7 @@ class ResPartner(models.Model):
         string="Contribuinte do ICMS",
         required=True,
         default=NFE_IND_IE_DEST_DEFAULT,
-        track_visibility="onchange",
+        tracking=True,
     )
 
     fiscal_profile_id = fields.Many2one(
@@ -52,31 +52,31 @@ class ResPartner(models.Model):
         inverse="_inverse_fiscal_profile",
         domain="[('is_company', '=', is_company)]",
         default=_default_fiscal_profile_id,
-        track_visibility="onchange",
+        tracking=True,
     )
 
     cnpj_cpf = fields.Char(
-        track_visibility="onchange",
+        tracking=True,
     )
 
     inscr_est = fields.Char(
-        track_visibility="onchange",
+        tracking=True,
     )
 
     inscr_mun = fields.Char(
-        track_visibility="onchange",
+        tracking=True,
     )
 
     is_company = fields.Boolean(
-        track_visibility="onchange",
+        tracking=True,
     )
 
     state_id = fields.Many2one(
-        track_visibility="onchange",
+        tracking=True,
     )
 
     city_id = fields.Many2one(
-        track_visibility="onchange",
+        tracking=True,
     )
 
     def _inverse_fiscal_profile(self):
