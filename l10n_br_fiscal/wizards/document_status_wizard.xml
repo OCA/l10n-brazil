@@ -50,7 +50,6 @@
     <record model="ir.actions.act_window" id="wizard_document_status_act_multi">
         <field name="name">Document Status</field>
         <field name="res_model">l10n_br_fiscal.document.status.wizard</field>
-        <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="binding_model_id" ref="model_l10n_br_fiscal_document" />
         <field name="target">new</field>
