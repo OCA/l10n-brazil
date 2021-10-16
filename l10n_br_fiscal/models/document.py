@@ -545,7 +545,7 @@ class Document(models.Model):
         compose_form = self.env.ref("mail.email_compose_message_wizard_form", False)
         lang = self.env.context.get("lang")
         if template and template.lang:
-            lang = template._render_template(template.lang, self._name, self.id)
+            lang = template._render_template(template.lang, self._name, [self.id])
         self = self.with_context(lang=lang)
         ctx = dict(
             default_model="l10n_br_fiscal.document",
