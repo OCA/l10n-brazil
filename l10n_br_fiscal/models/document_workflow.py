@@ -335,8 +335,8 @@ class DocumentWorkflow(models.AbstractModel):
     def action_document_cancel(self):
         self.ensure_one()
         if self.state_edoc == SITUACAO_EDOC_AUTORIZADA:
-            result = self.env["ir.actions.act_window"].for_xml_id(
-                "l10n_br_fiscal", "document_cancel_wizard_action"
+            result = self.env["ir.actions.act_window"]._for_xml_id(
+                "l10n_br_fiscal.document_cancel_wizard_action"
             )
             return result
 
@@ -353,8 +353,8 @@ class DocumentWorkflow(models.AbstractModel):
             )
             and self.issuer == DOCUMENT_ISSUER_COMPANY
         ):
-            return self.env["ir.actions.act_window"].for_xml_id(
-                "l10n_br_fiscal", "invalidate_number_wizard_action"
+            return self.env["ir.actions.act_window"]._for_xml_id(
+                "l10n_br_fiscal.invalidate_number_wizard_action"
             )
         else:
             raise UserError(_("You cannot invalidate this document"))
@@ -369,8 +369,8 @@ class DocumentWorkflow(models.AbstractModel):
             self.state_edoc in SITUACAO_EDOC_AUTORIZADA
             and self.issuer == DOCUMENT_ISSUER_COMPANY
         ):
-            return self.env["ir.actions.act_window"].for_xml_id(
-                "l10n_br_fiscal", "document_correction_wizard_action"
+            return self.env["ir.actions.act_window"]._for_xml_id(
+                "l10n_br_fiscal.document_correction_wizard_action"
             )
         else:
             raise UserError(
