@@ -25,3 +25,8 @@ class NfeSpecMixin(models.AbstractModel):
     def _compute_brl_currency_id(self):
         for item in self:
             item.brl_currency_id = self.env.ref("base.BRL").id
+
+    def _valid_field_parameter(self, field, name):
+        return name in ("xsd_type", "xsd_required") or super()._valid_field_parameter(
+            field, name
+        )
