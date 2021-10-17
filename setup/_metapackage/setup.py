@@ -13,6 +13,7 @@ setuptools.setup(
         'odoo13-addon-l10n_br_coa_generic',
         'odoo13-addon-l10n_br_coa_simple',
         'odoo13-addon-l10n_br_fiscal',
+        'odoo13-addon-l10n_br_nfe_spec',
     ],
     classifiers=[
         'Programming Language :: Python',
