@@ -1,5 +1,6 @@
 # generated from manifests external_dependencies
 erpbrasil.assinatura
 erpbrasil.base
+nfelib
 num2words
 pyOpenSSL
