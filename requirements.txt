@@ -8,3 +8,4 @@ num2words
 odoo_test_helper
 pycep_correios
 workalendar
+xmldiff

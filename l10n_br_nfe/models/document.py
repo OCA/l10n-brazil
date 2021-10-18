@@ -103,7 +103,7 @@ class NFe(spec_models.StackedModel):
         selection=NFE_VERSIONS,
         string="NFe Version",
         copy=False,
-        default=lambda self: self.env.user.company_id.nfe_version,
+        default=lambda self: self.env.company.nfe_version,
     )
 
     nfe_environment = fields.Selection(
