@@ -5,7 +5,7 @@ from odoo import api, fields, models
 
 
 class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+    _inherit = "account.move"
 
     financial_move_line_ids = fields.Many2many(
         comodel_name="account.move.line",
@@ -15,11 +15,10 @@ class AccountInvoice(models.Model):
         string="Financial Move Lines",
     )
 
-    @api.depends("move_id.line_ids", "move_id.state")
+    @api.depends("line_ids", "state")
     def _compute_financial(self):
-        for invoice in self:
-            lines = invoice.move_id.line_ids.filtered(
-                lambda l: l.account_id == invoice.account_id
-                and l.account_id.internal_type in ("receivable", "payable")
+        for move in self:
+            lines = move.line_ids.filtered(
+                lambda l: l.account_id.internal_type in ("receivable", "payable")
             )
-            invoice.financial_move_line_ids = lines.sorted()
+            move.financial_move_line_ids = lines.sorted()
