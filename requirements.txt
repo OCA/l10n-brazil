@@ -2,6 +2,7 @@
 erpbrasil.assinatura
 erpbrasil.base
 erpbrasil.edoc
+erpbrasil.edoc.pdf
 erpbrasil.transmissao
 nfelib
 num2words
