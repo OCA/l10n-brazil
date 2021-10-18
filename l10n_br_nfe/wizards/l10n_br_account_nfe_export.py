@@ -1,7 +1,7 @@
 # Copyright (C) 2009  Renato Lima - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from openerp import api, fields, models
+from odoo import fields, models
 
 
 class L10nBrAccountNfeExport(models.TransientModel):
@@ -24,7 +24,6 @@ class L10nBrAccountNfeExport(models.TransientModel):
         string="NFe Export Result",
     )
 
-    @api.multi
     def _get_invoice_ids(self):
         return self.env["account.invoice"].search(
             [
