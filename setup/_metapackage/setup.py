@@ -15,6 +15,7 @@ setuptools.setup(
         'odoo13-addon-l10n_br_coa_simple',
         'odoo13-addon-l10n_br_fiscal',
         'odoo13-addon-l10n_br_nfe_spec',
+        'odoo13-addon-spec_driven_model',
     ],
     classifiers=[
         'Programming Language :: Python',
