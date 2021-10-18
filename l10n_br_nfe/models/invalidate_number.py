@@ -9,7 +9,7 @@ from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.transmissao import TransmissaoSOAP
 from requests import Session
 
-from odoo import _, api, fields, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import EVENT_ENV_HML, EVENT_ENV_PROD
@@ -43,7 +43,6 @@ class InvalidateNumber(models.Model):
             ambiente=self.company_id.nfe_environment,
         )
 
-    @api.multi
     def _invalidate(self, document_id=False):
         processador = self._processador()
         evento = processador.inutilizacao(
