@@ -6,8 +6,8 @@ import base64
 import time
 from datetime import datetime
 
-from openerp import _, api, fields, models
-from openerp.exceptions import Warning as UserError
+from odoo import _, fields, models
+from odoo.exceptions import Warning as UserError
 
 
 class L10nBrAccountNfeExportInvoice(models.TransientModel):
@@ -61,7 +61,6 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
         string=u"Salvar na Pasta de Exportação", default=_default_export_folder
     )
 
-    @api.multi
     def nfe_export(self):
         for data in self:
             active_ids = self._context.get("active_ids", [])
