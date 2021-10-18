@@ -17,3 +17,9 @@ class SpecMixin(models.AbstractModel):
     # _odoo_module = 'your.odoo_module'
     # _field_prefix = 'your_field_prefix_'
     # _schema_name = 'your_schema_name'
+
+    def _valid_field_parameter(self, field, name):
+        if name in ("xsd_type", "xsd_required", "choice"):
+            return True
+        else:
+            return super()._valid_field_parameter(field, name)
