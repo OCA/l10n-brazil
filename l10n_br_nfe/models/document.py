@@ -403,7 +403,6 @@ class NFe(spec_models.StackedModel):
             ambiente=self.nfe_environment,
         )
 
-    @api.multi
     def _document_export(self, pretty_print=True):
         super()._document_export()
         for record in self.filtered(filter_processador_edoc_nfe):
@@ -481,7 +480,6 @@ class NFe(spec_models.StackedModel):
         # if not self.nfe40_detPag:  # (empty list)
         #    raise UserError(_("Favor preencher os dados do pagamento"))
 
-    @api.multi
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
@@ -525,7 +523,6 @@ class NFe(spec_models.StackedModel):
                 )
         return
 
-    @api.multi
     def _document_date(self):
         super()._document_date()
         for record in self.filtered(filter_processador_edoc_nfe):
@@ -713,7 +710,6 @@ class NFe(spec_models.StackedModel):
         new_root.append(protNFe_node)
         return etree.tostring(new_root)
 
-    @api.multi
     def _document_cancel(self, justificative):
         super(NFe, self)._document_cancel(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
@@ -771,14 +767,12 @@ class NFe(spec_models.StackedModel):
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
 
-    @api.multi
     def _document_correction(self, justificative):
         super(NFe, self)._document_correction(justificative)
         online_event = self.filtered(filter_processador_edoc_nfe)
         if online_event:
             online_event._nfe_correction(justificative)
 
-    @api.multi
     def _nfe_correction(self, justificative):
         self.ensure_one()
         processador = self._processador()
