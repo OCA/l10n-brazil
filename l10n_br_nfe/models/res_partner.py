@@ -120,6 +120,8 @@ class ResPartner(spec_models.SpecModel):
 
             if rec.inscr_est and rec.is_company:
                 rec.nfe40_IE = punctuation_rm(rec.inscr_est)
+            else:
+                rec.nfe40_IE = None
 
     def _inverse_nfe40_CNPJ(self):
         for rec in self:
