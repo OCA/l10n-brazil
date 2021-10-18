@@ -1637,7 +1637,7 @@ msgid "CST PIS ST"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/cst.py:39
+#: code:addons/l10n_br_fiscal/models/cst.py:38
 #: sql_constraint:l10n_br_fiscal.cst:0
 #, python-format
 msgid "CST already exists with this code !"
@@ -1743,7 +1743,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:539
+#: code:addons/l10n_br_fiscal/models/document.py:535
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -3571,7 +3571,7 @@ msgid "Fiscal Operation Line"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:154
+#: code:addons/l10n_br_fiscal/models/operation_line.py:150
 #: sql_constraint:l10n_br_fiscal.operation.line:0
 #, python-format
 msgid "Fiscal Operation Line already exists with this name !"
@@ -5366,7 +5366,6 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/constants/fiscal.py:201
 #: selection:l10n_br_fiscal.cfop,type_in_out:0
 #: selection:l10n_br_fiscal.cst,cst_type:0
-#: selection:l10n_br_fiscal.document,fiscal_operation_type:0
 #: selection:l10n_br_fiscal.document.serie,fiscal_type:0
 #: selection:l10n_br_fiscal.operation,fiscal_operation_type:0
 #: selection:l10n_br_fiscal.tax.definition,type_in_out:0
@@ -6610,7 +6609,7 @@ msgid "Não se aplica"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:239
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:231
 #, python-format
 msgid "Não é possível realizar esta operação,\n"
 "esta transição não é permitida:\n"
@@ -6621,7 +6620,7 @@ msgid "Não é possível realizar esta operação,\n"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:162
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:154
 #, python-format
 msgid "Não é possível retornar o documento para em \n"
 "digitação, quando o mesmo esta na situação: \n"
@@ -6643,12 +6642,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_payment__payment_type
 msgid "Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-e e NFC-e. Para as notas com finalidade de Ajuste ou Devolução o campo Forma de Pagamento deve ser preenchido com 90 - Sem Pagamento."
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document.electronic,processador_edoc:0
-#: selection:l10n_br_fiscal.document.workflow,processador_edoc:0
-msgid "Odoo Community"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -6825,7 +6818,6 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/constants/fiscal.py:201
 #: selection:l10n_br_fiscal.cfop,type_in_out:0
 #: selection:l10n_br_fiscal.cst,cst_type:0
-#: selection:l10n_br_fiscal.document,fiscal_operation_type:0
 #: selection:l10n_br_fiscal.document.serie,fiscal_type:0
 #: selection:l10n_br_fiscal.operation,fiscal_operation_type:0
 #: selection:l10n_br_fiscal.tax.definition,type_in_out:0
@@ -7366,12 +7358,6 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__processador_edoc
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_electronic__processador_edoc
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_workflow__processador_edoc
-msgid "Processador"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_invoice_mixin__processador_edoc
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__processador_edoc
 msgid "Processador documentos eletrônicos"
@@ -7993,8 +7979,6 @@ msgid "Select the type of document that will be applied to the email templates d
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.document.electronic,processador_edoc:0
-#: selection:l10n_br_fiscal.document.workflow,processador_edoc:0
 #: selection:res.company,processador_edoc:0
 msgid "Sem Integração"
 msgstr ""
@@ -8012,7 +7996,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:566
+#: code:addons/l10n_br_fiscal/models/document.py:562
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8826,8 +8810,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:396
-#: code:addons/l10n_br_fiscal/models/document.py:410
+#: code:addons/l10n_br_fiscal/models/document.py:392
+#: code:addons/l10n_br_fiscal/models/document.py:406
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -8850,13 +8834,13 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:295
+#: code:addons/l10n_br_fiscal/models/document.py:291
 #, python-format
 msgid "There is already a fiscal document with this Serie: {}, Number: {} !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:258
+#: code:addons/l10n_br_fiscal/models/document.py:254
 #, python-format
 msgid "There is already a fiscal document with this key: {} !"
 msgstr ""
@@ -8947,7 +8931,7 @@ msgid "UOM"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:321
+#: code:addons/l10n_br_fiscal/models/document.py:317
 #, python-format
 msgid "Unidentified Consumer"
 msgstr ""
@@ -9178,7 +9162,7 @@ msgid "Waiting Response"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:291
+#: code:addons/l10n_br_fiscal/models/operation_line.py:287
 #, python-format
 msgid "Warning!"
 msgstr ""
@@ -9267,13 +9251,13 @@ msgid "You can note repeat the alternative name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:385
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:377
 #, python-format
 msgid "You cannot create a fiscal correction document if this fical document you are not the document issuer"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:283
+#: code:addons/l10n_br_fiscal/models/operation_line.py:279
 #, python-format
 msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
@@ -9285,37 +9269,37 @@ msgid "You cannot delete an Operation which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition.py:224
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:222
 #, python-format
 msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:377
+#: code:addons/l10n_br_fiscal/models/document.py:373
 #, python-format
 msgid "You cannot delete fiscal document number {} with the status: {}!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:368
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:360
 #, python-format
 msgid "You cannot invalidate this document"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_line.py:94
+#: code:addons/l10n_br_fiscal/models/document_line.py:91
 #, python-format
 msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:292
+#: code:addons/l10n_br_fiscal/models/operation_line.py:288
 #, python-format
 msgid "You must first select a operation type."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation_line.py:165
+#: code:addons/l10n_br_fiscal/models/operation_line.py:161
 #, python-format
 msgid "You need set a default fiscal document in your company !"
 msgstr ""
