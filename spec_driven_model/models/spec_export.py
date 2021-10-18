@@ -92,7 +92,7 @@ class AbstractSpecMixin(models.AbstractModel):
         self.ensure_one()
         # TODO: Export number required fields with Zero.
         field = class_obj._fields.get(xsd_field, self._stacking_points.get(xsd_field))
-        xsd_required = field._attrs.get("xsd_required")
+        xsd_required = field.xsd_required if hasattr(field, "xsd_required") else None
 
         if field.type == "many2one":
             if (not self._stacking_points.get(xsd_field)) and (
