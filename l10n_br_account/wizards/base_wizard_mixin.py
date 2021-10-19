@@ -8,7 +8,7 @@ class BaseWizardMixin(models.TransientModel):
     _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
     invoice_id = fields.Many2one(
-        comodel_name="account.invoice",
+        comodel_name="account.move",
         string="Invoice",
     )
 
@@ -22,5 +22,5 @@ class BaseWizardMixin(models.TransientModel):
 
     def _prepare_key_fields(self):
         vals = super()._prepare_key_fields()
-        vals["account.invoice"] = "invoice_id"
+        vals["account.move"] = "invoice_id"
         return vals
