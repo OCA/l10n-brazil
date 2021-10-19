@@ -30,7 +30,7 @@ class TestInvoiceRefund(TransactionCase):
             )
         )
 
-        self.invoice = self.env["account.invoice"].create(
+        self.invoice = self.env["account.move"].create(
             dict(
                 name="Test Refund Invoice",
                 payment_term_id=self.env.ref("account.account_payment_term_advance").id,
