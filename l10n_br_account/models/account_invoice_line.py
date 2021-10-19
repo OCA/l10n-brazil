@@ -119,7 +119,6 @@ class AccountInvoiceLine(models.Model):
         ondelete="restrict",
     )
 
-    @api.one
     @api.depends(
         "price_unit",
         "discount",
