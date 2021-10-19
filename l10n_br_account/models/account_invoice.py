@@ -164,9 +164,7 @@ class AccountInvoice(models.Model):
 
             order_view["fields"]["line_ids"]["views"]["form"] = {}
 
-            order_view["fields"]["line_ids"]["views"]["form"][
-                "fields"
-            ] = sub_fields
+            order_view["fields"]["line_ids"]["views"]["form"]["fields"] = sub_fields
             order_view["fields"]["line_ids"]["views"]["form"]["arch"] = sub_arch
 
         return order_view
@@ -185,9 +183,7 @@ class AccountInvoice(models.Model):
     @api.model
     def create(self, values):
         if not values.get("document_type_id"):
-            values.update(
-                {"fiscal_document_id": self.env.company.fiscal_dummy_id.id}
-            )
+            values.update({"fiscal_document_id": self.env.company.fiscal_dummy_id.id})
         invoice = super().create(values)
         invoice._write_shadowed_fields()
         return invoice
@@ -209,8 +205,7 @@ class AccountInvoice(models.Model):
                 continue
             if (
                 invoice.fiscal_document_id
-                and invoice.fiscal_document_id
-                != self.env.company.fiscal_dummy_id.id
+                and invoice.fiscal_document_id != self.env.company.fiscal_dummy_id.id
             ):
                 unlink_documents |= invoice.fiscal_document_id
             unlink_invoices |= invoice
@@ -228,9 +223,9 @@ class AccountInvoice(models.Model):
 
     @api.depends(
         "line_ids.price_total",
-# TODO FIXME migrate!
-#        "tax_line_ids.amount",
-#        "tax_line_ids.amount_rounding",
+        # TODO FIXME migrate!
+        #        "tax_line_ids.amount",
+        #        "tax_line_ids.amount_rounding",
         "currency_id",
         "company_id",
         "invoice_date",
@@ -250,8 +245,8 @@ class AccountInvoice(models.Model):
                         move.amount_total += inv_line.price_total
                 else:
                     move.amount_untaxed += inv_line.price_subtotal
-# TODO FIXME migrate!
-#                    move.amount_tax += inv_line.price_tax
+                    # TODO FIXME migrate!
+                    #                    move.amount_tax += inv_line.price_tax
                     move.amount_total += inv_line.price_total
 
             move.amount_total -= move.amount_tax_withholding
@@ -286,9 +281,7 @@ class AccountInvoice(models.Model):
         move_lines_dict = super().invoice_line_move_line_get()
         new_mv_lines_dict = []
         for line in move_lines_dict:
-            invoice_line = self.line_ids.filtered(
-                lambda l: l.id == line.get("invl_id")
-            )
+            invoice_line = self.line_ids.filtered(lambda l: l.id == line.get("invl_id"))
 
             if invoice_line.fiscal_operation_id:
                 if invoice_line.fiscal_operation_id.deductible_taxes:
