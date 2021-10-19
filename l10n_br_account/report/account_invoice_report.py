@@ -46,23 +46,17 @@ class AccountInvoiceReport(models.Model):
 
     icms_value = fields.Float(string="Valor ICMS", digits="Account")
 
-    icmsst_value = fields.Float(
-        string="Valor ICMS ST", digits="Account"
-    )
+    icmsst_value = fields.Float(string="Valor ICMS ST", digits="Account")
 
     ipi_value = fields.Float(string="Valor IPI", digits="Account")
 
     pis_value = fields.Float(string="Valor PIS", digits="Account")
 
-    cofins_value = fields.Float(
-        string="Valor COFINS", digits="Account"
-    )
+    cofins_value = fields.Float(string="Valor COFINS", digits="Account")
 
     ii_value = fields.Float(string="Valor II", digits="Account")
 
-    total_with_taxes = fields.Float(
-        string="Total com Impostos", rdigits="Account"
-    )
+    total_with_taxes = fields.Float(string="Total com Impostos", rdigits="Account")
     cest_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cest",
         string="CEST",
