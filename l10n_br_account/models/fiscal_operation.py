@@ -49,8 +49,8 @@ class Operation(models.Model):
         else:
             new_action = self.env.ref("l10n_br_account.fiscal_invoice_all_action")
         invoice_type = FISCAL_TYPE_INVOICE[self.fiscal_type]
-	# TODO FIXME migrate!
-        journal_type = "TODO" # TYPE2JOURNAL[invoice_type]
+        # TODO FIXME migrate!
+        journal_type = "TODO"  # TYPE2JOURNAL[invoice_type]
         new_action["context"] = {
             "type": invoice_type,
             "default_fiscal_operation_type": self.fiscal_type,
