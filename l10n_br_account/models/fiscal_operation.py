@@ -61,7 +61,7 @@ class Operation(models.Model):
 
     def action_create_new(self):
         action = super().action_create_new()
-        action["res_model"] = "account.invoice"
+        action["res_model"] = "account.move"
         action["view_id"] = self.env.ref("l10n_br_account.fiscal_invoice_form").id
         action["context"] = self._change_action_view(action)["context"]
         return action
@@ -71,4 +71,4 @@ class Operation(models.Model):
         return self._change_action_view(action)
 
     def _fiscal_document_object(self):
-        return self.env["account.invoice"]
+        return self.env["account.move"]
