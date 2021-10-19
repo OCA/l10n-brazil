@@ -123,16 +123,16 @@
                     attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"
                 />
             </field>
-            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+            <xpath expr="//field[@name='line_ids']/tree" position="attributes">
                 <attribute name="editable" />
             </xpath>
-            <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+            <xpath expr="//field[@name='line_ids']" position="attributes">
                 <attribute
                     name="context"
                 >{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']"
+                expr="//field[@name='line_ids']/tree/field[@name='invoice_line_tax_ids']"
                 position="after"
             >
                 <field name="document_type_id" invisible="1" />
@@ -147,7 +147,7 @@
                 />
             </xpath>
             <xpath
-                expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']"
+                expr="//field[@name='line_ids']/tree/field[@name='invoice_line_tax_ids']"
                 position="attributes"
             >
                 <attribute name="invisible">1</attribute>
@@ -228,16 +228,16 @@
                     attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"
                 />
             </field>
-            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+            <xpath expr="//field[@name='line_ids']/tree" position="attributes">
                 <attribute name="editable" />
             </xpath>
-            <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+            <xpath expr="//field[@name='line_ids']" position="attributes">
                 <attribute
                     name="context"
                 >{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_type': fiscal_operation_type, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
             </xpath>
             <xpath
-                expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']"
+                expr="//field[@name='line_ids']/tree/field[@name='invoice_line_tax_ids']"
                 position="after"
             >
                 <field name="document_type_id" invisible="1" />
@@ -249,7 +249,7 @@
                 />
             </xpath>
             <xpath
-                expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']"
+                expr="//field[@name='line_ids']/tree/field[@name='invoice_line_tax_ids']"
                 position="attributes"
             >
                 <attribute name="invisible">1</attribute>
