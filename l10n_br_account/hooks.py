@@ -7,7 +7,7 @@ from odoo.tools.sql import column_exists, create_column
 
 def pre_init_hook(cr):
     """
-    account.invoice and account.invoice.line inherits from
+    account.invoice and account.move.line inherits from
     l10n_br_account.fiscal_document and l10n_br_account.fiscal_document.line
     respectively.
     But the problem is that you may have existing invoice and lines (like demo
