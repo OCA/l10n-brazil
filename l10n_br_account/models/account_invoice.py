@@ -537,78 +537,78 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         return self.fiscal_document_id.view_pdf()
 
-    def _get_refund_common_fields(self):
-        fields = super()._get_refund_common_fields()
-        fields += [
-            "fiscal_operation_id",
-            "document_type_id",
-            "document_serie_id",
-        ]
-        return fields
+    # def _get_refund_common_fields(self):
+    #     fields = super()._get_refund_common_fields()
+    #     fields += [
+    #         "fiscal_operation_id",
+    #         "document_type_id",
+    #         "document_serie_id",
+    #     ]
+    #     return fields
 
-    @api.returns("self")
-    def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
-        new_invoices = super().refund(date_invoice, date, description, journal_id)
+    # @api.returns("self")
+    # def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
+    #     new_invoices = super().refund(date_invoice, date, description, journal_id)
 
-        force_fiscal_operation_id = False
-        if self.env.context.get("force_fiscal_operation_id"):
-            force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
-                self.env.context.get("force_fiscal_operation_id")
-            )
+    #     force_fiscal_operation_id = False
+    #     if self.env.context.get("force_fiscal_operation_id"):
+    #         force_fiscal_operation_id = self.env["l10n_br_fiscal.operation"].browse(
+    #             self.env.context.get("force_fiscal_operation_id")
+    #         )
 
-        for record in new_invoices.filtered(lambda i: i.document_type_id):
-            if (
-                not force_fiscal_operation_id
-                and not record.fiscal_operation_id.return_fiscal_operation_id
-            ):
-                raise UserError(
-                    _("""Document without Return Fiscal Operation! \n Force one!""")
-                )
+    #     for record in new_invoices.filtered(lambda i: i.document_type_id):
+    #         if (
+    #             not force_fiscal_operation_id
+    #             and not record.fiscal_operation_id.return_fiscal_operation_id
+    #         ):
+    #             raise UserError(
+    #                 _("""Document without Return Fiscal Operation! \n Force one!""")
+    #             )
 
-            record.fiscal_operation_id = (
-                force_fiscal_operation_id
-                or record.fiscal_operation_id.return_fiscal_operation_id
-            )
-            record.fiscal_document_id._onchange_fiscal_operation_id()
+    #         record.fiscal_operation_id = (
+    #             force_fiscal_operation_id
+    #             or record.fiscal_operation_id.return_fiscal_operation_id
+    #         )
+    #         record.fiscal_document_id._onchange_fiscal_operation_id()
 
-            for line in record.line_ids:
-                if (
-                    not force_fiscal_operation_id
-                    and not line.fiscal_operation_id.return_fiscal_operation_id
-                ):
-                    raise UserError(
-                        _(
-                            """Line without Return Fiscal Operation! \n
-                            Please force one! \n{}""".format(
-                                line.name
-                            )
-                        )
-                    )
+    #         for line in record.line_ids:
+    #             if (
+    #                 not force_fiscal_operation_id
+    #                 and not line.fiscal_operation_id.return_fiscal_operation_id
+    #             ):
+    #                 raise UserError(
+    #                     _(
+    #                         """Line without Return Fiscal Operation! \n
+    #                         Please force one! \n{}""".format(
+    #                             line.name
+    #                         )
+    #                     )
+    #                 )
 
-                line.fiscal_operation_id = (
-                    force_fiscal_operation_id
-                    or line.fiscal_operation_id.return_fiscal_operation_id
-                )
-                line._onchange_fiscal_operation_id()
+    #             line.fiscal_operation_id = (
+    #                 force_fiscal_operation_id
+    #                 or line.fiscal_operation_id.return_fiscal_operation_id
+    #             )
+    #             line._onchange_fiscal_operation_id()
 
-            refund_inv_id = record.refund_move_id
+    #         refund_inv_id = record.refund_move_id
 
-            if record.refund_move_id.document_type_id:
-                record.fiscal_document_id._document_reference(
-                    refund_inv_id.fiscal_document_id
-                )
+    #         if record.refund_move_id.document_type_id:
+    #             record.fiscal_document_id._document_reference(
+    #                 refund_inv_id.fiscal_document_id
+    #             )
 
-        return new_invoices
+    #     return new_invoices
 
-    def _refund_cleanup_lines(self, lines):
-        result = super()._refund_cleanup_lines(lines)
-        for _a, _b, vals in result:
-            if vals.get("fiscal_document_line_id"):
-                vals.pop("fiscal_document_line_id")
+    # def _refund_cleanup_lines(self, lines):
+    #     result = super()._refund_cleanup_lines(lines)
+    #     for _a, _b, vals in result:
+    #         if vals.get("fiscal_document_line_id"):
+    #             vals.pop("fiscal_document_line_id")
 
-        for i, line in enumerate(lines):
-            for name, _field in line._fields.items():
-                if name == "fiscal_tax_ids":
-                    result[i][2][name] = [(6, 0, line[name].ids)]
+    #     for i, line in enumerate(lines):
+    #         for name, _field in line._fields.items():
+    #             if name == "fiscal_tax_ids":
+    #                 result[i][2][name] = [(6, 0, line[name].ids)]
 
-        return result
+    #     return result
