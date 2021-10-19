@@ -32,7 +32,7 @@ class TestSupplierInvoice(TransactionCase):
                 payment_term_id=self.env.ref("account.account_payment_term_advance").id,
                 partner_id=self.env.ref("base.res_partner_3").id,
                 journal_id=self.purchase_journal.id,
-                invoice_line_ids=[
+                line_ids=[
                     (
                         0,
                         0,
