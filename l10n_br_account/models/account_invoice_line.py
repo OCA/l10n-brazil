@@ -10,7 +10,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 from .account_invoice import INVOICE_TO_OPERATION
 
-# These fields that have the same name in account.invoice.line
+# These fields that have the same name in account.move.line
 # and l10n_br_fiscal.document.line.mixin. So they won't be updated
 # by the _inherits system. An alternative would be changing their name
 # in l10n_br_fiscal but that would make the code unreadable and fiscal mixin
@@ -30,11 +30,11 @@ SHADOWED_FIELDS = [
 
 
 class AccountInvoiceLine(models.Model):
-    _name = "account.invoice.line"
+    _name = "account.move.line"
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin.methods"]
     _inherits = {"l10n_br_fiscal.document.line": "fiscal_document_line_id"}
 
-    # initial account.invoice.line inherits on fiscal.document.line that are
+    # initial account.move.line inherits on fiscal.document.line that are
     # disable with active=False in their fiscal_document_line table.
     # To make these invoice lines still visible, we set active=True
     # in the invoice.line table.
