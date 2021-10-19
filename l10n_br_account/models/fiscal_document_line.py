@@ -8,7 +8,7 @@ class FiscalDocumentLine(models.Model):
     _inherit = "l10n_br_fiscal.document.line"
 
     invoice_line_ids = fields.One2many(
-        comodel_name="account.invoice.line",
+        comodel_name="account.move.line",
         inverse_name="fiscal_document_line_id",
         string="Invoice Lines",
     )
