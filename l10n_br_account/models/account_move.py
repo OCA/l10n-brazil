@@ -64,7 +64,7 @@ class AccountMove(models.Model):
                             self._prepare_wh_invoice(line, fiscal_group)
                         )
 
-                        self.env["account.invoice.line"].create(
+                        self.env["account.move.line"].create(
                             self._prepare_wh_invoice_line(invoice, line)
                         )
 
@@ -74,7 +74,7 @@ class AccountMove(models.Model):
     def _withholding_validate(self):
         for m in self:
             invoices = (
-                self.env["account.invoice.line"]
+                self.env["account.move.line"]
                 .search([("wh_move_line_id", "in", m.mapped("line_ids").ids)])
                 .mapped("invoice_id")
             )

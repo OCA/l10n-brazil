@@ -149,16 +149,16 @@ class AccountInvoice(models.Model):
                     "l10n_br_account.invoice_line_form"
                 ).id
 
-            sub_form_view = self.env["account.invoice.line"].fields_view_get(
+            sub_form_view = self.env["account.move.line"].fields_view_get(
                 view_id=invoice_line_form_id, view_type="form"
             )["arch"]
 
             sub_form_node = etree.fromstring(
-                self.env["account.invoice.line"].fiscal_form_view(sub_form_view)
+                self.env["account.move.line"].fiscal_form_view(sub_form_view)
             )
 
             sub_arch, sub_fields = view.postprocess_and_fields(
-                "account.invoice.line", sub_form_node, None
+                "account.move.line", sub_form_node, None
             )
 
             order_view["fields"]["invoice_line_ids"]["views"]["form"] = {}
