@@ -59,7 +59,7 @@ class AccountInvoice(models.Model):
         "l10n_br_fiscal.document.invoice.mixin",
     ]
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
-    _order = "invoice_date DESC, name DESC"
+    _order = "date DESC, number DESC"
 
     # initial account.invoice inherits on fiscal.document that are
     # disable with active=False in their fiscal_document table.
@@ -547,8 +547,8 @@ class AccountInvoice(models.Model):
     #     return fields
 
     # @api.returns("self")
-    # def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
-    #     new_invoices = super().refund(date_invoice, date, description, journal_id)
+    # def refund(self, date=None, date=None, description=None, journal_id=None):
+    #     new_invoices = super().refund(date, date, description, journal_id)
 
     #     force_fiscal_operation_id = False
     #     if self.env.context.get("force_fiscal_operation_id"):
