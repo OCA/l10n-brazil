@@ -225,7 +225,6 @@ class AccountInvoice(models.Model):
             default["line_ids"] = False
         return super().copy(default)
 
-    @api.one
     @api.depends(
         "invoice_line_ids.price_total",
         "tax_line_ids.amount",
@@ -543,7 +542,6 @@ class AccountInvoice(models.Model):
         ]
         return fields
 
-    @api.multi
     @api.returns("self")
     def refund(self, date_invoice=None, date=None, description=None, journal_id=None):
         new_invoices = super().refund(date_invoice, date, description, journal_id)
