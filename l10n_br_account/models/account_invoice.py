@@ -109,7 +109,7 @@ class AccountInvoice(models.Model):
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
-        return self.mapped("invoice_line_ids")
+        return self.mapped("line_ids")
 
     @api.model
     def _shadowed_fields(self):
@@ -161,12 +161,12 @@ class AccountInvoice(models.Model):
                 "account.move.line", sub_form_node, None
             )
 
-            order_view["fields"]["invoice_line_ids"]["views"]["form"] = {}
+            order_view["fields"]["line_ids"]["views"]["form"] = {}
 
-            order_view["fields"]["invoice_line_ids"]["views"]["form"][
+            order_view["fields"]["line_ids"]["views"]["form"][
                 "fields"
             ] = sub_fields
-            order_view["fields"]["invoice_line_ids"]["views"]["form"]["arch"] = sub_arch
+            order_view["fields"]["line_ids"]["views"]["form"]["arch"] = sub_arch
 
         return order_view
 
@@ -226,7 +226,7 @@ class AccountInvoice(models.Model):
         return super().copy(default)
 
     @api.depends(
-        "invoice_line_ids.price_total",
+        "line_ids.price_total",
         "tax_line_ids.amount",
         "tax_line_ids.amount_rounding",
         "currency_id",
@@ -235,7 +235,7 @@ class AccountInvoice(models.Model):
         "type",
     )
     def _compute_amount(self):
-        inv_lines = self.invoice_line_ids.filtered(
+        inv_lines = self.line_ids.filtered(
             lambda l: not l.fiscal_operation_line_id
             or l.fiscal_operation_line_id.add_to_amount
         )
@@ -282,7 +282,7 @@ class AccountInvoice(models.Model):
         move_lines_dict = super().invoice_line_move_line_get()
         new_mv_lines_dict = []
         for line in move_lines_dict:
-            invoice_line = self.invoice_line_ids.filtered(
+            invoice_line = self.line_ids.filtered(
                 lambda l: l.id == line.get("invl_id")
             )
 
@@ -359,7 +359,7 @@ class AccountInvoice(models.Model):
     def get_taxes_values(self):
         tax_grouped = {}
         round_curr = self.currency_id.round
-        for line in self.invoice_line_ids:
+        for line in self.line_ids:
             if not line.account_id or line.display_type:
                 continue
 
@@ -437,7 +437,7 @@ class AccountInvoice(models.Model):
                     ):
                         invoice.comment_ids |= self.fiscal_operation_id.comment_ids
 
-                    for line in invoice.invoice_line_ids:
+                    for line in invoice.line_ids:
                         if (
                             not line.comment_ids
                             and line.fiscal_operation_line_id.comment_ids
@@ -567,7 +567,7 @@ class AccountInvoice(models.Model):
             )
             record.fiscal_document_id._onchange_fiscal_operation_id()
 
-            for line in record.invoice_line_ids:
+            for line in record.line_ids:
                 if (
                     not force_fiscal_operation_id
                     and not line.fiscal_operation_id.return_fiscal_operation_id
