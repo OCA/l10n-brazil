@@ -5,7 +5,6 @@
     <record id="fiscal_invoice_nfe_action" model="ir.actions.act_window">
         <field name="name">NF-e</field>
         <field name="res_model">account.invoice</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field
@@ -45,7 +44,6 @@
     <record id="fiscal_invoice_nfse_action" model="ir.actions.act_window">
         <field name="name">NFS-e</field>
         <field name="res_model">account.invoice</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field
@@ -85,7 +83,6 @@
     <record id="fiscal_invoice_in_action" model="ir.actions.act_window">
         <field name="name">Incomming Document</field>
         <field name="res_model">account.invoice</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field
@@ -121,7 +118,6 @@
     <record id="fiscal_invoice_out_action" model="ir.actions.act_window">
         <field name="name">Outgoing Document</field>
         <field name="res_model">account.invoice</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field
@@ -171,7 +167,6 @@
     <record id="fiscal_invoice_all_action" model="ir.actions.act_window">
         <field name="name">All Documents</field>
         <field name="res_model">account.invoice</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
         <field eval="False" name="view_id" />
         <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
