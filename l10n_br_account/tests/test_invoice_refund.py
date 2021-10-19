@@ -40,7 +40,7 @@ class TestInvoiceRefund(TransactionCase):
                 document_serie_id=self.env.ref(
                     "l10n_br_fiscal.empresa_lc_document_55_serie_1"
                 ).id,
-                invoice_line_ids=[
+                line_ids=[
                     (
                         0,
                         0,
@@ -104,7 +104,7 @@ class TestInvoiceRefund(TransactionCase):
         with self.assertRaises(UserError):
             invoice.refund()
 
-        for line_id in invoice.invoice_line_ids:
+        for line_id in invoice.line_ids:
             line_id["fiscal_operation_id"] = (
                 self.env.ref("l10n_br_fiscal.fo_venda").id,
             )
