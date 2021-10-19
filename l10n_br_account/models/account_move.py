@@ -24,7 +24,7 @@ class AccountMove(models.Model):
             "type": "in_invoice",
             "account_id": fiscal_group.partner_id.property_account_payable_id.id,
             "journal_id": move_line.journal_id.id,
-            "origin": move_line.move_id.number,
+            "origin": move_line.move_id.name,
         }
         return values
 
