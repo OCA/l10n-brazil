@@ -330,7 +330,7 @@ class AccountInvoice(models.Model):
                         "account_id": account.id,
                         "account_analytic_id": tax_line.account_analytic_id.id,
                         "analytic_tag_ids": analytic_tag_ids,
-                        "invoice_id": self.id,
+                        "move_id": self.id,
                     }
                     tax_lines_dict.append(tax_line_vals)
 
@@ -365,10 +365,10 @@ class AccountInvoice(models.Model):
 
             computed_taxes = line.invoice_line_tax_ids.compute_all(
                 price_unit=line.price_unit,
-                currency=line.invoice_id.currency_id,
+                currency=line.move_id.currency_id,
                 quantity=line.quantity,
                 product=line.product_id,
-                partner=line.invoice_id.partner_id,
+                partner=line.move_id.partner_id,
                 fiscal_taxes=line.fiscal_tax_ids,
                 operation_line=line.fiscal_operation_line_id,
                 ncm=line.ncm_id,
@@ -501,7 +501,7 @@ class AccountInvoice(models.Model):
     def action_invoice_open(self):
         result = super().action_invoice_open()
 
-        for record in self.filtered(lambda i: i.refund_invoice_id):
+        for record in self.filtered(lambda i: i.refund_move_id):
             if record.state == "open":
                 # Ao confirmar uma fatura/documento fiscal se é uma devolução
                 # é feito conciliado com o documento de origem para abater
@@ -512,8 +512,8 @@ class AccountInvoice(models.Model):
                         to_reconcile_lines += line
                     if line.reconciled:
                         line.remove_move_reconcile()
-                for line in record.refund_invoice_id.move_id.line_ids:
-                    if line.account_id.id == record.refund_invoice_id.account_id.id:
+                for line in record.refund_move_id.move_id.line_ids:
+                    if line.account_id.id == record.refund_move_id.account_id.id:
                         to_reconcile_lines += line
 
                 to_reconcile_lines.filtered(lambda l: l.reconciled).reconcile()
@@ -587,9 +587,9 @@ class AccountInvoice(models.Model):
                 )
                 line._onchange_fiscal_operation_id()
 
-            refund_inv_id = record.refund_invoice_id
+            refund_inv_id = record.refund_move_id
 
-            if record.refund_invoice_id.document_type_id:
+            if record.refund_move_id.document_type_id:
                 record.fiscal_document_id._document_reference(
                     refund_inv_id.fiscal_document_id
                 )

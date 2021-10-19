@@ -10,6 +10,6 @@ class DocumentCorrectionWizard(models.TransientModel):
     def doit(self):
         super().doit()
         for wizard in self:
-            if wizard.invoice_id:
+            if wizard.move_id:
                 msg = "Carta de correção: {}".format(wizard.justification)
-                self.invoice_id.message_post(body=msg)
+                self.move_id.message_post(body=msg)
