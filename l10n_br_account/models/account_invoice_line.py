@@ -152,8 +152,7 @@ class AccountInvoiceLine(models.Model):
 
             if (
                 self.move_id.currency_id
-                and self.move_id.currency_id
-                != self.move_id.company_id.currency_id
+                and self.move_id.currency_id != self.move_id.company_id.currency_id
             ):
                 currency = self.move_id.currency_id
                 date = self.move_id._get_currency_rate_date()
@@ -195,9 +194,7 @@ class AccountInvoiceLine(models.Model):
     def create(self, values):
         dummy_doc = self.env.company.fiscal_dummy_id
         fiscal_doc_id = (
-            self.env["account.move"]
-            .browse(values["move_id"])
-            .fiscal_document_id.id
+            self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
         )
         if dummy_doc.id == fiscal_doc_id:
             values["fiscal_document_line_id"] = fields.first(dummy_doc.line_ids).id
@@ -225,9 +222,7 @@ class AccountInvoiceLine(models.Model):
         dummy_line = fields.first(dummy_doc.line_ids)
         if values.get("move_id"):
             values["document_id"] = (
-                self.env["account.move"]
-                .browse(values["move_id"])
-                .fiscal_document_id.id
+                self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
             )
         result = super().write(values)
         for line in self:
