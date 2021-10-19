@@ -186,7 +186,7 @@
                     <field name="id" invisible="1" />
                     <field name="document_electronic" invisible="1" />
                     <field name="fiscal_operation_type" invisible="1" />
-                    <field name="number" invisible="1" />
+                    <field name="name" invisible="1" />
                     <field name="edoc_purpose" invisible="1" />
                     <field name="ind_final" invisible="1" />
                     <field name="ind_pres" invisible="1" />

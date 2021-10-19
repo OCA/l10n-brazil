@@ -59,7 +59,7 @@ class AccountInvoice(models.Model):
         "l10n_br_fiscal.document.invoice.mixin",
     ]
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
-    _order = "date DESC, number DESC"
+    _order = "date DESC, name DESC"
 
     # initial account.invoice inherits on fiscal.document that are
     # disable with active=False in their fiscal_document table.
