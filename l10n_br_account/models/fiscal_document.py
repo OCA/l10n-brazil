@@ -10,7 +10,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import SITUACAO_EDOC_EM_DIGITAC
 class FiscalDocument(models.Model):
     _inherit = "l10n_br_fiscal.document"
 
-    invoice_ids = fields.One2many(
+    move_ids = fields.One2many(
         comodel_name="account.move",
         inverse_name="fiscal_document_id",
         string="Invoices",
