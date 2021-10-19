@@ -1,7 +1,6 @@
 # Copyright (C) 2021  Ygor Carvalho - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
