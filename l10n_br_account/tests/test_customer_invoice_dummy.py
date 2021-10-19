@@ -33,7 +33,7 @@ class TestCustomerInvoice(SavepointCase):
                 payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
-                invoice_line_ids=[
+                line_ids=[
                     (
                         0,
                         0,
@@ -101,7 +101,7 @@ class TestCustomerInvoice(SavepointCase):
                 payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
-                invoice_line_ids=[
+                line_ids=[
                     (
                         0,
                         0,
@@ -161,7 +161,7 @@ class TestCustomerInvoice(SavepointCase):
                 currency_id=cls.env.ref("base.EUR").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
-                invoice_line_ids=[
+                line_ids=[
                     (
                         0,
                         0,
@@ -246,9 +246,9 @@ class TestCustomerInvoice(SavepointCase):
             self.invoice_3.state, "open", "Invoice should be in state Open"
         )
 
-    def test_invoice_line_ids_write(self):
-        self.invoice_3.invoice_line_ids.write({"move_id": self.invoice_3.id})
-        for line in self.invoice_3.invoice_line_ids:
+    def test_line_ids_write(self):
+        self.invoice_3.line_ids.write({"move_id": self.invoice_3.id})
+        for line in self.invoice_3.line_ids:
             self.assertEqual(
                 line.document_id.id,
                 self.invoice_3.fiscal_document_id.id,
