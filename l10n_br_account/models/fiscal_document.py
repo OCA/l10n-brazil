@@ -11,7 +11,7 @@ class FiscalDocument(models.Model):
     _inherit = "l10n_br_fiscal.document"
 
     invoice_ids = fields.One2many(
-        comodel_name="account.invoice",
+        comodel_name="account.move",
         inverse_name="fiscal_document_id",
         string="Invoices",
     )

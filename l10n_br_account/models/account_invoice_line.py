@@ -195,7 +195,7 @@ class AccountInvoiceLine(models.Model):
     def create(self, values):
         dummy_doc = self.env.company.fiscal_dummy_id
         fiscal_doc_id = (
-            self.env["account.invoice"]
+            self.env["account.move"]
             .browse(values["invoice_id"])
             .fiscal_document_id.id
         )
@@ -225,7 +225,7 @@ class AccountInvoiceLine(models.Model):
         dummy_line = fields.first(dummy_doc.line_ids)
         if values.get("invoice_id"):
             values["document_id"] = (
-                self.env["account.invoice"]
+                self.env["account.move"]
                 .browse(values["invoice_id"])
                 .fiscal_document_id.id
             )
