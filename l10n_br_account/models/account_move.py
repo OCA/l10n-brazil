@@ -60,7 +60,7 @@ class AccountMove(models.Model):
                 if account_tax_group and account_tax_group.fiscal_tax_group_id:
                     fiscal_group = account_tax_group.fiscal_tax_group_id
                     if fiscal_group.tax_withholding:
-                        invoice = self.env["account.invoice"].create(
+                        invoice = self.env["account.move"].create(
                             self._prepare_wh_invoice(line, fiscal_group)
                         )
 
