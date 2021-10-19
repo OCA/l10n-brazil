@@ -8,7 +8,6 @@ from odoo import api, models
 class AccountIncoterms(models.Model):
     _inherit = "account.incoterms"
 
-    @api.multi
     def name_get(self):
         # No Brasil muitas pessoas conhecem os tipos de frete mais pelo
         # Codigo do que pela descrição, por isso aqui está sendo feito
