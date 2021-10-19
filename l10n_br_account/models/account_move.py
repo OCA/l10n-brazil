@@ -44,7 +44,7 @@ class AccountMove(models.Model):
     def _finalize_invoices(self, invoices):
         for invoice in invoices:
             invoice.compute_taxes()
-            for line in invoice.invoice_line_ids:
+            for line in invoice.line_ids:
                 # Use additional field helper function (for account extensions)
                 line._set_additional_fields(invoice)
             invoice._onchange_cash_rounding()
