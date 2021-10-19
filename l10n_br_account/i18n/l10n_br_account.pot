@@ -343,8 +343,8 @@ msgid "Invoice Line"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__invoice_line_ids
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__invoice_line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__line_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__line_ids
 msgid "Invoice Lines"
 msgstr ""
 
