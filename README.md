@@ -26,6 +26,7 @@ addon | version | maintainers | summary
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 14.0.2.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
 [l10n_br_fiscal](l10n_br_fiscal/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 14.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
+[spec_driven_model](spec_driven_model/) | 14.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
 
