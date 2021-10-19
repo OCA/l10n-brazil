@@ -26,7 +26,7 @@ class TestSupplierInvoice(TransactionCase):
                 default_credit_account_id=self.purchase_account.id,
             )
         )
-        self.invoice_1 = self.env["account.invoice"].create(
+        self.invoice_1 = self.env["account.move"].create(
             dict(
                 name="Test Supplier Invoice",
                 payment_term_id=self.env.ref("account.account_payment_term_advance").id,

@@ -27,7 +27,7 @@ class TestCustomerInvoice(SavepointCase):
                 default_credit_account_id=cls.sale_account.id,
             )
         )
-        cls.invoice_1 = cls.env["account.invoice"].create(
+        cls.invoice_1 = cls.env["account.move"].create(
             dict(
                 name="Test Customer Invoice",
                 payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
@@ -95,7 +95,7 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": False,
             }
         )
-        cls.invoice_2 = cls.env["account.invoice"].create(
+        cls.invoice_2 = cls.env["account.move"].create(
             dict(
                 name="Test Customer Invoice",
                 payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
@@ -155,7 +155,7 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": False,
             }
         )
-        cls.invoice_3 = cls.env["account.invoice"].create(
+        cls.invoice_3 = cls.env["account.move"].create(
             dict(
                 payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
                 currency_id=cls.env.ref("base.EUR").id,
