@@ -128,7 +128,7 @@ class AccountInvoiceLine(models.Model):
         "move_id.partner_id",
         "move_id.currency_id",
         "move_id.company_id",
-        "move_id.date_invoice",
+        "move_id.date",
         "move_id.date",
         "fiscal_tax_ids",
     )
