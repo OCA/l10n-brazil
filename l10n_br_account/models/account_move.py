@@ -15,11 +15,11 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def _prepare_wh_invoice(self, move_line, fiscal_group):
-        wh_date_invoice = move_line.move_id.date_invoice
+        wh_date_invoice = move_line.move_id.date
         wh_due_invoice = wh_date_invoice.replace(day=fiscal_group.wh_due_day)
         values = {
             "partner_id": fiscal_group.partner_id.id,
-            "date_invoice": wh_date_invoice,
+            "date": wh_date_invoice,
             "date_due": wh_due_invoice + relativedelta(months=1),
             "type": "in_invoice",
             "account_id": fiscal_group.partner_id.property_account_payable_id.id,
