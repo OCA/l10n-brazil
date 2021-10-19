@@ -15,7 +15,7 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     def _prepare_wh_invoice(self, move_line, fiscal_group):
-        wh_date_invoice = move_line.invoice_id.date_invoice
+        wh_date_invoice = move_line.move_id.date_invoice
         wh_due_invoice = wh_date_invoice.replace(day=fiscal_group.wh_due_day)
         values = {
             "partner_id": fiscal_group.partner_id.id,
@@ -24,7 +24,7 @@ class AccountMove(models.Model):
             "type": "in_invoice",
             "account_id": fiscal_group.partner_id.property_account_payable_id.id,
             "journal_id": move_line.journal_id.id,
-            "origin": move_line.invoice_id.number,
+            "origin": move_line.move_id.number,
         }
         return values
 
@@ -34,7 +34,7 @@ class AccountMove(models.Model):
             "quantity": move_line.quantity,
             "uom_id": move_line.product_uom_id,
             "price_unit": abs(move_line.balance),
-            "invoice_id": invoice.id,
+            "move_id": invoice.id,
             "account_id": move_line.account_id.id,
             "wh_move_line_id": move_line.id,
             "account_analytic_id": move_line.analytic_account_id.id,
@@ -53,7 +53,7 @@ class AccountMove(models.Model):
         for move in self:
             for line in move.line_ids.filtered(lambda l: l.tax_line_id):
                 # Create Wh Invoice only for supplier invoice
-                if line.invoice_id and line.invoice_id.type != "in_invoice":
+                if line.move_id and line.move_id.type != "in_invoice":
                     continue
 
                 account_tax_group = line.tax_line_id.tax_group_id
@@ -76,7 +76,7 @@ class AccountMove(models.Model):
             invoices = (
                 self.env["account.move.line"]
                 .search([("wh_move_line_id", "in", m.mapped("line_ids").ids)])
-                .mapped("invoice_id")
+                .mapped("move_id")
             )
 
             invoices.filtered(lambda i: i.state == "open").action_invoice_cancel()

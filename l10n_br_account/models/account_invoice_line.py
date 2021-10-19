@@ -57,12 +57,12 @@ class AccountInvoiceLine(models.Model):
 
     document_type_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.type",
-        related="invoice_id.document_type_id",
+        related="move_id.document_type_id",
     )
 
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
-        related="invoice_id.company_id.tax_framework",
+        related="move_id.company_id.tax_framework",
         string="Tax Framework",
     )
 
@@ -72,7 +72,7 @@ class AccountInvoiceLine(models.Model):
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
-        related="invoice_id.partner_id",
+        related="move_id.partner_id",
         string="Partner",
     )
 
@@ -125,11 +125,11 @@ class AccountInvoiceLine(models.Model):
         "invoice_line_tax_ids",
         "quantity",
         "product_id",
-        "invoice_id.partner_id",
-        "invoice_id.currency_id",
-        "invoice_id.company_id",
-        "invoice_id.date_invoice",
-        "invoice_id.date",
+        "move_id.partner_id",
+        "move_id.currency_id",
+        "move_id.company_id",
+        "move_id.date_invoice",
+        "move_id.date",
         "fiscal_tax_ids",
     )
     def _compute_price(self):
@@ -151,19 +151,19 @@ class AccountInvoiceLine(models.Model):
             price_subtotal_signed = self.price_subtotal
 
             if (
-                self.invoice_id.currency_id
-                and self.invoice_id.currency_id
-                != self.invoice_id.company_id.currency_id
+                self.move_id.currency_id
+                and self.move_id.currency_id
+                != self.move_id.company_id.currency_id
             ):
-                currency = self.invoice_id.currency_id
-                date = self.invoice_id._get_currency_rate_date()
+                currency = self.move_id.currency_id
+                date = self.move_id._get_currency_rate_date()
                 price_subtotal_signed = currency._convert(
                     price_subtotal_signed,
-                    self.invoice_id.company_id.currency_id,
+                    self.move_id.company_id.currency_id,
                     self.company_id or self.env.company,
                     date or fields.Date.today(),
                 )
-            sign = self.invoice_id.type in ["in_refund", "out_refund"] and -1 or 1
+            sign = self.move_id.type in ["in_refund", "out_refund"] and -1 or 1
             self.price_subtotal_signed = price_subtotal_signed * sign
 
     @api.depends("price_total")
@@ -196,7 +196,7 @@ class AccountInvoiceLine(models.Model):
         dummy_doc = self.env.company.fiscal_dummy_id
         fiscal_doc_id = (
             self.env["account.move"]
-            .browse(values["invoice_id"])
+            .browse(values["move_id"])
             .fiscal_document_id.id
         )
         if dummy_doc.id == fiscal_doc_id:
@@ -215,7 +215,7 @@ class AccountInvoiceLine(models.Model):
         line = super().create(values)
         if dummy_doc.id != fiscal_doc_id:
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
-            doc_id = line.invoice_id.fiscal_document_id.id
+            doc_id = line.move_id.fiscal_document_id.id
             shadowed_fiscal_vals["document_id"] = doc_id
             line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return line
@@ -223,10 +223,10 @@ class AccountInvoiceLine(models.Model):
     def write(self, values):
         dummy_doc = self.env.company.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.line_ids)
-        if values.get("invoice_id"):
+        if values.get("move_id"):
             values["document_id"] = (
                 self.env["account.move"]
-                .browse(values["invoice_id"])
+                .browse(values["move_id"])
                 .fiscal_document_id.id
             )
         result = super().write(values)
@@ -260,7 +260,7 @@ class AccountInvoiceLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
         user_type = "sale"
-        if self.invoice_id.type in ("in_invoice", "in_refund"):
+        if self.move_id.type in ("in_invoice", "in_refund"):
             user_type = "purchase"
         self.invoice_line_tax_ids |= self.fiscal_tax_ids.account_taxes(
             user_type=user_type

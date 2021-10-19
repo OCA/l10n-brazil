@@ -7,7 +7,7 @@ from odoo import api, fields, models
 class BaseWizardMixin(models.TransientModel):
     _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
-    invoice_id = fields.Many2one(
+    move_id = fields.Many2one(
         comodel_name="account.move",
         string="Invoice",
     )
@@ -15,12 +15,12 @@ class BaseWizardMixin(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         default_values = super().default_get(fields_list)
-        if default_values.get("invoice_id"):
-            invoice_id = self.invoice_id.browse(default_values.get("invoice_id"))
-            default_values["document_id"] = invoice_id.fiscal_document_id.id
+        if default_values.get("move_id"):
+            move_id = self.move_id.browse(default_values.get("move_id"))
+            default_values["document_id"] = move_id.fiscal_document_id.id
         return default_values
 
     def _prepare_key_fields(self):
         vals = super()._prepare_key_fields()
-        vals["account.move"] = "invoice_id"
+        vals["account.move"] = "move_id"
         return vals
