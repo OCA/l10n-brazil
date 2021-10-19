@@ -247,7 +247,7 @@ class TestCustomerInvoice(SavepointCase):
         )
 
     def test_invoice_line_ids_write(self):
-        self.invoice_3.invoice_line_ids.write({"invoice_id": self.invoice_3.id})
+        self.invoice_3.invoice_line_ids.write({"move_id": self.invoice_3.id})
         for line in self.invoice_3.invoice_line_ids:
             self.assertEqual(
                 line.document_id.id,
