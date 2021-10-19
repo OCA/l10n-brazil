@@ -52,7 +52,7 @@ SHADOWED_FIELDS = [
 
 
 class AccountInvoice(models.Model):
-    _name = "account.invoice"
+    _name = "account.move"
     _inherit = [
         _name,
         "l10n_br_fiscal.document.mixin.methods",
@@ -201,7 +201,7 @@ class AccountInvoice(models.Model):
         self.filtered(lambda i: i.state in ("draft", "cancel")).write(
             {"move_name": False}
         )
-        unlink_invoices = self.env["account.invoice"]
+        unlink_invoices = self.env["account.move"]
         unlink_documents = self.env["l10n_br_fiscal.document"]
         for invoice in self:
             if not invoice.exists():
