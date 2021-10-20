@@ -130,17 +130,17 @@ class TestCustomerInvoice(SavepointCase):
                             .id,
                             "name": "product test 5",
                             "uom_id": cls.env.ref("uom.product_uom_unit").id,
-                            #                            "invoice_line_tax_ids": [
-                            #                                (
-                            #                                    6,
-                            #                                    0,
-                            #                                    [
-                            #                                        tax_fixed.id,
-                            #                                        tax_percent_included_base_incl.id,
-                            #                                        tax_percentage.id,
-                            #                                    ],
-                            #                                )
-                            #                            ],
+                                                        "tax_ids": [
+                                                            (
+                                                                6,
+                                                                0,
+                                                                [
+                                                                    tax_fixed.id,
+                                                                    tax_percent_included_base_incl.id,
+                                                                    tax_percentage.id,
+                                                                ],
+                                                            )
+                                                        ],
                         },
                     )
                 ],
@@ -190,17 +190,17 @@ class TestCustomerInvoice(SavepointCase):
                             .id,
                             "name": "product test 5",
                             "uom_id": cls.env.ref("uom.product_uom_unit").id,
-                            #                            "invoice_line_tax_ids": [
-                            #                                (
-                            #                                    6,
-                            #                                    0,
-                            #                                    [
-                            #                                        tax_discount.id,
-                            #                                        tax_percent_included_base_incl.id,
-                            #                                        tax_percentage.id,
-                            #                                    ],
-                            #                                )
-                            #                            ],
+                                                        "tax_ids": [
+                                                            (
+                                                                6,
+                                                                0,
+                                                                [
+                                                                    tax_discount.id,
+                                                                    tax_percent_included_base_incl.id,
+                                                                    tax_percentage.id,
+                                                                ],
+                                                            )
+                                                        ],
                         },
                     )
                 ],
@@ -216,26 +216,11 @@ class TestCustomerInvoice(SavepointCase):
             self.invoice_1.state, "posted", "Invoice should be in state posted"
         )
 
-    def test_tax(self):
+    def test_post(self):
         self.invoice_2.action_post()
         self.assertEqual(
             self.invoice_2.state, "posted", "Invoice should be in state posted"
         )
-
-    # FIXME TODO migrate!
-    #        invoice_tax = self.invoice_2.tax_line_ids.sorted(key=lambda r: r.sequence)
-    #        self.assertEqual(invoice_tax.mapped("amount"), [50.0, 550.0, 220.0])
-    #        self.assertEqual(invoice_tax.mapped("base"), [500.0, 550.0, 1100.0])
-    #        self.invoice_2.pay_and_reconcile(
-    #            self.env["account.journal"].search([("type", "=", "bank")], limit=1),
-    #            10050.0,
-    #        )
-    #        assert (
-    #            self.invoice_2.payment_move_line_ids
-    #        ), "Paymente Move Line not created for Paid invoice"
-    #        self.assertEqual(
-    #            self.invoice_2.state, "paid", "Invoice should be in state Paid"
-    #        )
 
     def test_invoice_other_currency(self):
         self.assertEqual(
@@ -247,11 +232,10 @@ class TestCustomerInvoice(SavepointCase):
         )
 
     def test_line_ids_write(self):
-        # TODO FIXME migrate!
-        #        self.invoice_3.line_ids.write({"move_id": self.invoice_3.id})
+        self.invoice_3.line_ids.write({"move_id": self.invoice_3.id})
         for line in self.invoice_3.line_ids:
             self.assertEqual(
                 line.document_id.id,
                 self.invoice_3.fiscal_document_id.id,
-                "line.document_id should be equal account.fiscal_document_id",
+                "line.document_id should be equal invoice fiscal_document_id",
             )
