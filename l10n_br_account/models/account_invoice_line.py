@@ -122,7 +122,7 @@ class AccountInvoiceLine(models.Model):
     @api.depends(
         "price_unit",
         "discount",
-        "invoice_line_tax_ids",
+        "tax_ids",
         "quantity",
         "product_id",
         "move_id.partner_id",
@@ -257,6 +257,6 @@ class AccountInvoiceLine(models.Model):
         user_type = "sale"
         if self.move_id.type in ("in_invoice", "in_refund"):
             user_type = "purchase"
-        self.invoice_line_tax_ids |= self.fiscal_tax_ids.account_taxes(
+        self.tax_ids |= self.fiscal_tax_ids.account_taxes(
             user_type=user_type
         )
