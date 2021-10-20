@@ -257,6 +257,4 @@ class AccountInvoiceLine(models.Model):
         user_type = "sale"
         if self.move_id.type in ("in_invoice", "in_refund"):
             user_type = "purchase"
-        self.tax_ids |= self.fiscal_tax_ids.account_taxes(
-            user_type=user_type
-        )
+        self.tax_ids |= self.fiscal_tax_ids.account_taxes(user_type=user_type)
