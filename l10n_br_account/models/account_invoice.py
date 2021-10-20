@@ -242,7 +242,7 @@ class AccountInvoice(models.Model):
                     if inv_line.cfop_id.finance_move:
                         move.amount_untaxed += inv_line.price_subtotal
                         # TODO FIXME migrate!
-                        #move.amount_tax += inv_line.price_tax
+                        # move.amount_tax += inv_line.price_tax
                         move.amount_total += inv_line.price_total
                 else:
                     move.amount_untaxed += inv_line.price_subtotal
