@@ -241,7 +241,8 @@ class AccountInvoice(models.Model):
                 if inv_line.cfop_id:
                     if inv_line.cfop_id.finance_move:
                         move.amount_untaxed += inv_line.price_subtotal
-                        move.amount_tax += inv_line.price_tax
+                        # TODO FIXME migrate!
+                        #move.amount_tax += inv_line.price_tax
                         move.amount_total += inv_line.price_total
                 else:
                     move.amount_untaxed += inv_line.price_subtotal
@@ -360,7 +361,7 @@ class AccountInvoice(models.Model):
             if not line.account_id or line.display_type:
                 continue
 
-            computed_taxes = line.invoice_line_tax_ids.compute_all(
+            computed_taxes = line.tax_ids.compute_all(
                 price_unit=line.price_unit,
                 currency=line.move_id.currency_id,
                 quantity=line.quantity,
