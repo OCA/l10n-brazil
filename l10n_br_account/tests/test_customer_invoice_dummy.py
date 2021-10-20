@@ -30,7 +30,8 @@ class TestCustomerInvoice(SavepointCase):
         cls.invoice_1 = cls.env["account.move"].create(
             dict(
                 name="Test Customer Invoice",
-                #                payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
+                # payment_term_id=cls.env.ref(
+                # "account.account_payment_term_advance").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
                 line_ids=[
@@ -98,7 +99,8 @@ class TestCustomerInvoice(SavepointCase):
         cls.invoice_2 = cls.env["account.move"].create(
             dict(
                 name="Test Customer Invoice",
-                #                payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
+                # payment_term_id=cls.env.ref(
+                # "account.account_payment_term_advance").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
                 line_ids=[
@@ -130,17 +132,17 @@ class TestCustomerInvoice(SavepointCase):
                             .id,
                             "name": "product test 5",
                             "uom_id": cls.env.ref("uom.product_uom_unit").id,
-                                                        "tax_ids": [
-                                                            (
-                                                                6,
-                                                                0,
-                                                                [
-                                                                    tax_fixed.id,
-                                                                    tax_percent_included_base_incl.id,
-                                                                    tax_percentage.id,
-                                                                ],
-                                                            )
-                                                        ],
+                            "tax_ids": [
+                                (
+                                    6,
+                                    0,
+                                    [
+                                        tax_fixed.id,
+                                        tax_percent_included_base_incl.id,
+                                        tax_percentage.id,
+                                    ],
+                                )
+                            ],
                         },
                     )
                 ],
@@ -157,7 +159,8 @@ class TestCustomerInvoice(SavepointCase):
         )
         cls.invoice_3 = cls.env["account.move"].create(
             dict(
-                #                payment_term_id=cls.env.ref("account.account_payment_term_advance").id,
+                # payment_term_id=cls.env.ref(
+                # "account.account_payment_term_advance").id,
                 currency_id=cls.env.ref("base.EUR").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
@@ -190,17 +193,17 @@ class TestCustomerInvoice(SavepointCase):
                             .id,
                             "name": "product test 5",
                             "uom_id": cls.env.ref("uom.product_uom_unit").id,
-                                                        "tax_ids": [
-                                                            (
-                                                                6,
-                                                                0,
-                                                                [
-                                                                    tax_discount.id,
-                                                                    tax_percent_included_base_incl.id,
-                                                                    tax_percentage.id,
-                                                                ],
-                                                            )
-                                                        ],
+                            "tax_ids": [
+                                (
+                                    6,
+                                    0,
+                                    [
+                                        tax_discount.id,
+                                        tax_percent_included_base_incl.id,
+                                        tax_percentage.id,
+                                    ],
+                                )
+                            ],
                         },
                     )
                 ],
