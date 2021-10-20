@@ -22,6 +22,8 @@ class AccountTax(models.Model):
         quantity=1.0,
         product=None,
         partner=None,
+        is_refund=False,
+        handle_price_include=True,
         fiscal_taxes=None,
         operation_line=False,
         ncm=None,
@@ -60,7 +62,8 @@ class AccountTax(models.Model):
         }"""
 
         taxes_results = super().compute_all(
-            price_unit, currency, quantity, product, partner
+            price_unit, currency, quantity, product, partner,
+            is_refund, handle_price_include,
         )
 
         if not fiscal_taxes:
