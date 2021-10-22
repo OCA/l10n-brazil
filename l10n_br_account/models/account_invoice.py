@@ -247,10 +247,13 @@ class AccountInvoice(models.Model):
                 else:
                     move.amount_untaxed += inv_line.price_subtotal
                     # TODO FIXME migrate!
-                    #                    move.amount_tax += inv_line.price_tax
+                    # move.amount_tax += inv_line.price_tax
                     move.amount_total += inv_line.price_total
 
-            move.amount_total -= move.amount_tax_withholding
+            # TODO FIXME migrate, this create
+            # a financial_discount_value CacheMiss error
+            # is it because lines still have amount_* fields?
+            # move.amount_total -= move.amount_tax_withholding
 
             amount_total_company_signed = move.amount_total
             amount_untaxed_signed = move.amount_untaxed
@@ -273,12 +276,14 @@ class AccountInvoice(models.Model):
                     move.invoice_date or fields.Date.today(),
                 )
             sign = move.type in ["in_refund", "out_refund"] and -1 or 1
+            # TODO FIXME migrate, no more amount_total_company_signed in Odoo v13+
             move.amount_total_company_signed = amount_total_company_signed * sign
             move.amount_total_signed = move.amount_total * sign
             move.amount_untaxed_signed = amount_untaxed_signed * sign
 
     @api.model
     def invoice_line_move_line_get(self):
+        # TODO FIXME migrate. No such method in Odoo 13+
         move_lines_dict = super().invoice_line_move_line_get()
         new_mv_lines_dict = []
         for line in move_lines_dict:
@@ -303,6 +308,7 @@ class AccountInvoice(models.Model):
 
     @api.model
     def tax_line_move_line_get(self):
+        # TODO FIXME migrate. No such method in Odoo 13+
         tax_lines_dict = super().tax_line_move_line_get()
         if self.fiscal_operation_id and self.fiscal_operation_id.deductible_taxes:
             for tax_line in self.tax_line_ids:
@@ -335,6 +341,7 @@ class AccountInvoice(models.Model):
         return tax_lines_dict
 
     def finalize_invoice_move_lines(self, move_lines):
+        # TODO FIXME migrate. No such method in Odoo 13+
         lines = super().finalize_invoice_move_lines(move_lines)
         financial_lines = [
             line for line in lines if line[2]["account_id"] == self.account_id.id
@@ -355,6 +362,7 @@ class AccountInvoice(models.Model):
         return lines
 
     def get_taxes_values(self):
+        # TODO FIXME migrate. No such method in Odoo 13+
         tax_grouped = {}
         round_curr = self.currency_id.round
         for line in self.line_ids:
@@ -425,6 +433,7 @@ class AccountInvoice(models.Model):
         """Usamos esse método para definir a data de emissão do documento
         fiscal e numeração do documento fiscal para ser usado nas linhas
         dos lançamentos contábeis."""
+        # TODO FIXME migrate. No such method in Odoo 13+
         super().action_date_assign()
         for invoice in self:
             if invoice.document_type_id:
@@ -448,6 +457,7 @@ class AccountInvoice(models.Model):
                     invoice.fiscal_document_id._document_number()
 
     def action_move_create(self):
+        # TODO FIXME migrate. No such method in Odoo 13+
         result = super().action_move_create()
         self.mapped("fiscal_document_id").filtered(
             lambda d: d.document_type_id
@@ -455,6 +465,7 @@ class AccountInvoice(models.Model):
         return result
 
     def action_invoice_draft(self):
+        # TODO FIXME migrate. No such method in Odoo 13+
         for i in self.filtered(lambda d: d.document_type_id):
             if i.state_edoc == SITUACAO_EDOC_CANCELADA:
                 if i.issuer == DOCUMENT_ISSUER_COMPANY:
@@ -531,6 +542,7 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         return self.fiscal_document_id.view_pdf()
 
+    # TODO FIXME migrate. refund method are very different in Odoo 13+
     # def _get_refund_common_fields(self):
     #     fields = super()._get_refund_common_fields()
     #     fields += [
