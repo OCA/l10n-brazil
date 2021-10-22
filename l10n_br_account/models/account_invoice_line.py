@@ -134,6 +134,7 @@ class AccountInvoiceLine(models.Model):
     )
     def _compute_price(self):
         """Compute the amounts of the SO line."""
+        # TODO FIXME migrate. No such method in Odoo 13+
         super()._compute_price()
         if self.document_type_id:
             # Call mixin compute method
@@ -167,6 +168,7 @@ class AccountInvoiceLine(models.Model):
 
     @api.depends("price_total")
     def _get_price_tax(self):
+        # TODO FIXME migrate. No such method in Odoo 13+
         for line in self:
             line.price_tax = line.amount_tax
 
