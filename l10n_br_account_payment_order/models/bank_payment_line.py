@@ -180,7 +180,7 @@ class BankPaymentLine(models.Model):
             "nome_sacado": self.partner_id.legal_name.strip()[:40],
             "numero": str(self.document_number)[:10],
             "endereco_sacado": str(
-                self.partner_id.street + ", " + str(self.partner_id.street_number)
+                self.partner_id.street_name + ", " + str(self.partner_id.street_number)
             )[:40],
             "bairro_sacado": self.partner_id.district.strip(),
             "cep_sacado": misc.punctuation_rm(self.partner_id.zip),
