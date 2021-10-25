@@ -199,7 +199,6 @@ class ResCompany(models.Model):
     annual_revenue = fields.Monetary(
         string="Annual Revenue",
         currency_field="currency_id",
-        digits=dp.get_precision("Fiscal Documents"),
     )
 
     simplifed_tax_id = fields.Many2one(
@@ -213,7 +212,7 @@ class ResCompany(models.Model):
         comodel_name="l10n_br_fiscal.simplified.tax.range",
         compute="_compute_simplifed_tax",
         store=True,
-        readyonly=True,
+        readonly=True,
         string="Simplified Tax Range",
     )
 
@@ -227,7 +226,6 @@ class ResCompany(models.Model):
     payroll_amount = fields.Monetary(
         string="Last Period Payroll Amount",
         currency_field="currency_id",
-        digits=dp.get_precision("Fiscal Documents"),
     )
 
     coefficient_r = fields.Boolean(
