@@ -38,13 +38,17 @@ class AccountMoveLine(models.Model):
                 "bank": bank_name_brcobranca[0],
                 "valor": str("%.2f" % move_line.debit),
                 "cedente": move_line.company_id.partner_id.legal_name,
-                "cedente_endereco": move_line.company_id.partner_id.street
-                or "" + ", " + move_line.company_id.partner_id.street_number
-                or "" + " - " + move_line.company_id.partner_id.district
-                or "" + " - " + move_line.company_id.partner_id.city_id.name
-                or "" + " - " + "CEP:" + move_line.company_id.partner_id.zip
-                or "" + " - " + move_line.company_id.partner_id.state_id.code
-                or "",
+                "cedente_endereco": (move_line.company_id.partner_id.street_name or "")
+                + ", "
+                + (move_line.company_id.partner_id.street_number or "")
+                + " - "
+                + (move_line.company_id.partner_id.district or "")
+                + " - "
+                + (move_line.company_id.partner_id.city_id.name or "")
+                + " - "
+                + ("CEP:" + move_line.company_id.partner_id.zip or "")
+                + " - "
+                + (move_line.company_id.partner_id.state_id.code or ""),
                 "documento_cedente": move_line.company_id.cnpj_cpf,
                 "sacado": move_line.partner_id.legal_name,
                 "sacado_documento": move_line.partner_id.cnpj_cpf,
@@ -63,11 +67,13 @@ class AccountMoveLine(models.Model):
                 "especie": move_line.payment_mode_id.boleto_species,
                 "moeda": DICT_BRCOBRANCA_CURRENCY["R$"],
                 "aceite": move_line.payment_mode_id.boleto_accept,
-                "sacado_endereco": move_line.partner_id.street
-                or "" + ", " + move_line.partner_id.street_number
-                or "" + " " + move_line.partner_id.city_id.name
-                or "" + " - " + move_line.partner_id.state_id.name
-                or "",
+                "sacado_endereco": (move_line.partner_id.street_name or "")
+                + ", "
+                + (move_line.partner_id.street_number or "")
+                + " "
+                + (move_line.partner_id.city_id.name or "")
+                + " - "
+                + (move_line.partner_id.state_id.name or ""),
                 "data_processamento": move_line.invoice_id.date_invoice.strftime(
                     "%Y/%m/%d"
                 ),
