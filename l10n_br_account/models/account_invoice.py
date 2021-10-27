@@ -4,7 +4,6 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 # pylint: disable=api-one-deprecated
 
-from lxml import etree
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -130,14 +129,11 @@ class AccountInvoice(models.Model):
                 shadowed_fiscal_vals = invoice._prepare_shadowed_fields_dict()
                 invoice.fiscal_document_id.write(shadowed_fiscal_vals)
 
-    # TODO FIXME migrate!
     @api.model
-    def fields_view_get_TODO(
+    def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
-
-        order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
-
+        invoice_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
         if view_type == "form":
             view = self.env["ir.ui.view"]
 
@@ -145,34 +141,68 @@ class AccountInvoice(models.Model):
                 invoice_line_form_id = self.env.ref(
                     "l10n_br_account.fiscal_invoice_line_form"
                 ).id
+                sub_form_view = self.env["account.move.line"].fields_view_get(
+                    view_id=invoice_line_form_id, view_type="form"
+                )["arch"]
+                sub_form_node = self.env["account.move.line"].inject_fiscal_fields(
+                    sub_form_view
+                )
+                sub_arch, sub_fields = view.postprocess_and_fields(
+                    "account.move.line", sub_form_node, None
+                )
+                line_field_name = "invoice_line_ids"
+                invoice_view["fields"][line_field_name]["views"]["form"] = {
+                    "fields": sub_fields,
+                    "arch": sub_arch,
+                }
+
             else:
-                invoice_line_form_id = self.env.ref(
-                    "l10n_br_account.invoice_line_form"
-                ).id
+                if invoice_view["fields"].get("invoice_line_ids"):
+                    invoice_line_form_id = self.env.ref(
+                        "l10n_br_account.invoice_form"
+                    ).id
+                    sub_form_view = invoice_view["fields"]["invoice_line_ids"]["views"][
+                        "form"
+                    ]["arch"]
 
-            sub_form_view = self.env["account.move.line"].fields_view_get(
-                view_id=invoice_line_form_id, view_type="form"
-            )["arch"]
+                    sub_form_node = self.env["account.move.line"].inject_fiscal_fields(
+                        sub_form_view
+                    )
+                    sub_arch, sub_fields = view.postprocess_and_fields(
+                        "account.move.line", sub_form_node, None
+                    )
+                    line_field_name = "invoice_line_ids"
+                    invoice_view["fields"][line_field_name]["views"]["form"] = {
+                        "fields": sub_fields,
+                        "arch": sub_arch,
+                    }
 
-            sub_form_node = etree.fromstring(
-                self.env["account.move.line"].fiscal_form_view(sub_form_view)
-            )
+                if invoice_view["fields"].get("line_ids"):
+                    invoice_line_form_id = self.env.ref(
+                        "l10n_br_account.invoice_form"
+                    ).id
+                    sub_form_view = invoice_view["fields"]["line_ids"]["views"]["tree"][
+                        "arch"
+                    ]
 
-            sub_arch, sub_fields = view.postprocess_and_fields(
-                "account.move.line", sub_form_node, None
-            )
+                    sub_form_node = self.env["account.move.line"].inject_fiscal_fields(
+                        sub_form_view
+                    )
+                    sub_arch, sub_fields = view.postprocess_and_fields(
+                        "account.move.line", sub_form_node, None
+                    )
+                    line_field_name = "line_ids"
+                    invoice_view["fields"][line_field_name]["views"]["tree"] = {
+                        "fields": sub_fields,
+                        "arch": sub_arch,
+                    }
 
-            order_view["fields"]["line_ids"]["views"]["form"] = {}
-
-            order_view["fields"]["line_ids"]["views"]["form"]["fields"] = sub_fields
-            order_view["fields"]["line_ids"]["views"]["form"]["arch"] = sub_arch
-
-        return order_view
+        return invoice_view
 
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
-        invoice_type = self.env.context.get("type", "out_invoice")
+        invoice_type = self.env.context.get("default_type", "out_invoice")
         defaults["fiscal_operation_type"] = INVOICE_TO_OPERATION[invoice_type]
         if defaults["fiscal_operation_type"] == FISCAL_OUT:
             defaults["issuer"] = DOCUMENT_ISSUER_COMPANY
