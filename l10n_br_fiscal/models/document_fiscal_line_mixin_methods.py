@@ -1,6 +1,8 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from copy import deepcopy
+
 from lxml import etree
 
 from odoo import api, models
@@ -46,59 +48,72 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     _description = "Document Fiscal Mixin Methods"
 
     @api.model
-    def fiscal_form_view(self, form_view_arch):
-        try:
+    def inject_fiscal_fields(
+        self,
+        view_arch,
+        view_ref="l10n_br_fiscal.document_fiscal_line_mixin_form",
+        xpath_mappings=None,
+    ):
+        """
+        Injects common fiscal fields into view placeholder elements.
+        Used for invoice line, sale order line, purchase order line...
+        """
+        fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_line_mixin_form")
+        fsc_doc = etree.fromstring(fiscal_view["arch"])
+        doc = etree.fromstring(view_arch)
 
-            fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_line_mixin_form")
-
-            view_template_tags = {
-                "group": ["fiscal_fields"],
-                "page": ["fiscal_taxes", "fiscal_line_extra_info"],
-            }
-
-            fsc_doc = etree.fromstring(fiscal_view["arch"])
-            doc = etree.fromstring(form_view_arch)
-
-            for tag, tag_names in view_template_tags.items():
-                for tag_name in tag_names:
-                    fiscal_node = fsc_doc.xpath(
-                        "//{}[@name='{}']".format(tag, tag_name)
-                    )[0]
-
-                    doc_node = doc.xpath("//{}[@name='{}']".format(tag, tag_name))[0]
-
-                    # setup_modifiers(doc_node)
-                    # for n in doc_node.getiterator():
-                    #     setup_modifiers(n)
-
-                    doc_node.getparent().replace(doc_node, fiscal_node)
-
-            form_view_arch = etree.tostring(doc, encoding="unicode")
-        except Exception:
-            return form_view_arch
-
-        return form_view_arch
+        if xpath_mappings is None:
+            xpath_mappings = (
+                # (placeholder_xpath, fiscal_xpath)
+                ("//group[@name='fiscal_fields']", "//group[@name='fiscal_fields']"),
+                ("//page[@name='fiscal_taxes']", "//page[@name='fiscal_taxes']"),
+                (
+                    "//page[@name='fiscal_line_extra_info']",
+                    "//page[@name='fiscal_line_extra_info']",
+                ),
+                # these will only collect (invisible) fields for onchanges:
+                (
+                    "//group[@name='fiscal_taxes_fields']",
+                    "//page[@name='fiscal_taxes']//field",
+                ),
+                (
+                    "//group[@name='fiscal_line_extra_info_fields']",
+                    "//page[@name='fiscal_line_extra_info']//field",
+                ),
+            )
+        for placeholder_xpath, fiscal_xpath in xpath_mappings:
+            fiscal_nodes = fsc_doc.xpath(fiscal_xpath)
+            for target_node in doc.xpath(placeholder_xpath):
+                if len(fiscal_nodes) == 1:
+                    # replace unique placeholder
+                    # (deepcopy is required to inject fiscal nodes in possible
+                    # next places)
+                    replace_node = deepcopy(fiscal_nodes[0])
+                    target_node.getparent().replace(target_node, replace_node)
+                else:
+                    # append multiple fields to placeholder container
+                    for fiscal_node in fiscal_nodes:
+                        field = deepcopy(fiscal_node)
+                        target_node.append(field)
+        return doc
 
     @api.model
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
     ):
         model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
-
         if view_type == "form":
-            model_view["arch"] = self.fiscal_form_view(model_view["arch"])
+            arch_tree = self.inject_fiscal_fields(model_view["arch"])
 
-        View = self.env["ir.ui.view"]
-        # Override context for postprocessing
-        if view_id and model_view.get("base_model", self._name) != self._name:
-            View = View.with_context(base_model_name=model_view["base_model"])
+            View = self.env["ir.ui.view"]
+            # Override context for postprocessing
+            if view_id and model_view.get("base_model", self._name) != self._name:
+                View = View.with_context(base_model_name=model_view["base_model"])
 
-        # Apply post processing, groups and modifiers etc...
-        xarch, xfields = View.postprocess_and_fields(
-            etree.fromstring(model_view["arch"]), self._name
-        )
-        model_view["arch"] = xarch
-        model_view["fields"] = xfields
+            # Apply post processing, groups and modifiers etc...
+            xarch, xfields = View.postprocess_and_fields(self._name, arch_tree, view_id)
+            model_view["arch"] = xarch
+            model_view["fields"] = xfields
         return model_view
 
     @api.depends(
@@ -237,7 +252,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             fiscal_taxes = line.fiscal_tax_ids.filtered(
                 lambda ft: ft.tax_domain not in taxes_groups
             )
-
             line.fiscal_tax_ids = fiscal_taxes + taxes
 
     def _update_taxes(self):
@@ -291,24 +305,19 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if self.fiscal_operation_id:
             if not self.price_unit:
                 self._get_product_price()
-
             self._onchange_commercial_quantity()
-
             self.fiscal_operation_line_id = self.fiscal_operation_id.line_definition(
                 company=self.company_id,
                 partner=self.partner_id,
                 product=self.product_id,
             )
-
             self._onchange_fiscal_operation_line_id()
 
     @api.onchange("fiscal_operation_line_id")
     def _onchange_fiscal_operation_line_id(self):
-
         # Reset Taxes
         self._remove_all_fiscal_tax_ids()
         if self.fiscal_operation_line_id:
-
             mapping_result = self.fiscal_operation_line_id.map_fiscal_taxes(
                 company=self.company_id,
                 partner=self.partner_id,
