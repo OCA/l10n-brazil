@@ -273,7 +273,6 @@ msgstr ""
 
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_tax
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_tax_id
 msgid "Fiscal Tax"
 msgstr ""
 
@@ -283,7 +282,6 @@ msgid "Fiscal Tax Group"
 msgstr ""
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__fiscal_tax_ids
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__fiscal_tax_ids
 msgid "Fiscal Taxes"
@@ -369,11 +367,6 @@ msgstr ""
 #. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_account_move
 msgid "Journal Entries"
-msgstr ""
-
-#. module: l10n_br_account
-#: model:ir.model,name:l10n_br_account.model_account_move_line
-msgid "Journal Item"
 msgstr ""
 
 #. module: l10n_br_account
