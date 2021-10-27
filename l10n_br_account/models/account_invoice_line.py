@@ -8,8 +8,6 @@ from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
-from .account_invoice import INVOICE_TO_OPERATION
-
 # These fields that have the same name in account.move.line
 # and l10n_br_fiscal.document.line.mixin. So they won't be updated
 # by the _inherits system. An alternative would be changing their name
@@ -186,19 +184,12 @@ class AccountInvoiceLine(models.Model):
         return vals
 
     @api.model
-    def default_get(self, fields_list):
-        defaults = super().default_get(fields_list)
-        inv_type = self.env.context.get("type", "out_invoice")
-        defaults["fiscal_operation_type"] = INVOICE_TO_OPERATION[inv_type]
-        return defaults
-
-    @api.model
     def create(self, values):
         dummy_doc = self.env.company.fiscal_dummy_id
         fiscal_doc_id = (
             self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
         )
-        if dummy_doc.id == fiscal_doc_id:
+        if dummy_doc.id == fiscal_doc_id or values.get("exclude_from_invoice_tab"):
             values["fiscal_document_line_id"] = fields.first(dummy_doc.line_ids).id
 
         values.update(
@@ -217,6 +208,7 @@ class AccountInvoiceLine(models.Model):
             doc_id = line.move_id.fiscal_document_id.id
             shadowed_fiscal_vals["document_id"] = doc_id
             line.fiscal_document_line_id.write(shadowed_fiscal_vals)
+
         return line
 
     def write(self, values):
