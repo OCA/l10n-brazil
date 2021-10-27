@@ -44,7 +44,13 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                     if field in line._fields.keys():
                         values[field] += line[field]
                     if field.replace("amount_", "") in line._fields.keys():
-                        values[field] += line[field.replace("amount_", "")]
+                        # FIXME this field creates an error in invoice form
+                        if field == "amount_financial_discount_value":
+                            values[
+                                "amount_financial_discount_value"
+                            ] += 0  # line.financial_discount_value
+                        else:
+                            values[field] += line[field.replace("amount_", "")]
             doc.update(values)
 
     def __document_comment_vals(self):
