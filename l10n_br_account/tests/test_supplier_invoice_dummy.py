@@ -6,6 +6,11 @@ from odoo.tests.common import TransactionCase
 
 
 class TestSupplierInvoice(TransactionCase):
+    """
+    This is a simple test for ensuring l10n_br_account doesn't break the basic
+    account module behavior with supplier invoices.
+    """
+
     def setUp(self):
         super(TestSupplierInvoice, self).setUp()
         self.purchase_account = self.env["account.account"].create(
@@ -22,8 +27,7 @@ class TestSupplierInvoice(TransactionCase):
                 code="TPJ",
                 type="purchase",
                 refund_sequence=True,
-                default_debit_account_id=self.purchase_account.id,
-                default_credit_account_id=self.purchase_account.id,
+                default_account_id=self.purchase_account.id,
             )
         )
         self.invoice_1 = self.env["account.move"].create(
