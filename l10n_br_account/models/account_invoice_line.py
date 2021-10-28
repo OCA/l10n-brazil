@@ -6,7 +6,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 # These fields that have the same name in account.move.line
 # and l10n_br_fiscal.document.line.mixin. So they won't be updated
@@ -59,7 +58,6 @@ class AccountInvoiceLine(models.Model):
     )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         related="move_id.company_id.tax_framework",
         string="Tax Framework",
     )
