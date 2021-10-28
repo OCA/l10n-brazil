@@ -572,6 +572,10 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         return self.fiscal_document_id.view_pdf()
 
+    def action_send_email(self):
+        self.ensure_one()
+        return self.fiscal_document_id.action_send_email()
+
     # TODO FIXME migrate. refund method are very different in Odoo 13+
     # def _get_refund_common_fields(self):
     #     fields = super()._get_refund_common_fields()
