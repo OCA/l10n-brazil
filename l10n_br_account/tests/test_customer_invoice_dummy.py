@@ -6,6 +6,11 @@ from odoo.tests import SavepointCase
 
 
 class TestCustomerInvoice(SavepointCase):
+    """
+    This is a simple test for ensuring l10n_br_account doesn't break the basic
+    account module behavior with customer invoices.
+    """
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -23,8 +28,7 @@ class TestCustomerInvoice(SavepointCase):
                 code="TSAJ",
                 type="sale",
                 refund_sequence=True,
-                default_debit_account_id=cls.sale_account.id,
-                default_credit_account_id=cls.sale_account.id,
+                default_account_id=cls.sale_account.id,
             )
         )
         cls.invoice_1 = cls.env["account.move"].create(
