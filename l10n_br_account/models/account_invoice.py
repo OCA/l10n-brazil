@@ -103,7 +103,8 @@ class AccountInvoice(models.Model):
 
     document_type = fields.Char(
         related="document_type_id.code",
-        stored=True,
+        string="Document Code",
+        store=True,
     )
 
     def _get_amount_lines(self):
@@ -285,7 +286,7 @@ class AccountInvoice(models.Model):
             # is it because lines still have amount_* fields?
             # move.amount_total -= move.amount_tax_withholding
 
-            amount_total_company_signed = move.amount_total
+            amount_total_signed = move.amount_total
             amount_untaxed_signed = move.amount_untaxed
             if (
                 move.currency_id
@@ -293,7 +294,7 @@ class AccountInvoice(models.Model):
                 and move.currency_id != move.company_id.currency_id
             ):
                 currency_id = move.currency_id
-                amount_total_company_signed = currency_id._convert(
+                amount_total_signed = currency_id._convert(
                     move.amount_total,
                     move.company_id.currency_id,
                     move.company_id,
@@ -306,9 +307,7 @@ class AccountInvoice(models.Model):
                     move.invoice_date or fields.Date.today(),
                 )
             sign = move.move_type in ["in_refund", "out_refund"] and -1 or 1
-            # TODO FIXME migrate, no more amount_total_company_signed in Odoo v13+
-            # move.amount_total_company_signed = amount_total_company_signed * sign
-            move.amount_total_signed = move.amount_total * sign
+            move.amount_total_signed = amount_total_signed * sign
             move.amount_untaxed_signed = amount_untaxed_signed * sign
 
     @api.model
