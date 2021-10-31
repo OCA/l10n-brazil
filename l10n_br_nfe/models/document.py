@@ -303,11 +303,12 @@ class NFe(spec_models.StackedModel):
                 record.nfe40_Id = None
 
             # tpNF
-            operation_2_tpNF = {
-                "out": "1",
-                "in": "0",
-            }
-            record.nfe40_tpNF = operation_2_tpNF[record.fiscal_operation_type]
+            if record.fiscal_operation_type:
+                operation_2_tpNF = {
+                    "out": "1",
+                    "in": "0",
+                }
+                record.nfe40_tpNF = operation_2_tpNF[record.fiscal_operation_type]
 
             # TpEmis
             if record.nfe_transmission:
