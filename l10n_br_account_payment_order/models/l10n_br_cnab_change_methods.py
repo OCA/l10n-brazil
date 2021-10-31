@@ -322,7 +322,10 @@ class L10nBrCNABChangeMethods(models.Model):
         payment_lines_removed = False
         if not cnab_already_start:
             # So tem uma linha nesse caso
-            if self.payment_line_ids[0].order_id.state == "draft":
+            if (
+                self.payment_line_ids
+                and self.payment_line_ids[0].order_id.state == "draft"
+            ):
                 reason = (
                     "Removed Payline that would be sent to Bank"
                     " by CNAB because amount payment was made"
