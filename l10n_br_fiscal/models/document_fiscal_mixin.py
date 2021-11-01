@@ -1,6 +1,8 @@
 # Copyright (C) 2019  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+from datetime import datetime, timedelta, timezone
+
 from odoo import api, fields, models
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
@@ -19,7 +21,8 @@ class FiscalDocumentMixin(models.AbstractModel):
     _description = "Document Fiscal Mixin"
 
     def _date_server_format(self):
-        return fields.Datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+        date = datetime.now(tz=timezone(timedelta(hours=-3)))
+        return date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
     @api.model
     def _default_operation(self):
