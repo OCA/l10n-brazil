@@ -215,7 +215,8 @@ class PosConfig(models.Model):
                 ('available_in_pos', '=', True)
             ])
             record.pos_fiscal_map_ids.unlink()
-            product_tmpl_ids.update_pos_fiscal_map()
+            for product in product_tmpl_ids:
+                product.with_delay().update_pos_fiscal_map()
 
     # lim_data_alteracao = fields.Integer(
     #     string="Atualizar dados (meses)",
