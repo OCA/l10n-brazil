@@ -252,8 +252,9 @@ class DocumentWorkflow(models.AbstractModel):
                 MODELO_FISCAL_NFCE,
                 MODELO_FISCAL_CTE,
             ):
+                date = fields.Datetime.context_timestamp(record, record.document_date)
                 chave_edoc = ChaveEdoc(
-                    ano_mes=record.document_date.strftime("%y%m").zfill(4),
+                    ano_mes=date.strftime("%y%m").zfill(4),
                     cnpj_cpf_emitente=record.company_cnpj_cpf,
                     codigo_uf=(
                         record.company_state_id
