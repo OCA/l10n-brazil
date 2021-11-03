@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api
+from odoo.addons.queue_job.job import job
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     TAX_DOMAIN_ICMS,
@@ -22,6 +23,7 @@ class ProductTemplate(models.Model):
         inverse_name='product_tmpl_id',
     )
 
+    @job
     def update_pos_fiscal_map(self):
         for record in self:
             pos_config_ids = record.env['pos.config'].search([])
