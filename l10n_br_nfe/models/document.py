@@ -272,10 +272,21 @@ class NFe(spec_models.StackedModel):
         compute="_compute_nfe40_additional_data",
     )
 
-    nfe40_transporta = fields.Many2one(comodel_name="res.partner")
+    nfe40_transporta = fields.Many2one(
+        comodel_name='res.partner',
+        related='carrier_id'
+    )
+
+    carrier_id = fields.Many2one(
+        comodel_name='res.partner',
+    )
 
     nfe40_infRespTec = fields.Many2one(
         comodel_name="res.partner", related="company_id.technical_support_id"
+    )
+
+    technical_support_id = fields.Many2one(
+        comodel_name="res.partner", string="Technical Support"
     )
 
     nfe40_idDest = fields.Selection(
