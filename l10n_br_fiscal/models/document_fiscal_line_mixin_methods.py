@@ -104,14 +104,15 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         model_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
         if view_type == "form":
             arch_tree = self.inject_fiscal_fields(model_view["arch"])
-
             View = self.env["ir.ui.view"]
             # Override context for postprocessing
             if view_id and model_view.get("base_model", self._name) != self._name:
                 View = View.with_context(base_model_name=model_view["base_model"])
 
             # Apply post processing, groups and modifiers etc...
-            xarch, xfields = View.postprocess_and_fields(self._name, arch_tree, view_id)
+            xarch, xfields = View.postprocess_and_fields(
+                node=arch_tree, model=self._name
+            )
             model_view["arch"] = xarch
             model_view["fields"] = xfields
         return model_view
