@@ -171,6 +171,11 @@ msgid "Adamantina"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_format_address_mixin
+msgid "Address Format"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5200159
 msgid "Adelândia"
 msgstr ""
@@ -7650,6 +7655,7 @@ msgid "Disable IE validation"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city__display_name
@@ -10171,6 +10177,7 @@ msgid "IBGE Code"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city__id
@@ -13451,6 +13458,7 @@ msgid "Lassance"
 msgstr ""
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_bank____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_city____last_update
