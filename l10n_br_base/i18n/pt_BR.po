@@ -175,6 +175,11 @@ msgid "Adamantina"
 msgstr "Adamantina"
 
 #. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_format_address_mixin
+msgid "Address Format"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_5200159
 msgid "Adelândia"
 msgstr "Adelândia"
@@ -2263,7 +2268,7 @@ msgid "Bank Branch Digit"
 msgstr "Dígito da Agência Bancária"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:64
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
 #, python-format
 msgid "Bank branch code must be four caracteres."
 msgstr "O código da agência bancária deve ter quatro caracteres."
@@ -3547,6 +3552,11 @@ msgid "Brazilian Localization"
 msgstr "Localização Brasileira"
 
 #. module: l10n_br_base
+#: model:ir.model,name:l10n_br_base.model_l10n_br_base_party_mixin
+msgid "Brazilian partner and company data mixin"
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_4202800
 msgid "Braço do Norte"
 msgstr "Braço do Norte"
@@ -3845,16 +3855,13 @@ msgid "CEI Code"
 msgstr "Código CEI"
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
-msgid "CNPJ"
-msgstr "CNPJ"
-
-#. module: l10n_br_base
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "CNPJ..."
 msgstr "CNPJ..."
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__cnpj_cpf
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__cnpj_cpf
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__cnpj_cpf
 msgid "CNPJ/CPF"
@@ -6066,10 +6073,12 @@ msgstr "Ciríaco"
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_city
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_company_form
 msgid "City"
 msgstr "Cidade"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__city_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__city_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__city_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__city_id
@@ -6077,7 +6086,6 @@ msgid "City of Address"
 msgstr "Endereço da Cidade"
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "City..."
 msgstr "Cidade..."
@@ -6305,7 +6313,6 @@ msgid "Companies"
 msgstr "Empresas"
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Complement..."
 msgstr "Complemento..."
@@ -6533,43 +6540,43 @@ msgid "Constantina"
 msgstr "Constantina"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:13
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__11
 #, python-format
 msgid "Conta corrente conjunta"
 msgstr "Conta corrente conjunta"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:10
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__01
 #, python-format
 msgid "Conta corrente individual"
 msgstr "Conta corrente individual"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:15
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__13
 #, python-format
 msgid "Conta depósito judicial/Depósito em consignação conjunta"
 msgstr "Conta depósito judicial/Depósito em consignação conjunta"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:12
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__03
 #, python-format
 msgid "Conta depósito judicial/Depósito em consignação individual"
 msgstr "Conta depósito judicial/Depósito em consignação individual"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:14
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__12
 #, python-format
 msgid "Conta poupança conjunta"
 msgstr "Conta poupança conjunta"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner_bank.py:11
-#: selection:res.partner.bank,bank_account_type:0
+#: code:addons/l10n_br_base/models/res_partner_bank.py:0
+#: model:ir.model.fields.selection,name:l10n_br_base.selection__res_partner_bank__bank_account_type__02
 #, python-format
 msgid "Conta poupança individual"
 msgstr "Conta poupança individual"
@@ -6907,10 +6914,10 @@ msgstr "Cotriguaçu"
 
 #. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_res_country
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__country_id
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__country_id
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "Country"
 msgstr "País"
 
@@ -7483,32 +7490,6 @@ msgid "Davinópolis"
 msgstr "Davinópolis"
 
 #. module: l10n_br_base
-#: model:res.company,overdue_msg:l10n_br_base.empresa_lucro_presumido
-#: model:res.company,overdue_msg:l10n_br_base.empresa_simples_nacional
-msgid ""
-"Dear Sir/Madam,\n"
-"\n"
-"Our records indicate that some payments on your account are still due. "
-"Please find details below.\n"
-"If the amount has already been paid, please disregard this notice. "
-"Otherwise, please forward us the total amount stated below.\n"
-"If you have any queries regarding your account, Please contact us.\n"
-"\n"
-"Thank you in advance for your cooperation.\n"
-"Best Regards,"
-msgstr ""
-"Dear Sir/Madam,\n"
-"\n"
-"Our records indicate that some payments on your account are still due. "
-"Please find details below.\n"
-"If the amount has already been paid, please disregard this notice. "
-"Otherwise, please forward us the total amount stated below.\n"
-"If you have any queries regarding your account, Please contact us.\n"
-"\n"
-"Thank you in advance for your cooperation.\n"
-"Best Regards,"
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3121100
 msgid "Delfim Moreira"
 msgstr "Delfim Moreira"
@@ -7681,11 +7662,22 @@ msgid "Disable IE validation"
 msgstr "Desabilitar validação de IE (Inscrição Estadual)"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__display_name
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__display_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__display_name
 msgid "Display Name"
 msgstr "Nome de Exibição"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__district
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__district
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__district
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__district
@@ -7693,7 +7685,6 @@ msgid "District"
 msgstr "Bairro"
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "District..."
 msgstr "Bairro..."
@@ -8393,7 +8384,7 @@ msgid "Espírito Santo do Turvo"
 msgstr "Espírito Santo do Turvo"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:189
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr "Inscrição Estadual Inválida !"
@@ -10193,6 +10184,16 @@ msgid "IBGE Code"
 msgstr "Código do IBGE"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_city__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__id
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank__id
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__id
 msgid "ID"
 msgstr "ID"
@@ -10887,7 +10888,7 @@ msgid "Inocência"
 msgstr "Inocência"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:204
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "Invalid State Tax Number!"
 msgstr "Número da Inscrição Estadual Inválida!"
@@ -13464,6 +13465,16 @@ msgid "Lassance"
 msgstr "Lassance"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_format_address_mixin____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_bank____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_city____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_country_state____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner____last_update
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner_bank____last_update
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers____last_update
 msgid "Last Modified on"
 msgstr "Última Modificação em"
@@ -13545,6 +13556,7 @@ msgid "Lebon Régis"
 msgstr "Lebon Régis"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__legal_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__legal_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__legal_name
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__legal_name
@@ -15785,6 +15797,7 @@ msgid "Munhoz de Melo"
 msgstr "Munhoz de Melo"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_mun
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_mun
@@ -16800,11 +16813,6 @@ msgid "Novorizonte"
 msgstr "Novorizonte"
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
-msgid "Number..."
-msgstr "Número..."
-
-#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3533601
 msgid "Nuporanga"
 msgstr "Nuporanga"
@@ -17045,6 +17053,7 @@ msgid "Other Infos"
 msgstr "Outras Informações"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__state_tax_number_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__state_tax_number_ids
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__state_tax_number_ids
 msgid "Others State Tax Number"
@@ -17467,6 +17476,11 @@ msgstr "Papanduva"
 #: model:res.city,name:l10n_br_base.city_2207553
 msgid "Paquetá"
 msgstr "Paquetá"
+
+#. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
+msgid "Para ISENTO deixe vazio ou escreva 'ISENTO'"
+msgstr ""
 
 #. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_3303609
@@ -20021,6 +20035,10 @@ msgid "Quixeré"
 msgstr "Quixeré"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__rg
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_company__rg
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__rg
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__rg
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "RG"
 msgstr "RG"
@@ -23129,14 +23147,17 @@ msgid "State"
 msgstr "Estado"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
+#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
 #: model:ir.model.fields,field_description:l10n_br_base.field_state_tax_numbers__inscr_est
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 msgid "State Tax Number"
 msgstr "Número da Inscrição Estadual"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:220
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "State Tax Number already used %s"
 msgstr "Inscrição estadual %s já utilizada"
@@ -23147,19 +23168,12 @@ msgid "State Tax Number..."
 msgstr "Número da Inscrição Estadual..."
 
 #. module: l10n_br_base
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__inscr_est
-#: model:ir.model.fields,field_description:l10n_br_base.field_res_users__inscr_est
-msgid "State Tax Number/RG"
-msgstr "Número da Inscrição Estadual/RG"
-
-#. module: l10n_br_base
 #: model:ir.model,name:l10n_br_base.model_state_tax_numbers
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__state_tax_number_ids
 msgid "State Tax Numbers"
 msgstr "Números de imposto estadual"
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "State..."
 msgstr "Estado..."
@@ -23170,7 +23184,7 @@ msgid "Street number..."
 msgstr "Número da Rua..."
 
 #. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Street..."
 msgstr "Logradouro..."
@@ -23196,6 +23210,7 @@ msgid "Sud Mennucci"
 msgstr "Sud Mennucci"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,field_description:l10n_br_base.field_l10n_br_base_party_mixin__suframa
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_company__suframa
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_partner__suframa
 #: model:ir.model.fields,field_description:l10n_br_base.field_res_users__suframa
@@ -25468,7 +25483,7 @@ msgid "Teófilo Otoni"
 msgstr "Teófilo Otoni"
 
 #. module: l10n_br_base
-#: sql_constraint:state.tax.numbers:0
+#: model:ir.model.constraint,message:l10n_br_base.constraint_state_tax_numbers_l10n_br_base_state_tax_numbers_id_uniq
 msgid "The Partner already has a State Tax Number for that State!"
 msgstr "The Partner already has a State Tax Number for that State!"
 
@@ -25488,20 +25503,26 @@ msgid "Theobroma"
 msgstr "Theobroma"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:207
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There can only be one state tax number per state for each partner!"
 msgstr ""
 "Só pode haver um número de imposto estadual por estado para cada parceiro!"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:139
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this CNPJ !"
 msgstr "Já existe um parceiro com este CNPJ !"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:132
+#: code:addons/l10n_br_base/models/res_partner.py:0
+#, python-format
+msgid "There is already a partner record with this CPF/RG!"
+msgstr ""
+
+#. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "There is already a partner record with this Estadual Inscription !"
 msgstr "Já existe um parceiro com esta Inscrição Estadual !"
@@ -26289,6 +26310,12 @@ msgid "União dos Palmares"
 msgstr "União dos Palmares"
 
 #. module: l10n_br_base
+#: code:addons/l10n_br_base/models/res_partner.py:0
+#, python-format
+msgid "Unrecognized field %s in street format."
+msgstr ""
+
+#. module: l10n_br_base
 #: model:res.city,name:l10n_br_base.city_2414605
 msgid "Upanema"
 msgstr "Upanema"
@@ -26429,6 +26456,8 @@ msgstr ""
 "endereço dos parceiros"
 
 #. module: l10n_br_base
+#: model:ir.model.fields,help:l10n_br_base.field_l10n_br_base_party_mixin__legal_name
+#: model:ir.model.fields,help:l10n_br_base.field_res_company__legal_name
 #: model:ir.model.fields,help:l10n_br_base.field_res_partner__legal_name
 #: model:ir.model.fields,help:l10n_br_base.field_res_users__legal_name
 msgid "Used in fiscal documents"
@@ -27167,13 +27196,9 @@ msgid "Zacarias"
 msgstr "Zacarias"
 
 #. module: l10n_br_base
+#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_contact_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_res_partner_address
 msgid "Zip code..."
-msgstr "CEP..."
-
-#. module: l10n_br_base
-#: model_terms:ir.ui.view,arch_db:l10n_br_base.l10n_br_base_partner_form
-msgid "Zip..."
 msgstr "CEP..."
 
 #. module: l10n_br_base
@@ -27187,7 +27212,7 @@ msgid "Zé Doca"
 msgstr "Zé Doca"
 
 #. module: l10n_br_base
-#: code:addons/l10n_br_base/models/res_partner.py:165
+#: code:addons/l10n_br_base/models/res_partner.py:0
 #, python-format
 msgid "{} Invalid!"
 msgstr "{} Inválido!"
@@ -27364,6 +27389,41 @@ msgstr "Óbidos"
 #: model:res.city,name:l10n_br_base.city_3533809
 msgid "Óleo"
 msgstr "Óleo"
+
+#~ msgid "CNPJ"
+#~ msgstr "CNPJ"
+
+#~ msgid ""
+#~ "Dear Sir/Madam,\n"
+#~ "\n"
+#~ "Our records indicate that some payments on your account are still due. "
+#~ "Please find details below.\n"
+#~ "If the amount has already been paid, please disregard this notice. "
+#~ "Otherwise, please forward us the total amount stated below.\n"
+#~ "If you have any queries regarding your account, Please contact us.\n"
+#~ "\n"
+#~ "Thank you in advance for your cooperation.\n"
+#~ "Best Regards,"
+#~ msgstr ""
+#~ "Dear Sir/Madam,\n"
+#~ "\n"
+#~ "Our records indicate that some payments on your account are still due. "
+#~ "Please find details below.\n"
+#~ "If the amount has already been paid, please disregard this notice. "
+#~ "Otherwise, please forward us the total amount stated below.\n"
+#~ "If you have any queries regarding your account, Please contact us.\n"
+#~ "\n"
+#~ "Thank you in advance for your cooperation.\n"
+#~ "Best Regards,"
+
+#~ msgid "Number..."
+#~ msgstr "Número..."
+
+#~ msgid "State Tax Number/RG"
+#~ msgstr "Número da Inscrição Estadual/RG"
+
+#~ msgid "Zip..."
+#~ msgstr "CEP..."
 
 #~ msgid "CNPJ/Id Estrangeiro"
 #~ msgstr "CNPJ/Identificação Estrangeira"
