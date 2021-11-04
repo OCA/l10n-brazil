@@ -29,7 +29,10 @@ class TestCurrencyRateUpdateBCB(SavepointCase):
         cls.bcb_provider = cls.CurrencyRateProvider.create(
             {
                 "service": "BCB",
-                "currency_ids": [(4, cls.usd_currency.id), (4, cls.eur_currency.id)],
+                "currency_ids": [
+                    (4, cls.usd_currency.id),
+                    (4, cls.eur_currency.id),
+                ],
             }
         )
         cls.CurrencyRate.search([]).unlink()
@@ -85,7 +88,11 @@ class TestCurrencyRateUpdateBCB(SavepointCase):
         rates = self.CurrencyRate.search(
             [
                 ("company_id", "=", self.company.id),
-                ("currency_id", "in", [self.usd_currency.id, self.eur_currency.id]),
+                (
+                    "currency_id",
+                    "in",
+                    [self.usd_currency.id, self.eur_currency.id],
+                ),
             ],
             limit=1,
         )
