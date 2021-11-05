@@ -4,4 +4,5 @@ erpbrasil.base
 nfelib
 num2words
 odoo_test_helper
+pycep_correios
 pyOpenSSL

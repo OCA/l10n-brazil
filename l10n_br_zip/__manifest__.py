@@ -6,10 +6,10 @@
     "summary": "Brazilian Localisation ZIP Codes",
     "category": "Localisation",
     "license": "AGPL-3",
-    "author": "Akretion, " "Odoo Community Association (OCA)",
+    "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "12.0.3.0.1",
+    "version": "13.0.1.0.0",
     "depends": ["l10n_br_base"],
     "data": [
         "views/l10n_br_zip_view.xml",

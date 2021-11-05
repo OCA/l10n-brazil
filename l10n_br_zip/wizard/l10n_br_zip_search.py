@@ -46,9 +46,7 @@ class L10nBrZipSearch(models.TransientModel):
 
     address_id = fields.Integer(string="Id do objeto", invisible=True)
 
-    object_name = fields.Char(
-        string="Nome do Objeto", size=100, invisible=True
-    )
+    object_name = fields.Char(string="Nome do Objeto", size=100, invisible=True)
 
     @api.model
     def default_get(self, fields_list):
@@ -69,7 +67,6 @@ class L10nBrZipSearch(models.TransientModel):
 
         return data
 
-    @api.multi
     def zip_search(self):
 
         self.ensure_one()
@@ -89,13 +86,9 @@ class L10nBrZipSearch(models.TransientModel):
         zip_ids = obj_zip.search(domain)
 
         context = dict(self.env.context)
-        context.update(
-            {"address_id": data.address_id, "object_name": data.object_name}
-        )
+        context.update({"address_id": data.address_id, "object_name": data.object_name})
 
-        self.write(
-            {"state": "done", "zip_ids": [[6, 0, [zip.id for zip in zip_ids]]]}
-        )
+        self.write({"state": "done", "zip_ids": [[6, 0, [zip.id for zip in zip_ids]]]})
 
         return {
             "type": "ir.actions.act_window",
@@ -109,7 +102,6 @@ class L10nBrZipSearch(models.TransientModel):
             "context": context,
         }
 
-    @api.multi
     def zip_new_search(self):
         data = self.read()[0]
         self.ensure_one()

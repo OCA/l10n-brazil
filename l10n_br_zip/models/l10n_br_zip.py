@@ -70,9 +70,7 @@ class L10nBrZip(models.Model):
             domain.append(("zip_code", "=", new_zip))
         else:
             if not state_id or not city_id or len(street or "") == 0:
-                raise UserError(
-                    _("Necessário informar Estado, município e logradouro")
-                )
+                raise UserError(_("Necessário informar Estado, município e logradouro"))
 
             if country_id:
                 domain.append(("country_id", "=", country_id))
@@ -87,7 +85,6 @@ class L10nBrZip(models.Model):
 
         return domain
 
-    @api.multi
     def _zip_update(self):
         self.ensure_one()
         cep_update_days = int(
@@ -102,7 +99,6 @@ class L10nBrZip(models.Model):
                 # Update zip object
                 self.write(cep_values)
 
-    @api.multi
     def set_result(self):
         self.ensure_one()
         self._zip_update()
@@ -140,9 +136,7 @@ class L10nBrZip(models.Model):
         values = {}
         if cep and any(cep.values()):
             # Search Brazil id
-            country = self.env["res.country"].search(
-                [("code", "=", "BR")], limit=1
-            )
+            country = self.env["res.country"].search([("code", "=", "BR")], limit=1)
 
             # Search state with state_code and country id
             state = self.env["res.country.state"].search(
@@ -243,7 +237,6 @@ class L10nBrZip(models.Model):
             "context": context,
         }
 
-    @api.multi
     def zip_select(self):
         self.ensure_one()
         address_id = self._context.get("address_id")

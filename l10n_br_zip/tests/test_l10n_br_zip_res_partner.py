@@ -107,9 +107,7 @@ class L10nBRZipTest(TransactionCase):
             )
         )
         result = self.res_partner_1.zip_search()
-        obj_zip_search = self.env["l10n_br.zip.search"].browse(
-            result.get("res_id")
-        )
+        obj_zip_search = self.env["l10n_br.zip.search"].browse(result.get("res_id"))
 
         self.assertEqual(
             result["type"],
@@ -173,9 +171,7 @@ class L10nBRZipTest(TransactionCase):
             result = self.res_partner.zip_search()
         except Exception:
             result = False
-        self.assertFalse(
-            result, "Error to search by invalid ZIP on PyCEP-Correios."
-        )
+        self.assertFalse(result, "Error to search by invalid ZIP on PyCEP-Correios.")
 
     def test_return_pycep_correios(self):
         """Test search with PyCEP CORREIOS in res_partner."""
@@ -205,12 +201,10 @@ class L10nBRZipTest(TransactionCase):
         self.assertEqual(
             self.res_partner.street,
             "Avenida Paulista, 2100",
-            "Error in method zip_search with PyCEP-Correios"
-            "to mapping field street.",
+            "Error in method zip_search with PyCEP-Correios to mapping field street.",
         )
         self.assertEqual(
             self.res_partner.city_id.name,
             "São Paulo",
-            "Error in method zip_search with PyCEP-Correios"
-            "to mapping field city.",
+            "Error in method zip_search with PyCEP-Correios to mapping field city.",
         )
