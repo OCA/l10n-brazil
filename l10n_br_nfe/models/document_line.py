@@ -40,7 +40,7 @@ class NFeLine(spec_models.StackedModel):
     )
 
     nfe40_cEAN = fields.Char(
-        related="product_id.barcode",
+        string="EAN",
     )
 
     nfe40_cEANTrib = fields.Char(

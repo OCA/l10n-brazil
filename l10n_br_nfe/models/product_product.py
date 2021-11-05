@@ -27,8 +27,8 @@ class ProductProduct(models.Model):
             values["list_price"] = parent_dict.get("nfe40_vUnCom")
 
         # Barcode
-        if parent_dict.get("nfe40_cEAN") and parent_dict["nfe40_cEAN"] != "SEM GTIN":
-            values["barcode"] = parent_dict["nfe40_cEAN"]
+        if parent_dict.get("nfe40_cEANTrib") and parent_dict["nfe40_cEANTrib"] != "SEM GTIN":
+            values["barcode"] = parent_dict["nfe40_cEANTrib"]
 
         # NCM
         if parent_dict.get("nfe40_NCM"):
