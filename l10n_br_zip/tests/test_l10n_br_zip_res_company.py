@@ -41,10 +41,14 @@ class L10nBRZipTest(TransactionCase):
     def test_object_without_address_fields(self):
         """Test object without address fields."""
         try:
-            result = self.env["l10n_br.zip"].zip_search(self.env["mail.thread"])
+            result = self.env["l10n_br.zip"].zip_search(
+                self.env["mail.thread"]
+            )
         except Exception:
             result = False
-        self.assertFalse(result, "Error to search by address without address fields.")
+        self.assertFalse(
+            result, "Error to search by address without address fields."
+        )
 
     def test_without_all_required_fields(self):
         """Test object without all required fields."""
@@ -117,7 +121,9 @@ class L10nBRZipTest(TransactionCase):
             )
         )
         result = self.company_1.zip_search()
-        obj_zip_search = self.env["l10n_br.zip.search"].browse(result.get("res_id"))
+        obj_zip_search = self.env["l10n_br.zip.search"].browse(
+            result.get("res_id")
+        )
 
         self.assertEqual(
             result["type"],
@@ -130,7 +136,9 @@ class L10nBRZipTest(TransactionCase):
             "It should return the model zip.search",
         )
         self.assertEqual(
-            obj_zip_search.street, "paulista", "It should return the correct street"
+            obj_zip_search.street,
+            "paulista",
+            "It should return the correct street",
         )
         self.assertEqual(
             obj_zip_search.state_id.id,
@@ -178,7 +186,9 @@ class L10nBRZipTest(TransactionCase):
             result = self.company.zip_search()
         except Exception:
             result = False
-        self.assertFalse(result, "Error to search by invalid ZIP on PyCEP-Correios.")
+        self.assertFalse(
+            result, "Error to search by invalid ZIP on PyCEP-Correios."
+        )
 
     def test_return_pycep_correios(self):
         """Test search with PyCEP CORREIOS ."""
@@ -209,10 +219,12 @@ class L10nBRZipTest(TransactionCase):
         self.assertEqual(
             self.company.street,
             "Rua Coronel Oscar Porto",
-            "Error in method zip_search with PyCEP-Correios" "to mapping field street.",
+            "Error in method zip_search with PyCEP-Correios"
+            "to mapping field street.",
         )
         self.assertEqual(
             self.company.city_id.name,
             "São Paulo",
-            "Error in method zip_search with PyCEP-Correios" "to mapping field city.",
+            "Error in method zip_search with PyCEP-Correios"
+            "to mapping field city.",
         )

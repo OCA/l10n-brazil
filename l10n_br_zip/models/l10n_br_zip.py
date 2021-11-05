@@ -70,7 +70,9 @@ class L10nBrZip(models.Model):
             domain.append(("zip_code", "=", new_zip))
         else:
             if not state_id or not city_id or len(street or "") == 0:
-                raise UserError(_("Necessário informar Estado, município e logradouro"))
+                raise UserError(
+                    _("Necessário informar Estado, município e logradouro")
+                )
 
             if country_id:
                 domain.append(("country_id", "=", country_id))
@@ -138,16 +140,25 @@ class L10nBrZip(models.Model):
         values = {}
         if cep and any(cep.values()):
             # Search Brazil id
-            country = self.env["res.country"].search([("code", "=", "BR")], limit=1)
+            country = self.env["res.country"].search(
+                [("code", "=", "BR")], limit=1
+            )
 
             # Search state with state_code and country id
             state = self.env["res.country.state"].search(
-                [("code", "=", cep.get("uf")), ("country_id", "=", country.id)], limit=1
+                [
+                    ("code", "=", cep.get("uf")),
+                    ("country_id", "=", country.id),
+                ],
+                limit=1,
             )
 
             # search city with name and state
             city = self.env["res.city"].search(
-                [("name", "=", cep.get("cidade")), ("state_id.id", "=", state.id)],
+                [
+                    ("name", "=", cep.get("cidade")),
+                    ("state_id.id", "=", state.id),
+                ],
                 limit=1,
             )
 

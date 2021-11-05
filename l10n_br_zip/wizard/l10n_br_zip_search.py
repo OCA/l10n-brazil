@@ -23,7 +23,9 @@ class L10nBrZipSearch(models.TransientModel):
     )
 
     city_id = fields.Many2one(
-        comodel_name="res.city", string="Cidade", domain="[('state_id', '=', state_id)]"
+        comodel_name="res.city",
+        string="Cidade",
+        domain="[('state_id', '=', state_id)]",
     )
 
     zip_ids = fields.Many2many(
@@ -44,7 +46,9 @@ class L10nBrZipSearch(models.TransientModel):
 
     address_id = fields.Integer(string="Id do objeto", invisible=True)
 
-    object_name = fields.Char(string="Nome do Objeto", size=100, invisible=True)
+    object_name = fields.Char(
+        string="Nome do Objeto", size=100, invisible=True
+    )
 
     @api.model
     def default_get(self, fields_list):
@@ -85,9 +89,13 @@ class L10nBrZipSearch(models.TransientModel):
         zip_ids = obj_zip.search(domain)
 
         context = dict(self.env.context)
-        context.update({"address_id": data.address_id, "object_name": data.object_name})
+        context.update(
+            {"address_id": data.address_id, "object_name": data.object_name}
+        )
 
-        self.write({"state": "done", "zip_ids": [[6, 0, [zip.id for zip in zip_ids]]]})
+        self.write(
+            {"state": "done", "zip_ids": [[6, 0, [zip.id for zip in zip_ids]]]}
+        )
 
         return {
             "type": "ir.actions.act_window",
