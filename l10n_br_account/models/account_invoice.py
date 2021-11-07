@@ -104,7 +104,7 @@ class AccountInvoice(models.Model):
 
     document_type = fields.Char(
         related="document_type_id.code",
-        stored=True,
+        store=True,
     )
 
     def _get_amount_lines(self):
