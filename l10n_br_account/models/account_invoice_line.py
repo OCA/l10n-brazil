@@ -6,7 +6,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-
 # These fields that have the same name in account.move.line
 # and l10n_br_fiscal.document.line.mixin. So they won't be updated
 # by the _inherits system. An alternative would be changing their name
@@ -181,33 +180,35 @@ class AccountInvoiceLine(models.Model):
             return {"default_%s" % (k,): vals[k] for k in vals.keys()}
         return vals
 
-    @api.model
-    def create(self, values):
+    @api.model_create_multi
+    def create(self, vals_list):
         dummy_doc = self.env.company.fiscal_dummy_id
-        fiscal_doc_id = (
-            self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
-        )
-        if dummy_doc.id == fiscal_doc_id or values.get("exclude_from_invoice_tab"):
-            values["fiscal_document_line_id"] = fields.first(dummy_doc.line_ids).id
-
-        values.update(
-            self._update_fiscal_quantity(
-                values.get("product_id"),
-                values.get("price_unit"),
-                values.get("quantity"),
-                values.get("uom_id"),
-                values.get("uot_id"),
+        for values in vals_list:
+            fiscal_doc_id = (
+                self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
             )
-        )
+            if dummy_doc.id == fiscal_doc_id or values.get("exclude_from_invoice_tab"):
+                values["fiscal_document_line_id"] = fields.first(dummy_doc.line_ids).id
 
-        line = super().create(values)
+            values.update(
+                self._update_fiscal_quantity(
+                    values.get("product_id"),
+                    values.get("price_unit"),
+                    values.get("quantity"),
+                    values.get("uom_id"),
+                    values.get("uot_id"),
+                )
+            )
+
+        lines = super().create(vals_list)
         if dummy_doc.id != fiscal_doc_id:
-            shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
-            doc_id = line.move_id.fiscal_document_id.id
-            shadowed_fiscal_vals["document_id"] = doc_id
-            line.fiscal_document_line_id.write(shadowed_fiscal_vals)
+            for line in lines:
+                shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
+                doc_id = line.move_id.fiscal_document_id.id
+                shadowed_fiscal_vals["document_id"] = doc_id
+                line.fiscal_document_line_id.write(shadowed_fiscal_vals)
 
-        return line
+        return lines
 
     def write(self, values):
         dummy_doc = self.env.company.fiscal_dummy_id
