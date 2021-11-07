@@ -4,11 +4,10 @@ workalendar
 erpbrasil.base==2.2.2
 erpbrasil.assinatura
 erpbrasil.transmissao==1.0.0
-erpbrasil.edoc==2.2.1
+-e git+https://github.com/erpbrasil/erpbrasil.edoc@master#egg=erpbrasil.edoc
 erpbrasil.edoc.pdf==1.0.1
 nfselib.ginfes==0.2.0
 -e git+https://github.com/erpbrasil/nfselib.issnet@master-gen#egg=nfselib.issnet
-nfselib.issnet==0.2.0
 nfselib.paulistana==0.2.0
 nfelib==1.2.0
 xmldiff==2.4
