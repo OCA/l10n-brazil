@@ -141,25 +141,34 @@
             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
                 <attribute
                     name="context"
-                >{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id, 'default_fiscal_operation_type': fiscal_operation_type}</attribute>
+                >{'default_move_type': context.get('default_move_type'), 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id or company_currency_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
             </xpath>
             <xpath
                 expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
                 position="replace"
             >
-                <field name="tax_ids" invisible="1" />
+                <field name="tax_ids" optional="hide" />
                 <field name="document_type_id" invisible="1" />
-                <field name="amount_tax_withholding" invisible="1" />
-                <field name="amount_tax_included" invisible="1" />
-                <field name="amount_tax_not_included" invisible="1" />
-                <field name="fiscal_operation_id" invisible="1" />
-                <field name="fiscal_operation_line_id" />
+                <field name="amount_tax_withholding" optional="hide" />
+                <field name="amount_tax_included" optional="hide" />
+                <field name="amount_tax_not_included" optional="hide" />
+                <field name="fiscal_operation_id" optional="hide" />
+                <field name="fiscal_operation_line_id" optional="show" />
+                <field name="cfop_id" optional="hide" />
                 <field
                     name="fiscal_tax_ids"
                     attrs="{'invisible': [('document_type_id', '=', False)]}"
                     widget="many2many_tags"
                     options="{'no_create': True}"
                 />
+                <field name="icms_value" optional="hide" />
+                <field name="ipi_value" optional="hide" />
+                <field name="pis_value" optional="hide" />
+                <field name="cofins_value" optional="hide" />
+                <field name="freight_value" optional="hide" />
+                <field name="insurance_value" optional="hide" />
+                <field name="other_value" optional="hide" />
+                <field name="estimate_tax" optional="hide" />
             </xpath>
 
 
@@ -168,7 +177,7 @@
             <xpath expr="//field[@name='line_ids']" position="attributes">
                 <attribute
                     name="context"
-                >{'default_company_id': company_id, 'default_partner_id': partner_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id, 'default_exclude_from_invoice_tab': 1}</attribute>
+                >{'default_move_type': context.get('default_move_type'), 'line_ids': line_ids, 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id or company_currency_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id, 'default_exclude_from_invoice_tab': 1}</attribute>
             </xpath>
             <xpath
                 expr="//field[@name='line_ids']/tree/field[@name='tax_ids']"
@@ -180,8 +189,8 @@
                 <field name="amount_tax_included" invisible="1" />
                 <field name="amount_tax_not_included" invisible="1" />
                 <field name="fiscal_operation_id" invisible="1" />
-                <field name="fiscal_operation_line_id" />
-                <field name="cfop_id" invisible="1" />
+                <field name="fiscal_operation_line_id" optional="hide" />
+                <field name="cfop_id" optional="hide" />
                 <field name="partner_company_type" invisible="1" />
                     <field name="fiscal_operation_type" invisible="1" />
                 <field
@@ -204,12 +213,13 @@
                     <field name="estimate_tax" invisible="1" />
 
                   <!-- TODO adapt these placeholders for tree view for fiscal_form_view -->
-                    <!--group name="fiscal_taxes_fields" string="Taxes" invisible="1" />
-                    <group
+                    <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                    <field name="tax_icms_or_issqn" invisible="1" />
+                    <control
                     name="fiscal_line_extra_info_fields"
                     string="Extra Info"
                     invisible="1"
-                /-->
+                />
             </xpath>
 
 
@@ -293,7 +303,7 @@
                 position="after"
             >
                 <group name="fiscal_fields" invisible="1" />
-                <field name="tax_icms_or_issqn" />
+                <field name="tax_icms_or_issqn" invisible="1" />
                 <notebook attrs="{'invisible': [('document_type_id', '=', False)]}">
                     <page name="fiscal_taxes" string="Taxes" />
                     <page name="others" string="Others">
