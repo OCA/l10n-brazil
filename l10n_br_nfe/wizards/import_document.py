@@ -25,6 +25,19 @@ class NfeImport(models.TransientModel):
         edoc = self.env["l10n_br_fiscal.document"].import_xml(
             base64.b64decode(self.nfe_xml), dry_run=False
         )
+
+        vals = {
+            "name": "NFe-Importada-{}.xml".format(edoc.document_key),
+            "datas": base64.b64decode(self.nfe_xml),
+            "datas_fname": "NFe-Importada-{}.xml".format(edoc.document_key),
+            "description":
+                u'XML NFe - Importada por XML',
+            "res_model": "l10n_br_fiscal.document",
+            "res_id": edoc.id
+        }
+
+        self.env["ir.attachment"].create(vals)
+
         return {
             "name": _("Documento Importado"),
             "view_mode": "form",
