@@ -92,7 +92,6 @@ class ResPartner(spec_models.SpecModel):
         string="CNPJ/CPF/idEstrangeiro",
     )
 
-    @api.multi
     def _compute_nfe40_xEnder(self):
         for rec in self:
             rec.nfe40_xEnder = ", ".join(
@@ -101,7 +100,6 @@ class ResPartner(spec_models.SpecModel):
             if rec.street2:
                 rec.nfe40_xEnder = " - ".join((rec.nfe40_xEnder, rec.street2))
 
-    @api.multi
     def _compute_nfe40_enderDest(self):
         for rec in self:
             rec.nfe40_enderDest = rec.id
@@ -122,6 +120,8 @@ class ResPartner(spec_models.SpecModel):
 
             if rec.inscr_est and rec.is_company:
                 rec.nfe40_IE = punctuation_rm(rec.inscr_est)
+            else:
+                rec.nfe40_IE = None
 
     def _inverse_nfe40_CNPJ(self):
         for rec in self:
