@@ -16,6 +16,8 @@
         "spec_driven_model",
     ],
     "data": [
+        # Data
+        "data/ir_config_parameter.xml",
         # Security
         "security/nfe_security.xml",
         # Views
