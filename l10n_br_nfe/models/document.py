@@ -213,7 +213,10 @@ class NFe(spec_models.StackedModel):
     )
 
     nfe40_verProc = fields.Char(
-        default="Odoo Brasil v12.0",  # Shound be an ir.parameter?
+        copy=False,
+        default=lambda s: s.env["ir.config_parameter"]
+        .sudo()
+        .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14.0"),
     )
 
     nfe40_CRT = fields.Selection(
