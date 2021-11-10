@@ -69,7 +69,11 @@ class ResPartner(spec_models.SpecModel):
         comodel_name="res.partner", compute="_compute_nfe40_enderDest"
     )
     nfe40_indIEDest = fields.Selection(related="ind_ie_dest")
-    nfe40_IE = fields.Char(compute="_compute_nfe_data", inverse="_inverse_nfe40_IE")
+    nfe40_IE = fields.Char(
+        compute="_compute_nfe_data",
+        inverse="_inverse_nfe40_IE",
+        compute_sudo=True,
+    )
     nfe40_ISUF = fields.Char(related="suframa")
     nfe40_email = fields.Char(related="email")
     nfe40_xEnder = fields.Char(compute="_compute_nfe40_xEnder")
@@ -89,6 +93,7 @@ class ResPartner(spec_models.SpecModel):
             ("nfe40_idEstrangeiro", "idEstrangeiro"),
         ],
         compute="_compute_nfe_data",
+        compute_sudo=True,
         string="CNPJ/CPF/idEstrangeiro",
     )
 
