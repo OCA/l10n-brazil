@@ -48,3 +48,8 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.nfce_danfe_layout",
         readonly=False,
     )
+
+    nfe_version_name = fields.Char(
+        string="NFe Proc Version",
+        config_parameter="l10n_br_nfe.version.name",
+    )
