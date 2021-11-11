@@ -68,12 +68,11 @@ class DataAbstract(models.AbstractModel):
                     ],
                 ]
             )
-            recs = self._search(
+            return self._search(
                 expression.AND([domain, args]),
                 limit=limit,
                 access_rights_uid=name_get_uid,
             )
-            return self.browse(recs).name_get()
 
         return super()._name_search(
             name, args=args, operator=operator, limit=limit, name_get_uid=name_get_uid
