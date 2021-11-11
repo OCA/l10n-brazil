@@ -56,7 +56,7 @@ class AccountInvoiceReport(models.Model):
 
     ii_value = fields.Float(string="Valor II", digits="Account")
 
-    total_with_taxes = fields.Float(string="Total com Impostos", rdigits="Account")
+    total_with_taxes = fields.Float(string="Total com Impostos", digits="Account")
     cest_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cest",
         string="CEST",
