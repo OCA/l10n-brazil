@@ -444,18 +444,18 @@ class Sat(Thread):
             from escpos.conn.network import NetworkConnection as Connection
             conn = Connection(host=self.printer_params, port=9100)
         elif self.fiscal_printer_type == 'BluetoothConnection':
-            from escpos.conn.network import BluetoothConnection as Connection
+            from escpos.conn.bt import BluetoothConnection as Connection
         elif self.fiscal_printer_type == 'DummyConnection':
-            from escpos.conn.network import DummyConnection as Connection
+            from escpos.conn.dummy import DummyConnection as Connection
         elif self.fiscal_printer_type == 'FileConnection':
-            from escpos.conn.network import FileConnection as Connection
-        elif self.fiscal_printer_type == 'NetworkConnection':
-            from escpos.conn.network import NetworkConnection as Connection
+            from escpos.conn.file import FileConnection as Connection
+            conn = Connection(self.printer_params)
         elif self.fiscal_printer_type == 'SerialConnection':
-            from escpos.conn.network import SerialConnection as Connection
+            from escpos.conn.serial import SerialSettings as Connection
             conn = Connection.parse(self.printer_params).get_connection()
         elif self.fiscal_printer_type == 'USBConnection':
-            from escpos.conn.network import USBConnection as Connection
+            from escpos.conn.usb import USBConnection as Connection
+            conn = Connection(interface=self.printer_params)
 
         if self.impressora == 'epson-tm-t20':
             _logger.info('SAT Impressao: Epson TM-T20')
@@ -477,7 +477,7 @@ class Sat(Thread):
         from escpos import feature
         printer.hardware_features.update({
             feature.COLUMNS: feature.Columns(
-                normal=42,
+                normal=44,
                 expanded=24,
                 condensed=56)
         })
