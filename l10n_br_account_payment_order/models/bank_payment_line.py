@@ -178,7 +178,7 @@ class BankPaymentLine(models.Model):
             "nosso_numero": self.own_number,
             "documento_sacado": misc.punctuation_rm(self.partner_id.cnpj_cpf),
             "nome_sacado": self.partner_id.legal_name.strip()[:40],
-            "numero": str(self.document_number)[:10],
+            "numero": self.document_number,
             "endereco_sacado": str(
                 self.partner_id.street_name + ", " + str(self.partner_id.street_number)
             )[:40],
