@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import time
+import base64
+
 
 from satcomum.ersat import ChaveCFeSAT
 
@@ -111,6 +113,31 @@ class PosOrder(models.Model):
         readonly=True,
     )
 
+    document_authorization_date = fields.Datetime(
+        string="Authorization Date",
+        copy=False,
+    )
+
+    document_status_code = fields.Char(
+        string="Status Code",
+        copy=False,
+    )
+    document_status_name = fields.Char(
+        string="Status Name",
+        copy=False,
+    )
+    document_session_number = fields.Char(
+        string='Numero identificador sessao',
+        copy=False,
+    )
+    # TODO: Trocar para eventos?
+    document_file_id = fields.Many2one(
+        comodel_name="ir.attachment",
+        string="XML",
+        copy=False,
+        readony=True,
+    )
+
     @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
@@ -126,18 +153,55 @@ class PosOrder(models.Model):
         for order in self:
             order._compute_amount()
 
+    def _save_attachment(self, file_name='', file_content='', file_type='application/xml'):
+        self.ensure_one()
+        attachment = self.env['ir.attachment']
+        domain = [
+            ('res_model', '=', self._name),
+            ('res_id', '=', self.id),
+            ('name', '=', file_name),
+        ]
+        attachment_ids = attachment.search(domain)
+        attachment_ids.unlink()
+        vals = {
+            'name': file_name,
+            'datas_fname': file_name,
+            'res_model': self._name,
+            'res_id': self.id,
+            'datas': base64.b64encode(file_content.encode("utf-8")),
+            'mimetype': file_type,
+        }
+        return attachment.create(vals)
+
     @api.model
     def _order_fields(self, ui_order):
         result = super()._order_fields(ui_order)
+        document_file = ui_order.get("document_file")
+        if document_file:
+            document_file = self._save_attachment(document_file).id
+        document_type = ui_order.get("document_type")
         temp = {
-            # "cfe_return": ui_order.get("cfe_return"),
-            # "num_sessao_sat": ui_order.get("num_sessao_sat"),
-            # "chave_cfe": ui_order.get("chave_cfe"),
+            "document_authorization_date": ui_order.get("document_authorization_date"),
+            "document_status_code": ui_order.get("document_status_code"),
+            "document_status_name": ui_order.get("document_status_name"),
+            "document_session_number": ui_order.get("document_session_number"),
+            "document_key": ui_order.get("document_key"),
+            "document_file_id": document_file,
+
             "cnpj_cpf": ui_order.get("cnpj_cpf"),
             "fiscal_operation_id": ui_order.get("fiscal_operation_id"),
             "document_type_id": ui_order.get("document_type_id"),
         }
         result.update(temp)
+
+        document_key = ui_order.get("document_key")
+        if document_key and document_type == '65':
+            key = ChaveCFeSAT(document_key)
+            temp.update({
+                "document_number":  key.numero_cupom_fiscal,
+                "document_serie": key.numero_serie,
+            })
+
         return result
 
     # @api.model

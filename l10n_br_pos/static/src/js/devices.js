@@ -73,24 +73,28 @@ odoo.define('l10n_br_pos.devices', function (require) {
                     // var r = self.fiscal_queue.shift();
                     self.message('enviar_cfe_sat', {json: j}, {timeout: 5000})
                         .then(function (result) {
+                            var json_result = JSON.parse(result);
                             // TODO: Only one popup code!
-                            if (typeof result === "string") {
+                            if (typeof json_result === "string") {
                                 self.pos.gui.show_popup('error-traceback', {
                                     'title': _t('Erro SAT: '),
-                                    'body': _t(result)
+                                    'body': _t(json_result)
                                 });
                             } else {
-                                if (!result['excessao']) {
-                                    order.set_return_cfe(result['xml']);
-                                    order.set_num_sessao_sat(result['numSessao']);
-                                    order.set_chave_cfe(result['chave_cfe']);
+
+                                if (json_result['EEEEE'] === '06000') {
+                                    order.set_cfe_return(json_result);
+                                    // order.set_return_cfe(result['xml']);
+                                    // order.set_num_sessao_sat(result['numSessao']);
+                                    // order.set_chave_cfe(result['chave_cfe']);
+
                                     // self.pos.push_order(order);
                                     // self.pos.pos_widget.posorderlist_screen.push_list_order_frontend(order);
                                     // self.pos.get('order').destroy();
                                 } else {
                                     self.pos.gui.show_popup('error-traceback', {
                                         'title': _t('Erro SAT: '),
-                                        'body': _t(result['excessao']),
+                                        'body': json_result,
                                     });
                                 }
                             }
