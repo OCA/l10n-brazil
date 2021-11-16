@@ -60,11 +60,14 @@ odoo.define("l10n_br_pos.models", function (require) {
     models.Order = models.Order.extend({
         initialize: function (attributes, options) {
             _super_order.initialize.apply(this, arguments, options);
-            var self = this;
-            // Inicializar o cnpj_cfp vazio
-            // Inicializar a chave da nf-e vazia
-            // Inicializar o tipo de documento fiscal
+
             this.cnpj_cpf = this.cnpj_cpf || null;
+            this.document_authorization_date = this.document_authorization_date || null;
+            this.document_status_code = this.document_status_code || null;
+            this.document_status_name = this.document_status_name || null;
+            this.document_session_number = this.document_session_number || null;
+            this.document_key = this.document_key || null;
+            this.document_file = this.document_file || null;
 
             if (options.json) {
                 this.init_from_JSON(options.json);
@@ -75,6 +78,16 @@ odoo.define("l10n_br_pos.models", function (require) {
             }
 
             this.save_to_db();
+        },
+        set_cfe_return: function (json_result) {
+            console.log("set_cfe_return");
+            this.document_authorization_date = json_result['timeStamp'];
+            this.document_status_code = json_result['EEEEE'];
+            this.document_status_name = json_result['mensagem'];
+            this.document_session_number = json_result['numeroSessao'];
+            this.document_key = json_result['chaveConsulta'];
+            this.document_file = json_result['arquivoCFeSAT'];
+            // TODO: Verificar se outros campos devem ser setados;
         },
         get_return_cfe: function () {
             return this.cfe_return;
@@ -113,6 +126,12 @@ odoo.define("l10n_br_pos.models", function (require) {
             json.fiscal_operation_id = this.fiscal_operation_id;
             json.document_type = this.document_type;
             json.document_type_id = this.document_type_id;
+            json.document_authorization_date = this.document_authorization_date;
+            json.document_status_code = this.document_status_code;
+            json.document_status_name = this.document_status_name;
+            json.document_session_number = this.document_session_number;
+            json.document_key = this.document_key;
+            json.document_file = this.document_file;
             return json;
         },
         init_from_JSON: function (json) {
