@@ -10,17 +10,19 @@
         <field name="arch" type="xml">
             <form string="Importar XML NF-e">
                 <group>
-                    <field name="company_id"/>
-                    <field name="nfe_xml"/>
+                    <field name="company_id" />
+                    <field name="importing_type" />
+                    <field name="nfe_xml" attrs="{'invisible': [('importing_type', '!=', 'xml_file')], 'required': [('importing_type', '=', 'xml_file')]}" />
                 </group>
                 <footer>
-                    <button name="import_nfe_xml"
-                            string="Importar"
-                            class="btn-primary"
-                            type="object"/>
-                    <button string="Cancel"
-                            class="btn-default"
-                            special="cancel"/>
+                    <button
+                        name="import_nfe_xml"
+                        string="Importar"
+                        class="btn-primary"
+                        type="object"
+                        attrs="{'invisible': [('importing_type', '!=', 'xml_file')]}"
+                    />
+                    <button string="Cancel" class="btn-default" special="cancel" />
                 </footer>
             </form>
         </field>

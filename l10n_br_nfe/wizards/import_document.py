@@ -2,18 +2,33 @@
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import base64
-from openerp import api, fields, models, _
+
+from openerp import _, api, fields, models
+
+
+IMPORTING_TYPES = [
+    ("xml_file", "NFe XML File"),
+    ("nfe_key", "NFe key (Not Implemented)"),
+    ("manually", "Manually (Not Implemented)")
+]
 
 
 class NfeImport(models.TransientModel):
     """ Importar XML Nota Fiscal Eletrônica """
 
     _name = "l10n_br_nfe.import_xml"
+    _inherit = "l10n_br_fiscal.base.wizard.mixin"
 
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
         default=lambda self: self.env.user.company_id,
+    )
+
+    importing_type = fields.Selection(
+        string="Importing Type",
+        selection=IMPORTING_TYPES,
+        required=True
     )
 
     nfe_xml = fields.Binary(
