@@ -22,7 +22,6 @@ from requests import Session
 from odoo import _, api, fields
 from odoo.exceptions import UserError, ValidationError
 
-from nfelib.v4_00 import leiauteNFe_sub as nfe_sub
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     AUTORIZADO,
     CANCELADO,
@@ -272,13 +271,10 @@ class NFe(spec_models.StackedModel):
         compute="_compute_nfe40_additional_data",
     )
 
-    nfe40_transporta = fields.Many2one(
-        comodel_name='res.partner',
-        related='carrier_id'
-    )
+    nfe40_transporta = fields.Many2one(comodel_name="res.partner", related="carrier_id")
 
     carrier_id = fields.Many2one(
-        comodel_name='res.partner',
+        comodel_name="res.partner",
     )
 
     nfe40_infRespTec = fields.Many2one(
@@ -868,13 +864,14 @@ class NFe(spec_models.StackedModel):
         arq.write(xml)
         arq.seek(0)
         nfe_binding = nfe_sub.parse(arq, silence=True)
-        return self.env["nfe.40.infnfe"].with_context(
-            tracking_disable=True,
-            edoc_type='in',  # FIXME: IN OUT IMPORT FILE
-            lang='pt_BR'
-        ).build(
-            nfe_binding.infNFe,
-            dry_run=dry_run
+        return (
+            self.env["nfe.40.infnfe"]
+            .with_context(
+                tracking_disable=True,
+                edoc_type="in",  # FIXME: IN OUT IMPORT FILE
+                lang="pt_BR",
+            )
+            .build(nfe_binding.infNFe, dry_run=dry_run)
         )
 
     def import_xml(self, xml, dry_run):

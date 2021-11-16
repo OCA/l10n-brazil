@@ -5,11 +5,10 @@ import base64
 
 from openerp import _, api, fields, models
 
-
 IMPORTING_TYPES = [
     ("xml_file", "NFe XML File"),
     ("nfe_key", "NFe key (Not Implemented)"),
-    ("manually", "Manually (Not Implemented)")
+    ("manually", "Manually (Not Implemented)"),
 ]
 
 
@@ -26,9 +25,7 @@ class NfeImport(models.TransientModel):
     )
 
     importing_type = fields.Selection(
-        string="Importing Type",
-        selection=IMPORTING_TYPES,
-        required=True
+        string="Importing Type", selection=IMPORTING_TYPES, required=True
     )
 
     nfe_xml = fields.Binary(
@@ -45,10 +42,9 @@ class NfeImport(models.TransientModel):
             "name": "NFe-Importada-{}.xml".format(edoc.document_key),
             "datas": base64.b64decode(self.nfe_xml),
             "datas_fname": "NFe-Importada-{}.xml".format(edoc.document_key),
-            "description":
-                u'XML NFe - Importada por XML',
+            "description": u"XML NFe - Importada por XML",
             "res_model": "l10n_br_fiscal.document",
-            "res_id": edoc.id
+            "res_id": edoc.id,
         }
 
         self.env["ir.attachment"].create(vals)
@@ -62,6 +58,5 @@ class NfeImport(models.TransientModel):
             "res_model": "l10n_br_fiscal.document",
             "type": "ir.actions.act_window",
             "target": "new",
-            "flags": {"form": {"action_buttons": True,
-                               "options": {"mode": "edit"}}},
+            "flags": {"form": {"action_buttons": True, "options": {"mode": "edit"}}},
         }
