@@ -211,7 +211,12 @@ class CNABFileParser(FileParser):
 
             # Nosso numero vem com o Digito Verificador
             # ex.: 00000000000002010
-            nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
+
+            # Com exceção no itaú(341) que já vem sem o dígito verificador.
+            if self.bank.code_bc == "341":
+                nosso_numero_sem_dig = linha_cnab["nosso_numero"]
+            else:
+                nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
 
             # No arquivo de retorno do CNAB o campo pode ter um tamanho
             # diferente, o tamanho do campo é preenchido na totalidade
