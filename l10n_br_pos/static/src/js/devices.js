@@ -58,56 +58,72 @@ odoo.define('l10n_br_pos.devices', function (require) {
         },
         send_order_sat: function (order) {
             var self = this;
-
             var json = order.export_for_printing();
-
             if (this.pos.debug) {
                 console.log(json);
             }
-
             this.fiscal_queue.push(json);
             var aborted = false;
-            function send_sat_job() {
+            return new Promise(function (resolve, reject) {
                 if (self.fiscal_queue.length > 0) {
                     var j = self.fiscal_queue.shift();
-                    // var r = self.fiscal_queue.shift();
-                    self.message('enviar_cfe_sat', {json: j}, {timeout: 5000})
-                        .then(function (result) {
-                            // TODO: Only one popup code!
-                            if (typeof result === "string") {
-                                self.pos.gui.show_popup('error-traceback', {
-                                    'title': _t('Erro SAT: '),
-                                    'body': _t(result)
-                                });
-                            } else {
-                                if (!result['excessao']) {
-                                    order.set_return_cfe(result['xml']);
-                                    order.set_num_sessao_sat(result['numSessao']);
-                                    order.set_chave_cfe(result['chave_cfe']);
-                                    // self.pos.push_order(order);
-                                    // self.pos.pos_widget.posorderlist_screen.push_list_order_frontend(order);
-                                    // self.pos.get('order').destroy();
-                                } else {
-                                    self.pos.gui.show_popup('error-traceback', {
-                                        'title': _t('Erro SAT: '),
-                                        'body': _t(result['excessao']),
-                                    });
-                                }
-                            }
-                        }, function (error) {
-                            if (error) {
-                                self.pos.gui.show_popup('error-traceback', {
-                                    'title': _t('Erro SAT: '),
-                                    'body': error.data.message,
-                                });
-                                return;
-                            }
-                            self.fiscal_queue.unshift(j)
-                            // self.fiscal_queue.unshift(r)
-                        });
+                    self.message('enviar_cfe_sat', {json: j}, {timeout: 5000}).then(
+                        (response) => {
+                            console.log('Processing Request');
+                            resolve( JSON.parse(response));
+                        },
+                        (error) => {
+                            reject(error);
+                        }
+                    );
                 }
-            }
-            send_sat_job();
+            });
+
+            // function send_sat_job() {
+            //     if (self.fiscal_queue.length > 0) {
+            //         var j = self.fiscal_queue.shift();
+            //         // var r = self.fiscal_queue.shift();
+            //         self.message('enviar_cfe_sat', {json: j}, {timeout: 5000})
+            //             .then(function (result) {
+            //                 var json_result = JSON.parse(result);
+            //                 // TODO: Only one popup code!
+            //                 if (typeof json_result === "string") {
+            //                     self.pos.gui.show_popup('error-traceback', {
+            //                         'title': _t('Erro SAT: '),
+            //                         'body': _t(json_result)
+            //                     });
+            //                 } else {
+            //
+            //                     if (json_result['EEEEE'] === '06000') {
+            //                         order.set_cfe_return(json_result);
+            //                         // order.set_return_cfe(result['xml']);
+            //                         // order.set_num_sessao_sat(result['numSessao']);
+            //                         // order.set_chave_cfe(result['chave_cfe']);
+            //
+            //                         // self.pos.push_order(order);
+            //                         // self.pos.pos_widget.posorderlist_screen.push_list_order_frontend(order);
+            //                         // self.pos.get('order').destroy();
+            //                     } else {
+            //                         self.pos.gui.show_popup('error-traceback', {
+            //                             'title': _t('Erro SAT: '),
+            //                             'body': json_result,
+            //                         });
+            //                     }
+            //                 }
+            //             }, function (error) {
+            //                 if (error) {
+            //                     self.pos.gui.show_popup('error-traceback', {
+            //                         'title': _t('Erro SAT: '),
+            //                         'body': error.data.message,
+            //                     });
+            //                     return;
+            //                 }
+            //                 self.fiscal_queue.unshift(j)
+            //                 // self.fiscal_queue.unshift(r)
+            //             });
+            //     }
+            // }
+            // send_sat_job();
         }
     //     remove_document_pontuations: function (document) {
     //         return document.replace(/[^\d]+/g, '');
