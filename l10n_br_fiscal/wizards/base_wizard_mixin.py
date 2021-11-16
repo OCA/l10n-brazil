@@ -81,9 +81,9 @@ class BaseWizardMixin(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         default_values = super().default_get(fields_list)
-        active_model = self.env.context["active_model"]
+        active_model = self.env.context.get("active_model")
 
-        if self._prepare_key_fields().get(active_model):
+        if active_model and self._prepare_key_fields().get(active_model):
 
             active_id = self.env.context["active_id"]
             active_vals = (
