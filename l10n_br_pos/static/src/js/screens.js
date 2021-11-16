@@ -13,15 +13,25 @@ odoo.define("l10n_br_pos.screens", function (require) {
     var screens = require('point_of_sale.screens');
 
     screens.PaymentScreenWidget.include({
-        order_sat_is_valid: function (order) {
-            var status = this.pos.proxy.get('status');
-            var sat_status = status.drivers.hw_fiscal ? status.drivers.hw_fiscal.status : false;
-            console.log('SAT Status: ', sat_status);
-            if (sat_status == 'connected') {
-                // this.pos_widget.action_bar.set_button_disabled('validation', true);
-                // var receipt = currentOrder.export_for_printing();
-                this.pos.proxy.send_order_sat(order);
-            }
+        order_sat_is_valid: async function (order) {
+            var self = this;
+            return new Promise(function (resolve, reject){
+                var status = self.pos.proxy.get('status');
+                var sat_status = status.drivers.hw_fiscal ? status.drivers.hw_fiscal.status : false;
+                console.log('SAT Status: ', sat_status);
+                if (sat_status == 'connected') {
+                    self.pos.proxy.send_order_sat(order).then(
+                        (response) => {
+                            console.log(response);
+                            order.set_cfe_return(response);
+                            resolve(true);
+                        },
+                        (error) => {
+                            reject(error);
+                        }
+                    );
+                }
+            });
 
             // } else {
             //     this.pos.push_order(currentOrder);
@@ -46,20 +56,31 @@ odoo.define("l10n_br_pos.screens", function (require) {
         order_nfce_is_valid: function (order) {
             console.log('NFC-E');
         },
-        order_is_valid: function () {
-            var res = this._super.apply(this, arguments);
-            if (!res) {
-                return res; // Caso a venda não seja válida retornar
-            }
+        finalize_validation: async function () {
+            var self = this;
+            var _super = this._super;
             var order = this.pos.get_order();
-            if (order.is_to_invoice()) {
-                res |= this.order_nfe_nfse_is_valid(order);
-            } else if (order.document_type == DOCUMENTO_CFE) {
-                res |= this.order_sat_is_valid(order);
-            } else if (order.document_type == DOCUMENTO_NFCE) {
-                res |= this.order_nfce_is_valid(order);
+            var res = await self.order_sat_is_valid(order);
+            if (res === true) {
+                _super.apply(this, arguments);
             }
             return res;
+            // console.log("order_is_valid")
+            // console.log("order_is_valid SUPER")
+            // var res = false;
+            // var order = this.pos.get_order();
+            // if (order.is_to_invoice()) {
+            //     res |= this.order_nfe_nfse_is_valid(order);
+            // } else if (order.document_type == DOCUMENTO_CFE) {
+            //     console.log("order_sat_is_valid")
+            //     res |= await this.order_sat_is_valid(order);
+            //     console.log("order_sat_is_valid end")
+            // } else if (order.document_type == DOCUMENTO_NFCE) {
+            //     res |= this.order_nfce_is_valid(order);
+            // }
+            // res |= this._super.apply(this, arguments);
+            // console.log("Return order_is_valid")
+            // return res;
         },
         click_set_cnpj_cpf: function(){
             var self   = this;
