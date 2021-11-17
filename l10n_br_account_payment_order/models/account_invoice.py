@@ -103,7 +103,7 @@ class AccountInvoice(models.Model):
             inv._compute_financial()
 
             for index, interval in enumerate(inv.financial_move_line_ids):
-                inv_number = inv.get_invoice_fiscal_number().split("/")[-1].zfill(8)
+                inv_number = inv.get_invoice_fiscal_number().split("/")[-1]
                 numero_documento = inv_number + "/" + str(index + 1).zfill(2)
 
                 sequence = inv.payment_mode_id.get_own_number_sequence(
