@@ -9,7 +9,9 @@ import io
 from odoo.addons.hw_proxy.controllers import main as hw_proxy
 from odoo import http
 import base64
-import string
+from datetime import datetime
+import json
+
 
 _logger = logging.getLogger(__name__)
 
@@ -19,6 +21,7 @@ try:
     from satcfe import ClienteSATLocal
     from satcfe import ClienteSATHub
     from satcfe import BibliotecaSAT
+    from satcfe.resposta.padrao import RespostaSAT
     from satcfe.entidades import Emitente
     from satcfe.entidades import Destinatario
     from satcfe.entidades import LocalEntrega
@@ -65,6 +68,17 @@ TAX_FRAMEWORK_NORMAL = "3"
 
 TWOPLACES = D(10) ** -2
 FOURPLACES = D(10) ** -4
+
+
+class RespostaEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, datetime):
+            return o.isoformat()
+        if isinstance(o, D):
+            return float(o)
+        if isinstance(o, RespostaSAT.Atributos):
+            return ''
+        return json.JSONEncoder.default(self, o)
 
 
 class Sat(Thread):
@@ -343,9 +357,9 @@ class Sat(Thread):
             **kwargs
         )
 
-    def _send_cfe(self, json):
+    def _send_cfe(self, cfe_json):
         try:
-            dados_venda = self.__prepare_send_cfe(json)
+            dados_venda = self.__prepare_send_cfe(cfe_json)
             _logger.info(dados_venda.validar())
             _logger.info(dados_venda.documento())
             resposta = self.device.enviar_dados_venda(dados_venda=dados_venda)
@@ -356,11 +370,8 @@ class Sat(Thread):
             _logger.info(resposta.cod)
             _logger.info(resposta.mensagemSEFAZ)
             self._print_extrato_venda(resposta.arquivoCFeSAT)
-            return {
-                'xml': resposta.arquivoCFeSAT,
-                'numSessao': resposta.numeroSessao,
-                'chave_cfe': resposta.chaveConsulta,
-            }
+            return json.dumps(resposta.__dict__, cls=RespostaEncoder)
+
         except Exception as e:
             if hasattr(e, 'resposta'):
                 _logger.info(e)
@@ -447,6 +458,7 @@ class Sat(Thread):
             from escpos.conn.bt import BluetoothConnection as Connection
         elif self.fiscal_printer_type == 'DummyConnection':
             from escpos.conn.dummy import DummyConnection as Connection
+            conn = Connection()
         elif self.fiscal_printer_type == 'FileConnection':
             from escpos.conn.file import FileConnection as Connection
             conn = Connection(self.printer_params)
@@ -477,7 +489,7 @@ class Sat(Thread):
         from escpos import feature
         printer.hardware_features.update({
             feature.COLUMNS: feature.Columns(
-                normal=44,
+                normal=42,
                 expanded=24,
                 condensed=56)
         })
