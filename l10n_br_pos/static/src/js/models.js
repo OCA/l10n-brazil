@@ -80,6 +80,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.save_to_db();
         },
         set_cfe_return: function (json_result) {
+            console.log("set_cfe_return");
             this.document_authorization_date = json_result['timeStamp'];
             this.document_status_code = json_result['EEEEE'];
             this.document_status_name = json_result['mensagem'];

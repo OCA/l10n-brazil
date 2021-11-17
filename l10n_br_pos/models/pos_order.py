@@ -21,7 +21,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 class PosOrder(models.Model):
     _name = 'pos.order'
-    _inherit = [_name, "l10n_br_fiscal.document.mixin"]
+    _inherit = [_name, "mail.thread", "mail.activity.mixin", "l10n_br_fiscal.document.mixin"]
 
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
@@ -168,17 +168,25 @@ class PosOrder(models.Model):
             'datas_fname': file_name,
             'res_model': self._name,
             'res_id': self.id,
-            'datas': base64.b64encode(file_content.encode("utf-8")),
+            'datas': file_content.encode("utf-8"),
             'mimetype': file_type,
         }
         return attachment.create(vals)
 
     @api.model
+    def _process_order(self, pos_order_vals):
+        order = super(PosOrder, self)._process_order(pos_order_vals)
+        document_file = pos_order_vals.get("document_file")
+        if document_file:
+            order.document_file_id = order._save_attachment(
+                file_name=order.document_key + '.xml',
+                file_content=document_file
+            ).id
+        return order
+
+    @api.model
     def _order_fields(self, ui_order):
         result = super()._order_fields(ui_order)
-        document_file = ui_order.get("document_file")
-        if document_file:
-            document_file = self._save_attachment(document_file).id
         document_type = ui_order.get("document_type")
         temp = {
             "document_authorization_date": ui_order.get("document_authorization_date"),
@@ -186,22 +194,18 @@ class PosOrder(models.Model):
             "document_status_name": ui_order.get("document_status_name"),
             "document_session_number": ui_order.get("document_session_number"),
             "document_key": ui_order.get("document_key"),
-            "document_file_id": document_file,
-
             "cnpj_cpf": ui_order.get("cnpj_cpf"),
             "fiscal_operation_id": ui_order.get("fiscal_operation_id"),
             "document_type_id": ui_order.get("document_type_id"),
         }
-        result.update(temp)
-
         document_key = ui_order.get("document_key")
-        if document_key and document_type == '65':
+        if document_key:
             key = ChaveCFeSAT(document_key)
             temp.update({
                 "document_number":  key.numero_cupom_fiscal,
                 "document_serie": key.numero_serie,
             })
-
+        result.update(temp)
         return result
 
     # @api.model
