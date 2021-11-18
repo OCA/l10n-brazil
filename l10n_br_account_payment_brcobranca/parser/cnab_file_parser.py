@@ -264,7 +264,11 @@ class CNABFileParser(FileParser):
                 continue
 
             payment_line = self.env["account.payment.line"].search(
-                [("move_line_id", "=", account_move_line.id)]
+                [
+                    ("move_line_id", "=", account_move_line.id),
+                    ("state", "not in", ["cancel", "draft"]),
+                ],
+                limit=1,
             )
 
             # A Linha de Pagamento pode ter N bank.payment.line
