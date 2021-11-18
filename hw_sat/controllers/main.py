@@ -369,7 +369,6 @@ class Sat(Thread):
             _logger.info(resposta.mensagem)
             _logger.info(resposta.cod)
             _logger.info(resposta.mensagemSEFAZ)
-            self._print_extrato_venda(resposta.arquivoCFeSAT)
             return json.dumps(resposta.__dict__, cls=RespostaEncoder)
 
         except Exception as e:
@@ -501,7 +500,7 @@ class Sat(Thread):
 
         try:
             printer = self._init_printer()
-
+            _logger.info(f'Arquivo para impressao: {base64.b64decode(xml).decode("utf-8")}')
             ExtratoCFeVenda(
                 fp=io.StringIO(base64.b64decode(xml).decode('utf-8')), impressora=printer, config=self.printer_conf
             ).imprimir()
@@ -524,7 +523,7 @@ class Sat(Thread):
         return True
 
     def _reprint_cfe(self, json):
-        if json['canceled_order']:
+        if json.get('canceled_order'):
             return self._print_extrato_cancelamento(
                 json['xml_cfe_venda'], json['xml_cfe_cacelada'])
         else:
