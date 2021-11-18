@@ -5,16 +5,16 @@ from odoo import api, fields, models
 
 
 class DocumentRelated(models.Model):
-    _inherit = 'l10n_br_fiscal.document.related'
+    _inherit = "l10n_br_fiscal.document.related"
 
     pos_related_id = fields.Many2one(
-        comodel_name='pos.order',
-        string='POS Fiscal Document',
-        ondelete='cascade',
+        comodel_name="pos.order",
+        string="POS Fiscal Document",
+        ondelete="cascade",
         index=True,
     )
 
-    @api.onchange('pos_related_id')
+    @api.onchange("pos_related_id")
     def onchange_pos_related_id(self):
         if self.pos_related_id:
             # self.document_type = 'sat' # FIXME

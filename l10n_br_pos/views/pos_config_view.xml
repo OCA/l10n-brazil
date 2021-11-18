@@ -4,7 +4,7 @@
     <record id="view_pos_config_form" model="ir.ui.view">
         <field name="name">pos.config.form (in l10n_br_pos)</field>
         <field name="model">pos.config</field>
-        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form" />
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
                 <button
@@ -18,10 +18,17 @@
                 >
                 </button>
             </div>
-            <xpath expr="//div//label[@for='iface_customer_facing_display']/.." position="after">
+            <xpath
+                expr="//div//label[@for='iface_customer_facing_display']/.."
+                position="after"
+            >
                 <div class="row">
-                    <label string="Brasil Fiscal" for="iface_fiscal_via_proxy" class="col-lg-3 o_light_label"/>
-                    <field name="iface_fiscal_via_proxy"/>
+                    <label
+                        string="Brasil Fiscal"
+                        for="iface_fiscal_via_proxy"
+                        class="col-lg-3 o_light_label"
+                    />
+                    <field name="iface_fiscal_via_proxy" />
                 </div>
             </xpath>
             <xpath expr="//sheet" position="inside">
@@ -29,50 +36,63 @@
                     <page name="l10n_br_general" string="Geral">
                         <group>
                             <group string="Simplificado">
-                                <field name="simplified_document_type_id"/>
-                                <field name="simplified_document_type"/>
-                                <field name="anonymous_simplified_limit"/>
-                                <field name="simplified_invoice_limit"/>
+                                <field name="simplified_document_type_id" />
+                                <field name="simplified_document_type" />
+                                <field name="anonymous_simplified_limit" />
+                                <field name="simplified_invoice_limit" />
                             </group>
                             <group string="Não simplificado">
-                                <field name="detailed_document_type_id"/>
-                                <field name="detailed_document_type"/>
+                                <field name="detailed_document_type_id" />
+                                <field name="detailed_document_type" />
                             </group>
                         </group>
                     </page>
                     <page name="l10n_br_tax" string="Tributação">
                         <group string="Venda">
-                            <button name="update_pos_fiscal_map" type="object" string="Update Pos TAX"/>
-                            <field name="out_pos_fiscal_operation_id"/>
-                            <field name="partner_id"/>
-                            <field name="cfop_ids" widget="many2many_tags"/>
-                            <field name="out_pos_fiscal_operation_line_ids" widget="many2many_tags"/>
+                            <button
+                                name="update_pos_fiscal_map"
+                                type="object"
+                                string="Update Pos TAX"
+                            />
+                            <field name="out_pos_fiscal_operation_id" />
+                            <field name="partner_id" />
+                            <field name="cfop_ids" widget="many2many_tags" />
+                            <field
+                                name="out_pos_fiscal_operation_line_ids"
+                                widget="many2many_tags"
+                            />
                             <field name="additional_data" />
                         </group>
                         <group string="Devolução">
-                            <field name="refund_pos_fiscal_operation_id"/>
+                            <field name="refund_pos_fiscal_operation_id" />
                         </group>
                     </page>
                     <page name="l10n_br_nfce" string="NFC-E">
                         <group>
-                            <field name="iface_nfce_via_proxy"/>
-                            <field name="certificate_nfe_id"/>
+                            <field name="iface_nfce_via_proxy" />
+                            <field name="certificate_nfe_id" />
                         </group>
                     </page>
                     <page name="l10n_br_sat" string="SAT">
                         <group>
                             <group>
                                 <field name='sat_ambiente' />
-                                <field name="cnpj_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
-                                <field name="ie_homologacao" attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"/>
-                                <field name="cnpj_software_house"/>
-                                <field name="sat_path"/>
-                                <field name="numero_caixa"/>
-                                <field name="cod_ativacao"/>
-                                <field name="assinatura_sat"/>
-                                <field name="impressora"/>
-                                <field name="fiscal_printer_type"/>
-                                <field name="printer_params"/>
+                                <field
+                                    name="cnpj_homologacao"
+                                    attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"
+                                />
+                                <field
+                                    name="ie_homologacao"
+                                    attrs="{'invisible': [('sat_ambiente', '=', 'producao')]}"
+                                />
+                                <field name="cnpj_software_house" />
+                                <field name="sat_path" />
+                                <field name="numero_caixa" />
+                                <field name="cod_ativacao" />
+                                <field name="assinatura_sat" />
+                                <field name="impressora" />
+                                <field name="fiscal_printer_type" />
+                                <field name="printer_params" />
                             </group>
                         </group>
                     </page>
