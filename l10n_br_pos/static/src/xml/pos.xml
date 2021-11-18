@@ -1,12 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <templates id="template" xml:space="preserve">
     <t t-extend="PaymentScreenWidget">
         <t t-jquery='div.payment-buttons' t-operation='append'>
-            <div t-attf-class="button js_set_cnpj_cpf #{ widget.pos.get_cnpj_cpf() ? 'highlight' : '' }">
-                <i class='fa fa-user' role="img" aria-label="CNPJ/CPF na nota?" title="CNPJ/CPF na nota?"/>
+            <div
+                t-attf-class="button js_set_cnpj_cpf #{ widget.pos.get_cnpj_cpf() ? 'highlight' : '' }"
+            >
+                <i
+                    class='fa fa-user'
+                    role="img"
+                    aria-label="CNPJ/CPF na nota?"
+                    title="CNPJ/CPF na nota?"
+                />
                 <span class='js_cnpj_cpf_document'>
                     <t t-if="widget.pos.get_cnpj_cpf()">
-                        CNPJ/CPF: <t t-esc="widget.pos.get_cnpj_cpf()"/>
+                        CNPJ/CPF: <t t-esc="widget.pos.get_cnpj_cpf()" />
                     </t>
                     <t t-if="!widget.pos.get_cnpj_cpf()">
                         CNPJ/CPF na nota?

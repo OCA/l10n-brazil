@@ -1,27 +1,22 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import time
-import base64
-
 
 from satcomum.ersat import ChaveCFeSAT
 
-from odoo import models, fields, api
-from odoo.addons import decimal_precision as dp
-from odoo.tools.float_utils import float_compare
-from odoo.addons.l10n_br_pos.models.pos_config import \
-    SIMPLIFIED_INVOICE_TYPE
-from odoo.tools.translate import _
+from odoo import api, fields, models
 
-from odoo.addons.l10n_br_fiscal.constants.fiscal import (
-    NFCE_IND_PRES_DEFAULT,
-)
+from odoo.addons.l10n_br_fiscal.constants.fiscal import NFCE_IND_PRES_DEFAULT
 
 
 class PosOrder(models.Model):
-    _name = 'pos.order'
-    _inherit = [_name, "mail.thread", "mail.activity.mixin", "l10n_br_fiscal.document.mixin"]
+    _name = "pos.order"
+    _inherit = [
+        _name,
+        "mail.thread",
+        "mail.activity.mixin",
+        "l10n_br_fiscal.document.mixin",
+    ]
 
     cnpj_cpf = fields.Char(
         string="CNPJ/CPF",
@@ -127,7 +122,7 @@ class PosOrder(models.Model):
         copy=False,
     )
     document_session_number = fields.Char(
-        string='Numero identificador sessao',
+        string="Numero identificador sessao",
         copy=False,
     )
     # TODO: Trocar para eventos?
@@ -153,23 +148,25 @@ class PosOrder(models.Model):
         for order in self:
             order._compute_amount()
 
-    def _save_attachment(self, file_name='', file_content='', file_type='application/xml'):
+    def _save_attachment(
+        self, file_name="", file_content="", file_type="application/xml"
+    ):
         self.ensure_one()
-        attachment = self.env['ir.attachment']
+        attachment = self.env["ir.attachment"]
         domain = [
-            ('res_model', '=', self._name),
-            ('res_id', '=', self.id),
-            ('name', '=', file_name),
+            ("res_model", "=", self._name),
+            ("res_id", "=", self.id),
+            ("name", "=", file_name),
         ]
         attachment_ids = attachment.search(domain)
         attachment_ids.unlink()
         vals = {
-            'name': file_name,
-            'datas_fname': file_name,
-            'res_model': self._name,
-            'res_id': self.id,
-            'datas': file_content.encode("utf-8"),
-            'mimetype': file_type,
+            "name": file_name,
+            "datas_fname": file_name,
+            "res_model": self._name,
+            "res_id": self.id,
+            "datas": file_content.encode("utf-8"),
+            "mimetype": file_type,
         }
         return attachment.create(vals)
 
@@ -179,15 +176,14 @@ class PosOrder(models.Model):
         document_file = pos_order_vals.get("document_file")
         if document_file:
             order.document_file_id = order._save_attachment(
-                file_name=order.document_key + '.xml',
-                file_content=document_file
+                file_name=order.document_key + ".xml", file_content=document_file
             ).id
         return order
 
     @api.model
     def _order_fields(self, ui_order):
         result = super()._order_fields(ui_order)
-        document_type = ui_order.get("document_type")
+        ui_order.get("document_type")
         temp = {
             "document_authorization_date": ui_order.get("document_authorization_date"),
             "document_status_code": ui_order.get("document_status_code"),
@@ -201,10 +197,12 @@ class PosOrder(models.Model):
         document_key = ui_order.get("document_key")
         if document_key:
             key = ChaveCFeSAT(document_key)
-            temp.update({
-                "document_number":  key.numero_cupom_fiscal,
-                "document_serie": key.numero_serie,
-            })
+            temp.update(
+                {
+                    "document_number": key.numero_cupom_fiscal,
+                    "document_serie": key.numero_serie,
+                }
+            )
         result.update(temp)
         return result
 

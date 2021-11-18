@@ -1,8 +1,16 @@
-img.desaturate {width:50%;height: 100%;margin: 0 25%;}
-.pos-sale-ticket_extra {width:280px;}
-.customer_title {text-decoration: underline;}
+img.desaturate {
+    width: 50%;
+    height: 100%;
+    margin: 0 25%;
+}
+.pos-sale-ticket_extra {
+    width: 280px;
+}
+.customer_title {
+    text-decoration: underline;
+}
 
-.screen .screen-content{
+.screen .screen-content {
     margin: 0px auto;
     max-width: 90%;
     text-align: left;
@@ -16,7 +24,7 @@ img.desaturate {width:50%;height: 100%;margin: 0 25%;}
 }
 
 .col-md-6 {
-    float:left;
+    float: left;
     width: 50%;
 }
 

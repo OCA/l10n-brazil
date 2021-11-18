@@ -5,56 +5,86 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 */
 
-
-odoo.define('l10n_br_pos.devices', function (require) {
+odoo.define("l10n_br_pos.devices", function (require) {
     "use strict";
-    var devices = require('point_of_sale.devices');
-    var core = require('web.core');
-    var _t   = core._t;
+    var devices = require("point_of_sale.devices");
+    var core = require("web.core");
+    var _t = core._t;
 
     var ProxyDeviceSuper = devices.ProxyDevice;
 
     devices.ProxyDevice = devices.ProxyDevice.extend({
-        init: function(parent, options){
+        init: function (parent, options) {
             var res = ProxyDeviceSuper.prototype.init.call(this, parent, options);
-            // this.customer_display_proxy = false;
+            // This.customer_display_proxy = false;
             this.fiscal_queue = [];
             return res;
         },
         init_sat: function (config) {
             var self = this;
             var j = {
-                'sat_path': config.sat_path,
-                'codigo_ativacao': config.cod_ativacao,
-                'impressora': config.impressora,
-                'printer_params': config.printer_params,
-                'fiscal_printer_type': config.fiscal_printer_type,
-                'assinatura': config.assinatura_sat,
+                sat_path: config.sat_path,
+                codigo_ativacao: config.cod_ativacao,
+                impressora: config.impressora,
+                printer_params: config.printer_params,
+                fiscal_printer_type: config.fiscal_printer_type,
+                assinatura: config.assinatura_sat,
             };
-            self.message('init', {json: j}, {timeout: 5000})
+            self.message("init", {json: j}, {timeout: 5000});
         },
         keepalive: function () {
             var self = this;
             if (!this.keptalive) {
                 this.keptalive = true;
                 function status() {
-                    self.connection.rpc('/hw_proxy/status_json', {}, {timeout: 2500})
-                        .then(function (driver_status) {
-                            if (!driver_status.hasOwnProperty("hw_fiscal")) {
-                                self.pos.proxy.init_sat(self.pos.config);
-                            } else {
-                                self.set_connection_status('connected', driver_status);
+                    self.connection
+                        .rpc("/hw_proxy/status_json", {}, {timeout: 2500})
+                        .then(
+                            function (driver_status) {
+                                if (!driver_status.hasOwnProperty("hw_fiscal")) {
+                                    self.pos.proxy.init_sat(self.pos.config);
+                                } else {
+                                    self.set_connection_status(
+                                        "connected",
+                                        driver_status
+                                    );
+                                }
+                            },
+                            function () {
+                                if (
+                                    self.get("status").driver_statusstatus !==
+                                    "connecting"
+                                ) {
+                                    self.set_connection_status("disconnected");
+                                }
                             }
-                        }, function () {
-                            if (self.get('status').driver_statusstatus !== 'connecting') {
-                                self.set_connection_status('disconnected');
-                            }
-                        }).always(function () {
-                        setTimeout(status, 5000);
-                    });
+                        )
+                        .always(function () {
+                            setTimeout(status, 5000);
+                        });
                 }
                 status();
             }
+        },
+        reprint_cfe: function (order) {
+            var self = this;
+            $(".selection").append(
+                "<div data-item-index='3' class='selection-item '>Imprimindo Cupom Fiscal</div>"
+            );
+            self.message("reprint_cfe", {json: order}, {timeout: 5000}).then(
+                function (result) {
+                    return;
+                },
+                function (error) {
+                    if (error) {
+                        self.gui.show_popup("error-traceback", {
+                            message: _t("Erro SAT: "),
+                            comment: error.data.message,
+                        });
+                        return;
+                    }
+                }
+            );
         },
         send_order_sat: function (order) {
             var self = this;
@@ -67,11 +97,17 @@ odoo.define('l10n_br_pos.devices', function (require) {
             return new Promise(function (resolve, reject) {
                 if (self.fiscal_queue.length > 0) {
                     var j = self.fiscal_queue.shift();
-                    $(".selection").append("<div data-item-index='2' class='selection-item '>Transmitir CF-e para o SAT</div>")
-                    self.message('enviar_cfe_sat', {json: j}, {timeout: 5000}).then(
+                    $(".selection").append(
+                        "<div data-item-index='2' class='selection-item '>Transmitir CF-e para o SAT</div>"
+                    );
+                    self.message("enviar_cfe_sat", {json: j}, {timeout: 5000}).then(
                         (response) => {
-                            console.log('Processing Request');
-                            resolve( JSON.parse(response));
+                            console.log("Processing Request");
+                            var response_as_json = JSON.parse(response);
+                            self.reprint_cfe({
+                                xml_cfe_venda: response_as_json.arquivoCFeSAT,
+                            });
+                            resolve(response_as_json);
                         },
                         (error) => {
                             reject(error);
@@ -80,7 +116,7 @@ odoo.define('l10n_br_pos.devices', function (require) {
                 }
             });
 
-            // function send_sat_job() {
+            // Function send_sat_job() {
             //     if (self.fiscal_queue.length > 0) {
             //         var j = self.fiscal_queue.shift();
             //         // var r = self.fiscal_queue.shift();
@@ -125,70 +161,54 @@ odoo.define('l10n_br_pos.devices', function (require) {
             //     }
             // }
             // send_sat_job();
-        }
-    //     remove_document_pontuations: function (document) {
-    //         return document.replace(/[^\d]+/g, '');
-    //     },
-    //     cancel_last_order: function (order) {
-    //         var self = this;
-    //         order['cnpj_software_house'] = self.pos.config.cnpj_software_house;
-    //         self.message('cancelar_cfe', {json: order}, {timeout: 5000})
-    //             .then(function (result) {
-    //                 if (result) {
-    //                     var posOrderModel = new instance.web.Model('pos.order');
-    //                     var posOrder = posOrderModel.call('refund', {
-    //                         'ids': result.order_id,
-    //                         'dados': result
-    //                     })
-    //                         .then(function (orders) {
-    //                             self.gui.show_popup('error', {
-    //                                 message: _t('Venda Cancelada!'),
-    //                                 comment: _t('A venda foi cancelada com sucesso.'),
-    //                             });
-    //                             setTimeout(function () {
-    //                                 self.pos.pos_widget.posorderlist_screen.get_last_orders();
-    //                                 self.gui.back();
-    //                             }, 4000);
-    //                         }, function (error, event) {
-    //                             event.preventDefault();
-    //                             self.gui.show_popup('error', {
-    //                                 'message': _t('Error: Tempo Excedido'),
-    //                                 'comment': _t('Tempo limite de 30 minutos para cancelamento foi excedido.'),
-    //                             });
-    //                             return false;
-    //                         });
-    //                 } else {
-    //                     self.gui.show_popup('error-traceback', {
-    //                         'message': _t('Erro SAT: '),
-    //                         'comment': _t(result['excessao']),
-    //                     });
-    //                 }
-    //             }, function (error, event) {
-    //                 event.preventDefault();
-    //                 if (error) {
-    //                     self.gui.show_popup('error-traceback', {
-    //                         'message': _t('Erro SAT: '),
-    //                         'comment': error.data.message,
-    //                     });
-    //                     return;
-    //                 }
-    //             });
-    //     },
-    //     reprint_cfe: function (order) {
-    //         var self = this;
-    //
-    //         self.message('reprint_cfe', {json: order}, {timeout: 5000})
-    //             .then(function (result) {
-    //                 return;
-    //             }, function (error) {
-    //                 if (error) {
-    //                     self.gui.show_popup('error-traceback', {
-    //                         'message': _t('Erro SAT: '),
-    //                         'comment': error.data.message,
-    //                     });
-    //                     return;
-    //                 }
-    //             });
-    //     },
+        },
+        //     Remove_document_pontuations: function (document) {
+        //         return document.replace(/[^\d]+/g, '');
+        //     },
+        //     cancel_last_order: function (order) {
+        //         var self = this;
+        //         order['cnpj_software_house'] = self.pos.config.cnpj_software_house;
+        //         self.message('cancelar_cfe', {json: order}, {timeout: 5000})
+        //             .then(function (result) {
+        //                 if (result) {
+        //                     var posOrderModel = new instance.web.Model('pos.order');
+        //                     var posOrder = posOrderModel.call('refund', {
+        //                         'ids': result.order_id,
+        //                         'dados': result
+        //                     })
+        //                         .then(function (orders) {
+        //                             self.gui.show_popup('error', {
+        //                                 message: _t('Venda Cancelada!'),
+        //                                 comment: _t('A venda foi cancelada com sucesso.'),
+        //                             });
+        //                             setTimeout(function () {
+        //                                 self.pos.pos_widget.posorderlist_screen.get_last_orders();
+        //                                 self.gui.back();
+        //                             }, 4000);
+        //                         }, function (error, event) {
+        //                             event.preventDefault();
+        //                             self.gui.show_popup('error', {
+        //                                 'message': _t('Error: Tempo Excedido'),
+        //                                 'comment': _t('Tempo limite de 30 minutos para cancelamento foi excedido.'),
+        //                             });
+        //                             return false;
+        //                         });
+        //                 } else {
+        //                     self.gui.show_popup('error-traceback', {
+        //                         'message': _t('Erro SAT: '),
+        //                         'comment': _t(result['excessao']),
+        //                     });
+        //                 }
+        //             }, function (error, event) {
+        //                 event.preventDefault();
+        //                 if (error) {
+        //                     self.gui.show_popup('error-traceback', {
+        //                         'message': _t('Erro SAT: '),
+        //                         'comment': error.data.message,
+        //                     });
+        //                     return;
+        //                 }
+        //             });
+        //     },
     });
 });

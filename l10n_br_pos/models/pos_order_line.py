@@ -1,11 +1,11 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api
+from odoo import models
 
 
 class PosOrderLine(models.Model):
-    _name = 'pos.order.line'
+    _name = "pos.order.line"
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin"]
 
     # @api.multi

@@ -1,18 +1,18 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from odoo import models, fields, api
+from odoo import api, models
 
 
 class StockInvoiceOnShippingRelatedDocument(models.TransientModel):
-    _inherit = 'stock.invoice.onshipping.related.document'
+    _inherit = "stock.invoice.onshipping.related.document"
 
     @api.model
     def get_picking_document_relationships(self):
         return super(
             StockInvoiceOnShippingRelatedDocument, self
         ).get_picking_document_relationships() + [
-            'move_lines.origin_returned_move_id.picking_id.pos_order_ids',
+            "move_lines.origin_returned_move_id.picking_id.pos_order_ids",
         ]
 
     @api.multi
@@ -26,17 +26,17 @@ class StockInvoiceOnShippingRelatedDocument(models.TransientModel):
 
 
 class StockInvoiceOnShipping(models.TransientModel):
-    _inherit = 'stock.invoice.onshipping'
+    _inherit = "stock.invoice.onshipping"
 
     @api.multi
     def create_invoice(self):
         result = super(StockInvoiceOnShipping, self).create_invoice()
         for document in self.related_document_ids:
             vals = {
-                'invoice_id': result[0],
-                'access_key': document.access_key,
-                'document_type': document.document_type,
+                "invoice_id": result[0],
+                "access_key": document.access_key,
+                "document_type": document.document_type,
             }
-            self.env['l10n_br_account_product.document.related'].create(vals)
+            self.env["l10n_br_account_product.document.related"].create(vals)
 
         return result
