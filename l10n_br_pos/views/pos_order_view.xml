@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="view_l10n_br_pos_search" model="ir.ui.view">
         <field name="name">l10n_br_pos.order.search</field>
         <field name="model">pos.order</field>
-        <field name="inherit_id" ref="point_of_sale.view_pos_order_filter"/>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_filter" />
         <field name="arch" type="xml">
             <field name="name" position="before">
 <!--                <field name="chave_cfe" string="Chave CFE"/>-->
@@ -17,7 +17,7 @@
     <record model="ir.ui.view" id="view_pos_pos_form">
         <field name="name">POS Order (remove invoice button)</field>
         <field name="model">pos.order</field>
-        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form" />
         <field name="arch" type="xml">
 <!--            <xpath expr="//button[@name='refund']" position="replace">-->
 <!--            </xpath>-->
@@ -28,7 +28,7 @@
 <!--            </xpath>-->
             <field name="fiscal_position_id" position="replace">
                 <field name="fiscal_operation_id" required="True" />
-                <field name="cnpj_cpf"/>
+                <field name="cnpj_cpf" />
 <!--                <field name="ind_pres" required="True" />-->
 <!--                <field name="cfe_return"/>-->
 <!--                <field name="chave_cfe"/>-->
@@ -44,16 +44,22 @@
 
 <!--                </group>-->
                   <group name="l10n_br_fiscal" colspan="4">
-                    <field name="document_electronic" invisible="1"/>
-                    <field name="edoc_purpose"/>
-                    <field name="ind_final"/>
-                    <field name="ind_pres"/>
+                    <field name="document_electronic" invisible="1" />
+                    <field name="edoc_purpose" />
+                    <field name="ind_final" />
+                    <field name="ind_pres" />
                   </group>
                   <group>
-                    <field name="document_type_id" required="1"/>
-                    <label for="document_key" attrs="{'invisible': [('document_electronic', '=', False)]}"/>
-                    <div class="o_row" attrs="{'invisible': [('document_electronic', '=', False)]}">
-                      <field name="document_key" force_save="1" class="oe_inline"/>
+                    <field name="document_type_id" required="1" />
+                    <label
+                        for="document_key"
+                        attrs="{'invisible': [('document_electronic', '=', False)]}"
+                    />
+                    <div
+                        class="o_row"
+                        attrs="{'invisible': [('document_electronic', '=', False)]}"
+                    >
+                      <field name="document_key" force_save="1" class="oe_inline" />
                     </div>
                   </group>
                   <group>
@@ -67,7 +73,7 @@
                   </group>
             </group>
             <field name="pos_reference" position="after">
-                <field name="fiscal_operation_id"/>
+                <field name="fiscal_operation_id" />
             </field>
 <!--            <button name="action_invoice" position="attributes">-->
 <!--                <attribute name="invisible">1</attribute>-->
@@ -113,9 +119,9 @@
 <!--            </field>-->
             <xpath expr="//sheet" position="after">
                 <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_ids" widget="mail_thread" />
                 </div>
             </xpath>
         </field>
@@ -123,9 +129,11 @@
 
     <!-- POS order tree -->
     <record model="ir.ui.view" id="view_pos_order_tree">
-        <field name="name">POS Order (hide invoice ID and show simplified fields)</field>
+        <field
+            name="name"
+        >POS Order (hide invoice ID and show simplified fields)</field>
         <field name="model">pos.order</field>
-        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree" />
         <field name="arch" type="xml">
 <!--            <field name="invoice_id" position="attributes">-->
 <!--                <attribute name="invisible">1</attribute>-->

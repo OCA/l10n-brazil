@@ -1,7 +1,7 @@
 # Copyright 2021 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import fields, models
 
 
 class L10nBrPosProductFiscalMap(models.Model):
@@ -11,7 +11,7 @@ class L10nBrPosProductFiscalMap(models.Model):
     _inherit = "l10n_br_fiscal.document.line.mixin"
 
     partner_id = fields.Many2one(
-        comodel_name='res.partner',
+        comodel_name="res.partner",
     )
 
     quantity = fields.Float(
@@ -25,23 +25,23 @@ class L10nBrPosProductFiscalMap(models.Model):
     )
 
     pos_config_id = fields.Many2one(
-        comodel_name='pos.config',
+        comodel_name="pos.config",
     )
 
     fiscal_operation_id = fields.Many2one(
-        related='pos_config_id.out_pos_fiscal_operation_id'
+        related="pos_config_id.out_pos_fiscal_operation_id"
     )
 
     product_tmpl_id = fields.Many2one(
-        comodel_name='product.template',
+        comodel_name="product.template",
     )
 
     product_id = fields.Many2one(
-        related='product_tmpl_id.product_variant_id',
+        related="product_tmpl_id.product_variant_id",
     )
 
     company_id = fields.Many2one(
-        related='pos_config_id.company_id',
+        related="pos_config_id.company_id",
     )
     tax_framework = fields.Selection(
         related="company_id.tax_framework",
@@ -65,15 +65,15 @@ class L10nBrPosProductFiscalMap(models.Model):
     )
 
     ncm_code = fields.Char(
-        related='ncm_id.code_unmasked',
+        related="ncm_id.code_unmasked",
     )
 
     cfop_code = fields.Char(
-        related='cfop_id.code',
+        related="cfop_id.code",
     )
 
     ncm_code_exception = fields.Char(
-        related='ncm_id.exception',
+        related="ncm_id.exception",
     )
 
     company_tax_framework = fields.Selection(
@@ -82,4 +82,3 @@ class L10nBrPosProductFiscalMap(models.Model):
 
     def _get_product_price(self):
         self.price_unit = 1
-
