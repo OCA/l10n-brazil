@@ -81,6 +81,7 @@ odoo.define("l10n_br_pos.models", function (require) {
         },
         set_cfe_return: function (json_result) {
             console.log("set_cfe_return");
+            $(".selection").append("<div data-item-index='4' class='selection-item '>Salvando Cupom Fiscal no Back Office</div>")
             this.document_authorization_date = json_result['timeStamp'];
             this.document_status_code = json_result['EEEEE'];
             this.document_status_name = json_result['mensagem'];
