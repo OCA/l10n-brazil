@@ -67,6 +67,7 @@ odoo.define('l10n_br_pos.devices', function (require) {
             return new Promise(function (resolve, reject) {
                 if (self.fiscal_queue.length > 0) {
                     var j = self.fiscal_queue.shift();
+                    $(".selection").append("<div data-item-index='2' class='selection-item '>Transmitir CF-e para o SAT</div>")
                     self.message('enviar_cfe_sat', {json: j}, {timeout: 5000}).then(
                         (response) => {
                             console.log('Processing Request');

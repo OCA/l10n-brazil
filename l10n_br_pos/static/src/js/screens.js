@@ -19,6 +19,7 @@ odoo.define("l10n_br_pos.screens", function (require) {
                 var status = self.pos.proxy.get('status');
                 var sat_status = status.drivers.hw_fiscal ? status.drivers.hw_fiscal.status : false;
                 console.log('SAT Status: ', sat_status);
+                $(".selection").append("<div data-item-index='1' class='selection-item '>Verificando status do SAT</div>")
                 if (sat_status == 'connected') {
                     self.pos.proxy.send_order_sat(order).then(
                         (response) => {
@@ -59,11 +60,16 @@ odoo.define("l10n_br_pos.screens", function (require) {
         finalize_validation: async function () {
             var self = this;
             var _super = this._super;
+            self.gui.show_popup('selection',{
+                title:   'Processos SAT: ',
+                list:    [{label:'Iniciando Processo de Transmissão'}],
+            });
             var order = this.pos.get_order();
             var res = await self.order_sat_is_valid(order);
             if (res === true) {
                 _super.apply(this, arguments);
             }
+            self.gui.close_popup();
             return res;
             // console.log("order_is_valid")
             // console.log("order_is_valid SUPER")
