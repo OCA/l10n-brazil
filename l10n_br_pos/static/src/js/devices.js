@@ -56,6 +56,22 @@ odoo.define('l10n_br_pos.devices', function (require) {
                 status();
             }
         },
+        reprint_cfe: function (order) {
+            var self = this;
+            $(".selection").append("<div data-item-index='3' class='selection-item '>Imprimindo Cupom Fiscal</div>");
+            self.message('reprint_cfe', {json: order}, {timeout: 5000})
+            .then(function (result) {
+                return;
+            }, function (error) {
+                if (error) {
+                    self.gui.show_popup('error-traceback', {
+                        'message': _t('Erro SAT: '),
+                        'comment': error.data.message,
+                    });
+                    return;
+                }
+            });
+        },
         send_order_sat: function (order) {
             var self = this;
             var json = order.export_for_printing();
@@ -71,7 +87,9 @@ odoo.define('l10n_br_pos.devices', function (require) {
                     self.message('enviar_cfe_sat', {json: j}, {timeout: 5000}).then(
                         (response) => {
                             console.log('Processing Request');
-                            resolve( JSON.parse(response));
+                            var response_as_json = JSON.parse(response);
+                            self.reprint_cfe({'xml_cfe_venda': response_as_json.arquivoCFeSAT});
+                            resolve(response_as_json);
                         },
                         (error) => {
                             reject(error);
@@ -165,22 +183,6 @@ odoo.define('l10n_br_pos.devices', function (require) {
     //                 }
     //             }, function (error, event) {
     //                 event.preventDefault();
-    //                 if (error) {
-    //                     self.gui.show_popup('error-traceback', {
-    //                         'message': _t('Erro SAT: '),
-    //                         'comment': error.data.message,
-    //                     });
-    //                     return;
-    //                 }
-    //             });
-    //     },
-    //     reprint_cfe: function (order) {
-    //         var self = this;
-    //
-    //         self.message('reprint_cfe', {json: order}, {timeout: 5000})
-    //             .then(function (result) {
-    //                 return;
-    //             }, function (error) {
     //                 if (error) {
     //                     self.gui.show_popup('error-traceback', {
     //                         'message': _t('Erro SAT: '),
