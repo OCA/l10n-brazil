@@ -59,7 +59,9 @@ class InvalidateNumber(models.Model):
         event_id = self.event_ids.create_event_save_xml(
             company_id=self.company_id,
             environment=(
-                EVENT_ENV_PROD if self.nfe_environment == "1" else EVENT_ENV_HML
+                EVENT_ENV_PROD
+                if self.company_id.nfe_environment == "1"
+                else EVENT_ENV_HML
             ),
             event_type="3",
             xml_file=processo.envio_xml.decode("utf-8"),
