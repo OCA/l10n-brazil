@@ -4,6 +4,13 @@ Core da localização Brasileira do Odoo (novo OpenERP)
 [![Build Status](https://travis-ci.org/OCA/l10n-brazil.svg?branch=12.0)](https://travis-ci.org/OCA/l10n-brazil)
 [![Coverage Status](https://coveralls.io/repos/OCA/l10n-brazil/badge.png?branch=12.0)](https://coveralls.io/r/OCA/l10n-brazil?branch=8.0)
 
+**Pré-Instalação / Pure debian**
+-----------------
+Instale estes pacotes no seu Linux antes de mais nada
+
+apt-get install git
+
+apt-get install pkg-config gcc python3-dev xmlsec1 libxmlsec1-dev
 
 Escopo desse repo
 -----------------
