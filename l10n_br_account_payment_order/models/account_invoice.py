@@ -76,10 +76,14 @@ class AccountInvoice(models.Model):
         return super().action_invoice_cancel()
 
     def get_invoice_fiscal_number(self):
-        """Como neste modulo nao temos o numero do documento fiscal,
-        vamos retornar o numero do core e deixar este metodo
-        para caso alguem queira sobrescrever"""
+        """
+        Como neste modulo nao temos o numero do documento fiscal,
+        testamos a presencia desse campo e se o módulo fiscal não tiver instalado,
+        retornamos o numero do invoice do core.
+        """
         self.ensure_one()
+        if hasattr(self, "document_number"):
+            return self.document_number
         return self.number
 
     def _pos_action_move_create(self):
