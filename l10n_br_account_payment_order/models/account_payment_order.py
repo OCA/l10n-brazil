@@ -162,4 +162,4 @@ class AccountPaymentOrder(models.Model):
         if self.payment_method_id.code == CODE_MANUAL_TEST:
             return (False, False)
         else:
-            super().generate_payment_file()
+            return super().generate_payment_file()
