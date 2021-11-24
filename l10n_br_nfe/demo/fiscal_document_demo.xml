@@ -43,6 +43,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
     </function>
 
+    <record id="demo_nfe_line_same_state_1-1" model="l10n_br_fiscal.document.line">
+        <field name="price_unit">100</field>
+    </record>
+
     <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
     </function>
@@ -51,6 +55,10 @@
         model="l10n_br_fiscal.document.line"
         name="_onchange_fiscal_operation_line_id"
     >
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
     </function>
 
@@ -70,6 +78,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
     </function>
 
+    <record id="demo_nfe_line_same_state_1-2" model="l10n_br_fiscal.document.line">
+        <field name="price_unit">100</field>
+    </record>
+
     <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
     </function>
@@ -78,6 +90,10 @@
         model="l10n_br_fiscal.document.line"
         name="_onchange_fiscal_operation_line_id"
     >
+        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
     </function>
 
@@ -126,6 +142,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
     </function>
 
+    <record id="demo_nfe_national_sale_for_same_state-1" model="l10n_br_fiscal.document.line">
+        <field name="quantity">1</field>
+    </record>
+
     <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
     </function>
@@ -135,6 +155,10 @@
         name="_onchange_fiscal_operation_line_id"
     >
         <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state')]" />
     </function>
 
     <!-- NFe Test - Pessoa Física - ICMS 18% with a reduction of 51.11% -->
@@ -193,6 +217,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
     </function>
 
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
+        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
+    </function>
+
     <!-- NFe Test - Pessoa Física - ICMS 4% Imported for Resale -->
     <record id="demo_nfe_natural_icms_7_resale" model="l10n_br_fiscal.document">
         <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
@@ -235,6 +263,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
     </function>
 
+    <record id="demo_nfe_natural_icms_7_resale-1" model="l10n_br_fiscal.document.line">
+        <field name="quantity">2</field>
+    </record>
+
     <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
         <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
     </function>
@@ -243,6 +275,10 @@
         model="l10n_br_fiscal.document.line"
         name="_onchange_fiscal_operation_line_id"
     >
+        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
+    </function>
+
+    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
         <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
     </function>
 
