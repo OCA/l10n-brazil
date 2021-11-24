@@ -51,13 +51,23 @@ class NFeLine(spec_models.StackedModel):
         related="uom_id.code",
     )
 
-    nfe40_uTrib = fields.Char(
-        related="uot_id.code",
+    nfe40_qCom = fields.Float(
+        string="nfe40 qCom",
+        related="quantity",
     )
 
     nfe40_vUnCom = fields.Float(
         related="price_unit",
         string="Valor unitário de comercialização",
+    )
+
+    nfe40_uTrib = fields.Char(
+        related="uot_id.code",
+    )
+
+    nfe40_qTrib = fields.Float(
+        string="nfe40_qTrib",
+        related="fiscal_quantity",
     )
 
     nfe40_vUnTrib = fields.Float(
@@ -441,8 +451,6 @@ class NFeLine(spec_models.StackedModel):
 
         self.nfe40_NCM = self.ncm_id.code_unmasked or False
         self.nfe40_CEST = self.cest_id and self.cest_id.code_unmasked or False
-        self.nfe40_qCom = self.quantity
-        self.nfe40_qTrib = self.fiscal_quantity
         self.nfe40_pICMS = self.icms_percent
         self.nfe40_pICMSST = self.icmsst_percent
         self.nfe40_pMVAST = self.icmsst_mva_percent
