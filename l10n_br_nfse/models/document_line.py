@@ -113,6 +113,7 @@ class DocumentLine(models.Model):
             "item_lista_servico": self.service_type_id.code
             and self.service_type_id.code.replace(".", ""),
             "codigo_tributacao_municipio": self.city_taxation_code_id.code or "",
+            "municipio_prestacao_servico": self.issqn_fg_city_id.ibge_code or "",
             "discriminacao": str(self.name[:2000] or ""),
             "codigo_cnae": misc.punctuation_rm(self.cnae_id.code) or None,
             "valor_desconto_incondicionado": round(self.discount_value, 2),
