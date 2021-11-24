@@ -65,6 +65,10 @@ class Document(models.Model):
     def _serialize_issnet_dados_servico(self):
         self.line_ids.ensure_one()
         dados = self._prepare_dados_servico()
+        if self.company_id.nfse_environment == '1':
+            municipio_prestacao_servico = (dados['municipio_prestacao_servico'] or dados['codigo_municipio'])
+        else:
+            municipio_prestacao_servico = 999
         return tcDadosServico(
             Valores=tcValores(
                 ValorServicos=self.convert_type_nfselib(
@@ -110,9 +114,7 @@ class Document(models.Model):
             Discriminacao=self.convert_type_nfselib(
                 tcDadosServico, 'Discriminacao', dados['discriminacao']),
             MunicipioPrestacaoServico=self.convert_type_nfselib(
-                tcDadosServico, 'MunicipioPrestacaoServico', dados['codigo_municipio'])
-            if self.company_id.nfse_environment == '1'
-            else 999,
+                tcDadosServico, 'MunicipioPrestacaoServico', municipio_prestacao_servico),
         )
 
     def _serialize_issnet_dados_tomador(self):
