@@ -60,7 +60,7 @@ Configuration
 Para configurar esse modulo é preciso:
 
 * Rodar a biblioteca BRCobranca como um micro-serviço https://github.com/akretion/boleto_cnab_api .
-* Informar a variável de ambiente **BRCOBRANCA_API_URL** no arquivo de configuração do Odoo ou se estiver usando o docky na seção enviroment https://github.com/akretion/docky-odoo-brasil/blob/12.0/docker-compose.yml#L3 , exemplo:
+* Informar o parametro de sistema no Odoo (Modo Debug>SystemParameters>Criar uma nova entrada chamada **BRCOBRANCA_API_URL** no valor definir o IP ou URL do microserviço). Desta forma se fica imune a variáveis de ambiente linux/windows , exemplo:
   **BRCOBRANCA_API_URL=http://boleto_cnab_api:9292**
 * Verifique se os Códigos de Movimento do CNAB a ser usado existem em Faturamento > Configurações > Administração > Códigos de Instrução do Movimento CNAB, se for necessário criar considere fazer um PR para adicionar como dados aqui https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_mov_instruction_code_data.xml .
 * Verifique se os Códigos de Retorno do Movimento do CNAB a ser usado existem em Faturamento > Configurações > Administração > Códigos de Retorno de Movimento CNAB, se for necessário criar considere fazer um PR para adicionar como dados aqui https://github.com/OCA/l10n-brazil/blob/12.0/l10n_br_account_payment_order/data/l10n_br_cnab_return_move_code_data.xml .
