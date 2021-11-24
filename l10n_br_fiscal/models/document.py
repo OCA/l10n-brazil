@@ -347,7 +347,20 @@ class Document(models.Model):
         for r in self:
             r.name = r._compute_document_name()
 
-    @api.depends("line_ids")
+    @api.depends(
+        "line_ids.estimate_tax",
+        "line_ids.price_gross",
+        "line_ids.amount_untaxed",
+        "line_ids.amount_tax",
+        "line_ids.amount_taxed",
+        "line_ids.amount_total",
+        "line_ids.financial_total",
+        "line_ids.financial_total_gross",
+        "line_ids.financial_discount_value",
+        "line_ids.amount_tax_included",
+        "line_ids.amount_tax_not_included",
+        "line_ids.amount_tax_withholding",
+    )
     def _compute_amount(self):
         super()._compute_amount()
 
