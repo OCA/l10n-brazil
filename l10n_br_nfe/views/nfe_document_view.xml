@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  <record id="nfe_document_form_inherit" model="ir.ui.view">
+      <field name="name">l10n_br_nfe.document.form.inherit</field>
+      <field name="model">l10n_br_fiscal.document</field>
+      <field name="priority">5</field>
+      <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+      <field name="arch" type="xml">
+          <page name="delivery" position="inside">
+              <group
+                    name="nfe_transport"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                  <field name="nfe40_modFrete" />
+                  <field name="nfe40_transporta" />
+              </group>
+              <group attrs="{'invisible': [('nfe40_idDest', '!=', '3')]}">
+                  <field name="nfe40_idDest" invisible="1" />
+                  <field name="nfe40_UFSaidaPais" />
+                  <field name="nfe40_xLocExporta" />
+                  <field name="nfe40_xLocDespacho" />
+              </group>
+              <group
+                    name="nfe_vol"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                  <field name="nfe40_vol" />
+              </group>
+          </page>
+          <page name="finance" position="inside">
+              <group
+                    name="nfe_finance"
+                    attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
+                >
+                  <field name="nfe40_detPag" />
+              </group>
+          </page>
+      </field>
+  </record>
+
+  <record id="nfe_40_infadic_form" model="ir.ui.view">
+      <field name="name">nfe.40.infadic.form</field>
+      <field name="model">nfe.40.infadic</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_infCpl" />
+              </group>
+          </form>
+      </field>
+  </record>
+
+  <record id="nfe_40_vol_form" model="ir.ui.view">
+      <field name="name">nfe.40.vol.form</field>
+      <field name="model">nfe.40.vol</field>
+      <field name="arch" type="xml">
+          <form>
+              <group>
+                  <field name="nfe40_qVol" />
+                  <field name="nfe40_pesoL" />
+                  <field name="nfe40_pesoB" />
+              </group>
+          </form>
+      </field>
+  </record>
+
+</odoo>

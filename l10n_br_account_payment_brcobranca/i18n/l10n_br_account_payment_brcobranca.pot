@@ -1,0 +1,153 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_account_payment_brcobranca
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_bank_statement_import_journal_creation__return_auto_reconcile
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
+msgid "Automatic Reconcile payment returns"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_bank_payment_line
+msgid "Bank Payment Lines"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_invoice__file_boleto_pdf_id
+msgid "Boleto PDF"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: selection:account.journal,import_type:0
+msgid "CNAB 240"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: selection:account.journal,import_type:0
+msgid "CNAB 400"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_bank_statement_import_journal_creation__import_type
+#: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__import_type
+msgid "Choose here the method by which you want to import account moves for this journal."
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_invoice__payment_method_code
+msgid "Code (Do Not Modify)"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_bank_statement_import_journal_creation__return_auto_reconcile
+#: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_journal__return_auto_reconcile
+msgid "Enable automatic payment return reconciliation."
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: selection:account.journal,import_type:0
+msgid "Generic .csv/.xls based on SO Name"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.ui.menu,name:l10n_br_account_payment_brcobranca.move_importer_menu_brcobranca
+msgid "Import Batch File"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_credit_statement_import
+msgid "Import Batch File wizard"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_brcobranca.l10n_br_account_payment_brcobranca_form
+msgid "Imprimir Boleto"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:63
+#, python-format
+msgid "Inform the URL where BRCobranca API are running in Odoo Configuration file or if you are using docky in the docker-compose.yml file. Example:\n"
+"BRCOBRANCA_API_URL=http://boleto_cnab_api:9292"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_invoice.py:44
+#, python-format
+msgid "It is not possible generated boletos\n"
+"Make sure the Invoice are in Confirm state and Payment Mode method are CNAB."
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:209
+#, python-format
+msgid "Missing column! Column %s you try to import is not present in the move line!"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:118
+#, python-format
+msgid "Nothing to import: The file is empty"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model,name:l10n_br_account_payment_brcobranca.model_account_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_journal.py:274
+#, python-format
+msgid "Statement import error The statement cannot be created: %s"
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: code:addons/l10n_br_account_payment_brcobranca/constants/br_cobranca.py:52
+#, python-format
+msgid "The Bank %s CNAB %s is not implemented in BRCobranca."
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_order.py:119
+#, python-format
+msgid "The CNAB %s for Bank %s are not implemented in BRCobranca."
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,help:l10n_br_account_payment_brcobranca.field_account_invoice__payment_method_code
+msgid "This code is used in the code of the Odoo module that handles this payment method. Therefore, if you change it, the generation of the payment file may fail."
+msgstr ""
+
+#. module: l10n_br_account_payment_brcobranca
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_bank_statement_import_journal_creation__import_type
+#: model:ir.model.fields,field_description:l10n_br_account_payment_brcobranca.field_account_journal__import_type
+msgid "Type of import"
+msgstr ""
+

@@ -1,0 +1,67 @@
+<EnviarLoteRpsEnvio xmlns="http://www.ginfes.com.br/servico_enviar_lote_rps_envio_v03.xsd" xmlns:tipos="http://www.ginfes.com.br/tipos_v03.xsd">
+    <LoteRps>
+        <tipos:Cnpj>59594315000157</tipos:Cnpj>
+        <tipos:InscricaoMunicipal>35172</tipos:InscricaoMunicipal>
+        <tipos:QuantidadeRps>1</tipos:QuantidadeRps>
+        <ListaRps xmlns="http://www.ginfes.com.br/tipos_v03.xsd">
+            <Rps>
+                <InfRps Id="rps50">
+                    <IdentificacaoRps>
+                        <Numero>50</Numero>
+                        <Serie>001</Serie>
+                        <Tipo>1</Tipo>
+                    </IdentificacaoRps>
+                    <DataEmissao>2020-06-04T13:58:46</DataEmissao>
+                    <NaturezaOperacao>1</NaturezaOperacao>
+                    <RegimeEspecialTributacao>1</RegimeEspecialTributacao>
+                    <OptanteSimplesNacional>1</OptanteSimplesNacional>
+                    <IncentivadorCultural>2</IncentivadorCultural>
+                    <Status>1</Status>
+                    <Servico>
+                        <Valores>
+                            <ValorServicos>100</ValorServicos>
+                            <ValorDeducoes>0</ValorDeducoes>
+                            <ValorPis>0</ValorPis>
+                            <ValorCofins>0</ValorCofins>
+                            <ValorInss>0</ValorInss>
+                            <ValorIr>0</ValorIr>
+                            <ValorCsll>0</ValorCsll>
+                            <IssRetido>2</IssRetido>
+                            <ValorIss>5</ValorIss>
+                            <ValorIssRetido>0</ValorIssRetido>
+                            <OutrasRetencoes>0</OutrasRetencoes>
+                            <BaseCalculo>100</BaseCalculo>
+                            <Aliquota>0.05</Aliquota>
+                            <ValorLiquidoNfse>100</ValorLiquidoNfse>
+                        </Valores>
+                        <ItemListaServico>105</ItemListaServico>
+                        <CodigoCnae>3101200</CodigoCnae>
+                        <CodigoTributacaoMunicipio>6311900</CodigoTributacaoMunicipio>
+                        <Discriminacao>[ODOO_DEV] Customized Odoo Development</Discriminacao>
+                        <CodigoMunicipio>3132404</CodigoMunicipio>
+                    </Servico>
+                    <Prestador>
+                        <tipos:Cnpj>59594315000157</tipos:Cnpj>
+                        <tipos:InscricaoMunicipal>35172</tipos:InscricaoMunicipal>
+                    </Prestador>
+                    <Tomador>
+                        <IdentificacaoTomador>
+                            <CpfCnpj>
+                                <Cnpj>81493979000189</Cnpj>
+                            </CpfCnpj>
+                        </IdentificacaoTomador>
+                        <RazaoSocial>Cliente 1 SP</RazaoSocial>
+                        <Endereco>
+                            <Endereco>Rua Samuel Morse</Endereco>
+                            <Numero>135</Numero>
+                            <Bairro>Brooklin</Bairro>
+                            <CodigoMunicipio>3550308</CodigoMunicipio>
+                            <Uf>SP</Uf>
+                            <Cep>4576060</Cep>
+                        </Endereco>
+                    </Tomador>
+                </InfRps>
+            </Rps>
+        </ListaRps>
+    </LoteRps>
+</EnviarLoteRpsEnvio>

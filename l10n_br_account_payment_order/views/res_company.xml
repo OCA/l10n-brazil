@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="res_company_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_payment_order.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Integração Bancária">
+                    <notebook name="l10n_br_account_payment_order">
+                        <page
+                            name="l10n_br_account_payment_order_boleto"
+                            string="Boleto"
+                        >
+                            <group>
+                                <field name="own_number_type" />
+                                <field
+                                    name="own_number_sequence_id"
+                                    attrs="{'invisible': [('own_number_type', '!=', '0')], 'required': [('own_number_type', '==', '0')]}"
+                                />
+                            </group>
+                        </page>
+                    </notebook>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="stock_picking_form" model="ir.ui.view">
+        <field name="name">l10n_br_stock_account.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock_picking_invoicing.view_picking_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <field name="picking_type_id" position="after">
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+            </field>
+            <field name="invoice_state" position="attributes">
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </field>
+            <field name="move_ids_without_package" position="attributes">
+                <attribute name="context">
+                    {'default_invoice_state': invoice_state,
+                    'address_in_id': partner_id,
+                    'form_view_ref': 'stock.view_move_picking_form',
+                    'default_picking_type_id': picking_type_id,
+                    'default_picking_id': id,
+                    'default_location_id': location_id,
+                    'default_location_dest_id': location_dest_id,
+                    'default_fiscal_operation_id': fiscal_operation_id,
+                    'default_company_id': company_id,
+                    'default_partner_id': partner_id,
+                    'picking_type_code': picking_type_code}</attribute>
+            </field>
+            <xpath
+                expr="//field[@name='move_ids_without_package']//tree"
+                position="attributes"
+            >
+                <attribute name="editable" />
+            </xpath>
+            <xpath
+                expr="//field[@name='move_ids_without_package']//tree/field[@name='invoice_state']"
+                position="after"
+            >
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+                <field
+                    name="fiscal_operation_line_id"
+                    attrs="{'invisible': [('invoice_state', '=', 'none')], 'required': [('invoice_state', '=', '2binvoiced')], 'readonly': [('invoice_state', '=', 'invoiced')]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

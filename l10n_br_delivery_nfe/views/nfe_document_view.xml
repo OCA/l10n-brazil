@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_delivery_nfe-nfe_document_form" model="ir.ui.view">
+        <field name="name">l10n_br_delivery_nfe.document.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="priority">10</field>
+        <field name="inherit_id" ref="l10n_br_nfe.nfe_document_form_inherit" />
+        <field name="arch" type="xml">
+            <field name="nfe40_modFrete" position="before">
+                <field name="incoterm_id" />
+                <field name="carrier_id" />
+            </field>
+            <field name="nfe40_transporta" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>

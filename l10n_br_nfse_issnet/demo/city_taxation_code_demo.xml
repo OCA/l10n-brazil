@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <!-- City Taxation Code -->
+
+    <record id="city_taxation_code_ribeiraopreto" model="l10n_br_fiscal.city.taxation.code">
+        <field name="name">422190401</field>
+        <field name="code">422190401</field>
+        <field name="service_type_id" ref="l10n_br_fiscal.service_type_702"/>
+        <field name="state_id" ref="base.state_br_sp"/>
+        <field name="city_id" ref="l10n_br_base.city_3543402"/>
+    </record>
+
+</odoo>

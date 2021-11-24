@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="main_contract_template_sale" model="contract.template">
+        <field name="name">Main Company - Sale Contract Template</field>
+        <field name="contract_type">sale</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+</odoo>

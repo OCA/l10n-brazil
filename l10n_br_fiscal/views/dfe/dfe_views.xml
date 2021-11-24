@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Copyright 2020 KMEE INFORMATICA LTDA - Hugo Borges <hugo.borges@kmee.com.br>
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record model="ir.ui.view" id="dfe_form">
+        <field name="name">l10n_br_fiscal.dfe.form</field>
+        <field name="model">l10n_br_fiscal.dfe</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="DF-e Consult" duplicate="false">
+            <sheet>
+                <group>
+                    <group col="4" colspan="4">
+                        <field
+                                name="company_id"
+                                required="1"
+                                domain="[('certificate_nfe_id', '!=', False)]"
+                            />
+                        <newline />
+                        <field name="last_nsu" required="1" />
+                        <newline />
+                        <field name="use_cron" />
+                        <newline />
+                        <field name="last_query" readonly="1" />
+                        <newline />
+                        <button
+                                name="search_documents"
+                                string="Search Documents"
+                                type="object"
+                                class="btn-primary"
+                            />
+                        <button
+                                name="download_documents"
+                                string="Import all available NF-e"
+                                confirm="AVISO - Ao baixar as Notas você estará dando ciência da emissão aos manifestos correspondentes."
+                                type="object"
+                                class="btn-primary"
+                            />
+                    </group>
+
+                    <newline />
+
+                    <separator string="Imported Manifestations" colspan="3" />
+
+                    <group colspan="2">
+                     <button
+                                string="Manage"
+                                class="oe_highlight"
+                                name="action_manage_manifestations"
+                                colspan="1"
+                                type="object"
+                            />
+                    </group>
+
+
+                    <field
+                            name="imported_dfe_ids"
+                            nolabel="1"
+                            readonly="1"
+                            context="{'tree_view_ref':
+                           'l10n_br_fiscal.dfe_manifestacao_tree'}"
+                        />
+
+                    <newline />
+                    <separator string="Imported Documents" />
+                    <field
+                            name="imported_document_ids"
+                            nolabel="1"
+                            context="{'tree_view_ref':
+                           'l10n_br_fiscal.dfe_documents_tree'}"
+                        />
+                    <field name="recipient_xml_ids" invisible="True" />
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dfe_tree">
+        <field name="name">l10n_br_fiscal.dfe.tree</field>
+        <field name="model">l10n_br_fiscal.dfe</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="DF-e Consult" duplicate="false">
+                <field name="company_id" required="1" />
+                <field name="last_nsu" required="1" />
+                <field name="last_query" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="dfe_action">
+        <field name="name">DF-e Consult</field>
+        <field name="res_model">l10n_br_fiscal.dfe</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="dfe_form_action">
+        <field eval="2" name="sequence" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="dfe_form" />
+        <field name="act_window_id" ref="dfe_action" />
+    </record>
+
+    <record model="ir.actions.act_window.view" id="dfe_tree_action">
+        <field eval="1" name="sequence" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="dfe_tree" />
+        <field name="act_window_id" ref="dfe_action" />
+    </record>
+
+    <record model="ir.ui.view" id="dfe_documents_tree">
+        <field name="name">l10n_br_fiscal.dfe.nfe.tree</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="limit">5</attribute>
+            </tree>
+            <field name="fiscal_operation_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="document_number" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name='amount_total' position="after">
+                <button
+                    string="Stock Picking"
+                    name="action_fluxo_compras"
+                    type="object"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dfe_manifestacao_tree">
+        <field name="name">l10n_br_fiscal.dfe.manifestacao.tree</field>
+        <field name="model">l10n_br_fiscal.mdfe</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.view_l10n_br_fiscal_mdfe_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="company_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name='document_value' position="after">
+                <button
+                    string="Import Document"
+                    name="action_import_document"
+                    type="object"
+                    confirm="WARNING - When importing a document, you will be informing the issuance of the corresponding manifest. Do you wish to continue?"
+                    attrs="{'readonly':[('document_id','!=',False)]}"
+                />
+
+                <button
+                    string="Save XML"
+                    name="action_download_all_xmls"
+                    type="object"
+                    confirm="WARNING - When saving the XML of a document, you will be informing the corresponding manifest about the issue. Do you wish to continue?"
+                />
+                <field name="document_id" invisible="True" />
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dfe_search">
+        <field name="name">l10n_br_fiscal.dfe.search</field>
+        <field name="model">l10n_br_fiscal.dfe</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <search string="DF-e Consult">
+                <field name="company_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_dfe_xml_tree">
+        <field name="name">dfe.xml.tree</field>
+        <field name="model">l10n_br_fiscal.dfe_xml</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="XML's" create="false">
+                <field name="xml_type" readonly="1" />
+                <field name="xml" required="1" />
+            </tree>
+        </field>
+    </record>
+</odoo>

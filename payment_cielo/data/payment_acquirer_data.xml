@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="payment_acquirer_cielo" model="payment.acquirer">
+            <field name="name">Cielo</field>
+            <field name="image" type="base64" file="payment_cielo/static/src/img/cielo_icon.png"/>
+            <field name="provider">cielo</field>
+            <field name="payment_flow">s2s</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="view_template_id" ref="cielo_form"/>
+            <field name="registration_view_template_id" ref="cielo_s2s_form"/>
+            <field name="environment">test</field>
+            <field name="pre_msg"><![CDATA[
+<p>You will be prompted with Cielo Payment page for payment information.</p>]]></field>
+            <field name="cielo_merchant_id">dummy</field>
+            <field name="cielo_merchant_key">dummy</field>
+        </record>
+    </data>
+</odoo>

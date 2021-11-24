@@ -1,0 +1,179 @@
+<odoo>
+<!--
+    Copyright 2020 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+    <record model="ir.ui.view" id="view_l10n_br_fiscal_mdfe_form">
+        <field name="name">l10n_br_fiscal_mdfe.form</field>
+        <field name="model">l10n_br_fiscal.mdfe</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Manifestation">
+                <header>
+                    <button
+                        name="action_ciencia_emissao"
+                        string="Ciência da Emissão"
+                        type="object"
+                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
+                        attrs="{'invisible':[['state','not in',['pendente']]]}"
+                    />
+                    <button
+                        name="action_confirmar_operacacao"
+                        string="Confirmar Operação"
+                        type="object"
+                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
+                        attrs="{'invisible':[['state','not in',['ciente']]]}"
+                    />
+                    <button
+                        name="action_operacao_desconhecida"
+                        string="Desconhecer Operação"
+                        type="object"
+                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
+                        attrs="{'invisible':[['state','not in',['ciente']]]}"
+                    />
+                    <button
+                        name="action_negar_operacao"
+                        string="Operação não Realizada"
+                        type="object"
+                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
+                        attrs="{'invisible':[['state','not in',['ciente']]]}"
+                    />
+                    <button
+                        name="action_import_xml"
+                        string="Import Document"
+                        type="object"
+                        confirm="AVISO - Esta ação será realizada diretamente com o servidor da Receita Federal."
+                        attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"
+                    />
+                    <button
+                        name="action_download_xml"
+                        string="Download Document's XML"
+                        type="object"
+                        attrs="{'invisible':[['state','not in',['ciente','cofirmado','desconhecido','nao_realizado']]]}"
+                    />
+                    <field
+                        name="state"
+                        statusbar_visible="pendente,ciente,confirmado"
+                        readonly="1"
+                        statusbar_colors='{"confirmado":"blue","desconhecido":"red","nao_realizado":"red"}'
+                        widget="statusbar"
+                        nolabel="1"
+                    />
+                </header>
+                <group>
+                    <group>
+                        <field name="document_key" select="1" required="1" />
+                        <field name="document_id" />
+                        <field name="document_number" />
+                        <field name="nsu" />
+                        <field name="ie" />
+                        <field name="company_id" required="1" />
+                        <field name="supplier" />
+                    </group>
+                    <group>
+                        <field name="operation_type" readonly="1" />
+                        <field name="document_value" widget="monetary" />
+                        <field name="document_state" readonly="1" />
+                        <field name="inclusion_mode" />
+                        <field name="cnpj_cpf" />
+                        <field name="inclusion_datetime" />
+                        <field name="emission_datetime" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_l10n_br_fiscal_mdfe_filter" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal_mdfe.select</field>
+        <field name="model">l10n_br_fiscal.mdfe</field>
+        <field name="arch" type="xml">
+            <search string="Filter">
+                <field name="supplier" string="Supplier" />
+                <field name="company_id" string="Razão Social" />
+                <field name="cnpj_cpf" string="Cnpj supplier" />
+                <field name="state" string="State" />
+                <filter
+                    name="situacao_pendente"
+                    string="Pending"
+                    domain="[('state','=','pendente')]"
+                />
+                <filter
+                    name="situacao_confirmado"
+                    string="Confirmed"
+                    domain="[('state','=','confirmado')]"
+                />
+                <filter
+                    name="situacao_ciente"
+                    string="Aware"
+                    domain="[('state','=','ciente')]"
+                />
+                <filter
+                    name="situacao_desconhecido"
+                    string="Unknown"
+                    domain="[('state','=','desconhecido')]"
+                />
+                <filter
+                    name="situacao_nao_realizado"
+                    string="Unrealized"
+                    domain="[('state','=','nao_realizado')]"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_l10n_br_fiscal_mdfe_tree">
+        <field name="name">l10n_br_fiscal_mdfe.tree</field>
+        <field name="model">l10n_br_fiscal.mdfe</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Destined Documents" create="false" limit="5">
+                <field name="nsu" />
+                <field name="supplier" />
+                <field name="cnpj_cpf" />
+                <field name="company_id" required="1" />
+                <field name="emission_datetime" />
+                <field name="state" readonly="1" />
+                <field name="document_value" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_gerencia_selecionados_button" model="ir.actions.server">
+        <field name="name">Manage Selected</field>
+        <field name="model_id" ref="model_l10n_br_fiscal_mdfe" />
+        <field name="state">code</field>
+        <field name="code">
+
+manifestacao_ids = env[record._name].browse(env.context.get('active_ids',[]))
+wizard_id = manifestacao_ids.cria_wizard_gerenciamento()
+
+action= {
+    'name': 'Revise os documentos selecionados',
+    'type': 'ir.actions.act_window',
+    'res_model': 'wizard.confirma.acao',
+    'view_mode': 'form',
+    'view_type': 'form',
+    'target': 'new',
+    'res_id': wizard_id.id,
+}
+        </field>
+    </record>
+
+    <!-- TODO: Encontrar alterativa para ir.values-->
+<!--    <record id="gerencia_selecionados_button" model="ir.values">-->
+<!--        <field name="name">gerencia.selecionados.button</field>-->
+<!--        <field name="model">l10n_br_fiscal.mdfe</field>-->
+<!--        <field name="key" >action</field>-->
+<!--        <field name="key2">client_action_multi</field>-->
+<!--        <field name="value" eval="'ir.actions.server,%d'%action_gerencia_selecionados_button"/>-->
+<!--    </record>-->
+
+    <record model="ir.actions.act_window" id="l10n_br_fiscal_mdfe_action">
+        <field name="name">Manifestation</field>
+        <field name="res_model">l10n_br_fiscal.mdfe</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

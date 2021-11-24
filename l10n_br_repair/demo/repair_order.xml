@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="0">
+
+    <!-- Main Company Simples Nacional -->
+    <!-- Repair Order with only products test -->
+    <record id="main_so_only_products" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="location_id" ref="stock.stock_location_components" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_sl_only_products_1_2" model="repair.line">
+        <field name="repair_id" ref="main_so_only_products" />
+        <field name="location_dest_id" ref="stock.location_production" />
+        <field name="location_id" ref="stock.stock_location_stock" />
+        <field name="type">add</field>
+        <field name="state">draft</field>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_only_products_1_2')]" />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_only_products_1_2')]" />
+    </function>
+
+    <record id="main_sl_only_products_2_2" model="repair.line">
+        <field name="repair_id" ref="main_so_only_products" />
+        <field name="location_dest_id" ref="stock.location_production" />
+        <field name="location_id" ref="stock.stock_location_stock" />
+        <field name="type">add</field>
+        <field name="state">draft</field>
+        <field name="name">Mouse, Wireless</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+        <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_only_products_2_2')]" />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_only_products_2_2')]" />
+    </function>
+
+    <!-- Repair Order with only services test -->
+    <record id="main_so_only_services" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="location_id" ref="stock.stock_location_components" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_sl_only_services_1_2" model="repair.fee">
+        <field name="repair_id" ref="main_so_only_services" />
+        <field name="name">Virtual Interior Design</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">15</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">30.75</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402" />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_services_1_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_only_services_1_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_only_services_1_2')]" />
+    </function>
+
+    <record id="main_sl_only_services_2_2" model="repair.fee">
+        <field name="repair_id" ref="main_so_only_services" />
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402" />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_only_services_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_only_services_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_only_services_2_2')]" />
+    </function>
+
+    <!-- Repair Order with product and service test -->
+    <record id="main_so_product_service" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="location_id" ref="stock.stock_location_components" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="quotation_notes"
+        >TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="main_sl_product_service_1_2" model="repair.line">
+        <field name="repair_id" ref="main_so_product_service" />
+        <field name="location_dest_id" ref="stock.location_production" />
+        <field name="location_id" ref="stock.stock_location_stock" />
+        <field name="type">add</field>
+        <field name="state">draft</field>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_product_service_1_2')]" />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_product_service_1_2')]" />
+    </function>
+
+    <record id="main_sl_product_service_2_2" model="repair.fee">
+        <field name="repair_id" ref="main_so_product_service" />
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402" />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('main_sl_product_service_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('main_sl_product_service_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('main_sl_product_service_2_2')]" />
+    </function>
+
+    <!-- Empresa Simples Nacional -->
+    <!-- Repair Order with only products test -->
+    <record id="sn_so_only_products" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_sn_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="sn_sl_only_products_1_2" model="repair.line">
+        <field name="repair_id" ref="sn_so_only_products" />
+        <field name="location_dest_id" ref="stock.location_production" />
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
+        />
+        <field name="type">add</field>
+        <field name="state">draft</field>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_only_products_1_2')]" />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_only_products_1_2')]" />
+    </function>
+
+    <record id="sn_sl_only_products_2_2" model="repair.line">
+        <field name="repair_id" ref="sn_so_only_products" />
+        <field name="location_dest_id" ref="stock.location_production" />
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
+        />
+        <field name="type">add</field>
+        <field name="state">draft</field>
+        <field name="name">Mouse, Wireless</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+        <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_only_products_2_2')]" />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_only_products_2_2')]" />
+    </function>
+
+    <!-- Repair Order with only services test -->
+    <record id="sn_so_only_services" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_sn_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="sn_sl_only_services_1_2" model="repair.fee">
+        <field name="repair_id" ref="sn_so_only_services" />
+        <field name="name">Virtual Interior Design</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">15</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">30.75</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402" />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_services_1_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_only_services_1_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_only_services_1_2')]" />
+    </function>
+
+    <record id="sn_sl_only_services_2_2" model="repair.fee">
+        <field name="repair_id" ref="sn_so_only_services" />
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402" />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_only_services_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_only_services_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_only_services_2_2')]" />
+    </function>
+
+    <!-- Repair Order with product and service test -->
+    <record id="sn_so_product_service" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_sn_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="quotation_notes"
+        >TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+    </record>
+
+    <record id="sn_sl_product_service_1_2" model="repair.line">
+        <field name="repair_id" ref="sn_so_product_service" />
+        <field name="location_dest_id" ref="stock.location_production" />
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_simples_nacional_loc_stock_id"
+        />
+        <field name="type">add</field>
+        <field name="state">draft</field>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_product_service_1_2')]" />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_product_service_1_2')]" />
+    </function>
+
+    <record id="sn_sl_product_service_2_2" model="repair.fee">
+        <field name="repair_id" ref="sn_so_product_service" />
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402" />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('sn_sl_product_service_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('sn_sl_product_service_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('sn_sl_product_service_2_2')]" />
+    </function>
+
+    <!-- Empresa Lucro Presumido -->
+    <!-- Repair Order with only products test -->
+    <record id="lc_so_only_products" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_lp_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="lc_sl_only_products_1_2" model="repair.line">
+        <field name="repair_id" ref="lc_so_only_products" />
+        <field name="location_dest_id" ref="stock.location_production" />
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
+        <field name="type">add</field>
+        <field name="state">draft</field>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_only_products_1_2')]" />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_only_products_1_2')]" />
+    </function>
+
+    <record id="lc_sl_only_products_2_2" model="repair.line">
+        <field name="repair_id" ref="lc_so_only_products" />
+        <field name="location_dest_id" ref="stock.location_production" />
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
+        <field name="type">add</field>
+        <field name="state">draft</field>
+        <field name="name">Mouse, Wireless</field>
+        <field name="product_id" ref="product.product_product_12" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+        <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_only_products_2_2')]" />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_only_products_2_2')]" />
+    </function>
+
+    <!-- Repair Order with only services test -->
+    <record id="lc_so_only_services" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_lp_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="quotation_notes">TESTE</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="lc_sl_only_services_1_2" model="repair.fee">
+        <field name="repair_id" ref="lc_so_only_services" />
+        <field name="name">Virtual Interior Design</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">15</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">30.75</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402" />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_services_1_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_only_services_1_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_only_services_1_2')]" />
+    </function>
+
+    <record id="lc_sl_only_services_2_2" model="repair.fee">
+        <field name="repair_id" ref="lc_so_only_services" />
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402" />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_only_services_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_only_services_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_only_services_2_2')]" />
+    </function>
+
+    <!-- Repair Order with product and service test -->
+    <record id="lc_so_product_service" model="repair.order">
+        <field name="address_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="guarantee_limit" eval="datetime.today().strftime('%Y-%m-%d')" />
+        <field name="invoice_method">b4repair</field>
+        <field name="product_id" ref="product.product_product_6" />
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="partner_invoice_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="location_id" ref="l10n_br_stock.stock_location_lp_shelf_1" />
+        <field name="pricelist_id" ref="product.list0" />
+        <field name="state">draft</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="quotation_notes"
+        >TESTE de criação de duas Notas de Serviço e Produto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+    </record>
+
+    <record id="lc_sl_product_service_1_2" model="repair.line">
+        <field name="repair_id" ref="lc_so_product_service" />
+        <field name="location_dest_id" ref="stock.location_production" />
+        <field
+            name="location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
+        <field name="type">add</field>
+        <field name="state">draft</field>
+        <field name="name">Laptop Customized</field>
+        <field name="product_id" ref="product.product_product_27" />
+        <field name="product_uom_qty">2</field>
+        <field name="product_uom" ref="uom.product_uom_unit" />
+        <field name="price_unit">500</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_venda" />
+    </record>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_product_service_1_2')]" />
+    </function>
+
+    <function model="repair.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_product_service_1_2')]" />
+    </function>
+
+    <record id="lc_sl_product_service_2_2" model="repair.fee">
+        <field name="repair_id" ref="lc_so_product_service" />
+        <field name="name">Virtual Home Staging</field>
+        <field name="product_id" ref="l10n_br_fiscal.customized_development_sale" />
+        <field name="product_uom_qty">20</field>
+        <field name="product_uom" ref="uom.product_uom_hour" />
+        <field name="price_unit">38.25</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_servico" />
+        <field name="issqn_fg_city_id" ref="l10n_br_base.city_3543402" />
+    </record>
+
+    <function model="repair.fee" name="_onchange_product_id_fiscal">
+        <value eval="[ref('lc_sl_product_service_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_id">
+        <value eval="[ref('lc_sl_product_service_2_2')]" />
+    </function>
+
+    <function model="repair.fee" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('lc_sl_product_service_2_2')]" />
+    </function>
+
+</odoo>

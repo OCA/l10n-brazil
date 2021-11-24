@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+        <!-- e-Social Tabela 07 - Tipos de Dependente -->
+        <!-- Fonte: Anexo I dos Leiautes do eSocial versão 2.5 (consolidada até NT 15/2019 rev.) -->
+        <record id='l10n_br_dependent_1' model="hr.dependent.type">
+            <field name="name">Cônjuge</field>
+            <field name="code">1</field>
+        </record>
+
+        <record id='l10n_br_dependent_2' model="hr.dependent.type">
+            <field
+            name="name"
+        >Companheiro(a) com o(a) qual tenha filho ou viva há mais de 5 (cinco) anos ou possua Declaração de União Estável</field>
+            <field name="code">2</field>
+        </record>
+
+        <record id='l10n_br_dependent_3' model="hr.dependent.type">
+            <field name="name">Filho(a) ou enteado(a)</field>
+            <field name="code">3</field>
+        </record>
+
+        <record id='l10n_br_dependent_4' model="hr.dependent.type">
+            <field
+            name="name"
+        >Filho(a) ou enteado(a) universitário(a) ou cursando escola técnica de 2º grau</field>
+            <field name="code">4</field>
+        </record>
+
+        <record id='l10n_br_dependent_6' model="hr.dependent.type">
+            <field
+            name="name"
+        >Irmão(ã), neto(a) ou bisneto(a) sem arrimo dos pais, do(a) qual detenha a guarda judicial</field>
+            <field name="code">6</field>
+        </record>
+
+        <record id='l10n_br_dependent_7' model="hr.dependent.type">
+            <field
+            name="name"
+        >Irmão(ã), neto(a) ou bisneto(a) sem arrimo dos pais, universitário(a) ou cursando escola técnica de 2° grau, do(a) qual detenha a guarda judicial</field>
+            <field name="code">7</field>
+        </record>
+
+        <record id='l10n_br_dependent_9_1' model="hr.dependent.type">
+            <field name="name">Pai</field>
+            <field name="code">9</field>
+        </record>
+
+        <record id='l10n_br_dependent_9_2' model="hr.dependent.type">
+            <field name="name">Mãe</field>
+            <field name="code">9</field>
+        </record>
+
+        <record id='l10n_br_dependent_9_3' model="hr.dependent.type">
+            <field name="name">Avós e bisavós</field>
+            <field name="code">9</field>
+        </record>
+
+        <record id='l10n_br_dependent_10' model="hr.dependent.type">
+            <field name="name">Menor pobre do qual detenha a guarda judicial</field>
+            <field name="code">10</field>
+        </record>
+
+        <record id='l10n_br_dependent_11' model="hr.dependent.type">
+            <field
+            name="name"
+        >A pessoa absolutamente incapaz, da qual seja tutor ou curador</field>
+            <field name="code">11</field>
+        </record>
+
+        <record id='l10n_br_dependent_12' model="hr.dependent.type">
+            <field name="name">Ex-cônjuge</field>
+            <field name="code">12</field>
+        </record>
+
+        <record id='l10n_br_dependent_99' model="hr.dependent.type">
+            <field name="name">Agregado/Outros</field>
+            <field name="code">99</field>
+        </record>
+
+</odoo>

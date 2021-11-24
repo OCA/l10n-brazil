@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  <record id="document_fiscal_mixin_form" model="ir.ui.view">
+    <field name="name">l10n_br_fiscal.document.mixin.form</field>
+    <field name="model">l10n_br_fiscal.document.mixin</field>
+    <field name="arch" type="xml">
+      <form>
+        <group name="l10n_br_fiscal">
+            <field name="fiscal_operation_id" required="1" />
+        </group>
+        <group name="l10n_br_fiscal_comment">
+            <field name="manual_fiscal_additional_data" />
+            <field name="fiscal_additional_data" readonly="1" />
+            <field name="manual_customer_additional_data" />
+            <field name="customer_additional_data" readonly="1" />
+        </group>
+      </form>
+    </field>
+  </record>
+
+</odoo>

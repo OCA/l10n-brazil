@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright 2018 KMEE INFORMATICA LTDA
+    License AGPL-3 or later (http://www.gnu.org/licenses/agpl)
+-->
+<odoo>
+
+    <record id="fiscal_closing_tree" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.closing.tree</field>
+        <field name="model">l10n_br_fiscal.closing</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="month" />
+                <field name="year" />
+                <field name="export_type" />
+                <field name="include_pdf_file" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="fiscal_closing_form" model="ir.ui.view">
+        <field name="name">l10n_br_fiscal.closing.form</field>
+        <field name="model">l10n_br_fiscal.closing</field>
+        <field name="arch" type="xml">
+            <form string="Processamento Periodico">
+                <header>
+                    <button
+                        string="Export"
+                        name="action_export"
+                        type="object"
+                        class="oe_highlight"
+                        states="draft"
+                    />
+                    <button
+                        string="Close"
+                        name="action_close"
+                        type="object"
+                        class="oe_highlight"
+                        states="open"
+                    />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                <group>
+                    <group string="Period">
+                        <field
+                                name="export_type"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                        <field
+                                name="month"
+                                attrs="{'invisible': [('export_type', '=', 'all')], 'readonly': [('state', '!=', 'draft')]}"
+                            />
+                        <field
+                                name="year"
+                                attrs="{'invisible': [('export_type', '=', 'all')], 'readonly': [('state', '!=', 'draft')]}"
+                            />
+                        <field
+                                name="company_id"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                        <field
+                                name="group_folder"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                        <field
+                                name="include_pdf_file"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                    </group>
+                    <group states="open">
+                        <field name="file_name" invisible="1" />
+                        <h3>
+                            Fazer o download: <field
+                                    name="zip_file"
+                                    filename="file_name"
+                                    nolabel="1"
+                                />
+                            <p />
+                            <p />
+                            Enviar por email: <button
+                                    type="action"
+                                    name="%(mail.action_email_compose_message_wizard)d"
+                                    icon="fa-paper-plane fa-lg"
+                                    class="btn-link"
+                                />
+                        </h3>
+                    </group>
+                </group>
+                <group states="open">
+                    <notebook colspan="4">
+                        <page string="Fechamento">
+                            <group>
+                                <group name="close_left">
+                                    <field name="file_simples" />
+                                    <field name="file_icms" />
+                                    <field name="file_icms_st" />
+                                    <field name="file_ipi" />
+                                    <field name="block" />
+                                </group>
+                                <group name="close_right">
+                                    <field name="file_honorarios" />
+                                    <field name="file_iss" />
+                                    <field name="file_pis" />
+                                    <field name="file_cofins" />
+                                    <field name="file_csll" />
+                                    <field name="file_irpj" />
+                                </group>
+                                <field
+                                        name="attachment_ids"
+                                        widget="many2many_binary"
+                                    />
+                                <field name="notes" />
+                            </group>
+                        </page>
+                        <page string="NFe">
+                            <field
+                                    name="document_nfe_ids"
+                                    context="{'tree_view_ref': 'l10n_br_fiscal.document_tree'}"
+                                    readonly="1"
+                                />
+                        </page>
+                        <page string="NFCe">
+                            <field name="document_nfce_ids" readonly="1" />
+                        </page>
+                        <page string="CFe">
+                            <field name="document_cfe_ids" readonly="1" />
+                        </page>
+                        <page string="CFe ECF">
+                            <field name="document_cfeecf_ids" readonly="1" />
+                        </page>
+                        <page string="NFSe">
+                            <field name="document_nfse_ids" readonly="1" />
+                        </page>
+                        <page string="RL">
+                            <field name="document_rl_ids" readonly="1" />
+                        </page>
+                    </notebook>
+                </group>
+
+            </sheet>
+            <div class="o_attachment_preview" />
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers" />
+                <field name="activity_ids" widget="mail_activity" />
+                <field name="message_ids" widget="mail_thread" />
+            </div>
+            </form>
+        </field>
+    </record>
+
+</odoo>

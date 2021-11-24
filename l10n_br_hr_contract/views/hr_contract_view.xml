@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_hr_contract_view_form" model="ir.ui.view">
+        <field name="model">hr.contract</field>
+        <field name="name">l10n_br.hr.contract.view.form</field>
+        <field name="priority">110</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='type_id']" position="after">
+                <field
+                    name="admission_type_id"
+                    options="{'no_create': True, 'create_edit': False, 'no_open': True}"
+                    required="1"
+                />
+                <field name="labor_bond_type_id" />
+                <field
+                    name="labor_regime_id"
+                    options="{'no_create': True, 'create_edit': False}"
+                    required="1"
+                />
+            </xpath>
+
+            <xpath expr="//group[@name='duration_group']" position="after">
+                <group name="union" string="Union">
+                    <field name="partner_union" />
+                    <field name="union_name" invisible="1" />
+                    <field name="union_cnpj" invisible="1" />
+                    <field name="union_entity_code" invisible="1" />
+                    <field name="discount_union_contribution" />
+                </group>
+            </xpath>
+
+            <xpath expr="//div[@name='wage']" position="replace">
+                <div class="o_row" name="wage" modifiers="{}">
+                    <field name="wage" nolabel="1" modifiers="{'required':true}" />
+                    <field
+                        name="salary_unit"
+                        options="{'no_create': True, 'no_open': True}"
+                        required="1"
+                        can_create="true"
+                        can_write="true"
+                        modifiers="{'required':true}"
+                    />
+                </div>
+            </xpath>
+
+            <xpath expr="//group[@name='duration_group']" position="inside">
+                <field name="monthly_hours" />
+                <field name="weekly_hours" />
+            </xpath>
+
+            <xpath expr="//page[@name='information']" position="after">
+                <page name="resignation_page" string="Resignation">
+                    <group name="resignation_group" string="Resignation">
+                        <field name="resignation_cause_id" />
+                        <field name="resignation_date" />
+                        <field name="resignation_code" invisible='1' />
+                        <field
+                            name="by_death"
+                            attrs="{'invisible': [('resignation_code', 'not in', ('60', '62', '63', '64'))]}"
+                        />
+                    </group>
+                    <group
+                        name="notice_of_terminationstring"
+                        string="Notice of Termination"
+                    >
+                        <field name="notice_of_termination_id" />
+                        <field name="notice_of_termination_date" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_hr_contract_admission_type" model="ir.actions.act_window">
+        <field name="name">Admission Type</field>
+        <field name="res_model">hr.contract.admission.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_hr_contract_labor_bond_type" model="ir.actions.act_window">
+        <field name="name">Labor Bond Type</field>
+        <field name="res_model">hr.contract.labor.bond.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_hr_contract_labor_regime" model="ir.actions.act_window">
+        <field name="name">Labor Regime</field>
+        <field name="res_model">hr.contract.labor.regime</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_hr_contract_salary_unit" model="ir.actions.act_window">
+        <field name="name">Salary Unit</field>
+        <field name="res_model">hr.contract.salary.unit</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_hr_contract_resignation_cause" model="ir.actions.act_window">
+        <field name="name">Resignation Cause</field>
+        <field name="res_model">hr.contract.resignation.cause</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_hr_contract_notice_termination" model="ir.actions.act_window">
+        <field name="name">Notice Termination</field>
+        <field name="res_model">hr.contract.notice.termination</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        action=""
+        id="menu_hr_contract_configuration_rais_contract"
+        parent="hr.menu_human_resources_configuration"
+        name="Contract"
+        sequence="30"
+        groups="hr.group_hr_manager"
+    />
+    <menuitem
+        action="action_hr_contract_admission_type"
+        id="menu_hr_contract_admission_type"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Admission Type"
+        sequence="10"
+    />
+    <menuitem
+        action="action_hr_contract_labor_bond_type"
+        id="menu_hr_contract_labor_bond_type"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Labor Bond Type"
+        sequence="11"
+    />
+    <menuitem
+        action="action_hr_contract_labor_regime"
+        id="menu_hr_contract_labor_regime"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Labor Regime"
+        sequence="12"
+    />
+    <menuitem
+        action="action_hr_contract_salary_unit"
+        id="menu_hr_contract_salary_unit"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Salary Unit"
+        sequence="13"
+    />
+    <menuitem
+        action="action_hr_contract_resignation_cause"
+        id="menu_hr_contract_resignation_cause"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Resignation Cause"
+        sequence="14"
+    />
+    <menuitem
+        action="action_hr_contract_notice_termination"
+        id="menu_hr_contract_notice_termination"
+        parent="menu_hr_contract_configuration_rais_contract"
+        name="Notice Termination"
+        sequence="15"
+    />
+
+</odoo>

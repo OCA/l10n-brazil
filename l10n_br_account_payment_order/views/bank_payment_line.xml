@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <record id="bank_payment_line_form" model="ir.ui.view">
+        <field name="name">bank.payment.line.form</field>
+        <field name="model">bank.payment.line</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="account_payment_order.bank_payment_line_form" />
+        <field name="arch" type="xml">
+            <group name="main" position="after">
+                <group>
+                    <field name="own_number" readonly="1" />
+                    <field name="document_number" readonly="1" />
+                    <field name="company_title_identification" readonly="1" />
+                    <field name="last_cnab_state" invisible="1" />
+                    <field name="mov_instruction_code_id" readonly="1" />
+                    <field name="doc_finality_code" readonly="1" />
+                    <field name="ted_finality_code" readonly="1" />
+                    <field name="complementary_finality_code" readonly="1" />
+                    <field name="rebate_value" readonly="1" />
+                    <field name="discount_value" readonly="1" />
+                    <field name="interest_value" readonly="1" />
+                    <field name="fee_value" readonly="1" />
+                    <field name="favored_warning" readonly="1" />
+                </group>
+                <xpath expr="//group[@name='payment-lines'" position="after">
+                    <group
+                        string="Histórico de Eventos CNAB Relacionados"
+                        name="evento-lines"
+                    >
+                        <field name="event_id" nolabel="1" />
+                    </group>
+                </xpath>
+            </group>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_move_cnab_form" model="ir.ui.view">
+        <field name="name">account.move.cnab.view</field>
+        <field name="model">account.move</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/notebook" position="inside">
+                <field name="is_cnab" invisible="0" />
+                <page
+                    string="CNAB Informations"
+                    attrs="{'invisible':[('is_cnab','=',False)]}"
+                >
+                    <group>
+                        <field name="cnab_return_log_id" />
+                    </group>
+                </page>
+            </xpath>
+            <!-- TODO: remover na v14, herança mail.thread já é feita pelo core -->
+            <sheet position="after">
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </sheet>
+        </field>
+    </record>
+
+</odoo>

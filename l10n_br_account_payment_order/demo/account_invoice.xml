@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Faturas/Invoices de Teste -->
+
+    <!-- Fatura/Invoice Bradesco 400 -->
+    <record id="demo_invoice_payment_order" model="account.invoice">
+        <field name="name">Test Payment Order</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_bradesco400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+    </record>
+
+    <record id="demo_invoice_line_original" model="account.invoice.line">
+        <field name="invoice_id" ref="demo_invoice_payment_order" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <!-- Invoice Itau 240 -->
+    <record id="demo_invoice_payment_order_itau_cnab240" model="account.invoice">
+        <field name="name">Teste Itau CNAB240</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_itau240" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+    </record>
+
+    <record
+        id="demo_invoice_payment_order_itau_line_cnab240"
+        model="account.invoice.line"
+    >
+        <field name="invoice_id" ref="demo_invoice_payment_order_itau_cnab240" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <!-- Invoice Itau 400 -->
+    <record id="demo_invoice_payment_order_itau_cnab400" model="account.invoice">
+        <field name="name">Teste Itau CNAB400</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_itau400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+    </record>
+
+    <record
+        id="demo_invoice_payment_order_itau_line_cnab400"
+        model="account.invoice.line"
+    >
+        <field name="invoice_id" ref="demo_invoice_payment_order_itau_cnab400" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <!-- Invoice Unicred 400 -->
+    <record id="demo_invoice_payment_order_unicred_cnab400" model="account.invoice">
+        <field name="name">Teste Unicred CNAB400</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_unicred400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+    </record>
+
+    <record
+        id="demo_invoice_payment_order_unicred_line_cnab400"
+        model="account.invoice.line"
+    >
+        <field name="invoice_id" ref="demo_invoice_payment_order_unicred_cnab400" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <!-- Invoice Caixa Economica Federal 240 -->
+    <record id="demo_invoice_payment_order_cef_cnab240" model="account.invoice">
+        <field name="name">Teste Caixa Economica Federal CNAB240</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_cef240" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+    </record>
+
+    <record
+        id="demo_invoice_payment_order_cef_line_cnab240"
+        model="account.invoice.line"
+    >
+        <field name="invoice_id" ref="demo_invoice_payment_order_cef_cnab240" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <!-- Invoice SICRED 240 -->
+    <record id="demo_invoice_payment_order_sicredi_cnab240" model="account.invoice">
+        <field name="name">Teste SICRED - CNAB 240</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_sicredi240" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+    </record>
+
+    <record
+        id="demo_invoice_payment_order_sicredi_line_cnab240"
+        model="account.invoice.line"
+    >
+        <field name="invoice_id" ref="demo_invoice_payment_order_sicredi_cnab240" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <!-- Invoice Banco do Brasil 400 -->
+    <record id="demo_invoice_payment_order_bb_cnab400" model="account.invoice">
+        <field name="name">Teste Banco do Brasil CNAB400</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cobranca_bb400" />
+        <field name="instructions">TESTE Intruções Boleto</field>
+    </record>
+
+    <record
+        id="demo_invoice_payment_order_bb_line_cnab400"
+        model="account.invoice.line"
+    >
+        <field name="invoice_id" ref="demo_invoice_payment_order_bb_cnab400" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <!-- Invoice Cheque - teste quando o Modo de Pagto não gera Ordem de Pagto -->
+    <record id="demo_invoice_payment_order_cheque" model="account.invoice">
+        <field
+            name="name"
+        >Teste Cheque - quando o Modo de Pagto não gera Ordem de Pagto</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_cheque" />
+    </record>
+
+    <record id="demo_invoice_payment_order_cheque_line" model="account.invoice.line">
+        <field name="invoice_id" ref="demo_invoice_payment_order_cheque" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <record id="demo_invoice_payment_order_manual" model="account.invoice">
+        <field name="name">Manual Main Company</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="main_payment_mode_boleto" />
+        <field name="company_id" ref="base.main_company" />
+    </record>
+
+    <record id="demo_invoice_line_payment_order_manual" model="account.invoice.line">
+        <field name="invoice_id" ref="demo_invoice_payment_order_manual" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <function model="account.invoice" name="action_invoice_open">
+        <value eval="[ref('demo_invoice_payment_order_manual')]" />
+    </function>
+
+     <record id="demo_invoice_no_payment_mode" model="account.invoice">
+        <field name="name">Manual No Payment Mode</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="payment_mode_id" eval="False" />
+    </record>
+
+    <record id="demo_invoice_line_no_payment_mode" model="account.invoice.line">
+        <field name="invoice_id" ref="demo_invoice_no_payment_mode" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+    <function model="account.invoice" name="action_invoice_open">
+        <value eval="[ref('demo_invoice_no_payment_mode')]" />
+    </function>
+
+     <!-- Fatura/Invoice Manual TEST -->
+    <record id="demo_invoice_manual_test" model="account.invoice">
+        <field name="name">Manual Test Payment Order</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_manual_test_main" />
+    </record>
+
+    <record id="demo_invoice_line_manual_test" model="account.invoice.line">
+        <field name="invoice_id" ref="demo_invoice_manual_test" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+     <!-- Fatura/Invoice Automatic TEST -->
+    <record id="demo_invoice_automatic_test" model="account.invoice">
+        <field name="name">Automatic Test Payment Order</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field name="payment_mode_id" ref="payment_mode_automatic_test_main" />
+    </record>
+
+    <record id="demo_invoice_line_automatic_test" model="account.invoice.line">
+        <field name="invoice_id" ref="demo_invoice_automatic_test" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+</odoo>

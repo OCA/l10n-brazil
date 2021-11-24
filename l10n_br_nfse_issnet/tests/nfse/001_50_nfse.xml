@@ -1,0 +1,73 @@
+<EnviarLoteRpsEnvio xmlns="http://www.issnetonline.com.br/webserviceabrasf/vsd/servico_enviar_lote_rps_envio.xsd" xmlns:tc="http://www.issnetonline.com.br/webserviceabrasf/vsd/tipos_complexos.xsd">
+    <LoteRps>
+        <tc:CpfCnpj>
+            <tc:Cnpj>59594315000157</tc:Cnpj>
+        </tc:CpfCnpj>
+        <tc:InscricaoMunicipal>35172</tc:InscricaoMunicipal>
+        <tc:QuantidadeRps>1</tc:QuantidadeRps>
+        <tc:ListaRps xmlns="http://www.issnetonline.com.br/webserviceabrasf/vsd/tipos_complexos.xsd">
+            <tc:Rps>
+                <tc:InfRps id="rps50">
+                    <tc:IdentificacaoRps>
+                        <tc:Numero>50</tc:Numero>
+                        <tc:Serie>001</tc:Serie>
+                        <tc:Tipo>1</tc:Tipo>
+                    </tc:IdentificacaoRps>
+                    <tc:DataEmissao>2020-06-04T13:58:46</tc:DataEmissao>
+                    <tc:NaturezaOperacao>1</tc:NaturezaOperacao>
+                    <tc:RegimeEspecialTributacao>1</tc:RegimeEspecialTributacao>
+                    <tc:OptanteSimplesNacional>1</tc:OptanteSimplesNacional>
+                    <tc:IncentivadorCultural>2</tc:IncentivadorCultural>
+                    <tc:Status>1</tc:Status>
+                    <tc:Servico>
+                        <tc:Valores>
+                            <tc:ValorServicos>100</tc:ValorServicos>
+                            <tc:ValorDeducoes>0</tc:ValorDeducoes>
+                            <tc:ValorPis>0</tc:ValorPis>
+                            <tc:ValorCofins>0</tc:ValorCofins>
+                            <tc:ValorInss>0</tc:ValorInss>
+                            <tc:ValorIr>0</tc:ValorIr>
+                            <tc:ValorCsll>0</tc:ValorCsll>
+                            <tc:IssRetido>2</tc:IssRetido>
+                            <tc:ValorIss>5</tc:ValorIss>
+                            <tc:ValorIssRetido>0</tc:ValorIssRetido>
+                            <tc:OutrasRetencoes>0</tc:OutrasRetencoes>
+                            <tc:BaseCalculo>100</tc:BaseCalculo>
+                            <tc:Aliquota>5</tc:Aliquota>
+                            <tc:ValorLiquidoNfse>100</tc:ValorLiquidoNfse>
+                            <tc:DescontoIncondicionado>0</tc:DescontoIncondicionado>
+                            <tc:DescontoCondicionado>0</tc:DescontoCondicionado>
+                        </tc:Valores>
+                        <tc:ItemListaServico>105</tc:ItemListaServico>
+                        <tc:CodigoCnae>3101200</tc:CodigoCnae>
+                        <tc:CodigoTributacaoMunicipio>6311900</tc:CodigoTributacaoMunicipio>
+                        <tc:Discriminacao>[ODOO_DEV] Customized Odoo Development</tc:Discriminacao>
+                        <tc:MunicipioPrestacaoServico>999</tc:MunicipioPrestacaoServico>
+                    </tc:Servico>
+                    <tc:Prestador>
+                        <tc:CpfCnpj>
+                            <tc:Cnpj>59594315000157</tc:Cnpj>
+                        </tc:CpfCnpj>
+                        <tc:InscricaoMunicipal>35172</tc:InscricaoMunicipal>
+                    </tc:Prestador>
+                    <tc:Tomador>
+                        <tc:IdentificacaoTomador>
+                            <tc:CpfCnpj>
+                                <tc:Cnpj>81493979000189</tc:Cnpj>
+                            </tc:CpfCnpj>
+                        </tc:IdentificacaoTomador>
+                        <tc:RazaoSocial>Cliente 1 SP</tc:RazaoSocial>
+                        <tc:Endereco>
+                            <tc:Endereco>Rua Samuel Morse</tc:Endereco>
+                            <tc:Numero>135</tc:Numero>
+                            <tc:Bairro>Brooklin</tc:Bairro>
+                            <tc:Cidade>3550308</tc:Cidade>
+                            <tc:Estado>SP</tc:Estado>
+                            <tc:Cep>4576060</tc:Cep>
+                        </tc:Endereco>
+                    </tc:Tomador>
+                </tc:InfRps>
+            </tc:Rps>
+        </tc:ListaRps>
+    </LoteRps>
+</EnviarLoteRpsEnvio>

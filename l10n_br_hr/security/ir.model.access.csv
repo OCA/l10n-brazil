@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_l10n_br_hr_cbo,access_l10n_br_hr_cbo,model_l10n_br_hr_cbo,hr.group_hr_manager,1,1,1,1
+access_hr_employee_dependent,access_hr_employee_dependent,model_hr_employee_dependent,,1,1,1,1
+access_hr_deficiency_manager,access_hr_deficiency_manager,model_hr_deficiency,hr.group_hr_manager,1,1,1,1
+access_hr_deficiency,access_hr_deficiency,model_hr_deficiency,,1,0,0,0
+access_hr_identity_type_manager,access_hr_identity_type_manager,model_hr_identity_type,hr.group_hr_manager,1,1,1,1
+access_hr_identity_type,access_hr_identity_type,model_hr_identity_type,,1,0,0,0
+access_hr_civil_certificate_type_manager,access_hr_civil_certificate_type_manager,model_hr_civil_certificate_type,hr.group_hr_manager,1,1,1,1
+access_hr_civil_certificate_type,access_hr_civil_certificate_type,model_hr_civil_certificate_type,,1,0,0,0
+access_hr_dependent_type_manager,access_hr_dependent_type_manager,model_hr_dependent_type,hr.group_hr_manager,1,1,1,1
+access_hr_dependent_type,access_hr_dependent_type,model_hr_dependent_type,,1,0,0,0
+access_hr_ethnicity_manager,access_hr_ethnicity_manager,model_hr_ethnicity,hr.group_hr_manager,1,1,1,1
+access_hr_ethnicity,access_hr_ethnicity,model_hr_ethnicity,,1,0,0,0
+access_hr_educational_attainment_manager,access_hr_educational_attainment_manager,model_hr_educational_attainment,hr.group_hr_manager,1,1,1,1
+access_hr_educational_attainment,access_hr_educational_attainment,model_hr_educational_attainment,,1,0,0,0

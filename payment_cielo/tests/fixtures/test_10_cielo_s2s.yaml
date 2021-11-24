@@ -1,0 +1,229 @@
+interactions:
+- request:
+    body: '{"CustomerName": "Norbert Buyer", "CardNumber": "4024007197692931", "Holder":
+      "Johndoe", "ExpirationDate": "02/2026", "Brand": "visa"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '134'
+      Content-Type:
+      - application/json
+      MerchantId:
+      - be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd
+      MerchantKey:
+      - POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE
+      User-Agent:
+      - python-requests/2.24.0
+    method: POST
+    uri: https://apisandbox.cieloecommerce.cielo.com.br/1/card
+  response:
+    body:
+      string: '{"CardToken":"905ffdbd-ddc1-49f5-b9b8-9e512ba9917e","Links":{"Method":"GET","Rel":"self","Href":"https://apiquerysandbox.cieloecommerce.cielo.com.br/1/card/905ffdbd-ddc1-49f5-b9b8-9e512ba9917e"}}'
+    headers:
+      Access-Control-Expose-Headers:
+      - Request-Context
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '195'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 24 Nov 2020 17:02:42 GMT
+      Expires:
+      - '-1'
+      Location:
+      - https://apiquerysandbox.cieloecommerce.cielo.com.br/1/card/905ffdbd-ddc1-49f5-b9b8-9e512ba9917e
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:3d714a4c-afcb-409b-a4ed-99d762fe82bf
+      Server:
+      - Microsoft-IIS/10.0
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      X-Response-Time:
+      - 91ms
+    status:
+      code: 201
+      message: Created
+- request:
+    body: '{"MerchantOrderId": "37", "Customer": {"Name": "Norbert Buyer"}, "Payment":
+      {"Type": "CreditCard", "Amount": 11500.0, "Installments": 1, "SoftDescriptor":
+      "test_ref_10_c", "CreditCard": {"CardToken": "905ffdbd-ddc1-49f5-b9b8-9e512ba9917e",
+      "Brand": "visa", "SaveCard": "true"}}}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '278'
+      Content-Type:
+      - application/json
+      MerchantId:
+      - be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd
+      MerchantKey:
+      - POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE
+      User-Agent:
+      - python-requests/2.24.0
+    method: POST
+    uri: https://apisandbox.cieloecommerce.cielo.com.br/1/sales
+  response:
+    body:
+      string: '{"MerchantOrderId":"37","Customer":{"Name":"Norbert Buyer"},"Payment":{"ServiceTaxAmount":0,"Installments":1,"Interest":0,"Capture":false,"Authenticate":false,"Recurrent":false,"CreditCard":{"SaveCard":true,"CardToken":"905ffdbd-ddc1-49f5-b9b8-9e512ba9917e","Brand":"Visa"},"Tid":"1124020251914","ProofOfSale":"170380","AuthorizationCode":"189477","SoftDescriptor":"test_ref_10_c","Provider":"Simulado","IsQrCode":false,"Amount":11500,"ReceivedDate":"2020-11-24
+        14:02:51","Status":1,"IsSplitted":false,"ReturnMessage":"Operation Successful","ReturnCode":"4","PaymentId":"42e731d0-8cef-4716-921e-62991244b788","Type":"CreditCard","Currency":"BRL","Country":"BRA","Links":[{"Method":"GET","Rel":"self","Href":"https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788"},{"Method":"PUT","Rel":"capture","Href":"https://apisandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788/capture"},{"Method":"PUT","Rel":"void","Href":"https://apisandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788/void"}]}}'
+    headers:
+      Access-Control-Expose-Headers:
+      - Request-Context
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '1087'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 24 Nov 2020 17:02:51 GMT
+      Expires:
+      - '-1'
+      Location:
+      - https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:3d714a4c-afcb-409b-a4ed-99d762fe82bf
+      Server:
+      - Microsoft-IIS/10.0
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      X-Response-Time:
+      - 240ms
+    status:
+      code: 201
+      message: Created
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      Content-Type:
+      - application/json
+      MerchantId:
+      - be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd
+      MerchantKey:
+      - POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE
+      User-Agent:
+      - python-requests/2.24.0
+    method: PUT
+    uri: https://apisandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788/capture
+  response:
+    body:
+      string: '{"Status":2,"ReasonCode":0,"ReasonMessage":"Successful","ProviderReturnCode":"6","ProviderReturnMessage":"Operation
+        Successful","ReturnCode":"6","ReturnMessage":"Operation Successful","Tid":"1124020251914","ProofOfSale":"938973","AuthorizationCode":"189477","Links":[{"Method":"GET","Rel":"self","Href":"https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788"},{"Method":"PUT","Rel":"void","Href":"https://apisandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788/void"}]}'
+    headers:
+      Access-Control-Expose-Headers:
+      - Request-Context
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '540'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 24 Nov 2020 17:02:55 GMT
+      Expires:
+      - '-1'
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:3d714a4c-afcb-409b-a4ed-99d762fe82bf
+      Server:
+      - Microsoft-IIS/10.0
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      X-Response-Time:
+      - 32ms
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      Content-Type:
+      - application/json
+      MerchantId:
+      - be87a4be-a40d-4a2d-b2c8-b8b6cc19cddd
+      MerchantKey:
+      - POHAWRXFBSIXTMTFVBCYSKNWZBMOATDNYUQDGBUE
+      User-Agent:
+      - python-requests/2.24.0
+    method: PUT
+    uri: https://apisandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788/void
+  response:
+    body:
+      string: '{"Status":10,"ReasonCode":0,"ReasonMessage":"Successful","ProviderReturnCode":"0","ProviderReturnMessage":"Operation
+        Successful","ReturnCode":"0","ReturnMessage":"Operation Successful","Tid":"1124020251914","ProofOfSale":"938973","AuthorizationCode":"189477","Links":[{"Method":"GET","Rel":"self","Href":"https://apiquerysandbox.cieloecommerce.cielo.com.br/1/sales/42e731d0-8cef-4716-921e-62991244b788"}]}'
+    headers:
+      Access-Control-Expose-Headers:
+      - Request-Context
+      Cache-Control:
+      - no-cache
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '405'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Tue, 24 Nov 2020 17:02:59 GMT
+      Expires:
+      - '-1'
+      Pragma:
+      - no-cache
+      Request-Context:
+      - appId=cid-v1:3d714a4c-afcb-409b-a4ed-99d762fe82bf
+      Server:
+      - Microsoft-IIS/10.0
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Powered-By:
+      - ASP.NET
+      X-Response-Time:
+      - 31ms
+    status:
+      code: 200
+      message: OK
+version: 1

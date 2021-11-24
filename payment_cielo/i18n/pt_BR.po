@@ -1,0 +1,189 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* payment_cielo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2020-12-17 04:57+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
+
+#. module: payment_cielo
+#. openerp-web
+#: code:addons/payment_cielo/static/src/xml/cielo_templates.xml:9
+#, python-format
+msgid "&times;"
+msgstr "&times;"
+
+#. module: payment_cielo
+#: model_terms:payment.acquirer,cancel_msg:payment_cielo.payment_acquirer_cielo
+msgid "<span><i>Cancel,</i> Your payment has been cancelled.</span>"
+msgstr "<span><i>Cancelado,</i> Seu pagamento foi cancelado.</span>"
+
+#. module: payment_cielo
+#: model_terms:payment.acquirer,done_msg:payment_cielo.payment_acquirer_cielo
+msgid "<span><i>Done,</i> Your online payment has been successfully processed. Thank you for your order.</span>"
+msgstr ""
+"<span><i>Feito,</i> Seu pagamento online foi processado com sucesso. "
+"Obrigado por sua ordem.</span>"
+
+#. module: payment_cielo
+#: model_terms:payment.acquirer,error_msg:payment_cielo.payment_acquirer_cielo
+msgid "<span><i>Error,</i> Please be aware that an error occurred during the transaction. The order has been confirmed but will not be paid. Do not hesitate to contact us if you have any questions on the status of your order.</span>"
+msgstr ""
+"<span><i>Erro,</i> Solicitamos atenção no uso das informações fornecidas. A "
+"ordem foi confirmada, mas não será paga. Não hesite em entrar em contato "
+"conosco se tiver alguma dúvida sobre o status do seu pedido.</span>"
+
+#. module: payment_cielo
+#: model_terms:payment.acquirer,pending_msg:payment_cielo.payment_acquirer_cielo
+msgid "<span><i>Pending,</i> Your online payment has been successfully processed. But your order is not validated yet.</span>"
+msgstr ""
+"<span><i>Pendente,</i> Seu pagamento online foi processado com sucesso. Mas "
+"sua ordem ainda não foi validada.</span>"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_token__card_brand
+msgid "Brand"
+msgstr "Marca"
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.cielo_s2s_form
+msgid "CVC"
+msgstr "CVC"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_transaction__cielo_s2s_capture_link
+msgid "Capture Link"
+msgstr "Link de Captura"
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.cielo_s2s_form
+msgid "Card number"
+msgstr "Número do cartão"
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.cielo_s2s_form
+msgid "Cardholder name"
+msgstr "Nome do titular do cartão"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_transaction__cielo_s2s_check_link
+msgid "Check Link"
+msgstr "Confira o Link"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_acquirer__cielo_image_url
+msgid "Checkout Image URL"
+msgstr "URL de imagem de checkout"
+
+#. module: payment_cielo
+#: model:payment.acquirer,name:payment_cielo.payment_acquirer_cielo
+#: selection:payment.acquirer,provider:0
+msgid "Cielo"
+msgstr "Cielo"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_acquirer__cielo_merchant_id
+msgid "Cielo Merchant Id"
+msgstr "ID Comerciante Cielo"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_acquirer__cielo_merchant_key
+msgid "Cielo Merchant Key"
+msgstr "Chave Comerciante Cielo"
+
+#. module: payment_cielo
+#. openerp-web
+#: code:addons/payment_cielo/static/src/xml/cielo_templates.xml:9
+#: code:addons/payment_cielo/static/src/xml/cielo_templates.xml:15
+#, python-format
+msgid "Close"
+msgstr "Fechar"
+
+#. module: payment_cielo
+#. openerp-web
+#: code:addons/payment_cielo/static/src/xml/cielo_templates.xml:8
+#, python-format
+msgid "Error"
+msgstr "Erro"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_token__card_exp
+msgid "Expiration date"
+msgstr "Data de validade"
+
+#. module: payment_cielo
+#: model_terms:ir.ui.view,arch_db:payment_cielo.cielo_s2s_form
+msgid "Expires (MM / YY)"
+msgstr "Expira (MM / YY)"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_token__card_holder
+msgid "Holder"
+msgstr "Titular da Conta"
+
+#. module: payment_cielo
+#: selection:payment.acquirer,provider:0
+msgid "Manual Configuration"
+msgstr "Configuração Manual"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_token__card_number
+msgid "Number"
+msgstr "Número"
+
+#. module: payment_cielo
+#: model:ir.model,name:payment_cielo.model_payment_acquirer
+msgid "Payment Acquirer"
+msgstr "Método de Pagamento"
+
+#. module: payment_cielo
+#: model:ir.model,name:payment_cielo.model_payment_token
+msgid "Payment Token"
+msgstr "Token de Pagamento"
+
+#. module: payment_cielo
+#: model:ir.model,name:payment_cielo.model_payment_transaction
+msgid "Payment Transaction"
+msgstr "Transação do Pagamento"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_acquirer__provider
+msgid "Provider"
+msgstr "Provedor"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_token__cielo_token
+msgid "Token"
+msgstr "Token"
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_transaction__cielo_s2s_void_link
+msgid "Void Link"
+msgstr "Link Vazio"
+
+#. module: payment_cielo
+#: selection:payment.acquirer,provider:0
+msgid "Wire Transfer"
+msgstr "Transferência Eletrônica"
+
+#. module: payment_cielo
+#: model_terms:payment.acquirer,pre_msg:payment_cielo.payment_acquirer_cielo
+msgid "You will be prompted with Cielo Payment page for payment information."
+msgstr ""
+"Você será solicitado com a página Cielo Payment para obter informações sobre "
+"pagamentos."
+
+#. module: payment_cielo
+#: model:ir.model.fields,field_description:payment_cielo.field_payment_token__card_cvc
+msgid "cvc"
+msgstr "cvc"

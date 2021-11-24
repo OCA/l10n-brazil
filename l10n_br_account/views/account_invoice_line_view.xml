@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="invoice_line_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.line.form</field>
+        <field name="model">account.invoice.line</field>
+        <field name="inherit_id" ref="account.view_invoice_line_form" />
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <field name="invoice_line_tax_ids" position="replace" />
+            <xpath
+                expr="//form/group/group/field[@name='company_id']"
+                position="replace"
+            />
+            <field name="price_unit" position="after">
+                <label
+                    for="fiscal_quantity"
+                    string="Fiscal Quantity"
+                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                />
+                <div>
+                    <field
+                        name="fiscal_quantity"
+                        class="oe_inline"
+                        attrs="{'invisible': [('document_type_id', '=', False)]}"
+                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                    />
+                    <field
+                        name="uot_id"
+                        force_save="1"
+                        groups="uom.group_uom"
+                        class="oe_inline oe_no_button"
+                        attrs="{'required': [('display_type', '=', False)], 'invisible': [('document_type_id', '=', False)]}"
+                    />
+                </div>
+                <field
+                    name="fiscal_price"
+                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                />
+            </field>
+            <field name="discount" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="discount" position="before">
+                <field name="discount_value" />
+            </field>
+            <field name="analytic_tag_ids" position="after">
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}"
+                    domain="[('state', '=', 'approved')]"
+                />
+                <field
+                    name="fiscal_operation_line_id"
+                    attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}"
+                />
+                <field
+                    name="cfop_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
+                />
+                <field name="document_type_id" invisible="1" />
+                <field name="amount_tax_withholding" invisible="1" />
+                <field name="amount_tax_included" invisible="1" />
+                <field name="amount_tax_not_included" invisible="1" />
+            </field>
+            <field name="name" position="after">
+              <group name="fiscal_fields" invisible="1">
+                  <field name="fiscal_operation_type" invisible="1" readonly="1" />
+                  <field name="fiscal_genre_code" invisible="1" />
+                  <field name="tax_framework" invisible="1" />
+                  <field name="partner_id" invisible="1" />
+                  <field name="company_id" invisible="1" />
+                  <field name="tax_icms_or_issqn" invisible="1" />
+              </group>
+                <notebook attrs="{'invisible': [('document_type_id', '=', False)]}">
+                    <page name="fiscal_taxes" string="Taxes" />
+                    <page name="others" string="Others">
+                        <group>
+                            <field name="freight_value" />
+                            <field name="insurance_value" />
+                            <field name="other_value" />
+                            <field name="estimate_tax" invisible="1" />
+                        </group>
+                    </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info" />
+                    <page name="accounting" string="Accounting">
+                        <group>
+                            <field
+                                name="invoice_line_tax_ids"
+                                context="{'type': invoice_type}"
+                                domain="[('type_tax_use','!=','none'),('company_id', '=', company_id)]"
+                                widget="many2many_tags"
+                                options="{'no_create': True}"
+                            />
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </field>
+    </record>
+
+</odoo>

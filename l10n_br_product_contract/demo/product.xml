@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 - TODAY, Marcel Savegnago - Escodoo - https://www.escodoo.com.br
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <!-- Recurrency Service -->
+    <record id="recurrency_service_product" model="product.product">
+        <field name="name">Recurrency Service</field>
+        <field name="list_price">100.0</field>
+        <field name="standard_price">0.0</field>
+        <field name="type">service</field>
+        <field name="default_code">RECURRENCY_01</field>
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="uom_po_id" ref="uom.product_uom_unit" />
+        <field name="categ_id" ref="product.product_category_4" />
+        <field name="ncm_id" ref="l10n_br_fiscal.ncm_00000000" />
+        <field name="fiscal_type">09</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+        <field name="fiscal_genre_id" ref="l10n_br_fiscal.product_genre_00" />
+        <field name="icms_origin" eval="" />
+        <field name="service_type_id" ref="l10n_br_fiscal.service_type_105" />
+        <field name="is_contract">True</field>
+        <field
+            name="property_contract_template_id"
+            ref="l10n_br_product_contract.main_contract_template_sale"
+        />
+
+    </record>
+
+</odoo>

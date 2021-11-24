@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_sale_res_config_settings_form" model="ir.ui.view">
+        <field name="name">l10n_br_sale.res.config.settings.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='sales_settings_invoicing_policy']" position="after">
+                <div class="col-xs-12 col-md-6 o_setting_box">
+                    <div class="o_setting_left_pane">
+                        <field name="copy_note" />
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="copy_note" />
+                        <div class="text-muted">
+                            Copy sale order notes in fiscal document
+                        </div>
+                    </div>
+                </div>
+                <div
+                    id="sales_settings_delivery_costs"
+                    class="col-12 col-lg-6 o_setting_box"
+                    title="The Delivery Costs should be informed by Line or by Total ?"
+                >
+                    <div class="o_setting_right_pane">
+                        <label for="delivery_costs" />
+                        <div class="text-muted">
+                            Define if Delivery Costs should be informed by Line or by Total
+                        </div>
+                        <div class="content-group">
+                            <div class="mt16">
+                                <field
+                                    name="delivery_costs"
+                                    class="o_light_label"
+                                    widget="radio"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

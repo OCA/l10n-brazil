@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- Invoice Unicred 400 -->
+    <record id="demo_invoice_brcobranca_unicred_cnab400" model="account.invoice">
+        <field name="name">Teste Unicred CNAB400 - BRCobranca</field>
+        <field name="payment_term_id" ref="account.account_payment_term_advance" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_demo" />
+        <field
+            name="payment_mode_id"
+            ref="l10n_br_account_payment_order.payment_mode_cobranca_unicred400"
+        />
+        <field name="instructions">TESTE Intruções Boleto</field>
+    </record>
+
+    <record
+        id="demo_invoice_brcobranca_unicred_line_cnab400"
+        model="account.invoice.line"
+    >
+        <field name="invoice_id" ref="demo_invoice_brcobranca_unicred_cnab400" />
+        <field name="name">[E-COM06] Computador Personalizado (kit)</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">100</field>
+        <field name="quantity">10</field>
+        <field
+            name="account_id"
+            ref="l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error"
+        />
+    </record>
+
+</odoo>

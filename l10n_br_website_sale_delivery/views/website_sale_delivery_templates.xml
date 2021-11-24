@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="cart_delivery_inherit" name="Delivery Costs" inherit_id="website_sale_delivery.cart_delivery">
+        <xpath expr="//tr[@id='order_delivery']" position="replace">
+            <tr id="order_delivery" t-if="website_sale_order and website_sale_order.carrier_id">
+              <td class="text-right noborder text-muted"  title="Delivery will be updated after choosing a new delivery method">Delivery:</td>
+              <td class="text-xl-right noborder text-muted" >
+                   <span t-field="website_sale_order.amount_freight_value" style="white-space: nowrap;" t-options='{
+                      "widget": "monetary",
+                      "display_currency": website_sale_order.currency_id,
+                  }'/>
+              </td>
+            </tr>
+        </xpath>
+    </template>
+
+</odoo>

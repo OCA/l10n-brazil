@@ -1,0 +1,1427 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* purchase
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-02 02:23+0000\n"
+"PO-Revision-Date: 2021-02-02 02:23+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+#, fuzzy
+msgid "Accounting"
+msgstr "Montante"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__cnpj_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_res_company__purchase_fiscal_operation_id
+msgid "Default Fiscal Operation for Purchase"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+#, fuzzy
+msgid "Documents"
+msgstr "Documento de Origem"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Extra Info"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_document_count
+#, fuzzy
+msgid "Fiscal Document Count"
+msgstr "Contagem de Anexos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_operation_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+#, fuzzy
+msgid "Fiscal Operation"
+msgstr "Posição Fiscal"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_operation_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
+#, fuzzy
+msgid "Fiscal Operation Line"
+msgstr "Posição Fiscal"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_freight
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
+#, fuzzy
+msgid "Freight"
+msgstr "Peso bruto"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
+msgid "Inscr. Estadual"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_insurance
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
+msgid "Insurance"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_account_invoice
+msgid "Invoice"
+msgstr "Fatura"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__legal_name
+msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__quantity
+#, fuzzy
+msgid "Mixin Quantity"
+msgstr "Quantidade"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__uom_id
+msgid "Mixin UOM"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__fiscal_operation_id
+#, fuzzy
+msgid "Operation"
+msgstr "Outras Informações"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__amount_costs
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.report_purchaseorder_document_l10n_br_purchase
+msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Outros Custos"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_purchase_order
+msgid "Purchase Order"
+msgstr "Pedido de Compra"
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linha de Pedido de Compra"
+
+#. module: l10n_br_purchase
+#: model:ir.model,name:l10n_br_purchase.model_purchase_report
+msgid "Purchase Report"
+msgstr "Relatório de Compra"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_res_company_form
+msgid "Purchases"
+msgstr "Compras"
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_filter
+msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order__ie
+msgid "State Tax Number/RG"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__tax_framework
+msgid "Tax Framework"
+msgstr ""
+
+#. module: l10n_br_purchase
+#: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_order_form
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_purchase
+#: model:ir.model.fields,help:l10n_br_purchase.field_purchase_order__legal_name
+msgid "Used in fiscal documents"
+msgstr ""
+
+#~ msgid "# Vendor Bills"
+#~ msgstr "# Faturas de Fornecedor"
+
+#~ msgid "# of Lines"
+#~ msgstr "# de Linhas"
+
+#~ msgid "${object.company_id.name} Order (Ref ${object.name or 'n/a' })"
+#~ msgstr "${object.company_id.name} Ordem (Ref ${object.name or 'n/a' })"
+
+#~ msgid "3-way matching"
+#~ msgstr "Combinação em 3 vias"
+
+#~ msgid "3-way matching: purchases, receptions and bills"
+#~ msgstr "Combinação em 3 vias: compras, recepções e contas"
+
+#~ msgid ""
+#~ "<div style=\"margin: 0px; padding: 0px;\">\n"
+#~ "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+#~ "        Dear ${object.partner_id.name}\n"
+#~ "        % if object.partner_id.parent_id:\n"
+#~ "            (${object.partner_id.parent_id.name})\n"
+#~ "        % endif\n"
+#~ "        <br/><br/>\n"
+#~ "        Here is in attachment a purchase order <strong>${object.name}</"
+#~ "strong>\n"
+#~ "        % if object.partner_ref:\n"
+#~ "            with reference: ${object.partner_ref}\n"
+#~ "        % endif\n"
+#~ "        amounting in <strong>${format_amount(object.amount_total, object."
+#~ "currency_id)}</strong>\n"
+#~ "        from ${object.company_id.name}.\n"
+#~ "        <br/><br/>\n"
+#~ "        If you have any questions, please do not hesitate to contact us.\n"
+#~ "        <br/><br/>\n"
+#~ "        Best regards,\n"
+#~ "    </p>\n"
+#~ "</div>"
+#~ msgstr ""
+#~ "<div style=\"margin: 0px; padding: 0px;\">\n"
+#~ "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+#~ "        Car@ ${object.partner_id.name}\n"
+#~ "        % if object.partner_id.parent_id:\n"
+#~ "            (${object.partner_id.parent_id.name})\n"
+#~ "        % endif\n"
+#~ "        <br/><br/>\n"
+#~ "        Segue em anexo o pedido de cotação <strong>${object.name}</"
+#~ "strong>\n"
+#~ "        % if object.partner_ref:\n"
+#~ "            com a referencia: ${object.partner_ref}\n"
+#~ "        % endif\n"
+#~ "        no valor de <strong>${format_amount(object.amount_total, object."
+#~ "currency_id)}</strong>\n"
+#~ "        de ${object.company_id.name}.\n"
+#~ "        <br/><br/>\n"
+#~ "        Se tiver alguma dúvida, não hesite em contactar-nos.\n"
+#~ "        <br/><br/>\n"
+#~ "        Os melhores cumprimentos,\n"
+#~ "    </p>\n"
+#~ "</div>"
+
+#~ msgid ""
+#~ "<div style=\"margin: 0px; padding: 0px;\">\n"
+#~ "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+#~ "        Dear ${object.partner_id.name}\n"
+#~ "        % if object.partner_id.parent_id:\n"
+#~ "            (${object.partner_id.parent_id.name})\n"
+#~ "        % endif\n"
+#~ "        <br/><br/>\n"
+#~ "        Here is in attachment a request for quotation <strong>${object."
+#~ "name}</strong>\n"
+#~ "        % if object.partner_ref:\n"
+#~ "            with reference: ${object.partner_ref}\n"
+#~ "        % endif\n"
+#~ "        from ${object.company_id.name}.\n"
+#~ "        <br/><br/>\n"
+#~ "        If you have any questions, please do not hesitate to contact us.\n"
+#~ "        <br/><br/>\n"
+#~ "        Best regards,\n"
+#~ "    </p>\n"
+#~ "</div>"
+#~ msgstr ""
+#~ "<div style=\"margin: 0px; padding: 0px;\">\n"
+#~ "    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+#~ "        Car@ ${object.partner_id.name}\n"
+#~ "        % if object.partner_id.parent_id:\n"
+#~ "            (${object.partner_id.parent_id.name})\n"
+#~ "        % endif\n"
+#~ "        <br/><br/>\n"
+#~ "        Segue em anexo o pedido de cotação <strong>${object.name}</"
+#~ "strong>\n"
+#~ "        % if object.partner_ref:\n"
+#~ "            com a referencia: ${object.partner_ref}\n"
+#~ "        % endif\n"
+#~ "        de ${object.company_id.name}.\n"
+#~ "        <br/><br/>\n"
+#~ "        Se tiver alguma dúvida, não hesite em contactar-nos.\n"
+#~ "        <br/><br/>\n"
+#~ "        Os melhores cumprimentos,\n"
+#~ "    </p>\n"
+#~ "</div>"
+
+#~ msgid ""
+#~ "<i class=\"fa fa-arrow-right\"/>\n"
+#~ "                                            How to import"
+#~ msgstr ""
+#~ "<i class=\"fa fa-arrow-right\"/>\n"
+#~ "                                            Como importar"
+
+#~ msgid ""
+#~ "<span class=\"badge badge-info\"><i class=\"fa fa-fw fa-file-text\"/> "
+#~ "Waiting for Bill</span>"
+#~ msgstr ""
+#~ "<span class=\"badge badge-info\"><i class=\"fa fa-fw fa-file-text\"/> "
+#~ "Esperando por conta</span>"
+
+#~ msgid ""
+#~ "<span class=\"badge badge-secondary\"><i class=\"fa fa-fw fa-remove\"/> "
+#~ "Cancelled</span>"
+#~ msgstr ""
+#~ "<span class=\"badge badge-secondary\"><i class=\"fa fa-fw fa-remove\"/> "
+#~ "Cancelado</span>"
+
+#~ msgid ""
+#~ "<span class=\"o_form_label\" attrs=\"{'invisible': [('state','not in',"
+#~ "('draft','sent'))]}\">Request for Quotation </span>\n"
+#~ "                        <span class=\"o_form_label\" attrs="
+#~ "\"{'invisible': [('state','in',('draft','sent'))]}\">Purchase Order </"
+#~ "span>"
+#~ msgstr ""
+#~ "<span class=\"o_form_label\" attrs=\"{'invisible': [('state','not in',"
+#~ "('draft','sent'))]}\">Pedido de Cotação</span>\n"
+#~ "                        <span class=\"o_form_label\" attrs="
+#~ "\"{'invisible': [('state','in',('draft','sent'))]}\">Ordem de compra </"
+#~ "span>"
+
+#~ msgid "<span class=\"o_stat_text\">Purchased</span>"
+#~ msgstr "<span class=\"o_stat_text\">Comprado</span>"
+
+#~ msgid "<strong>Amount</strong>"
+#~ msgstr "<strong>Quantidade</strong>"
+
+#~ msgid "<strong>Date Req.</strong>"
+#~ msgstr "<strong>Data Pedi.</strong>"
+
+#~ msgid "<strong>Date:</strong>"
+#~ msgstr "<strong>Data:</strong>"
+
+#~ msgid "<strong>Description</strong>"
+#~ msgstr "<strong>Descrição</strong>"
+
+#~ msgid "<strong>Expected Date</strong>"
+#~ msgstr "<strong>Data Prevista</strong>"
+
+#~ msgid "<strong>Order Date:</strong>"
+#~ msgstr "<strong>Data do Pedido:</strong>"
+
+#~ msgid "<strong>Our Order Reference:</strong>"
+#~ msgstr "<strong>Nossa Pedido de Referência:</strong>"
+
+#~ msgid "<strong>Product</strong>"
+#~ msgstr "<strong>Produto</strong>"
+
+#~ msgid "<strong>Qty</strong>"
+#~ msgstr "<strong>Qtd</strong>"
+
+#~ msgid "<strong>Quantity</strong>"
+#~ msgstr "<strong>Quantidade</strong>"
+
+#~ msgid "<strong>Shipping address:</strong>"
+#~ msgstr "<strong>Endereço de envio:</strong>"
+
+#~ msgid "<strong>Taxes</strong>"
+#~ msgstr "<strong>Impostos</strong>"
+
+#~ msgid "<strong>The ordered quantity has been updated.</strong>"
+#~ msgstr "<strong>A quantidade pedida foi atualizada.</strong>"
+
+#~ msgid "<strong>Unit Price</strong>"
+#~ msgstr "<strong>Preço Unitário</strong>"
+
+#~ msgid "<strong>Your Order Reference:</strong>"
+#~ msgstr "<strong>Seu Pedido de Referência:</strong>"
+
+#~ msgid ""
+#~ "A storable product is a product for which you manage stock. The Inventory "
+#~ "app has to be installed.\n"
+#~ "A consumable product is a product for which stock is not managed.\n"
+#~ "A service is a non-material product you provide."
+#~ msgstr ""
+#~ "Um produto armazenável é um produto no qual você pode gerenciar o "
+#~ "estoque. O aplicativo Inventário deve ser instalado.\n"
+#~ "Um produto consumível é um produto para o qual o estoque não é "
+#~ "gerenciado.\n"
+#~ "Um serviço é um produto não material que você fornece."
+
+#~ msgid "A warning can be set on a product or a customer (Purchase)"
+#~ msgstr "Um aviso pode ser definido em um produto ou um cliente (Compra)"
+
+#~ msgid "Access warning"
+#~ msgstr "Aviso de acesso"
+
+#~ msgid "Action Needed"
+#~ msgstr "Ação Necessária"
+
+#~ msgid "Activities"
+#~ msgstr "Atividades"
+
+#~ msgid "Activity State"
+#~ msgstr "Estado de Atividade"
+
+#~ msgid "Add Purchase Order"
+#~ msgstr "Adicionar Pedido de Compra"
+
+#~ msgid "All"
+#~ msgstr "Tudo"
+
+#~ msgid "Allow to edit purchase orders"
+#~ msgstr "Permite editar ordens de compra"
+
+#~ msgid "Analytic Account"
+#~ msgstr "Conta Analítica"
+
+#~ msgid "Analytic Tags"
+#~ msgstr "Tags Analíticas"
+
+#~ msgid "Approval Date"
+#~ msgstr "Data de Aprovação"
+
+#~ msgid "Approve Order"
+#~ msgstr "Aprovar Ordem"
+
+#~ msgid ""
+#~ "Associated Purchase Order. Filled in automatically when a PO is chosen on "
+#~ "the vendor bill."
+#~ msgstr ""
+#~ "Ordem de Compra associada. Preenchida automaticamente quando um OC é "
+#~ "escolhida na conta de fornecedor."
+
+#~ msgid "Auto-Complete"
+#~ msgstr "Auto-Completar"
+
+#~ msgid "Average Delivery Time"
+#~ msgstr "Tempo Médio de Entrega"
+
+#~ msgid "Average Price"
+#~ msgstr "Preço Médio"
+
+#~ msgid "Bill Control"
+#~ msgstr "Controle de Conta"
+
+#~ msgid "Bill Count"
+#~ msgstr "Contar Conta"
+
+#~ msgid "Bill Lines"
+#~ msgstr "Linhas da Fatura"
+
+#~ msgid "Billed Qty"
+#~ msgstr "Qtd Faturada"
+
+#~ msgid "Billed Quantity:"
+#~ msgstr "Quantidade Cobrada"
+
+#~ msgid "Billing Status"
+#~ msgstr "Situação Faturamento"
+
+#~ msgid "Bills"
+#~ msgstr "Faturas"
+
+#~ msgid "Bills Received"
+#~ msgstr "Faturas Recebidas"
+
+#~ msgid "Blocking Message"
+#~ msgstr "Mensagem de Bloqueio"
+
+#~ msgid ""
+#~ "By default, vendor prices can be set manually in the product detail form. "
+#~ "If your vendors provide you with pricelist files, this option allows you "
+#~ "to easily import them into the system from ‘Purchase > Vendor Pricelists’ "
+#~ "menu."
+#~ msgstr ""
+#~ "Por padrão, os preços do fornecedor podem ser definidos manualmente no "
+#~ "formulário de detalhes do produto. Se seus fornecedores fornecem arquivos "
+#~ "de lista de preços, esta opção permite importá-los facilmente para o "
+#~ "sistema a partir do menu ‘Comprar> Lista de preços do fornecedor’."
+
+#~ msgid "Calendar View"
+#~ msgstr "Visão de Calendário"
+
+#~ msgid ""
+#~ "Calls for tenders are used when you want to generate requests for "
+#~ "quotations to several vendors for a given set of products. You can "
+#~ "configure per product if you directly do a Request for Quotation to one "
+#~ "vendor or if you want a Call for Tenders to compare offers from several "
+#~ "vendors."
+#~ msgstr ""
+#~ "Os editais são usados quando você deseja gerar pedidos de cotação para "
+#~ "vários fornecedores para um determinado conjunto de produtos. Você pode "
+#~ "configurar por produto se fizer uma solicitação de cotação diretamente a "
+#~ "um fornecedor ou se quiser uma licitação para comparar ofertas de vários "
+#~ "fornecedores."
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Cancelled"
+#~ msgstr "Cancelado"
+
+#~ msgid "Cancelled Purchase Order #"
+#~ msgstr "Ordem de Compra Cancelada #"
+
+#~ msgid "Cannot delete a purchase order line which is in state '%s'."
+#~ msgstr ""
+#~ "Não é possível excluir uma linha do pedido de compras no estado '%s'."
+
+#~ msgid "Commercial Entity"
+#~ msgstr "Entidade Comercial"
+
+#~ msgid "Company"
+#~ msgstr "Empresa"
+
+#~ msgid "Company Currency"
+#~ msgstr "Moeda da Empresa"
+
+#~ msgid "Config Settings"
+#~ msgstr "Ajuste de configurações"
+
+#~ msgid "Configuration"
+#~ msgstr "Configuração"
+
+#~ msgid "Confirm Order"
+#~ msgstr "Confirmar Pedido"
+
+#~ msgid "Confirm purchase orders in one step"
+#~ msgstr "Confirmar pedidos de compra em uma etapa"
+
+#~ msgid "Confirmed purchase orders are not editable"
+#~ msgstr "Ordens confirmadas não são editáveis"
+
+#~ msgid "Contact"
+#~ msgstr "Contato"
+
+#~ msgid "Control"
+#~ msgstr "Controle"
+
+#~ msgid "Control Policy"
+#~ msgstr "Política de Controle"
+
+#~ msgid "Create Bill"
+#~ msgstr "Criar conta"
+
+#~ msgid "Create a new product"
+#~ msgstr "Criar um novo produto"
+
+#~ msgid "Create a new product variant"
+#~ msgstr "Criar uma nova variante de produto"
+
+#~ msgid "Create a quotation"
+#~ msgstr "Criar uma cotação"
+
+#~ msgid "Create a request for quotation"
+#~ msgstr "Criar um requerimento de cotação"
+
+#~ msgid "Create a vendor bill"
+#~ msgstr "Criar uma conta de fornecedor"
+
+#~ msgid "Created by"
+#~ msgstr "Criado por"
+
+#~ msgid "Created on"
+#~ msgstr "Criado em"
+
+#~ msgid "Currency"
+#~ msgstr "Moeda"
+
+#~ msgid "Customer Portal URL"
+#~ msgstr "Endereço do Portal do Consumidor"
+
+#~ msgid "Date"
+#~ msgstr "Data"
+
+#~ msgid "Date Approved"
+#~ msgstr "Data da Aprovação"
+
+#~ msgid "Date on which this document has been created"
+#~ msgstr "Data que este documento foi criado"
+
+#~ msgid "Days to Deliver"
+#~ msgstr "Dias para Entrega"
+
+#~ msgid "Days to Validate"
+#~ msgstr "Dias para Validar"
+
+#~ msgid "Define your terms and conditions ..."
+#~ msgstr "Definir seus termos e condições ..."
+
+#~ msgid "Delivered quantities"
+#~ msgstr "Quantidades entregues"
+
+#~ msgid ""
+#~ "Depicts the date where the Quotation should be validated and converted "
+#~ "into a purchase order."
+#~ msgstr ""
+#~ "Descreve a data em que a cotação deve ser validada e convertida em um "
+#~ "pedido de compra."
+
+#~ msgid "Description"
+#~ msgstr "Descrição"
+
+#~ msgid "Description for Vendors"
+#~ msgstr "Descrição para Fornecedores"
+
+#~ msgid "Display Name"
+#~ msgstr "Nome exibido"
+
+#~ msgid "Done"
+#~ msgstr "Concluído"
+
+#~ msgid "Double validation amount"
+#~ msgstr "Quantidade de Validação Dupla"
+
+#~ msgid "Draft RFQ"
+#~ msgstr "Rascunho RFQ"
+
+#~ msgid "Drop Ship Address"
+#~ msgstr "Apagar Endereço de Envio"
+
+#~ msgid "Expected Date"
+#~ msgstr "Data Prevista"
+
+#~ msgid "Extended Filters"
+#~ msgstr "Filtros Ampliados"
+
+#~ msgid "Extra line with %s "
+#~ msgstr "Linha extra com %s "
+
+#~ msgid "Followers"
+#~ msgstr "Seguidores"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "Seguidores (Canais)"
+
+#~ msgid "Followers (Partners)"
+#~ msgstr "Seguidores (Parceiros)"
+
+#~ msgid "Future Activities"
+#~ msgstr "Atividades Futuras"
+
+#~ msgid "Get 2 levels of approvals to confirm a purchase order"
+#~ msgstr "Obter 2 níveis de aprovações para confirmar um pedido de compra"
+
+#~ msgid "Get warnings in orders for products or vendors"
+#~ msgstr "Receber alertas em pedidos para produtos ou fornecedores"
+
+#~ msgid "Group By"
+#~ msgstr "Agrupar Por"
+
+#~ msgid "Hide cancelled lines"
+#~ msgstr "Ocultar linhas canceladas"
+
+#~ msgid "If checked new messages require your attention."
+#~ msgstr "Se marcado, novas mensagens solicitarão sua atenção."
+
+#~ msgid "If checked, new messages require your attention."
+#~ msgstr "Se marcado novas mensagens solicitarão sua atenção."
+
+#~ msgid "If checked, some messages have a delivery error."
+#~ msgstr "Se marcado, algumas mensagens tem erro de entrega."
+
+#~ msgid ""
+#~ "If enabled, activates 3-way matching on vendor bills : the items must be "
+#~ "received in order to pay the invoice."
+#~ msgstr ""
+#~ "Se habilitado, ativa combinação em 3 vias para contas de fornecedor: os "
+#~ "itens devem ser recebidos para que a fatura seja paga."
+
+#~ msgid "Import Template for Products"
+#~ msgstr "Importar Modelo para Produtos"
+
+#~ msgid "Import vendor pricelists"
+#~ msgstr "Importar lista de preço de fornecedor"
+
+#~ msgid "In order to delete a purchase order, you must cancel it first."
+#~ msgstr ""
+#~ "Para poder excluir uma ordem de compra, você precisa primeiro cancelá-la"
+
+#~ msgid ""
+#~ "International Commercial Terms are a series of predefined commercial "
+#~ "terms used in international transactions."
+#~ msgstr ""
+#~ "International Commercial Terms são uma série de termos comerciais pré-"
+#~ "definidos utilizados em transações internacionais."
+
+#~ msgid "Invoice Line"
+#~ msgstr "Linha da Fatura"
+
+#~ msgid "Invoices and Incoming Shipments"
+#~ msgstr "Faturas e Remessas Recebidas"
+
+#~ msgid "Invoicing"
+#~ msgstr "Faturamento"
+
+#~ msgid "Is Follower"
+#~ msgstr "É um seguidor"
+
+#~ msgid "It will be converted into a purchase order."
+#~ msgstr "Será convertido em uma ordem de compra."
+
+#~ msgid "Last Modified on"
+#~ msgstr "Última modificação em"
+
+#~ msgid "Last Updated by"
+#~ msgstr "Última atualização por"
+
+#~ msgid "Last Updated on"
+#~ msgstr "Última atualização em"
+
+#~ msgid "Late Activities"
+#~ msgstr "Últimas Atividades"
+
+#~ msgid "Levels of Approvals"
+#~ msgstr "Níveis de Aprovações"
+
+#~ msgid "Levels of Approvals *"
+#~ msgstr "Níveis de aprovação"
+
+#~ msgid ""
+#~ "Load the vendor bill based on selected purchase order. Several PO can be "
+#~ "selected."
+#~ msgstr ""
+#~ "Carregar a fatura de fornecedor baseada na ordem de compra selecionada. "
+#~ "Muitas ordens de compra podem ser selecionadas"
+
+#~ msgid "Lock"
+#~ msgstr "Trancar"
+
+#~ msgid "Lock Confirmed Orders"
+#~ msgstr "Trancar Pedidos Confirmados"
+
+#~ msgid "Locked"
+#~ msgstr "Trancado"
+
+#~ msgid "Main Attachment"
+#~ msgstr "Anexo Principal"
+
+#~ msgid ""
+#~ "Make sure you only pay bills for which you received the goods you ordered"
+#~ msgstr ""
+#~ "Certifique-se de pagar somente as contas pelas quais você recebeu os bens "
+#~ "que pediu"
+
+#~ msgid "Manage Vendor Price"
+#~ msgstr "Gerenciar Preço de Fornecedor"
+
+#~ msgid "Manage your purchase agreements (call for tenders, blanket orders)"
+#~ msgstr ""
+#~ "Gerenciar seus acordos de compra (chamadas para propostas, pedidos "
+#~ "abertos)"
+
+#~ msgid "Manager"
+#~ msgstr "Gestor"
+
+#~ msgid "Managers must approve orders"
+#~ msgstr "Gerentes devem aprovar pedidos"
+
+#~ msgid "Manual Invoices"
+#~ msgstr "Faturamento Manual"
+
+#~ msgid ""
+#~ "Margin of error for vendor lead times. When the system generates Purchase "
+#~ "Orders for procuring products, they will be scheduled that many days "
+#~ "earlier to cope with unexpected vendor delays."
+#~ msgstr ""
+#~ "A margem de erro para os prazos de entrega do fornecedor. Quando o "
+#~ "sistema gera Pedidos de Compra para a aquisição de produtos, eles serão "
+#~ "agendados dias antes para lidar com atrasos inesperados de fornecedores."
+
+#~ msgid ""
+#~ "Margin of error for vendor lead times. When the system generates Purchase "
+#~ "Orders for reordering products,they will be scheduled that many days "
+#~ "earlier to cope with unexpected vendor delays."
+#~ msgstr ""
+#~ "Margem de erro para tempo de entrega de fornecedor. Quando o sistema "
+#~ "gerar Ordens de Compra para recomprar produtos, eles serão agendados "
+#~ "nesses número de dias anteriormente para levar em conta demoras "
+#~ "inesperadas de fornecedores."
+
+#~ msgid "Message Delivery error"
+#~ msgstr "Erro de entrega de Mensagem"
+
+#~ msgid "Message for Purchase Order"
+#~ msgstr "Mensagem para Pedido de Compra"
+
+#~ msgid "Message for Purchase Order Line"
+#~ msgstr "Mensagem para Linha do Pedido de Compra"
+
+#~ msgid "Messages"
+#~ msgstr "Mensagens"
+
+#~ msgid "Minimum Amount"
+#~ msgstr "Quantidade Mínima"
+
+#~ msgid "Minimum amount for which a double validation is required"
+#~ msgstr "Montante mínimo para os quais é necessário uma dupla validação"
+
+#~ msgid "Monthly Purchases"
+#~ msgstr "Compras Mensais"
+
+#~ msgid "My Activities"
+#~ msgstr "Minhas Atividades"
+
+#~ msgid "My Purchases"
+#~ msgstr "Minhas Compras"
+
+#~ msgid "Name, TIN, Email, or Reference"
+#~ msgstr "Nome, TIN, e-mail ou referência"
+
+#~ msgid "Newest"
+#~ msgstr "Mais Recente"
+
+#~ msgid "Next Activity Deadline"
+#~ msgstr "Prazo final para Próxima Atividade"
+
+#~ msgid "Next Activity Summary"
+#~ msgstr "Próximo Sumário de Atividade"
+
+#~ msgid "Next Activity Type"
+#~ msgstr "Tipo da Próxima Atividade"
+
+#~ msgid "No Bill to Receive"
+#~ msgstr "Nenhuma Fatura a Receber"
+
+#~ msgid "No Message"
+#~ msgstr "Sem Mensagem"
+
+#~ msgid "No longer edit orders once confirmed"
+#~ msgstr "Não editar pedidos uma vez confirmados"
+
+#~ msgid ""
+#~ "Non-stored related field to allow portal user to see the image of the "
+#~ "product he has ordered"
+#~ msgstr ""
+#~ "Campo relacionado não armazenado para permitir que o usuário do portal "
+#~ "veja a imagem do produto que solicitou"
+
+#~ msgid "Notes"
+#~ msgstr "Observações"
+
+#~ msgid "Nothing to Bill"
+#~ msgstr "Nada para faturar"
+
+#~ msgid "Number of Actions"
+#~ msgstr "Número de ações"
+
+#~ msgid "Number of error"
+#~ msgstr "Número do erro"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Número de mensagens que requer uma ação"
+
+#~ msgid "Number of messages with delivery error"
+#~ msgstr "Número de mensagens com erro de entrega"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Quantidade de mensagens não lidas."
+
+#~ msgid "On ordered quantities"
+#~ msgstr "Em quantidades solicitadas"
+
+#~ msgid ""
+#~ "On ordered quantities: Control bills based on ordered quantities.\n"
+#~ "On received quantities: Control bills based on received quantities."
+#~ msgstr ""
+#~ "Em quantidades pedidas: controle as contas com base nas quantidades "
+#~ "pedidas.\n"
+#~ "Em quantidades recebidas: Controle as contas com base nas quantidades "
+#~ "recebidas."
+
+#~ msgid "On received quantities"
+#~ msgstr "Em quantidades recebidas"
+
+#~ msgid "Order Date"
+#~ msgstr "Data da Ordem"
+
+#~ msgid "Order Lines"
+#~ msgstr "Itens do Pedido"
+
+#~ msgid "Order Reference"
+#~ msgstr "Referência do Pedido"
+
+#~ msgid "Order Status"
+#~ msgstr "Situação de Pedido"
+
+#~ msgid "Ordered Quantity:"
+#~ msgstr "Quantidade Pedida:"
+
+#~ msgid "Ordered quantities"
+#~ msgstr "Quantidades solicitadas"
+
+#~ msgid "Orders"
+#~ msgstr "Pedidos"
+
+#~ msgid "Overdue"
+#~ msgstr "Vencido"
+
+#~ msgid "Partner"
+#~ msgstr "Parceiro"
+
+#~ msgid "Partner Country"
+#~ msgstr "País Parceiro"
+
+#~ msgid "Payment Terms"
+#~ msgstr "Condições de pagamento"
+
+#~ msgid "Planned"
+#~ msgstr "Planejado"
+
+#~ msgid "Portal Access URL"
+#~ msgstr "Endereço de Acesso ao Portal"
+
+#~ msgid "Price Difference Account"
+#~ msgstr "Conta da Diferença de Preço"
+
+#~ msgid "Price Per Vendor"
+#~ msgstr "Preço por Fornecedor"
+
+#~ msgid "Print RFQ"
+#~ msgstr "Imprimir PDC"
+
+#~ msgid "Product"
+#~ msgstr "Produto"
+
+#~ msgid "Product Categories"
+#~ msgstr "Categorias de Produtos"
+
+#~ msgid "Product Category"
+#~ msgstr "Categoria de Produtos"
+
+#~ msgid "Product Image"
+#~ msgstr "Imagem do Produto"
+
+#~ msgid "Product Quantity"
+#~ msgstr "Quantidade do produto"
+
+#~ msgid "Product Template"
+#~ msgstr "Modelo de Produto"
+
+#~ msgid "Product Type"
+#~ msgstr "Tipo de Produto"
+
+#~ msgid "Product Unit of Measure"
+#~ msgstr "Unidade de Medida do Produto"
+
+#~ msgid "Product Variants"
+#~ msgstr "Variantes de Produto"
+
+#~ msgid "Products"
+#~ msgstr "Produtos"
+
+#~ msgid "Products Value"
+#~ msgstr "Valor dos Produtos"
+
+#~ msgid "Provide a double validation mechanism for purchases"
+#~ msgstr "Fornecer um mecanismo de dupla validação para compras"
+
+#~ msgid "Purchase"
+#~ msgstr "Compra"
+
+#~ msgid "Purchase Agreements"
+#~ msgstr "Acordos de Compra"
+
+#~ msgid "Purchase Analysis"
+#~ msgstr "Análise de Compras"
+
+#~ msgid ""
+#~ "Purchase Analysis allows you to easily check and analyse your company "
+#~ "purchase history and performance. From this menu you can track your "
+#~ "negotiation performance, the delivery performance of your vendors, etc."
+#~ msgstr ""
+#~ "A Análise de Compras permite a você conferir e analisar facilmente o "
+#~ "histórico e performance de compras da sua empresa. Neste menu você pode "
+#~ "monitorar a performance de negociação, a performance de entrega dos "
+#~ "fornecedores, etc."
+
+#~ msgid "Purchase Lead Time"
+#~ msgstr "Prazo de compras"
+
+#~ msgid "Purchase Order #"
+#~ msgstr "Ordem de Compra #"
+
+#~ msgid "Purchase Order Approval"
+#~ msgstr "Aprovação do pedido de compra"
+
+#~ msgid "Purchase Order Confirmation #"
+#~ msgstr "Confirmação de Pedido de Compra #"
+
+#~ msgid "Purchase Order Count"
+#~ msgstr "Contagem Ordem de Compra"
+
+#~ msgid "Purchase Order Fiscal Position"
+#~ msgstr "Posição Fiscal do Pedido de Compra"
+
+#~ msgid "Purchase Order Lines"
+#~ msgstr "Linhas do Pedido de Compra"
+
+#~ msgid "Purchase Order Modification"
+#~ msgstr "Modificação de ordem de compra"
+
+#~ msgid "Purchase Order Modification *"
+#~ msgstr "Modificação de ordem de compra *"
+
+#~ msgid ""
+#~ "Purchase Order Modification used when you want to purchase order editable "
+#~ "after confirm"
+#~ msgstr ""
+#~ "Modificação da ordem de compra usada quando você deseja que a ordem de "
+#~ "compra seja editável após a confirmação"
+
+#~ msgid "Purchase Orders"
+#~ msgstr "Pedidos de Compra"
+
+#~ msgid "Purchase Orders #"
+#~ msgstr "Ordens de Compra #"
+
+#~ msgid "Purchase Orders Statistics"
+#~ msgstr "Estatísticas das Ordens de Compra"
+
+#~ msgid "Purchase Representative"
+#~ msgstr "Representativo de Compra"
+
+#~ msgid "Purchase Warnings"
+#~ msgstr "Avisos de Compra"
+
+#~ msgid "Purchase orders that have been invoiced."
+#~ msgstr "Ordens de compra que foram faturadas."
+
+#~ msgid "Purchase orders that include lines not invoiced."
+#~ msgstr "Pedidos de compra com linhas não faturadas"
+
+#~ msgid "Purchase-Standard Price"
+#~ msgstr "Preço Padrão de Compra"
+
+#~ msgid "Purchased"
+#~ msgstr "Comprado"
+
+#~ msgid "Purchased Last 365 Days"
+#~ msgstr "Comprado nos últimos 365 dias"
+
+#~ msgid "Purchased in the last 365 days"
+#~ msgstr "Comprado nos últimos 365 dias"
+
+#~ msgid "Purchases & Bills Union"
+#~ msgstr "União de compras & contas"
+
+#~ msgid ""
+#~ "Put an address if you want to deliver directly from the vendor to the "
+#~ "customer. Otherwise, keep empty to deliver to your own company."
+#~ msgstr ""
+#~ "Coloque um endereço, se você quer entregar diretamente do fornecedor ao "
+#~ "cliente. Caso contrário, mantenha vazio para entregar a sua própria "
+#~ "empresa."
+
+#~ msgid "Quantities billed by vendors"
+#~ msgstr "Quantidades cobradas por fornecedores"
+
+#~ msgid "Quotations"
+#~ msgstr "Cotações"
+
+#~ msgid "RFQ"
+#~ msgstr "PDC"
+
+#~ msgid "RFQ Approved"
+#~ msgstr "Cotação Aprovada"
+
+#~ msgid "RFQ Confirmed"
+#~ msgstr "Cotação Confirmada"
+
+#~ msgid "RFQ Done"
+#~ msgstr "Cotação Feita"
+
+#~ msgid "RFQ Sent"
+#~ msgstr "RC Enviada"
+
+#~ msgid "RFQs and Purchases"
+#~ msgstr "PDC e Compras"
+
+#~ msgid "Re-Send by Email"
+#~ msgstr "Re-Enviar por Email"
+
+#~ msgid "Received Qty"
+#~ msgstr "Qtde Recebida"
+
+#~ msgid "Received Quantity:"
+#~ msgstr "Quantidade Recebida"
+
+#~ msgid "Record a new vendor bill"
+#~ msgstr "Gravar uma nova fatura de fornecedor"
+
+#~ msgid "Record a vendor bill related to this purchase"
+#~ msgstr "Gravar uma fatura de fornecedor relacionada a essa compra"
+
+#~ msgid "Reference"
+#~ msgstr "Referência"
+
+#~ msgid "Reference Document"
+#~ msgstr "Documento Referência"
+
+#~ msgid "Reference Unit of Measure"
+#~ msgstr "Unidade de Medida referencial"
+
+#~ msgid ""
+#~ "Reference of the document that generated this purchase order request (e."
+#~ "g. a sales order)"
+#~ msgstr ""
+#~ "Referência do documento que gerou o requerimento para essa ordem de "
+#~ "compra (ex.: uma ordem de compra)"
+
+#~ msgid ""
+#~ "Reference of the sales order or bid sent by the vendor. It's used to do "
+#~ "the matching when you receive the products as this reference is usually "
+#~ "written on the delivery order sent by your vendor."
+#~ msgstr ""
+#~ "Referência de pedidos de venda ou oferta enviada pelo fornecedor. É usada "
+#~ "para fazer a correspondência quando você recebe os produtos como esta "
+#~ "referência é geralmente escrito no pedido de entrega enviada pelo seu "
+#~ "fornecedor."
+
+#~ msgid "Reporting"
+#~ msgstr "Relatórios"
+
+#~ msgid "Request for Quotation"
+#~ msgstr "Solicitação para Cotação"
+
+#~ msgid "Request for Quotation #"
+#~ msgstr "Solicitar Cotação "
+
+#~ msgid "Requests for Quotation"
+#~ msgstr "Solicitação para Cotação"
+
+#~ msgid "Responsible User"
+#~ msgstr "Usuário Responsável"
+
+#~ msgid "Scheduled Date"
+#~ msgstr "Data Programada"
+
+#~ msgid "Search Purchase Order"
+#~ msgstr "Buscar Pedido de Compra"
+
+#~ msgid "Search Reference Document"
+#~ msgstr "Procurar Documento Referência"
+
+#~ msgid "Security Lead Time for Purchase"
+#~ msgstr "Margem de Segurança de Tempo Para Compra"
+
+#~ msgid "Security Token"
+#~ msgstr "Chave de segurança"
+
+#~ msgid "Select a purchase order or an old bill"
+#~ msgstr "Selecione uma ordem de compra para uma fatura velha"
+
+#~ msgid ""
+#~ "Selecting the \"Warning\" option will notify user with the message, "
+#~ "Selecting \"Blocking Message\" will throw an exception with the message "
+#~ "and block the flow. The Message has to be written in the next field."
+#~ msgstr ""
+#~ "Selecionando a opção \"Aviso\" notificará o usuário com a mensagem, "
+#~ "Selecionando \"Mensagem de Bloqueio\" lançará uma exceção com a mensagem "
+#~ "e bloqueará o fluxo. A mensagem deve ser escrita no próximo campo."
+
+#~ msgid "Send PO by Email"
+#~ msgstr "Enviar OC por E-mail"
+
+#~ msgid "Send by Email"
+#~ msgstr "Enviar por E-mail"
+
+#~ msgid "Sequence"
+#~ msgstr "Seqüência"
+
+#~ msgid "Set date to all order lines"
+#~ msgstr "Definir data para todas as linhas de pedido"
+
+#~ msgid "Set to Draft"
+#~ msgstr "Definir como Provisório"
+
+#~ msgid "Settings"
+#~ msgstr "Configurações"
+
+#~ msgid "Share"
+#~ msgstr "Partilhar"
+
+#~ msgid "Show all records which has next action date is before today"
+#~ msgstr ""
+#~ "Mostrar todas as gravações em que a próxima data de ação seja antes de "
+#~ "hoje."
+
+#~ msgid "Source"
+#~ msgstr "Fonte"
+
+#~ msgid "Status"
+#~ msgstr "Situação"
+
+#~ msgid ""
+#~ "Status based on activities\n"
+#~ "Overdue: Due date is already passed\n"
+#~ "Today: Activity date is today\n"
+#~ "Planned: Future activities."
+#~ msgstr ""
+#~ "Status baseado em atividades\n"
+#~ "Atrasado: Data definida já passou\n"
+#~ "Hoje: Data de atividade é hoje\n"
+#~ "Planejado: Atividades futuras."
+
+#~ msgid "Supplier Currency"
+#~ msgstr "Moeda do Fornecedor"
+
+#~ msgid "Supplier Pricelist"
+#~ msgstr "Lista de Preços para Fornecedor"
+
+#~ msgid "Tax"
+#~ msgstr "Imposto"
+
+#~ msgid "Taxes:"
+#~ msgstr "Taxa"
+
+#~ msgid "Terms and Conditions"
+#~ msgstr "Termos e Condições"
+
+#~ msgid ""
+#~ "The quotation contains the history of the discussion\n"
+#~ "                you had with your vendor."
+#~ msgstr ""
+#~ "A cotação contém a história da discussão\n"
+#~ "                que você teve como fornecedor."
+
+#~ msgid ""
+#~ "The request for quotation is the first step of the purchases flow. Once\n"
+#~ "                    converted into a purchase order, you will be able to "
+#~ "control the receipt\n"
+#~ "                    of the products and the vendor bill."
+#~ msgstr ""
+#~ "O pedido de cotação é a primeira etapa do fluxo compras. Uma vez\n"
+#~ "convertida em um pedido de compra, você será capaz de controlar o "
+#~ "recebimento\n"
+#~ "dos produtos e da conta de fornecedor."
+
+#~ msgid ""
+#~ "This account is used in automated inventory valuation to record the price "
+#~ "difference between a purchase order and its related vendor bill when "
+#~ "validating this vendor bill."
+#~ msgstr ""
+#~ "Esta conta é usada em avaliação automatizada de estoque para registrar a "
+#~ "diferença de preço entre uma ordem de compra e sua conta de fornecedor "
+#~ "relacionada ao validar esta conta de fornecedor."
+
+#~ msgid ""
+#~ "This account will be used to value price difference between purchase "
+#~ "price and accounting cost."
+#~ msgstr ""
+#~ "Esta conta será usada para avaliar diferença de preço entre preço de "
+#~ "compra e custo contábil."
+
+#~ msgid "This changes the scheduled date of all order lines to the given date"
+#~ msgstr ""
+#~ "Isso muda a data de todas as linhas de pedido agendadas para uma data "
+#~ "definida"
+
+#~ msgid ""
+#~ "This currency will be used, instead of the default one, for purchases "
+#~ "from the current partner"
+#~ msgstr ""
+#~ "Esta moeda será utilizada, em vez da padrão, para as compras do parceiro "
+#~ "atual"
+
+#~ msgid ""
+#~ "This default value is applied to any new product created. This can be "
+#~ "changed in the product detail form."
+#~ msgstr ""
+#~ "Esse valor padrão é aplicado para cada novo produto criado. Isso pode ser "
+#~ "mudado no formulário detalhe do produto."
+
+#~ msgid "This note will show up on purchase orders."
+#~ msgstr "Essa nota aparecerá em ordens de compra."
+
+#~ msgid "This vendor bill has been created from: %s"
+#~ msgstr "Esta fatura de fornecedor foi criada de: %s"
+
+#~ msgid "This vendor bill has been modified from: %s"
+#~ msgstr "Esta fatura de fornecedor foi modificada por: %s"
+
+#~ msgid "This vendor has no purchase order. Create a new RfQ"
+#~ msgstr ""
+#~ "Esse fornecedor não tem ordem de compra. Criar um novo Requerimento para "
+#~ "Cotação"
+
+#~ msgid "To Approve"
+#~ msgstr "Para Aprovar"
+
+#~ msgid "Today"
+#~ msgstr "Hoje"
+
+#~ msgid "Today Activities"
+#~ msgstr "Atividades de Hoje"
+
+#~ msgid "Total Price"
+#~ msgstr "Preço Total"
+
+#~ msgid "Total Quantity"
+#~ msgstr "Quantidade Total"
+
+#~ msgid "Total Untaxed amount"
+#~ msgstr "Valor Sem Imposto"
+
+#~ msgid "Total amount"
+#~ msgstr "Valor total"
+
+#~ msgid ""
+#~ "Unable to cancel this purchase order. You must first cancel the related "
+#~ "vendor bills."
+#~ msgstr ""
+#~ "Incapaz de cancelar essa ordem de compra. Você primeiro deve cancelar as "
+#~ "notas de fornecedor relacionadas."
+
+#~ msgid "Unit Price"
+#~ msgstr "Preço Unitário"
+
+#~ msgid "Unit of Measure Categories"
+#~ msgstr "Categorias de Unidade de Medida"
+
+#~ msgid "Units of Measure"
+#~ msgstr "Unidades de Medida"
+
+#~ msgid "Unlock"
+#~ msgstr "Desbloquear"
+
+#~ msgid "Unread Messages"
+#~ msgstr "Mensagens não lidas"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Contador de Mensagens Não Lidas"
+
+#~ msgid "Untaxed"
+#~ msgstr "Sem impostos"
+
+#~ msgid "Untaxed Amount"
+#~ msgstr "Valor sem Impostos"
+
+#~ msgid "Untaxed Amount:"
+#~ msgstr "Valor sem Impostos"
+
+#~ msgid ""
+#~ "Use this menu to control the invoices to be received from your\n"
+#~ "            vendors. When registering a new bill, set the purchase order\n"
+#~ "            and Odoo will fill the bill automatically according to "
+#~ "ordered\n"
+#~ "            or received quantities."
+#~ msgstr ""
+#~ "Use esse menu para controlar as faturas para serem recebidas de seus\n"
+#~ "             fornecedores. Quando registrar uma nova fatura de "
+#~ "fornecedor, defina a ordem de compra\n"
+#~ "             e o Odoo irá preencher a nota automaticamente de acordo com "
+#~ "o que foi pediro\n"
+#~ "             ou quantidades recebidas."
+
+#~ msgid "User"
+#~ msgstr "Usuário"
+
+#~ msgid "Utility field to express amount currency"
+#~ msgstr "Campo utilitário para expressar o valor da moeda"
+
+#~ msgid "Vendor"
+#~ msgstr "Fornecedor"
+
+#~ msgid "Vendor Bill"
+#~ msgstr "Fatura de Fornecedor"
+
+#~ msgid "Vendor Bills"
+#~ msgstr "Faturas de Fornecedor"
+
+#~ msgid "Vendor Country"
+#~ msgstr "País do Fornecedor"
+
+#~ msgid "Vendor Pricelists"
+#~ msgstr "Lista de preço Fornecedor"
+
+#~ msgid "Vendor Reference"
+#~ msgstr "Ref. de Fornecedor"
+
+#~ msgid "Vendors"
+#~ msgstr "Fornecedores"
+
+#~ msgid ""
+#~ "Vendors bills can be pre-generated based on purchase\n"
+#~ "                    orders or receipts. This allows you to control bills\n"
+#~ "                    you receive from your vendor according to the draft\n"
+#~ "                    document in Odoo."
+#~ msgstr ""
+#~ "Faturas de fornecedores podem ser previamente geradas com base no pedido\n"
+#~ "de compra ou recibos. Isto permite-lhe controlar contas\n"
+#~ "que recebe de o seu fornecedor de acordo com o documento\n"
+#~ "de rascunho no Odoo."
+
+#~ msgid "Waiting Bills"
+#~ msgstr "Faturas em espera"
+
+#~ msgid "Warning"
+#~ msgstr "Aviso"
+
+#~ msgid "Warning for %s"
+#~ msgstr "Aviso para %s"
+
+#~ msgid "Warning on the Purchase Order"
+#~ msgstr "Aviso no Pedido de Compra"
+
+#~ msgid "Warning when Purchasing this Product"
+#~ msgstr "Aviso para quando Comprar este Produto"
+
+#~ msgid "Warnings"
+#~ msgstr "Aviso"
+
+#~ msgid "Website Messages"
+#~ msgstr "Mensagens do Site"
+
+#~ msgid "Website communication history"
+#~ msgstr "Histórico de Comunicação do Site"
+
+#~ msgid ""
+#~ "You can control the invoice from your vendor according to\n"
+#~ "            what you purchased (services) or received (products)."
+#~ msgstr ""
+#~ "Você pode controlar a fatura do seu fornecedor de acordo com\n"
+#~ "o que você comprou (serviços) ou recebeu (produtos)."
+
+#~ msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
+#~ msgstr ""
+#~ "Você pode encontrar um fornecedor por seu nome, TIN, e-mail ou referência "
+#~ "interna."
+
+#~ msgid ""
+#~ "You must define a product for everything you purchase,\n"
+#~ "                whether it's a physical product, a consumable or services."
+#~ msgstr ""
+#~ "Você deve definir um produto para tudo o que compra,\n"
+#~ "                 Seja um produto físico, material de consumo ou serviços."
+
+#~ msgid ""
+#~ "You must define a product for everything you purchase,\n"
+#~ "            whether it's a physical product, a consumable or services."
+#~ msgstr ""
+#~ "Você deve definir um produto para tudo o que compra,\n"
+#~ "                 Seja um produto físico, material de consumo ou serviços."

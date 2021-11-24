@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Customer Invoice views -->
+    <record id="invoice_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_due_list.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Receivable" name="financial_move_line_ids">
+                    <field name="financial_move_line_ids" />
+                </page>
+                <page string="Payments" name="payment_ids">
+                    <field name="payment_move_line_ids" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <!-- Vendor Bill -->
+    <record id="invoice_supplier_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_due_list.invoice.supplier.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_supplier_form" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Payable" name="financial_move_line_ids">
+                    <field name="financial_move_line_ids" />
+                </page>
+                <page string="Payments" name="payment_ids">
+                    <field name="payment_move_line_ids" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>

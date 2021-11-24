@@ -1,0 +1,43 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* spec_driven_model
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2020-12-18 21:45+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
+
+#. module: spec_driven_model
+#: code:addons/spec_driven_model/models/spec_models.py:44
+#, python-format
+msgid "Abrir..."
+msgstr "Abrir..."
+
+#. module: spec_driven_model
+#: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin__display_name
+msgid "Display Name"
+msgstr "Nome de Exibição"
+
+#. module: spec_driven_model
+#: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin__id
+msgid "ID"
+msgstr "ID"
+
+#. module: spec_driven_model
+#: model:ir.model.fields,field_description:spec_driven_model.field_spec_mixin____last_update
+msgid "Last Modified on"
+msgstr "Última atualização em"
+
+#. module: spec_driven_model
+#: model:ir.model,name:spec_driven_model.model_spec_mixin
+msgid "root abstract model meant for xsd generated fiscal models"
+msgstr "modelo abstrato raiz destinado a modelos fiscais gerados por xsd"

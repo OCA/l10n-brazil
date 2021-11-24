@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="l10n_br_purchase_res_company_form" model="ir.ui.view">
+        <field name="name">l10n_br_purchase.res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.fiscal_res_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='certificate']" position="after">
+                <page name="l10n_br_purchase" string="Purchases">
+                    <group>
+                        <group>
+                            <field name="purchase_fiscal_operation_id" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
