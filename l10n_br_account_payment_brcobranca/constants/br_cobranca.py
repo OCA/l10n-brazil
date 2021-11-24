@@ -56,7 +56,7 @@ def get_brcobranca_bank(bank_account_id, payment_method_code):
 
 
 def get_brcobranca_api_url():
-    brcobranca_api_url = os.environ.get("BRCOBRANCA_API_URL")
+    brcobranca_api_url = self.env['ir.config_parameter'].get_param('BRCOBRANCA_API_URL')
 
     if not brcobranca_api_url:
         raise UserError(
