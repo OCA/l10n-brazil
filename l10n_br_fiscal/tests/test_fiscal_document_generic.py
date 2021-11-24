@@ -606,9 +606,13 @@ class TestFiscalDocumentGeneric(SavepointCase):
             line._onchange_commercial_quantity()
 
             # set fake estimate tax
-            line.ncm_id.write(
+            line.ncm_id.tax_estimate_ids.create(
                 {
-                    "estimate_tax_national": 33.00,
+                    "ncm_id": line.ncm_id.id,
+                    "state_id": line.company_id.state_id.id,
+                    "key": "fake estimate tax",
+                    "origin": "fake estimate tax",
+                    "federal_taxes_national": 33.00,
                 }
             )
 
