@@ -759,8 +759,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def _update_fiscal_quantity(self, product_id, price, quantity, uom_id, uot_id):
         result = {"uot_id": uom_id, "fiscal_quantity": quantity, "fiscal_price": price}
-
-        if uom_id != uot_id:
+        if uot_id and uom_id != uot_id:
             result["uot_id"] = uot_id
             if product_id and price and quantity:
                 product = self.env["product.product"].browse(product_id)
