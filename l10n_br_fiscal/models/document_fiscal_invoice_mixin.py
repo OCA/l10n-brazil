@@ -62,7 +62,7 @@ class FiscalDocumentInvoiceMixin(models.AbstractModel):
 
     partner_street = fields.Char(
         string="Partner Street",
-        related="partner_id.street",
+        related="partner_id.street_name",
     )
 
     partner_number = fields.Char(
@@ -165,7 +165,7 @@ class FiscalDocumentInvoiceMixin(models.AbstractModel):
 
     company_street = fields.Char(
         string="Company Street",
-        related="company_id.street",
+        related="company_id.street_name",
     )
 
     company_number = fields.Char(
