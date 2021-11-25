@@ -82,7 +82,7 @@ class AccountInvoice(models.Model):
         retornamos o numero do invoice do core.
         """
         self.ensure_one()
-        if hasattr(self, "document_number"):
+        if hasattr(self, "document_number") and self.document_number:
             return self.document_number
         return self.number
 
