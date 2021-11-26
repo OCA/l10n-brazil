@@ -545,17 +545,15 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         domain=[("tax_domain", "=", TAX_DOMAIN_II)],
     )
 
-    ii_base = fields.Float(string="II Base", digits="Account")
+    ii_base = fields.Monetary(string="II Base")
 
     ii_percent = fields.Float(string="II %")
 
-    ii_value = fields.Float(string="II Value", digits="Account")
+    ii_value = fields.Monetary(string="II Value")
 
-    ii_iof_value = fields.Float(string="IOF Value", digits="Account")
+    ii_iof_value = fields.Monetary(string="IOF Value")
 
-    ii_customhouse_charges = fields.Float(
-        string="Despesas Aduaneiras", digits="Account"
-    )
+    ii_customhouse_charges = fields.Monetary(string="Despesas Aduaneiras")
 
     # PIS/COFINS Fields
     # COFINS
