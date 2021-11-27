@@ -317,8 +317,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 cest=self.cest_id,
             )
 
-            self.ipi_guideline_id = mapping_result["ipi_guideline"]
             self.cfop_id = mapping_result["cfop"]
+            self.ipi_guideline_id = mapping_result["ipi_guideline"]
             taxes = self.env["l10n_br_fiscal.tax"]
             for tax in mapping_result["taxes"].values():
                 taxes |= tax
