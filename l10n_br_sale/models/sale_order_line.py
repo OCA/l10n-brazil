@@ -186,7 +186,6 @@ class SaleOrderLine(models.Model):
                 self.product_uom_qty * self.price_unit or 1
             )
 
-    @api.onchange("fiscal_tax_ids")
-    def _onchange_fiscal_tax_ids(self):
-        super()._onchange_fiscal_tax_ids()
+    def _update_fiscal_tax_ids(self, taxes):
+        super()._update_fiscal_tax_ids(taxes)
         self.tax_id |= self.fiscal_tax_ids.account_taxes(user_type="sale")
