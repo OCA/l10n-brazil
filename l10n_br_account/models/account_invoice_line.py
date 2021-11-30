@@ -257,12 +257,16 @@ class AccountInvoiceLine(models.Model):
         self.clear_caches()
         return result
 
-    @api.onchange("fiscal_tax_ids")
-    def _onchange_fiscal_tax_ids(self):
-        super()._onchange_fiscal_tax_ids()
+    def _set_taxes(self):
+        super(AccountInvoiceLine, self)._set_taxes()
         user_type = "sale"
         if self.invoice_id.type in ("in_invoice", "in_refund"):
             user_type = "purchase"
         self.invoice_line_tax_ids |= self.fiscal_tax_ids.account_taxes(
             user_type=user_type
         )
+
+    @api.onchange("fiscal_tax_ids")
+    def _onchange_fiscal_tax_ids(self):
+        super()._onchange_fiscal_tax_ids()
+        self._set_taxes()
