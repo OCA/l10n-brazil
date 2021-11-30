@@ -394,9 +394,12 @@ class NFeLine(spec_models.StackedModel):
             self.nfe40_vBCFCPUFDest = str("%.02f" % self.icmsfcp_base)
             self.nfe40_pFCPUFDest = str("%.04f" % self.icmsfcp_percent)
             self.nfe40_pICMSUFDest = str("%.04f" % self.icms_destination_percent)
-            if self.icms_origin_percent:
-                self.nfe40_pICMSInter = str("%.02f" % self.icms_origin_percent)
-            self.nfe40_pICMSInterPart = str("%.04f" % self.icms_sharing_percent)
+            self.nfe40_pICMSInter = str(
+                "%.02f" % self.icms_origin_percent or self.icms_percent
+            )
+            self.nfe40_pICMSInterPart = str(
+                "%.04f" % self.icms_sharing_percent or 100.0
+            )
             self.nfe40_vFCPUFDest = str("%.02f" % self.icmsfcp_value)
             self.nfe40_vICMSUFDest = str("%.02f" % self.icms_destination_value)
             self.nfe40_vICMSUFRemet = str("%.02f" % self.icms_origin_value)
@@ -532,13 +535,12 @@ class NFeLine(spec_models.StackedModel):
             elif field_name == "nfe40_ICMS" and self.service_type_id:
                 return False
             elif field_name == "nfe40_ICMSUFDest" and (
-                self.partner_id.ind_ie_dest == "1"
+                not self.icms_value
+                or self.partner_id.ind_ie_dest != "9"
                 or self.partner_id.state_id == self.company_id.state_id
+                or self.partner_id.country_id != self.company_id.country_id
             ):
                 return False
-            elif field_name == "nfe40_ICMSUFDest" and not self.icms_value:
-                return False
-
             # TODO add condition
             elif field_name in ["nfe40_II", "nfe40_PISST", "nfe40_COFINSST"]:
                 return False
