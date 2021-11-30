@@ -76,7 +76,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 12.0.11.3.0 |  | Brazilian Localization Account
+[l10n_br_account](l10n_br_account/) | 12.0.11.3.1 |  | Brazilian Localization Account
 [l10n_br_account_bank_statement_import_cnab](l10n_br_account_bank_statement_import_cnab/) | 12.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Importação de Extrato Bancário CNAB 240 - Segmento E
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 12.0.2.0.0 |  | Brazilian Account Due List
 [l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 12.0.2.0.3 |  | L10n Br Account Payment BRCobranca
@@ -107,7 +107,7 @@ addon | version | maintainers | summary
 [l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.2.1.0 |  | Brazilian Localization Purchase Stock
 [l10n_br_repair](l10n_br_repair/) | 12.0.7.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Repair
 [l10n_br_resource](l10n_br_resource/) | 12.0.1.1.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![hendixcosta](https://github.com/hendixcosta.png?size=30px)](https://github.com/hendixcosta) [![lfdivino](https://github.com/lfdivino.png?size=30px)](https://github.com/lfdivino) | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
-[l10n_br_sale](l10n_br_sale/) | 12.0.6.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
+[l10n_br_sale](l10n_br_sale/) | 12.0.6.1.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
 [l10n_br_sale_stock](l10n_br_sale_stock/) | 12.0.5.4.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mbcosta](https://github.com/mbcosta.png?size=30px)](https://github.com/mbcosta) | Brazilian Localization Sales and Warehouse
 [l10n_br_stock](l10n_br_stock/) | 12.0.1.0.0 |  | Brazilian Localization Warehouse
 [l10n_br_stock_account](l10n_br_stock_account/) | 12.0.4.0.0 |  | Brazilian Localization WMS Accounting
