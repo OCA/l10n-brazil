@@ -18,6 +18,12 @@ addons:
       - libxslt-dev
       - swig
 
+before_script:
+  - createdb openerp_template
+  - createdb openerp_test
+  - psql -d openerp_template -c "CREATE EXTENSION \"unaccent\""
+  - psql -d openerp_test -c "CREATE EXTENSION \"unaccent\""
+
 stages:
   - linting
   - test
