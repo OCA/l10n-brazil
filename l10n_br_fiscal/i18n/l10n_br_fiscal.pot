@@ -1743,7 +1743,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:535
+#: code:addons/l10n_br_fiscal/models/document.py:552
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -8014,7 +8014,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:562
+#: code:addons/l10n_br_fiscal/models/document.py:579
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8828,8 +8828,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:392
-#: code:addons/l10n_br_fiscal/models/document.py:406
+#: code:addons/l10n_br_fiscal/models/document.py:409
+#: code:addons/l10n_br_fiscal/models/document.py:423
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -9293,7 +9293,7 @@ msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:373
+#: code:addons/l10n_br_fiscal/models/document.py:390
 #, python-format
 msgid "You cannot delete fiscal document number {} with the status: {}!"
 msgstr ""
