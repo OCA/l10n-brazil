@@ -227,9 +227,7 @@ class AccountInvoice(models.Model):
 
     @api.one
     @api.depends(
-        "invoice_line_ids.price_total",
-        "tax_line_ids.amount",
-        "tax_line_ids.amount_rounding",
+        "invoice_line_ids",
         "currency_id",
         "company_id",
         "date_invoice",
