@@ -1,0 +1,263 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-07 09:02+0000\n"
+"PO-Revision-Date: 2020-11-05 07:08+0000\n"
+"Last-Translator: Eder Brito <britoederr@gmail.com>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.10\n"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_form
+msgid "Account"
+msgstr "Conta"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_account_document_line_mixin
+msgid "Account Document Line Mixin"
+msgstr "Mixin de Linha de Documento da Conta"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__journal_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_operation_search
+msgid "Account Journal"
+msgstr "Diário de Conta"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__active
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__legal_name
+msgid "Adapted Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__ie
+msgid "Adapted State Tax Number"
+msgstr "Inscrição Estadual"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_tax_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.l10n_br_account_tax_template_form
+msgid "Brazilian Tax"
+msgstr "Impostos Brasileiros"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__cnpj_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
+msgid "CNPJ/CPF"
+msgstr "CNPJ/CPF"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_invoice_refund
+msgid "Credit Note"
+msgstr "Anotação de crédito"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__display_name
+msgid "Display Name"
+msgstr "Nome de Exibição"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:68
+#, python-format
+msgid "Document line without Operation !"
+msgstr "Linha do documento s/ Operação !"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:40
+#, python-format
+msgid "Document without Operation !"
+msgstr "Documento s/ Operação!"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice__fiscal_document_id
+msgid "Fiscal Document"
+msgstr "Documento Fiscal"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_document_line_id
+msgid "Fiscal Document Line"
+msgstr "Linha do documento fiscal"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_operation
+msgid "Fiscal Operation"
+msgstr "Operação Fiscal"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_operation_line
+msgid "Fiscal Operation Line"
+msgstr "Linha de Operação Fiscal"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:47
+#: code:addons/l10n_br_account/wizards/account_invoice_refund.py:75
+#, python-format
+msgid "Fiscal Operation: There is not Return Operation for %s !"
+msgstr "Operação Fiscal: Não esta definida a operação de devolução para %s !"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_position_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__fiscal_position_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation__fiscal_position_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_operation_line__fiscal_position_id
+msgid "Fiscal Position"
+msgstr "Posição Fiscal"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_tax
+msgid "Fiscal Tax"
+msgstr "Impostos"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_group__fiscal_tax_group_id
+msgid "Fiscal Tax Group"
+msgstr "Grupos de impostos"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_tax__fiscal_tax_ids
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_tax_template__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_refund__force_fiscal_operation_id
+msgid "Force Fiscal Operation"
+msgstr "Forçar Operação Fiscal"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_invoice
+msgid "Invoice"
+msgstr "Fatura"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Linha da Fatura"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_move_line
+msgid "Journal Item"
+msgstr "Item de Diário"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_account_document_line_mixin____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_line_form
+msgid "Outros Custos"
+msgstr "Outros Custos"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
+msgid "State Tax Number"
+msgstr "Número de Imposto Estadual"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_tax
+msgid "Tax"
+msgstr "Imposto"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_tax_group
+#: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_tax_group
+msgid "Tax Group"
+msgstr "Grupo de Imposto"
+
+#. module: l10n_br_account
+#: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_line_form
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_account_tax_template
+msgid "Templates for Taxes"
+msgstr "Modelos para Impostos"
+
+#. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_invoice__legal_name
+msgid "Used in fiscal documents"
+msgstr "Usado nos documentos fiscais"
+
+#. module: l10n_br_account
+#: code:addons/l10n_br_account/models/fiscal_document.py:21
+#, python-format
+msgid "You cannot delete a fiscal document which is not draft state."
+msgstr ""
+"Você não pode excluir um documento fiscal que não esteja no estado de "
+"rascunho."
+
+#~ msgid "Tax Account"
+#~ msgstr "Conta de imposto"
+
+#~ msgid "Tax Account on Credit Notes"
+#~ msgstr "Conta de Impostos em Notas de Crédito"
+
+#~ msgid "l10n_br_account.tax.template"
+#~ msgstr "l10n_br_account.tax.template"
+
+#~ msgid "Inscr. Estadual"
+#~ msgstr "Inscr. Estadual"
+
+#~ msgid "Razão Social"
+#~ msgstr "Razão Social"
+
+#~ msgid "Fiscal Doc  Discount Value"
+#~ msgstr "Valor do desconto do documento fiscal"
+
+#~ msgid "Fiscal Doc Company"
+#~ msgstr "Empresa do documento fiscal"
+
+#~ msgid "Fiscal Doc Currency"
+#~ msgstr "Moeda do documento fiscal"
+
+#~ msgid "Fiscal Doc Date"
+#~ msgstr "Data do documento fiscal"
+
+#~ msgid "Fiscal Doc Name"
+#~ msgstr "Nome do documento fiscal"
+
+#~ msgid "Fiscal Doc Partner"
+#~ msgstr "Parceiro do documento fiscal"
+
+#~ msgid "Fiscal Doc Price Unit"
+#~ msgstr "Preço unitário do documento fiscal"
+
+#~ msgid "Fiscal Doc Product"
+#~ msgstr "Produto do documento fiscal"
+
+#~ msgid "Fiscal Doc Quantity"
+#~ msgstr "Quantidade do documento fiscal"
+
+#~ msgid "Fiscal Doc State"
+#~ msgstr "Situação do documento fiscal"
+
+#~ msgid "Fiscal Doc UOM"
+#~ msgstr "UOM do documento fiscal"

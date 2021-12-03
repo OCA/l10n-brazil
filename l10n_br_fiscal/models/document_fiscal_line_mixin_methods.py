@@ -166,7 +166,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 record.financial_total_gross = (
                     record.financial_total + record.discount_value
                 )
-                record.financial_discount_value = record.discount_value
+                #record.financial_discount_value = record.discount_value
             else:
                 record.financial_total_gross = record.financial_total = 0.0
 

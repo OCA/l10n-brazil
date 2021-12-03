@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record
+        id="l10n_br_account_product_view_account_invoice_report_search"
+        model="ir.ui.view"
+    >
+        <field name="name">l10n_br_account.invoice.report.search</field>
+        <field name="model">account.invoice.report</field>
+        <field name="inherit_id" ref="account.view_account_invoice_report_search" />
+        <field name="arch" type="xml">
+            <filter name="category_product" position="after">
+                <filter
+                    string="CFOP"
+                    icon="terp-stock_symbol-selection"
+                    name="cfop"
+                    context="{'group_by':'cfop_id'}"
+                />
+                <filter
+                    string="NCM"
+                    icon="terp-stock_symbol-selection"
+                    name="ncm"
+                    context="{'group_by':'ncm_id'}"
+                />
+                <filter
+                    string="CEST"
+                    icon="terp-stock_symbol-selection"
+                    name="cest"
+                    context="{'group_by':'cest_id'}"
+                />
+                <filter
+                    string="Fiscal Operation Line"
+                    icon="terp-stock_symbol-selection"
+                    name="fiscal_operation_line"
+                    context="{'group_by':'fiscal_operation_line_id'}"
+                />
+                <filter
+                    string="Product Fiscal Type"
+                    icon="terp-stock_symbol-selection"
+                    name="fiscal_type"
+                    context="{'group_by':'fiscal_type'}"
+                />
+            </filter>
+        </field>
+    </record>
+
+</odoo>
