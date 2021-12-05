@@ -24,6 +24,7 @@ DICT_BRCOBRANCA_BANK = {
     "033": BankRecord("santander", retorno=["240"], remessa=["400"]),
     "041": BankRecord("banrisul", retorno=["400"], remessa=["400"]),
     "070": BankRecord("banco_brasilia", retorno=[], remessa=["400"]),
+    "085": BankRecord("ailos", retorno=["240"], remessa=["240"]),
     "097": BankRecord("credisis", retorno=["400"], remessa=["400"]),
     "104": BankRecord("caixa", retorno=["240"], remessa=["240"]),
     "136": BankRecord("unicred", retorno=["400"], remessa=["240", "400"]),
