@@ -17,12 +17,11 @@ addons:
       - libxmlsec1-dev
       - libxslt-dev
       - swig
+      - postgresql-contrib
 
 before_script:
   - createdb openerp_template
-  - createdb openerp_test
   - psql -d openerp_template -c "CREATE EXTENSION \"unaccent\""
-  - psql -d openerp_test -c "CREATE EXTENSION \"unaccent\""
 
 stages:
   - linting
@@ -60,6 +59,8 @@ install:
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - export WKHTMLTOPDF_VERSION=0.12.5
   - travis_install_nightly
+  - printf '[options]\n\unaccent = True\n' > ${HOME}/.openerp_serverrc
+
 
 script:
   - travis_run_tests
