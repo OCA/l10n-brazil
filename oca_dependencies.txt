@@ -8,4 +8,3 @@ contract
 manufacture
 delivery-carrier
 pos
-

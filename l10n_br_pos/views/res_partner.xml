@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
 
         <record model="ir.ui.view" id="view_res_partner_cadastro_cliente">
             <field name="name">Res Partner</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form"/>
+            <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form" />
             <field name="arch" type="xml">
                 <field name="credit_limit" position="after">
-                    <field name="credit_funcionario"/>
+                    <field name="credit_funcionario" />
                 </field>
             </field>
         </record>

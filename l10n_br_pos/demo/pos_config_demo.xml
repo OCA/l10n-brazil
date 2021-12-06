@@ -2,18 +2,20 @@
 <odoo noupdate="1">
 
     <record id="l10n_br_fiscal.res_partner_anonimo" model="res.partner">
-        <field name="state_id" ref="base.state_br_sp"/>
+        <field name="state_id" ref="base.state_br_sp" />
     </record>
 
     <!-- TANCA SDK-1000 -->
     <record id="point_of_sale.pos_config_main" model="pos.config">
-        <field name="cnpj_homologacao" >08.723.218/0001-86</field>
-        <field name="ie_homologacao" >149.626.224.113</field>
-        <field name="cnpj_software_house" >16.716.114/0001-72</field>
+        <field name="cnpj_homologacao">08.723.218/0001-86</field>
+        <field name="ie_homologacao">149.626.224.113</field>
+        <field name="cnpj_software_house">16.716.114/0001-72</field>
         <field name="sat_path">/opt/sat/libsat_v3_0_0_3_x64.so</field>
         <field name="numero_caixa">1</field>
         <field name="cod_ativacao">12345678</field>
-        <field name="assinatura_sat">SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT</field>
+        <field
+            name="assinatura_sat"
+        >SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT</field>
 <!--        <field name="impressora">epson-tm-t20</field>-->
 <!--        <field name="printer_params"></field>-->
     </record>
@@ -45,40 +47,59 @@
 
     <record id="picking_type_posout_presumido" model="stock.picking.type">
         <field name="name">PoS Orders Presumido</field>
-        <field name="sequence_id" ref="seq_picking_type_posout_presumido"/>
+        <field name="sequence_id" ref="seq_picking_type_posout_presumido" />
         <field name="code">outgoing</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="default_location_src_id" ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"/>
-        <field name="default_location_dest_id" ref="stock.stock_location_customers"/>
+        <field
+            name="default_location_src_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
+        <field name="default_location_dest_id" ref="stock.stock_location_customers" />
     </record>
 
     <record id="pos_config_presumido" model="pos.config">
-        <field name="name" >Shop Presumido</field>
+        <field name="name">Shop Presumido</field>
         <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
-        <field name="picking_type_id" ref="picking_type_posout_presumido"/>
-        <field name="barcode_nomenclature_id" ref="barcodes.default_barcode_nomenclature"/>
-        <field name="journal_id" ref="pos_sale_journal_presumido"/>
-        <field name="invoice_journal_id" ref="pos_sale_journal_presumido"/>
-        <field name="stock_location_id" ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"/>
+        <field name="picking_type_id" ref="picking_type_posout_presumido" />
+        <field
+            name="barcode_nomenclature_id"
+            ref="barcodes.default_barcode_nomenclature"
+        />
+        <field name="journal_id" ref="pos_sale_journal_presumido" />
+        <field name="invoice_journal_id" ref="pos_sale_journal_presumido" />
+        <field
+            name="stock_location_id"
+            ref="l10n_br_stock.wh_empresa_lucro_presumido_loc_stock_id"
+        />
         <field name="out_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
-        <field name="refund_pos_fiscal_operation_id" ref="l10n_br_fiscal.fo_devolucao_venda" />
+        <field
+            name="refund_pos_fiscal_operation_id"
+            ref="l10n_br_fiscal.fo_devolucao_venda"
+        />
         <field name="simplified_document_type_id" ref="l10n_br_fiscal.document_59" />
         <field name="detailed_document_type_id" ref="l10n_br_fiscal.document_55" />
         <field name="partner_id" ref="l10n_br_fiscal.res_partner_anonimo" />
-        <field name="cnpj_homologacao" >08.723.218/0001-86</field>
-        <field name="ie_homologacao" >149.626.224.113</field>
-        <field name="cnpj_software_house" >16.716.114/0001-72</field>
+        <field name="cnpj_homologacao">08.723.218/0001-86</field>
+        <field name="ie_homologacao">149.626.224.113</field>
+        <field name="cnpj_software_house">16.716.114/0001-72</field>
         <field name="sat_path">/opt/sat/libsat_v3_0_0_3_x64.so</field>
         <field name="numero_caixa">1</field>
         <field name="cod_ativacao">12345678</field>
-        <field name="assinatura_sat">SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT</field>
-        <field name="journal_ids" eval="[(4, ref('l10n_br_pos.presumido_credito_visa')), (4, ref('l10n_br_pos.presumido_credito_master')), (4, ref('l10n_br_pos.presumido_debito_visa')), (4, ref('l10n_br_pos.presumido_pix'))]" />
+        <field
+            name="assinatura_sat"
+        >SGR-SAT SISTEMA DE GESTAO E RETAGUARDA DO SAT</field>
+        <field
+            name="journal_ids"
+            eval="[(4, ref('l10n_br_pos.presumido_credito_visa')), (4, ref('l10n_br_pos.presumido_credito_master')), (4, ref('l10n_br_pos.presumido_debito_visa')), (4, ref('l10n_br_pos.presumido_pix'))]"
+        />
 <!--        <field name="impressora">epson-tm-t20</field>-->
 <!--        <field name="printer_params"></field>-->
     </record>
 
     <function model="pos.config" name="update_pos_fiscal_map">
-        <value eval="[ref('point_of_sale.pos_config_main'), ref('l10n_br_pos.pos_config_presumido')]" />
+        <value
+            eval="[ref('point_of_sale.pos_config_main'), ref('l10n_br_pos.pos_config_presumido')]"
+        />
     </function>
 
 </odoo>

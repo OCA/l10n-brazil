@@ -6,9 +6,8 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 */
 
 odoo.define("l10n_br_pos.widgets", function (require) {
-
-    // var QWeb = instance.web.qweb;
-	// var _t = instance.web._t;
+    // Var QWeb = instance.web.qweb;
+    // var _t = instance.web._t;
     //
     // module.ProxyStatusWidget = module.ProxyStatusWidget.extend({
     //     template: 'ProxyStatusWidget',
