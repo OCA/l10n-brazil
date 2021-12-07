@@ -16,6 +16,7 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.v4_00 import retEnviNFe as leiauteNFe
 from requests import Session
+from pytrustnfe.xml.validate import valida_nfe
 
 from odoo import _, api, fields
 from odoo.exceptions import UserError, ValidationError
@@ -216,7 +217,7 @@ class NFe(spec_models.StackedModel):
         copy=False,
         default=lambda s: s.env["ir.config_parameter"]
         .sudo()
-        .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14.0"),
+        .get_param("l10n_br_nfe.version.name", default="Odoo OCA v14.0"),
     )
 
     nfe40_CRT = fields.Selection(
@@ -398,6 +399,7 @@ class NFe(spec_models.StackedModel):
         )
         session = Session()
         session.verify = False
+
         transmissao = TransmissaoSOAP(certificado, session)
         return edoc_nfe(
             transmissao,
@@ -411,6 +413,7 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             record._export_fields_pagamentos()
             edoc = record.serialize()[0]
+
             processador = record._processador()
             xml_file = processador._generateds_to_string_etree(
                 edoc, pretty_print=pretty_print
@@ -476,17 +479,18 @@ class NFe(spec_models.StackedModel):
                 (5, 0, 0),
                 (0, 0, self._prepare_amount_financial("0", "90", 0.00)),
             ]
-        self.nfe40_detPag.__class__._field_prefix = "nfe40_"
 
+        self.nfe40_detPag.__class__._field_prefix = "nfe40_"
         # the following was disabled because it blocks the normal
         # invoice validation https://github.com/OCA/l10n-brazil/issues/1559
         # if not self.nfe40_detPag:  # (empty list)
         #    raise UserError(_("Favor preencher os dados do pagamento"))
 
-    def _eletronic_document_send(self):
+    def _eletronic_document_send(self):           
         super(NFe, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
             record._export_fields_pagamentos()
+
             processador = record._processador()
             for edoc in record.serialize():
                 processo = None

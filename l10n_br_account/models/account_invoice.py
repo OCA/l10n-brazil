@@ -441,14 +441,14 @@ class AccountInvoice(models.Model):
         if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
             self.journal_id = self.fiscal_operation_id.journal_id
 
-    def open_fiscal_document(self):
-        if self.env.context.get("move_type", "") == "out_invoice":
-            action = self.env.ref("l10n_br_account.fiscal_invoice_out_action").read()[0]
-        elif self.env.context.get("move_type", "") == "in_invoice":
-            action = self.env.ref("l10n_br_account.fiscal_invoice_in_action").read()[0]
+    def open_fiscal_document(self): 
+        if self.move_type == "out_invoice":
+            action = self.env.ref("l10n_br_fiscal.document_out_action").read()[0]
+        elif self.move_type == "in_invoice":
+            action = self.env.ref("l10n_br_fiscal.document_in_action").read()[0]
         else:
-            action = self.env.ref("l10n_br_account.fiscal_invoice_all_action").read()[0]
-        form_view = [(self.env.ref("l10n_br_account.fiscal_invoice_form").id, "form")]
+            action = self.env.ref("l10n_br_fiscal.document_all_action").read()[0]
+        form_view = [(self.env.ref("l10n_br_fiscal.document_form").id, "form")]
         if "views" in action:
             action["views"] = form_view + [
                 (state, view) for state, view in action["views"] if view != "form"
