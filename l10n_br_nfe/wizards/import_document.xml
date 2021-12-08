@@ -16,6 +16,40 @@
                         attrs="{'invisible': [('importing_type', '!=', 'xml_file')], 'required': [('importing_type', '=', 'xml_file')]}"
                     />
                 </group>
+                <separator
+                    string="Pré Visualização da NF-e"
+                    attrs="{'invisible': [('nfe_xml', '=', False)]}"
+                />
+                <group attrs="{'invisible': [('nfe_xml', '=', False)]}">
+                    <group>
+                        <field name="document_key" readonly="True" />
+                        <field name="document_number" readonly="True" />
+                        <field name="document_serie" readonly="True" />
+                    </group>
+                    <group>
+                        <field name="partner_cpf_cnpj" readonly="True" />
+                        <field name="partner_name" readonly="True" />
+                        <field name="partner_id" readonly="True" />
+                    </group>
+                </group>
+                <separator
+                    string="NFe XML Products"
+                    attrs="{'invisible': [('nfe_xml', '=', False)]}"
+                />
+                <group attrs="{'invisible': [('nfe_xml', '=', False)]}">
+                    <field name="imported_products_ids" readonly="True" nolabel="1">
+                        <tree string="Views">
+                            <field name="product_name" />
+                            <field name="uom_com" />
+                            <field name="quantity_com" />
+                            <field name="price_unit_com" />
+                            <field name="uom_trib" />
+                            <field name="quantity_trib" />
+                            <field name="price_unit_trib" />
+                            <field name="total" />
+                        </tree>
+                    </field>
+                </group>
                 <footer>
                     <button
                         name="import_nfe_xml"
