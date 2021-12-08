@@ -7,6 +7,7 @@
         name="Import XML NF-e"
         parent="l10n_br_fiscal.document_sub_menu"
         sequence="46"
+        groups="l10n_br_fiscal.group_manager"
     />
 
 </odoo>
