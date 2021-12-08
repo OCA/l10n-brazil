@@ -11,7 +11,7 @@ from io import StringIO
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
-from erpbrasil.base.fiscal.edoc import ChaveEdoc
+from erpbrasil.base.fiscal.edoc import ChaveEdoc, cnpj_cpf
 from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -63,6 +63,14 @@ def filter_processador_edoc_nfe(record):
     ]:
         return True
     return False
+
+
+def parse_xml_nfe(xml):
+    arq = io.BytesIO()
+    arq.write(xml)
+    arq.seek(0)
+    nfe_binding = nfe_sub.parse(arq, silence=True)
+    return nfe_binding
 
 
 class NFe(spec_models.StackedModel):
@@ -289,6 +297,8 @@ class NFe(spec_models.StackedModel):
     nfe40_vDesc = fields.Monetary(related="amount_financial_discount_value")
 
     nfe40_vLiq = fields.Monetary(related="amount_financial_total")
+
+    imported_document = fields.Boolean(string="Imported", default=False)
 
     @api.depends("fiscal_additional_data", "fiscal_additional_data")
     def _compute_nfe40_additional_data(self):
@@ -849,20 +859,31 @@ class NFe(spec_models.StackedModel):
                 file_response_xml=processo.retorno.content.decode("utf-8"),
             )
 
-    def _import_xml_nfe(self, xml, dry_run):
-        arq = io.BytesIO()
-        arq.write(xml)
-        arq.seek(0)
-        nfe_binding = nfe_sub.parse(arq, silence=True)
-        return (
+    def _invert_fiscal_operation_type(self, document, nfe_binding, edoc_type):
+        if edoc_type == "in":
+            if document.company_id.cnpj_cpf != cnpj_cpf.formata(
+                nfe_binding.infNFe.emit.CNPJ
+            ):
+                document.fiscal_operation_type = "in"
+                document.issuer = "partner"
+
+    def _import_xml_nfe(self, xml, dry_run, edoc_type="out"):
+        nfe_binding = parse_xml_nfe(xml)
+        document = (
             self.env["nfe.40.infnfe"]
             .with_context(
                 tracking_disable=True,
-                edoc_type="in",  # FIXME: IN OUT IMPORT FILE
+                edoc_type=edoc_type,
                 lang="pt_BR",
             )
             .build(nfe_binding.infNFe, dry_run=dry_run)
         )
 
-    def import_xml(self, xml, dry_run):
-        return self._import_xml_nfe(xml, dry_run)
+        document.imported_document = True
+
+        self._invert_fiscal_operation_type(document, nfe_binding, edoc_type)
+
+        return document
+
+    def import_xml(self, xml, dry_run, edoc_type="out"):
+        return self._import_xml_nfe(xml, dry_run, edoc_type)
