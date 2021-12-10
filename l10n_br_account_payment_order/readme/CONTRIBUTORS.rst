@@ -2,3 +2,4 @@
 * Fernando Marcato <fernando.marcato@kmee.com.br>
 * Hendrix Costa <hendrix.costa@kmee.com.br>
 * Magno Costa <magno.costa@akretion.com.br>
+* Antônio S. Pereira Neto <netosjb@yahoo.com.br>
