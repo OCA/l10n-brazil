@@ -200,6 +200,18 @@ class TestPaymentOrder(SavepointCase):
             "teste_remessa_sicredi240.REM",
         )
 
+    def test_banco_ailos_cnab_240(self):
+        """Teste Boleto e Remessa Banco AILOS - CNAB 240"""
+        invoice_ailos_cnab_240 = self.env.ref(
+            "l10n_br_account_payment_order.demo_invoice_payment_order_ailos_cnab240"
+        )
+
+        self._run_boleto_remessa(
+            invoice_ailos_cnab_240,
+            "boleto_teste_ailos_cnab240.pdf",
+            "teste_remessa_ailos240.REM",
+        )
+
     def test_bank_cnab_not_implement_brcobranca(self):
         """ Test Bank CNAB not implemented in BRCobranca."""
         invoice = self.env.ref(
