@@ -47,6 +47,14 @@ class PaymentOrder(models.Model):
             }
         )
 
+    def _prepare_remessa_ailos_240(self, remessa_values):
+        remessa_values.update(
+            {
+                "convenio": int(self.payment_mode_id.code_convetion),
+                "digito_agencia": self.journal_id.bank_account_id.bra_number_dig,
+            }
+        )
+
     def _prepare_remessa_unicred_400(self, remessa_values):
         remessa_values["codigo_beneficiario"] = int(self.payment_mode_id.code_convetion)
 
@@ -130,7 +138,6 @@ class PaymentOrder(models.Model):
         remessa_values = {
             "carteira": str(self.payment_mode_id.boleto_wallet),
             "agencia": bank_account_id.bra_number,
-            "digito_agencia": bank_account_id.bra_number_dig,
             "conta_corrente": int(misc.punctuation_rm(bank_account_id.acc_number)),
             "digito_conta": bank_account_id.acc_number_dig[0],
             "empresa_mae": bank_account_id.partner_id.legal_name[:30],
@@ -138,7 +145,6 @@ class PaymentOrder(models.Model):
                 bank_account_id.partner_id.cnpj_cpf
             ),
             "pagamentos": pagamentos,
-            "convenio": self.payment_mode_id.code_convetion,
             "sequencial_remessa": self.payment_mode_id.cnab_sequence_id.next_by_id(),
         }
 
