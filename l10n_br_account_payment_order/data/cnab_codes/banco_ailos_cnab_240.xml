@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- AILOS CNAB 240 -->
+    <!-- https://github.com/kivanio/brcobranca/blob/master/docs/AILOS/Manual%20CNAB%20240.pdf -->
+    <!-- CÓDIGOS DE INSTRUNÇÃO DE MOVIMENTOS -->
+    <record id="ailos_instruction_01" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Entrada Títulos</field>
+        <field name="code">01</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_02" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Pedido de Baixa</field>
+        <field name="code">02</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_04" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Concessão de Abatimento</field>
+        <field name="code">04</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_05" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Cancelamento de Abatimento</field>
+        <field name="code">05</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_06" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Alteração de Vencimento</field>
+        <field name="code">06</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_07" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Concessão de Desconto</field>
+        <field name="code">07</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_08" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Cancelamento de Desconto</field>
+        <field name="code">08</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_09" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Protesto</field>
+        <field name="code">09</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_10" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Sustar Protesto e Baixar Título</field>
+        <field name="code">10</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_11" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Sustar Protesto e Manter em Carteira</field>
+        <field name="code">11</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_31" model="l10n_br_cnab.mov.instruction.code">
+        <field
+            name="name"
+        >Alteração de outros dados (Somente endereço do pagador)</field>
+        <field name="code">31</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_41" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Cancelar instrução automática de protesto</field>
+        <field name="code">41</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_90" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Alterar tipo de emissão - Cooperativa/EE</field>
+        <field name="code">90</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_93" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Inclusão Negativação via Serasa</field>
+        <field name="code">93</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_94" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Exclusão Negativação via Serasa</field>
+        <field name="code">94</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_95" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Envio de SMS ao pagador</field>
+        <field name="code">95</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_instruction_96" model="l10n_br_cnab.mov.instruction.code">
+        <field name="name">Cancelamento Instrução de SMS</field>
+        <field name="code">96</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <!-- CÓDIGOS DE RETORNO DE MOVIMENTO -->
+    <record id="ailos_240_return_02" model="l10n_br_cnab.return.move.code">
+        <field name="name">Entrada Confirmada</field>
+        <field name="code">02</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_03" model="l10n_br_cnab.return.move.code">
+        <field name="name">Entrada Rejeitada</field>
+        <field name="code">03</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_06" model="l10n_br_cnab.return.move.code">
+        <field name="name">Liquidação</field>
+        <field name="code">06</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_07" model="l10n_br_cnab.return.move.code">
+        <field name="name">Confirmação do Recebimento da Instrução de Desconto</field>
+        <field name="code">07</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_08" model="l10n_br_cnab.return.move.code">
+        <field
+            name="name"
+        >Confirmação do Recebimento do Cancelamento do Desconto</field>
+        <field name="code">08</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_09" model="l10n_br_cnab.return.move.code">
+        <field name="name">Baixa</field>
+        <field name="code">09</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_12" model="l10n_br_cnab.return.move.code">
+        <field name="name">Confirmação Recebimento Instrução de Abatimento</field>
+        <field name="code">12</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_13" model="l10n_br_cnab.return.move.code">
+        <field
+            name="name"
+        >Confirmação Recebimento Instrução de Cancelamento Abatimento</field>
+        <field name="code">13</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_14" model="l10n_br_cnab.return.move.code">
+        <field
+            name="name"
+        >Confirmação Recebimento Instrução Alteração de Vencimento</field>
+        <field name="code">14</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_17" model="l10n_br_cnab.return.move.code">
+        <field
+            name="name"
+        >Liquidação Após Baixa ou Liquidação Título Não Registrado</field>
+        <field name="code">17</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_19" model="l10n_br_cnab.return.move.code">
+        <field name="name">Confirmação Recebimento Instrução de Protesto</field>
+        <field name="code">19</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_20" model="l10n_br_cnab.return.move.code">
+        <field
+            name="name"
+        >Confirmação Recebimento Instrução de Sustação/Cancelamento de Protesto</field>
+        <field name="code">20</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_22" model="l10n_br_cnab.return.move.code">
+        <field name="name">Título Enviado ao Cartório</field>
+        <field name="code">22</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_23" model="l10n_br_cnab.return.move.code">
+        <field name="name">Remessa a Cartório (Aponte em Cartório)</field>
+        <field name="code">23</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_24" model="l10n_br_cnab.return.move.code">
+        <field name="name">Retirada de Cartório e Manutenção em Carteira</field>
+        <field name="code">24</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_25" model="l10n_br_cnab.return.move.code">
+        <field name="name">Protestado e Baixado (Baixa por Ter Sido Protestado)</field>
+        <field name="code">25</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_26" model="l10n_br_cnab.return.move.code">
+        <field name="name">Instrução Rejeitada</field>
+        <field name="code">26</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_27" model="l10n_br_cnab.return.move.code">
+        <field name="name">Confirmação do Pedido de Alteração de Outros Dados</field>
+        <field name="code">27</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_28" model="l10n_br_cnab.return.move.code">
+        <field name="name">Débito de Tarifas/Custas</field>
+        <field name="code">28</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_36" model="l10n_br_cnab.return.move.code">
+        <field name="name">Confirmação de Envio de SMS</field>
+        <field name="code">36</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_37" model="l10n_br_cnab.return.move.code">
+        <field name="name">Envio de SMS rejeitado</field>
+        <field name="code">37</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_42" model="l10n_br_cnab.return.move.code">
+        <field name="name">Confirmação da alteração dos dados do Sacado</field>
+        <field name="code">42</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_46" model="l10n_br_cnab.return.move.code">
+        <field name="name">Instrução para cancelar protesto confirmada</field>
+        <field name="code">46</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_64" model="l10n_br_cnab.return.move.code">
+        <field name="name">Cancelamento de SMS</field>
+        <field name="code">64</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_76" model="l10n_br_cnab.return.move.code">
+        <field name="name">Liquidação de boleto cooperativa emite e expede</field>
+        <field name="code">76</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_77" model="l10n_br_cnab.return.move.code">
+        <field
+            name="name"
+        >Liquidação de boleto após baixa ou não registrado cooperativa emite e expede</field>
+        <field name="code">77</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_89" model="l10n_br_cnab.return.move.code">
+        <field
+            name="name"
+        >Rejeição cartorária (Visualizar motivo na última página deste manual)</field>
+        <field name="code">89</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_91" model="l10n_br_cnab.return.move.code">
+        <field name="name">Título em aberto não enviado ao pagador</field>
+        <field name="code">91</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_92" model="l10n_br_cnab.return.move.code">
+        <field name="name">Inconsistência Negativação Serasa</field>
+        <field name="code">92</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_93" model="l10n_br_cnab.return.move.code">
+        <field name="name">Inclusão Negativação via Serasa</field>
+        <field name="code">93</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_94" model="l10n_br_cnab.return.move.code">
+        <field name="name">Exclusão Negativação Serasa</field>
+        <field name="code">94</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+    <record id="ailos_240_return_98" model="l10n_br_cnab.return.move.code">
+        <field name="name">Excluir Protesto com carta de anuência</field>
+        <field name="code">98</field>
+        <field name="bank_ids" eval="[(6,0,[ref('l10n_br_base.res_bank_085')])]" />
+        <field
+            name="payment_method_ids"
+            eval="[(6,0,[ref('payment_mode_type_cnab240')])]"
+        />
+    </record>
+</odoo>

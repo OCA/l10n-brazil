@@ -111,6 +111,14 @@
         <field eval="False" name="company_id" />
     </record>
 
+    <record id="sequence_cnab_number_ailos_240" model="ir.sequence">
+        <field name="name">Sequencia Arquivo CNAB - AILOS 240</field>
+        <field name="code">Sequencia Arquivo CNAB - AILOS 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+    </record>
+
     <record id="sequence_cnab_number_main_company" model="ir.sequence">
         <field name="name">Sequencia Arquivo CNAB - Main Company</field>
         <field name="code">Sequencia Arquivo CNAB - Main Company</field>
@@ -259,6 +267,15 @@
         <field eval="1" name="number_increment" />
         <field eval="False" name="company_id" />
         <field eval="10" name="padding" />
+    </record>
+
+    <record id="sequence_own_number_ailos_240" model="ir.sequence">
+        <field name="name">Nosso número - AILOS 240</field>
+        <field name="code">nosso.numero - AILOS 240</field>
+        <field eval="1" name="number_next" />
+        <field eval="1" name="number_increment" />
+        <field eval="False" name="company_id" />
+        <field eval="9" name="padding" />
     </record>
 
     <record id="sequence_own_number_main_company" model="ir.sequence">
