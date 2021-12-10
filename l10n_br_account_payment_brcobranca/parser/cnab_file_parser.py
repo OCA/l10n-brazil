@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 dict_brcobranca_bank = {
     "001": "banco_brasil",
     "041": "banrisul",
+    "085": "ailos",
     "237": "bradesco",
     "104": "caixa",
     "399": "hsbc",
@@ -167,9 +168,17 @@ class CNABFileParser(FileParser):
         # na criação das account move line
         result_row_list = []
 
+        bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
+
+        if bank_name_brcobranca == "ailos":
+            # No AILOS o código de registro onde ficam as linhas CNAB é o 3.
+            registration_code_allowed = 3
+        else:
+            registration_code_allowed = 1
+
         for linha_cnab in data:
 
-            if int(linha_cnab["codigo_registro"]) != 1:
+            if int(linha_cnab["codigo_registro"]) != registration_code_allowed:
                 # Bradesco
                 # Existe o codigo de registro 9 que eh um totalizador
                 # porem os campos estao colocados em outras posicoes
@@ -179,8 +188,6 @@ class CNABFileParser(FileParser):
                 # 4 e 5 - Registro de Detalhe (Opcional)
                 # continue
                 continue
-
-            bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
 
             valor_titulo = self.cnab_str_to_float(linha_cnab["valor_titulo"])
 
@@ -215,6 +222,11 @@ class CNABFileParser(FileParser):
             # Com exceção no itaú(341) que já vem sem o dígito verificador.
             if self.bank.code_bc == "341":
                 nosso_numero_sem_dig = linha_cnab["nosso_numero"]
+            elif bank_name_brcobranca == "ailos":
+                # no AILOS o nosso número vem concatenado com o número da conta
+                # porém o que importa aqui é apenas os últimos 9 digitos que é
+                # de fato a sequência númerica.
+                nosso_numero_sem_dig = linha_cnab["nosso_numero"][-9:]
             else:
                 nosso_numero_sem_dig = linha_cnab["nosso_numero"][:-1]
 
@@ -290,6 +302,18 @@ class CNABFileParser(FileParser):
             favored_bank_account = (
                 account_move_line.payment_mode_id.fixed_journal_id.bank_account_id
             )
+
+            if bank_name_brcobranca == "ailos":
+                date_format = "%d%m%Y"
+            else:
+                date_format = "%d%m%y"
+
+            # as vezes o vencimento pode ser branco
+            if linha_cnab["data_vencimento"] != "00000000":
+                due_date = datetime.datetime.strptime(
+                    str(linha_cnab["data_vencimento"]), date_format
+                ).date()
+
             cnab_return_log_event = {
                 "occurrences": descricao_ocorrencia,
                 "occurrence_date": data_ocorrencia,
@@ -298,9 +322,7 @@ class CNABFileParser(FileParser):
                 "title_value": valor_titulo,
                 "bank_payment_line_id": bank_line.id or False,
                 "invoice_id": account_move_line.invoice_id.id,
-                "due_date": datetime.datetime.strptime(
-                    str(linha_cnab["data_vencimento"]), "%d%m%y"
-                ).date(),
+                "due_date": due_date,
                 "move_line_id": account_move_line.id,
                 "company_title_identification": linha_cnab["documento_numero"]
                 or account_move_line.document_number,
@@ -360,6 +382,7 @@ class CNABFileParser(FileParser):
 
     def _get_accounting_entries(self, linha_cnab, account_move_line, bank_line):
         row_list = []
+        bank_name_brcobranca = dict_brcobranca_bank[self.bank.code_bc]
         valor_recebido = (
             valor_desconto
         ) = valor_juros_mora = valor_abatimento = valor_tarifa = 0.0
@@ -369,11 +392,21 @@ class CNABFileParser(FileParser):
             # valor recebido = valor pago + valor da tarifa
             valor_recebido = self.cnab_str_to_float(linha_cnab["valor_recebido"])
 
-        if linha_cnab["data_credito"] == "000000" or not linha_cnab["data_credito"]:
+        if bank_name_brcobranca == "ailos":
+            # o ailos lida com as datas um pouco diferente dos outros bancos.
+            # aqui o ano apresentado com 4 digitos.
+            zeros_date = "00000000"
+            date_format = "%d%m%Y"
+        else:
+            # nos outros bancos é apenas 2 digitos.
+            zeros_date = "000000"
+            date_format = "%d%m%y"
+
+        if linha_cnab["data_credito"] == zeros_date or not linha_cnab["data_credito"]:
             data_credito = linha_cnab["data_credito"]
         else:
             data_credito = datetime.datetime.strptime(
-                str(linha_cnab["data_credito"]), "%d%m%y"
+                str(linha_cnab["data_credito"]), date_format
             ).date()
 
         # Valor Desconto
