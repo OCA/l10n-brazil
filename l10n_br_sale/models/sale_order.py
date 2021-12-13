@@ -186,6 +186,11 @@ class SaleOrder(models.Model):
                 line.discount = order.discount_rate
                 line._onchange_discount_percent()
 
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        if self.partner_id.fiscal_operation_id:
+            self.fiscal_operation_id = self.partner_id.fiscal_operation_id
+
     @api.onchange('fiscal_operation_id')
     def _onchange_fiscal_operation_id(self):
         # TODO rodar o SUPER abaixo primeiro...
