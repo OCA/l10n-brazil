@@ -1207,6 +1207,11 @@ msgid "Cobranca"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
+#: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_ailos240
+msgid "Cobrança Ailos240"
+msgstr ""
+
+#. module: l10n_br_account_payment_order
 #: model:account.payment.mode,name:l10n_br_account_payment_order.payment_mode_cobranca_bb240
 msgid "Cobrança Banco do Brasil 240"
 msgstr ""
