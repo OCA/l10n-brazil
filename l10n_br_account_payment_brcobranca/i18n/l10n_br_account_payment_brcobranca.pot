@@ -135,7 +135,7 @@ msgid "The Bank %s CNAB %s is not implemented in BRCobranca."
 msgstr ""
 
 #. module: l10n_br_account_payment_brcobranca
-#: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_order.py:119
+#: code:addons/l10n_br_account_payment_brcobranca/models/account_payment_order.py:127
 #, python-format
 msgid "The CNAB %s for Bank %s are not implemented in BRCobranca."
 msgstr ""
