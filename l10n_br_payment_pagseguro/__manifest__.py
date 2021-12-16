@@ -14,7 +14,6 @@
     ],
     'data': [
         'views/payment_pagseguro_templates.xml',
-
         'data/payment_acquirer_data.xml',
         'views/payment_acquirer.xml',
     ],
