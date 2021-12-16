@@ -43,53 +43,30 @@ class PaymentTokenPagSeguro(models.Model):
         required=False,
         )
 
-    def _pagseguro_tokenize(self, values):
-        """Tokenize card in cielo server.
+    def _pagseguro_tokenize(self):
+        """Tokenize card in pagseguro server.
 
         Sends card data to cielo and gets back a token. Returns the response
         dict which still contains all credit card data.
 
         """
-        aquirer_id = self.env.ref('l10n_br_payment_pagseguro.payment_acquirer_pagseguro')
-        api_url_create_card = 'https://%s/1/card' % (
-            aquirer_id._get_pagseguro_api_url())
-
-        partner_id = self.env['res.partner'].browse(values['partner_id'])
-        pagseguro_expiry = str(values['cc_expiry'][:2]) + '/' + str(
-            datetime.datetime.now().year)[:2] + str(values['cc_expiry'][-2:])
-
-        if values['cc_brand'] == 'mastercard':
-            values['cc_brand'] = 'master'
-
-        tokenize_params = {
-            "CustomerName": partner_id.name,
-            "CardNumber": values['cc_number'].replace(' ', ''),
-            "Holder": values['cc_holder_name'],
-            "ExpirationDate": pagseguro_expiry,
-            "Brand": values['cc_brand'],
-            }
-
-        _logger.info("_pagseguro_tokenize: Sending values to URL %s", api_url_create_card)
-        r = requests.post(api_url_create_card,
-                          json=tokenize_params,
-                          headers=aquirer_id._get_pagseguro_api_headers())
-        res = r.json()
-        return res
+        acquirer_id = self.env.ref('l10n_br_payment_pagseguro.payment_acquirer_pagseguro')
+        
+        return acquirer_id.pagseguro_token
 
     @api.model
-    def cielo_create(self, values):
+    def pagseguro_create(self, values):
         """Treats tokenizing data.
 
-         Calls _cielo_tokenize, formats the response data to the result and
-         removes secret credit card information since it's now stored by cielo.
+         Calls _pagseguro_tokenize, formats the response data to the result and
+         removes secret credit card information since it's now stored by pagseguro.
          A resulting dict containing card brand, card token, formated name (
-         XXXXXXXXXXXX1234 - Customar Name) and partner_id will be returned.
+         XXXXXXXXXXXX1234 - Customer Name) and partner_id will be returned.
 
          """
-        token = self._cielo_tokenize(values)
-        if 'CardToken' not in token:
-            return False
-        values['card_token'] = token['CardToken']
+        token = self._pagseguro_tokenize()
+        
+        values['card_token'] = token
 
         if values.get('cc_number'):
             description = values['cc_holder_name']
@@ -100,8 +77,8 @@ class PaymentTokenPagSeguro(models.Model):
         partner_id = self.env['res.partner'].browse(values['partner_id'])
 
         customer_params = {
-            'description': description or token["card"]["name"]
-            }
+            'description': description
+        }
 
         res = {
             'acquirer_ref': partner_id.id,
@@ -111,14 +88,10 @@ class PaymentTokenPagSeguro(models.Model):
             'card_exp': str(values['cc_expiry'][:2]) + '/' + str(
                 datetime.datetime.now().year)[:2] + str(
                 values['cc_expiry'][-2:]),
-            'card_cvc': values['cvc'],
+            'card_cvc': values['cc_cvc'],
             'card_holder': values['cc_holder_name'],
             'card_brand': values['cc_brand'],
-            'cielo_token': values['card_token'],
-            }
+            'pagseguro_token': values['card_token'],
+        }
 
-        # pop credit card info to info sent to create
-        for field_name in ["card_number", "card_cvc", "card_holder",
-                           "card_exp"]:
-            res.pop(field_name, None)
         return res
