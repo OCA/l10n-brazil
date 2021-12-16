@@ -208,7 +208,7 @@ class AccountInvoice(models.Model):
                 continue
             if (
                 invoice.fiscal_document_id
-                and invoice.fiscal_document_id
+                and invoice.fiscal_document_id.id
                 != self.env.user.company_id.fiscal_dummy_id.id
             ):
                 unlink_documents |= invoice.fiscal_document_id
