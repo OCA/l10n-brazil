@@ -7,13 +7,13 @@ from odoo import api, fields, models, _
 
 _logger = logging.getLogger(__name__)
 
-class PaymentAcquirer(models.Model):
+class PaymentAcquirerPagseguro(models.Model):
 
     _inherit = 'payment.acquirer'
 
     provider = fields.Selection(selection_add=[('pagseguro', 'Pagseguro')])
     pagseguro_email = fields.Char(
-        string='Email Client',
+        string='Email',
         required_if_provider='pagseguro',
         groups='base.group_user'
     )
@@ -23,28 +23,8 @@ class PaymentAcquirer(models.Model):
         groups='base.group_user'
     )
     
-    pagseguro_app_id = fields.Char(
-        string='AppID',
-        required_if_provider='pagseguro',
-        groups='base.group_user'
-    )
     pagseguro_app_key = fields.Char(
         string='App Key',
-        required_if_provider='pagseguro',
-        groups='base.group_user'
-    )
-    pagseguro_seller_mail = fields.Char(
-        string='Seller Email',
-        required_if_provider='pagseguro',
-        groups='base.group_user'
-    )
-    pagseguro_seller_password = fields.Char(
-        string='Seller password',
-        required_if_provider='pagseguro',
-        groups='base.group_user'
-    )
-    pagseguro_seller_public_key = fields.Char(
-        string='Seller Public Key',
         required_if_provider='pagseguro',
         groups='base.group_user'
     )
@@ -73,7 +53,7 @@ class PaymentAcquirer(models.Model):
             'cc_expiry': data['cc_expiry'],
             'cc_brand': data['cc_brand'],
             'cc_cvc': data['cc_cvc'],
-            'acquirer_ref': 'Referencia', # Campo exigido para este modelo. Lembra de traser a referência correta!
+            'acquirer_ref': int(data['partner_id']),
             'acquirer_id': int(data['acquirer_id']),
             'partner_id': int(data['partner_id']),
         })

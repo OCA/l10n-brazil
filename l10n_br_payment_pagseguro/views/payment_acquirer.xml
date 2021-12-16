@@ -11,11 +11,8 @@
         <field name="arch" type="xml">
                 <xpath expr='//group[@name="acquirer"]' position='after'>
                     <group attrs="{'invisible': [('provider', '!=', 'pagseguro')]}">
-                        <field name="pagseguro_app_id"/>
-                        <field name="pagseguro_app_key" password="True"/>
-                        <field name="pagseguro_seller_mail" />
-                        <field name="pagseguro_seller_password" password="True"/>
-                        <field name="pagseguro_seller_public_key" password="True"/>
+                        <field name="pagseguro_email"/>
+                        <field name="pagseguro_token" password="True"/>
                     </group>
                 </xpath>
         </field>

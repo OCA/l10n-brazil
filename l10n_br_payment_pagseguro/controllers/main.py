@@ -47,7 +47,7 @@ class PagseguroController(http.Controller):
     #     if not kwargs.get('partner_id'):
     #         kwargs['partner_id'] = request.env.user.partner_id.id
     #     return acquirer.s2s_process(kwargs).id
-    #
+
     # @http.route(['/payment/cielo/s2s/create'], type='http', auth='public')
     # def cielo_s2s_create(self, **post):
     #     acquirer_id = int(post.get('acquirer_id'))
@@ -57,14 +57,14 @@ class PagseguroController(http.Controller):
     #         acquirer.s2s_process(post)
     #     except Exception as e:
     #         error = str(e)
-    #
+    
     #     return_url = post.get('return_url', '/')
     #     if error:
     #         separator = '?' if werkzeug.urls.url_parse(
     #             return_url).query == '' else '&'
     #         return_url += '{}{}'.format(separator, werkzeug.urls.url_encode(
     #             {'error': error}))
-    #
+    
     #     return werkzeug.utils.redirect(return_url)
     #
     # @http.route(['/payment/cielo/s2s/create_json_3ds'], type='json',

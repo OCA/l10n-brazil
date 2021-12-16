@@ -11,11 +11,8 @@
             <field name="environment">test</field>
             <field name="pre_msg"><![CDATA[
 <p>You will be redirected to the pagseguro website after clicking on the payment button.</p>]]></field>
-            <field name='pagseguro_app_id'>dummy</field>
-            <field name='pagseguro_app_key'>dummy</field>
-            <field name="pagseguro_seller_mail">dummy</field>
-            <field name="pagseguro_seller_password">dummy</field>
-            <field name="pagseguro_seller_public_key">dummy</field>
+            <field name='pagseguro_email'>dummy</field>
+            <field name='pagseguro_token'>dummy</field>
         </record>
     </data>
 </odoo>
