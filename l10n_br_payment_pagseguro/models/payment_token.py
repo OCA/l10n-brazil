@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 class PaymentTokenPagseguro(models.Model):
     _inherit = 'payment.token'
-    
+
     card_number = fields.Char(
         string="Number",
         required=False,
@@ -55,7 +55,7 @@ class PaymentTokenPagseguro(models.Model):
             aquirer_id._get_pagseguro_api_url())
 
         partner_id = self.env['res.partner'].browse(values['partner_id'])
-        cielo_expiry = str(values['cc_expiry'][:2]) + '/' + str(
+        pagseguro_expiry = str(values['cc_expiry'][:2]) + '/' + str(
             datetime.datetime.now().year)[:2] + str(values['cc_expiry'][-2:])
 
         if values['cc_brand'] == 'mastercard':
@@ -65,16 +65,14 @@ class PaymentTokenPagseguro(models.Model):
             "CustomerName": partner_id.name,
             "CardNumber": values['cc_number'].replace(' ', ''),
             "Holder": values['cc_holder_name'],
-            "ExpirationDate": cielo_expiry,
+            "ExpirationDate": pagseguro_expiry,
             "Brand": values['cc_brand'],
             }
 
-        _logger.info(
-            '_cielo_tokenize: Sending values to URL %s, values:\n%s',
-            api_url_create_card, pprint.pformat(tokenize_params))
+        _logger.info("_cielo_tokenize: Sending values to URL %s", api_url_create_card)
         r = requests.post(api_url_create_card,
                           json=tokenize_params,
-                          headers=aquirer_id._get_cielo_api_headers())
+                      s    headers=aquirer_id._get_pagseguro_api_headers())
         res = r.json()
         _logger.info('_create_cielo_charge: Values received:\n%s',
                      pprint.pformat(res))
