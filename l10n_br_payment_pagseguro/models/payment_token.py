@@ -2,15 +2,16 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-import datetime
+import pprint
 import requests
+import datetime
 
 from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
 
-class PaymentTokenPagSeguro(models.Model):
+class PaymentTokenPagseguro(models.Model):
     _inherit = 'payment.token'
     
     card_number = fields.Char(
@@ -21,41 +22,61 @@ class PaymentTokenPagSeguro(models.Model):
     card_holder = fields.Char(
         string="Holder",
         required=False,
-    )
+        )
 
-    pagseguro_card_token = fields.Char(
+    card_exp = fields.Char(
+        string="Expiration date",
+        required=False,
+        )
+
+    card_cvc = fields.Char(
+        string="cvc",
+        required=False,
+        )
+
+    card_brand = fields.Char(
+        string="Brand",
+        required=False,
+        )
+
+    pagseguro_token = fields.Char(
         string="Token",
         required=False,
-    )
+        )
 
-    @api.model
-    def pagseguro_create(self, values):
-        """Treats tokenizing data.
+    def _pagseguro_tokenize(self, values):
+        """Tokenize card in pagseguro server.
 
-         Calls _pagseguro_tokenize, formats the response data to the result and
-         removes secret credit card information since it's now stored by pagseguro.
-         A resulting dict containing card brand, card token, formated name (
-         XXXXXXXXXXXX1234 - Customer Name) and partner_id will be returned.
-
+        Sends card data to pagseguro and gets back a token. Returns the response
+        dict which still contains all credit card data.
         """
+        aquirer_id = self.env.ref('l10n_br_payment_pagseguro.payment_acquirer_pagseguro')
+        api_url_create_card = 'https://%s/1/card' % ( # TODO Search create card endpoint
+            aquirer_id._get_pagseguro_api_url())
+
         partner_id = self.env['res.partner'].browse(values['partner_id'])
+        cielo_expiry = str(values['cc_expiry'][:2]) + '/' + str(
+            datetime.datetime.now().year)[:2] + str(values['cc_expiry'][-2:])
 
-        if partner_id:
-            description = 'Partner: %s (id: %s)' % (
-                partner_id.name, partner_id.id)
-        else:
-            description = values['cc_holder_name']
+        if values['cc_brand'] == 'mastercard':
+            values['cc_brand'] = 'master'
 
-        customer_params = {
-            'description': description
-        }
+        tokenize_params = {
+            "CustomerName": partner_id.name,
+            "CardNumber": values['cc_number'].replace(' ', ''),
+            "Holder": values['cc_holder_name'],
+            "ExpirationDate": cielo_expiry,
+            "Brand": values['cc_brand'],
+            }
 
-        res = {
-            'acquirer_ref': partner_id.id,
-            'name': 'XXXXXXXXXXXX%s - %s' % (
-                values['pagseguro_card_token'][-4:],
-                values["cc_holder_name"]),
-            'pagseguro_card_token': values['pagseguro_card_token'],
-        }
+        _logger.info(
+            '_cielo_tokenize: Sending values to URL %s, values:\n%s',
+            api_url_create_card, pprint.pformat(tokenize_params))
+        r = requests.post(api_url_create_card,
+                          json=tokenize_params,
+                          headers=aquirer_id._get_cielo_api_headers())
+        res = r.json()
+        _logger.info('_create_cielo_charge: Values received:\n%s',
+                     pprint.pformat(res))
 
         return res
