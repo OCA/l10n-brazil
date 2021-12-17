@@ -23,12 +23,10 @@ class PaymentTransactionCielo(models.Model):
         string="Capture Link",
         required=False,
     )
-
-    pagseguro_s2s_void_link = fields.Char(
-        string="Void Link",
+    pagseguro_s2s_cancel_link = fields.Char(
+        string="Cancel Link",
         required=False,
     )
-
     pagseguro_s2s_check_link = fields.Char(
         string="Check Link",
         required=False,
@@ -38,7 +36,7 @@ class PaymentTransactionCielo(models.Model):
                                  email=None):
         """Creates the s2s payment.
 
-        Uses credit card token instead of secret info.
+        Uses credit card info.
 
         """
         api_url_charge = 'https://%s/charges' % (
@@ -48,10 +46,9 @@ class PaymentTransactionCielo(models.Model):
         if self.payment_token_id.card_brand == 'mastercard':
             self.payment_token_id.card_brand = 'master'
 
-        # TODO - Resivar campos e origem das informações
         charge_params = {
             "reference_id": str(self.payment_token_id.acquirer_id),
-            "description": "Motivo do pagamento",
+            "description": self.display_name[:13],
             "amount": {
                 # Charge is in BRL cents -> Multiply by 100
                 "value": int(self.amount * 100),
@@ -61,7 +58,6 @@ class PaymentTransactionCielo(models.Model):
                 "type": "CREDIT_CARD",
                 "installments": 1,
                 "capture": True,
-                # "soft_descriptor": self.display_name[:13],
                 "card": {
                     "number": self.payment_token_id.card_number,
                     "exp_month": "12",
@@ -182,7 +178,7 @@ class PaymentTransactionCielo(models.Model):
                     if method.get('rel') == 'CHARGE.CAPTURE':
                         self.pagseguro_s2s_capture_link = method.get('href')
                     if method.get('rel') == 'CHARGE.CANCEL':
-                        self.pagseguro_s2s_void_link = method.get('href')
+                        self.pagseguro_s2s_cancel_link = method.get('href')
 
                 # setting transaction to authorized - must match Pagseguro
                 # payment using the case without automatic capture
