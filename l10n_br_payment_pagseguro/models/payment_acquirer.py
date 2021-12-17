@@ -81,6 +81,8 @@ class PaymentAcquirerPagseguro(models.Model):
         PAGSEGURO_HEADERS = {
             'Authorization': f'Bearer {self.pagseguro_app_key}',
             'Content-Type': 'application/json',
+            'x-api-version': '4.0',
+            'x-idempotency-key': '',
         }
 
         return PAGSEGURO_HEADERS

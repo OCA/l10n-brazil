@@ -13,7 +13,7 @@ INT_CURRENCIES = [
     u'BRL', u'XAF', u'XPF', u'CLP', u'KMF', u'DJF', u'GNF', u'JPY', u'MGA',
     u'PYG', u'RWF', u'KRW',
     u'VUV', u'VND', u'XOF'
-    ]
+]
 
 
 class PaymentTransactionCielo(models.Model):
@@ -22,20 +22,20 @@ class PaymentTransactionCielo(models.Model):
     pagseguro_s2s_capture_link = fields.Char(
         string="Capture Link",
         required=False,
-        )
+    )
 
     pagseguro_s2s_void_link = fields.Char(
         string="Void Link",
         required=False,
-        )
+    )
 
     pagseguro_s2s_check_link = fields.Char(
         string="Check Link",
         required=False,
-        )
+    )
 
     def _create_pagseguro_charge(self, acquirer_ref=None, tokenid=None,
-                             email=None):
+                                 email=None):
         """Creates the s2s payment.
 
         Uses credit card token instead of secret info.
@@ -55,27 +55,24 @@ class PaymentTransactionCielo(models.Model):
             "amount": {
                 # Charge is in BRL cents -> Multiply by 100
                 "value": int(self.amount * 100),
-                "currency": "BRL",
-                },
+                "currency": INT_CURRENCIES[0],
+            },
             "payment_method": {
                 "type": "CREDIT_CARD",
                 "installments": 1,
-                "capture": False,
-                "soft_descriptor": self.display_name[:13],
+                "capture": True,
+                # "soft_descriptor": self.display_name[:13],
                 "card": {
                     "number": self.payment_token_id.card_number,
-                    "exp_month": "03",
-                    "exp_year": "2026",
+                    "exp_month": "12",
+                    "exp_year": "2030",
                     "security_code": self.payment_token_id.card_cvc,
                     "holder": {
                         "name": self.partner_id.name
                     }
-                    # "CardToken": self.payment_token_id.pagseguro_token,
-                    # "Brand": self.payment_pagseguro_id.card_brand,
-                    # "SaveCard": "true"
-                    }
                 }
             }
+        }
 
         self.payment_token_id.active = False
 
@@ -109,12 +106,12 @@ class PaymentTransactionCielo(models.Model):
                      pprint.pformat(res))
         # analyse result
         if type(res) == dict and res.get('ProviderReturnMessage') and res.get(
-                'ProviderReturnMessage') == 'Operation Successful':
+            'ProviderReturnMessage') == 'Operation Successful':
             # apply result
             self.write({
                 'date': fields.datetime.now(),
                 'acquirer_reference': res,
-                })
+            })
             self._set_transaction_done()
             self.execute_callback()
         else:
@@ -122,7 +119,7 @@ class PaymentTransactionCielo(models.Model):
                 'state_message': res,
                 'acquirer_reference': res,
                 'date': fields.datetime.now(),
-                })
+            })
 
     @api.multi
     def cielo_s2s_void_transaction(self):
@@ -137,19 +134,19 @@ class PaymentTransactionCielo(models.Model):
                      pprint.pformat(res))
         # analyse result
         if type(res) == dict and res.get('ProviderReturnMessage') and res.get(
-                'ProviderReturnMessage') == 'Operation Successful':
+            'ProviderReturnMessage') == 'Operation Successful':
             # apply result
             self.write({
                 'date': fields.datetime.now(),
                 'acquirer_reference': res,
-                })
+            })
             self._set_transaction_cancel()
         else:
             self.sudo().write({
                 'state_message': res,
                 'acquirer_reference': res,
                 'date': fields.datetime.now(),
-                })
+            })
 
     @api.multi
     def _pagseguro_s2s_validate_tree(self, tree):
@@ -169,51 +166,48 @@ class PaymentTransactionCielo(models.Model):
             return True
 
         if type(tree) != list:
-            # status = tree.get('Payment').get('Status')
             status = status = tree.get('status')
 
-            # if status == 'AUTHORIZED':
+            if status == 'AUTHORIZED':
+                self.write({
+                    'date': fields.datetime.now(),
+                    'acquirer_reference': tree.get('id'),
+                })
 
-                # TODO - Continuar o fluxo conforme necessário
+            # store capture and void links for future manual operations
+            for method in tree.get('links'):
+                if 'rel' in method and 'href' in method:
+                    if method.get('rel') == 'SELF':
+                        self.pagseguro_s2s_check_link = method.get('href')
+                    if method.get('rel') == 'CHARGE.CAPTURE':
+                        self.pagseguro_s2s_capture_link = method.get('href')
+                    if method.get('rel') == 'CHARGE.CANCEL':
+                        self.pagseguro_s2s_void_link = method.get('href')
 
-            #         self.write({
-            #         'date': fields.datetime.now(),
-            #         'acquirer_reference': tree.get('id'),
-            #         })
-            #     # store capture and void links for future manual operations
-            #     for method in tree.get('Payment').get('Links'):
-            #         if 'Rel' in method and 'Href' in method:
-            #             if method.get('Rel') == 'self':
-            #                 self.pagseguro_s2s_check_link = method.get('Href')
-            #             if method.get('Rel') == 'capture':
-            #                 self.pagseguro_s2s_capture_link = method.get('Href')
-            #             if method.get('Rel') == 'void':
-            #                 self.pagseguro_s2s_void_link = method.get('Href')
-            #
-            #     # setting transaction to authorized - must match Cielo
-            #     # payment using the case without automatic capture
-            #     self._set_transaction_authorized()
-            #     self.execute_callback()
-            #     if self.payment_token_id:
-            #         self.payment_token_id.verified = True
-            #     return True
-            # else:
-            #     error = tree.get('Payment').get('ReturnMessage')
-            #     _logger.warn(error)
-            #     self.sudo().write({
-            #         'state_message': error,
-            #         'acquirer_reference': tree.get('id'),
-            #         'date': fields.datetime.now(),
-            #         })
-            #     self._set_transaction_cancel()
-            #     return False
+                # setting transaction to authorized - must match Pagseguro
+                # payment using the case without automatic capture
+            self._set_transaction_authorized()
+            self.execute_callback()
+            if self.payment_token_id:
+                self.payment_token_id.verified = True
+                return True
+            else:
+                error = tree.get('message')
+                _logger.warn(error)
+                self.sudo().write({
+                    'state_message': error,
+                    'acquirer_reference': tree.get('id'),
+                    'date': fields.datetime.now(),
+                })
+                self._set_transaction_cancel()
+                return False
 
         elif type(tree) == list:
-            error = tree[0].get('Message')
+            error = tree[0].get('message')
             _logger.warn(error)
             self.sudo().write({
                 'state_message': error,
                 'date': fields.datetime.now(),
-                })
+            })
             self._set_transaction_cancel()
-            return False
+        return False
