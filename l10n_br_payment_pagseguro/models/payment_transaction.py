@@ -60,8 +60,8 @@ class PaymentTransactionCielo(models.Model):
                 "capture": True,
                 "card": {
                     "number": self.payment_token_id.card_number,
-                    "exp_month": "12",
-                    "exp_year": "2030",
+                    "exp_month": self.payment_token_id.card_exp.split('/')[0],
+                    "exp_year": self.payment_token_id.card_exp.split('/')[1],
                     "security_code": self.payment_token_id.card_cvc,
                     "holder": {
                         "name": self.partner_id.name
@@ -161,9 +161,8 @@ class PaymentTransactionCielo(models.Model):
                 self.reference)
             return True
 
-        if type(tree) != list:
+        if tree.get('message') != 'Unauthorized':
             status = status = tree.get('status')
-
             if status == 'AUTHORIZED':
                 self.write({
                     'date': fields.datetime.now(),
@@ -198,8 +197,8 @@ class PaymentTransactionCielo(models.Model):
                 self._set_transaction_cancel()
                 return False
 
-        elif type(tree) == list:
-            error = tree[0].get('message')
+        if tree.get('message') == 'Unauthorized':
+            error = tree.get('message')
             _logger.warn(error)
             self.sudo().write({
                 'state_message': error,
