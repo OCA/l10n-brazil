@@ -11,8 +11,8 @@ class PaymentAcquirerPagseguro(models.Model):
 
     _inherit = 'payment.acquirer'
 
-    provider = fields.Selection(selection_add=[('pagseguro', 'Pagseguro')])    
-    
+    provider = fields.Selection(selection_add=[('pagseguro', 'Pagseguro')])
+
     pagseguro_email = fields.Char(
         string='Email',
         required_if_provider='pagseguro',
@@ -23,7 +23,7 @@ class PaymentAcquirerPagseguro(models.Model):
         required_if_provider='pagseguro',
         groups='base.group_user'
     )
-    
+
     @api.model
     def _get_pagseguro_api_url(self):
         """Get pagseguro API URLs used in all s2s communication
@@ -86,7 +86,7 @@ class PaymentAcquirerPagseguro(models.Model):
 
         """
         PAGSEGURO_HEADERS = {
-            'Authorization': f'Bearer {self.pagseguro_app_key}',
+            'Authorization': f'Bearer {self.pagseguro_token}',
             'Content-Type': 'application/json',
         }
 
