@@ -161,7 +161,7 @@ class PaymentTransactionCielo(models.Model):
                 self.reference)
             return True
 
-        if tree.get('message') != 'Unauthorized':
+        if tree.get('message') not in ['Unauthorized', 'Endpoint request timed out']:
             status = status = tree.get('status')
             if status == 'AUTHORIZED':
                 self.write({
@@ -197,7 +197,7 @@ class PaymentTransactionCielo(models.Model):
                 self._set_transaction_cancel()
                 return False
 
-        if tree.get('message') == 'Unauthorized':
+        if tree.get('message') in ['Unauthorized','Endpoint request timed out']:
             error = tree.get('message')
             _logger.warn(error)
             self.sudo().write({
@@ -205,4 +205,5 @@ class PaymentTransactionCielo(models.Model):
                 'date': fields.datetime.now(),
             })
             self._set_transaction_cancel()
+        
         return False
