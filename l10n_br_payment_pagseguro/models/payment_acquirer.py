@@ -22,7 +22,7 @@ class PaymentAcquirerPagseguro(models.Model):
         required_if_provider='pagseguro',
         groups='base.group_user'
     )
-    
+
     pagseguro_app_key = fields.Char(
         string='App Key',
         required_if_provider='pagseguro',

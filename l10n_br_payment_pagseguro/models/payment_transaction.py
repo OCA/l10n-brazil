@@ -19,72 +19,81 @@ INT_CURRENCIES = [
 class PaymentTransactionCielo(models.Model):
     _inherit = 'payment.transaction'
 
-    cielo_s2s_capture_link = fields.Char(
+    pagseguro_s2s_capture_link = fields.Char(
         string="Capture Link",
         required=False,
         )
 
-    cielo_s2s_void_link = fields.Char(
+    pagseguro_s2s_void_link = fields.Char(
         string="Void Link",
         required=False,
         )
 
-    cielo_s2s_check_link = fields.Char(
+    pagseguro_s2s_check_link = fields.Char(
         string="Check Link",
         required=False,
         )
 
-    def _create_cielo_charge(self, acquirer_ref=None, tokenid=None,
+    def _create_pagseguro_charge(self, acquirer_ref=None, tokenid=None,
                              email=None):
         """Creates the s2s payment.
 
         Uses credit card token instead of secret info.
 
         """
-        api_url_charge = 'https://%s/1/sales' % (
-            self.acquirer_id._get_cielo_api_url())
+        api_url_charge = 'https://%s/charges' % (
+            self.acquirer_id._get_pagseguro_api_url())
 
-        # Odoo uses 'mastercard' name, cielo uses 'master'
+        # Odoo uses 'mastercard' name, pagseguro uses 'master'
         if self.payment_token_id.card_brand == 'mastercard':
             self.payment_token_id.card_brand = 'master'
 
         charge_params = {
-            "MerchantOrderId": str(self.id),
-            "Customer": {
-                "Name": self.partner_id.name
-                },
-            "Payment": {
-                "Type": "CreditCard",
+            "reference_id": str(self.payment_token_id.acquirer_id),
+            "description": "Motivo do pagamento",
+            "amount": {
                 # Charge is in BRL cents -> Multiply by 100
-                "Amount": self.amount * 100,
-                "Installments": 1,
-                "SoftDescriptor": self.display_name[:13],
-                "CreditCard": {
-                    "CardToken": self.payment_token_id.cielo_token,
-                    "Brand": self.payment_token_id.card_brand,
-                    "SaveCard": "true"
+                "value": int(self.amount * 100),
+                "currency": "BRL",
+                },
+            "payment_method": {
+                "type": "CREDIT_CARD",
+                "installments": 1,
+                "capture": False,
+                "soft_descriptor": self.display_name[:13],
+                "card": {
+                    "number": self.payment_token_id.card_number,
+                    "exp_month": "03",
+                    "exp_year": "2026",
+                    "security_code": self.payment_token_id.card_cvc,
+                    "holder": {
+                        "name": self.partner_id.name
+                    }
+                    # "CardToken": self.payment_token_id.pagseguro_token,
+                    # "Brand": self.payment_pagseguro_id.card_brand,
+                    # "SaveCard": "true"
                     }
                 }
             }
 
         self.payment_token_id.active = False
 
-        _logger.info("_create_cielo_charge: Sending values to URL %s", api_url_charge)
+        _logger.info("_create_pagseguro_charge: Sending values to URL %s", api_url_charge)
         r = requests.post(api_url_charge,
                           json=charge_params,
-                          headers=self.acquirer_id._get_cielo_api_headers())
+                          headers=self.acquirer_id._get_pagseguro_api_headers())
         res = r.json()
-        _logger.info('_create_cielo_charge: Values received:\n%s',
+        _logger.info('_create_pagseguro_charge: Values received:\n%s',
                      pprint.pformat(res))
         return res
 
     @api.multi
-    def cielo_s2s_do_transaction(self, **kwargs):
+    def pagseguro_s2s_do_transaction(self, **kwargs):
         self.ensure_one()
-        result = self._create_cielo_charge(
+        result = self._create_pagseguro_charge(
             acquirer_ref=self.payment_token_id.acquirer_ref,
             email=self.partner_email)
-        return self._cielo_s2s_validate_tree(result)
+        return self._pagseguro_s2s_validate_tree(result)
 
     @api.multi
     def cielo_s2s_capture_transaction(self):
@@ -142,7 +151,7 @@ class PaymentTransactionCielo(models.Model):
                 })
 
     @api.multi
-    def _cielo_s2s_validate_tree(self, tree):
+    def _pagseguro_s2s_validate_tree(self, tree):
         """Validates the transaction.
 
         This method updates the payment.transaction object describing the
@@ -159,39 +168,40 @@ class PaymentTransactionCielo(models.Model):
             return True
 
         if type(tree) != list:
-            status = tree.get('Payment').get('Status')
-            if status == 1:
-                self.write({
-                    'date': fields.datetime.now(),
-                    'acquirer_reference': tree.get('id'),
-                    })
-                # store capture and void links for future manual operations
-                for method in tree.get('Payment').get('Links'):
-                    if 'Rel' in method and 'Href' in method:
-                        if method.get('Rel') == 'self':
-                            self.cielo_s2s_check_link = method.get('Href')
-                        if method.get('Rel') == 'capture':
-                            self.cielo_s2s_capture_link = method.get('Href')
-                        if method.get('Rel') == 'void':
-                            self.cielo_s2s_void_link = method.get('Href')
-
-                # setting transaction to authorized - must match Cielo
-                # payment using the case without automatic capture
-                self._set_transaction_authorized()
-                self.execute_callback()
-                if self.payment_token_id:
-                    self.payment_token_id.verified = True
-                return True
-            else:
-                error = tree.get('Payment').get('ReturnMessage')
-                _logger.warn(error)
-                self.sudo().write({
-                    'state_message': error,
-                    'acquirer_reference': tree.get('id'),
-                    'date': fields.datetime.now(),
-                    })
-                self._set_transaction_cancel()
-                return False
+            # status = tree.get('Payment').get('Status')
+            status = status = tree.get('status')
+            # if status == 'AUTHORIZED':
+            #     self.write({
+            #         'date': fields.datetime.now(),
+            #         'acquirer_reference': tree.get('id'),
+            #         })
+            #     # store capture and void links for future manual operations
+            #     for method in tree.get('Payment').get('Links'):
+            #         if 'Rel' in method and 'Href' in method:
+            #             if method.get('Rel') == 'self':
+            #                 self.pagseguro_s2s_check_link = method.get('Href')
+            #             if method.get('Rel') == 'capture':
+            #                 self.pagseguro_s2s_capture_link = method.get('Href')
+            #             if method.get('Rel') == 'void':
+            #                 self.pagseguro_s2s_void_link = method.get('Href')
+            #
+            #     # setting transaction to authorized - must match Cielo
+            #     # payment using the case without automatic capture
+            #     self._set_transaction_authorized()
+            #     self.execute_callback()
+            #     if self.payment_token_id:
+            #         self.payment_token_id.verified = True
+            #     return True
+            # else:
+            #     error = tree.get('Payment').get('ReturnMessage')
+            #     _logger.warn(error)
+            #     self.sudo().write({
+            #         'state_message': error,
+            #         'acquirer_reference': tree.get('id'),
+            #         'date': fields.datetime.now(),
+            #         })
+            #     self._set_transaction_cancel()
+            #     return False
 
         elif type(tree) == list:
             error = tree[0].get('Message')
