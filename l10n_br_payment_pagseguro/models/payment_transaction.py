@@ -48,6 +48,7 @@ class PaymentTransactionCielo(models.Model):
         if self.payment_token_id.card_brand == 'mastercard':
             self.payment_token_id.card_brand = 'master'
 
+        # TODO - Resivar campos e origem das informações
         charge_params = {
             "reference_id": str(self.payment_token_id.acquirer_id),
             "description": "Motivo do pagamento",
@@ -170,8 +171,12 @@ class PaymentTransactionCielo(models.Model):
         if type(tree) != list:
             # status = tree.get('Payment').get('Status')
             status = status = tree.get('status')
+
             # if status == 'AUTHORIZED':
-            #     self.write({
+
+                # TODO - Continuar o fluxo conforme necessário
+
+            #         self.write({
             #         'date': fields.datetime.now(),
             #         'acquirer_reference': tree.get('id'),
             #         })
