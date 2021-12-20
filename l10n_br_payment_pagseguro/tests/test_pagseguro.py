@@ -97,6 +97,14 @@ class PagseguroTest(PagseguroCommon):
     #                      'transaction state should be authorized')
         
     #     time.sleep(3)
-    #     transaction.action_void()
+    #     transaction.action_cancel()
     #     self.assertEqual(transaction.state, 'cancel',
     #                      'transaction state should be done')
+        
+        
+
+        
+    
+        
+        
+        

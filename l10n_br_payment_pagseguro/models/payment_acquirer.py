@@ -22,6 +22,7 @@ class PaymentAcquirerPagseguro(models.Model):
         required_if_provider='pagseguro',
         groups='base.group_user'
     )
+    # TODO add pagseguro_image_url field (?)
 
     pagseguro_app_key = fields.Char(
         string='App Key',
@@ -79,10 +80,9 @@ class PaymentAcquirerPagseguro(models.Model):
 
         """
         PAGSEGURO_HEADERS = {
-            'Authorization': f'Bearer {self.pagseguro_app_key}',
+            'Authorization':  self.pagseguro_token,
             'Content-Type': 'application/json',
             'x-api-version': '4.0',
-            'x-idempotency-key': '',
         }
 
         return PAGSEGURO_HEADERS
