@@ -12,7 +12,6 @@ class PaymentAcquirerPagseguro(models.Model):
     _inherit = 'payment.acquirer'
 
     provider = fields.Selection(selection_add=[('pagseguro', 'Pagseguro')])
-
     pagseguro_email = fields.Char(
         string='Email',
         required_if_provider='pagseguro',
@@ -23,6 +22,7 @@ class PaymentAcquirerPagseguro(models.Model):
         required_if_provider='pagseguro',
         groups='base.group_user'
     )
+    # TODO add pagseguro_image_url field (?)
 
     @api.model
     def _get_pagseguro_api_url(self):
@@ -86,10 +86,9 @@ class PaymentAcquirerPagseguro(models.Model):
 
         """
         PAGSEGURO_HEADERS = {
-            'Authorization': f'Bearer {self.pagseguro_token}',
+            'Authorization':  self.pagseguro_token,
             'Content-Type': 'application/json',
             'x-api-version': '4.0',
-            'x-idempotency-key': '',
         }
 
         return PAGSEGURO_HEADERS

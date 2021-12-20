@@ -23,7 +23,7 @@ class PaymentTransactionCielo(models.Model):
         string="Capture Link",
         required=False,
     )
-    pagseguro_s2s_cancel_link = fields.Char(
+    pagseguro_s2s_void_link = fields.Char(
         string="Cancel Link",
         required=False,
     )
@@ -31,7 +31,7 @@ class PaymentTransactionCielo(models.Model):
         string="Check Link",
         required=False,
     )
-
+    
     def _create_pagseguro_charge(self, acquirer_ref=None, tokenid=None,
                                  email=None):
         """Creates the s2s payment.
@@ -42,10 +42,6 @@ class PaymentTransactionCielo(models.Model):
         api_url_charge = 'https://%s/charges' % (
             self.acquirer_id._get_pagseguro_api_url())
 
-        # Odoo uses 'mastercard' name, pagseguro uses 'master'
-        if self.payment_token_id.card_brand == 'mastercard':
-            self.payment_token_id.card_brand = 'master'
-
         charge_params = {
             "reference_id": str(self.payment_token_id.acquirer_id),
             "description": self.display_name[:13],
@@ -55,9 +51,9 @@ class PaymentTransactionCielo(models.Model):
                 "currency": INT_CURRENCIES[0],
             },
             "payment_method": {
-                "type": "CREDIT_CARD",
+                "type": "CREDIT_CARD", # TODO Can the user select the method?
                 "installments": 1,
-                "capture": True,
+                "capture": False,
                 "card": {
                     "number": self.payment_token_id.card_number,
                     "exp_month": self.payment_token_id.card_exp.split('/')[0],
@@ -90,19 +86,45 @@ class PaymentTransactionCielo(models.Model):
         return self._pagseguro_s2s_validate_tree(result)
 
     @api.multi
-    def cielo_s2s_capture_transaction(self):
+    def pagseguro_s2s_capture_transaction(self):
         """Captures an authorized transaction."""
+        
+        charge_params = {
+            "reference_id": str(self.payment_token_id.acquirer_id),
+            "description": self.display_name[:13],
+            "amount": {
+                # Charge is in BRL cents -> Multiply by 100
+                "value": int(self.amount * 100),
+                "currency": INT_CURRENCIES[0],
+            },
+            "payment_method": {
+                "type": "CREDIT_CARD", # TODO Can the user select the method?
+                "installments": 1,
+                "capture": False,
+                "card": {
+                    "number": self.payment_token_id.card_number,
+                    "exp_month": self.payment_token_id.card_exp.split('/')[0],
+                    "exp_year": self.payment_token_id.card_exp.split('/')[1],
+                    "security_code": self.payment_token_id.card_cvc,
+                    "holder": {
+                        "name": self.partner_id.name
+                    }
+                }
+            }
+        }
+        
         _logger.info(
-            'cielo_s2s_capture_transaction: Sending values to URL %s',
-            self.cielo_s2s_capture_link)
-        r = requests.put(self.cielo_s2s_capture_link,
-                         headers=self.acquirer_id._get_cielo_api_headers())
+            'pagseguro_s2s_capture_transaction: Sending values to URL %s',
+            self.pagseguro_s2s_capture_link)
+        r = requests.post(self.pagseguro_s2s_capture_link,
+                         headers=self.acquirer_id._get_pagseguro_api_headers(),
+                         json=charge_params)
         res = r.json()
-        _logger.info('cielo_s2s_capture_transaction: Values received:\n%s',
+        _logger.info('pagseguro_s2s_capture_transaction: Values received:\n%s',
                      pprint.pformat(res))
-        # analyse result
-        if type(res) == dict and res.get('ProviderReturnMessage') and res.get(
-            'ProviderReturnMessage') == 'Operation Successful':
+
+        if type(res) == dict and res.get('payment_response') and res.get(
+            'payment_response').get('message') == 'SUCESSO':
             # apply result
             self.write({
                 'date': fields.datetime.now(),
@@ -118,19 +140,19 @@ class PaymentTransactionCielo(models.Model):
             })
 
     @api.multi
-    def cielo_s2s_void_transaction(self):
+    def pagseguro_s2s_void_transaction(self):
         """Voids an authorized transaction."""
         _logger.info(
-            'cielo_s2s_void_transaction: Sending values to URL %s',
-            self.cielo_s2s_void_link)
-        r = requests.put(self.cielo_s2s_void_link,
-                         headers=self.acquirer_id._get_cielo_api_headers())
+            'pagseguro_s2s_void_transaction: Sending values to URL %s',
+            self.pagseguro_s2s_void_link)
+        r = requests.put(self.pagseguro_s2s_void_link,
+                         headers=self.acquirer_id._get_pagseguro_api_headers())
         res = r.json()
-        _logger.info('cielo_s2s_void_transaction: Values received:\n%s',
+        _logger.info('pagseguro_s2s_void_transaction: Values received:\n%s',
                      pprint.pformat(res))
-        # analyse result
-        if type(res) == dict and res.get('ProviderReturnMessage') and res.get(
-            'ProviderReturnMessage') == 'Operation Successful':
+
+        if type(res) == dict and res.get('payment_response') and res.get(
+            'payment_response').get('message') == 'SUCESSO':
             # apply result
             self.write({
                 'date': fields.datetime.now(),
@@ -161,9 +183,9 @@ class PaymentTransactionCielo(models.Model):
                 self.reference)
             return True
 
-        if tree.get('message') not in ['Unauthorized', 'Endpoint request timed out']:
-            status = status = tree.get('status')
-            if status == 'AUTHORIZED':
+        if tree.get('payment_response'):
+            code = tree.get('payment_response', {}).get('code')
+            if code == 20000:
                 self.write({
                     'date': fields.datetime.now(),
                     'acquirer_reference': tree.get('id'),
@@ -177,10 +199,10 @@ class PaymentTransactionCielo(models.Model):
                     if method.get('rel') == 'CHARGE.CAPTURE':
                         self.pagseguro_s2s_capture_link = method.get('href')
                     if method.get('rel') == 'CHARGE.CANCEL':
-                        self.pagseguro_s2s_cancel_link = method.get('href')
+                        self.pagseguro_s2s_void_link = method.get('href')
 
-                # setting transaction to authorized - must match Pagseguro
-                # payment using the case without automatic capture
+            # setting transaction to authorized - must match Pagseguro
+            # payment using the case without automatic capture
             self._set_transaction_authorized()
             self.execute_callback()
             if self.payment_token_id:
@@ -196,8 +218,7 @@ class PaymentTransactionCielo(models.Model):
                 })
                 self._set_transaction_cancel()
                 return False
-
-        if tree.get('message') in ['Unauthorized','Endpoint request timed out']:
+        if tree.get('message'):
             error = tree.get('message')
             _logger.warn(error)
             self.sudo().write({
