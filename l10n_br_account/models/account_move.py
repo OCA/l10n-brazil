@@ -93,7 +93,7 @@ class AccountMove(models.Model):
 
     def action_post(self, invoice=False):
         # TODO FIXME migrate: no mode invoice keyword
-        self.write({'state_edoc': 'a_enviar'})
+        self.fiscal_document_id._change_state('a_enviar')
         if self.state == 'draft':
             result = super().action_post()
             if invoice:
