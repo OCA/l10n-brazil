@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2014 KMEE (http://www.kmee.com.br/)
+    @author Luis Felipe Miléo <mileo@kmee.com.br>
+    The licence is in the file __openerp__.py
+-->
+<odoo>
+
+    <record id="l10n_br_account_payment_order_payment_line_form" model="ir.ui.view">
+        <field name="name">l10n_br_account_payment_order.payment.line.form</field>
+        <field name="model">account.payment.line</field>
+        <field name="priority">99</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_line_form"
+        />
+        <field name="arch" type="xml">
+            <!-- TODO Campos não podem ser alterados aqui, o account.move.line ficaria
+                  diferente, verificar no caso de Pagtos/outbound, principalmente se o
+                  programa irá permitir cadastrar Ordens de Pagto diretamente sem
+                  um "documento de origem" ( parece ser melhor não, p/ evitar
+                  inconsistencias ). E qual seria o sentido de fazer uma Ordem de
+                  Pagto sem relação com uma Fatura ou Lançamento ? Isso não
+                  acabaria gerando um registro avulso sem relação com nada, apenas com
+                   a necessidade de ter um arquivo, quais seriam os casos de uso ? -->
+            <field name="amount_currency" position="attributes">
+                <attribute
+                    name="readonly"
+                >[('payment_method_code', 'in', ('400', '240', '500'))]</attribute>
+            </field>
+
+            <!-- TODO: Implementação de Títulos com Diferentes Moedas,
+                  CNAB 240 parece permitir -->
+            <field name="currency_id" position="attributes">
+                <attribute
+                    name="readonly"
+                >[('payment_method_code', 'in', ('400', '240', '500'))]</attribute>
+            </field>
+
+            <!-- TODO: Existe necessidade de alteração desse campo aqui ? Qual caso de uso ? -->
+            <field name="move_line_id" position="attributes">
+                <attribute
+                    name="readonly"
+                >[('payment_method_code', 'not in', ('400', '240', '500'))]</attribute>
+            </field>
+
+            <field name="move_line_id" position="before">
+                <field
+                    name="invoice_id"
+                    attrs="{'readonly': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
+                />
+            </field>
+
+            <!-- TODO: Existe a possibilidade de alterar o Partner e ter um diferente
+                  do informado na account.move.line ? Qual seria o caso de uso ? -->
+            <field name="partner_id" position="attributes">
+                <attribute
+                    name="readonly"
+                >[('payment_method_code', 'not in', ('400', '240', '500'))]</attribute>
+            </field>
+
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <!-- Os campos não podem ser alterados aqui porque isso precisa
+                ser feito na respectiva account.move.line para ficar registrado para
+                evitar inconsistencias de ter alterações não registradas -->
+                <field name="percent_interest" readonly="1" />
+                <field name="amount_interest" readonly="1" />
+                <field name="rebate_value" readonly="1" />
+                <field name="discount_value" readonly="1" />
+            </xpath>
+            <xpath expr="//group[@name='right']" position="after">
+                <group name="cnab" string="Informações do CNAB">
+                    <field name="own_number" readonly="1" />
+                    <field name="document_number" readonly="1" />
+                    <field name="company_title_identification" readonly="1" />
+                    <field
+                        name="movement_type"
+                        attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
+                    />
+                    <field name="mov_instruction_code_id" readonly="1" />
+                    <field
+                        name="doc_finality_code"
+                        attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                    />
+                    <field
+                        name="ted_finality_code"
+                        attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                    />
+                    <field
+                        name="complementary_finality_code"
+                        attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                    />
+                    <field name="favored_warning" />
+                    <field name="payment_method_code" invisible="1" />
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--<menuitem id="menu_main_cnab" name="CNAB" parent="account.menu_finance"
+              sequence="6"/>-->
+
+    <record id="view_cnab_retorno_tree" model="ir.ui.view">
+        <field name="name">cnab.retorno.tree</field>
+        <field name="model">l10n_br.cnab</field>
+        <field name="arch" type="xml">
+            <tree string="CNAB Retorno Lines">
+                <field name="name" />
+                <field name="cnab_date" />
+                <field name="return_file" />
+                <field name="date_file" />
+                <field name="sequential_file" />
+                <field name="bank_account_id" />
+                <field name="number_lots" />
+                <field name="number_events" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_cnab_lote_tree" model="ir.ui.view">
+        <field name="name">cnab.lote.tree</field>
+        <field name="model">l10n_br.cnab.lote</field>
+        <field name="arch" type="xml">
+            <tree string="CNAB Lotes Lines">
+                <field name="account_bank_id" />
+                <field name="company_registration_number" />
+                <field name="company_registration_type" />
+                <field name="operation_service" />
+                <field name="service_type" />
+                <field name="message" />
+                <field name="register_qty" />
+                <field name="total_value" />
+                <field
+                    name="event_id"
+                    context="{'form_view_ref':'l10n_br_account_payment_order.cnab_retorno_evento_form_view'}"
+                />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_cnab_evento_tree" model="ir.ui.view">
+        <field name="name">cnab.evento.tree</field>
+        <field name="model">l10n_br.cnab.evento</field>
+        <field name="arch" type="xml">
+            <tree string="CNAB Evento Lines">
+                <field name="bank_payment_line_id" />
+                <field name="invoice_id" />
+                <field name="partner_id" />
+                <field name="occurrence_date" />
+                <field name="real_payment_date" />
+                <field name="segment" />
+                <field name="favored_id" />
+                <field name="favored_bank_account_id" />
+                <field name="own_number" />
+                <field name="your_number" />
+                <field name="currency_type" />
+                <field name="title_value" />
+                <field name="payment_value" />
+                <field name="tariff_charge" />
+                <field name="occurrences" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="cnab_retorno_evento_form_view" model="ir.ui.view">
+        <field name="name">cnab.retorno.evento.form.view</field>
+        <field name="model">l10n_br.cnab.evento</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        nolabel="1"
+                        statusbar_visible="draft,done"
+                    />
+                </header>
+                <group attrs="{'readonly': [('state', '=', 'done')]}">
+                    <group>
+                        <field name="invoice_id" />
+                        <field name="partner_id" />
+                        <field name="occurrence_date" />
+                        <field name="real_payment_date" />
+                        <field name="segment" />
+                        <field name="favored_id" />
+                        <field name="own_number" />
+                        <field name="your_number" />
+                        <field name="currency_type" />
+                        <field name="title_value" />
+                        <field name="payment_value" />
+                        <field name="tariff_charge" />
+                        <field name="rebate_value" />
+                        <field name="discount_value" />
+                        <field name="iof_value" />
+                        <field name="interest_fee_value" />
+                        <field name="other_credits" />
+                        <field name="bank_payment_line_id" />
+                        <field name="move_line_id" />
+                    </group>
+                    <group>
+                        <field name="occurrences" />
+                        <field name="str_motiv_a" />
+                        <field name="str_motiv_b" />
+                        <field name="str_motiv_c" />
+                        <field name="str_motiv_d" />
+                        <field name="str_motiv_e" />
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="cnab_retorno_lote_form_view" model="ir.ui.view">
+        <field name="name">cnab.retorno.lote.form.view</field>
+        <field name="model">l10n_br.cnab.lote</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        nolabel="1"
+                        statusbar_visible="draft,done"
+                    />
+                </header>
+                <group>
+                    <group>
+                        <field
+                            name="account_bank_id"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                        <field
+                            name="company_registration_number"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                        <field
+                            name="company_registration_type"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                        <field
+                            name="operation_service"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                    </group>
+                    <group>
+                        <field
+                            name="service_type"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                        <field
+                            name="message"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                        <field
+                            name="register_qty"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                        <field
+                            name="total_value"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                    </group>
+                </group>
+                <group string="Eventos">
+                    <field
+                        name="event_id"
+                        ontext="{'form_view_ref':'l10n_br_account_payment_order.cnab_retorno_evento_form_view'}"
+                        nolabel="1"
+                        attrs="{'readonly': [('state', '=', 'done')]}"
+                    />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="cnab_retorno_form_view" model="ir.ui.view">
+        <field name="name">cnab.retorno.form.view</field>
+        <field name="model">l10n_br.cnab</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button
+                        name="processar_arquivo_retorno"
+                        states="draft"
+                        string="Processar Retorno"
+                        type="object"
+                        class="oe_highlight"
+                        attrs="{'invisible': [('state', '=', 'done')]}"
+                    />
+                    <button
+                        name="reprocessar_arquivo_retorno"
+                        states="done"
+                        string="Reprocessar Retorno"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        nolabel="1"
+                        statusbar_visible="draft,done"
+                    />
+                </header>
+                <h1>
+                    <field name="name" readonly="1" />
+                </h1>
+                <group>
+                    <group>
+                        <field
+                            name="cnab_date"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                        <field
+                            name="return_file"
+                            filename="filename"
+                            widget="binary"
+                            required="True"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                        <field name="filename" invisible="1" />
+                        <field
+                            name="reason_error"
+                            attrs="{'readonly': [('state', 'in', ('error'))]}"
+                            readonly="1"
+                        />
+                    </group>
+
+                </group>
+                <group
+                    attrs="{'invisible': [('state','!=', 'done')], 'readonly': [('state', '=', 'done')]}"
+                >
+                    <group>
+                        <field
+                            name="date_file"
+                            attrs="{'readonly': [('state', 'in', ('done', 'error'))]}"
+                        />
+                        <field
+                            name="sequential_file"
+                            attrs="{'readonly': [('state', 'in', ('done', 'error'))]}"
+                            readonly="1"
+                        />
+                        <field
+                            name="bank_account_id"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                    </group>
+                    <group>
+                        <field
+                            name="number_lots"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                        <field
+                            name="number_events"
+                            attrs="{'readonly': [('state', '=', 'done')]}"
+                        />
+                    </group>
+                </group>
+                <group
+                    string="Lote de Eventos"
+                    name="evento-lines"
+                    attrs="{'invisible': [('state','!=', 'done')]}"
+                >
+                    <field
+                        name="lot_id"
+                        context="{'form_view_ref':'l10n_br_account_payment_order.cnab_retorno_lote_form_view'}"
+                        nolabel="1"
+                        attrs="{'readonly': [('state', '=', 'done')]}"
+                    />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="importa_retorno2_multi_action_server" model="ir.actions.server">
+        <field name="name">Processar Retorno</field>
+        <field name="model_id" eval="ref('model_l10n_br_cnab')" />
+        <field name="state">code</field>
+        <field
+            name="code"
+        >action = env.get('l10n_br.cnab').processar_retorno_multi()</field>
+    </record>
+
+<!--    <record id="importa_retorno2_multi_action" model="ir.values">-->
+<!--        <field name="name">Processar Retorno</field>-->
+<!--        <field name="key2">client_action_multi</field>-->
+<!--        <field name="model">l10n_br.cnab</field>-->
+<!--        <field name="value" eval="'ir.actions.server,%d' % importa_retorno2_multi_action_server" />-->
+<!--    </record>-->
+
+    <record id="importa_retorno_multi_action_server" model="ir.actions.server">
+        <field name="name">Reprocessar Retorno</field>
+        <field name="model_id" eval="ref('model_l10n_br_cnab')" />
+        <field name="state">code</field>
+        <field
+            name="code"
+        >action = env.get('l10n_br.cnab').reprocessar_retorno_multi()</field>
+    </record>
+
+<!--    <record id="importa_retorno_multi_action" model="ir.values">-->
+<!--        <field name="name">Reprocessar Retorno</field>-->
+<!--        <field name="key2">client_action_multi</field>-->
+<!--        <field name="model">l10n_br.cnab</field>-->
+<!--        <field name="value" eval="'ir.actions.server,%d' % importa_retorno_multi_action_server" />-->
+<!--    </record>-->
+
+    <record id="action_cnab_retorno" model="ir.actions.act_window">
+        <field name="name">Importar Retorno Bancário CNAB</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">l10n_br.cnab</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!--<menuitem id="menu_cnab_retorno"
+              parent="l10n_br_account_payment_order.menu_retorno_categ"
+              name="Processar Retorno" sequence="1"
+              action="action_cnab_retorno"/>-->
+
+</odoo>

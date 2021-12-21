@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 KMEE
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="account_move_line_cnab_change_form_view">
+        <field
+            name="name"
+        >account.move.line.cnab.change.form (in l10n_br_account_payment_order)</field>
+        <field name="model">account.move.line.cnab.change</field>
+        <field name="arch" type="xml">
+            <form string="Account Move Line CNAB Change">
+                <field name="account_move_line_ids" nolabel="1" />
+                <group>
+                    <field name="change_type" widget="radio" />
+                    <field
+                        name="date_maturity"
+                        attrs="{'invisible': [('change_type', '!=', 'change_date_maturity')], 'required': [('change_type', '=', 'change_date_maturity')]}"
+                    />
+                    <field
+                        name="payment_mode_id"
+                        attrs="{'invisible': [('change_type', '!=', 'change_payment_mode')], 'required': [('change_type', '=', 'change_payment_mode')]}"
+                    />
+                    <field
+                        name="rebate_value"
+                        attrs="{'invisible': [('change_type', '!=', 'grant_rebate')], 'required': [('change_type', '=', 'grant_rebate')]}"
+                    />
+                    <field
+                        name="discount_value"
+                        attrs="{'invisible': [('change_type', '!=', 'grant_discount')], 'required': [('change_type', '=', 'grant_discount')]}"
+                    />
+                    <field name="reason" />
+                </group>
+                <footer>
+                    <button name="doit" string="OK" class="btn-primary" type="object" />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="account_move_line_change_act_window">
+        <field name="name">CNAB Change Account Move Line</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move.line.cnab.change</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="account_move_line_cnab_change_form_view" />
+        <field name="target">new</field>
+        <field name="multi">True</field>
+        <field name="binding_model_id" ref="account.model_account_move_line" />
+    </record>
+
+</odoo>

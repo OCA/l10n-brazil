@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_cobranca_lines_tree" model="ir.ui.view">
+        <field name="name">Linhas de Cobrança</field>
+        <field name="model">account.payment.line</field>
+        <field name="field_parent">order_id</field>
+        <field name="view_type">tree</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <tree string="Linhas de cobrança">
+
+                <!--&lt;!&ndash;<field name="ml_inv_ref" readonly="1"/>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<field name="debit" readonly="1" sum="Total Debit"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="credit" readonly="1" sum="Total Credit"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<field name="maturity_residual" sum="Total Residual"/>&ndash;&gt;-->
+
+
+                <field name="order_id" />
+                <field name="move_line_id" />
+                <field name="partner_id" />
+                <field name="ml_maturity_date" />
+                <field name="amount_currency" sum="Total" />
+                <field name="name" />
+                <field name="communication" />
+                <field name="partner_bank_id" />
+
+
+                <!--<field name="create_date" invisible="1"/>-->
+
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- distinguish between payment orders and debit orders in the menu -->
+    <record id="view_cobranca_line_search" model="ir.ui.view">
+        <field name="name">Linhas de Cobrança Select</field>
+        <field name="model">account.payment.line</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <search string="Busque cobranças">
+
+                <!--<filter name="expt_date" string="Data de exportacao" domain="[('stored_invoice_id', '&lt;&gt;', False)]"/>-->
+
+                <!-- Opções para busca -->
+                <field name="move_line_id" />
+                <field name="order_id" />
+                <field name="partner_id" />
+                <field name="date" />
+                <field name="communication" />
+                <field name="state" />
+
+                <filter
+                    name="draft_order"
+                    string="Ordens Provisórias"
+                    domain="[('order_id.state', '=', 'draft')]"
+                />
+                <filter
+                    name="open_order"
+                    string="Ordens Confirmadas"
+                    domain="[('order_id.state', '=', 'open')]"
+                />
+                <filter
+                    name="emmited_order"
+                    string="Ordens Emitidas"
+                    domain="[('order_id.state', '=', 'done')]"
+                />
+                <filter
+                    name="cancelled_order"
+                    string="Ordens Canceladas"
+                    domain="[('order_id.state', '=', 'cancel')]"
+                />
+
+                <!--<filter name="order_date_done" string="Ordens emitida em" domain="[('order_id.date_done'}"/>-->
+                <!--<filter string="Day" domain="[]" context="{'group_by':'order_id.date_done'}"/>-->
+
+                <group string="Agrupar por">
+                    <filter
+                        name="group_by_order_id"
+                        string="Ordem de cobrança"
+                        context="{'group_by': 'order_id'}"
+                    />
+                    <filter
+                        name="group_by_partner_id"
+                        string="Cliente"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        name="group_by_move_line_id"
+                        string="Fatura"
+                        context="{'group_by': 'move_line_id'}"
+                    />
+                    <filter
+                        name="group_by_move_bank_id"
+                        string="Conta Bancária"
+                        context="{'group_by': 'bank_id'}"
+                    />
+
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cobranca_lines" model="ir.actions.act_window">
+        <field name="name">Linhas de cobrança</field>
+        <field name="res_model">account.payment.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="view_id" ref="view_cobranca_lines_tree" />
+        <field name="search_view_id" ref="view_cobranca_line_search" />
+        <field name="domain">[]</field>
+
+        <field name="help">Lista das linhas cnab 400.</field>
+    </record>
+
+
+<!--    <menuitem action="action_cobranca_lines" id="menu_action_cobranca_lines"-->
+<!--              parent="account_payment.menu_main_payment" sequence="6"-->
+<!--              groups="group_cnab_cobranca"/>-->
+
+
+
+
+    <!--<record id="view_payment_order_form" model="ir.ui.view">-->
+    <!--<field name="name">payment.order.form</field>-->
+    <!--<field name="model">payment.order</field>-->
+    <!--<field name="inherit_id" ref="account_payment.view_payment_order_form"/>-->
+    <!--<field name="priority" eval="60"/>-->
+    <!--<field name="arch" type="xml">-->
+    <!--<data>-->
+    <!--<form position="inside">-->
+    <!--</form>-->
+    <!--&lt;!&ndash;<button string="Invoices" position="attributes">&ndash;&gt;-->
+    <!--&lt;!&ndash;<attribute name="attrs">{'invisible': [('state', '!=', 'draft')]}</attribute>&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;<div class=" oe_right oe_button_box" position="inside">&ndash;&gt;-->
+    <!--&lt;!&ndash;<button name="%(account_payment.action_create_payment_order)s"&ndash;&gt;-->
+    <!--&lt;!&ndash;class="oe_inline oe_stat_button oe_right"&ndash;&gt;-->
+    <!--&lt;!&ndash;string="Invoices"&ndash;&gt;-->
+    <!--&lt;!&ndash;help="Select invoices to collect"&ndash;&gt;-->
+    <!--&lt;!&ndash;type="action"&ndash;&gt;-->
+    <!--&lt;!&ndash;attrs="{'invisible': [('state', '!=', 'draft')]}"&ndash;&gt;-->
+    <!--&lt;!&ndash;icon="fa-pencil-square-o"&ndash;&gt;-->
+    <!--&lt;!&ndash;widget="statinfo"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</data>-->
+    <!--</field>-->
+    <!--</record>-->
+
+</odoo>

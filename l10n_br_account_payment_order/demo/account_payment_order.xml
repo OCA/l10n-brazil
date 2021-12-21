@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <!-- TODO: Teste falha ao rodar mais de uma vez
+          return super().unlink()
+          File "/odoo/external-src/bank-payment/account_payment_order/models/bank_payment_line.py", line 170, in unlink
+            % order_state)
+          odoo.tools.convert.ParseError: "Cannot delete a payment order line whose payment order is in state 'uploaded'. You need to cancel it first.
+    <function model="account.payment.order" name="draft2open">
+        <value model="account.payment.order" search="[('payment_mode_id', '=', obj().env.ref('l10n_br_account_payment_order.payment_mode_manual_test_main').id)]"/>
+    </function>
+    <function model="account.payment.order" name="open2generated">
+        <value model="account.payment.order" search="[('payment_mode_id', '=', obj().env.ref('l10n_br_account_payment_order.payment_mode_manual_test_main').id)]"/>
+    </function>
+    <function model="account.payment.order" name="generated2uploaded">
+        <value model="account.payment.order" search="[('payment_mode_id', '=', obj().env.ref('l10n_br_account_payment_order.payment_mode_manual_test_main').id)]"/>
+    </function>-->
+
+</odoo>
