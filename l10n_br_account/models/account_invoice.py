@@ -516,6 +516,7 @@ class AccountInvoice(models.Model):
             invoices.mapped("fiscal_document_id").action_document_send()
             for invoice in invoices:
                 invoice.move_id.post(invoice=invoice)
+                # ERRO NESTA LINHA ACIMA
 
     def action_document_cancel(self):
         for i in self.filtered(lambda d: d.document_type_id):
@@ -533,10 +534,9 @@ class AccountInvoice(models.Model):
         """Sets fiscal document to draft state and cancel and set to draft
         the related invoice for both documents remain equivalent state."""
         for i in self.filtered(lambda d: d.document_type_id):
-            # i.action_cancel()
+            i.button_cancel
             i.button_draft
-            self.write({'state_edoc': 'em_digitacao'})
-            # i.action_invoice_draft()
+            i.fiscal_document_id._change_state('em_digitacao')
 
     def action_invoice_open(self):
         result = super().action_invoice_open()
