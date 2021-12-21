@@ -41,6 +41,7 @@ def post_init_hook(cr, registry):
         )
 
     if not tools.config["without_demo"]:
+        """ import pudb;pu.db
         demofiles = [
             "demo/l10n_br_fiscal.ncm-demo.csv",
             "demo/l10n_br_fiscal.nbm-demo.csv",
@@ -57,6 +58,8 @@ def post_init_hook(cr, registry):
             "demo/res_users_demo.xml",
             "demo/icms_tax_definition_demo.xml",
         ]
+        """
+        x = 1
 
         # Load only demo CSV files with few lines instead of thousands
         # unless a flag mention the contrary
@@ -73,16 +76,16 @@ def post_init_hook(cr, registry):
 
         _logger.info(_("Loading l10n_br_fiscal demo files."))
 
-        for f in demofiles:
-            tools.convert_file(
-                cr,
-                "l10n_br_fiscal",
-                f,
-                None,
-                mode="init",
-                noupdate=True,
-                kind="demo",
-            )
+        # for f in demofiles:
+        #     tools.convert_file(
+        #         cr,
+        #         "l10n_br_fiscal",
+        #         f,
+        #         None,
+        #         mode="init",
+        #         noupdate=True,
+        #         kind="demo",
+        #     )
 
     #    companies = [
     #        env.ref("base.main_company", raise_if_not_found=False),
@@ -151,22 +154,22 @@ def post_init_hook(cr, registry):
         )
 
     # Load post demo files
-    if not tools.config["without_demo"]:
-        posdemofiles = [
-            "demo/fiscal_document_demo.xml",
-        ]
+    # if not tools.config["without_demo"]:
+    #     posdemofiles = [
+    #         "demo/fiscal_document_demo.xml",
+    #     ]
 
-        _logger.info(
-            _("Loading l10n_br_fiscal post demo files. It may take a minute...")
-        )
+    #     _logger.info(
+    #         _("Loading l10n_br_fiscal post demo files. It may take a minute...")
+    #     )
 
-        for file in posdemofiles:
-            tools.convert_file(
-                cr,
-                "l10n_br_fiscal",
-                file,
-                None,
-                mode="demo",
-                noupdate=True,
-                kind="init",
-            )
+    #     for file in posdemofiles:
+    #         tools.convert_file(
+    #             cr,
+    #             "l10n_br_fiscal",
+    #             file,
+    #             None,
+    #             mode="demo",
+    #             noupdate=True,
+    #             kind="init",
+    #         )

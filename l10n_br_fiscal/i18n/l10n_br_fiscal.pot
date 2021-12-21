@@ -518,28 +518,28 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_mdfe__document_key
 msgid "Access Key"
-msgstr ""
+msgstr "Chave de acesso"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__account_move
 msgid "Account Move?"
-msgstr ""
+msgstr "Mudança de conta "
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__accountant_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.accountant_menu
 msgid "Accountant"
-msgstr ""
+msgstr "Contador"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__file_honorarios
 msgid "Accountant Fee"
-msgstr ""
+msgstr "Taxa de contador "
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_closing__notes
 msgid "Accountant notes"
-msgstr ""
+msgstr "Notas do contador "
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__message_needaction
@@ -553,7 +553,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__message_needaction
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Ação necessária"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__active
@@ -562,7 +562,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__active
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_serie__active
 msgid "Active"
-msgstr ""
+msgstr "Ativo"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__activity_ids
@@ -576,7 +576,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Atividades"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__activity_exception_decoration
@@ -590,7 +590,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_exception_decoration
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Decoração de exceção de atividade "
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__activity_state
@@ -604,7 +604,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_state
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Estado de Atividade "
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_certificate__activity_type_icon
@@ -618,117 +618,117 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__activity_type_icon
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_uom_uom__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Ícone de tipo de atividade "
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cest_action
 msgid "Add a new CEST"
-msgstr ""
+msgstr "Adicionar um novo CEST"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cfop_action
 msgid "Add a new CFOP"
-msgstr ""
+msgstr "Adicionar um novo CFOP"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cnae_action
 msgid "Add a new CNAE"
-msgstr ""
+msgstr "Adicionar um novo CNAE"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cst_action
 msgid "Add a new CST"
-msgstr ""
+msgstr "Adicionar um novo CST"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.certificate_action
 msgid "Add a new Certificate"
-msgstr ""
+msgstr "Adicionar um novo Certificado"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_type_action
 msgid "Add a new Fiscal Document"
-msgstr ""
+msgstr "Adicionar um novo Documento Fiscal"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_email_action
 msgid "Add a new Fiscal Document Email Definition"
-msgstr ""
+msgstr "adicionar uma nova definição de e-mail de documento fiscal"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.document_serie_action
 msgid "Add a new Fiscal Document Serie"
-msgstr ""
+msgstr "Adicionar uma nova série de documentos fiscais "
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.product_genre_action
 msgid "Add a new Fiscal Product Genre"
-msgstr ""
+msgstr "Adicionar um novo gênero de produto fiscal "
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_icms_regulation_action
 msgid "Add a new ICMS Regulation"
-msgstr ""
+msgstr "Adicionar um novo Regulamento de ICMS "
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_icms_relief_action
 msgid "Add a new ICMS Relief"
-msgstr ""
+msgstr "Adicionar um novo alívio de ICMS "
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbm_action
 msgid "Add a new NBM"
-msgstr ""
+msgstr "Adicionar um novo NBM"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nbs_action
 msgid "Add a new NBS"
-msgstr ""
+msgstr "Adicionar um novo NBS"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.ncm_action
 msgid "Add a new NCM"
-msgstr ""
+msgstr "Adicionar um novo NCM"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nfse_document_action
 msgid "Add a new NFSe"
-msgstr ""
+msgstr "Adicionar um novo NFSe"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.nfe_document_action
 msgid "Add a new NFe"
-msgstr ""
+msgstr "Adicionar um novo NFe"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.product_action
 msgid "Add a new Product"
-msgstr ""
+msgstr "Adicionar um novo Produto"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.service_action
 msgid "Add a new Service"
-msgstr ""
+msgstr "Adicionar um novo Serviço"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.service_type_action
 msgid "Add a new Service Type"
-msgstr ""
+msgstr "Adicionar um novo Tipo de Serviço"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.simplified_tax_action
 msgid "Add a new Simplified Tax"
-msgstr ""
+msgstr "Adicionar um novo imposto simplificado "
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_action
 msgid "Add a new Tax"
-msgstr ""
+msgstr "Adicionar um novo Imposto"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_group_action
 msgid "Add a new Tax Group"
-msgstr ""
+msgstr "Adicionar um novo Grupo de Imposto "
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.tax_ipi_control_seal_action
