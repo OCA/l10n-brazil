@@ -75,15 +75,20 @@ class PaymentAcquirerPagseguro(models.Model):
     @api.multi
     def _get_pagseguro_api_headers(self):
         """Get pagseguro API headers used in all s2s communication
-
-        Takes app key in consideration.
-
+        
         """
-        PAGSEGURO_HEADERS = {
-            'Authorization':  self.pagseguro_token,
-            'Content-Type': 'application/json',
-            'x-api-version': '4.0',
-        }
+        if self.environment == 'test':
+            PAGSEGURO_HEADERS = {
+                'Authorization': 'A5BB2E295B2740558E84B62821DCB91E',
+                'Content-Type': 'application/json',
+                'x-api-version': '4.0',
+            }
+        if self.environment == 'prod':
+            PAGSEGURO_HEADERS = {
+                'Authorization': self.pagseguro_token,
+                'Content-Type': 'application/json',
+                'x-api-version': '4.0',
+            }
 
         return PAGSEGURO_HEADERS
 

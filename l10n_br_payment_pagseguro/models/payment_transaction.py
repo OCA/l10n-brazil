@@ -20,7 +20,7 @@ class PaymentTransactionCielo(models.Model):
     _inherit = 'payment.transaction'
 
     pagseguro_s2s_capture_link = fields.Char(
-        string="Capture Link",
+        string="Capture Link Pagseguro",
         required=False,
     )
     pagseguro_s2s_void_link = fields.Char(
@@ -28,7 +28,7 @@ class PaymentTransactionCielo(models.Model):
         required=False,
     )
     pagseguro_s2s_check_link = fields.Char(
-        string="Check Link",
+        string="Check Link Pagseguro",
         required=False,
     )
     
