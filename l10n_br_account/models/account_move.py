@@ -85,24 +85,26 @@ class AccountMove(models.Model):
             invoices.invalidate_cache()
             invoices.filtered(lambda i: i.state == "draft").unlink()
 
-    def action_document_confirm(self):
-        return True
+    # def action_document_confirm(self):
+    # return super().action_document_confirm()
 
     def action_create_return(self):
         return True
 
     def action_post(self, invoice=False):
         # TODO FIXME migrate: no mode invoice keyword
-        result = super().action_post()
-        if invoice:
-            if (
-                invoice.document_type_id
-                and invoice.document_electronic
-                and invoice.issuer == DOCUMENT_ISSUER_COMPANY
-                and invoice.state_edoc != SITUACAO_EDOC_AUTORIZADA
-            ):
-                self.button_cancel()
-        return result
+        self.write({'state_edoc': 'a_enviar'})
+        if self.state == 'draft':
+            result = super().action_post()
+            if invoice:
+                if (
+                    invoice.document_type_id
+                    and invoice.document_electronic
+                    and invoice.issuer == DOCUMENT_ISSUER_COMPANY
+                    and invoice.state_edoc != SITUACAO_EDOC_AUTORIZADA
+                ):
+                    self.button_cancel()
+            return result
 
     def button_cancel(self):
         self._withholding_validate()
