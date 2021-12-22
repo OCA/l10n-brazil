@@ -104,7 +104,7 @@ class CrmLeadTest(TransactionCase):
 
     def test_create_partner(self):
         """ Create a Partner and check the if the fields were filled """
-        self.partner_id = self.crm_lead_company._create_lead_partner()
+        self.partner_id = self.crm_lead_company._create_customer()
 
         self.obj_partner = self.env["res.partner"].browse(self.partner_id.id)
 
@@ -164,7 +164,7 @@ class CrmLeadTest(TransactionCase):
 
     def test_create_contact(self):
         """ Create a Contact and check the if the fields were filled """
-        self.partner_id = self.crm_lead_contact._create_lead_partner()
+        self.partner_id = self.crm_lead_contact._create_customer()
         self.obj_partner = self.env["res.partner"].browse(self.partner_id.id)
 
         self.assertTrue(self.obj_partner.name, "The field Name was not filled.")
@@ -182,7 +182,7 @@ class CrmLeadTest(TransactionCase):
         Create a partner of crm_lead_company_1 and
         check if the fields were fields with Inscr. Estadual ok
         """
-        self.partner_id = self.crm_lead_company_1._create_lead_partner()
+        self.partner_id = self.crm_lead_company_1._create_customer()
 
         self.obj_partner = self.env["res.partner"].browse(self.partner_id.id)
 
