@@ -16,7 +16,7 @@ INT_CURRENCIES = [
 ]
 
 
-class PaymentTransactionCielo(models.Model):
+class PaymentTransactionPagseguro(models.Model):
     _inherit = 'payment.transaction'
 
     pagseguro_s2s_capture_link = fields.Char(
