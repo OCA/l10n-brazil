@@ -2,21 +2,20 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    'name': 'L10n Br Payment Pagseguro',
-    'summary': """
+    "name": "L10n Br Payment Pagseguro",
+    "summary": """
         Pagseguro""",
-    'version': '12.0.1.0.0',
-    'license': 'AGPL-3',
-    'author': 'KMEE,Odoo Community Association (OCA)',
-    'website': 'https://github.com/oca/l10n-brazil.git',
-    'depends': [
-        'payment',
+    "version": "12.0.1.0.0",
+    "license": "AGPL-3",
+    "author": "KMEE,Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/l10n-brazil",
+    "depends": [
+        "payment",
     ],
-    'data': [
-        'views/payment_pagseguro_templates.xml',
-        'data/payment_acquirer_data.xml',
-        'views/payment_acquirer.xml',
+    "data": [
+        "views/payment_pagseguro_templates.xml",
+        "data/payment_acquirer_data.xml",
+        "views/payment_acquirer.xml",
     ],
-    'demo': [
-    ],
+    "demo": [],
 }
