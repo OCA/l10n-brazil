@@ -34,5 +34,5 @@ class L10nBrCrmOnchangeTest(TransactionCase):
         self.crm_lead_01._onchange_mask_cpf()
         self.crm_lead_01._onchange_city_id()
         self.crm_lead_01._onchange_zip()
-        self.crm_lead_01.partner_id = self.crm_lead_01._create_lead_partner()
+        self.crm_lead_01.partner_id = self.crm_lead_01._create_customer()
         self.crm_lead_01._onchange_partner_id()
