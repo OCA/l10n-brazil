@@ -42,6 +42,8 @@ class Lead(models.Model):
 
     district = fields.Char(string="District", size=32)
 
+    street_name = fields.Char(string="Street Name")
+
     street_number = fields.Char(string="Número", size=10)
 
     name_surname = fields.Char(
