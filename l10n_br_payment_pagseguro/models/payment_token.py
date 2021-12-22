@@ -3,6 +3,7 @@
 
 import logging
 import datetime
+import requests
 
 from odoo import api, fields, models
 
@@ -11,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class PaymentTokenPagSeguro(models.Model):
     _inherit = 'payment.token'
-
+    
     card_number = fields.Char(
         string="Number",
         required=False,
@@ -37,7 +38,7 @@ class PaymentTokenPagSeguro(models.Model):
         required=False,
         )
 
-    cielo_token = fields.Char(
+    pagseguro_card_token = fields.Char(
         string="Token",
         required=False,
         )
@@ -51,8 +52,11 @@ class PaymentTokenPagSeguro(models.Model):
         """
         acquirer_id = self.env.ref('l10n_br_payment_pagseguro.payment_acquirer_pagseguro')
         
-        return acquirer_id.pagseguro_token
-
+    pagseguro_public_key = fields.Char(
+        string='Public Key',
+        required=False,
+        )
+    
     @api.model
     def pagseguro_create(self, values):
         """Treats tokenizing data.
@@ -62,11 +66,7 @@ class PaymentTokenPagSeguro(models.Model):
          A resulting dict containing card brand, card token, formated name (
          XXXXXXXXXXXX1234 - Customer Name) and partner_id will be returned.
 
-         """
-        token = self._pagseguro_tokenize()
-        
-        values['card_token'] = token
-
+        """
         if values.get('cc_number'):
             description = values['cc_holder_name']
         else:
@@ -90,7 +90,7 @@ class PaymentTokenPagSeguro(models.Model):
             'card_cvc': values['cc_cvc'],
             'card_holder': values['cc_holder_name'],
             'card_brand': values['cc_brand'],
-            'pagseguro_token': values['card_token'],
+            'pagseguro_card_token': values['pagseguro_card_token'],
         }
 
         return res

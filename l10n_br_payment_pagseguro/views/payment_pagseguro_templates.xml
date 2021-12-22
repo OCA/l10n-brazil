@@ -72,8 +72,8 @@
                            placeholder="Cardholder name" data-is-required="true"/>
                 </div>
                 <div t-att-class="'form-group col-lg-3' if bootstrap_formatting else 'form-group'">
-                    <input type="text" name="cc_expiry" id="cc_expiry" class="form-control" maxlength="7"
-                           placeholder="Expires (MM / YY)" data-is-required="true"/>
+                    <input type="text" name="cc_expiry" id="cc_expiry" class="form-control" maxlength="9"
+                           placeholder="Expires (MM/YYYY)" data-is-required="true"/>
                 </div>
                 <div t-att-class="'form-group col-lg-4' if bootstrap_formatting else 'form-group'">
                     <input type="text" name="cc_cvc" id="cc_cvc" class="form-control" maxlength="4" placeholder="CVC"
@@ -81,9 +81,10 @@
                 </div>
             </div>
             <input type="hidden" name="acquirer_id" t-att-value="id"/>
+            <input type="hidden" name="cc_token"/>
             <input class="d-none" name="csrf_token" t-att-value="request.csrf_token()"/>
             <input t-if="return_url" type="hidden" name="return_url" t-att-value="return_url"/>
-            <input t-if="partnera_id" type="hidden" name="partner_id" t-att-value="partner_id"/>
+            <input t-if="partner_id" type="hidden" name="partner_id" t-att-value="partner_id"/>
         </template>
     </data>
 </odoo>
