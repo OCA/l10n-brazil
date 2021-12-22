@@ -42,7 +42,7 @@ class PaymentAcquirerPagseguro(models.Model):
     @api.multi
     def _get_pagseguro_api_public_key(self):
         """Get pagseguro API public key to tokenize card information
-        
+
         """
         api_url_public_keys = 'https://%s/public-keys/' % (
             self._get_pagseguro_api_url())
@@ -72,8 +72,7 @@ class PaymentAcquirerPagseguro(models.Model):
         """Validates user input"""
         self.ensure_one()
         # mandatory fields
-        for field_name in ["cc_number", "cc_cvc", "cc_holder_name", "cc_expiry",
-                           "cc_brand"]:
+        for field_name in ["cc_token"]:
             if not data.get(field_name):
                 return False
         return True
@@ -86,11 +85,7 @@ class PaymentAcquirerPagseguro(models.Model):
 
         """
         payment_token = self.env['payment.token'].sudo().create({
-            'cc_number': data['cc_number'],
             'cc_holder_name': data['cc_holder_name'],
-            'cc_expiry': data['cc_expiry'],
-            'cc_brand': data['cc_brand'],
-            'cc_cvc': data['cc_cvc'],
             'acquirer_ref': int(data['partner_id']),
             'acquirer_id': int(data['acquirer_id']),
             'partner_id': int(data['partner_id']),
@@ -113,7 +108,7 @@ class PaymentAcquirerPagseguro(models.Model):
     @api.multi
     def _get_pagseguro_api_headers(self):
         """Get pagseguro API headers used in all s2s communication
-        
+
         """
         if self.environment == 'test':
             PAGSEGURO_HEADERS = {

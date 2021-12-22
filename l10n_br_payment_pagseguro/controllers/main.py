@@ -2,6 +2,7 @@
 import logging
 import pprint
 import werkzeug
+import requests
 
 from odoo import http
 from odoo.http import request
@@ -33,9 +34,8 @@ class PaSeguroController(http.Controller):
             'verified': False,
         }
 
-        if verify_validity != False:
-            token.validate()
-            res['verified'] = token.verified
+        token.validate()
+        res['verified'] = token.verified
 
         return res
 
@@ -107,3 +107,22 @@ class PaSeguroController(http.Controller):
         # /payment/process to handle it
         PaymentProcessing.add_payment_transaction(tx)
         return "/payment/process"
+
+    @http.route(['/payment/pagseguro/public_key'], type='json', auth='public', csrf=False)
+    def payment_pagseguro_get_public_key(self, **kwargs):
+        """Get pagseguro API public key to tokenize card information
+
+        """
+        acquirer_id = int(kwargs.get('acquirer_id'))
+        acquirer = request.env['payment.acquirer'].browse(acquirer_id)
+
+        api_url_public_keys = 'https://%s/public-keys/' % (
+            acquirer._get_pagseguro_api_url())
+
+        r = requests.post(api_url_public_keys,
+                          headers=acquirer._get_pagseguro_api_headers(),
+                          json={'type': 'card'})
+        res = r.json()
+        public_key = res.get('public_key')
+
+        return public_key
