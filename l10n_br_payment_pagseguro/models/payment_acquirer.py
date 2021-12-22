@@ -2,8 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+import requests
 
 from odoo import api, fields, models, _
+from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 
@@ -20,15 +22,50 @@ class PaymentAcquirerPagseguro(models.Model):
     pagseguro_token = fields.Char(
         string='Token',
         required_if_provider='pagseguro',
-        groups='base.group_user'
+        groups='base.group_user',
+    )
+    pagseguro_public_key = fields.Char(
+        string='Public key',
+        readonly=True,
+        store=True,
     )
     # TODO add pagseguro_image_url field (?)
 
-    pagseguro_app_key = fields.Char(
-        string='App Key',
-        required_if_provider='pagseguro',
-        groups='base.group_user'
-    )
+    @api.onchange('pagseguro_token')
+    def _onchange_token(self):
+        for record in self:
+            record.pagseguro_public_key = self._get_pagseguro_api_public_key()
+
+    def _get_pagseguro_environment(self):
+        return request.env['payment.acquirer'].search([('provider','=','pagseguro')]).environment
+
+    @api.multi
+    def _get_pagseguro_api_public_key(self):
+        """Get pagseguro API public key to tokenize card information
+        
+        """
+        api_url_public_keys = 'https://%s/public-keys/' % (
+            self._get_pagseguro_api_url())
+
+        r = requests.post(api_url_public_keys,
+                          headers=self._get_pagseguro_api_headers(),
+                          json={'type':'card'})
+        res = r.json()
+        public_key = res.get('public_key')
+
+        return public_key
+
+    @api.model
+    def _get_pagseguro_api_url(self):
+        """Get pagseguro API URLs used in all s2s communication
+
+        Takes environment in consideration.
+
+        """
+        if self.environment == 'test':
+            return 'sandbox.api.pagseguro.com'
+        if self.environment == 'prod':
+            return 'api.pagseguro.com'
 
     @api.multi
     def pagseguro_s2s_form_validate(self, data):
@@ -57,6 +94,7 @@ class PaymentAcquirerPagseguro(models.Model):
             'acquirer_ref': int(data['partner_id']),
             'acquirer_id': int(data['acquirer_id']),
             'partner_id': int(data['partner_id']),
+            'pagseguro_card_token': data['cc_token'],
         })
         return payment_token
 
