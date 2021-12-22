@@ -31,7 +31,7 @@ class PaymentTransactionCielo(models.Model):
         string="Check Link Pagseguro",
         required=False,
     )
-    
+
     def _create_pagseguro_charge(self, acquirer_ref=None, tokenid=None,
                                  email=None):
         """Creates the s2s payment.
@@ -42,35 +42,11 @@ class PaymentTransactionCielo(models.Model):
         api_url_charge = 'https://%s/charges' % (
             self.acquirer_id._get_pagseguro_api_url())
 
-        charge_params = {
-            "reference_id": str(self.payment_token_id.acquirer_id),
-            "description": self.display_name[:13],
-            "amount": {
-                # Charge is in BRL cents -> Multiply by 100
-                "value": int(self.amount * 100),
-                "currency": INT_CURRENCIES[0],
-            },
-            "payment_method": {
-                "type": "CREDIT_CARD", # TODO Can the user select the method?
-                "installments": 1,
-                "capture": False,
-                "card": {
-                    "number": self.payment_token_id.card_number,
-                    "exp_month": self.payment_token_id.card_exp.split('/')[0],
-                    "exp_year": self.payment_token_id.card_exp.split('/')[1],
-                    "security_code": self.payment_token_id.card_cvc,
-                    "holder": {
-                        "name": self.partner_id.name
-                    }
-                }
-            }
-        }
-
         self.payment_token_id.active = False
 
         _logger.info("_create_pagseguro_charge: Sending values to URL %s", api_url_charge)
         r = requests.post(api_url_charge,
-                          json=charge_params,
+                          json=self._get_pagseguro_charge_params(),
                           headers=self.acquirer_id._get_pagseguro_api_headers())
         res = r.json()
         _logger.info('_create_pagseguro_charge: Values received:\n%s',
@@ -88,37 +64,13 @@ class PaymentTransactionCielo(models.Model):
     @api.multi
     def pagseguro_s2s_capture_transaction(self):
         """Captures an authorized transaction."""
-        
-        charge_params = {
-            "reference_id": str(self.payment_token_id.acquirer_id),
-            "description": self.display_name[:13],
-            "amount": {
-                # Charge is in BRL cents -> Multiply by 100
-                "value": int(self.amount * 100),
-                "currency": INT_CURRENCIES[0],
-            },
-            "payment_method": {
-                "type": "CREDIT_CARD", # TODO Can the user select the method?
-                "installments": 1,
-                "capture": False,
-                "card": {
-                    "number": self.payment_token_id.card_number,
-                    "exp_month": self.payment_token_id.card_exp.split('/')[0],
-                    "exp_year": self.payment_token_id.card_exp.split('/')[1],
-                    "security_code": self.payment_token_id.card_cvc,
-                    "holder": {
-                        "name": self.partner_id.name
-                    }
-                }
-            }
-        }
-        
+
         _logger.info(
             'pagseguro_s2s_capture_transaction: Sending values to URL %s',
             self.pagseguro_s2s_capture_link)
         r = requests.post(self.pagseguro_s2s_capture_link,
-                         headers=self.acquirer_id._get_pagseguro_api_headers(),
-                         json=charge_params)
+                          headers=self.acquirer_id._get_pagseguro_api_headers(),
+                          json=self._get_pagseguro_charge_params())
         res = r.json()
         _logger.info('pagseguro_s2s_capture_transaction: Values received:\n%s',
                      pprint.pformat(res))
@@ -226,5 +178,27 @@ class PaymentTransactionCielo(models.Model):
                 'date': fields.datetime.now(),
             })
             self._set_transaction_cancel()
-        
+
         return False
+
+    @api.multi
+    def _get_pagseguro_charge_params(self):
+        CHARGE_PARAMS = {
+            "reference_id": str(self.payment_token_id.acquirer_id),
+            "description": self.display_name[:13],
+            "amount": {
+                # Charge is in BRL cents -> Multiply by 100
+                "value": int(self.amount * 100),
+                "currency": INT_CURRENCIES[0],
+            },
+            "payment_method": {
+                "type": "CREDIT_CARD",  # TODO Can the user select the method?
+                "installments": 1,
+                "capture": True,
+                "card": {
+                    "encrypted": self.payment_token_id.pagseguro_card_token,
+                }
+            }
+        }
+
+        return CHARGE_PARAMS
