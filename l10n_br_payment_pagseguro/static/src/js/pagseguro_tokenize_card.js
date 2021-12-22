@@ -25,29 +25,28 @@ odoo.define('l10n_br_payment_pagseguro.pagseguro_tokenize_card', function (requi
                 var expiry = $('#cc_expiry')[0].value;
                 var holder_name = $('#cc_holder_name')[0].value;
                 var number = $('#cc_number')[0].value;
-                var public_key = '';
 
                 // Get public key
                 rpc.query({
                     route: '/payment/pagseguro/public_key',
                     params: {'acquirer_id': $("input[name='acquirer_id']").val()}
                 }).then(function(data){
-                     // Call function encrypt card
-                    var card = PagSeguro.encryptCard({
+                    // Call function encrypt card
+                    PagSeguro.encryptCard({
                         publicKey: data,
                         holder: holder_name,
                         number: number.replace(/\s+/g, ''),
                         expMonth: expiry.split("/")[0],
                         expYear: expiry.split("/")[1],
                         securityCode: cvc
+                    }).then(function(card){
+                        // Update card token and call parent function
+                        $('input[name="cc_token"]')[0].value = card.encryptedCard;
+                        return this._super.apply(this, arguments);
                     });
-
-                    var card_token = $('input[name="cc_token"]')[0];
-                    card_token.value = card.encryptedCard;
                 });
             }
-
-            return this._super.apply(this, arguments);
+            
         },
 
     });

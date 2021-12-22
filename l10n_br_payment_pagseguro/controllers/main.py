@@ -25,17 +25,17 @@ class PagseguroController(http.Controller):
             }
             return res
 
-        # TODO - Feito adpaptações na classe PaymentAcquirer e para aqui
         res = {
             'result': True,
             'id': token.id,
-            'short_name': token.short_name,  # Verificar este nome
+            'short_name': token.short_name,
             '3d_secure': False,
             'verified': False,
         }
 
-        token.validate()
-        res['verified'] = token.verified
+        if token.validate():
+            token.verified = True
+            res['verified'] = token.verified
 
         return res
 
@@ -110,8 +110,9 @@ class PagseguroController(http.Controller):
 
     @http.route(['/payment/pagseguro/public_key'], type='json', auth='public', csrf=False)
     def payment_pagseguro_get_public_key(self, **kwargs):
-        """Get pagseguro API public key to tokenize card information
+        """Get pagseguro API public key
 
+        Makes a request to pagseguro with token and headers to get the user public key.
         """
         acquirer_id = int(kwargs.get('acquirer_id'))
         acquirer = request.env['payment.acquirer'].browse(acquirer_id)
