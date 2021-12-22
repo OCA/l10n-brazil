@@ -13,10 +13,10 @@ class PagseguroCommon(PaymentAcquirerCommon):
 
     def setUp(self):
         super(PagseguroCommon, self).setUp()
-        
+
         self.currency_brl = self.env['res.currency'].search([('name', '=', 'BRL')], limit=1)
         self.assertTrue(self.currency_brl.active, 'BRL currency deactivated')
-        self.pagseguro = self.env.ref('l10n_br_payment_pagseguro.payment_acquirer_pagseguro')
+        self.pagseguro = self.env.ref('payment_pagseguro.payment_acquirer_pagseguro')
         self.pagseguro.write({
             'pagseguro_email': 'mileo@kmee.com.br',
             'pagseguro_token': 'A5BB2E295B2740558E84B62821DCB91E',
@@ -24,11 +24,11 @@ class PagseguroCommon(PaymentAcquirerCommon):
 
 @odoo.tests.tagged('post_install', '-at_install')
 class PagseguroTest(PagseguroCommon):
-    
+
     def test_10_pagseguro_s2s_capture(self):
         self.assertEqual(self.pagseguro.environment, 'test',
                          'test without test environment')
-        
+
          # Create payment meethod for Pagseguro
         try:
             payment_token = self.env['payment.token'].create({
@@ -53,20 +53,20 @@ class PagseguroTest(PagseguroCommon):
                 })
         except Exception as e:
             _logger.warning(e)
-            
+
         transaction.pagseguro_s2s_do_transaction()
         self.assertEqual(transaction.state, 'authorized',
                          'transaction state should be authorized')
-        
+
         time.sleep(3)
         transaction.action_capture()
         self.assertEqual(transaction.state, 'done',
                          'transaction state should be done')
-    
+
     # def test_10_pagseguro_s2s_void(self):
     #     self.assertEqual(self.pagseguro.environment, 'test',
     #                      'test without test environment')
-        
+
     #      # Create payment meethod for Pagseguro
     #     try:
     #         payment_token = self.env['payment.token'].create({
@@ -91,11 +91,11 @@ class PagseguroTest(PagseguroCommon):
     #             })
     #     except Exception as e:
     #         _logger.warning(e)
-            
+
     #     transaction.pagseguro_s2s_do_transaction()
     #     self.assertEqual(transaction.state, 'authorized',
     #                      'transaction state should be authorized')
-        
+
     #     time.sleep(3)
     #     transaction.action_void()
     #     self.assertEqual(transaction.state, 'cancel',
