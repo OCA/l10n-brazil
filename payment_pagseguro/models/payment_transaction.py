@@ -124,14 +124,14 @@ class PaymentTransactionPagseguro(models.Model):
 
         This method updates the payment.transaction object describing the
         actual transaction outcome.
-        Also saves get/capture/void links sent by cielo to make it easier to
+        Also saves get/capture/void links sent by pagseguro to make it easier to
         perform the operations.
 
         """
         self.ensure_one()
         if self.state != 'draft':
             _logger.info(
-                'Cielo: trying to validate an already validated tx (ref %s)',
+                'PagSeguro: trying to validate an already validated tx (ref %s)',
                 self.reference)
             return True
 

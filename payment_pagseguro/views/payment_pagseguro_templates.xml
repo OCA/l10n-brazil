@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
-    <template id="assets_frontend" name="l10n_br_payment_pagseguro assets" inherit_id="web.assets_frontend">
+
+    <template id="assets_frontend" name="payment_pagseguro assets" inherit_id="web.assets_frontend">
         <xpath expr="." position="inside">
-            <script type="text/javascript" src="/l10n_br_payment_pagseguro/static/src/js/pagseguro_tokenize_card.js"/>
+            <script type="text/javascript" src="/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js"/>
         </xpath>
     </template>
-    
+
     <data noupdate="1">
         <template id="pagseguro_form">
             <div>
