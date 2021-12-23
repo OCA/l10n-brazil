@@ -33,6 +33,11 @@ class Lead(models.Model):
 
     cpf = fields.Char(string="CPF")
 
+    @api.onchange("contact_name")
+    def _onchange_contact_name(self):
+        if not self.name_surname:
+            self.name_surname = self.contact_name
+
     @api.constrains("cnpj")
     def _check_cnpj(self):
         for record in self:
