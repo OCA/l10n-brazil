@@ -143,6 +143,7 @@ class Lead(models.Model):
         values.update(
             {
                 "legal_name": self.legal_name if is_company else self.name_surname,
+                "street_name": self.street_name,
                 "street_number": self.street_number,
                 "district": self.district,
                 "city_id": self.city_id.id,
@@ -162,6 +163,7 @@ class Lead(models.Model):
                 {
                     "cnpj_cpf": self.cpf,
                     "inscr_est": self.rg,
+                    "rg": self.rg,
                 }
             )
         return values
