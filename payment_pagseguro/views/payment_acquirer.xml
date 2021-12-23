@@ -5,7 +5,7 @@
 <odoo>
 
     <record model="ir.ui.view" id="payment_acquirer_form_view">
-        <field name="name">payment.acquirer.form (in l10n_br_payment_pagseguro)</field>
+        <field name="name">payment.acquirer.form (in payment_pagseguro)</field>
         <field name="model">payment.acquirer</field>
         <field name="inherit_id" ref="payment.acquirer_form"/>
         <field name="arch" type="xml">

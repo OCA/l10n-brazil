@@ -3,7 +3,7 @@
    :alt: License: AGPL-3
 
 =========================
-L10n Br Payment Pagseguro
+Payment Pagseguro
 =========================
 
 Pagseguro
@@ -13,14 +13,14 @@ Installation
 
 To install this module, you need to:
 
-#. Do this ...
+#. Aplication -> Remove the application filter and install the modulo payment_pagseguro
 
 Configuration
 =============
 
 To configure this module, you need to:
 
-#. Go to ...
+#. Go to Invoicing -> Configuration -> Payment Acquirers -> PagSeguro
 
 .. figure:: path/to/local/image.png
    :alt: alternative description
@@ -64,16 +64,16 @@ Images
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Luis Felipe Miléo <mileo@kmee.com.br>
+* Cristiano Rodrigues <cristiano.rodrigues@kmee.com.br>
+* Kilian Macedo <kilian.macedo@kmee.com.br>
 
 Funders
 -------
 
 The development of this module has been financially supported by:
 
-* Company 1 name
-* Company 2 name
+* Company Kmee Informática Ltda
 
 Maintainer
 ----------
