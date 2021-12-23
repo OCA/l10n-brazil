@@ -107,16 +107,28 @@ class Lead(models.Model):
         result = super(Lead, self)._prepare_values_from_partner(self.partner_id)
 
         if self.partner_id:
+            result["street_name"] = self.partner_id.street_name
             result["street_number"] = self.partner_id.street_number
+            result["street2"] = self.partner_id.street2
             result["district"] = self.partner_id.district
             result["city_id"] = self.partner_id.city_id.id
+            result["country_id"] = self.partner_id.country_id.id
             if self.partner_id.is_company:
                 result["legal_name"] = self.partner_id.legal_name
                 result["cnpj"] = self.partner_id.cnpj_cpf
                 result["inscr_est"] = self.partner_id.inscr_est
+                result["inscr_mun"] = self.partner_id.inscr_mun
                 result["suframa"] = self.partner_id.suframa
             else:
+                result["partner_name"] = self.partner_id.parent_id.name or False
+                result["legal_name"] = self.partner_id.parent_id.legal_name or False
+                result["cnpj"] = self.partner_id.parent_id.cnpj_cpf or False
+                result["inscr_est"] = self.partner_id.parent_id.inscr_est or False
+                result["inscr_mun"] = self.partner_id.parent_id.inscr_mun or False
+                result["suframa"] = self.partner_id.parent_id.suframa or False
+                result["website"] = self.partner_id.parent_id.website or False
                 result["cpf"] = self.partner_id.cnpj_cpf
+                result["rg"] = self.partner_id.rg
                 result["name_surname"] = self.partner_id.legal_name
         self.update(result)
 
