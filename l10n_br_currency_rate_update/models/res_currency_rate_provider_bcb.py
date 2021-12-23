@@ -11,7 +11,10 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 class ResCurrencyRateProviderBCB(models.Model):
     _inherit = "res.currency.rate.provider"
 
-    service = fields.Selection(selection_add=[("BCB", "Brazilian Central Bank")])
+    service = fields.Selection(
+        selection_add=[("BCB", "Brazilian Central Bank")],
+        ondelete={"BCB": "set default"},
+    )
 
     @api.model
     def _get_supported_currencies(self):
