@@ -204,6 +204,9 @@ class AccountInvoiceLine(models.Model):
         lines = super().create(vals_list)
         if dummy_doc.id != fiscal_doc_id:
             for line in lines:
+                # Carlos coloquei o if abaixo, pois criava duas linhas uma sem o item, um valor negativo
+                if not line.product_id:
+                    continue
                 shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
                 doc_id = line.move_id.fiscal_document_id.id
                 shadowed_fiscal_vals["document_id"] = doc_id

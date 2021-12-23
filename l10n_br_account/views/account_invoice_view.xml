@@ -133,12 +133,12 @@
 
 
             <!-- invoice_line_ids tree (Invoice Lines) -->
-            <!-- <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
               <attribute
                     name="editable"
-                /> -->
+                />
                 <!-- TODO put this in a view with a specific group? -->
-            <!-- </xpath>
+            </xpath>
             <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
                 <attribute
                     name="context"
@@ -171,7 +171,7 @@
                 <field name="other_value" optional="hide" />
                 <field name="estimate_tax" optional="hide" />
             </xpath>
- -->
+
 
             <!-- line_ids tree (Journal Items) -->
             <!-- repeating fiscal fields in line_ids IS REQUIRED to persist values -->
@@ -225,7 +225,7 @@
 
 
             <!-- invoice_line_ids form -->
-           <!-- <xpath
+           <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='tax_ids']"
                 position="replace"
             />
@@ -266,9 +266,9 @@
                 <field name="partner_company_type" force_save="1" invisible="1" />
                 <field name="cfop_destination" force_save="1" invisible="1" />
 
-            </xpath> -->
+            </xpath>
 
-            <!-- <xpath
+            <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='discount']"
                 position="attributes"
             >
@@ -297,9 +297,9 @@
                     name="cfop_id"
                     attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
                 />
-              </xpath> -->
+              </xpath>
 
-            <!-- <xpath
+            <xpath
                 expr="//field[@name='invoice_line_ids']/form/sheet/field[@name='name']"
                 position="after"
             >
@@ -328,7 +328,7 @@
                         </group>
                     </page>
                 </notebook>
-            </xpath> -->
+            </xpath>
 
         </field>
     </record>
