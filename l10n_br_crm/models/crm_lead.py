@@ -94,6 +94,9 @@ class Lead(models.Model):
         """
         if self.city_id:
             self.city = self.city_id.name
+        elif self.partner_id.city_id:
+            self.city_id = self.partner_id.city_id
+            self.city = self.partner_id.city_id.name
 
     @api.onchange("zip")
     def _onchange_zip(self):
