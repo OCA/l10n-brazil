@@ -3,7 +3,7 @@
     <data noupdate="0">
         <record id="payment_acquirer_pagseguro" model="payment.acquirer">
             <field name="name">Pagseguro</field>
-            <field name="image" type="base64" file="l10n_br_payment_pagseguro/static/src/img/pag_seguro_icon.jpg"/>
+            <field name="image" type="base64" file="payment_pagseguro/static/src/img/pag_seguro_icon.jpg"/>
             <field name="provider">pagseguro</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="view_template_id" ref="pagseguro_form"/>
