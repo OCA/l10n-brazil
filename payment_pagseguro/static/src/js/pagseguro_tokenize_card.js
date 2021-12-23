@@ -1,4 +1,4 @@
-odoo.define('l10n_br_payment_pagseguro.pagseguro_tokenize_card', function (require){
+odoo.define('payment_pagseguro.pagseguro_tokenize_card', function (require){
     "use strict";
 
     var ajax = require('web.ajax');
@@ -46,7 +46,7 @@ odoo.define('l10n_br_payment_pagseguro.pagseguro_tokenize_card', function (requi
                     });
                 });
             }
-            
+
         },
 
     });

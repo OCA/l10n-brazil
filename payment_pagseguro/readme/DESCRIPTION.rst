@@ -1,0 +1,1 @@
+Payment Acquirer: PagSeguro Implementation
