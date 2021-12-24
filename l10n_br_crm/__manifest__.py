@@ -10,7 +10,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "version": "14.0.1.0.0",
     "depends": ["l10n_br_base", "crm"],
-    "data": ["views/crm_lead_view.xml"],
+    "data": ["views/crm_lead_view.xml", "views/crm_quick_create_opportunity_form.xml"],
     "installable": True,
     "auto_install": True,
 }
