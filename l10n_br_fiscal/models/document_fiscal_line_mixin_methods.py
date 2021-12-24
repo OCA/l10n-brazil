@@ -782,6 +782,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
 
     @api.onchange("ncm_id", "nbs_id", "cest_id")
     def _onchange_ncm_id(self):
+        import pudb;pu.db
         self._onchange_fiscal_operation_id()
 
     @api.onchange("fiscal_tax_ids")

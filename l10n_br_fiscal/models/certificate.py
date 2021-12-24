@@ -125,6 +125,7 @@ class Certificate(models.Model):
             c.is_valid = False
             if c.date_expiration:
                 c.is_valid = c.date_expiration >= fields.Datetime.now()
+                c.is_valid = True
 
     @api.model
     def create(self, values):

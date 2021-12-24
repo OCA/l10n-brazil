@@ -56,6 +56,7 @@ _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfe(record):
+    #import pudb;pu.db
     if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
         MODELO_FISCAL_NFE,
         MODELO_FISCAL_NFCE,
@@ -384,7 +385,6 @@ class NFe(spec_models.StackedModel):
 
             tnfe = leiauteNFe.TNFe(infNFe=inf_nfe, infNFeSupl=None, Signature=None)
             tnfe.original_tagname_ = "NFe"
-
             edocs.append(tnfe)
 
         return edocs
@@ -494,8 +494,12 @@ class NFe(spec_models.StackedModel):
             processador = record._processador()
             for edoc in record.serialize():
                 processo = None
+                valido = processador.valida_xml(edoc)
+                if valido:
+                    raise UserError(_(valido))
                 for p in processador.processar_documento(edoc):
                     processo = p
+                    import pudb;pu.db
                     if processo.webservice == "nfeAutorizacaoLote":
                         record.authorization_event_id._save_event_file(
                             processo.envio_xml.decode("utf-8"), "xml"

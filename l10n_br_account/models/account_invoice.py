@@ -217,11 +217,15 @@ class AccountInvoice(models.Model):
             values.update({"fiscal_document_id": self.env.company.fiscal_dummy_id.id})
         invoice = super().create(values)
         invoice._write_shadowed_fields()
+        # import pudb;pu.db
+        # invoice.fiscal_document_id.serialize()
         return invoice
 
     def write(self, values):
         result = super().write(values)
         self._write_shadowed_fields()
+        # import pudb;pu.db
+        # self.fiscal_document_id._document_export()
         return result
 
     def unlink(self):
@@ -511,12 +515,15 @@ class AccountInvoice(models.Model):
         return super().action_invoice_draft()
 
     def action_document_send(self):
+        # import pudb;pu.db
         invoices = self.filtered(lambda d: d.document_type_id)
         if invoices:
             invoices.mapped("fiscal_document_id").action_document_send()
             for invoice in invoices:
+                # import pudb;pu.db
                 invoice.move_id.post(invoice=invoice)
                 # ERRO NESTA LINHA ACIMA
+                invoice.fiscal_document_id.action_document_send()
 
     def action_document_cancel(self):
         for i in self.filtered(lambda d: d.document_type_id):
@@ -540,7 +547,7 @@ class AccountInvoice(models.Model):
 
     def action_invoice_open(self):
         result = super().action_invoice_open()
-
+        import pudb;pu.db
         for record in self.filtered(lambda i: i.refund_move_id):
             if record.state == "open":
                 # Ao confirmar uma fatura/documento fiscal se é uma devolução
