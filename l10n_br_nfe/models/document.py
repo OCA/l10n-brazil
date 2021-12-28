@@ -16,7 +16,6 @@ from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
 from nfelib.v4_00 import retEnviNFe as leiauteNFe
 from requests import Session
-from pytrustnfe.xml.validate import valida_nfe
 
 from odoo import _, api, fields
 from odoo.exceptions import UserError, ValidationError
@@ -56,7 +55,6 @@ _logger = logging.getLogger(__name__)
 
 
 def filter_processador_edoc_nfe(record):
-    #import pudb;pu.db
     if record.processador_edoc == PROCESSADOR_OCA and record.document_type_id.code in [
         MODELO_FISCAL_NFE,
         MODELO_FISCAL_NFCE,
@@ -218,7 +216,7 @@ class NFe(spec_models.StackedModel):
         copy=False,
         default=lambda s: s.env["ir.config_parameter"]
         .sudo()
-        .get_param("l10n_br_nfe.version.name", default="Odoo OCA v14.0"),
+        .get_param("l10n_br_nfe.version.name", default="Odoo OCA v14"),
     )
 
     nfe40_CRT = fields.Selection(
@@ -479,8 +477,22 @@ class NFe(spec_models.StackedModel):
                 (5, 0, 0),
                 (0, 0, self._prepare_amount_financial("0", "90", 0.00)),
             ]
+        else:
+            # TODO arrumar condicoes pagamento
+            avista_aprazo = "1"
+            valor = 0.0
+            for fin in self.move_ids.financial_move_line_ids:
+                if fin.payment_mode_id.name == "boleto":
+                    modo = "15"
+                else:
+                    modo = "90"
+                valor += fin.debit
+            self.nfe40_detPag = [
+                (5, 0, 0),
+                (0, 0, self._prepare_amount_financial(avista_aprazo, modo, valor)),
+            ]
 
-        self.nfe40_detPag.__class__._field_prefix = "nfe40_"
+        # self.nfe40_detPag.__class__._field_prefix = "nfe40_"
         # the following was disabled because it blocks the normal
         # invoice validation https://github.com/OCA/l10n-brazil/issues/1559
         # if not self.nfe40_detPag:  # (empty list)
@@ -497,9 +509,7 @@ class NFe(spec_models.StackedModel):
                 valido = processador.valida_xml(edoc)
                 if valido:
                     raise UserError(_(valido))
-                for p in processador.processar_documento(edoc):
-                    processo = p
-                    import pudb;pu.db
+                for processo in processador.processar_documento(edoc):
                     if processo.webservice == "nfeAutorizacaoLote":
                         record.authorization_event_id._save_event_file(
                             processo.envio_xml.decode("utf-8"), "xml"
