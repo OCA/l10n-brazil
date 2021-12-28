@@ -219,8 +219,12 @@ class AccountInvoiceLine(models.Model):
         dummy_line = fields.first(dummy_doc.line_ids)
         if not 'ncm_id' in values:
             for line in self:
+                # quando cria uma fatura por faturamenteo
+                # não esta gravando os camos abaixo
                 if not line.ncm_id and line.product_id:
                     values['ncm_id'] = line.product_id.ncm_id.id
+                if not line.uom_id and line.product_id:
+                    values['uom_id'] = line.product_id.uom_id.id
         result = super().write(values)
         for line in self:
             if line.wh_move_line_id and (
