@@ -190,7 +190,6 @@ class AccountInvoiceLine(models.Model):
             )
             if dummy_doc.id == fiscal_doc_id or values.get("exclude_from_invoice_tab"):
                 values["fiscal_document_line_id"] = fields.first(dummy_doc.line_ids).id
-
             values.update(
                 self._update_fiscal_quantity(
                     values.get("product_id"),
@@ -204,7 +203,8 @@ class AccountInvoiceLine(models.Model):
         lines = super().create(vals_list)
         if dummy_doc.id != fiscal_doc_id:
             for line in lines:
-                # Carlos coloquei o if abaixo, pois criava duas linhas uma sem o item, um valor negativo
+                # # verificar se tem o NCM no
+                # # coloquei o if abaixo, pois criava duas linhas uma sem o item, um valor negativo
                 if not line.product_id:
                     continue
                 shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
@@ -217,10 +217,10 @@ class AccountInvoiceLine(models.Model):
     def write(self, values):
         dummy_doc = self.env.company.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.line_ids)
-        if values.get("move_id"):
-            values["document_id"] = (
-                self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
-            )
+        if not 'ncm_id' in values:
+            for line in self:
+                if not line.ncm_id and line.product_id:
+                    values['ncm_id'] = line.product_id.ncm_id.id
         result = super().write(values)
         for line in self:
             if line.wh_move_line_id and (
