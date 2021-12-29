@@ -173,7 +173,8 @@ class PosOrder(models.Model):
     @api.model
     def _process_order(self, pos_order_vals):
         order = super(PosOrder, self.with_context(
-            mail_create_nosubscribe=True, mail_notrack=True))._process_order(pos_order_vals)
+            mail_create_nolog=True, tracking_disable=True, mail_create_nosubscribe=True,
+            mail_notrack=True))._process_order(pos_order_vals)
         document_file = pos_order_vals.get("document_file")
         if document_file:
             order.document_file_id = order._save_attachment(
