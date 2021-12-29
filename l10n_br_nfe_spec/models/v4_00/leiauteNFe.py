@@ -1372,7 +1372,7 @@ class COFINSST(models.AbstractModel):
         xsd_required=True,
         xsd_type="TDec_0302a04")
     nfe40_qBCProd = fields.Float(
-        digits=4, choice='17',
+        digits=(16,4), choice='17',
         string="Quantidade Vendida",
         xsd_required=True,
         xsd_type="TDec_1204")
@@ -2363,7 +2363,7 @@ class PISOutr(models.AbstractModel):
         xsd_required=True,
         xsd_type="TDec_0302a04")
     nfe40_qBCProd = fields.Float(
-        digits=4, choice='13',
+        digits=(16,4), choice='13',
         string="Quantidade Vendida (NT2011/004)",
         xsd_required=True,
         xsd_type="TDec_1204v")
