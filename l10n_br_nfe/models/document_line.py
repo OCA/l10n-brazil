@@ -482,9 +482,8 @@ class NFeLine(spec_models.StackedModel):
             return ""  # TODO
         if xsd_field == "nfe40_indIncentivo":
             return self.issqn_incentive
-        #if xsd_field == "nfe40_xProd":
-        #    import pudb;pu.db
-        #    return self.name[:120].replace("\n", "").strip()
+        if xsd_field == "nfe40_xProd":
+           return self.name[:120].replace("\n", "").strip()
         if xsd_field in ["nfe40_cEAN", "nfe40_cEANTrib"] and not self[xsd_field]:
             return "SEM GTIN"
         elif xsd_field == "nfe40_CST":
