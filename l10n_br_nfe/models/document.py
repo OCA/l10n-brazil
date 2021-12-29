@@ -509,7 +509,8 @@ class NFe(spec_models.StackedModel):
                 valido = processador.valida_xml(edoc)
                 if valido:
                     raise UserError(_(valido))
-                for processo in processador.processar_documento(edoc):
+                for p in processador.processar_documento(edoc):
+                    processo = p
                     if processo.webservice == "nfeAutorizacaoLote":
                         record.authorization_event_id._save_event_file(
                             processo.envio_xml.decode("utf-8"), "xml"
@@ -698,7 +699,6 @@ class NFe(spec_models.StackedModel):
         )
         # TODO: Alterar a opção output_dir para devolter também o arquivo do XML
         # no retorno, evitando a releitura do arquivo.
-        #import pudb;pu.db
         #"datas_fname": self.document_key + ".pdf",
         self.file_report_id = self.env["ir.attachment"].create(
             {
