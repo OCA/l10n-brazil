@@ -2395,7 +2395,7 @@ class PISQtde(models.AbstractModel):
         "\n03 - Operação Tributável - Base de Calculo = Quantidade Vendida x"
         "\nAlíquota por Unidade de Produto;")
     nfe40_qBCProd = fields.Float(
-        digits=(16,04), string="Quantidade Vendida (NT2011/004)",
+        digits=(16,4), string="Quantidade Vendida (NT2011/004)",
         xsd_required=True,
         xsd_type="TDec_1204v",
         help="Quantidade Vendida (NT2011/004)")
