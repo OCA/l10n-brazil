@@ -23,7 +23,7 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         ).id
         self.company.city_taxation_code_id = self.env.ref(
             "l10n_br_fiscal.city_taxation_code_itajuba"
-        ).id
+        )
         self.company.document_type_id = self.env.ref("l10n_br_fiscal.document_SE")
         self.nfse_same_state.company_id = self.company.id
 
