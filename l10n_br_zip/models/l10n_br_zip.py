@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 try:
     from erpbrasil.base import misc
 except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
+    _logger.error("Library erpbrasil.base not installed!")
 
 _logger = logging.getLogger(__name__)
 
@@ -70,7 +70,11 @@ class L10nBrZip(models.Model):
             domain.append(("zip_code", "=", new_zip))
         else:
             if not state_id or not city_id or len(street or "") == 0:
-                raise UserError(_("Necessário informar Estado, município e logradouro"))
+                raise UserError(
+                    _(
+                        "It is necessary to inform the State, municipality and public place"
+                    )
+                )
 
             if country_id:
                 domain.append(("country_id", "=", country_id))
@@ -85,7 +89,6 @@ class L10nBrZip(models.Model):
 
         return domain
 
-    @api.multi
     def _zip_update(self):
         self.ensure_one()
         cep_update_days = int(
@@ -100,7 +103,6 @@ class L10nBrZip(models.Model):
                 # Update zip object
                 self.write(cep_values)
 
-    @api.multi
     def set_result(self):
         self.ensure_one()
         self._zip_update()
@@ -133,7 +135,7 @@ class L10nBrZip(models.Model):
                 zip_str, webservice=cep_ws_providers.get(cep_ws_provide)
             )
         except Exception as e:
-            raise UserError(_("Erro no PyCEP-Correios : ") + str(e))
+            raise UserError(_("Error in PyCEP-Correios: ") + str(e))
 
         values = {}
         if cep and any(cep.values()):
@@ -175,7 +177,7 @@ class L10nBrZip(models.Model):
                 zip_code=obj.zip,
             )
         except AttributeError as e:
-            raise UserError(_("Erro a Carregar Atributo: ") + str(e))
+            raise UserError(_("Error loading attribute: ") + str(e))
 
         zips = self.search(domain)
 
@@ -232,7 +234,6 @@ class L10nBrZip(models.Model):
             "context": context,
         }
 
-    @api.multi
     def zip_select(self):
         self.ensure_one()
         address_id = self._context.get("address_id")
