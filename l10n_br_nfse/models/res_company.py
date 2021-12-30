@@ -9,6 +9,7 @@ from ..constants.nfse import NFSE_ENVIRONMENT_DEFAULT, NFSE_ENVIRONMENTS
 class ResCompany(models.Model):
 
     _inherit = "res.company"
+
     provedor_nfse = fields.Selection(
         selection=[],
         string="NFSe Provider",
@@ -28,6 +29,9 @@ class ResCompany(models.Model):
     )
     nfse_website = fields.Char(
         string="NFSe Website",
+    )
+    city_taxation_code_id = fields.Many2many(
+        comodel_name="l10n_br_fiscal.city.taxation.code", string="City Taxation Code"
     )
 
     def prepare_company_servico(self):
