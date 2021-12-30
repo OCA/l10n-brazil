@@ -21,7 +21,7 @@ class L10nBRZipTest(TransactionCase):
                 city_id=self.env.ref("l10n_br_base.city_3550308").id,
                 state_id=self.env.ref("base.state_br_sp").id,
                 country_id=self.env.ref("base.br").id,
-                street="Avenida Paulista 1842",
+                street_name="Avenida Paulista 1842",
                 street_type="Avenida",
                 district="Bela Vista",
             )
@@ -30,7 +30,7 @@ class L10nBRZipTest(TransactionCase):
         self.res_partner_1 = self.env["res.partner"].create(
             dict(
                 name="teste",
-                street="paulista",
+                street_name="paulista",
                 district="Bela Vista",
                 country_id=self.env.ref("base.br").id,
                 state_id=self.env.ref("base.state_br_sp").id,
@@ -41,7 +41,7 @@ class L10nBRZipTest(TransactionCase):
     def test_without_all_required_fields(self):
         """Test object without all required fields in res.partner."""
 
-        self.res_partner_1.street = False
+        self.res_partner_1.street_name = False
         try:
             result = self.res_partner_1.zip_search()
         except Exception:
@@ -61,9 +61,9 @@ class L10nBRZipTest(TransactionCase):
             "Error in method zip_search to mapping field district.",
         )
         self.assertEqual(
-            self.res_partner.street,
+            self.res_partner.street_name,
             "Avenida Avenida Paulista 1842",
-            "Error in method zip_search to mapping field street.",
+            "Error in method zip_search to mapping field street_name.",
         )
         self.assertEqual(
             self.res_partner.city_id.name,
@@ -74,7 +74,7 @@ class L10nBRZipTest(TransactionCase):
     def test_search_zip_code_by_other_fields_company(self):
         """Test search by address in res_partner."""
 
-        self.res_partner_1.street = False
+        self.res_partner_1.street_name = False
         try:
             result = self.res_partner_1.zip_search()
         except Exception:
@@ -83,13 +83,13 @@ class L10nBRZipTest(TransactionCase):
             result, "Error to search by address without all required fields."
         )
 
-        self.res_partner_1.street = "paulista"
+        self.res_partner_1.street_name = "paulista"
         self.res_partner_1.zip_search()
         self.assertEqual(
             self.res_partner_1.zip,
             "01310-923",
             "Error in method zip_search to mapping zip code from fields"
-            "country, state, city and street.",
+            "country, state, city and street_name.",
         )
 
     def test_return_two_results_zip_search(self):
@@ -101,7 +101,7 @@ class L10nBRZipTest(TransactionCase):
                 city_id=self.env.ref("l10n_br_base.city_3550308").id,
                 state_id=self.env.ref("base.state_br_sp").id,
                 country_id=self.env.ref("base.br").id,
-                street="Avenida Paulista 900",
+                street_name="Avenida Paulista 900",
                 street_type="Avenida",
                 district="Bela Vista",
             )
@@ -120,7 +120,9 @@ class L10nBRZipTest(TransactionCase):
             "It should return the model zip.search",
         )
         self.assertEqual(
-            obj_zip_search.street, "paulista", "It should return the correct street"
+            obj_zip_search.street_name,
+            "paulista",
+            "It should return the correct street_name",
         )
         self.assertEqual(
             obj_zip_search.state_id.id,
@@ -133,7 +135,7 @@ class L10nBRZipTest(TransactionCase):
 
         # Test button/method 'New Search'
         obj_zip_search.zip_new_search()
-        obj_zip_search.street = "900"
+        obj_zip_search.street_name = "900"
         result = obj_zip_search.zip_search()
 
         self.assertEqual(
@@ -156,9 +158,9 @@ class L10nBRZipTest(TransactionCase):
             "It should return the correct zip, failed method zip_select.",
         )
         self.assertEqual(
-            self.res_partner_1.street,
+            self.res_partner_1.street_name,
             "Avenida Avenida Paulista 900",
-            "It should return the correct street, failed method zip_select.",
+            "It should return the correct street_name, failed method zip_select.",
         )
 
     def test_pycep_correios(self):
@@ -175,7 +177,7 @@ class L10nBRZipTest(TransactionCase):
         """Test search with PyCEP CORREIOS in res_partner."""
         mocked_response = {
             "zip_code": "01310930",
-            "street": "Avenida Paulista, 2100",
+            "street_name": "Avenida Paulista, 2100",
             "zip_complement": None,
             "district": "Bela Vista",
             "city_id": self.env.ref("l10n_br_base.city_3550308").id,
@@ -197,9 +199,10 @@ class L10nBRZipTest(TransactionCase):
             "to mapping field district.",
         )
         self.assertEqual(
-            self.res_partner.street,
+            self.res_partner.street_name,
             "Avenida Paulista, 2100",
-            "Error in method zip_search with PyCEP-Correios" "to mapping field street.",
+            "Error in method zip_search with PyCEP-Correios"
+            "to mapping field street_name.",
         )
         self.assertEqual(
             self.res_partner.city_id.name,
