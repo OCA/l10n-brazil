@@ -10,7 +10,7 @@ class L10nBrZipSearch(models.TransientModel):
 
     zip = fields.Char(string="CEP", size=8)
 
-    street = fields.Char(string="Logradouro", size=72)
+    street_name = fields.Char(string="Logradouro", size=72)
 
     district = fields.Char(string="District", size=72)
 
@@ -52,7 +52,7 @@ class L10nBrZipSearch(models.TransientModel):
 
         context = dict(self._context or {})
         data["zip"] = context.get("zip", False)
-        data["street"] = context.get("street", False)
+        data["street_name"] = context.get("street_name", False)
         data["district"] = context.get("district", False)
         data["country_id"] = context.get("country_id", False)
         data["state_id"] = context.get("state_id", False)
@@ -76,7 +76,7 @@ class L10nBrZipSearch(models.TransientModel):
             state_id=data.state_id.id,
             city_id=data.city_id.id,
             district=data.district,
-            street=data.street,
+            street_name=data.street_name,
             zip_code=data.zip,
         )
 
