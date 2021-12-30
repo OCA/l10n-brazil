@@ -223,7 +223,6 @@ class L10nBrZip(models.Model):
 
         return {
             "name": "Zip Search",
-            "view_type": "form",
             "view_mode": "form",
             "res_model": "l10n_br.zip.search",
             "view_id": False,
