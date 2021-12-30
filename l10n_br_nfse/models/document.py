@@ -10,7 +10,7 @@ from erpbrasil.edoc.provedores.cidades import NFSeFactory
 from erpbrasil.transmissao import TransmissaoSOAP
 from requests import Session
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     EVENT_ENV_HML,
@@ -79,7 +79,6 @@ class Document(models.Model):
         default=lambda self: self.env.user.company_id.nfse_environment,
     )
 
-    @api.multi
     def _document_date(self):
         super()._document_date()
         for record in self.filtered(filter_processador_edoc_nfse):
@@ -130,7 +129,6 @@ class Document(models.Model):
             ),
         )
 
-    @api.multi
     def _document_export(self, pretty_print=True):
         super(Document, self)._document_export()
         for record in self.filtered(filter_processador_edoc_nfse):
