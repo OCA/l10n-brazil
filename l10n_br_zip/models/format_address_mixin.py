@@ -10,3 +10,10 @@ class FormatAddressMixin(models.AbstractModel):
     def zip_search(self):
         self.ensure_one()
         return self.env["l10n_br.zip"].zip_search(self)
+
+    def _fields_view_get_address(self, arch):
+        address_view_id = self.env.company.country_id.address_view_id.sudo()
+        for rec in address_view_id.inherit_children_ids:
+            if rec.model != self._name:
+                rec.model = None
+        return super()._fields_view_get_address(arch)
