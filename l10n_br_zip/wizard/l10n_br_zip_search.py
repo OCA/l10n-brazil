@@ -8,11 +8,11 @@ class L10nBrZipSearch(models.TransientModel):
     _name = "l10n_br.zip.search"
     _description = "Zipcode Search"
 
-    zip = fields.Char(string="CEP", size=8)
+    zip = fields.Char(string="CEP")
 
-    street_name = fields.Char(string="Logradouro", size=72)
+    street_name = fields.Char(string="Logradouro")
 
-    district = fields.Char(string="District", size=72)
+    district = fields.Char(string="District")
 
     country_id = fields.Many2one(string="Country", comodel_name="res.country")
 
@@ -44,7 +44,7 @@ class L10nBrZipSearch(models.TransientModel):
 
     address_id = fields.Integer(string="Id do objeto", invisible=True)
 
-    object_name = fields.Char(string="Nome do Objeto", size=100, invisible=True)
+    object_name = fields.Char(string="Nome do Objeto", invisible=True)
 
     @api.model
     def default_get(self, fields_list):
