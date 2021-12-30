@@ -1,15 +1,6 @@
 <?xml version="1.0" ?>
 <odoo>
 
-    <report
-        id="report_br_nfse_danfe"
-        string="Nota de Serviço"
-        model="l10n_br_fiscal.document"
-        report_type="qweb-pdf"
-        file="l10n_br_nfse.main_template_br_nfse_danfe"
-        name="l10n_br_nfse.main_template_br_nfse_danfe"
-    />
-
       <record id="paperformat_br_nfse_danfse" model="report.paperformat">
           <field name="name">Danfe NFS-e</field>
           <field name="default" eval="True" />
@@ -22,9 +13,22 @@
           <field name="header_spacing">3</field>
       </record>
 
+<!--    <report-->
+<!--        id="report_br_nfse_danfe"-->
+<!--        string="Nota de Serviço"-->
+<!--        model="l10n_br_fiscal.document"-->
+<!--        report_type="qweb-pdf"-->
+<!--        file="l10n_br_nfse.main_template_br_nfse_danfe"-->
+<!--        name="l10n_br_nfse.main_template_br_nfse_danfe"-->
+<!--    />-->
+
     <record id="report_br_nfse_danfe" model="ir.actions.report">
-        <field name="paperformat_id" ref="paperformat_br_nfse_danfse" />
         <field name="name">Nota de Serviço</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_br_nfse.main_template_br_nfse_danfe</field>
+        <field name="report_file">l10n_br_nfse.main_template_br_nfse_danfe</field>
+        <field name="paperformat_id" ref="paperformat_br_nfse_danfse" />
         <field
             name="print_report_name"
         >'%s - NF - %s' % (object.document_number, object.partner_id.name)</field>
