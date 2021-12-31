@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <!-- Delivery Carriers Vehicle -->
@@ -9,20 +9,20 @@
         <field name="arch" type="xml">
             <form string="Veículo">
                 <separator colspan="4" string="Transportadora" />
-                <field name="carrier_id" colspan="4"/>
+                <field name="carrier_id" colspan="4" />
                 <separator colspan="4" string="Dados do Veículo" />
-                <field name="name"/>
-                <field name="active"/>
-                <field name="description"/>
-                <field name="plate"/>
-                <field name="driver"/>
-                <field name="rntc_code"/>
-                <field name="country_id"/>
-                <field name="state_id"/>
-                <field name="city_id"/>
-                <field name="manufacture_year"/>
-                <field name="model_year"/>
-                <field name="type"/>
+                <field name="name" />
+                <field name="active" />
+                <field name="description" />
+                <field name="plate" />
+                <field name="driver" />
+                <field name="rntc_code" />
+                <field name="country_id" />
+                <field name="state_id" />
+                <field name="city_id" />
+                <field name="manufacture_year" />
+                <field name="model_year" />
+                <field name="type" />
             </form>
         </field>
     </record>
@@ -33,22 +33,31 @@
         <field name="type">tree</field>
         <field name="arch" type="xml">
             <tree string="Veículo">
-                <field colspan="4" name="name"/>
+                <field colspan="4" name="name" />
                 <field name="plate" />
-                <field name="manufacture_year"/>
+                <field name="manufacture_year" />
             </tree>
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="action_l10n_br_delivery_carrier_vehicle_form">
+    <record
+        model="ir.actions.act_window"
+        id="action_l10n_br_delivery_carrier_vehicle_form"
+    >
         <field name="name">Veículo</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">l10n_br_delivery.carrier.vehicle</field>
         <field name="view_mode">tree,form</field>
         <field name="view_type">form</field>
-        <field name="view_id" ref="l10n_br_delivery_carrier_vehicle_tree"/>
+        <field name="view_id" ref="l10n_br_delivery_carrier_vehicle_tree" />
     </record>
 
-    <menuitem name="Veículo" id="menu_l10n_br_delivery_carrier_vehicle_form" parent="delivery.menu_delivery" action="action_l10n_br_delivery_carrier_vehicle_form" sequence="10" />
+    <menuitem
+        name="Veículo"
+        id="menu_l10n_br_delivery_carrier_vehicle_form"
+        parent="delivery.menu_delivery"
+        action="action_l10n_br_delivery_carrier_vehicle_form"
+        sequence="10"
+    />
 
 </odoo>

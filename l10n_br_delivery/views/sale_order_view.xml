@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="l10n_br_delivery_sale_form" model="ir.ui.view">
         <field name="name">l10n_br_delivery.sale.order.form</field>
         <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="inherit_id" ref="sale.view_order_form" />
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <field name="picking_policy" position="before">
-                <field name="amount_gross_weight"/>
-                <field name="amount_volume"/>
+                <field name="amount_gross_weight" />
+                <field name="amount_volume" />
             </field>
         </field>
     </record>
