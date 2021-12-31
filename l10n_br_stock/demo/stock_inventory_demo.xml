@@ -83,6 +83,13 @@
             <field name="location_id" ref="stock_location_sn_shelf_1" />
         </record>
 
+        <function model="stock.inventory" name="action_start">
+            <function
+                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
+                model="stock.inventory"
+                name="search"
+            />
+        </function>
         <function model="stock.inventory" name="action_validate">
             <function
                 eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
@@ -173,6 +180,13 @@
             <field name="location_id" ref="stock_location_lp_shelf_1" />
         </record>
 
+        <function model="stock.inventory" name="action_start">
+            <function
+                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_lp'))]]"
+                model="stock.inventory"
+                name="search"
+            />
+        </function>
         <function model="stock.inventory" name="action_validate">
             <function
                 eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_lp'))]]"
