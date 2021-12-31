@@ -2,15 +2,13 @@
 <!-- Copyright 2016 KMEE - Luis Felipe Miléo <mileo@kmee.com.br>
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
-        <act_window
-        id="action_workalendar_holiday_import"
-        name="Action Import Brazilian Holidays"
-        res_model="wizard.workalendar.holiday.import"
-        src_model="resource.calendar"
-        view_type="form"
-        view_mode="form"
-        target="new"
-    />
+    <record id="action_workalendar_holiday_import" model="ir.actions.act_window">
+        <field name="name">Action Import Brazilian Holidays</field>
+        <field name="res_model">wizard.workalendar.holiday.import</field>
+        <field name="binding_model_id" ref="model_resource_calendar" />
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
 
         <menuitem
         action="action_workalendar_holiday_import"
