@@ -6,7 +6,7 @@ from odoo import api, models
 
 class StockPicking(models.Model):
 
-    _inherit = 'stock.picking'
+    _inherit = "stock.picking"
 
     @api.multi
     def _add_delivery_cost_to_so(self):

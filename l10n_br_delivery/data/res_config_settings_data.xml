@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
 
     <record id="l10n_br_delivery_config_settings" model="res.config.settings">
@@ -6,8 +6,10 @@
     </record>
 
     <function model="res.config.settings" name="execute">
-        <value model="res.config.settings"
-               search="[('id', '=', ref('l10n_br_delivery_config_settings'))]"/>
+        <value
+            model="res.config.settings"
+            search="[('id', '=', ref('l10n_br_delivery_config_settings'))]"
+        />
     </function>
 
 </odoo>
