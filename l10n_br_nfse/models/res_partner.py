@@ -10,7 +10,7 @@ class ResPartner(models.Model):
 
     _inherit = "res.partner"
 
-    def prepare_partner_tomador(self, company_id):
+    def prepare_partner_tomador(self, country_id):
         if self.is_company:
             tomador_cnpj = misc.punctuation_rm(self.cnpj_cpf or "")
             tomador_cpf = None
@@ -19,7 +19,7 @@ class ResPartner(models.Model):
             tomador_cpf = misc.punctuation_rm(self.cnpj_cpf or "")
         partner_cep = misc.punctuation_rm(self.zip)
 
-        if self.country_id.id != company_id:
+        if self.country_id.id != country_id:
             address_invoice_state_code = "EX"
             address_invoice_city_code = int("9999999")
             address_invoice_city_description = "EX Description"
