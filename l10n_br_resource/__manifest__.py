@@ -19,5 +19,6 @@
         "views/resource_calendar_leaves_view.xml",
         "views/resource_calendar_menu.xml",
         "wizards/workalendar_holiday_import_views.xml",
+        "security/ir.model.access.csv",
     ],
 }
