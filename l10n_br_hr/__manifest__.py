@@ -25,7 +25,7 @@
     ],
     "demo": ["demo/hr_employee_dependent_demo.xml"],
     "test": [],
-    "external_dependencies": {"python": ["erpbrasil.base.fiscal"]},
+    "external_dependencies": {"python": ["erpbrasil.base"]},
     "installable": True,
     "auto_install": False,
     "license": "AGPL-3",
