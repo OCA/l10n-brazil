@@ -197,8 +197,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     price_gross = fields.Monetary(
         compute="_compute_amounts",
         string="Amount Gross",
-        store=True,
-        readonly=True,
         help="Amount without discount.",
     )
 
