@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_resource
+# 	* l10n_br_resource
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,16 +44,18 @@ msgid "Created on"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,leave_type:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__leave_type__c
 msgid "Data comemorativa"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:wizard.workalendar.holiday.import,interval_type:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__wizard_workalendar_holiday_import__interval_type__days
 msgid "Day(s)"
 msgstr ""
 
 #. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__display_name
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__display_name
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import__display_name
 msgid "Display Name"
 msgstr ""
@@ -64,7 +66,7 @@ msgid "End Date"
 msgstr ""
 
 #. module: l10n_br_resource
-#: code:addons/l10n_br_resource/models/resource_calendar.py:53
+#: code:addons/l10n_br_resource/models/resource_calendar.py:0
 #, python-format
 msgid "Error! You cannot create recursive calendars."
 msgstr ""
@@ -76,21 +78,23 @@ msgid "Estado"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,abrangencia:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__abrangencia__e
 msgid "Estadual"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,leave_type:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__leave_type__f
 msgid "Feriado"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,leave_type:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__leave_type__b
 msgid "Feriado bancário"
 msgstr ""
 
 #. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar__id
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves__id
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import__id
 msgid "ID"
 msgstr ""
@@ -118,6 +122,8 @@ msgid "Interval"
 msgstr ""
 
 #. module: l10n_br_resource
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar____last_update
+#: model:ir.model.fields,field_description:l10n_br_resource.field_resource_calendar_leaves____last_update
 #: model:ir.model.fields,field_description:l10n_br_resource.field_wizard_workalendar_holiday_import____last_update
 msgid "Last Modified on"
 msgstr ""
@@ -138,12 +144,12 @@ msgid "Leave"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:wizard.workalendar.holiday.import,interval_type:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__wizard_workalendar_holiday_import__interval_type__months
 msgid "Month(s)"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,abrangencia:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__abrangencia__m
 msgid "Municipal"
 msgstr ""
 
@@ -154,7 +160,7 @@ msgid "Municipio"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:resource.calendar.leaves,abrangencia:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__resource_calendar_leaves__abrangencia__n
 msgid "Nacional"
 msgstr ""
 
@@ -176,7 +182,7 @@ msgstr ""
 
 #. module: l10n_br_resource
 #: model:ir.model,name:l10n_br_resource.model_resource_calendar_leaves
-msgid "Resource Leaves Detail"
+msgid "Resource Time Off Detail"
 msgstr ""
 
 #. module: l10n_br_resource
@@ -200,7 +206,7 @@ msgid "Type"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:wizard.workalendar.holiday.import,interval_type:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__wizard_workalendar_holiday_import__interval_type__weeks
 msgid "Week(s)"
 msgstr ""
 
@@ -215,7 +221,7 @@ msgid "Work Time"
 msgstr ""
 
 #. module: l10n_br_resource
-#: selection:wizard.workalendar.holiday.import,interval_type:0
+#: model:ir.model.fields.selection,name:l10n_br_resource.selection__wizard_workalendar_holiday_import__interval_type__years
 msgid "Year(s)"
 msgstr ""
 
@@ -228,4 +234,3 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_br_resource.view_workalendar_holiday_import
 msgid "until"
 msgstr ""
-
