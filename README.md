@@ -28,6 +28,7 @@ addon | version | maintainers | summary
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
 [l10n_br_fiscal](l10n_br_fiscal/) | 14.0.2.2.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 14.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
+[l10n_br_stock](l10n_br_stock/) | 14.0.1.0.0 |  | Brazilian Localization Warehouse
 [spec_driven_model](spec_driven_model/) | 14.0.1.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
