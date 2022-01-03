@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <!-- Simples Nacional -->
+
+         <!-- Resource: stock.inventory -->
+
+        <record id="stock_inventory_sn" model="stock.inventory">
+            <field name="name">Iventário Inicial - Simples Nacional</field>
+            <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        </record>
+
+        <!-- Resource: stock.inventory.line -->
+
+        <record id="stock_inventory_sn_line_sn_1" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_24" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">16.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_2" />
+        </record>
+        <record id="stock_inventory_sn_line_sn_14" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_25" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">16.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_2" />
+        </record>
+        <record id="stock_inventory_sn_line_sn_2" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_7" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">18.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_1" />
+        </record>
+        <record id="stock_inventory_sn_line_sn_3" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_6" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">500.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_1" />
+        </record>
+        <record id="stock_inventory_sn_line_sn_4" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_9" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">22.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_1" />
+        </record>
+        <record id="stock_inventory_sn_line_sn_5" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_10" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">8.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_1" />
+        </record>
+        <record id="stock_inventory_sn_line_sn_6" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_11" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">26.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_1" />
+        </record>
+        <record id="stock_inventory_sn_line_sn_11" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_12" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">10.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_1" />
+        </record>
+        <record id="stock_inventory_sn_line_sn_12" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_13" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">2.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_1" />
+        </record>
+        <record id="stock_inventory_sn_line_sn_13" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_27" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_sn" />
+            <field name="product_qty">80.0</field>
+            <field name="location_id" ref="stock_location_sn_shelf_1" />
+        </record>
+
+        <function model="stock.inventory" name="action_start">
+            <function
+                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
+                model="stock.inventory"
+                name="search"
+            />
+        </function>
+        <function model="stock.inventory" name="action_validate">
+            <function
+                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
+                model="stock.inventory"
+                name="search"
+            />
+        </function>
+
+        <!-- Lucro Presumido -->
+
+         <!-- Resource: stock.inventory -->
+
+        <record id="stock_inventory_lp" model="stock.inventory">
+            <field name="name">Iventário Inicial - Lucro Presumido</field>
+            <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
+        </record>
+
+        <!-- Resource: stock.inventory.line -->
+
+        <record id="stock_inventory_lp_line_1" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_24" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">16.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_2" />
+        </record>
+        <record id="stock_inventory_lp_line_14" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_25" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">16.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_2" />
+        </record>
+        <record id="stock_inventory_lp_line_2" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_7" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">18.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_1" />
+        </record>
+        <record id="stock_inventory_lp_line_3" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_6" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">500.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_1" />
+        </record>
+        <record id="stock_inventory_lp_line_4" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_9" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">22.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_1" />
+        </record>
+        <record id="stock_inventory_lp_line_5" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_10" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">8.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_1" />
+        </record>
+        <record id="stock_inventory_lp_line_6" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_11" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">26.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_1" />
+        </record>
+        <record id="stock_inventory_lp_line_11" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_12" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">10.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_1" />
+        </record>
+        <record id="stock_inventory_lp_line_12" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_13" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">2.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_1" />
+        </record>
+        <record id="stock_inventory_lp_line_13" model="stock.inventory.line">
+            <field name="product_id" ref="product.product_product_27" />
+            <field name="product_uom_id" ref="uom.product_uom_unit" />
+            <field name="inventory_id" ref="stock_inventory_lp" />
+            <field name="product_qty">80.0</field>
+            <field name="location_id" ref="stock_location_lp_shelf_1" />
+        </record>
+
+        <function model="stock.inventory" name="action_start">
+            <function
+                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_lp'))]]"
+                model="stock.inventory"
+                name="search"
+            />
+        </function>
+        <function model="stock.inventory" name="action_validate">
+            <function
+                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_lp'))]]"
+                model="stock.inventory"
+                name="search"
+            />
+        </function>
+
+    </data>
+</odoo>
