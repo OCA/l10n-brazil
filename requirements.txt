@@ -5,3 +5,4 @@ nfelib
 num2words
 odoo_test_helper
 pyOpenSSL
+workalendar
