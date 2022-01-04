@@ -5,22 +5,22 @@ from odoo import fields, models
 
 
 class Carrier(models.Model):
-    _inherit = 'delivery.carrier'
+    _inherit = "delivery.carrier"
 
     antt_code = fields.Char(
-        string='Codigo ANTT',
+        string="Codigo ANTT",
         size=32,
     )
 
     vehicle_ids = fields.One2many(
-        comodel_name='l10n_br_delivery.carrier.vehicle',
-        inverse_name='carrier_id',
-        string='Vehicles',
-        ondelete='cascade',
+        comodel_name="l10n_br_delivery.carrier.vehicle",
+        inverse_name="carrier_id",
+        string="Vehicles",
+        ondelete="cascade",
     )
 
     def rate_shipment(self, order):
-        """ Compute the price of the order shipment
+        """Compute the price of the order shipment
 
         :param order: record of sale.order
         :return dict: {'success': boolean,
@@ -37,6 +37,6 @@ class Carrier(models.Model):
         # Se o Valor Total de Frete estiver preenchido ele tem
         # preferencia sobre o valor Calculado.
         if order.amount_freight_value > 0.0:
-            res['price'] = order.amount_freight_value
+            res["price"] = order.amount_freight_value
 
         return res

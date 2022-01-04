@@ -20,7 +20,7 @@
         "security/ir.model.access.csv",
     ],
     "test": [],
-    "external_dependencies": {"python": ["erpbrasil.base.fiscal"]},
+    "external_dependencies": {"python": ["erpbrasil.base"]},
     "installable": True,
     "auto_install": False,
 }
