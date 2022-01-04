@@ -243,7 +243,7 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_br_delivery
-#: code:addons/l10n_br_delivery/models/sale_order.py:46
+#: code:addons/l10n_br_delivery/models/sale_order.py:42
 #, python-format
 msgid "No carrier set for this order."
 msgstr ""
@@ -254,7 +254,7 @@ msgid "Placa"
 msgstr ""
 
 #. module: l10n_br_delivery
-#: code:addons/l10n_br_delivery/models/sale_order.py:48
+#: code:addons/l10n_br_delivery/models/sale_order.py:45
 #, python-format
 msgid "Please use \"Check price\" in order to compute a shipping price for this quotation."
 msgstr ""
@@ -298,7 +298,7 @@ msgid "Veículo"
 msgstr ""
 
 #. module: l10n_br_delivery
-#: code:addons/l10n_br_delivery/models/sale_order.py:42
+#: code:addons/l10n_br_delivery/models/sale_order.py:39
 #, python-format
 msgid "You can add delivery price only on unconfirmed quotations."
 msgstr ""
