@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_zip
+# 	* l10n_br_zip
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,8 +14,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_zip
-#: selection:res.config.settings,cep_ws_provider:0
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__res_config_settings__cep_ws_provider__apicep
 msgid "API CEP"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model,name:l10n_br_zip.model_format_address_mixin
+msgid "Address Format"
 msgstr ""
 
 #. module: l10n_br_zip
@@ -54,7 +59,7 @@ msgid "Config Settings"
 msgstr ""
 
 #. module: l10n_br_zip
-#: selection:res.config.settings,cep_ws_provider:0
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__res_config_settings__cep_ws_provider__correios
 msgid "Correios"
 msgstr ""
 
@@ -82,8 +87,10 @@ msgid "Days to Update CEP"
 msgstr ""
 
 #. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_format_address_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__display_name
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__display_name
+#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -94,25 +101,22 @@ msgid "District"
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:178
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
-msgid "Erro a Carregar Atributo: "
+msgid "Error in PyCEP-Correios: "
 msgstr ""
 
 #. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:136
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
 #, python-format
-msgid "Erro no PyCEP-Correios : "
+msgid "Error loading attribute: "
 msgstr ""
 
 #. module: l10n_br_zip
-#: model:ir.model,name:l10n_br_zip.model_format_address_mixin
-msgid "Fomat Address"
-msgstr ""
-
-#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_format_address_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__id
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__id
+#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings__id
 msgid "ID"
 msgstr ""
 
@@ -122,8 +126,16 @@ msgid "Id do objeto"
 msgstr ""
 
 #. module: l10n_br_zip
+#: code:addons/l10n_br_zip/models/l10n_br_zip.py:0
+#, python-format
+msgid "It is necessary to inform the State, municipality and public place"
+msgstr ""
+
+#. module: l10n_br_zip
+#: model:ir.model.fields,field_description:l10n_br_zip.field_format_address_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip____last_update
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search____last_update
+#: model:ir.model.fields,field_description:l10n_br_zip.field_res_config_settings____last_update
 msgid "Last Modified on"
 msgstr ""
 
@@ -140,15 +152,9 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_br_zip
-#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street
-#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__street
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip__street_name
+#: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__street_name
 msgid "Logradouro"
-msgstr ""
-
-#. module: l10n_br_zip
-#: code:addons/l10n_br_zip/models/l10n_br_zip.py:73
-#, python-format
-msgid "Necessário informar Estado, município e logradouro"
 msgstr ""
 
 #. module: l10n_br_zip
@@ -195,7 +201,7 @@ msgid "Street Type"
 msgstr ""
 
 #. module: l10n_br_zip
-#: selection:res.config.settings,cep_ws_provider:0
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__res_config_settings__cep_ws_provider__viacep
 msgid "VIA CEP"
 msgstr ""
 
@@ -215,12 +221,12 @@ msgid "days"
 msgstr ""
 
 #. module: l10n_br_zip
-#: selection:l10n_br.zip.search,state:0
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__l10n_br_zip_search__state__done
 msgid "done"
 msgstr ""
 
 #. module: l10n_br_zip
-#: selection:l10n_br.zip.search,state:0
+#: model:ir.model.fields.selection,name:l10n_br_zip.selection__l10n_br_zip_search__state__init
 msgid "init"
 msgstr ""
 
@@ -228,4 +234,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_zip.field_l10n_br_zip_search__state
 msgid "state"
 msgstr ""
-
