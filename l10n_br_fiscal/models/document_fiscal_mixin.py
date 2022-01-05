@@ -38,6 +38,7 @@ class FiscalDocumentMixin(models.AbstractModel):
     fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
         string="Operation",
+        index=True,
         domain=lambda self: self._operation_domain(),
         default=_default_operation,
     )
@@ -48,10 +49,12 @@ class FiscalDocumentMixin(models.AbstractModel):
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
+        index=True,
     )
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
+        index=True,
     )
 
     fiscal_operation_type = fields.Selection(

@@ -30,6 +30,7 @@ class TaxDefinition(models.Model):
     tax_group_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax.group",
         string="Tax Group",
+        index=True,
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
@@ -44,6 +45,7 @@ class TaxDefinition(models.Model):
     tax_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.tax",
         string="Tax",
+        index=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
         domain="[('tax_group_id', '=', tax_group_id)]",
@@ -52,6 +54,7 @@ class TaxDefinition(models.Model):
     cst_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cst",
         string="CST",
+        index=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
         domain="[('cst_type', 'in', (type_in_out, 'all')), "
@@ -88,6 +91,7 @@ class TaxDefinition(models.Model):
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
+        index=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
     )
@@ -95,6 +99,7 @@ class TaxDefinition(models.Model):
     state_from_id = fields.Many2one(
         comodel_name="res.country.state",
         string="From State",
+        index=True,
         domain=[("country_id.code", "=", "BR")],
     )
 
