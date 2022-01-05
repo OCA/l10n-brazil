@@ -52,6 +52,7 @@ class FiscalDocumentMixin(models.AbstractModel):
 
     partner_id = fields.Many2one(
         comodel_name="res.partner",
+        index=True,
     )
 
     fiscal_operation_type = fields.Selection(
