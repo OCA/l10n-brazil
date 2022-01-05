@@ -82,7 +82,11 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         default=lambda self: self.env.ref("base.BRL"),
     )
 
-    product_id = fields.Many2one(comodel_name="product.product", string="Product")
+    product_id = fields.Many2one(
+        comodel_name="product.product",
+        string="Product",
+        index=True,
+    )
 
     tax_icms_or_issqn = fields.Selection(
         selection=TAX_ICMS_OR_ISSQN,
