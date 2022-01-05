@@ -44,14 +44,14 @@ msgid "Paulistana"
 msgstr ""
 
 #. module: l10n_br_nfse_paulistana
-#: code:addons/l10n_br_nfse_paulistana/models/document.py:326
+#: code:addons/l10n_br_nfse_paulistana/models/document.py:352
 #, python-format
 msgid "Procesado com Erro"
 msgstr ""
 
 #. module: l10n_br_nfse_paulistana
-#: code:addons/l10n_br_nfse_paulistana/models/document.py:311
-#: code:addons/l10n_br_nfse_paulistana/models/document.py:370
+#: code:addons/l10n_br_nfse_paulistana/models/document.py:340
+#: code:addons/l10n_br_nfse_paulistana/models/document.py:400
 #, python-format
 msgid "Procesado com Sucesso"
 msgstr ""
