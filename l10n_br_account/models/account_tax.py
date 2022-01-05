@@ -100,6 +100,12 @@ class AccountTax(models.Model):
             icms_origin=icms_origin or product.icms_origin,
         )
 
+        taxes_results["amount_tax_included"] = fiscal_taxes_results["amount_included"]
+        taxes_results["amount_tax_not_included"] = fiscal_taxes_results["amount_not_included"]
+        taxes_results["amount_tax_withholding"] = fiscal_taxes_results["amount_withholding"]
+        taxes_results["amount_estimate_tax"] = fiscal_taxes_results["estimate_tax"]
+
+
         account_taxes_by_domain = {}
         for tax in self:
             tax_domain = tax.tax_group_id.fiscal_tax_group_id.tax_domain
