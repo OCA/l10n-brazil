@@ -155,6 +155,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 record.financial_discount_value = record.discount_value
             else:
                 record.financial_total_gross = record.financial_total = 0.0
+                record.financial_discount_value = 0.0
 
     def _compute_taxes(self, taxes, cst=None):
         self.ensure_one()
