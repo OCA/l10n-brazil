@@ -478,14 +478,12 @@ class NFe(spec_models.StackedModel):
                 (0, 0, self._prepare_amount_financial("0", "90", 0.00)),
             ]
         else:
-            # TODO arrumar condicoes pagamento
             avista_aprazo = "1"
             valor = 0.0
+            modo = "90"
             for fin in self.move_ids.financial_move_line_ids:
-                if fin.payment_mode_id.name == "boleto":
-                    modo = "15"
-                else:
-                    modo = "90"
+                modo = fin.payment_mode_id.fiscal_type.payment_type
+                avista_aprazo = fin.payment_mode_id.fiscal_type.indPag
                 valor += fin.debit
             self.nfe40_detPag = [
                 (5, 0, 0),

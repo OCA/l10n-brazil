@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="l10n_br_account_payment_mode_fiscal_form" model="ir.ui.view">
+        <field name="name">payment.mode.fiscal.l10n_br_payment.form</field>
+        <field name="model">account.payment.mode</field>
+        <field name="priority">99</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_mode.account_payment_mode_form"
+        />
+        <field name="arch" type="xml">
+            <field name="refund_payment_mode_id" position="after">
+                <separator />
+                <field name="fiscal_type" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
