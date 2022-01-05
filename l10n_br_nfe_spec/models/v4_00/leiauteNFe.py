@@ -1,6 +1,6 @@
 # Copyright 2020 Akretion - Raphaël Valyi <raphael.valyi@akretion.com>
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0.en.html).
-# Generated Sun Oct 17 15:23:28 2021 by https://github.com/akretion/generateds-odoo
+# Generated Mon Nov  8 08:22:07 2021 by https://github.com/akretion/generateds-odoo
 # and generateDS.py.
 # Python 3.8.5 (default, Jul 28 2020, 12:59:40)  [GCC 9.3.0]
 #
@@ -1117,11 +1117,11 @@ class CIDE(models.AbstractModel):
     _inherit = 'spec.mixin.nfe'
     _generateds_type = 'CIDEType'
     nfe40_qBCProd = fields.Float(
-        digits=4, string="BC do CIDE", xsd_required=True,
+        digits=(12, 4), string="BC do CIDE", xsd_required=True,
         xsd_type="TDec_1204v",
         help="BC do CIDE ( Quantidade comercializada)")
     nfe40_vAliqProd = fields.Float(
-        digits=4, string="Alíquota do CIDE (em reais)",
+        digits=(11, 4), string="Alíquota do CIDE (em reais)",
         xsd_required=True,
         xsd_type="TDec_1104",
         help="Alíquota do CIDE (em reais)")
@@ -1299,12 +1299,12 @@ class COFINSOutr(models.AbstractModel):
         xsd_required=True,
         xsd_type="TDec_0302a04")
     nfe40_qBCProd = fields.Float(
-        digits=4, choice='16',
+        digits=(12, 4), choice='16',
         string="Quantidade Vendida (NT2011/004)",
         xsd_required=True,
         xsd_type="TDec_1204v")
     nfe40_vAliqProd = fields.Float(
-        digits=4, choice='16',
+        digits=(11, 4), choice='16',
         string="Alíquota do COFINS",
         xsd_required=True,
         xsd_type="TDec_1104v",
@@ -1332,11 +1332,11 @@ class COFINSQtde(models.AbstractModel):
         "\n03 - Operação Tributável - Base de Calculo = Quantidade Vendida x"
         "\nAlíquota por Unidade de Produto;")
     nfe40_qBCProd = fields.Float(
-        digits=4, string="Quantidade Vendida (NT2011/004)",
+        digits=(12, 4), string="Quantidade Vendida (NT2011/004)",
         xsd_required=True,
         xsd_type="TDec_1204v")
     nfe40_vAliqProd = fields.Float(
-        digits=4, string="Alíquota do COFINS",
+        digits=(11, 4), string="Alíquota do COFINS",
         xsd_required=True,
         xsd_type="TDec_1104v",
         help="Alíquota do COFINS (em reais) (NT2011/004)")
@@ -1372,12 +1372,12 @@ class COFINSST(models.AbstractModel):
         xsd_required=True,
         xsd_type="TDec_0302a04")
     nfe40_qBCProd = fields.Float(
-        digits=4, choice='17',
+        digits=(12, 4), choice='17',
         string="Quantidade Vendida",
         xsd_required=True,
         xsd_type="TDec_1204")
     nfe40_vAliqProd = fields.Float(
-        digits=4, choice='17',
+        digits=(11, 4), choice='17',
         string="Alíquota do COFINS ST(em reais)",
         xsd_required=True,
         xsd_type="TDec_1104")
@@ -2053,12 +2053,12 @@ class IPITrib(models.AbstractModel):
         string="Alíquota do IPI", xsd_required=True,
         xsd_type="TDec_0302a04")
     nfe40_qUnid = fields.Float(
-        digits=4, choice='20',
+        digits=(12, 4), choice='20',
         string="Quantidade total na unidade padrão para tributação",
         xsd_required=True,
         xsd_type="TDec_1204v")
     nfe40_vUnid = fields.Float(
-        digits=4, choice='20',
+        digits=(11, 4), choice='20',
         string="Valor por Unidade Tributável",
         xsd_required=True,
         xsd_type="TDec_1104",
@@ -2363,12 +2363,12 @@ class PISOutr(models.AbstractModel):
         xsd_required=True,
         xsd_type="TDec_0302a04")
     nfe40_qBCProd = fields.Float(
-        digits=4, choice='13',
+        digits=(12, 4), choice='13',
         string="Quantidade Vendida (NT2011/004)",
         xsd_required=True,
         xsd_type="TDec_1204v")
     nfe40_vAliqProd = fields.Float(
-        digits=4, choice='13',
+        digits=(11, 4), choice='13',
         string="Alíquota do PIS", xsd_required=True,
         xsd_type="TDec_1104v",
         help="Alíquota do PIS (em reais) (NT2011/004)")
@@ -2395,12 +2395,12 @@ class PISQtde(models.AbstractModel):
         "\n03 - Operação Tributável - Base de Calculo = Quantidade Vendida x"
         "\nAlíquota por Unidade de Produto;")
     nfe40_qBCProd = fields.Float(
-        digits=4, string="Quantidade Vendida (NT2011/004)",
+        digits=(12, 4), string="Quantidade Vendida (NT2011/004)",
         xsd_required=True,
         xsd_type="TDec_1204v",
         help="Quantidade Vendida (NT2011/004)")
     nfe40_vAliqProd = fields.Float(
-        digits=4, string="Alíquota do PIS", xsd_required=True,
+        digits=(11, 4), string="Alíquota do PIS", xsd_required=True,
         xsd_type="TDec_1104v",
         help="Alíquota do PIS (em reais) (NT2011/004)")
     nfe40_vPIS = fields.Monetary(
@@ -2433,12 +2433,12 @@ class PISST(models.AbstractModel):
         xsd_required=True,
         xsd_type="TDec_0302a04")
     nfe40_qBCProd = fields.Float(
-        digits=4, choice='14',
+        digits=(12, 4), choice='14',
         string="Quantidade Vendida",
         xsd_required=True,
         xsd_type="TDec_1204")
     nfe40_vAliqProd = fields.Float(
-        digits=4, choice='14',
+        digits=(11, 4), choice='14',
         string="Alíquota do PIS ST (em reais)",
         xsd_required=True,
         xsd_type="TDec_1104")
@@ -3266,7 +3266,7 @@ class Comb(models.AbstractModel):
         "\nDiferimento do Imposto nas Operações com AEAC -"
         "\nÁlcool Etílico Anidro Combustível).")
     nfe40_qTemp = fields.Float(
-        digits=4, string="Quantidade de combustível",
+        digits=(12, 4), string="Quantidade de combustível",
         xsd_type="TDec_1204temperatura",
         help="Quantidade de combustível"
         "\nfaturada à temperatura ambiente."
@@ -3563,11 +3563,11 @@ class Encerrante(models.AbstractModel):
         help="Numero de identificação do tanque ao qual o bico está"
         "\ninterligado")
     nfe40_vEncIni = fields.Float(
-        digits=3, string="Valor do Encerrante no ínicio do abastecimento",
+        digits=(12, 3), string="Valor do Encerrante no ínicio do abastecimento",
         xsd_required=True,
         xsd_type="TDec_1203")
     nfe40_vEncFin = fields.Float(
-        digits=3, string="Valor do Encerrante no final do abastecimento",
+        digits=(12, 3), string="Valor do Encerrante no final do abastecimento",
         xsd_required=True,
         xsd_type="TDec_1203")
 
@@ -3588,7 +3588,7 @@ class ExportInd(models.AbstractModel):
         xsd_type="TChNFe",
         help="Chave de acesso da NF-e recebida para exportação")
     nfe40_qExport = fields.Float(
-        digits=4, string="Quantidade do item efetivamente exportado",
+        digits=(11, 4), string="Quantidade do item efetivamente exportado",
         xsd_required=True,
         xsd_type="TDec_1104v")
 
@@ -4074,7 +4074,7 @@ class InfProdEmb(models.AbstractModel):
         string="Embalagem do produto", xsd_required=True,
         xsd_type="xEmbType")
     nfe40_qVolEmb = fields.Float(
-        digits=3, string="Volume do produto na embalagem",
+        digits=(8, 3), string="Volume do produto na embalagem",
         xsd_required=True,
         xsd_type="TDec_0803v")
     nfe40_uEmb = fields.Char(
@@ -4393,7 +4393,7 @@ class Prod(models.AbstractModel):
         string="Unidade comercial", xsd_required=True,
         xsd_type="uComType")
     nfe40_qCom = fields.Float(
-        digits=4, string="Quantidade Comercial do produto",
+        digits=(11, 4), string="Quantidade Comercial do produto",
         xsd_required=True,
         xsd_type="TDec_1104v",
         help="Quantidade Comercial do produto, alterado para aceitar de 0 a"
@@ -4424,7 +4424,7 @@ class Prod(models.AbstractModel):
         string="Unidade Tributável", xsd_required=True,
         xsd_type="uTribType")
     nfe40_qTrib = fields.Float(
-        digits=4, string="Quantidade Tributável",
+        digits=(11, 4), string="Quantidade Tributável",
         xsd_required=True,
         xsd_type="TDec_1104v",
         help="Quantidade Tributável - alterado para aceitar de 0 a 4 casas"
@@ -4538,7 +4538,7 @@ class Rastro(models.AbstractModel):
         xsd_required=True,
         xsd_type="nLoteType")
     nfe40_qLote = fields.Float(
-        digits=3, string="Quantidade de produto no lote.",
+        digits=(8, 3), string="Quantidade de produto no lote.",
         xsd_required=True,
         xsd_type="TDec_0803v")
     nfe40_dFab = fields.Date(
@@ -5001,10 +5001,10 @@ class Vol(models.AbstractModel):
         string="Numeração dos volumes transportados",
         xsd_type="nVolType")
     nfe40_pesoL = fields.Float(
-        digits=3, string="Peso líquido (em kg)",
+        digits=(12, 3), string="Peso líquido (em kg)",
         xsd_type="TDec_1203")
     nfe40_pesoB = fields.Float(
-        digits=3, string="Peso bruto (em kg)",
+        digits=(12, 3), string="Peso bruto (em kg)",
         xsd_type="TDec_1203")
     nfe40_lacres = fields.One2many(
         "nfe.40.lacres",
