@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfse_issnet
-#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:343
+#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:379
 #, python-format
 msgid "Batch not yet processed"
 msgstr ""
@@ -45,7 +45,7 @@ msgid "NFSe Provider"
 msgstr ""
 
 #. module: l10n_br_nfse_issnet
-#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:340
+#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:376
 #, python-format
 msgid "Not received"
 msgstr ""
@@ -56,13 +56,13 @@ msgid "Paulistana"
 msgstr ""
 
 #. module: l10n_br_nfse_issnet
-#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:346
+#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:382
 #, python-format
 msgid "Processed with Error"
 msgstr ""
 
 #. module: l10n_br_nfse_issnet
-#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:349
+#: code:addons/l10n_br_nfse_issnet/models/l10n_br_fiscal_document.py:385
 #, python-format
 msgid "Successfully Processed"
 msgstr ""
