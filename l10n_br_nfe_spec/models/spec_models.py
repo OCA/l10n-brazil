@@ -19,12 +19,11 @@ class NfeSpecMixin(models.AbstractModel):
         comodel_name="res.currency",
         string="Moeda",
         compute="_compute_brl_currency_id",
-        default=lambda self: self.env.ref("base.BRL").id,
     )
 
     def _compute_brl_currency_id(self):
         for item in self:
-            item.brl_currency_id = self.env.ref("base.BRL").id
+            item.brl_currency_id = self.env.ref("base.BRL")
 
     def _valid_field_parameter(self, field, name):
         if name in ("xsd_type", "xsd_required", "choice"):
