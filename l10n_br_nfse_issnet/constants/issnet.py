@@ -1,16 +1,15 @@
+RECEPCIONAR_LOTE_RPS = ["RecepcionarLoteRps"]
 
-RECEPCIONAR_LOTE_RPS = [
-    'RecepcionarLoteRps'
-]
+CONSULTAR_SITUACAO_LOTE_RPS = ["ConsultarSituacaoLoteRPS"]
 
-CONSULTAR_SITUACAO_LOTE_RPS = [
-    'ConsultarSituacaoLoteRPS'
-]
+CANCELAR_NFSE = (
+    [
+        "CancelarNfse",
+    ],
+)
 
-CANCELAR_NFSE = [
-    'CancelarNfse',
-],
-
-CONSULTAR_NFSE_POR_RPS = [
-    'ConsultarNfsePorRps',
-],
+CONSULTAR_NFSE_POR_RPS = (
+    [
+        "ConsultarNfsePorRps",
+    ],
+)

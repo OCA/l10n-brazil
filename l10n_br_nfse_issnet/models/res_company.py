@@ -6,10 +6,10 @@ from odoo import fields, models
 
 class ResCompany(models.Model):
 
-    _inherit = 'res.company'
+    _inherit = "res.company"
 
     provedor_nfse = fields.Selection(
         selection_add=[
-            ('issnet', 'ISSNet / Nota Control'),
+            ("issnet", "ISSNet / Nota Control"),
         ]
     )
