@@ -12,7 +12,6 @@
                     <group attrs="{'invisible': [('provider', '!=', 'pagseguro')]}">
                         <field name="pagseguro_email" />
                         <field name="pagseguro_token" password="True" />
-                        <field name="pagseguro_public_key" />
                     </group>
                 </xpath>
         </field>
