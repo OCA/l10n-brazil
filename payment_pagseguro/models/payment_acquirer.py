@@ -12,7 +12,6 @@ _logger = logging.getLogger(__name__)
 
 
 class PaymentAcquirerPagseguro(models.Model):
-
     _inherit = "payment.acquirer"
 
     provider = fields.Selection(selection_add=[("pagseguro", "Pagseguro")])
@@ -24,23 +23,12 @@ class PaymentAcquirerPagseguro(models.Model):
         required_if_provider="pagseguro",
         groups="base.group_user",
     )
-    pagseguro_public_key = fields.Char(
-        string="Public key",
-        readonly=True,
-        store=True,
-    )
-    # TODO add pagseguro_image_url field (?)
-
-    @api.onchange("pagseguro_token")
-    def _onchange_token(self):
-        for record in self:
-            record.pagseguro_public_key = self._get_pagseguro_api_public_key()
 
     def _get_pagseguro_environment(self):
         return (
             request.env["payment.acquirer"]
-            .search([("provider", "=", "pagseguro")])
-            .environment
+                .search([("provider", "=", "pagseguro")])
+                .environment
         )
 
     @api.multi
@@ -65,9 +53,9 @@ class PaymentAcquirerPagseguro(models.Model):
         """Validates user input"""
         self.ensure_one()
         # mandatory fields
-        for field_name in ["cc_token"]:
-            if not data.get(field_name):
-                return False
+        # for field_name in ["cc_token"]:
+        #     if not data.get(field_name):
+        #         return False
         return True
 
     @api.model
@@ -79,8 +67,8 @@ class PaymentAcquirerPagseguro(models.Model):
         """
         payment_token = (
             self.env["payment.token"]
-            .sudo()
-            .create(
+                .sudo()
+                .create(
                 {
                     "cc_holder_name": data["cc_holder_name"],
                     "acquirer_ref": int(data["partner_id"]),
@@ -107,18 +95,11 @@ class PaymentAcquirerPagseguro(models.Model):
     @api.multi
     def _get_pagseguro_api_headers(self):
         """Get pagseguro API headers used in all s2s communication"""
-        if self.environment == "test":
-            PAGSEGURO_HEADERS = {
-                "Authorization": "A5BB2E295B2740558E84B62821DCB91E",
-                "Content-Type": "application/json",
-                "x-api-version": "4.0",
-            }
-        if self.environment == "prod":
-            PAGSEGURO_HEADERS = {
-                "Authorization": self.pagseguro_token,
-                "Content-Type": "application/json",
-                "x-api-version": "4.0",
-            }
+        PAGSEGURO_HEADERS = {
+            "Authorization": self.pagseguro_token,
+            "Content-Type": "application/json",
+            "x-api-version": "4.0",
+        }
 
         return PAGSEGURO_HEADERS
 
