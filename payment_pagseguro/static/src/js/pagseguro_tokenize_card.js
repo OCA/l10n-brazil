@@ -6,7 +6,6 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
     var ajax = require('web.ajax');
     var core = require('web.core');
     var rpc = require('web.rpc');
-    var Dialog = require('web.Dialog');
     var PaymentForm = require('payment.payment_form');
 
     var _t = core._t;
@@ -30,22 +29,14 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
             }
             this.disableButton(button);
 
-            var acquirerID = this.getAcquirerIdFromRadio($checkedRadio);
-            var acquirerForm = this.$('#o_payment_add_token_acq_' + acquirerID);
-            var inputsForm = $('input', acquirerForm);
             if (this.options.partnerId === undefined) {
                 console.warn('payment_form: unset partner_id when adding new token; things could go wrong');
             }
                 var acquirerID = this.getAcquirerIdFromRadio($checkedRadio, );
                 var acquirerForm = this.$('#o_payment_add_token_acq_' + acquirerID);
+                var ds = $('input[name="data_set"]', acquirerForm)[0];
                 var inputsForm = $('input', acquirerForm);
                 var formData = this.getFormData(inputsForm);
-
-//                var stripe = this.stripe;
-//                var card = this.stripe_card_element;
-//                if (card._invalid) {
-//                    return;
-//                }
 
                 // Get public key
                 rpc.query({
@@ -68,19 +59,14 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                     } else {
                         return $.Deferred().reject({"message": {"data": { "message": card.error.message}}});
                     }
-//                }).then(function(intent_secret){
-//                    // need to convert between ES6 promises and jQuery 2 deferred \o/
-//                    return $.Deferred(function(defer) {
-//                        stripe.handleCardSetup(intent_secret, card)
-//                            .then(function(result) {defer.resolve(result)})
-//                    });
                 }).then(function(result) {
                     if (result.error) {
                         return $.Deferred().reject({"message": {"data": { "message": result.error.message}}});
                     } else {
-//                        _.extend(formData, {"payment_method": result.setupIntent.payment_method});
+                        _.extend(formData, {"data_set": ds.dataset.createRoute});
+                    
                         return rpc.query({
-                            route: "/payment/pagseguro/s2s/create_json_3ds",
+                            route: formData.data_set,
                             params: formData,
                         })
                     }
@@ -103,6 +89,8 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
 
         /**
          * @override
+         * 
+         * This function is triggered when you click on the "pay now" button.
          */
         payEvent: function (ev) {
             ev.preventDefault();

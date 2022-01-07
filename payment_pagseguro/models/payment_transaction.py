@@ -242,7 +242,7 @@ class PaymentTransactionPagseguro(models.Model):
             "payment_method": {
                 "type": "CREDIT_CARD",  # TODO Can the user select the method?
                 "installments": 1,
-                "capture": True,
+                "capture": True, # TODO Test True or False?
                 "card": {
                     "encrypted": self.payment_token_id.pagseguro_card_token,
                 },
