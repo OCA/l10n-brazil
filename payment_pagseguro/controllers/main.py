@@ -38,9 +38,9 @@ class PagseguroController(http.Controller):
             "verified": False,
         }
 
-        if token.validate():
-            token.verified = True
-            res["verified"] = token.verified
+        if verify_validity:
+            token.validate()
+            res['verified'] = token.verified
 
         return res
 
