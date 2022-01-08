@@ -40,7 +40,6 @@
     <record model="ir.actions.act_window" id="action_l10n_br_hr_cbo">
         <field name="name">Código Brasileiro de Ocupações</field>
         <field name="res_model">l10n_br_hr.cbo</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_l10n_br_hr_cbo_filter" />
     </record>
