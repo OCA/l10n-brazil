@@ -47,9 +47,7 @@ class HrEmployee(models.Model):
         tracking=True,
     )
 
-    have_dependent = fields.Boolean(
-        string="Has dependents", tracking=True
-    )
+    have_dependent = fields.Boolean(string="Has dependents", tracking=True)
 
     dependent_ids = fields.One2many(
         comodel_name="hr.employee.dependent",
