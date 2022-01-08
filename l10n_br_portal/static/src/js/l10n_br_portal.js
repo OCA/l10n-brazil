@@ -39,7 +39,7 @@ odoo.define("l10n_br_portal.l10n_br_portal", function (require) {
             var displayed_state = state_options.filter(
                 "[data-state_id=" + ($(this).val() || 0) + "]"
             );
-            var nb = displayed_state.appendTo(select).show().size();
+            var nb = displayed_state.appendTo(select).show().length;
             select.parent().toggle(nb >= 1);
         });
         $(".o_portal_details").find("select[name='state_id']").change();
