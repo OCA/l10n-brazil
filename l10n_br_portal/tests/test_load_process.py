@@ -19,7 +19,7 @@ class TestUi(HttpCase):
 
         mocked_response = {
             "zip_code": "37500015",
-            "street": " Rua Coronel Renno",
+            "street_name": " Rua Coronel Renno",
             "district": "Centro",
             "city_id": self.env.ref("l10n_br_base.city_3132404").id,
             "state_id": self.env.ref("base.state_br_mg").id,
