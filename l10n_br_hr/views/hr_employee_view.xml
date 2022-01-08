@@ -238,42 +238,36 @@
     <record id="action_hr_deficiency" model="ir.actions.act_window">
         <field name="name">Deficiency</field>
         <field name="res_model">hr.deficiency</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <record id="action_hr_identity_type" model="ir.actions.act_window">
         <field name="name">Identity type</field>
         <field name="res_model">hr.identity.type</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <record id="action_hr_civil_certificate_type" model="ir.actions.act_window">
         <field name="name">Civil certificate type</field>
         <field name="res_model">hr.civil.certificate.type</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <record id="action_hr_dependent_type" model="ir.actions.act_window">
         <field name="name">Relatedness</field>
         <field name="res_model">hr.dependent.type</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <record id="action_hr_ethnicity" model="ir.actions.act_window">
         <field name="name">Ethnicity</field>
         <field name="res_model">hr.ethnicity</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
     <record id="action_hr_educational_attainment" model="ir.actions.act_window">
         <field name="name">Educational Attainment</field>
         <field name="res_model">hr.educational.attainment</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -355,7 +349,6 @@
     <record id="hr_employee_autonomo_action" model="ir.actions.act_window">
         <field name="name">Autônomos</field>
         <field name="res_model">hr.employee</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="context">{'default_tipo': 'autonomo'}</field>
         <field name="domain">[('tipo','=', 'autonomo')]</field>
@@ -388,7 +381,6 @@
     <record id="hr_employee_terceirizado_action" model="ir.actions.act_window">
         <field name="name">Terceirizados</field>
         <field name="res_model">hr.employee</field>
-        <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="context">{'default_tipo': 'terceirizado'}</field>
         <field name="domain">[('tipo','=', 'terceirizado')]</field>
