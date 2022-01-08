@@ -158,6 +158,29 @@
                             <div class="clearfix" />
 
                             <div
+                                t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-xl-6"
+                            >
+                                <label
+                                    class="col-form-label"
+                                    for="country_id"
+                                >Country</label>
+                                <select
+                                    name="country_id"
+                                    t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}"
+                                >
+                                    <option value="">Country...</option>
+                                    <t t-foreach="countries or []" t-as="country">
+                                        <option
+                                            t-att-value="country.id"
+                                            t-att-selected="country.id == int(country_id) if country_id else country.id == partner.country_id.id"
+                                        >
+                                            <t t-esc="country.name" />
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+
+                            <div
                                 t-attf-class="form-group #{error.get('zip') and 'o_has_error' or ''} col-xl-6"
                             >
                                 <label
@@ -232,28 +255,6 @@
                                 />
                             </div>
 
-                            <div
-                                t-attf-class="form-group #{error.get('country_id') and 'o_has_error' or ''} col-xl-6"
-                            >
-                                <label
-                                    class="col-form-label"
-                                    for="country_id"
-                                >Country</label>
-                                <select
-                                    name="country_id"
-                                    t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}"
-                                >
-                                    <option value="">Country...</option>
-                                    <t t-foreach="countries or []" t-as="country">
-                                        <option
-                                            t-att-value="country.id"
-                                            t-att-selected="country.id == int(country_id) if country_id else country.id == partner.country_id.id"
-                                        >
-                                            <t t-esc="country.name" />
-                                        </option>
-                                    </t>
-                                </select>
-                            </div>
                             <div
                                 t-attf-class="form-group #{error.get('state_id') and 'o_has_error' or ''} col-xl-6"
                             >
