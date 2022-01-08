@@ -1,15 +1,21 @@
 odoo.define("l10n_br_portal.tour", function (require) {
     "use strict";
 
+    var ajax = require("web.ajax");
+    var session = require("web.session");
     var tour = require("web_tour.tour");
-    var base = require("web_editor.base");
+
+    var domReady = new Promise(function (resolve) {
+        $(resolve);
+    });
+    var ready = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
 
     tour.register(
         "l10n_br_portal_tour",
         {
             url: "/my/account",
             test: true,
-            wait_for: base.ready(),
+            wait_for: ready,
         },
         [
             {

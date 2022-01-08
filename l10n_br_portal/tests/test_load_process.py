@@ -29,7 +29,6 @@ class TestUi(HttpCase):
                 "/my/account",
                 "l10n_br_portal_tour",
                 login="admin",
-                timeout=180,
             )
         # check result
         record = self.env.ref("base.partner_admin")
