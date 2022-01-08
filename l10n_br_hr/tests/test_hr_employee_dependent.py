@@ -12,8 +12,8 @@ class TestHrEmployeeDependent(TransactionCase):
         self.employee = self.env["hr.employee"]
         self.employee = self.employee.create(
             {
-                "address_id": self.env["res.partner"].search([])[0].company_id.id,
-                "company_id": self.env["res.partner"].search([])[0].company_id.id,
+                "address_id": self.env["res.partner"].search([]).company_id.id,
+                "company_id": self.env["res.partner"].search([]).company_id.id,
                 "department_id": self.env["hr.department"],
                 "civil_certificate_type_id": self.env["hr.civil.certificate.type"],
                 "deficiency_id": 1,
