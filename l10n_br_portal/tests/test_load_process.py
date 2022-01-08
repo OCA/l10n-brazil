@@ -12,10 +12,6 @@ _provider_class = _module_ns + ".models.l10n_br_zip" + ".L10nBrZip"
 @tagged("post_install", "-at_install")
 class TestUi(HttpCase):
     def test_01_l10n_br_portal_load_tour(self):
-        tour = (
-            "odoo.__DEBUG__.services['web_tour.tour']",
-            "l10n_br_portal_tour",
-        )
 
         mocked_response = {
             "zip_code": "37500015",
@@ -29,10 +25,9 @@ class TestUi(HttpCase):
             _provider_class + "._consultar_cep",
             return_value=mocked_response,
         ):
-            self.phantom_js(
-                url_path="/my/account",
-                code="%s.run('%s')" % tour,
-                ready="%s.tours['%s'].ready" % tour,
+            self.start_tour(
+                "/my/account",
+                "l10n_br_portal_tour",
                 login="admin",
                 timeout=180,
             )
