@@ -52,7 +52,7 @@ odoo.define("l10n_br_portal.l10n_br_portal", function (require) {
                     console.log("Falha ao consultar cep");
                 } else {
                     $('input[name="district"]').val(data.district);
-                    $('input[name="street"]').val(data.street);
+                    $('input[name="street_name"]').val(data.street_name);
                     $('select[name="country_id"]').val(data.country_id);
                     $('select[name="country_id"]').change();
                     $('select[name="state_id"]').val(data.state_id);

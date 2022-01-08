@@ -173,17 +173,17 @@
                             </div>
 
                             <div
-                                t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-xl-6"
+                                t-attf-class="form-group #{error.get('street_name') and 'o_has_error' or ''} col-xl-6"
                             >
                                 <label
                                     class="col-form-label"
-                                    for="street"
+                                    for="street_name"
                                 >Street</label>
                                 <input
                                     type="text"
-                                    name="street"
-                                    t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}"
-                                    t-att-value="street or partner.street"
+                                    name="street_name"
+                                    t-attf-class="form-control #{error.get('street_name') and 'is-invalid' or ''}"
+                                    t-att-value="street_name or partner.street_name"
                                 />
                             </div>
 
