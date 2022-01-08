@@ -17,7 +17,7 @@ class HrEmployee(models.Model):
 
     naturalidade = fields.Many2one(string="Naturalidade", comodel_name="res.city")
 
-    pis_pasep = fields.Char(string="PIS/PASEP", size=15)
+    pis_pasep = fields.Char(string="PIS/PASEP")
 
     ctps = fields.Char(string="CTPS", help="CTPS number")
 
@@ -44,11 +44,11 @@ class HrEmployee(models.Model):
     educational_attainment = fields.Many2one(
         string="Educational attainment",
         comodel_name="hr.educational.attainment",
-        track_visibility="onchange",
+        tracking=True,
     )
 
     have_dependent = fields.Boolean(
-        string="Has dependents", track_visibility="onchange"
+        string="Has dependents", tracking=True
     )
 
     dependent_ids = fields.One2many(
@@ -105,7 +105,7 @@ class HrEmployee(models.Model):
     )
 
     deficiency_id = fields.Many2one(
-        string="Deficiency", comodel_name="hr.deficiency", track_visibility="onchange"
+        string="Deficiency", comodel_name="hr.deficiency", tracking=True
     )
 
     deficiency_description = fields.Char(string="Deficiency description")
