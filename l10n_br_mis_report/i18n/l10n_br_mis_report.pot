@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_mis_report
+# 	* l10n_br_mis_report
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -275,4 +275,3 @@ msgstr ""
 #: model:mis.report.kpi,description:l10n_br_mis_report.dre_receita_vendas
 msgid "Vendas de Produtos, Mercadorias e Serviços"
 msgstr ""
-
