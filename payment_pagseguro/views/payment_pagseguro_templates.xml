@@ -14,6 +14,12 @@
         </xpath>
     </template>
 
+    <template id="assets_common" name="Payment Pagseguro Assets Common" inherit_id="web.assets_common">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/payment_pagseguro/static/src/js/pagseguro_tour.js"></script>
+        </xpath>
+    </template>
+
     <data noupdate="1">
         <template id="pagseguro_form">
             <div>
