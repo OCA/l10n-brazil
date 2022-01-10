@@ -10,6 +10,7 @@
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
         "payment",
+        "web_tour",
     ],
     "data": [
         "views/payment_pagseguro_templates.xml",

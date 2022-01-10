@@ -240,9 +240,9 @@ class PaymentTransactionPagseguro(models.Model):
                 "currency": INT_CURRENCIES[0],
             },
             "payment_method": {
-                "type": "CREDIT_CARD",  # TODO Can the user select the method?
+                "type": "CREDIT_CARD",
                 "installments": 1,
-                "capture": True, # TODO Test True or False?
+                "capture": True,
                 "card": {
                     "encrypted": self.payment_token_id.pagseguro_card_token,
                 },
