@@ -4,7 +4,7 @@
 <template
             id="pos_l10n_br_assets_backend"
             name="pos_l10n_br_assets_backend"
-            inherit_id="point_of_sale.assets_backend"
+            inherit_id="pos_show_order_hamburger_menu.pos_show_order_hamburger_menu"
         >
     <xpath expr="." position="inside">
         <script src="/l10n_br_pos/static/src/js/chrome.js" type="text/javascript" />
