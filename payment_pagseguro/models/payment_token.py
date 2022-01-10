@@ -40,7 +40,7 @@ class PaymentTokenPagSeguro(models.Model):
 
         res = {
             "acquirer_ref": partner_id.id,
-            "name": "%s" % (customer_params),
+            "name": "%s" % (customer_params.get('description')),
             "pagseguro_card_token": values["pagseguro_card_token"],
         }
 
