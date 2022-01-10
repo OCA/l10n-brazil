@@ -48,6 +48,28 @@
         </t>
     </t>
 
+    <t t-extend="PosOrderScreenWidget">
+        <t t-jquery='.order-list thead tr' t-operation="append">
+            <th>Reimprimir</th>
+            <th>Cancelar</th>
+        </t>
+    </t>
+
+    <t t-extend="PosOrderLine">
+        <t t-jquery='.order-line' t-operation="append">
+            <td>
+                <span class="control-button pos_order_reprint">
+                    Reimprimir
+                </span>
+            </td>
+            <td>
+                <span class="control-button pos_order_cancel">
+                    Cancelar
+                </span>
+            </td>
+        </t>
+    </t>
+
 <!--    <t t-extend="OrderWidget">-->
 <!--        <t t-jquery="div.order-container > div.order-scroller:has(.order)" t-operation="prepend">-->
 <!--            <div class='partner-cpf-cnpj' id="partner-cpf-cnpj">-->
