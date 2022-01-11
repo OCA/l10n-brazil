@@ -204,6 +204,9 @@ class AccountInvoice(models.Model):
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
         invoice_type = self.env.context.get("default_move_type", "out_invoice")
+        # acrescentei o if abaixo com o return dava erro ao adicionar um diario qualquer
+        if invoice_type == 'entry':
+            return defaults
         defaults["fiscal_operation_type"] = INVOICE_TO_OPERATION[invoice_type]
         if defaults["fiscal_operation_type"] == FISCAL_OUT:
             defaults["issuer"] = DOCUMENT_ISSUER_COMPANY
@@ -527,8 +530,8 @@ class AccountInvoice(models.Model):
         if invoices:
             invoices.mapped("fiscal_document_id").action_document_send()
             for invoice in invoices:
-                invoice.move_id.post(invoice=invoice)
-                # ERRO NESTA LINHA ACIMA
+                # da erro na linha abaixo
+                # invoice.move_id.post(invoice=invoice)
                 invoice.fiscal_document_id.action_document_send()
 
     def action_document_cancel(self):
