@@ -88,9 +88,12 @@ odoo.define("payment_pagseguro.tour", function (require){
                 trigger: 'button[id="o_payment_form_pay"]:visible:not(:disabled)',
             },
             {
-                content: "Payment authorized",
-                trigger: '.bg-success span:contains("Your payment has been authorized.")',
-                run: function () {}, // it's a check
+                content: "payment authorized",
+                trigger:
+                    '.bg-success span:contains("Your payment has been authorized.")',
+                run: function () {
+                    // It's a check
+                } 
             },
         ]
     );
