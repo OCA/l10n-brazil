@@ -179,7 +179,7 @@ class PaymentTransactionPagseguro(models.Model):
 
         if tree.get("payment_response"):
             code = tree.get("payment_response", {}).get("code")
-            if code == '20000':
+            if code == "20000":
                 self.write(
                     {
                         "date": fields.datetime.now(),

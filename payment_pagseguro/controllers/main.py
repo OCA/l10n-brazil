@@ -22,7 +22,11 @@ class PagseguroController(http.Controller):
     def pagseguro_s2s_create_json_3ds(self, verify_validity=False, **kwargs):
         if not kwargs.get("partner_id"):
             kwargs = dict(kwargs, partner_id=request.env.user.partner_id.id)
-        token = request.env["payment.acquirer"].browse(int(kwargs.get("acquirer_id"))).s2s_process(kwargs)
+        token = (
+            request.env["payment.acquirer"]
+            .browse(int(kwargs.get("acquirer_id")))
+            .s2s_process(kwargs)
+        )
 
         if not token:
             res = {
@@ -40,7 +44,7 @@ class PagseguroController(http.Controller):
 
         if verify_validity:
             token.validate()
-            res['verified'] = token.verified
+            res["verified"] = token.verified
 
         return res
 
@@ -95,8 +99,8 @@ class PagseguroController(http.Controller):
         if tx.type == "form_save" and tx.partner_id:
             payment_token_id = (
                 request.env["payment.token"]
-                    .sudo()
-                    .create(
+                .sudo()
+                .create(
                     {
                         "acquirer_id": tx.acquirer_id.id,
                         "partner_id": tx.partner_id.id,
@@ -126,8 +130,7 @@ class PagseguroController(http.Controller):
         PaymentProcessing.add_payment_transaction(tx)
         return "/payment/process"
 
-    @http.route(
-        ["/payment/pagseguro/public_key"], type="json", auth="public")
+    @http.route(["/payment/pagseguro/public_key"], type="json", auth="public")
     def payment_pagseguro_get_public_key(self, **kwargs):
         """Get pagseguro API public key
 

@@ -27,8 +27,8 @@ class PaymentAcquirerPagseguro(models.Model):
     def _get_pagseguro_environment(self):
         return (
             request.env["payment.acquirer"]
-                .search([("provider", "=", "pagseguro")])
-                .environment
+            .search([("provider", "=", "pagseguro")])
+            .environment
         )
 
     @api.multi
@@ -67,8 +67,8 @@ class PaymentAcquirerPagseguro(models.Model):
         """
         payment_token = (
             self.env["payment.token"]
-                .sudo()
-                .create(
+            .sudo()
+            .create(
                 {
                     "cc_holder_name": data["cc_holder_name"],
                     "acquirer_ref": int(data["partner_id"]),

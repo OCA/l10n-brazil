@@ -11,9 +11,11 @@ _logger = logging.getLogger(__name__)
 
 @odoo.tests.tagged("post_install", "-at_install")
 class PagseguroTest(HttpCase):
-
     def test_buy_with_pagseguro(self):
-        self.browser_js("/",
-                        "odoo.__DEBUG__.services['web_tour.tour'].run('shop_buy_with_pagseguro')",
-                        "odoo.__DEBUG__.services['web_tour.tour'].tours.shop_buy_with_pagseguro.ready",
-                        login="admin", timeout=60*60)
+        self.browser_js(
+            "/",
+            "odoo.__DEBUG__.services['web_tour.tour'].run('shop_buy_with_pagseguro')",
+            "odoo.__DEBUG__.services['web_tour.tour'].tours.shop_buy_with_pagseguro.ready",
+            login="admin",
+            timeout=60 * 60,
+        )
