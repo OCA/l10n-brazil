@@ -25,7 +25,7 @@ class PaymentTokenPagSeguro(models.Model):
     def pagseguro_create(self, values):
         """Treats tokenizing data.
 
-        Formats the response data to the result and returns a resulting dict 
+        Formats the response data to the result and returns a resulting dict
         containing card token, formated name (Customer Name or Card holder name)
         and partner_id will be returned.
         """
@@ -40,7 +40,7 @@ class PaymentTokenPagSeguro(models.Model):
 
         res = {
             "acquirer_ref": partner_id.id,
-            "name": "%s" % (customer_params.get('description')),
+            "name": "%s" % (customer_params.get("description")),
             "pagseguro_card_token": values["pagseguro_card_token"],
         }
 

@@ -18,5 +18,5 @@
         "views/payment_acquirer.xml",
     ],
     "demo": [],
-    'uninstall_hook': 'uninstall_hook',
+    "uninstall_hook": "uninstall_hook",
 }
