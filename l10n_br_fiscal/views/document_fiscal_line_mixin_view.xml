@@ -155,7 +155,7 @@
                     <field
                                         name="icms_origin"
                                         force_save="1"
-                                        attrs="{'readonly': ['|', ('icmssn_tax_id', '!=', False), ('icmssn_tax_id', '!=', False)]}"
+                                        attrs="{'readonly': ['|', ('icms_tax_id', '!=', False), ('icmssn_tax_id', '!=', False)]}"
                                     />
                   </group>
                   <group>
