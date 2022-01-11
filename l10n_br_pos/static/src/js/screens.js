@@ -151,7 +151,14 @@ odoo.define("l10n_br_pos.screens", function (require) {
             var self = this;
             this._super();
             this.$('.order-list-contents').delegate('.pos_order_reprint','click',function(event){
-                self.pos.proxy.reprint_cfe($(this).parent().parent().data('id'));
+                rpc.query({
+                    model: 'pos.order',
+                    method: 'retornar_order_by_id',
+                    args: [$(this).parent().parent().data('id')],
+                    limit: 1,
+                }).then(function (orders){
+                    self.pos.proxy.reprint_cfe(orders);
+                });
             });
         },
     });
