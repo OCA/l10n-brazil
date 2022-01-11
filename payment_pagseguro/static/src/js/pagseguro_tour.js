@@ -50,11 +50,6 @@ odoo.define("payment_pagseguro.tour", function (require){
                 trigger: '.oe_product_cart:first a:contains("Conference Chair")',
             },
             {
-                content: "select Conference Chair Aluminium",
-                extra_trigger: '#product_detail',
-                trigger: 'label:contains(Aluminium) input',
-            },
-            {
                 content: "select Conference Chair Steel",
                 extra_trigger: '#product_detail',
                 trigger: 'label:contains(Steel) input',
@@ -69,29 +64,7 @@ odoo.define("payment_pagseguro.tour", function (require){
                 trigger: 'button:contains("Proceed to Checkout")',
             },
             {
-                content: "add suggested",
-                extra_trigger: '#wrap:not(:has(#cart_products:contains("Storage Box")))',
-                trigger: '.oe_cart:has(tr:contains("Storage Box")) a:contains("Add to Cart")',
-            },
-            {
-                content: "add one more",
-                extra_trigger: '#cart_products tr:contains("Storage Box")',
-                trigger: '#cart_products tr:contains("Steel") a.js_add_cart_json:eq(1)',
-            },
-            {
-                content: "remove Storage Box",
-                extra_trigger: '#cart_products tr:contains("Steel") input.js_quantity:propValue(2)',
-                trigger: '#cart_products tr:contains("Storage Box") a.js_add_cart_json:first',
-            },
-            {
-                content: "set one",
-                extra_trigger: '#wrap:not(:has(#cart_products tr:contains("Storage Box")))',
-                trigger: '#cart_products input.js_quantity',
-                run: 'text 1',
-            },
-            {
                 content: "go to checkout",
-                extra_trigger: '#cart_products input.js_quantity:propValue(1)',
                 trigger: 'a[href*="/shop/checkout"]',
             },
             {
@@ -101,22 +74,12 @@ odoo.define("payment_pagseguro.tour", function (require){
             {
                 content: "Card security code",
                 trigger: '#cc_cvc',
-                run: '123',
-            },
-            {
-                content: "Card expiry",
-                trigger: '#cc_expiry',
-                run: '12/2030',
-            },
-            {
-                content: "Card holder name",
-                trigger: '#cc_holder_name',
-                run: 'VISA',
-            },
-            {
-                content: "Card number",
-                trigger: '#cc_number',
-                run: '4111111111111111',
+                run: function(){
+                    $('#cc_cvc')[0].value = '123'
+                    $('#cc_expiry')[0].value = '12/2030'
+                    $('#cc_holder_name')[0].value = 'VISA'
+                    $('#cc_number')[0].value = '4111111111111111'
+                },
             },
             {
                 content: "Pay Now",
