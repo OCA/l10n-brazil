@@ -72,7 +72,7 @@ odoo.define("payment_pagseguro.tour", function (require){
                 trigger: '#payment_method label:contains("Pagseguro")',
             },
             {
-                content: "Card security code",
+                content: "Fill in credit card information",
                 trigger: '#cc_cvc',
                 run: function(){
                     $('#cc_cvc')[0].value = '123'
@@ -88,18 +88,8 @@ odoo.define("payment_pagseguro.tour", function (require){
                 trigger: 'button[id="o_payment_form_pay"]:visible:not(:disabled)',
             },
             {
-                content: "finish",
-                trigger: '.oe_website_sale:contains("Pending... The order will be validated after the payment.")',
-                // Leave /shop/confirmation to prevent RPC loop to /shop/payment/get_status.
-                // The RPC could be handled in python while the tour is killed (and the session), leading to crashes
-                run: function () {
-                    window.location.href = '/aboutus'; // Redirect in JS to avoid the RPC loop (20x1sec)
-                },
-                timeout: 30000,
-            },
-            {
-                content: "wait page loaded",
-                trigger: 'h3:contains("Great products for great people")',
+                content: "Payment authorized",
+                trigger: '.bg-success span:contains("Your payment has been authorized.")',
                 run: function () {}, // it's a check
             },
         ]

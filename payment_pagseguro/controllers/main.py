@@ -146,6 +146,11 @@ class PagseguroController(http.Controller):
             json={"type": "card"},
         )
 
+        if r.status_code == 401:
+            raise werkzeug.exceptions.Unauthorized()
+        elif str(r.status_code).startswith('40'):
+            raise werkzeug.exceptions.BadRequest()
+
         res = r.json()
         public_key = res.get("public_key")
 

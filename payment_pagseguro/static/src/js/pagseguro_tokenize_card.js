@@ -42,10 +42,10 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                 rpc.query({
                     route: "/payment/pagseguro/public_key",
                     params: {acquirer_id: acquirerID},
-                }).then(function (data) {
+                }).then(function (public_key) {
                     // Call function encrypt card
-                   return PagSeguro.encryptCard({
-                        publicKey: data,
+                    return PagSeguro.encryptCard({
+                        publicKey: public_key,
                         holder: formData.cc_holder_name,
                         number: formData.cc_number.replace(/\s+/g, ""),
                         expMonth: formData.cc_expiry.split("/")[0],
@@ -53,16 +53,18 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                         securityCode: formData.cc_cvc,
                     });
                 }).then(function (card) {
-                    // Update card token and call parent function
+                    // Update card token
                     if (card.encryptedCard){
                         return formData.cc_token = card.encryptedCard;
                     } else {
-                        return $.Deferred().reject({"message": {"data": { "message": card.error.message}}});
+                        self.enableButton(button);
+                        self.displayError(
+                            _t(card.errors[0].code),
+                            _t(card.errors[0].message)
+                        );
                     }
                 }).then(function(result) {
-                    if (result.error) {
-                        return $.Deferred().reject({"message": {"data": { "message": result.error.message}}});
-                    } else {
+                    if (result) {
                         _.extend(formData, {"data_set": ds.dataset.createRoute});
                     
                         return rpc.query({
@@ -71,15 +73,25 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                         })
                     }
                 }).then(function(result) {
-                    $checkedRadio.val(result.id);
-                    self.el.submit();
+                    if (result) {
+                        $checkedRadio.val(result.id);
+                        self.el.submit();
+                    }
                 }).fail(function (error, event) {
-                    // if the rpc fails, pretty obvious
+                    // if the public key rpc fails
                     self.enableButton(button);
-                    self.displayError(
-                        _t('Unable to save card'),
-                        _t("We are not able to add your payment method at the moment. ")
-                    );
+
+                    if (error.data.message == "401: Unauthorized") {
+                        self.displayError(
+                            _t("Token inválido"),
+                            _t("Verifique se o seu Token de usuário está correto. ")
+                        );
+                    } else {
+                        self.displayError(
+                            _t("Error info"),
+                            _t("We are not able to add your payment method at the moment. ")
+                        );
+                    }
                 });
         },
 
