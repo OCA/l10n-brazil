@@ -1,23 +1,16 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
-
 import requests
 
 from odoo import api, fields, models
 from odoo.http import request
-
-_logger = logging.getLogger(__name__)
 
 
 class PaymentAcquirerPagseguro(models.Model):
     _inherit = "payment.acquirer"
 
     provider = fields.Selection(selection_add=[("pagseguro", "Pagseguro")])
-    pagseguro_email = fields.Char(
-        string="Email", required_if_provider="pagseguro", groups="base.group_user"
-    )
     pagseguro_token = fields.Char(
         string="Token",
         required_if_provider="pagseguro",
@@ -53,9 +46,9 @@ class PaymentAcquirerPagseguro(models.Model):
         """Validates user input"""
         self.ensure_one()
         # mandatory fields
-        # for field_name in ["cc_token"]:
-        #     if not data.get(field_name):
-        #         return False
+        for field_name in ["cc_token", "cc_holder_name"]:
+            if not data.get(field_name):
+                return False
         return True
 
     @api.model

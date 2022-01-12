@@ -23,12 +23,12 @@
     <data noupdate="1">
         <template id="pagseguro_form">
             <div>
-<!--                <input-->
-<!--                    type="hidden"-->
-<!--                    name="data_set"-->
-<!--                    t-att-data-action-url="tx_url"-->
-<!--                    data-remove-me=""-->
-<!--                />-->
+               <input
+                   type="hidden"
+                   name="data_set"
+                   t-att-data-action-url="tx_url"
+                   data-remove-me=""
+               />
                 <input type="hidden" name='x_login' t-att-value='x_login' />
                 <input type="hidden" name='x_fp_hash' t-att-value='x_fp_hash' />
                 <input type="hidden" name='x_amount' t-att-value='x_amount' />
@@ -101,12 +101,6 @@
             </div>
         </template>
 
-        <template id="payment_pagseguro_redirect" name="Payment pagseguro">
-            <script type="text/javascript">
-                window.location.href = '<t t-esc="return_url" />';
-            </script>
-        </template>
-
         <template id="pagseguro_s2s_form">
             <input
                 type="hidden"
@@ -127,7 +121,6 @@
                         placeholder="Card number"
                         data-is-required="true"
                     />
-                    <!--                        value="4111111111111111"-->
                     <div class="card_placeholder" />
                     <div class="visa" />
                     <input type="hidden" name="cc_brand" />
@@ -143,7 +136,6 @@
                         placeholder="Cardholder name"
                         data-is-required="true"
                     />
-                    <!--                        value="VISA"-->
                 </div>
                 <div
                     t-att-class="'form-group col-lg-3' if bootstrap_formatting else 'form-group'"
@@ -157,7 +149,6 @@
                         placeholder="Expires (MM/YYYY)"
                         data-is-required="true"
                     />
-                    <!--                        value="12/2030"-->
                 </div>
                 <div
                     t-att-class="'form-group col-lg-4' if bootstrap_formatting else 'form-group'"
@@ -171,11 +162,10 @@
                         placeholder="CVC"
                         data-is-required="true"
                     />
-                    <!--                        value="123"-->
                 </div>
             </div>
             <input type="hidden" name="acquirer_id" t-att-value="id" />
-            <input type="hidden" name="cc_token" t-att-value="acq.sudo().pagseguro_token"/>
+            <input type="hidden" name="cc_token"/>
             <input
                 class="d-none"
                 name="csrf_token"
