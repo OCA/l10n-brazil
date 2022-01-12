@@ -203,7 +203,6 @@ class SaleOrder(models.Model):
                     }
                 )
 
-    @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("order_line")
