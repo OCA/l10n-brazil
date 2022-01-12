@@ -13,7 +13,7 @@ def post_init_hook(cr, registry):
         )
 
         for order in sale_orders:
-            defaults = order.sudo(user=order.user_id.id).default_get(order._fields)
+            defaults = order.with_user(user=order.user_id.id).default_get(order._fields)
             defaults.update(
                 {
                     "name": order.name,
