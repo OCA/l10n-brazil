@@ -194,38 +194,38 @@
                 position="after"
             >
                 <notebook attrs="{'invisible': [('display_type', '!=', False)]}">
-                  <page name="fiscal_taxes" string="Taxes" />
-                  <page
+                    <page name="fiscal_taxes" string="Taxes" />
+                    <page
                         string="Invoice Lines"
                         groups="base.group_no_one"
                         attrs="{'invisible': [('display_type', '!=', False)]}"
                     >
-                      <div>
-                          <label for="invoice_lines" />
-                          <field name="invoice_lines" />
-                      </div>
-                  </page>
-                  <page name="others" string="Others">
-                      <group>
-                          <field name="delivery_costs" invisible="1" />
-                          <field
+                        <div>
+                            <label for="invoice_lines" />
+                            <field name="invoice_lines" />
+                        </div>
+                    </page>
+                    <page name="others" string="Others">
+                        <group>
+                            <field name="delivery_costs" invisible="1" />
+                            <field
                                 name="freight_value"
                                 attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
                             />
-                          <field
+                            <field
                                 name="insurance_value"
                                 attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
                             />
-                          <field
+                            <field
                                 name="other_value"
                                 attrs="{'readonly': [('delivery_costs', '=', 'total')]}"
                             />
-                      </group>
-                  </page>
-                  <page name="fiscal_line_extra_info" string="Extra Info" />
-                  <page name="accounting" string="Accounting">
-                      <group>
-                          <field
+                        </group>
+                    </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info" />
+                    <page name="accounting" string="Accounting">
+                        <group>
+                            <field
                                 name="tax_id"
                                 widget="many2many_tags"
                                 options="{'no_create': True}"
@@ -233,8 +233,8 @@
                                 domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
                                 attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"
                             />
-                      </group>
-                  </page>
+                        </group>
+                    </page>
                 </notebook>
             </xpath>
             <xpath
@@ -257,14 +257,20 @@
                 expr="//field[@name='order_line']/form//div[@name='discount']"
                 position="after"
             >
-              <field name="discount_fixed" groups="l10n_br_sale.group_total_discount" />
-              <label
+                <field
+                    name="discount_fixed"
+                    groups="l10n_br_sale.group_total_discount"
+                />
+                <label
                     for="discount_value"
                     groups="l10n_br_sale.group_discount_per_value"
                 />
-              <div name="discount_value" groups="l10n_br_sale.group_discount_per_value">
-                  <field name="discount_value" class="oe_inline" />
-              </div>
+                <div
+                    name="discount_value"
+                    groups="l10n_br_sale.group_discount_per_value"
+                >
+                    <field name="discount_value" class="oe_inline" />
+                </div>
             </xpath>
             <xpath expr="//group[@name='sale_total']" position="after">
                 <group style="width: 65%%" groups="l10n_br_sale.group_total_discount">

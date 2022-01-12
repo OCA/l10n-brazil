@@ -4,8 +4,6 @@
 
 from functools import partial
 
-from lxml import etree
-
 from odoo import api, fields, models
 from odoo.tools import float_is_zero
 from odoo.tools.misc import formatLang
@@ -225,6 +223,9 @@ class SaleOrder(models.Model):
         order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
         if view_type == "form":
+
+            view = self.env["ir.ui.view"]
+
             sub_form_view = (
                 order_view.get("fields", {})
                 .get("order_line", {})
@@ -233,19 +234,18 @@ class SaleOrder(models.Model):
                 .get("arch", {})
             )
 
-            view = self.env["ir.ui.view"]
-
-            sub_form_node = etree.fromstring(
-                self.env["sale.order.line"].fiscal_form_view(sub_form_view)
+            sub_form_node = self.env["sale.order.line"].inject_fiscal_fields(
+                sub_form_view
             )
 
             sub_arch, sub_fields = view.postprocess_and_fields(
                 "sale.order.line", sub_form_node, None
             )
 
-            order_view["fields"]["order_line"]["views"]["form"]["fields"] = sub_fields
-
-            order_view["fields"]["order_line"]["views"]["form"]["arch"] = sub_arch
+            order_view["fields"]["order_line"]["views"]["form"] = {
+                "fields": sub_fields,
+                "arch": sub_arch,
+            }
 
         return order_view
 
