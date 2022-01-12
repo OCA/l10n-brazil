@@ -4,7 +4,6 @@
 
 from odoo import api, fields, models
 
-from odoo.addons import decimal_precision as dp
 
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
@@ -56,7 +55,7 @@ class SaleOrderLine(models.Model):
         compute="_compute_qty_delivered",
         compute_sudo=True,
         store=True,
-        digits=dp.get_precision("Product Unit of Measure"),
+        digits="Product Unit of Measure",
     )
 
     uom_id = fields.Many2one(
