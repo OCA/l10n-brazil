@@ -17,7 +17,6 @@
                 name="pre_msg"
             ><![CDATA[
 <p>You will be redirected to the pagseguro website after clicking on the payment button.</p>]]></field>
-            <field name='pagseguro_email'>dummy</field>
             <field name='pagseguro_token'>dummy</field>
         </record>
     </data>

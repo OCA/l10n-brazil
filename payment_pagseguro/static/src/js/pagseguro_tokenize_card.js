@@ -65,7 +65,14 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                     }
                 }).then(function(result) {
                     if (result) {
-                        _.extend(formData, {"data_set": ds.dataset.createRoute});
+                        // Remove credit card information for security purpose
+                        // and add url creation route to form data.
+                        _.extend(formData, {
+                            "cc_number": '',
+                            "cc_expiry": '',
+                            "cc_cvc": '',
+                            "data_set": ds.dataset.createRoute
+                        });
                     
                         return rpc.query({
                             route: formData.data_set,
