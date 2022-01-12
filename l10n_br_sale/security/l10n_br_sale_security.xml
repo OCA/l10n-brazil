@@ -14,7 +14,7 @@
   <record id="base.user_admin" model="res.users">
     <field
             name="groups_id"
-            eval="[(4, ref('l10n_br_sale.group_discount_per_value')), (4, ref('sale.group_discount_per_so_line'))]"
+            eval="[(4, ref('l10n_br_sale.group_discount_per_value')), (4, ref('product.group_discount_per_so_line'))]"
         />
   </record>
 
