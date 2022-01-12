@@ -4,7 +4,6 @@
 
 from odoo import api, fields, models
 
-
 from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
 
 
@@ -77,8 +76,7 @@ class SaleOrderLine(models.Model):
 
     # Add Fields in model sale.order.line
     price_gross = fields.Monetary(
-        compute="_compute_amount",
-        string="Gross Amount",
+        compute="_compute_amount", string="Gross Amount", compute_sudo=True
     )
 
     comment_ids = fields.Many2many(
@@ -96,6 +94,11 @@ class SaleOrderLine(models.Model):
     delivery_costs = fields.Selection(
         related="company_id.delivery_costs",
     )
+
+    # Fields compute need parameter compute_sudo
+    price_subtotal = fields.Monetary(compute_sudo=True)
+    price_tax = fields.Monetary(compute_sudo=True)
+    price_total = fields.Monetary(compute_sudo=True)
 
     def _get_protected_fields(self):
         protected_fields = super()._get_protected_fields()
@@ -135,12 +138,12 @@ class SaleOrderLine(models.Model):
                 }
             )
 
-    def _prepare_invoice_line(self, qty):
+    def _prepare_invoice_line(self):
         self.ensure_one()
         result = self._prepare_br_fiscal_dict()
         if self.product_id and self.product_id.invoice_policy == "delivery":
             result["fiscal_quantity"] = self.fiscal_qty_delivered
-        result.update(super()._prepare_invoice_line(qty))
+        result.update(super()._prepare_invoice_line())
         return result
 
     @api.onchange("product_uom", "product_uom_qty")
@@ -185,12 +188,7 @@ class SaleOrderLine(models.Model):
                 self.product_uom_qty * self.price_unit or 1
             )
 
-    def _compute_tax_id(self):
-        super(SaleOrderLine, self)._compute_tax_id()
-        for line in self:
-            line.tax_id |= line.fiscal_tax_ids.account_taxes(user_type="sale")
-
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
-        self._compute_tax_id()
+        self.tax_id |= self.fiscal_tax_ids.account_taxes(user_type="sale")
