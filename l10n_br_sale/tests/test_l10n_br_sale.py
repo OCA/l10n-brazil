@@ -164,7 +164,7 @@ class L10nBrSaleBaseTest(SavepointCase):
         sale_order.action_confirm()
 
         # Create and check invoice
-        sale_order.action_invoice_create(final=True)
+        sale_order._create_invoices(final=True)
 
         self.assertEqual(sale_order.state, "sale", "Error to confirm Sale Order.")
 
@@ -449,6 +449,6 @@ class L10nBrSaleBaseTest(SavepointCase):
 
         self.so_product_service.action_confirm()
         # Create and check invoice
-        self.so_product_service.action_invoice_create(final=True)
+        self.so_product_service._create_invoices(final=True)
         # Devem existir duas Faturas/Documentos Fiscais
         self.assertEqual(2, self.so_product_service.invoice_count)
