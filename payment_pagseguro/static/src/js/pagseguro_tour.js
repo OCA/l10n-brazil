@@ -1,13 +1,11 @@
 odoo.define("payment_pagseguro.tour", function (require){
     "use strict";
 
-    var core = require('web.core');
     var tour = require('web_tour.tour');
     var base = require("web_editor.base");
     var rpc = require('web.rpc');
-    var _t = core._t;
 
-    tour.register('shop_buy_with_pagseguro', {
+    tour.register('shop_buy_pagseguro', {
         url: "/shop",
         test: true,
         wait_for: base.ready(),
@@ -31,6 +29,7 @@ odoo.define("payment_pagseguro.tour", function (require){
                             'method': 'write',
                             'args': [acquirer, {
                                 'pagseguro_token': "8EC2714B10DC42DE882BC341A5366899",
+                                'website_published': true,
                             }],
                         });
                     });
@@ -72,14 +71,24 @@ odoo.define("payment_pagseguro.tour", function (require){
                 trigger: '#payment_method label:contains("Pagseguro")',
             },
             {
-                content: "Fill in credit card information",
-                trigger: '#cc_cvc',
-                run: function(){
-                    $('#cc_cvc')[0].value = '123'
-                    $('#cc_expiry')[0].value = '12/2030'
-                    $('#cc_holder_name')[0].value = 'VISA'
-                    $('#cc_number')[0].value = '4111111111111111'
-                },
+                content: "Card Number",
+                trigger: "input[name='cc_number']",
+                run: "text 4111111111111111",
+            },
+            {
+                content: "Card Name",
+                trigger: "input[name='cc_holder_name']",
+                run: "text VISA",
+            },
+            {
+                content: "Expiration Date",
+                trigger: "input[name='cc_expiry']",
+                run: "text 12/2030",
+            },
+            {
+                content: "Security code",
+                trigger: "input[name='cc_cvc']",
+                run: "text 123",
             },
             {
                 content: "Pay Now",
