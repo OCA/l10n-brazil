@@ -9434,3 +9434,4 @@ msgstr ""
 #: selection:uom.category,measure_type:0
 msgid "Àrea / Superfície"
 msgstr ""
+
