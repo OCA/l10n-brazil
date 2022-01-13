@@ -44,12 +44,6 @@
             >
                   <field name="fiscal_tax_ids" widget="many2many_tags" />
               </xpath>
-              <xpath
-                expr="//field[@name='order_line']/tree/field[@name='company_id']"
-                position="attributes"
-            >
-                  <attribute name="invisible">1</attribute>
-              </xpath>
               <!-- Edit order_line Form view -->
               <xpath expr="//field[@name='order_line']/form" position="inside">
                   <group name="fiscal_fields" invisible="1">
