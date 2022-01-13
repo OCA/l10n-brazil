@@ -4,7 +4,6 @@
 
 from odoo import fields, models
 
-from odoo.addons import decimal_precision as dp
 from odoo.addons.l10n_br_fiscal.constants.fiscal import PRODUCT_FISCAL_TYPE
 
 
@@ -41,52 +40,52 @@ class PurchaseReport(models.Model):
 
     icms_value = fields.Float(
         string="ICMS Value",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     icmsst_value = fields.Float(
         string="ICMS ST Value",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     ipi_value = fields.Float(
         string="IPI Value",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     pis_value = fields.Float(
         string="PIS Value",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     cofins_value = fields.Float(
         string="COFINS Value",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     ii_value = fields.Float(
         string="II Value",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     freight_value = fields.Float(
         string="Freight Value",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     insurance_value = fields.Float(
         string="Insurance Value",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     other_value = fields.Float(
         string="Other Value",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     total_with_taxes = fields.Float(
         string="Total with Taxes",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     def _select(self):
