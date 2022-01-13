@@ -4,8 +4,8 @@
 from odoo import api, models
 
 
-class AccountInvoiceLine(models.Model):
-    _inherit = "account.invoice.line"
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
 
     @api.model
     def new(self, values=None, ref=None):
