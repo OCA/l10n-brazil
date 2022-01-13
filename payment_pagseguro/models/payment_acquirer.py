@@ -12,7 +12,7 @@ class PaymentAcquirerPagseguro(models.Model):
 
     provider = fields.Selection(selection_add=[("pagseguro", "Pagseguro")])
     pagseguro_token = fields.Char(
-        string="Token",
+        string="Pagseguro Token",
         required_if_provider="pagseguro",
         groups="base.group_user",
     )

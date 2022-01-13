@@ -17,7 +17,7 @@ class PaymentTokenPagSeguro(models.Model):
     )
 
     pagseguro_card_token = fields.Char(
-        string="Token",
+        string="Pagseguro card Token",
         required=False,
     )
 
