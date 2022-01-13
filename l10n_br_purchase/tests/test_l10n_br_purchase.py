@@ -191,7 +191,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
         invoice_values["document_type_id"] = document_type_id
         invoice_values["issuer"] = DOCUMENT_ISSUER_PARTNER
         self.invoice = (
-            self.env["account.invoice"]
+            self.env["account.move"]
             .with_context(tracking_disable=True)
             .create(invoice_values)
         )
