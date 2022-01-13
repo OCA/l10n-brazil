@@ -6,7 +6,7 @@
         <field name="model">purchase.report</field>
         <field name="inherit_id" ref="purchase.view_purchase_order_search" />
         <field name="arch" type="xml">
-            <filter name="fiscal_position" position="before">
+            <filter name="company" position="after">
                 <filter
                     string="Fiscal Operation"
                     name="fiscal_operation_id"
