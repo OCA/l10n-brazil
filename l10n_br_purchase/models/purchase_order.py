@@ -2,7 +2,6 @@
 # Copyright (C) 2012  Raphaël Valyi - Akretion
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from lxml import etree
 
 from odoo import api, fields, models
 
@@ -64,6 +63,9 @@ class PurchaseOrder(models.Model):
         order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
 
         if view_type == "form":
+
+            view = self.env["ir.ui.view"]
+
             sub_form_view = (
                 order_view.get("fields", {})
                 .get("order_line", {})
@@ -72,19 +74,18 @@ class PurchaseOrder(models.Model):
                 .get("arch", {})
             )
 
-            view = self.env["ir.ui.view"]
-
-            sub_form_node = etree.fromstring(
-                self.env["purchase.order.line"].fiscal_form_view(sub_form_view)
+            sub_form_node = self.env["purchase.order.line"].inject_fiscal_fields(
+                sub_form_view
             )
 
             sub_arch, sub_fields = view.postprocess_and_fields(
                 "purchase.order.line", sub_form_node, None
             )
 
-            order_view["fields"]["order_line"]["views"]["form"]["fields"] = sub_fields
-
-            order_view["fields"]["order_line"]["views"]["form"]["arch"] = sub_arch
+            order_view["fields"]["order_line"]["views"]["form"] = {
+                "fields": sub_fields,
+                "arch": sub_arch,
+            }
 
         return order_view
 
