@@ -48,6 +48,14 @@ class PurchaseOrder(models.Model):
         related="partner_id.inscr_est",
     )
 
+    comment_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.comment",
+        relation="purchase_order_comment_rel",
+        column1="purchase_id",
+        column2="comment_id",
+        string="Comments",
+    )
+
     @api.model
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
