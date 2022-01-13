@@ -66,6 +66,14 @@ class PurchaseOrderLine(models.Model):
         string="Tax Framework",
     )
 
+    comment_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.comment",
+        relation="purchase_order_line_comment_rel",
+        column1="purchase_line_id",
+        column2="comment_id",
+        string="Comments",
+    )
+
     @api.depends(
         "product_uom_qty",
         "price_unit",
