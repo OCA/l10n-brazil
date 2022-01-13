@@ -13,10 +13,10 @@ class AccountMove(models.Model):
         values.update(line._prepare_br_fiscal_dict())
         return values
 
-    @api.onchange("purchase_id")
-    def purchase_order_change(self):
+    @api.onchange("purchase_vendor_bill_id", "purchase_id")
+    def _onchange_purchase_auto_complete(self):
         if self.purchase_id:
             self.fiscal_operation_id = self.purchase_id.fiscal_operation_id
             if not self.document_type_id:
                 self.document_type_id = self.company_id.document_type_id
-        return super().purchase_order_change()
+        return super()._onchange_purchase_auto_complete()
