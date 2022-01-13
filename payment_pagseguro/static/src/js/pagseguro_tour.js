@@ -30,6 +30,7 @@ odoo.define("payment_pagseguro.tour", function (require){
                             'args': [acquirer, {
                                 'pagseguro_token': "8EC2714B10DC42DE882BC341A5366899",
                                 'website_published': true,
+                                'journal_id': 1,
                             }],
                         });
                     });

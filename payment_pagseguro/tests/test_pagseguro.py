@@ -6,7 +6,6 @@ import odoo
 
 @odoo.tests.tagged("post_install", "-at_install")
 class PagseguroTest(odoo.tests.HttpCase):
-
     def test_buy_pagseguro(self):
         self.browser_js(
             "/shop",
