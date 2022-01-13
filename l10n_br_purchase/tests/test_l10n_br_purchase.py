@@ -168,7 +168,6 @@ class L10nBrPurchaseBaseTest(SavepointCase):
         invoice_values = {
             "partner_id": order.partner_id.id,
             "purchase_id": order.id,
-            "account_id": order.partner_id.property_account_payable_id.id,
             "type": "in_invoice",
         }
 
@@ -195,7 +194,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             .with_context(tracking_disable=True)
             .create(invoice_values)
         )
-        self.invoice.purchase_order_change()
+        self.invoice._onchange_purchase_auto_complete()
 
         self.assertEqual(
             order.order_line.mapped("qty_invoiced"),
