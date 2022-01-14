@@ -27,6 +27,16 @@ Payment PagSeguro
 
 Payment Acquirer: PagSeguro Implementation
 
+This module extends the payment module to add a new payment method: Pagseguro.
+
+There are three ways to integrate the Pagseguro API, in this module we use the
+checkout transparent approach.
+
+You can learn more about that on this `youtube video <https://www.youtube.com/watch?v=3DxKEKoSPkA>`_.
+
+If you wish to use Pagseguro on production environment you need to get an approval
+from pagseguro, more on that `here <https://dev.pagseguro.uol.com.br/docs/comecando-processo-de-integracao>`_.
+
 **Table of contents**
 
 .. contents::
@@ -35,7 +45,10 @@ Payment Acquirer: PagSeguro Implementation
 Installation
 ============
 
-This module depends on * payment and web_tour such to function correctly.
+This module depends on:
+
+* payment
+* web_tour
 
 Configuration
 =============
@@ -43,20 +56,41 @@ Configuration
 This module will require registering in eCommerce PagSeguro https://acesso.pagseguro.uol.com.br/
 
 To configure your API keys go to Invoicing -> Configuration -> Payment Acquirers -> PagSeguro.
+Then insert your token on the credentials page, as shown below:
+
+.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/feature/pag_seguro/payment_pagseguro/static/description/payment_acquirer_01.png
+    :alt: Payment acquirer pagseguro
+    :width: 600 px
+
+Under the configuration page, select your payment journal.
+On the upper right corner buttons you can publish on your website and change the environment.
+
+.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/feature/pag_seguro/payment_pagseguro/static/description/payment_acquirer_02.png 
+    :alt: Payment acquirer pagseguro
+    :width: 600 px
 
 The credential Token and can only be acquired via the PagSeguro user account.
 On your account, go to "Venda Online" > "Integrações". Then, click on "Gerar Token".
+
+.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/feature/pag_seguro/payment_pagseguro/static/description/pagseguro_website.png 
+    :alt: Payment acquirer pagseguro
+    :width: 600 px
 
 * full manual for API:
 
 https://dev.pagseguro.uol.com.br/reference/pagseguro-reference-intro
 
-Known issues / Roadmap
-======================
+Usage
+=====
 
-This module will require registering in eCommerce PagSeguro https://acesso.pagseguro.uol.com.br/
+After the configuration, you can go to the website module, and buy a product
+in your website shop by selecting the Pagseguro payment method and adding your
+credit card information. Then, click on the pay now button.
 
-To configure your API keys go to Invoicing -> Configuration -> Payment Acquirers -> PagSeguro.
+.. figure:: https://raw.githubusercontent.com/OCA/l10n-brazil/feature/pag_seguro/payment_pagseguro/static/description/pagseguro_buy.png
+    :alt: Payment acquirer pagseguro
+    :width: 600 px
+
 
 Bug Tracker
 ===========
