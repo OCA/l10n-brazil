@@ -1,7 +1,6 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-
 from odoo import api, fields, models
 
 
@@ -29,8 +28,7 @@ class PaymentAcquirerPagseguro(models.Model):
     def pagseguro_s2s_form_process(self, data):
         """Saves the payment.token object with data from PagSeguro server
 
-        Secret card info should be empty by this point.
-
+        Cvc, number and expiry date card info should be empty by this point.
         """
         payment_token = (
             self.env["payment.token"]
@@ -52,7 +50,6 @@ class PaymentAcquirerPagseguro(models.Model):
         """Get pagseguro API URLs used in all s2s communication
 
         Takes environment in consideration.
-
         """
         if self.environment == "test":
             return "sandbox.api.pagseguro.com"
@@ -61,7 +58,10 @@ class PaymentAcquirerPagseguro(models.Model):
 
     @api.multi
     def _get_pagseguro_api_headers(self):
-        """Get pagseguro API headers used in all s2s communication"""
+        """Get pagseguro API headers used in all s2s communication
+
+        Uses user token as authentication.
+        """
         PAGSEGURO_HEADERS = {
             "Authorization": self.pagseguro_token,
             "Content-Type": "application/json",
