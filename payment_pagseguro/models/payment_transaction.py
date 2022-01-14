@@ -45,7 +45,7 @@ class PaymentTransactionPagseguro(models.Model):
         required=False,
     )
 
-    def _create_pagseguro_charge(self, acquirer_ref=None, tokenid=None, email=None):
+    def _create_pagseguro_charge(self):
         """Creates the s2s payment.
 
         Uses encrypted credit card.
@@ -73,9 +73,8 @@ class PaymentTransactionPagseguro(models.Model):
     @api.multi
     def pagseguro_s2s_do_transaction(self, **kwargs):
         self.ensure_one()
-        result = self._create_pagseguro_charge(
-            acquirer_ref=self.payment_token_id.acquirer_ref, email=self.partner_email
-        )
+        result = self._create_pagseguro_charge()
+
         return self._pagseguro_s2s_validate_tree(result)
 
     @api.multi
