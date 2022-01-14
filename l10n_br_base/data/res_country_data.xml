@@ -145,7 +145,7 @@
         <field name="bc_code">1058</field>
         <field name="siscomex_code">105</field>
         <field name="enforce_cities">1</field>
-        <field name="street_format" eval="'%(street_name)s'" />
+        <field name="street_format" eval="'%(street_name)s, %(street_number)s'" />
         <field name="name_position">before</field>
         <field
             name="address_format"
