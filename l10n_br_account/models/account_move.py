@@ -92,9 +92,11 @@ class AccountMove(models.Model):
         return True
 
     def action_post(self, invoice=False):
-        # TODO FIXME migrate: no mode invoice keyword        
-        # import pudb;pu.db
+        # TODO FIXME migrate: no mode invoice keyword     
+           
         result = super().action_post()
+        if not self.document_type_id:
+            return result
         self.fiscal_document_id._change_state('a_enviar')
         if self.state == 'draft':
             if invoice:
