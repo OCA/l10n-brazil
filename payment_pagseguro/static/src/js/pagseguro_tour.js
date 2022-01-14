@@ -16,7 +16,7 @@ odoo.define("payment_pagseguro.tour", function (require){
     },
         [
             {
-                content: "Update acquirer token",
+                content: "setup acquirer configurations",
                 trigger: 'form input[name="search"]',
                 run: function(){
                     var args = [
@@ -75,27 +75,27 @@ odoo.define("payment_pagseguro.tour", function (require){
                 trigger: '#payment_method label:contains("Pagseguro")',
             },
             {
-                content: "Card Number",
+                content: "insert card number",
                 trigger: "input[name='cc_number']",
                 run: "text 4111111111111111",
             },
             {
-                content: "Card Name",
+                content: "insert card name",
                 trigger: "input[name='cc_holder_name']",
                 run: "text VISA",
             },
             {
-                content: "Expiration Date",
+                content: "insert expiration date",
                 trigger: "input[name='cc_expiry']",
                 run: "text 12/2030",
             },
             {
-                content: "Security code",
+                content: "insert security code",
                 trigger: "input[name='cc_cvc']",
                 run: "text 123",
             },
             {
-                content: "Pay Now",
+                content: "pay now",
                 //Either there are multiple payment methods, and one is checked, either there is only one, and therefore there are no radio inputs
                 extra_trigger: '#payment_method label:contains("Pagseguro") input:checked,#payment_method:not(:has("input:radio:visible"))',
                 trigger: 'button[id="o_payment_form_pay"]:visible:not(:disabled)',
