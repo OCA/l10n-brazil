@@ -1,3 +1,6 @@
+// Copyright 2020 KMEE
+// License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 /* global PagSeguro*/
 /* eslint no-undef: "error"*/
 odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
@@ -73,7 +76,7 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                             "cc_cvc": '',
                             "data_set": ds.dataset.createRoute
                         });
-                    
+
                         return rpc.query({
                             route: formData.data_set,
                             params: formData,
@@ -108,7 +111,7 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
 
         /**
          * @override
-         * 
+         *
          * This function is triggered when you click on the "pay now" button.
          */
         payEvent: function (ev) {

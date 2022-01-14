@@ -6,7 +6,7 @@
     "summary": """Payment Acquirer: PagSeguro  Implementation""",
     "version": "12.0.1.0.0",
     "license": "AGPL-3",
-    "author": "KMEE,Odoo Community Association (OCA)",
+    "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
         "payment",
