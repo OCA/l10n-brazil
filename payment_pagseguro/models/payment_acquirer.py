@@ -1,10 +1,8 @@
 # Copyright 2020 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import requests
 
 from odoo import api, fields, models
-from odoo.http import request
 
 
 class PaymentAcquirerPagseguro(models.Model):
@@ -16,30 +14,6 @@ class PaymentAcquirerPagseguro(models.Model):
         required_if_provider="pagseguro",
         groups="base.group_user",
     )
-
-    def _get_pagseguro_environment(self):
-        return (
-            request.env["payment.acquirer"]
-            .search([("provider", "=", "pagseguro")])
-            .environment
-        )
-
-    @api.multi
-    def _get_pagseguro_api_public_key(self):
-        """Get pagseguro API public key to tokenize card information"""
-        api_url_public_keys = "https://%s/public-keys/" % (
-            self._get_pagseguro_api_url()
-        )
-
-        r = requests.post(
-            api_url_public_keys,
-            headers=self._get_pagseguro_api_headers(),
-            json={"type": "card"},
-        )
-        res = r.json()
-        public_key = res.get("public_key")
-
-        return public_key
 
     @api.multi
     def pagseguro_s2s_form_validate(self, data):
