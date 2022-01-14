@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Copyright 2020 KMEE
-     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<!-- Copyright 2020 KMEE -->
+<!-- License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
 <odoo>
 
     <data noupdate="1">
-    
+
         <record model="ir.ui.view" id="payment_acquirer_form_view" >
             <field name="name">payment.acquirer.form (in payment_pagseguro)</field>
             <field name="model">payment.acquirer</field>
@@ -17,7 +18,7 @@
                     </xpath>
             </field>
         </record>
-    
+
     </data>
 
 </odoo>
