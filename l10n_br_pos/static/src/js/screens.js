@@ -106,11 +106,24 @@ odoo.define("l10n_br_pos.screens", function (require) {
         },
         renderElement: function () {
             this._super();
-            var self = this;
+            const self = this;
             this.$(".js_set_cnpj_cpf").click(function () {
-                self.click_set_cnpj_cpf();
+                self.click_set_cnpj_cpf(self.pos.get_order().cnpj_cpf);
             });
         },
+    });
+
+    screens.ClientListScreenWidget.include({
+        save_changes: function () {
+            this._super();
+            const order = this.pos.get_order();
+            if (this.new_client?.cnpj_cpf) {
+                order.set_cnpj_cpf(this.new_client.cnpj_cpf.replace(/\D/g, ""));
+            } else {
+                order.set_cnpj_cpf('');
+            }
+            this.pos.gui.screen_instances.payment.renderElement();
+        }
     });
 
     // Screens.PaymentScreenWidget = screens.PaymentScreenWidget.extend({
