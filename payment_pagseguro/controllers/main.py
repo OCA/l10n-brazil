@@ -48,7 +48,7 @@ class PagseguroController(http.Controller):
     def payment_pagseguro_get_public_key(self, **kwargs):
         """Get pagseguro API public key
 
-        Makes a request to pagseguro with token and headers to get the user public key.
+        Makes a request to pagseguro with token auth to get the user public key.
         """
         acquirer_id = int(kwargs.get("acquirer_id"))
         acquirer = request.env["payment.acquirer"].browse(acquirer_id)

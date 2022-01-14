@@ -48,8 +48,7 @@ class PaymentTransactionPagseguro(models.Model):
     def _create_pagseguro_charge(self, acquirer_ref=None, tokenid=None, email=None):
         """Creates the s2s payment.
 
-        Uses credit card info.
-
+        Uses encrypted credit card.
         """
         api_url_charge = "https://%s/charges" % (
             self.acquirer_id._get_pagseguro_api_url()
@@ -231,6 +230,16 @@ class PaymentTransactionPagseguro(models.Model):
 
     @api.multi
     def _get_pagseguro_charge_params(self):
+        """
+        Returns dict containing the required body information to create a
+        charge on Pagseguro.
+
+        Uses the payment amount, currency and encrypted credit card.
+
+        Returns:
+            dict: Charge parameters
+        """
+
         CHARGE_PARAMS = {
             "reference_id": str(self.payment_token_id.acquirer_id),
             "description": self.display_name[:13],
