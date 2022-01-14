@@ -6,7 +6,7 @@
          <!-- Resource: stock.inventory -->
 
         <record id="stock_inventory_sn" model="stock.inventory">
-            <field name="name">Iventário Inicial - Simples Nacional</field>
+            <field name="name">Inventário Inicial - Simples Nacional</field>
             <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
         </record>
 
@@ -83,6 +83,14 @@
             <field name="location_id" ref="stock_location_sn_shelf_1" />
         </record>
 
+        <function model="stock.inventory" name="_action_start">
+            <function
+                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
+                model="stock.inventory"
+                name="search"
+            />
+        </function>
+
         <function model="stock.inventory" name="action_validate">
             <function
                 eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_sn'))]]"
@@ -96,7 +104,7 @@
          <!-- Resource: stock.inventory -->
 
         <record id="stock_inventory_lp" model="stock.inventory">
-            <field name="name">Iventário Inicial - Lucro Presumido</field>
+            <field name="name">Inventário Inicial - Lucro Presumido</field>
             <field name="company_id" ref="l10n_br_base.empresa_lucro_presumido" />
         </record>
 
@@ -172,6 +180,14 @@
             <field name="product_qty">80.0</field>
             <field name="location_id" ref="stock_location_lp_shelf_1" />
         </record>
+
+        <function model="stock.inventory" name="_action_start">
+            <function
+                eval="[[('state','=','draft'),('id', '=', ref('stock_inventory_lp'))]]"
+                model="stock.inventory"
+                name="search"
+            />
+        </function>
 
         <function model="stock.inventory" name="action_validate">
             <function
