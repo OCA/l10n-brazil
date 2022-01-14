@@ -39,7 +39,7 @@ class ResPartner(models.Model):
     def create_from_ui(self, partner):
         from erpbrasil.base import misc
 
-        cnpj_cpf = misc.punctuation_rm(partner["vat"])
+        cnpj_cpf = misc.punctuation_rm(partner["cpf-cnpj"])
         cnpj_cpf_type = "cpf" if len(cnpj_cpf) == 11 else "cnpj"
         partner["data_alteracao"] = fields.Date.today()
         partner["cnpj_cpf"] = self._mask_cnpj_cpf(cnpj_cpf_type, cnpj_cpf)
