@@ -200,7 +200,7 @@ class L10nBRZipTest(TransactionCase):
         )
         self.assertEqual(
             self.res_partner.street_name,
-            "Avenida Paulista, 2100",
+            "Avenida Paulista",
             "Error in method zip_search with PyCEP-Correios"
             "to mapping field street_name.",
         )
