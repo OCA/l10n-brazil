@@ -2,12 +2,20 @@
 # Copyright (C) 2014  KMEE - www.kmee.com.br
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
+import datetime
 import logging
 import os
 from base64 import b64encode
 
+from cryptography import x509
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives.serialization import BestAvailableEncryption
+from cryptography.hazmat.primitives.serialization.pkcs12 import (
+    serialize_key_and_certificates,
+)
+from cryptography.x509.oid import NameOID
 from erpbrasil.base.misc import punctuation_rm
-from OpenSSL import crypto
 
 from odoo.tools import config
 
@@ -74,36 +82,63 @@ def create_fake_certificate_file(valid, passwd, issuer, country, subject):
     :param subject: Some string: CERTIFICADO VALIDO TESTE
     :return: base64 file
     """
-    key = crypto.PKey()
-    key.generate_key(crypto.TYPE_RSA, 2048)
+    private_key = rsa.generate_private_key(
+        public_exponent=65537,
+        key_size=2048,
+    )
 
-    cert = crypto.X509()
+    public_key = private_key.public_key()
+    builder = x509.CertificateBuilder()
 
-    cert.get_issuer().C = country
-    cert.get_issuer().CN = issuer
+    builder = builder.subject_name(
+        x509.Name(
+            [
+                x509.NameAttribute(NameOID.COMMON_NAME, subject),
+                x509.NameAttribute(NameOID.COUNTRY_NAME, country),
+            ]
+        )
+    )
 
-    cert.get_subject().C = country
-    cert.get_subject().CN = subject
+    builder = builder.issuer_name(
+        x509.Name(
+            [
+                x509.NameAttribute(NameOID.COMMON_NAME, issuer),
+                x509.NameAttribute(NameOID.COUNTRY_NAME, country),
+            ]
+        )
+    )
 
-    cert.set_serial_number(2009)
+    one_year = datetime.timedelta(365, 0, 0)
+    today = datetime.datetime.today()
 
     if valid:
-        time_before = 0
-        time_after = 365 * 24 * 60 * 60
+        time_before = today
+        time_after = today + one_year
     else:
-        time_before = -1 * (365 * 24 * 60 * 60)
-        time_after = 0
+        time_before = today - one_year
+        time_after = today
 
-    cert.gmtime_adj_notBefore(time_before)
-    cert.gmtime_adj_notAfter(time_after)
-    cert.set_pubkey(key)
-    cert.sign(key, "md5")
+    builder = builder.not_valid_before(time_before)
+    builder = builder.not_valid_after(time_after)
 
-    p12 = crypto.PKCS12()
-    p12.set_privatekey(key)
-    p12.set_certificate(cert)
+    builder = builder.serial_number(2009)
 
-    return b64encode(p12.export(passwd))
+    builder = builder.public_key(public_key)
+
+    certificate = builder.sign(
+        private_key=private_key,
+        algorithm=hashes.MD5(),
+    )
+
+    p12 = serialize_key_and_certificates(
+        name=subject.encode(),
+        key=private_key,
+        cert=certificate,
+        cas=None,
+        encryption_algorithm=BestAvailableEncryption(passwd.encode()),
+    )
+
+    return b64encode(p12)
 
 
 def path_edoc_company(company_id):
