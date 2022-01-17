@@ -143,6 +143,28 @@ odoo.define("l10n_br_pos.screens", function (require) {
                     self.pos.proxy.reprint_cfe(orders);
                 });
             });
+            this.$('.order-list-contents').delegate('.pos_order_cancel','click',function(event){
+                rpc.query({
+                    model: 'pos.order',
+                    method: 'retornar_order_by_id',
+                    args: [$(this).parent().parent().data('id')],
+                    limit: 1,
+                }).then(function (orders){
+                    self.cancel_order_sat(orders);
+                });
+            });
+        },
+        cancel_order_sat: function(order){
+            var self = this;
+
+            var status = this.pos.proxy.get('status');
+            this.pos.proxy.cancel_order(order);
+//            var sat_status = status.drivers.satcfe ? status.drivers.satcfe.status : false;
+//            if( sat_status == 'connected'){
+//                if(this.pos.config.iface_sat_via_proxy){
+//                    this.pos.proxy.cancel_order(order);
+//                }
+//            }
         },
     });
 
