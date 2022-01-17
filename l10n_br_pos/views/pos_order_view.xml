@@ -75,6 +75,16 @@
             <field name="pos_reference" position="after">
                 <field name="fiscal_operation_id" />
             </field>
+            <page name="extra" position="after">
+                <page name="cupom_cancelado" string="Cancelamento">
+                    <group>
+                        <group name="cancel_document_header_right">
+                          <field name="cancel_document_key" />
+                          <field name="cancel_document_session_number" />
+                        </group>
+                    </group>
+                </page>
+            </page>
 <!--            <button name="action_invoice" position="attributes">-->
 <!--                <attribute name="invisible">1</attribute>-->
 <!--                <attribute name="states"/>-->
