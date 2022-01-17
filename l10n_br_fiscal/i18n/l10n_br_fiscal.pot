@@ -1759,13 +1759,13 @@ msgid "Cancellation protocol"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/certificate.py:107
+#: code:addons/l10n_br_fiscal/models/certificate.py:105
 #, python-format
 msgid "Cannot load Certificate !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/certificate.py:84
+#: code:addons/l10n_br_fiscal/models/certificate.py:82
 #, python-format
 msgid "Cannot load Certificate ! \n"
 "\n"
