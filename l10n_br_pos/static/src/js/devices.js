@@ -9,6 +9,7 @@ odoo.define("l10n_br_pos.devices", function (require) {
     "use strict";
     var devices = require("point_of_sale.devices");
     var core = require("web.core");
+    var rpc = require('web.rpc');
     var _t = core._t;
 
     var ProxyDeviceSuper = devices.ProxyDevice;
@@ -162,6 +163,46 @@ odoo.define("l10n_br_pos.devices", function (require) {
             // }
             // send_sat_job();
         },
+        cancel_order: function (order) {
+             var self = this;
+             order['cnpj_software_house'] = self.pos.config.cnpj_software_house;
+             self.message('cancelar_cfe', {json: order}, {timeout: 5000})
+                 .then(function (result) {
+                     if (result) {
+                        rpc.query({
+                            model: 'pos.order',
+                            method: 'cancelar_order',
+                            args: [result],
+                         }).then(function (orders) {
+                                 self.pos.gui.show_popup('error', {
+                                     message: _t('Venda Cancelada!'),
+                                     comment: _t('A venda foi cancelada com sucesso.'),
+                                 });
+                             }, function (error, event) {
+                                 event.preventDefault();
+                                 self.pos.gui.show_popup('error', {
+                                     'message': _t('Error: Tempo Excedido'),
+                                     'comment': _t('Tempo limite de 30 minutos para cancelamento foi excedido.'),
+                                 });
+                                 return false;
+                             });
+                     } else {
+                         self.pos.gui.show_popup('error-traceback', {
+                             'message': _t('Erro SAT: '),
+                             'comment': _t(result['excessao']),
+                         });
+                     }
+                 }, function (error, event) {
+                     event.preventDefault();
+                     if (error) {
+                         self.pos.gui.show_popup('error-traceback', {
+                             'message': _t('Erro SAT: '),
+                             'comment': error.data.message,
+                         });
+                         return;
+                     }
+                 });
+         },
         //     Remove_document_pontuations: function (document) {
         //         return document.replace(/[^\d]+/g, '');
         //     },
