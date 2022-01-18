@@ -95,7 +95,7 @@ addon | version | maintainers | summary
 [l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 |  | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.1.0 |  | Brazilian Localization HR Contract
 [l10n_br_mis_report](l10n_br_mis_report/) | 12.0.1.3.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
-[l10n_br_nfe](l10n_br_nfe/) | 12.0.4.0.0 |  | Brazilian Eletronic Invoice NF-e .
+[l10n_br_nfe](l10n_br_nfe/) | 12.0.4.0.1 |  | Brazilian Eletronic Invoice NF-e .
 [l10n_br_nfe_spec](l10n_br_nfe_spec/) | 12.0.3.0.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | nfe spec
 [l10n_br_nfse](l10n_br_nfse/) | 12.0.5.5.0 | [![gabrielcardoso21](https://github.com/gabrielcardoso21.png?size=30px)](https://github.com/gabrielcardoso21) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) | NFS-e
 [l10n_br_nfse_ginfes](l10n_br_nfse_ginfes/) | 12.0.3.0.0 | [![gabrielcardoso21](https://github.com/gabrielcardoso21.png?size=30px)](https://github.com/gabrielcardoso21) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![luismalta](https://github.com/luismalta.png?size=30px)](https://github.com/luismalta) | NFS-e (Ginfes)
