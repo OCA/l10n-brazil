@@ -9,7 +9,7 @@
     "author": "Akretion," "KMEE," "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Beta",
-    "version": "12.0.4.0.0",
+    "version": "12.0.4.0.1",
     "depends": [
         "l10n_br_fiscal",
         "l10n_br_nfe_spec",
