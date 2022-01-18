@@ -105,7 +105,8 @@ class PaymentTransactionPagseguro(models.Model):
             self.write(
                 {
                     "date": fields.datetime.now(),
-                    "acquirer_reference": res,
+                    "acquirer_reference": res['id'],
+                    "state_message": res['payment_response']['message'],
                 }
             )
             self._set_transaction_done()
@@ -113,8 +114,8 @@ class PaymentTransactionPagseguro(models.Model):
         else:
             self.sudo().write(
                 {
-                    "state_message": res,
-                    "acquirer_reference": res,
+                    "state_message": res['error_messages'][0]['message'],
+                    "acquirer_reference": res['error_messages'][0]['code'],
                     "date": fields.datetime.now(),
                 }
             )
@@ -126,9 +127,22 @@ class PaymentTransactionPagseguro(models.Model):
             "pagseguro_s2s_void_transaction: Sending values to URL %s",
             self.pagseguro_s2s_void_link,
         )
-        r = requests.put(
+        headers = {
+            "Authorization": self.acquirer_id.pagseguro_token,
+            "x-api-version": "4.0",
+        }
+
+        params = {
+            "charge_id": self.id,
+            "amount": {
+                "value": int(self.amount * 100),
+            }
+        }
+
+        r = requests.post(
             self.pagseguro_s2s_void_link,
-            headers=self.acquirer_id._get_pagseguro_api_headers(),
+            headers=headers,
+            json=params,
         )
         res = r.json()
         _logger.info(
@@ -144,15 +158,16 @@ class PaymentTransactionPagseguro(models.Model):
             self.write(
                 {
                     "date": fields.datetime.now(),
-                    "acquirer_reference": res,
+                    "acquirer_reference": res['id'],
+                    "state_message": res['payment_response']['message'],
                 }
             )
             self._set_transaction_cancel()
         else:
             self.sudo().write(
                 {
-                    "state_message": res,
-                    "acquirer_reference": res,
+                    "state_message": res['error_messages'][0]['message'],
+                    "acquirer_reference": res['error_messages'][0]['code'],
                     "date": fields.datetime.now(),
                 }
             )
@@ -203,29 +218,26 @@ class PaymentTransactionPagseguro(models.Model):
                 self.payment_token_id.verified = True
                 return True
             else:
-                error = tree.get("message")
-                _logger.warn(error)
-                self.sudo().write(
-                    {
-                        "state_message": error,
-                        "acquirer_reference": tree.get("id"),
-                        "date": fields.datetime.now(),
-                    }
-                )
-                self._set_transaction_cancel()
+                self._validate_tree_message(tree)
                 return False
+
+        self._validate_tree_message(tree)
+
+        return False
+
+    @api.multi
+    def _validate_tree_message(self, tree):
         if tree.get("message"):
             error = tree.get("message")
             _logger.warn(error)
             self.sudo().write(
                 {
                     "state_message": error,
+                    "acquirer_reference": tree.get("id"),
                     "date": fields.datetime.now(),
                 }
             )
             self._set_transaction_cancel()
-
-        return False
 
     @api.multi
     def _get_pagseguro_charge_params(self):
@@ -240,7 +252,7 @@ class PaymentTransactionPagseguro(models.Model):
         """
 
         CHARGE_PARAMS = {
-            "reference_id": str(self.payment_token_id.acquirer_id),
+            "reference_id": str(self.payment_token_id.acquirer_id.id),
             "description": self.display_name[:13],
             "amount": {
                 # Charge is in BRL cents -> Multiply by 100
@@ -250,7 +262,7 @@ class PaymentTransactionPagseguro(models.Model):
             "payment_method": {
                 "type": "CREDIT_CARD",
                 "installments": 1,
-                "capture": True,
+                "capture": False,
                 "card": {
                     "encrypted": self.payment_token_id.pagseguro_card_token,
                 },

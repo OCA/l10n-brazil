@@ -4,7 +4,7 @@
 
 <odoo>
 
-    <data noupdate="1">
+    <data noupdate="0">
 
         <record model="ir.ui.view" id="payment_acquirer_form_view" >
             <field name="name">payment.acquirer.form (in payment_pagseguro)</field>

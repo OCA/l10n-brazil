@@ -1,6 +1,9 @@
 # Copyright 2020 KMEE INFORMATICA LTDA
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import time
+import logging
+
 import odoo
 
 
@@ -14,3 +17,13 @@ class PagseguroTest(odoo.tests.HttpCase):
             login="admin",
             timeout=20000,
         )
+
+        tx = self.env['payment.transaction'].search([], limit=1, order='id desc')
+        tx.pagseguro_s2s_capture_transaction()
+        self.assertEqual(tx.state, 'done',
+                         'transaction state should be authorized')
+
+        time.sleep(3)
+        tx.pagseguro_s2s_void_transaction()
+        self.assertEqual(tx.state, 'done',
+                         'transaction state should be done')
