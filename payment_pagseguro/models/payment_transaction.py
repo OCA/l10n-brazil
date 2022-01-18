@@ -105,8 +105,8 @@ class PaymentTransactionPagseguro(models.Model):
             self.write(
                 {
                     "date": fields.datetime.now(),
-                    "acquirer_reference": res['id'],
-                    "state_message": res['payment_response']['message'],
+                    "acquirer_reference": res["id"],
+                    "state_message": res["payment_response"]["message"],
                 }
             )
             self._set_transaction_done()
@@ -114,8 +114,8 @@ class PaymentTransactionPagseguro(models.Model):
         else:
             self.sudo().write(
                 {
-                    "state_message": res['error_messages'][0]['message'],
-                    "acquirer_reference": res['error_messages'][0]['code'],
+                    "state_message": res["error_messages"][0]["message"],
+                    "acquirer_reference": res["error_messages"][0]["code"],
                     "date": fields.datetime.now(),
                 }
             )
@@ -136,7 +136,7 @@ class PaymentTransactionPagseguro(models.Model):
             "charge_id": self.id,
             "amount": {
                 "value": int(self.amount * 100),
-            }
+            },
         }
 
         r = requests.post(
@@ -158,16 +158,16 @@ class PaymentTransactionPagseguro(models.Model):
             self.write(
                 {
                     "date": fields.datetime.now(),
-                    "acquirer_reference": res['id'],
-                    "state_message": res['payment_response']['message'],
+                    "acquirer_reference": res["id"],
+                    "state_message": res["payment_response"]["message"],
                 }
             )
             self._set_transaction_cancel()
         else:
             self.sudo().write(
                 {
-                    "state_message": res['error_messages'][0]['message'],
-                    "acquirer_reference": res['error_messages'][0]['code'],
+                    "state_message": res["error_messages"][0]["message"],
+                    "acquirer_reference": res["error_messages"][0]["code"],
                     "date": fields.datetime.now(),
                 }
             )
