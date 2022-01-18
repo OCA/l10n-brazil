@@ -18,11 +18,16 @@ class PagseguroController(http.Controller):
     def pagseguro_s2s_create_json_3ds(self, verify_validity=False, **kwargs):
         if not kwargs.get("partner_id"):
             kwargs = dict(kwargs, partner_id=request.env.user.partner_id.id)
-        token = request.env["payment.acquirer"].browse(
-            int(kwargs.get("acquirer_id"))).s2s_process(kwargs)
+        token = (
+            request.env["payment.acquirer"]
+            .browse(int(kwargs.get("acquirer_id")))
+            .s2s_process(kwargs)
+        )
 
         if not token:
-            res = {"result": False, }
+            res = {
+                "result": False,
+            }
         else:
             res = {
                 "result": True,
