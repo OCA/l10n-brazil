@@ -77,14 +77,14 @@ class Lead(models.Model):
     def _check_ie(self):
         """Checks if company register number in field insc_est is valid,
         this method call others methods because this validation is State wise
-
-        :Return: True or False.
         """
         for record in self:
             if record.inscr_est and record.cnpj and record.state_id:
                 state_code = record.state_id.code or ""
-            if not ie.validar(state_code.lower(), record.inscr_est):
-                raise ValidationError(_("Inscrição Estadual: {} Invalida!".format(record.inscr_est)))
+                if not ie.validar(state_code.lower(), record.inscr_est):
+                    raise ValidationError(
+                        _("Inscrição Estadual: {} Invalida!".format(record.inscr_est))
+                    )
 
     @api.onchange("cnpj", "country_id")
     def _onchange_cnpj(self):
