@@ -60,8 +60,7 @@ class Lead(models.Model):
             if record.cnpj and country_code.upper() == "BR":
                 cnpj = misc.punctuation_rm(record.cnpj)
                 if not cnpj_cpf.validar(cnpj):
-                    raise ValidationError(_("CNPJ inválido!"))
-            return True
+                    raise ValidationError(_("CNPJ: {} Invalid!").format(cnpj))
 
     @api.multi
     @api.constrains("cpf")
@@ -71,8 +70,7 @@ class Lead(models.Model):
             if record.cpf and country_code.upper() == "BR":
                 cpf = misc.punctuation_rm(record.cpf)
                 if not cnpj_cpf.validar(cpf):
-                    raise ValidationError(_("CPF inválido!"))
-            return True
+                    raise ValidationError(_("CPF: {} Invalid!").format(cpf))
 
     @api.multi
     @api.constrains("inscr_est")
@@ -83,13 +81,10 @@ class Lead(models.Model):
         :Return: True or False.
         """
         for record in self:
-            result = True
             if record.inscr_est and record.cnpj and record.state_id:
                 state_code = record.state_id.code or ""
-                uf = state_code.lower()
-                result = ie.validar(uf, record.inscr_est)
-            if not result:
-                raise ValidationError(_("Inscrição Estadual Invalida!"))
+            if not ie.validar(state_code.lower(), record.inscr_est):
+                raise ValidationError(_("Inscrição Estadual: {} Invalida!".format(record.inscr_est)))
 
     @api.onchange("cnpj", "country_id")
     def _onchange_cnpj(self):
