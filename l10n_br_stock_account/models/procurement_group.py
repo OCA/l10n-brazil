@@ -8,14 +8,11 @@ class ProcurementGroup(models.Model):
     _inherit = "procurement.group"
 
     @api.model
-    def run(
-        self, product_id, product_qty, product_uom, location_id, name, origin, values
-    ):
-        result = super().run(
-            product_id, product_qty, product_uom, location_id, name, origin, values
-        )
+    def run(self, procurements):
+        result = super().run(procurements)
 
-        if values.get("route_id"):
-            pass
+        for procurement in procurements:
+            if procurement.values.get("route_ids"):
+                pass
 
         return result
