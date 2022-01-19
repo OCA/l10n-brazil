@@ -51,3 +51,35 @@ class StockPicking(models.Model):
     @api.depends("move_lines")
     def _compute_amount(self):
         super()._compute_amount()
+
+    @api.model
+    def fields_view_get(
+        self, view_id=None, view_type="form", toolbar=False, submenu=False
+    ):
+
+        order_view = super().fields_view_get(view_id, view_type, toolbar, submenu)
+
+        if view_type == "form":
+
+            view = self.env["ir.ui.view"]
+
+            sub_form_view = (
+                order_view.get("fields", {})
+                .get("move_ids_without_package", {})
+                .get("views", {})
+                .get("form", {})
+                .get("arch", {})
+            )
+
+            sub_form_node = self.env["stock.move"].inject_fiscal_fields(sub_form_view)
+
+            sub_arch, sub_fields = view.postprocess_and_fields(
+                "stock.move", sub_form_node, None
+            )
+
+            order_view["fields"]["move_ids_without_package"]["views"]["form"] = {
+                "fields": sub_fields,
+                "arch": sub_arch,
+            }
+
+        return order_view
