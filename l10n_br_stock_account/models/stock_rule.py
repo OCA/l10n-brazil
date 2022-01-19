@@ -43,8 +43,8 @@ class StockRule(models.Model):
         location_id,
         name,
         origin,
+        company_id,
         values,
-        group_id,
     ):
         move_values = super()._get_stock_move_values(
             product_id,
@@ -53,8 +53,8 @@ class StockRule(models.Model):
             location_id,
             name,
             origin,
+            company_id,
             values,
-            group_id,
         )
         if self.fiscal_operation_id:
             move_values["fiscal_operation_id"] = self.fiscal_operation_id.id
