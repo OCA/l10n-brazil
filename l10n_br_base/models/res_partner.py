@@ -86,30 +86,27 @@ class Partner(models.Model):
 
     @api.constrains("cnpj_cpf", "country_id")
     def _check_cnpj_cpf(self):
-        result = True
         for record in self:
-
-            disable_cnpj_ie_validation = record.env[
-                "ir.config_parameter"
-            ].sudo().get_param(
-                "l10n_br_base.disable_cpf_cnpj_validation", default=False
-            ) or self.env.context.get(
-                "disable_cpf_cnpj_validation"
+            disable_cnpj_ie_validation = (
+                record.env["ir.config_parameter"]
+                .sudo()
+                .get_param(
+                    "l10n_br_base.disable_cpf_cnpj_validation", default=False
+                ) or self.env.context.get(
+                    "disable_cpf_cnpj_validation"
+                )
             )
+
             if not disable_cnpj_ie_validation:
                 if record.country_id:
-                    country_code = record.country_id.code
-                    if country_code:
-                        if record.cnpj_cpf and country_code.upper() == "BR":
+                    country_code = record.country_id.code or ""
+                    if record.cnpj_cpf and country_code.upper() == "BR":
+                        if not cnpj_cpf.validar(record.cnpj_cpf):
                             if record.is_company:
-                                if not cnpj_cpf.validar(record.cnpj_cpf):
-                                    result = False
-                                    document = "CNPJ"
-                            elif not cnpj_cpf.validar(record.cnpj_cpf):
-                                result = False
+                                document = "CNPJ"
+                            else:
                                 document = "CPF"
-                if not result:
-                    raise ValidationError(_("{} Invalid!").format(document))
+                            raise ValidationError(_("{}: {} Invalid!").format(document, record.cnpj_cpf))
 
     @api.constrains("inscr_est", "state_id")
     def _check_ie(self):
