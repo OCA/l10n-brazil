@@ -101,12 +101,12 @@ class StockInvoiceOnshipping(models.TransientModel):
 
         values.update(fiscal_values)
 
-        values["invoice_line_tax_ids"] = [
+        values["tax_ids"] = [
             (
                 6,
                 0,
                 self.env["l10n_br_fiscal.tax"]
-                .browse(fiscal_values["fiscal_tax_ids"][0][2])
+                .browse(fiscal_values["fiscal_tax_ids"])
                 .account_taxes()
                 .ids,
             )
