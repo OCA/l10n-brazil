@@ -12,7 +12,7 @@ class InvoicingPickingTest(SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.stock_picking = cls.env["stock.picking"]
-        cls.invoice_model = cls.env["account.invoice"]
+        cls.invoice_model = cls.env["account.move"]
         cls.invoice_wizard = cls.env["stock.invoice.onshipping"]
         cls.stock_return_picking = cls.env["stock.return.picking"]
         cls.stock_picking_sp = cls.env.ref(
