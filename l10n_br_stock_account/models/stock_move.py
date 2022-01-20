@@ -81,8 +81,15 @@ class StockMove(models.Model):
         """Prepares a new picking for this move as it could not be assigned to
         another picking. This method is designed to be inherited."""
         result = super()._get_new_picking_values()
-        result.update({"fiscal_operation_id": self.fiscal_operation_id.id})
-        result.update({"invoice_state": self.invoice_state})
+        # O self pode conter mais de uma stock.move, com os modulos
+        # l10n_br_sale_stock e l10n_br_purchase_stock instalados o self pode vir
+        # com mais de uma Operação Fiscal, nesses outros modulos é feita a
+        # alteração para usar a Operação Fiscal principal, isso é a do
+        # cabeçalho do Pedido
+        result.update({"fiscal_operation_id": self.mapped("fiscal_operation_id")[0].id})
+        # A mesma questão do self, aqui se uma linha for
+        # 2binvoiced o Picking também será
+        result.update({"invoice_state": self.mapped("invoice_state")[0]})
         return result
 
     @api.model
