@@ -81,17 +81,17 @@ addon | version | maintainers | summary
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 12.0.2.0.0 |  | Brazilian Account Due List
 [l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 12.0.3.1.0 |  | L10n Br Account Payment BRCobranca
 [l10n_br_account_payment_order](l10n_br_account_payment_order/) | 12.0.7.0.0 |  | Brazilian Payment Order
-[l10n_br_base](l10n_br_base/) | 12.0.4.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
+[l10n_br_base](l10n_br_base/) | 12.0.4.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Customization of base module for implementations in Brazil.
 [l10n_br_coa](l10n_br_coa/) | 12.0.4.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Base do Planos de Contas brasileiros
 [l10n_br_coa_complete](l10n_br_coa_complete/) | 12.0.2.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Plano de Contas Completo para empresas Simples, Presumido, Real, SA, Consolidação
 [l10n_br_coa_generic](l10n_br_coa_generic/) | 12.0.5.0.0 |  | Plano de Contas para empresas do Regime normal (Micro e pequenas empresas)
 [l10n_br_coa_simple](l10n_br_coa_simple/) | 12.0.3.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Plano de Contas ITG 1000 para Microempresas e Empresa de Pequeno Porte
 [l10n_br_contract](l10n_br_contract/) | 12.0.5.0.0 |  | Customization of Contract module for implementations in Brazil.
-[l10n_br_crm](l10n_br_crm/) | 12.0.1.0.0 |  | Brazilian Localization CRM
+[l10n_br_crm](l10n_br_crm/) | 12.0.1.0.1 |  | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 12.0.2.0.0 |  | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 12.0.3.0.0 |  | This module changes the delivery model strategy to match brazilian standards.
 [l10n_br_delivery_nfe](l10n_br_delivery_nfe/) | 12.0.1.0.0 |  | Brazilian Localization Delivery NFe
-[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.21.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.21.1.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 |  | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.1.0 |  | Brazilian Localization HR Contract
 [l10n_br_mis_report](l10n_br_mis_report/) | 12.0.1.3.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
