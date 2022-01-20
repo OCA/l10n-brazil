@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="document_related_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_nfe.document.related.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document.related</field>
+        <field name="priority">50</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_related_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='document_type_id']/.." position="after">
+                <group>
+                    <field name="produtor_partner_id" invisible="1" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="document_related_ids_form_inherit" model="ir.ui.view">
+        <field name="name">l10n_br_nfe.document.related.ids.form.inherit</field>
+        <field name="model">l10n_br_fiscal.document</field>
+        <field name="priority">50</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.document_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='document_related_ids']" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_produtor_partner_id': partner_id}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
