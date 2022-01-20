@@ -2,9 +2,8 @@
 #   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from datetime import datetime
-
 from odoo.exceptions import UserError
+from odoo.fields import Date
 from odoo.tests import SavepointCase, tagged
 
 
@@ -64,7 +63,9 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
         line_create = (
             self.env["account.payment.line.create"]
             .with_context(active_model="account.payment.order", active_id=order.id)
-            .create({"date_type": "move", "move_date": datetime.now()})
+            .create(
+                {"date_type": "move", "move_date": Date.context_today(self.env.user)}
+            )
         )
         line_create.payment_mode = "same"
         line_create.move_line_filters_change()
@@ -74,7 +75,11 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
             self.env["account.payment.line.create"]
             .with_context(active_model="account.payment.order", active_id=order.id)
             .create(
-                {"date_type": "due", "target_move": "all", "due_date": datetime.now()}
+                {
+                    "date_type": "due",
+                    "target_move": "all",
+                    "due_date": Date.context_today(self.env.user),
+                }
             )
         )
         line_created_due.populate()
