@@ -3110,7 +3110,7 @@ msgid "Error!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_related.py:117
+#: code:addons/l10n_br_fiscal/models/document_related.py:114
 #, python-format
 msgid "Estadual Inscription Invalid !"
 msgstr ""
@@ -9412,12 +9412,6 @@ msgid "{0} Tax Estimate Failure: {1}"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_related.py:98
-#, python-format
-msgid "{} Invalid!"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:122
 #, python-format
 msgid "{} Tax Estimate Failure"
@@ -9428,6 +9422,12 @@ msgstr ""
 #: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:113
 #, python-format
 msgid "{} Tax Estimate Updated"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/document_related.py:94
+#, python-format
+msgid "{}: {} Invalid!"
 msgstr ""
 
 #. module: l10n_br_fiscal
