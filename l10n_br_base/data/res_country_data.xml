@@ -145,11 +145,11 @@
         <field name="bc_code">1058</field>
         <field name="siscomex_code">105</field>
         <field name="enforce_cities">1</field>
-        <field name="street_format" eval="'%(street_name)s'" />
+        <field name="street_format" eval="'%(street_name)s, %(street_number)s'" />
         <field name="name_position">before</field>
         <field
             name="address_format"
-            eval="'%(street)s, %(street_number)s %(street2)s\n%(district)s\n%(zip)s - %(city)s-%(state_code)s\n%(country_name)s'"
+            eval="'%(street)s %(street2)s\n%(district)s\n%(zip)s - %(city)s-%(state_code)s\n%(country_name)s'"
         />
         <field name="address_view_id" ref="l10n_br_base_res_partner_address" />
         <field name="vat_label">CNPJ/CPF</field>
