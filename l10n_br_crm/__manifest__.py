@@ -8,7 +8,7 @@
     "license": "AGPL-3",
     "author": "Akretion, " "Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "12.0.1.0.0",
+    "version": "12.0.1.0.1",
     "depends": ["l10n_br_base", "crm"],
     "data": ["views/crm_lead_view.xml", "views/crm_opportunity_view.xml"],
     "installable": True,
