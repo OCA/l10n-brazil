@@ -10,7 +10,7 @@ class TestSaleStock(SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.invoice_model = cls.env["account.invoice"]
+        cls.invoice_model = cls.env["account.move"]
         cls.invoice_wizard = cls.env["stock.invoice.onshipping"]
         cls.stock_return_picking = cls.env["stock.return.picking"]
         cls.stock_picking = cls.env["stock.picking"]
@@ -162,7 +162,7 @@ class TestSaleStock(SavepointCase):
 
         # Metodo de criação da fatura a partir do sale.order
         # deve gerar apenas a linha de serviço
-        sale_order_2.action_invoice_create(final=True)
+        sale_order_2._create_invoices(final=True)
         # Deve existir apenas a Fatura/Documento Fiscal de Serviço
         self.assertEqual(1, sale_order_2.invoice_count)
         for invoice in sale_order_2.invoice_ids:
@@ -235,7 +235,7 @@ class TestSaleStock(SavepointCase):
         # estão iguais as linhas da Fatura/Invoice.
         sol_fields = [key for key in self.env["sale.order.line"]._fields.keys()]
 
-        acl_fields = [key for key in self.env["account.invoice.line"]._fields.keys()]
+        acl_fields = [key for key in self.env["account.move.line"]._fields.keys()]
 
         skipped_fields = [
             "id",
@@ -252,7 +252,7 @@ class TestSaleStock(SavepointCase):
                 sale_order_line[field],
                 invoice_lines[field],
                 "Field %s failed to transfer from "
-                "sale.order.line to account.invoice.line" % field,
+                "sale.order.line to account.move.line" % field,
             )
 
         # Teste de Retorno
