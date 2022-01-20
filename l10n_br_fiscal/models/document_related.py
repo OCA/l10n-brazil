@@ -74,7 +74,6 @@ class DocumentRelated(models.Model):
 
     @api.constrains("cnpj_cpf")
     def _check_cnpj_cpf(self):
-        result = True
         for record in self:
             if record.cnpj_cpf:
                 disable_cnpj_ie_validation = (
@@ -86,16 +85,14 @@ class DocumentRelated(models.Model):
                 )
 
                 if not disable_cnpj_ie_validation:
-                    if record.cpfcnpj_type == "cnpj":
-                        if not fiscal.cnpj_cpf.validar(record.cnpj_cpf):
-                            result = False
+                    if not fiscal.cnpj_cpf.validar(record.cnpj_cpf):
+                        if record.cpfcnpj_type == "cnpj":
                             document = "CNPJ"
-                    elif record.cpfcnpj_type == "cpf":
-                        result = False
-                        document = "CPF"
-
-                    if not result:
-                        raise ValidationError(_("{} Invalid!").format(document))
+                        elif record.cpfcnpj_type == "cpf":
+                            document = "CPF"
+                        raise ValidationError(
+                            _("{}: {} Invalid!").format(document, record.cnpj_cpf)
+                        )
 
     @api.constrains("inscr_est", "state_id")
     def _check_ie(self):
