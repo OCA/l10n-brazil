@@ -19,8 +19,12 @@ class StockInvoiceOnshipping(models.TransientModel):
         pick = fields.first(pickings)
         if pick.purchase_id:
             values["purchase_id"] = pick.purchase_id.id
-            if pick.purchase_id.payment_term_id.id != values["payment_term_id"]:
-                values.update({"payment_term_id": pick.purchase_id.payment_term_id.id})
+            if pick.purchase_id.payment_term_id.id != values.get(
+                "invoice_payment_term_id"
+            ):
+                values.update(
+                    {"invoice_payment_term_id": pick.purchase_id.payment_term_id.id}
+                )
 
         return invoice, values
 
