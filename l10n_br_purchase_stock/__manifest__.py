@@ -7,7 +7,7 @@
     "category": "Localisation",
     "author": "Akretion, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "12.0.2.1.0",
+    "version": "13.0.1.0.0",
     "depends": [
         "l10n_br_purchase",
         "l10n_br_stock_account",
