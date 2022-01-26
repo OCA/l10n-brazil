@@ -217,18 +217,18 @@ class AccountInvoiceLine(models.Model):
     def write(self, values):
         dummy_doc = self.env.company.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.line_ids)
-        if self.icms_cst_id:
-            values['icms_cst_id'] = self.icms_cst_id.id
-            # values['icmssn_tax_id'] = self.icmssn_tax_id.id
-        if self.ipi_cst_id:
-            values['ipi_cst_id'] = self.ipi_cst_id.id
-            # values['ipi_tax_id'] = self.ipi_tax_id.id
-        if self.pis_cst_id:
-            values['pis_cst_id'] = self.pis_cst_id.id
-            # values['pis_tax_id'] = self.pis_tax_id.id
-        if self.cofins_cst_id:
-            values['cofins_cst_id'] = self.cofins_cst_id.id
-            # values['cofins_tax_id'] = self.cofins_tax_id.id
+        # if self.icms_cst_id:
+        #     values['icms_cst_id'] = self.icms_cst_id.id
+        #     # values['icmssn_tax_id'] = self.icmssn_tax_id.id
+        # if self.ipi_cst_id:
+        #     values['ipi_cst_id'] = self.ipi_cst_id.id
+        #     # values['ipi_tax_id'] = self.ipi_tax_id.id
+        # if self.pis_cst_id:
+        #     values['pis_cst_id'] = self.pis_cst_id.id
+        #     # values['pis_tax_id'] = self.pis_tax_id.id
+        # if self.cofins_cst_id:
+        #     values['cofins_cst_id'] = self.cofins_cst_id.id
+        #     # values['cofins_tax_id'] = self.cofins_tax_id.id
         if not 'ncm_id' in values and not self.ncm_id:
             for line in self:
                 # quando cria uma fatura por faturamenteo
