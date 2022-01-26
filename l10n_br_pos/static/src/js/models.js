@@ -169,7 +169,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             // Result.table = this.table ? this.table.name : undefined;
             // result.floor = this.table ? this.table.floor.name : undefined;
             // result.customer_count = this.get_customer_count();
-            result.orderline = _.filter(result.orderline, function (line) {return line.price !== 0; });
+            result.orderlines = _.filter(result.orderlines, function (line) {return line.price !== 0; });
             var company = this.pos.company;
             var pos_config = this.pos.config;
 
