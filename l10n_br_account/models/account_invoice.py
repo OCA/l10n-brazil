@@ -523,7 +523,6 @@ class AccountInvoice(models.Model):
                     )
             if i.state_edoc != SITUACAO_EDOC_EM_DIGITACAO:
                 i.fiscal_document_id.action_document_back2draft()
-        return super().action_invoice_draft()
 
     def action_document_send(self):
         invoices = self.filtered(lambda d: d.document_type_id)
@@ -576,9 +575,7 @@ class AccountInvoice(models.Model):
         return result
 
     def action_invoice_cancel(self):
-        for i in self.filtered(lambda d: d.document_type_id):
-            i.fiscal_document_id.action_document_cancel()
-        return super().action_invoice_cancel()
+        self.button_cancel()
 
     def view_xml(self):
         self.ensure_one()
