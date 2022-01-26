@@ -35,13 +35,15 @@
     </t>
 
     <t t-extend="ClientDetails">
+        <t t-jquery=".client-detail > .label:contains('Tax ID')" t-operation="replace">
+            <span class="label">CPF/CNPJ</span>
+        </t>
         <t t-jquery=".client-detail > .vat" t-operation="replace">
-            <span class='label'>CPF/CNPJ</span>
-            <t t-if='partner.cpf_cnpj'>
-                <span class='detail vat'><t t-esc='partner.cnpj_cpf'/></span>
+            <t t-if="partner.cnpj_cpf">
+                <span class="detail vat"><t t-esc="partner.cnpj_cpf" /></span>
             </t>
-            <t t-if='!partner.cpf_cnpj'>
-                <span class='detail vat empty'>N/A</span>
+            <t t-if="!partner.cnpj_cpf">
+                <span class="detail vat empty">N/A</span>
             </t>
         </t>
     </t>
