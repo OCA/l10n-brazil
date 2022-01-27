@@ -26,7 +26,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
 
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
-        return self.mapped("line_ids")
+        return self.mapped("fiscal_line_ids")
 
     @api.model
     def _get_amount_fields(self):
@@ -44,7 +44,13 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                     if field in line._fields.keys():
                         values[field] += line[field]
                     if field.replace("amount_", "") in line._fields.keys():
-                        values[field] += line[field.replace("amount_", "")]
+                        # FIXME this field creates an error in invoice form
+                        if field == "amount_financial_discount_value":
+                            values[
+                                "amount_financial_discount_value"
+                            ] += 0  # line.financial_discount_value
+                        else:
+                            values[field] += line[field.replace("amount_", "")]
             doc.update(values)
 
     def __document_comment_vals(self):
@@ -69,7 +75,7 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
             ).compute_message(
                 d.__document_comment_vals(), d.manual_customer_additional_data
             )
-            d.line_ids._document_comment()
+            d.fiscal_line_ids._document_comment()
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
