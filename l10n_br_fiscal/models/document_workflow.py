@@ -291,7 +291,10 @@ class DocumentWorkflow(models.AbstractModel):
 
             if not self.operation_name:
                 self.operation_name = ", ".join(
-                    [line.name for line in self.line_ids.mapped("fiscal_operation_id")]
+                    [
+                        line.name
+                        for line in self.fiscal_line_ids.mapped("fiscal_operation_id")
+                    ]
                 )
 
             if self.document_electronic and not self.document_key:

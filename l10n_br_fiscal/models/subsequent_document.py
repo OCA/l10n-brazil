@@ -113,9 +113,11 @@ class SubsequentDocument(models.Model):
         new_doc._document_reference(reference_ids)
 
         new_doc._onchange_fiscal_operation_id()
-        new_doc.line_ids.write({"fiscal_operation_id": new_doc.fiscal_operation_id.id})
+        new_doc.fiscal_line_ids.write(
+            {"fiscal_operation_id": new_doc.fiscal_operation_id.id}
+        )
 
-        for item in new_doc.line_ids:
+        for item in new_doc.fiscal_line_ids:
             item._onchange_fiscal_operation_id()
             item._onchange_fiscal_operation_line_id()
             item._onchange_fiscal_taxes()
