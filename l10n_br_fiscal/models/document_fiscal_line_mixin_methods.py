@@ -65,25 +65,25 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         if xpath_mappings is None:
             xpath_mappings = (
                 # (placeholder_xpath, fiscal_xpath)
-                ("//group[@name='fiscal_fields']", "//group[@name='fiscal_fields']"),
-                ("//page[@name='fiscal_taxes']", "//page[@name='fiscal_taxes']"),
+                (".//group[@name='fiscal_fields']", "//group[@name='fiscal_fields']"),
+                (".//page[@name='fiscal_taxes']", "//page[@name='fiscal_taxes']"),
                 (
-                    "//page[@name='fiscal_line_extra_info']",
+                    ".//page[@name='fiscal_line_extra_info']",
                     "//page[@name='fiscal_line_extra_info']",
                 ),
                 # these will only collect (invisible) fields for onchanges:
                 (
-                    "//group[@name='fiscal_taxes_fields']",
+                    ".//control[@name='fiscal_taxes_fields']...",
                     "//page[@name='fiscal_taxes']//field",
                 ),
                 (
-                    "//group[@name='fiscal_line_extra_info_fields']",
+                    ".//control[@name='fiscal_line_extra_info_fields']...",
                     "//page[@name='fiscal_line_extra_info']//field",
                 ),
             )
         for placeholder_xpath, fiscal_xpath in xpath_mappings:
             fiscal_nodes = fsc_doc.xpath(fiscal_xpath)
-            for target_node in doc.xpath(placeholder_xpath):
+            for target_node in doc.findall(placeholder_xpath):
                 if len(fiscal_nodes) == 1:
                     # replace unique placeholder
                     # (deepcopy is required to inject fiscal nodes in possible
@@ -94,6 +94,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                     # append multiple fields to placeholder container
                     for fiscal_node in fiscal_nodes:
                         field = deepcopy(fiscal_node)
+                        if not field.attrib.get("optional"):
+                            field.attrib["invisible"] = "1"
                         target_node.append(field)
         return doc
 

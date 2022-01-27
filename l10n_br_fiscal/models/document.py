@@ -156,7 +156,7 @@ class Document(models.Model):
         default=lambda self: self.env.company,
     )
 
-    line_ids = fields.One2many(
+    fiscal_line_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
         string="Document Lines",
@@ -348,18 +348,18 @@ class Document(models.Model):
             r.name = r._compute_document_name()
 
     @api.depends(
-        "line_ids.estimate_tax",
-        "line_ids.price_gross",
-        "line_ids.amount_untaxed",
-        "line_ids.amount_tax",
-        "line_ids.amount_taxed",
-        "line_ids.amount_total",
-        "line_ids.financial_total",
-        "line_ids.financial_total_gross",
-        "line_ids.financial_discount_value",
-        "line_ids.amount_tax_included",
-        "line_ids.amount_tax_not_included",
-        "line_ids.amount_tax_withholding",
+        "fiscal_line_ids.estimate_tax",
+        "fiscal_line_ids.price_gross",
+        "fiscal_line_ids.amount_untaxed",
+        "fiscal_line_ids.amount_tax",
+        "fiscal_line_ids.amount_taxed",
+        "fiscal_line_ids.amount_total",
+        "fiscal_line_ids.financial_total",
+        "fiscal_line_ids.financial_total_gross",
+        "fiscal_line_ids.financial_discount_value",
+        "fiscal_line_ids.amount_tax_included",
+        "fiscal_line_ids.amount_tax_not_included",
+        "fiscal_line_ids.amount_tax_withholding",
     )
     def _compute_amount(self):
         super()._compute_amount()
@@ -412,7 +412,7 @@ class Document(models.Model):
             new_doc.fiscal_operation_id = fsc_op
             new_doc._onchange_fiscal_operation_id()
 
-            for line in new_doc.line_ids:
+            for line in new_doc.fiscal_line_ids:
                 fsc_op_line = line.fiscal_operation_id.return_fiscal_operation_id
                 if not fsc_op_line:
                     raise ValidationError(
