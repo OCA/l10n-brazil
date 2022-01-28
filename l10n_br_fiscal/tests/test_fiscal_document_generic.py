@@ -40,7 +40,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_same_state._onchange_document_serie_id()
         self.nfe_same_state._onchange_fiscal_operation_id()
 
-        for line in self.nfe_same_state.line_ids:
+        for line in self.nfe_same_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
@@ -158,7 +158,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_other_state._onchange_document_serie_id()
         self.nfe_other_state._onchange_fiscal_operation_id()
 
-        for line in self.nfe_other_state.line_ids:
+        for line in self.nfe_other_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
@@ -281,7 +281,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_not_taxpayer._onchange_document_serie_id()
         self.nfe_not_taxpayer._onchange_fiscal_operation_id()
 
-        for line in self.nfe_not_taxpayer.line_ids:
+        for line in self.nfe_not_taxpayer.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
@@ -389,7 +389,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_not_taxpayer_pf._onchange_document_serie_id()
         self.nfe_not_taxpayer_pf._onchange_fiscal_operation_id()
 
-        for line in self.nfe_not_taxpayer_pf.line_ids:
+        for line in self.nfe_not_taxpayer_pf.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
@@ -498,7 +498,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_export._onchange_document_serie_id()
         self.nfe_export._onchange_fiscal_operation_id()
 
-        for line in self.nfe_export.line_ids:
+        for line in self.nfe_export.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
@@ -601,7 +601,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_sn_same_state._onchange_document_serie_id()
         self.nfe_sn_same_state._onchange_fiscal_operation_id()
 
-        for line in self.nfe_sn_same_state.line_ids:
+        for line in self.nfe_sn_same_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
 
@@ -721,7 +721,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_sn_other_state._onchange_document_serie_id()
         self.nfe_sn_other_state._onchange_fiscal_operation_id()
 
-        for line in self.nfe_sn_other_state.line_ids:
+        for line in self.nfe_sn_other_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
@@ -826,7 +826,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_sn_not_taxpayer._onchange_document_serie_id()
         self.nfe_sn_not_taxpayer._onchange_fiscal_operation_id()
 
-        for line in self.nfe_sn_not_taxpayer.line_ids:
+        for line in self.nfe_sn_not_taxpayer.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
@@ -919,7 +919,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_sn_export._onchange_document_serie_id()
         self.nfe_sn_export._onchange_fiscal_operation_id()
 
-        for line in self.nfe_sn_export.line_ids:
+        for line in self.nfe_sn_export.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()
@@ -1041,13 +1041,13 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
     def test_unlink_dummy_document_line(self):
         """ Test Dummy Fiscal Document Line Unlink Restrictions """
-        dummy_line = self.env.user.company_id.fiscal_dummy_id.line_ids[0]
+        dummy_line = self.env.user.company_id.fiscal_dummy_id.fiscal_line_ids[0]
         with self.assertRaises(UserError):
             dummy_line.unlink()
 
     def test_nfe_comments(self):
         self.nfe_not_taxpayer._document_comment()
-        additional_data = self.nfe_not_taxpayer.line_ids[0].additional_data
+        additional_data = self.nfe_not_taxpayer.fiscal_line_ids[0].additional_data
         self.assertEqual(
             additional_data,
             "manual comment test - Valor Aprox. dos Tributos: R$ 0,00"
