@@ -2854,7 +2854,7 @@ msgid "Document Key"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__line_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__fiscal_line_ids
 msgid "Document Lines"
 msgstr ""
 
