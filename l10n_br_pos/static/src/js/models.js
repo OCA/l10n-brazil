@@ -294,7 +294,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             result.ipi_control_seal_id = product.ipi_control_seal_id;
             result.ipi_guideline_class_id = product.ipi_guideline_class_id;
             result.nbs_id = product.nbs_id;
-            result.ncm = product_fiscal_map.ncm_code || "99999999";
+            result.ncm = product_fiscal_map.ncm_code === "00000000" ? "99999999" : product_fiscal_map.ncm_code;
             result.ncm_code_exception = product_fiscal_map.ncm_code_exception;
             result.pis_base = product_fiscal_map.pis_base;
             result.pis_cst_code = product_fiscal_map.pis_cst_code;
