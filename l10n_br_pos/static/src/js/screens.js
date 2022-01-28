@@ -11,6 +11,9 @@ const DOCUMENTO_NFCE = "65";
 odoo.define("l10n_br_pos.screens", function (require) {
     "use strict";
     var screens = require("point_of_sale.screens");
+    var pos_order_screens = require("pos_order_show_list.screens");
+    var rpc = require('web.rpc');
+    var models = require("point_of_sale.models");
 
     screens.PaymentScreenWidget.include({
         order_sat_is_valid: async function (order) {
@@ -124,6 +127,23 @@ odoo.define("l10n_br_pos.screens", function (require) {
             }
             this.pos.gui.screen_instances.payment.renderElement();
         }
+    });
+
+    pos_order_screens.PosOrderScreenWidget.include({
+        show: function () {
+            var self = this;
+            this._super();
+            this.$('.order-list-contents').delegate('.pos_order_reprint','click',function(event){
+                rpc.query({
+                    model: 'pos.order',
+                    method: 'retornar_order_by_id',
+                    args: [$(this).parent().parent().data('id')],
+                    limit: 1,
+                }).then(function (orders){
+                    self.pos.proxy.reprint_cfe(orders);
+                });
+            });
+        },
     });
 
     // Screens.PaymentScreenWidget = screens.PaymentScreenWidget.extend({

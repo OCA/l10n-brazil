@@ -1,6 +1,6 @@
 # © 2016 KMEE INFORMATICA LTDA (https://kmee.com.br)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-
+import base64
 
 from satcomum.ersat import ChaveCFeSAT
 
@@ -386,21 +386,18 @@ class PosOrder(models.Model):
     #
     #     return True
     #
-    # @api.model
-    # def retornar_order_by_id(self, order_id):
-    #     order = self.browse(order_id)
-    #
-    #     dados_reimpressao = {
-    #         'order_id': order_id,
-    #         'chaveConsulta': order.chave_cfe,
-    #         'doc_destinatario': order.partner_id.cnpj_cpf if order.partner_id
-    #         else False,
-    #         'xml_cfe_cacelada': order.cfe_cancelamento_return,
-    #         'xml_cfe_venda': order.cfe_return,
-    #         'canceled_order': order.canceled_order,
-    #     }
-    #
-    #     return dados_reimpressao
+    @api.model
+    def retornar_order_by_id(self, order_id):
+        order = self.browse(order_id)
+
+        dados_reimpressao = {
+            'order_id': order_id,
+            'chaveConsulta': order.document_key,
+            'doc_destinatario': order.cnpj_cpf,
+            'xml_cfe_venda': base64.b64decode(order.message_main_attachment_id[-1].datas),
+        }
+
+        return dados_reimpressao
     #
     # @api.one
     # def action_invoice(self):

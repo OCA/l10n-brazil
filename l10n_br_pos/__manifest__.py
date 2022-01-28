@@ -17,6 +17,9 @@
         # 'pos_order_picking_link',
         # 'stock_picking_invoice_link',
         "point_of_sale",
+        "pos_order_show_list",
+        "pos_hamburger_menu",
+        "pos_show_order_hamburger_menu",
     ],
     "external_dependencies": {
         "python": ['satcomum'],
@@ -24,9 +27,9 @@
     "data": [
         "data/operation_line_data.xml",
         "security/l10n_br_pos_product_fiscal_map.xml",
-        "data/l10n_br_fiscal_cfop_data.xml",
+        # "data/l10n_br_fiscal_cfop_data.xml",
         "data/account_journal_data.xml",
-        "data/pos_config_data.xml",
+        # "data/pos_config_data.xml",
         "views/l10n_br_pos_product_fiscal_map.xml",
         "views/pos_config_view.xml",
         "views/pos_order_view.xml",
