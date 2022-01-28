@@ -5,6 +5,7 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 
 odoo.define("l10n_br_pos.models", function (require) {
     var models = require("point_of_sale.models");
+    var util = require("l10n_br_pos.util");
     var partner_company_fields = [
         "legal_name",
         "cnpj_cpf",
@@ -131,9 +132,19 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.num_sessao_sat = num_sessao_sat;
         },
         set_cnpj_cpf: function (cnpj_cpf) {
-            this.assert_editable();
-            this.cnpj_cpf = cnpj_cpf;
-            this.trigger("change", this);
+            if (util.validate_cnpj_cpf(cnpj_cpf)){
+                this.assert_editable();
+                this.cnpj_cpf = cnpj_cpf;
+                this.trigger("change", this);
+                return true;
+            } else {
+                this.pos.gui.show_popup("alert", {
+                    title: _t('Invalid CNPJ / CPF !'),
+                    body: _t('Enter a valid CNPJ / CPF number'),
+                });
+                return false;
+            }
+
         },
         get_cnpj_cpf: function () {
             return this.cnpj_cpf;
