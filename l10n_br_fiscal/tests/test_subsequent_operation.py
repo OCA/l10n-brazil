@@ -29,7 +29,7 @@ class TestSubsequentOperation(TransactionCase):
         self.nfe_simples_faturamento._onchange_company_id()
         self.nfe_simples_faturamento._onchange_document_serie_id()
 
-        for line in self.nfe_simples_faturamento.line_ids:
+        for line in self.nfe_simples_faturamento.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_fiscal_taxes()
 
@@ -51,7 +51,7 @@ class TestSubsequentOperation(TransactionCase):
             )
 
             # Subsequent Lines
-            for product in document.subsequent_document_id.line_ids:
+            for product in document.subsequent_document_id.fiscal_line_ids:
 
                 # Document Line ICMS tax
                 self.assertEqual(
