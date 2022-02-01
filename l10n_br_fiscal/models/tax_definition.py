@@ -369,3 +369,8 @@ class TaxDefinition(models.Model):
                 self.cst_id = self.tax_id.cst_out_id
             else:
                 self.cst_id = self.tax_id.cst_in_id
+
+    @api.onchange("tax_group_id")
+    def _onchange_tax_group_id(self):
+        if self.tax_group_id:
+            self.type_in_out = self.fiscal_operation_line_id.fiscal_operation_type
