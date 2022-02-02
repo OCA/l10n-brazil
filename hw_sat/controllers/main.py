@@ -383,7 +383,7 @@ class Sat(Thread):
                 return "Erro ao validar os dados para o xml! " \
                        "Contate o suporte técnico."
 
-    def __prepare_cancel_cfe(self, chCanc, cnpj, doc_destinatario):
+    def __prepare_cancel_cfe(self, chCanc, cnpj, doc_destinatario=False):
         kwargs = {}
         if doc_destinatario:
             kwargs['destinatario'] = Destinatario(CPF=punctuation_rm(doc_destinatario))
@@ -420,6 +420,33 @@ class Sat(Thread):
                 return "Erro ao validar os dados para o xml! " \
                        "Contate o suporte técnico."
 
+    def _preparar_retorno_sessao_sat(self, retorno_sat, error=False):
+        obj_sessao = {}
+        if not error:
+            obj_sessao = {
+                'chave': retorno_sat.chaveConsulta,
+                'num_sessao': retorno_sat.numeroSessao,
+                'total_cfe': retorno_sat.valorTotalCFe,
+            }
+        else:
+            obj_sessao = {
+                'erro': retorno_sat.resposta.EEEEE,
+                'mensagem': retorno_sat.resposta.mensagem,
+                'num_sessao': -1,
+            }
+
+        return obj_sessao
+
+    def _sessao_sat(self):
+        result = False
+        try:
+            result = self._preparar_retorno_sessao_sat(
+                self.device.consultar_ultima_sessao_fiscal())
+        except ExcecaoRespostaSAT as err:
+            result = self._preparar_retorno_sessao_sat(err, error=True)
+
+        return result
+
     def action_call_sat(self, task, json=False):
 
         _logger.info('SAT: Task {0}'.format(task))
@@ -436,6 +463,8 @@ class Sat(Thread):
                     return self._send_cfe(json)
                 elif task == 'cancel':
                     return self._cancel_cfe(json)
+                elif task == 'sessao':
+                    return self._sessao_sat()
         except ErroRespostaSATInvalida as ex:
             _logger.error('SAT Error: {0}'.format(ex))
             return {'excessao': ex}
@@ -567,3 +596,7 @@ class SatDriver(hw_proxy.Proxy):
     @http.route('/hw_proxy/reprint_cfe/', type='json', auth='none', cors='*')
     def reprint_cfe(self, json):
         return hw_proxy.drivers['hw_fiscal'].action_call_sat('reprint', json)
+
+    @http.route('/hw_proxy/sessao_sat/', type='json', auth='none', cors='*')
+    def sessao_sat(self, json):
+        return hw_proxy.drivers['hw_fiscal'].action_call_sat('sessao')
