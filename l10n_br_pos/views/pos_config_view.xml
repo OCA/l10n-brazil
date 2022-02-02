@@ -93,6 +93,7 @@
                                 <field name="impressora" />
                                 <field name="fiscal_printer_type" />
                                 <field name="printer_params" />
+                                <field name="sessao_sat" />
                             </group>
                         </group>
                     </page>
