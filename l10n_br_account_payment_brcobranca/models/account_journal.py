@@ -240,9 +240,9 @@ class AccountJournal(models.Model):
                 if self.create_counterpart:
                     self._create_counterpart(parser, move)
                 # Check if move is balanced
-                move.assert_balanced()
+                move._check_balanced()
                 # Computed total amount of the move
-                move._amount_compute()
+                # move._amount_compute()
                 # No caso do CNAB o arquivo usado está sendo armazenado no
                 # objeto l10n_br_cnab.return.log já que um arquivo pode gerar
                 # diversos account.move
