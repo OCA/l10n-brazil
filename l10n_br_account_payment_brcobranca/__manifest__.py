@@ -16,13 +16,13 @@
         # Security
         "security/ir.model.access.csv",
         # Views
-        "views/account_invoice_view.xml",
+        "views/account_move_view.xml",
         "views/account_journal_view.xml",
         # Wizard
         "wizard/import_statement_view.xml",
     ],
     "demo": [
         "demo/account_journal_demo.xml",
-        "demo/account_invoice_demo.xml",
+        "demo/account_move_demo.xml",
     ],
 }
