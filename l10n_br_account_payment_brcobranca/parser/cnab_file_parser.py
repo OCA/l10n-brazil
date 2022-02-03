@@ -321,7 +321,7 @@ class CNABFileParser(FileParser):
                 "your_number": account_move_line.document_number,
                 "title_value": valor_titulo,
                 "bank_payment_line_id": bank_line.id or False,
-                "invoice_id": account_move_line.invoice_id.id,
+                "invoice_id": account_move_line.move_id.id,
                 "due_date": due_date,
                 "move_line_id": account_move_line.id,
                 "company_title_identification": linha_cnab["documento_numero"]
@@ -423,8 +423,6 @@ class CNABFileParser(FileParser):
                             account_move_line.payment_mode_id.discount_account_id.id
                         ),
                         "type": "desconto",
-                        "ref": account_move_line.document_number,
-                        "invoice_id": account_move_line.invoice_id.id,
                     }
                 )
 
@@ -436,8 +434,6 @@ class CNABFileParser(FileParser):
                         "credit": valor_desconto,
                         "type": "desconto",
                         "account_id": self.journal.default_credit_account_id.id,
-                        "ref": account_move_line.document_number,
-                        "invoice_id": account_move_line.invoice_id.id,
                         "partner_id": account_move_line.partner_id.id,
                     }
                 )
@@ -458,8 +454,6 @@ class CNABFileParser(FileParser):
                         "account_id": (
                             account_move_line.payment_mode_id.interest_fee_account_id.id
                         ),
-                        "ref": account_move_line.document_number,
-                        "invoice_id": account_move_line.invoice_id.id,
                         "partner_id": account_move_line.partner_id.id,
                     }
                 )
@@ -473,8 +467,6 @@ class CNABFileParser(FileParser):
                         "account_id": self.journal.default_credit_account_id.id,
                         "journal_id": account_move_line.journal_id.id,
                         "type": "juros_mora",
-                        "ref": account_move_line.document_number,
-                        "invoice_id": account_move_line.invoice_id.id,
                         "partner_id": account_move_line.partner_id.id,
                     }
                 )
@@ -493,8 +485,6 @@ class CNABFileParser(FileParser):
                         "credit": valor_tarifa,
                         "account_id": self.journal.default_credit_account_id.id,
                         "type": "tarifa",
-                        "ref": account_move_line.document_number,
-                        "invoice_id": account_move_line.invoice_id.id,
                         "partner_id": account_move_line.company_id.partner_id.id,
                     }
                 )
@@ -511,8 +501,6 @@ class CNABFileParser(FileParser):
                         "credit": 0.0,
                         "type": "tarifa",
                         "account_id": tariff_charge_account.id,
-                        "ref": account_move_line.document_number,
-                        "invoice_id": account_move_line.invoice_id.id,
                     }
                 )
 
@@ -531,8 +519,6 @@ class CNABFileParser(FileParser):
                             account_move_line.payment_mode_id.rebate_account_id.id
                         ),
                         "type": "abatimento",
-                        "ref": account_move_line.document_number,
-                        "invoice_id": account_move_line.invoice_id.id,
                     }
                 )
 
@@ -544,8 +530,6 @@ class CNABFileParser(FileParser):
                         "credit": valor_abatimento,
                         "type": "abatimento",
                         "account_id": self.journal.default_credit_account_id.id,
-                        "ref": account_move_line.document_number,
-                        "invoice_id": account_move_line.invoice_id.id,
                         "partner_id": account_move_line.partner_id.id,
                     }
                 )
@@ -564,14 +548,12 @@ class CNABFileParser(FileParser):
 
         row_list.append(
             {
-                "name": account_move_line.invoice_id.number,
+                "name": account_move_line.move_id.name,
                 "debit": 0.0,
                 "credit": valor_recebido_calculado,
                 "move_line": account_move_line,
-                "invoice_id": account_move_line.invoice_id.id,
                 "type": "liquidado",
                 "bank_payment_line_id": bank_line.id or False,
-                "ref": account_move_line.own_number,
                 "account_id": account_move_line.account_id.id,
                 "partner_id": account_move_line.partner_id.id,
                 "date": data_credito,
@@ -603,7 +585,13 @@ class CNABFileParser(FileParser):
         :return: dict of vals that represent additional infos for the statement
         """
         return {
-            "name": "Retorno CNAB - Banco "
+            # O campo name precisa ser como abaixo ou não ser enviado
+            # se não gera erro no metodo _check_unique_sequence_number,
+            # na v12 estava indo nesse campo a informação que agora está
+            # no campo ref
+            # "name": self.move_name or "/",
+            # TODO: Precisa de migração?
+            "ref": "Retorno CNAB - Banco "
             + self.bank.short_name
             + " - Conta "
             + self.journal.bank_account_id.acc_number,
@@ -633,9 +621,7 @@ class CNABFileParser(FileParser):
             "credit": line["credit"],
             "debit": line["debit"],
             "partner_id": None,
-            "ref": line["ref"],
             "account_id": line["account_id"],
-            "invoice_id": line["invoice_id"],
             "already_completed": True,
         }
         if (
