@@ -17,8 +17,8 @@ from ..constants.br_cobranca import get_brcobranca_api_url
 logger = logging.getLogger(__name__)
 
 
-class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+class AccountMove(models.Model):
+    _inherit = "account.move"
 
     file_boleto_pdf_id = fields.Many2one(
         comodel_name="ir.attachment",

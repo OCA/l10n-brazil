@@ -61,9 +61,7 @@ class AccountMoveLine(models.Model):
                 ),
                 "documento_numero": move_line.document_number,
                 "data_vencimento": move_line.date_maturity.strftime("%Y/%m/%d"),
-                "data_documento": move_line.invoice_id.date_invoice.strftime(
-                    "%Y/%m/%d"
-                ),
+                "data_documento": move_line.move_id.invoice_date.strftime("%Y/%m/%d"),
                 "especie": move_line.payment_mode_id.boleto_species,
                 "moeda": DICT_BRCOBRANCA_CURRENCY["R$"],
                 "aceite": move_line.payment_mode_id.boleto_accept,
@@ -74,7 +72,7 @@ class AccountMoveLine(models.Model):
                 + (move_line.partner_id.city_id.name or "")
                 + " - "
                 + (move_line.partner_id.state_id.name or ""),
-                "data_processamento": move_line.invoice_id.date_invoice.strftime(
+                "data_processamento": move_line.move_id.invoice_date.strftime(
                     "%Y/%m/%d"
                 ),
                 "instrucao1": move_line.payment_mode_id.instructions or "",
