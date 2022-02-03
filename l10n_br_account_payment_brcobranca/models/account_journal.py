@@ -39,27 +39,24 @@ class AccountJournal(models.Model):
             :param:    context: global context
         """
 
-        move_line_obj = self.env["account.move.line"]
-
         for line in move.line_ids:
-            if line.invoice_id:
-                # Pesquisando pelo Nosso Numero e Invoice evito o problema
-                # de existirem move lines com o mesmo valor no campo
-                # nosso numero, que pode acontecer qdo existem mais de um banco
-                # configurado para gerar Boletos
-                # IMPORTANTE: No parser estou definindo o REF do que não quero
-                # usar aqui com account_move_line.document_number
-                line_to_reconcile = move_line_obj.search(
+            if line.move_id:
+                # Podem existir sequencias do nosso numero/own_number iguais entre
+                # bancos diferentes, porém os Diario/account.journal
+                # não pode ser o mesmo.
+                # IMPORTANTE: No parser estou definindo o CNAB_RETURNED_REF do
+                # que não quero usar aqui com account_move_line.document_number
+                line_to_reconcile = self.env["account.move.line"].search(
                     [
-                        ("own_number", "=", line.ref),
-                        ("invoice_id", "=", line.invoice_id.id),
+                        ("own_number", "=", line.cnab_returned_ref),
+                        ("journal_payment_mode_id", "=", self.id),
                     ]
                 )
 
                 # Conciliação Automatica entre a Linha da Fatura e a Linha criada
                 if self.return_auto_reconcile:
                     if line_to_reconcile:
-                        (line + line_to_reconcile).reconcile()
+                        (line + line_to_reconcile).auto_reconcile_lines()
                         line_to_reconcile.cnab_state = "done"
                         line_to_reconcile.payment_situation = "liquidada"
 
