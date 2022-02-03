@@ -23,8 +23,8 @@ class TestPaymentOrder(SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
 
-        cls.register_payments_model = cls.env["account.register.payments"].with_context(
-            active_model="account.invoice"
+        cls.register_payments_model = cls.env["account.payment.register"].with_context(
+            active_model="account.move"
         )
         cls.payment_model = cls.env["account.payment"]
         cls.aml_cnab_change_model = cls.env["account.move.line.cnab.change"]
@@ -39,7 +39,7 @@ class TestPaymentOrder(SavepointCase):
         )
         cls.partner_akretion = cls.env.ref("l10n_br_base.res_partner_akretion")
         # I validate invoice by creating on
-        cls.invoice_cef.action_invoice_open()
+        cls.invoice_cef.action_post()
 
         payment_order = cls.env["account.payment.order"].search(
             [("payment_mode_id", "=", cls.invoice_cef.payment_mode_id.id)]
@@ -87,10 +87,10 @@ class TestPaymentOrder(SavepointCase):
     def _run_boleto_remessa(self, invoice, boleto_file, remessa_file):
 
         # I validate invoice
-        invoice.action_invoice_open()
+        invoice.action_post()
 
-        # I check that the invoice state is "Open"
-        self.assertEqual(invoice.state, "open")
+        # I check that the invoice state is "Posted"
+        self.assertEqual(invoice.state, "posted")
 
         # Imprimir Boleto
         if os.environ.get("CI"):
@@ -205,7 +205,6 @@ class TestPaymentOrder(SavepointCase):
         invoice_ailos_cnab_240 = self.env.ref(
             "l10n_br_account_payment_order.demo_invoice_payment_order_ailos_cnab240"
         )
-
         self._run_boleto_remessa(
             invoice_ailos_cnab_240,
             "boleto_teste_ailos_cnab240.pdf",
@@ -218,10 +217,10 @@ class TestPaymentOrder(SavepointCase):
             "l10n_br_account_payment_order.demo_invoice_payment_order_itau_cnab240"
         )
         # I validate invoice
-        invoice.action_invoice_open()
+        invoice.action_post()
 
-        # I check that the invoice state is "Open"
-        self.assertEqual(invoice.state, "open")
+        # I check that the invoice state is "Posted"
+        self.assertEqual(invoice.state, "posted")
         # O Banco Itau CNAB 240 não está implementado no BRCobranca
         # por isso deve gerar erro.
         with self.assertRaises(UserError):
@@ -242,16 +241,16 @@ class TestPaymentOrder(SavepointCase):
         with self.assertRaises(UserError):
             payment_order.action_done_cancel()
 
-        self.assertEqual(len(self.invoice_cef.move_id), 1)
         # Testar Cancelamento
-        self.invoice_cef.action_invoice_cancel()
+        self.invoice_cef.button_cancel()
 
         # Caso de Ordem de Pagamento já confirmado a Linha
         # e a account.move não pode ser apagadas
         self.assertEqual(len(payment_order.payment_line_ids), 2)
-        # TODO: A account.move está sendo apagada nesse caso deveria ser
-        #  mantida ? As account.move.line relacionas continuam exisitindo
-        self.assertEqual(len(self.invoice_cef.move_id), 0)
+        # A partir da v13 as account.move.line relacionadas
+        # continuam exisitindo
+        self.assertEqual(len(self.invoice_cef.line_ids), 3)
+        self.assertEqual(len(self.invoice_cef.invoice_line_ids), 1)
 
         # Criação do Pedido de Baixa
         payment_order = self.env["account.payment.order"].search(
@@ -274,17 +273,27 @@ class TestPaymentOrder(SavepointCase):
         de uma Parcela e a Alteração de Valor de Titulo por pagto parcial.
         """
 
-        ctx = {"active_model": "account.invoice", "active_ids": [self.invoice_cef.id]}
-        register_payments = self.register_payments_model.with_context(ctx).create(
-            {
-                "payment_date": date.today(),
-                "journal_id": self.journal_cash.id,
-                "payment_method_id": self.payment_method_manual_in.id,
-                "amount": 600.0,
-            }
+        payment = (
+            self.env["account.payment"]
+            .with_context(
+                active_model="account.move",
+                active_ids=self.invoice_cef.ids,
+            )
+            .create(
+                {
+                    "payment_type": "inbound",
+                    "payment_method_id": self.env.ref(
+                        "account.account_payment_method_manual_in"
+                    ).id,
+                    "partner_type": "customer",
+                    "partner_id": self.partner_akretion.id,
+                    "amount": 600,
+                    "journal_id": self.journal_cash.id,
+                }
+            )
         )
+        payment.post()
 
-        register_payments.create_payments()
         # Ordem de PAgto com alterações
         payment_order = self.env["account.payment.order"].search(
             [
@@ -701,13 +710,11 @@ class TestPaymentOrder(SavepointCase):
                 line.order_id.payment_mode_id.cnab_write_off_code_id.name,
             )
 
-    def test_payment_by_assign_outstanding_credit(self):
+    def test_payment(self):
         """
-        Caso de Pagamento com CNAB usando o assign_outstanding_credit
+        Caso de Pagamento com CNAB
         """
         self.partner_akretion = self.env.ref("l10n_br_base.res_partner_akretion")
-        # I validate invoice by creating on
-        self.invoice_cef.action_invoice_open()
 
         payment_order = self.env["account.payment.order"].search(
             [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
@@ -739,23 +746,26 @@ class TestPaymentOrder(SavepointCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
-        payment = self.env["account.payment"].create(
-            {
-                "payment_type": "inbound",
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "partner_type": "customer",
-                "partner_id": self.partner_akretion.id,
-                "amount": 100,
-                "journal_id": self.journal_cash.id,
-            }
+        payment = (
+            self.env["account.payment"]
+            .with_context(
+                active_model="account.move",
+                active_ids=self.invoice_cef.ids,
+            )
+            .create(
+                {
+                    "payment_type": "inbound",
+                    "payment_method_id": self.env.ref(
+                        "account.account_payment_method_manual_in"
+                    ).id,
+                    "partner_type": "customer",
+                    "partner_id": self.partner_akretion.id,
+                    "amount": 100,
+                    "journal_id": self.journal_cash.id,
+                }
+            )
         )
         payment.post()
-        credit_aml = payment.move_line_ids.filtered("credit")
-
-        # Assign credit and residual
-        self.invoice_cef.assign_outstanding_credit(credit_aml.id)
 
         # Ordem de PAgto com alterações
         payment_order = self.env["account.payment.order"].search(
@@ -798,23 +808,26 @@ class TestPaymentOrder(SavepointCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
-        payment = self.env["account.payment"].create(
-            {
-                "payment_type": "inbound",
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "partner_type": "customer",
-                "partner_id": self.partner_akretion.id,
-                "amount": 50,
-                "journal_id": self.journal_cash.id,
-            }
+        payment = (
+            self.env["account.payment"]
+            .with_context(
+                active_model="account.move",
+                active_ids=self.invoice_cef.ids,
+            )
+            .create(
+                {
+                    "payment_type": "inbound",
+                    "payment_method_id": self.env.ref(
+                        "account.account_payment_method_manual_in"
+                    ).id,
+                    "partner_type": "customer",
+                    "partner_id": self.partner_akretion.id,
+                    "amount": 50,
+                    "journal_id": self.journal_cash.id,
+                }
+            )
         )
         payment.post()
-        credit_aml = payment.move_line_ids.filtered("credit")
-
-        # Assign credit and residual
-        self.invoice_cef.assign_outstanding_credit(credit_aml.id)
 
         # Ordem de PAgto com alterações
         payment_order = self.env["account.payment.order"].search(
@@ -857,23 +870,26 @@ class TestPaymentOrder(SavepointCase):
         payment_order.generated2uploaded()
         self.assertEqual(payment_order.state, "done")
 
-        payment = self.env["account.payment"].create(
-            {
-                "payment_type": "inbound",
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "partner_type": "customer",
-                "partner_id": self.partner_akretion.id,
-                "amount": 150,
-                "journal_id": self.journal_cash.id,
-            }
+        payment = (
+            self.env["account.payment"]
+            .with_context(
+                active_model="account.move",
+                active_ids=self.invoice_cef.ids,
+            )
+            .create(
+                {
+                    "payment_type": "inbound",
+                    "payment_method_id": self.env.ref(
+                        "account.account_payment_method_manual_in"
+                    ).id,
+                    "partner_type": "customer",
+                    "partner_id": self.partner_akretion.id,
+                    "amount": 150,
+                    "journal_id": self.journal_cash.id,
+                }
+            )
         )
         payment.post()
-        credit_aml = payment.move_line_ids.filtered("credit")
-
-        # Assign credit and residual
-        self.invoice_cef.assign_outstanding_credit(credit_aml.id)
 
         # Ordem de PAgto com alterações
         payment_order = self.env["account.payment.order"].search(
