@@ -160,7 +160,7 @@ class CNABFileParser(FileParser):
         # TODO: Deveria existir uma forma de mostrar o Valor de Juros/Multa na
         #  tela da Fatura/Invoice, e assim o usuário poder visualizar isso ?
         # Porque não vai existir um relacionamento direto de conciliação,
-        # apenas a referencia no campo name e invoice_id da account.move.line,
+        # apenas a referencia no bank_payment_line_id da account.move.line,
         # e caso se queira saber os detalhes será preciso olhar a Entrada de
         # Diário referente.
 
@@ -287,6 +287,8 @@ class CNABFileParser(FileParser):
             # estamos referenciando apenas a referente a que iniciou
             # o CNAB
             # TODO: Deveria relacionar todas ?
+            # A partir da v13 vai relacionar não parece ter problema
+            # e é melhor para criar um vínculo
             bank_line = payment_line.bank_line_id.filtered(
                 lambda b: b.mov_instruction_code_id.id
                 == payment_line.payment_mode_id.cnab_sending_code_id.id
@@ -423,6 +425,7 @@ class CNABFileParser(FileParser):
                             account_move_line.payment_mode_id.discount_account_id.id
                         ),
                         "type": "desconto",
+                        "bank_payment_line_id": bank_line.id or False,
                     }
                 )
 
@@ -435,6 +438,7 @@ class CNABFileParser(FileParser):
                         "type": "desconto",
                         "account_id": self.journal.default_credit_account_id.id,
                         "partner_id": account_move_line.partner_id.id,
+                        "bank_payment_line_id": bank_line.id or False,
                     }
                 )
 
@@ -455,6 +459,7 @@ class CNABFileParser(FileParser):
                             account_move_line.payment_mode_id.interest_fee_account_id.id
                         ),
                         "partner_id": account_move_line.partner_id.id,
+                        "bank_payment_line_id": bank_line.id or False,
                     }
                 )
 
@@ -468,6 +473,7 @@ class CNABFileParser(FileParser):
                         "journal_id": account_move_line.journal_id.id,
                         "type": "juros_mora",
                         "partner_id": account_move_line.partner_id.id,
+                        "bank_payment_line_id": bank_line.id or False,
                     }
                 )
 
@@ -486,6 +492,7 @@ class CNABFileParser(FileParser):
                         "account_id": self.journal.default_credit_account_id.id,
                         "type": "tarifa",
                         "partner_id": account_move_line.company_id.partner_id.id,
+                        "bank_payment_line_id": bank_line.id or False,
                     }
                 )
 
@@ -501,6 +508,7 @@ class CNABFileParser(FileParser):
                         "credit": 0.0,
                         "type": "tarifa",
                         "account_id": tariff_charge_account.id,
+                        "bank_payment_line_id": bank_line.id or False,
                     }
                 )
 
@@ -519,6 +527,7 @@ class CNABFileParser(FileParser):
                             account_move_line.payment_mode_id.rebate_account_id.id
                         ),
                         "type": "abatimento",
+                        "bank_payment_line_id": bank_line.id or False,
                     }
                 )
 
@@ -531,6 +540,7 @@ class CNABFileParser(FileParser):
                         "type": "abatimento",
                         "account_id": self.journal.default_credit_account_id.id,
                         "partner_id": account_move_line.partner_id.id,
+                        "bank_payment_line_id": bank_line.id or False,
                     }
                 )
 
@@ -623,6 +633,7 @@ class CNABFileParser(FileParser):
             "partner_id": None,
             "account_id": line["account_id"],
             "already_completed": True,
+            "bank_payment_line_id": line["bank_payment_line_id"],
         }
         if (
             line["type"]
