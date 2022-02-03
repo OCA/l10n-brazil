@@ -58,9 +58,9 @@ class TestReturnImport(SavepointCase):
         cls.journal = cls.env.ref("l10n_br_account_payment_order.unicred_journal")
 
         # I validate invoice by creating on
-        cls.invoice_unicred_1.action_invoice_open()
-        cls.invoice_unicred_2.action_invoice_open()
-        cls.invoice_ailos_1.action_invoice_open()
+        cls.invoice_unicred_1.action_post()
+        cls.invoice_unicred_2.action_post()
+        cls.invoice_ailos_1.action_post()
 
         # Para evitar erros nos testes de variação da Sequencia do
         # Nosso Numero/own_number quando se roda mais de uma vez ou
@@ -79,12 +79,12 @@ class TestReturnImport(SavepointCase):
         for line in cls.invoice_ailos_1.financial_move_line_ids:
             cls.invoice_ailos_1_own_numbers.append(line.own_number)
 
-        payment_order = cls.env["account.payment.order"].search(
+        payment_order_unicred = cls.env["account.payment.order"].search(
             [("payment_mode_id", "=", cls.invoice_unicred_1.payment_mode_id.id)]
         )
 
         # Open payment order
-        payment_order.draft2open()
+        payment_order_unicred.draft2open()
 
         # Verifica se deve testar com o mock
         if os.environ.get("CI"):
@@ -101,12 +101,12 @@ class TestReturnImport(SavepointCase):
                     _provider_class_pay_order + "._get_brcobranca_remessa",
                     return_value=mocked_response,
                 ):
-                    payment_order.open2generated()
+                    payment_order_unicred.open2generated()
         else:
-            payment_order.open2generated()
+            payment_order_unicred.open2generated()
 
         # Confirm Upload
-        payment_order.generated2uploaded()
+        payment_order_unicred.generated2uploaded()
 
     def _import_file(self, file_name):
         """import a file using the wizard
@@ -431,9 +431,9 @@ class TestReturnImport(SavepointCase):
             # Se for um codigo cnab de liquidação retorna as account.move criadas.
             moves = self._import_file(file_name)
 
-        self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 371", moves.name)
+        self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 371", moves.ref)
         # I check that the invoice state is "Paid"
-        self.assertEqual(self.invoice_unicred_1.state, "paid")
+        self.assertEqual(self.invoice_unicred_1.invoice_payment_state, "paid")
 
     def test_valor_maior_3(self):
 
@@ -735,9 +735,9 @@ class TestReturnImport(SavepointCase):
             # Se for um codigo cnab de liquidação retorna as account.move criadas
             moves = self._import_file(file_name)
 
-        self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 371", moves.name)
+        self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 371", moves.ref)
         # I check that the invoice state is "Paid"
-        self.assertEqual(self.invoice_unicred_2.state, "paid")
+        self.assertEqual(self.invoice_unicred_2.invoice_payment_state, "paid")
 
     def test_ailos_return(self):
 
@@ -873,7 +873,7 @@ class TestReturnImport(SavepointCase):
             },
         ]
         # Verifica se a fatura está aberta, antes de fazer o retorno.
-        self.assertEqual(self.invoice_ailos_1.state, "open")
+        self.assertEqual(self.invoice_ailos_1.state, "posted")
 
         self.journal = self.env.ref("l10n_br_account_payment_order.ailos_journal")
 
@@ -892,7 +892,7 @@ class TestReturnImport(SavepointCase):
             moves = self._import_file(file_name)
 
         self.assertEqual(
-            "Retorno CNAB - Banco COOP CENTRAL AILOS - Conta 373", moves.name
+            "Retorno CNAB - Banco COOP CENTRAL AILOS - Conta 373", moves.ref
         )
         # I check that the invoice state is "Paid"
-        self.assertEqual(self.invoice_ailos_1.state, "paid")
+        self.assertEqual(self.invoice_ailos_1.invoice_payment_state, "paid")
