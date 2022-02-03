@@ -123,7 +123,7 @@ class AccountJournal(models.Model):
         attachment_data = {
             "name": file_name,
             "datas": file_stream,
-            "datas_fname": file_name,
+            "store_fname": file_name,
             "res_model": "l10n_br_cnab.return.log",
             "res_id": cnab_return_log.id,
         }
