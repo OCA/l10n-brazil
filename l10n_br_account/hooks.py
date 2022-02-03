@@ -44,7 +44,7 @@ def pre_init_hook(cr):
                 fiscal_document_line_id=%s
             WHERE
                 fiscal_document_line_id IS NULL;""",
-            (company.fiscal_dummy_id.line_ids[0].id,),
+            (company.fiscal_dummy_id.fiscal_line_ids[0].id,),
         )
 
 
