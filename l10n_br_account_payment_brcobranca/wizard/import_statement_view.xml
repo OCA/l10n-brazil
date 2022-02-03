@@ -5,7 +5,7 @@
         id="move_importer_menu_brcobranca"
         name="Import Batch File"
         action="account_move_base_import.move_importer_action"
-        parent="account_payment_order.payment_root"
+        parent="l10n_br_account_payment_order.cnab"
         sequence="998"
     />
 
