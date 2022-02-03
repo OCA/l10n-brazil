@@ -56,7 +56,7 @@ class AccountMove(models.Model):
         self.file_pdf_id = self.env["ir.attachment"].create(
             {
                 "name": file_name,
-                "datas_fname": file_name,
+                "store_fname": file_name,
                 "res_model": self._name,
                 "res_id": self.id,
                 "datas": base64.b64encode(pdf_string),
