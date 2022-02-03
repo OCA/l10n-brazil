@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import models
+from odoo import fields, models
 
 from ..constants.br_cobranca import DICT_BRCOBRANCA_CURRENCY, get_brcobranca_bank
 
@@ -13,6 +13,14 @@ _logger = logging.getLogger(__name__)
 
 class AccountMoveLine(models.Model):
     _inherit = "account.move.line"
+
+    # Campo tecnico para ser usado na busca da account.move.line de
+    # reconciliação, no caso da Linha de Liquidação é preenchido com
+    # Nosso Número e nos outros casos é o campo Número do Documento
+    # TODO: Teria alguma forma de fazer sem esse campo? Ou outro campo
+    #  a ser usado sem a necessidade de criar um novo
+    cnab_returned_ref = fields.Char(string="CNAB Returned Reference", copy=False)
+
     # see the list of brcobranca boleto fields:
     # https://github.com/kivanio/brcobranca/blob/master/lib/
     # brcobranca/boleto/base.rb
