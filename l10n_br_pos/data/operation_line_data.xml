@@ -12,9 +12,9 @@
         <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5949"/>
         <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6949"/>
         <field name="tax_definition_ids" eval="[
-        (0, 0, {'tax_group_id': ref('l10n_br_fiscal.tax_group_icms'), 'is_taxed': True, 'is_debit_credit': True, 'custom_tax': True, 'tax_id', ref('l10n_br_fiscal.tax_icms_nt')})
-        (0, 0, {'tax_group_id': ref('l10n_br_fiscal.tax_group_pis'), 'is_taxed': True, 'is_debit_credit': True, 'custom_tax': True, 'tax_id', ref('l10n_br_fiscal.tax_pis_seminc')})
-        (0, 0, {'tax_group_id': ref('l10n_br_fiscal.tax_group_cofins'), 'is_taxed': True, 'is_debit_credit': True, 'custom_tax': True, 'tax_id', ref('l10n_br_fiscal.tax_cofins_seminc')})
+        (0, 0, {'tax_group_id': ref('l10n_br_fiscal.tax_group_icms'), 'is_taxed': True, 'is_debit_credit': True, 'custom_tax': True, 'tax_id': ref('l10n_br_fiscal.tax_icms_nt')}),
+        (0, 0, {'tax_group_id': ref('l10n_br_fiscal.tax_group_pis'), 'is_taxed': True, 'is_debit_credit': True, 'custom_tax': True, 'tax_id': ref('l10n_br_fiscal.tax_pis_seminc')}),
+        (0, 0, {'tax_group_id': ref('l10n_br_fiscal.tax_group_cofins'), 'is_taxed': True, 'is_debit_credit': True, 'custom_tax': True, 'tax_id': ref('l10n_br_fiscal.tax_cofins_seminc')})
         ]"/>
     </record>
 
