@@ -18,4 +18,102 @@
         ]"/>
     </record>
 
+    <record id="l10n_br_fiscal.fo_venda_servico_ind" model="l10n_br_fiscal.operation.line">
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="name">Prestação de Serviço de Industrialização</field>
+        <field name="cfop_internal_id" ref="l10n_br_fiscal.cfop_5124" />
+        <field name="cfop_external_id" ref="l10n_br_fiscal.cfop_6124" />
+        <field name="state">approved</field>
+        <field name="product_type">09</field>
+        <field name="tax_icms_or_issqn">issqn</field>
+    </record>
+
+    <record
+        id="fo_venda_revenda_st_substituido_pis_nt"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda_st_substituido" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_06" />
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="fo_venda_revenda_st_substituido_cofins_nt"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda_st_substituido" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_06" />
+        <field name="state">approved</field>
+    </record>
+
+    <record
+        id="fo_venda_revenda_st_substituido_pis_monofasico"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda_st_substituido" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_monofasico_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_04" />
+        <field name="state">approved</field>
+        <field name="ncms">2208.90.00</field>
+        <field name="ncm_ids" eval="[
+        (6, 0, [ref('l10n_br_fiscal.ncm_22089000'), ref('l10n_br_fiscal.ncm_22089000_01'), ref('l10n_br_fiscal.ncm_22089000_02')])
+        ]"/>
+    </record>
+
+    <record
+        id="fo_venda_revenda_st_substituido_cofins_monofasico"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda_st_substituido" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_monofasico_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_04" />
+        <field name="state">approved</field>
+        <field name="ncms">2208.90.00</field>
+        <field name="ncm_ids" eval="[
+        (6, 0, [ref('l10n_br_fiscal.ncm_22089000'), ref('l10n_br_fiscal.ncm_22089000_01'), ref('l10n_br_fiscal.ncm_22089000_02')])
+        ]"/>
+    </record>
+
+    <record
+        id="fo_venda_revenda_nao_contribuinte_pis"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda_nao_contribuinte" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_pis" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_pis_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_pis_06" />
+        <field name="state">approved</field>
+        <field name="ncms">21012010,22021000,21011200</field>
+        <field name="ncm_ids" eval="[
+        (6, 0, [ref('l10n_br_fiscal.ncm_22089000'), ref('l10n_br_fiscal.ncm_22089000_01'), ref('l10n_br_fiscal.ncm_22089000_02')])
+        ]"/>
+    </record>
+
+    <record
+        id="fo_venda_revenda_nao_contribuinte_cofins"
+        model="l10n_br_fiscal.tax.definition"
+    >
+        <field name="fiscal_operation_line_id" ref="l10n_br_fiscal.fo_venda_revenda_nao_contribuinte" />
+        <field name="tax_group_id" ref="l10n_br_fiscal.tax_group_cofins" />
+        <field name="custom_tax">True</field>
+        <field name="tax_id" ref="l10n_br_fiscal.tax_cofins_0" />
+        <field name="cst_id" ref="l10n_br_fiscal.cst_cofins_06" />
+        <field name="state">approved</field>
+        <field name="ncms">21012010,22021000,21011200</field>
+        <field name="ncm_ids" eval="[
+        (6, 0, [ref('l10n_br_fiscal.ncm_21012010'), ref('l10n_br_fiscal.ncm_22021000'), ref('l10n_br_fiscal.ncm_22021000_01'), ref('l10n_br_fiscal.ncm_21011200')])
+        ]"/>
+    </record>
+
 </odoo>
