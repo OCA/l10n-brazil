@@ -79,8 +79,8 @@ odoo.define("l10n_br_pos.devices", function (require) {
                 function (error) {
                     if (error) {
                         self.gui.show_popup("error-traceback", {
-                            message: _t("Erro SAT: "),
-                            comment: error.data.message,
+                            'title': _t("Erro SAT: "),
+                            'body': error.data.message,
                         });
                         return;
                     }
@@ -126,8 +126,8 @@ odoo.define("l10n_br_pos.devices", function (require) {
                                 );
                             } else {
                                 self.pos.gui.show_popup("error-traceback", {
-                                    message: _t("Erro SAT: "),
-                                    comment: 'Este cupom já foi transmitido!',
+                                    'title': _t("Erro SAT: "),
+                                    'body': 'Este cupom já foi transmitido!',
                                 });
                                 return;
                             }
@@ -135,8 +135,8 @@ odoo.define("l10n_br_pos.devices", function (require) {
                         function (error) {
                             if (error) {
                                 self.pos.gui.show_popup("error-traceback", {
-                                    message: _t("Erro SAT: "),
-                                    comment: error.data.message,
+                                    'title': _t("Erro SAT: "),
+                                    'body': error.data.message,
                                 });
                                 return;
                             }
@@ -200,7 +200,7 @@ odoo.define("l10n_br_pos.devices", function (require) {
                     if (result.num_sessao != self.pos.config.sessao_sat) {
                          self.message('cancelar_cfe', {json: order}, {timeout: 5000})
                          .then(function (result) {
-                             if (result) {
+                             if (result && typeof result === 'object') {
                                 rpc.query({
                                     model: 'pos.order',
                                     method: 'cancelar_order',
@@ -220,31 +220,31 @@ odoo.define("l10n_br_pos.devices", function (require) {
                                      }, function (error, event) {
                                          event.preventDefault();
                                          self.pos.gui.show_popup('error', {
-                                             'message': _t('Error: Tempo Excedido'),
-                                             'comment': _t('Tempo limite de 30 minutos para cancelamento foi excedido.'),
+                                             'title': _t('Error: Tempo Excedido'),
+                                             'body': _t('Tempo limite de 30 minutos para cancelamento foi excedido.'),
                                          });
                                          return false;
                                      });
                              } else {
-                                 self.pos.gui.show_popup('error-traceback', {
-                                     'message': _t('Erro SAT: '),
-                                     'comment': _t(result['excessao']),
+                                 self.pos.gui.show_popup('error', {
+                                     'tittle': _t('Erro SAT: '),
+                                     'body': _t(result),
                                  });
                              }
                          }, function (error, event) {
                              event.preventDefault();
                              if (error) {
                                  self.pos.gui.show_popup('error-traceback', {
-                                     'message': _t('Erro SAT: '),
-                                     'comment': error.data.message,
+                                     'title': _t('Erro SAT: '),
+                                     'body': error.data.message,
                                  });
                                  return;
                              }
                          });
                      } else {
                         self.pos.gui.show_popup("error-traceback", {
-                            message: _t("Erro SAT: "),
-                            comment: 'Este cupom já foi transmitido!',
+                            'title': _t("Erro SAT: "),
+                            'body': 'Este cupom já foi transmitido!',
                         });
                         return;
                         }
@@ -252,8 +252,8 @@ odoo.define("l10n_br_pos.devices", function (require) {
                 function (error) {
                     if (error) {
                         self.gui.show_popup("error-traceback", {
-                            message: _t("Erro SAT: "),
-                            comment: error.data.message,
+                            'title': _t("Erro SAT: "),
+                            'body': error.data.message,
                         });
                         return;
                     }
