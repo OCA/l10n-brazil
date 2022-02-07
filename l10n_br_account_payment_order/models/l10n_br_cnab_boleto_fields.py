@@ -108,12 +108,6 @@ class L10nBrCNABBoletoFields(models.Model):
         "O nosso número pode ser gerado pelo banco.",
     )
 
-    product_tax_id = fields.Many2one(
-        comodel_name="product.product",
-        string="Taxa Adicional",
-        track_visibility="always",
-    )
-
     own_number_sequence_id = fields.Many2one(
         comodel_name="ir.sequence",
         string="Sequência do Nosso Número",
@@ -158,13 +152,6 @@ class L10nBrCNABBoletoFields(models.Model):
     )
 
     # Contas Contabeis usadas pelo Boleto
-
-    product_tax_account_id = fields.Many2one(
-        comodel_name="account.account",
-        string="Conta de Taxa do Produto",
-        help="Conta padrão para a Taxa do Produto",
-        track_visibility="always",
-    )
 
     # TODO - criar outro campo para separar a Conta Contabil de Multa ?
     #  o valor vem somado ao Juros Mora no retorno do cnab 400 unicred,
