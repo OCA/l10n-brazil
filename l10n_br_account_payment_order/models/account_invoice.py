@@ -5,7 +5,7 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 from ..constants import BR_CODES_PAYMENT_ORDER
 
@@ -31,39 +31,6 @@ class AccountInvoice(models.Model):
     #     store=True,
     #     index=True,
     # )
-
-    @api.onchange("payment_mode_id")
-    def _onchange_payment_mode_id(self):
-        tax_analytic_tag_id = self.env.ref(
-            "l10n_br_account_payment_order.account_analytic_tag_tax"
-        )
-
-        to_remove_invoice_line_ids = self.invoice_line_ids.filtered(
-            lambda i: tax_analytic_tag_id in i.analytic_tag_ids
-        )
-
-        self.invoice_line_ids -= to_remove_invoice_line_ids
-
-        payment_mode_id = self.payment_mode_id
-        if payment_mode_id.product_tax_id:
-            invoice_line_data = {
-                "name": "Taxa adicional do modo de pagamento escolhido",
-                "partner_id": self.partner_id.id,
-                "account_id": payment_mode_id.product_tax_account_id.id,
-                "product_id": payment_mode_id.product_tax_id.id,
-                "price_unit": payment_mode_id.product_tax_id.lst_price,
-                "quantity": 1,
-                "analytic_tag_ids": [(6, 0, [tax_analytic_tag_id.id])],
-            }
-
-            self.update(
-                {
-                    "invoice_line_ids": [
-                        (6, 0, self.invoice_line_ids.ids),
-                        (0, 0, invoice_line_data),
-                    ]
-                }
-            )
 
     def action_invoice_cancel(self):
         for record in self:
