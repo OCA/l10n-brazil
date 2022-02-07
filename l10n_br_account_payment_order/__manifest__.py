@@ -23,7 +23,6 @@
         "data/cnab_data.xml",
         "data/l10n_br_payment_export_type.xml",
         "data/boleto_data.xml",
-        "data/account_analytic_tag_data.xml",
         # CNAB Mov. Instruction and Return Codes
         "data/cnab_codes/banco_bradesco_cnab_240_400.xml",
         "data/cnab_codes/banco_cef_cnab_240.xml",
