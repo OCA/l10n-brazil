@@ -113,11 +113,6 @@ class AccountPaymentMode(models.Model):
             if self.bank_code_bc == "341" and not self.boleto_wallet:
                 raise ValidationError(_("Carteira no banco Itaú é obrigatória"))
 
-    @api.onchange("product_tax_id")
-    def _onchange_product_tax_id(self):
-        if not self.product_tax_id:
-            self.tax_account_id = False
-
     def get_own_number_sequence(self, inv, numero_documento):
         if inv.company_id.own_number_type == "0":
             # SEQUENCIAL_EMPRESA
