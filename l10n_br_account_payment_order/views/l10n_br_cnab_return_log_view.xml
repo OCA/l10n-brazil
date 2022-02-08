@@ -201,9 +201,12 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- Menu Principal para o CNAB -->
+    <menuitem id="cnab" name="CNAB" parent="account.menu_finance" sequence="7" />
+
     <menuitem
         id="menu_l10n_br_cnab_return_log"
-        parent="account_payment_order.payment_root"
+        parent="cnab"
         name="CNAB Return Log"
         sequence="999"
         action="l10n_br_account_payment_order.l10n_br_cnab_return_log_action"
