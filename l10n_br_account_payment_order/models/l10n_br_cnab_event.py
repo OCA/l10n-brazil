@@ -36,7 +36,7 @@ class L10nBrCNABReturnEvent(models.Model):
     company_title_identification = fields.Char(
         string="Identificação do Título da Empresa", required=False
     )
-    invoice_id = fields.Many2one(comodel_name="account.invoice", string="Fatura")
+    invoice_id = fields.Many2one(comodel_name="account.move", string="Fatura")
     interest_fee_value = fields.Float(string="Juros de Mora/Multa")
     own_number = fields.Char(string="Nosso Número")
     occurrences = fields.Char(string="Ocorrências")
