@@ -46,7 +46,6 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="account_move_line_cnab_change_form_view" />
         <field name="target">new</field>
-        <field name="multi">True</field>
         <field name="binding_model_id" ref="account.model_account_move_line" />
     </record>
 
