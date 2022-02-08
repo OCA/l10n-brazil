@@ -1419,12 +1419,6 @@ msgid "Conta cedente"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__product_tax_account_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__product_tax_account_id
-msgid "Conta de Taxa do Produto"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__rebate_account_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__rebate_account_id
 msgid "Conta padrão para Abatimento"
@@ -1452,12 +1446,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__tariff_charge_account_id
 #: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__tariff_charge_account_id
 msgid "Conta padrão para a Tarifa Bancaria"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_account_payment_mode__product_tax_account_id
-#: model:ir.model.fields,help:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__product_tax_account_id
-msgid "Conta padrão para a Taxa do Produto"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -1700,7 +1688,7 @@ msgid "Fatura"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:133
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:128
 #, python-format
 msgid "Favor acessar aba Cobrança da configuração da sua empresa para determinar o tipo de sequencia utilizada nas cobrancas"
 msgstr ""
@@ -2272,7 +2260,7 @@ msgid "Número sequencial do arquivo"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:147
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:142
 #, python-format
 msgid "O percentual deve ser um valor entre 0 a 100."
 msgstr ""
@@ -2453,12 +2441,6 @@ msgid "Problemas"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:product.product,name:l10n_br_account_payment_order.product_tax_boleto
-#: model:product.template,name:l10n_br_account_payment_order.product_tax_boleto_product_template
-msgid "Produto Taxa Boleto"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__cnab_code_protest_title_id
 #: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__cnab_code_protest_title_id
 msgid "Protest Tittle Instruction Code"
@@ -2517,13 +2499,13 @@ msgid "Sending Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:188
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:183
 #, python-format
 msgid "Sequence CNAB Sequence already in use by %s."
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:173
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:168
 #, python-format
 msgid "Sequence Own Number already in use by %s."
 msgstr ""
@@ -2608,17 +2590,6 @@ msgid "Tarifa"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_account_payment_mode__product_tax_id
-#: model:ir.model.fields,field_description:l10n_br_account_payment_order.field_l10n_br_cnab_boleto_fields__product_tax_id
-msgid "Taxa Adicional"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model_terms:ir.ui.view,arch_db:l10n_br_account_payment_order.l10n_br_account_payment_mode_form
-msgid "Taxas"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
 #: code:addons/l10n_br_account_payment_order/models/l10n_br_cnab_data_abstract.py:53
 #, python-format
 msgid "The Code %s already exist %s for Bank and CNAB type."
@@ -2695,12 +2666,6 @@ msgstr ""
 #. module: l10n_br_account_payment_order
 #: selection:l10n_br_cnab.return.log,activity_state:0
 msgid "Today"
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:product.product,uom_name:l10n_br_account_payment_order.product_tax_boleto
-#: model:product.template,uom_name:l10n_br_account_payment_order.product_tax_boleto_product_template
-msgid "Unit(s)"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
@@ -2880,12 +2845,6 @@ msgstr ""
 #: code:addons/l10n_br_account_payment_order/models/account_payment_order.py:138
 #, python-format
 msgid "You cannot delete CNAB order."
-msgstr ""
-
-#. module: l10n_br_account_payment_order
-#: model:product.product,weight_uom_name:l10n_br_account_payment_order.product_tax_boleto
-#: model:product.template,weight_uom_name:l10n_br_account_payment_order.product_tax_boleto_product_template
-msgid "kg"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
