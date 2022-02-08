@@ -5,7 +5,6 @@
         <field name="name">Linhas de Cobrança</field>
         <field name="model">account.payment.line</field>
         <field name="field_parent">order_id</field>
-        <field name="view_type">tree</field>
         <field name="priority" eval="20" />
         <field name="arch" type="xml">
             <tree string="Linhas de cobrança">
@@ -107,7 +106,6 @@
     <record id="action_cobranca_lines" model="ir.actions.act_window">
         <field name="name">Linhas de cobrança</field>
         <field name="res_model">account.payment.line</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{}</field>
         <field name="view_id" ref="view_cobranca_lines_tree" />

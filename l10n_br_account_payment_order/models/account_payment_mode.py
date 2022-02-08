@@ -40,7 +40,7 @@ class AccountPaymentMode(models.Model):
     cnab_sequence_id = fields.Many2one(
         comodel_name="ir.sequence",
         string="Sequencia do Arquivo CNAB",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Fields used to make invisible banks specifics fields
@@ -77,7 +77,7 @@ class AccountPaymentMode(models.Model):
         column1="cnab_liq_return_move_code_id",
         column2="payment_mode_id",
         string="CNAB Liquidity Return Move Code",
-        track_visibility="always",
+        tracking=True,
     )
 
     @api.constrains(
