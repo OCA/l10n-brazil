@@ -14,12 +14,12 @@ class L10nBrCNABDataAbstract(models.AbstractModel):
     name = fields.Char(
         string="Name",
         index=True,
-        track_visibility="always",
+        tracking=True,
     )
     code = fields.Char(
         string="Code",
         index=True,
-        track_visibility="always",
+        tracking=True,
     )
 
     def name_get(self):
