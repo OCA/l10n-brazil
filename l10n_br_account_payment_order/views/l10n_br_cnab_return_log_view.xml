@@ -198,7 +198,6 @@
     <record model="ir.actions.act_window" id="l10n_br_cnab_return_log_action">
         <field name="name">CNAB Return Log</field>
         <field name="res_model">l10n_br_cnab.return.log</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
