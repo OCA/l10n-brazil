@@ -2,7 +2,7 @@
 <!--
     Copyright (C) 2014 KMEE (http://www.kmee.com.br/)
     @author Luis Felipe Miléo <mileo@kmee.com.br>
-    The licence is in the file __openerp__.py
+    The licence is in the file __manifest__.py
 -->
 <odoo>
 
@@ -46,7 +46,7 @@
 
             <field name="move_line_id" position="before">
                 <field
-                    name="invoice_id"
+                    name="move_id"
                     attrs="{'readonly': [('payment_method_code', 'not in', ('400', '240', '500'))]}"
                 />
             </field>
