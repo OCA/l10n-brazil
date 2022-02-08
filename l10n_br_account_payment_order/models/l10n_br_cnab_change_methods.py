@@ -27,7 +27,7 @@ class L10nBrCNABChangeMethods(models.Model):
             # Checar se existe uma Instrução de CNAB ainda a ser enviada
             record._check_cnab_instruction_to_be_send()
 
-            payorder, new_payorder = record._get_payment_order(record.invoice_id)
+            payorder, new_payorder = record._get_payment_order(record.move_id)
 
             if change_type == "change_date_maturity":
                 cnab_code = record._get_cnab_date_maturity(new_date)
@@ -111,7 +111,7 @@ class L10nBrCNABChangeMethods(models.Model):
                 % (
                     payment_line_to_be_send.order_id.name,
                     payment_line_to_be_send.order_id.state,
-                    self.invoice_id.number,
+                    self.move_id.name,
                 )
             )
 
@@ -129,7 +129,7 @@ class L10nBrCNABChangeMethods(models.Model):
             + self.mov_instruction_code_id.name
         )
         if new_payorder:
-            self.invoice_id.message_post(
+            self.move_id.message_post(
                 body=_(
                     "Payment line added to the the new draft payment "
                     "order %s which has been automatically created,"
@@ -139,7 +139,7 @@ class L10nBrCNABChangeMethods(models.Model):
                 % (payorder.name, cnab_instruction, self.own_number, reason)
             )
         else:
-            self.invoice_id.message_post(
+            self.move_id.message_post(
                 body=_(
                     "Payment line added to the existing draft "
                     "order %s to send CNAB Instruction %s for OWN NUMBER %s.\n"
@@ -184,7 +184,7 @@ class L10nBrCNABChangeMethods(models.Model):
             reason_write_off = (
                 "Movement Instruction Code Updated for Request to Write Off,"
                 " because Invoice %s was Cancel."
-            ) % self.invoice_id.name
+            ) % self.move_id.name
             payment_situation = "fatura_cancelada"
             self.create_cnab_write_off(reason_write_off, payment_situation)
         else:
@@ -206,7 +206,7 @@ class L10nBrCNABChangeMethods(models.Model):
             )
 
         # Modo de Pagto usado precisa ter o codigo de alteração do vencimento
-        if not self.invoice_id.payment_mode_id.cnab_code_change_maturity_date_id:
+        if not self.move_id.payment_mode_id.cnab_code_change_maturity_date_id:
             self._msg_error_cnab_missing(
                 self.payment_mode_id.name, "Date Maturity Code"
             )
@@ -223,12 +223,12 @@ class L10nBrCNABChangeMethods(models.Model):
         """
         # Modo de Pagto usado precisa ter a Conta Contabil de
         # Não Pagamento/Inadimplencia
-        if not self.invoice_id.payment_mode_id.not_payment_account_id:
+        if not self.move_id.payment_mode_id.not_payment_account_id:
             self._msg_error_cnab_missing(
                 self.payment_mode_id.name, "the Account to Not Payment"
             )
 
-        if not self.invoice_id.payment_mode_id.cnab_write_off_code_id:
+        if not self.move_id.payment_mode_id.cnab_write_off_code_id:
             self._msg_error_cnab_missing(self.payment_mode_id.name, "Writte Off Code")
 
         # TODO: O codigo usado seria o mesmo do writte off ?
@@ -265,13 +265,12 @@ class L10nBrCNABChangeMethods(models.Model):
         move_not_payment_values = {
             "debit": self.amount_residual,
             "credit": 0.0,
-            "account_id": self.invoice_id.payment_mode_id.not_payment_account_id.id,
+            "account_id": self.move_id.payment_mode_id.not_payment_account_id.id,
         }
 
         commom_move_values = {
             "move_id": move.id,
             "partner_id": self.partner_id.id,
-            "already_completed": True,
             "ref": self.own_number,
             "journal_id": journal.id,
             "company_id": self.company_id.id,
@@ -310,7 +309,7 @@ class L10nBrCNABChangeMethods(models.Model):
         self.payment_situation = payment_situation
         # TODO criar um state removed ?
         self.cnab_state = "done"
-        self.invoice_id.message_post(body=_(reason))
+        self.move_id.message_post(body=_(reason))
 
     def create_cnab_write_off(self, reason, payment_situation):
         """
@@ -335,14 +334,14 @@ class L10nBrCNABChangeMethods(models.Model):
                 self.remove_payment_line(reason, payment_situation)
                 payment_lines_removed = True
 
-        if not self.invoice_id.payment_mode_id.cnab_write_off_code_id:
+        if not self.move_id.payment_mode_id.cnab_write_off_code_id:
             self._msg_error_cnab_missing(self.payment_mode_id.name, "Write Off Code")
 
         if not payment_lines_removed:
             # Checar se existe uma Instrução de CNAB ainda a ser enviada
             self._check_cnab_instruction_to_be_send()
 
-            payorder, new_payorder = self._get_payment_order(self.invoice_id)
+            payorder, new_payorder = self._get_payment_order(self.move_id)
 
             self.mov_instruction_code_id = self.payment_mode_id.cnab_write_off_code_id
             self.payment_situation = payment_situation
@@ -363,7 +362,7 @@ class L10nBrCNABChangeMethods(models.Model):
         # Checar se existe uma Instrução de CNAB ainda a ser enviada
         self._check_cnab_instruction_to_be_send()
 
-        payorder, new_payorder = self._get_payment_order(self.invoice_id)
+        payorder, new_payorder = self._get_payment_order(self.move_id)
 
         self.mov_instruction_code_id = (
             self.payment_mode_id.cnab_code_change_title_value_id
