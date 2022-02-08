@@ -144,7 +144,7 @@ class AccountMoveLine(models.Model):
                     # TODO: Aguardando a possibilidade de alteração no
                     #  modulo account_payment_order na v14
                     "ml_maturity_date": self.date_maturity,
-                    "invoice_id": self.invoice_id.id,
+                    "move_id": self.move_id.id,
                 }
             )
 

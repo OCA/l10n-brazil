@@ -142,7 +142,7 @@ class AccountPaymentLine(models.Model):
     ml_maturity_date = fields.Date(related=None)
     # Para manter a rastreabilidade está sendo adicionado uma relação
     # com a account.invoice referente, já que a AML pode ser apagada
-    invoice_id = fields.Many2one(comodel_name="account.invoice", string="Fatura")
+    move_id = fields.Many2one(comodel_name="account.move", string="Fatura")
 
     @api.depends("percent_interest", "amount_currency", "currency_id")
     def _compute_interest(self):
