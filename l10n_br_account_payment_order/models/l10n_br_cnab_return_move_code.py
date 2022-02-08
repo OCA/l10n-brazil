@@ -16,7 +16,7 @@ class L10nBrCNABReturnMoveCode(models.Model):
         relation="l10n_br_cnab_return_move_code_bank_rel",
         column1="bank_id",
         column2="l10n_br_cnab_return_move_code_id",
-        track_visibility="always",
+        tracking=True,
     )
 
     payment_method_ids = fields.Many2many(
@@ -25,7 +25,7 @@ class L10nBrCNABReturnMoveCode(models.Model):
         relation="l10n_br_cnab_return_move_code_payment_method_rel",
         column1="payment_method_id",
         column2="l10n_br_cnab_mov_instruction_code_id",
-        track_visibility="always",
+        tracking=True,
     )
 
     # TODO: Forma encontrada para pode fazer o Group By, na v15

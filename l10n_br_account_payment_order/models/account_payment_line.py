@@ -4,8 +4,6 @@
 
 from odoo import api, fields, models
 
-from odoo.addons import decimal_precision as dp
-
 from ..constants import (
     AVISO_FAVORECIDO,
     CODIGO_FINALIDADE_TED,
@@ -23,13 +21,13 @@ class AccountPaymentLine(models.Model):
 
     percent_interest = fields.Float(
         string="Percentual de Juros",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     amount_interest = fields.Float(
         string="Valor Juros",
         compute="_compute_interest",
-        digits=dp.get_precision("Account"),
+        digits="Account",
     )
 
     own_number = fields.Char(
@@ -91,7 +89,7 @@ class AccountPaymentLine(models.Model):
 
     payment_mode_id = fields.Many2one(
         comodel_name="account.payment.mode",
-        track_visibility="onchange",
+        tracking=True,
     )
 
     # Campo não usado no BRCobranca
