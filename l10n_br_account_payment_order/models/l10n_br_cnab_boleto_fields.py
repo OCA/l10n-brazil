@@ -4,8 +4,6 @@
 
 from odoo import fields, models
 
-from odoo.addons import decimal_precision as dp
-
 from ..constants import BOLETO_ESPECIE
 
 
@@ -23,7 +21,7 @@ class L10nBrCNABBoletoFields(models.Model):
         string="Código do Convênio no Banco",
         size=20,
         help="Campo G007 do CNAB",
-        track_visibility="always",
+        tracking=True,
     )
 
     condition_issuing_paper = fields.Selection(
@@ -42,33 +40,33 @@ class L10nBrCNABBoletoFields(models.Model):
     boleto_wallet = fields.Char(
         string="Carteira",
         size=3,
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_modality = fields.Char(
         string="Modalidade",
         size=2,
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_variation = fields.Char(
         string="Variação",
         size=2,
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_accept = fields.Selection(
         selection=[("S", "Sim"), ("N", "Não")],
         string="Aceite",
         default="N",
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_species = fields.Selection(
         selection=BOLETO_ESPECIE,
         string="Espécie do Título",
         default="01",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Na configuração ou implementação de outros campos é
@@ -90,7 +88,7 @@ class L10nBrCNABBoletoFields(models.Model):
         default="0",
         help="Código adotado pela FEBRABAN para identificar o tipo "
         "de prazo a ser considerado para o protesto.",
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_days_protest = fields.Char(
@@ -98,7 +96,7 @@ class L10nBrCNABBoletoFields(models.Model):
         size=2,
         help="Número de dias decorrentes após a data de vencimento "
         "para inicialização do processo de cobrança via protesto.",
-        track_visibility="always",
+        tracking=True,
     )
 
     generate_own_number = fields.Boolean(
@@ -114,7 +112,7 @@ class L10nBrCNABBoletoFields(models.Model):
         help="Para usar essa Sequencia é preciso definir o campo Tipo do "
         "Nosso Número como Sequencial Único por Carteira no cadastro da "
         "empresa",
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_interest_code = fields.Char(
@@ -122,13 +120,13 @@ class L10nBrCNABBoletoFields(models.Model):
         size=1,
         help="Código adotado pela FEBRABAN para identificação "
         "do tipo de pagamento de mora de juros.",
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_interest_perc = fields.Float(
         string="Percentual de Juros de Mora",
-        digits=dp.get_precision("Account"),
-        track_visibility="always",
+        digits="Account",
+        tracking=True,
     )
 
     boleto_fee_code = fields.Char(
@@ -136,19 +134,19 @@ class L10nBrCNABBoletoFields(models.Model):
         size=1,
         help="Código adotado pela FEBRABAN para identificação "
         "do tipo de pagamento de multa.",
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_fee_perc = fields.Float(
         string="Percentual de Multa",
-        digits=dp.get_precision("Account"),
-        track_visibility="always",
+        digits="Account",
+        tracking=True,
     )
 
     boleto_discount_perc = fields.Float(
         string=u"Percentual de Desconto até a Data de Vencimento",
-        digits=dp.get_precision("Account"),
-        track_visibility="always",
+        digits="Account",
+        tracking=True,
     )
 
     # Contas Contabeis usadas pelo Boleto
@@ -160,35 +158,35 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="account.account",
         string="Conta Contabil de Juros Mora e Multa",
         help="Conta padrão para Juros Mora",
-        track_visibility="always",
+        tracking=True,
     )
 
     discount_account_id = fields.Many2one(
         comodel_name="account.account",
         string="Conta Contabil de Desconto",
         help="Conta padrão para Desconto",
-        track_visibility="always",
+        tracking=True,
     )
 
     rebate_account_id = fields.Many2one(
         comodel_name="account.account",
         string="Conta Contabil de Abatimanto",
         help="Conta padrão para Abatimento",
-        track_visibility="always",
+        tracking=True,
     )
 
     tariff_charge_account_id = fields.Many2one(
         comodel_name="account.account",
         string="Conta Contabil Tarifa Bancaria",
         help="Conta padrão para a Tarifa Bancaria",
-        track_visibility="always",
+        tracking=True,
     )
 
     not_payment_account_id = fields.Many2one(
         comodel_name="account.account",
         string="Conta Contabil para Não Pagamento/Inadimplência",
         help="Conta padrão para Não Pagamento/Inadimplência",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigos de Instrução do Movimento
@@ -198,7 +196,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Sending Movement Instruction Code",
         help="Sending Movement Instruction Code",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Título/Pagamento Direto ao Fornecedor -Baixar
@@ -206,7 +204,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Write Off Movement Instruction Code",
         help="Write Off Movement Instruction Code",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Alteração do Valor do Titulo
@@ -214,7 +212,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Change Title Value Movement Instruction Code",
         help="CNAB Movement Instruction Code for Change Title Value.",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Alteração da Data de Vencimento
@@ -222,7 +220,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Change Maturity Date Movement Instruction Code",
         help="CNAB Movement Instruction Code for Change Maturity Date.",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Protestar Título
@@ -230,7 +228,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Protest Tittle Instruction Code",
         help="CNAB Movement Instruction Code for Protest Tittle.",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Suspender Protesto e Manter em Carteira
@@ -239,7 +237,7 @@ class L10nBrCNABBoletoFields(models.Model):
         string="Suspend Protest an Keep in Wallet Instruction Code",
         help="CNAB Movement Instruction Code for"
         " Suspend Protest and Keep in Wallet.",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Suspender Protesto e Baixar Título
@@ -247,7 +245,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Suspend Protest an Writte Off Instruction Code",
         help="CNAB Movement Instruction Code for" " Suspend Protest and Writte Off.",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Conceder Abatimento
@@ -255,7 +253,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Grant Rebate Instruction Code",
         help="CNAB Movement Instruction Code for" " Grant Rebate.",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Cancelar Abatimento
@@ -263,7 +261,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Cancel Rebate Instruction Code",
         help="CNAB Movement Instruction Code for" " Cancel Rebate.",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Conceder Desconto
@@ -271,7 +269,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Grant Discount Instruction Code",
         help="CNAB Movement Instruction Code for" " Grant Discount.",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Codigo para Cancelar Abatimento
@@ -279,7 +277,7 @@ class L10nBrCNABBoletoFields(models.Model):
         comodel_name="l10n_br_cnab.mov.instruction.code",
         string="Cancel Discount Instruction Code",
         help="CNAB Movement Instruction Code for" " Cancel Discount.",
-        track_visibility="always",
+        tracking=True,
     )
 
     # Campos Especificos de cada Banco
@@ -291,7 +289,7 @@ class L10nBrCNABBoletoFields(models.Model):
         help="Byte de identificação do cedente do bloqueto "
         "utilizado para compor o nosso número, "
         "usado pelos bancos Sicred/Unicred e Sicoob.",
-        track_visibility="always",
+        tracking=True,
     )
 
     boleto_post = fields.Char(
@@ -299,5 +297,5 @@ class L10nBrCNABBoletoFields(models.Model):
         size=2,
         help="Código do Posto da Cooperativa de Crédito,"
         " usado pelos bancos Sicred/Unicred e Sicoob.",
-        track_visibility="always",
+        tracking=True,
     )
