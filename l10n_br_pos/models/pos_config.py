@@ -171,6 +171,8 @@ class PosConfig(models.Model):
 
     printer_params = fields.Char(string="Printer parameters")
 
+    sessao_sat = fields.Integer(string="Último Valor da Sessão", default=1)
+
     save_identity_automatic = fields.Boolean(
         string="Save new client",
         help="Activating will create a new identity customer to the partners data",
@@ -196,6 +198,11 @@ class PosConfig(models.Model):
             record.pos_fiscal_map_ids.unlink()
             for product in product_tmpl_ids:
                 product.with_delay().update_pos_fiscal_map()
+
+    @api.model
+    def update_sessao_sat(self, config_id):
+        config = self.browse(config_id)
+        config.sessao_sat += 1
 
     # lim_data_alteracao = fields.Integer(
     #     string="Atualizar dados (meses)",
