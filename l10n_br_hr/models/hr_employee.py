@@ -15,6 +15,8 @@ class HrEmployee(models.Model):
     def _default_country(self):
         return self.env["res.country"].search([("code", "=", "BR")])
 
+    cnpj_cpf = fields.Char(string="CNPJ/CPF")
+
     naturalidade = fields.Many2one(string="Naturalidade", comodel_name="res.city")
 
     pis_pasep = fields.Char(string="PIS/PASEP")
