@@ -47,9 +47,7 @@ class FiscalTax(models.Model):
                     self.env["account.tax"].create(tax_values)
 
             else:
-                account_taxes.write(
-                    {"fiscal_tax_ids": [(4, t.id) for t in account_taxes]}
-                )
+                account_taxes.write({"fiscal_tax_ids": [(4, fiscal_tax.id)]})
 
     @api.model
     def create(self, values):
