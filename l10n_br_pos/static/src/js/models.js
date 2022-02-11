@@ -285,7 +285,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             // result["product_name"] = produto.name;
             // result["estimated_taxes"] = produto.estd_national_taxes_perct / 100;
             // result["origin"] = produto.origin;
-            result.additional_data = product_fiscal_map.additional_data;
+            result.additional_data = product_fiscal_map.additional_data || '';
             result.amount_estimate_tax = product_fiscal_map.amount_estimate_tax;
             result.cest_id = product.cest_id;
             result.cfop = product_fiscal_map.cfop_code;
