@@ -9,12 +9,35 @@
         <field name="inherit_id" ref="base.view_company_form" />
         <field name="arch" type="xml">
             <field name="company_registry" position="after">
-                <field name="legal_name" placeholder="Legal Name..." />
-                <field name="cnpj_cpf" placeholder="CNPJ..." />
-                <field name="inscr_est" placeholder="State Tax Number..." />
-                <field name="inscr_mun" placeholder="Municipal Tax Number..." />
-                <field name="suframa" placeholder="Suframa" />
-                <field name="state_tax_number_ids">
+                <field
+                    name="legal_name"
+                    placeholder="Legal Name..."
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="cnpj_cpf"
+                    placeholder="CNPJ..."
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="inscr_est"
+                    placeholder="State Tax Number..."
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="inscr_mun"
+                    placeholder="Municipal Tax Number..."
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="suframa"
+                    placeholder="Suframa"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="state_tax_number_ids"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                >
                     <tree editable="bottom">
                         <field name="partner_id" invisible="1" />
                         <field name="inscr_est" />
