@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
   <record id="document_fiscal_line_mixin_form" model="ir.ui.view">
@@ -10,6 +9,7 @@
           <field name="currency_id" force_save="1" invisible="1" />
           <field name="fiscal_operation_type" force_save="1" invisible="1" />
           <field name="company_id" force_save="1" invisible="1" />
+          <field name="country_id" force_save="1" invisible="1" />
           <field name="partner_id" force_save="1" invisible="1" />
           <field name="fiscal_type" force_save="1" invisible="1" />
           <field name="partner_company_type" force_save="1" invisible="1" />
@@ -32,12 +32,17 @@
         </group>
         <notebook>
           <field name="product_id" force_save="1" invisible="1" />
-          <page name="fiscal_taxes" string="Taxes">
+          <page
+                        name="fiscal_taxes"
+                        string="Taxes"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    >
             <group>
+              <field name="country_id" force_save="1" invisible="1" />
               <field
                                 name="tax_icms_or_issqn"
                                 force_save="1"
-                                attrs="{'readonly': [('product_id', '!=', False), ('tax_icms_or_issqn', '!=', False)], 'required': [('fiscal_tax_ids', '!=', False)]}"
+                                attrs="{'readonly': [('product_id', '!=', False), ('tax_icms_or_issqn', '!=', False)], 'required': [('fiscal_tax_ids', '!=', False), ('country_id', '=', %(base.br)d)]}"
                             />
             </group>
             <notebook>
@@ -57,11 +62,11 @@
                                     />
                   <field
                                         name="issqn_eligibility"
-                                        attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"
+                                        attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '=', %(base.br)d)]}"
                                     />
                   <field
                                         name="issqn_incentive"
-                                        attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"
+                                        attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '=', %(base.br)d)]}"
                                     />
                 </group>
                 <group>

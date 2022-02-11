@@ -858,3 +858,9 @@ class FiscalDocumentLineMixin(models.AbstractModel):
         comodel_name="l10n_br_fiscal.cnae",
         string="CNAE Code",
     )
+
+    country_id = fields.Many2one(
+        comodel_name="res.country",
+        string="Country",
+        compute="_compute_country",
+    )

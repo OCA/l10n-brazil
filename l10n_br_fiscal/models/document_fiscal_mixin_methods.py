@@ -53,6 +53,10 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
                             values[field] += line[field.replace("amount_", "")]
             doc.update(values)
 
+    def _compute_country(self):
+        for record in self:
+            record.country_id = self.env.company.country_id.id
+
     def __document_comment_vals(self):
         return {
             "user": self.env.user,

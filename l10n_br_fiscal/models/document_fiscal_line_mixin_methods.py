@@ -202,6 +202,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             ind_final=self.ind_final,
         )
 
+    def _compute_country(self):
+        for record in self:
+            record.country_id = self.env.company.country_id.id
+
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
         fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields.keys()

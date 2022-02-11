@@ -1,7 +1,7 @@
 # Copyright (C) 2021  Renato Lima - Akretion <renato.lima@akretion.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import api, models
+from odoo import api, fields, models
 
 from ..constants.fiscal import (
     NCM_FOR_SERVICE_REF,
@@ -34,3 +34,11 @@ class ProductMixin(models.AbstractModel):
 
             if r.fiscal_genre_id.code == PRODUCT_FISCAL_TYPE_SERVICE:
                 r.ncm_id = self.env.ref(NCM_FOR_SERVICE_REF)
+
+    country_id = fields.Many2one(
+        comodel_name="res.country", string="Country", compute="_compute_country"
+    )
+
+    def _compute_country(self):
+        for record in self:
+            record.country_id = self.env.company.country_id.id

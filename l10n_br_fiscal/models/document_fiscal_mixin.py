@@ -383,3 +383,9 @@ class FiscalDocumentMixin(models.AbstractModel):
         compute="_compute_amount",
         store=True,
     )
+
+    country_id = fields.Many2one(
+        comodel_name="res.country",
+        string="Country",
+        compute="_compute_country",
+    )

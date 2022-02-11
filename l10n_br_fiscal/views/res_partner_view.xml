@@ -7,7 +7,11 @@
         <field name="inherit_id" ref="l10n_br_base.l10n_br_base_partner_form" />
         <field name="arch" type="xml">
             <group name="fiscal_numbers" position="after">
-                <group string="Fiscal Profile" name="fiscal_profile">
+                <group
+                    string="Fiscal Profile"
+                    name="fiscal_profile"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                >
                     <field
                         name="fiscal_profile_id"
                         force_save="1"

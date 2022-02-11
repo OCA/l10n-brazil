@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <record id="product_search" model="ir.ui.view">
@@ -56,16 +55,27 @@
                     name="fiscal"
                     string="Fiscal"
                     groups="l10n_br_fiscal.group_manager"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 >
                     <group>
                         <group>
-                            <field name="fiscal_type" required="1" />
+                            <field name="country_id" invisible="1" />
+                            <field
+                                name="fiscal_type"
+                                attrs="{'required': [('country_id', '=', %(base.br)d)]}"
+                            />
                             <field
                                 name="icms_origin"
                                 attrs="{'required': [('fiscal_type', '!=', '09')], 'invisible': [('fiscal_type', '=', '09')]}"
                             />
-                            <field name="ncm_id" required="1" />
-                            <field name="tax_icms_or_issqn" required="1" />
+                            <field
+                                name="ncm_id"
+                                attrs="{'required': [('country_id', '=', %(base.br)d)]}"
+                            />
+                            <field
+                                name="tax_icms_or_issqn"
+                                attrs="{'required': [('country_id', '=', %(base.br)d)]}"
+                            />
                             <field
                                 name="service_type_id"
                                 attrs="{'invisible': [('fiscal_type', '!=', '09')]}"
@@ -85,7 +95,10 @@
                             </field>
                         </group>
                         <group>
-                            <field name="fiscal_genre_id" required="1" />
+                            <field
+                                name="fiscal_genre_id"
+                                attrs="{'required': [('country_id', '=', %(base.br)d)]}"
+                            />
                             <field
                                 name="cest_id"
                                 attrs="{'invisible': [('fiscal_type', '=', '09')]}"
