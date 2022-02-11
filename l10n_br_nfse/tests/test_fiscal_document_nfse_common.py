@@ -124,7 +124,7 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
             " for Venda de Serviço de Contribuinte Dentro do Estado.",
         )
 
-        for line in self.nfse_same_state.line_ids:
+        for line in self.nfse_same_state.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_commercial_quantity()
             line._onchange_ncm_id()

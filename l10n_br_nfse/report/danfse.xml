@@ -330,7 +330,7 @@ row {
             </div>
              <div class="row bb br bl" style="padding: 7.5px 10px; min-height: 150px;">
                 <div class="col-12">
-                    <t t-foreach="doc.line_ids" t-as="line">
+                    <t t-foreach="doc.fiscal_line_ids" t-as="line">
                         <p t-field="line.name" />
                     </t>
 <!--                    <span t-field="doc.informacoes_legais"></span>-->
@@ -345,9 +345,11 @@ row {
             </div>
              <div class="row bb br bl">
                 <div class="col-12 centro" style="padding: 5px 0;">
-                    <span t-field="doc.line_ids[0].service_type_id.code" /> /
-                    <span t-field="doc.line_ids[0].city_taxation_code_id.code" /> -
-                    <span t-field="doc.line_ids[0].service_type_id.name" />
+                    <span t-field="doc.fiscal_line_ids[0].service_type_id.code" /> /
+                    <span
+                        t-field="doc.fiscal_line_ids[0].city_taxation_code_id.code"
+                    /> -
+                    <span t-field="doc.fiscal_line_ids[0].service_type_id.name" />
                 </div>
             </div>
 
@@ -525,11 +527,11 @@ row {
                     (x) Alíquota %
                 </div>
                 <div class="col-2 linha centro">
-                    <t t-if="doc.line_ids[0].issqn_percent">
-                       <span t-field="doc.line_ids[0].issqn_percent" />
+                    <t t-if="doc.fiscal_line_ids[0].issqn_percent">
+                       <span t-field="doc.fiscal_line_ids[0].issqn_percent" />
                     </t>
                     <t t-else="">
-                       <span t-field="doc.line_ids[0].issqn_wh_percent" />
+                       <span t-field="doc.fiscal_line_ids[0].issqn_wh_percent" />
                     </t>
                 </div>
             </div>
