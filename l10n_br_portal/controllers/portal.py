@@ -8,7 +8,9 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 
 
 class L10nBrPortal(CustomerPortal):
-    MANDATORY_BILLING_FIELDS = list(set(CustomerPortal.MANDATORY_BILLING_FIELDS)) + [
+    MANDATORY_BILLING_FIELDS = list(
+        set(CustomerPortal.MANDATORY_BILLING_FIELDS) - {"street"}
+    ) + [
         "state_id",
         "city_id",
         "district",
