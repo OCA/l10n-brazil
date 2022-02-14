@@ -19,6 +19,7 @@ class L10nBrPortal(CustomerPortal):
         "cnpj_cpf",
         "zipcode",
         "inscr_est",
+        "street_name",
     ]
     OPTIONAL_BILLING_FIELDS = list(
         set(CustomerPortal.OPTIONAL_BILLING_FIELDS) - {"state_id"}
