@@ -54,7 +54,8 @@ odoo.define("l10n_br_portal.tour", function (require) {
                 trigger: "button[type='submit']",
             },
             {
-                trigger: ".o_portal_my_home",
+                content: "Go /my url",
+                trigger: 'a[href*="/my"]',
             },
         ]
     );
