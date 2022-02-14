@@ -25,11 +25,7 @@ class TestUi(HttpCase):
             _provider_class + "._consultar_cep",
             return_value=mocked_response,
         ):
-            self.start_tour(
-                "/my/account",
-                "l10n_br_portal_tour",
-                login="admin",
-            )
+            self.start_tour("/my/account", "l10n_br_portal_tour", login="admin")
         # check result
         record = self.env.ref("base.partner_admin")
         self.assertEqual(record.country_id.code, "BR")
