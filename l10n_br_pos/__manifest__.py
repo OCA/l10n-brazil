@@ -26,6 +26,8 @@
     },
     "data": [
         "data/operation_line_data.xml",
+        "data/l10n_br_fiscal.tax.csv",
+        "data/icms_tax_definition_data.xml",
         "security/l10n_br_pos_product_fiscal_map.xml",
         # "data/l10n_br_fiscal_cfop_data.xml",
         "data/account_journal_data.xml",
