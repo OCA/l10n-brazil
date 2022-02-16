@@ -223,6 +223,8 @@ class AccountInvoice(models.Model):
         default = default or {}
         if self.document_type_id:
             default["line_ids"] = False
+        else:
+            default["line_ids"] = self.line_ids[0]
         return super().copy(default)
 
     @api.one
