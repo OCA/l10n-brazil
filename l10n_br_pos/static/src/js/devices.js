@@ -108,6 +108,12 @@ odoo.define("l10n_br_pos.devices", function (require) {
                                     (response) => {
                                         console.log("Processing Request");
                                         var response_as_json = JSON.parse(response);
+                                        if (typeof response_as_json === "string") {
+                                            self.pos.gui.show_popup('error-traceback', {
+                                                'title': _t('Erro SAT: '),
+                                                'body': _t(response_as_json)
+                                            });
+                                        }
                                         self.reprint_cfe({
                                             xml_cfe_venda: response_as_json.arquivoCFeSAT,
                                         });
