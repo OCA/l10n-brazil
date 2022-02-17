@@ -379,7 +379,7 @@ class Document(models.Model):
         ]
 
         for record in self.filtered(
-            lambda d: d != self.env.user.company_id.fiscal_dummy_id
+            lambda d: d != self.env.company.fiscal_dummy_id
             and d.state_edoc in forbidden_states_unlink
         ):
             raise ValidationError(
