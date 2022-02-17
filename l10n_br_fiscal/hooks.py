@@ -170,3 +170,12 @@ def post_init_hook(cr, registry):
                 noupdate=True,
                 kind="init",
             )
+
+    # Create a fiscal dummy for the company if you don't have one.
+    companies = env["res.company"].search([("fiscal_dummy_id", "=", False)])
+    for c in companies:
+        c.write(
+            {
+                "fiscal_dummy_id": c._default_fiscal_dummy_id().id,
+            }
+        )
