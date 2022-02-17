@@ -112,8 +112,9 @@ odoo.define("l10n_br_pos.devices", function (require) {
                                         } catch (error) {
                                             self.pos.gui.show_popup('error-traceback', {
                                                 'title': _t('Erro SAT: '),
-                                                'body': _t(response_as_json)
+                                                'body': _t(response)
                                             });
+                                            return;
                                         }
                                         self.reprint_cfe({
                                             xml_cfe_venda: response_as_json.arquivoCFeSAT,
