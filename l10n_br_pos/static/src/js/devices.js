@@ -107,8 +107,9 @@ odoo.define("l10n_br_pos.devices", function (require) {
                                 self.message("enviar_cfe_sat", {json: j}, {timeout: 5000}).then(
                                     (response) => {
                                         console.log("Processing Request");
-                                        var response_as_json = JSON.parse(response);
-                                        if (typeof response_as_json === "string") {
+                                        try {
+                                            var response_as_json = JSON.parse(response);
+                                        } catch (error) {
                                             self.pos.gui.show_popup('error-traceback', {
                                                 'title': _t('Erro SAT: '),
                                                 'body': _t(response_as_json)
