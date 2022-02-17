@@ -70,7 +70,7 @@ class Document(models.Model):
     nfse_environment = fields.Selection(
         selection=NFSE_ENVIRONMENTS,
         string="NFSe Environment",
-        default=lambda self: self.env.user.company_id.nfse_environment,
+        default=lambda self: self.env.company.nfse_environment,
     )
 
     def _document_date(self):
