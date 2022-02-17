@@ -4,6 +4,10 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 */
 
 odoo.define("l10n_br_pos.models", function (require) {
+
+    const core = require("web.core");
+    const _t = core._t;
+
     var models = require("point_of_sale.models");
     var util = require("l10n_br_pos.util");
     var partner_company_fields = [
@@ -271,6 +275,22 @@ odoo.define("l10n_br_pos.models", function (require) {
         //         return result;
         //     }
         // },
+        add_product: function (product, options) {
+            const product_fiscal_map = this.pos.fiscal_map_by_template_id[product.product_tmpl_id];
+            if (!product_fiscal_map) {
+                this.pos.gui.show_popup("alert", {
+                    title: _t("Tax Details"),
+                    body: _t("There was a problem mapping the item tax. Please contact support."),
+                });
+            } else if (!product_fiscal_map.fiscal_operation_line_id) {
+                this.pos.gui.show_popup("alert", {
+                    title: _t("Fiscal Operation Line"),
+                    body: _t("The fiscal operation line is not defined for this product. Please contact support.")
+                });
+            } else {
+                _super_order.add_product.apply(this, arguments);
+            }
+        },
     });
 
     var _super_order_line = models.Orderline.prototype;
