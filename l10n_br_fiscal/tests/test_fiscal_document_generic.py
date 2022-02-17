@@ -1033,7 +1033,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
     def test_unlink_dummy_document(self):
         """ Test Dummy Fiscal Document Unlink Restrictions """
-        dummy_document = self.env.user.company_id.fiscal_dummy_id
+        dummy_document = self.env.company.fiscal_dummy_id
         with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"):
             # as much as possible we ensure technical dummy fiscal documents
             # cannot be removed by mistake easily even from SQL
@@ -1041,7 +1041,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
 
     def test_unlink_dummy_document_line(self):
         """ Test Dummy Fiscal Document Line Unlink Restrictions """
-        dummy_line = self.env.user.company_id.fiscal_dummy_id.fiscal_line_ids[0]
+        dummy_line = self.env.company.fiscal_dummy_id.fiscal_line_ids[0]
         with self.assertRaises(UserError):
             dummy_line.unlink()
 
