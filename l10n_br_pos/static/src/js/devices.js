@@ -45,6 +45,10 @@ odoo.define("l10n_br_pos.devices", function (require) {
                                 if (!driver_status.hasOwnProperty("hw_fiscal")) {
                                     self.pos.proxy.init_sat(self.pos.config);
                                 } else {
+                                    let status = self.pos.proxy.get('status');
+                                    if ('scanner' in status.drivers) {
+                                        driver_status.scanner = status.drivers.scanner;
+                                    }
                                     self.set_connection_status(
                                         "connected",
                                         driver_status
