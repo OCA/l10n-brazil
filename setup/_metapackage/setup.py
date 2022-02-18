@@ -19,6 +19,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_mis_report',
         'odoo14-addon-l10n_br_nfe_spec',
         'odoo14-addon-l10n_br_nfse',
+        'odoo14-addon-l10n_br_portal',
         'odoo14-addon-l10n_br_resource',
         'odoo14-addon-l10n_br_stock',
         'odoo14-addon-l10n_br_zip',
