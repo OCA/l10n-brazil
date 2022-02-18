@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+      <!--EDUCATIONAL ATTAINMENT -->
+      <record id="educational_attainment_1" model="hr.educational.attainment">
+          <field
+            name="name"
+        >Analfabeto, inclusive o que, embora tenha recebido instrução, não se alfabetizou</field>
+          <field name="code">01</field>
+      </record>
+
+      <record id="educational_attainment_2" model="hr.educational.attainment">
+          <field
+            name="name"
+        >Até o 5º ano incompleto do Ensino Fundamental (antiga 4ª série) ou que se tenha alfabetizado sem ter frequentado escola regular</field>
+          <field name="code">02</field>
+      </record>
+
+      <record id="educational_attainment_3" model="hr.educational.attainment">
+          <field name="name">5º ano completo do Ensino Fundamental</field>
+          <field name="code">03</field>
+      </record>
+
+      <record id="educational_attainment_4" model="hr.educational.attainment">
+          <field
+            name="name"
+        >Do 6º ao 9º ano do Ensino Fundamental incompleto (antiga 5ª à 8ª série)</field>
+          <field name="code">04</field>
+      </record>
+
+      <record id="educational_attainment_5" model="hr.educational.attainment">
+          <field name="name">Ensino Fundamental completo</field>
+          <field name="code">05</field>
+      </record>
+
+      <record id="educational_attainment_6" model="hr.educational.attainment">
+          <field name="name">Ensino Médio incompleto</field>
+          <field name="code">06</field>
+      </record>
+
+      <record id="educational_attainment_7" model="hr.educational.attainment">
+          <field name="name">Ensino Médio completo</field>
+          <field name="code">07</field>
+      </record>
+
+      <record id="educational_attainment_8" model="hr.educational.attainment">
+          <field name="name">Educação Superior incompleta</field>
+          <field name="code">08</field>
+      </record>
+
+      <record id="educational_attainment_9" model="hr.educational.attainment">
+          <field name="name">Educação Superior completa</field>
+          <field name="code">09</field>
+      </record>
+
+      <record id="educational_attainment_10" model="hr.educational.attainment">
+          <field name="name">Pós Graduação</field>
+          <field name="code">10</field>
+      </record>
+
+      <record id="educational_attainment_11" model="hr.educational.attainment">
+          <field name="name">Mestrado completo</field>
+          <field name="code">11</field>
+      </record>
+
+      <record id="educational_attainment_12" model="hr.educational.attainment">
+          <field name="name">Doutorado completo</field>
+          <field name="code">12</field>
+      </record>
+
+</odoo>
