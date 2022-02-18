@@ -16,6 +16,7 @@ setuptools.setup(
         'odoo14-addon-l10n_br_crm',
         'odoo14-addon-l10n_br_currency_rate_update',
         'odoo14-addon-l10n_br_fiscal',
+        'odoo14-addon-l10n_br_hr',
         'odoo14-addon-l10n_br_mis_report',
         'odoo14-addon-l10n_br_nfe_spec',
         'odoo14-addon-l10n_br_nfse',
