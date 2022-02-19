@@ -34,6 +34,8 @@ class ContractLine(models.Model):
         string="Partner",
     )
 
+    ind_final = fields.Selection(related="contract_id.ind_final")
+
     @api.multi
     def _prepare_invoice_line(self, invoice_id=False, invoice_values=False):
         values = super()._prepare_invoice_line(invoice_id, invoice_values)
