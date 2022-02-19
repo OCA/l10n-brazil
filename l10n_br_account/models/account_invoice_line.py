@@ -63,6 +63,8 @@ class AccountMoveLine(models.Model):
 
     partner_company_type = fields.Selection(related="partner_id.company_type")
 
+    ind_final = fields.Selection(related="move_id.ind_final")
+
     fiscal_genre_code = fields.Char(
         related="fiscal_genre_id.code",
         string="Fiscal Product Genre Code",
