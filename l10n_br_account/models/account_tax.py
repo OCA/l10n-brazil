@@ -3,6 +3,8 @@
 
 from odoo import fields, models
 
+from odoo.addons.l10n_br_fiscal.constants.fiscal import FINAL_CUSTOMER_NO
+
 
 class AccountTax(models.Model):
     _inherit = "account.tax"
@@ -39,6 +41,7 @@ class AccountTax(models.Model):
         uot=None,
         icmssn_range=None,
         icms_origin=None,
+        ind_final=FINAL_CUSTOMER_NO,
     ):
         """Returns all information required to apply taxes
             (in self + their children in case of a tax goup).
@@ -98,6 +101,7 @@ class AccountTax(models.Model):
             operation_line=operation_line,
             icmssn_range=icmssn_range,
             icms_origin=icms_origin or product.icms_origin,
+            ind_final=ind_final,
         )
 
         taxes_results["amount_tax_included"] = fiscal_taxes_results["amount_included"]
