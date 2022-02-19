@@ -197,6 +197,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icmssn_range=self.icmssn_range_id,
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
+            ind_final=self.ind_final,
         )
 
     def _prepare_br_fiscal_dict(self, default=False):
