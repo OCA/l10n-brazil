@@ -65,6 +65,7 @@
             <field name="validity_date" position="after">
                 <field name="fiscal_operation_id" required="True" />
                 <field name="ind_pres" required="True" />
+                <field name="ind_final" required="True" />
             </field>
             <field name="note" position="replace">
                 <group>
