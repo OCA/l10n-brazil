@@ -25,7 +25,10 @@ class ProductTemplate(models.Model):
     fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Fiscal Type")
 
     icms_origin = fields.Selection(
-        selection=ICMS_ORIGIN, string="ICMS Origin", default=ICMS_ORIGIN_DEFAULT
+        selection=ICMS_ORIGIN,
+        string="ICMS Origin",
+        company_dependent=True,
+        default=ICMS_ORIGIN_DEFAULT,
     )
 
     ncm_id = fields.Many2one(
