@@ -5,6 +5,8 @@
 from odoo import api, fields, models
 
 from ..constants.fiscal import (
+    FINAL_CUSTOMER,
+    FINAL_CUSTOMER_NO,
     NFE_IND_IE_DEST,
     NFE_IND_IE_DEST_9,
     NFE_IND_IE_DEST_DEFAULT,
@@ -53,6 +55,13 @@ class ResPartner(models.Model):
         domain="[('is_company', '=', is_company)]",
         default=_default_fiscal_profile_id,
         tracking=True,
+    )
+
+    ind_final = fields.Selection(
+        selection=FINAL_CUSTOMER,
+        string="Final Consumption Operation",
+        default=FINAL_CUSTOMER_NO,
+        track_visibility="onchange",
     )
 
     cnpj_cpf = fields.Char(
