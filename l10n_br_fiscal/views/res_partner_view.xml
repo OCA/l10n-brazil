@@ -25,6 +25,7 @@
                         attrs="{'readonly': [('fiscal_profile_id', '!=', False)]}"
                     />
                     <field name="cnae_main_id" />
+                    <field name="ind_final" />
                 </group>
             </group>
         </field>
