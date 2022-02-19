@@ -31,6 +31,8 @@ class RepairLine(models.Model):
         string="Partner",
     )
 
+    ind_final = fields.Selection(related="repair_id.ind_final")
+
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="repair_line_comment_rel",
