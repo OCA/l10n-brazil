@@ -5,8 +5,6 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
-    FINAL_CUSTOMER,
-    FINAL_CUSTOMER_YES,
     FISCAL_COMMENT_DOCUMENT,
     FISCAL_IN_OUT_ALL,
     OPERATION_FISCAL_TYPE,
@@ -41,12 +39,6 @@ class Operation(models.Model):
         required=True,
         readonly=True,
         states={"draft": [("readonly", False)]},
-    )
-
-    ind_final = fields.Selection(
-        selection=FINAL_CUSTOMER,
-        string="Final Consumption Operation",
-        default=FINAL_CUSTOMER_YES,
     )
 
     default_price_unit = fields.Selection(
