@@ -7,6 +7,7 @@ from odoo.tools import float_is_zero
 from odoo.addons import decimal_precision as dp
 
 from ..constants.fiscal import (
+    FINAL_CUSTOMER_NO,
     FINAL_CUSTOMER_YES,
     FISCAL_IN,
     FISCAL_OUT,
@@ -349,6 +350,7 @@ class Tax(models.Model):
         insurance_value = kwargs.get("insurance_value", 0.00)
         freight_value = kwargs.get("freight_value", 0.00)
         other_value = kwargs.get("other_value", 0.00)
+        ind_final = kwargs.get("ind_final", FINAL_CUSTOMER_NO)
 
         add_to_base = [insurance_value, freight_value, other_value]
         remove_from_base = [discount_value]
@@ -357,7 +359,7 @@ class Tax(models.Model):
         tax_dict_ipi = taxes_dict.get("ipi", {})
 
         if partner.ind_ie_dest in (NFE_IND_IE_DEST_2, NFE_IND_IE_DEST_9) or (
-            operation_line.fiscal_operation_id.ind_final == FINAL_CUSTOMER_YES
+            ind_final == FINAL_CUSTOMER_YES
         ):
             # Add IPI in ICMS Base
             add_to_base.append(tax_dict_ipi.get("tax_value", 0.00))
@@ -678,6 +680,7 @@ class Tax(models.Model):
             operation_line,
             icmssn_range,
             icms_origin,
+            ind_final,
         return
             {
                 'amount_included': float
