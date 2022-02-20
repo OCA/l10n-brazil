@@ -301,7 +301,8 @@ class DocumentWorkflow(models.AbstractModel):
                 self._generate_key()
 
     def _document_confirm(self):
-        self._change_state(SITUACAO_EDOC_A_ENVIAR)
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            self._change_state(SITUACAO_EDOC_A_ENVIAR)
 
     def action_document_confirm(self):
         to_confirm = self.filtered(lambda inv: inv.state_edoc != SITUACAO_EDOC_A_ENVIAR)
