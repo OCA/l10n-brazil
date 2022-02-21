@@ -516,9 +516,9 @@ class NFe(spec_models.StackedModel):
             elif processo.resposta.cStat == "225":
                 state = SITUACAO_EDOC_REJEITADA
 
-                self._change_state(state)
+                record._change_state(state)
 
-                self.write(
+                record.write(
                     {
                         "status_code": processo.resposta.cStat,
                         "status_name": processo.resposta.xMotivo,
