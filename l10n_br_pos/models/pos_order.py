@@ -411,7 +411,8 @@ class PosOrder(models.Model):
 
         arquivo = order.cancel_document_file_id.datas if \
             order.cancel_document_file_id else order.document_file_id.datas
-        arquivo = base64.b64decode(arquivo)
+
+        _logger.info(f"Arquivo CFe: {arquivo}")
 
         dados_reimpressao = {
             'order_id': order_id,
