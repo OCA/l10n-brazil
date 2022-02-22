@@ -712,6 +712,11 @@ msgid "Female"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_final
+msgid "Final Consumption Operation"
+msgstr ""
+
+#. module: l10n_br_hr
 #: selection:hr.employee,cresv_categ:0
 msgid "First Category"
 msgstr ""
