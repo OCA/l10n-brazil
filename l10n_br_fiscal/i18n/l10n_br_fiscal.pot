@@ -1743,7 +1743,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:552
+#: code:addons/l10n_br_fiscal/models/document.py:551
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -2260,7 +2260,7 @@ msgid "Corrections"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:53
+#: code:addons/l10n_br_fiscal/models/operation.py:45
 #: selection:l10n_br_fiscal.operation,default_price_unit:0
 #, python-format
 msgid "Cost Price"
@@ -3314,8 +3314,10 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__ind_final
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_line__ind_final
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__ind_final
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__ind_final
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__ind_final
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__ind_final
 msgid "Final Consumption Operation"
 msgstr ""
 
@@ -3594,7 +3596,7 @@ msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:140
+#: code:addons/l10n_br_fiscal/models/operation.py:132
 #: sql_constraint:l10n_br_fiscal.operation:0
 #, python-format
 msgid "Fiscal Operation already exists with this code !"
@@ -6579,7 +6581,7 @@ msgstr ""
 #: selection:l10n_br_fiscal.document.line,issqn_incentive:0
 #: selection:l10n_br_fiscal.document.line.mixin,issqn_incentive:0
 #: selection:l10n_br_fiscal.document.mixin,ind_final:0
-#: selection:l10n_br_fiscal.operation,ind_final:0
+#: selection:res.partner,ind_final:0
 msgid "Não"
 msgstr ""
 
@@ -7905,7 +7907,7 @@ msgid "Sale Own Use"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:53
+#: code:addons/l10n_br_fiscal/models/operation.py:45
 #: selection:l10n_br_fiscal.operation,default_price_unit:0
 #, python-format
 msgid "Sale Price"
@@ -8014,7 +8016,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:579
+#: code:addons/l10n_br_fiscal/models/document.py:578
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8124,7 +8126,7 @@ msgstr ""
 #: selection:l10n_br_fiscal.document.line,issqn_incentive:0
 #: selection:l10n_br_fiscal.document.line.mixin,issqn_incentive:0
 #: selection:l10n_br_fiscal.document.mixin,ind_final:0
-#: selection:l10n_br_fiscal.operation,ind_final:0
+#: selection:res.partner,ind_final:0
 msgid "Sim"
 msgstr ""
 
@@ -9281,7 +9283,7 @@ msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:159
+#: code:addons/l10n_br_fiscal/models/operation.py:151
 #, python-format
 msgid "You cannot delete an Operation which is not draft !"
 msgstr ""
@@ -9305,7 +9307,7 @@ msgid "You cannot invalidate this document"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_line.py:91
+#: code:addons/l10n_br_fiscal/models/document_line.py:93
 #, python-format
 msgid "You cannot unlink Fiscal Document Line Dummy !"
 msgstr ""
