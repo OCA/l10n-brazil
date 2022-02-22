@@ -26,13 +26,17 @@ class StockInvoiceOnshipping(models.TransientModel):
             if pick.sale_id.payment_term_id.id != values["payment_term_id"]:
                 values.update({"payment_term_id": pick.sale_id.payment_term_id.id})
             if pick.sale_id.copy_note and pick.sale_id.note:
+                # Evita enviar False quando não tem nada
+                additional_data = ""
+                if pick.sale_id.manual_customer_additional_data:
+                    additional_data = "{}".format(
+                        pick.sale_id.manual_customer_additional_data
+                    )
+
                 values.update(
                     {
-                        "manual_customer_additional_data": (
-                            pick.sale_id.manual_customer_additional_data
-                            + " TERMOS E CONDIÇÕES: "
-                            + pick.sale_id.note,
-                        )
+                        "manual_customer_additional_data": additional_data
+                        + " TERMOS E CONDIÇÕES: {}".format(pick.sale_id.note),
                     }
                 )
 
