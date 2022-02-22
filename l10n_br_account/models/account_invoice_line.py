@@ -194,15 +194,6 @@ class AccountInvoiceLine(models.Model):
 
     @api.model
     def create(self, values):
-        dummy_doc = self.env.user.company_id.fiscal_dummy_id
-        fiscal_doc_id = (
-            self.env["account.invoice"]
-            .browse(values["invoice_id"])
-            .fiscal_document_id.id
-        )
-        if dummy_doc.id == fiscal_doc_id:
-            values["fiscal_document_line_id"] = fields.first(dummy_doc.line_ids).id
-
         values.update(
             self._update_fiscal_quantity(
                 values.get("product_id"),
@@ -213,13 +204,44 @@ class AccountInvoiceLine(models.Model):
             )
         )
 
-        line = super().create(values)
+        dummy_doc = self.env.user.company_id.fiscal_dummy_id
+        fiscal_doc_id = (
+            self.env["account.invoice"]
+            .browse(values["invoice_id"])
+            .fiscal_document_id.id
+        )
+        if dummy_doc.id == fiscal_doc_id:
+            values["fiscal_document_line_id"] = fields.first(dummy_doc.line_ids).id
+
+            # to avoid bug 2) of https://github.com/OCA/l10n-brazil/issues/1813
+            # we use a context key to avoid recomputing all invoices
+            # linked to a dummy fiscal document
+            recompute_line_after_id = self.search([], order="id DESC", limit=1).id
+            line = super(
+                AccountInvoiceLine,
+                self.with_context(recompute_line_after_id=recompute_line_after_id),
+            ).create(values)
+        else:
+            line = super().create(values)
+
         if dummy_doc.id != fiscal_doc_id:
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.invoice_id.fiscal_document_id.id
             shadowed_fiscal_vals["document_id"] = doc_id
             line.fiscal_document_line_id.write(shadowed_fiscal_vals)
         return line
+
+    def _recompute_todo(self, field):
+        # overriden to avoid bug 2 of https://github.com/OCA/l10n-brazil/issues/1813
+        if self._context.get("recompute_line_after_id"):
+            return self.env.add_todo(
+                field,
+                self.filtered(
+                    lambda rec: rec.id > self._context["recompute_line_after_id"]
+                ),
+            )
+        else:
+            return super()._recompute_todo(field)
 
     def write(self, values):
         dummy_doc = self.env.user.company_id.fiscal_dummy_id
