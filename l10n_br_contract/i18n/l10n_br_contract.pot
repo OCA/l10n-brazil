@@ -66,6 +66,11 @@ msgid "Default Contract Sale Fiscal Operation"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ind_final
+msgid "Final Consumption Operation"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_id
 msgid "Fiscal Operation"
 msgstr ""
