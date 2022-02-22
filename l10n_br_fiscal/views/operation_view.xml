@@ -72,7 +72,6 @@
                             <field name="name" />
                             <field name="fiscal_operation_type" />
                             <field name="fiscal_type" />
-                            <field name="ind_final" />
                             <field name="company_id" />
                         </group>
                         <group>

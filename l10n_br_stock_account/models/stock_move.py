@@ -59,6 +59,8 @@ class StockMove(models.Model):
         string="Comments",
     )
 
+    ind_final = fields.Selection(related="picking_id.ind_final")
+
     # O price_unit fica negativo por metodos do core
     # durante o processo chamado pelo botão Validate p/
     # valorização de estoque, sem o compute o valor permance positivo.
