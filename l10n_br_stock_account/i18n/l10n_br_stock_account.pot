@@ -50,6 +50,11 @@ msgid "Extra Info"
 msgstr ""
 
 #. module: l10n_br_stock_account
+#: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_move__ind_final
+msgid "Final Consumption Operation"
+msgstr ""
+
+#. module: l10n_br_stock_account
 #: model:ir.model.fields,field_description:l10n_br_stock_account.field_stock_rule__fiscal_operation_id
 #: selection:stock.invoice.onshipping,group:0
 msgid "Fiscal Operation"
