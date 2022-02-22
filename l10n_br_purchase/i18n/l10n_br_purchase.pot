@@ -67,6 +67,11 @@ msgid "Extra Info"
 msgstr ""
 
 #. module: l10n_br_purchase
+#: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_order_line__ind_final
+msgid "Final Consumption Operation"
+msgstr ""
+
+#. module: l10n_br_purchase
 #: model:ir.model.fields,field_description:l10n_br_purchase.field_purchase_report__fiscal_operation_id
 #: model_terms:ir.ui.view,arch_db:l10n_br_purchase.l10n_br_purchase_report_search
 msgid "Fiscal Operation"
