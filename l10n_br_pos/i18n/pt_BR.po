@@ -1,0 +1,2341 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_pos
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-23 14:30+0000\n"
+"PO-Revision-Date: 2022-02-23 14:30+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_withholding
+msgid "(-) Amount Tax Withholding"
+msgstr "(-) Valor Retido na Fonte"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_origin:0
+msgid "0 - Nacional, exceto as indicadas nos códigos 3, 4, 5 e 8"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "0 Outros"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "00.122.327/0001-36 SANTINVEST S/A Crédito, Financiamento e Investimentos"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "00.163.051/0001-34 Novo Pag Adm. e Proc. de Meios Eletrônicos de Pagto. Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "00.604.122/0001-97 TRIVALE Administração Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "00.904.951/0001-95 POLICARD Systems e Serviços Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "01.027.058/0001-91 CIELO S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "01.418.852/0001-66 BOURBON Adm. de Cartões de Crédito"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "01.425.787/0001-04 REDECARD S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.007.699/0001-00 RP Administração de Convênios Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.012.230/0001-69 HIPERCARD Banco Multiplo S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.106.213/0001-90 Administradora de Cartões Sicredi Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.106.213/0002-71 Administradora de Cartões Sicredi Ltda.(filial RS)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.322.366/0001-75 FUNCIONAL CARD LTDA."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.506.307/0001-57 Empresa Bras. Tec. Adm. Conv. Hom. Ltda. - EMBRATEC"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.529.067/0001-06 CREDI 21 Participações Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.722.919/0001-87 CETELEM Brasil S/A - CFI"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.766.873/0001-06 CABAL Brasil Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "03.966.317/0001-75 MAPA Admin. Conv. e Cartões Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "04.432.048/0001-20 EMPÓRIO CARD LTDA"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "04.627.085/0001-93 BIGCARD Adm. de Convenios e Serv."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "07.679.404/0001-00 BANCO TOPÁZIO S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "07.953.674/0001-50 FREEDDOM e Tecnologia e Serviços S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_origin:0
+msgid "1 - Estrangeira – importação direta, exceto a indicada no código 6"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "17.351.180/0001-59 BANCO TRIANGULO S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_origin:0
+msgid "2 – Estrangeira – adquirida no mercado interno, exceto a indicada no código 7"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_origin:0
+msgid "3 – Nacional – mercadoria ou bem com Conteúdo de Importação superior a 40% (quarenta por cento) e inferior ou igual a 70% (setenta por cento)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "33.098.658/0001-37 PROVAR Negócios de Varejo Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_origin:0
+msgid "4 – Nacional – cuja produção tenha sido feita em conformidade com os processos produtivos básicos de que tratam o Decreto-lei n° 288/67 e as Leis (federais) nos 8.428/91, 8.397/91, 10.176/2001 e 11.484/2007"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "43.180.355/0001-12 PERNAMBUCANAS Financiadora S/A Crédito, Fin. e Invest."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "47.866.934/0001-74 TICKET Serviços S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_origin:0
+msgid "5 – Nacional – mercadoria ou bem com Conteúdo de Importação inferior ou igual a 40% (quarenta por cento)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "51.427.102/0004-71 Tecnologia Bancária S/A - TECBAN"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "58.160.789/0001-28 BANCO SAFRA S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_origin:0
+msgid "6 – Estrangeira – importação direta, sem similar nacional, constante em lista de Resolução CAMEX e gás natural"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "60.114.865/0001-00 SOROCRED Meios de Pagamentos Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "60.419.645/0001-95 Banco American Express S/A - AMEX"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "61.071.387/0001-61 Unicard Banco Múltiplo S/A - TRICARD"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "62.421.979/0001-29 BANCO GE - CAPITAL"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "69.034.668/0001-56 SODEXHO Pass do Brasil Serviços e Comércio S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_origin:0
+msgid "7 – Estrangeira – adquirida no mercado interno, sem similar nacional, constante em lista de Resolução CAMEX e gás natural"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "71.225.700/0001-22 ECX CARD Adm. e Processadora de Cartões S/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_origin:0
+msgid "8 – Nacional – mercadoria ou bem com Conteúdo de Importação superior a 70% (setenta por cento). (cf. Ajuste SINIEF 15/2013)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_card_accrediting:0
+msgid "90.055.609/0001-50 RENNER Adm. Cartões de Crédito Ltda."
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_config__iface_nfce_via_proxy
+msgid "A NFC-E pode ser emitida pela nuvem ou pelo IOT,\n"
+"             não exigindo que o servidor Odoo esteja ligado"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/devices.js:211
+#, python-format
+msgid "A venda foi cancelada com sucesso."
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_config__save_identity_automatic
+msgid "Activating will create a new identity customer to the partners data"
+msgstr "A ativação criará uma nova identidade do cliente para os dados dos parceiros."
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/screens.js:104
+#, python-format
+msgid "Add CNPJ/CPF"
+msgstr "Adicionar CNPJ/CPF"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__additional_data
+msgid "Additional Data"
+msgstr "Dados Adicionais"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__manual_additional_data
+msgid "Additional data manually entered by user"
+msgstr "Dados adicionais inseridos manualmente pelo usuário"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__additional_data
+msgid "Aditional Information"
+msgstr "Informações Adicionais"
+
+#. module: l10n_br_pos
+#: selection:pos.order,edoc_purpose:0
+msgid "Ajuste"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__sat_ambiente
+#: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__ambiente_sat
+msgid "Ambiente SAT"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_estimate_tax
+msgid "Amount Estimate Tax"
+msgstr "Valor dos Impostos Estimados"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__financial_total
+msgid "Amount Financial"
+msgstr "Valor Financeiro"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_fiscal
+msgid "Amount Fiscal"
+msgstr "Montante Fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
+msgid "Amount Gross"
+msgstr "Valor Bruto"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax
+msgid "Amount Tax"
+msgstr "Montante de Imposto"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_tax_not_included
+msgid "Amount Tax not Included"
+msgstr "Montante de Imposto Não Incluído"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_taxed
+msgid "Amount Taxed"
+msgstr "Valor Tributado"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_total
+msgid "Amount Total"
+msgstr "Montante Total"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__amount_untaxed
+msgid "Amount Untaxed"
+msgstr "Montante sem Imposto"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_gross
+msgid "Amount without discount."
+msgstr "Valor Sem Desconto."
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__anonymous_simplified_limit
+msgid "Anonymous simplified limit"
+msgstr "Limite Anônimo Simplificado"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__ask_identity
+msgid "Ask Identity on Payment"
+msgstr "Pedir Identificação no Pagamento"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__sign_software_house
+msgid "Assinatura da Software House"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__assinatura_sat
+msgid "Assinatura no CFe"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Ativo Imobilizado"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_authorization_date
+msgid "Authorization Date"
+msgstr "Data da Autorização"
+
+#. module: l10n_br_pos
+#: selection:pos.config,impressora:0
+msgid "Bematech MP4200TH"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.config,fiscal_printer_type:0
+msgid "Bluetooth"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "Brasil Fiscal"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__ind_pres
+msgid "Buyer Presence"
+msgstr "Presença do Comprador"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cest_id
+msgid "CEST"
+msgstr "Cest"
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_l10n_br_fiscal_cfop
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_id
+msgid "CFOP"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_destination
+msgid "CFOP Destination"
+msgstr "Destino CFOP"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cfop_ids
+msgid "CFOPs permitidas"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cnpj_homologacao
+msgid "CNPJ homologação"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cnpj_software_house
+#: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__cnpj_software_house
+msgid "CNPJ software house"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__cnpj_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_l10n_br_pos_search
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:13
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:18
+#, python-format
+msgid "CNPJ/CPF na nota?"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:15
+#, python-format
+msgid "CNPJ/CPF:"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_percent
+msgid "COFINS %"
+msgstr "COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_reduction
+msgid "COFINS % Reduction"
+msgstr "% Redução COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_base
+msgid "COFINS Base"
+msgstr "Base de COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_base_id
+msgid "COFINS Base Code"
+msgstr "Código de Base de Cofins"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_base_type
+msgid "COFINS Base Type"
+msgstr "Tipo de Base de COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_cst_code
+msgid "COFINS CST Code"
+msgstr "Código CST de COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_credit_id
+msgid "COFINS Credit Code"
+msgstr "Código de Crédito de COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_percent
+msgid "COFINS RET %"
+msgstr "% RET COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_reduction
+msgid "COFINS RET % Reduction"
+msgstr "% Redução de RETENÇÃO de COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_base
+msgid "COFINS RET Base"
+msgstr "Base de Retenção de COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_value
+msgid "COFINS RET Value"
+msgstr "Valor de RETENÇÃO de COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_percent
+msgid "COFINS ST %"
+msgstr "% ST COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_reduction
+msgid "COFINS ST % Reduction"
+msgstr "% Redução ST COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_base
+msgid "COFINS ST Base"
+msgstr "Base ST COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_base_type
+msgid "COFINS ST Base Type"
+msgstr "Tipo de Base ST COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_cst_code
+msgid "COFINS ST CST Code"
+msgstr "Código CST ST COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_value
+msgid "COFINS ST Value"
+msgstr "Valor de ST do Cofins"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_value
+msgid "COFINS Value"
+msgstr "Valor do COFINS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_base_type
+msgid "COFINS WH Base Type"
+msgstr "Tipo de Base COFINS WH"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:31
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:39
+#, python-format
+msgid "CPF/CNPJ"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "CRM"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_percent
+msgid "CSLL %"
+msgstr "CSLL"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_reduction
+msgid "CSLL % Reduction"
+msgstr "Redução de % CSLL"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_base
+msgid "CSLL Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_percent
+msgid "CSLL RET %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_reduction
+msgid "CSLL RET % Reduction"
+msgstr "Redução de % CSLL RET"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_base
+msgid "CSLL RET Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_value
+msgid "CSLL RET Value"
+msgstr "Valor RET CSLL"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_value
+msgid "CSLL Value"
+msgstr "Valor CSLL"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_cst_id
+msgid "CST COFINS"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_cst_id
+msgid "CST COFINS ST"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_cst_id
+msgid "CST ICMS"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_cst_id
+msgid "CST IPI"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_cst_id
+msgid "CST PIS"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_cst_id
+msgid "CST PIS ST"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_pos_form
+msgid "Cancelamento"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:54
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:66
+#, python-format
+msgid "Cancelar"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Cartão Crédito"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Cartão Débito"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__certificate_nfe_id
+msgid "Certificado Digital"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/screens.js:104
+#, python-format
+msgid "Change CNPJ/CPF"
+msgstr "Altear CNPJ/CPF"
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Cheque"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__city_taxation_code_id
+msgid "City Taxation Code"
+msgstr "Código de Tributação da Cidade"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_code
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_type
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__comment_ids
+msgid "Comments"
+msgstr "Comentários"
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_company_type
+msgid "Company Type"
+msgstr "Tipo de Empresa"
+
+#. module: l10n_br_pos
+#: selection:pos.order,edoc_purpose:0
+msgid "Complementar"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_res_partner
+msgid "Contact"
+msgstr "Contato"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_account_bank_statement_import_journal_creation__sat_card_accrediting
+#: model:ir.model.fields,field_description:l10n_br_pos.field_account_journal__sat_card_accrediting
+msgid "Credenciadora do Cartão"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Crédito Loja"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_res_partner__credit_funcionario
+#: model:ir.model.fields,field_description:l10n_br_pos.field_res_users__credit_funcionario
+msgid "Crédito do Funcionário"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__cod_ativacao
+msgid "Código de ativação"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.config,impressora:0
+msgid "Daruma DR700"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_res_partner__data_alteracao
+#: model:ir.model.fields,field_description:l10n_br_pos.field_res_users__data_alteracao
+msgid "Data Alteracao"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__date_in_out
+msgid "Date Move"
+msgstr "Movimento de data"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_customhouse_charges
+msgid "Despesas Aduaneiras"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__detailed_document_type_id
+msgid "Detailed Document Type"
+msgstr "Tipo de Documento Detalhado"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__detailed_document_type
+msgid "Detailed document type"
+msgstr "Tipo de Documento Detalhado"
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "Devolução"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.order,edoc_purpose:0
+msgid "Devolução de mercadoria"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Dinheiro"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__discount_value
+msgid "Discount Value"
+msgstr "Valor do desconto"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__display_name
+msgid "Display Name"
+msgstr "Nome exibido"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_number
+msgid "Document Number"
+msgstr "Número do Documento"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_serie_id
+msgid "Document Serie"
+msgstr "Série de Documentos"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_type_id
+msgid "Document Type"
+msgstr "Tipo de Documento"
+
+#. module: l10n_br_pos
+#: selection:pos.config,fiscal_printer_type:0
+msgid "Dummy"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "ECF"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_electronic
+msgid "Electronic?"
+msgstr "Eletrônico?"
+
+#. module: l10n_br_pos
+#: selection:pos.config,impressora:0
+msgid "Elgin I9"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Embalagem"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/models.js:147
+#, python-format
+msgid "Enter a valid CNPJ / CPF number"
+msgstr "Digite um CNPJ/CPF válido"
+
+#. module: l10n_br_pos
+#: selection:pos.config,impressora:0
+msgid "Epson TM-T20"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/devices.js:82
+#: code:addons/l10n_br_pos/static/src/js/devices.js:129
+#: code:addons/l10n_br_pos/static/src/js/devices.js:138
+#: code:addons/l10n_br_pos/static/src/js/devices.js:230
+#: code:addons/l10n_br_pos/static/src/js/devices.js:238
+#: code:addons/l10n_br_pos/static/src/js/devices.js:246
+#: code:addons/l10n_br_pos/static/src/js/devices.js:255
+#, python-format
+msgid "Erro SAT: "
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/devices.js:223
+#, python-format
+msgid "Error: Tempo Excedido"
+msgstr ""
+
+#. module: l10n_br_pos
+#: code:addons/l10n_br_pos/wizard/l10n_br_pos_order_return.py:49
+#, python-format
+msgid "Esta quantidade do produto %s não pode ser devolvida"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_code_exception
+msgid "Exception"
+msgstr "Excessão"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,issqn_eligibility:0
+msgid "Exigibilidade Suspensa por Decisão Judicial"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,issqn_eligibility:0
+msgid "Exigibilidade Suspensa por Processo Administrativo"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,issqn_eligibility:0
+msgid "Exigível"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,issqn_eligibility:0
+msgid "Exportação"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_value_wh
+msgid "FCP WH"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_wh_percent
+msgid "FCP WH %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_base_wh
+msgid "FCP WH Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.config,fiscal_printer_type:0
+msgid "File"
+msgstr "Arquivo"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__edoc_purpose
+msgid "Finalidade"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/chrome.js:28
+#: code:addons/l10n_br_pos/static/src/js/chrome.js:30
+#, python-format
+msgid "Fiscal"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_l10n_br_fiscal_document_related
+msgid "Fiscal Document Related"
+msgstr "Documento Fiscal Relacionado"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/models.js:287
+#, python-format
+msgid "Fiscal Operation Line"
+msgstr "Linha de Operação Fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_type
+msgid "Fiscal Operation Type"
+msgstr "Tipo de Operação Fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_price
+msgid "Fiscal Price"
+msgstr "Preço Fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__fiscal_printer_type
+msgid "Fiscal Printer Type"
+msgstr "Tipo da Impressora Fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_genre_id
+msgid "Fiscal Product Genre"
+msgstr "Gênero Fiscal do Produto"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_genre_code
+msgid "Fiscal Product Genre Code"
+msgstr "Código do Gênero Fiscal do Produto"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_quantity
+msgid "Fiscal Quantity"
+msgstr "Quantidade Fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_type
+msgid "Fiscal Type"
+msgstr "Tipo Fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__iface_fiscal_via_proxy
+msgid "Fiscal via IOT"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,cofins_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,cofins_wh_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,cofinsst_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,ipi_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,pis_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,pis_wh_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,pisst_base_type:0
+msgid "Fixed"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__freight_value
+msgid "Freight Value"
+msgstr "Valor do frete"
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "Geral"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:res.company,ambiente_sat:0
+msgid "Homologação"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,tax_icms_or_issqn:0
+msgid "ICMS"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_percent
+msgid "ICMS %"
+msgstr "ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_reduction
+msgid "ICMS % Reduction"
+msgstr "Redução de ICMS %"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_base
+msgid "ICMS Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_base_type
+msgid "ICMS Base Type"
+msgstr "Tipo base do ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_cst_code
+msgid "ICMS CST Code"
+msgstr "Código CST do ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_destination_value
+msgid "ICMS Dest. Value"
+msgstr "Icms Dest. Valor"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_destination_base
+msgid "ICMS Destination Base"
+msgstr "Base de Destino do ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_effective_value
+msgid "ICMS Effective"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_effective_percent
+msgid "ICMS Effective %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_effective_reduction
+msgid "ICMS Effective % Reduction"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_effective_base
+msgid "ICMS Effective Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_destination_percent
+msgid "ICMS External %"
+msgstr "ICMS Externo %"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_percent
+msgid "ICMS FCP %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_base
+msgid "ICMS FCP Base"
+msgstr "Base ICMS FCP"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcpst_value
+msgid "ICMS FCP ST Value"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_value
+msgid "ICMS FCP Value"
+msgstr "Valor do ICMS FCP"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_origin_percent
+msgid "ICMS Internal %"
+msgstr "ICMS Interno %"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_origin
+msgid "ICMS Origin"
+msgstr "Origem do ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_origin_value
+msgid "ICMS Origin Value"
+msgstr "Valor de Origem do ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_relief_id
+msgid "ICMS Relief"
+msgstr "Alívio do ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_relief_value
+msgid "ICMS Relief Value"
+msgstr "Valor de alívio do ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_percent
+msgid "ICMS SN %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_base
+msgid "ICMS SN Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_credit_value
+msgid "ICMS SN Credit"
+msgstr "Crédito ICMS SN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_reduction
+msgid "ICMS SN Reduction"
+msgstr "Redução do ICMS SN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_percent
+msgid "ICMS ST %"
+msgstr "ICMS ST"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_reduction
+msgid "ICMS ST % Reduction"
+msgstr "Redução de ICMS ST %"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_base
+msgid "ICMS ST Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_base_type
+msgid "ICMS ST Base Type"
+msgstr "Tipo base do ICMS ST"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_mva_percent
+msgid "ICMS ST MVA %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_value
+msgid "ICMS ST Value"
+msgstr "Valor do ICMS ST"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_wh_percent
+msgid "ICMS ST WH %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_wh_base
+msgid "ICMS ST WH Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_wh_value
+msgid "ICMS ST WH Value"
+msgstr "Icms ST WH Valor"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_sharing_percent
+msgid "ICMS Sharing %"
+msgstr "Compartilhamento de ICMS %"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_substitute
+msgid "ICMS Substitute"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_value
+msgid "ICMS Value"
+msgstr "Valor do ICMS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__tax_icms_or_issqn
+msgid "ICMS or ISSQN Tax"
+msgstr "Imposto sobre ICMS ou ISSQN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__ie_homologacao
+msgid "IE homologação"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_percent
+msgid "II %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_base
+msgid "II Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_value
+msgid "II Value"
+msgstr "II Valor"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_percent
+msgid "INSS %"
+msgstr "INSS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_reduction
+msgid "INSS % Reduction"
+msgstr "Redução de % do INSS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_base
+msgid "INSS Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_percent
+msgid "INSS RET %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_reduction
+msgid "INSS RET % Reduction"
+msgstr "Redução de % do INSS RET"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_base
+msgid "INSS RET Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_value
+msgid "INSS RET Value"
+msgstr "Valor RET do INSS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_value
+msgid "INSS Value"
+msgstr "Valor do INSS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_iof_value
+msgid "IOF Value"
+msgstr "Valor IOF"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_percent
+msgid "IPI %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_reduction
+msgid "IPI % Reduction"
+msgstr "Redução de % iPI"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_base
+msgid "IPI Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_base_type
+msgid "IPI Base Type"
+msgstr "Tipo base do IPI"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_cst_code
+msgid "IPI CST Code"
+msgstr "Código CST do IPI"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_guideline_id
+msgid "IPI Guideline"
+msgstr "Diretriz do IPI"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_value
+msgid "IPI Value"
+msgstr "Valor do IPI"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_percent
+msgid "IRPJ %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_reduction
+msgid "IRPJ % Reduction"
+msgstr "Redução de % IRPJ"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_base
+msgid "IRPJ Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_percent
+msgid "IRPJ RET %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_reduction
+msgid "IRPJ RET % Reduction"
+msgstr "IrPJ RET % Redução"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_value
+msgid "IRPJ RET Value"
+msgstr "Valor RET IRPJ"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_value
+msgid "IRPJ Value"
+msgstr "Valor IRPJ"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,tax_icms_or_issqn:0
+msgid "ISSQN"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_percent
+msgid "ISSQN %"
+msgstr "ISSQN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_reduction
+msgid "ISSQN % Reduction"
+msgstr "Redução de % issqn"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_base
+msgid "ISSQN Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_fg_city_id
+msgid "ISSQN City"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_deduction_amount
+msgid "ISSQN Deduction Value"
+msgstr "Valor de dedução do ISSQN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_desc_cond_amount
+msgid "ISSQN Discount Cond"
+msgstr "Cond de desconto ISSQN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_desc_incond_amount
+msgid "ISSQN Discount Incond"
+msgstr "Desconto Incondicional do ISSQN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_eligibility
+msgid "ISSQN Eligibility"
+msgstr "Elegibilidade do ISSQN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_incentive
+msgid "ISSQN Incentive"
+msgstr "Incentivo ISSQN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_other_amount
+msgid "ISSQN Other Value"
+msgstr "ISSQN Outro valor"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_percent
+msgid "ISSQN RET %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_reduction
+msgid "ISSQN RET % Reduction"
+msgstr "Redução de % ISSQN RET"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_base
+msgid "ISSQN RET Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_value
+msgid "ISSQN RET Value"
+msgstr "Valor ISSQN RET"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cfop_destination
+msgid "Identifies the operation destination."
+msgstr "Identifica o destino da operação."
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__impressora
+msgid "Impressora"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,issqn_eligibility:0
+msgid "Imunidade"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_l10n_br_pos_search
+msgid "Inscr. Estadual"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__insurance_value
+msgid "Insurance Value"
+msgstr "Valor do Seguro"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/models.js:146
+#, python-format
+msgid "Invalid CNPJ / CPF !"
+msgstr "CNPJ/CPF Inválido!"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,issqn_eligibility:0
+msgid "Isenção"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_account_journal
+msgid "Journal"
+msgstr "Diário"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__cancel_document_key
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_key
+msgid "Key"
+msgstr "Chave"
+
+#. module: l10n_br_pos
+#: model:ir.actions.act_window,name:l10n_br_pos.l10n_br_pos_product_fiscal_map_act_window
+msgid "L10n_br_pos Product_fiscal_map"
+msgstr "Mapeamento Fiscal dos Produtos"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map____last_update
+msgid "Last Modified on"
+msgstr "Última modificação em"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__legal_name
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__out_pos_fiscal_operation_line_ids
+msgid "Linhas de Operação de Venda"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icmsst_base_type:0
+msgid "Lista Negativa (valor)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icmsst_base_type:0
+msgid "Lista Neutra (valor)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icmsst_base_type:0
+msgid "Lista Positiva (valor)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__manual_additional_data
+msgid "Manual Additional Data"
+msgstr "Informação Adicional Manual"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,icmsst_base_type:0
+msgid "Margem Valor Agregado (%)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_fiscal_cfop__is_pos
+msgid "Marque esta seleção para que a CFOP possa ser utililizada no\n"
+"        Ponto de Venda"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Material de Uso e Consumo"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Matéria-prima"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Mercadoria para Revenda"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_account_bank_statement_import_journal_creation__sat_payment_mode
+#: model:ir.model.fields,field_description:l10n_br_pos.field_account_journal__sat_payment_mode
+msgid "Modo de Pagamento SAT"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:46
+#, python-format
+msgid "N/A"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__nbm_id
+msgid "NBM"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__nbs_id
+msgid "NBS"
+msgstr "Nbs"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_id
+msgid "NCM"
+msgstr "Ncm"
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "NFC-E"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.order,ind_pres:0
+msgid "NFC-e entrega em domicílio"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__iface_nfce_via_proxy
+msgid "NFC-e via IOT"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__simple_value
+msgid "National Simple Taxes"
+msgstr "Impostos do Simples Nacional"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__simple_without_icms_value
+msgid "National Simple Taxes without ICMS"
+msgstr "Impostos do Simples Nacional sem ICMS"
+
+#. module: l10n_br_pos
+#: selection:pos.config,fiscal_printer_type:0
+msgid "Network"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.order,edoc_purpose:0
+msgid "Normal"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__cancel_document_session_number
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_session_number
+msgid "Numero identificador sessao"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,issqn_incentive:0
+msgid "Não"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,issqn_eligibility:0
+msgid "Não incidência"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.order,ind_pres:0
+msgid "Não presencial, internet"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.order,ind_pres:0
+msgid "Não presencial, outros"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.order,ind_pres:0
+msgid "Não presencial, teleatendimento"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.order,ind_pres:0
+msgid "Não se aplica"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "Não simplificado"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__numero_caixa
+msgid "Número do Caixa"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/chrome.js:30
+#, python-format
+msgid "Offline"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_id
+msgid "Operation"
+msgstr "Operação"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__fiscal_operation_line_id
+msgid "Operation Line"
+msgstr "Linha de Operação"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__operation_name
+msgid "Operation Name"
+msgstr "Nome da Operação"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__refund_pos_fiscal_operation_id
+msgid "Operação Padrão de Devolução"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__out_pos_fiscal_operation_id
+msgid "Operação Padrão de Venda"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.order,ind_pres:0
+msgid "Operação presencial"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.order,ind_pres:0
+msgid "Operação presencial, fora do estabelecimento"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__other_value
+msgid "Other Costs"
+msgstr "Outros Custos"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Outras"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Outros"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Outros insumos"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_config__anonymous_simplified_limit
+msgid "Over this amount is not legally posible to create a Anonymous NFC-E / CF-e"
+msgstr "Acima deste valor não é legalmente possível criar uma NFC-E/CF-e Anônima."
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_config__simplified_invoice_limit
+msgid "Over this amount is not legally posible to create a simplified invoice"
+msgstr "Acima deste valor não é legalmente possível criar uma fatura simplificada."
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_percent
+msgid "PIS %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_reduction
+msgid "PIS % Reduction"
+msgstr "Redução de % do PIS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_base
+msgid "PIS Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_base_id
+msgid "PIS Base Code"
+msgstr "Código Base do PIS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_base_type
+msgid "PIS Base Type"
+msgstr "Tipo base do PIS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_cst_code
+msgid "PIS CST Code"
+msgstr "Código PIS CST"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_credit_id
+msgid "PIS Credit"
+msgstr "Crédito do PIS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_percent
+msgid "PIS RET %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_reduction
+msgid "PIS RET % Reduction"
+msgstr "Redução de % do PIS RET"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_base
+msgid "PIS RET Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_value
+msgid "PIS RET Value"
+msgstr "Valor do PIS RET"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_percent
+msgid "PIS ST %"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_reduction
+msgid "PIS ST % Reduction"
+msgstr "PIS ST % Redução"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_base
+msgid "PIS ST Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_base_type
+msgid "PIS ST Base Type"
+msgstr "Tipo de Base PIS ST"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_cst_code
+msgid "PIS ST CST Code"
+msgstr "Código PIS ST CST"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_value
+msgid "PIS ST Value"
+msgstr "Valor do PIS ST"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_value
+msgid "PIS Value"
+msgstr "Valor do PIS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_base_type
+msgid "PIS WH Base Type"
+msgstr "Tipo de base PIS WH"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_document_related__pos_related_id
+msgid "POS Fiscal Document"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_id
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__partner_id
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_order
+msgid "Partner Order (xPed)"
+msgstr "Ordem de Parceiro (xPed)"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__partner_order_line
+msgid "Partner Order Line (nItemPed)"
+msgstr "Linha de Ordem de Parceiros (nItemPed)"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,icmsst_base_type:0
+msgid "Pauta (valor)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,cofins_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,cofins_wh_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,cofinsst_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,ipi_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,pis_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,pis_wh_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,pisst_base_type:0
+msgid "Percent"
+msgstr "Porcentagem"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_fiscal_cfop__is_pos
+msgid "Permitida no POS"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configuração do Ponto de Vendas"
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_pos_order_line
+msgid "Point of Sale Order Lines"
+msgstr "Linhas de pedido de Ponto de Venda"
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Pedidos do Ponto de Vendas"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pos_config_id
+msgid "Pos Config"
+msgstr "Configuração do PdV"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__pos_fiscal_map_ids
+#: model:ir.model.fields,field_description:l10n_br_pos.field_product_product__pos_fiscal_map_ids
+#: model:ir.model.fields,field_description:l10n_br_pos.field_product_template__pos_fiscal_map_ids
+msgid "Pos Fiscal Map"
+msgstr "Mapeamento Fiscal do POS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__out_pos_fiscal_operation_id
+msgid "Pos Out Fiscal Operation"
+msgstr "Operações Fiscais de Saída do POS"
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_l10n_br_pos_product_fiscal_map
+msgid "Pos Product Fiscal Map"
+msgstr "Mapemaneto Fiscal dos Produtos do POS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_res_company__refund_pos_fiscal_operation_id
+msgid "Pos Refund Fiscal Operation"
+msgstr "Operações Fiscais de Reembolso do POS"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_base_type:0
+msgid "Preço Tabelado Máximo (valor)"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icmsst_base_type:0
+msgid "Preço tabelado ou máximo  sugerido"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__price_unit
+msgid "Price Unit"
+msgstr "Preço por Unidade"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__printer_params
+msgid "Printer parameters"
+msgstr "Parâmetros da Impressora"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__product_id
+msgid "Product"
+msgstr "Produto"
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_product_template
+msgid "Product Template"
+msgstr "Modelo de Produto"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__product_tmpl_id
+msgid "Product Tmpl"
+msgstr "Template do produto"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Produto Acabado"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Produto Intermediário"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Produto em Processo"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:res.company,ambiente_sat:0
+msgid "Produção"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__quantity
+#: selection:l10n_br_pos.product_fiscal_map,cofins_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,cofins_wh_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,cofinsst_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,ipi_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,pis_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,pis_wh_base_type:0
+#: selection:l10n_br_pos.product_fiscal_map,pisst_base_type:0
+msgid "Quantity"
+msgstr "Quantidade"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_base
+msgid "RPJ RET Base"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_l10n_br_pos_search
+msgid "Razão Social"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:53
+#: code:addons/l10n_br_pos/static/src/xml/pos.xml:61
+#, python-format
+msgid "Reimprimir"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "SAT"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__sat_path
+msgid "SAT path"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_value
+msgid "SSQN Value"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__save_identity_automatic
+msgid "Save new client"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:pos.config,fiscal_printer_type:0
+msgid "Serial"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_serie
+msgid "Serie Number"
+msgstr "Número da série"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__service_type_id
+msgid "Service Type LC 166"
+msgstr "Tipo de Serviço LC 166"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Serviços"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__partner_shipping_id
+msgid "Shipping Address"
+msgstr "Endereço de Entrega"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,issqn_incentive:0
+msgid "Sim"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "Simplificado"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__simplified_document_type_id
+msgid "Simplified Document Type"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_range_id
+msgid "Simplified Range Tax"
+msgstr "Imposto de alcance simplificado"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__simplified_document_type
+msgid "Simplified document type"
+msgstr "Tipo de Documento Simplificado"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__simplified_invoice_limit
+msgid "Simplified invoice limit"
+msgstr "Limite da Fatura Simplificada"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__ie
+msgid "State Tax Number/RG"
+msgstr "Número da Inscrição Estadual/RG"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_status_code
+msgid "Status Code"
+msgstr "Código de Status"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_status_name
+msgid "Status Name"
+msgstr "Nome do status"
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_stock_move
+msgid "Stock Move"
+msgstr "Movimentação de estoque"
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,fiscal_type:0
+msgid "Subproduto"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_tax_id
+msgid "Tax COFINS"
+msgstr "COFINS Tributária"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofins_wh_tax_id
+msgid "Tax COFINS RET"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__cofinsst_tax_id
+msgid "Tax COFINS ST"
+msgstr "Cofins Fiscal ST"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_tax_id
+msgid "Tax CSLL"
+msgstr "CSLL fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__csll_wh_tax_id
+msgid "Tax CSLL RET"
+msgstr "Imposto CSLL RET"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/models.js:282
+#, python-format
+msgid "Tax Details"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__company_tax_framework
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__tax_framework
+msgid "Tax Framework"
+msgstr "Regime Tributário"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_tax_id
+msgid "Tax ICMS"
+msgstr "ICMS tributário"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsfcp_tax_id
+msgid "Tax ICMS FCP"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmssn_tax_id
+msgid "Tax ICMS SN"
+msgstr "ICMS Fiscal SN"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icmsst_tax_id
+msgid "Tax ICMS ST"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ii_tax_id
+msgid "Tax II"
+msgstr "Imposto II"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_tax_id
+msgid "Tax INSS"
+msgstr "Imposto do INSS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__inss_wh_tax_id
+msgid "Tax INSS RET"
+msgstr "Imposto do INSS RET"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ipi_tax_id
+msgid "Tax IPI"
+msgstr "IPI fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_tax_id
+msgid "Tax IRPJ"
+msgstr "Imposto IRPJ"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__irpj_wh_tax_id
+msgid "Tax IRPJ RET"
+msgstr "Imposto IRPJ RET"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_tax_id
+msgid "Tax ISSQN"
+msgstr "ISSQN fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__issqn_wh_tax_id
+msgid "Tax ISSQN RET"
+msgstr "ISSQN RET fiscal"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_tax_id
+msgid "Tax PIS"
+msgstr "Imposto pis"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pis_wh_tax_id
+msgid "Tax PIS RET"
+msgstr "Imposto PIS RET"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__pisst_tax_id
+msgid "Tax PIS ST"
+msgstr "Imposto PIS ST"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_regulation_id
+msgid "Tax Regulation"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__uot_id
+msgid "Tax UoM"
+msgstr "UoM fiscal"
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "Tax x Products"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.l10n_br_pos_product_fiscal_map_form_view
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/devices.js:224
+#, python-format
+msgid "Tempo limite de 30 minutos para cancelamento foi excedido."
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/models.js:288
+#, python-format
+msgid "The fiscal operation line is not defined for this product. Please contact support."
+msgstr "A linha de operação fiscal não está definida para este produto. Por favor, contate o suporte!"
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/models.js:283
+#, python-format
+msgid "There was a problem mapping the item tax. Please contact support."
+msgstr "Houve um problema de mapeamento dos impostos do item selecionado. Por favor, contato o suporte."
+
+#. module: l10n_br_pos
+#: model:ir.model,name:l10n_br_pos.model_stock_picking
+msgid "Transfer"
+msgstr "Transferir"
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "Tributação"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__uom_id
+msgid "UOM"
+msgstr "UDM"
+
+#. module: l10n_br_pos
+#: selection:pos.config,fiscal_printer_type:0
+msgid "USB"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__ncm_code
+msgid "Unmasked Code"
+msgstr "Código desmascarado"
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_product_template_from
+msgid "Update Pos TAX"
+msgstr "Atualizar os Impostos do POS"
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_pos_order__legal_name
+msgid "Used in fiscal documents"
+msgstr "Usado nos documentos fiscais"
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Vale Alimentação"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Vale Combustível"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Vale Presente"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:account.journal,sat_payment_mode:0
+msgid "Vale Refeição"
+msgstr ""
+
+#. module: l10n_br_pos
+#: selection:l10n_br_pos.product_fiscal_map,icms_base_type:0
+msgid "Valor da Operação"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,help:l10n_br_pos.field_l10n_br_pos_product_fiscal_map__icms_substitute
+msgid "Valor do ICMS Próprio do Substituto cobrado em operação anterior"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model_terms:ir.ui.view,arch_db:l10n_br_pos.view_pos_config_form
+msgid "Venda"
+msgstr ""
+
+#. module: l10n_br_pos
+#. openerp-web
+#: code:addons/l10n_br_pos/static/src/js/devices.js:210
+#, python-format
+msgid "Venda Cancelada!"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__cancel_document_file_id
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_order__document_file_id
+msgid "XML"
+msgstr ""
+
+#. module: l10n_br_pos
+#: model:ir.model.fields,field_description:l10n_br_pos.field_pos_config__sessao_sat
+msgid "Último Valor da Sessão"
+msgstr ""
+
