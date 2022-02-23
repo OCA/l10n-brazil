@@ -14,6 +14,8 @@ odoo.define("l10n_br_pos.screens", function (require) {
     var pos_order_screens = require("pos_order_show_list.screens");
     var rpc = require('web.rpc');
     var models = require("point_of_sale.models");
+    const core = require("web.core");
+    const _t = core._t;
 
     screens.PaymentScreenWidget.include({
         order_sat_is_valid: async function (order) {
