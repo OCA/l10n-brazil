@@ -11,6 +11,8 @@ from ..constants.fiscal import (
     OPERATION_FISCAL_TYPE_DEFAULT,
     OPERATION_STATE,
     OPERATION_STATE_DEFAULT,
+    FINAL_CUSTOMER,
+    FINAL_CUSTOMER_YES,
 )
 
 
