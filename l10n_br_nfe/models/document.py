@@ -196,7 +196,7 @@ class NFe(spec_models.StackedModel):
 
     nfe40_tpImp = fields.Selection(
         compute="_compute_nfe_data",
-        inverse="_inverse_nfe40_tpEmis",
+        inverse="_inverse_nfe40_tpImp",
     )
 
     nfe40_modFrete = fields.Selection(
