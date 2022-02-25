@@ -371,7 +371,6 @@ class ResCompany(models.Model):
     fiscal_dummy_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
         string="Fiscal Dummy Document",
-        required=True,
         ondelete="restrict",
     )
 
