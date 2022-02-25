@@ -6,6 +6,7 @@ import base64
 import logging
 import re
 from datetime import datetime
+from io import StringIO
 from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
@@ -14,7 +15,7 @@ from erpbrasil.edoc.nfe import NFe as edoc_nfe
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
 from lxml import etree
-from nfelib.v4_00 import retEnviNFe as leiauteNFe
+from nfelib.v4_00 import leiauteNFe_sub as nfe_sub, retEnviNFe as leiauteNFe
 from requests import Session
 
 from odoo import _, api, fields
@@ -426,6 +427,8 @@ class NFe(spec_models.StackedModel):
                 document_id=self,
             )
             record.authorization_event_id = event_id
+            xml_assinado = processador.assina_raiz(edoc, edoc.infNFe.Id)
+            self._valida_xml(xml_assinado)
 
     def atualiza_status_nfe(self, infProt, xml_file):
         self.ensure_one()
@@ -483,10 +486,17 @@ class NFe(spec_models.StackedModel):
         # if not self.nfe40_detPag:  # (empty list)
         #    raise UserError(_("Favor preencher os dados do pagamento"))
 
+    def _valida_xml(self, xml_file):
+        self.ensure_one()
+        erros = nfe_sub.schema_validation(StringIO(xml_file))
+        erros = "\n".join(erros)
+        self.write({"xml_error_message": erros or False})
+
     def _eletronic_document_send(self):
         super(NFe, self)._eletronic_document_send()
         for record in self.filtered(filter_processador_edoc_nfe):
-            record._export_fields_pagamentos()
+            if self.xml_error_message:
+                return
             processador = record._processador()
             for edoc in record.serialize():
                 processo = None
