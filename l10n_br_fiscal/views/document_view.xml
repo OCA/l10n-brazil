@@ -156,6 +156,14 @@
         <div
                     class="alert alert-danger"
                     role="alert"
+                    attrs="{'invisible': [('xml_error_message','=',False)]}"
+                >
+            <strong>XML validation errors:</strong>
+            <field name="xml_error_message" readonly="1" />
+        </div>
+        <div
+                    class="alert alert-danger"
+                    role="alert"
                     attrs="{'invisible': [('state_edoc','not in',('rejeitada', 'denegada'))]}"
                 >
             Fiscal Document: <field name="document_type_id" readonly="1" /> is <strong
