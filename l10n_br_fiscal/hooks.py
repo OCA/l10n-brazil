@@ -11,6 +11,7 @@ _logger = logging.getLogger(__name__)
 
 def post_init_hook(cr, registry):
     """Import XML data to change core data"""
+    env = api.Environment(cr, SUPERUSER_ID, {})
 
     files = [
         "data/l10n_br_fiscal.cnae.csv",
