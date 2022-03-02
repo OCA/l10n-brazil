@@ -50,6 +50,8 @@
 
     <t t-extend="PosOrderScreenWidget">
         <t t-jquery='.order-list thead tr' t-operation="append">
+            <th style="max-width:100px">Chave</th>
+            <th>Status</th>
             <th>Reimprimir</th>
             <th>Cancelar</th>
         </t>
@@ -57,15 +59,19 @@
 
     <t t-extend="PosOrderLine">
         <t t-jquery='.order-line' t-operation="append">
+            <td style="max-width:100px;overflow-wrap: break-word;"><t t-esc='order.document_key' /></td>
+            <td><t t-esc='order.state' /></td>
             <td>
                 <span class="control-button pos_order_reprint">
                     Reimprimir
                 </span>
             </td>
             <td>
-                <span class="control-button pos_order_cancel">
-                    Cancelar
-                </span>
+                <t t-if="order.state != 'cancel'">
+                    <span class="control-button pos_order_cancel">
+                        Cancelar
+                    </span>
+                </t>
             </td>
         </t>
     </t>
