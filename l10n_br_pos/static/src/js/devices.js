@@ -219,8 +219,8 @@ odoo.define("l10n_br_pos.devices", function (require) {
                                     args: [result],
                                  }).then(function (orders) {
                                          self.pos.gui.show_popup('error', {
-                                             message: _t('Venda Cancelada!'),
-                                             comment: _t('A venda foi cancelada com sucesso.'),
+                                             'tittle': _t('Venda Cancelada!'),
+                                             'body': _t('A venda foi cancelada com sucesso.'),
                                          });
                                         var config_id = self.pos.config.id;
                                         self.pos.config.sessao_sat++;
