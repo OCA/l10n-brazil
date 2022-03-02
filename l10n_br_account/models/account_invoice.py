@@ -187,9 +187,30 @@ class AccountInvoice(models.Model):
             values.update(
                 {"fiscal_document_id": self.env.user.company_id.fiscal_dummy_id.id}
             )
-        invoice = super().create(values)
+            # to avoid bug 2) of https://github.com/OCA/l10n-brazil/issues/1813
+            # we use a context key to avoid recomputing all invoices
+            # linked to a dummy fiscal document
+            recompute_inv_after_id = self.search([], order="id DESC", limit=1).id
+            invoice = super(
+                AccountInvoice,
+                self.with_context(recompute_inv_after_id=recompute_inv_after_id),
+            ).create(values)
+        else:
+            invoice = super().create(values)
         invoice._write_shadowed_fields()
         return invoice
+
+    def _recompute_todo(self, field):
+        # overriden to avoid bug 2 of https://github.com/OCA/l10n-brazil/issues/1813
+        if self._context.get("recompute_inv_after_id"):
+            return self.env.add_todo(
+                field,
+                self.filtered(
+                    lambda rec: rec.id > self._context["recompute_inv_after_id"]
+                ),
+            )
+        else:
+            return super()._recompute_todo(field)
 
     def write(self, values):
         result = super().write(values)
