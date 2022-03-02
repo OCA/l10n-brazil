@@ -218,7 +218,7 @@ odoo.define("l10n_br_pos.devices", function (require) {
                                     method: 'cancelar_order',
                                     args: [result],
                                  }).then(function (orders) {
-                                         self.pos.gui.show_popup('error', {
+                                         self.pos.gui.show_popup('alert', {
                                              'tittle': _t('Venda Cancelada!'),
                                              'body': _t('A venda foi cancelada com sucesso.'),
                                          });
