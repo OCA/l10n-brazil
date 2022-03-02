@@ -109,18 +109,42 @@ class NfeImport(models.TransientModel):
         if product_ids:
             self.imported_products_ids = [(6, 0, product_ids)]
 
+    def _check_ncm_nbm_cest(self, nfe_product, wizard_product):
+        if nfe_product.ncm_id.code != wizard_product.ncm_id.code:
+            raise UserError(_("O NCM do produto {} no cadastro interno é diferente do NCM na nota.\nNCM interno: {}\nNCM na nota: {}".format(wizard_product.display_name, wizard_product.ncm_id.code, nfe_product.ncm_id.code)))
+        if wizard_product.nbm_id and nfe_product.nbm_id and wizard_product.ncm_id != nfe_product.ncm_id:
+            raise UserError(
+                _("O NBM do produto {} no cadastro interno é diferente do NBM na nota.\nNBM interno: {}\nNBM na nota: {}".format(
+                    wizard_product.display_name, wizard_product.nbm_id.code, nfe_product.nbm_id.code)))
+        if wizard_product.cest_id and nfe_product.cest_id and wizard_product.cest_id != nfe_product.cest_id:
+            raise UserError(
+                _("O Cest do produto {} no cadastro interno é diferente do Cest na nota.\nCest interno: {}\nCest na nota: {}".format(
+                    wizard_product.display_name, wizard_product.cest_id.code, nfe_product.cest_id.code)))
+
     @api.multi
     def import_nfe_xml(self):
+
         parsed_xml, document = self._parse_xml_import_wizard(
             base64.b64decode(self.nfe_xml)
         )
+
+        for wizard_product in self.imported_products_ids:
+            database_product = wizard_product.product_id
+            if not database_product:
+                raise UserError(_("Há pelo menos uma linha sem produto selecionado. Selecione um produto para cada linha para continuar."))
+            for xml_product in parsed_xml.infNFe.det:
+                if xml_product.prod.xProd == wizard_product.product_name:
+                    xml_product.prod.xProd = database_product.name
+                    xml_product.prod.cEAN = database_product.barcode
+                    xml_product.prod.cEANTrib = database_product.barcode
+                    xml_product.prod.cProd = database_product.default_code
 
         self.fiscal_operation_type = (
             "in" if document.cnpj_emitente != self.company_id.cnpj_cpf else "out"
         )
 
         edoc = self.env["l10n_br_fiscal.document"].import_xml(
-            base64.b64decode(self.nfe_xml),
+            parsed_xml,
             dry_run=False,
             edoc_type=self.fiscal_operation_type,
         )
@@ -153,17 +177,19 @@ class NfeImportProducts(models.TransientModel):
 
     product_name = fields.Char(string="Product Name")
 
-    uom_com = fields.Char(string="UOM")
+    product_id = fields.Many2one(comodel_name='product.product', string='Referencia Interna')
 
-    quantity_com = fields.Float(string="Quantity")
+    uom_com = fields.Char(string="UOM Comercial")
 
-    price_unit_com = fields.Float(string="Price Unit")
+    quantity_com = fields.Float(string="Comercial Quantity")
 
-    uom_trib = fields.Char(string="UOM")
+    price_unit_com = fields.Float(string="Comercial Price Unit")
 
-    quantity_trib = fields.Float(string="Quantity")
+    uom_trib = fields.Char(string="UOM Fiscal")
 
-    price_unit_trib = fields.Float(string="Price Unit")
+    quantity_trib = fields.Float(string="Fiscal Quantity")
+
+    price_unit_trib = fields.Float(string="Fiscal Price Unit")
 
     total = fields.Float(string="Total")
 

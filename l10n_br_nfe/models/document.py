@@ -867,8 +867,8 @@ class NFe(spec_models.StackedModel):
                 document.fiscal_operation_type = "in"
                 document.issuer = "partner"
 
-    def _import_xml_nfe(self, xml, dry_run, edoc_type="out"):
-        nfe_binding = parse_xml_nfe(xml)
+    def _import_xml_nfe(self, nfe_binding, dry_run, edoc_type="out"):
+        # nfe_binding = parse_xml_nfe(xml)
         document = (
             self.env["nfe.40.infnfe"]
             .with_context(
@@ -885,5 +885,5 @@ class NFe(spec_models.StackedModel):
 
         return document
 
-    def import_xml(self, xml, dry_run, edoc_type="out"):
-        return self._import_xml_nfe(xml, dry_run, edoc_type)
+    def import_xml(self, nfe_binding, dry_run, edoc_type="out"):
+        return self._import_xml_nfe(nfe_binding, dry_run, edoc_type)

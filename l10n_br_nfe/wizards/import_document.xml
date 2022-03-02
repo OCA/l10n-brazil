@@ -37,16 +37,17 @@
                     attrs="{'invisible': [('nfe_xml', '=', False)]}"
                 />
                 <group attrs="{'invisible': [('nfe_xml', '=', False)]}">
-                    <field name="imported_products_ids" readonly="True" nolabel="1">
-                        <tree string="Views">
-                            <field name="product_name" />
-                            <field name="uom_com" />
-                            <field name="quantity_com" />
-                            <field name="price_unit_com" />
-                            <field name="uom_trib" />
-                            <field name="quantity_trib" />
-                            <field name="price_unit_trib" />
-                            <field name="total" />
+                    <field name="imported_products_ids" nolabel="1">
+                        <tree string="Views" editable="top">
+                            <field name="product_name" readonly="False" />
+                            <field name="product_id" options="{'no_quick_create': True, 'no_create': True}"/>
+                            <field name="quantity_com" readonly="True" />
+                            <field name="uom_com" readonly="True" />
+                            <field name="price_unit_com" readonly="True" />
+                            <field name="quantity_trib" readonly="True" />
+                            <field name="uom_trib" readonly="True" />
+                            <field name="price_unit_trib" readonly="True" />
+                            <field name="total" readonly="True" />
                         </tree>
                     </field>
                 </group>
