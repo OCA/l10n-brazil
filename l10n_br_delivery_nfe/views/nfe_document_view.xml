@@ -10,6 +10,7 @@
             <field name="nfe40_modFrete" position="before">
                 <field name="incoterm_id" />
                 <field name="carrier_id" />
+                <field name="transporter_id" />
             </field>
             <field name="nfe40_transporta" position="attributes">
                 <attribute name="invisible">1</attribute>
