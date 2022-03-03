@@ -65,6 +65,11 @@ class NfeImport(models.TransientModel):
                 base64.b64decode(self.nfe_xml)
             )
 
+            # Validação comentada para realização de testes
+            # TODO: Descomentar essa validação
+            # if self.env['l10n_br_fiscal.document'].search([('document_key', '=', parsed_xml.infNFe.Id.replace('NFe', ''))]):
+            #     raise UserError(_("Esta nota fiscal já foi importada.\nChave: {}".format(parsed_xml.infNFe.Id.replace('NFe', ''))))
+
             nfe_model_code = self.env.ref("l10n_br_fiscal.document_55").code
 
             if document.modelo_documento != nfe_model_code:
@@ -110,16 +115,16 @@ class NfeImport(models.TransientModel):
             self.imported_products_ids = [(6, 0, product_ids)]
 
     def _check_ncm_nbm_cest(self, nfe_product, wizard_product):
-        if nfe_product.ncm_id.code != wizard_product.ncm_id.code:
-            raise UserError(_("O NCM do produto {} no cadastro interno é diferente do NCM na nota.\nNCM interno: {}\nNCM na nota: {}".format(wizard_product.display_name, wizard_product.ncm_id.code, nfe_product.ncm_id.code)))
-        if wizard_product.nbm_id and nfe_product.nbm_id and wizard_product.ncm_id != nfe_product.ncm_id:
+        if wizard_product.ncm_id and hasattr(nfe_product, 'NCM') and nfe_product.NCM and nfe_product.NCM != wizard_product.ncm_id.code.replace('.', ''):
+            raise UserError(_("O NCM do produto {} no cadastro interno é diferente do NCM na nota.\nNCM interno: {}\nNCM na nota: {}".format(wizard_product.display_name, wizard_product.ncm_id.code, nfe_product.NCM)))
+        if wizard_product.nbm_id and hasattr(nfe_product, 'NBM') and nfe_product.NBM and nfe_product.NBM != wizard_product.ncm_id.replace('.', ''):
             raise UserError(
                 _("O NBM do produto {} no cadastro interno é diferente do NBM na nota.\nNBM interno: {}\nNBM na nota: {}".format(
-                    wizard_product.display_name, wizard_product.nbm_id.code, nfe_product.nbm_id.code)))
-        if wizard_product.cest_id and nfe_product.cest_id and wizard_product.cest_id != nfe_product.cest_id:
+                    wizard_product.display_name, wizard_product.nbm_id.code, nfe_product.NBM)))
+        if wizard_product.cest_id and hasattr(nfe_product, 'CEST') and nfe_product.CEST and nfe_product.CEST != wizard_product.cest_id.replace('.', ''):
             raise UserError(
                 _("O Cest do produto {} no cadastro interno é diferente do Cest na nota.\nCest interno: {}\nCest na nota: {}".format(
-                    wizard_product.display_name, wizard_product.cest_id.code, nfe_product.cest_id.code)))
+                    wizard_product.display_name, wizard_product.cest_id.code, nfe_product.CEST)))
 
     @api.multi
     def import_nfe_xml(self):
@@ -134,6 +139,9 @@ class NfeImport(models.TransientModel):
                 raise UserError(_("Há pelo menos uma linha sem produto selecionado. Selecione um produto para cada linha para continuar."))
             for xml_product in parsed_xml.infNFe.det:
                 if xml_product.prod.xProd == wizard_product.product_name:
+                    # Validação comentada para realização de testes
+                    # TODO: Descomentar essa validação
+                    # self._check_ncm_nbm_cest(xml_product.prod, wizard_product.product_id)
                     xml_product.prod.xProd = database_product.name
                     xml_product.prod.cEAN = database_product.barcode
                     xml_product.prod.cEANTrib = database_product.barcode
