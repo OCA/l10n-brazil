@@ -22,7 +22,11 @@ class ProductTemplate(models.Model):
         if fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
             return self.env.ref(NCM_FOR_SERVICE_REF)
 
-    fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Fiscal Type")
+    fiscal_type = fields.Selection(
+        selection=PRODUCT_FISCAL_TYPE,
+        string="Fiscal Type",
+        company_dependent=True,
+    )
 
     icms_origin = fields.Selection(
         selection=ICMS_ORIGIN,
