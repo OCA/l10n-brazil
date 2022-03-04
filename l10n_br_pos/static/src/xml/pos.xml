@@ -67,7 +67,7 @@
                 </span>
             </td>
             <td>
-                <t t-if="order.state != 'cancel'">
+                <t t-if="order.state != 'Cancelado'">
                     <span class="control-button pos_order_cancel">
                         Cancelar
                     </span>

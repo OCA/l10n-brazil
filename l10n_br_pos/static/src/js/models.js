@@ -6,6 +6,7 @@ Copyright (C) 2016-Today KMEE (https://kmee.com.br)
 odoo.define("l10n_br_pos.models", function (require) {
 
     const core = require("web.core");
+    const rpc = require('web.rpc');
     const _t = core._t;
 
     var models = require("point_of_sale.models");
@@ -85,7 +86,11 @@ odoo.define("l10n_br_pos.models", function (require) {
         model:  'pos.order',
         fields: ['name', 'partner_id','date_order','amount_total','pos_reference','lines','state','session_id','company_id', 'document_key'],
         domain: function (self) {
-            return [["state", "in", ["paid", "cancel", "done"]]];
+            var domain = [
+                ["state", "in", ["paid", "cancel", "done"]],
+                ['amount_total', '>', 0]
+            ];
+            return domain;
         },
         loaded: function(self, orders){
             self.paid_orders = orders;
@@ -301,6 +306,17 @@ odoo.define("l10n_br_pos.models", function (require) {
             } else {
                 _super_order.add_product.apply(this, arguments);
             }
+        },
+        push_new_order_list: function(){
+            var self = this;
+            rpc.query({
+                model: 'pos.order',
+                method: 'search_read',
+                args: [[["state", "in", ["paid", "cancel", "done"]],['amount_total', '>', 0]]],
+                limit: 40,
+            }).then(function (orders){
+                posmodel.paid_orders = orders;
+            })
         },
     });
 
