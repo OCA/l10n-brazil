@@ -65,7 +65,11 @@
                                 name="icms_origin"
                                 attrs="{'required': [('fiscal_type', '!=', '09')], 'invisible': [('fiscal_type', '=', '09')]}"
                             />
-                            <field name="ncm_id" required="1" />
+                            <field
+                                name="ncm_id"
+                                required="1"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
                             <field name="tax_icms_or_issqn" required="1" />
                             <field
                                 name="service_type_id"
@@ -79,35 +83,60 @@
                                 <tree editable="bottom">
                                     <field name="code" />
                                     <field name="name" />
-                                    <field name="service_type_id" />
-                                    <field name="state_id" />
-                                    <field name="city_id" />
-                                    <field name="cnae_id" />
+                                    <field
+                                        name="service_type_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                    <field
+                                        name="state_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                    <field
+                                        name="city_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                                    <field
+                                        name="cnae_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                                 </tree>
                             </field>
                         </group>
                         <group>
-                            <field name="fiscal_genre_id" required="1" />
+                            <field
+                                name="fiscal_genre_id"
+                                required="1"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
                             <field
                                 name="cest_id"
                                 attrs="{'invisible': [('fiscal_type', '=', '09')]}"
+                                options="{'no_create': True, 'no_create_edit': True}"
                             />
                             <field
                                 name="nbm_id"
                                 attrs="{'invisible': [('fiscal_type', '=', '09')]}"
+                                options="{'no_create': True, 'no_create_edit': True}"
                             />
                             <field
                                 name="nbs_id"
                                 attrs="{'invisible': [('fiscal_type', '!=', '09')]}"
+                                options="{'no_create': True, 'no_create_edit': True}"
                             />
                         </group>
                         <group string="Tax UOM">
-                            <field name="uoe_id" />
+                            <field
+                                name="uoe_id"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
                             <field
                                 name="uoe_factor"
                                 attrs="{'invisible': [('fiscal_type', '=', False)], 'required': [('uot_id', '!=', False)]}"
                             />
-                            <field name="uot_id" />
+                            <field
+                                name="uot_id"
+                                options="{'no_create': True, 'no_create_edit': True}"
+                            />
                             <field
                                 name="uot_factor"
                                 attrs="{'invisible': [('uot_id', '=', False)], 'required': [('uot_id', '!=', False)]}"
