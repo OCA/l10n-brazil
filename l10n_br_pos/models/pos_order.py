@@ -428,6 +428,28 @@ class PosOrder(models.Model):
         self.cancel_document_key = order_vals['chave_cfe']
         self.cancel_document_session_number = order_vals['numSessao']
 
+    def _generate_refund_payments(self, refund_order):
+        for payment in self.statement_ids:
+            payment_wizard = self.env['pos.make.payment'].create({
+                'session_id': refund_order.session_id.id,
+                'journal_id': payment.journal_id.id,
+                'amount': payment.amount * -1
+            })
+
+            payment_wizard.with_context(active_id=refund_order.id).check()
+
+    @api.multi
+    def refund(self):
+        res = super(PosOrder, self).refund()
+        refund_order = self.browse(res['res_id'])
+        refund_order.amount_total = self.amount_total * -1
+
+        self._generate_refund_payments(refund_order)
+
+        self.write({'state': 'cancel'})
+
+        return res
+
     @api.model
     def cancelar_order(self, result):
         _logger.info(f'Result: {result}')
@@ -443,7 +465,6 @@ class PosOrder(models.Model):
             mail_create_nolog=True, tracking_disable=True,
             mail_create_nosubscribe=True, mail_notrack=True
         ).refund()
-        order.state = 'cancel'
 
     #
     # @api.one
