@@ -2,7 +2,6 @@
 # @author Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import textwrap
 from datetime import datetime
 
 import pytz
@@ -84,7 +83,7 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
         }
 
         footer = {
-            "date_generate": datetime.now(tz=time_zone).strftime("%d/%m/%Y %H:%M:%S"),
+            "date_generate": datetime.now(tz=time_zone).strftime("%d/%m/%Y %H:%M"),
             "user_name": self.env.user.name,
         }
 
@@ -152,19 +151,9 @@ class L10nBRP7ModelInventoryReportWizard(models.TransientModel):
                 if type(tmp_ncm_controler) != bool:
                     tmp_ncm_controler_line = True
 
-            # TODO: Produtos com Nome maior que 60 caracteres acabam deixando a
-            #  tabela maior do que a pagina, o que distorce a impressão, a solução
-            #  deve ser feita no QWeb especifico, porém ainda não encontrei a
-            #  TAG ou parametro que faz isso, por enquanto para ter algo funcional
-            #  está sendo feito da forma abaixo, incluíndo quebra de linha no Nome.
-            if len(product.name) > 60:
-                name = "\n".join(textwrap.wrap(product.name, 60))
-            else:
-                name = product.name
-
             result_lines.append(
                 {
-                    "product_name": name,
+                    "product_name": product.name,
                     "product_code": product.default_code or "",
                     "product_uom": product.uom_id.name,
                     "product_qty": obj_lang.format(
