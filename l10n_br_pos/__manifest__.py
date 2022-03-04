@@ -20,6 +20,7 @@
         "pos_order_show_list",
         "pos_hamburger_menu",
         "pos_show_order_hamburger_menu",
+        "pos_order_return",
     ],
     "external_dependencies": {
         "python": ['satcomum'],

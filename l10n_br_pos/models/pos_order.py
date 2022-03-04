@@ -446,8 +446,6 @@ class PosOrder(models.Model):
 
         self._generate_refund_payments(refund_order)
 
-        self.write({'state': 'cancel'})
-
         return res
 
     @api.model
