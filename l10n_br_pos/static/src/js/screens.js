@@ -14,8 +14,10 @@ odoo.define("l10n_br_pos.screens", function (require) {
     var pos_order_screens = require("pos_order_show_list.screens");
     var rpc = require('web.rpc');
     var models = require("point_of_sale.models");
+    var ScreenWidget = screens.ScreenWidget;
     const core = require("web.core");
     const _t = core._t;
+    var QWeb = core.qweb;
 
     screens.PaymentScreenWidget.include({
         order_sat_is_valid: async function (order) {
@@ -167,6 +169,28 @@ odoo.define("l10n_br_pos.screens", function (require) {
 //                    this.pos.proxy.cancel_order(order);
 //                }
 //            }
+        },
+        render_list: function(orders){
+            var contents = this.$el[0].querySelector('.order-list-contents');
+            contents.innerHTML = "";
+            for(var i = 0, len = Math.min(orders.length,1000); i < len; i++){
+                var order   = orders[i];
+                order.amount_total = parseFloat(order.amount_total).toFixed(2);
+                var date = new Date(order.date_order);
+                var new_date = this.add_zero_to_date(date.getDate()) + '/' + this.add_zero_to_date(date.getMonth() + 1) + '/' + this.add_zero_to_date(date.getFullYear()) + ' ' + this.add_zero_to_date((date.getHours()-3)) + ':' + this.add_zero_to_date(date.getMinutes()) + ':' + this.add_zero_to_date(date.getSeconds())
+                order.date_order = new_date;
+                var myHashStates = {
+                    'paid': 'Pago',
+                    'done': 'Pago',
+                    'cancel': 'Cancelado'
+                };
+                order.state = myHashStates[order.state];
+                var order_line_html = QWeb.render('PosOrderLine',{widget: this, order:order});
+                var order_line = document.createElement('tbody');
+                order_line.innerHTML = order_line_html;
+                order_line = order_line.childNodes[1];
+                contents.appendChild(order_line);
+            }
         },
     });
 
