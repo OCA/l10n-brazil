@@ -53,6 +53,8 @@ class Operation(models.Model):
         ],
         string="Finalidade",
         default="1",
+        readonly=True,
+        states={"draft": [("readonly", False)]},
         track_visibility="onchange",
     )
 
