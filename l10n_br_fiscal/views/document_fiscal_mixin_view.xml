@@ -7,7 +7,11 @@
     <field name="arch" type="xml">
       <form>
         <group name="l10n_br_fiscal">
-            <field name="fiscal_operation_id" required="1" />
+            <field
+                        name="fiscal_operation_id"
+                        required="1"
+                        options="{'no_create': True, 'no_create_edit': True}"
+                    />
         </group>
         <group name="l10n_br_fiscal_comment">
             <field name="manual_fiscal_additional_data" />
