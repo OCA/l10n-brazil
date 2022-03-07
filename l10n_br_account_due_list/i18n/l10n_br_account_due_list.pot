@@ -24,6 +24,11 @@ msgid "Invoice"
 msgstr ""
 
 #. module: l10n_br_account_due_list
+#: model:ir.model,name:l10n_br_account_due_list.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_br_account_due_list
 #: model_terms:ir.ui.view,arch_db:l10n_br_account_due_list.invoice_supplier_form
 msgid "Payable"
 msgstr ""
