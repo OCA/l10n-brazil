@@ -1,2 +1,0 @@
-"id","name","tax_base_type","percent_amount","percent_reduction","tax_group_id:id","cst_in_id:id","cst_out_id:id","value_amount","currency_id:id","uot_id:id","percent_debit_credit","icms_base_type","icmsst_base_type","icmsst_mva_percent","icmsst_value"
-"tax_icms_3_20","ICMS 3,20%","percent","3.20","0.00","l10n_br_fiscal.tax_group_icms","l10n_br_fiscal.cst_icms_00","l10n_br_fiscal.cst_icms_00",,,,,"0","4",,
