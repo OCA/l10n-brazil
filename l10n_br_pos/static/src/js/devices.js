@@ -42,7 +42,7 @@ odoo.define("l10n_br_pos.devices", function (require) {
                         .rpc("/hw_proxy/status_json", {}, {timeout: 2500})
                         .then(
                             function (driver_status) {
-                                if (!driver_status.hasOwnProperty("hw_fiscal")) {
+                                if (self.pos.config.iface_fiscal_via_proxy && !driver_status.hasOwnProperty("hw_fiscal")) {
                                     self.pos.proxy.init_sat(self.pos.config);
                                 } else {
                                     let status = self.pos.proxy.get('status');
