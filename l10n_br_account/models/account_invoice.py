@@ -363,6 +363,12 @@ class AccountInvoice(models.Model):
         financial_lines = [
             line for line in lines if line[2]["account_id"] == self.account_id.id
         ]
+
+        # É preciso ordernar pela Data de Vencimento para ter as Numeração das Parcelas
+        # seguindo essa sequencia, se não fica confuso ter a última Parcela sendo
+        # a primeira a ser Paga
+        financial_lines.sort(key=lambda l: l[2].get("date_maturity"))
+
         count = 1
 
         for line in financial_lines:
