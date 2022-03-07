@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
+from odoo import fields
 from odoo.tests.common import TransactionCase
 
 
@@ -52,4 +53,25 @@ class TestSupplierNFe(TransactionCase):
         ).action_invoice_open()
         self.assertEqual(
             self.invoice_same_state.state, "open", "Invoice should be in state Open"
+        )
+
+        # Add a related document
+        self.invoice_same_state.write(
+            {
+                "document_related_ids": (
+                    0,
+                    0,
+                    {
+                        "document_type_id": self.env.ref(
+                            "l10n_br_fiscal.document_04"
+                        ).id,
+                        "document_serie": "4",
+                        "state_id": self.env.ref("base.state_br_sp").id,
+                        "document_date": fields.Datetime.now(),
+                        "cpfcnpj_type": "cnpj",
+                        "cnpj_cpf": "30.805.965/0001-12",
+                        "inscr_est": "215031186110",
+                    },
+                )
+            }
         )
