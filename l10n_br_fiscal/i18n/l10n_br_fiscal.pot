@@ -1119,6 +1119,16 @@ msgid "Brazilian Fiscal"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__module_l10n_br_stock_account_report
+msgid "Brazilian Stock Account Report - P7 Model"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.l10n_br_fiscal_res_config_settings_form
+msgid "Brazilian Stock Account Report - P7 Model."
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__ind_pres
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_mixin__ind_pres
 msgid "Buyer Presence"
