@@ -1,16 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* l10n_br_stock_account_report
+#	* l10n_br_stock_account_report
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-04 19:50+0000\n"
-"PO-Revision-Date: 2022-03-04 19:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -19,22 +16,22 @@ msgstr ""
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<b>Description</b>"
-msgstr "<b>Descrição</b>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<b>Fiscal Classification</b>"
-msgstr "<b>Classificação Fiscal</b>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<b>Partial</b>"
-msgstr "<b>Parcial</b>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<b>Quantity</b>"
-msgstr "<b>Quantidade</b>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
@@ -44,17 +41,17 @@ msgstr ""
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<b>Unit</b>"
-msgstr "<b>Unidade</b>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<b>Unitary</b>"
-msgstr "<b>Unitário</b>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<b>Value</b>"
-msgstr "<b>Valor</b>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
@@ -64,105 +61,102 @@ msgstr ""
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<strong>Company Name: </strong>"
-msgstr "<strong>Nome da Empresa: </strong>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<strong>Existing Stocks at: </strong>"
-msgstr "<strong>Estoque existente em: </strong>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<strong>P7 Model</strong>"
-msgstr "<strong>Modelo P7</strong>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<strong>REGISTRATION INVENTORY</strong>"
-msgstr "<strong>INVENTÁRIO DE REGISTRO</strong>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "<strong>State Registration: </strong>"
-msgstr "<strong>Inscrição Estadual: </strong>"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: code:addons/l10n_br_stock_account_report/wizards/l10n_br_p7_model_inventory_report_wizard.py:19
 #: selection:l10n_br.p7.model.inventory.report.wizard,compute_at_date:0
 #, python-format
 msgid "At a Specific Date"
-msgstr "Em uma Data Específica"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.actions.act_window,name:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_wizard_action
 #: model:ir.ui.menu,name:l10n_br_stock_account_report.l10n_p7_model_inventory_report_wizard_menu
 msgid "Brazilian P7 Model Inventory Report"
-msgstr "Relatório de Inventário Brasileiro Modelo P7"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model,name:l10n_br_stock_account_report.model_l10n_br_p7_model_inventory_report_wizard
 msgid "Brazilian P7 Model Inventory Report Wizard"
-msgstr "Relatório de Inventário Brasileiro Modelo P7 Wizard"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.actions.report,name:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report
 msgid "Brazilian P7 Model Invetory Report"
-msgstr "Relatório de Inventário Brasileiro Modelo P7"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_wizard_view
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,help:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__date
 msgid "Choose a date to get the inventory at that date"
-msgstr "Escolha uma data para obter o inventário nessa data"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,help:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__compute_at_date
-msgid ""
-"Choose to analyze the current inventory or from a specific date in the past."
+msgid "Choose to analyze the current inventory or from a specific date in the past."
 msgstr ""
-"Escolha analisar o inventário atual ou a partir de uma data específica no "
-"passado."
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_wizard_view
 msgid "Choose your date"
-msgstr "Escolha a sua data"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__compute_at_date
 msgid "Compute"
-msgstr "Calcular"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_wizard_view
 msgid "Create Report"
-msgstr "Criar Relatório"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__create_uid
 msgid "Created by"
-msgstr "Criado por"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__create_date
 msgid "Created on"
-msgstr "Criado em"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: code:addons/l10n_br_stock_account_report/wizards/l10n_br_p7_model_inventory_report_wizard.py:19
 #: selection:l10n_br.p7.model.inventory.report.wizard,compute_at_date:0
 #, python-format
 msgid "Current Inventory"
-msgstr "Inventário Atual"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__display_name
 msgid "Display Name"
-msgstr "Nome de Exibição"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__id
@@ -172,44 +166,45 @@ msgstr ""
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__date
 msgid "Inventory at Date"
-msgstr "Inventário na Data"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard____last_update
 msgid "Last Modified on"
-msgstr "Última atualização em"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__write_uid
 msgid "Last Updated by"
-msgstr "Última atualização por"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,field_description:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__write_date
 msgid "Last Updated on"
-msgstr "Atualizado pela última vez em"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "Resume"
-msgstr "Resumo"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "Total Amount"
-msgstr "Valor Total"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "User:"
-msgstr "Usuário:"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "| Generation Date:"
-msgstr "| Data de Geração:"
+msgstr ""
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "| Page: <span class=\"page\"/> / <span class=\"topage\"/>"
-msgstr "| Página: <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr ""
+
