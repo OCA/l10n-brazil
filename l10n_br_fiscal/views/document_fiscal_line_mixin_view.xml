@@ -40,8 +40,14 @@
                                 attrs="{'invisible': [('tax_icms_or_issqn', '!=', 'issqn')]}"
                             >
                 <group>
-                  <field name="issqn_tax_id" />
-                  <field name="issqn_fg_city_id" />
+                  <field
+                                        name="issqn_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
+                  <field
+                                        name="issqn_fg_city_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                   <field
                                         name="issqn_eligibility"
                                         attrs="{'required': [('tax_icms_or_issqn', '=', 'issqn')]}"
@@ -103,7 +109,10 @@
                   </group>
                 </group>
                   <group string="Retenções">
-                    <field name="issqn_wh_tax_id" />
+                    <field
+                                        name="issqn_wh_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                   </group>
                   <group>
                       <group>
@@ -141,15 +150,18 @@
                     <field
                                         name="icms_tax_id"
                                         attrs="{'invisible': [('tax_framework', 'in', ('1', '2'))]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                     <field
                                         name="icmssn_tax_id"
                                         attrs="{'invisible': [('tax_framework', '=', '3')]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                     <field
                                         name="icms_cst_id"
                                         force_save="1"
                                         attrs="{'readonly': [('icms_tax_id', '!=', False)]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                     <field name="icms_cst_code" readonly="1" invisible="1" />
                     <field
@@ -165,6 +177,7 @@
                                             force_save="1"
                                             readonly="1"
                                             attrs="{'invisible': [('tax_framework', '=', '3')]}"
+                                            options="{'no_create': True, 'no_create_edit': True}"
                                         />
                         <field
                                             name="icms_base_type"
@@ -239,6 +252,7 @@
                         <field
                                             name="icmsst_tax_id"
                                             attrs="{'invisible': [('icms_cst_code', 'in', ('60', '500'))]}"
+                                            options="{'no_create': True, 'no_create_edit': True}"
                                         />
                         <field
                                             name="icmsst_base_type"
@@ -294,6 +308,7 @@
                           <field
                                             name="icmsfcp_tax_id"
                                             attrs="{'invisible': [('icms_cst_code', '=', '500')]}"
+                                            options="{'no_create': True, 'no_create_edit': True}"
                                         />
                         <field
                                             name="icmsfcp_base"
@@ -401,17 +416,22 @@
                                 attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"
                             >
                   <group string="IPI">
-                      <field name="ipi_tax_id" />
+                      <field
+                                        name="ipi_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                       <field
                                         name="ipi_cst_id"
                                         force_save="1"
                                         attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                       <field name="ipi_cst_code" readonly="1" invisible="1" />
                       <field
                                         name="ipi_guideline_id"
                                         force_save="1"
                                         attrs="{'readonly': [('ipi_tax_id', '!=', False)]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                   </group>
                   <group>
@@ -452,7 +472,10 @@
                                 attrs="{'invisible': [('cfop_destination', '!=', '3')]}"
                             >
                 <group string="II">
-                    <field name="ii_tax_id" />
+                    <field
+                                        name="ii_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                 </group>
                 <group>
                   <group>
@@ -467,17 +490,22 @@
               </page>
               <page name="pis" string="PIS">
                   <group name="pis" string="PIS">
-                    <field name="pis_tax_id" />
+                    <field
+                                        name="pis_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                     <field
                                         name="pis_cst_id"
                                         force_save="1"
                                         attrs="{'readonly': [('pis_tax_id', '!=', False)]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                     <field name="pis_cst_code" readonly="1" invisible="1" />
                     <field
                                         name="pis_credit_id"
                                         force_save="1"
                                         attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                   </group>
                   <group>
@@ -486,6 +514,7 @@
                                             name="pis_base_id"
                                             force_save="1"
                                             attrs="{'readonly': [('pis_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"
+                                            options="{'no_create': True, 'no_create_edit': True}"
                                         />
                       <field
                                             name="pis_base_type"
@@ -517,11 +546,15 @@
                     </group>
                   </group>
                   <group name="pis_st" string="PIS ST">
-                    <field name="pisst_tax_id" />
+                    <field
+                                        name="pisst_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                     <field
                                         name="pisst_cst_id"
                                         force_save="1"
                                         attrs="{'readonly': [('pisst_tax_id', '!=', False)]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                     <field name="pisst_cst_code" readonly="1" invisible="1" />
                   </group>
@@ -557,7 +590,10 @@
                     </group>
                   </group>
                   <group string="Retenções">
-                      <field name="pis_wh_tax_id" />
+                      <field
+                                        name="pis_wh_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                   </group>
                   <group>
                       <group>
@@ -588,17 +624,22 @@
               </page>
               <page name="cofins" string="COFINS">
                 <group name="cofins" string="COFINS">
-                  <field name="cofins_tax_id" />
+                  <field
+                                        name="cofins_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                   <field
                                         name="cofins_cst_id"
                                         force_save="1"
                                         attrs="{'readonly': [('cofins_tax_id', '!=', False)]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                   <field name="cofins_cst_code" readonly="1" invisible="1" />
                   <field
                                         name="cofins_credit_id"
                                         force_save="1"
                                         attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                 </group>
                 <group>
@@ -607,6 +648,7 @@
                                             name="cofins_base_id"
                                             force_save="1"
                                             attrs="{'readonly': [('cofins_tax_id', '!=', False)], 'invisible': [('fiscal_operation_type', '=', 'out')]}"
+                                            options="{'no_create': True, 'no_create_edit': True}"
                                         />
                     <field
                                             name="cofins_base_type"
@@ -638,11 +680,15 @@
                   </group>
                 </group>
                 <group name="cofins_st" string="COFINS ST">
-                  <field name="cofinsst_tax_id" />
+                  <field
+                                        name="cofinsst_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                   <field
                                         name="cofinsst_cst_id"
                                         force_save="1"
                                         attrs="{'readonly': [('cofinsst_tax_id', '!=', False)]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                   <field name="cofinsst_cst_code" readonly="1" invisible="1" />
                 </group>
@@ -678,7 +724,10 @@
                   </group>
                 </group>
                   <group string="Retenções">
-                      <field name="cofins_wh_tax_id" />
+                      <field
+                                        name="cofins_wh_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                   </group>
                   <group>
                       <group>
@@ -742,7 +791,10 @@
                         </group>
                     </group>
                     <group string="Retenções">
-                        <field name="csll_wh_tax_id" />
+                        <field
+                                        name="csll_wh_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                     </group>
                     <group>
                         <group>
@@ -777,7 +829,10 @@
                                 attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"
                             >
                     <group>
-                        <field name="irpj_tax_id" />
+                        <field
+                                        name="irpj_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                     </group>
                     <group>
                         <group>
@@ -806,7 +861,10 @@
                         </group>
                     </group>
                     <group string="Retenções">
-                        <field name="irpj_wh_tax_id" />
+                        <field
+                                        name="irpj_wh_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                     </group>
                     <group>
                         <group>
@@ -841,7 +899,10 @@
                                 attrs="{'invisible': [('fiscal_genre_code', '!=', '00')]}"
                             >
                     <group>
-                        <field name="inss_tax_id" />
+                        <field
+                                        name="inss_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                     </group>
                     <group>
                         <group>
@@ -870,7 +931,10 @@
                         </group>
                     </group>
                     <group string="Retenções">
-                        <field name="inss_wh_tax_id" />
+                        <field
+                                        name="inss_wh_tax_id"
+                                        options="{'no_create': True, 'no_create_edit': True}"
+                                    />
                     </group>
                     <group>
                         <group>
