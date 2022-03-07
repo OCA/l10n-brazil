@@ -174,9 +174,9 @@ class NFeRelated(spec_models.StackedModel):
         return super()._export_fields(xsd_fields, class_obj, export_dict)
 
     def _prepare_NFP_values(self):
-        self.state_id = self.produtor_partner_id.state_id
+        self.state_id = self.produtor_partner_id.state_id or self.state_id
         self.cpfcnpj_type = (
             "cpf" if self.produtor_partner_id.type == "person" else "cnpj"
-        )
-        self.cnpj_cpf = self.produtor_partner_id.cnpj_cpf
-        self.inscr_est = self.produtor_partner_id.inscr_est
+        ) or self.cpfcnpj_type
+        self.cnpj_cpf = self.produtor_partner_id.cnpj_cpf or self.cnpj_cpf
+        self.inscr_est = self.produtor_partner_id.inscr_est or self.inscr_est
