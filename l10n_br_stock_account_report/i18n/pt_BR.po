@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_stock_account_report
+# 	* l10n_br_stock_account_report
 #
 msgid ""
 msgstr ""
@@ -10,6 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2022-03-04 19:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -86,7 +87,7 @@ msgid "<strong>State Registration: </strong>"
 msgstr "<strong>Inscrição Estadual: </strong>"
 
 #. module: l10n_br_stock_account_report
-#: code:addons/l10n_br_stock_account_report/wizards/l10n_br_p7_model_inventory_report_wizard.py:20
+#: code:addons/l10n_br_stock_account_report/wizards/l10n_br_p7_model_inventory_report_wizard.py:19
 #: selection:l10n_br.p7.model.inventory.report.wizard,compute_at_date:0
 #, python-format
 msgid "At a Specific Date"
@@ -120,8 +121,11 @@ msgstr "Escolha uma data para obter o inventário nessa data"
 
 #. module: l10n_br_stock_account_report
 #: model:ir.model.fields,help:l10n_br_stock_account_report.field_l10n_br_p7_model_inventory_report_wizard__compute_at_date
-msgid "Choose to analyze the current inventory or from a specific date in the past."
-msgstr "Escolha analisar o inventário atual ou a partir de uma data específica no passado."
+msgid ""
+"Choose to analyze the current inventory or from a specific date in the past."
+msgstr ""
+"Escolha analisar o inventário atual ou a partir de uma data específica no "
+"passado."
 
 #. module: l10n_br_stock_account_report
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_wizard_view
@@ -149,7 +153,7 @@ msgid "Created on"
 msgstr "Criado em"
 
 #. module: l10n_br_stock_account_report
-#: code:addons/l10n_br_stock_account_report/wizards/l10n_br_p7_model_inventory_report_wizard.py:20
+#: code:addons/l10n_br_stock_account_report/wizards/l10n_br_p7_model_inventory_report_wizard.py:19
 #: selection:l10n_br.p7.model.inventory.report.wizard,compute_at_date:0
 #, python-format
 msgid "Current Inventory"
@@ -209,4 +213,3 @@ msgstr "| Data de Geração:"
 #: model_terms:ir.ui.view,arch_db:l10n_br_stock_account_report.l10n_br_p7_model_inventory_report_view
 msgid "| Page: <span class=\"page\"/> / <span class=\"topage\"/>"
 msgstr "| Página: <span class=\"page\"/> / <span class=\"topage\"/>"
-
