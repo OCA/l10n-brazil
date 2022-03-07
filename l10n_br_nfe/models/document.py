@@ -299,10 +299,16 @@ class NFe(spec_models.StackedModel):
     @api.depends("fiscal_operation_type", "nfe_transmission")
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
-        for record in self:
+        for record in self.filtered(filter_processador_edoc_nfe):
             # id
-            if record.document_type_id and record.document_type_id.prefix:
-                record.nfe40_Id = record.document_type_id.prefix + record.document_key
+            if (
+                record.document_type_id
+                and record.document_type_id.prefix
+                and record.document_key
+            ):
+                record.nfe40_Id = "{}{}".format(
+                    record.document_type_id.prefix, record.document_key
+                )
             else:
                 record.nfe40_Id = None
 
