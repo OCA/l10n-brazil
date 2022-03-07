@@ -13,9 +13,3 @@ class StockPicking(models.Model):
         return su._get_fiscal_document_access_keys_fields() + [
             "pos_order_ids.chave_cfe"
         ]
-
-    def _create_returns(self):
-        return super(StockPicking, self).with_context(
-            mail_create_nolog=True, tracking_disable=True,
-            mail_create_nosubscribe=True, mail_notrack=True
-        )._create_returns()

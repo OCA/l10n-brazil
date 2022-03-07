@@ -59,3 +59,9 @@ class StockReturnPicking(models.TransientModel):
         picking_devolucao = self.env["stock.picking"].browse(picking_ids)
         picking_devolucao.action_assign()
         return picking_devolucao
+
+    def _create_returns(self):
+        return super(StockReturnPicking, self).with_context(
+            mail_create_nolog=True, tracking_disable=True,
+            mail_create_nosubscribe=True, mail_notrack=True
+        )._create_returns()
