@@ -68,7 +68,10 @@
         </header>
         <sheet>
           <group>
-            <field name="tax_group_id" />
+            <field
+                            name="tax_group_id"
+                            options="{'no_create': True, 'no_create_edit': True}"
+                        />
             <field name="type_in_out" invisible="1" />
             <field name="is_taxed" />
             <field
@@ -83,10 +86,12 @@
             <field
                             name="cst_id"
                             attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"
+                            options="{'no_create': True, 'no_create_edit': True}"
                         />
             <field
                             name="ipi_guideline_id"
                             attrs="{'invisible': [('tax_domain', '!=', 'ipi')]}"
+                            options="{'no_create': True, 'no_create_edit': True}"
                         />
           </group>
           <group
@@ -94,8 +99,11 @@
                         string="State"
                         attrs="{'invisible': [('icms_regulation_id', '=', False)]}"
                     >
-            <field name="state_from_id" />
-            <field name="state_to_ids" />
+            <field
+                            name="state_from_id"
+                            options="{'no_create': True, 'no_create_edit': True}"
+                        />
+            <field name="state_to_ids" options="{'no_create': True}" />
           </group>
           <notebook>
             <page name="ncms_page" string="NCM">
@@ -111,7 +119,13 @@
                                         title="Search NCMs"
                                     />
                 </div>
-                <field name="ncm_ids" force_save="1" nolabel="1" colspan="2" />
+                <field
+                                    name="ncm_ids"
+                                    options="{'no_create': True}"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                />
                 <field name="ncm_exception" />
                 <field name="not_in_ncms" />
               </group>
@@ -129,7 +143,13 @@
                                         title="Search NBMs"
                                     />
                 </div>
-                <field name="nbm_ids" force_save="1" nolabel="1" colspan="2" />
+                <field
+                                    name="nbm_ids"
+                                    options="{'no_create': True}"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                />
                 <field name="not_in_nbms" />
               </group>
             </page>
@@ -146,7 +166,13 @@
                                         title="Search CESTs"
                                     />
                 </div>
-                <field name="cest_ids" force_save="1" nolabel="1" colspan="2" />
+                <field
+                                    name="cest_ids"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                    options="{'no_create': True}"
+                                />
               </group>
             </page>
             <page name="products_page" string="Product">
