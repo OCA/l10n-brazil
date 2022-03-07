@@ -43,6 +43,7 @@
     <record id="invoice_form" model="ir.ui.view">
         <field name="name">l10n_br_account.invoice.form</field>
         <field name="model">account.invoice</field>
+        <field name="priority">30</field>
         <field name="inherit_id" ref="account.invoice_form" />
         <field name="arch" type="xml">
             <div name="button_box" position="inside">
