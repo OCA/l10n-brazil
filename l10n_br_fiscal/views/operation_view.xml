@@ -108,7 +108,10 @@
                                 <form>
                                     <group>
                                         <field name="company_id" invisible="1" />
-                                        <field name="document_type_id" />
+                                        <field
+                                            name="document_type_id"
+                                            options="{'no_create': True, 'no_create_edit': True}"
+                                        />
                                         <field
                                             name="document_serie_id"
                                             context="{'default_document_type_id': document_type_id, 'default_company_id': company_id}"
