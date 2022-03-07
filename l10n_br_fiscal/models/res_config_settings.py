@@ -54,3 +54,7 @@ class ResConfigSettings(models.TransientModel):
     module_l10n_br_cte = fields.Boolean(
         string="CT-e",
     )
+
+    module_l10n_br_stock_account_report = fields.Boolean(
+        string="Brazilian Stock Account Report - P7 Model",
+    )
