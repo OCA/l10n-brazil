@@ -64,7 +64,7 @@ To use this module, go to:
 Changelog
 =========
 
-12.0.1.0.0 (2020-07-29)
+12.0.1.0.0 (2021-07-29)
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 * [NEW] First version.
