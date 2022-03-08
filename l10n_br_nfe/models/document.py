@@ -888,3 +888,6 @@ class NFe(spec_models.StackedModel):
 
     def import_xml(self, nfe_binding, dry_run, edoc_type="out"):
         return self._import_xml_nfe(nfe_binding, dry_run, edoc_type)
+
+    def action_document_confirm_imported(self):
+        self._change_state(SITUACAO_EDOC_AUTORIZADA)
