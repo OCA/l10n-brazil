@@ -28,6 +28,14 @@ class FiscalDocumentMixinMethods(models.AbstractModel):
         """Get object lines instaces used to compute fields"""
         return self.mapped("line_ids")
 
+    def is_sale_industry(self):
+        types = self.line_ids.mapped("cfop_id").mapped("type_move")
+        return "sale_industry" in types
+
+    def is_sale_commerce(self):
+        types = self.line_ids.mapped("cfop_id").mapped("type_move")
+        return "sale_commerce" in types
+
     @api.model
     def _get_amount_fields(self):
         """Get all fields with 'amount_' prefix"""
