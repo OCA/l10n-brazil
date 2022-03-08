@@ -448,7 +448,6 @@ class AccountMove(models.Model):
             fiscal_price=base_line.fiscal_price,
             fiscal_quantity=base_line.fiscal_quantity,
             uot_id=base_line.uot_id,
-            icmssn_range=base_line.icmssn_range_id,
             icms_origin=base_line.icms_origin,
             ind_final=base_line.ind_final,
         )
