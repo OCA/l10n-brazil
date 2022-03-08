@@ -440,7 +440,9 @@ class PosOrder(models.Model):
 
     @api.multi
     def refund(self):
-        res = super(PosOrder, self).refund()
+        res = super(PosOrder, self.with_context(
+            mail_create_nolog=True, tracking_disable=True,
+            mail_create_nosubscribe=True, mail_notrack=True)).refund()
         refund_order = self.browse(res['res_id'])
         refund_order.amount_total = self.amount_total * -1
 

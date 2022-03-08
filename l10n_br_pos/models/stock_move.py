@@ -27,3 +27,8 @@ class StockMove(models.Model):
             if move_line.product_id in pos_order_line_product_price_map
             else super(StockMove, self)._get_price_unit_invoice(move_line, type)
         )
+
+    def write(self, vals):
+        return super(StockMove, self.with_context(
+            mail_create_nolog=True, tracking_disable=True,
+            mail_create_nosubscribe=True, mail_notrack=True)).write(vals)
