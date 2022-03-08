@@ -1,8 +1,11 @@
 # Copyright (C) 2019  Renato Lima - Akretion
 # Copyright (C) 2020  Luis Felipe Mileo - KMEE
+# Copyright (C) 2023  Antônio S. Pereira Neto - Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models
+from odoo import api, fields, models
+
+from ..constants.fiscal import TAX_FRAMEWORK_SIMPLES
 
 
 class SimplifiedTax(models.Model):
@@ -30,3 +33,14 @@ class SimplifiedTax(models.Model):
     coefficient_r = fields.Boolean(
         readonly=True,
     )
+
+    @api.model
+    def create(self, vals):
+        """Override create for update effective tax lines in all companys"""
+        record = super().create(vals)
+        companies = self.env["res.company"].search(
+            [("tax_framework", "=", TAX_FRAMEWORK_SIMPLES)]
+        )
+        for company in companies:
+            company.update_effective_tax_lines()
+        return record

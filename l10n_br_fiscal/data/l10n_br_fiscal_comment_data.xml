@@ -18,9 +18,25 @@
 
     <record id="fiscal_comment_sn_permissao_credito" model="l10n_br_fiscal.comment">
         <field name="name">Simples Nacional permissão de crédito</field>
-        <field
-            name="comment"
-        >SIMPLES NACIONAL - Documento emitido por ME ou EPP optante pelo simples nacional, não gera direito a credito fiscal de IPI. Permite o aproveitamento de crédito de ICMS no valor de ${format_amount(doc.amount_icmssn_credit_value)},  nos termos do artigo 23 da LC 123/2006.</field>
+        <field name="comment">
+SIMPLES NACIONAL - Documento emitido por ME ou EPP optante pelo simples nacional, não gera direito a credito fiscal de IPI. Permite o aproveitamento do crédito de ICMS, no valor de ${format_amount(doc.amount_icmssn_credit_value)}, correspondente à alíquota de
+%- if doc.is_sale_industry():
+%- if not doc.is_sale_commerce():
+${format_number(doc.company_id.icmssn_credit_industry)}%
+%- endif
+%- endif
+%- if doc.is_sale_commerce():
+%- if not doc.is_sale_industry():
+ ${format_number(doc.company_id.icmssn_credit_commerce)}%
+%- endif
+%- endif
+%- if doc.is_sale_industry():
+%- if doc.is_sale_commerce():
+ ${format_number(doc.company_id.icmssn_credit_industry)}% para industrialização e de ${format_number(doc.company_id.icmssn_credit_commerce)}% para revenda
+%- endif
+%- endif
+, nos termos do artigo 23 da LC 123/2006.
+        </field>
         <field name="comment_type">fiscal</field>
         <field name="object">l10n_br_fiscal.document.mixin</field>
     </record>

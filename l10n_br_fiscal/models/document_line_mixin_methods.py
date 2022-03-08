@@ -210,7 +210,6 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             cest=self.cest_id,
             operation_line=self.fiscal_operation_line_id,
             cfop=self.cfop_id,
-            icmssn_range=self.icmssn_range_id,
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
             ind_final=self.ind_final,
@@ -593,16 +592,12 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         cst_id = tax_dict.get("cst_id").id if tax_dict.get("cst_id") else False
         icmssn_base = tax_dict.get("base", 0.0)
         icmssn_credit_value = tax_dict.get("tax_value", 0.0)
-        simple_value = icmssn_base * self.icmssn_range_id.total_tax_percent
-        simple_without_icms_value = simple_value - icmssn_credit_value
         return {
             "icms_cst_id": cst_id,
             "icmssn_base": icmssn_base,
             "icmssn_percent": tax_dict.get("percent_amount"),
             "icmssn_reduction": tax_dict.get("percent_reduction"),
             "icmssn_credit_value": icmssn_credit_value,
-            "simple_value": simple_value,
-            "simple_without_icms_value": simple_without_icms_value,
         }
 
     @api.onchange(
