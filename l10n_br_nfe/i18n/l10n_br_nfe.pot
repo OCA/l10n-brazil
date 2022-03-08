@@ -167,7 +167,7 @@ msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:727
+#: code:addons/l10n_br_nfe/models/document.py:733
 #, python-format
 msgid "Authorization Protocol Not Found!"
 msgstr ""
@@ -284,7 +284,7 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:393
+#: code:addons/l10n_br_nfe/models/document.py:399
 #: code:addons/l10n_br_nfe/models/invalidate_number.py:30
 #, python-format
 msgid "Certificado não encontrado"
