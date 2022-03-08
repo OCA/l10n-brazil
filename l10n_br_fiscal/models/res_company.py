@@ -54,7 +54,6 @@ class ResCompany(models.Model):
         partner_fields = super()._get_company_address_fields(partner)
         partner_fields.update(
             {
-                "tax_framework": partner.tax_framework,
                 "cnae_main_id": partner.cnae_main_id,
             }
         )
@@ -64,6 +63,11 @@ class ResCompany(models.Model):
         """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.cnae_main_id = c.cnae_main_id
+
+    @api.depends("partner_id", "partner_id.tax_framework")
+    def _compute_tax_framework(self):
+        for c in self:
+            c.tax_framework = c.partner_id.tax_framework
 
     def _inverse_tax_framework(self):
         """Write the l10n_br specific functional fields."""
@@ -169,8 +173,9 @@ class ResCompany(models.Model):
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_NORMAL,
-        compute="_compute_address",
+        compute="_compute_tax_framework",
         inverse="_inverse_tax_framework",
+        store=True,
         string="Tax Framework",
     )
 
