@@ -526,9 +526,8 @@ class Tax(models.Model):
         tax_dict = taxes_dict.get(tax.tax_domain)
         partner = kwargs.get("partner")
         company = kwargs.get("company")
-        currency = kwargs.get("currency", company.currency_id)
         cst = kwargs.get("cst", self.env["l10n_br_fiscal.cst"])
-        icmssn_range = kwargs.get("icmssn_range")
+        cfop_id = kwargs.get("cfop")
 
         # Get Computed IPI Tax
         tax_dict_ipi = taxes_dict.get("ipi", {})
@@ -541,10 +540,11 @@ class Tax(models.Model):
         # Partner ICMS's Contributor
         if partner.ind_ie_dest in (NFE_IND_IE_DEST_1, NFE_IND_IE_DEST_2):
             if cst.code in ICMS_SN_CST_WITH_CREDIT:
-                icms_sn_percent = currency.round(
-                    company.simplified_tax_percent
-                    * (icmssn_range.tax_icms_percent / 100)
-                )
+                icms_sn_percent = 0.0
+                if cfop_id.type_move == "sale_commerce":
+                    icms_sn_percent = company.icmssn_credit_commerce
+                if cfop_id.type_move == "sale_industry":
+                    icms_sn_percent = company.icmssn_credit_industry
 
                 tax_dict["percent_amount"] = icms_sn_percent
                 tax_dict["value_amount"] = icms_sn_percent

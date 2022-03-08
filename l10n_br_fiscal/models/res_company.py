@@ -1,5 +1,6 @@
 # Copyright (C) 2013  Renato Lima - Akretion
 # Copyright (C) 2020  Luis Felipe Mileo - KMEE
+# Copyright (C) 2023  Antônio S. Pereira Neto - Engenere
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
 import logging
@@ -41,10 +42,34 @@ _logger = logging.getLogger(__name__)
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    sn_effective_tax_ids = fields.One2many(
+        comodel_name="l10n_br_fiscal.simplified.tax.effective",
+        inverse_name="company_id",
+        string="Effective Taxs",
+        help="Simples Nacional effective tax rate for each annex,"
+        "based on the range the company currently falls into.",
+    )
+
+    icmssn_credit_industry = fields.Float(
+        string="ICMS Credit rate for Industry",
+        help="Rate referring to the icms credit allowed when it is a sale of"
+        "industrialized product in the establishment."
+        "Applicable to Simple Nacional.",
+        readonly=True,
+        compute="_compute_icmssn",
+    )
+
+    icmssn_credit_commerce = fields.Float(
+        string="ICMS Credit rate for Commerce",
+        help="Rate referring to the icms credit allowed when it is a resale"
+        "of merchandise. Applicable to Simple Nacional.",
+        readonly=True,
+        compute="_compute_icmssn",
+    )
+
     def _get_company_address_field_names(self):
         partner_fields = super()._get_company_address_field_names()
         return partner_fields + [
-            "tax_framework",
             "cnae_main_id",
         ]
 
@@ -53,57 +78,15 @@ class ResCompany(models.Model):
         for c in self:
             c.partner_id.cnae_main_id = c.cnae_main_id
 
+    @api.depends("partner_id", "partner_id.tax_framework")
+    def _compute_tax_framework(self):
+        for c in self:
+            c.tax_framework = c.partner_id.tax_framework
+
     def _inverse_tax_framework(self):
         """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
-
-    @api.depends("cnae_main_id", "annual_revenue", "payroll_amount")
-    def _compute_simplified_tax(self):
-        for record in self:
-            record.coefficient_r = False
-            if record.payroll_amount and record.annual_revenue:
-                coefficient_r_percent = record.payroll_amount / record.annual_revenue
-                if coefficient_r_percent > COEFFICIENT_R:
-                    record.coefficient_r = True
-                record.coefficient_r_percent = coefficient_r_percent
-
-            simplified_tax_id = self.env["l10n_br_fiscal.simplified.tax"].search(
-                [
-                    ("cnae_ids", "=", record.cnae_main_id.id),
-                    ("coefficient_r", "=", record.coefficient_r),
-                ]
-            )
-            record.simplified_tax_id = simplified_tax_id
-
-            if simplified_tax_id:
-                tax_range = record.env["l10n_br_fiscal.simplified.tax.range"].search(
-                    [
-                        ("simplified_tax_id", "=", simplified_tax_id.id),
-                        ("inital_revenue", "<=", record.annual_revenue),
-                        ("final_revenue", ">=", record.annual_revenue),
-                        ("simplified_tax_id.coefficient_r", "=", record.coefficient_r),
-                    ],
-                    limit=1,
-                )
-                record.simplified_tax_range_id = tax_range
-
-                if record.simplified_tax_range_id and record.annual_revenue:
-                    record.simplified_tax_percent = round(
-                        (
-                            (
-                                (
-                                    record.annual_revenue
-                                    * record.simplified_tax_range_id.total_tax_percent
-                                    / 100
-                                )
-                                - record.simplified_tax_range_id.amount_deduced
-                            )
-                            / record.annual_revenue
-                        )
-                        * 100,
-                        record.currency_id.decimal_places,
-                    )
 
     cnae_main_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.cnae",
@@ -126,8 +109,10 @@ class ResCompany(models.Model):
     tax_framework = fields.Selection(
         selection=TAX_FRAMEWORK,
         default=TAX_FRAMEWORK_NORMAL,
-        compute="_compute_address",
+        compute="_compute_tax_framework",
         inverse="_inverse_tax_framework",
+        store=True,
+        string="Tax Framework",
     )
 
     profit_calculation = fields.Selection(
@@ -147,28 +132,6 @@ class ResCompany(models.Model):
 
     annual_revenue = fields.Monetary(
         currency_field="currency_id",
-    )
-
-    simplified_tax_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.simplified.tax",
-        compute="_compute_simplified_tax",
-        string="Simplified Tax",
-        store=True,
-        readonly=True,
-    )
-
-    simplified_tax_range_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.simplified.tax.range",
-        compute="_compute_simplified_tax",
-        store=True,
-        readonly=True,
-        string="Simplified Tax Range",
-    )
-
-    simplified_tax_percent = fields.Float(
-        compute="_compute_simplified_tax",
-        store=True,
-        digits="Fiscal Tax Percent",
     )
 
     payroll_amount = fields.Monetary(
@@ -498,3 +461,57 @@ class ResCompany(models.Model):
             self._set_tax_definition(self.tax_inss_wh_id)
         else:
             self._del_tax_definition(TAX_DOMAIN_INSS_WH)
+
+    @api.depends("annual_revenue", "payroll_amount")
+    def _compute_simplified_tax(self):
+        for record in self:
+            record._calculate_coefficient_r()
+
+    def _compute_icmssn(self):
+        for rec in self:
+            rec.icmssn_credit_commerce = rec.sn_effective_tax_ids.filtered(
+                lambda t: t.simplified_tax_id.name == "Anexo 1 - Comércio"
+            ).tax_icms_percent
+            rec.icmssn_credit_industry = rec.sn_effective_tax_ids.filtered(
+                lambda t: t.simplified_tax_id.name == "Anexo 2 - Indústria"
+            ).tax_icms_percent
+
+    def _calculate_coefficient_r(self):
+        for record in self:
+            record.coefficient_r = False
+            if record.payroll_amount and record.annual_revenue:
+                coefficient_r_percent = record.payroll_amount / record.annual_revenue
+                if coefficient_r_percent > COEFFICIENT_R:
+                    record.coefficient_r = True
+                record.coefficient_r_percent = coefficient_r_percent
+
+    def update_effective_tax_lines(self):
+        for record in self:
+            simplified_tax_model = self.env["l10n_br_fiscal.simplified.tax"]
+            for simplified_id in simplified_tax_model.search([]):
+                effective_tax = record.sn_effective_tax_ids.filtered(
+                    lambda t: t.simplified_tax_id.id == simplified_id.id
+                )
+                if not effective_tax:
+                    record.sn_effective_tax_ids.create(
+                        {
+                            "simplified_tax_id": simplified_id.id,
+                            "company_id": record.id,
+                        }
+                    )
+
+    @api.model
+    def create(self, vals):
+        record = super().create(vals)
+        if vals.get("tax_framework") == TAX_FRAMEWORK_SIMPLES:
+            record.sudo().update_effective_tax_lines()
+        return record
+
+    def write(self, vals):
+        result = super().write(vals)
+        if "tax_framework" in vals:
+            if vals["tax_framework"] == TAX_FRAMEWORK_SIMPLES:
+                self.sudo().update_effective_tax_lines()
+            else:
+                self.sn_effective_tax_ids = [(5, 0, 0)]
+        return result

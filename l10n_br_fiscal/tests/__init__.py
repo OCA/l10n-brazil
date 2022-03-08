@@ -15,4 +15,5 @@ from . import (
     test_subsequent_operation,
     test_uom_uom,
     test_workflow,
+    test_icmssn,
 )

@@ -28,7 +28,6 @@ from ..constants.fiscal import (
     TAX_DOMAIN_PIS,
     TAX_DOMAIN_PIS_ST,
     TAX_DOMAIN_PIS_WH,
-    TAX_FRAMEWORK_SIMPLES_ALL,
     TAX_ICMS_OR_ISSQN,
 )
 from ..constants.icms import (
@@ -55,21 +54,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     @api.model
     def _default_operation(self):
         return False
-
-    @api.model
-    def _default_icmssn_range_id(self):
-        company = self.env.company
-        stax_range_id = self.env["l10n_br_fiscal.simplified.tax.range"]
-
-        if self.env.context.get("default_company_id"):
-            company = self.env["res.company"].browse(
-                self.env.context.get("default_company_id")
-            )
-
-        if company.tax_framework in TAX_FRAMEWORK_SIMPLES_ALL:
-            stax_range_id = company.simplified_tax_range_id
-
-        return stax_range_id
 
     @api.model
     def _operation_domain(self):
@@ -470,7 +454,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     icmssn_range_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.simplified.tax.range",
         string="Simplified Range Tax",
-        default=_default_icmssn_range_id,
     )
 
     icmssn_tax_id = fields.Many2one(
@@ -836,12 +819,6 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     inss_wh_reduction = fields.Float(string="INSS RET % Reduction")
 
     inss_wh_value = fields.Monetary(string="INSS RET Value")
-
-    simple_value = fields.Monetary(string="National Simple Taxes")
-
-    simple_without_icms_value = fields.Monetary(
-        string="National Simple Taxes without ICMS"
-    )
 
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",

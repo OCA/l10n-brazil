@@ -95,7 +95,6 @@ class TestFiscalTax(SavepointCase):
             "cest": False,
             "operation_line": self.env.ref("l10n_br_fiscal.fo_venda_venda"),
             "cfop": self.env.ref("l10n_br_fiscal.cfop_6101"),
-            "icmssn_range": False,
             "icms_origin": ICMS_ORIGIN_DEFAULT,
             "ind_final": FINAL_CUSTOMER_YES,
         }
