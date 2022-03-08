@@ -745,6 +745,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,edoc_purpose:0
+#: selection:l10n_br_fiscal.operation,edoc_purpose:0
 msgid "Ajuste"
 msgstr ""
 
@@ -1271,11 +1272,6 @@ msgid "CFOP already exists with this code !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
-msgid "CFOPs"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_closing_form
 msgid "CFe"
 msgstr ""
@@ -1753,7 +1749,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:551
+#: code:addons/l10n_br_fiscal/models/document.py:552
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -2136,6 +2132,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_invoice_mixin__company_tax_framework
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
 msgid "Company Tax Framework"
 msgstr ""
 
@@ -2152,10 +2149,16 @@ msgid "Company ZIP"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
+msgid "Company and Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,edoc_purpose:0
 #: selection:l10n_br_fiscal.document,state_fiscal:0
 #: selection:l10n_br_fiscal.document.electronic,state_fiscal:0
 #: selection:l10n_br_fiscal.document.workflow,state_fiscal:0
+#: selection:l10n_br_fiscal.operation,edoc_purpose:0
 msgid "Complementar"
 msgstr ""
 
@@ -2248,11 +2251,6 @@ msgid "Contribuinte do ICMS"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
-msgid "Copmpany Tax Framework"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__correction_event_ids
 msgid "Correction Events"
 msgstr ""
@@ -2270,7 +2268,7 @@ msgid "Corrections"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:45
+#: code:addons/l10n_br_fiscal/models/operation.py:62
 #: selection:l10n_br_fiscal.operation,default_price_unit:0
 #, python-format
 msgid "Cost Price"
@@ -2710,6 +2708,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.document,edoc_purpose:0
+#: selection:l10n_br_fiscal.operation,edoc_purpose:0
 msgid "Devolução de mercadoria"
 msgstr ""
 
@@ -3343,6 +3342,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__edoc_purpose
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__edoc_purpose
 msgid "Finalidade"
 msgstr ""
 
@@ -3606,7 +3606,7 @@ msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:132
+#: code:addons/l10n_br_fiscal/models/operation.py:154
 #: sql_constraint:l10n_br_fiscal.operation:0
 #, python-format
 msgid "Fiscal Operation already exists with this code !"
@@ -6267,7 +6267,7 @@ msgid "NCM List"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/ncm.py:49
+#: code:addons/l10n_br_fiscal/models/ncm.py:58
 #: sql_constraint:l10n_br_fiscal.ncm:0
 #, python-format
 msgid "NCM already exists with this code !"
@@ -6473,6 +6473,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.cnae,internal_type:0
 #: selection:l10n_br_fiscal.document,edoc_purpose:0
+#: selection:l10n_br_fiscal.operation,edoc_purpose:0
 #: selection:l10n_br_fiscal.service.type,internal_type:0
 msgid "Normal"
 msgstr ""
@@ -6771,6 +6772,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.operations_config_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 msgid "Operations"
 msgstr ""
 
@@ -7420,6 +7422,11 @@ msgid "Product Fiscal Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
+msgid "Product Information"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_product_template
 msgid "Product Template"
 msgstr ""
@@ -7917,7 +7924,7 @@ msgid "Sale Own Use"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:45
+#: code:addons/l10n_br_fiscal/models/operation.py:62
 #: selection:l10n_br_fiscal.operation,default_price_unit:0
 #, python-format
 msgid "Sale Price"
@@ -8026,7 +8033,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:578
+#: code:addons/l10n_br_fiscal/models/document.py:579
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8362,11 +8369,6 @@ msgid "Subsequent Operation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
-msgid "Subsequent Operations"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_subsequent_generated
 msgid "Subsequent documents generated?"
 msgstr ""
@@ -8498,9 +8500,14 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_definition
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_definition_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Tax Definition"
@@ -8559,7 +8566,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__tax_framework
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__tax_framework
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
 msgid "Tax Framework"
 msgstr ""
 
@@ -9293,13 +9299,13 @@ msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:151
+#: code:addons/l10n_br_fiscal/models/operation.py:173
 #, python-format
 msgid "You cannot delete an Operation which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_definition.py:222
+#: code:addons/l10n_br_fiscal/models/tax_definition.py:242
 #, python-format
 msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
