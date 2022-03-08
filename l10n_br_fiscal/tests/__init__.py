@@ -14,3 +14,4 @@ from . import test_subsequent_operation
 from . import test_uom_uom
 from . import test_fiscal_document_nfse
 from . import test_ncm
+from . import test_icmssn
