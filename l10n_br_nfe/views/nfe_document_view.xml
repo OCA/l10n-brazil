@@ -37,6 +37,13 @@
                   <field name="nfe40_detPag" />
               </group>
           </page>
+
+          <xpath expr="//form/field[@name='document_type']" position="after">
+              <field name="imported_document" invisible="1"/>
+          </xpath>
+          <xpath expr="//header/button[@name='action_document_confirm']" position="attributes">
+              <attribute name="attrs">{'invisible': ['|', ('state_edoc', '!=', 'em_digitacao'), ('imported_document', '=', True)]}</attribute>
+          </xpath>
       </field>
   </record>
 
