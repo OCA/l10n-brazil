@@ -90,6 +90,8 @@ class NfeImport(models.TransientModel):
             )
 
             self._check_nfe_xml_products(parsed_xml)
+            if self.partner_id:
+                self.get_partner_product_relation()
 
     def _check_nfe_xml_products(self, parsed_xml):
         product_ids = []
@@ -157,6 +159,8 @@ class NfeImport(models.TransientModel):
             edoc_type=self.fiscal_operation_type,
         )
 
+        self.save_partner_product_relation(edoc)
+
         self._attach_original_nfe_xml_to_document(edoc)
 
         return {
@@ -167,6 +171,29 @@ class NfeImport(models.TransientModel):
             "res_id": edoc.id,
             "res_model": "l10n_br_fiscal.document",
         }
+
+    def save_partner_product_relation(self, edoc):
+        for product_line in self.imported_products_ids:
+            partner_product_relation = self.env['product.supplierinfo'].search([('name', '=', edoc.partner_id.id), ('product_name', '=', product_line.product_name)], limit=1)
+            if partner_product_relation:
+                partner_product_relation.product_id = product_line.product_id
+                partner_product_relation.price = product_line.price_unit_com
+                partner_product_relation.product_id.write({'seller_ids': [(4, partner_product_relation.id)]})
+            else:
+                supplier_info = self.env['product.supplierinfo'].create({
+                    'name': edoc.partner_id.id,
+                    'product_name': product_line.product_name,
+                    'product_id': product_line.product_id.id,
+                    'price': product_line.price_unit_com,
+                })
+                supplier_info.product_id.write({'seller_ids': [(4, supplier_info.id)]})
+
+    def get_partner_product_relation(self):
+        for product_line in self.imported_products_ids:
+            partner_product_relation = self.env['product.supplierinfo'].search(
+                [('name', '=', self.partner_id.id), ('product_name', '=', product_line.product_name)], limit=1)
+            if partner_product_relation:
+                product_line.product_id = partner_product_relation.product_id
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         vals = {
