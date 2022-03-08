@@ -444,7 +444,7 @@ class AccountInvoice(models.Model):
                 fiscal_price=line.fiscal_price,
                 fiscal_quantity=line.fiscal_quantity,
                 uot=line.uot_id,
-                icmssn_range=line.icmssn_range_id,
+                cfop_type_move=line.cfop_id.type_move,
                 ind_final=line.ind_final,
             )["taxes"]
 

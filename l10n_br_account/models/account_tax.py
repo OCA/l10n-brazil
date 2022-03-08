@@ -37,7 +37,7 @@ class AccountTax(models.Model):
         fiscal_price=None,
         fiscal_quantity=None,
         uot=None,
-        icmssn_range=None,
+        cfop_type_move=None,
         icms_origin=None,
         ind_final=FINAL_CUSTOMER_NO,
     ):
@@ -102,7 +102,7 @@ class AccountTax(models.Model):
             other_value=other_value,
             freight_value=freight_value,
             operation_line=operation_line,
-            icmssn_range=icmssn_range,
+            cfop_type_move=cfop_type_move,
             icms_origin=icms_origin or product.icms_origin,
             ind_final=ind_final,
         )
