@@ -51,7 +51,8 @@ class NFeRelated(spec_models.StackedModel):
     )
 
     nfe40_choice5 = fields.Selection(
-        [("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")], "CNPJ/CPF do Produtor"
+        selection=[("nfe40_CNPJ", "CNPJ"), ("nfe40_CPF", "CPF")],
+        string="CNPJ/CPF do Produtor",
     )
 
     nfe40_mod = fields.Selection(
@@ -176,7 +177,7 @@ class NFeRelated(spec_models.StackedModel):
     def _prepare_NFP_values(self):
         self.state_id = self.produtor_partner_id.state_id or self.state_id
         self.cpfcnpj_type = (
-            "cpf" if self.produtor_partner_id.type == "person" else "cnpj"
+            "cnpj" if self.produtor_partner_id.is_company else "cpf"
         ) or self.cpfcnpj_type
         self.cnpj_cpf = self.produtor_partner_id.cnpj_cpf or self.cnpj_cpf
         self.inscr_est = self.produtor_partner_id.inscr_est or self.inscr_est
