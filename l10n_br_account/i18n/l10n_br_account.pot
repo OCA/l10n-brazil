@@ -132,6 +132,11 @@ msgid "Code"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model,name:l10n_br_account.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_br_account
 #: selection:account.invoice.report,issuer:0
 msgid "Company"
 msgstr ""
@@ -246,6 +251,11 @@ msgstr ""
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_document_line
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_invoice_line__fiscal_document_line_id
 msgid "Fiscal Document Line"
+msgstr ""
+
+#. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_res_company__fiscal_dummy_id
+msgid "Fiscal Dummy Document"
 msgstr ""
 
 #. module: l10n_br_account
