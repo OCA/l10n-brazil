@@ -53,8 +53,10 @@ def post_init_hook(cr, registry):
                 account_move
             SET fiscal_document_id=%s
             WHERE
+                company_id=%s
+            AND
                 fiscal_document_id IS NULL;""",
-            (company.fiscal_dummy_id.id,),
+            (company.fiscal_dummy_id.id, company.id),
         )
         cr.execute(
             """
@@ -63,6 +65,8 @@ def post_init_hook(cr, registry):
             SET
                 fiscal_document_line_id=%s
             WHERE
+                company_id=%s
+            AND
                 fiscal_document_line_id IS NULL;""",
-            (company.fiscal_dummy_id.fiscal_line_ids[0].id,),
+            (company.fiscal_dummy_id.fiscal_line_ids[0].id, company.id),
         )
