@@ -272,11 +272,13 @@ class NFe(spec_models.StackedModel):
         string="valor do COFINS (NFe)", related="amount_cofins_value"
     )
 
-    nfe40_infAdFisco = fields.Char(
+    nfe40_infAdFisco = fields.Text(
+        related="customer_additional_data",
         compute="_compute_nfe40_additional_data",
     )
 
-    nfe40_infCpl = fields.Char(
+    nfe40_infCpl = fields.Text(
+        related="customer_additional_data",
         compute="_compute_nfe40_additional_data",
     )
 
