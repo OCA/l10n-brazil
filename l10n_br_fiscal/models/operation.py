@@ -213,6 +213,12 @@ class Operation(models.Model):
 
         domain += [
             "|",
+            ("fiscal_position_id", "=", partner.property_account_position_id.id),
+            ("fiscal_position_id", "=", False),
+        ]
+
+        domain += [
+            "|",
             ("product_type", "=", product.fiscal_type),
             ("product_type", "=", False),
         ]
