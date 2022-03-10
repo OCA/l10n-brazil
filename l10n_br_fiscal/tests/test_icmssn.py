@@ -35,11 +35,9 @@ class TestNFE(TransactionCase):
                 "product_id": self.env.ref("product.product_product_4c").id,
             }
         )
-        line_venda._onchange_product_id_fiscal()
         line_venda.fiscal_operation_line_id = self.env.ref(
             "l10n_br_fiscal.fo_venda_venda"
         )
-        line_venda._onchange_fiscal_operation_line_id()
 
         self.assertEqual(line_venda.icmssn_percent, 2.70)
         self.assertEqual(line_venda.icmssn_credit_value, 20.25)
@@ -55,11 +53,9 @@ class TestNFE(TransactionCase):
                 "product_id": self.env.ref("product.product_product_4c").id,
             }
         )
-        line_revenda._onchange_product_id_fiscal()
         line_revenda.fiscal_operation_line_id = self.env.ref(
             "l10n_br_fiscal.fo_venda_revenda"
         )
-        line_revenda._onchange_fiscal_operation_line_id()
         self.assertEqual(line_revenda.icmssn_percent, 2.66)
         self.assertEqual(line_revenda.icmssn_credit_value, 19.95)
 
