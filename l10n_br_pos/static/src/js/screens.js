@@ -74,11 +74,12 @@ odoo.define("l10n_br_pos.screens", function (require) {
                 list: [{label: "Iniciando Processo de Transmissão"}],
             });
             var order = this.pos.get_order();
-            var res = await self.order_sat_is_valid(order);
-            if (res === true) {
-                _super.apply(this, arguments);
-            }
-            self.gui.close_popup();
+            var res = await self.order_sat_is_valid(order).then((response) => {
+                _super.apply(self, arguments)
+            }).finally((response) => {
+                self.gui.close_popup();
+                return response;
+            });
             return res;
             // Console.log("order_is_valid")
             // console.log("order_is_valid SUPER")
