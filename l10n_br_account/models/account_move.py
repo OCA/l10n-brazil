@@ -79,9 +79,9 @@ class AccountMove(models.Model):
                 .mapped("move_id")
             )
 
-            invoices.filtered(lambda i: i.state == "open").action_invoice_cancel()
+            invoices.filtered(lambda i: i.state == "open").button_cancel()
 
-            invoices.filtered(lambda i: i.state == "cancel").action_invoice_draft()
+            invoices.filtered(lambda i: i.state == "cancel").button_draft()
             invoices.invalidate_cache()
             invoices.filtered(lambda i: i.state == "draft").unlink()
 
