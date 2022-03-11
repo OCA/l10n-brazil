@@ -2,13 +2,14 @@ from odoo import _, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     PROCESSADOR_OCA,
 )
 
 
-def filter_processador_edoc_nfe(record):
+def filter_nfe(record):
     if (
         record.fiscal_document_id.processador_edoc == PROCESSADOR_OCA
         and record.fiscal_document_id.document_type_id.code
@@ -16,6 +17,7 @@ def filter_processador_edoc_nfe(record):
             MODELO_FISCAL_NFE,
             MODELO_FISCAL_NFCE,
         ]
+        and record.fiscal_document_id.issuer == DOCUMENT_ISSUER_COMPANY
     ):
         return True
     return False
@@ -27,7 +29,7 @@ class AccountInvoice(models.Model):
     def action_invoice_open(self):
         super(AccountInvoice, self).action_invoice_open()
 
-        for inv in self.filtered(filter_processador_edoc_nfe):
+        for inv in self.filtered(filter_nfe):
             if inv.amount_financial_total > 0:
                 self.generate_payment_info(inv)
                 self.generate_cobranca_info(inv)
