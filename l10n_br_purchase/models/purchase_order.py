@@ -130,3 +130,13 @@ class PurchaseOrder(models.Model):
     @api.depends("order_line.price_total")
     def _amount_all(self):
         self._compute_amount()
+
+    def _prepare_invoice(self):
+        self.ensure_one()
+        invoice_vals = super()._prepare_invoice()
+        invoice_vals.update(
+            {
+                "fiscal_operation_id": self.fiscal_operation_id.id,
+                "document_type_id": self.company_id.document_type_id.id,
+            })
+        return invoice_vals
