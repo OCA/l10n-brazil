@@ -147,7 +147,12 @@
                 expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
                 position="replace"
             >
-                <field name="tax_ids" optional="hide" />
+                <field
+                    name="tax_ids"
+                    optional="hide"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
                 <field name="document_type_id" invisible="1" />
                 <field name="amount_tax_withholding" optional="hide" />
                 <field name="amount_tax_included" optional="hide" />
@@ -186,7 +191,12 @@
                 expr="//field[@name='line_ids']/tree/field[@name='tax_ids']"
                 position="replace"
             >
-                <field name="tax_ids" invisible="1" />
+                <field
+                    name="tax_ids"
+                    optional="hide"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
                 <field name="document_type_id" invisible="1" />
                 <field name="amount_tax_withholding" invisible="1" />
                 <field name="amount_tax_included" invisible="1" />
