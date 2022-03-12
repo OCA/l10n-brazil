@@ -418,10 +418,13 @@ class AccountInvoice(models.Model):
 
     def action_move_create(self):
         result = super().action_move_create()
+        self.fiscal_document_confirm()
+        return result
+
+    def fiscal_document_confirm(self):
         self.mapped("fiscal_document_id").filtered(
             lambda d: d.document_type_id
         ).action_document_confirm()
-        return result
 
     def action_invoice_draft(self):
         for i in self.filtered(lambda d: d.document_type_id):
