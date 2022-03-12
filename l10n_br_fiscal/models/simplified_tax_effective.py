@@ -49,36 +49,57 @@ class SimplifiedTaxEffective(models.Model):
     tax_icms_percent = fields.Float(
         string="ICMS %",
         digits=dp.get_precision("Fiscal Tax Percent"),
-        compute="_compute_tax_icms_percent",
+        compute="_compute_tax_percent",
         store=True,
     )
 
     tax_cpp_percent = fields.Float(
-        string="CPP %", digits=dp.get_precision("Fiscal Tax Percent")
+        string="CPP %",
+        digits=dp.get_precision("Fiscal Tax Percent"),
+        compute="_compute_tax_percent",
+        store=True,
     )
 
     tax_csll_percent = fields.Float(
-        string="CSLL %", digits=dp.get_precision("Fiscal Tax Percent")
+        string="CSLL %",
+        digits=dp.get_precision("Fiscal Tax Percent"),
+        compute="_compute_tax_percent",
+        store=True,
     )
 
     tax_ipi_percent = fields.Float(
-        string="IPI %", digits=dp.get_precision("Fiscal Tax Percent")
+        string="IPI %",
+        digits=dp.get_precision("Fiscal Tax Percent"),
+        compute="_compute_tax_percent",
+        store=True,
     )
 
     tax_iss_percent = fields.Float(
-        string="ISS %", digits=dp.get_precision("Fiscal Tax Percent")
+        string="ISS %",
+        digits=dp.get_precision("Fiscal Tax Percent"),
+        compute="_compute_tax_percent",
+        store=True,
     )
 
     tax_irpj_percent = fields.Float(
-        string="IRPJ %", digits=dp.get_precision("Fiscal Tax Percent")
+        string="IRPJ %",
+        digits=dp.get_precision("Fiscal Tax Percent"),
+        compute="_compute_tax_percent",
+        store=True,
     )
 
     tax_cofins_percent = fields.Float(
-        string="COFINS %", digits=dp.get_precision("Fiscal Tax Percent")
+        string="COFINS %",
+        digits=dp.get_precision("Fiscal Tax Percent"),
+        compute="_compute_tax_percent",
+        store=True,
     )
 
     tax_pis_percent = fields.Float(
-        string="PIS %", digits=dp.get_precision("Fiscal Tax Percent")
+        string="PIS %",
+        digits=dp.get_precision("Fiscal Tax Percent"),
+        compute="_compute_tax_percent",
+        store=True,
     )
 
     @api.depends(
@@ -93,7 +114,7 @@ class SimplifiedTaxEffective(models.Model):
         "current_range_id.tax_pis_percent",
         "current_range_id.tax_iss_percent",
     )
-    def _compute_tax_icms_percent(self):
+    def _compute_tax_percent(self):
         for rec in self:
             range_id = rec.current_range_id
             rec.tax_icms_percent = rec.calculate_tax(range_id.tax_icms_percent)

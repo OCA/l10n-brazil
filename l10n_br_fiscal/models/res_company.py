@@ -517,7 +517,7 @@ class ResCompany(models.Model):
             self._del_tax_definition(TAX_DOMAIN_INSS_WH)
 
     @api.depends("annual_revenue", "payroll_amount")
-    def _compute_simplifed_tax(self):
+    def _compute_simplified_tax(self):
         for record in self:
             record._calculate_coefficient_r()
 
