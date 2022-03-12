@@ -26,13 +26,12 @@ def filter_nfe(record):
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
-    def action_invoice_open(self):
-        super(AccountInvoice, self).action_invoice_open()
-
+    def fiscal_document_confirm(self):
         for inv in self.filtered(filter_nfe):
             if inv.amount_financial_total > 0:
                 self.generate_payment_info(inv)
                 self.generate_cobranca_info(inv)
+        super(AccountInvoice, self).fiscal_document_confirm()
 
     def generate_payment_info(self, inv):
         if not inv.payment_mode_id.fiscal_payment_mode:
