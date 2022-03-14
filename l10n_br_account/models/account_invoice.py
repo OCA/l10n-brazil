@@ -735,22 +735,26 @@ class AccountMove(models.Model):
     def action_post(self):
         result = super().action_post()
 
-        for record in self.filtered(lambda i: i.refund_move_id):
-            if record.state == "open":
-                # Ao confirmar uma fatura/documento fiscal se é uma devolução
-                # é feito conciliado com o documento de origem para abater
-                # o valor devolvido pelo documento de refund
-                to_reconcile_lines = self.env["account.move.line"]
-                for line in record.move_id.line_ids:
-                    if line.account_id.id == record.account_id.id:
-                        to_reconcile_lines += line
-                    if line.reconciled:
-                        line.remove_move_reconcile()
-                for line in record.refund_move_id.move_id.line_ids:
-                    if line.account_id.id == record.refund_move_id.account_id.id:
-                        to_reconcile_lines += line
+        # TODO FIXME
+        # Deixar a migração das funcionalidades do refund por último.
+        # Verificar se ainda haverá necessidade desse código.
 
-                to_reconcile_lines.filtered(lambda l: l.reconciled).reconcile()
+        # for record in self.filtered(lambda i: i.refund_move_id):
+        #     if record.state == "open":
+        #         # Ao confirmar uma fatura/documento fiscal se é uma devolução
+        #         # é feito conciliado com o documento de origem para abater
+        #         # o valor devolvido pelo documento de refund
+        #         to_reconcile_lines = self.env["account.move.line"]
+        #         for line in record.move_id.line_ids:
+        #             if line.account_id.id == record.account_id.id:
+        #                 to_reconcile_lines += line
+        #             if line.reconciled:
+        #                 line.remove_move_reconcile()
+        #         for line in record.refund_move_id.move_id.line_ids:
+        #             if line.account_id.id == record.refund_move_id.account_id.id:
+        #                 to_reconcile_lines += line
+
+        #         to_reconcile_lines.filtered(lambda l: l.reconciled).reconcile()
 
         return result
 
