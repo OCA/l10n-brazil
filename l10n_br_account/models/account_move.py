@@ -99,5 +99,8 @@ class AccountMove(models.Model):
         return result
 
     def button_cancel(self):
-        self._withholding_validate()
+        # TODO FIXME migration
+        # Esse método é responsavel por verificar se há alguma fatura de impostos retidos
+        # associado a essa fatura e cancela-las também. o método precisa ser refatorado.
+        # self._withholding_validate()
         return super().button_cancel()
