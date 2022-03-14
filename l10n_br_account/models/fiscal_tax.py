@@ -22,7 +22,11 @@ class FiscalTax(models.Model):
         self.ensure_one()
         account_tax_group = self.tax_group_id.account_tax_group()
         return self.env["account.tax"].search(
-            [("tax_group_id", "=", account_tax_group.id), ("active", "=", True)]
+            [
+                ("tax_group_id", "=", account_tax_group.id),
+                ("active", "=", True),
+                ("company_id", "=", self.env.company.id),
+            ]
         )
 
     def _create_account_tax(self):
