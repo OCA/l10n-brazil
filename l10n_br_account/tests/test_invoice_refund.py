@@ -82,7 +82,7 @@ class TestInvoiceRefund(TransactionCase):
     #         "Invoice should be in state Draft",
     #     )
 
-    #     invoice.action_invoice_open()
+    #     invoice.action_post()
     #     self.assertEqual(
     #         invoice.state,
     #         "open",
