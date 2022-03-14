@@ -69,7 +69,7 @@ class AccountMove(models.Model):
                         )
 
                         self._finalize_invoices(invoice)
-                        invoice.action_invoice_open()
+                        invoice.action_post()
 
     def _withholding_validate(self):
         for m in self:
