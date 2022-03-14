@@ -681,13 +681,6 @@ class AccountMove(models.Model):
                     invoice.fiscal_document_id._document_date()
                     invoice.fiscal_document_id._document_number()
 
-    def action_move_create(self):
-        # TODO FIXME migrate. No such method in Odoo 13+
-        result = super().action_move_create()
-        self.mapped("fiscal_document_id").filtered(
-            lambda d: d.document_type_id
-        ).action_document_confirm()
-        return result
 
     def action_invoice_draft(self):
         # TODO FIXME migrate. No such method in Odoo 13+
@@ -734,6 +727,10 @@ class AccountMove(models.Model):
 
     def action_post(self):
         result = super().action_post()
+
+        self.mapped("fiscal_document_id").filtered(
+            lambda d: d.document_type_id
+        ).action_document_confirm()
 
         # TODO FIXME
         # Deixar a migração das funcionalidades do refund por último.
