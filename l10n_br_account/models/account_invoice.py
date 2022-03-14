@@ -732,8 +732,8 @@ class AccountMove(models.Model):
             i.action_cancel()
             i.action_invoice_draft()
 
-    def action_invoice_open(self):
-        result = super().action_invoice_open()
+    def action_post(self):
+        result = super().action_post()
 
         for record in self.filtered(lambda i: i.refund_move_id):
             if record.state == "open":
