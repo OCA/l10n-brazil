@@ -36,14 +36,44 @@ class ContractLine(models.Model):
 
     ind_final = fields.Selection(related="contract_id.ind_final")
 
-    @api.multi
-    def _prepare_invoice_line(self, invoice_id=False, invoice_values=False):
-        values = super()._prepare_invoice_line(invoice_id, invoice_values)
-        quantity = values.get("quantity")
-        if values:
-            values.update(self._prepare_br_fiscal_dict())
-            values["quantity"] = quantity
-        return values
+    comment_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.comment",
+        relation="contract_line_comment_rel",
+        column1="contract_line_id",
+        column2="comment_id",
+        string="Comments",
+    )
+
+    def _prepare_invoice_line(self, move_form):
+        self.ensure_one()
+
+        contract = self.contract_id
+
+        invoice_line_vals = super()._prepare_invoice_line(move_form)
+
+        # Por algum motivo com a localização o campo company_currency_id
+        # nao vem em invoice_line_val e isto impacta com o modulo contract
+        invoice_line_vals.update(
+            {"company_currency_id": contract.company_id.currency_id.id}
+        )
+
+        self._onchange_fiscal_tax_ids()
+        quantity = invoice_line_vals.get("quantity")
+
+        tax_ids = self.fiscal_tax_ids.account_taxes(user_type=contract.contract_type)
+        if (
+            contract.fiscal_operation_id
+            and contract.fiscal_operation_id.deductible_taxes
+        ):
+            tax_ids |= self.fiscal_tax_ids.account_taxes(
+                user_type=contract.contract_type, deductible=True
+            )
+
+        if invoice_line_vals:
+            invoice_line_vals.update(self._prepare_br_fiscal_dict())
+            invoice_line_vals["quantity"] = quantity
+            invoice_line_vals["tax_ids"] = tax_ids.ids
+        return invoice_line_vals
 
     @api.model
     def create(self, values):
