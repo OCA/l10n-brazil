@@ -38,7 +38,7 @@ class TestL10nBrContract(SavepointCase):
         for invoice in self.contract_id._get_related_invoices():
             document_id = invoice.fiscal_document_id
 
-            if len(document_id.line_ids) == 1:
+            if len(document_id.fiscal_line_ids) == 1:
                 service_product_id = self.env.ref(
                     "l10n_br_fiscal.customized_development_sale"
                 )
@@ -53,7 +53,7 @@ class TestL10nBrContract(SavepointCase):
 
                 self.assertEqual(
                     service_product_id.id,
-                    document_id.line_ids[0].product_id.id,
+                    document_id.fiscal_line_ids[0].product_id.id,
                     "The product of the Fiscal Document does not "
                     "correspond with the expected",
                 )
@@ -64,7 +64,7 @@ class TestL10nBrContract(SavepointCase):
                 document_type_id = self.env.ref("l10n_br_fiscal.document_55")
 
                 products_ids = []
-                for line in document_id.line_ids:
+                for line in document_id.fiscal_line_ids:
                     products_ids.append(line.product_id.id)
 
                 self.assertEqual(
@@ -106,6 +106,8 @@ class TestL10nBrContract(SavepointCase):
                 products_ids = []
                 for line in invoice.invoice_line_ids:
                     products_ids.append(line.product_id.id)
+
+                products_ids.sort()
 
                 self.assertEqual(
                     [product_1_id.id, product_2_id.id],

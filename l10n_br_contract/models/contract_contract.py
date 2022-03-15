@@ -67,6 +67,11 @@ class ContractContract(models.Model):
         string="Comments",
     )
 
+    operation_name = fields.Char(
+        string="Operation Name",
+        copy=False,
+    )
+
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
         return self.mapped("contract_line_ids")
@@ -77,27 +82,19 @@ class ContractContract(models.Model):
 
     def _prepare_invoice(self, date_invoice, journal=None):
         self.ensure_one()
-        invoice_vals = self._prepare_br_fiscal_dict()
-        invoice_vals.update(super()._prepare_invoice(date_invoice, journal))
-        return invoice_vals
+        invoice_vals, move_form = super()._prepare_invoice(date_invoice, journal)
+        invoice_vals.update(self._prepare_br_fiscal_dict())
+        return invoice_vals, move_form
 
-    @api.model
-    def _finalize_invoice_creation(self, invoices):
-        super()._finalize_invoice_creation(invoices)
+    def _recurring_create_invoice(self, date_ref=False):
+        moves = super()._recurring_create_invoice(date_ref)
 
-        for invoice in invoices:
-            invoice.fiscal_document_id._onchange_document_serie_id()
-            invoice.fiscal_document_id._onchange_company_id()
+        for move in moves:
+            move.fiscal_document_id._onchange_document_serie_id()
+            move.fiscal_document_id._onchange_company_id()
+            move._onchange_invoice_line_ids()
 
-            for line in invoice.invoice_line_ids:
-                name = line.name
-                line._onchange_product_id_fiscal()
-                line.name = name
-                line.price_unit = line.contract_line_id.price_unit
-                line._onchange_fiscal_operation_id()
-                line._onchange_fiscal_tax_ids()
-
-            invoice._onchange_invoice_line_ids()
+        return moves
 
     def _prepare_recurring_invoices_values(self, date_ref=False):
         """
