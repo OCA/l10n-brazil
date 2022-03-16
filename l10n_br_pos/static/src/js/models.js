@@ -84,10 +84,10 @@ odoo.define("l10n_br_pos.models", function (require) {
 
     models.load_models({
         model:  'pos.order',
-        fields: ['name', 'partner_id','date_order','amount_total','pos_reference','lines','state','session_id','company_id', 'document_key'],
+        fields: ['name', 'partner_id','date_order','amount_total','pos_reference','lines','state','session_id','company_id', 'document_key', 'cnpj_cpf', 'cancel_document_key'],
         domain: function (self) {
             var domain = [
-                ["state", "in", ["paid", "cancel", "done"]],
+                ["state", "in", ["paid", "done"]],
                 ['amount_total', '>', 0]
             ];
             return domain;
@@ -307,16 +307,22 @@ odoo.define("l10n_br_pos.models", function (require) {
                 _super_order.add_product.apply(this, arguments);
             }
         },
-        push_new_order_list: function(){
+        push_new_order_list: async function(){
             var self = this;
-            rpc.query({
-                model: 'pos.order',
-                method: 'search_read',
-                args: [[["state", "in", ["paid", "cancel", "done"]],['amount_total', '>', 0]]],
-                limit: 40,
-            }).then(function (orders){
-                posmodel.paid_orders = orders;
-            })
+            return new Promise(function (resolve, reject) {
+                rpc.query({
+                    model: 'pos.order',
+                    method: 'search_read',
+                    args: [[["state", "in", ["paid", "done"]],['amount_total', '>', 0]]],
+                    limit: 40,
+                }).then(function (orders){
+                    posmodel.paid_orders = orders;
+                    resolve(true);
+                },
+                (error) => {
+                    reject(error);
+                })
+            });
         },
     });
 
