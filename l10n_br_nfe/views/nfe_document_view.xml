@@ -38,15 +38,12 @@
               </group>
           </page>
 
-          <!-- Change confirm button for imported documents -->
+          <!-- Hide confirm button for imported documents -->
           <xpath expr="//form/field[@name='document_type']" position="after">
               <field name="imported_document" invisible="1"/>
           </xpath>
           <xpath expr="//header/button[@name='action_document_confirm']" position="attributes">
               <attribute name="attrs">{'invisible': ['|', ('state_edoc', '!=', 'em_digitacao'), ('imported_document', '=', True)]}</attribute>
-          </xpath>
-          <xpath expr="//header/button[@name='action_document_confirm']" position="after">
-              <button name="action_document_confirm_imported" type="object" string="Confirmar Importação" class="btn-primary" attrs="{'invisible':['|', ('state_edoc', '!=', 'em_digitacao'), ('imported_document','=',False)]}"/>
           </xpath>
 
           <!-- Hide buttons for imported documents -->

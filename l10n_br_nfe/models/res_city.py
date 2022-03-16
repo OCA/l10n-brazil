@@ -8,11 +8,3 @@ from odoo import models, fields
 class ResCity(models.Model):
     _inherit = "res.city"
     _nfe_search_keys = ["ibge_code"]
-
-    # nfe40_cMun = fields.Char(related="ibge_code", readonly=True)
-    # nfe40_xMun = fields.Char(related="name", readonly=True)
-    # nfe40_UF = fields.Char(related="state_id.code")
-    # nfe40_cPais = fields.Char(related="country_id.bc_code")
-    # nfe40_xPais = fields.Char(related="country_id.name")
-
-

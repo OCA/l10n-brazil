@@ -871,7 +871,6 @@ class NFe(spec_models.StackedModel):
                 document.issuer = "partner"
 
     def _import_xml_nfe(self, nfe_binding, dry_run, edoc_type="out"):
-        # nfe_binding = parse_xml_nfe(xml)
         document = (
             self.env["nfe.40.infnfe"]
             .with_context(
@@ -890,6 +889,3 @@ class NFe(spec_models.StackedModel):
 
     def import_xml(self, nfe_binding, dry_run, edoc_type="out"):
         return self._import_xml_nfe(nfe_binding, dry_run, edoc_type)
-
-    # def action_document_confirm_imported(self):
-    #     self._change_state(SITUACAO_EDOC_AUTORIZADA)
