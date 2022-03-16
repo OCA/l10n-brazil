@@ -168,11 +168,14 @@ class ResPartner(spec_models.SpecModel):
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
         if model is None and 'nfe40_CNPJ' in rec_dict and 'nfe40_xNome' not in rec_dict and 'nfe40_CEP' in rec_dict:
+            # Caso no qual existe campo <entrega> no xml
+            # Deve ser tratado separadamente porque não possui sub-campo xNome, que é obrigatório para criar novo parceiro
             parent_domain = [('nfe40_CNPJ', '=', rec_dict.get('nfe40_CNPJ'))]
             parent_partner_match = self.search(parent_domain, limit=1)
             match = parent_partner_match.child_ids.filtered(lambda m: m.type == 'delivery')
             if match:
                 if match.zip != rec_dict["nfe40_CEP"] or ('street_number' in rec_dict and match.street_number != rec_dict["street_number"]):
+                    # Atualizar dados do endereço de entrega com informação mais recente
                     vals = {
                         'zip': rec_dict.get("zip"),
                         'street_name': rec_dict.get("street_name") if 'street_name' in rec_dict else False,
@@ -189,6 +192,7 @@ class ResPartner(spec_models.SpecModel):
                     }
                     match.update(vals)
                 return match.id
+            # Criar novo endereço de entrega
             vals = {
                 'type': 'delivery',
                 'parent_id': parent_partner_match.id,
