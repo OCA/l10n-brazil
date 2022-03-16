@@ -172,20 +172,20 @@ class ResPartner(spec_models.SpecModel):
             parent_partner_match = self.search(parent_domain, limit=1)
             match = parent_partner_match.child_ids.filtered(lambda m: m.type == 'delivery')
             if match:
-                if match.zip != rec_dict["nfe40_CEP"] or match.street_number != rec_dict["street_number"]:
+                if match.zip != rec_dict["nfe40_CEP"] or ('street_number' in rec_dict and match.street_number != rec_dict["street_number"]):
                     vals = {
                         'zip': rec_dict.get("zip"),
-                        'street_name': rec_dict.get("street_name"),
-                        'street_number': rec_dict.get("street_number"),
-                        'street2': rec_dict.get("street2"),
-                        'district': rec_dict.get("district"),
+                        'street_name': rec_dict.get("street_name") if 'street_name' in rec_dict else False,
+                        'street_number': rec_dict.get("street_number") if 'street_number' in rec_dict else False,
+                        'street2': rec_dict.get("street2") if 'street2' in rec_dict else False,
+                        'district': rec_dict.get("district") if 'district' in rec_dict else False,
                         'state_id': self.env['res.country.state'].search(
                             [('code', '=', rec_dict["nfe40_UF"]), ('country_id.bc_code', '=', rec_dict["nfe40_cPais"])],
-                            limit=1).id,
+                            limit=1).id if 'nfe40_UF' in rec_dict else False,
                         'city_id': self.env['res.city'].search([('ibge_code', '=', rec_dict["nfe40_cMun"])],
-                                                               limit=1).id,
+                                                               limit=1).id if 'nfe40_cMun' in rec_dict else False,
                         'country_id': self.env['res.country'].search([('bc_code', '=', rec_dict["nfe40_cPais"])],
-                                                                     limit=1).id,
+                                                                     limit=1).id if 'nfe40_cPais' in rec_dict else False,
                     }
                     match.update(vals)
                 return match.id
@@ -195,13 +195,19 @@ class ResPartner(spec_models.SpecModel):
                 'company_type': 'person',
                 'name': 'Endereço de entrega',
                 'zip': rec_dict.get("zip"),
-                'street_name': rec_dict.get("street_name"),
-                'street_number': rec_dict.get("street_number"),
-                'street2': rec_dict.get("street2"),
-                'district': rec_dict.get("district"),
-                'state_id': self.env['res.country.state'].search([('code', '=', rec_dict["nfe40_UF"]), ('country_id.bc_code', '=', rec_dict["nfe40_cPais"])], limit=1).id,
-                'city_id': self.env['res.city'].search([('ibge_code', '=', rec_dict["nfe40_cMun"])], limit=1).id,
-                'country_id': self.env['res.country'].search([('bc_code', '=', rec_dict["nfe40_cPais"])], limit=1).id,
+                'street_name': rec_dict.get("street_name") if 'street_name' in rec_dict else False,
+                'street_number': rec_dict.get("street_number") if 'street_number' in rec_dict else False,
+                'street2': rec_dict.get("street2") if 'street2' in rec_dict else False,
+                'district': rec_dict.get("district") if 'district' in rec_dict else False,
+                'email': rec_dict.get("email") if 'email' in rec_dict else False,
+                'phone': rec_dict.get("phone") if 'phone' in rec_dict else False,
+                'state_id': self.env['res.country.state'].search(
+                    [('code', '=', rec_dict["nfe40_UF"]), ('country_id.bc_code', '=', rec_dict["nfe40_cPais"])],
+                    limit=1).id if 'nfe40_UF' in rec_dict else False,
+                'city_id': self.env['res.city'].search([('ibge_code', '=', rec_dict["nfe40_cMun"])],
+                                                       limit=1).id if 'nfe40_cMun' in rec_dict else False,
+                'country_id': self.env['res.country'].search([('bc_code', '=', rec_dict["nfe40_cPais"])],
+                                                             limit=1).id if 'nfe40_cPais' in rec_dict else False,
             }
             delivery_adress = self.env['res.partner'].create(vals)
             parent_partner_match.child_ids.write({'child_ids': [(4, delivery_adress.id)]})
