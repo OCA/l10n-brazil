@@ -164,3 +164,47 @@ class ResPartner(spec_models.SpecModel):
             if self.country_id.code != "BR":
                 return self.vat or self.cnpj_cpf or self.rg or "EXTERIOR"
         return super()._export_field(xsd_field, class_obj, member_spec)
+
+    @api.model
+    def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
+        if model is None and 'nfe40_CNPJ' in rec_dict and 'nfe40_xNome' not in rec_dict and 'nfe40_CEP' in rec_dict:
+            parent_domain = [('nfe40_CNPJ', '=', rec_dict.get('nfe40_CNPJ'))]
+            parent_partner_match = self.search(parent_domain, limit=1)
+            match = parent_partner_match.child_ids.filtered(lambda m: m.type == 'delivery')
+            if match:
+                if match.zip != rec_dict["nfe40_CEP"] or match.street_number != rec_dict["street_number"]:
+                    vals = {
+                        'zip': rec_dict.get("zip"),
+                        'street_name': rec_dict.get("street_name"),
+                        'street_number': rec_dict.get("street_number"),
+                        'street2': rec_dict.get("street2"),
+                        'district': rec_dict.get("district"),
+                        'state_id': self.env['res.country.state'].search(
+                            [('code', '=', rec_dict["nfe40_UF"]), ('country_id.bc_code', '=', rec_dict["nfe40_cPais"])],
+                            limit=1).id,
+                        'city_id': self.env['res.city'].search([('ibge_code', '=', rec_dict["nfe40_cMun"])],
+                                                               limit=1).id,
+                        'country_id': self.env['res.country'].search([('bc_code', '=', rec_dict["nfe40_cPais"])],
+                                                                     limit=1).id,
+                    }
+                    match.update(vals)
+                return match.id
+            vals = {
+                'type': 'delivery',
+                'parent_id': parent_partner_match.id,
+                'company_type': 'person',
+                'name': 'Endereço de entrega',
+                'zip': rec_dict.get("zip"),
+                'street_name': rec_dict.get("street_name"),
+                'street_number': rec_dict.get("street_number"),
+                'street2': rec_dict.get("street2"),
+                'district': rec_dict.get("district"),
+                'state_id': self.env['res.country.state'].search([('code', '=', rec_dict["nfe40_UF"]), ('country_id.bc_code', '=', rec_dict["nfe40_cPais"])], limit=1).id,
+                'city_id': self.env['res.city'].search([('ibge_code', '=', rec_dict["nfe40_cMun"])], limit=1).id,
+                'country_id': self.env['res.country'].search([('bc_code', '=', rec_dict["nfe40_cPais"])], limit=1).id,
+            }
+            delivery_adress = self.env['res.partner'].create(vals)
+            parent_partner_match.child_ids.write({'child_ids': [(4, delivery_adress.id)]})
+            return delivery_adress.id
+        else:
+            return super(ResPartner, self).match_or_create_m2o(rec_dict, parent_dict, model)

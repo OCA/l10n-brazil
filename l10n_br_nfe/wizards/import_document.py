@@ -84,7 +84,7 @@ class NfeImport(models.TransientModel):
             self.document_number = int(document.numero_documento)
             self.document_serie = int(document.numero_serie)
             self.partner_cpf_cnpj = document.cnpj_emitente
-            self.partner_name = parsed_xml.infNFe.emit.xFant
+            self.partner_name = parsed_xml.infNFe.emit.xFant or parsed_xml.infNFe.emit.xNome
             self.partner_id = self.env["res.partner"].search(
                 [("cnpj_cpf", "=", document.cnpj_emitente)]
             )
