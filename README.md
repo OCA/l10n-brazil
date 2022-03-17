@@ -104,7 +104,7 @@ addon | version | maintainers | summary
 [l10n_br_portal](l10n_br_portal/) | 12.0.1.2.0 |  | Campos Brasileiros no Portal
 [l10n_br_product_contract](l10n_br_product_contract/) | 12.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Criação de contratos através dos Pedidos de Vendas
 [l10n_br_purchase](l10n_br_purchase/) | 12.0.5.0.0 |  | Brazilian Localization Purchase
-[l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.2.1.0 |  | Brazilian Localization Purchase Stock
+[l10n_br_purchase_stock](l10n_br_purchase_stock/) | 12.0.2.1.1 |  | Brazilian Localization Purchase Stock
 [l10n_br_repair](l10n_br_repair/) | 12.0.9.0.0 | [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Brazilian Localization Repair
 [l10n_br_resource](l10n_br_resource/) | 12.0.1.1.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![hendixcosta](https://github.com/hendixcosta.png?size=30px)](https://github.com/hendixcosta) [![lfdivino](https://github.com/lfdivino.png?size=30px)](https://github.com/lfdivino) | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
 [l10n_br_sale](l10n_br_sale/) | 12.0.7.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
