@@ -1,43 +1,46 @@
 // Copyright 2020 KMEE
 // License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-odoo.define("payment_pagseguro.tour", function (require){
+odoo.define("payment_pagseguro.tour", function (require) {
     "use strict";
 
-    var tour = require('web_tour.tour');
+    var tour = require("web_tour.tour");
     var base = require("web_editor.base");
-    var rpc = require('web.rpc');
+    var rpc = require("web.rpc");
 
-    tour.register('shop_buy_pagseguro', {
-        url: "/shop",
-        test: true,
-        wait_for: base.ready(),
-        debug: true,
-    },
+    tour.register(
+        "shop_buy_pagseguro",
+        {
+            url: "/shop",
+            test: true,
+            wait_for: base.ready(),
+            debug: true,
+        },
         [
             {
                 content: "setup acquirer configurations",
                 trigger: 'form input[name="search"]',
-                run: function(){
-                    var args = [
-                        [['provider', '=', 'pagseguro']],
-                    ];
+                run: function () {
+                    var args = [[["provider", "=", "pagseguro"]]];
                     rpc.query({
-                        'model':'payment.acquirer',
-                        'method': 'search',
-                        'args': args,
-                    }).then(function (acquirer){
+                        model: "payment.acquirer",
+                        method: "search",
+                        args: args,
+                    }).then(function (acquirer) {
                         return rpc.query({
-                            'model': 'payment.acquirer',
-                            'method': 'write',
-                            'args': [acquirer, {
-                                'pagseguro_token': "8EC2714B10DC42DE882BC341A5366899",
-                                'environment': 'test',
-                                'website_published': true,
-                                'journal_id': 1,
-                                'capture_manually': true,
-                                'payment_flow': 's2s',
-                            }],
+                            model: "payment.acquirer",
+                            method: "write",
+                            args: [
+                                acquirer,
+                                {
+                                    pagseguro_token: "8EC2714B10DC42DE882BC341A5366899",
+                                    environment: "test",
+                                    website_published: true,
+                                    journal_id: 1,
+                                    capture_manually: true,
+                                    payment_flow: "s2s",
+                                },
+                            ],
                         });
                     });
                 },
@@ -57,13 +60,14 @@ odoo.define("payment_pagseguro.tour", function (require){
             },
             {
                 content: "select Conference Chair Steel",
-                extra_trigger: '#product_detail',
-                trigger: 'label:contains(Steel) input',
+                extra_trigger: "#product_detail",
+                trigger: "label:contains(Steel) input",
             },
             {
                 content: "click on add to cart",
-                extra_trigger: 'label:contains(Steel) input:propChecked',
-                trigger: '#product_detail form[action^="/shop/cart/update"] .btn-primary',
+                extra_trigger: "label:contains(Steel) input:propChecked",
+                trigger:
+                    '#product_detail form[action^="/shop/cart/update"] .btn-primary',
             },
             {
                 content: "click in modal on 'Proceed to checkout' button",
@@ -99,8 +103,9 @@ odoo.define("payment_pagseguro.tour", function (require){
             },
             {
                 content: "pay now",
-                //Either there are multiple payment methods, and one is checked, either there is only one, and therefore there are no radio inputs
-                extra_trigger: '#payment_method label:contains("Pagseguro") input:checked,#payment_method:not(:has("input:radio:visible"))',
+                // Either there are multiple payment methods, and one is checked, either there is only one, and therefore there are no radio inputs
+                extra_trigger:
+                    '#payment_method label:contains("Pagseguro") input:checked,#payment_method:not(:has("input:radio:visible"))',
                 trigger: 'button[id="o_payment_form_pay"]:visible:not(:disabled)',
             },
             {
@@ -109,9 +114,8 @@ odoo.define("payment_pagseguro.tour", function (require){
                     '.bg-success span:contains("Your payment has been authorized.")',
                 run: function () {
                     // It's a check
-                } 
+                },
             },
         ]
     );
-
 });
