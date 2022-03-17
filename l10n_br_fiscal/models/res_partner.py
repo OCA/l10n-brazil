@@ -61,7 +61,7 @@ class ResPartner(models.Model):
         selection=FINAL_CUSTOMER,
         string="Final Consumption Operation",
         default=FINAL_CUSTOMER_NO,
-        track_visibility="onchange",
+        tracking=True,
     )
 
     cnpj_cpf = fields.Char(
