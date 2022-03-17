@@ -13,7 +13,7 @@ class PurchaseOrder(models.Model):
             ("purchase_order", _("Purchase Order")),
             ("stock_picking", _("Stock Picking")),
         ],
-        relation="company_id.purchase_create_invoice_policy",
+        related="company_id.purchase_create_invoice_policy",
     )
 
     @api.model
