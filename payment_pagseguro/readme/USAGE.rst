@@ -5,4 +5,3 @@ credit card information. Then, click on the pay now button.
 .. figure:: ../static/description/pagseguro_buy.png
     :alt: Payment acquirer pagseguro
     :width: 600 px
-
