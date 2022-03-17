@@ -49,7 +49,6 @@ msgstr ""
 #: code:addons/l10n_br_purchase_stock/models/purchase_order.py:13
 #: code:addons/l10n_br_purchase_stock/models/res_company.py:18
 #: model:ir.model,name:l10n_br_purchase_stock.model_purchase_order
-#: selection:purchase.order,purchase_create_invoice_policy:0
 #: selection:res.company,purchase_create_invoice_policy:0
 #, python-format
 msgid "Purchase Order"
@@ -78,7 +77,6 @@ msgstr ""
 #. module: l10n_br_purchase_stock
 #: code:addons/l10n_br_purchase_stock/models/purchase_order.py:14
 #: code:addons/l10n_br_purchase_stock/models/res_company.py:19
-#: selection:purchase.order,purchase_create_invoice_policy:0
 #: selection:res.company,purchase_create_invoice_policy:0
 #, python-format
 msgid "Stock Picking"
