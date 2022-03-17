@@ -10,14 +10,14 @@ Then insert your token on the credentials page, as shown below:
 Under the configuration page, select your payment journal.
 On the upper right corner buttons you can publish on your website and change the environment.
 
-.. figure:: ../static/description/payment_acquirer_02.png 
+.. figure:: ../static/description/payment_acquirer_02.png
     :alt: Payment acquirer pagseguro
     :width: 600 px
 
 The credential Token and can only be acquired via the PagSeguro user account.
 On your account, go to "Venda Online" > "Integrações". Then, click on "Gerar Token".
 
-.. figure:: ../static/description/pagseguro_website.png 
+.. figure:: ../static/description/pagseguro_website.png
     :alt: Payment acquirer pagseguro
     :width: 600 px
 
