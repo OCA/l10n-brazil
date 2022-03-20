@@ -4,13 +4,14 @@
 
 import logging
 
-from odoo import _, tools
+from odoo import SUPERUSER_ID, _, api, tools
 
 _logger = logging.getLogger(__name__)
 
 
 def post_init_hook(cr, registry):
     """Import XML data to change core data"""
+    env = api.Environment(cr, SUPERUSER_ID, {})
 
     files = [
         "data/l10n_br_fiscal.cnae.csv",
@@ -170,3 +171,12 @@ def post_init_hook(cr, registry):
                 noupdate=True,
                 kind="init",
             )
+
+    # Create a fiscal dummy for the company if you don't have one.
+    companies = env["res.company"].search([("fiscal_dummy_id", "=", False)])
+    for c in companies:
+        c.write(
+            {
+                "fiscal_dummy_id": c._default_fiscal_dummy_id().id,
+            }
+        )

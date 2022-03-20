@@ -7,7 +7,8 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     PROCESSADOR_NENHUM,
     PROCESSADOR_OCA,
 )
-from odoo.addons.l10n_br_nfse.models.document import filter_processador_edoc_nfse
+
+from ..models.document import filter_processador_edoc_nfse
 
 
 class TestFiscalDocumentNFSeCommon(TransactionCase):
