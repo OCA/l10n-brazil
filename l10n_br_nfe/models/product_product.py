@@ -56,3 +56,14 @@ class ProductProduct(models.Model):
         product = super().create(values)
         product.product_tmpl_id._onchange_ncm_id()
         return product
+
+from odoo import _, models, fields
+
+
+class SupplierInfo(models.Model):
+    _inherit = "product.supplierinfo"
+
+    product_uom = fields.Many2one(
+        'uom.uom', 'Unit of Measure',
+        related='',
+        help="This comes from the last imported document.")

@@ -98,7 +98,7 @@ class NfeImport(models.TransientModel):
         for product in parsed_xml.infNFe.det:
             product_ids.append(
                 self.env["l10n_br_nfe.import_xml.products"]
-                .create(
+                    .create(
                     {
                         "product_name": product.prod.xProd,
                         "uom_com": product.prod.uCom,
@@ -111,19 +111,27 @@ class NfeImport(models.TransientModel):
                         "import_xml_id": self.id,
                     }
                 )
-                .id
+                    .id
             )
         if product_ids:
             self.imported_products_ids = [(6, 0, product_ids)]
 
     def _check_ncm_nbm_cest(self, nfe_product, wizard_product):
-        if wizard_product.ncm_id and hasattr(nfe_product, 'NCM') and nfe_product.NCM and nfe_product.NCM != wizard_product.ncm_id.code.replace('.', ''):
-            raise UserError(_("O NCM do produto {} no cadastro interno é diferente do NCM na nota.\nNCM interno: {}\nNCM na nota: {}".format(wizard_product.display_name, wizard_product.ncm_id.code, nfe_product.NCM)))
-        if wizard_product.nbm_id and hasattr(nfe_product, 'NBM') and nfe_product.NBM and nfe_product.NBM != wizard_product.ncm_id.replace('.', ''):
+        if wizard_product.ncm_id and hasattr(nfe_product,
+                                             'NCM') and nfe_product.NCM and nfe_product.NCM != wizard_product.ncm_id.code.replace(
+            '.', ''):
+            raise UserError(
+                _("O NCM do produto {} no cadastro interno é diferente do NCM na nota.\nNCM interno: {}\nNCM na nota: {}".format(
+                    wizard_product.display_name, wizard_product.ncm_id.code, nfe_product.NCM)))
+        if wizard_product.nbm_id and hasattr(nfe_product,
+                                             'NBM') and nfe_product.NBM and nfe_product.NBM != wizard_product.ncm_id.replace(
+            '.', ''):
             raise UserError(
                 _("O NBM do produto {} no cadastro interno é diferente do NBM na nota.\nNBM interno: {}\nNBM na nota: {}".format(
                     wizard_product.display_name, wizard_product.nbm_id.code, nfe_product.NBM)))
-        if wizard_product.cest_id and hasattr(nfe_product, 'CEST') and nfe_product.CEST and nfe_product.CEST != wizard_product.cest_id.replace('.', ''):
+        if wizard_product.cest_id and hasattr(nfe_product,
+                                              'CEST') and nfe_product.CEST and nfe_product.CEST != wizard_product.cest_id.replace(
+            '.', ''):
             raise UserError(
                 _("O Cest do produto {} no cadastro interno é diferente do Cest na nota.\nCest interno: {}\nCest na nota: {}".format(
                     wizard_product.display_name, wizard_product.cest_id.code, nfe_product.CEST)))
@@ -138,7 +146,8 @@ class NfeImport(models.TransientModel):
         for wizard_product in self.imported_products_ids:
             database_product = wizard_product.product_id
             if not database_product:
-                raise UserError(_("Há pelo menos uma linha sem produto selecionado. Selecione um produto para cada linha para continuar."))
+                raise UserError(
+                    _("Há pelo menos uma linha sem produto selecionado. Selecione um produto para cada linha para continuar."))
             for xml_product in parsed_xml.infNFe.det:
                 if xml_product.prod.xProd == wizard_product.product_name:
                     # Validação comentada para realização de testes
@@ -148,6 +157,8 @@ class NfeImport(models.TransientModel):
                     xml_product.prod.cEAN = database_product.barcode
                     xml_product.prod.cEANTrib = database_product.barcode
                     xml_product.prod.cProd = database_product.default_code
+                    if wizard_product.uom_internal:
+                        xml_product.prod.uCom = wizard_product.uom_internal.code
 
         self.fiscal_operation_type = (
             "in" if document.cnpj_emitente != self.company_id.cnpj_cpf else "out"
@@ -177,16 +188,19 @@ class NfeImport(models.TransientModel):
 
     def save_partner_product_relation(self, edoc):
         for product_line in self.imported_products_ids:
-            partner_product_relation = self.env['product.supplierinfo'].search([('name', '=', edoc.partner_id.id), ('product_name', '=', product_line.product_name)], limit=1)
+            partner_product_relation = self.env['product.supplierinfo'].search(
+                [('name', '=', edoc.partner_id.id), ('product_name', '=', product_line.product_name)], limit=1)
             if partner_product_relation:
                 partner_product_relation.product_id = product_line.product_id
                 partner_product_relation.price = product_line.price_unit_com
+                partner_product_relation.product_uom = product_line.uom_internal
                 partner_product_relation.product_id.write({'seller_ids': [(4, partner_product_relation.id)]})
             else:
                 supplier_info = self.env['product.supplierinfo'].create({
                     'name': edoc.partner_id.id,
                     'product_name': product_line.product_name,
                     'product_id': product_line.product_id.id,
+                    'product_uom': product_line.uom_internal,
                     'price': product_line.price_unit_com,
                 })
                 supplier_info.product_id.write({'seller_ids': [(4, supplier_info.id)]})
@@ -197,6 +211,7 @@ class NfeImport(models.TransientModel):
                 [('name', '=', self.partner_id.id), ('product_name', '=', product_line.product_name)], limit=1)
             if partner_product_relation:
                 product_line.product_id = partner_product_relation.product_id
+                product_line.uom_internal = partner_product_relation.product_uom
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         vals = {
@@ -215,7 +230,10 @@ class NfeImportProducts(models.TransientModel):
 
     product_name = fields.Char(string="Product Name")
 
-    product_id = fields.Many2one(comodel_name='product.product', string='Referencia Interna')
+    product_id = fields.Many2one(comodel_name='product.product', string='Internal Reference')
+
+    uom_internal = fields.Many2one('uom.uom', 'Internal UOM',
+                                   help='Unidade de medida interna equivalente à unidade de medida no documento fiscal')
 
     uom_com = fields.Char(string="UOM Comercial")
 
