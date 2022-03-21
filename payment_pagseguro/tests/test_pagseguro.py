@@ -4,6 +4,7 @@
 import time
 
 import odoo
+from odoo.exceptions import ValidationError
 
 
 @odoo.tests.tagged("post_install", "-at_install")
@@ -18,6 +19,13 @@ class PagseguroTest(odoo.tests.HttpCase):
         )
 
         tx = self.env["payment.transaction"].search([], limit=1, order="id desc")
+        with self.assertRaises(ValidationError):
+            tx.pagseguro_s2s_capture_transaction()
+
+        brl_currency = self.env["res.currency"].search([("name", "=", "BRL")])
+        for order in tx.sale_order_ids:
+            order.currency_id = brl_currency.id
+
         tx.pagseguro_s2s_capture_transaction()
         self.assertEqual(tx.state, "done", "transaction state should be authorized")
 
