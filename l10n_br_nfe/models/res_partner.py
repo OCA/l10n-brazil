@@ -172,26 +172,12 @@ class ResPartner(spec_models.SpecModel):
             # Deve ser tratado separadamente porque não possui sub-campo xNome, que é obrigatório para criar novo parceiro
             parent_domain = [('nfe40_CNPJ', '=', rec_dict.get('nfe40_CNPJ'))]
             parent_partner_match = self.search(parent_domain, limit=1)
-            match = parent_partner_match.child_ids.filtered(lambda m: m.type == 'delivery')
-            if match and (match.zip != rec_dict["nfe40_CEP"] or ('street_number' in rec_dict and match.street_number != rec_dict["street_number"])):
-                # Atualizar dados do endereço de entrega com informação mais recente
-                vals = {
-                    'zip': rec_dict.get("zip"),
-                    'street_name': rec_dict.get("street_name") if 'street_name' in rec_dict else False,
-                    'street_number': rec_dict.get("street_number") if 'street_number' in rec_dict else False,
-                    'street2': rec_dict.get("street2") if 'street2' in rec_dict else False,
-                    'district': rec_dict.get("district") if 'district' in rec_dict else False,
-                    'state_id': self.env['res.country.state'].search(
-                        [('code', '=', rec_dict["nfe40_UF"]), ('country_id.bc_code', '=', rec_dict["nfe40_cPais"])],
-                        limit=1).id if 'nfe40_UF' in rec_dict else False,
-                    'city_id': self.env['res.city'].search([('ibge_code', '=', rec_dict["nfe40_cMun"])],
-                                                           limit=1).id if 'nfe40_cMun' in rec_dict else False,
-                    'country_id': self.env['res.country'].search([('bc_code', '=', rec_dict["nfe40_cPais"])],
-                                                                 limit=1).id if 'nfe40_cPais' in rec_dict else False,
-                }
-                match.update(vals)
-                return match.id
-            # Criar novo endereço de entrega
+            matches = parent_partner_match.child_ids.filtered(lambda m: m.type == 'delivery')
+            if matches:
+                for delivery_adress in matches:
+                    if delivery_adress.zip == rec_dict["nfe40_CEP"] and ('street_number' not in rec_dict or delivery_adress.street_number == rec_dict["street_number"]):
+                        return delivery_adress.id
+            # Criar novo endereço de entrega caso não haja nenhum
             vals = {
                 'type': 'delivery',
                 'parent_id': parent_partner_match.id,
