@@ -72,7 +72,8 @@ class PaymentTransactionPagseguro(models.Model):
         if any([currency != "BRL" for currency in currencies]):
             raise ValidationError(
                 _(
-                    "Please check if all related sale orders and invoices are in BRL currency (supported by pagseguro)."
+                    "Please check if all related sale orders and invoices are in BRL "
+                    "currency (supported by pagseguro)."
                 )
             )
 
