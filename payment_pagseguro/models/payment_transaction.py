@@ -6,7 +6,8 @@ import pprint
 
 import requests
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -62,6 +63,18 @@ class PaymentTransactionPagseguro(models.Model):
     @api.multi
     def pagseguro_s2s_capture_transaction(self):
         """Captures an authorized transaction."""
+        currencies = self.sale_order_ids.currency_id.mapped(
+            "name"
+        )  # Add all sale orders currencies
+        currencies += self.invoice_ids.currency_id.mapped(
+            "name"
+        )  # Add all invoices currencies
+        if any([currency != "BRL" for currency in currencies]):
+            raise ValidationError(
+                _(
+                    "Please check if all related sale orders and invoices are in BRL currency (supported by pagseguro)."
+                )
+            )
 
         _logger.info(
             "pagseguro_s2s_capture_transaction: Sending values to URL %s",
