@@ -12,6 +12,7 @@
                     name="nfe_transport"
                     attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
                 >
+                  <field name="transporter_id"/>
                   <field name="nfe40_modFrete" />
                   <field name="nfe40_transporta" />
               </group>
