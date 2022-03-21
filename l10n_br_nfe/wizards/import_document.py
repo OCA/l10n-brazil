@@ -207,8 +207,8 @@ class NfeImport(models.TransientModel):
                     'name': edoc.partner_id.id,
                     'product_name': product_line.product_name,
                     'product_id': product_line.product_id.id,
-                    'product_uom': product_line.uom_internal,
-                    'price': product_line.price_unit_com.id,
+                    'product_uom': product_line.uom_internal.id,
+                    'price': product_line.price_unit_com,
                 })
                 supplier_info.product_id.write({'seller_ids': [(4, supplier_info.id)]})
 
