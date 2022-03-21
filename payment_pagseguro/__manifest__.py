@@ -9,7 +9,7 @@
     "author": "KMEE, Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
     "depends": [
-        "payment",
+        "sale",  # Used sale order in currency validation
         "web_tour",
     ],
     "data": [
