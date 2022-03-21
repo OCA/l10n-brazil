@@ -2,7 +2,7 @@
 <!--Copyright 2020 KMEE-->
 <!--License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).-->
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="payment_acquirer_pagseguro" model="payment.acquirer">
             <field name="name">Pagseguro</field>
             <field
