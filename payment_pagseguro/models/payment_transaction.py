@@ -10,24 +10,6 @@ from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
-INT_CURRENCIES = [
-    u"BRL",
-    u"XAF",
-    u"XPF",
-    u"CLP",
-    u"KMF",
-    u"DJF",
-    u"GNF",
-    u"JPY",
-    u"MGA",
-    u"PYG",
-    u"RWF",
-    u"KRW",
-    u"VUV",
-    u"VND",
-    u"XOF",
-]
-
 
 class PaymentTransactionPagseguro(models.Model):
     _inherit = "payment.transaction"
@@ -102,22 +84,13 @@ class PaymentTransactionPagseguro(models.Model):
             and res.get("payment_response").get("message") == "SUCESSO"
         ):
             # apply result
-            self.write(
-                {
-                    "date": fields.datetime.now(),
-                    "acquirer_reference": res["id"],
-                    "state_message": res["payment_response"]["message"],
-                }
-            )
+            self.log_transaction(res["id"], res["payment_response"]["message"])
             self._set_transaction_done()
             self.execute_callback()
         else:
-            self.sudo().write(
-                {
-                    "state_message": res["error_messages"][0]["message"],
-                    "acquirer_reference": res["error_messages"][0]["code"],
-                    "date": fields.datetime.now(),
-                }
+            self.log_transaction(
+                reference=res["error_messages"][0]["code"],
+                message=res["error_messages"][0]["message"],
             )
 
     @api.multi
@@ -155,21 +128,12 @@ class PaymentTransactionPagseguro(models.Model):
             and res.get("payment_response").get("message") == "SUCESSO"
         ):
             # apply result
-            self.write(
-                {
-                    "date": fields.datetime.now(),
-                    "acquirer_reference": res["id"],
-                    "state_message": res["payment_response"]["message"],
-                }
-            )
+            self.log_transaction(res["id"], res["payment_response"]["message"])
             self._set_transaction_cancel()
         else:
-            self.sudo().write(
-                {
-                    "state_message": res["error_messages"][0]["message"],
-                    "acquirer_reference": res["error_messages"][0]["code"],
-                    "date": fields.datetime.now(),
-                }
+            self.log_transaction(
+                reference=res["error_messages"][0]["code"],
+                message=res["error_messages"][0]["message"],
             )
 
     @api.multi
@@ -193,12 +157,7 @@ class PaymentTransactionPagseguro(models.Model):
         if tree.get("payment_response"):
             code = tree.get("payment_response", {}).get("code")
             if code == "20000":
-                self.write(
-                    {
-                        "date": fields.datetime.now(),
-                        "acquirer_reference": tree.get("id"),
-                    }
-                )
+                self.log_transaction(reference=tree.get("id"), message="")
 
             # store capture and void links for future manual operations
             for method in tree.get("links"):
@@ -229,7 +188,7 @@ class PaymentTransactionPagseguro(models.Model):
     def _validate_tree_message(self, tree):
         if tree.get("message"):
             error = tree.get("message")
-            _logger.warn(error)
+            _logger.warning(error)
             self.sudo().write(
                 {
                     "state_message": error,
@@ -250,14 +209,16 @@ class PaymentTransactionPagseguro(models.Model):
         Returns:
             dict: Charge parameters
         """
-
+        # currency = self.acquirer_id.company_id.currency_id.name
+        # if currency != "BRL":
+        #     raise UserError(_("Only BRL currency is allowed."))
         CHARGE_PARAMS = {
             "reference_id": str(self.payment_token_id.acquirer_id.id),
             "description": self.display_name[:13],
             "amount": {
                 # Charge is in BRL cents -> Multiply by 100
                 "value": int(self.amount * 100),
-                "currency": INT_CURRENCIES[0],
+                "currency": "BRL",
             },
             "payment_method": {
                 "type": "CREDIT_CARD",
@@ -270,3 +231,13 @@ class PaymentTransactionPagseguro(models.Model):
         }
 
         return CHARGE_PARAMS
+
+    def log_transaction(self, reference, message):
+        """ Logs a transaction. It can be either a successful or a failed one. """
+        self.sudo().write(
+            {
+                "date": fields.datetime.now(),
+                "acquirer_reference": reference,
+                "state_message": message,
+            }
+        )
