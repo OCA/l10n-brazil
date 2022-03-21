@@ -143,22 +143,8 @@ class NfeImport(models.TransientModel):
             base64.b64decode(self.nfe_xml)
         )
 
-        for wizard_product in self.imported_products_ids:
-            database_product = wizard_product.product_id
-            if not database_product:
-                raise UserError(
-                    _("Há pelo menos uma linha sem produto selecionado. Selecione um produto para cada linha para continuar."))
-            for xml_product in parsed_xml.infNFe.det:
-                if xml_product.prod.xProd == wizard_product.product_name:
-                    # Validação comentada para realização de testes
-                    # TODO: Descomentar essa validação
-                    # self._check_ncm_nbm_cest(xml_product.prod, wizard_product.product_id)
-                    xml_product.prod.xProd = database_product.name
-                    xml_product.prod.cEAN = database_product.barcode
-                    xml_product.prod.cEANTrib = database_product.barcode
-                    xml_product.prod.cProd = database_product.default_code
-                    if wizard_product.uom_internal:
-                        xml_product.prod.uCom = wizard_product.uom_internal.code
+        parsed_xml = self.edit_parsed_xml(parsed_xml)
+
 
         self.fiscal_operation_type = (
             "in" if document.cnpj_emitente != self.company_id.cnpj_cpf else "out"
@@ -182,6 +168,27 @@ class NfeImport(models.TransientModel):
             "res_id": edoc.id,
             "res_model": "l10n_br_fiscal.document",
         }
+
+    def edit_parsed_xml(self, parsed_xml):
+        for wizard_product in self.imported_products_ids:
+            database_product = wizard_product.product_id
+            if not database_product:
+                raise UserError(
+                    _("Há pelo menos uma linha sem produto selecionado. Selecione um produto para cada linha para continuar."))
+            if not wizard_product.uom_internal:
+                raise UserError(
+                    _("Há pelo menos uma linha sem unidade de medida selecionada. Selecione uma unidade de medida para cada linha para continuar."))
+            for xml_product in parsed_xml.infNFe.det:
+                if xml_product.prod.xProd == wizard_product.product_name:
+                    # Validação comentada para realização de testes
+                    # TODO: Descomentar essa validação
+                    # self._check_ncm_nbm_cest(xml_product.prod, wizard_product.product_id)
+                    xml_product.prod.xProd = database_product.name
+                    xml_product.prod.cEAN = database_product.barcode
+                    xml_product.prod.cEANTrib = database_product.barcode
+                    xml_product.prod.cProd = database_product.default_code
+                    xml_product.prod.uCom = wizard_product.uom_internal.code
+        return parsed_xml
 
     def _set_partner_as_supplier(self, partner_id):
         partner_id.supplier = True
