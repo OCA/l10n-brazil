@@ -3,12 +3,12 @@
 
 from datetime import timedelta
 
+from erpbrasil.assinatura import misc
+
 from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests import common
 from odoo.tools.misc import format_date
-
-from ..tools import misc
 
 
 class TestCertificate(common.TransactionCase):
