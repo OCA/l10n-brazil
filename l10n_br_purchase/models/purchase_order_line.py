@@ -120,3 +120,15 @@ class PurchaseOrderLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
         self.taxes_id |= self.fiscal_tax_ids.account_taxes(user_type="purchase")
+
+    def _prepare_account_move_line(self, move=False):
+        values = super()._prepare_account_move_line(move)
+        if values.get("purchase_line_id"):
+            line = self.env["purchase.order.line"].browse(
+                values.get("purchase_line_id")
+            )
+            fiscal_values = line._prepare_br_fiscal_dict()
+            fiscal_values.update(values)
+            values.update(fiscal_values)
+
+        return values
