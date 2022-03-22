@@ -66,9 +66,7 @@ class Certificate(models.Model):
 
     file = fields.Binary(string="file", prefetch=True, required=True)
 
-    file_name = fields.Char(
-        string="File Name", compute="_compute_description", size=255
-    )
+    file_name = fields.Char(string="File Name", compute="_compute_name", size=255)
 
     password = fields.Char(string="Password", required=True)
 
@@ -116,8 +114,10 @@ class Certificate(models.Model):
                     c.owner_name or "",
                     format_date(self.env, c.date_expiration),
                 )
+                c.file_name = c.name + ".p12"
             else:
                 c.name = False
+                c.file_name = False
 
     @api.depends("date_expiration")
     def _compute_is_valid(self):
