@@ -167,7 +167,7 @@ class ResPartner(spec_models.SpecModel):
 
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
-        if model is None and 'nfe40_CNPJ' in rec_dict and 'nfe40_xNome' not in rec_dict and 'nfe40_CEP' in rec_dict:
+        if model is None and 'nfe40_CNPJ' in rec_dict and 'nfe40_xNome' not in rec_dict and any(tag in ['nfe40_CEP', 'nfe40_xLgr', 'nfe40_cMun', 'nfe40_UF'] for tag in rec_dict):
             # Caso no qual existe campo <entrega> no xml
             # Deve ser tratado separadamente porque não possui sub-campo xNome, que é obrigatório para criar novo parceiro
             parent_domain = [('nfe40_CNPJ', '=', rec_dict.get('nfe40_CNPJ'))]
@@ -191,7 +191,7 @@ class ResPartner(spec_models.SpecModel):
                 'email': rec_dict.get("email") if 'email' in rec_dict else False,
                 'phone': rec_dict.get("phone") if 'phone' in rec_dict else False,
                 'state_id': self.env['res.country.state'].search(
-                    [('code', '=', rec_dict["nfe40_UF"]), ('country_id.bc_code', '=', rec_dict["nfe40_cPais"])],
+                    [('code', '=', rec_dict["nfe40_UF"]), ('country_id.bc_code', '=', '1058')],
                     limit=1).id if 'nfe40_UF' in rec_dict else False,
                 'city_id': self.env['res.city'].search([('ibge_code', '=', rec_dict["nfe40_cMun"])],
                                                        limit=1).id if 'nfe40_cMun' in rec_dict else False,
