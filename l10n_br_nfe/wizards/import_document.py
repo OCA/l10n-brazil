@@ -196,12 +196,15 @@ class NfeImport(models.TransientModel):
     def save_partner_product_relation(self, edoc):
         for product_line in self.imported_products_ids:
             partner_product_relation = self.env['product.supplierinfo'].search(
-                [('name', '=', edoc.partner_id.id), ('product_name', '=', product_line.product_name)], limit=1)
+                [('name', '=', edoc.partner_id.id), ('product_id', '=', product_line.product_id.id)], limit=1)
             if partner_product_relation:
-                partner_product_relation.product_id = product_line.product_id
-                partner_product_relation.price = product_line.price_unit_com
-                partner_product_relation.product_uom = product_line.uom_internal
-                partner_product_relation.product_id.write({'seller_ids': [(4, partner_product_relation.id)]})
+                values = {
+                    'product_id': product_line.product_id.id,
+                    'product_name': product_line.product_name,
+                    'price': product_line.price_unit_com,
+                    'product_uom': product_line.uom_internal.id,
+                }
+                partner_product_relation.update(values)
             else:
                 supplier_info = self.env['product.supplierinfo'].create({
                     'name': edoc.partner_id.id,

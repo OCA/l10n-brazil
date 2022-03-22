@@ -8,7 +8,7 @@
 # from XML -> Odoo by overriding the product create method
 
 
-from odoo import api, models
+from odoo import api, models, fields
 
 
 class ProductProduct(models.Model):
@@ -57,8 +57,6 @@ class ProductProduct(models.Model):
         product.product_tmpl_id._onchange_ncm_id()
         return product
 
-from odoo import _, models, fields
-
 
 class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
@@ -66,4 +64,5 @@ class SupplierInfo(models.Model):
     product_uom = fields.Many2one(
         'uom.uom', 'Unit of Measure',
         related='',
+        readonly=False,
         help="This comes from the last imported document.")
