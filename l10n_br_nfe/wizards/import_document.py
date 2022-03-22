@@ -201,7 +201,7 @@ class NfeImport(models.TransientModel):
                 values = {
                     'product_id': product_line.product_id.id,
                     'product_name': product_line.product_name,
-                    'price': product_line.price_unit_com,
+                    'price': self.env['uom.uom'].browse(product_line.uom_internal.id)._compute_price(product_line.price_unit_com, product_line.product_id.uom_id),
                     'product_uom': product_line.uom_internal.id,
                 }
                 partner_product_relation.update(values)
@@ -211,7 +211,7 @@ class NfeImport(models.TransientModel):
                     'product_name': product_line.product_name,
                     'product_id': product_line.product_id.id,
                     'product_uom': product_line.uom_internal.id,
-                    'price': product_line.price_unit_com,
+                    'price': self.env['uom.uom'].browse(product_line.uom_internal.id)._compute_price(product_line.price_unit_com, product_line.product_id.uom_id),
                 })
                 supplier_info.product_id.write({'seller_ids': [(4, supplier_info.id)]})
 
