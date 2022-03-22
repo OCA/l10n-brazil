@@ -74,6 +74,8 @@ class PurchaseOrderLine(models.Model):
         string="Comments",
     )
 
+    ind_final = fields.Selection(related="order_id.ind_final")
+
     @api.depends(
         "product_uom_qty",
         "price_unit",
