@@ -796,6 +796,10 @@ class NFeLine(spec_models.StackedModel):
 
                     # ICMS Simples Nacional Fields
                     # TODO map icmssn_tax_id using CSOSN
+                    if hasattr(icms, "CSOSN") and icms.CSOSN is not None:
+                        icms_vals["icms_cst_id"] = self.env.ref(
+                            "l10n_br_fiscal.cst_icmssn_%s" % (icms.CSOSN,)
+                        ).id
                     if hasattr(icms, "pCredSN") and icms.pCredSN is not None:
                         icms_vals["icmssn_percent"] = float(icms.pCredSN)
                     if hasattr(icms, "vCredICMSSN") and icms.vCredICMSSN is not None:
