@@ -4,8 +4,6 @@
 
 from odoo import api, fields, models
 
-from ...l10n_br_fiscal.constants.fiscal import TAX_FRAMEWORK
-
 
 class PurchaseOrderLine(models.Model):
     _name = "purchase.order.line"
@@ -13,7 +11,7 @@ class PurchaseOrderLine(models.Model):
 
     @api.model
     def _default_fiscal_operation(self):
-        return self.env.user.company_id.purchase_fiscal_operation_id
+        return self.env.company.purchase_fiscal_operation_id
 
     @api.model
     def _fiscal_operation_domain(self):
@@ -61,7 +59,6 @@ class PurchaseOrderLine(models.Model):
     )
 
     tax_framework = fields.Selection(
-        selection=TAX_FRAMEWORK,
         related="order_id.company_id.tax_framework",
         string="Tax Framework",
     )
@@ -73,6 +70,8 @@ class PurchaseOrderLine(models.Model):
         column2="comment_id",
         string="Comments",
     )
+
+    ind_final = fields.Selection(related="order_id.ind_final")
 
     @api.depends(
         "product_uom_qty",
@@ -113,8 +112,28 @@ class PurchaseOrderLine(models.Model):
         super()._compute_tax_id()
         for line in self:
             line.taxes_id |= line.fiscal_tax_ids.account_taxes(user_type="purchase")
+            if line.order_id.fiscal_operation_id.deductible_taxes:
+                line.taxes_id |= line.fiscal_tax_ids.account_taxes(
+                    user_type="purchase", deductible=True
+                )
 
     @api.onchange("fiscal_tax_ids")
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
         self.taxes_id |= self.fiscal_tax_ids.account_taxes(user_type="purchase")
+        if self.order_id.fiscal_operation_id.deductible_taxes:
+            self.taxes_id |= self.fiscal_tax_ids.account_taxes(
+                user_type="purchase", deductible=True
+            )
+
+    def _prepare_account_move_line(self, move=False):
+        values = super()._prepare_account_move_line(move)
+        if values.get("purchase_line_id"):
+            line = self.env["purchase.order.line"].browse(
+                values.get("purchase_line_id")
+            )
+            fiscal_values = line._prepare_br_fiscal_dict()
+            fiscal_values.update(values)
+            values.update(fiscal_values)
+
+        return values
