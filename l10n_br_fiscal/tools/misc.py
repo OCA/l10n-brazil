@@ -4,10 +4,9 @@
 
 import logging
 import os
-from base64 import b64encode
 
+from erpbrasil.assinatura import misc
 from erpbrasil.base.misc import punctuation_rm
-from OpenSSL import crypto
 
 from odoo.tools import config
 
@@ -58,52 +57,10 @@ def prepare_fake_certificate_vals(
         "type": cert_type,
         "subtype": "a1",
         "password": passwd,
-        "file": create_fake_certificate_file(valid, passwd, issuer, country, subject),
+        "file": misc.create_fake_certificate_file(
+            valid, passwd, issuer, country, subject
+        ),
     }
-
-
-def create_fake_certificate_file(valid, passwd, issuer, country, subject):
-    """Creating a fake certificate
-
-        TODO: Move this method to erpbrasil
-
-    :param valid: True or False
-    :param passwd: Some password
-    :param issuer: Some string, like EMISSOR A TESTE
-    :param country: Some country: BR
-    :param subject: Some string: CERTIFICADO VALIDO TESTE
-    :return: base64 file
-    """
-    key = crypto.PKey()
-    key.generate_key(crypto.TYPE_RSA, 2048)
-
-    cert = crypto.X509()
-
-    cert.get_issuer().C = country
-    cert.get_issuer().CN = issuer
-
-    cert.get_subject().C = country
-    cert.get_subject().CN = subject
-
-    cert.set_serial_number(2009)
-
-    if valid:
-        time_before = 0
-        time_after = 365 * 24 * 60 * 60
-    else:
-        time_before = -1 * (365 * 24 * 60 * 60)
-        time_after = 0
-
-    cert.gmtime_adj_notBefore(time_before)
-    cert.gmtime_adj_notAfter(time_after)
-    cert.set_pubkey(key)
-    cert.sign(key, "md5")
-
-    p12 = crypto.PKCS12()
-    p12.set_privatekey(key)
-    p12.set_certificate(cert)
-
-    return b64encode(p12.export(passwd))
 
 
 def path_edoc_company(company_id):
