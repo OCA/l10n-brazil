@@ -109,7 +109,7 @@
     "external_dependencies": {
         "python": [
             "erpbrasil.base",
-            "erpbrasil.assinatura",
+            "erpbrasil.assinatura-nopyopenssl",
         ]
     },
 }
