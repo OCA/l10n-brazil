@@ -167,8 +167,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
 
         invoice_values = {
             "partner_id": order.partner_id.id,
-            "purchase_id": order.id,
-            "type": "in_invoice",
+            "move_type": "in_invoice",
         }
 
         invoice_values.update(order._prepare_br_fiscal_dict())
@@ -194,7 +193,16 @@ class L10nBrPurchaseBaseTest(SavepointCase):
             .with_context(tracking_disable=True)
             .create(invoice_values)
         )
+
+        invoice_lines = self.env["account.move.line"]
+        for line in order.order_line:
+            invoice_line = invoice_lines.new(
+                line._prepare_account_move_line(self.invoice)
+            )
+            invoice_lines += invoice_line
+        self.invoice.invoice_line_ids += invoice_lines
         self.invoice._onchange_purchase_auto_complete()
+        self.invoice.write({"purchase_id": order.id})
 
         self.assertEqual(
             order.order_line.mapped("qty_invoiced"),
