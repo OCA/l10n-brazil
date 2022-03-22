@@ -58,7 +58,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         Injects common fiscal fields into view placeholder elements.
         Used for invoice line, sale order line, purchase order line...
         """
-        fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_line_mixin_form")
+        fiscal_view = self.env.ref(
+            "l10n_br_fiscal.document_fiscal_line_mixin_form"
+        ).sudo()
         fsc_doc = etree.fromstring(fiscal_view["arch"])
         doc = etree.fromstring(view_arch)
 
