@@ -5,8 +5,6 @@
 
 from odoo import api, fields, models
 
-# from odoo.addons.l10n_br_fiscal.constants.fiscal import DOCUMENT_ISSUER_PARTNER
-
 
 class PurchaseOrder(models.Model):
     _name = "purchase.order"
@@ -14,7 +12,7 @@ class PurchaseOrder(models.Model):
 
     @api.model
     def _default_fiscal_operation(self):
-        return self.env.user.company_id.purchase_fiscal_operation_id
+        return self.env.company.purchase_fiscal_operation_id
 
     @api.model
     def _fiscal_operation_domain(self):
@@ -66,20 +64,14 @@ class PurchaseOrder(models.Model):
 
             view = self.env["ir.ui.view"]
 
-            sub_form_view = (
-                order_view.get("fields", {})
-                .get("order_line", {})
-                .get("views", {})
-                .get("form", {})
-                .get("arch", {})
-            )
+            sub_form_view = order_view["fields"]["order_line"]["views"]["form"]["arch"]
 
             sub_form_node = self.env["purchase.order.line"].inject_fiscal_fields(
                 sub_form_view
             )
 
             sub_arch, sub_fields = view.postprocess_and_fields(
-                "purchase.order.line", sub_form_node, None
+                sub_form_node, "purchase.order.line", False
             )
 
             order_view["fields"]["order_line"]["views"]["form"] = {
@@ -88,38 +80,6 @@ class PurchaseOrder(models.Model):
             }
 
         return order_view
-
-    # TODO open by default Invoice view with Fiscal Details Button
-    # You can add a group to select default view Fiscal Invoice or
-    # Account invoice.
-    # def action_view_invoice(self):
-    #     result = super().action_view_invoice()
-    #     fiscal_dict = self._prepare_br_fiscal_dict(default=True)
-    #
-    #     document_type_id = self._context.get('document_type_id')
-    #
-    #     if document_type_id:
-    #         document_type = self.env['l10n_br_fiscal.document.type'].browse(
-    #             document_type_id)
-    #     else:
-    #         document_type = self.company_id.document_type_id
-    #         document_type_id = self.company_id.document_type_id.id
-    #
-    #     fiscal_dict['default_document_type_id'] = document_type_id
-    #     document_serie = document_type.get_document_serie(
-    #         self.company_id, self.fiscal_operation_id)
-    #
-    #     if document_serie:
-    #         fiscal_dict['default_document_serie_id'] = document_serie.id
-    #
-    #     fiscal_dict['default_issuer'] = DOCUMENT_ISSUER_PARTNER
-    #
-    #     if self.fiscal_operation_id and self.fiscal_operation_id.journal_id:
-    #         fiscal_dict['default_journal_id'] = (
-    #             self.fiscal_operation_id.journal_id.id)
-    #
-    #     result['context'].update(fiscal_dict)
-    #     return result
 
     @api.onchange("fiscal_operation_id")
     def _onchange_fiscal_operation_id(self):
@@ -136,3 +96,14 @@ class PurchaseOrder(models.Model):
     @api.depends("order_line.price_total")
     def _amount_all(self):
         self._compute_amount()
+
+    def _prepare_invoice(self):
+        self.ensure_one()
+        invoice_vals = super()._prepare_invoice()
+        invoice_vals.update(
+            {
+                "fiscal_operation_id": self.fiscal_operation_id.id,
+                "document_type_id": self.company_id.document_type_id.id,
+            }
+        )
+        return invoice_vals
