@@ -110,7 +110,6 @@
         "python": [
             "erpbrasil.base",
             "erpbrasil.assinatura",
-            "OpenSSL",
         ]
     },
 }
