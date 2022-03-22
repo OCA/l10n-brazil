@@ -66,20 +66,14 @@ class PurchaseOrder(models.Model):
 
             view = self.env["ir.ui.view"]
 
-            sub_form_view = (
-                order_view.get("fields", {})
-                .get("order_line", {})
-                .get("views", {})
-                .get("form", {})
-                .get("arch", {})
-            )
+            sub_form_view = order_view["fields"]["order_line"]["views"]["form"]["arch"]
 
             sub_form_node = self.env["purchase.order.line"].inject_fiscal_fields(
                 sub_form_view
             )
 
             sub_arch, sub_fields = view.postprocess_and_fields(
-                "purchase.order.line", sub_form_node, None
+                sub_form_node, "purchase.order.line", False
             )
 
             order_view["fields"]["order_line"]["views"]["form"] = {
