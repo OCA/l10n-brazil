@@ -61,10 +61,16 @@ class ProductProduct(models.Model):
 class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
 
+    def _compute_product_uom(self):
+        for record in self:
+            if not record.product_uom:
+                record.product_uom = record.product_tmpl_id.uom_id
+
     product_uom = fields.Many2one(
         "uom.uom",
         "Unit of Measure",
         related="",
+        compute="_compute_product_uom",
         readonly=False,
         help="This comes from the last imported document.",
     )
