@@ -246,7 +246,7 @@ class AccountMove(models.Model):
     def copy(self, default=None):
         default = default or {}
         if self.document_type_id:
-            default["line_ids"] = False
+            default["fiscal_line_ids"] = False
         return super().copy(default)
 
     def _recompute_tax_lines(self, recompute_tax_base_amount=False):
