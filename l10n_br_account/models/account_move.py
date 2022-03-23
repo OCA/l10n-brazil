@@ -88,6 +88,7 @@ class AccountMove(models.Model):
     def post(self, invoice=False):
         result = super().post(invoice)
         if invoice:
+            self.create_wh_invoices()
             if (
                 invoice.document_type_id
                 and invoice.document_electronic
