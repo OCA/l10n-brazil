@@ -211,10 +211,11 @@ class AccountMove(models.Model):
             defaults["issuer"] = DOCUMENT_ISSUER_PARTNER
         return defaults
 
-    @api.model
+    @api.model_create_multi
     def create(self, values):
-        if not values.get("document_type_id"):
-            values.update({"fiscal_document_id": self.env.company.fiscal_dummy_id.id})
+        for vals in values:
+            if not vals.get("document_type_id"):
+                vals["fiscal_document_id"] = self.env.company.fiscal_dummy_id.id
         invoice = super().create(values)
         invoice._write_shadowed_fields()
         return invoice
