@@ -226,20 +226,22 @@ class NFe(spec_models.StackedModel):
 
     # A definição de um valor default faz com que o valor não seja alterado na importação
     nfe40_modFrete = fields.Selection(
-        related='modFrete',
+        related="modFrete",
     )
 
-    # Com a adição deste campo e do parametro related em nfe40_modFrete o campo é preenchido na importação
+    # Com a adição deste campo e do parametro related em nfe40_modFrete
+    # o campo é preenchido na importação
     modFrete = fields.Selection(
         MODFRETE_TRANSP,
         string="Modalidade do frete",
         help="Modalidade do frete"
-             "\n0- Contratação do Frete por conta do Remetente (CIF);"
-             "\n1- Contratação do Frete por conta do destinatário/remetente (FOB);"
-             "\n2- Contratação do Frete por conta de terceiros;"
-             "\n3- Transporte próprio por conta do remetente;"
-             "\n4- Transporte próprio por conta do destinatário;"
-             "\n9- Sem Ocorrência de transporte.")
+        "\n0- Contratação do Frete por conta do Remetente (CIF);"
+        "\n1- Contratação do Frete por conta do destinatário/remetente (FOB);"
+        "\n2- Contratação do Frete por conta de terceiros;"
+        "\n3- Transporte próprio por conta do remetente;"
+        "\n4- Transporte próprio por conta do destinatário;"
+        "\n9- Sem Ocorrência de transporte.",
+    )
 
     nfe40_tpEmis = fields.Selection(
         compute="_compute_nfe_data",
@@ -310,9 +312,9 @@ class NFe(spec_models.StackedModel):
     )
 
     transporter_id = fields.Many2one(
-        comodel_name='res.partner',
-        help='The partner that is doing the delivery service.',
-        string='Transportadora'
+        comodel_name="res.partner",
+        help="The partner that is doing the delivery service.",
+        string="Transportadora",
     )
 
     nfe40_infRespTec = fields.Many2one(comodel_name="nfe.40.tinfresptec")

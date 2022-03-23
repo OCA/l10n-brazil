@@ -12,7 +12,7 @@
                     name="nfe_transport"
                     attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
                 >
-                  <field name="transporter_id"/>
+                  <field name="transporter_id" />
                   <field name="nfe40_modFrete" />
                   <field name="nfe40_transporta" />
               </group>
@@ -41,21 +41,41 @@
 
           <!-- Hide confirm button for imported documents -->
           <xpath expr="//form/field[@name='document_type']" position="after">
-              <field name="imported_document" invisible="1"/>
+              <field name="imported_document" invisible="1" />
           </xpath>
-          <xpath expr="//header/button[@name='action_document_confirm']" position="attributes">
-              <attribute name="attrs">{'invisible': ['|', ('state_edoc', '!=', 'em_digitacao'), ('imported_document', '=', True)]}</attribute>
+          <xpath
+                expr="//header/button[@name='action_document_confirm']"
+                position="attributes"
+            >
+              <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('state_edoc', '!=', 'em_digitacao'), ('imported_document', '=', True)]}</attribute>
           </xpath>
 
           <!-- Hide buttons for imported documents -->
-          <xpath expr="//header/button[@name='action_document_correction']" position="attributes">
-              <attribute name="attrs">{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
+          <xpath
+                expr="//header/button[@name='action_document_correction']"
+                position="attributes"
+            >
+              <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
           </xpath>
-          <xpath expr="//header/button[@name='action_create_return']" position="attributes">
-              <attribute name="attrs">{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
+          <xpath
+                expr="//header/button[@name='action_create_return']"
+                position="attributes"
+            >
+              <attribute
+                    name="attrs"
+                >{'invisible': ['|', ('state_edoc', '!=', 'autorizada'), ('imported_document', '=', True)]}</attribute>
           </xpath>
-          <xpath expr="//header/button[@name='action_document_cancel']" position="attributes">
-              <attribute name="attrs">{'invisible': ['|', '|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False), ('imported_document', '=', True)]}</attribute>
+          <xpath
+                expr="//header/button[@name='action_document_cancel']"
+                position="attributes"
+            >
+              <attribute
+                    name="attrs"
+                >{'invisible': ['|', '|', ('state_edoc', '!=', 'autorizada'), ('document_electronic', '=', False), ('imported_document', '=', True)]}</attribute>
           </xpath>
 
       </field>

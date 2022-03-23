@@ -8,7 +8,7 @@
 # from XML -> Odoo by overriding the product create method
 
 
-from odoo import api, models, fields
+from odoo import api, fields, models
 
 
 class ProductProduct(models.Model):
@@ -62,7 +62,9 @@ class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
 
     product_uom = fields.Many2one(
-        'uom.uom', 'Unit of Measure',
-        related='',
+        "uom.uom",
+        "Unit of Measure",
+        related="",
         readonly=False,
-        help="This comes from the last imported document.")
+        help="This comes from the last imported document.",
+    )
