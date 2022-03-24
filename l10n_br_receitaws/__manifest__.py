@@ -9,6 +9,11 @@
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base",
+        ],
+    },
     "depends": [
         "l10n_br_base",
     ],

@@ -43,7 +43,7 @@ To use this module, you need to:
 Known issues / Roadmap
 ======================
 
-* ...
+* There isn't a know issue yet.
 
 Bug Tracker
 ===========
