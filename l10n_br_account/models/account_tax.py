@@ -101,12 +101,18 @@ class AccountTax(models.Model):
         )
 
         taxes_results["amount_tax_included"] = fiscal_taxes_results["amount_included"]
-        taxes_results["amount_tax_not_included"] = fiscal_taxes_results["amount_not_included"]
-        taxes_results["amount_tax_withholding"] = fiscal_taxes_results["amount_withholding"]
+        taxes_results["amount_tax_not_included"] = fiscal_taxes_results[
+            "amount_not_included"
+        ]
+        taxes_results["amount_tax_withholding"] = fiscal_taxes_results[
+            "amount_withholding"
+        ]
         taxes_results["amount_estimate_tax"] = fiscal_taxes_results["estimate_tax"]
 
-
         account_taxes_by_domain = {}
+
+        sign = self._context.get("force_sign", 1)
+
         for tax in self:
             tax_domain = tax.tax_group_id.fiscal_tax_group_id.tax_domain
             account_taxes_by_domain.update({tax.id: tax_domain})
@@ -124,23 +130,39 @@ class AccountTax(models.Model):
                 }
             )
 
+            tax_repartition_lines = (
+                is_refund
+                and tax.refund_repartition_line_ids
+                or tax.invoice_repartition_line_ids
+            ).filtered(lambda x: x.repartition_type == "tax")
+
+            sum_repartition_factor = sum(tax_repartition_lines.mapped("factor"))
+
             if fiscal_tax:
+
+                if fiscal_tax.get("base") < 0:
+                    sign = -1
+                    fiscal_tax["base"] = -fiscal_tax.get("base")
+
                 if not fiscal_tax.get("tax_include") and not tax.deductible:
                     taxes_results["total_included"] += fiscal_tax.get("tax_value")
 
                 fiscal_group = tax.tax_group_id.fiscal_tax_group_id
-                tax_amount = fiscal_tax.get("tax_value", 0.0)
+                tax_amount = fiscal_tax.get("tax_value", 0.0) * sum_repartition_factor
+                tax_base = fiscal_tax.get("base") * sum_repartition_factor
                 if tax.deductible or fiscal_group.tax_withholding:
-                    tax_amount = fiscal_tax.get("tax_value", 0.0) * -1
+                    tax_amount = (
+                        fiscal_tax.get("tax_value", 0.0) * sum_repartition_factor
+                    )
 
                 account_tax.update(
                     {
                         "id": account_tax.get("id"),
                         "name": fiscal_group.name,
                         "fiscal_name": fiscal_tax.get("name"),
-                        "base": fiscal_tax.get("base"),
+                        "base": tax_base * sign,
                         "tax_include": fiscal_tax.get("tax_include"),
-                        "amount": tax_amount,
+                        "amount": tax_amount * sign,
                         "fiscal_tax_id": fiscal_tax.get("fiscal_tax_id"),
                         "tax_withholding": fiscal_group.tax_withholding,
                     }
