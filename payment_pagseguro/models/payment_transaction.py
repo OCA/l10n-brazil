@@ -49,7 +49,8 @@ class PaymentTransactionPagseguro(models.Model):
         )
         res = r.json()
         _logger.info(
-            "_create_pagseguro_charge: Values received:\n%s", pprint.pformat(res)
+            "_create_pagseguro_charge: Values received:\n%s",
+            self.pprint_filtered_response(res),
         )
         return res
 
@@ -89,7 +90,7 @@ class PaymentTransactionPagseguro(models.Model):
         res = r.json()
         _logger.info(
             "pagseguro_s2s_capture_transaction: Values received:\n%s",
-            pprint.pformat(res),
+            self.pprint_filtered_response(res),
         )
 
         if (
@@ -133,7 +134,8 @@ class PaymentTransactionPagseguro(models.Model):
         )
         res = r.json()
         _logger.info(
-            "pagseguro_s2s_void_transaction: Values received:\n%s", pprint.pformat(res)
+            "pagseguro_s2s_void_transaction: Values received:\n%s",
+            self.pprint_filtered_response(res),
         )
 
         if (
@@ -255,3 +257,14 @@ class PaymentTransactionPagseguro(models.Model):
                 "state_message": message,
             }
         )
+
+    @staticmethod
+    def pprint_filtered_response(response):
+        # Returns response removing payment's sensitive information
+        output_response = response.copy()
+        output_response.pop("links", None)
+        output_response.pop("metadata", None)
+        output_response.pop("notification_urls", None)
+        output_response.pop("payment_method", None)
+
+        return pprint.pformat(output_response)
