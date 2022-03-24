@@ -1217,6 +1217,18 @@ msgid "Produção"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_qCom
+msgid "Quantidade Comercial do produto, alterado para aceitar de 0 a\n"
+"4 casas decimais e 11 inteiros."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_qTrib
+msgid "Quantidade Tributável - alterado para aceitar de 0 a 4 casas\n"
+"decimais e 11 inteiros"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xNome
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xNome
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xNome
