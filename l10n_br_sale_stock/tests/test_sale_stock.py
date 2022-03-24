@@ -460,3 +460,16 @@ class TestSaleStock(SavepointCase):
         invoice_pick_3_4 = invoices.filtered(lambda t: not t.partner_shipping_id)
         self.assertIn(invoice_pick_3_4, picking3.invoice_ids)
         self.assertIn(invoice_pick_3_4, picking4.invoice_ids)
+
+    def test_synchronize_sale_partner_shipping_in_stock_picking(self):
+        """
+        Test the synchronize Sale Partner Shipping in Stock Picking
+        """
+        sale_order_1 = self.env.ref("l10n_br_sale_stock.main_so_l10n_br_sale_stock_1")
+        sale_order_1.action_confirm()
+        picking = sale_order_1.picking_ids
+        sale_order_1.partner_shipping_id = self.env.ref(
+            "l10n_br_base.res_partner_address_ak2"
+        ).id
+        sale_order_1._onchange_partner_shipping_id()
+        self.assertEqual(sale_order_1.partner_shipping_id, picking.partner_id)
