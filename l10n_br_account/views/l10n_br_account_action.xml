@@ -88,7 +88,9 @@
         <field
             name="domain"
         >[('move_type', 'in', ('in_invoice', 'in_receipt', 'out_refund')), ('fiscal_operation_type', '=', 'in')]</field>
-        <field name="context">{'move_type':'in_invoice', 'journal_type': 'purchase'}</field>
+        <field
+            name="context"
+        >{'move_type':'in_invoice', 'journal_type': 'purchase'}</field>
         <field name="search_view_id" ref="l10n_br_account.fiscal_invoice_search" />
         <field name="help" type="html">
           <p class="o_view_nocontent_smiling_face">
