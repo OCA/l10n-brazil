@@ -38,7 +38,7 @@
         # "wizard/sat_xml_periodic_export.xml",
         # "views/res_partner.xml",
         # "views/account_invoice_view.xml"
-        # "views/res_company.xml",
+        "views/res_company.xml",
         # "views/pos_order_line_view.xml",
         "views/account_journal_view.xml",
         # "views/point_of_sale_report.xml",
