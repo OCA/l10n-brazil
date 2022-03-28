@@ -21,32 +21,32 @@ class PartyMixin(models.AbstractModel):
             try:
                 data = response.json()
             except ValueError:
-                raise ValidationError(_("Não foi possível ler a resposta do receitaws"))
+                raise ValidationError(_("Não foi possível conectar ao receitaws."))
 
             if data.get("status") == "ERROR":
                 raise ValidationError(_(data.get("message")))
 
             self.company_type = "company"
             self.legal_name = self.get_field(data, "nome", title=True)
-            self.name = self.get_field(data, "fantasia", title=True)
+            fantasy_name = self.get_field(data, "fantasia", title=True)
+            self.name = fantasy_name if fantasy_name else self.legal_name
             self.email = self.get_field(data, "email", lower=True)
             self.street = self.get_field(data, "logradouro", title=True)
             self.street2 = self.get_field(data, "complemento", title=True)
             self.district = self.get_field(data, "bairro", title=True)
             self.street_number = self.get_field(data, "numero")
             self.zip = self.get_field(data, "cep")
-            self.get_phone(data)
+            self.get_phones(data)
             self.get_state_city(data)
 
         return result
 
-    def get_phone(self, data):
+    def get_phones(self, data):
         if data.get("telefone") != "":
             phones = data["telefone"].split("/")
             self.phone = phones[0]
             if len(phones) > 1:
-                self.mobile = phones[1]
-            #     'telefone': '(12) 9999-9999/ (12) 9999-9999',
+                self.mobile = phones[1][1:]  # Remove Empty space separation
 
     def get_state_city(self, data):
         if data.get("uf") != "":

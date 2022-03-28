@@ -38,7 +38,10 @@ class TestPartyMixin(TransactionCase):
             invalido._onchange_cnpj_cpf()
 
     def test_onchange_cnpj_cpf_multiple_phones(self):
-        self.model.search([("name", "=", "Isla")])  # TODO implement test
+        isla = self.model.create({"name": "Isla", "cnpj_cpf": "92.666.056/0001-06"})
 
-        # 92.666.056/0001-06
-        # isla._onchange_cnpj_cpf()
+        isla._onchange_cnpj_cpf()
+
+        self.assertEqual(isla.name, "Isla Sementes Ltda.")
+        self.assertEqual(isla.phone, "(51) 9852-9561")
+        self.assertEqual(isla.mobile, "(51) 2136-6600")
