@@ -32,6 +32,7 @@ try:
     from satcfe.entidades import CFeVenda
     from satcfe.entidades import DescAcrEntr
     from satcfe.entidades import CFeCancelamento
+    from satcfe.entidades import InformacoesAdicionais
     from satcfe.entidades import (
         COFINSAliq,
         COFINSNT,
@@ -334,7 +335,7 @@ class Sat(Thread):
             pagamentos.append(self.__prepare_payment(pagamento))
 
         kwargs = {}
-        if json['client']:
+        if json.get('client'):
             # TODO: Verificar se tamanho == 14: cnpj
             documento = str(json['client'])
             if cnpj_cpf.validar_cnpj(documento):
@@ -346,6 +347,10 @@ class Sat(Thread):
             IE=punctuation_rm(json['company']['ie']),
             indRatISSQN='N')
         emitente.validar()
+        if json.get('additional_data'):
+            kwargs['informacoes_adicionais'] = InformacoesAdicionais(
+                infCpl=json['additional_data']
+            )
         return CFeVenda(
             CNPJ=punctuation_rm(json['company']['cnpj_software_house']),
             signAC=self.assinatura,
