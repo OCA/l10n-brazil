@@ -27,15 +27,15 @@ class PartyMixin(models.AbstractModel):
                 raise ValidationError(_(data.get("message")))
 
             self.company_type = "company"
-            self.legal_name = self.get_field(data, "nome", title=True)
-            fantasy_name = self.get_field(data, "fantasia", title=True)
+            self.legal_name = self.get_data(data, "nome", title=True)
+            fantasy_name = self.get_data(data, "fantasia", title=True)
             self.name = fantasy_name if fantasy_name else self.legal_name
-            self.email = self.get_field(data, "email", lower=True)
-            self.street = self.get_field(data, "logradouro", title=True)
-            self.street2 = self.get_field(data, "complemento", title=True)
-            self.district = self.get_field(data, "bairro", title=True)
-            self.street_number = self.get_field(data, "numero")
-            self.zip = self.get_field(data, "cep")
+            self.email = self.get_data(data, "email", lower=True)
+            self.street = self.get_data(data, "logradouro", title=True)
+            self.street2 = self.get_data(data, "complemento", title=True)
+            self.district = self.get_data(data, "bairro", title=True)
+            self.street_number = self.get_data(data, "numero")
+            self.zip = self.get_data(data, "cep")
             self.get_phones(data)
             self.get_state_city(data)
 
@@ -70,7 +70,7 @@ class PartyMixin(models.AbstractModel):
                     self.city_id = city_id
 
     @staticmethod
-    def get_field(data, name, title=False, lower=False):
+    def get_data(data, name, title=False, lower=False):
         value = False
         if data.get(name) != "":
             value = data[name]
