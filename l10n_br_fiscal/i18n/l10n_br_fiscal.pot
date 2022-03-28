@@ -371,6 +371,11 @@ msgid "<span>Novo Documento</span>"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "<strong>XML validation errors:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cest_action
 msgid "A CEST is necessary to create\n"
 "              fiscal operations for your fiscal moves."
@@ -1749,7 +1754,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:552
+#: code:addons/l10n_br_fiscal/models/document.py:558
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -8033,7 +8038,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:579
+#: code:addons/l10n_br_fiscal/models/document.py:585
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8846,8 +8851,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:409
-#: code:addons/l10n_br_fiscal/models/document.py:423
+#: code:addons/l10n_br_fiscal/models/document.py:415
+#: code:addons/l10n_br_fiscal/models/document.py:429
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -8870,13 +8875,13 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:291
+#: code:addons/l10n_br_fiscal/models/document.py:297
 #, python-format
 msgid "There is already a fiscal document with this Serie: {}, Number: {} !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:254
+#: code:addons/l10n_br_fiscal/models/document.py:260
 #, python-format
 msgid "There is already a fiscal document with this key: {} !"
 msgstr ""
@@ -8967,7 +8972,7 @@ msgid "UOM"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:317
+#: code:addons/l10n_br_fiscal/models/document.py:323
 #, python-format
 msgid "Unidentified Consumer"
 msgstr ""
@@ -9266,6 +9271,11 @@ msgid "XML Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__xml_error_message
+msgid "XML validation errors"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.view_dfe_xml_tree
 msgid "XML's"
 msgstr ""
@@ -9287,7 +9297,7 @@ msgid "You can note repeat the alternative name"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:379
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:380
 #, python-format
 msgid "You cannot create a fiscal correction document if this fical document you are not the document issuer"
 msgstr ""
@@ -9311,13 +9321,13 @@ msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:390
+#: code:addons/l10n_br_fiscal/models/document.py:396
 #, python-format
 msgid "You cannot delete fiscal document number {} with the status: {}!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_workflow.py:362
+#: code:addons/l10n_br_fiscal/models/document_workflow.py:363
 #, python-format
 msgid "You cannot invalidate this document"
 msgstr ""
