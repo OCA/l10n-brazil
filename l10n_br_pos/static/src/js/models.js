@@ -9,6 +9,9 @@ odoo.define("l10n_br_pos.models", function (require) {
     const rpc = require('web.rpc');
     const _t = core._t;
 
+    const utils = require("web.utils");
+    const round_pr = utils.round_precision;
+
     var models = require("point_of_sale.models");
     var util = require("l10n_br_pos.util");
     var partner_company_fields = [
@@ -186,6 +189,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             json.document_session_number = this.document_session_number;
             json.document_key = this.document_key;
             json.document_file = this.document_file;
+
             return json;
         },
         init_from_JSON: function (json) {
@@ -194,6 +198,29 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.fiscal_operation_id = json.fiscal_operation_id;
             this.document_type = json.document_type;
             this.document_type_id = json.document_type_id;
+        },
+        get_taxes_and_percentages: function (order) {
+            taxes = {
+                federal: {
+                    percent: 0,
+                    total: 0
+                },
+                estadual: {
+                    percent: 0,
+                    total: 0
+                }
+            }
+            const rounding = this.pos.currency.rounding;
+            line = order.orderlines[0];
+            taxes['federal']['percent'] = line.cofins_percent + line.pis_percent;
+            taxes['federal']['total'] = round_pr(order.total_paid * (taxes['federal']['percent']/100), rounding);
+            taxes['estadual']['percent'] = line.icms_percent;
+            taxes['estadual']['total'] = round_pr(order.total_paid * (taxes['estadual']['percent']/100), rounding);
+
+            return taxes;
+        },
+        fillTemplate: function(templateString, taxes){
+            return new Function(`return \`${templateString}\`;`).call(this, taxes);
         },
         export_for_printing: function () {
             var result = _super_order.export_for_printing.apply(this, arguments);
@@ -227,7 +254,10 @@ odoo.define("l10n_br_pos.models", function (require) {
             result.configs_sat.cod_ativacao = pos_config.cod_ativacao;
             result.configs_sat.impressora = pos_config.impressora;
             result.configs_sat.printer_params = pos_config.printer_params;
-            result.additional_data = pos_config.additional_data;
+            if (this.pos.config.additional_data) {
+                var taxes = this.get_taxes_and_percentages(result);
+                result.additional_data = this.fillTemplate(this.pos.config.additional_data, taxes);
+            }
 
             return result;
         },
