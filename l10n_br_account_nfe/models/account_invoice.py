@@ -11,83 +11,70 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
 
 def filter_nfe(record):
     if (
-        record.fiscal_document_id.processador_edoc == PROCESSADOR_OCA
-        and record.fiscal_document_id.document_type_id.code
+        record.processador_edoc == PROCESSADOR_OCA
+        and record.document_type_id.code
         in [
             MODELO_FISCAL_NFE,
             MODELO_FISCAL_NFCE,
         ]
-        and record.fiscal_document_id.issuer == DOCUMENT_ISSUER_COMPANY
+        and record.issuer == DOCUMENT_ISSUER_COMPANY
     ):
         return True
     return False
 
 
-class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
+class DocumentWorkflow(models.AbstractModel):
+    _inherit = "l10n_br_fiscal.document.workflow"
 
-    def action_invoice_open(self):
-        super(AccountInvoice, self).action_invoice_open()
+    def action_document_confirm(self):
+        for record in self.filtered(filter_nfe):
+            if record.amount_financial_total:
+                # TAG - Cobrança
+                duplicatas = record.env["nfe.40.dup"]
+                count = 1
+                for mov in record.invoice_ids.financial_move_line_ids:
+                    duplicatas += duplicatas.create(
+                        {
+                            "nfe40_nDup": str(count).zfill(3),
+                            "nfe40_dVenc": mov.date_maturity,
+                            "nfe40_vDup": mov.debit,
+                        }
+                    )
+                    count += 1
+                record.nfe40_dup = [(6, 0, duplicatas.ids)]
 
-        for inv in self.filtered(filter_nfe):
-            if inv.amount_financial_total > 0:
-                self.generate_payment_info(inv)
-                self.generate_cobranca_info(inv)
+                # TAG - Pagamento
+                if not record.invoice_ids.payment_mode_id.fiscal_payment_mode:
+                    raise UserError(
+                        _(
+                            "Payment Mode {} should has Fiscal Payment Mode"
+                            " filled to be used in Fiscal Document!".format(
+                                record.invoice_ids.payment_mode_id.name
+                            )
+                        )
+                    )
 
-    def generate_payment_info(self, inv):
-        if not inv.payment_mode_id.fiscal_payment_mode:
-            raise UserError(_("Document without Fiscal Payment Mode!"))
+                moves_terms = record.invoice_ids.financial_move_line_ids.filtered(
+                    lambda move_line: move_line.date_maturity > move_line.date
+                )
+                ind_pag = "1" if len(moves_terms) > 0 else "0"
+                fiscal_payment_mode = (
+                    record.invoice_ids.payment_mode_id.fiscal_payment_mode
+                )
+                v_pag = record.amount_financial_total
+            else:
+                ind_pag = "0"
+                fiscal_payment_mode = "90"
+                v_pag = 0.00
 
-        moves_terms = inv.financial_move_line_ids.filtered(
-            lambda move_line: move_line.date_maturity > move_line.date
-        )
-        indPag = "1" if len(moves_terms) > 0 else "0"
-
-        inv.nfe40_detPag = [
-            (5, 0, 0),
-            (
-                0,
-                0,
-                inv.fiscal_document_id._prepare_amount_financial(
-                    indPag,
-                    inv.payment_mode_id.fiscal_payment_mode,
-                    inv.amount_financial_total,
-                ),
-            ),
-        ]
-
-    def generate_cobranca_info(self, inv):
-
-        fat_id = self.env["nfe.40.fat"].create(
-            {
-                "nfe40_nFat": inv.number,
-                "nfe40_vOrig": inv.amount_financial_total_gross,
-                "nfe40_vDesc": inv.amount_financial_discount_value,
-                "nfe40_vLiq": inv.amount_financial_total,
-            }
-        )
-
-        duplicatas = self.env["nfe.40.dup"]
-        count = 1
-        for mov in inv.financial_move_line_ids:
-            duplicatas += duplicatas.create(
+            pagamentos = record.env["nfe.40.detpag"].create(
                 {
-                    "nfe40_nDup": str(count).zfill(3),
-                    "nfe40_dVenc": mov.date_maturity,
-                    "nfe40_vDup": mov.debit,
+                    "nfe40_indPag": ind_pag,
+                    "nfe40_tPag": fiscal_payment_mode,
+                    "nfe40_vPag": v_pag,
                 }
             )
-            count += 1
 
-        cobr_id = self.env["nfe.40.cobr"].create(
-            {
-                "nfe40_fat": fat_id.id,
-                "nfe40_dup": [(6, 0, duplicatas.ids)],
-            }
-        )
+            record.nfe40_detPag = [(6, 0, pagamentos.ids)]
 
-        inv.update(
-            {
-                "nfe40_cobr": cobr_id.id,
-            }
-        )
+        super().action_document_confirm()
