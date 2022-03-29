@@ -104,6 +104,7 @@ odoo.define("l10n_br_pos.models", function (require) {
     models.Order = models.Order.extend({
         initialize: function (attributes, options) {
             _super_order.initialize.apply(this, arguments, options);
+            this.init_locked = true;
 
             this.cnpj_cpf = this.cnpj_cpf || null;
             this.document_authorization_date = this.document_authorization_date || null;
@@ -121,6 +122,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 this.document_type = this.pos.config.simplified_document_type;
             }
 
+            this.init_locked = false;
             this.save_to_db();
         },
         set_cfe_return: function (json_result) {
