@@ -71,9 +71,11 @@ class NFeStructure(SavepointCase):
             "nfe40_retTrib",
             "nfe40_total",
             "nfe40_transp",
+            "nfe40_cobr",
+            "nfe40_fat",
         ]
         keys = [k for k in self.env["l10n_br_fiscal.document"]._stacking_points.keys()]
-        self.assertEqual(sorted(keys), doc_keys)
+        self.assertEqual(sorted(keys), sorted(doc_keys))
 
     def test_doc_line_stacking_points(self):
         line_keys = [
