@@ -33,6 +33,7 @@
                     name="nfe_finance"
                     attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
                 >
+                  <field name="nfe40_dup" />
                   <field name="nfe40_detPag" />
               </group>
           </page>
