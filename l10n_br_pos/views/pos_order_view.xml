@@ -11,6 +11,7 @@
                 <field name="legal_name" string="Razão Social" />
                 <field name="cnpj_cpf" string="CNPJ/CPF" />
                 <field name="ie" string="Inscr. Estadual" />
+                <field name="fiscal_coupon_date" string="Data Coupon Fiscal" />
             </field>
         </field>
     </record>
@@ -154,6 +155,9 @@
 <!--            </field>-->
             <field name="partner_id" position="after">
                 <field name="cnpj_cpf" />
+            </field>
+            <field name="date_order" position="after">
+                <field name="fiscal_coupon_date" />
             </field>
         </field>
     </record>
