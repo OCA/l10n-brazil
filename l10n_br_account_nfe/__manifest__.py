@@ -16,6 +16,6 @@
         "views/account_payment_mode.xml",
     ],
     "demo": [
-        # Some demo data is being loaded via post_init_hook in hook file
+        "demo/account_invoice_demo.xml",
     ],
 }
