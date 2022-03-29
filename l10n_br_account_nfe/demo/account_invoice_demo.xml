@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- pylint:disable=duplicate-xml-record-id -->
+
+    <!-- Payment Terms -->
+    <record id="account_payment_term_30_60_90" model="account.payment.term">
+        <field name="name">30/60/90</field>
+        <field name="note">Payment terms: 30/60/90</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field
+            name="line_ids"
+            eval="[(5, 0),
+               (0, 0, {'value': 'percent', 'value_amount': 33, 'sequence': 500, 'days': 30, 'option': 'day_after_invoice_date'}),
+               (0, 0, {'value': 'percent', 'value_amount': 33, 'sequence': 500, 'days': 60, 'option': 'day_after_invoice_date'}),
+               (0, 0, {'value': 'balance', 'value_amount': 0.0, 'sequence': 500, 'days': 90, 'option': 'day_after_invoice_date'})
+               ]"
+        />
+    </record>
+
+    <!-- Account Journal for Simples Nacional -->
+    <record id="demo_simples_nacional_bank_journal" model="account.journal">
+        <field name="name">Diário de Boleto - Simples Nacional</field>
+        <field name="code">TPO</field>
+        <field name="type">sale</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="update_posted">True</field>
+    </record>
+
+    <!-- Payment Mode -->
+    <record id="demo_payment_mode_boleto" model="account.payment.mode">
+        <field name="name">Boleto</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field
+            name="payment_method_id"
+            ref="account.account_payment_method_manual_in"
+        />
+        <field name="fiscal_payment_mode">15</field>
+        <field name="bank_account_link">fixed</field>
+        <field name="fixed_journal_id" ref="demo_simples_nacional_bank_journal" />
+    </record>
+
+    <!-- Conta Contabil - Linha da Fatura -->
+    <record
+        model="account.account"
+        id="1_account_template_3010101010200_nfe_teste_cobranca"
+    >
+        <field name="code">3.01.01.01.01.02.00</field>
+        <field name="name">Receita da Venda no Mercado Interno
+            de Produtos de Fabricação Própria - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_receivable" />
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="reconcile" eval="True" />
+    </record>
+
+    <!-- Faturas/Invoices de Teste deve gerar TAG Cobrança -->
+    <record id="demo_nfe_dados_de_cobranca" model="account.invoice">
+        <field name="name">Teste NFe Dados de Cobrança</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="journal_id" ref="demo_simples_nacional_bank_journal" />
+        <field name="payment_term_id" ref="account_payment_term_30_60_90" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_admin" />
+        <field name="payment_mode_id" ref="demo_payment_mode_boleto" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_55_serie_1"
+        />
+        <field name="document_serie">1</field>
+        <field name="fiscal_operation_type">out</field>
+        <field name="fiscal_document_id" eval="False" />
+    </record>
+
+    <record id="demo_nfe_linha_dados_de_cobranca" model="account.invoice.line">
+        <field name="invoice_id" ref="demo_nfe_dados_de_cobranca" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">1000</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_venda" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_venda_revenda_nao_contribuinte"
+        />
+        <field name="cfop_id" ref="l10n_br_fiscal.cfop_5102" />
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_nfe_teste_cobranca"
+        />
+    </record>
+
+    <function model="account.invoice.line" name="_onchange_product_id_fiscal">
+        <value eval="[ref('l10n_br_account_nfe.demo_nfe_linha_dados_de_cobranca')]" />
+    </function>
+
+    <!-- O onchange altera o valor do price_unit para o valor padrão,
+     mas isso causa erro no pylint de xml duplicado por isso o
+      disable=duplicate-xml-record-id no começo do arquivo -->
+    <record id="demo_nfe_linha_dados_de_cobranca" model="account.invoice.line">
+        <field name="price_unit">1000</field>
+    </record>
+
+    <function model="account.invoice.line" name="_onchange_fiscal_operation_line_id">
+        <value eval="[ref('l10n_br_account_nfe.demo_nfe_linha_dados_de_cobranca')]" />
+    </function>
+
+    <!-- Faturas/Invoices de Teste não deve gerar TAG Cobrança -->
+    <record id="demo_nfe_sem_dados_de_cobranca" model="account.invoice">
+        <field name="name">Teste NFe Sem Dados de Cobrança</field>
+        <field name="company_id" ref="l10n_br_base.empresa_simples_nacional" />
+        <field name="journal_id" ref="demo_simples_nacional_bank_journal" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="payment_mode_id" />
+        <field name="type">out_invoice</field>
+        <field name="user_id" ref="base.user_admin" />
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field name="document_type_id" ref="l10n_br_fiscal.document_55" />
+        <field
+            name="document_serie_id"
+            ref="l10n_br_fiscal.empresa_sn_document_55_serie_1"
+        />
+        <field name="document_serie">1</field>
+        <field name="fiscal_operation_type">out</field>
+    </record>
+
+    <record id="demo_nfe_linha_sem_dados_de_cobranca" model="account.invoice.line">
+        <field name="invoice_id" ref="demo_nfe_sem_dados_de_cobranca" />
+        <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
+        <field name="name">[E-COM06] Mesa de Canto Direita</field>
+        <field name="product_id" ref="product.product_product_5" />
+        <field name="uom_id" ref="uom.product_uom_unit" />
+        <field name="price_unit">1000</field>
+        <field name="quantity">1</field>
+        <field name="fiscal_operation_id" ref="l10n_br_fiscal.fo_bonificacao" />
+        <field
+            name="fiscal_operation_line_id"
+            ref="l10n_br_fiscal.fo_bonificacao_bonificacao"
+        />
+        <field name="cfop_id" ref="l10n_br_fiscal.cfop_5910" />
+        <field
+            name="account_id"
+            ref="1_account_template_3010101010200_nfe_teste_cobranca"
+        />
+    </record>
+
+    <function model="account.invoice.line" name="_onchange_product_id_fiscal">
+        <value
+            eval="[ref('l10n_br_account_nfe.demo_nfe_linha_sem_dados_de_cobranca')]"
+        />
+    </function>
+
+    <!-- O onchange altera o valor do price_unit para o valor padrão,
+         mas isso causa erro no pylint de xml duplicado por isso o
+         disable=duplicate-xml-record-id no começo do arquivo -->
+    <record id="demo_nfe_linha_sem_dados_de_cobranca" model="account.invoice.line">
+        <field name="price_unit">1000</field>
+    </record>
+
+    <function model="account.invoice.line" name="_onchange_fiscal_operation_line_id">
+        <value
+            eval="[ref('l10n_br_account_nfe.demo_nfe_linha_sem_dados_de_cobranca')]"
+        />
+    </function>
+
+</odoo>
