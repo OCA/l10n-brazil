@@ -152,6 +152,12 @@ class PosOrder(models.Model):
         readony=True,
     )
 
+    fiscal_coupon_date = fields.Datetime(
+        string="Coupon Fiscal Date",
+        readonly=True,
+        index=True,
+    )
+
     @api.multi
     def _get_amount_lines(self):
         """Get object lines instaces used to compute fields"""
@@ -225,6 +231,7 @@ class PosOrder(models.Model):
                 }
             )
         result.update(temp)
+        result["fiscal_coupon_date"] = ui_order.get("fiscal_coupon_date", fields.Datetime.now)
         return result
 
     # @api.model
