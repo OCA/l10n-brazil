@@ -78,7 +78,13 @@ class NFe(spec_models.StackedModel):
     _nfe_search_keys = ["nfe40_Id"]
 
     # all m2o at this level will be stacked even if not required:
-    _force_stack_paths = ("infnfe.total", "infnfe.infAdic", "infnfe.exporta")
+    _force_stack_paths = (
+        "infnfe.total",
+        "infnfe.infAdic",
+        "infnfe.exporta",
+        "infnfe.cobr",
+        "infnfe.cobr.fat",
+    )
 
     def _compute_emit(self):
         for doc in self:  # TODO if out
@@ -273,6 +279,17 @@ class NFe(spec_models.StackedModel):
     nfe40_idDest = fields.Selection(
         compute="_compute_nfe40_idDest",
     )
+
+    ##########################
+    # NF-e tag: fat
+    ##########################
+    nfe40_nFat = fields.Char(related="document_number")
+
+    nfe40_vOrig = fields.Monetary(related="amount_financial_total_gross")
+
+    nfe40_vDesc = fields.Monetary(related="amount_financial_discount_value")
+
+    nfe40_vLiq = fields.Monetary(related="amount_financial_total")
 
     @api.depends("fiscal_additional_data", "fiscal_additional_data")
     def _compute_nfe40_additional_data(self):
@@ -575,13 +592,6 @@ class NFe(spec_models.StackedModel):
         if xsd_field == "nfe40_tpAmb":
             self.env.context = dict(self.env.context)
             self.env.context.update({"tpAmb": self[xsd_field]})
-        elif xsd_field == "nfe40_fat" and (
-            self.nfe40_detPag and self.nfe40_detPag[0].nfe40_tPag != "90"
-        ):
-            self._stacking_points["nfe40_fat"] = self._fields["nfe40_fat"]
-            res = super()._export_field(xsd_field, class_obj, member_spec)
-            self._stacking_points.pop("nfe40_fat")
-            return res
         elif xsd_field == "nfe40_vTroco" and (
             self.nfe40_detPag and self.nfe40_detPag[0].nfe40_tPag == "90"
         ):
