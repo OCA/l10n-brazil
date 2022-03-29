@@ -1,45 +1,48 @@
 # Copyright 2021 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from erpbrasil.base.fiscal.cnpj_cpf import validar_cnpj
 from erpbrasil.base.misc import punctuation_rm
 from requests import get
 
-from odoo import _, api, models
-from odoo.exceptions import ValidationError
+from odoo import _, models
+from odoo.exceptions import UserError, ValidationError
+
+RECEITAWS_URL = "https://www.receitaws.com.br/v1/cnpj/"
 
 
 class PartyMixin(models.AbstractModel):
     _inherit = "l10n_br_base.party.mixin"
 
-    @api.onchange("cnpj_cpf")
-    def _onchange_cnpj_cpf(self):
-        result = super()._onchange_cnpj_cpf()
+    def search_cnpj(self):
+        """Search CNPJ by the chosen API.
+        This method doesn't need to validate the CNPJ since it's already validated on
+        the onchange method.
+        """
+        if not self.cnpj_cpf:
+            raise UserError(_("Por favor insira o CNPJ"))
+
         cnpj_cpf = punctuation_rm(self.cnpj_cpf)
-        if cnpj_cpf and validar_cnpj(cnpj_cpf):
-            response = get("https://www.receitaws.com.br/v1/cnpj/" + cnpj_cpf)
-            try:
-                data = response.json()
-            except ValueError:
-                raise ValidationError(_("Não foi possível conectar ao receitaws."))
+        response = get(RECEITAWS_URL + cnpj_cpf)
+        try:
+            data = response.json()
+        except ValueError:
+            raise ValidationError(_("Não foi possível conectar ao receitaws."))
 
-            if data.get("status") == "ERROR":
-                raise ValidationError(_(data.get("message")))
+        if data.get("status") == "ERROR":
+            raise ValidationError(_(data.get("message")))
 
-            self.company_type = "company"
-            self.legal_name = self.get_data(data, "nome", title=True)
-            fantasy_name = self.get_data(data, "fantasia", title=True)
-            self.name = fantasy_name if fantasy_name else self.legal_name
-            self.email = self.get_data(data, "email", lower=True)
-            self.street = self.get_data(data, "logradouro", title=True)
-            self.street2 = self.get_data(data, "complemento", title=True)
-            self.district = self.get_data(data, "bairro", title=True)
-            self.street_number = self.get_data(data, "numero")
-            self.zip = self.get_data(data, "cep")
-            self.get_phones(data)
-            self.get_state_city(data)
-
-        return result
+        self.company_type = "company"
+        self.legal_name = self.get_data(data, "nome", title=True)
+        fantasy_name = self.get_data(data, "fantasia", title=True)
+        self.name = fantasy_name if fantasy_name else self.legal_name
+        self.email = self.get_data(data, "email", lower=True)
+        self.street = self.get_data(data, "logradouro", title=True)
+        self.street2 = self.get_data(data, "complemento", title=True)
+        self.district = self.get_data(data, "bairro", title=True)
+        self.street_number = self.get_data(data, "numero")
+        self.zip = self.get_data(data, "cep")
+        self.get_phones(data)
+        self.get_state_city(data)
 
     def get_phones(self, data):
         if data.get("telefone") != "":

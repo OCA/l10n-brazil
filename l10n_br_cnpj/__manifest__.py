@@ -2,9 +2,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "ReceitaWS",
+    "name": "Brazilian Localization CNPJ Search",
     "summary": """
-        Integração com os Webservices da ReceitaWS""",
+        Integração com os Webservices da ReceitaWS e SerPro""",
     "version": "12.0.1.0.0",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
@@ -17,6 +17,6 @@
     "depends": [
         "l10n_br_base",
     ],
-    "data": [],
+    "data": ["views/res_partner_view.xml"],
     "demo": [],
 }
