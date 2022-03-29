@@ -76,7 +76,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[l10n_br_account](l10n_br_account/) | 12.0.14.0.1 |  | Brazilian Localization Account
+[l10n_br_account](l10n_br_account/) | 12.0.14.1.0 |  | Brazilian Localization Account
 [l10n_br_account_bank_statement_import_cnab](l10n_br_account_bank_statement_import_cnab/) | 12.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Importação de Extrato Bancário CNAB 240 - Segmento E
 [l10n_br_account_due_list](l10n_br_account_due_list/) | 12.0.2.1.0 |  | Brazilian Account Due List
 [l10n_br_account_payment_brcobranca](l10n_br_account_payment_brcobranca/) | 12.0.3.1.0 |  | L10n Br Account Payment BRCobranca
@@ -91,7 +91,7 @@ addon | version | maintainers | summary
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 12.0.2.0.0 |  | Update exchange rates using OCA modules for Brazil
 [l10n_br_delivery](l10n_br_delivery/) | 12.0.3.0.0 |  | This module changes the delivery model strategy to match brazilian standards.
 [l10n_br_delivery_nfe](l10n_br_delivery_nfe/) | 12.0.1.0.0 |  | Brazilian Localization Delivery NFe
-[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.26.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 12.0.26.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_hr](l10n_br_hr/) | 12.0.1.0.0 |  | Brazilian Localization HR
 [l10n_br_hr_contract](l10n_br_hr_contract/) | 12.0.1.1.0 |  | Brazilian Localization HR Contract
 [l10n_br_mis_report](l10n_br_mis_report/) | 12.0.1.3.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
