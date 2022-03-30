@@ -11,7 +11,7 @@
                 <field name="legal_name" string="Razão Social" />
                 <field name="cnpj_cpf" string="CNPJ/CPF" />
                 <field name="ie" string="Inscr. Estadual" />
-                <field name="fiscal_coupon_date" string="Data Coupon Fiscal" />
+                <field name="fiscal_coupon_date" string="Data Cupom Fiscal" />
             </field>
         </field>
     </record>
@@ -39,6 +39,9 @@
 <!--                <field name="cfe_cancelamento_return"/>-->
 <!--                <field name="chave_cfe_cancelamento"/>-->
 <!--                <field name="num_sessao_sat_cancelamento"/>-->
+            </field>
+            <field name="date_order" position="after">
+                <field name="fiscal_coupon_date" string="Data Cupom Fiscal" />
             </field>
             <group name="order_fields" position="after">
 <!--                <group string="Informações do documento fiscal" name="fiscal_document_information">-->
