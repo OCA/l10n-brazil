@@ -104,6 +104,7 @@ odoo.define("l10n_br_pos.models", function (require) {
     models.Order = models.Order.extend({
         initialize: function (attributes, options) {
             _super_order.initialize.apply(this, arguments, options);
+            this.init_locked = true;
 
             this.cnpj_cpf = this.cnpj_cpf || null;
             this.document_authorization_date = this.document_authorization_date || null;
@@ -112,6 +113,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.document_session_number = this.document_session_number || null;
             this.document_key = this.document_key || null;
             this.document_file = this.document_file || null;
+            this.fiscal_coupon_date = this.fiscal_coupon_date || null;
 
             if (options.json) {
                 this.init_from_JSON(options.json);
@@ -121,6 +123,7 @@ odoo.define("l10n_br_pos.models", function (require) {
                 this.document_type = this.pos.config.simplified_document_type;
             }
 
+            this.init_locked = false;
             this.save_to_db();
         },
         set_cfe_return: function (json_result) {
@@ -134,6 +137,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             this.document_session_number = json_result.numeroSessao;
             this.document_key = json_result.chaveConsulta;
             this.document_file = json_result.arquivoCFeSAT;
+            this.fiscal_coupon_date = json_result.timeStamp.replace('T', ' ');
             // TODO: Verificar se outros campos devem ser setados;
         },
         get_return_cfe: function () {
@@ -189,7 +193,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             json.document_session_number = this.document_session_number;
             json.document_key = this.document_key;
             json.document_file = this.document_file;
-
+            json.fiscal_coupon_date = this.fiscal_coupon_date;
             return json;
         },
         init_from_JSON: function (json) {
