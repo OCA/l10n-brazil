@@ -23,7 +23,7 @@ class PartnerProfile(models.Model):
 
     is_company = fields.Boolean(string="Is Company?")
 
-    default = fields.Boolean(string=u"Default Profile", default=True)
+    default = fields.Boolean(string="Default Profile", default=True)
 
     ind_ie_dest = fields.Selection(
         selection=NFE_IND_IE_DEST,
@@ -87,8 +87,8 @@ class PartnerProfile(models.Model):
             ):
                 raise ValidationError(
                     _(
-                        u"Mantenha apenas um tipo fiscal padrão"
-                        u" para Pessoa Física ou para Pessoa Jurídica!"
+                        "Mantenha apenas um tipo fiscal padrão"
+                        " para Pessoa Física ou para Pessoa Jurídica!"
                     )
                 )
             return True
