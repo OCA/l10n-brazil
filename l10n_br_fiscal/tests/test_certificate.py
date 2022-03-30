@@ -62,7 +62,7 @@ class TestCertificate(common.TransactionCase):
         return company
 
     def _switch_user_company(self, user, company):
-        """ Add a company to the user's allowed & set to current. """
+        """Add a company to the user's allowed & set to current."""
         user.write(
             {
                 "company_ids": [(6, 0, (company + user.company_ids).ids)],
