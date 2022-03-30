@@ -103,17 +103,17 @@ class Comment(models.Model):
 
         formatted_amount = (
             lang.format(fmt, currency.round(amount), grouping=True, monetary=True)
-            .replace(r" ", u"\N{NO-BREAK SPACE}")
-            .replace(r"-", u"-\N{ZERO WIDTH NO-BREAK SPACE}")
+            .replace(r" ", "\N{NO-BREAK SPACE}")
+            .replace(r"-", "-\N{ZERO WIDTH NO-BREAK SPACE}")
         )
 
-        pre = post = u""
+        pre = post = ""
         if currency.position == "before":
-            pre = u"{symbol}\N{NO-BREAK SPACE}".format(symbol=currency.symbol or "")
+            pre = "{symbol}\N{NO-BREAK SPACE}".format(symbol=currency.symbol or "")
         else:
-            post = u"\N{NO-BREAK SPACE}{symbol}".format(symbol=currency.symbol or "")
+            post = "\N{NO-BREAK SPACE}{symbol}".format(symbol=currency.symbol or "")
 
-        return u"{pre}{0}{post}".format(formatted_amount, pre=pre, post=post)
+        return "{pre}{0}{post}".format(formatted_amount, pre=pre, post=post)
 
     def compute_message(self, vals, manual_comment=None):
 
