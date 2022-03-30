@@ -184,11 +184,11 @@ class WorkalendarHolidayImport(models.TransientModel):
                     date_from = fields.Datetime.to_datetime(datetime_from)
                     date_to = fields.Datetime.to_datetime(datetime_to)
 
-                    if holiday.abrangencia == u"N":  # Tipo Nacional
+                    if holiday.abrangencia == "N":  # Tipo Nacional
                         work_time = self.get_calendar_for_country()
-                    if holiday.abrangencia == u"E":  # Tipo Estadual
+                    if holiday.abrangencia == "E":  # Tipo Estadual
                         work_time = self.get_calendar_for_state(holiday)
-                    if holiday.abrangencia == u"M":  # Tipo Municipal
+                    if holiday.abrangencia == "M":  # Tipo Municipal
                         work_time = self.get_calendar_for_city(holiday)
                     if not leaves.search_count(
                         [

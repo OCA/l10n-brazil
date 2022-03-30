@@ -15,50 +15,50 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
         self.nacional_calendar_id = self.resource_calendar.create(
             {
-                "name": u"Calendario Nacional",
+                "name": "Calendario Nacional",
                 "country_id": self.env.ref("base.br").id,
             }
         )
         self.leave_nacional_01 = self.resource_leaves.create(
             {
-                "name": u"Tiradentes",
+                "name": "Tiradentes",
                 "date_from": fields.Datetime.to_datetime("2016-03-21 00:00:00"),
                 "date_to": fields.Datetime.to_datetime("2016-03-21 23:59:59"),
                 "calendar_id": self.nacional_calendar_id.id,
-                "leave_type": u"F",
-                "abrangencia": u"N",
+                "leave_type": "F",
+                "abrangencia": "N",
             }
         )
         self.estadual_calendar_id = self.resource_calendar.create(
             {
-                "name": u"Calendario Estadual",
+                "name": "Calendario Estadual",
                 "parent_id": self.nacional_calendar_id.id,
             }
         )
         self.leave_estadual_01 = self.resource_leaves.create(
             {
-                "name": u"Aniversario de SP",
+                "name": "Aniversario de SP",
                 "date_from": fields.Datetime.to_datetime("2016-01-25 00:00:00"),
                 "date_to": fields.Datetime.to_datetime("2016-01-25 23:59:59"),
                 "calendar_id": self.estadual_calendar_id.id,
-                "leave_type": u"F",
-                "abrangencia": u"E",
+                "leave_type": "F",
+                "abrangencia": "E",
             }
         )
         self.municipal_calendar_id = self.resource_calendar.create(
             {
-                "name": u"Calendario Municipal",
+                "name": "Calendario Municipal",
                 "parent_id": self.estadual_calendar_id.id,
             }
         )
         self.leave_municipal_01 = self.resource_leaves.create(
             {
-                "name": u"Aniversario Chapeco",
+                "name": "Aniversario Chapeco",
                 "date_from": fields.Datetime.to_datetime("2016-08-25 00:00:00"),
                 "date_to": fields.Datetime.to_datetime("2016-08-25 23:59:59"),
                 "calendar_id": self.municipal_calendar_id.id,
-                "leave_type": u"F",
-                "abrangencia": u"M",
+                "leave_type": "F",
+                "abrangencia": "M",
             }
         )
 
@@ -66,7 +66,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
         self.calendar_id_sp = self.resource_calendar.create(
             {
-                "name": u"Calendario de Sao Paulo",
+                "name": "Calendario de Sao Paulo",
                 "country_id": self.env.ref("base.br").id,
                 "state_id": self.env.ref("base.state_br_sp").id,
                 "l10n_br_city_id": self.env.ref("l10n_br_base.city_3500105").id,
@@ -74,50 +74,50 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         )
 
     def test_00_add_leave_nacional(self):
-        """ Inclusao de um novo Feriado no calendario nacional """
+        """Inclusao de um novo Feriado no calendario nacional"""
         self.leave_nacional_02 = self.resource_leaves.create(
             {
-                "name": u"Natal",
+                "name": "Natal",
                 "date_from": fields.Datetime.to_datetime("2016-12-24 00:00:00"),
                 "date_to": fields.Datetime.to_datetime("2016-12-24 23:59:59"),
                 "calendar_id": self.nacional_calendar_id.id,
-                "leave_type": u"F",
-                "abrangencia": u"N",
+                "leave_type": "F",
+                "abrangencia": "N",
             }
         )
-        self.assertEqual(self.leave_nacional_02.name, u"Natal")
+        self.assertEqual(self.leave_nacional_02.name, "Natal")
         self.assertEqual(self.leave_nacional_02.calendar_id, self.nacional_calendar_id)
         self.assertEqual(2, len(self.nacional_calendar_id.leave_ids))
 
     def test_01_add_leave_estadual(self):
-        """ Inclusao de um novo Feriado no calendario Estadual """
+        """Inclusao de um novo Feriado no calendario Estadual"""
         self.leave_estadual_02 = self.resource_leaves.create(
             {
-                "name": u"Aniversario MG",
+                "name": "Aniversario MG",
                 "date_from": fields.Datetime.to_datetime("2016-07-16 00:00:00"),
                 "date_to": fields.Datetime.to_datetime("2016-07-16 23:59:59"),
                 "calendar_id": self.estadual_calendar_id.id,
-                "leave_type": u"F",
-                "abrangencia": u"E",
+                "leave_type": "F",
+                "abrangencia": "E",
             }
         )
-        self.assertEqual(self.leave_estadual_02.name, u"Aniversario MG")
+        self.assertEqual(self.leave_estadual_02.name, "Aniversario MG")
         self.assertEqual(self.leave_estadual_02.calendar_id, self.estadual_calendar_id)
         self.assertEqual(3, len(self.estadual_calendar_id.leave_ids))
 
     def test_02_add_leave_municipal(self):
-        """ Inclusao de um novo Feriado no calendario municipal """
+        """Inclusao de um novo Feriado no calendario municipal"""
         self.leave_municipal_02 = self.resource_leaves.create(
             {
-                "name": u"Aniversario Itajuba",
+                "name": "Aniversario Itajuba",
                 "date_from": fields.Datetime.to_datetime("2016-03-19 00:00:00"),
                 "date_to": fields.Datetime.to_datetime("2016-03-19 23:59:59"),
                 "calendar_id": self.municipal_calendar_id.id,
-                "leave_type": u"F",
-                "abrangencia": u"M",
+                "leave_type": "F",
+                "abrangencia": "M",
             }
         )
-        self.assertEqual(self.leave_municipal_02.name, u"Aniversario Itajuba")
+        self.assertEqual(self.leave_municipal_02.name, "Aniversario Itajuba")
         self.assertEqual(
             self.leave_municipal_02.calendar_id, self.municipal_calendar_id
         )
@@ -157,7 +157,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(
             proximo_dia_util,
             fields.Datetime.to_datetime("2016-03-22 00:00:01"),
-            u"Partindo de um feriado, proximo dia util invalido",
+            "Partindo de um feriado, proximo dia util invalido",
         )
 
         anterior_ao_fds = fields.Datetime.to_datetime("2016-12-16 00:00:01")
@@ -165,7 +165,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         self.assertEqual(
             proximo_dia_util,
             fields.Datetime.to_datetime("2016-12-19 00:00:01"),
-            u"Partindo de um fds, proximo dia util invalido",
+            "Partindo de um fds, proximo dia util invalido",
         )
 
     def test_07_get_dias_base(self):
@@ -175,7 +175,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         data_final = fields.Datetime.to_datetime("2017-01-31 23:59:59")
 
         total = self.resource_calendar.get_dias_base(data_inicio, data_final)
-        self.assertEqual(total, 30, u"Calculo de Dias Base de Jan incorreto")
+        self.assertEqual(total, 30, "Calculo de Dias Base de Jan incorreto")
 
         data_inicio = fields.Datetime.to_datetime("2017-02-01 00:00:01")
         data_final = fields.Datetime.to_datetime("2017-02-28 23:59:59")
@@ -193,41 +193,41 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
 
         self.assertTrue(
             self.municipal_calendar_id.data_eh_dia_util(segunda),
-            u"ERRO: Segunda eh dia util!",
+            "ERRO: Segunda eh dia util!",
         )
         self.assertTrue(
             self.municipal_calendar_id.data_eh_dia_util(terca),
-            u"ERRO: Terca eh dia util!",
+            "ERRO: Terca eh dia util!",
         )
 
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(sabado),
-            u"ERRO: Sabado nao eh dia util!",
+            "ERRO: Sabado nao eh dia util!",
         )
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(domingo),
-            u"ERRO: Domingo nao eh dia util!",
+            "ERRO: Domingo nao eh dia util!",
         )
 
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(feriado),
-            u"ERRO: Feriado nao eh dia util!",
+            "ERRO: Feriado nao eh dia util!",
         )
 
         self.leave_nacional_02 = self.resource_leaves.create(
             {
-                "name": u"Feriado 2017",
+                "name": "Feriado 2017",
                 "date_from": fields.Datetime.to_datetime("2017-01-21 00:00:00"),
                 "date_to": fields.Datetime.to_datetime("2017-01-21 23:59:59"),
                 "calendar_id": self.nacional_calendar_id.id,
-                "leave_type": u"F",
-                "abrangencia": u"N",
+                "leave_type": "F",
+                "abrangencia": "N",
             }
         )
         feriado2 = fields.Datetime.to_datetime("2017-01-21 00:00:00")
         self.assertTrue(
             not self.municipal_calendar_id.data_eh_dia_util(feriado2),
-            u"ERRO: Feriado2 nao eh dia util!",
+            "ERRO: Feriado2 nao eh dia util!",
         )
 
     def test_09_quantidade_dia_util(self):
@@ -239,7 +239,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             data_inicio, data_final
         )
         self.assertEqual(
-            total_dias_uteis, 22, u"ERRO: Total dias uteis mes Jan/2017 invalido"
+            total_dias_uteis, 22, "ERRO: Total dias uteis mes Jan/2017 invalido"
         )
 
         data_inicio = fields.Datetime.to_datetime("2018-01-01 00:00:01")
@@ -249,7 +249,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
             data_inicio, data_final
         )
         self.assertEqual(
-            total_dias_uteis, 23, u"ERRO: Total dias uteis mes Jan/2018 invalido"
+            total_dias_uteis, 23, "ERRO: Total dias uteis mes Jan/2018 invalido"
         )
 
     def test_10_data_eh_feriado_bancario(self):
@@ -259,12 +259,12 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         # adicionando feriado bancario
         self.resource_leaves.create(
             {
-                "name": u"Feriado Bancario",
+                "name": "Feriado Bancario",
                 "date_from": fields.Datetime.to_datetime("2017-01-13 00:00:00"),
                 "date_to": fields.Datetime.to_datetime("2017-01-13 23:59:59"),
                 "calendar_id": self.nacional_calendar_id.id,
-                "leave_type": u"B",
-                "abrangencia": u"N",
+                "leave_type": "B",
+                "abrangencia": "N",
             }
         )
         data = fields.Datetime.to_datetime("2017-01-13 01:02:03")
@@ -280,13 +280,13 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         """
         holiday = self.holiday_import.create(
             {
-                "interval_type": u"days",
+                "interval_type": "days",
                 "calendar_id": self.nacional_calendar_id.id,
             }
         )
 
         country_id = self.holiday_import.get_country_from_calendar(holiday)
-        self.assertEqual(country_id.code, u"BR", u"Pais incorreto.")
+        self.assertEqual(country_id.code, "BR", "Pais incorreto.")
 
     def test_16_proximo_dia_util_bancario(self):
         data = fields.Datetime.to_datetime("2017-01-13 00:00:00")
@@ -299,7 +299,7 @@ class TestResourceCalendar(test_common.SingleTransactionCase):
         holiday = self.holiday_import.create(
             {
                 "start_date": fields.Datetime.to_datetime("2018-08-28 00:00:00"),
-                "interval_type": u"years",
+                "interval_type": "years",
                 "calendar_id": self.nacional_calendar_id.id,
             }
         )
