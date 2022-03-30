@@ -28,29 +28,29 @@ class Company(models.Model):
         ]
 
     def _inverse_legal_name(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for company in self:
             company.partner_id.legal_name = company.legal_name
 
     def _inverse_district(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for company in self:
             company.partner_id.district = company.district
 
     def _inverse_cnpj_cpf(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for company in self:
             company.partner_id.cnpj_cpf = company.cnpj_cpf
 
     def _inverse_state(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for company in self:
             company.partner_id.write(
                 {"state_id": company.state_id.id, "inscr_est": company.inscr_est}
             )
 
     def _inverse_state_tax_number_ids(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for company in self:
             state_tax_number_ids = self.env["state.tax.numbers"]
             for ies in company.state_tax_number_ids:
@@ -58,17 +58,17 @@ class Company(models.Model):
             company.partner_id.state_tax_number_ids = state_tax_number_ids
 
     def _inverse_inscr_mun(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for company in self:
             company.partner_id.inscr_mun = company.inscr_mun
 
     def _inverse_city_id(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for company in self:
             company.partner_id.city_id = company.city_id
 
     def _inverse_suframa(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for company in self:
             company.partner_id.suframa = company.suframa
 
