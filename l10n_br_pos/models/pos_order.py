@@ -233,7 +233,7 @@ class PosOrder(models.Model):
             )
         result.update(temp)
         result["fiscal_coupon_date"] = fields.Datetime.from_string(
-                ui_order.get("fiscal_coupon_date", fields.Datetime.now)
+                ui_order.get("fiscal_coupon_date", fields.Datetime.now())
         ) + timedelta(hours=3)
         return result
 
