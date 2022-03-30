@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import base64
 import logging
+from datetime import timedelta
 
 from satcomum.ersat import ChaveCFeSAT
 
@@ -231,7 +232,9 @@ class PosOrder(models.Model):
                 }
             )
         result.update(temp)
-        result["fiscal_coupon_date"] = ui_order.get("fiscal_coupon_date", fields.Datetime.now)
+        result["fiscal_coupon_date"] = fields.Datetime.from_string(
+                ui_order.get("fiscal_coupon_date", fields.Datetime.now)
+        ) + timedelta(hours=3)
         return result
 
     # @api.model
