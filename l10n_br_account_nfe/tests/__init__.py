@@ -1,1 +1,1 @@
-from . import test_generate_payment_info
+from . import test_nfe_generate_tags_cobr_dup_pag
