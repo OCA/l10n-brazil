@@ -55,12 +55,12 @@ class ResCompany(models.Model):
         return rec
 
     def _inverse_cnae_main_id(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.cnae_main_id = c.cnae_main_id
 
     def _inverse_tax_framework(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
 
