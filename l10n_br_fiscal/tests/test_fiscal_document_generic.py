@@ -35,7 +35,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         cls.nfe_sn_export = cls.env.ref("l10n_br_fiscal.demo_nfe_sn_export")
 
     def test_nfe_same_state(self):
-        """ Test NFe same state. """
+        """Test NFe same state."""
 
         self.nfe_same_state._onchange_document_serie_id()
         self.nfe_same_state._onchange_fiscal_operation_id()
@@ -153,7 +153,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.nfe_same_state.action_document_confirm()
 
     def test_nfe_other_state(self):
-        """ Test NFe other state. """
+        """Test NFe other state."""
 
         self.nfe_other_state._onchange_document_serie_id()
         self.nfe_other_state._onchange_fiscal_operation_id()
@@ -276,7 +276,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
     def test_nfe_not_taxpayer(self):
-        """ Test NFe not taxpayer. """
+        """Test NFe not taxpayer."""
 
         self.nfe_not_taxpayer._onchange_document_serie_id()
         self.nfe_not_taxpayer._onchange_fiscal_operation_id()
@@ -384,7 +384,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
     def test_nfe_not_taxpayer_not_company(self):
-        """ Test NFe not taxpayer not Company. """
+        """Test NFe not taxpayer not Company."""
 
         self.nfe_not_taxpayer_pf._onchange_document_serie_id()
         self.nfe_not_taxpayer_pf._onchange_fiscal_operation_id()
@@ -493,7 +493,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
     def test_nfe_export(self):
-        """ Test NFe export. """
+        """Test NFe export."""
 
         self.nfe_export._onchange_document_serie_id()
         self.nfe_export._onchange_fiscal_operation_id()
@@ -596,7 +596,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
     def test_nfe_sn_same_state(self):
-        """ Test NFe Simples Nacional same state. """
+        """Test NFe Simples Nacional same state."""
 
         self.nfe_sn_same_state._onchange_document_serie_id()
         self.nfe_sn_same_state._onchange_fiscal_operation_id()
@@ -716,7 +716,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         self.assertEqual(self.nfe_sn_same_state.amount_estimate_tax, 1308.45)
 
     def test_nfe_sn_other_state(self):
-        """ Test NFe SN other state. """
+        """Test NFe SN other state."""
 
         self.nfe_sn_other_state._onchange_document_serie_id()
         self.nfe_sn_other_state._onchange_fiscal_operation_id()
@@ -821,7 +821,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
     def test_nfe_sn_not_taxpayer(self):
-        """ Test NFe SN not taxpayer. """
+        """Test NFe SN not taxpayer."""
 
         self.nfe_sn_not_taxpayer._onchange_document_serie_id()
         self.nfe_sn_not_taxpayer._onchange_fiscal_operation_id()
@@ -914,7 +914,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
     def test_nfe_sn_export(self):
-        """ Test NFe SN export. """
+        """Test NFe SN export."""
 
         self.nfe_sn_export._onchange_document_serie_id()
         self.nfe_sn_export._onchange_fiscal_operation_id()
@@ -1019,7 +1019,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             )
 
     def test_nfe_return(self):
-        """ Test Fiscal Document Return """
+        """Test Fiscal Document Return"""
         action = self.nfe_same_state.action_create_return()
         return_id = self.nfe_same_state.browse(
             [i[2][0] for i in action["domain"] if i[0] == "id"]
@@ -1032,7 +1032,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
         )
 
     def test_unlink_dummy_document(self):
-        """ Test Dummy Fiscal Document Unlink Restrictions """
+        """Test Dummy Fiscal Document Unlink Restrictions"""
         dummy_document = self.env.company.fiscal_dummy_id
         with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"):
             # as much as possible we ensure technical dummy fiscal documents
@@ -1040,7 +1040,7 @@ class TestFiscalDocumentGeneric(SavepointCase):
             dummy_document.unlink()
 
     def test_unlink_dummy_document_line(self):
-        """ Test Dummy Fiscal Document Line Unlink Restrictions """
+        """Test Dummy Fiscal Document Line Unlink Restrictions"""
         dummy_line = self.env.company.fiscal_dummy_id.fiscal_line_ids[0]
         with self.assertRaises(UserError):
             dummy_line.unlink()
