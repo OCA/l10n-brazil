@@ -1,4 +1,4 @@
-# Copyright 2021 KMEE
+# Copyright 2022 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
@@ -17,6 +17,9 @@
     "depends": [
         "l10n_br_base",
     ],
-    "data": ["views/res_partner_view.xml"],
+    "data": [
+        "views/res_partner_view.xml",
+        "views/res_config_settings_view.xml",
+    ],
     "demo": [],
 }

@@ -1,4 +1,4 @@
-# Copyright 2021 KMEE
+# Copyright 2022 KMEE
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from erpbrasil.base.misc import punctuation_rm
@@ -14,12 +14,22 @@ class PartyMixin(models.AbstractModel):
     _inherit = "l10n_br_base.party.mixin"
 
     def search_cnpj(self):
-        """Search CNPJ by the chosen API.
-        This method doesn't need to validate the CNPJ since it's already validated on
-        the onchange method.
-        """
+        """Search CNPJ by the chosen API """
         if not self.cnpj_cpf:
             raise UserError(_("Por favor insira o CNPJ"))
+
+        cnpj_validation_disabled = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("l10n_br_base.disable_cpf_cnpj_validation")
+        )
+        if cnpj_validation_disabled:
+            raise UserError(
+                _(
+                    "É necessário ativar a opção de validação de CNPJ para usar essa"
+                    " funcionalidade."
+                )
+            )
 
         cnpj_cpf = punctuation_rm(self.cnpj_cpf)
         response = get(RECEITAWS_URL + cnpj_cpf)
