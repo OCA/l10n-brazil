@@ -11,7 +11,7 @@ class TestFiscalDocumentNFSe(TransactionCase):
         self.nfse_same_state = self.env.ref("l10n_br_fiscal.demo_nfse_same_state")
 
     def test_nfse_same_state(self):
-        """ Test NFSe same state. """
+        """Test NFSe same state."""
 
         self.nfse_same_state._onchange_document_serie_id()
         self.nfse_same_state._onchange_fiscal_operation_id()
