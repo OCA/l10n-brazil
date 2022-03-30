@@ -33,7 +33,7 @@ class TestFiscalDocumentNFSeCommon(TransactionCase):
         self.nfse_same_state.company_id = self.company.id
 
     def test_certified_nfse_same_state_(self):
-        """ Test Certified NFSe same state. """
+        """Test Certified NFSe same state."""
 
         self.nfse_same_state._onchange_document_serie_id()
         self.nfse_same_state._onchange_fiscal_operation_id()
