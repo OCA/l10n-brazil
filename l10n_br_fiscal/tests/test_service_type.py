@@ -7,7 +7,7 @@ from odoo.tests.common import TransactionCase
 
 class TestServiceType(TransactionCase):
     def test_name_get(self):
-        """ Test Service Type name_get()"""
+        """Test Service Type name_get()"""
         self.service_type = self.env["l10n_br_fiscal.service.type"].create(
             {"code": "TESTE", "name": "TESTE", "internal_type": "normal"}
         )
