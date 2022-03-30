@@ -1,3 +1,10 @@
+# Copyright (C) 2022-Today - Engenere (<https://engenere.one>).
+# @author Antônio S. Pereira Neto <neto@engenere.one>
+# @author Felipe Motter Pereira <felipe@engenere.one>
+# Copyright (C) 2022-Today - Akretion (<https://akretion.com/pt-BR>).
+# @author Magno Costa <magno.costa@akretion.com.br>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from odoo.exceptions import UserError
 from odoo.tests import SavepointCase, tagged
 
