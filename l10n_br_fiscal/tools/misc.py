@@ -5,7 +5,7 @@
 import logging
 import os
 
-from erpbrasil.assinatura import misc
+from erpbrasil.assinatura import misc  # pylint: disable=missing-manifest-dependency
 from erpbrasil.base.misc import punctuation_rm
 
 from odoo.tools import config
