@@ -21,5 +21,5 @@ class ResConfigSettings(models.TransientModel):
         string="CNPJ Search Provider",
         required=True,
         default="receitaws",
-        config_parameter="l10n_zip.cnpj_provider",
+        config_parameter="l10n_br_cnpj.cnpj_provider",
     )

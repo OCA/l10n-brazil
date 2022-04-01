@@ -12,7 +12,11 @@
         />
         <field name="arch" type="xml">
             <xpath expr="//div[@name='disable_ie_validation']" position="after">
-                <div class="col-12 col-lg-6 o_setting_box" name="l10n_br_cnpj_api">
+                <div
+                    class="col-12 col-lg-6 o_setting_box"
+                    name="l10n_br_cnpj_api"
+                    attrs="{'invisible': [('disable_cpf_cnpj_validation', '=', True)]}"
+                >
                     <div class="o_setting_left_pane" />
                     <div class="o_setting_right_pane">
                         <span class="o_form_label">Brazilian CNPJ service API</span>
@@ -23,7 +27,10 @@
                             <label for="cnpj_provider" class="o_light_label" />
                             <field name="cnpj_provider" required="1" />
                         </div>
-                        <div class="content-group mt16">
+                        <div
+                            class="content-group mt16"
+                            attrs="{'invisible': [('cnpj_provider', '!=', 'serpro')]}"
+                        >
                             <label for="cnpj_update_days" class="o_light_label" />
                             <field name="cnpj_update_days" required="1" /> days
                         </div>
