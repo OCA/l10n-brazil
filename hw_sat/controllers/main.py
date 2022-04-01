@@ -6,7 +6,12 @@ from threading import Thread, Lock
 from requests import ConnectionError
 from decimal import Decimal as D
 import io
-from odoo.addons.hw_proxy.controllers import main as hw_proxy
+try:
+    from odoo.addons.hw_drivers.controllers.proxy import ProxyController as Controller
+    from odoo.addons.hw_drivers.controllers.proxy import proxy_drivers as driver
+except Exception as e:
+    from odoo.addons.hw_proxy.controllers.main import Proxy as Controller
+    from odoo.addons.hw_proxy.controllers.main import drivers as driver
 from odoo import http
 import base64
 from datetime import datetime
@@ -575,7 +580,7 @@ class Sat(Thread):
                     time.sleep(40)
 
 
-class SatDriver(hw_proxy.Proxy):
+class SatDriver(Controller):
 
     # TODO: Temos um problema quando o sat é iniciado depois do POS
     # @http.route('/hw_proxy/status_json', type='json', auth='none', cors='*')
@@ -586,22 +591,22 @@ class SatDriver(hw_proxy.Proxy):
 
     @http.route('/hw_proxy/init/', type='json', auth='none', cors='*')
     def init(self, json):
-        hw_proxy.drivers['hw_fiscal'] = Sat(**json)
+        driver['hw_fiscal'] = Sat(**json)
         return True
 
     @http.route('/hw_proxy/enviar_cfe_sat/', type='json', auth='none', cors='*')
     def enviar_cfe_sat(self, json):
         _logger.info('enviar_cfe_sat')
-        return hw_proxy.drivers['hw_fiscal'].action_call_sat('send', json)
+        return driver['hw_fiscal'].action_call_sat('send', json)
 
     @http.route('/hw_proxy/cancelar_cfe/', type='json', auth='none', cors='*')
     def cancelar_cfe(self, json):
-        return hw_proxy.drivers['hw_fiscal'].action_call_sat('cancel', json)
+        return driver['hw_fiscal'].action_call_sat('cancel', json)
 
     @http.route('/hw_proxy/reprint_cfe/', type='json', auth='none', cors='*')
     def reprint_cfe(self, json):
-        return hw_proxy.drivers['hw_fiscal'].action_call_sat('reprint', json)
+        return driver['hw_fiscal'].action_call_sat('reprint', json)
 
     @http.route('/hw_proxy/sessao_sat/', type='json', auth='none', cors='*')
     def sessao_sat(self, json):
-        return hw_proxy.drivers['hw_fiscal'].action_call_sat('sessao')
+        return driver['hw_fiscal'].action_call_sat('sessao')
