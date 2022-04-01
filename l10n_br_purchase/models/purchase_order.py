@@ -138,5 +138,6 @@ class PurchaseOrder(models.Model):
             {
                 "fiscal_operation_id": self.fiscal_operation_id.id,
                 "document_type_id": self.company_id.document_type_id.id,
-            })
+            }
+        )
         return invoice_vals
