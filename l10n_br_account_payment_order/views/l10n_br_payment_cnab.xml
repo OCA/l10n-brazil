@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="l10n_br_payment_cnab_export_form" model="ir.ui.view">
+        <field name="name">payment.cnab.form</field>
+        <field name="model">payment.cnab</field>
+        <field name="arch" type="xml">
+            <form string="Remessa de CNAB" version="7.0">
+                <field invisible="1" name="state" />
+                <field name="name" invisible="1" />
+                <group>
+                    <group states="init">
+                    </group>
+                    <group states="done">
+                        <field name="cnab_file" colspan="4" filename="name" />
+                    </group>
+                </group>
+                <footer states="init">
+                    <button
+                        string="Exportar"
+                        name="export"
+                        type="object"
+                        class="oe_highlight"
+                    />
+                    ou
+                    <button
+                        string="Cancel"
+                        special="cancel"
+                        type="object"
+                        class="oe_link"
+                    />
+                </footer>
+                <footer states="done">
+                    <button string="Done" name="done" type="object" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

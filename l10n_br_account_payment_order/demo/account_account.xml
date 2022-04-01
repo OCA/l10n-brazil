@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="True">
+
+    <!-- Conta Contabil - Linha da Fatura -->
+    <record
+        model="account.account"
+        id="1_account_template_3010101010200_avoid_travis_error"
+    >
+        <field name="code">3.01.01.01.01.02.00</field>
+        <field name="name">Receita da Venda no Mercado Interno
+            de Produtos de Fabricação Própria - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_revenue" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="reconcile" eval="True" />
+    </record>
+
+    <!-- Conta Contabil - Taxa usada para teste no Modo de Pagamento -->
+    <record
+        model="account.account"
+        id="1_account_template_3010101010300_avoid_travis_error"
+    >
+        <field name="code">3.01.01.01.01.03.00-*</field>
+        <field name="name">Taxa do Boleto - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_revenue" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="reconcile" eval="True" />
+    </record>
+
+    <!-- Conta Contabil de Tarifa Bancaria para Modo de Pagamento -->
+    <record model="account.account" id="1_account_template_32302_avoid_travis_error">
+        <field name="code">3.2.3.02-*</field>
+        <field name="name">Outras Despesas Financeiras - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_expenses" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="reconcile" eval="True" />
+    </record>
+
+    <!-- Conta Contabil de Juros/Multa para Modo de Pagamento -->
+    <record model="account.account" id="1_account_template_31202_avoid_travis_error">
+        <field name="code">3.1.2.02-*</field>
+        <field name="name">Juros Ativos - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_revenue" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="reconcile" eval="True" />
+    </record>
+
+    <!-- Conta Contabil de Desconto para Modo de Pagamento -->
+    <record model="account.account" id="1_account_template_32202_avoid_travis_error">
+        <field name="code">3.2.2.02-*</field>
+        <field name="name">Despesas com Vendas - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_expenses" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="reconcile" eval="True" />
+    </record>
+
+    <!-- Conta Contabil de Abatimento para Modo de Pagamento -->
+    <record model="account.account" id="1_account_template_32203_avoid_travis_error">
+        <field name="code">3.2.2.03-*</field>
+        <field name="name">Outras Despesas Gerais - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_expenses" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="reconcile" eval="True" />
+    </record>
+
+    <!-- Conta Contabil de Não Pagamento/Inadimplencia para Modo de Pagamento -->
+    <record model="account.account" id="1_account_template_32333_avoid_travis_error">
+        <field name="code">3.2.3.33-*</field>
+        <field name="name"> Não Pagamento/Inadimplencia - AVOID_TRAVIS_ERROR</field>
+        <field name="user_type_id" ref="account.data_account_type_expenses" />
+        <field name="company_id" ref="base.main_company" />
+        <field name="reconcile" eval="True" />
+    </record>
+
+</odoo>

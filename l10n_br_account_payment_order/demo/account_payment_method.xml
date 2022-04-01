@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="True">
+
+    <!-- account.payment.method -->
+    <!-- manual_test
+
+     Esse modo deve ser usado somente para testes,
+     com ele é possível passarmos por todos os fluxos de funcionamento
+     das ordens de pagamento.
+
+     Permitindo que através de testes via interface e testes automatizados
+     sejam geradas ordens de pagamento de inclusão, alteração, baixa e etc.
+
+     -->
+    <record id="payment_mode_type_manual_test" model="account.payment.method">
+        <field name="code">manual_test</field>
+        <field name="name">manual_test</field>
+        <field name="active">True</field>
+        <field name="bank_account_required">False</field>
+        <field name="payment_type">inbound</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    Copyright (C) 2020 KMEE (http://www.kmee.com.br/)
+    @author Daniel Sadamo <daniel.sadamo@kmee.com.br>
+    The licence is in the file __openerp__.py
+-->
+<odoo>
+
+    <record id="l10n_br_account_payment_order_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.payment.order.form</field>
+        <field name="model">account.payment.order</field>
+        <field name="priority">99</field>
+        <field
+            name="inherit_id"
+            ref="account_payment_order.account_payment_order_form"
+        />
+        <field name="arch" type="xml">
+            <field name="payment_line_ids" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_payment_type': payment_type}</attribute>
+            </field>
+            <div class="oe_title" position="before">
+                <div
+                    class="alert alert-info"
+                    role="alert"
+                    style="margin-bottom:0px;"
+                    attrs="{'invisible': [('bank_line_error_ids','=',[])]}"
+                >
+                    <bold>
+                        <a class="alert-link">
+                           Arquivo gerado com problemas...
+                        </a>
+                    </bold>
+                    Verifique-os na aba "Problemas"
+                </div>
+            </div>
+            <field name="bank_line_count" position="after">
+                <field name="payment_method_code" invisible="1" />
+                <!-- campo referente ao lote só existe no 240 -->
+                <field
+                    name="service_type"
+                    attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
+                />
+                <field
+                    name="release_form"
+                    attrs="{'invisible': [('payment_method_code', '!=', '240')]}"
+                />
+                <field name="code_convetion" />
+            </field>
+            <field name="company_id" position="after">
+                <field
+                    name="indicative_form_payment"
+                    attrs="{'invisible': [('payment_type', '=', 'inbound')]}"
+                />
+            </field>
+            <page name="bank-payment-lines" position="after">
+                <page
+                    name="bank-error-lines"
+                    string="Problemas"
+                    attrs="{'invisible': [('bank_line_error_ids','=',[])]}"
+                >
+                    <field
+                        name="bank_line_error_ids"
+                        context="{'default_payment_type': payment_type}"
+                    >
+                        <tree>
+                            <field name="name" />
+                            <field name="partner_id" />
+                            <field name="own_number" />
+                            <field name="document_number" />
+                            <field name="company_title_identification" />
+                            <field name="export_error_message" />
+                        </tree>
+                    </field>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
