@@ -16,6 +16,7 @@ setuptools.setup(
         'odoo13-addon-l10n_br_currency_rate_update',
         'odoo13-addon-l10n_br_fiscal',
         'odoo13-addon-l10n_br_nfe_spec',
+        'odoo13-addon-l10n_br_stock',
         'odoo13-addon-spec_driven_model',
     ],
     classifiers=[
