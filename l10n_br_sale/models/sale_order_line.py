@@ -89,6 +89,8 @@ class SaleOrderLine(models.Model):
 
     discount_fixed = fields.Boolean(string="Fixed Discount?")
 
+    ind_final = fields.Selection(related="order_id.ind_final")
+
     # Usado para tornar Somente Leitura os campos dos custos
     # de entrega quando a definição for por Total
     delivery_costs = fields.Selection(
@@ -138,12 +140,12 @@ class SaleOrderLine(models.Model):
                 }
             )
 
-    def _prepare_invoice_line(self):
+    def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
         result = self._prepare_br_fiscal_dict()
         if self.product_id and self.product_id.invoice_policy == "delivery":
             result["fiscal_quantity"] = self.fiscal_qty_delivered
-        result.update(super()._prepare_invoice_line())
+        result.update(super()._prepare_invoice_line(**optional_values))
         return result
 
     @api.onchange("product_uom", "product_uom_qty")
@@ -192,3 +194,7 @@ class SaleOrderLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
         self.tax_id |= self.fiscal_tax_ids.account_taxes(user_type="sale")
+        if self.order_id.fiscal_operation_id.deductible_taxes:
+            self.tax_id |= self.fiscal_tax_ids.account_taxes(
+                user_type="sale", deductible=True
+            )
