@@ -238,6 +238,13 @@ class L10nBrSaleBaseTest(SavepointCase):
                 taxes["ipi"]["tax"] = self.env.ref("l10n_br_fiscal.tax_ipi_nt")
                 taxes["ipi"]["cst"] = self.env.ref("l10n_br_fiscal.cst_ipi_53")
 
+            if (
+                "Venda não Contribuinte" in line.fiscal_operation_line_id.name
+                and "IPI Outros" in line.ipi_tax_id.name
+            ):
+                taxes["ipi"]["tax"] = self.env.ref("l10n_br_fiscal.tax_ipi_outros")
+                taxes["ipi"]["cst"] = self.env.ref("l10n_br_fiscal.cst_ipi_99")
+
             # ICMS
             self.assertEqual(
                 icms_tax.name,
