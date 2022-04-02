@@ -40,7 +40,7 @@ class SaleOrder(models.Model):
     )
 
     copy_note = fields.Boolean(
-        string="Copiar Observação no documentos fiscal",
+        string="Copy Sale note on invoice",
         default=_default_copy_note,
     )
 
@@ -83,6 +83,11 @@ class SaleOrder(models.Model):
 
     amount_other_value = fields.Monetary(
         inverse="_inverse_amount_other",
+    )
+
+    operation_name = fields.Char(
+        string="Operation Name",
+        copy=False,
     )
 
     # Usado para tornar Somente Leitura os campos totais dos custos
@@ -226,20 +231,14 @@ class SaleOrder(models.Model):
 
             view = self.env["ir.ui.view"]
 
-            sub_form_view = (
-                order_view.get("fields", {})
-                .get("order_line", {})
-                .get("views", {})
-                .get("form", {})
-                .get("arch", {})
-            )
+            sub_form_view = order_view["fields"]["order_line"]["views"]["form"]["arch"]
 
             sub_form_node = self.env["sale.order.line"].inject_fiscal_fields(
                 sub_form_view
             )
 
             sub_arch, sub_fields = view.postprocess_and_fields(
-                "sale.order.line", sub_form_node, None
+                sub_form_node, "sale.order.line", False
             )
 
             order_view["fields"]["order_line"]["views"]["form"] = {
@@ -308,7 +307,7 @@ class SaleOrder(models.Model):
         document_type_list = []
 
         for invoice_id in inv_ids:
-            invoice_created_by_super = self.env["account.invoice"].browse(invoice_id)
+            invoice_created_by_super = invoice_id
 
             # Identify how many Document Types exist
             for inv_line in invoice_created_by_super.invoice_line_ids:
@@ -318,7 +317,7 @@ class SaleOrder(models.Model):
 
                 fiscal_document_type = (
                     inv_line.fiscal_operation_line_id.get_document_type(
-                        inv_line.invoice_id.company_id
+                        inv_line.move_id.company_id
                     )
                 )
 
@@ -339,7 +338,7 @@ class SaleOrder(models.Model):
                         document_type
                     )
 
-                    inv_obj = self.env["account.invoice"]
+                    inv_obj = self.env["account.move"]
                     invoices = {}
                     references = {}
                     invoices_origin = {}
@@ -359,9 +358,9 @@ class SaleOrder(models.Model):
                             invoice = inv_obj.create(inv_data)
                             references[invoice] = order
                             invoices[group_key] = invoice
-                            invoices_origin[group_key] = [invoice.origin]
+                            invoices_origin[group_key] = [invoice.invoice_origin]
                             invoices_name[group_key] = [invoice.name]
-                            inv_ids.append(invoice.id)
+                            inv_ids = inv_ids + invoice
                         elif group_key in invoices:
                             if order.name not in invoices_origin[group_key]:
                                 invoices_origin[group_key].append(order.name)
@@ -376,11 +375,25 @@ class SaleOrder(models.Model):
                     for inv_line in invoice_created_by_super.invoice_line_ids:
                         fiscal_document_type = (
                             inv_line.fiscal_operation_line_id.get_document_type(
-                                inv_line.invoice_id.company_id
+                                inv_line.move_id.company_id
                             )
                         )
                         if fiscal_document_type.id == document_type.id:
-                            inv_line.invoice_id = invoice.id
+                            copied_vals = inv_line.copy_data()[0]
+                            copied_vals["move_id"] = invoice.id
+                            copied_vals["recompute_tax_line"] = True
+                            new_line = self.env["account.move.line"].new(copied_vals)
+                            invoice.invoice_line_ids += new_line
+                            order_line = self.order_line.filtered(
+                                lambda x: x.invoice_lines in inv_line
+                            )
+                            if len(order_line.invoice_lines) > 1:
+                                # TODO: É valido tratar isso no caso de já ter mais
+                                #  faturas geradas e vinvuladas a linha
+                                continue
+                            else:
+                                order_line.invoice_lines = invoice.invoice_line_ids
+                            invoice_id.invoice_line_ids -= inv_line
 
             invoice_created_by_super.document_serie_id = (
                 fiscal_document_type.get_document_serie(
@@ -390,33 +403,6 @@ class SaleOrder(models.Model):
             )
 
         return inv_ids
-
-    # TODO open by default Invoice view with Fiscal Details Button
-    # You can add a group to select default view Fiscal Invoice or
-    # Account invoice.
-    # def action_view_invoice(self):
-    #     action = super().action_view_invoice()
-    #     invoices = self.mapped('invoice_ids')
-    #     if any(invoices.filtered(lambda i: i.document_type_id)):
-    #         action = self.env.ref(
-    #             'l10n_br_account.fiscal_invoice_out_action').read()[0]
-    #         if len(invoices) > 1:
-    #             action['domain'] = [('id', 'in', invoices.ids)]
-    #         elif len(invoices) == 1:
-    #             form_view = [
-    #                 (self.env.ref(
-    #                     'l10n_br_account.fiscal_invoice_form').id, 'form')
-    #             ]
-    #             if 'views' in action:
-    #                 action['views'] = form_view + [
-    #                     (state, view) for state, view in action['views']
-    #                     if view != 'form']
-    #             else:
-    #                 action['views'] = form_view
-    #             action['res_id'] = invoices.ids[0]
-    #         else:
-    #             action = {'type': 'ir.actions.act_window_close'}
-    #     return action
 
     def _amount_by_group(self):
         for order in self:
