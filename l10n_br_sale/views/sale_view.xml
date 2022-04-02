@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
     <!--Search by cnpj / cpf in the SOs -->
@@ -90,6 +89,14 @@
                 position="replace"
             />
             <xpath
+                expr="//field[@name='order_line']//form//field[@name='product_id']"
+                position="attributes"
+            >
+                <attribute name="widget">product_configurator</attribute>
+                <attribute name="force_save">1</attribute>
+                <attribute name="style">width:80%;</attribute>
+            </xpath>
+            <xpath
                 expr="//field[@name='order_line']/tree/field[@name='discount']"
                 position="replace"
             />
@@ -136,33 +143,33 @@
                 <field
                     name="fiscal_operation_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
                     name="fiscal_operation_line_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))],'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
                     name="cfop_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'issqn'), ('country_id', '!=', %(base.br)d)]}"
                 />
                 <field name="price_total" invisible="1" />
                 <field name="price_subtotal" invisible="1" />
                 <field
                     name="service_type_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
                     name="city_taxation_code_id"
-                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
                     options="{'no_create': True}"
                 />
                 <field
                     name="cnae_id"
-                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    attrs="{'invisible': ['|', ('tax_icms_or_issqn', '=', 'icms'), ('country_id', '!=', %(base.br)d)]}"
                     options="{'no_create': True}"
                 />
             </xpath>
@@ -178,8 +185,12 @@
                 expr="//field[@name='order_line']/form//field[@name='price_unit']"
                 position="after"
             >
-                <label for="fiscal_quantity" string="Fiscal Quantity" />
-                <div>
+                <label
+                    for="fiscal_quantity"
+                    string="Fiscal Quantity"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <div attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}">
                     <field
                         context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
                         name="fiscal_quantity"
@@ -193,14 +204,22 @@
                         attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)],}"
                     />
                 </div>
-                <field name="fiscal_price" />
+                <field
+                    name="fiscal_price"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form/field[@name='name']"
                 position="after"
             >
+                <field name="country_id" invisible="1" />
                 <notebook attrs="{'invisible': [('display_type', '!=', False)]}">
-                    <page name="fiscal_taxes" string="Taxes" />
+                    <page
+                        name="fiscal_taxes"
+                        string="Taxes"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    />
                     <page
                         string="Invoice Lines"
                         groups="base.group_no_one"
