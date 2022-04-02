@@ -307,7 +307,7 @@ class SaleOrder(models.Model):
         document_type_list = []
 
         for invoice_id in inv_ids:
-            invoice_created_by_super = self.env["account.invoice"].browse(invoice_id)
+            invoice_created_by_super = invoice_id
 
             # Identify how many Document Types exist
             for inv_line in invoice_created_by_super.invoice_line_ids:
@@ -317,7 +317,7 @@ class SaleOrder(models.Model):
 
                 fiscal_document_type = (
                     inv_line.fiscal_operation_line_id.get_document_type(
-                        inv_line.invoice_id.company_id
+                        inv_line.move_id.company_id
                     )
                 )
 
@@ -338,7 +338,7 @@ class SaleOrder(models.Model):
                         document_type
                     )
 
-                    inv_obj = self.env["account.invoice"]
+                    inv_obj = self.env["account.move"]
                     invoices = {}
                     references = {}
                     invoices_origin = {}
@@ -375,11 +375,11 @@ class SaleOrder(models.Model):
                     for inv_line in invoice_created_by_super.invoice_line_ids:
                         fiscal_document_type = (
                             inv_line.fiscal_operation_line_id.get_document_type(
-                                inv_line.invoice_id.company_id
+                                inv_line.move_id.company_id
                             )
                         )
                         if fiscal_document_type.id == document_type.id:
-                            inv_line.invoice_id = invoice.id
+                            inv_line.move_id = invoice.id
 
             invoice_created_by_super.document_serie_id = (
                 fiscal_document_type.get_document_serie(
