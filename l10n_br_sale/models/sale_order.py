@@ -85,6 +85,11 @@ class SaleOrder(models.Model):
         inverse="_inverse_amount_other",
     )
 
+    operation_name = fields.Char(
+        string="Operation Name",
+        copy=False,
+    )
+
     # Usado para tornar Somente Leitura os campos totais dos custos
     # de entrega quando a definição for por Linha
     delivery_costs = fields.Selection(
