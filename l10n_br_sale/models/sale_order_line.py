@@ -89,6 +89,8 @@ class SaleOrderLine(models.Model):
 
     discount_fixed = fields.Boolean(string="Fixed Discount?")
 
+    ind_final = fields.Selection(related="order_id.ind_final")
+
     # Usado para tornar Somente Leitura os campos dos custos
     # de entrega quando a definição for por Total
     delivery_costs = fields.Selection(
