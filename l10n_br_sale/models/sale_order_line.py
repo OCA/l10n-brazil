@@ -140,12 +140,12 @@ class SaleOrderLine(models.Model):
                 }
             )
 
-    def _prepare_invoice_line(self):
+    def _prepare_invoice_line(self, **optional_values):
         self.ensure_one()
         result = self._prepare_br_fiscal_dict()
         if self.product_id and self.product_id.invoice_policy == "delivery":
             result["fiscal_quantity"] = self.fiscal_qty_delivered
-        result.update(super()._prepare_invoice_line())
+        result.update(super()._prepare_invoice_line(**optional_values))
         return result
 
     @api.onchange("product_uom", "product_uom_qty")
