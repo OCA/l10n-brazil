@@ -9,7 +9,7 @@ class Company(models.Model):
 
     sale_fiscal_operation_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.operation",
-        string="Operação Fiscal Padrão de Vendas",
+        string="Standard Sales Fiscal Operation",
     )
 
     copy_note = fields.Boolean(
