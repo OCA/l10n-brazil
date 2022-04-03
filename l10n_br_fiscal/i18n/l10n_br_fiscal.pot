@@ -44,18 +44,8 @@ msgid "00 - Industrial - Transformação"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "01 - Dinheiro"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "01 - Industrial - Beneficiamento"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "02 - Cheque"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -64,28 +54,13 @@ msgid "02 - Industrial - Montagem"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "03 - Cartão de Crédito"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "03 - Industrial - Acondicionamento ou Reacondicionamento"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "04 - Cartão de Débito"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: selection:res.company,industry_type:0
 msgid "04 - Industrial - Renovação ou Recondicionamento"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "05 - Crédito Loja"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -138,38 +113,8 @@ msgid "1 - Simples Nacional"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "10 - Vale Alimentação"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_UN1000
 msgid "1000UN"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "11 - Vale Refeição"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "12 - Vale Presente"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "13 - Vale Combustível"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "14 - Duplicata Mercantil"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "15 - Boleto Bancário"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -258,16 +203,6 @@ msgstr ""
 #: selection:l10n_br_fiscal.partner.profile,ind_ie_dest:0
 #: selection:res.partner,ind_ie_dest:0
 msgid "9 - Não Contribuinte"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "90 - Sem pagamento"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,payment_type:0
-msgid "99 - Outros"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2404,7 +2339,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__create_uid
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__create_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__create_uid
@@ -2458,7 +2392,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__create_date
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__create_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__create_date
@@ -2776,7 +2709,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__display_name
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__display_name
@@ -3629,11 +3561,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: sql_constraint:l10n_br_fiscal.partner.profile:0
 msgid "Fiscal Partner Profile already exists with this code !"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_payment
-msgid "Fiscal Payment"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -4854,7 +4781,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__id
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__id
@@ -5430,11 +5356,6 @@ msgid "Incomming Document"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__indPag
-msgid "Indicador de Pagamento"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__industry_type
 msgid "Industry Type"
 msgstr ""
@@ -5734,7 +5655,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile____last_update
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_mixin____last_update
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type____last_update
@@ -5800,7 +5720,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__write_uid
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__write_uid
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__write_uid
@@ -5854,7 +5773,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__write_date
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__write_date
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__write_date
@@ -6376,7 +6294,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_document_type__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__name
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_product_genre__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_service_type__name
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_simplified_tax__name
@@ -6676,11 +6593,6 @@ msgid "Object"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields,help:l10n_br_fiscal.field_l10n_br_fiscal_payment__payment_type
-msgid "Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-e e NFC-e. Para as notas com finalidade de Ajuste ou Devolução o campo Forma de Pagamento deve ser preenchido com 90 - Sem Pagamento."
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.invalidate_number_action
 msgid "Odoo helps you easily track all activities\n"
 "              related to a fiscal operation."
@@ -6882,7 +6794,6 @@ msgid "Outras"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,indPag:0
 #: selection:l10n_br_fiscal.tax.group,tax_domain:0
 #: selection:l10n_br_fiscal.tax.ipi.guideline,cst_group:0
 msgid "Outros"
@@ -7113,16 +7024,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:uom.uom,name:l10n_br_fiscal.UOM_POTE
 msgid "POTE"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,indPag:0
-msgid "Pagamento à Prazo"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: selection:l10n_br_fiscal.payment,indPag:0
-msgid "Pagamento à Vista"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8904,11 +8805,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: selection:l10n_br_fiscal.cest,segment:0
 msgid "Tintas e vernizes"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_payment__payment_type
-msgid "Tipo de Pagamento da NF"
 msgstr ""
 
 #. module: l10n_br_fiscal
