@@ -973,6 +973,7 @@ msgstr "Aguardando processamento"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__3
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__3
 msgid "Ajuste"
 msgstr "Ajuste"
 
@@ -1497,11 +1498,6 @@ msgstr "CFOP Interno"
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_cfop_fiscal_cfop_code_uniq
 msgid "CFOP already exists with this code !"
 msgstr "CFOP já existe com este código !"
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
-msgid "CFOPs"
-msgstr "CFOPs"
 
 #. module: l10n_br_fiscal
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_closing_form
@@ -2361,6 +2357,7 @@ msgstr "Empresa Suframa"
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_invoice_mixin__company_tax_framework
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
 msgid "Company Tax Framework"
 msgstr "Marco fiscal da empresa"
 
@@ -2377,10 +2374,16 @@ msgid "Company ZIP"
 msgstr "Cep da Empresa"
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
+msgid "Company and Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_fiscal__06
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_electronic__state_fiscal__06
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_workflow__state_fiscal__06
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__2
 msgid "Complementar"
 msgstr "Complementar"
 
@@ -2461,11 +2464,6 @@ msgstr "Contato"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__ind_ie_dest
 msgid "Contribuinte do ICMS"
 msgstr "Contribuinte do ICMS"
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
-msgid "Copmpany Tax Framework"
-msgstr "Estrutura Tributária copmpany"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__correction_event_ids
@@ -2905,6 +2903,7 @@ msgstr "Destino"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__4
 msgid "Devolução de mercadoria"
 msgstr "Devolução de mercadoria"
 
@@ -3536,6 +3535,7 @@ msgstr "Receita Final"
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__edoc_purpose
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__edoc_purpose
 msgid "Finalidade"
 msgstr "Finalidade"
 
@@ -6713,6 +6713,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cnae__internal_type__normal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_service_type__internal_type__normal
 msgid "Normal"
 msgstr "Normal"
@@ -7050,6 +7051,7 @@ msgstr "Operação a ser realizada"
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.operations_config_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 msgid "Operations"
 msgstr "Operações"
 
@@ -7656,6 +7658,11 @@ msgstr "Categorias de Produtos"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__product_type
 msgid "Product Fiscal Type"
 msgstr "Tipo Fiscal do Produto"
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
+msgid "Product Information"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_product_template
@@ -8609,11 +8616,6 @@ msgid "Subsequent Operation"
 msgstr "Operação subsequente"
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
-msgid "Subsequent Operations"
-msgstr "Operações subsequentes"
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_subsequent_generated
 msgid "Subsequent documents generated?"
 msgstr "Documentos subsequentes gerados?"
@@ -8744,9 +8746,14 @@ msgstr "Imposto CSLL RET"
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_definition
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_definition_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Tax Definition"
@@ -8809,7 +8816,6 @@ msgstr "Domínio Tributário"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__tax_framework
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__tax_framework
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
 msgid "Tax Framework"
 msgstr "Tax Framework"
 
@@ -9642,6 +9648,15 @@ msgstr "{} Falha na Estimativa de Imposto"
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr "{} Estimativa de Imposto Atualizada"
+
+#~ msgid "CFOPs"
+#~ msgstr "CFOPs"
+
+#~ msgid "Copmpany Tax Framework"
+#~ msgstr "Estrutura Tributária copmpany"
+
+#~ msgid "Subsequent Operations"
+#~ msgstr "Operações subsequentes"
 
 #~ msgid ""
 #~ "AVISO - Ao baixar as Notas você estará dando ciência da emissão aos "
