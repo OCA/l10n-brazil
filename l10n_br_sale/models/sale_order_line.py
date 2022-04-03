@@ -194,3 +194,7 @@ class SaleOrderLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
         self.tax_id |= self.fiscal_tax_ids.account_taxes(user_type="sale")
+        if self.order_id.fiscal_operation_id.deductible_taxes:
+            self.tax_id |= self.fiscal_tax_ids.account_taxes(
+                user_type="sale", deductible=True
+            )
