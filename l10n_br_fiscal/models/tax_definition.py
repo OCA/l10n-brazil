@@ -18,6 +18,28 @@ class TaxDefinition(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Tax Definition"
 
+    def _get_complete_name(self):
+        return "{tax_group}-{tax}-{cst_code}".format(
+            tax_group=self.tax_group_id.name,
+            tax=self.tax_id.name,
+            cst_code=self.cst_code,
+        )
+
+    @api.depends("tax_group_id", "tax_id", "cst_code")
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = record._get_complete_name()
+
+    @api.depends("tax_group_id", "tax_id", "cst_code")
+    def name_get(self):
+        result = []
+        for record in self:
+            name = record._get_complete_name()
+            result.append((record.id, name))
+        return result
+
+    display_name = fields.Char(compute="_compute_display_name", store=True)
+
     type_in_out = fields.Selection(
         selection=FISCAL_IN_OUT,
         string="Type",
@@ -53,7 +75,6 @@ class TaxDefinition(models.Model):
         comodel_name="l10n_br_fiscal.cst",
         string="CST",
         readonly=True,
-        states={"draft": [("readonly", False)]},
         domain="[('cst_type', 'in', (type_in_out, 'all')), "
         "('tax_domain', '=', tax_domain)]",
     )
@@ -62,7 +83,6 @@ class TaxDefinition(models.Model):
         string="CST Code",
         related="cst_id.code",
         readonly=True,
-        states={"draft": [("readonly", False)]},
     )
 
     tax_domain = fields.Selection(
