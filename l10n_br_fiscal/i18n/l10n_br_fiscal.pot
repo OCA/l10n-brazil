@@ -802,6 +802,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__3
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__3
 msgid "Ajuste"
 msgstr ""
 
@@ -1315,11 +1316,6 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.constraint,message:l10n_br_fiscal.constraint_l10n_br_fiscal_cfop_fiscal_cfop_code_uniq
 msgid "CFOP already exists with this code !"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
-msgid "CFOPs"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2176,6 +2172,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__company_tax_framework
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document_invoice_mixin__company_tax_framework
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
 msgid "Company Tax Framework"
 msgstr ""
 
@@ -2192,10 +2189,16 @@ msgid "Company ZIP"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
+msgid "Company and Partner"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__2
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__state_fiscal__06
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_electronic__state_fiscal__06
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_workflow__state_fiscal__06
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__2
 msgid "Complementar"
 msgstr ""
 
@@ -2275,11 +2278,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__ind_ie_dest
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__ind_ie_dest
 msgid "Contribuinte do ICMS"
-msgstr ""
-
-#. module: l10n_br_fiscal
-#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__company_tax_framework
-msgid "Copmpany Tax Framework"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -2720,6 +2718,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__4
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__4
 msgid "Devolução de mercadoria"
 msgstr ""
 
@@ -3352,6 +3351,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__edoc_purpose
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation__edoc_purpose
 msgid "Finalidade"
 msgstr ""
 
@@ -6522,6 +6522,7 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_cnae__internal_type__normal
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document__edoc_purpose__1
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_operation__edoc_purpose__1
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_service_type__internal_type__normal
 msgid "Normal"
 msgstr ""
@@ -6839,6 +6840,7 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.ui.menu,name:l10n_br_fiscal.operations_config_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
 msgid "Operations"
 msgstr ""
 
@@ -7444,6 +7446,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__product_type
 msgid "Product Fiscal Type"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
+msgid "Product Information"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -8386,11 +8393,6 @@ msgid "Subsequent Operation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_form
-msgid "Subsequent Operations"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__document_subsequent_generated
 msgid "Subsequent documents generated?"
 msgstr ""
@@ -8521,9 +8523,14 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_definition
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_partner_profile__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__tax_definition_ids
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "Tax Definition"
@@ -8582,7 +8589,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__tax_framework
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_users__tax_framework
 #: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.fiscal_res_company_form
-#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.operation_line_form
 msgid "Tax Framework"
 msgstr ""
 
