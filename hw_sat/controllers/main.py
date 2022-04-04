@@ -408,8 +408,6 @@ class Sat(Thread):
                     order['chaveConsulta'], order['cnpj_software_house']
                 )
             )
-            self._print_extrato_cancelamento(
-                order['xml_cfe_venda'], resposta.arquivoCFeBase64)
             return {
                 'order_id': order['order_id'],
                 'xml': resposta.arquivoCFeBase64,
