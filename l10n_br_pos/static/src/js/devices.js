@@ -213,6 +213,11 @@ odoo.define("l10n_br_pos.devices", function (require) {
                          self.message('cancelar_cfe', {json: order}, {timeout: 5000})
                          .then(function (result) {
                              if (result && typeof result === 'object') {
+                                self.reprint_cfe({
+                                    xml_cfe_venda: order.xml_cfe_venda,
+                                    xml_cfe_cacelada: result.xml,
+                                    canceled_order: true
+                                });
                                 rpc.query({
                                     model: 'pos.order',
                                     method: 'cancelar_order',
