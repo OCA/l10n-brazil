@@ -203,6 +203,12 @@ class Document(models.Model):
         string="DF-e Consult",
     )
 
+    xml_error_message = fields.Text(
+        readonly=True,
+        string="XML validation errors",
+        copy=False,
+    )
+
     # Você não vai poder fazer isso em modelos que já tem state
     # TODO Porque não usar o campo state do fiscal.document???
     state = fields.Selection(related="state_edoc", string="State")
