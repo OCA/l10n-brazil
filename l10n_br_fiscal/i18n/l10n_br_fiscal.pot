@@ -328,6 +328,11 @@ msgid "<span>Novo Documento</span>"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.document_form
+msgid "<strong>XML validation errors:</strong>"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.cest_action
 msgid ""
 "A CEST is necessary to create\n"
@@ -9140,6 +9145,11 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_dfe_xml__xml_type
 msgid "XML Type"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_document__xml_error_message
+msgid "XML validation errors"
 msgstr ""
 
 #. module: l10n_br_fiscal
