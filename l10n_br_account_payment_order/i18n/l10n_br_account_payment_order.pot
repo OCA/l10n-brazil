@@ -2499,15 +2499,15 @@ msgid "Sending Movement Instruction Code"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:183
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:181
 #, python-format
-msgid "Sequence CNAB Sequence already in use by %s."
+msgid "Sequence CNAB Sequence already in use by {}!"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
-#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:168
+#: code:addons/l10n_br_account_payment_order/models/account_payment_mode.py:172
 #, python-format
-msgid "Sequence Own Number already in use by %s."
+msgid "Sequence Own Number already in use by {}!"
 msgstr ""
 
 #. module: l10n_br_account_payment_order
