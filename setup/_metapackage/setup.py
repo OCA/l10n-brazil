@@ -49,6 +49,7 @@ setuptools.setup(
         'odoo12-addon-l10n_br_website_sale_delivery',
         'odoo12-addon-l10n_br_zip',
         'odoo12-addon-payment_cielo',
+        'odoo12-addon-payment_pagseguro',
         'odoo12-addon-spec_driven_model',
     ],
     classifiers=[
