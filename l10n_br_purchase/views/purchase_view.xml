@@ -20,7 +20,7 @@
           <field name="inherit_id" ref="purchase.purchase_order_form" />
           <field name="priority">100</field>
           <field name="arch" type="xml">
-              <xpath expr="//field[@name='company_id']" position="after">
+              <xpath expr="//field[@name='partner_ref']" position="after">
                   <field name="fiscal_operation_id" required="1" />
               </xpath>
               <xpath expr="//field[@name='order_line']" position="attributes">
