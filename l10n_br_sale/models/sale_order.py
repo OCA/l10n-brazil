@@ -358,9 +358,9 @@ class SaleOrder(models.Model):
                             invoice = inv_obj.create(inv_data)
                             references[invoice] = order
                             invoices[group_key] = invoice
-                            invoices_origin[group_key] = [invoice.origin]
+                            invoices_origin[group_key] = [invoice.invoice_origin]
                             invoices_name[group_key] = [invoice.name]
-                            inv_ids.append(invoice.id)
+                            inv_ids = inv_ids + invoice
                         elif group_key in invoices:
                             if order.name not in invoices_origin[group_key]:
                                 invoices_origin[group_key].append(order.name)
@@ -379,6 +379,9 @@ class SaleOrder(models.Model):
                             )
                         )
                         if fiscal_document_type.id == document_type.id:
+                            # TODO: Migração 14.0 precisa de alguma forma forçar o
+                            #  recalculo das linhas do movimento e não funciona apenas
+                            #  mudar o move_id da linha do movimento
                             inv_line.move_id = invoice.id
 
             invoice_created_by_super.document_serie_id = (
