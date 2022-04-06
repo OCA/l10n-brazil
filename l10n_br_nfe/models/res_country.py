@@ -1,7 +1,7 @@
 # Copyright (C) 2022  Renan Hiroki Bastos - KMEE <renan.hiroki@kmee.com.br>
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-from odoo import fields, models, api
+from odoo import api, models
 
 
 class Country(models.Model):

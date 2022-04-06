@@ -224,13 +224,10 @@ class NFe(spec_models.StackedModel):
         inverse="_inverse_nfe40_tpImp",
     )
 
-    # A definição de um valor default faz com que o valor não seja alterado na importação
     nfe40_modFrete = fields.Selection(
         related="modFrete",
     )
 
-    # Com a adição deste campo e do parametro related em nfe40_modFrete
-    # o campo é preenchido na importação
     modFrete = fields.Selection(
         MODFRETE_TRANSP,
         string="Modalidade do frete",
@@ -241,6 +238,7 @@ class NFe(spec_models.StackedModel):
         "\n3- Transporte próprio por conta do remetente;"
         "\n4- Transporte próprio por conta do destinatário;"
         "\n9- Sem Ocorrência de transporte.",
+        default="9",
     )
 
     nfe40_tpEmis = fields.Selection(
@@ -335,6 +333,12 @@ class NFe(spec_models.StackedModel):
     nfe40_vLiq = fields.Monetary(related="amount_financial_total")
 
     imported_document = fields.Boolean(string="Imported", default=False)
+
+    partner_document_number = fields.Char(
+        string="Partner Document Number",
+        copy=False,
+        index=True,
+    )
 
     @api.depends("fiscal_additional_data", "fiscal_additional_data")
     def _compute_nfe40_additional_data(self):
@@ -705,13 +709,13 @@ class NFe(spec_models.StackedModel):
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
-        if key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
-            enderEntreg_value = self.env["res.partner"].build_attrs(
-                value, path=path
-            )
+        elif key == "nfe40_entrega" and self.env.context.get("edoc_type") == "in":
+            enderEntreg_value = self.env["res.partner"].build_attrs(value, path=path)
             new_value.update(enderEntreg_value)
             parent_domain = [("nfe40_CNPJ", "=", new_value.get("nfe40_CNPJ"))]
-            parent_partner_match = self.env['res.partner'].search(parent_domain, limit=1)
+            parent_partner_match = self.env["res.partner"].search(
+                parent_domain, limit=1
+            )
             new_vals = {
                 "nfe40_CNPJ": False,
                 "type": "delivery",
@@ -938,4 +942,17 @@ class NFe(spec_models.StackedModel):
         return document
 
     def import_xml(self, nfe_binding, dry_run, edoc_type="out"):
-        return self._import_xml_nfe(nfe_binding, dry_run, edoc_type)
+        document = self._import_xml_nfe(nfe_binding, dry_run, edoc_type)
+        if document.imported_document:
+            partner_id = document.partner_id
+            if partner_id:
+                sequence_id = partner_id.imported_document_sequence
+                if not sequence_id:
+                    sequence_id = partner_id._create_imported_document_sequence()
+                document.partner_document_number = document.document_number
+                document.document_number = (
+                    re.sub(r"[^\w]", "", partner_id.cnpj_cpf)
+                    + "/NFe-"
+                    + str(sequence_id.next_by_id())
+                )
+        return document

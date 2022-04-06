@@ -226,7 +226,8 @@ class NfeImport(models.TransientModel):
                 if xml_product.prod.xProd == wizard_product.product_name:
                     # Validação comentada para realização de testes
                     # TODO: Descomentar essa validação
-                    # self._check_ncm_nbm_cest(xml_product.prod, wizard_product.product_id)
+                    # self._check_ncm_nbm_cest(
+                    #   xml_product.prod, wizard_product.product_id)
                     xml_product.prod.xProd = database_product.name
                     xml_product.prod.cEAN = database_product.barcode
                     xml_product.prod.cEANTrib = database_product.barcode
@@ -255,7 +256,7 @@ class NfeImport(models.TransientModel):
                     ._compute_price(
                         product_line.price_unit_com, product_line.product_id.uom_id
                     ),
-                    "product_uom": product_line.uom_internal.id,
+                    "partner_uom": product_line.uom_internal.id,
                 }
                 partner_product_relation.update(values)
             else:
@@ -264,7 +265,7 @@ class NfeImport(models.TransientModel):
                         "name": edoc.partner_id.id,
                         "product_name": product_line.product_name,
                         "product_id": product_line.product_id.id,
-                        "product_uom": product_line.uom_internal.id,
+                        "partner_uom": product_line.uom_internal.id,
                         "price": self.env["uom.uom"]
                         .browse(product_line.uom_internal.id)
                         ._compute_price(
@@ -285,7 +286,7 @@ class NfeImport(models.TransientModel):
             )
             if partner_product_relation:
                 product_line.product_id = partner_product_relation.product_id
-                product_line.uom_internal = partner_product_relation.product_uom
+                product_line.uom_internal = partner_product_relation.partner_uom
 
     def _attach_original_nfe_xml_to_document(self, edoc):
         vals = {
@@ -311,7 +312,7 @@ class NfeImportProducts(models.TransientModel):
     uom_internal = fields.Many2one(
         "uom.uom",
         "Internal UOM",
-        help="Unidade de medida interna equivalente à unidade de medida no documento fiscal",
+        help="Internal UoM, equivalent to the one in the document",
     )
 
     uom_com = fields.Char(string="UOM Comercial")

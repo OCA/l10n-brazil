@@ -38,7 +38,7 @@ class ResCompany(spec_models.SpecModel):
                 rec.nfe40_choice6 = "nfe40_CPF"
                 rec.nfe40_CPF = rec.partner_id.cnpj_cpf
 
-    nfe40_CNPJ = fields.Char(compute="_compute_nfe_data")
+    nfe40_CNPJ = fields.Char(compute="_compute_nfe_data", store=True)
     nfe40_xNome = fields.Char(related="partner_id.legal_name")
     nfe40_xFant = fields.Char(related="partner_id.name")
     nfe40_IE = fields.Char(related="partner_id.inscr_est")
