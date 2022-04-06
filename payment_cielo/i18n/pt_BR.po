@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* payment_cielo
+# 	* payment_cielo
 #
 msgid ""
 msgstr ""
@@ -30,14 +30,20 @@ msgstr "<span><i>Cancelado,</i> Seu pagamento foi cancelado.</span>"
 
 #. module: payment_cielo
 #: model_terms:payment.acquirer,done_msg:payment_cielo.payment_acquirer_cielo
-msgid "<span><i>Done,</i> Your online payment has been successfully processed. Thank you for your order.</span>"
+msgid ""
+"<span><i>Done,</i> Your online payment has been successfully processed. "
+"Thank you for your order.</span>"
 msgstr ""
 "<span><i>Feito,</i> Seu pagamento online foi processado com sucesso. "
 "Obrigado por sua ordem.</span>"
 
 #. module: payment_cielo
 #: model_terms:payment.acquirer,error_msg:payment_cielo.payment_acquirer_cielo
-msgid "<span><i>Error,</i> Please be aware that an error occurred during the transaction. The order has been confirmed but will not be paid. Do not hesitate to contact us if you have any questions on the status of your order.</span>"
+msgid ""
+"<span><i>Error,</i> Please be aware that an error occurred during the "
+"transaction. The order has been confirmed but will not be paid. Do not "
+"hesitate to contact us if you have any questions on the status of your order."
+"</span>"
 msgstr ""
 "<span><i>Erro,</i> Solicitamos atenção no uso das informações fornecidas. A "
 "ordem foi confirmada, mas não será paga. Não hesite em entrar em contato "
@@ -45,7 +51,9 @@ msgstr ""
 
 #. module: payment_cielo
 #: model_terms:payment.acquirer,pending_msg:payment_cielo.payment_acquirer_cielo
-msgid "<span><i>Pending,</i> Your online payment has been successfully processed. But your order is not validated yet.</span>"
+msgid ""
+"<span><i>Pending,</i> Your online payment has been successfully processed. "
+"But your order is not validated yet.</span>"
 msgstr ""
 "<span><i>Pendente,</i> Seu pagamento online foi processado com sucesso. Mas "
 "sua ordem ainda não foi validada.</span>"
@@ -140,6 +148,11 @@ msgstr "Configuração Manual"
 #: model:ir.model.fields,field_description:payment_cielo.field_payment_token__card_number
 msgid "Number"
 msgstr "Número"
+
+#. module: payment_cielo
+#: selection:payment.acquirer,provider:0
+msgid "Pagseguro"
+msgstr ""
 
 #. module: payment_cielo
 #: model:ir.model,name:payment_cielo.model_payment_acquirer
