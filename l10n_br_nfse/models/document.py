@@ -82,7 +82,7 @@ class Document(models.Model):
     def make_pdf(self):
         if not self.filtered(filter_processador_edoc_nfse):
             return super().make_pdf()
-        pdf = self.env.ref("l10n_br_nfse.report_br_nfse_danfe").render_qweb_pdf(
+        pdf = self.env.ref("l10n_br_nfse.report_br_nfse_danfe")._render_qweb_pdf(
             self.ids
         )[0]
 
@@ -93,7 +93,6 @@ class Document(models.Model):
 
         vals_dict = {
             "name": filename,
-            "datas_fname": filename,
             "res_model": self._name,
             "res_id": self.id,
             "datas": base64.b64encode(pdf),
