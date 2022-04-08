@@ -331,7 +331,10 @@ row {
              <div class="row bb br bl" style="padding: 7.5px 10px; min-height: 150px;">
                 <div class="col-12">
                     <t t-foreach="doc.fiscal_line_ids" t-as="line">
-                        <p t-field="line.name" />
+<!--                    TODO: Migration 14.0-->
+                        <t t-if="line.product_id">
+                            <p t-field="line.name" />
+                        </t>
                     </t>
 <!--                    <span t-field="doc.informacoes_legais"></span>-->
 <!--                    <span t-field="doc.informacoes_complementares"></span>-->
