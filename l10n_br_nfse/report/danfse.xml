@@ -441,7 +441,8 @@ row {
                     Valor dos Serviços R$
                 </div>
                 <div class="col-2 linha centro br">
-                    <span t-field="doc.amount_price_gross" />
+<!--                    TODO: Migration 14.0 - Confirmar se de fato é este o campo que devemos utilizar-->
+                    <span t-field="doc.amount_financial_total_gross" />
                 </div>
                 <div class="col-2 rotulo br">
                     Natureza Operação
