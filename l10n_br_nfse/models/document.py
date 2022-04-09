@@ -144,9 +144,96 @@ class Document(models.Model):
             record.make_pdf()
 
     def _prepare_dados_servico(self):
-        self.fiscal_line_ids.ensure_one()
-        result = {}
-        result.update(self.fiscal_line_ids.prepare_line_servico())
+        # TODO: Migration 14.0: Acredito que fiscal_line_ids
+        #  deveria ser igual invoice_line_ids
+        lines = self.env["l10n_br_fiscal.document.line"]
+        for line in self.fiscal_line_ids:
+            if line.product_id:
+                lines |= line
+
+        result_line = {}
+
+        valor_servicos = 0
+        valor_deducoes = 0
+        valor_pis = 0
+        valor_pis_retido = 0
+        valor_cofins = 0
+        valor_cofins_retido = 0
+        valor_inss = 0
+        valor_inss_retido = 0
+        valor_ir = 0
+        valor_ir_retido = 0
+        valor_csll = 0
+        valor_csll_retido = 0
+        valor_iss = 0
+        valor_iss_retido = 0
+        outras_retencoes = 0
+        base_calculo = 0
+        valor_liquido_nfse = 0
+        valor_desconto_incondicionado = 0
+
+        for line in lines:
+            result_line.update(line.prepare_line_servico())
+            valor_servicos += result_line.get("valor_servicos")
+            valor_deducoes += result_line.get("valor_deducoes")
+            valor_pis += result_line.get("valor_pis")
+            valor_pis_retido += result_line.get("valor_pis_retido")
+            valor_cofins += result_line.get("valor_cofins")
+            valor_cofins_retido += result_line.get("valor_cofins_retido")
+            valor_inss += result_line.get("valor_inss")
+            valor_inss_retido += result_line.get("valor_inss_retido")
+            valor_ir += result_line.get("valor_ir")
+            valor_ir_retido += result_line.get("valor_ir_retido")
+            valor_csll += result_line.get("valor_csll")
+            valor_csll_retido += result_line.get("valor_csll_retido")
+            valor_iss += result_line.get("valor_iss")
+            valor_iss_retido += result_line.get("valor_iss_retido")
+            outras_retencoes += result_line.get("outras_retencoes")
+            base_calculo += (
+                result_line.get("issqn_base") or result_line.get("issqn_wh_base") or 0
+            )
+            valor_liquido_nfse += result_line.get("valor_liquido_nfse")
+            valor_desconto_incondicionado += result_line.get(
+                "valor_desconto_incondicionado"
+            )
+
+        result = {
+            "valor_servicos": valor_servicos,
+            "valor_deducoes": valor_deducoes,
+            "valor_pis": valor_pis,
+            "valor_pis_retido": valor_pis_retido,
+            "valor_cofins": valor_cofins,
+            "valor_cofins_retido": valor_cofins_retido,
+            "valor_inss": valor_inss,
+            "valor_inss_retido": valor_inss_retido,
+            "valor_ir": valor_ir,
+            "valor_ir_retido": valor_ir_retido,
+            "valor_csll": valor_csll,
+            "valor_csll_retido": valor_csll_retido,
+            "iss_retido": "1" if self.fiscal_line_ids[0].issqn_wh_value else "2",
+            "valor_iss": valor_iss,
+            "valor_iss_retido": valor_iss_retido,
+            "outras_retencoes": outras_retencoes,
+            "base_calculo": base_calculo,
+            "aliquota": (self.fiscal_line_ids[0].issqn_percent / 100)
+            or (self.fiscal_line_ids[0].issqn_wh_percent / 100),
+            "valor_liquido_nfse": valor_liquido_nfse,
+            "item_lista_servico": self.fiscal_line_ids[0].service_type_id.code
+            and self.fiscal_line_ids[0].service_type_id.code.replace(".", ""),
+            "codigo_tributacao_municipio": self.fiscal_line_ids[
+                0
+            ].city_taxation_code_id.code
+            or "",
+            "municipio_prestacao_servico": self.fiscal_line_ids[
+                0
+            ].issqn_fg_city_id.ibge_code
+            or "",
+            "discriminacao": str(self.fiscal_line_ids[0].name[:2000] or ""),
+            "codigo_cnae": misc.punctuation_rm(self.fiscal_line_ids[0].cnae_id.code)
+            or None,
+            "valor_desconto_incondicionado": valor_desconto_incondicionado,
+        }
+
         result.update(self.company_id.prepare_company_servico())
 
         return result
