@@ -99,6 +99,22 @@ class SaleOrderLine(models.Model):
     price_tax = fields.Monetary(compute_sudo=True)
     price_total = fields.Monetary(compute_sudo=True)
 
+    @api.model
+    def _cnae_domain(self):
+        company = self.env.company
+        domain = []
+        if company.cnae_main_id and company.cnae_secondary_ids:
+            cnae_main_id = (company.cnae_main_id.id,)
+            cnae_secondary_ids = company.cnae_secondary_ids.ids
+            domain = ["|", ("id", "in", cnae_secondary_ids), ("id", "=", cnae_main_id)]
+        return domain
+
+    cnae_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cnae",
+        string="CNAE Code",
+        domain=lambda self: self._cnae_domain(),
+    )
+
     def _get_protected_fields(self):
         protected_fields = super()._get_protected_fields()
         return protected_fields + [
