@@ -853,3 +853,8 @@ class FiscalDocumentLineMixin(models.AbstractModel):
     estimate_tax = fields.Monetary(
         string="Estimate Tax",
     )
+
+    cnae_id = fields.Many2one(
+        comodel_name="l10n_br_fiscal.cnae",
+        string="CNAE Code",
+    )
