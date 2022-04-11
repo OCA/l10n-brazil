@@ -20,26 +20,6 @@ class DocumentLine(models.Model):
         default=0.00,
     )
 
-    cnae_main_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cnae",
-        related="company_id.cnae_main_id",
-        string="Main CNAE",
-    )
-
-    cnae_secondary_ids = fields.Many2many(
-        comodel_name="l10n_br_fiscal.cnae",
-        related="company_id.cnae_secondary_ids",
-        string="Secondary CNAE",
-    )
-
-    cnae_id = fields.Many2one(
-        comodel_name="l10n_br_fiscal.cnae",
-        string="CNAE Code",
-        domain="['|', "
-        "('id', 'in', cnae_secondary_ids), "
-        "('id', '=', cnae_main_id)]",
-    )
-
     @api.onchange("product_id")
     def _onchange_product_id_fiscal(self):
         super(DocumentLine, self)._onchange_product_id_fiscal()
