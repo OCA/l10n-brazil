@@ -159,6 +159,10 @@
                     name="city_taxation_code_id"
                     attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
                 />
+                <field
+                    name="cnae_id"
+                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form//field[@name='tax_id']"
