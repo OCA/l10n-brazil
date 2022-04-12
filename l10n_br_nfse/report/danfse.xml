@@ -586,7 +586,7 @@ row {
                 </div>
             </div>
 
-             <div class="row bb br bl">
+            <div class="row bb br bl">
                 <div class="col-1 centro">
                     Avisos
                 </div>
@@ -598,6 +598,19 @@ row {
                     /> com a utilização do Código de Verificação.<br />
                     <t t-if="doc.company_id.tax_framework != '3'">
                         3 - Documento emitido por ME ou EPP optante pelo Simples Nacional.Não gera direito a crédito fiscal de ISS e IPI.
+                    </t>
+                </div>
+            </div>
+            <div class="row bb br bl">
+                <div class="col-1 centro">
+                    Dados Adicionais
+                </div>
+                <div class="col-11">
+                    <t t-if="doc.customer_additional_data">
+                        <span t-field="doc.customer_additional_data" /><br />
+                    </t>
+                    <t t-if="doc.fiscal_additional_data">
+                        <span t-field="doc.fiscal_additional_data" />
                     </t>
                 </div>
             </div>
