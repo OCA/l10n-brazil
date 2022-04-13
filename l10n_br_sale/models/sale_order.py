@@ -25,7 +25,7 @@ class SaleOrder(models.Model):
 
     @api.model
     def _fiscal_operation_domain(self):
-        domain = [("state", "=", "approved")]
+        domain = [("state", "=", "approved"), ("fiscal_operation_type", "=", "out")]
         return domain
 
     fiscal_operation_id = fields.Many2one(
