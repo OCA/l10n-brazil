@@ -386,9 +386,20 @@
          <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
      </record>
 
+    <record id="tax_template_out_issqn_deductible" model="account.tax.template">
+         <field name="description">ISSQN</field>
+         <field name="name">ISSQN Saída Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">sale</field>
+         <field eval="0" name="price_include" />
+         <field eval="1" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_issqn" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
      <record id="tax_template_out_issqn_wh" model="account.tax.template">
          <field name="description">ISSQN WH</field>
-         <field name="name">ISSQN WH Saida</field>
+         <field name="name">ISSQN WH Saída</field>
          <field name="amount">0.00</field>
          <field name="type_tax_use">sale</field>
          <field eval="0" name="price_include" />
@@ -404,6 +415,17 @@
          <field name="type_tax_use">purchase</field>
          <field eval="0" name="price_include" />
          <field eval="0" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_issqn" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
+     <record id="tax_template_in_issqn_deductible" model="account.tax.template">
+         <field name="description">ISSQN</field>
+         <field name="name">ISSQN Entrada Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">purchase</field>
+         <field eval="0" name="price_include" />
+         <field eval="1" name="deductible" />
          <field name="tax_group_id" ref="tax_group_issqn" />
          <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
      </record>
@@ -430,6 +452,17 @@
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
     </record>
 
+    <record id="tax_template_out_irpj_deductible" model="account.tax.template">
+         <field name="description">IRPJ</field>
+         <field name="name">IRPJ Saída Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">sale</field>
+         <field eval="0" name="price_include" />
+         <field eval="1" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_irpj" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
     <record id="tax_template_out_irpj_wh" model="account.tax.template">
         <field name="description">IRPJ WH</field>
         <field name="name">IRPJ WH</field>
@@ -451,6 +484,17 @@
         <field name="tax_group_id" ref="tax_group_irpj" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
     </record>
+
+     <record id="tax_template_in_irpj_deductible" model="account.tax.template">
+         <field name="description">IRPJ</field>
+         <field name="name">IRPJ Entrada Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">purchase</field>
+         <field eval="0" name="price_include" />
+         <field eval="1" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_irpj" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
 
     <record id="tax_template_in_irpj_wh" model="account.tax.template">
         <field name="description">IRPJ WH</field>
@@ -474,6 +518,17 @@
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
     </record>
 
+    <record id="tax_template_out_csll_deductible" model="account.tax.template">
+         <field name="description">CSLL</field>
+         <field name="name">CSLL Saída Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">sale</field>
+         <field eval="0" name="price_include" />
+         <field eval="1" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_csll" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
+
     <record id="tax_template_out_csll_wh" model="account.tax.template">
         <field name="description">CSLL WH</field>
         <field name="name">CSLL WH</field>
@@ -495,6 +550,17 @@
         <field name="tax_group_id" ref="tax_group_csll" />
         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
     </record>
+
+     <record id="tax_template_in_csll_deductible" model="account.tax.template">
+         <field name="description">CSLL</field>
+         <field name="name">CSLL Entrada Dedutível</field>
+         <field name="amount">0.00</field>
+         <field name="type_tax_use">purchase</field>
+         <field eval="0" name="price_include" />
+         <field eval="1" name="deductible" />
+         <field name="tax_group_id" ref="tax_group_csll" />
+         <field name="chart_template_id" ref="l10n_br_coa.l10n_br_coa_template" />
+     </record>
 
     <record id="tax_template_in_csll_wh" model="account.tax.template">
         <field name="description">CSLL WH</field>
