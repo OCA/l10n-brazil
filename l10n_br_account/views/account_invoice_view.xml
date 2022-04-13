@@ -155,6 +155,9 @@
                 <field name="fiscal_operation_id" optional="hide" />
                 <field name="fiscal_operation_line_id" optional="show" />
                 <field name="cfop_id" optional="hide" />
+                <field name="city_taxation_code_id" optional="hide" />
+                <field name="service_type_id" optional="hide" />
+                <field name="cnae_id" optional="hide" />
                 <field
                     name="fiscal_tax_ids"
                     attrs="{'invisible': [('document_type_id', '=', False)]}"
@@ -191,6 +194,9 @@
                 <field name="fiscal_operation_id" invisible="1" />
                 <field name="fiscal_operation_line_id" optional="hide" />
                 <field name="cfop_id" optional="hide" />
+                <field name="city_taxation_code_id" optional="hide" />
+                <field name="service_type_id" optional="hide" />
+                <field name="cnae_id" optional="hide" />
                 <field name="partner_company_type" invisible="1" />
                     <field name="fiscal_operation_type" invisible="1" />
                 <field
@@ -367,6 +373,19 @@
                     name="cfop_id"
                     attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
                 />
+                <field
+                    name="city_taxation_code_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                />
+                <field
+                    name="service_type_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                />
+                <field
+                    name="cnae_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                />
+
               </xpath>
 
             <xpath
