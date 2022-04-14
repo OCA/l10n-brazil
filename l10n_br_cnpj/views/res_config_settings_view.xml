@@ -31,8 +31,31 @@
                             class="content-group mt16"
                             attrs="{'invisible': [('cnpj_provider', '!=', 'serpro')]}"
                         >
-                            <label for="cnpj_update_days" class="o_light_label" />
-                            <field name="cnpj_update_days" required="1" /> days
+                            <label for="serpro_token" class="o_light_label" />
+                            <field
+                                name="serpro_token"
+                                attrs="{'required': [('cnpj_provider', '=', 'serpro')]}"
+                            />
+                        </div>
+                        <div
+                            class="content-group mt16"
+                            attrs="{'invisible': [('cnpj_provider', '!=', 'serpro')]}"
+                        >
+                            <label for="serpro_trial" class="o_light_label" />
+                            <field
+                                name="serpro_trial"
+                                attrs="{'required': [('cnpj_provider', '=', 'serpro')]}"
+                            />
+                        </div>
+                        <div
+                            class="content-group mt16"
+                            attrs="{'invisible': [('cnpj_provider', '!=', 'serpro')]}"
+                        >
+                            <label for="serpro_schema" class="o_light_label" />
+                            <field
+                                name="serpro_schema"
+                                attrs="{'required': [('cnpj_provider', '=', 'serpro')]}"
+                            />
                         </div>
                     </div>
                 </div>

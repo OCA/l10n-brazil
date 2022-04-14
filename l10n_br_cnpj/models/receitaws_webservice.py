@@ -1,7 +1,8 @@
 # Copyright 2022 KMEE - Luis Felipe Mileo
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models
+from odoo import _, models
+from odoo.exceptions import ValidationError
 
 RECEITAWS_URL = "https://www.receitaws.com.br/v1/cnpj/"
 
@@ -9,13 +10,26 @@ RECEITAWS_URL = "https://www.receitaws.com.br/v1/cnpj/"
 class ReceitawsWebservice(models.Model):
     _inherit = "l10n_br_cnpj.webservice"
 
-    def receitaws_get_api_url(self):
-        return RECEITAWS_URL
+    @staticmethod
+    def receitaws_get_api_url(cnpj):
+        return RECEITAWS_URL + cnpj
+
+    @staticmethod
+    def receitaws_get_headers():
+        return {}
+
+    def receitaws_validate(self, response):
+        self._validate(response)
+        data = response.json()
+        if data.get("status") == "ERROR":
+            raise ValidationError(_(data.get("message")))
+
+        return data
 
     def receitaws_import_data(self, data):
         legal_name = self.get_data(data, "nome", title=True)
         fantasy_name = self.get_data(data, "fantasia", title=True)
-        phone, mobile = self.get_phones(data)
+        phone, mobile = self.receitaws_get_phones(data)
         state_id, city_id = self.get_state_city(data)
 
         res = {
@@ -36,7 +50,7 @@ class ReceitawsWebservice(models.Model):
         return res
 
     @staticmethod
-    def get_phones(data):
+    def receitaws_get_phones(data):
         """Get phones from data.
         If there is more than one phone, the second is assigned to mobile."""
         phone = False

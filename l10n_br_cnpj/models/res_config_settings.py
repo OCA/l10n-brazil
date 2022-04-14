@@ -7,12 +7,6 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    cnpj_update_days = fields.Integer(
-        config_parameter="l10n_br_cnpj.cnpj_update_days",
-        default=365,
-        string="Days to Update CNPJ",
-    )
-
     cnpj_provider = fields.Selection(
         selection=[
             ("receitaws", "ReceitaWS"),
@@ -22,4 +16,24 @@ class ResConfigSettings(models.TransientModel):
         required=True,
         default="receitaws",
         config_parameter="l10n_br_cnpj.cnpj_provider",
+    )
+
+    serpro_token = fields.Char(
+        string="SERPRO Token",
+        config_parameter="l10n_br_cnpj.serpro_token",
+    )
+
+    serpro_trial = fields.Boolean(
+        string="Use SERPRO Trial",
+        config_parameter="l10n_br_cnpj.serpro_trial",
+    )
+
+    serpro_schema = fields.Selection(
+        selection=[
+            ("basica", "Básica"),
+            ("qsa", "QSA"),
+            ("empresa", "Empresa"),
+        ],
+        string="SERPRO Schema",
+        config_parameter="l10n_br_cnpj.serpro_schema",
     )

@@ -1,0 +1,91 @@
+# Copyright 2022 KMEE - Luis Felipe Mileo
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from odoo import models
+
+SERPRO_URL = "https://gateway.apiserpro.serpro.gov.br"
+
+
+class SerproWebservice(models.Model):
+    _inherit = "l10n_br_cnpj.webservice"
+
+    def serpro_get_api_url(self, cnpj):
+        trial = self._get_cnpj_param("serpro_trial")
+        schema = self._get_cnpj_param("serpro_schema")
+
+        if trial:
+            url = SERPRO_URL + f"/consulta-cnpj-df-trial/v2/{schema}/{cnpj}"
+        else:
+            url = SERPRO_URL + f"/v2/{schema}/{cnpj}"  # TODO
+
+        return url
+
+    def serpro_get_headers(self):
+        token = self._get_cnpj_param("serpro_token")
+        return {"Authorization": "Bearer " + token}
+
+    def serpro_validate(self, response):
+        self._validate(response)
+        data = response.json()
+        return data
+
+    def serpro_import_data(self, data):
+        # TODO importa base on schema
+        legal_name = self.get_data(data, "nomeEmpresarial", title=True)
+        fantasy_name = self.get_data(data, "nomeFantasia", title=True)
+        name = fantasy_name if fantasy_name else legal_name
+        phone, mobile = self.serpro_get_phones(data)
+        endereco = data.get("endereco")
+        cep = self.get_data(endereco, "cep")
+        state_id = self.get_state_id(endereco)
+        city_id = self.get_city_id(cep)
+
+        res = {
+            "legal_name": legal_name,
+            "name": name,
+            "email": self.get_data(data, "correioEletronico"),
+            "street_name": self.get_data(endereco, "logradouro", title=True),
+            "street2": self.get_data(endereco, "complemento", title=True),
+            "district": self.get_data(endereco, "bairro", title=True),
+            "street_number": self.get_data(endereco, "numero"),
+            "zip": cep,
+            "phone": phone,
+            "mobile": mobile,
+            "state_id": state_id,
+            "city_id": city_id,
+        }
+
+        return res
+
+    @staticmethod
+    def serpro_get_phones(data):
+        """Get phones from data.
+        If there is more than one phone, the second is assigned to mobile and the rest
+        is ignored."""
+        phones = []
+        phones_data = data.get("telefones")
+        for i in range(min(len(phones_data), 2)):
+            ddd = phones_data[i].get("ddd")
+            num = phones_data[i].get("numero")
+            phone = f"({ddd}) {num}"
+
+            phones.append(phone)
+
+        return phones
+
+    def get_state_id(self, endereco):
+        state_code = self.get_data(endereco, "uf")
+
+        return (
+            self.env["res.country.state"]
+            .search(
+                [("country_id.code", "=", "BR"), ("code", "=", state_code)], limit=1
+            )
+            .id
+        )
+
+    def get_city_id(self, cep):
+        # Get city from cep
+        # TODO Send message if address doesn't match CEP
+        cep_values = self.env["l10n_br.zip"]._consultar_cep(cep)
+        return cep_values.get("city_id")
