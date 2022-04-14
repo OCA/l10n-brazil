@@ -1,11 +1,11 @@
-import wdb
-
+import ast
 import logging
 import time
 from threading import Thread, Lock
 from requests import ConnectionError
 from decimal import Decimal as D
 import io
+
 try:
     from odoo.addons.hw_drivers.controllers.proxy import ProxyController as Controller
     from odoo.addons.hw_drivers.controllers.proxy import proxy_drivers as driver
@@ -16,7 +16,6 @@ from odoo import http
 import base64
 from datetime import datetime
 import json
-
 
 _logger = logging.getLogger(__name__)
 
@@ -486,10 +485,14 @@ class Sat(Thread):
     def _init_printer(self):
         if not self.impressora:
             return False
+        kwargs = ast.literal_eval(self.printer_params)
 
         if self.fiscal_printer_type == 'NetworkConnection':
             from escpos.conn.network import NetworkConnection as Connection
-            conn = Connection(host=self.printer_params, port=9100)
+            conn = Connection.create(**kwargs)
+        elif self.fiscal_printer_type == 'CupsConnection':
+            from escpos.conn.cups import CupsConnection as Connection
+            conn = Connection.create(**kwargs)
         elif self.fiscal_printer_type == 'BluetoothConnection':
             from escpos.conn.bt import BluetoothConnection as Connection
         elif self.fiscal_printer_type == 'DummyConnection':
@@ -497,13 +500,13 @@ class Sat(Thread):
             conn = Connection()
         elif self.fiscal_printer_type == 'FileConnection':
             from escpos.conn.file import FileConnection as Connection
-            conn = Connection(self.printer_params)
+            conn = Connection.create(**kwargs)
         elif self.fiscal_printer_type == 'SerialConnection':
             from escpos.conn.serial import SerialSettings as Connection
             conn = Connection.parse(self.printer_params).get_connection()
         elif self.fiscal_printer_type == 'USBConnection':
             from escpos.conn.usb import USBConnection as Connection
-            conn = Connection(interface=self.printer_params)
+            conn = Connection.create(**kwargs)
 
         if self.impressora == 'epson-tm-t20':
             _logger.info('SAT Impressao: Epson TM-T20')
@@ -541,7 +544,8 @@ class Sat(Thread):
             ExtratoCFeVenda(
                 fp=io.StringIO(base64.b64decode(xml).decode('utf-8')), impressora=printer, config=self.printer_conf
             ).imprimir()
-
+            if self.fiscal_printer_type == 'CupsConnection':
+                printer.device.close()
         except Exception as e:
             _logger.info('[HW FISCAL] Impressora - Falha ao imprimir')
             _logger.info(e)
@@ -549,14 +553,16 @@ class Sat(Thread):
         return True
 
     def _print_extrato_cancelamento(self, xml_venda, xml_cancelamento):
-        if not self.printer:
-            return False
+        printer = self._init_printer()
         extrato = ExtratoCFeCancelamento(
-            io.StringIO(base64.b64decode(xml_venda)),
-            io.StringIO(base64.b64decode(xml_cancelamento)),
-            self.printer
+            fp_venda=io.StringIO(base64.b64decode(xml_venda)),
+            fp_canc=io.StringIO(base64.b64decode(xml_cancelamento)),
+            impressora=printer,
+            config=self.printer_conf
         )
         extrato.imprimir()
+        if self.fiscal_printer_type == 'CupsConnection':
+            printer.device.close()
         return True
 
     def _reprint_cfe(self, json):
