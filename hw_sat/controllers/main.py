@@ -102,7 +102,7 @@ class Sat(Thread):
         self.assinatura = assinatura
 
         try:
-            self.printer_conf = config.carregar('/odoo/sat/satextrato.ini')
+            self.printer_conf = config.carregar('/opt/sat/satextrato.ini')
             _logger.info('[HW FISCAL] Impressora - Carregada a configuração personalizada')
         except Exception as e:
             self.printer_conf = config.padrao()
