@@ -50,6 +50,7 @@
                       <field name="fiscal_operation_type" invisible="1" readonly="1" />
                       <field name="fiscal_genre_code" invisible="1" />
                       <field name="tax_framework" invisible="1" />
+                      <field name="tax_icms_or_issqn" invisible="1" />
                   </group>
               </xpath>
               <xpath
@@ -66,7 +67,16 @@
                     required="1"
                     options="{'no_create': True}"
                 />
-                  <field name="cfop_id" options="{'no_create': True}" />
+                  <field
+                    name="cfop_id"
+                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"
+                    options="{'no_create': True}"
+                />
+                  <field
+                    name="service_type_id"
+                    options="{'no_create': True}"
+                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                />
               </xpath>
               <xpath
                 expr="//field[@name='order_line']/form//notebook/page[1]"
