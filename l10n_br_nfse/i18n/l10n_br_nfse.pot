@@ -213,6 +213,11 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Dados Adicionais"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Dados do Prestador de Serviços"
 msgstr ""
 
