@@ -158,10 +158,12 @@
                 <field
                     name="city_taxation_code_id"
                     attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    options="{'no_create': True}"
                 />
                 <field
                     name="cnae_id"
                     attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    options="{'no_create': True}"
                 />
             </xpath>
             <xpath
