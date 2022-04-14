@@ -166,6 +166,7 @@ class PosConfig(models.Model):
             ("NetworkConnection", "Network"),
             ("SerialConnection", "Serial"),
             ("USBConnection", "USB"),
+            ("CupsConnection", "Cups"),
         ],
     )
 
