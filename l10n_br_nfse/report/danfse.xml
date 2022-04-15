@@ -226,9 +226,8 @@ row {
                         </div>
                         <div class="col-10 linha esquerda bb bl">
                             <span t-field="doc.company_id.street" />
-                            <span t-field="doc.company_id.street_number" />
-                            <span t-field="doc.company_id.district" />
-                            CEP: <span t-field="doc.company_id.zip" />
+                            - <span t-field="doc.company_id.district" />
+                            - CEP: <span t-field="doc.company_id.zip" />
                         </div>
                     </div>
                     <div class="row">
@@ -298,9 +297,8 @@ row {
                 </div>
                 <div class="col-10 linha esquerda">
                     <span t-field="doc.partner_id.street" />
-                    <span t-field="doc.partner_id.street_number" />
-                    <span t-field="doc.partner_id.district" />
-                    CEP: <span t-field="doc.partner_id.zip" />
+                    - <span t-field="doc.partner_id.district" />
+                    - CEP: <span t-field="doc.partner_id.zip" />
                 </div>
             </div>
              <div class="row br bl">
