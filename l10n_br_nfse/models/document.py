@@ -274,7 +274,7 @@ class Document(models.Model):
             "intermediario_servico": None,
             "construcao_civil": None,
             "carga_tributaria": self.amount_tax,
-            "total_recebido": self.amount_total,
+            "total_recebido": self.amount_financial_total,
         }
 
     def convert_type_nfselib(self, class_object, object_filed, value):
