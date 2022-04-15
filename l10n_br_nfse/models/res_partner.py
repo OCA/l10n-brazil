@@ -40,7 +40,7 @@ class ResPartner(models.Model):
             "inscricao_municipal": misc.punctuation_rm(self.inscr_mun or "") or None,
             "inscricao_estadual": misc.punctuation_rm(self.inscr_est or "") or None,
             "razao_social": str(self.legal_name[:60] or ""),
-            "endereco": str(self.street or self.street_name or ""),
+            "endereco": str(self.street_name or self.street or ""),
             "numero": self.street_number or "",
             "bairro": str(self.district or "Sem Bairro"),
             "codigo_municipio": address_invoice_city_code,
