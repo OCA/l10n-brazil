@@ -148,11 +148,6 @@ msgid "Base de Cálculo"
 msgstr "Base de Cálculo"
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_id
-msgid "CNAE Code"
-msgstr "Código CNAE"
-
-#. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
@@ -373,11 +368,6 @@ msgid "Local da Prestação"
 msgstr "Local da Prestação"
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_main_id
-msgid "Main CNAE"
-msgstr "CNAE Principal"
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__1
 msgid "Microempresa Municipal"
 msgstr "Microempresa Municipal"
@@ -515,11 +505,6 @@ msgid "Regime esp. Tributação"
 msgstr "Regime esp. Tributação"
 
 #. module: l10n_br_nfse
-#: model:ir.model.fields,field_description:l10n_br_nfse.field_l10n_br_fiscal_document_line__cnae_secondary_ids
-msgid "Secondary CNAE"
-msgstr "CNAE Secundário"
-
-#. module: l10n_br_nfse
 #: model:ir.model.fields.selection,name:l10n_br_nfse.selection__l10n_br_fiscal_document__taxation_special_regime__3
 msgid "Sociedade de Profissionais"
 msgstr "Sociedade de Profissionais"
@@ -563,6 +548,15 @@ msgstr "Código de Verificação"
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "com a utilização do Código de Verificação.<br/>"
 msgstr "com a utilização do Código de Verificação.<br/>"
+
+#~ msgid "CNAE Code"
+#~ msgstr "Código CNAE"
+
+#~ msgid "Main CNAE"
+#~ msgstr "CNAE Principal"
+
+#~ msgid "Secondary CNAE"
+#~ msgstr "CNAE Secundário"
 
 #~ msgid "CEP:"
 #~ msgstr "CEP:"
