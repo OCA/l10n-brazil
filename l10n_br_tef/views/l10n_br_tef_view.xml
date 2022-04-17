@@ -1,40 +1,50 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2022 KMEE
+License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+
 <odoo>
 
-        <record id="view_pos_config_form_tef" model="ir.ui.view">
-            <field name="name">pos.payment.terminal.config.form</field>
-            <field name="model">pos.config</field>
-            <field name="inherit_id" ref="point_of_sale.view_pos_config_form" />
-            <field name="arch" type="xml">
-                <field name="iface_cashdrawer" position="after">
-                    <field name="iface_tef" />
-                </field>
+  <record model="ir.ui.view" id="pos_config_form_view">
+    <field name="name">pos.config.form (in l10n_br_tef)</field>
+    <field name="model">pos.config</field>
+    <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+    <field name="arch" type="xml">
+      <field name="iface_cashdrawer" position="after">
+        <div class="o_setting_left_pane">
+          <field name="iface_tef"/>
+        </div>
+        <div class="o_setting_right_pane">
+          <label for="iface_tef"/>
+        </div>
+      </field>
 
-                <group string="Hardware Proxy" position="after">
-                    <group
-                    string="TEF Configuration"
-                    attrs="{'invisible': [('iface_tef', '=', False)]}"
-                >
-                        <field
-                        name="environment_selection"
-                        attrs="{'required': [('iface_tef','=', True)]}"
-                    />
-                        <field
-                        name="institution_selection"
-                        attrs="{'required': [('iface_tef','=', True)]}"
-                    />
-                        <field
-                        name="credit_server"
-                        attrs="{'invisible': [('environment_selection','=', 'Producao')], 'required': [('iface_tef','=', True), ('environment_selection','=', 'Homologacao')]}"
-                    />
-                        <field
-                        name="debit_server"
-                        attrs="{'invisible': [('environment_selection','=', 'Producao')], 'required': [('iface_tef','=', True), ('environment_selection','=', 'Homologacao')]}"
-                    />
-                    </group>
-                </group>
-
-            </field>
-        </record>
+      <xpath expr="//div[@id='barcode_scanner']" position="after">
+        <div class="row mt16 o_settings_container">
+          <div class="col-12 col-lg-6 o_setting_box">
+            <div class="o_setting_right_pane">
+              <div class="content-group row mt16" attrs="{'invisible': [('iface_tef', '=', False)]}">
+                <div class="row mt16">
+                  <label string="Establishment" for="institution_selection" class="col-lg-3 o_light_label"/>
+                  <field name="institution_selection" attrs="{'required': [('iface_tef', '=', True)]}"/>
+                </div>
+                <div class="row">
+                  <label string="Environment" for="environment_selection" class="col-lg-3 o_light_label"/>
+                  <field name="environment_selection" attrs="{'required': [('iface_tef', '=', True)]}"/>
+                </div>
+                <div class="row">
+                  <label string="Credit Server" for="credit_server" class="col-lg-3 o_light_label"/>
+                  <field name="credit_server" attrs="{'invisible': [('environment_selection', '=', 'production')], 'required': [('iface_tef', '=', True), ('environment_selection', '=', 'homologation')]}"/>
+                </div>
+                <div class="row">
+                  <label string="Debit Server" for="debit_server" class="col-lg-3 o_light_label"/>
+                  <field name="debit_server" attrs="{'invisible': [('environment_selection', '=', 'production')], 'required': [('iface_tef', '=', True), ('environment_selection', '=', 'homologation')]}"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </xpath>
+    </field>
+  </record>
 
 </odoo>

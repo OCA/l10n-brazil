@@ -12,11 +12,11 @@
     "depends": ["point_of_sale"],
     "data": [
         "data/account_journal_data.xml",
-        "views/templates.xml",
         "views/l10n_br_tef_view.xml",
+        "views/pos_assets.xml",
     ],
     "demo": [
         "demo/l10n_br_tef_demo.xml",
     ],
-    "qweb": ["static/src/xml/l10n_br_tef.xml"],
+    "qweb": ["static/src/xml/templates.xml"],
 }

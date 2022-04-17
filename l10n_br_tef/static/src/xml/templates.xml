@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="TefStatusWidget">
+        <div class="oe_status js_synch">
+            <span class='js_msg oe_hidden'>0</span>
+            <div class="js_connected oe_icon oe_green">
+                <i class='fa fa-fw fa-credit-card' role="img" aria-label="Synchronisation Connected"
+                   title="Synchronisation Connected"></i>
+            </div>
+            <div class="js_connecting oe_icon oe_hidden">
+                <i class='fa fa-fw fa-spin fa-spinner' role="img" aria-label="Synchronisation Connecting"
+                   title="Synchronisation Connecting"></i>
+            </div>
+            <div class="js_disconnected oe_icon oe_red oe_hidden">
+                <i class='fa fa-fw fa-credit-card' role="img" aria-label="Synchronisation Disconnected"
+                   title="Synchronisation Disconnected"></i>
+            </div>
+            <div class="js_error oe_icon oe_red oe_hidden">
+                <i class='fa fa-fw fa-warning' role="img" aria-label="Synchronisation Error"
+                   title="Synchronisation Error"></i>
+            </div>
+        </div>
+    </t>
+
+    <t t-extend="DebugWidget">
+        <t t-jquery=".content" t-operation="append">
+            <p class="category">TEF</p>
+            <ul>
+                <li class="status debug_tef_card_number">Card Number</li>
+                <li>
+                    <input class="debug_tef_card_number" type="text" placeholder="5555000011110000"/>
+                </li>
+
+                <li class="status debug_tef_expiring_date">Expiring Date</li>
+                <li>
+                    <input class="debug_tef_expiring_date" type="text" placeholder="01/99"/>
+                </li>
+
+                <li class="status debug_tef_security_code">Security Code</li>
+                <li>
+                    <input class="debug_tef_security_code" type="text" placeholder="123"/>
+                </li>
+                <li class="button debug_tef_btn_pay">Pay</li>
+            </ul>
+        </t>
+    </t>
+
+    <t t-extend="PaymentScreenWidget">
+        <t t-jquery=".next" t-operation="after">
+            <span class="button tef_in_transaction" style="right: 0px; margin-right: 150px;">
+                <img src="/web/static/src/img/spin.png"
+                     style="animation: fa-spin 1s infinite steps(12);width: 20px;height: auto;vertical-align: middle; "/>
+            </span>
+        </t>
+    </t>
+
+    <t t-extend="PaymentScreen-Paymentlines">
+        <t t-jquery=".col-name" t-operation="append">
+            <t t-if="widget.pos.config.iface_tef">
+                   <button class="tef-payment-terminal-transaction-start" t-att-data-cid="line.cid"
+                           title="Start transaction">
+                        <i class="fa fa-credit-card"/>
+                       <i class="fa fa-share-square"/>
+                    </button>
+            </t>
+        </t>
+    </t>
+
+    <t t-name="PaymentStatusWidget">
+        <div class="modal-dialog">
+          <div class="popup popup-select-variant statusPagamentoPopUp">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <p class="message"><t t-esc=" widget.message" /></p>
+                </div>
+                  <div class="modal-body">
+
+                    <p class="comment"><t t-esc=" widget.comment" /></p>
+                </div>
+              </div>
+          </div>
+        </div>
+    </t>
+
+    <t t-name="PurchaseCancellationWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-confirm cancelamentoCompraPopup">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h class="message">Cancellation of Purchases</h>
+                </div>
+                    <div class="modal-body">
+                    <p class="comment">User</p>
+                        <input class="cancellation-user" type="text" placeholder="lojista"/>
+
+                        <p class="comment">Password</p>
+                        <input class="cancellation-password" type="password" placeholder="123465"/>
+
+                        <p class="comment">Transaction Date</p>
+                        <input class="cancellation-date" type="date"/>
+
+                        <p class="comment">Document Number</p>
+                        <input class="cancellation-password" type="number" placeholder="111"/>
+
+                        <p class="comment">Transaction Value</p>
+                        <input class="cancellation-transaction-value" type="number" placeholder="10.25"/>
+
+                </div>
+                    <div class="footer">
+                    <div class="button btn-report_data">
+                        OK
+                    </div>
+                        <div class="button btn-cancel-operation">
+                        CANCEL
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="PurchaseCancellationConfirmWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-confirm confirmaCancelamentoCompraPopup">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <p class="message"><t t-esc=" widget.message" /></p>
+                </div>
+                    <div class="modal-body">
+                    <p class="comment"><t t-esc=" widget.comment" /></p>
+                </div>
+                    <div class="footer">
+                    <div class="button btn-confirm-cancellation">
+                        SIM
+                    </div>
+                        <div class="button btn-cancel-cancellation">
+                        NÃO
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </t>
+
+<!--    <t t-extend="PosOrderListButtonWidget">-->
+<!--        <t t-jquery=".paypad-button" t-operation="before">-->
+<!--           <button class="paypad-button btn-cancelar-pagamento">-->
+<!--                Cancel Purchases-->
+<!--           </button>-->
+<!--        </t>-->
+<!--    </t>-->
+
+</templates>
