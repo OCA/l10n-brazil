@@ -11,11 +11,6 @@
             <field name="fiscal_price" position="after">
                 <field name="fiscal_deductions_value" />
             </field>
-            <field name="city_taxation_code_id" position="after">
-                <field name="cnae_main_id" invisible="1" />
-                <field name="cnae_secondary_ids" invisible="1" />
-                <field name="cnae_id" />
-            </field>
         </field>
     </record>
 
