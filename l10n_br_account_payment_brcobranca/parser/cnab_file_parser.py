@@ -332,9 +332,13 @@ class CNABFileParser(FileParser):
             )
 
             # as vezes o vencimento pode ser branco
-            if linha_cnab["data_vencimento"] != "00000000":
+            if (
+                linha_cnab.get("data_vencimento")
+                and linha_cnab.get("data_vencimento") != zeros_date
+            ):
+
                 due_date = datetime.datetime.strptime(
-                    str(linha_cnab["data_vencimento"]), date_format
+                    str(linha_cnab.get("data_vencimento")), date_format
                 ).date()
 
             cnab_return_log_event = {
