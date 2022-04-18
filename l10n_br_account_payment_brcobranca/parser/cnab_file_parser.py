@@ -102,6 +102,20 @@ class CNABFileParser(FileParser):
 
         return data
 
+    def _get_date_format(self, bank_name_brcobranca):
+        # TODO: Idealmente o JSON de Retorno do BRCobranca deveria vir
+        #  padronizado para não ser necessário ser feito esse tratamento aqui
+        if bank_name_brcobranca == "ailos":
+            # No Banco AILOS o formato da Data é completo com os 4 digitos.
+            zeros_date = "00000000"
+            date_format = "%d%m%Y"
+        else:
+            # Outros Bancos mapeados é apenas 2 digitos.
+            zeros_date = "000000"
+            date_format = "%d%m%y"
+
+        return zeros_date, date_format
+
     def process_return_file(self, data):
 
         #          Forma de Lançamento do Retorno
@@ -191,7 +205,31 @@ class CNABFileParser(FileParser):
 
             valor_titulo = self.cnab_str_to_float(linha_cnab["valor_titulo"])
 
-            data_ocorrencia = datetime.date.today()
+            zeros_date, date_format = self._get_date_format(bank_name_brcobranca)
+
+            # Idealmente o campo data_ocorrencia deve vir mapeado no JSON
+            if (
+                linha_cnab.get("data_ocorrencia")
+                and linha_cnab.get("data_ocorrencia") != zeros_date
+            ):
+                data_ocorrencia = datetime.datetime.strptime(
+                    str(linha_cnab.get("data_ocorrencia")), date_format
+                ).date()
+            elif (
+                linha_cnab.get("data_credito")
+                and linha_cnab.get("data_credito") != zeros_date
+            ):
+                # Tenta usar a data de credito como refererencia,
+                # se isso ocorre em uma caso especifico é algo a ser verificado
+                # no BRCobranca se é possível mapear o campo data_ocorrencia
+                data_ocorrencia = datetime.datetime.strptime(
+                    str(linha_cnab.get("data_credito")), date_format
+                ).date()
+            else:
+                # Nada encontrado usa Hoje, teria mais algum campo que poderia
+                # ser usado?
+                data_ocorrencia = datetime.date.today()
+
             cod_ocorrencia = str(linha_cnab["codigo_ocorrencia"])
             # Cada Banco pode possuir um Codigo de Ocorrencia distinto,
             # mesmo no caso do 240, ver Unicred na pasta de dados do
@@ -203,18 +241,6 @@ class CNABFileParser(FileParser):
             descricao_ocorrencia = self._get_description_occurrence(
                 payment_method_cnab, cod_ocorrencia
             )
-
-            # Campo especifico do Bradesco
-            if bank_name_brcobranca == "bradesco":
-                if (
-                    linha_cnab["data_ocorrencia"] == "000000"
-                    or not linha_cnab["data_ocorrencia"]
-                ):
-                    data_ocorrencia = linha_cnab["data_de_ocorrencia"]
-                else:
-                    data_ocorrencia = datetime.datetime.strptime(
-                        str(linha_cnab["data_ocorrencia"]), "%d%m%y"
-                    ).date()
 
             # Nosso numero vem com o Digito Verificador
             # ex.: 00000000000002010
@@ -305,11 +331,6 @@ class CNABFileParser(FileParser):
                 account_move_line.payment_mode_id.fixed_journal_id.bank_account_id
             )
 
-            if bank_name_brcobranca == "ailos":
-                date_format = "%d%m%Y"
-            else:
-                date_format = "%d%m%y"
-
             # as vezes o vencimento pode ser branco
             if linha_cnab["data_vencimento"] != "00000000":
                 due_date = datetime.datetime.strptime(
@@ -394,15 +415,7 @@ class CNABFileParser(FileParser):
             # valor recebido = valor pago + valor da tarifa
             valor_recebido = self.cnab_str_to_float(linha_cnab["valor_recebido"])
 
-        if bank_name_brcobranca == "ailos":
-            # o ailos lida com as datas um pouco diferente dos outros bancos.
-            # aqui o ano apresentado com 4 digitos.
-            zeros_date = "00000000"
-            date_format = "%d%m%Y"
-        else:
-            # nos outros bancos é apenas 2 digitos.
-            zeros_date = "000000"
-            date_format = "%d%m%y"
+        zeros_date, date_format = self._get_date_format(bank_name_brcobranca)
 
         if linha_cnab["data_credito"] == zeros_date or not linha_cnab["data_credito"]:
             data_credito = linha_cnab["data_credito"]
