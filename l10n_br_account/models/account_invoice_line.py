@@ -142,9 +142,15 @@ class AccountInvoiceLine(models.Model):
             # Call mixin compute method
             self._compute_amounts()
             # Update record
+            discount = 0
+            if self.discount_value > 0 and self.amount_untaxed > 0:
+                discount = (
+                    self.discount_value / (self.amount_untaxed + self.discount_value)
+                ) * 100
+
             self.update(
                 {
-                    "discount": self.discount_value,
+                    "discount": discount,
                     "price_subtotal": self.amount_untaxed + self.discount_value,
                     "price_tax": self.amount_tax,
                     "price_total": self.amount_total,
@@ -294,3 +300,17 @@ class AccountInvoiceLine(models.Model):
     def _onchange_fiscal_tax_ids(self):
         super()._onchange_fiscal_tax_ids()
         self._set_taxes()
+
+    # @api.onchange("discount")
+    # def _onchange_discount_percent(self):
+    #     """Update discount value"""
+    #     self.discount_value = (self.quantity * self.price_unit) * (
+    #         self.discount / 100
+    #     )
+    #
+    # @api.onchange("discount_value")
+    # def _onchange_discount_value(self):
+    #     """Update discount percent"""
+    #     self.discount = (self.discount_value * 100) / (
+    #         self.quantity * self.price_unit or 1
+    #     )
