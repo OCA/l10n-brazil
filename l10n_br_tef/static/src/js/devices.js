@@ -990,9 +990,9 @@ odoo.define('l10n_br_tef.devices', function (require) {
         },
         start_operation: function (operation) {
             // FIXME: Deixar isso ativo somente no modo debug;
-            card_number = $('input.card_number').val();
-            card_expiring_date = $('input.card_expiring_date').val();
-            card_security_code = $('input.card_security_code').val();
+            card_number = $('input.debug_tef_card_number').val();
+            card_expiring_date = $('input.debug_tef_expiring_date').val();
+            card_security_code = $('input.debug_tef_security_code').val();
 
             if (!connect_init) {
                 this.pos.gui.show_popup('error', {
