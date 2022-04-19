@@ -294,7 +294,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
             if ((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Administracao Cancelar")) {
                 finish();
 
-                self.pos_widget.popupStatusPagamento.hide();
+                self.pos.gui.current_popup.hide();
 
                 io_tags.transacao = '';
                 setTimeout(function () {
@@ -435,7 +435,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
             if ((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Cartao Vender")) {
                 finish();
 
-                self.pos_widget.popupStatusPagamento.hide();
+                self.pos.gui.current_popup.hide();
 
                 io_tags.transacao = '';
                 setTimeout(function () {
@@ -461,8 +461,8 @@ odoo.define('l10n_br_tef.devices', function (require) {
         abort: function () {
             var self = this;
 
-            if (self.pos_widget.CancelamentoCompraPopup) {
-                self.pos_widget.CancelamentoCompraPopup.hide();
+            if (self.pos.gui.current_popup) {
+                self.pos.gui.current_popup.hide();
                 self.clearCancelamentoCompraPopup();
                 cancellation_user = "";
                 cancellation_password = "";
@@ -474,8 +474,8 @@ odoo.define('l10n_br_tef.devices', function (require) {
             }, 1000);
 
             setTimeout(function () {
-                if (self.pos_widget) {
-                    self.pos_widget.popupStatusPagamento.hide()
+                if (self.pos.gui.current_popup) {
+                    self.pos.gui.current_popup.hide()
                 }
             }, 3000);
         },
@@ -506,10 +506,10 @@ odoo.define('l10n_br_tef.devices', function (require) {
 
         screenPopupPagamento: function (msg) {
             console.log(msg);
-            // this.pos.gui.show_popup('StatusPagementoPopUp', {
-            //     'title': _t('Please, wait!'),
-            //     'body': _t(msg),
-            // });
+            this.pos.gui.show_popup('StatusPagementoPopUp', {
+                'title': _t('Please, wait!'),
+                'body': _t(msg),
+            });
         },
 
         check_completed_start: function () {
@@ -788,8 +788,8 @@ odoo.define('l10n_br_tef.devices', function (require) {
             this.send('servico="consultar"retorno="0"sequencial="' + this.sequential() + '"');
 
             setTimeout(function () {
-                if (self.pos_widget) {
-                    self.pos_widget.popupStatusPagamento.hide()
+                if (self.posmodel.gui.current_popup) {
+                    self.posmodel.gui.current_popup.hide()
                 }
             }, 1000);
         },
