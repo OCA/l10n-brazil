@@ -215,8 +215,8 @@ odoo.define('l10n_br_tef.devices', function (require) {
 
         check_removed_card: function () {
             var self = this;
-            if ((io_tags.servico == "executar") && (io_tags.mensagem && io_tags.mensagem.search(/aprovada\s+\S*\s+,\s+retire o cartao/i) > -1)) {
-                confirm(io_tags.sequencial);
+            if ((io_tags.servico == "executar") && (io_tags.mensagem && io_tags.mensagem === 'Transacao aprovada, RETIRE O CARTAO')) {
+                self.confirm(io_tags.sequencial);
 
                 setTimeout(function () {
                     self.screenPopupPagamento('Retire o Cartão');
@@ -292,7 +292,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
         check_cancellation_finishes: function () {
             var self = this;
             if ((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Administracao Cancelar")) {
-                finish();
+                self.finish();
 
                 self.pos.gui.current_popup.hide();
 
@@ -322,7 +322,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
         },
 
         check_approved_transaction: function () {
-            if ((io_tags.automacao_coleta_mensagem && io_tags.automacao_coleta_mensagem.indexOf("APROVADA") > -1) &&
+            if ((io_tags.automacao_coleta_mensagem && io_tags.automacao_coleta_mensagem == "Transacao aprovada") &&
                 (io_tags.servico == "") && (io_tags.transacao == "")) {
 
                 this.screenPopupPagamento('Transaction Approved');
@@ -433,7 +433,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
         finishes_operation: function () {
             var self = this;
             if ((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Cartao Vender")) {
-                finish();
+                self.finish();
 
                 self.pos.gui.current_popup.hide();
 
@@ -470,7 +470,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
                 cancellation_transaction_value = "";
             }
             setTimeout(function () {
-                this.send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="' + (in_sequential_execute) + '"');
+                self.send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="' + (in_sequential_execute) + '"');
             }, 1000);
 
             setTimeout(function () {
@@ -751,7 +751,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
                 else if (ls_global_institution === "Estabelecimento")
                     ls_global_transaction_method = "3-Financ.Loja"
             } else {
-                ls_global_transaction_method = "1-A vista"
+                ls_global_transaction_method = "A vista"
             }
 
             if (ls_transaction_global_value !== "") {
