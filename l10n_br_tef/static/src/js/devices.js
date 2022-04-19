@@ -165,6 +165,9 @@ odoo.define('l10n_br_tef.devices', function (require) {
 
                         if (self.check_inserted_password()) return;
 
+                        // Debit with PinPad
+                        if (self.check_withdrawal_amount()) return;
+
                         // Final checks
                         if (self.check_approved_transaction()) return;
                         if (self.check_removed_card()) return;
@@ -187,6 +190,14 @@ odoo.define('l10n_br_tef.devices', function (require) {
                 console.log('Could not connect to server');
                 this.set_error();
             }
+        },
+
+        check_withdrawal_amount: function () {
+            if (io_tags.automacao_coleta_mensagem === "Valor do Saque") {
+                this.collect('0');
+                return true;
+            }
+            return false;
         },
 
         check_authorized_operation: function () {
@@ -732,9 +743,21 @@ odoo.define('l10n_br_tef.devices', function (require) {
             var debit_server = this.pos.config.debit_server;
             var credit_server = this.pos.config.credit_server;
 
+            let selected_payment_line = this.pos.gui.current_screen.get_selected_paymentline();
+
             if (ls_global_operation === "purchase") {
                 var ls_transaction_type = "Cartao Vender";
-                ls_card_type = (payment_type === "CD01") ? "Debito" : "Credito";
+
+                // FIXME: Confirm the payment line field used to switch the payment method
+                let payment_type = selected_payment_line.cashregister.journal.sat_payment_mode;
+
+                if (payment_type === "03") {
+                    ls_card_type = "Credito";
+                } else if (payment_type === "04") {
+                    ls_card_type = "Debito";
+                } else {
+                    ls_card_type = "";
+                }
 
                 if (ls_global_environment === "Homologacao")
                     ls_product_type = (payment_type === "CD01") ? debit_server : credit_server;
