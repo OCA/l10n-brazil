@@ -84,54 +84,55 @@ odoo.define("l10n_br_tef.widgets", function (require) {
             });
         },
     });
-    //
-    // const ConfirmaCancelamentoCompraPopup = PopUpWidget.extend({
-    //    template: 'PurchaseCancellationConfirmWidget',
-    //
-    //     show: function(options){
-    //        var self = this;
-    //        this._super();
-    //
-    //         this.message = options.message || '';
-    //         this.comment = options.comment || '';
-    //         this.renderElement();
-    //
-    //         $( '.btn-confirm-cancellation' ).unbind( 'click' );
-    //         this.el.querySelector('.btn-confirm-cancellation').addEventListener('click',this.search_handler);
-    //         $('.btn-confirm-cancellation', this.el).click(function(e){
-    //             self.pos_widget.product_screen.confirm_proceed_cancellation(true);
-    //         });
-    //
-    //         $( '.btn-cancel-cancellation' ).unbind( 'click' );
-    //         this.el.querySelector('.btn-cancel-cancellation').addEventListener('click',this.search_handler);
-    //         $('.btn-cancel-cancellation', this.el).click(function(e){
-    //             self.pos_widget.product_screen.confirm_proceed_cancellation(false);
-    //         });
-    //     },
-    // });
-    //
-    // const StatusPagementoPopUp = PopUpWidget.extend({
-    //     template: 'PaymentStatusWidget',
-    //     hotkeys_handlers: {},
-    //
-    //     show: function(options){
-    //         var self = this;
-    //         this._super();
-    //         this.message = options.message || '';
-    //         this.comment = options.comment || '';
-    //         this.renderElement();
-    //     },
-    // });
+
+    const ConfirmaCancelamentoCompraPopup = PopupWidget.extend({
+       template: 'PurchaseCancellationConfirmWidget',
+
+        show: function(options){
+           var self = this;
+           this._super();
+
+            this.message = options.message || '';
+            this.comment = options.comment || '';
+            this.renderElement();
+
+            $( '.btn-confirm-cancellation' ).unbind( 'click' );
+            this.el.querySelector('.btn-confirm-cancellation').addEventListener('click',this.search_handler);
+            $('.btn-confirm-cancellation', this.el).click(function(e){
+                self.pos_widget.product_screen.confirm_proceed_cancellation(true);
+            });
+
+            $( '.btn-cancel-cancellation' ).unbind( 'click' );
+            this.el.querySelector('.btn-cancel-cancellation').addEventListener('click',this.search_handler);
+            $('.btn-cancel-cancellation', this.el).click(function(e){
+                self.pos_widget.product_screen.confirm_proceed_cancellation(false);
+            });
+        },
+    });
+
+    const StatusPagementoPopUp = PopupWidget.extend({
+        template: 'PaymentStatusWidget',
+        hotkeys_handlers: {},
+
+        show: function(options){
+            var self = this;
+            this._super();
+            this.message = options.title || '';
+            this.comment = options.body || '';
+            this.renderElement();
+        },
+    });
 
     gui.define_popup({name: "CancelamentoCompraPopup", widget: CancelamentoCompraPopup});
-    // gui.define_popup({name: "ConfirmaCancelamentoCompraPopup", widget: ConfirmaCancelamentoCompraPopup});
-    // gui.define_popup({name: "StatusPagementoPopUp", widget: StatusPagementoPopUp});
+    // FIXME: Verificar o pq os outros pop-up estão dando erro!
+    gui.define_popup({name: "ConfirmaCancelamentoCompraPopup", widget: ConfirmaCancelamentoCompraPopup});
+    gui.define_popup({name: "StatusPagementoPopUp", widget: StatusPagementoPopUp});
 
 
     return {
         TefStatusWidget: TefStatusWidget,
         CancelamentoCompraPopup: CancelamentoCompraPopup,
-        // ConfirmaCancelamentoCompraPopup: ConfirmaCancelamentoCompraPopup,
-        // StatusPagementoPopUp: StatusPagementoPopUp,
+        ConfirmaCancelamentoCompraPopup: ConfirmaCancelamentoCompraPopup,
+        StatusPagementoPopUp: StatusPagementoPopUp,
     };
 });
