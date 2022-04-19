@@ -419,16 +419,15 @@ class PosOrder(models.Model):
     def retornar_order_by_id(self, order_id):
         order = self.browse(order_id)
 
-        arquivo = order.cancel_document_file_id.datas if \
-            order.cancel_document_file_id else order.document_file_id.datas
-
-        _logger.info(f"Arquivo CFe: {arquivo}")
+        arquivo = order.document_file_id.datas
+        arquivo_cancelada = order.cancel_document_file_id.datas
 
         dados_reimpressao = {
             'order_id': order_id,
             'chaveConsulta': order.document_key,
             'doc_destinatario': order.cnpj_cpf,
             'xml_cfe_venda': arquivo,
+            'xml_cfe_cacelada': arquivo_cancelada,
         }
 
         return dados_reimpressao
