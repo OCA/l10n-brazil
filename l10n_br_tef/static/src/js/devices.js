@@ -445,6 +445,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
             var self = this;
             if ((io_tags.retorno == "1") && (io_tags.servico == "executar") && (io_tags.transacao == "Cartao Vender")) {
                 self.finish();
+                self.complete_paymentline();
 
                 self.pos.gui.current_popup.hide();
 
@@ -456,6 +457,21 @@ odoo.define('l10n_br_tef.devices', function (require) {
             } else {
                 // Handle Exceptions Here
                 return false;
+            }
+        },
+
+        complete_paymentline: function () {
+            let payment_screen = this.pos.gui.current_screen;
+            let order = this.pos.get_order();
+            if (order) {
+                order.tef_in_transaction = false;
+                payment_screen.order_changes();
+            }
+
+            let selected_paymentline = payment_screen.get_selected_paymentline();
+            if (selected_paymentline) {
+                selected_paymentline.tef_payment_completed = true;
+                payment_screen.render_paymentlines()
             }
         },
 
@@ -748,12 +764,11 @@ odoo.define('l10n_br_tef.devices', function (require) {
             if (ls_global_operation === "purchase") {
                 var ls_transaction_type = "Cartao Vender";
 
-                // FIXME: Confirm the payment line field used to switch the payment method
-                let payment_type = selected_payment_line.cashregister.journal.sat_payment_mode;
+                let payment_type = selected_payment_line.cashregister.journal.tef_payment_mode;
 
-                if (payment_type === "03") {
+                if (payment_type === "01") {
                     ls_card_type = "Credito";
-                } else if (payment_type === "04") {
+                } else if (payment_type === "02") {
                     ls_card_type = "Debito";
                 } else {
                     ls_card_type = "";

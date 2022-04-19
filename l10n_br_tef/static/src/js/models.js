@@ -18,8 +18,9 @@ odoo.define('l10n_br_tef.models', function (require) {
 
     var tef_device = require('l10n_br_tef.devices');
 
-    // models.load_fields('account.journal', ['novos_campos']);
-    // TODO: Colocar campos no account.journal que diferenciem os modos de pagamento, só ó codigo fica muito solto.
+    let _super_payment_line = models.Paymentline.prototype;
+
+    models.load_fields('account.journal', ['tef_payment_mode']);
 
     models.Order = models.Order.extend({
         initialize: function () {
@@ -35,6 +36,29 @@ odoo.define('l10n_br_tef.models', function (require) {
             this.tef_queue = new devices.JobQueue();
             this.set({'tef_status': {state: 'disconnected', pending: 0}});
             return res;
+        },
+    });
+
+
+    models.Paymentline = models.Paymentline.extend({
+        initialize: function (attr, options) {
+            _super_payment_line.initialize.call(this, attr, options);
+
+            // Checks if it is a payment method and a debit or credit to be handled by the TEF
+            if (this.cashregister.journal.tef_payment_mode) {
+                this.tef_payment_completed = this.tef_payment_completed || false;
+            } else {
+                this.tef_payment_completed = true;
+            }
+        },
+        init_from_JSON: function (json) {
+            _super_payment_line.init_from_JSON.apply(this, arguments);
+            this.tef_payment_completed = json.tef_payment_completed;
+        },
+        export_as_JSON: function () {
+            const json = _super_payment_line.export_as_JSON.call(this);
+            json.tef_payment_completed = this.tef_payment_completed;
+            return json;
         },
     });
 

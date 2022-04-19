@@ -21,8 +21,8 @@ odoo.define('l10n_br_tef.screens', function (require) {
             this.$('.paymentlines-container').unbind('click').on('click', '.tef-payment-terminal-transaction-start', function (event) {
                 // Why this "on" thing links severaltime the button to the action
                 // if I don't use "unlink" to reset the button links before ?
-                // self.pos.get_order().tef_in_transaction = true;
-                // self.order_changes();
+                self.pos.get_order().tef_in_transaction = true;
+                self.order_changes();
                 self.pos.tef_client.start_operation('purchase', self);
             });
         },
@@ -36,6 +36,25 @@ odoo.define('l10n_br_tef.screens', function (require) {
                 this.$('.tef_in_transaction').removeClass('oe_hidden');
             } else {
                 this.$('.tef_in_transaction').addClass('oe_hidden');
+            }
+        },
+
+        finalize_validation: function () {
+            let payment_lines = this.pos.get_order().get_paymentlines();
+            let has_unpaid_lines = payment_lines.reduce((acc, line) => {
+                if (!line.tef_payment_completed) {
+                    acc = true;
+                }
+                return acc;
+            }, false);
+
+            if (has_unpaid_lines){
+                this.pos.gui.show_popup('alert', {
+                    'title': _t('Unpaid TEF transactions'),
+                    'body': _t('There are unpaid TEF transactions'),
+                });
+            } else {
+                this._super.apply(this, arguments);
             }
         }
     });
