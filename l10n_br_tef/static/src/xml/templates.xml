@@ -58,11 +58,13 @@
     <t t-extend="PaymentScreen-Paymentlines">
         <t t-jquery=".col-name" t-operation="append">
             <t t-if="widget.pos.config.iface_tef">
+                <t t-if="!line.tef_payment_completed">
                    <button class="tef-payment-terminal-transaction-start" t-att-data-cid="line.cid"
                            title="Start transaction">
                         <i class="fa fa-credit-card"/>
                        <i class="fa fa-share-square"/>
                     </button>
+                </t>
             </t>
         </t>
     </t>
