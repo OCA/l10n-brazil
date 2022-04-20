@@ -135,6 +135,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
                         if (self.check_completed_consult()) return;
                         if (self.check_completed_execution()) return;
                         if (self.check_completed_start()) return;
+                        if (self.check_cancelled_transaction()) return;
 
                         // Cancellation Operations
                         if (self.check_user_access()) return;
@@ -460,14 +461,18 @@ odoo.define('l10n_br_tef.devices', function (require) {
             }
         },
 
-        complete_paymentline: function () {
+        disable_order_transaction: function () {
             let payment_screen = this.pos.gui.current_screen;
             let order = this.pos.get_order();
             if (order) {
                 order.tef_in_transaction = false;
                 payment_screen.order_changes();
             }
+        },
 
+        complete_paymentline: function () {
+            this.disable_order_transaction();
+            let payment_screen = this.pos.gui.current_screen;
             let selected_paymentline = payment_screen.get_selected_paymentline();
             if (selected_paymentline) {
                 selected_paymentline.tef_payment_completed = true;
@@ -497,7 +502,7 @@ odoo.define('l10n_br_tef.devices', function (require) {
                 cancellation_transaction_value = "";
             }
             setTimeout(function () {
-                self.send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"sequencial="' + (in_sequential_execute) + '"');
+                self.send('automacao_coleta_retorno="9"automacao_coleta_mensagem="Fluxo Abortado pelo operador!!"automacao_coleta_sequencial="' + (in_sequential_execute) + '"');
             }, 1000);
 
             setTimeout(function () {
@@ -526,6 +531,15 @@ odoo.define('l10n_br_tef.devices', function (require) {
                 && (io_tags.servico == '') && (io_tags.retorno != "0") && (!io_tags.mensagem)) {
                 this.redo_operation(io_tags.sequencial);
                 return false;
+            } else {
+                return false;
+            }
+        },
+
+        check_cancelled_transaction: function () {
+            if (io_tags.automacao_coleta_mensagem === 'Transacao cancelada') {
+                this.disable_order_transaction();
+                return true;
             } else {
                 return false;
             }
