@@ -555,8 +555,8 @@ class Sat(Thread):
     def _print_extrato_cancelamento(self, xml_venda, xml_cancelamento):
         printer = self._init_printer()
         extrato = ExtratoCFeCancelamento(
-            fp_venda=io.StringIO(base64.b64decode(xml_venda)),
-            fp_canc=io.StringIO(base64.b64decode(xml_cancelamento)),
+            fp_venda=io.StringIO(base64.b64decode(xml_venda).decode('utf-8')),
+            fp_canc=io.StringIO(base64.b64decode(xml_cancelamento).decode('utf-8')),
             impressora=printer,
             config=self.printer_conf
         )
@@ -566,7 +566,7 @@ class Sat(Thread):
         return True
 
     def _reprint_cfe(self, json):
-        if json.get('canceled_order'):
+        if json.get('xml_cfe_cacelada'):
             return self._print_extrato_cancelamento(
                 json['xml_cfe_venda'], json['xml_cfe_cacelada'])
         else:
