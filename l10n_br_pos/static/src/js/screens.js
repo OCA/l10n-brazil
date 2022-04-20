@@ -15,9 +15,12 @@ odoo.define("l10n_br_pos.screens", function (require) {
     var rpc = require('web.rpc');
     var models = require("point_of_sale.models");
     var ScreenWidget = screens.ScreenWidget;
+    var utils = require('web.utils');
     const core = require("web.core");
     const _t = core._t;
     var QWeb = core.qweb;
+
+    var round_pr = utils.round_precision;
 
     screens.PaymentScreenWidget.include({
         order_sat_is_valid: async function (order) {
@@ -173,13 +176,18 @@ odoo.define("l10n_br_pos.screens", function (require) {
         },
         render_list: function(orders){
             var contents = this.$el[0].querySelector('.order-list-contents');
+            const rounding = this.pos.currency.rounding;
             contents.innerHTML = "";
             for(var i = 0, len = Math.min(orders.length,1000); i < len; i++){
                 var order   = orders[i];
-                order.amount_total = parseFloat(order.amount_total).toFixed(2);
-                var date = new Date(order.date_order);
-                var new_date = this.add_zero_to_date(date.getDate()) + '/' + this.add_zero_to_date(date.getMonth() + 1) + '/' + this.add_zero_to_date(date.getFullYear()) + ' ' + this.add_zero_to_date((date.getHours()-3)) + ':' + this.add_zero_to_date(date.getMinutes()) + ':' + this.add_zero_to_date(date.getSeconds())
-                order.date_order = new_date;
+                order.amount_total = round_pr(parseFloat(order.amount_total), rounding);
+
+                if (!order.fiscal_coupon_date.includes('/')) {
+                    var date = new Date(order.fiscal_coupon_date.replace(" ", "T")+"+00:00");
+                    var new_date = this.add_zero_to_date(date.getDate()) + '/' + this.add_zero_to_date(date.getMonth() + 1) + '/' + this.add_zero_to_date(date.getFullYear()) + ' ' + this.add_zero_to_date(date.getHours()) + ':' + this.add_zero_to_date(date.getMinutes()) + ':' + this.add_zero_to_date(date.getSeconds())
+                    order.fiscal_coupon_date = new_date;
+                }
+
                 var myHashStates = {
                     'paid': 'Pago',
                     'done': 'Pago',
