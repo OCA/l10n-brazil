@@ -59,6 +59,11 @@
     </t>
 
     <t t-extend="PosOrderLine">
+        <t t-jquery=".order-line > td:nth-child(3)" t-operation="replace">
+            <td>
+                <t t-esc='order.fiscal_coupon_date' />
+            </td>
+        </t>
         <t t-jquery='.order-line' t-operation="append">
             <td>
                 <t t-if="order.cnpj_cpf">
