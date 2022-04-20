@@ -74,7 +74,7 @@ odoo.define("l10n_br_pos.models", function (require) {
             // 'amount_estimate_tax',
         ],
         domain: function (self) {
-            return [["pos_config_id", "=", self.config.id]];
+            return [["pos_config_id", "=", self.config.id], ['company_id', '=', self.company && self.company.id || false]];
         },
         loaded: function (self, lines) {
             self.fiscal_map = lines;
