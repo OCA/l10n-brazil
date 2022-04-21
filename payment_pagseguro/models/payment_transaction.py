@@ -237,6 +237,7 @@ class PaymentTransactionPagseguro(models.Model):
                 "currency": "BRL",
             },
             "payment_method": {
+                "soft_descriptor": self.acquirer_id.company_id.name,
                 "type": "CREDIT_CARD",
                 "installments": 1,
                 "capture": False,
