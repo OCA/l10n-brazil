@@ -1,9 +1,14 @@
 # Copyright 2022 KMEE - Luis Felipe Mileo
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import csv
+from os.path import dirname
+
 from odoo import models
 
 SERPRO_URL = "https://gateway.apiserpro.serpro.gov.br"
+
+QUALIFICACAO_CSV = dirname(__file__) + "/../data/serpro_qualificacao.csv"
 
 
 class SerproWebservice(models.Model):
@@ -30,7 +35,8 @@ class SerproWebservice(models.Model):
         return data
 
     def serpro_import_data(self, data):
-        # TODO importa base on schema
+        schema = self._get_cnpj_param("serpro_schema")
+
         legal_name = self.get_data(data, "nomeEmpresarial", title=True)
         fantasy_name = self.get_data(data, "nomeFantasia", title=True)
         name = fantasy_name if fantasy_name else legal_name
@@ -55,7 +61,49 @@ class SerproWebservice(models.Model):
             "city_id": city_id,
         }
 
+        if schema == "empresa":
+            res.update(self.import_empresa(data))
+        elif schema == "qsa":
+            res.update({})  # TODO
+
         return res
+
+    def import_empresa(self, data):
+        socios = data.get("socios")
+        child_ids = []
+        for socio in socios:
+            socio_name = self.get_data(socio, "nome", title=True)
+            socio_cpf = self.get_data(socio, "cpf")
+            socio_qualification = self.get_qualification(socio)
+
+            socio_id = (
+                self.env["res.partner"]
+                .create(
+                    {
+                        "name": socio_name,
+                        "cnpj_cpf": socio_cpf,
+                        "function": socio_qualification,
+                        "company_type": "person",
+                    }
+                )
+                .id
+            )
+            child_ids.append(socio_id)
+
+        return {
+            "child_ids": [(6, 0, child_ids)],
+        }
+
+    def get_qualification(self, socio):
+        qualification = self.get_data(socio, "qualificacao")
+
+        with open(QUALIFICACAO_CSV) as csvfile:
+            reader = csv.reader(csvfile, delimiter=",")
+            next(reader)  # Remove header
+            for row in reader:
+                if row[0] == qualification:
+                    return row[1]
+        return ""
 
     @staticmethod
     def serpro_get_phones(data):
