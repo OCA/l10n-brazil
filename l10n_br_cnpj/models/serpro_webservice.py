@@ -2,9 +2,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import csv
+import logging
 from os.path import dirname
 
 from odoo import models
+from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
 
 SERPRO_URL = "https://gateway.apiserpro.serpro.gov.br"
 
@@ -135,5 +139,10 @@ class SerproWebservice(models.Model):
     def get_city_id(self, cep):
         # Get city from cep
         # TODO Send message if address doesn't match CEP
-        cep_values = self.env["l10n_br.zip"]._consultar_cep(cep)
+        try:
+            cep_values = self.env["l10n_br.zip"]._consultar_cep(cep)
+        except UserError as error:
+            _logger.warning(error.name)
+            return False
+
         return cep_values.get("city_id")

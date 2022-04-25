@@ -49,7 +49,6 @@ class TestTestSerPro(TransactionCase):
         self.assertEqual(dummy_basica.phone, "(61) 22222222")
         self.assertEqual(dummy_basica.mobile, "(61) 22222222")
         self.assertEqual(dummy_basica.state_id.code, "DF")
-        self.assertEqual(dummy_basica.city_id.name, "Brasília")
 
     def test_serpro_not_found(self):
         # Na versão Trial só há alguns registros de CNPJ cadastrados
@@ -61,3 +60,57 @@ class TestTestSerPro(TransactionCase):
         time.sleep(2)  # Pause
         with self.assertRaises(ValidationError):
             invalid.search_cnpj()
+
+    def test_serpro_empresa(self):
+        self.set_param("serpro_schema", "empresa")
+
+        dummy_empresa = self.model.create(
+            {"name": "Dummy Empresa", "cnpj_cpf": "34.238.864/0001-68"}
+        )
+
+        time.sleep(2)  # Pause
+        dummy_empresa._onchange_cnpj_cpf()
+        dummy_empresa.search_cnpj()
+
+        socios = self.model.search_read(
+            [("id", "in", dummy_empresa.child_ids.ids)],
+            fields=["name", "cnpj_cpf", "function", "company_type"],
+        )
+
+        for s in socios:
+            s.pop("id")
+
+        expected_socios = [
+            {
+                "name": "Joana Alves Mundim Pena",
+                "cnpj_cpf": "23982012600",
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+            {
+                "name": "Luiza Aldenora",
+                "cnpj_cpf": "76822320300",
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+            {
+                "name": "Luiza Araujo De Oliveira",
+                "cnpj_cpf": "07119488449",
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+            {
+                "name": "Luiza Barbosa Bezerra",
+                "cnpj_cpf": "13946994415",
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+            {
+                "name": "Marcelo Antonio Barros De Cicco",
+                "cnpj_cpf": "00031298702",
+                "function": "Sócio-Administrador",
+                "company_type": "person",
+            },
+        ]
+
+        self.assertEqual(socios, expected_socios)
