@@ -110,10 +110,21 @@ odoo.define("payment_pagseguro.tour", function (require) {
             },
             {
                 content: "payment authorized",
+                extra_trigger: ".bg-success",
                 trigger:
                     '.bg-success span:contains("Your payment has been authorized.")',
+                timeout: 20000,
+            },
+            {
+                content: "finish",
+                trigger: "body",
+                // Leave /shop/confirmation to prevent RPC loop to
+                //      /shop/payment/get_status.
+                // The RPC could be handled in python while the tour is
+                //      killed (and the session), leading to crashes
                 run: function () {
-                    // It's a check
+                    // Redirect in JS to avoid the RPC loop (20x1sec)
+                    window.location.href = "/aboutus";
                 },
             },
         ]
