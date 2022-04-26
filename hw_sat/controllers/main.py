@@ -544,6 +544,10 @@ class Sat(Thread):
             ExtratoCFeVenda(
                 fp=io.StringIO(base64.b64decode(xml).decode('utf-8')), impressora=printer, config=self.printer_conf
             ).imprimir()
+            try:
+                printer.kick_drawer(0)
+            except Exception as e:
+                _logger.info('[HW FISCAL] Impressora - Falha ao abrir a gaveta')
             if self.fiscal_printer_type == 'CupsConnection':
                 printer.device.close()
         except Exception as e:
@@ -561,6 +565,10 @@ class Sat(Thread):
             config=self.printer_conf
         )
         extrato.imprimir()
+        try:
+            printer.kick_drawer(0)
+        except Exception as e:
+            _logger.info('[HW FISCAL] Impressora - Falha ao abrir a gaveta')
         if self.fiscal_printer_type == 'CupsConnection':
             printer.device.close()
         return True
