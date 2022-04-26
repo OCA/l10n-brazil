@@ -21,7 +21,7 @@ class PagseguroTest(odoo.tests.HttpCase):
             "odoo.__DEBUG__.services['web_tour.tour'].run('shop_buy_pagseguro')",
             "odoo.__DEBUG__.services['web_tour.tour'].tours.shop_buy_pagseguro.ready",
             login="admin",
-            timeout=20000,
+            timeout=40000,
         )
 
         tx = self.env["payment.transaction"].search([], limit=1, order="id desc")
