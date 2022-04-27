@@ -14,7 +14,7 @@ from ..constants import BR_CODES_PAYMENT_ORDER
 class AccountPayment(models.Model):
     _inherit = "account.payment"
 
-    def post(self):
+    def action_post(self):
 
         for record in self:
             if (
@@ -39,4 +39,4 @@ class AccountPayment(models.Model):
                     )
                 )
 
-        return super().post()
+        return super().action_post()

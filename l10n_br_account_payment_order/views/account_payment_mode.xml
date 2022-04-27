@@ -14,7 +14,7 @@
                 <separator />
                 <field name="auto_create_payment_order" />
             </field>
-            <xpath expr="//form/group[@name='note']" position="before">
+            <xpath expr="//form/sheet/group[@name='note']" position="before">
                 <group
                     string="Configurações Brasileiras - CNAB"
                     name='l10n-br-config'
@@ -184,7 +184,7 @@
             </xpath>
             <group name="note" position="after">
                 <div class="oe_chatter">
-                    <field name="message_ids" widget="mail_thread" />
+                    <field name="message_ids" />
                 </div>
             </group>
 

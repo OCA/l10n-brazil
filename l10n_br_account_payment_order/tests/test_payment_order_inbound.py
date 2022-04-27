@@ -7,6 +7,7 @@
 from odoo.exceptions import UserError
 from odoo.fields import Date
 from odoo.tests import SavepointCase, tagged
+from odoo.tests.common import Form
 
 
 @tagged("post_install", "-at_install")
@@ -168,12 +169,12 @@ class TestPaymentOrderInbound(SavepointCase):
         )
 
         # Caso a Ordem de Pagamento ainda não esteja Confirmada
-        register_payments.create_payments()
-        payment = self.payment_model.search([], order="id desc", limit=1)
+        payment_id = register_payments._create_payments()
+        payment = self.payment_model.browse(payment_id.id)
 
-        self.assertAlmostEquals(payment.amount, 1000)
+        self.assertAlmostEqual(payment.amount, 1000)
         self.assertEqual(payment.state, "posted")
-        self.assertEqual(self.invoice_unicred.invoice_payment_state, "paid")
+        self.assertEqual(self.invoice_unicred.payment_state, "paid")
         # Linhas Apagadas
         self.assertEqual(len(payment_order.payment_line_ids), 0)
 
@@ -210,7 +211,7 @@ class TestPaymentOrderInbound(SavepointCase):
         # Titulo no caso de um pagamento parcial precisa ser feito no modulo
         # que implementa biblioteca a ser usada.
         with self.assertRaises(UserError):
-            register_payments.create_payments()
+            register_payments._create_payments()
 
     def test_cancel_invoice_payment_order_draft(self):
         """Test Cancel Invoice when Payment Order Draft."""
@@ -265,7 +266,7 @@ class TestPaymentOrderInbound(SavepointCase):
                 "journal_id": self.journal_cash.id,
             }
         )
-        payment.post()
+        payment.action_post()
         # TODO v13 metodo não encontrado mudou de nome?
         # credit_aml = payment.move_line_ids.filtered("credit")
 
@@ -301,27 +302,27 @@ class TestPaymentOrderInbound(SavepointCase):
         payment_order.draft2open()
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        payment_order.action_done()
 
         open_amount = self.demo_invoice_auto.amount_residual
         # I totally pay the Invoice
-        payment = self.env["account.payment"].create(
-            {
-                "payment_type": "inbound",
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "partner_type": "customer",
-                "amount": open_amount,
-                "journal_id": self.journal_cash.id,
-                "invoice_ids": [(6, 0, self.demo_invoice_auto.ids)],
-            }
+        payment_register = Form(
+            self.env["account.payment.register"].with_context(
+                active_model="account.move",
+                active_ids=self.demo_invoice_auto.ids,
+            )
         )
-        payment.post()
+        payment_register.journal_id = self.journal_cash
+        payment_register.payment_method_id = self.payment_method_manual_in
+
+        # Perform the partial payment by setting the amount at 300 instead of 500
+        payment_register.amount = open_amount
+
+        payment = payment_register.save()._create_payments()
+        self.assertEqual(len(payment), 1)
 
         # I verify that invoice is now in Paid state
         self.assertEqual(
-            self.demo_invoice_auto.invoice_payment_state,
+            self.demo_invoice_auto.payment_state,
             "paid",
             "Invoice is not in Paid state",
         )
@@ -333,7 +334,6 @@ class TestPaymentOrderInbound(SavepointCase):
         change_payment_order.draft2open()
         change_payment_order.open2generated()
         change_payment_order.generated2uploaded()
-        change_payment_order.action_done()
 
         assert (
             self.env.ref(
@@ -369,40 +369,49 @@ class TestPaymentOrderInbound(SavepointCase):
         payment_order.draft2open()
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        payment_order.action_done()
+
+        # I pay partial Invoice
+        payment_register = Form(
+            self.env["account.payment.register"].with_context(
+                active_model="account.move",
+                active_ids=self.demo_invoice_auto.ids,
+            )
+        )
+        payment_register.journal_id = self.journal_cash
+        payment_register.payment_method_id = self.payment_method_manual_in
+
+        # Perform the partial payment by setting the amount at 300 instead of 1000
+        payment_register.amount = 300
+
+        payment = payment_register.save()._create_payments()
+        self.assertEqual(len(payment), 1)
+
+        # I verify that invoice is now is Partial Paid state
+        self.assertEqual(
+            self.demo_invoice_auto.payment_state,
+            "partial",
+            "Invoice is not in Partial state",
+        )
 
         # I totally pay the Invoice
-        payment = self.env["account.payment"].create(
-            {
-                "payment_type": "inbound",
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "partner_type": "customer",
-                "amount": 300,
-                "journal_id": self.journal_cash.id,
-                "invoice_ids": [(6, 0, self.demo_invoice_auto.ids)],
-            }
+        payment_register = Form(
+            self.env["account.payment.register"].with_context(
+                active_model="account.move",
+                active_ids=self.demo_invoice_auto.ids,
+            )
         )
-        payment.post()
+        payment_register.journal_id = self.journal_cash
+        payment_register.payment_method_id = self.payment_method_manual_in
 
-        payment = self.env["account.payment"].create(
-            {
-                "payment_type": "inbound",
-                "payment_method_id": self.env.ref(
-                    "account.account_payment_method_manual_in"
-                ).id,
-                "partner_type": "customer",
-                "amount": 700,
-                "journal_id": self.journal_cash.id,
-                "invoice_ids": [(6, 0, self.demo_invoice_auto.ids)],
-            }
-        )
-        payment.post()
+        # Perform the partial payment by setting the amount at 700 instead of 500
+        payment_register.amount = 700
+
+        payment = payment_register.save()._create_payments()
+        self.assertEqual(len(payment), 1)
 
         # I verify that invoice is now in Paid state
         self.assertEqual(
-            self.demo_invoice_auto.invoice_payment_state,
+            self.demo_invoice_auto.payment_state,
             "paid",
             "Invoice is not in Paid state",
         )
@@ -414,7 +423,6 @@ class TestPaymentOrderInbound(SavepointCase):
         change_payment_order.draft2open()
         change_payment_order.open2generated()
         change_payment_order.generated2uploaded()
-        change_payment_order.action_done()
 
         assert (
             self.env.ref(
@@ -451,7 +459,6 @@ class TestPaymentOrderInbound(SavepointCase):
         payment_order.draft2open()
         payment_order.open2generated()
         payment_order.generated2uploaded()
-        payment_order.action_done()
 
         self.demo_invoice_auto.button_cancel()
 
@@ -464,7 +471,6 @@ class TestPaymentOrderInbound(SavepointCase):
         change_payment_order.draft2open()
         change_payment_order.open2generated()
         change_payment_order.generated2uploaded()
-        change_payment_order.action_done()
 
         assert (
             self.env.ref(

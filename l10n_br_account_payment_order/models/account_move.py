@@ -78,7 +78,6 @@ class AccountMove(models.Model):
                     self, numero_documento
                 )
 
-                interval.transaction_ref = sequence
                 interval.own_number = (
                     sequence if interval.payment_mode_id.generate_own_number else "0"
                 )
