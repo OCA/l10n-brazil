@@ -6,28 +6,25 @@ import logging
 
 from odoo import _, models
 
-from odoo.addons.queue_job.job import job
-
 _logger = logging.getLogger(__name__)
 
 
 class SubsequentDocument(models.Model):
     _inherit = "l10n_br_fiscal.subsequent.document"
 
-    @job
     def _generate_subsequent_document_job(self):
         self._generate_subsequent_document()
 
     def generate_subsequent_document(self):
-        _logger.info(_("Gerando documento fiscal %s", self.ids))
+        _logger.info(_("Generating fiscal document %s", self.ids))
 
         if self.operacao_subsequente_id.queue_document_send == "send_now":
             _logger.info(
-                _("Gerando documento fiscal agora: %s", self.documento_origem_id.ids)
+                _("Generating fiscal document now: %s", self.documento_origem_id.ids)
             )
             self._generate_subsequent_document_job()
         else:
             _logger.info(
-                _("Gerando documento fiscal depois: %s", self.documento_origem_id.ids)
+                _("Generating fiscal document later: %s", self.documento_origem_id.ids)
             )
             self.with_delay()._generate_subsequent_document_job()

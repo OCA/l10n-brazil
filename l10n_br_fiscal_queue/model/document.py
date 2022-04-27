@@ -5,15 +5,12 @@ import logging
 
 from odoo import _, models
 
-from odoo.addons.queue_job.job import job
-
 _logger = logging.getLogger(__name__)
 
 
 class FiscalDocument(models.Model):
     _inherit = "l10n_br_fiscal.document"
 
-    @job
     def _send_document_job(self):
         for record in self:
             record._eletronic_document_send()
@@ -24,13 +21,14 @@ class FiscalDocument(models.Model):
         electronic = self - no_electronic
 
         send_now = electronic.filtered(
-            lambda documento: documento.operacao_id.queue_document_send == "send_now"
+            lambda documento: documento.fiscal_operation_id.queue_document_send
+            == "send_now"
         )
         send_later = electronic - send_now
 
         if send_now:
-            _logger.info(_("Enviando documento fiscal agora: %s", send_now.ids))
+            _logger.info(_("Sending fiscal document now: %s", send_now.ids))
             send_now._send_document_job()
         if send_later:
-            _logger.info(_("Enviando documento fiscal depois: %s", send_later.ids))
+            _logger.info(_("Sending fiscal document later: %s", send_later.ids))
             send_later.with_delay()._send_document_job()

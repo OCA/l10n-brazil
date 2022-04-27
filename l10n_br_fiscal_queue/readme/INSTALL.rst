@@ -1,1 +1,1 @@
-To install this module, you need to do nothing install and configure queue_job
+Este módulo depende do módulo l10n_br_fiscal e queue_job.
