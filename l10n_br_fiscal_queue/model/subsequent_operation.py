@@ -5,14 +5,14 @@ from odoo import fields, models
 
 
 class SubsequentOperation(models.Model):
-    _inherit = 'l10n_br_fiscal.subsequent.operation'
+    _inherit = "l10n_br_fiscal.subsequent.operation"
 
     queue_document_send = fields.Selection(
         selection=[
-            ('send_now', 'Enviar Imediatamente'),
-            ('with_delay', 'Enviar Depois'),
+            ("send_now", "Enviar Imediatamente"),
+            ("with_delay", "Enviar Depois"),
         ],
-        string='Gerar Documento',
-        default='send_now',
+        string="Gerar Documento",
+        default="send_now",
         required=True,
     )
