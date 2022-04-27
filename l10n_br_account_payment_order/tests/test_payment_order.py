@@ -16,7 +16,7 @@ class TestPaymentOrder(SavepointCase):
         )
 
     def test_payment_mode_without_payment_order(self):
-        """ Test Invoice when Payment Mode not generate Payment Order. """
+        """Test Invoice when Payment Mode not generate Payment Order."""
         # I validate invoice by creating on
         self.invoice_cheque.post()
         # I check that the invoice state is "posted"
@@ -27,7 +27,7 @@ class TestPaymentOrder(SavepointCase):
         self.assertEqual(len(payment_order), 0)
 
     def test_bra_number_constrains(self):
-        """ Test bra_number constrains. """
+        """Test bra_number constrains."""
         self.banco_bradesco = self.env["res.bank"].search([("code_bc", "=", "033")])
         try:
             result = self.env["res.partner.bank"].create(
