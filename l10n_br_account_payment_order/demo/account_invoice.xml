@@ -11,7 +11,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_bradesco400" />
         <field name="instructions">TESTE Intruções Boleto</field>
@@ -31,7 +31,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_itau240" />
         <field name="instructions">TESTE Intruções Boleto</field>
@@ -51,7 +51,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_itau400" />
         <field name="instructions">TESTE Intruções Boleto</field>
@@ -71,7 +71,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_unicred400" />
         <field name="instructions">TESTE Intruções Boleto</field>
@@ -91,7 +91,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_cef240" />
         <field name="instructions">TESTE Intruções Boleto</field>
@@ -111,7 +111,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_sicredi240" />
         <field name="instructions">TESTE Intruções Boleto</field>
@@ -131,7 +131,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_bb400" />
         <field name="instructions">TESTE Intruções Boleto</field>
@@ -152,7 +152,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cobranca_ailos240" />
         <field name="instructions">TESTE Intruções Boleto</field>
@@ -174,7 +174,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_akretion" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_cheque" />
         <field
@@ -192,7 +192,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="main_payment_mode_boleto" />
         <field name="company_id" ref="base.main_company" />
@@ -215,7 +215,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="company_id" ref="base.main_company" />
         <field name="payment_mode_id" eval="False" />
@@ -239,7 +239,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_manual_test_main" />
         <field
@@ -258,7 +258,7 @@
             ref="account.account_payment_term_advance"
         />
         <field name="partner_id" ref="l10n_br_base.res_partner_kmee" />
-        <field name="type">out_invoice</field>
+        <field name="move_type">out_invoice</field>
         <field name="invoice_user_id" ref="base.user_demo" />
         <field name="payment_mode_id" ref="payment_mode_automatic_test_main" />
         <field
