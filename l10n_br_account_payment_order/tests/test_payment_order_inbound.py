@@ -43,7 +43,7 @@ class TestPaymentOrderInbound(SavepointCase):
         cls.partner_akretion = cls.env.ref("l10n_br_base.res_partner_akretion")
 
     def test_create_payment_order(self):
-        """ Test Create Payment Order """
+        """Test Create Payment Order"""
 
         # I check that Initially customer invoice is in the "Draft" state
         self.assertEqual(self.invoice_cef.state, "draft")
@@ -213,7 +213,7 @@ class TestPaymentOrderInbound(SavepointCase):
             register_payments.create_payments()
 
     def test_cancel_invoice_payment_order_draft(self):
-        """ Test Cancel Invoice when Payment Order Draft."""
+        """Test Cancel Invoice when Payment Order Draft."""
 
         # I validate invoice by creating on
         self.invoice_unicred.action_post()

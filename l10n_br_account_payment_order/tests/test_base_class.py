@@ -20,14 +20,14 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
         )
 
     def _payment_order_all_workflow(self, payment_order_id):
-        """ Run all Payment Order Workflow"""
+        """Run all Payment Order Workflow"""
         payment_order_id.draft2open()
         payment_order_id.open2generated()
         payment_order_id.generated2uploaded()
         payment_order_id.action_done()
 
     def _invoice_payment_order_all_workflow(self, invoice):
-        """ Search for the payment order related to the invoice"""
+        """Search for the payment order related to the invoice"""
         payment_order_id = self.env["account.payment.order"].search(
             [
                 ("state", "=", "draft"),
@@ -39,7 +39,7 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
         return payment_order_id
 
     def _prepare_change_view(self, financial_move_line_ids):
-        """ Prepare context of the change view"""
+        """Prepare context of the change view"""
         ctx = dict(
             active_ids=financial_move_line_ids.ids, active_model="account.move.line"
         )
