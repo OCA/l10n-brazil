@@ -181,9 +181,13 @@ odoo.define("l10n_br_pos.screens", function (require) {
             for(var i = 0, len = Math.min(orders.length,1000); i < len; i++){
                 var order   = orders[i];
                 order.amount_total = round_pr(parseFloat(order.amount_total), rounding);
-                var date = new Date(order.fiscal_coupon_date);
-                var new_date = this.add_zero_to_date(date.getDate()) + '/' + this.add_zero_to_date(date.getMonth() + 1) + '/' + this.add_zero_to_date(date.getFullYear()) + ' ' + this.add_zero_to_date((date.getHours()-3)) + ':' + this.add_zero_to_date(date.getMinutes()) + ':' + this.add_zero_to_date(date.getSeconds())
-                order.fiscal_coupon_date = new_date;
+
+                if (!order.fiscal_coupon_date.includes('/')) {
+                    var date = new Date(order.fiscal_coupon_date.replace(" ", "T")+"+00:00");
+                    var new_date = this.add_zero_to_date(date.getDate()) + '/' + this.add_zero_to_date(date.getMonth() + 1) + '/' + this.add_zero_to_date(date.getFullYear()) + ' ' + this.add_zero_to_date(date.getHours()) + ':' + this.add_zero_to_date(date.getMinutes()) + ':' + this.add_zero_to_date(date.getSeconds())
+                    order.fiscal_coupon_date = new_date;
+                }
+
                 var myHashStates = {
                     'paid': 'Pago',
                     'done': 'Pago',
