@@ -13,10 +13,10 @@ class FiscalOperation(models.Model):
 
     queue_document_send = fields.Selection(
         selection=[
-            ("send_now", "Enviar Imediatamente"),
-            ("with_delay", "Enviar Depois"),
+            ("send_now", "Send Immediately"),
+            ("with_delay", "Send Later"),
         ],
-        string="Momento de transmissão",
+        string="Transmission moment",
         default="send_now",
         required=True,
     )

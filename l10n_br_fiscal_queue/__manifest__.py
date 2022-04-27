@@ -18,5 +18,6 @@
     "data": [
         "views/operation_view.xml",
         "views/subsequent_operation_view.xml",
+        "data/queue_job.xml",
     ],
 }

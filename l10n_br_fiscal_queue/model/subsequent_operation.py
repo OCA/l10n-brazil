@@ -9,10 +9,10 @@ class SubsequentOperation(models.Model):
 
     queue_document_send = fields.Selection(
         selection=[
-            ("send_now", "Enviar Imediatamente"),
-            ("with_delay", "Enviar Depois"),
+            ("send_now", "Send Immediately"),
+            ("with_delay", "Send Later"),
         ],
-        string="Gerar Documento",
+        string="Generate Document",
         default="send_now",
         required=True,
     )
