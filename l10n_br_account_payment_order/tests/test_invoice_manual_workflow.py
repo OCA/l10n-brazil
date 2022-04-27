@@ -18,7 +18,7 @@ class TestPaymentOrderManualWorkflow(TestL10nBrAccountPaymentOder):
         )
 
     def _invoice_confirm_flow(self):
-        self.invoice_manual_test.post()
+        self.invoice_manual_test.action_post()
 
         # I check that the invoice state is "posted"
         self.assertEqual(self.invoice_manual_test.state, "posted")

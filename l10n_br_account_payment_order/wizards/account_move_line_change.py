@@ -13,7 +13,7 @@ class AccountMoveLineCNABChange(models.TransientModel):
         res = super().default_get(fields_list)
         if self.env.context.get("active_model") == "account.move.line":
             active_ids = self.env.context.get("active_ids")
-            res["account_move_line_ids"] = active_ids
+            res["account_move_line_ids"] = [(6, 0, active_ids)]
             if active_ids and len(active_ids) == 1:
                 move_line_id = self.account_move_line_ids.browse(active_ids)
                 if move_line_id.date_maturity:

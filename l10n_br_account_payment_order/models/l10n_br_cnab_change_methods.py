@@ -241,14 +241,13 @@ class L10nBrCNABChangeMethods(models.Model):
         journal = self.payment_mode_id.fixed_journal_id
         move = move_obj.create(
             {
-                "name": "CNAB - Banco "
+                "date": fields.Datetime.now(),
+                # TODO  - Campo está sendo preenchido em outro lugar
+                "ref": "CNAB - Banco "
                 + journal.bank_id.short_name
                 + " - Conta "
                 + journal.bank_account_id.acc_number
-                + "- Inadimplência",
-                "date": fields.Datetime.now(),
-                # TODO  - Campo está sendo preenchido em outro lugar
-                "ref": "CNAB Baixa por Inadimplêcia",
+                + "- Baixa por Inadimplêcia",
                 # O Campo abaixo é usado apenas para mostrar ou não a aba
                 # referente ao LOG do CNAB mas nesse caso não há.
                 # 'is_cnab': True,
@@ -286,6 +285,7 @@ class L10nBrCNABChangeMethods(models.Model):
         )
 
         move_line_to_reconcile = moves.filtered(lambda m: m.credit > 0.0)
+        move.action_post()
         (self + move_line_to_reconcile).with_context(not_payment=True).reconcile()
 
         self.create_payment_line_from_move_line(payorder)
