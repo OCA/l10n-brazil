@@ -225,7 +225,7 @@ class L10nBrCnab(models.Model):
             if cnab_state:
 
                 for pay_order_line_id in bank_payment_line_id.payment_line_ids:
-                    pay_order_line_id.move_line_id.state_cnab = cnab_state
+                    pay_order_line_id.move_line_id.cnab_state = cnab_state
                     pay_order_line_id.move_line_id.nosso_numero = str(
                         evento.nosso_numero
                     )
@@ -294,7 +294,7 @@ class L10nBrCnab(models.Model):
                     if bank_state:
                         move_line.situacao_pagamento = bank_state
                     if cnab_state:
-                        move_line.state_cnab = cnab_state
+                        move_line.cnab_state = cnab_state
 
         return line_values, amount, invoices
 
@@ -361,7 +361,7 @@ class L10nBrCnab(models.Model):
 
             bank_payment_line_id.state2 = bank_state
             for payment_line in bank_payment_line_id.payment_line_ids:
-                payment_line.move_line_id.state_cnab = cnab_state
+                payment_line.move_line_id.cnab_state = cnab_state
 
     def _reprocessa_lote_240(self, evento, lote_id):
         raise NotImplementedError("FALTA FAZER")

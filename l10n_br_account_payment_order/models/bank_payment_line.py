@@ -144,7 +144,7 @@ class BankPaymentLine(models.Model):
                     )
                 ]
             )
-            move_line_id.state_cnab = record.last_cnab_state
+            move_line_id.cnab_state = record.last_cnab_state
 
         return super().unlink()
 
