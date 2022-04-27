@@ -34,8 +34,8 @@
             </sheet>
             <field name="date_maturity" position="attributes">
                 <attribute
-                    name="readonly"
-                >[('payment_method_code', 'in', ('400', '240', '500'))]</attribute>
+                    name="attrs"
+                >{'readonly': [('payment_method_code', 'in', ('400', '240', '500'))]}</attribute>
             </field>
             <group name="payments" position="after">
                 <group

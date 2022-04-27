@@ -18,7 +18,7 @@ class TestPaymentOrder(SavepointCase):
     def test_payment_mode_without_payment_order(self):
         """Test Invoice when Payment Mode not generate Payment Order."""
         # I validate invoice by creating on
-        self.invoice_cheque.post()
+        self.invoice_cheque.action_post()
         # I check that the invoice state is "posted"
         self.assertEqual(self.invoice_cheque.state, "posted")
         payment_order = self.env["account.payment.order"].search(

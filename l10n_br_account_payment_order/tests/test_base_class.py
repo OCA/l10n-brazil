@@ -24,7 +24,6 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
         payment_order_id.draft2open()
         payment_order_id.open2generated()
         payment_order_id.generated2uploaded()
-        payment_order_id.action_done()
 
     def _invoice_payment_order_all_workflow(self, invoice):
         """Search for the payment order related to the invoice"""
@@ -86,5 +85,5 @@ class TestL10nBrAccountPaymentOder(SavepointCase):
         line_created_due.create_payment_lines()
         self.assertGreater(len(order.payment_line_ids), 0)
         self._payment_order_all_workflow(order)
-        self.assertEqual(order.state, "done")
+        self.assertEqual(order.state, "uploaded")
         return order
