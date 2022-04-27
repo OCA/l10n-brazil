@@ -144,7 +144,7 @@ class L10nBrCNABBoletoFields(models.Model):
     )
 
     boleto_discount_perc = fields.Float(
-        string=u"Percentual de Desconto até a Data de Vencimento",
+        string="Percentual de Desconto até a Data de Vencimento",
         digits="Account",
         tracking=True,
     )
