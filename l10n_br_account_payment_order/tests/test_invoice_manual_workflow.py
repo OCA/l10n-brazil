@@ -24,13 +24,13 @@ class TestPaymentOrderManualWorkflow(TestL10nBrAccountPaymentOder):
         self.assertEqual(self.invoice_manual_test.state, "posted")
 
     def test_invoice_button(self):
-        """ Test Invoice Button to Add to a payment order"""
+        """Test Invoice Button to Add to a payment order"""
         self._invoice_confirm_flow()
         self.invoice_manual_test.create_account_payment_line()
         self._invoice_payment_order_all_workflow(self.invoice_manual_test)
 
     def test_payment_order_wizard(self):
-        """ Test Payment Order Wizard"""
+        """Test Payment Order Wizard"""
         self._invoice_confirm_flow()
         payment_mode_id = self.invoice_manual_test.payment_mode_id
         self.import_with_po_wizard(payment_mode_id)
