@@ -139,15 +139,16 @@ class ResPartner(spec_models.SpecModel):
     def _compute_nfe_data(self):
         """Set schema data which are not just related fields"""
         for rec in self:
-            if rec.cnpj_cpf:
+            cnpj_cpf = punctuation_rm(rec.cnpj_cpf)
+            if cnpj_cpf:
                 if rec.country_id.code != "BR":
                     rec.nfe40_choice7 = "nfe40_idEstrangeiro"
                 elif rec.is_company:
-                    rec.nfe40_CNPJ = punctuation_rm(rec.cnpj_cpf)
                     rec.nfe40_choice7 = "nfe40_CNPJ"
+                    rec.nfe40_CNPJ = cnpj_cpf
                 else:
-                    rec.nfe40_CPF = punctuation_rm(rec.cnpj_cpf)
                     rec.nfe40_choice7 = "nfe40_CPF"
+                    rec.nfe40_CPF = cnpj_cpf
 
             if rec.inscr_est and rec.is_company:
                 rec.nfe40_IE = punctuation_rm(rec.inscr_est)
@@ -186,25 +187,38 @@ class ResPartner(spec_models.SpecModel):
                 rec.phone = rec.nfe40_fone
 
     def _export_field(self, xsd_field, class_obj, member_spec):
-        if xsd_field == "nfe40_xNome" and class_obj._name == "nfe.40.dest":
-            if self.env.context.get("tpAmb") == "2":
-                return "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO " "- SEM VALOR FISCAL"
-        if xsd_field == "nfe40_xBairro":
-            if self.country_id.code != "BR":
+        # Se a NF-e é emitida em homologação altera o nome do destinatário
+        if (
+            xsd_field == "nfe40_xNome"
+            and class_obj._name == "nfe.40.dest"
+            and self.env.context.get("tpAmb") == "2"
+        ):
+            return "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO " "- SEM VALOR FISCAL"
+
+        if self.country_id.code != "BR":
+            if xsd_field == "nfe40_xBairro":
                 return "EX"
 
-        if xsd_field == "nfe40_xMun":
-            if self.country_id.code != "BR":
+            if xsd_field == "nfe40_xMun":
                 return "EXTERIOR"
 
-        if xsd_field == "nfe40_cMun":
-            if self.country_id.code != "BR":
+            if xsd_field == "nfe40_cMun":
                 return "9999999"
 
-        if xsd_field == "nfe40_UF":
-            if self.country_id.code != "BR":
+            if xsd_field == "nfe40_UF":
                 return "EX"
-        if xsd_field == "nfe40_idEstrangeiro":
-            if self.country_id.code != "BR":
+            if xsd_field == "nfe40_idEstrangeiro":
                 return self.vat or self.cnpj_cpf or self.rg or "EXTERIOR"
+
+            if xsd_field in ("nfe40_CNPJ", "nfe40_CPF"):
+                # Caso o CNPJ/CPF esteja em branco e o parceiro tenha um parent_id
+                # É exportado o CNPJ/CPF do parent_id é importate para o endereço
+                # de entrega/retirada
+                if not self.cnpj_cpf and self.parent_id:
+                    cnpj_cpf = punctuation_rm(self.parent_id.cnpj_cpf)
+                else:
+                    cnpj_cpf = punctuation_rm(self.cnpj_cpf)
+
+                return cnpj_cpf
+
         return super()._export_field(xsd_field, class_obj, member_spec)
