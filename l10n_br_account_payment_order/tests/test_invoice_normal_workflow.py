@@ -2,7 +2,6 @@
 #   Luis Felipe Mileo <mileo@kmee.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from odoo.fields import Date
 from odoo.tests import SavepointCase, tagged
 from odoo.tests.common import Form
 
@@ -32,25 +31,23 @@ class TestPaymentOrder(SavepointCase):
         open_amount = self.invoice_customer_without_paymeny_mode.amount_residual
         # I totally pay the Invoice
         payment_register = Form(
-            self.env["account.payment"].with_context(
+            self.env["account.payment.register"].with_context(
                 active_model="account.move",
                 active_ids=self.invoice_customer_without_paymeny_mode.ids,
             )
         )
-        payment_register.payment_date = Date.context_today(self.env.user)
         payment_register.journal_id = self.journal_cash
         payment_register.payment_method_id = self.payment_method_manual_in
 
         # Perform the partial payment by setting the amount at 300 instead of 500
         payment_register.amount = open_amount
 
-        payment = payment_register.save()
+        payment = payment_register.save()._create_payments()
         self.assertEqual(len(payment), 1)
-        payment.post()
 
         # I verify that invoice is now in Paid state
         self.assertEqual(
-            self.invoice_customer_without_paymeny_mode.invoice_payment_state,
+            self.invoice_customer_without_paymeny_mode.payment_state,
             "paid",
             "Invoice is not in Paid state",
         )

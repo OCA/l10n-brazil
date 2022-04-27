@@ -43,7 +43,7 @@
             <filter name="unpaid" position="attributes">
                 <attribute
                     name="domain"
-                >[('invoice_payment_state','!=','paid'), ('state', '=', 'posted')]</attribute>
+                >[('payment_state','!=','paid'), ('state', '=', 'posted')]</attribute>
             </filter>
         </field>
     </record>
