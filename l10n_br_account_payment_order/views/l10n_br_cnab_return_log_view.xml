@@ -211,7 +211,12 @@
     </record>
 
     <!-- Menu Principal para o CNAB -->
-    <menuitem id="cnab" name="CNAB" parent="account.menu_finance" sequence="7" />
+    <menuitem
+        id="cnab"
+        name="CNAB"
+        parent="account.menu_finance_entries"
+        sequence="45"
+    />
 
     <menuitem
         id="menu_l10n_br_cnab_return_log"
