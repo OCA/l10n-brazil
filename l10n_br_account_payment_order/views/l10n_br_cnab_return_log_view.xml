@@ -23,78 +23,87 @@
         <field name="model">l10n_br_cnab.return.log</field>
         <field name="arch" type="xml">
             <form>
+                <sheet>
                 <h1>
                     <field name="name" readonly="1" />
                 </h1>
-                <group>
                     <group>
-                        <field name="filename" readonly="1" />
-                        <field name="sequential_file" readonly="1" />
-                        <field name="cnab_date_file" readonly="1" />
-                        <field name="bank_account_id" readonly="1" />
-                        <field name="cnab_date_import" readonly="1" />
-                        <field name="move_ids" widget="many2many_tags" readonly="1" />
+                        <group>
+                            <field name="filename" readonly="1" />
+                            <field name="sequential_file" readonly="1" />
+                            <field name="cnab_date_file" readonly="1" />
+                            <field name="bank_account_id" readonly="1" />
+                            <field name="cnab_date_import" readonly="1" />
+                            <field
+                                name="move_ids"
+                                widget="many2many_tags"
+                                readonly="1"
+                            />
+                        </group>
+
+                    </group>
+                    <group>
+                        <group>
+                            <field name="number_lots" readonly="1" />
+                            <field name="number_events" readonly="1" />
+                        </group>
                     </group>
 
-                </group>
-                <group>
-                    <group>
-                        <field name="number_lots" readonly="1" />
-                        <field name="number_events" readonly="1" />
-                    </group>
-                </group>
-                <group string="CNAB Return Events" name="cnab.return.events">
-                    <field name="event_ids" nolabel="1" readonly="1" />
-                </group>
-
-                <group
-                    class="oe_subtotal_footer oe_right"
-                    colspan="2"
-                    name="cnab_total"
-                >
-                    <field
-                        name="amount_total_title"
-                        widget='monetary'
-                        options="{'currency_field': 'currency_id'}"
-                        readonly="1"
-                    />
-                    <field
-                        name="amount_total_tariff_charge"
-                        widget='monetary'
-                        options="{'currency_field': 'currency_id'}"
-                        readonly="1"
-                    />
-                    <field
-                        name="amount_total_discount"
-                        widget='monetary'
-                        options="{'currency_field': 'currency_id'}"
-                        readonly="1"
-                    />
-                    <field
-                        name="amount_total_rebate"
-                        widget='monetary'
-                        options="{'currency_field': 'currency_id'}"
-                        readonly="1"
-                    />
-                    <field
-                        name="amount_total_interest_fee"
-                        widget='monetary'
-                        options="{'currency_field': 'currency_id'}"
-                        readonly="1"
-                    />
-                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                    <label for="amount_total_received" />
-                    </div>
-                    <field
-                        name="amount_total_received"
-                        nolabel="1"
-                        class="oe_subtotal_footer_separator"
-                        widget='monetary'
-                        options="{'currency_field': 'currency_id'}"
-                        readonly="1"
-                    />
-                </group>
-
+                    <notebook>
+                        <page name="log_tab" string="Invoice Lines">
+                            <field name="event_ids" readonly="1" />
+                            <group
+                                class="oe_subtotal_footer oe_right"
+                                colspan="2"
+                                name="cnab_total"
+                            >
+                                <field
+                                    name="amount_total_title"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <field
+                                    name="amount_total_tariff_charge"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <field
+                                    name="amount_total_discount"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <field
+                                    name="amount_total_rebate"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <field
+                                    name="amount_total_interest_fee"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                                <div
+                                    class="oe_subtotal_footer_separator oe_inline o_td_label"
+                                >
+                                <label for="amount_total_received" />
+                                </div>
+                                <field
+                                    name="amount_total_received"
+                                    nolabel="1"
+                                    class="oe_subtotal_footer_separator"
+                                    widget='monetary'
+                                    options="{'currency_field': 'currency_id'}"
+                                    readonly="1"
+                                />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" />
                     <field name="activity_ids" />
@@ -110,23 +119,23 @@
         <field name="arch" type="xml">
             <tree string="CNAB Return Events">
                 <field name="is_cnab_lot" invisible="1" />
-                <field name="lot_id" />
-                <field name="bank_payment_line_id" />
-                <field name="invoice_id" />
-                <field name="partner_id" />
-                <field name="occurrence_date" />
-                <field name="real_payment_date" />
-                <field name="segment" />
-                <field name="favored_id" />
-                <field name="favored_bank_account_id" />
-                <field name="own_number" />
-                <field name="your_number" />
-                <field name="currency_type" />
-                <field name="title_value" />
-                <field name="payment_value" />
-                <field name="tariff_charge" />
-                <field name="occurrences" />
-                <field name="str_motiv_a" />
+                <field name="lot_id" optional="show" />
+                <field name="bank_payment_line_id" optional="hide" />
+                <field name="invoice_id" optional="hide" />
+                <field name="partner_id" optional="hide" />
+                <field name="occurrence_date" optional="show" />
+                <field name="real_payment_date" optional="show" />
+                <field name="segment" optional="hide" />
+                <field name="favored_id" optional="hide" />
+                <field name="favored_bank_account_id" optional="hide" />
+                <field name="own_number" optional="hide" />
+                <field name="your_number" optional="hide" />
+                <field name="currency_type" optional="hide" />
+                <field name="title_value" optional="show" />
+                <field name="payment_value" optional="show" />
+                <field name="tariff_charge" optional="show" />
+                <field name="occurrences" optional="show" />
+                <field name="str_motiv_a" optional="hide" />
             </tree>
         </field>
     </record>
