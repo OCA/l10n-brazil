@@ -43,6 +43,9 @@ class ContractLine(models.Model):
         if values:
             values.update(self._prepare_br_fiscal_dict())
             values["quantity"] = quantity
+            values["discount_value"] = (self.quantity * self.price_unit) * (
+                self.discount / 100
+            )
         return values
 
     @api.model
