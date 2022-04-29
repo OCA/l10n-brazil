@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_contract
+# 	* l10n_br_contract
 #
 msgid ""
 msgstr ""
@@ -17,6 +17,16 @@ msgstr ""
 "X-Generator: Weblate 4.3.2\n"
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__cnpj_cpf
+msgid "CNPJ/CPF"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__comment_ids
+msgid "Comments"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model,name:l10n_br_contract.model_res_company
 msgid "Companies"
 msgstr "Empresas"
@@ -28,42 +38,44 @@ msgstr "Empresa"
 
 #. module: l10n_br_contract
 #: model:ir.model,name:l10n_br_contract.model_contract_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.l10n_br_contract_res_company_form
 msgid "Contract"
 msgstr "Contrato"
 
 #. module: l10n_br_contract
 #: model:ir.model,name:l10n_br_contract.model_contract_line
-#: model:ir.model.fields,field_description:l10n_br_contract.field_l10n_br_fiscal_document_line__contract_line_id
 msgid "Contract Line"
 msgstr "Linha de Contrato"
 
 #. module: l10n_br_contract
-#: code:addons/l10n_br_contract/models/contract_contract.py:148
+#: code:addons/l10n_br_contract/models/contract_contract.py:171
 #, python-format
-msgid "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id=\"%s\">Invoice</a>"
+msgid ""
+"Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
+"\"%s\">Invoice</a>"
 msgstr ""
 "Contrato faturado manualmente: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
 "\"%s\">Fatura</a>"
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_fiscal_operation_id
-msgid "Default Fiscal Operation"
-msgstr "Operação Fiscal Padrão"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__currency_id
+msgid "Currency"
+msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_count
-msgid "Document Count"
-msgstr "Contagem de Documentos Fiscais"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_purchase_fiscal_operation_id
+msgid "Default Contract Purchase Fiscal Operation"
+msgstr ""
 
 #. module: l10n_br_contract
-#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_contract_form_view
-msgid "Documents"
-msgstr "Documentos"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_sale_fiscal_operation_id
+msgid "Default Contract Sale Fiscal Operation"
+msgstr ""
 
 #. module: l10n_br_contract
-#: model:ir.model,name:l10n_br_contract.model_l10n_br_fiscal_document_line
-msgid "Fiscal Document Line"
-msgstr "Linha de Documentos Fiscais"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ind_final
+msgid "Final Consumption Operation"
+msgstr ""
 
 #. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_id
@@ -71,6 +83,46 @@ msgid "Fiscal Operation"
 msgstr "Operação Fiscal"
 
 #. module: l10n_br_contract
-#: model:ir.model,name:l10n_br_contract.model_account_invoice_line
-msgid "Invoice Line"
-msgstr "Linha da Fatura"
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__legal_name
+msgid "Legal Name"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__ie
+msgid "State Tax Number/RG"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__tax_framework
+msgid "Tax Framework"
+msgstr ""
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,help:l10n_br_contract.field_contract_contract__legal_name
+msgid "Used in fiscal documents"
+msgstr ""
+
+#~ msgid "Default Fiscal Operation"
+#~ msgstr "Operação Fiscal Padrão"
+
+#~ msgid "Document Count"
+#~ msgstr "Contagem de Documentos Fiscais"
+
+#~ msgid "Documents"
+#~ msgstr "Documentos"
+
+#~ msgid "Fiscal Document Line"
+#~ msgstr "Linha de Documentos Fiscais"
+
+#~ msgid "Invoice Line"
+#~ msgstr "Linha da Fatura"
