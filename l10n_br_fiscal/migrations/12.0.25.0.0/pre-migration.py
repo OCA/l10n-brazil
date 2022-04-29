@@ -11,14 +11,13 @@ def migrate(env, version):
 
     companies = env["res.company"].search([])
     for company in companies:
-        products = env["product.template"].search(
-            [
-                "|",
-                ("company_id", "=", company.id),
-                ("company_id", "=", False),
-                ("fiscal_type", "!=", False),
-            ]
+        env.cr.execute(
+            "SELECT id, fiscal_type FROM product_template "
+            "WHERE fiscal_type is not NULL "
+            "AND (company_id=%s OR company_id IS NULL)",
+            (company.id,),
         )
+        products = env.cr.fetchall()
         for product in products:
             env["ir.property"].create(
                 {
@@ -26,7 +25,7 @@ def migrate(env, version):
                     "fields_id": field_property.id,
                     "company_id": company.id,
                     "type": "selection",
-                    "res_id": "{},{}".format(product._name, product.id),
-                    "value_text": product.fiscal_type,
+                    "res_id": "product.template,{}".format(product[0]),
+                    "value_text": product[1],
                 }
             )
