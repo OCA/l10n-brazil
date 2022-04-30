@@ -4,7 +4,7 @@
   * Fernando Marcato
   * Hendrix Costa
 
-* `Akretion <https://www.akretion.com>`_:
+* `Akretion <https://www.akretion.com/pt-BR>`_:
 
   * Magno Costa
 
