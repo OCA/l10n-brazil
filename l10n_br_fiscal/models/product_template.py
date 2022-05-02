@@ -105,6 +105,5 @@ class ProductTemplate(models.Model):
         relation="tax_definition_product_rel",
         column1="product_id",
         column2="tax_definition_id",
-        readonly=True,
         string="Tax Definition",
     )
