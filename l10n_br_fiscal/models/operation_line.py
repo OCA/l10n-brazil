@@ -191,6 +191,7 @@ class OperationLine(models.Model):
         nbm=None,
         nbs=None,
         cest=None,
+        city_taxation_code=None,
     ):
 
         mapping_result = {
@@ -208,7 +209,14 @@ class OperationLine(models.Model):
 
         # 1 Get Tax Defs from Company
         for tax_definition in company.tax_definition_ids.map_tax_definition(
-            company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
+            company,
+            partner,
+            product,
+            ncm=ncm,
+            nbm=nbm,
+            nbs=nbs,
+            cest=cest,
+            city_taxation_code=city_taxation_code,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -241,13 +249,27 @@ class OperationLine(models.Model):
 
         # 4 From Operation Line
         for tax_definition in self.tax_definition_ids.map_tax_definition(
-            company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
+            company,
+            partner,
+            product,
+            ncm=ncm,
+            nbm=nbm,
+            nbs=nbs,
+            cest=cest,
+            city_taxation_code=city_taxation_code,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
         # 5 From CFOP
         for tax_definition in cfop.tax_definition_ids.map_tax_definition(
-            company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
+            company,
+            partner,
+            product,
+            ncm=ncm,
+            nbm=nbm,
+            nbs=nbs,
+            cest=cest,
+            city_taxation_code=city_taxation_code,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
@@ -255,7 +277,14 @@ class OperationLine(models.Model):
         for (
             tax_definition
         ) in partner.fiscal_profile_id.tax_definition_ids.map_tax_definition(
-            company, partner, product, ncm=ncm, nbm=nbm, nbs=nbs, cest=cest
+            company,
+            partner,
+            product,
+            ncm=ncm,
+            nbm=nbm,
+            nbs=nbs,
+            cest=cest,
+            city_taxation_code=city_taxation_code,
         ):
             self._build_mapping_result(mapping_result, tax_definition)
 
