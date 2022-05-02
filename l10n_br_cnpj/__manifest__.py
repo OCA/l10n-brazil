@@ -17,8 +17,10 @@
     "depends": [
         "l10n_br_base",
         "l10n_br_zip",
+        "l10n_br_fiscal",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "views/res_partner_view.xml",
         "views/res_config_settings_view.xml",
     ],

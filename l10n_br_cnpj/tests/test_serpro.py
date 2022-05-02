@@ -49,6 +49,8 @@ class TestTestSerPro(TransactionCase):
         self.assertEqual(dummy_basica.phone, "(61) 22222222")
         self.assertEqual(dummy_basica.mobile, "(61) 22222222")
         self.assertEqual(dummy_basica.state_id.code, "DF")
+        self.assertEqual(dummy_basica.capital_social, 0)
+        self.assertEqual(dummy_basica.cnae_main_id.code, "6204-0/00")
 
     def test_serpro_not_found(self):
         # Na versão Trial só há alguns registros de CNPJ cadastrados
