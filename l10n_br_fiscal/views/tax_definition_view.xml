@@ -177,6 +177,16 @@
                                 />
               </group>
             </page>
+            <page name="city_taxation_codes_page" string="City Taxation Code">
+              <group name="city_taxation_codes" string="City Taxation Codes">
+                <field
+                                    name="city_taxation_code_ids"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                />
+              </group>
+            </page>
             <page name="products_page" string="Product">
               <group name="products" string="Products">
                 <field name="product_ids" force_save="1" nolabel="1" colspan="2" />
