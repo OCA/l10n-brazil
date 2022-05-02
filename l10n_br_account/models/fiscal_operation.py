@@ -73,3 +73,14 @@ class Operation(models.Model):
 
     def _fiscal_document_object(self):
         return self.env["account.move"]
+
+    def _line_domain(self, company, partner, product):
+        domain = super()._line_domain(company=company, partner=partner, product=product)
+
+        domain += [
+            "|",
+            ("fiscal_position_id", "=", partner.property_account_position_id.id),
+            ("fiscal_position_id", "=", False),
+        ]
+
+        return domain
