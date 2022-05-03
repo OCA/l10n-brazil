@@ -459,6 +459,11 @@ msgid "Customer Location"
 msgstr "Localização do Cliente"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
+msgid "Customer Payment Mode"
+msgstr "Modo de Pagamento do Cliente"
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_payment_term_id
 msgid "Customer Payment Terms"
 msgstr "Condições de Pagamento do Cliente"
@@ -1451,6 +1456,16 @@ msgid "Second Category"
 msgstr "Segunda categoria"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__customer_payment_mode_id
+msgid "Select the default payment mode for this customer."
+msgstr "Selecione o modo de pagamento padrão para este cliente."
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
+msgid "Select the default payment mode for this supplier."
+msgstr "Selecione o modo de pagamento padrão para este fornecedor."
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
 msgid ""
@@ -1554,6 +1569,11 @@ msgstr "Complemento"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__suframa
 msgid "Suframa"
 msgstr "Suframa"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
+msgid "Supplier Payment Mode"
+msgstr "Modo de Pagamento do Fornecedor"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_rank
@@ -1864,9 +1884,6 @@ msgstr "CEP"
 #~ msgid "Contracts Count"
 #~ msgstr "Contagem de Contratos"
 
-#~ msgid "Customer Payment Mode"
-#~ msgstr "Modo de Pagamento do Cliente"
-
 #~ msgid "Delivery Method"
 #~ msgstr "Método de Entrega"
 
@@ -1943,12 +1960,6 @@ msgstr "CEP"
 #~ msgid "Sales Warnings"
 #~ msgstr "Avisos de Vendas"
 
-#~ msgid "Select the default payment mode for this customer."
-#~ msgstr "Selecione o modo de pagamento padrão para este cliente."
-
-#~ msgid "Select the default payment mode for this supplier."
-#~ msgstr "Selecione o modo de pagamento padrão para este fornecedor."
-
 #~ msgid "Single"
 #~ msgstr "Solteiro(a)"
 
@@ -1967,9 +1978,6 @@ msgstr "CEP"
 
 #~ msgid "State Tax Number/RG"
 #~ msgstr "Número da Inscrição Estadual/RG"
-
-#~ msgid "Supplier Payment Mode"
-#~ msgstr "Modo de Pagamento do Fornecedor"
 
 #~ msgid ""
 #~ "The partner's timezone, used to output proper date and time values inside "
