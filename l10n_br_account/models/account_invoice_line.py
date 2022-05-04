@@ -272,6 +272,8 @@ class AccountMoveLine(models.Model):
         return super(
             AccountMoveLine,
             self.with_context(
+                partner_id=self.partner_id,
+                product_id=self.product_id,
                 fiscal_tax_ids=self.fiscal_tax_ids,
                 fiscal_operation_line_id=self.fiscal_operation_line_id,
                 ncm=self.ncm_id,
@@ -311,7 +313,8 @@ class AccountMoveLine(models.Model):
         price_subtotal,
         force_computation=False,
     ):
-        """This method is used to recompute the values of 'quantity', 'discount', 'price_unit' due to a change made
+        """This method is used to recompute the values of 'quantity',
+        'discount', 'price_unit' due to a change made
         in some accounting fields such as 'balance'.
         This method is a bit complex as we need to handle some special cases.
         For example, setting a positive balance with a 100% discount.
@@ -322,8 +325,10 @@ class AccountMoveLine(models.Model):
         :param currency:        The currency.
         :param taxes:           The applied taxes.
         :param price_subtotal:  The price_subtotal.
-        :return:                A dictionary containing 'quantity', 'discount', 'price_unit'.
+        :return:                A dictionary containing 'quantity',
+                                'discount', 'price_unit'.
         """
+
         if move_type in self.move_id.get_outbound_types():
             sign = 1
         elif move_type in self.move_id.get_inbound_types():
@@ -332,31 +337,19 @@ class AccountMoveLine(models.Model):
             sign = 1
         amount_currency *= sign
 
-        # Avoid rounding issue when dealing with price included taxes. For example, when the price_unit is 2300.0 and
-        # a 5.5% price included tax is applied on it, a balance of 2300.0 / 1.055 = 2180.094 ~ 2180.09 is computed.
-        # However, when triggering the inverse, 2180.09 + (2180.09 * 0.055) = 2180.09 + 119.90 = 2299.99 is computed.
-        # To avoid that, set the price_subtotal at the balance if the difference between them looks like a rounding
-        # issue.
+        # Avoid rounding issue when dealing with price included taxes.
+        # For example, when the price_unit is 2300.0 and
+        # a 5.5% price included tax is applied on it, a balance
+        # of 2300.0 / 1.055 = 2180.094 ~ 2180.09 is computed.
+        # However, when triggering the inverse, 2180.09 + (2180.09 * 0.055)
+        # = 2180.09 + 119.90 = 2299.99 is computed.
+        # To avoid that, set the price_subtotal at the balance if the
+        # difference between them looks like a rounding issue.
         if not force_computation and currency.is_zero(amount_currency - price_subtotal):
             return {}
 
         taxes = taxes.flatten_taxes_hierarchy()
         if taxes and any(tax.price_include for tax in taxes):
-            # Inverse taxes. E.g:
-            #
-            # Price Unit    | Taxes         | Originator Tax    |Price Subtotal     | Price Total
-            # -----------------------------------------------------------------------------------
-            # 110           | 10% incl, 5%  |                   | 100               | 115
-            # 10            |               | 10% incl          | 10                | 10
-            # 5             |               | 5%                | 5                 | 5
-            #
-            # When setting the balance to -200, the expected result is:
-            #
-            # Price Unit    | Taxes         | Originator Tax    |Price Subtotal     | Price Total
-            # -----------------------------------------------------------------------------------
-            # 220           | 10% incl, 5%  |                   | 200               | 230
-            # 20            |               | 10% incl          | 20                | 20
-            # 10            |               | 5%                | 10                | 10
             force_sign = (
                 -1 if move_type in ("out_invoice", "in_refund", "out_receipt") else 1
             )
@@ -364,8 +357,8 @@ class AccountMoveLine(models.Model):
                 amount_currency,
                 currency=currency,
                 quantity=quantity,
-                product=product,
-                partner=partner,
+                partner=self.env.context.get("partner_id"),
+                product=self.env.context.get("product_id"),
                 is_refund=move_type in ("out_refund", "in_refund"),
                 handle_price_include=False,  # FIXME
                 fiscal_taxes=self.env.context.get("fiscal_tax_ids"),
@@ -387,7 +380,7 @@ class AccountMoveLine(models.Model):
 
             for tax_res in taxes_res["taxes"]:
 
-                if tax.price_include:
+                if tax_res.get("price_include"):
                     amount_currency += tax_res["amount"]
 
         discount_factor = 1 - (discount / 100.0)
@@ -427,6 +420,8 @@ class AccountMoveLine(models.Model):
         return super(
             AccountMoveLine,
             self.with_context(
+                partner_id=self.partner_id,
+                product_id=self.product_id,
                 fiscal_tax_ids=self.fiscal_tax_ids,
                 fiscal_operation_line_id=self.fiscal_operation_line_id,
                 ncm=self.ncm_id,
@@ -494,8 +489,8 @@ class AccountMoveLine(models.Model):
                 line_discount_price_unit,
                 currency=currency,
                 quantity=quantity,
-                product=product,
-                partner=partner,
+                product=self.env.context.get("product_id"),
+                partner=self.env.context.get("partner_id"),
                 is_refund=move_type in ("out_refund", "in_refund"),
                 handle_price_include=True,  # FIXME
                 fiscal_taxes=self.env.context.get("fiscal_tax_ids"),
