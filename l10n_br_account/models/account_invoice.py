@@ -252,25 +252,33 @@ class AccountMove(models.Model):
 
     def _recompute_tax_lines(self, recompute_tax_base_amount=False):
         """Compute the dynamic tax lines of the journal entry.
-        :param recompute_tax_base_amount: Flag forcing only the recomputation of the `tax_base_amount` field.
+        :param recompute_tax_base_amount: Flag forcing only the recomputation
+        of the `tax_base_amount` field.
         """
+
         self.ensure_one()
         in_draft_mode = self != self._origin
 
         def _serialize_tax_grouping_key(grouping_dict):
             """Serialize the dictionary values to be used in the taxes_map.
-            :param grouping_dict: The values returned by '_get_tax_grouping_key_from_tax_line' or '_get_tax_grouping_key_from_base_line'.
+            :param grouping_dict: The values returned by
+            '_get_tax_grouping_key_from_tax_line'
+            or '_get_tax_grouping_key_from_base_line'.
             :return: A string representing the values.
             """
             return "-".join(str(v) for v in grouping_dict.values())
 
         def _compute_base_line_taxes(base_line):
-            """Compute taxes amounts both in company currency / foreign currency as the ratio between
-            amount_currency & balance could not be the same as the expected currency rate.
-            The 'amount_currency' value will be set on compute_all(...)['taxes'] in multi-currency.
+            """Compute taxes amounts both in company currency / foreign
+            currency as the ratio between amount_currency & balance could not
+            be the same as the expected currency rate.
+            The 'amount_currency' value will be set on
+            compute_all(...)['taxes'] in multi-currency.
+
             :param base_line:   The account.move.line owning the taxes.
             :return:            The result of the compute_all method.
             """
+
             move = base_line.move_id
 
             if move.is_invoice(include_receipts=True):
