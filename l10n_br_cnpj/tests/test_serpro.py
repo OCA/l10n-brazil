@@ -5,26 +5,19 @@ import time  # You can't send multiple requests at the same time in trial versio
 
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+
+from odoo.addons.l10n_br_cnpj.tests.common import TestCnpjCommon
 
 
 @tagged("post_install", "-at_install")
-class TestTestSerPro(TransactionCase):
+class TestTestSerPro(TestCnpjCommon):
     def setUp(self):
         super(TestTestSerPro, self).setUp()
 
-        self.model = self.env["res.partner"]
         self.set_param("cnpj_provider", "serpro")
         self.set_param("serpro_token", "06aef429-a981-3ec5-a1f8-71d38d86481e")
         self.set_param("serpro_trial", True)
         self.set_param("serpro_schema", "basica")
-
-    def set_param(self, param_name, param_value):
-        (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .set_param("l10n_br_cnpj." + param_name, param_value)
-        )
 
     def test_serpro_basica(self):
         dummy_basica = self.model.create(

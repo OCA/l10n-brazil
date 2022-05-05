@@ -31,6 +31,8 @@ class ReceitawsWebservice(models.Model):
         fantasy_name = self.get_data(data, "fantasia", title=True)
         phone, mobile = self.receitaws_get_phones(data)
         state_id, city_id = self.get_state_city(data)
+        capital_social = self.get_data(data, "capital_social")
+        cnae_id = self.receitaws_get_cnae(data)
 
         res = {
             "legal_name": legal_name,
@@ -45,6 +47,8 @@ class ReceitawsWebservice(models.Model):
             "mobile": mobile,
             "state_id": state_id,
             "city_id": city_id,
+            "capital_social": capital_social,
+            "cnae_main_id": cnae_id,
         }
 
         return res
@@ -88,3 +92,9 @@ class ReceitawsWebservice(models.Model):
                     city_id = city.id
 
         return [state_id, city_id]
+
+    def receitaws_get_cnae(self, data):
+        cnae_main = data.get("atividade_principal")[0]
+        cnae_code = self.get_data(cnae_main, "code")
+
+        return self._get_cnae(cnae_code)

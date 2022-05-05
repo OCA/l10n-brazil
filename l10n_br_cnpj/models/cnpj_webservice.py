@@ -1,6 +1,8 @@
 # Copyright 2022 KMEE - Luis Felipe Mileo
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from erpbrasil.base.misc import punctuation_rm
+
 from odoo import _, models
 from odoo.exceptions import ValidationError
 
@@ -89,3 +91,17 @@ class CNPJWebservice(models.Model):
     def _validate(response):
         if response.status_code != 200:
             raise ValidationError(_("%s" % response.reason))
+
+    def _get_cnae(self, raw_code):
+        code = punctuation_rm(raw_code)
+        cnae_id = False
+
+        if code:
+            formatted_code = code[0:4] + "-" + code[4] + "/" + code[5:]
+            cnae_id = (
+                self.env["l10n_br_fiscal.cnae"]
+                .search([("code", "=", formatted_code)])
+                .id
+            )
+
+        return cnae_id

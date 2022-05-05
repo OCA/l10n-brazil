@@ -50,7 +50,7 @@ class SerproWebservice(models.Model):
         state_id = self.get_state_id(endereco)
         city_id = self.get_city_id(cep)
         capital_social = self.get_data(data, "capitalSocial")
-        cnae_id = self.get_cnae(data)
+        cnae_id = self.serpro_get_cnae(data)
 
         res = {
             "legal_name": legal_name,
@@ -151,17 +151,8 @@ class SerproWebservice(models.Model):
 
         return cep_values.get("city_id")
 
-    def get_cnae(self, data):
+    def serpro_get_cnae(self, data):
         cnae_main = data.get("cnaePrincipal")
         cnae_code = self.get_data(cnae_main, "codigo")
 
-        cnae_id = False
-        if cnae_code:
-            formatted_code = cnae_code[0:4] + "-" + cnae_code[4] + "/" + cnae_code[5:]
-            cnae_id = (
-                self.env["l10n_br_fiscal.cnae"]
-                .search([("code", "=", formatted_code)])
-                .id
-            )
-
-        return cnae_id
+        return self._get_cnae(cnae_code)

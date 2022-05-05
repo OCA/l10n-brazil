@@ -5,20 +5,16 @@ import time  # You can't send multiple requests at the same time in trial versio
 
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged
-from odoo.tests.common import TransactionCase
+
+from odoo.addons.l10n_br_cnpj.tests.common import TestCnpjCommon
 
 
 @tagged("post_install", "-at_install")
-class TestReceitaWS(TransactionCase):
+class TestReceitaWS(TestCnpjCommon):
     def setUp(self):
         super(TestReceitaWS, self).setUp()
 
-        self.model = self.env["res.partner"]
-        (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .set_param("l10n_br_cnpj.cnpj_provider", "receitaws")
-        )
+        self.set_param("cnpj_provider", "receitaws")
 
     def test_receita_ws_success(self):
         kilian = self.model.create({"name": "Kilian", "cnpj_cpf": "44.356.113/0001-08"})
@@ -38,6 +34,8 @@ class TestReceitaWS(TransactionCase):
         self.assertEqual(kilian.phone, "(83) 8665-0905")
         self.assertEqual(kilian.state_id.code, "PB")
         self.assertEqual(kilian.city_id.name, "Campina Grande")
+        self.assertEqual(kilian.capital_social, 3000)
+        self.assertEqual(kilian.cnae_main_id.code, "4751-2/01")
 
     def test_receita_ws_fail(self):
         invalido = self.model.create({"name": "invalido", "cnpj_cpf": "00000000000000"})
