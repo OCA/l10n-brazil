@@ -13,7 +13,7 @@
     "external_dependencies": {
         "python": [
             "erpbrasil.edoc",
-            "erpbrasil.assinatura-nopyopenssl",
+            "erpbrasil.assinatura",
             "erpbrasil.transmissao",
             "erpbrasil.base",
         ],
