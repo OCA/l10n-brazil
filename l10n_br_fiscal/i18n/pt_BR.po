@@ -2059,8 +2059,15 @@ msgstr "Cidade"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_product__city_taxation_code_id
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_product_template__city_taxation_code_id
 #: model:ir.ui.menu,name:l10n_br_fiscal.city_taxation_code_menu
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
 msgid "City Taxation Code"
 msgstr "Código de Tributação da Cidade"
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_definition__city_taxation_code_ids
+#: model_terms:ir.ui.view,arch_db:l10n_br_fiscal.tax_definition_form
+msgid "City Taxation Codes"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_partner__city_id
@@ -8650,6 +8657,7 @@ msgstr "Imposto CSLL RET"
 #: model:ir.model,name:l10n_br_fiscal.model_l10n_br_fiscal_tax_definition
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cest__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_cfop__tax_definition_ids
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_city_taxation_code__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_nbm__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_ncm__tax_definition_ids
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__tax_definition_ids
