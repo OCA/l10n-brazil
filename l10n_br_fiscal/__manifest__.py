@@ -9,7 +9,7 @@
     "author": "Akretion, Odoo Community Association (OCA)",
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
-    "version": "13.0.3.0.0",
+    "version": "13.0.3.1.0",
     "development_status": "Production/Stable",
     "depends": [
         "uom",
