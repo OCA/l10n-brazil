@@ -94,22 +94,24 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
                 result = self._get_ibpt(config, record.code_unmasked)
 
-                values = {
-                    object_field: record.id,
-                    "key": result.chave,
-                    "origin": result.fonte,
-                    "state_id": company.state_id.id,
-                    "state_taxes": result.estadual,
-                    "federal_taxes_national": result.nacional,
-                    "federal_taxes_import": result.importado,
-                }
+                if result:
 
-                self.env["l10n_br_fiscal.tax.estimate"].create(values)
+                    values = {
+                        object_field: record.id,
+                        "key": result.chave,
+                        "origin": result.fonte,
+                        "state_id": company.state_id.id,
+                        "state_taxes": result.estadual,
+                        "federal_taxes_national": result.nacional,
+                        "federal_taxes_import": result.importado,
+                    }
 
-                record.message_post(
-                    body=_("{} Tax Estimate Updated").format(object_name),
-                    subject=_("{} Tax Estimate Updated").format(object_name),
-                )
+                    self.env["l10n_br_fiscal.tax.estimate"].create(values)
+
+                    record.message_post(
+                        body=_("{} Tax Estimate Updated").format(object_name),
+                        subject=_("{} Tax Estimate Updated").format(object_name),
+                    )
 
             except Exception as e:
                 _logger.warning(
