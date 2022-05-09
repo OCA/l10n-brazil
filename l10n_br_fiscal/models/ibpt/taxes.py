@@ -23,7 +23,7 @@ DeOlhoNoImposto = namedtuple("Config", "token cnpj uf")
 
 def _request(ws_url, params):
     try:
-        response = requests.get(ws_url, params=params)
+        response = requests.get(ws_url, params=params, timeout=5)
         if response.ok:
             data = response.json()
             return namedtuple("Result", [k.lower() for k in data.keys()])(
@@ -39,15 +39,9 @@ def _request(ws_url, params):
                 )
             )
         elif response.status_code == requests.codes.not_found:
-            # TODO
-            raise UserError(
-                _(
-                    "IBPT Forbidden - token={!r}, "
-                    "cnpj={!r}, UF={!r}".format(
-                        params.get("token"), params.get("cnpj"), params.get("uf")
-                    )
-                )
-            )
+            raise UserError(_("IBPT URL not found - {!r}".format(ws_url)))
+        elif response.status_code == requests.codes.service_unavailable:
+            raise UserError(_("IBPT Service Unavailable - {!r}".format(ws_url)))
     except Exception as e:
         raise UserError(_("Error in the request: {}".format(e)))
 
