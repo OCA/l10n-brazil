@@ -11,6 +11,6 @@ class DocumentCancelWizard(models.TransientModel):
     def do_cancel(self):
         super().do_cancel()
         if self.move_id:
-            self.move_id.action_cancel()
+            self.move_id.button_cancel()
             msg = "Cancelamento: {}".format(self.justification)
             self.move_id.message_post(body=msg)
