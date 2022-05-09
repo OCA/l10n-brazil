@@ -338,6 +338,29 @@ class AccountMove(models.Model):
 
         return taxes_mapped
 
+    def _recompute_payment_terms_lines(self):
+        """Compute the dynamic payment term lines of the journal entry.
+        overwritten this method to change aml's field name.
+        """
+
+        # TODO - esse método é executado em um onchange, na emissão de um novo
+        # documento fiscal o numero do documento pode estar em branco
+        # atualizar esse dado ao validar a fatura, ou atribuir o número da NFe
+        # antes de salva-la.
+        super()._recompute_payment_terms_lines()
+        terms_lines = self.line_ids.filtered(
+            lambda l: l.account_id.user_type_id.type in ("receivable", "payable")
+        )
+        terms_lines.sorted(lambda line: line.date_maturity)
+        i = 1
+        for terms_line in terms_lines:
+            # TODO TODO pegar o método do self.fiscal_document_id.with_context(
+            # fiscal_document_no_company=True
+            # )._compute_document_name()
+            terms_line.name = "{}/{}-{}".format(
+                self.document_number, i, len(terms_lines)
+            )
+
     # TODO TOTAIS
     # @api.depends(
     #     "line_ids.price_total",
