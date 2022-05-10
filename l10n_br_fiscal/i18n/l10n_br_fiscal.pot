@@ -3041,7 +3041,7 @@ msgid "Erro!"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:52
+#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:46
 #, python-format
 msgid "Error in the request: {}"
 msgstr ""
@@ -3830,9 +3830,14 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:37
-#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:47
 #, python-format
 msgid "IBPT Forbidden - token={!r}, cnpj={!r}, UF={!r}"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:44
+#, python-format
+msgid "IBPT Service Unavailable - {!r}"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3844,6 +3849,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__ibpt_update_days
 msgid "IBPT Token Updates"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:42
+#, python-format
+msgid "IBPT URL not found - {!r}"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -7867,13 +7878,13 @@ msgid "Saída"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:174
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:176
 #, python-format
 msgid "Scheduled {} estimate taxes update complete."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:131
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:133
 #, python-format
 msgid "Scheduled {} estimate taxes update..."
 msgstr ""
@@ -9330,20 +9341,20 @@ msgid "state"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:118
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:120
 #, python-format
 msgid "{0} Tax Estimate Failure: {1}"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:122
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:124
 #, python-format
 msgid "{} Tax Estimate Failure"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:112
-#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:113
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:114
+#: code:addons/l10n_br_fiscal/models/data_ncm_nbs_abstract.py:115
 #, python-format
 msgid "{} Tax Estimate Updated"
 msgstr ""
