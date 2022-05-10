@@ -39,7 +39,7 @@ class TestInvoiceRefund(TransactionCase):
                 document_serie_id=self.env.ref(
                     "l10n_br_fiscal.empresa_lc_document_55_serie_1"
                 ).id,
-                line_ids=[
+                invoice_line_ids=[
                     (
                         0,
                         0,
