@@ -22,6 +22,7 @@
             >Ativo / Circulante / Perdas Estimadas com Créditos duvidosos</field>
             <field name="type">other</field>
             <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -31,6 +32,7 @@
             <field name="name">Ativo / Circulante / Estoque</field>
             <field name="type">other</field>
             <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -40,6 +42,7 @@
             <field name="name">Ativo / Circulante / Outros Créditos</field>
             <field name="type">other</field>
             <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -49,6 +52,7 @@
             <field name="name">Ativo / Não Circulante / Realizável a Longo Prazo</field>
             <field name="type">receivable</field>
             <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -58,6 +62,7 @@
             <field name="name">Ativo / Não Circulante / Investimentos</field>
             <field name="type">other</field>
             <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -78,6 +83,7 @@
             <field name="name">Ativo / Não Circulante / Intangível</field>
             <field name="type">other</field>
             <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -87,6 +93,7 @@
             <field name="name">Ativo / Não Circulante / (-) Amortização</field>
             <field name="type">other</field>
             <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record model="account.account.type" id="account.data_account_type_payable">
@@ -102,6 +109,7 @@
             >Passivo / Circulante / Empréstimos e Financiamentos</field>
             <field name="type">other</field>
             <field name="internal_group">liability</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -111,6 +119,7 @@
             <field name="name">Passivo / Circulante / Obrigações Fiscais</field>
             <field name="type">other</field>
             <field name="internal_group">liability</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -120,12 +129,14 @@
             <field name="name">Passivo / Circulante / Obrigações Trabalhistas</field>
             <field name="type">other</field>
             <field name="internal_group">liability</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record model="account.account.type" id="data_account_type_current_liabilities">
             <field name="name">Passivo / Circulante / Contas a Pagar</field>
             <field name="type">other</field>
             <field name="internal_group">liability</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -135,6 +146,7 @@
             <field name="name">Passivo / Circulante / Provisões</field>
             <field name="type">other</field>
             <field name="internal_group">liability</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -151,6 +163,7 @@
             <field name="name">Passivo / Não Circulante / Financiamentos</field>
             <field name="type">other</field>
             <field name="internal_group">liability</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record model="account.account.type" id="account.data_account_type_equity">
@@ -164,6 +177,7 @@
             <field name="name">Patrimônio Líquido / Reserva de Capital</field>
             <field name="type">other</field>
             <field name="internal_group">equity</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record
@@ -173,6 +187,7 @@
             <field name="name">Patrimônio Líquido / Reserva de Lucros</field>
             <field name="type">other</field>
             <field name="internal_group">equity</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record model="account.account.type" id="account.data_unaffected_earnings">
@@ -186,6 +201,7 @@
             <field name="name">Patrimônio Líquido / (-) Prejuizos Acumulados</field>
             <field name="type">other</field>
             <field name="internal_group">equity</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <!-- Tipos de conta do DRE -->
