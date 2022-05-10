@@ -304,7 +304,7 @@
         <record model="account.account.type" id="data_account_type_compensation_assets">
             <field name="name">Ativo / Outros / Compensação</field>
             <field name="type">other</field>
-            <field name="internal_group">asset</field>
+            <field name="internal_group">off_balance</field>
         </record>
 
         <record
@@ -313,7 +313,7 @@
         >
             <field name="name">Passivo / Outros / Compensação</field>
             <field name="type">other</field>
-            <field name="internal_group">liability</field>
+            <field name="internal_group">off_balance</field>
         </record>
 
     </data>
