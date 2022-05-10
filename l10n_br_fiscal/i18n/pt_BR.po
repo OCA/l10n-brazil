@@ -4047,6 +4047,12 @@ msgid "IBPT Forbidden - token={!r}, cnpj={!r}, UF={!r}"
 msgstr "IBPT Proibido - token={!r}, cnpj={!r}, UF={!r}"
 
 #. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
+#, python-format
+msgid "IBPT Service Unavailable - {!r}"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__ibpt_token
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__ibpt_token
 msgid "IBPT Token"
@@ -4056,6 +4062,12 @@ msgstr "IBPT Token"
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__ibpt_update_days
 msgid "IBPT Token Updates"
 msgstr "Atualizações de tokens do IBPT"
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
+#, python-format
+msgid "IBPT URL not found - {!r}"
+msgstr ""
 
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_config_settings__ibpt_update_days
