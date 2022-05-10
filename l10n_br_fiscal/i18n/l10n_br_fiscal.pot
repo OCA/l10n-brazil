@@ -3859,9 +3859,14 @@ msgstr ""
 
 #. module: l10n_br_fiscal
 #: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
-#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
 #, python-format
 msgid "IBPT Forbidden - token={!r}, cnpj={!r}, UF={!r}"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
+#, python-format
+msgid "IBPT Service Unavailable - {!r}"
 msgstr ""
 
 #. module: l10n_br_fiscal
@@ -3873,6 +3878,12 @@ msgstr ""
 #. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_res_company__ibpt_update_days
 msgid "IBPT Token Updates"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: code:addons/l10n_br_fiscal/models/ibpt/taxes.py:0
+#, python-format
+msgid "IBPT URL not found - {!r}"
 msgstr ""
 
 #. module: l10n_br_fiscal
