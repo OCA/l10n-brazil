@@ -71,7 +71,11 @@
             model="account.account.type"
             id="account.data_account_type_depreciation"
         >
-            <field name="name">Ativo / Não Circulante / (-) Depreciação</field>
+            <field
+                name="name"
+            >Ativo / Não Circulante / (-) Depreciação Acumulada</field>
+            <field name="internal_group">asset</field>
+            <field name="include_initial_balance" eval="True" />
         </record>
 
         <record model="account.account.type" id="data_account_type_intangible_assets">
@@ -84,7 +88,9 @@
             model="account.account.type"
             id="data_account_type_fixed_assets_amortization"
         >
-            <field name="name">Ativo / Não Circulante / (-) Amortização</field>
+            <field
+                name="name"
+            >Ativo / Não Circulante / (-) Amortização Acumulada</field>
             <field name="type">other</field>
             <field name="internal_group">asset</field>
         </record>
