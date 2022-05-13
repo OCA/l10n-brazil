@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+
+    <record id="supplierinfo_1" model="product.supplierinfo">
+        <field name="product_id" ref="product.product_product_10" />
+        <field name="product_name">[E-COM11] Cabinet with Doors</field>
+        <field name="name" ref="l10n_br_base.lucro_presumido_partner" />
+        <field name="partner_uom" ref="uom.product_uom_unit" />
+        <field name="delay">3</field>
+        <field name="min_qty">1</field>
+        <field name="price">790</field>
+    </record>
+
+</odoo>

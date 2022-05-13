@@ -38,7 +38,7 @@ class NFeImportTest(SavepointCase):
             .build(nfe_binding.infNFe, dry_run=True)
         )
         assert isinstance(nfe.id, NewId)
-        self.assertEqual(nfe.partner_id.name, "Alimentos Ltda.")
+        self.assertEqual(nfe.partner_id.name, "Alimentos Saudaveis")
         self.assertEqual(nfe.line_ids[0].product_id.name, "QUINOA 100G (2X50G)")
 
     def test_import_in_nfe(self):
@@ -69,7 +69,7 @@ class NFeImportTest(SavepointCase):
 
         # here we check that emit and enderEmit
         # are now the supplier data (partner_id)
-        self.assertEqual(nfe.partner_id.name, "Alimentos Ltda.")
+        self.assertEqual(nfe.partner_id.name, "Alimentos Saudaveis")
         self.assertEqual(nfe.partner_id.cnpj_cpf, "34.128.745/0001-52")
         # this tests the _extract_related_values method for related values:
         self.assertEqual(nfe.partner_id.legal_name, "Alimentos Ltda.")

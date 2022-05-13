@@ -9,6 +9,8 @@ from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
+from odoo.addons.l10n_br_nfe_spec.models.v4_00.leiauteNFe import MODFRETE_TRANSP
+
 from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_DICT,
@@ -209,6 +211,25 @@ class Document(models.Model):
         readonly=True,
         string="XML validation errors",
         copy=False,
+    )
+
+    transporter_id = fields.Many2one(
+        comodel_name="res.partner",
+        help="The partner that is doing the delivery service.",
+        string="Transportadora",
+    )
+
+    modFrete = fields.Selection(
+        MODFRETE_TRANSP,
+        string="Modalidade do frete",
+        help="Modalidade do frete"
+        "\n0- Contratação do Frete por conta do Remetente (CIF);"
+        "\n1- Contratação do Frete por conta do destinatário/remetente (FOB);"
+        "\n2- Contratação do Frete por conta de terceiros;"
+        "\n3- Transporte próprio por conta do remetente;"
+        "\n4- Transporte próprio por conta do destinatário;"
+        "\n9- Sem Ocorrência de transporte.",
+        default="9",
     )
 
     # Você não vai poder fazer isso em modelos que já tem state

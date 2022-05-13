@@ -19,3 +19,9 @@ class Document(models.Model):
     nfe40_modFrete = fields.Selection(
         compute=_compute_nfe40_modFrete,
     )
+
+    nfe40_transporta = fields.Many2one(
+        comodel_name="res.partner",
+        related="carrier_id.partner_id",
+        string="Dados do transportador",
+    )
