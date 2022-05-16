@@ -8,6 +8,7 @@ class PaymentAcquirerPagseguro(models.Model):
     _inherit = "payment.acquirer"
 
     provider = fields.Selection(selection_add=[("pagseguro", "Pagseguro")])
+
     pagseguro_token = fields.Char(
         string="Pagseguro Token",
         required_if_provider="pagseguro",
@@ -40,6 +41,7 @@ class PaymentAcquirerPagseguro(models.Model):
                     "acquirer_id": int(data["acquirer_id"]),
                     "partner_id": int(data["partner_id"]),
                     "pagseguro_card_token": data["cc_token"],
+                    "pagseguro_payment_method": data["payment_method"],
                 }
             )
         )

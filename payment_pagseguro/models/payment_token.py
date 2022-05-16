@@ -17,6 +17,11 @@ class PaymentTokenPagSeguro(models.Model):
         required=False,
     )
 
+    pagseguro_payment_method = fields.Char(
+        string="Pagseguro payment method",
+        required=False,
+    )
+
     @api.model
     def pagseguro_create(self, values):
         """Treats tokenizing data.

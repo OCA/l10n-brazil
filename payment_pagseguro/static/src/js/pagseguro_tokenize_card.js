@@ -41,6 +41,8 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
             var ds = $('input[name="data_set"]', acquirerForm)[0];
             var inputsForm = $("input", acquirerForm);
             var formData = this.getFormData(inputsForm);
+            var paymentMethod = $("#payment_form option:selected", acquirerForm)[0]
+                .attributes.value.value;
 
             // Get public key
             rpc.query({
@@ -78,6 +80,7 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                             cc_expiry: "",
                             cc_cvc: "",
                             data_set: ds.dataset.createRoute,
+                            payment_method: paymentMethod,
                         });
                         // Start payment flow
                         return rpc.query({

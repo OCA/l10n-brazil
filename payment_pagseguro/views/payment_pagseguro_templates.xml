@@ -120,6 +120,19 @@
                 t-attf-class="row mt8 #{'' if bootstrap_formatting else 'o_card_brand_detail'}"
             >
                 <div
+                    t-att-class="'form-group col-lg-5' if bootstrap_formatting else 'form-group'"
+                >
+                    <select
+                        name="payment_form"
+                        id="payment_form"
+                        placeholder="Payment method"
+                        class="form-control"
+                    >
+                        <option value="CREDIT_CARD">Credit Card</option>
+                        <option value="DEBIT_CARD">Debit Card</option>
+                    </select>
+                </div>
+                <div
                     t-att-class="'form-group col-lg-12' if bootstrap_formatting else 'form-group'"
                 >
                     <input
