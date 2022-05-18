@@ -40,7 +40,6 @@ class ProductTemplate(models.Model):
                 pos_fiscal_map_id._onchange_fiscal_operation_line_id()
                 pos_fiscal_map_id._onchange_fiscal_taxes()
 
-                record.pos_fiscal_map_ids |= pos_fiscal_map_id
 
     @api.model
     def create(self, vals):
