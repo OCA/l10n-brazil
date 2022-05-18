@@ -22,6 +22,7 @@ class TestCustomerInvoice(SavepointCase):
                 reconcile=True,
             )
         )
+
         cls.sale_journal = cls.env["account.journal"].create(
             dict(
                 name="Sales Journal - (test)",
@@ -31,11 +32,11 @@ class TestCustomerInvoice(SavepointCase):
                 default_account_id=cls.sale_account.id,
             )
         )
+
         cls.invoice_1 = cls.env["account.move"].create(
             dict(
-                name="Test Customer Invoice",
-                # payment_term_id=cls.env.ref(
-                # "account.account_payment_term_advance").id,
+                name="Test Customer Invoice 1",
+                move_type="out_invoice",
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
                 invoice_line_ids=[
@@ -72,6 +73,7 @@ class TestCustomerInvoice(SavepointCase):
                 ],
             )
         )
+
         # Invoice with TAXES
         tax_fixed = cls.env["account.tax"].create(
             {
@@ -82,6 +84,7 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": True,
             }
         )
+
         tax_percent_included_base_incl = cls.env["account.tax"].create(
             {
                 "sequence": 20,
@@ -91,6 +94,7 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": True,
             }
         )
+
         tax_percentage = cls.env["account.tax"].create(
             {
                 "sequence": 30,
@@ -100,11 +104,11 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": False,
             }
         )
+
         cls.invoice_2 = cls.env["account.move"].create(
             dict(
-                name="Test Customer Invoice",
-                # payment_term_id=cls.env.ref(
-                # "account.account_payment_term_advance").id,
+                name="Test Customer Invoice 2",
+                move_type="out_invoice",
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
                 invoice_line_ids=[
@@ -152,6 +156,7 @@ class TestCustomerInvoice(SavepointCase):
                 ],
             )
         )
+
         tax_discount = cls.env["account.tax"].create(
             {
                 "sequence": 40,
@@ -161,14 +166,15 @@ class TestCustomerInvoice(SavepointCase):
                 "include_base_amount": False,
             }
         )
+
         cls.invoice_3 = cls.env["account.move"].create(
             dict(
-                # payment_term_id=cls.env.ref(
-                # "account.account_payment_term_advance").id,
+                name="Test Customer Invoice 3",
+                move_type="out_invoice",
                 currency_id=cls.env.ref("base.EUR").id,
                 partner_id=cls.env.ref("base.res_partner_3").id,
                 journal_id=cls.sale_journal.id,
-                line_ids=[
+                invoice_line_ids=[
                     (
                         0,
                         0,
