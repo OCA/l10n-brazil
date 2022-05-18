@@ -18,7 +18,7 @@ class ProductTemplate(models.Model):
     @job
     def update_pos_fiscal_map(self):
         for record in self:
-            pos_config_ids = record.env["pos.config"].search([])
+            pos_config_ids = record.env["pos.config"].search([('company_id', '=', self.env.user.company_id.id)])
             with_maps_pos_config_id = record.pos_fiscal_map_ids.mapped("pos_config_id")
             to_create_ids = pos_config_ids - with_maps_pos_config_id
 
