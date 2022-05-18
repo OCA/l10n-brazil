@@ -10,12 +10,14 @@
             <field name="model">payment.acquirer</field>
             <field name="inherit_id" ref="payment.acquirer_form" />
             <field name="arch" type="xml">
-                    <xpath expr='//group[@name="acquirer"]' position='after'>
-                        <group attrs="{'invisible': [('provider', '!=', 'pagseguro')]}">
-                            <field name="pagseguro_token" password="True" />
-                            <field name="pagseguro_max_installments" />
-                        </group>
-                    </xpath>
+                <xpath expr='//group[@name="acquirer"]' position='after'>
+                    <group attrs="{'invisible': [('provider', '!=', 'pagseguro')]}">
+                        <field name="pagseguro_token" password="True" />
+                    </group>
+                </xpath>
+                <xpath expr='//field[@name="journal_id"]' position='before'>
+                    <field name="pagseguro_max_installments" />
+                </xpath>
             </field>
         </record>
 
