@@ -2,7 +2,6 @@
 // License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 /* global PagSeguro*/
-/* eslint no-undef: "error"*/
 odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
     "use strict";
 
@@ -81,6 +80,7 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                             cc_cvc: "",
                             data_set: ds.dataset.createRoute,
                             payment_method: paymentMethod,
+                            installments: formData.installments,
                         });
                         // Start payment flow
                         return rpc.query({

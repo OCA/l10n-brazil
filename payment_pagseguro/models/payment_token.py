@@ -22,6 +22,11 @@ class PaymentTokenPagSeguro(models.Model):
         required=False,
     )
 
+    pagseguro_installments = fields.Integer(
+        string="Pagseguro number of installments",
+        required=False,
+    )
+
     @api.model
     def pagseguro_create(self, values):
         """Treats tokenizing data.
@@ -30,6 +35,7 @@ class PaymentTokenPagSeguro(models.Model):
         containing card token, formated name (Customer Name or Card holder name)
         and partner_id will be returned.
         """
+
         partner_id = self.env["res.partner"].browse(values["partner_id"])
 
         if partner_id:

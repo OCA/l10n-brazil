@@ -15,6 +15,10 @@ class PaymentAcquirerPagseguro(models.Model):
         groups="base.group_user",
     )
 
+    pagseguro_max_installments = fields.Integer(
+        string="Pagseguro max installments", default=18
+    )
+
     @api.multi
     def pagseguro_s2s_form_validate(self, data):
         """Validates user input"""
@@ -42,6 +46,7 @@ class PaymentAcquirerPagseguro(models.Model):
                     "partner_id": int(data["partner_id"]),
                     "pagseguro_card_token": data["cc_token"],
                     "pagseguro_payment_method": data["payment_method"],
+                    "pagseguro_installments": int(data["installments"]),
                 }
             )
         )

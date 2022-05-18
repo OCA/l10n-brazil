@@ -122,15 +122,39 @@
                 <div
                     t-att-class="'form-group col-lg-5' if bootstrap_formatting else 'form-group'"
                 >
+                    <script>
+                        function onChangePaymentMethod() {
+                            if (document.getElementById("payment_form").value === "CREDIT_CARD") {
+                                document.getElementById("installments").style.visibility = "visible";
+                            } else {
+                                document.getElementById("installments").style.visibility = "hidden";
+                            }
+                        }
+                    </script>
                     <select
                         name="payment_form"
                         id="payment_form"
                         placeholder="Payment method"
                         class="form-control"
+                        onchange="onChangePaymentMethod()"
                     >
                         <option value="CREDIT_CARD">Credit Card</option>
-                        <option value="DEBIT_CARD">Debit Card</option>
+                        <option value="BOLETO">Bill</option>
                     </select>
+                </div>
+                <div
+                    t-att-class="'form-group col-lg-4' if bootstrap_formatting else 'form-group'"
+                >
+                    <input
+                        type="number"
+                        name="installments"
+                        id="installments"
+                        class="form-control"
+                        placeholder="Installments"
+                        data-is-required="true"
+                        min="1"
+                        max="14"
+                    />
                 </div>
                 <div
                     t-att-class="'form-group col-lg-12' if bootstrap_formatting else 'form-group'"
@@ -160,7 +184,7 @@
                     />
                 </div>
                 <div
-                    t-att-class="'form-group col-lg-3' if bootstrap_formatting else 'form-group'"
+                    t-att-class="'form-group col-lg-4' if bootstrap_formatting else 'form-group'"
                 >
                     <input
                         type="text"
@@ -173,7 +197,7 @@
                     />
                 </div>
                 <div
-                    t-att-class="'form-group col-lg-4' if bootstrap_formatting else 'form-group'"
+                    t-att-class="'form-group col-lg-3' if bootstrap_formatting else 'form-group'"
                 >
                     <input
                         type="text"

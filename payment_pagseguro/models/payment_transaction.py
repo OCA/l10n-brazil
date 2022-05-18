@@ -239,7 +239,7 @@ class PaymentTransactionPagseguro(models.Model):
             "payment_method": {
                 "soft_descriptor": self.acquirer_id.company_id.name,
                 "type": self.payment_token_id.pagseguro_payment_method,
-                "installments": 1,
+                "installments": self.payment_token_id.pagseguro_installments,
                 "capture": False,
                 "card": {
                     "encrypted": self.payment_token_id.pagseguro_card_token,

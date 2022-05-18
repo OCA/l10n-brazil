@@ -13,6 +13,7 @@
                     <xpath expr='//group[@name="acquirer"]' position='after'>
                         <group attrs="{'invisible': [('provider', '!=', 'pagseguro')]}">
                             <field name="pagseguro_token" password="True" />
+                            <field name="pagseguro_max_installments" />
                         </group>
                     </xpath>
             </field>
