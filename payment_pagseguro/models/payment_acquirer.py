@@ -19,6 +19,10 @@ class PaymentAcquirerPagseguro(models.Model):
         string="Pagseguro max installments", default=18
     )
 
+    def get_installments_options(self):
+        """ Get list of installment options available to compose the html tag """
+        return list(range(1, self.pagseguro_max_installments + 1))
+
     @api.multi
     def pagseguro_s2s_form_validate(self, data):
         """Validates user input"""
