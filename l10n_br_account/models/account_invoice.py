@@ -353,6 +353,7 @@ class AccountMove(models.Model):
         super()._recompute_payment_terms_lines()
         terms_lines = self.line_ids.filtered(
             lambda l: l.account_id.user_type_id.type in ("receivable", "payable")
+            and l.move_id.document_type_id
         )
         terms_lines.sorted(lambda line: line.date_maturity)
         i = 1
