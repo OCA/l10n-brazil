@@ -2,6 +2,7 @@
 #   Magno Costa <magno.costa@akretion.com.br>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+from odoo import fields
 from odoo.tests.common import TransactionCase
 
 
@@ -12,7 +13,7 @@ class TestSupplierInvoice(TransactionCase):
     """
 
     def setUp(self):
-        super(TestSupplierInvoice, self).setUp()
+        super().setUp()
         self.purchase_account = self.env["account.account"].create(
             dict(
                 code="X1020",
@@ -30,11 +31,12 @@ class TestSupplierInvoice(TransactionCase):
                 default_account_id=self.purchase_account.id,
             )
         )
+
         self.invoice_1 = self.env["account.move"].create(
             dict(
-                name="Test Supplier Invoice",
-                # payment_term_id=self.env.ref(
-                # "account.account_payment_term_advance").id,
+                name="Test Supplier Invoice 1",
+                move_type="in_invoice",
+                invoice_date=fields.Date.today(),
                 partner_id=self.env.ref("base.res_partner_3").id,
                 journal_id=self.purchase_journal.id,
                 invoice_line_ids=[
