@@ -145,7 +145,7 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                 $checkedRadio.length === 1 &&
                 $checkedRadio.data("provider") === "pagseguro"
             ) {
-                const total_price = $(".oe_currency_value")[0].innerHTML;
+                const total_price = $("#order_total td.text-xl-right strong").text();
                 document.getElementById("installmentsvalue").value = total_price;
             }
 
