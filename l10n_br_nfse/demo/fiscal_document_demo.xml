@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- NFe Test - Empresa Contribuinte - Mesmo Estado -->
+    <record id="l10n_br_fiscal.demo_nfse_same_state" model="l10n_br_fiscal.document">
+        <field name="rps_number">50</field>
+        <field name="rps_type">1</field>
+        <field name="operation_nature">1</field>
+        <field name="taxation_special_regime">1</field>
+    </record>
+
+    <record
+        id="l10n_br_fiscal.demo_nfse_line_same_state_1-1"
+        model="l10n_br_fiscal.document.line"
+    >
+        <field
+            name="city_taxation_code_id"
+            ref="l10n_br_fiscal.city_taxation_code_itajuba"
+        />
+        <field name="cnae_id" ref="l10n_br_fiscal.cnae_3101200" />
+    </record>
+
+    <data noupdate="1">
+        <function
+            model="l10n_br_fiscal.document.line"
+            name="_onchange_product_id_fiscal"
+        >
+            <value eval="[ref('l10n_br_fiscal.demo_nfse_line_same_state_1-1')]" />
+        </function>
+        <function
+            model="l10n_br_fiscal.document.line"
+            name="_onchange_commercial_quantity"
+        >
+            <value eval="[ref('l10n_br_fiscal.demo_nfse_line_same_state_1-1')]" />
+        </function>
+    </data>
+
+</odoo>

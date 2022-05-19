@@ -1,9 +1,10 @@
 # generated from manifests external_dependencies
 erpbrasil.assinatura
 erpbrasil.base
+erpbrasil.edoc
+erpbrasil.transmissao
 nfelib
 num2words
 odoo_test_helper
 pycep_correios
-pyOpenSSL
 workalendar

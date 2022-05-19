@@ -35,27 +35,27 @@ class Num2WordsPTBRTest(SavepointCase):
     def test_03_amount_to_text(self):
         self.assertEqual(
             self.n2w.to_currency(77777.0),
-            u"setenta e sete mil, setecentos e setenta" u" e sete reais",
+            "setenta e sete mil, setecentos e setenta" " e sete reais",
         )
 
     def test_04_amount_to_text(self):
         self.assertEqual(
             self.n2w.to_currency(1856333.0),
-            u"um milhão, oitocentos e cinquenta e seis mil,"
-            u" trezentos e trinta e três reais",
+            "um milhão, oitocentos e cinquenta e seis mil,"
+            " trezentos e trinta e três reais",
         )
 
     def test_05_amount_to_text(self):
         self.assertEqual(
             self.n2w.to_currency(9999999.0),
-            u"nove milhões, novecentos e noventa e nove mil,"
-            u" novecentos e noventa e nove reais",
+            "nove milhões, novecentos e noventa e nove mil,"
+            " novecentos e noventa e nove reais",
         )
 
     def test_06_amount_to_text(self):
         self.assertEqual(
             self.n2w.to_currency(9999999999.0),
-            u"nove bilhões, novecentos e noventa e nove milhões,"
-            u" novecentos e noventa e nove mil, novecentos e"
-            u" noventa e nove reais",
+            "nove bilhões, novecentos e noventa e nove milhões,"
+            " novecentos e noventa e nove mil, novecentos e"
+            " noventa e nove reais",
         )

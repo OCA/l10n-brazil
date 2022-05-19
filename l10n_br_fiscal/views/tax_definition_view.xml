@@ -10,6 +10,7 @@
         <field name="tax_group_id" />
         <field name="is_taxed" />
         <field name="tax_id" />
+        <field name="cst_code" />
       </tree>
     </field>
   </record>
@@ -27,6 +28,7 @@
         <field name="state_from_id" />
         <field name="state_to_ids" />
         <field name="tax_id" />
+        <field name="cst_code" />
       </tree>
     </field>
   </record>
@@ -68,7 +70,10 @@
         </header>
         <sheet>
           <group>
-            <field name="tax_group_id" />
+            <field
+                            name="tax_group_id"
+                            options="{'no_create': True, 'no_create_edit': True}"
+                        />
             <field name="type_in_out" invisible="1" />
             <field name="is_taxed" />
             <field
@@ -83,10 +88,12 @@
             <field
                             name="cst_id"
                             attrs="{'invisible': ['|', ('custom_tax', '=', False), ('tax_domain', 'not in', ('icmssn', 'icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))], 'required': [('custom_tax', '=', True), ('tax_domain', 'in', ('icms', 'ipi', 'pis', 'pisst', 'cofins', 'cofinsst'))]}"
+                            options="{'no_create': True, 'no_create_edit': True}"
                         />
             <field
                             name="ipi_guideline_id"
                             attrs="{'invisible': [('tax_domain', '!=', 'ipi')]}"
+                            options="{'no_create': True, 'no_create_edit': True}"
                         />
           </group>
           <group
@@ -94,8 +101,11 @@
                         string="State"
                         attrs="{'invisible': [('icms_regulation_id', '=', False)]}"
                     >
-            <field name="state_from_id" />
-            <field name="state_to_ids" />
+            <field
+                            name="state_from_id"
+                            options="{'no_create': True, 'no_create_edit': True}"
+                        />
+            <field name="state_to_ids" options="{'no_create': True}" />
           </group>
           <notebook>
             <page name="ncms_page" string="NCM">
@@ -111,7 +121,13 @@
                                         title="Search NCMs"
                                     />
                 </div>
-                <field name="ncm_ids" force_save="1" nolabel="1" colspan="2" />
+                <field
+                                    name="ncm_ids"
+                                    options="{'no_create': True}"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                />
                 <field name="ncm_exception" />
                 <field name="not_in_ncms" />
               </group>
@@ -129,7 +145,13 @@
                                         title="Search NBMs"
                                     />
                 </div>
-                <field name="nbm_ids" force_save="1" nolabel="1" colspan="2" />
+                <field
+                                    name="nbm_ids"
+                                    options="{'no_create': True}"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                />
                 <field name="not_in_nbms" />
               </group>
             </page>
@@ -146,7 +168,23 @@
                                         title="Search CESTs"
                                     />
                 </div>
-                <field name="cest_ids" force_save="1" nolabel="1" colspan="2" />
+                <field
+                                    name="cest_ids"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                    options="{'no_create': True}"
+                                />
+              </group>
+            </page>
+            <page name="city_taxation_codes_page" string="City Taxation Code">
+              <group name="city_taxation_codes" string="City Taxation Codes">
+                <field
+                                    name="city_taxation_code_ids"
+                                    force_save="1"
+                                    nolabel="1"
+                                    colspan="2"
+                                />
               </group>
             </page>
             <page name="products_page" string="Product">
@@ -157,9 +195,9 @@
           </notebook>
         </sheet>
         <div class="oe_chatter">
-          <field name="message_follower_ids" widget="mail_followers" />
-          <field name="activity_ids" widget="mail_activity" />
-          <field name="message_ids" widget="mail_thread" />
+            <field name="message_follower_ids" groups="base.group_user" />
+            <field name="activity_ids" />
+            <field name="message_ids" />
         </div>
       </form>
     </field>

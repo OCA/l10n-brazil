@@ -203,6 +203,12 @@ class Document(models.Model):
         string="DF-e Consult",
     )
 
+    xml_error_message = fields.Text(
+        readonly=True,
+        string="XML validation errors",
+        copy=False,
+    )
+
     # Você não vai poder fazer isso em modelos que já tem state
     # TODO Porque não usar o campo state do fiscal.document???
     state = fields.Selection(related="state_edoc", string="State")
@@ -379,7 +385,7 @@ class Document(models.Model):
         ]
 
         for record in self.filtered(
-            lambda d: d != self.env.user.company_id.fiscal_dummy_id
+            lambda d: d != self.env.company.fiscal_dummy_id
             and d.state_edoc in forbidden_states_unlink
         ):
             raise ValidationError(
@@ -470,7 +476,7 @@ class Document(models.Model):
         super()._onchange_fiscal_operation_id()
         if self.fiscal_operation_id:
             self.fiscal_operation_type = self.fiscal_operation_id.fiscal_operation_type
-            self.ind_final = self.fiscal_operation_id.ind_final
+            self.edoc_purpose = self.fiscal_operation_id.edoc_purpose
 
         if self.issuer == DOCUMENT_ISSUER_COMPANY and not self.document_type_id:
             self.document_type_id = self.company_id.document_type_id

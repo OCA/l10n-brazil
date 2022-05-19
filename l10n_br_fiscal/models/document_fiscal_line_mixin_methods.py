@@ -58,7 +58,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         Injects common fiscal fields into view placeholder elements.
         Used for invoice line, sale order line, purchase order line...
         """
-        fiscal_view = self.env.ref("l10n_br_fiscal.document_fiscal_line_mixin_form")
+        fiscal_view = self.env.ref(
+            "l10n_br_fiscal.document_fiscal_line_mixin_form"
+        ).sudo()
         fsc_doc = etree.fromstring(fiscal_view["arch"])
         doc = etree.fromstring(view_arch)
 
@@ -197,6 +199,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             icmssn_range=self.icmssn_range_id,
             icms_origin=self.icms_origin,
             icms_cst_id=self.icms_cst_id,
+            ind_final=self.ind_final,
         )
 
     def _prepare_br_fiscal_dict(self, default=False):
@@ -330,6 +333,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
                 nbm=self.nbm_id,
                 nbs=self.nbs_id,
                 cest=self.cest_id,
+                city_taxation_code=self.city_taxation_code_id,
             )
 
             self.ipi_guideline_id = mapping_result["ipi_guideline"]
@@ -794,6 +798,7 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     def _onchange_city_taxation_code_id(self):
         if self.city_taxation_code_id:
             self.cnae_id = self.city_taxation_code_id.cnae_id
+            self._onchange_fiscal_operation_id()
 
     @api.model
     def _add_fields_to_amount(self):

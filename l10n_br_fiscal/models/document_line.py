@@ -64,6 +64,8 @@ class DocumentLine(models.Model):
         string="Product",
     )
 
+    ind_final = fields.Selection(related="document_id.ind_final")
+
     # Amount Fields
     amount_untaxed = fields.Monetary(
         string="Amount Untaxed",

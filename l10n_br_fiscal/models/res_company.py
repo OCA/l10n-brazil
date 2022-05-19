@@ -4,7 +4,7 @@
 
 import logging
 
-from odoo import api, fields, models, tools
+from odoo import api, fields, models
 
 from ..constants.fiscal import (
     COEFFICIENT_R,
@@ -48,13 +48,19 @@ class ResCompany(models.Model):
             "cnae_main_id",
         ]
 
+    @api.model
+    def default_get(self, fields):
+        rec = super().default_get(fields)
+        rec["fiscal_dummy_id"] = self._default_fiscal_dummy_id().id
+        return rec
+
     def _inverse_cnae_main_id(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.cnae_main_id = c.cnae_main_id
 
     def _inverse_tax_framework(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
 
@@ -80,20 +86,10 @@ class ResCompany(models.Model):
 
     @api.model
     def _default_fiscal_dummy_id(self):
-        if tools.table_exists(self.env.cr, "l10n_br_fiscal_document"):
-            # happens during res.company#auto_init() when setting
-            # the default fiscal_dummy_id value
-            dummy_doc = self.env["l10n_br_fiscal.document"].search(
-                self._fiscal_dummy_doc_domain(), limit=1
-            )
-        else:
-            self.env["l10n_br_fiscal.document"]._auto_init()
-            dummy_doc = False
-
+        dummy_doc = self.env["l10n_br_fiscal.document"].search(
+            self._fiscal_dummy_doc_domain(), limit=1
+        )
         if not dummy_doc:
-            if not tools.table_exists(self.env.cr, "l10n_br_fiscal_document_line"):
-                self.env["l10n_br_fiscal.document.line"]._auto_init()
-
             dummy_doc = self.env["l10n_br_fiscal.document"].create(
                 self._prepare_create_fiscal_dummy_doc()
             )
@@ -375,8 +371,6 @@ class ResCompany(models.Model):
     fiscal_dummy_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
         string="Fiscal Dummy Document",
-        required=True,
-        default=_default_fiscal_dummy_id,
         ondelete="restrict",
     )
 

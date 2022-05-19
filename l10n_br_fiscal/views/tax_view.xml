@@ -48,7 +48,10 @@
                 <field name="sequence" invisible="1" />
                 <sheet>
                     <group>
-                        <field name="tax_group_id" />
+                        <field
+                            name="tax_group_id"
+                            options="{'no_create': True, 'no_create_edit': True}"
+                        />
                         <field name="name" />
                         <field
                             name="tax_base_type"
@@ -91,14 +94,17 @@
                         <field
                             name="uot_id"
                             attrs="{'invisible': [('tax_base_type', '!=', 'quantity')], 'required': [('tax_base_type', '=', 'quantity')]}"
+                            options="{'no_create': True, 'no_create_edit': True}"
                         />
                         <field
                             name="cst_in_id"
                             attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'icmssn', 'ipi', 'pis', 'cofins'])]}"
+                            options="{'no_create': True, 'no_create_edit': True}"
                         />
                         <field
                             name="cst_out_id"
                             attrs="{'invisible': [('tax_domain', 'not in', ['icms', 'icmssn', 'ipi', 'pis', 'cofins'])]}"
+                            options="{'no_create': True, 'no_create_edit': True}"
                         />
                     </group>
                 </sheet>

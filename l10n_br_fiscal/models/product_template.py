@@ -22,10 +22,17 @@ class ProductTemplate(models.Model):
         if fiscal_type == PRODUCT_FISCAL_TYPE_SERVICE:
             return self.env.ref(NCM_FOR_SERVICE_REF)
 
-    fiscal_type = fields.Selection(selection=PRODUCT_FISCAL_TYPE, string="Fiscal Type")
+    fiscal_type = fields.Selection(
+        selection=PRODUCT_FISCAL_TYPE,
+        string="Fiscal Type",
+        company_dependent=True,
+    )
 
     icms_origin = fields.Selection(
-        selection=ICMS_ORIGIN, string="ICMS Origin", default=ICMS_ORIGIN_DEFAULT
+        selection=ICMS_ORIGIN,
+        string="ICMS Origin",
+        company_dependent=True,
+        default=ICMS_ORIGIN_DEFAULT,
     )
 
     ncm_id = fields.Many2one(
@@ -92,3 +99,12 @@ class ProductTemplate(models.Model):
     uot_id = fields.Many2one(comodel_name="uom.uom", string="Tax UoM")
 
     uot_factor = fields.Float(string="Tax UoM Factor")
+
+    tax_definition_ids = fields.Many2many(
+        comodel_name="l10n_br_fiscal.tax.definition",
+        relation="tax_definition_product_rel",
+        column1="product_id",
+        column2="tax_definition_id",
+        readonly=True,
+        string="Tax Definition",
+    )

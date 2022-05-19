@@ -301,7 +301,14 @@ class DocumentWorkflow(models.AbstractModel):
                 self._generate_key()
 
     def _document_confirm(self):
-        self._change_state(SITUACAO_EDOC_A_ENVIAR)
+        if self.issuer == DOCUMENT_ISSUER_COMPANY:
+            if not self.comment_ids and self.fiscal_operation_id.comment_ids:
+                self.comment_ids |= self.fiscal_operation_id.comment_ids
+
+            for line in self.fiscal_line_ids:
+                if not line.comment_ids and line.fiscal_operation_line_id.comment_ids:
+                    line.comment_ids |= line.fiscal_operation_line_id.comment_ids
+            self._change_state(SITUACAO_EDOC_A_ENVIAR)
 
     def action_document_confirm(self):
         to_confirm = self.filtered(lambda inv: inv.state_edoc != SITUACAO_EDOC_A_ENVIAR)
@@ -327,6 +334,8 @@ class DocumentWorkflow(models.AbstractModel):
             to_send._document_send()
 
     def action_document_back2draft(self):
+        self.xml_error_message = False
+        self.file_report_id = False
         self._change_state(SITUACAO_EDOC_EM_DIGITACAO)
 
     def _document_cancel(self, justificative):

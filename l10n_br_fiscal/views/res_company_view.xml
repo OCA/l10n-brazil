@@ -57,13 +57,17 @@
                                 </group>
                             </group>
                             <group string="CNAE">
-                                <field name="cnae_main_id" />
+                                <field
+                                    name="cnae_main_id"
+                                    options="{'no_create': True, 'no_create_edit': True}"
+                                />
                             </group>
                             <group colspan="4" string="Secondary CNAE">
                                 <field
                                     colspan="4"
                                     nolabel="1"
                                     name="cnae_secondary_ids"
+                                    options="{'no_create': True}"
                                 />
                             </group>
                         </page>
@@ -74,6 +78,7 @@
                                         name="piscofins_id"
                                         required="1"
                                         domain="{'3': [('piscofins_type', '=', 'company'), ('id', '!=', %(l10n_br_fiscal.tax_pis_cofins_simples_nacional)d)]}.get(tax_framework, [('piscofins_type', '=', 'company'), ('id', '=', %(l10n_br_fiscal.tax_pis_cofins_simples_nacional)d)])"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                       <field name="tax_pis_wh_id" />
                                       <field name="tax_cofins_wh_id" />
@@ -101,10 +106,12 @@
                                         name="tax_icms_id"
                                         attrs="{'invisible': [('tax_framework', '=', '3')], 'required': [('tax_framework', 'in', ('1', '2'))]}"
                                         domain="{'3': [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icms)d)]}.get(tax_framework, [('tax_group_id', '=', %(l10n_br_fiscal.tax_group_icmssn)d)])"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                       <field
                                         name="icms_regulation_id"
                                         attrs="{'invisible': [('tax_framework', '!=', '3')], 'required': [('tax_framework', '=', '3')]}"
+                                        options="{'no_create': True, 'no_create_edit': True}"
                                     />
                                   </group>
                                   <group name="issqn_taxes" string="ISSQN">
