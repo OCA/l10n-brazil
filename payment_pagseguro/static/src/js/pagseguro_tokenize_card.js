@@ -138,5 +138,18 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
             }
             return this._super.apply(this, arguments);
         },
+
+        radioClickEvent: function (ev) {
+            var $checkedRadio = this.$('input[type="radio"]:checked');
+            if (
+                $checkedRadio.length === 1 &&
+                $checkedRadio.data("provider") === "pagseguro"
+            ) {
+                const total_price = $(".oe_currency_value")[0].innerHTML;
+                document.getElementById("installmentsvalue").value = total_price;
+            }
+
+            this._super.apply(this, ev);
+        },
     });
 });

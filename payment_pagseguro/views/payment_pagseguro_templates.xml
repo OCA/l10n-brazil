@@ -129,8 +129,8 @@
                 }
 
                 function onChangeInstallments() {
-                    const number = document.getElementById("installments").value;
-                    const table_of_factors = {
+                    let number = document.getElementById("installments").value;
+                    let table_of_factors = {
                         1: 1,
                         2: 0.51495,
                         3: 0.3467,
@@ -144,11 +144,11 @@
                         11: 0.10212,
                         12: 0.0945,
                     };
-                    const price_element = document.querySelector(
+                    let price_element = document.querySelector(
                         "#order_total > td.text-xl-right > strong > span"
                     );
-                    const total_price = price_element.innerHTML.replace(",", ".").replace(".", "");
-                    const installment_value = table_of_factors[number] * Number(total_price);
+                    let total_price = price_element.innerHTML.replace(".", "").replace(",", ".");
+                    let installment_value = table_of_factors[number] * Number(total_price);
                     document.getElementById("installmentsvalue").value = convert_to_currency(
                         installment_value
                     );
