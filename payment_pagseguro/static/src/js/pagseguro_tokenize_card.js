@@ -42,6 +42,16 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
             var formData = this.getFormData(inputsForm);
             var paymentMethod = $("#payment_form option:selected", acquirerForm)[0]
                 .attributes.value.value;
+            var installments = $("#installments option:selected").val();
+
+            if (!this.validateInstallmentsByBrand(formData.cc_brand, installments)) {
+                self.enableButton(button);
+                self.displayError(
+                    _t("Parcelas inválidas"),
+                    _t("Essa quantidade de parcelas não é suportada pela bandeira")
+                );
+                return;
+            }
 
             // Get public key
             rpc.query({
@@ -115,6 +125,16 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                 });
         },
 
+        validateInstallmentsByBrand: function (brand, installments) {
+            const maxInstallmentsByBrand = {
+                visa: 12,
+                mastercard: 12,
+                amex: 15,
+            };
+
+            return installments <= maxInstallmentsByBrand[brand];
+        },
+
         // --------------------------------------------------------------------------
         // Handlers
         // --------------------------------------------------------------------------
@@ -145,6 +165,8 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                 $checkedRadio.length === 1 &&
                 $checkedRadio.data("provider") === "pagseguro"
             ) {
+                // Since the installments value is set by an onchange function we insert
+                // the value manually when clicking on pagseguro
                 const total_price = $("#order_total td.text-xl-right strong").text();
                 document.getElementById("installmentsvalue").value = total_price;
             }
