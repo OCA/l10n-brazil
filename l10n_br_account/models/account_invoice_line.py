@@ -65,12 +65,6 @@ class AccountMoveLine(models.Model):
         related="cfop_id.destination", string="CFOP Destination"
     )
 
-    partner_id = fields.Many2one(
-        comodel_name="res.partner",
-        related="move_id.partner_id",
-        string="Partner",
-    )
-
     partner_company_type = fields.Selection(related="partner_id.company_type")
 
     fiscal_genre_code = fields.Char(
