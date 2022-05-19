@@ -16,7 +16,9 @@ class PaymentAcquirerPagseguro(models.Model):
     )
 
     pagseguro_max_installments = fields.Integer(
-        string="Pagseguro max installments", default=18
+        string="Pagseguro max installments",
+        help="The maximum installments allowed by brands is 12",
+        default=12,
     )
 
     def get_installments_options(self):

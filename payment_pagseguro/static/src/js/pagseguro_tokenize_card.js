@@ -44,15 +44,6 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                 .attributes.value.value;
             var installments = $("#installments option:selected").val();
 
-            if (!this.validateInstallmentsByBrand(formData.cc_brand, installments)) {
-                self.enableButton(button);
-                self.displayError(
-                    _t("Parcelas inválidas"),
-                    _t("Essa quantidade de parcelas não é suportada pela bandeira")
-                );
-                return;
-            }
-
             // Get public key
             rpc.query({
                 route: "/payment/pagseguro/public_key",
@@ -90,7 +81,7 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                             cc_cvc: "",
                             data_set: ds.dataset.createRoute,
                             payment_method: paymentMethod,
-                            installments: formData.installments,
+                            installments: installments,
                         });
                         // Start payment flow
                         return rpc.query({
@@ -123,16 +114,6 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                         );
                     }
                 });
-        },
-
-        validateInstallmentsByBrand: function (brand, installments) {
-            const maxInstallmentsByBrand = {
-                visa: 12,
-                mastercard: 12,
-                amex: 15,
-            };
-
-            return installments <= maxInstallmentsByBrand[brand];
         },
 
         // --------------------------------------------------------------------------
