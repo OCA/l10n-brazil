@@ -42,6 +42,7 @@
     "demo": [
         "demo/res_users_demo.xml",
     ],
+    "pre_init_hook": "pre_init_hook",
     "post_init_hook": "post_init_hook",
     "installable": True,
     "auto_install": False,
