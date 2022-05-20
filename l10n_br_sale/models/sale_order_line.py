@@ -107,9 +107,9 @@ class SaleOrderLine(models.Model):
         company = self.env.company
         domain = []
         if company.cnae_main_id and company.cnae_secondary_ids:
-            cnae_main_id = company.cnae_main_id.id,
+            cnae_main_id = (company.cnae_main_id.id,)
             cnae_secondary_ids = company.cnae_secondary_ids.ids
-            domain = ['|', ('id', 'in', cnae_secondary_ids), ('id', '=', cnae_main_id)]
+            domain = ["|", ("id", "in", cnae_secondary_ids), ("id", "=", cnae_main_id)]
         return domain
 
     cnae_id = fields.Many2one(
