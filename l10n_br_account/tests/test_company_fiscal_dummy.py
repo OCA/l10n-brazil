@@ -1,3 +1,5 @@
+# pylint: disable=invalid-commit
+
 from psycopg2 import IntegrityError
 
 from odoo.tests.common import TransactionCase
@@ -19,3 +21,4 @@ class TestCompanyFiscalDummy(TransactionCase):
     def test_company_delete_fiscal_dummy(self):
         with self.assertRaises(IntegrityError), mute_logger("odoo.sql_db"):
             self.company.fiscal_dummy_id = None
+            self.env.cr.commit()
