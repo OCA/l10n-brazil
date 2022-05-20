@@ -119,59 +119,6 @@ class AccountMoveLine(models.Model):
         ondelete="restrict",
     )
 
-    @api.depends(
-        "price_unit",
-        "discount",
-        "tax_ids",
-        "quantity",
-        "product_id",
-        "move_id.partner_id",
-        "move_id.currency_id",
-        "move_id.company_id",
-        "move_id.date",
-        "move_id.date",
-        "fiscal_tax_ids",
-    )
-    def _compute_price(self):
-        """Compute the amounts of the SO line."""
-        # TODO FIXME migrate. No such method in Odoo 13+
-        super()._compute_price()
-        if self.document_type_id:
-            # Call mixin compute method
-            self._compute_amounts()
-            # Update record
-            self.update(
-                {
-                    "discount": self.discount_value,
-                    "price_subtotal": self.amount_untaxed + self.discount_value,
-                    "price_tax": self.amount_tax,
-                    "price_total": self.amount_total,
-                }
-            )
-
-            price_subtotal_signed = self.price_subtotal
-
-            if (
-                self.move_id.currency_id
-                and self.move_id.currency_id != self.move_id.company_id.currency_id
-            ):
-                currency = self.move_id.currency_id
-                date = self.move_id._get_currency_rate_date()
-                price_subtotal_signed = currency._convert(
-                    price_subtotal_signed,
-                    self.move_id.company_id.currency_id,
-                    self.company_id or self.env.company,
-                    date or fields.Date.today(),
-                )
-            sign = self.move_id.move_type in ["in_refund", "out_refund"] and -1 or 1
-            self.price_subtotal_signed = price_subtotal_signed * sign
-
-    # @api.depends("price_total")
-    # def _get_price_tax(self):
-    #     # TODO FIXME migrate. No such method in Odoo 13+
-    #     for line in self:
-    #         line.price_tax = line.amount_tax
-
     @api.model
     def _shadowed_fields(self):
         """Returns the list of shadowed fields that are synced
