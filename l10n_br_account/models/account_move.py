@@ -78,15 +78,13 @@ class AccountMove(models.Model):
                 .search([("wh_move_line_id", "in", m.mapped("line_ids").ids)])
                 .mapped("move_id")
             )
-
             invoices.filtered(lambda i: i.state == "open").button_cancel()
-
             invoices.filtered(lambda i: i.state == "cancel").button_draft()
             invoices.invalidate_cache()
             invoices.filtered(lambda i: i.state == "draft").unlink()
 
     def post(self, invoice=False):
-        # TODO FIXME migrate: no mode invoice keyword
+        # TODO FIXME migrate: no more invoice keyword
         result = super().post()
         if invoice:
             if (
@@ -99,8 +97,9 @@ class AccountMove(models.Model):
         return result
 
     def button_cancel(self):
-        # TODO FIXME migration
-        # Esse método é responsavel por verificar se há alguma fatura de impostos retidos
-        # associado a essa fatura e cancela-las também. o método precisa ser refatorado.
-        # self._withholding_validate()
+        for doc in self.filtered(lambda d: d.document_type_id):
+            doc.fiscal_document_id.action_document_cancel()
+        # Esse método é responsavel por verificar se há alguma fatura de impostos
+        # retidos associada a essa fatura e cancela-las também.
+        self._withholding_validate()
         return super().button_cancel()
