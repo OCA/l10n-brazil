@@ -81,10 +81,10 @@ class NFeRelated(spec_models.StackedModel):
                     MODELO_FISCAL_CFE,
                 ):
                     rec.nfe40_choice4 = "nfe40_refNFe"
-                    rec.nfe40_refNFe = document.document_key
+                    rec.nfe40_refNFe = rec.document_key
                 elif rec.document_type_id.code == MODELO_FISCAL_CTE:
                     rec.nfe40_choice4 = "nfe40_refCTe"
-                    rec.nfe40_refCTe = document.document_key
+                    rec.nfe40_refCTe = rec.document_key
                 else:
                     if rec.document_type_id.code == MODELO_FISCAL_RL:
                         rec.nfe40_choice4 = "nfe40_refNFP"
