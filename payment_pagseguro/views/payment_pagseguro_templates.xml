@@ -136,7 +136,6 @@
                         onchange="onChangePaymentMethod()"
                     >
                         <option value="CREDIT_CARD">Credit Card</option>
-                        <option value="BOLETO">Bill</option>
                     </select>
                 </div>
                 <div
