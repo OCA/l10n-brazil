@@ -168,7 +168,7 @@ class L10nBrPurchaseBaseTest(SavepointCase):
         invoice_values = {
             "partner_id": order.partner_id.id,
             "purchase_id": order.id,
-            "type": "in_invoice",
+            "move_type": "in_invoice",
         }
 
         invoice_values.update(order._prepare_br_fiscal_dict())
