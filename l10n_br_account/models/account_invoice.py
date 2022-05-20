@@ -2,7 +2,6 @@
 # Copyright (C) 2019 - TODAY Raphaël Valyi - Akretion
 # Copyright (C) 2020 - TODAY Luis Felipe Mileo - KMEE
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
-# pylint: disable=api-one-deprecated
 
 
 from odoo import _, api, fields, models
@@ -366,65 +365,6 @@ class AccountMove(models.Model):
             terms_line.name = "{}/{}-{}".format(
                 self.document_number, i, len(terms_lines)
             )
-
-    # TODO TOTAIS
-    # @api.depends(
-    #     "line_ids.price_total",
-    #     # TODO FIXME migrate!
-    #     #        "tax_line_ids.amount",
-    #     #        "tax_line_ids.amount_rounding",
-    #     "currency_id",
-    #     "company_id",
-    #     "invoice_date",
-    #     "move_type",
-    # )
-    # def _compute_amount(self):
-    #     for move in self:
-    #         inv_lines = move.line_ids.filtered(
-    #             lambda l: not l.fiscal_operation_line_id
-    #             or l.fiscal_operation_line_id.add_to_amount
-    #         )
-    #         for inv_line in inv_lines:
-    #             if inv_line.cfop_id:
-    #                 if inv_line.cfop_id.finance_move:
-    #                     move.amount_untaxed += inv_line.price_subtotal
-    #                     # TODO FIXME migrate!
-    #                     # move.amount_tax += inv_line.price_tax
-    #                     move.amount_total += inv_line.price_total
-    #             else:
-    #                 move.amount_untaxed += inv_line.price_subtotal
-    #                 # TODO FIXME migrate!
-    #                 # move.amount_tax += inv_line.price_tax
-    #                 move.amount_total += inv_line.price_total
-    #
-    #         # TODO FIXME migrate, this create
-    #         # a financial_discount_value CacheMiss error
-    #         # is it because lines still have amount_* fields?
-    #         # move.amount_total -= move.amount_tax_withholding
-    #
-    #         amount_total_signed = move.amount_total
-    #         amount_untaxed_signed = move.amount_untaxed
-    #         if (
-    #             move.currency_id
-    #             and move.company_id
-    #             and move.currency_id != move.company_id.currency_id
-    #         ):
-    #             currency_id = move.currency_id
-    #             amount_total_signed = currency_id._convert(
-    #                 move.amount_total,
-    #                 move.company_id.currency_id,
-    #                 move.company_id,
-    #                 move.invoice_date or fields.Date.today(),
-    #             )
-    #             amount_untaxed_signed = currency_id._convert(
-    #                 move.amount_untaxed,
-    #                 move.company_id.currency_id,
-    #                 move.company_id,
-    #                 move.invoice_date or fields.Date.today(),
-    #             )
-    #         sign = move.move_type in ["in_refund", "out_refund"] and -1 or 1
-    #         move.amount_total_signed = amount_total_signed * sign
-    #         move.amount_untaxed_signed = amount_untaxed_signed * sign
 
     # @api.model
     # def invoice_line_move_line_get(self):
