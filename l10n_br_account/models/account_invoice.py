@@ -574,11 +574,6 @@ class AccountMove(models.Model):
 
         return result
 
-    def button_cancel(self):
-        for i in self.filtered(lambda d: d.document_type_id):
-            i.fiscal_document_id.action_document_cancel()
-        return super().button_cancel()
-
     def view_xml(self):
         self.ensure_one()
         return self.fiscal_document_id.view_xml()
