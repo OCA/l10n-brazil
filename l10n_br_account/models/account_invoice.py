@@ -61,10 +61,10 @@ class AccountMove(models.Model):
     _inherits = {"l10n_br_fiscal.document": "fiscal_document_id"}
     _order = "date DESC, name DESC"
 
-    # initial account.invoice inherits on fiscal.document that are
-    # disable with active=False in their fiscal_document table.
-    # To make these invoices still visible, we set active=True
-    # in the invoice table.
+    # some account.move records _inherits from an fiscal.document that is
+    # disabled with active=False (dummy record) in the l10n_br_fiscal_document table.
+    # To make the invoices still visible, we set active=True
+    # in the account_move table.
     active = fields.Boolean(
         string="Active",
         default=True,
@@ -90,10 +90,6 @@ class AccountMove(models.Model):
         string="Electronic?",
     )
 
-    # this default should be overwritten to False in a module pretending to
-    # create fiscal documents from the invoices. But this default here
-    # allows to install the l10n_br_account module without creating issues
-    # with the existing Odoo invoice (demo or not).
     fiscal_document_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document",
         string="Fiscal Document",
@@ -351,20 +347,21 @@ class AccountMove(models.Model):
         # documento fiscal o numero do documento pode estar em branco
         # atualizar esse dado ao validar a fatura, ou atribuir o número da NFe
         # antes de salva-la.
-        super()._recompute_payment_terms_lines()
-        terms_lines = self.line_ids.filtered(
-            lambda l: l.account_id.user_type_id.type in ("receivable", "payable")
-            and l.move_id.document_type_id
-        )
-        terms_lines.sorted(lambda line: line.date_maturity)
-        i = 1
-        for terms_line in terms_lines:
-            # TODO TODO pegar o método do self.fiscal_document_id.with_context(
-            # fiscal_document_no_company=True
-            # )._compute_document_name()
-            terms_line.name = "{}/{}-{}".format(
-                self.document_number, i, len(terms_lines)
+        result = super()._recompute_payment_terms_lines()
+        if self.document_number:
+            terms_lines = self.line_ids.filtered(
+                lambda l: l.account_id.user_type_id.type in ("receivable", "payable")
+                and l.move_id.document_type_id
             )
+            terms_lines.sorted(lambda line: line.date_maturity)
+            for idx, terms_line in enumerate(terms_lines):
+                # TODO TODO pegar o método do self.fiscal_document_id.with_context(
+                # fiscal_document_no_company=True
+                # )._compute_document_name()
+                terms_line.name = "{}/{}-{}".format(
+                    self.document_number, idx + 1, len(terms_lines)
+                )
+        return result
 
     # @api.model
     # def invoice_line_move_line_get(self):
