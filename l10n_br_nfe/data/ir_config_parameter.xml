@@ -3,7 +3,7 @@
 
     <record id="nfe_version_name" model="ir.config_parameter" forcecreate="True">
         <field name="key">l10n_br_nfe.version.name</field>
-        <field name="value">Odoo Brasil OCA v14.0</field>
+        <field name="value">Odoo Brasil OCA v14</field>
       </record>
 
 </odoo>
