@@ -6,8 +6,8 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-# These fields that have the same name in account.move.line
-# and l10n_br_fiscal.document.line.mixin. So they won't be updated
+# These fields have the same name in account.move.line
+# and l10n_br_fiscal.document.line.mixin. So they wouldn't get updated
 # by the _inherits system. An alternative would be changing their name
 # in l10n_br_fiscal but that would make the code unreadable and fiscal mixin
 # methods would fail to do what we expect from them in the Odoo objects
@@ -30,19 +30,15 @@ class AccountMoveLine(models.Model):
     _inherit = [_name, "l10n_br_fiscal.document.line.mixin.methods"]
     _inherits = {"l10n_br_fiscal.document.line": "fiscal_document_line_id"}
 
-    # initial account.move.line inherits on fiscal.document.line that are
-    # disable with active=False in their fiscal_document_line table.
-    # To make these invoice lines still visible, we set active=True
-    # in the invoice.line table.
+    # some account.move.line records _inherits from an fiscal.document.line that is
+    # disabled with active=False (dummy record) in the l10n_br_fiscal_document_line table.
+    # To make the invoice lines still visible, we set active=True
+    # in the account_move_line table.
     active = fields.Boolean(
         string="Active",
         default=True,
     )
 
-    # this default should be overwritten to False in a module pretending to
-    # create fiscal documents from the invoices. But this default here
-    # allows to install the l10n_br_account module without creating issues
-    # with the existing Odoo invoice (demo or not).
     fiscal_document_line_id = fields.Many2one(
         comodel_name="l10n_br_fiscal.document.line",
         string="Fiscal Document Line",
@@ -81,8 +77,9 @@ class AccountMoveLine(models.Model):
         help="Indicates that this journal item is a tax line",
     )
 
-    # Esses campos estão no fiscal document line mixin mas são redefinidos
-    # para os related serem recalculados
+    # The following fields belong to the fiscal document line mixin
+    # but they are redefined here to ensure they are recomputed in the
+    # account.move.line views.
     icms_cst_code = fields.Char(
         related="icms_cst_id.code",
         string="ICMS CST Code",
@@ -121,7 +118,7 @@ class AccountMoveLine(models.Model):
 
     @api.model
     def _shadowed_fields(self):
-        """Returns the list of shadowed fields that are synced
+        """Returns the list of shadowed fields that are synchronized
         from the parent."""
         return SHADOWED_FIELDS
 
