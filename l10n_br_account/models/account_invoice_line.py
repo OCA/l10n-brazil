@@ -135,14 +135,13 @@ class AccountMoveLine(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         dummy_doc = self.env.company.fiscal_dummy_id
+        dummy_line = fields.first(dummy_doc.fiscal_line_ids)
         for values in vals_list:
             fiscal_doc_id = (
                 self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
             )
-            if dummy_doc.id == fiscal_doc_id or values.get("exclude_from_invoice_tab"):
-                values["fiscal_document_line_id"] = fields.first(
-                    dummy_doc.fiscal_line_ids
-                ).id
+            if fiscal_doc_id == dummy_doc.id or values.get("exclude_from_invoice_tab"):
+                values["fiscal_document_line_id"] = dummy_line.id
 
             values.update(
                 self._update_fiscal_quantity(
@@ -155,9 +154,7 @@ class AccountMoveLine(models.Model):
             )
 
         lines = super().create(vals_list)
-        for line in lines.filtered(
-            lambda l: dummy_doc.id != l.move_id.fiscal_document_id.id
-        ):
+        for line in lines.filtered(lambda l: l.fiscal_document_line_id != dummy_line):
             shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
             doc_id = line.move_id.fiscal_document_id.id
             shadowed_fiscal_vals["document_id"] = doc_id
@@ -168,17 +165,29 @@ class AccountMoveLine(models.Model):
     def write(self, values):
         dummy_doc = self.env.company.fiscal_dummy_id
         dummy_line = fields.first(dummy_doc.fiscal_line_ids)
-        if values.get("move_id"):
+        non_dummy = self.filtered(lambda l: l.fiscal_document_line_id != dummy_line)
+        if values.get("move_id") and len(non_dummy) == len(self):
+            # we can write the document_id in all lines
             values["document_id"] = (
                 self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
             )
-        result = super().write(values)
+            result = super().write(values)
+        elif values.get("move_id"):
+            # we will only define document_id for non dummy lines
+            result = super().write(values)
+            doc_id = (
+                self.env["account.move"].browse(values["move_id"]).fiscal_document_id.id
+            )
+            super(AccountMoveLine, non_dummy).write({"document_id": doc_id})
+        else:
+            result = super().write(values)
+
         for line in self:
             if line.wh_move_line_id and (
                 "quantity" in values or "price_unit" in values
             ):
                 raise UserError(
-                    _("You can't edit one invoice related a withholding entry")
+                    _("You cannot edit an invoice related to a withholding entry")
                 )
             if line.fiscal_document_line_id != dummy_line:
                 shadowed_fiscal_vals = line._prepare_shadowed_fields_dict()
