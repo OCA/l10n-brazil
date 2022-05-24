@@ -216,7 +216,7 @@ class NFe(spec_models.StackedModel):
         copy=False,
         default=lambda s: s.env["ir.config_parameter"]
         .sudo()
-        .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14.0"),
+        .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA v14"),
     )
 
     nfe40_CRT = fields.Selection(
