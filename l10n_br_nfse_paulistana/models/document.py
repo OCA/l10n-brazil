@@ -220,10 +220,12 @@ class Document(models.Model):
                 ),
             ),
             ValorCargaTributaria=self.convert_type_nfselib(
-                tpRPS, "ValorCargaTributaria", dados_lote_rps["carga_tributaria"]
+                tpRPS,
+                "ValorCargaTributaria",
+                dados_lote_rps["carga_tributaria_estimada"],
             ),
             FonteCargaTributaria=self.convert_type_nfselib(
-                tpRPS, "FonteCargaTributaria", dados_lote_rps["total_recebido"]
+                tpRPS, "FonteCargaTributaria", "IBPT"
             ),
             MunicipioPrestacao=self.convert_type_nfselib(
                 CabecalhoType,
