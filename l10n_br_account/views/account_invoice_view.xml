@@ -421,7 +421,7 @@
                 />
                 <field
                     name="cnae_id"
-                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
                 />
                 <field
                     name="nbs_id"
