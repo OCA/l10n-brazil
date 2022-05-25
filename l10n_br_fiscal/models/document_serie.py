@@ -4,7 +4,11 @@
 
 from odoo import _, api, fields, models
 
-from ..constants.fiscal import FISCAL_IN_OUT, FISCAL_IN_OUT_DEFAULT
+from ..constants.fiscal import (
+    DOCUMENT_ISSUER_COMPANY,
+    FISCAL_IN_OUT,
+    FISCAL_IN_OUT_DEFAULT,
+)
 
 
 class DocumentSerie(models.Model):
@@ -103,10 +107,20 @@ class DocumentSerie(models.Model):
         return document_number
 
     def check_number_in_use(self, document_number):
-        """Checks if a document already exists using the number, this can happen in
-        some cases, for example invoices imported to odoo from other erp."""
+        """Check if a document with the same number already exists, this can
+        happen in some cases, for example invoices imported in Odoo from another ERP."""
+
         return (
             self.env["l10n_br_fiscal.document"]
-            .search([("document_number", "=", document_number)], limit=1)
+            .search(
+                [
+                    ("document_number", "=", document_number),
+                    ("document_serie_id", "=", self.id),
+                    ("document_type_id", "=", self.document_type_id.id),
+                    ("issuer", "=", DOCUMENT_ISSUER_COMPANY),
+                    ("company_id", "=", self.company_id.id),
+                ],
+                limit=1,
+            )
             .exists()
         )
