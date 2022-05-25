@@ -53,6 +53,6 @@
         <Discriminacao
         >[ODOO_DEV] Customized Odoo Development|Documento emitido por: Marc Demo|</Discriminacao>
         <ValorCargaTributaria>0</ValorCargaTributaria>
-        <FonteCargaTributaria>100.0</FonteCargaTributaria>
+        <FonteCargaTributaria>IBPT</FonteCargaTributaria>
     </RPS>
 </PedidoEnvioLoteRPS>
