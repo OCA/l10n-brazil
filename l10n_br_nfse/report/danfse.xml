@@ -449,10 +449,10 @@ row {
                     Natureza Operação
                 </div>
                 <div class="col-3 rotulo br">
-                    Valor dos Serviços R$
+                    Valor Aproximado dos Tributos R$ / Fonte
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.amount_price_gross" />
+                    <span t-field="doc.amount_estimate_tax" /> / IBPT
                 </div>
             </div>
 
