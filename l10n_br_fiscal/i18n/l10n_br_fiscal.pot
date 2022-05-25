@@ -2814,7 +2814,7 @@ msgid "Document Serie"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document_serie.py:61
+#: code:addons/l10n_br_fiscal/models/document_serie.py:65
 #, python-format
 msgid "Document Serie Sequence"
 msgstr ""
