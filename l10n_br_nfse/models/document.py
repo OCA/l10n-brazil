@@ -275,6 +275,7 @@ class Document(models.Model):
             "construcao_civil": None,
             "carga_tributaria": self.amount_tax,
             "total_recebido": self.amount_total,
+            "carga_tributaria_estimada": self.amount_estimate_tax,
         }
 
     def convert_type_nfselib(self, class_object, object_filed, value):
