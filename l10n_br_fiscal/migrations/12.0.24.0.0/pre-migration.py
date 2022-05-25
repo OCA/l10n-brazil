@@ -9,15 +9,12 @@ from openupgradelib import openupgrade
 def migrate(env, version):
     field_property = env.ref("l10n_br_fiscal.field_product_template__icms_origin")
 
+    env.cr.execute(
+        "SELECT id, icms_origin FROM product_template WHERE icms_origin is not NULL"
+    )
+    products = env.cr.fetchall()
     companies = env["res.company"].search([])
     for company in companies:
-        env.cr.execute(
-            "SELECT id, icms_origin FROM product_template "
-            "WHERE icms_origin is not NULL "
-            "AND (company_id=%s OR company_id IS NULL)",
-            (company.id,),
-        )
-        products = env.cr.fetchall()
         for product in products:
             env["ir.property"].create(
                 {
