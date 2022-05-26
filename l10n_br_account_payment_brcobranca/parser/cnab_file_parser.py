@@ -53,6 +53,7 @@ class CNABFileParser(FileParser):
         self.move_name = None
         self.move_ref = None
         self.support_multi_moves = None
+        self.commission_field = None
         self.env = journal.env
         self.bank = self.journal.bank_account_id.bank_id
         self.cnab_return_events = []
@@ -454,7 +455,7 @@ class CNABFileParser(FileParser):
                         "debit": 0.0,
                         "credit": valor_desconto,
                         "type": "desconto",
-                        "account_id": self.journal.default_credit_account_id.id,
+                        "account_id": self.journal.default_account_id.id,
                         "partner_id": account_move_line.partner_id.id,
                         "bank_payment_line_id": bank_line.id or False,
                         "cnab_returned_ref": account_move_line.document_number,
@@ -489,7 +490,7 @@ class CNABFileParser(FileParser):
                         + account_move_line.document_number,
                         "debit": valor_juros_mora,
                         "credit": 0.0,
-                        "account_id": self.journal.default_credit_account_id.id,
+                        "account_id": self.journal.default_account_id.id,
                         "journal_id": account_move_line.journal_id.id,
                         "type": "juros_mora",
                         "partner_id": account_move_line.partner_id.id,
@@ -510,7 +511,7 @@ class CNABFileParser(FileParser):
                         + account_move_line.document_number,
                         "debit": 0.0,
                         "credit": valor_tarifa,
-                        "account_id": self.journal.default_credit_account_id.id,
+                        "account_id": self.journal.default_account_id.id,
                         "type": "tarifa",
                         "partner_id": account_move_line.company_id.partner_id.id,
                         "bank_payment_line_id": bank_line.id or False,
@@ -562,7 +563,7 @@ class CNABFileParser(FileParser):
                         "debit": 0.0,
                         "credit": valor_abatimento,
                         "type": "abatimento",
-                        "account_id": self.journal.default_credit_account_id.id,
+                        "account_id": self.journal.default_account_id.id,
                         "partner_id": account_move_line.partner_id.id,
                         "bank_payment_line_id": bank_line.id or False,
                         "cnab_returned_ref": account_move_line.document_number,
