@@ -24,8 +24,9 @@ class CreditPartnerStatementImporter(models.TransientModel):
                 cnab_logs |= result
 
         if moves:
-            xmlid = ("account", "action_move_journal_line")
-            action = self.env["ir.actions.act_window"].for_xml_id(*xmlid)
+            action = self.env["ir.actions.act_window"]._for_xml_id(
+                "account.action_move_journal_line"
+            )
             if len(moves) > 1:
                 action["domain"] = [("id", "in", moves.ids)]
                 ref = self.env.ref("account.view_move_tree")
@@ -40,8 +41,9 @@ class CreditPartnerStatementImporter(models.TransientModel):
                 action["res_id"] = moves.id if moves else False
             return action
         else:
-            xmlid = ("l10n_br_account_payment_order", "l10n_br_cnab_return_log_action")
-            action = self.env["ir.actions.act_window"].for_xml_id(*xmlid)
+            action = self.env["ir.actions.act_window"]._for_xml_id(
+                "l10n_br_account_payment_order.l10n_br_cnab_return_log_action"
+            )
             if len(cnab_logs) > 1:
                 action["domain"] = [("id", "in", cnab_logs.id)]
             ref = self.env.ref(
