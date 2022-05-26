@@ -33,12 +33,17 @@ class ResPartner(models.Model):
         else:
             email = None
 
+        if self.inscr_est not in ("isento", "isenta", "ISENTO", "ISENTA"):
+            tomador_inscricao_estadual = misc.punctuation_rm(self.inscr_est or "")
+        else:
+            tomador_inscricao_estadual = None
+
         return {
             "cnpj": tomador_cnpj,
             "cpf": tomador_cpf,
             "email": email,
             "inscricao_municipal": misc.punctuation_rm(self.inscr_mun or "") or None,
-            "inscricao_estadual": misc.punctuation_rm(self.inscr_est or "") or None,
+            "inscricao_estadual": tomador_inscricao_estadual or None,
             "razao_social": str(self.legal_name[:60] or ""),
             "endereco": str(self.street_name or self.street or ""),
             "numero": self.street_number or "",
