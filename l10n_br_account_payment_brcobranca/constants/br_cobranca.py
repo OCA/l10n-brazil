@@ -8,7 +8,7 @@ import os
 from collections import namedtuple
 
 from odoo import _
-from odoo.exceptions import Warning as UserError
+from odoo.exceptions import UserError
 
 DICT_BRCOBRANCA_CNAB_TYPE = {
     "240": "cnab240",
