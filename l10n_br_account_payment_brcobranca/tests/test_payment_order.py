@@ -14,7 +14,7 @@ _module_ns = "odoo.addons.l10n_br_account_payment_brcobranca"
 _provider_class_pay_order = (
     _module_ns + ".models.account_payment_order" + ".PaymentOrder"
 )
-_provider_class_acc_invoice = _module_ns + ".models.account_invoice" + ".AccountInvoice"
+_provider_class_acc_invoice = _module_ns + ".models.account_move" + ".AccountMove"
 
 
 @tagged("post_install", "-at_install")
