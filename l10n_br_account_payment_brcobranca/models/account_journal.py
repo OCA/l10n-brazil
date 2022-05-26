@@ -102,7 +102,7 @@ class AccountJournal(models.Model):
             move.cnab_return_log_id = cnab_return_log.id
             # Lançamento Automatico do Diário
             if self.return_auto_reconcile:
-                move.post()
+                move.action_post()
 
         return moves
 
