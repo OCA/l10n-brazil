@@ -212,4 +212,3 @@ class PaymentOrder(models.Model):
                 # Importante para saber a situação do CNAB no caso
                 # de um pagto feito por fora ( dinheiro, deposito, etc)
                 payment_line.move_line_id.cnab_state = "exported"
-        self.action_done()
