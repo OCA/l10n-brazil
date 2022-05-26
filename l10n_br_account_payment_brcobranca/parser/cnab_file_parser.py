@@ -9,7 +9,7 @@ import logging
 
 import requests
 
-from odoo.exceptions import Warning as UserError
+from odoo.exceptions import UserError
 
 from odoo.addons.account_move_base_import.parser.file_parser import FileParser
 
