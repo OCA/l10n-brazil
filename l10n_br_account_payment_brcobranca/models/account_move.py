@@ -103,3 +103,27 @@ class AccountMove(models.Model):
         if not self.file_boleto_pdf_id:
             self.gera_boleto_pdf()
         return self._target_new_tab(self.file_boleto_pdf_id)
+
+    def _post(self, soft=True):
+        super()._post(soft)
+
+        for line in self.line_ids:
+            if line.move_id and line.cnab_returned_ref:
+                # Podem existir sequencias do nosso numero/own_number iguais entre
+                # bancos diferentes, porém os Diario/account.journal
+                # não pode ser o mesmo.
+                # IMPORTANTE: No parser estou definindo o CNAB_RETURNED_REF do
+                # que não quero usar aqui com account_move_line.document_number
+                line_to_reconcile = self.env["account.move.line"].search(
+                    [
+                        ("own_number", "=", line.cnab_returned_ref),
+                        ("journal_payment_mode_id", "=", self.journal_id.id),
+                    ]
+                )
+
+                # Conciliação Automatica entre a Linha da Fatura e a Linha criada
+                if self.journal_id.return_auto_reconcile:
+                    if line_to_reconcile:
+                        (line + line_to_reconcile).reconcile()
+                        line_to_reconcile.cnab_state = "done"
+                        line_to_reconcile.payment_situation = "liquidada"
