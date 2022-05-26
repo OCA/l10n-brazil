@@ -78,6 +78,11 @@ msgstr ""
 
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "/ IBPT"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "0 - Nenhum"
 msgstr "0 - Nenhum"
 
@@ -532,6 +537,11 @@ msgstr "Tributação no município"
 #. module: l10n_br_nfse
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
 msgid "Tributos Federais (Lei 12.741/2012)"
+msgstr ""
+
+#. module: l10n_br_nfse
+#: model_terms:ir.ui.view,arch_db:l10n_br_nfse.danfse_report_template
+msgid "Valor Aproximado dos Tributos R$ / Fonte"
 msgstr ""
 
 #. module: l10n_br_nfse
