@@ -120,6 +120,12 @@ class AccountMove(models.Model):
                         ("journal_payment_mode_id", "=", self.journal_id.id),
                     ]
                 )
+                # Vincula a última Ordem de Debito enviada
+                order_ids = line_to_reconcile.payment_line_ids.mapped("order_id")
+                for order in order_ids:
+                    for pay_line in order.payment_line_ids:
+                        if pay_line.move_line_id == line_to_reconcile:
+                            order.move_ids |= line.move_id
 
                 # Conciliação Automatica entre a Linha da Fatura e a Linha criada
                 if self.journal_id.return_auto_reconcile:
