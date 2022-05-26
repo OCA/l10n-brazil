@@ -8,7 +8,6 @@ import base64
 import os
 from unittest import mock
 
-from odoo import tools
 from odoo.modules import get_resource_path
 from odoo.tests import SavepointCase, tagged
 
@@ -25,20 +24,20 @@ class TestReturnImport(SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company_a = cls.env.ref("base.main_company")
-        tools.convert_file(
-            cls.cr,
-            "account",
-            get_resource_path("account", "test", "account_minimal_test.xml"),
-            {},
-            "init",
-            False,
-            "test",
-        )
         cls.account_move_obj = cls.env["account.move"]
         cls.account_move_line_obj = cls.env["account.move.line"]
         cls.cnab_log_obj = cls.env["l10n_br_cnab.return.log"]
-        cls.account_id = cls.env.ref("account.a_recv")
-        cls.bank_account = cls.env.ref("account.bnk")
+
+        cls.account_id = cls.env.ref(
+            "l10n_br_account_payment_order.1_account_template_3010101010200_avoid_travis_error"
+        )
+        cls.bank_account = cls.env["account.account"].create(
+            {
+                "code": "X1014",
+                "name": "Bank Current Account - (test)",
+                "user_type_id": cls.env.ref("account.data_account_type_liquidity").id,
+            }
+        )
         cls.import_wizard_obj = cls.env["credit.statement.import"]
 
         # Get Invoice for test
@@ -433,7 +432,7 @@ class TestReturnImport(SavepointCase):
 
         self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 371", moves.ref)
         # I check that the invoice state is "Paid"
-        self.assertEqual(self.invoice_unicred_1.invoice_payment_state, "paid")
+        self.assertEqual(self.invoice_unicred_1.payment_state, "paid")
 
     def test_valor_maior_3(self):
 
@@ -737,7 +736,7 @@ class TestReturnImport(SavepointCase):
 
         self.assertEqual("Retorno CNAB - Banco UNICRED - Conta 371", moves.ref)
         # I check that the invoice state is "Paid"
-        self.assertEqual(self.invoice_unicred_2.invoice_payment_state, "paid")
+        self.assertEqual(self.invoice_unicred_2.payment_state, "paid")
 
     def test_ailos_return(self):
 
@@ -895,4 +894,4 @@ class TestReturnImport(SavepointCase):
             "Retorno CNAB - Banco COOP CENTRAL AILOS - Conta 373", moves.ref
         )
         # I check that the invoice state is "Paid"
-        self.assertEqual(self.invoice_ailos_1.invoice_payment_state, "paid")
+        self.assertEqual(self.invoice_ailos_1.payment_state, "paid")
