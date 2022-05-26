@@ -25,41 +25,6 @@ class AccountJournal(models.Model):
         default=False,
     )
 
-    def _write_extra_move_lines(self, parser, move):
-        """Insert extra lines after the main statement lines.
-
-        After the main statement lines have been created, you can override this
-        method to create extra statement lines.
-
-            :param:    browse_record of the current parser
-            :param:    result_row_list: [{'key':value}]
-            :param:    profile: browserecord of account.statement.profile
-            :param:    statement_id: int/long of the current importing
-              statement ID
-            :param:    context: global context
-        """
-
-        for line in move.line_ids:
-            if line.move_id:
-                # Podem existir sequencias do nosso numero/own_number iguais entre
-                # bancos diferentes, porém os Diario/account.journal
-                # não pode ser o mesmo.
-                # IMPORTANTE: No parser estou definindo o CNAB_RETURNED_REF do
-                # que não quero usar aqui com account_move_line.document_number
-                line_to_reconcile = self.env["account.move.line"].search(
-                    [
-                        ("own_number", "=", line.cnab_returned_ref),
-                        ("journal_payment_mode_id", "=", self.id),
-                    ]
-                )
-
-                # Conciliação Automatica entre a Linha da Fatura e a Linha criada
-                if self.return_auto_reconcile:
-                    if line_to_reconcile:
-                        (line + line_to_reconcile).auto_reconcile_lines()
-                        line_to_reconcile.cnab_state = "done"
-                        line_to_reconcile.payment_situation = "liquidada"
-
     def multi_move_import(self, file_stream, ftype="csv"):
         """Create multiple bank statements from values given by the parser for
         the given profile.
