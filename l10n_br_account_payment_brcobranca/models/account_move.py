@@ -53,7 +53,7 @@ class AccountMove(models.Model):
         inv_number = self.get_invoice_fiscal_number().split("/")[-1].zfill(8)
         file_name = "boleto_nf-" + inv_number + ".pdf"
 
-        self.file_pdf_id = self.env["ir.attachment"].create(
+        self.file_boleto_pdf_id = self.env["ir.attachment"].create(
             {
                 "name": file_name,
                 "store_fname": file_name,
@@ -102,4 +102,4 @@ class AccountMove(models.Model):
     def view_boleto_pdf(self):
         if not self.file_boleto_pdf_id:
             self.gera_boleto_pdf()
-        return self._target_new_tab(self.file_pdf_id)
+        return self._target_new_tab(self.file_boleto_pdf_id)
