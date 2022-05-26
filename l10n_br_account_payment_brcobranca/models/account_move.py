@@ -10,7 +10,7 @@ import tempfile
 import requests
 
 from odoo import _, fields, models
-from odoo.exceptions import Warning as UserError
+from odoo.exceptions import UserError
 
 from ..constants.br_cobranca import get_brcobranca_api_url
 
