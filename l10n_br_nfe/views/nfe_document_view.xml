@@ -13,8 +13,7 @@
                     attrs="{'invisible': [('document_type', 'not in', ['55', '65'])]}"
                 >
                   <field name="nfe40_modFrete" />
-                  <field name="nfe40_transporta" invisible="1" />
-                  <field name="transporter_id" />
+                  <field name="nfe40_transporta" />
               </group>
               <group attrs="{'invisible': [('nfe40_idDest', '!=', '3')]}">
                   <field name="nfe40_idDest" invisible="1" />

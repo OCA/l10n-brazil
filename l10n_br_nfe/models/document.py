@@ -275,16 +275,6 @@ class NFe(spec_models.StackedModel):
         compute="_compute_nfe40_additional_data",
     )
 
-    nfe40_transporta = fields.Many2one(
-        comodel_name="res.partner",
-        related="transporter_id",
-        string="Dados do transportador",
-    )
-
-    nfe40_modFrete = fields.Selection(
-        related="modFrete",
-    )
-
     nfe40_infRespTec = fields.Many2one(comodel_name="nfe.40.tinfresptec")
 
     nfe40_idDest = fields.Selection(
