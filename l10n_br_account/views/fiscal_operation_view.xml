@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="fiscal_operation_search" model="ir.ui.view">
+        <field name="name">fiscal.operation.search</field>
+        <field name="model">l10n_br_fiscal.operation</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_search" />
+        <field name="arch" type="xml">
+            <filter name="fiscal_operation_type" position="after">
+                <filter
+                    string='Account Journal'
+                    name="journal_id"
+                    domain="[]"
+                    context="{'group_by' : 'journal_id'}"
+                />
+            </filter>
+        </field>
+    </record>
+
+    <record id="fiscal_operation_tree" model="ir.ui.view">
+        <field name="name">fiscal.operation.tree</field>
+        <field name="model">l10n_br_fiscal.operation</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_tree" />
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="journal_id" />
+            </field>
+        </field>
+    </record>
+
+    <record id="fiscal_operation_form" model="ir.ui.view">
+        <field name="name">fiscal.operation.form</field>
+        <field name="model">l10n_br_fiscal.operation</field>
+        <field name="inherit_id" ref="l10n_br_fiscal.operation_form" />
+        <field name="arch" type="xml">
+            <page name="notes" position="before">
+                <page name="account" string="Account">
+                    <group name="account_main">
+                        <group>
+                            <field
+                                name="journal_id"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="fiscal_position_id"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                            <field
+                                name="deductible_taxes"
+                                attrs="{'readonly': [('state', '!=', 'draft')]}"
+                            />
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
