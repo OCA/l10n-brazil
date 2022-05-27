@@ -5,6 +5,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
+    EDOC_PURPOSE,
+    EDOC_PURPOSE_NORMAL,
     FISCAL_COMMENT_DOCUMENT,
     FISCAL_IN_OUT_ALL,
     OPERATION_FISCAL_TYPE,
@@ -45,14 +47,9 @@ class Operation(models.Model):
     )
 
     edoc_purpose = fields.Selection(
-        selection=[
-            ("1", "Normal"),
-            ("2", "Complementar"),
-            ("3", "Ajuste"),
-            ("4", "Devolução de mercadoria"),
-        ],
+        selection=EDOC_PURPOSE,
         string="Finalidade",
-        default="1",
+        default=EDOC_PURPOSE_NORMAL,
         readonly=True,
         states={"draft": [("readonly", False)]},
         tracking=True,

@@ -13,6 +13,8 @@ from ..constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
     DOCUMENT_ISSUER_DICT,
     DOCUMENT_ISSUER_PARTNER,
+    EDOC_PURPOSE,
+    EDOC_PURPOSE_NORMAL,
     FISCAL_IN_OUT_DICT,
     MODELO_FISCAL_CTE,
     MODELO_FISCAL_NFCE,
@@ -164,14 +166,9 @@ class Document(models.Model):
     )
 
     edoc_purpose = fields.Selection(
-        selection=[
-            ("1", "Normal"),
-            ("2", "Complementar"),
-            ("3", "Ajuste"),
-            ("4", "Devolução de mercadoria"),
-        ],
+        selection=EDOC_PURPOSE,
         string="Finalidade",
-        default="1",
+        default=EDOC_PURPOSE_NORMAL,
     )
 
     event_ids = fields.One2many(
