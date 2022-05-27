@@ -43,3 +43,43 @@ class PagseguroTest(odoo.tests.HttpCase):
     def set_transaction_currency(transaction, currency):
         for order in transaction.sale_order_ids:
             order.currency_id = currency.id
+
+    def test_buy_pagseguro_fail(self):
+        pagseguro_acquirer = self.env.ref(
+            "payment_pagseguro.payment_acquirer_pagseguro"
+        )
+        pagseguro_acquirer.write(
+            {
+                "pagseguro_token": "8EC2714B10DC42DE882BC341A5366899",
+                "journal_id": 1,
+                "payment_flow": "s2s",
+            }
+        )
+
+        buyer = self.env["res.partner"].create({"name": "Buyer"})
+
+        payment_token = self.env["payment.token"].create(
+            {
+                "acquirer_ref": buyer.id,
+                "acquirer_id": pagseguro_acquirer.id,
+                "partner_id": buyer.id,
+                "cc_holder_name": buyer.name,
+                "pagseguro_card_token": "wrongcardtoken",
+                "pagseguro_payment_method": "CREDIT_CARD",
+                "pagseguro_installments": 1,
+            }
+        )
+
+        transaction = self.env["payment.transaction"].create(
+            {
+                "reference": "test_ref_10001",
+                "currency_id": self.brl_currency.id,
+                "acquirer_id": pagseguro_acquirer.id,
+                "partner_id": buyer.id,
+                "payment_token_id": payment_token.id,
+                "type": "server2server",
+                "amount": 100.0,
+            }
+        )
+
+        self.assertFalse(transaction.pagseguro_s2s_do_transaction())
