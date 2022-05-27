@@ -35,6 +35,8 @@ class DocumentWorkflow(models.AbstractModel):
 
     def action_document_confirm(self):
         for record in self.filtered(filter_nfe):
+            record.nfe40_dup = [(5,)]
+            record.nfe40_detPag = [(5,)]
             if record.amount_financial_total:
                 # TAG - Cobrança
                 duplicatas = record.env["nfe.40.dup"]
