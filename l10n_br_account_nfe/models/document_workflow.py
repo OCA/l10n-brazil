@@ -10,6 +10,7 @@ from odoo.exceptions import UserError
 
 from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     DOCUMENT_ISSUER_COMPANY,
+    EDOC_PURPOSE_DEVOLUCAO,
     MODELO_FISCAL_NFCE,
     MODELO_FISCAL_NFE,
     PROCESSADOR_OCA,
@@ -37,7 +38,10 @@ class DocumentWorkflow(models.AbstractModel):
         for record in self.filtered(filter_nfe):
             record.nfe40_dup = [(5,)]
             record.nfe40_detPag = [(5,)]
-            if record.amount_financial_total:
+            if (
+                record.amount_financial_total
+                and record.edoc_purpose != EDOC_PURPOSE_DEVOLUCAO
+            ):
                 # TAG - Cobrança
                 duplicatas = record.env["nfe.40.dup"]
                 count = 1
