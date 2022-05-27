@@ -8,6 +8,7 @@ setuptools.setup(
     description="Meta package for oca-l10n-brazil Odoo addons",
     version=version,
     install_requires=[
+        'odoo14-addon-l10n_br_account',
         'odoo14-addon-l10n_br_account_due_list',
         'odoo14-addon-l10n_br_account_payment_order',
         'odoo14-addon-l10n_br_base',
