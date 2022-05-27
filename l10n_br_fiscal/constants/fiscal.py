@@ -466,6 +466,18 @@ WORKFLOW_EDOC = WORKFLOW_DOCUMENTO_NAO_ELETRONICO + [
     (SITUACAO_EDOC_REJEITADA, SITUACAO_EDOC_REJEITADA),
 ]
 
+EDOC_PURPOSE = [
+    ("1", "Normal"),
+    ("2", "Complementar"),
+    ("3", "Ajuste"),
+    ("4", "Devolução de mercadoria"),
+]
+
+EDOC_PURPOSE_NORMAL = "1"
+EDOC_PURPOSE_COMPLEMENTAR = "2"
+EDOC_PURPOSE_AJUSTE = "3"
+EDOC_PURPOSE_DEVOLUCAO = "4"
+
 PROCESSADOR_NENHUM = "nenhum"
 PROCESSADOR_OCA = "oca"
 
