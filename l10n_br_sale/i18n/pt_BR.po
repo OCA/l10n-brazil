@@ -1,0 +1,343 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_br_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-21 19:52+0000\n"
+"PO-Revision-Date: 2020-12-22 04:43+0000\n"
+"Last-Translator: Eder Brito <britoederr@gmail.com>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
+
+#. module: l10n_br_sale
+#: model:res.groups,name:l10n_br_sale.group_total_discount
+msgid "Allow Amount Discount on Sales Orders"
+msgstr "Permite o Desconto de Montante em Pedidos de Venda"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_gross
+msgid "Amount Gross"
+msgstr "Montante Bruto"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__amount_gross
+msgid "Amount without discount."
+msgstr "Montante sem desconto."
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ind_pres
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__ind_pres
+msgid "Buyer Presence"
+msgstr "Presença do Comprador"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__cnpj_cpf
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
+msgid "CNPJ/CPF"
+msgstr "CNPJ/CPF"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__comment_ids
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__comment_ids
+msgid "Comments"
+msgstr "Comentários"
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajuste de configurações"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__copy_note
+msgid "Copiar Observação no documentos fiscal"
+msgstr "Copiar Observação no documentos fiscal"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__copy_note
+msgid "Copy Sale note on invoice"
+msgstr "Copiar observação da Venda na Fatura"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_config_settings__copy_note
+msgid "Copy notes in Fiscal documents"
+msgstr "Copiar notas no documento fiscal"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
+msgid "Copy sale order notes in fiscal document"
+msgstr "Copiar observações do pedido de vendas no documento fiscal"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__discount_rate
+msgid "Discount"
+msgstr "Desconto"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_discount
+msgid "Discount (-)"
+msgstr "Desconto (-)"
+
+#. module: l10n_br_sale
+#: model:res.groups,name:l10n_br_sale.group_discount_per_value
+msgid "Discount in Sales Orders per Value"
+msgstr "Desconto no Pedido de Vendas por Valor"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_document_count
+msgid "Fiscal Document Count"
+msgstr "Contagem de Documento Fiscal"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Fiscal Documents"
+msgstr "Documentos Fiscais"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__fiscal_operation_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_report
+msgid "Fiscal Operation"
+msgstr "Operação Fiscal"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__fiscal_operation_line_id
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_report
+msgid "Fiscal Operation Line"
+msgstr "Linha da Operação Fiscal"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Fiscal Quantity"
+msgstr "Quantidade Fiscal"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_tax_ids
+msgid "Fiscal Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_freight
+msgid "Freight"
+msgstr "Frete"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__price_gross
+msgid "Gross Amount"
+msgstr "Total Bruto"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
+msgid "Inscr. Estadual"
+msgstr "Inscr. Estadual"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_insurance
+msgid "Insurance"
+msgstr "Seguro"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Invoice Lines"
+msgstr "Linhas da Fatura"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__legal_name
+msgid "Legal Name"
+msgstr "Razão Social"
+
+#. module: l10n_br_sale
+#: selection:sale.order,ind_pres:0 selection:sale.report,ind_pres:0
+msgid "NFC-e entrega em domicílio"
+msgstr "NFC-e entrega em domicílio"
+
+#. module: l10n_br_sale
+#: selection:sale.order,ind_pres:0 selection:sale.report,ind_pres:0
+msgid "Não presencial, internet"
+msgstr "Não presencial, internet"
+
+#. module: l10n_br_sale
+#: selection:sale.order,ind_pres:0 selection:sale.report,ind_pres:0
+msgid "Não presencial, outros"
+msgstr "Não presencial, outros"
+
+#. module: l10n_br_sale
+#: selection:sale.order,ind_pres:0 selection:sale.report,ind_pres:0
+msgid "Não presencial, teleatendimento"
+msgstr "Não presencial, teleatendimento"
+
+#. module: l10n_br_sale
+#: selection:sale.order,ind_pres:0 selection:sale.report,ind_pres:0
+msgid "Não se aplica"
+msgstr "Não se aplica"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__fiscal_operation_id
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__fiscal_operation_id
+msgid "Operation"
+msgstr "Operação"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_res_company__sale_fiscal_operation_id
+msgid "Operação Fiscal Padrão de Vendas"
+msgstr "Operação Fiscal Padrão de Vendas"
+
+#. module: l10n_br_sale
+#: selection:sale.order,ind_pres:0 selection:sale.report,ind_pres:0
+msgid "Operação presencial"
+msgstr "Operação presencial"
+
+#. module: l10n_br_sale
+#: selection:sale.order,ind_pres:0 selection:sale.report,ind_pres:0
+msgid "Operação presencial, fora do estabelecimento"
+msgstr "Operação presencial, fora do estabelecimento"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_costs
+msgid "Other Costs"
+msgstr "Outro Custos"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Outros Custos"
+msgstr "Outros Custos"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__partner_id
+msgid "Partner"
+msgstr "Parceiro"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__quantity
+msgid "Product Uom Quantity"
+msgstr "Quantidade do Produto"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.view_l10n_br_sale_partner_filter
+msgid "Razão Social"
+msgstr "Razão Social"
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_sale_order
+msgid "Sale Order"
+msgstr "Pedido de Venda"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_company_form
+msgid "Sales"
+msgstr "Vendas"
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_sale_report
+msgid "Sales Analysis Report"
+msgstr "Relatório de Análise de Vendas"
+
+#. module: l10n_br_sale
+#: model:ir.model,name:l10n_br_sale.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Linha do Pedido de Vendas"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__ie
+msgid "State Tax Number/RG"
+msgstr "Número da Inscrição Estadual/RG"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__tax_framework
+msgid "Tax Framework"
+msgstr "Regime Tributário"
+
+#. module: l10n_br_sale
+#: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_order_form
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__amount_discount
+msgid "The discount amount."
+msgstr "O montante de desconto."
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__uom_id
+msgid "UOM"
+msgstr "UDM"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order__legal_name
+msgid "Used in fiscal documents"
+msgstr "Usado nos documentos fiscais"
+
+#. module: l10n_br_sale
+#: model:ir.model.fields,help:l10n_br_sale.field_sale_order_line__partner_id
+msgid "You can find a customer by its Name, TIN, Email or Internal Reference."
+msgstr ""
+"Você pode encontrar um cliente pelo Nome, TIN, EMAIL ou Referencia Interna."
+
+#~ msgid "Quantity"
+#~ msgstr "Quantidade"
+
+#~ msgid "COFINS"
+#~ msgstr "COFINS"
+
+#~ msgid "COFINS ST"
+#~ msgstr "COFINS ST"
+
+#~ msgid "CSLL"
+#~ msgstr "CSLL"
+
+#~ msgid "Copiar Observações nos Documentos Fiscais"
+#~ msgstr "Copiar Observações nos Documentos Fiscais"
+
+#~ msgid "ICMS"
+#~ msgstr "ICMMS"
+
+#~ msgid "ICMS DIFAL"
+#~ msgstr "ICMS DIFAL"
+
+#~ msgid "ICMS ST"
+#~ msgstr "ICMS ST"
+
+#~ msgid "II"
+#~ msgstr "II"
+
+#~ msgid "INSS"
+#~ msgstr "INSS"
+
+#~ msgid "IPI"
+#~ msgstr "IPI"
+
+#~ msgid "IRPJ"
+#~ msgstr "IRPJ"
+
+#~ msgid "ISSQN"
+#~ msgstr "ISSQN"
+
+#~ msgid "Invoice Count"
+#~ msgstr "Contagem de fatura"
+
+#~ msgid "PIS"
+#~ msgstr "PIS"
+
+#~ msgid "PIS ST"
+#~ msgstr "PIS ST"
+
+#~ msgid "Retenções"
+#~ msgstr "Retenções"
+
+#~ msgid ""
+#~ "There is no invoiceable line. If a product has a Delivered quantities "
+#~ "invoicing policy, please make sure that a quantity has been delivered."
+#~ msgstr ""
+#~ "Não há linha faturavél. Se o produto possui a politica de faturamento na "
+#~ "quantidades Entregues, por favor verifique se a quantidade foi entregue."
