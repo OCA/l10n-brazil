@@ -1689,7 +1689,7 @@ msgid "Cancelation"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:558
+#: code:addons/l10n_br_fiscal/models/document.py:555
 #, python-format
 msgid "Canceling the document is not allowed: one or more associated documents have already been authorized."
 msgstr ""
@@ -2208,7 +2208,7 @@ msgid "Corrections"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:62
+#: code:addons/l10n_br_fiscal/models/operation.py:59
 #: selection:l10n_br_fiscal.operation,default_price_unit:0
 #, python-format
 msgid "Cost Price"
@@ -3543,7 +3543,7 @@ msgid "Fiscal Operation Type"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:154
+#: code:addons/l10n_br_fiscal/models/operation.py:151
 #: sql_constraint:l10n_br_fiscal.operation:0
 #, python-format
 msgid "Fiscal Operation already exists with this code !"
@@ -7841,7 +7841,7 @@ msgid "Sale Own Use"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:62
+#: code:addons/l10n_br_fiscal/models/operation.py:59
 #: selection:l10n_br_fiscal.operation,default_price_unit:0
 #, python-format
 msgid "Sale Price"
@@ -7950,7 +7950,7 @@ msgid "Send Email"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:585
+#: code:addons/l10n_br_fiscal/models/document.py:582
 #, python-format
 msgid "Send Fiscal Document Email Notification"
 msgstr ""
@@ -8763,8 +8763,8 @@ msgid "The closing must be unique for the company in a period of time."
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:415
-#: code:addons/l10n_br_fiscal/models/document.py:429
+#: code:addons/l10n_br_fiscal/models/document.py:412
+#: code:addons/l10n_br_fiscal/models/document.py:426
 #, python-format
 msgid "The fiscal operation {} has no return Fiscal Operation defined"
 msgstr ""
@@ -8787,13 +8787,13 @@ msgid "The tax is due at the location of the provider establishment, except in t
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:297
+#: code:addons/l10n_br_fiscal/models/document.py:294
 #, python-format
 msgid "There is already a fiscal document with this Serie: {}, Number: {} !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:260
+#: code:addons/l10n_br_fiscal/models/document.py:257
 #, python-format
 msgid "There is already a fiscal document with this key: {} !"
 msgstr ""
@@ -8879,7 +8879,7 @@ msgid "UOM"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:323
+#: code:addons/l10n_br_fiscal/models/document.py:320
 #, python-format
 msgid "Unidentified Consumer"
 msgstr ""
@@ -9216,7 +9216,7 @@ msgid "You cannot delete an Operation Line which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/operation.py:173
+#: code:addons/l10n_br_fiscal/models/operation.py:170
 #, python-format
 msgid "You cannot delete an Operation which is not draft !"
 msgstr ""
@@ -9228,7 +9228,7 @@ msgid "You cannot delete an Tax Definition which is not draft !"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/document.py:396
+#: code:addons/l10n_br_fiscal/models/document.py:393
 #, python-format
 msgid "You cannot delete fiscal document number {} with the status: {}!"
 msgstr ""
