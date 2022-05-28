@@ -129,7 +129,7 @@ msgid "Obrigatório o preenchimento do Grupo Informações de Pagamento para NF-
 msgstr ""
 
 #. module: l10n_br_account_nfe
-#: code:addons/l10n_br_account_nfe/models/document_workflow.py:58
+#: code:addons/l10n_br_account_nfe/models/document_workflow.py:64
 #, python-format
 msgid "Payment Mode {} should has Fiscal Payment Mode filled to be used in Fiscal Document!"
 msgstr ""
