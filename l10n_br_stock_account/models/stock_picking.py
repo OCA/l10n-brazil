@@ -36,6 +36,11 @@ class StockPicking(models.Model):
         domain=lambda self: self._fiscal_operation_domain(),
     )
 
+    operation_name = fields.Char(
+        string="Operation Name",
+        copy=False,
+    )
+
     comment_ids = fields.Many2many(
         comodel_name="l10n_br_fiscal.comment",
         relation="stock_picking_comment_rel",
@@ -63,18 +68,14 @@ class StockPicking(models.Model):
 
             view = self.env["ir.ui.view"]
 
-            sub_form_view = (
-                order_view.get("fields", {})
-                .get("move_ids_without_package", {})
-                .get("views", {})
-                .get("form", {})
-                .get("arch", {})
-            )
+            sub_form_view = order_view["fields"]["move_ids_without_package"]["views"][
+                "form"
+            ]["arch"]
 
             sub_form_node = self.env["stock.move"].inject_fiscal_fields(sub_form_view)
 
             sub_arch, sub_fields = view.postprocess_and_fields(
-                "stock.move", sub_form_node, None
+                sub_form_node, "stock.move", None
             )
 
             order_view["fields"]["move_ids_without_package"]["views"]["form"] = {
