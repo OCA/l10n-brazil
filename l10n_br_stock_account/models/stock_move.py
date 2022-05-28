@@ -65,6 +65,8 @@ class StockMove(models.Model):
     # A Fatura é criada com os dois valores positivos.
     fiscal_price = fields.Float(compute="_compute_fiscal_price")
 
+    ind_final = fields.Selection(related="picking_id.ind_final")
+
     @api.onchange("product_id", "product_uom", "product_uom_qty", "price_unit")
     def _onchange_product_quantity(self):
         """To call the method in the mixin to update
