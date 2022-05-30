@@ -211,6 +211,21 @@
                             <field name="invoice_lines" />
                         </div>
                     </page>
+                    <page name="amounts" string="Amounts">
+                        <group>
+                            <group>
+                                <field name="amount_untaxed" />
+                                <field name="amount_fiscal" />
+                                <field name="amount_tax" />
+                                <field name="estimate_tax" readonly="1" />
+                            </group>
+                            <group>
+                                <field name="amount_total" />
+                                <field name="amount_tax_withholding" readonly="1" />
+                                <field name="amount_taxed" />
+                            </group>
+                        </group>
+                    </page>
                     <page name="others" string="Others">
                         <group>
                             <field name="delivery_costs" invisible="1" />
