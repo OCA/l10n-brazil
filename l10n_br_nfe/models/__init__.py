@@ -7,6 +7,7 @@ from . import res_company
 from . import product_product
 from . import ncm
 from . import nbm
+from . import cest
 from . import document_related
 from . import document
 from . import document_line
