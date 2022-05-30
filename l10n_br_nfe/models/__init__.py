@@ -9,6 +9,7 @@ from . import ncm
 from . import nbm
 from . import cest
 from . import tax_ipi_guideline
+from . import document_type
 from . import document_related
 from . import document
 from . import document_line
