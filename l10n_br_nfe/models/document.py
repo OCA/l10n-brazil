@@ -291,6 +291,12 @@ class NFe(spec_models.StackedModel):
 
     nfe40_vLiq = fields.Monetary(related="amount_financial_total")
 
+    partner_document_number = fields.Char(
+        string="Partner Document Number",
+        copy=False,
+        index=True,
+    )
+
     @api.depends("fiscal_additional_data", "fiscal_additional_data")
     def _compute_nfe40_additional_data(self):
         for record in self:
@@ -676,6 +682,13 @@ class NFe(spec_models.StackedModel):
             vals.update(new_value)
         else:
             super(NFe, self)._build_many2one(comodel, vals, new_value, key, value, path)
+
+    def _prepare_import_dict(self, vals, model=None):
+        vals = super(NFe, self)._prepare_import_dict(vals, model)
+        if all(key in vals for key in ("document_number", "nfe40_nNF")):
+            vals["partner_document_number"] = vals.get("nfe40_nNF")
+            vals["document_number"] = ""
+        return vals
 
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
