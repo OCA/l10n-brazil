@@ -37,6 +37,13 @@
                   <field name="nfe40_detPag" />
               </group>
           </page>
+          <!-- Add Partner Document Number to view -->
+          <xpath
+                expr="//group[@name='document_header_left']/field[@name='document_number']"
+                position="after"
+            >
+                <field name="partner_document_number" invisible="1" />
+          </xpath>
       </field>
   </record>
 
