@@ -6,6 +6,7 @@ from odoo import api, models
 
 class Country(models.Model):
     _inherit = "res.country"
+    _nfe_search_keys = ["bc_code"]
 
     @api.model
     def match_or_create_m2o(self, rec_dict, parent_dict, model=None):
