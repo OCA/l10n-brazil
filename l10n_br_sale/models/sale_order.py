@@ -15,11 +15,11 @@ class SaleOrder(models.Model):
 
     @api.model
     def _default_fiscal_operation(self):
-        return self.env.user.company_id.sale_fiscal_operation_id
+        return self.env.company.sale_fiscal_operation_id
 
     @api.model
     def _default_copy_note(self):
-        return self.env.user.company_id.copy_note
+        return self.env.company.copy_note
 
     @api.model
     def _fiscal_operation_domain(self):
