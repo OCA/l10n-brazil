@@ -69,8 +69,13 @@ msgid "Cielo"
 msgstr ""
 
 #. module: payment_pagseguro
+#: model_terms:ir.ui.view,arch_db:payment_pagseguro.pagseguro_s2s_form
+msgid "Credit Card"
+msgstr ""
+
+#. module: payment_pagseguro
 #. openerp-web
-#: code:addons/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js:106
+#: code:addons/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js:110
 #, python-format
 msgid "Error info"
 msgstr ""
@@ -83,6 +88,11 @@ msgstr ""
 #. module: payment_pagseguro
 #: model:ir.model.fields,field_description:payment_pagseguro.field_payment_token__card_holder
 msgid "Holder"
+msgstr ""
+
+#. module: payment_pagseguro
+#: model_terms:ir.ui.view,arch_db:payment_pagseguro.pagseguro_s2s_form
+msgid "Installments"
 msgstr ""
 
 #. module: payment_pagseguro
@@ -107,6 +117,21 @@ msgid "Pagseguro card Token"
 msgstr ""
 
 #. module: payment_pagseguro
+#: model:ir.model.fields,field_description:payment_pagseguro.field_payment_acquirer__pagseguro_max_installments
+msgid "Pagseguro max installments"
+msgstr ""
+
+#. module: payment_pagseguro
+#: model:ir.model.fields,field_description:payment_pagseguro.field_payment_token__pagseguro_installments
+msgid "Pagseguro number of installments"
+msgstr ""
+
+#. module: payment_pagseguro
+#: model:ir.model.fields,field_description:payment_pagseguro.field_payment_token__pagseguro_payment_method
+msgid "Pagseguro payment method"
+msgstr ""
+
+#. module: payment_pagseguro
 #: model:ir.model,name:payment_pagseguro.model_payment_acquirer
 msgid "Payment Acquirer"
 msgstr ""
@@ -122,6 +147,16 @@ msgid "Payment Transaction"
 msgstr ""
 
 #. module: payment_pagseguro
+#: model_terms:ir.ui.view,arch_db:payment_pagseguro.pagseguro_s2s_form
+msgid "Payment form"
+msgstr ""
+
+#. module: payment_pagseguro
+#: model_terms:ir.ui.view,arch_db:payment_pagseguro.pagseguro_s2s_form
+msgid "Payment method"
+msgstr ""
+
+#. module: payment_pagseguro
 #: code:addons/payment_pagseguro/models/payment_transaction.py:75
 #, python-format
 msgid "Please check if all related sale orders and invoices are in BRL currency (supported by pagseguro)."
@@ -129,7 +164,7 @@ msgstr ""
 
 #. module: payment_pagseguro
 #. openerp-web
-#: code:addons/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js:102
+#: code:addons/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js:106
 #, python-format
 msgid "Por favor, comunique a loja sobre esse erro."
 msgstr ""
@@ -140,15 +175,25 @@ msgid "Provider"
 msgstr ""
 
 #. module: payment_pagseguro
+#: model:ir.model.fields,help:payment_pagseguro.field_payment_acquirer__pagseguro_max_installments
+msgid "The maximum installments allowed by brands is 12"
+msgstr ""
+
+#. module: payment_pagseguro
 #. openerp-web
-#: code:addons/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js:101
+#: code:addons/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js:105
 #, python-format
 msgid "Token inválido"
 msgstr ""
 
 #. module: payment_pagseguro
+#: model_terms:ir.ui.view,arch_db:payment_pagseguro.pagseguro_s2s_form
+msgid "Value per installment"
+msgstr ""
+
+#. module: payment_pagseguro
 #. openerp-web
-#: code:addons/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js:107
+#: code:addons/payment_pagseguro/static/src/js/pagseguro_tokenize_card.js:111
 #, python-format
 msgid "We are not able to add your payment method at the moment. "
 msgstr ""
