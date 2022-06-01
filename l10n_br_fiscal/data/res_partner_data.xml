@@ -25,7 +25,7 @@
 
     <record id="res_partner_prefeitura_municipal" model="res.partner">
         <field name="name">Prefeitura Municipal</field>
-        <field name="legal_name">Previdência Social</field>
+        <field name="legal_name">Prefeitura Municipal</field>
         <field name="is_company">True</field>
     </record>
 
