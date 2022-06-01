@@ -2,7 +2,6 @@
 // License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 /* global PagSeguro*/
-/* eslint no-undef: "error"*/
 odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
     "use strict";
 
@@ -41,6 +40,9 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
             var ds = $('input[name="data_set"]', acquirerForm)[0];
             var inputsForm = $("input", acquirerForm);
             var formData = this.getFormData(inputsForm);
+            var paymentMethod = $("#payment_form option:selected", acquirerForm)[0]
+                .attributes.value.value;
+            var installments = $("#installments option:selected").val();
 
             // Get public key
             rpc.query({
@@ -78,6 +80,8 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                             cc_expiry: "",
                             cc_cvc: "",
                             data_set: ds.dataset.createRoute,
+                            payment_method: paymentMethod,
+                            installments: installments,
                         });
                         // Start payment flow
                         return rpc.query({
@@ -134,6 +138,21 @@ odoo.define("payment_pagseguro.pagseguro_tokenize_card", function (require) {
                 return this._createPagseguroToken(ev, $checkedRadio);
             }
             return this._super.apply(this, arguments);
+        },
+
+        radioClickEvent: function (ev) {
+            var $checkedRadio = this.$('input[type="radio"]:checked');
+            if (
+                $checkedRadio.length === 1 &&
+                $checkedRadio.data("provider") === "pagseguro"
+            ) {
+                // Since the installments value is set by an onchange function we insert
+                // the value manually when clicking on pagseguro
+                const total_price = $("#order_total td.text-xl-right strong").text();
+                document.getElementById("installmentsvalue").value = total_price;
+            }
+
+            this._super.apply(this, ev);
         },
     });
 });

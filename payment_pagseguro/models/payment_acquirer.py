@@ -8,11 +8,22 @@ class PaymentAcquirerPagseguro(models.Model):
     _inherit = "payment.acquirer"
 
     provider = fields.Selection(selection_add=[("pagseguro", "Pagseguro")])
+
     pagseguro_token = fields.Char(
         string="Pagseguro Token",
         required_if_provider="pagseguro",
         groups="base.group_user",
     )
+
+    pagseguro_max_installments = fields.Integer(
+        string="Pagseguro max installments",
+        help="The maximum installments allowed by brands is 12",
+        default=12,
+    )
+
+    def get_installments_options(self):
+        """ Get list of installment options available to compose the html tag """
+        return list(range(1, self.pagseguro_max_installments + 1))
 
     @api.multi
     def pagseguro_s2s_form_validate(self, data):
@@ -40,6 +51,8 @@ class PaymentAcquirerPagseguro(models.Model):
                     "acquirer_id": int(data["acquirer_id"]),
                     "partner_id": int(data["partner_id"]),
                     "pagseguro_card_token": data["cc_token"],
+                    "pagseguro_payment_method": data["payment_method"],
+                    "pagseguro_installments": int(data["installments"]),
                 }
             )
         )

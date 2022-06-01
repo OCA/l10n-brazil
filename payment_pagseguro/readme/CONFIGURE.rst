@@ -21,6 +21,18 @@ On your account, go to "Venda Online" > "Integrações". Then, click on "Gerar T
     :alt: Payment acquirer pagseguro
     :width: 600 px
 
+Still on the configuration tab, you can configure the maximum amount
+of installments available for your clients to select at the
+payment.
+
+So far, we only support up to 12 installments, setting a value higher than
+that will lead to possible errors on payment.
+
+.. figure:: ../static/description/payment_acquirer_03.png
+    :alt: Pagseguro max installments configuration
+    :width: 600 px
+
+
 * full manual for API:
 
 https://dev.pagseguro.uol.com.br/reference/pagseguro-reference-intro

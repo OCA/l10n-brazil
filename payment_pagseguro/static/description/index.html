@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.15.1: http://docutils.sourceforge.net/" />
+<meta name="generator" content="Docutils: http://docutils.sourceforge.net/" />
 <title>Payment PagSeguro</title>
 <style type="text/css">
 
@@ -381,12 +381,13 @@ from pagseguro, more on that <a class="reference external" href="https://dev.pag
 <li><a class="reference internal" href="#installation" id="id1">Installation</a></li>
 <li><a class="reference internal" href="#configuration" id="id2">Configuration</a></li>
 <li><a class="reference internal" href="#usage" id="id3">Usage</a></li>
-<li><a class="reference internal" href="#bug-tracker" id="id4">Bug Tracker</a></li>
-<li><a class="reference internal" href="#credits" id="id5">Credits</a><ul>
-<li><a class="reference internal" href="#authors" id="id6">Authors</a></li>
-<li><a class="reference internal" href="#contributors" id="id7">Contributors</a></li>
-<li><a class="reference internal" href="#other-credits" id="id8">Other credits</a></li>
-<li><a class="reference internal" href="#maintainers" id="id9">Maintainers</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="id4">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#bug-tracker" id="id5">Bug Tracker</a></li>
+<li><a class="reference internal" href="#credits" id="id6">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="id7">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="id8">Contributors</a></li>
+<li><a class="reference internal" href="#other-credits" id="id9">Other credits</a></li>
+<li><a class="reference internal" href="#maintainers" id="id10">Maintainers</a></li>
 </ul>
 </li>
 </ul>
@@ -417,6 +418,14 @@ On your account, go to “Venda Online” &gt; “Integrações”. Then, click 
 <div class="figure">
 <img alt="Payment acquirer pagseguro" src="https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/payment_pagseguro/static/description/pagseguro_website.png" style="width: 600px;" />
 </div>
+<p>Still on the configuration tab, you can configure the maximum amount
+of installments available for your clients to select at the
+payment.</p>
+<p>So far, we only support up to 12 installments, setting a value higher than
+that will lead to possible errors on payment.</p>
+<div class="figure">
+<img alt="Pagseguro max installments configuration" src="https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/payment_pagseguro/static/description/payment_acquirer_03.png" style="width: 600px;" />
+</div>
 <ul class="simple">
 <li>full manual for API:</li>
 </ul>
@@ -425,14 +434,47 @@ On your account, go to “Venda Online” &gt; “Integrações”. Then, click 
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#id3">Usage</a></h1>
 <p>After the configuration, you can go to the website module, and buy a product
-in your website shop by selecting the Pagseguro payment method and adding your
-credit card information. Then, click on the pay now button.</p>
+in your website shop by selecting the Pagseguro payment method.</p>
+<dl class="docutils">
+<dt>Here you can select:</dt>
+<dd><ul class="first last simple">
+<li>Payment form (there is only credit card so far).</li>
+<li>Amount of installments you want to pay (notice than the maximum value you can select is based on your acquirer configuration).</li>
+</ul>
+</dd>
+</dl>
+<p>When selecting the installments you can see the value of each installment on
+the input field on the right.</p>
+<p>After that, insert you Card number, name, expiration date and security code.
+Then, click on the pay now button.</p>
+<p>So far, we support only VISA, MasterCard, American Express and Diners brands.</p>
 <div class="figure">
-<img alt="Payment acquirer pagseguro" src="https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/payment_pagseguro/static/description/pagseguro_buy.png" style="width: 600px;" />
+<img alt="Payment form pagseguro" src="https://raw.githubusercontent.com/OCA/l10n-brazil/12.0/payment_pagseguro/static/description/pagseguro_payment_form.png" style="width: 600px;" />
 </div>
+<p><strong>notice</strong>: The credentials that we use in this image are not from a real card,
+instead this is a test card given by the Pagseguro for test purposes.
+You can find more tests cards here <a class="reference external" href="https://dev.pagseguro.uol.com.br/reference/testing-cards">https://dev.pagseguro.uol.com.br/reference/testing-cards</a>.</p>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#id4">Known issues / Roadmap</a></h1>
+<dl class="docutils">
+<dt>Issues</dt>
+<dd><ul class="first last simple">
+<li>To support more brands we need to overwrite the focusout event from the card number field</li>
+<li>Selecting installments should also change the total price</li>
+</ul>
+</dd>
+<dt>Roadmap</dt>
+<dd><ul class="first last simple">
+<li>Add bill payment form</li>
+<li>Add debit card payment form</li>
+<li>Add PIX payment form</li>
+</ul>
+</dd>
+</dl>
 </div>
 <div class="section" id="bug-tracker">
-<h1><a class="toc-backref" href="#id4">Bug Tracker</a></h1>
+<h1><a class="toc-backref" href="#id5">Bug Tracker</a></h1>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-brazil/issues">GitHub Issues</a>.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us smashing it by providing a detailed and welcomed
@@ -440,15 +482,15 @@ If you spotted it first, help us smashing it by providing a detailed and welcome
 <p>Do not contact contributors directly about support or help with technical issues.</p>
 </div>
 <div class="section" id="credits">
-<h1><a class="toc-backref" href="#id5">Credits</a></h1>
+<h1><a class="toc-backref" href="#id6">Credits</a></h1>
 <div class="section" id="authors">
-<h2><a class="toc-backref" href="#id6">Authors</a></h2>
+<h2><a class="toc-backref" href="#id7">Authors</a></h2>
 <ul class="simple">
 <li>KMEE</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h2><a class="toc-backref" href="#id7">Contributors</a></h2>
+<h2><a class="toc-backref" href="#id8">Contributors</a></h2>
 <ul class="simple">
 <li>Luis Felipe Miléo &lt;<a class="reference external" href="mailto:mileo&#64;kmee.com.br">mileo&#64;kmee.com.br</a>&gt;</li>
 <li>Cristiano Rodrigues &lt;<a class="reference external" href="mailto:cristiano.rodrigues&#64;kmee.com.br">cristiano.rodrigues&#64;kmee.com.br</a>&gt;</li>
@@ -456,12 +498,12 @@ If you spotted it first, help us smashing it by providing a detailed and welcome
 </ul>
 </div>
 <div class="section" id="other-credits">
-<h2><a class="toc-backref" href="#id8">Other credits</a></h2>
+<h2><a class="toc-backref" href="#id9">Other credits</a></h2>
 <p>The development of this module has been supported by:</p>
 <p><a class="reference external" href="https:/www.kmee.com.br">KMEE INFORMATICA LTDA</a></p>
 </div>
 <div class="section" id="maintainers">
-<h2><a class="toc-backref" href="#id9">Maintainers</a></h2>
+<h2><a class="toc-backref" href="#id10">Maintainers</a></h2>
 <p>This module is maintained by the OCA.</p>
 <a class="reference external image-reference" href="https://odoo-community.org"><img alt="Odoo Community Association" src="https://odoo-community.org/logo.png" /></a>
 <p>OCA, or the Odoo Community Association, is a nonprofit organization whose

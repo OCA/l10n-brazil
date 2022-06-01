@@ -29,6 +29,7 @@
         </xpath>
     </template>
 
+
     <data noupdate="1">
         <template id="pagseguro_form">
             <div>
@@ -111,6 +112,10 @@
         </template>
 
         <template id="pagseguro_s2s_form">
+             <script
+                type="text/javascript"
+                src="/payment_pagseguro/static/lib/pagseguro_templates.js"
+            />
             <input
                 type="hidden"
                 name="data_set"
@@ -119,6 +124,57 @@
             <div
                 t-attf-class="row mt8 #{'' if bootstrap_formatting else 'o_card_brand_detail'}"
             >
+                <div
+                    t-att-class="'form-group col-lg-5' if bootstrap_formatting else 'form-group'"
+                >
+                    <label for="payment_form">Payment form</label>
+                    <select
+                        name="payment_form"
+                        id="payment_form"
+                        placeholder="Payment method"
+                        class="form-control"
+                        onchange="onChangePaymentMethod()"
+                    >
+                        <option value="CREDIT_CARD">Credit Card</option>
+                    </select>
+                </div>
+                <div
+                    t-att-class="'form-group col-lg-4' if bootstrap_formatting else 'form-group'"
+                >
+                    <label for="installments">Installments</label>
+                    <select
+                        name="installments"
+                        id="installments"
+                        class="form-control"
+                        onchange="onChangeInstallments()"
+                    >
+                        <t
+                            t-set="acquirer"
+                            t-value="env['payment.acquirer'].search([('provider', '=', 'pagseguro')])"
+                        />
+                        <t
+                            t-set="options"
+                            t-value="acquirer.get_installments_options()"
+                        />
+                        <t t-foreach="options" t-as="i">
+                            <option>
+                                <t t-esc="i" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+                <div
+                    t-att-class="'form-group col-lg-3' if bootstrap_formatting else 'form-group'"
+                >
+                    <label for="installments">Value per installment</label>
+                    <input
+                        id="installmentsvalue"
+                        type="text"
+                        name="installmentsvalue"
+                        readOnly="false"
+                        class="form-control"
+                    />
+                </div>
                 <div
                     t-att-class="'form-group col-lg-12' if bootstrap_formatting else 'form-group'"
                 >
@@ -147,7 +203,7 @@
                     />
                 </div>
                 <div
-                    t-att-class="'form-group col-lg-3' if bootstrap_formatting else 'form-group'"
+                    t-att-class="'form-group col-lg-4' if bootstrap_formatting else 'form-group'"
                 >
                     <input
                         type="text"
@@ -160,7 +216,7 @@
                     />
                 </div>
                 <div
-                    t-att-class="'form-group col-lg-4' if bootstrap_formatting else 'form-group'"
+                    t-att-class="'form-group col-lg-3' if bootstrap_formatting else 'form-group'"
                 >
                     <input
                         type="text"
