@@ -5,6 +5,11 @@ from . import res_country_state
 from . import res_partner
 from . import res_company
 from . import product_product
+from . import ncm
+from . import nbm
+from . import cest
+from . import tax_ipi_guideline
+from . import document_type
 from . import document_related
 from . import document
 from . import document_line

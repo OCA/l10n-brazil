@@ -86,25 +86,15 @@ class NFe(spec_models.StackedModel):
         "infnfe.cobr.fat",
     )
 
-    def _compute_emit(self):
-        for doc in self:  # TODO if out
-            doc.nfe40_emit = doc.company_id
+    ##########################
+    # NF-e spec related fields
+    ##########################
 
-    # emit and dest are not related fields as their related fields
-    # can change depending if it's and incoming our outgoing NFe
-    # specially when importing (ERP NFe migration vs supplier Nfe).
-    nfe40_emit = fields.Many2one(
-        "res.company", compute="_compute_emit", readonly=True, string="Emit"
-    )
+    ##########################
+    # NF-e tag: infNFe
+    ##########################
 
-    @api.depends("partner_id")
-    def _compute_dest(self):
-        for doc in self:  # TODO if out
-            doc.nfe40_dest = doc.partner_id
-
-    nfe40_dest = fields.Many2one(
-        "res.partner", compute="_compute_dest", readonly=True, string="Dest"
-    )
+    nfe40_versao = fields.Char(related="document_version")
 
     nfe_version = fields.Selection(
         selection=NFE_VERSIONS,
@@ -113,12 +103,89 @@ class NFe(spec_models.StackedModel):
         default=lambda self: self.env.user.company_id.nfe_version,
     )
 
-    nfe_environment = fields.Selection(
-        selection=NFE_ENVIRONMENTS,
-        string="NFe Environment",
-        copy=False,
-        default=lambda self: self.env.user.company_id.nfe_environment,
+    nfe40_Id = fields.Char(
+        compute="_compute_id_tag",
+        inverse="_inverse_nfe40_Id",
     )
+
+    ##########################
+    # NF-e tag: id
+    # Compute Methods
+    ##########################
+
+    @api.depends("document_type_id", "document_key")
+    def _compute_id_tag(self):
+        """Set schema data which are not just related fields"""
+
+        for record in self.filtered(filter_processador_edoc_nfe):
+            # id
+            if (
+                record.document_type_id
+                and record.document_type_id.prefix
+                and record.document_key
+            ):
+                record.nfe40_Id = "{}{}".format(
+                    record.document_type_id.prefix, record.document_key
+                )
+            else:
+                record.nfe40_Id = None
+
+    ##########################
+    # NF-e tag: id
+    # Inverse Methods
+    ##########################
+
+    def _inverse_nfe40_Id(self):
+        for record in self:
+            if record.nfe40_Id:
+                record.document_key = re.findall(r"\d+", str(record.nfe40_Id))[0]
+
+    ##########################
+    # NF-e tag: ide
+    ##########################
+
+    # TODO criar uma função para tratar quando for entrada, hoje é campo calculado
+    nfe40_cUF = fields.Char(
+        related="company_id.partner_id.state_id.ibge_code",
+        string="nfe40_cUF",
+    )
+
+    # <cNF>17983659</cNF> TODO
+
+    nfe40_natOp = fields.Char(related="operation_name")
+
+    nfe40_mod = fields.Char(related="document_type_id.code", string="nfe40_mod")
+
+    nfe40_serie = fields.Char(related="document_serie")
+
+    nfe40_nNF = fields.Char(related="document_number")
+
+    nfe40_dhEmi = fields.Datetime(related="document_date")
+
+    nfe40_dhSaiEnt = fields.Datetime(related="date_in_out")
+
+    nfe40_tpNF = fields.Selection(
+        compute="_compute_ide_data",
+        inverse="_inverse_nfe40_tpNF",
+    )
+
+    nfe40_idDest = fields.Selection(compute="_compute_nfe40_idDest")
+
+    nfe40_cMunFG = fields.Char(related="company_id.partner_id.city_id.ibge_code")
+
+    nfe40_tpImp = fields.Selection(
+        compute="_compute_ide_data",
+        inverse="_inverse_nfe40_tpImp",
+    )
+
+    danfe_layout = fields.Selection(
+        selection=NFE_DANFE_LAYOUTS + NFCE_DANFE_LAYOUTS,
+        string="Danfe Layout",
+    )
+
+    nfe40_tpEmis = fields.Selection(
+        related="nfe_transmission"
+    )  # TODO no caso de entrada
 
     nfe_transmission = fields.Selection(
         selection=NFE_TRANSMISSIONS,
@@ -127,97 +194,24 @@ class NFe(spec_models.StackedModel):
         default=lambda self: self.env.user.company_id.nfe_transmission,
     )
 
-    nfe40_finNFe = fields.Selection(
-        related="edoc_purpose",
+    # <cDV>0</cDV> TODO
+
+    nfe40_tpAmb = fields.Selection(related="nfe_environment")
+
+    nfe_environment = fields.Selection(
+        selection=NFE_ENVIRONMENTS,
+        string="NFe Environment",
+        copy=False,
+        default=lambda self: self.env.user.company_id.nfe_environment,
     )
 
-    nfe40_versao = fields.Char(
-        related="document_version",
-    )
+    nfe40_finNFe = fields.Selection(related="edoc_purpose")
 
-    nfe40_nNF = fields.Char(
-        related="document_number",
-    )
+    nfe40_indFinal = fields.Selection(related="ind_final")
 
-    nfe40_Id = fields.Char(
-        compute="_compute_nfe_data",
-        inverse="_inverse_nfe40_Id",
-    )
+    nfe40_indPres = fields.Selection(related="ind_pres")
 
-    # TODO should be done by framework?
-    nfe40_det = fields.One2many(
-        comodel_name="l10n_br_fiscal.document.line",
-        inverse_name="document_id",
-        related="line_ids",
-    )
-
-    nfe40_NFref = fields.One2many(
-        comodel_name="l10n_br_fiscal.document.related",
-        related="document_related_ids",
-        inverse_name="document_id",
-    )
-
-    nfe40_dhEmi = fields.Datetime(
-        related="document_date",
-    )
-
-    nfe40_dhSaiEnt = fields.Datetime(
-        related="date_in_out",
-    )
-
-    nfe40_natOp = fields.Char(
-        related="operation_name",
-    )
-
-    nfe40_serie = fields.Char(related="document_serie")
-
-    nfe40_indFinal = fields.Selection(
-        related="ind_final",
-    )
-
-    nfe40_indPres = fields.Selection(
-        related="ind_pres",
-    )
-
-    nfe40_vNF = fields.Monetary(
-        related="amount_total",
-    )
-
-    nfe40_tpAmb = fields.Selection(
-        related="nfe_environment",
-    )
-
-    nfe40_indIEDest = fields.Selection(
-        related="partner_ind_ie_dest", string="Contribuinte do ICMS (NFe)"
-    )
-
-    nfe40_tpNF = fields.Selection(
-        compute="_compute_nfe_data",
-        inverse="_inverse_nfe40_tpNF",
-    )
-
-    danfe_layout = fields.Selection(
-        selection=NFE_DANFE_LAYOUTS + NFCE_DANFE_LAYOUTS,
-        string="Danfe Layout",
-    )
-
-    nfe40_tpImp = fields.Selection(
-        compute="_compute_nfe_data",
-        inverse="_inverse_nfe40_tpImp",
-    )
-
-    nfe40_modFrete = fields.Selection(
-        default="9",
-    )
-
-    nfe40_tpEmis = fields.Selection(
-        compute="_compute_nfe_data",
-        inverse="_inverse_nfe40_tpEmis",
-    )
-
-    nfe40_procEmi = fields.Selection(
-        default="0",
-    )
+    nfe40_procEmi = fields.Selection(default="0")
 
     nfe40_verProc = fields.Char(
         copy=False,
@@ -226,70 +220,252 @@ class NFe(spec_models.StackedModel):
         .get_param("l10n_br_nfe.version.name", default="Odoo Brasil OCA 12.0"),
     )
 
+    ##########################
+    # NF-e tag: ide
+    # Compute Methods
+    ##########################
+
+    @api.depends("fiscal_operation_type", "nfe_transmission")
+    def _compute_ide_data(self):
+        """Set schema data which are not just related fields"""
+        for record in self.filtered(filter_processador_edoc_nfe):
+            # tpNF
+            if record.fiscal_operation_type:
+                operation_2_tpNF = {
+                    "out": "1",
+                    "in": "0",
+                }
+                record.nfe40_tpNF = operation_2_tpNF[record.fiscal_operation_type]
+
+            # tpImp
+            if record.issuer == DOCUMENT_ISSUER_COMPANY:
+                if record.document_type_id.code == MODELO_FISCAL_NFE:
+                    record.nfe40_tpImp = record.company_id.nfe_danfe_layout
+
+                if record.document_type_id.code == MODELO_FISCAL_NFCE:
+                    record.nfe40_tpImp = record.company_id.nfce_danfe_layout
+
+    @api.depends("partner_id", "company_id")
+    def _compute_nfe40_idDest(self):
+        for doc in self:
+            if doc.company_id.partner_id.state_id == doc.partner_id.state_id:
+                doc.nfe40_idDest = "1"
+            elif doc.company_id.partner_id.country_id == doc.partner_id.country_id:
+                doc.nfe40_idDest = "2"
+            else:
+                doc.nfe40_idDest = "3"
+
+    ##########################
+    # NF-e tag: ide
+    # Inverse Methods
+    ##########################
+
+    def _inverse_nfe40_tpNF(self):
+        for doc in self:
+            if doc.nfe40_tpNF:
+                tpNF_2_operation = {
+                    "1": "out",
+                    "0": "in",
+                }
+                doc.fiscal_operation_type = tpNF_2_operation[doc.nfe40_tpNF]
+
+    def _inverse_nfe40_tpImp(self):
+        for doc in self:
+            if doc.nfe40_tpImp:
+                doc.danfe_layout = doc.nfe40_tpImp
+
+    def _inverse_nfe40_tpEmis(self):
+        for doc in self:
+            if doc.nfe40_tpEmis:
+                doc.nfe_transmission = doc.nfe40_tpEmis
+
+    ##########################
+    # NF-e tag: NFref
+    ##########################
+
+    nfe40_NFref = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.related",
+        related="document_related_ids",
+        inverse_name="document_id",
+    )
+
+    ##########################
+    # NF-e tag: emit
+    ##########################
+
+    # emit and dest are not related fields as their related fields
+    # can change depending if it's and incoming our outgoing NFe
+    # specially when importing (ERP NFe migration vs supplier Nfe).
+    nfe40_emit = fields.Many2one(
+        comodel_name="res.company",
+        compute="_compute_emit_data",
+        readonly=True,
+        string="Emit",
+    )
+
     nfe40_CRT = fields.Selection(
         related="company_tax_framework",
         string="Código de Regime Tributário (NFe)",
     )
 
-    nfe40_vFrete = fields.Monetary(
-        related="amount_freight_value",
+    ##########################
+    # NF-e tag: emit
+    # Compute Methods
+    ##########################
+
+    def _compute_emit_data(self):
+        for doc in self:  # TODO if out
+            doc.nfe40_emit = doc.company_id
+
+    ##########################
+    # NF-e tag: dest
+    ##########################
+
+    nfe40_dest = fields.Many2one(
+        comodel_name="res.partner",
+        compute="_compute_dest_data",
+        readonly=True,
+        string="Dest",
     )
 
-    nfe40_vFCPUFDest = fields.Monetary(
-        related="amount_icmsfcp_value",
+    nfe40_indIEDest = fields.Selection(
+        related="partner_ind_ie_dest",
+        string="Contribuinte do ICMS (NFe)",
     )
 
-    nfe40_vDesc = fields.Monetary(related="amount_discount_value")
+    ##########################
+    # NF-e tag: dest
+    # Compute Methods
+    ##########################
 
-    nfe40_vTotTrib = fields.Monetary(related="amount_estimate_tax")
+    @api.depends("partner_id")
+    def _compute_dest_data(self):
+        for doc in self:  # TODO if out
+            doc.nfe40_dest = doc.partner_id
 
-    nfe40_vBC = fields.Monetary(
-        string="BC do ICMS",
-        related="amount_icms_base",
+    ##########################
+    # NF-e tag: det
+    ##########################
+
+    # TODO should be done by framework?
+    nfe40_det = fields.One2many(
+        comodel_name="l10n_br_fiscal.document.line",
+        inverse_name="document_id",
+        related="line_ids",
     )
-    nfe40_vBCST = fields.Monetary(related="amount_icmsst_base")
+
+    ##########################
+    # NF-e tag: ICMSTot
+    ##########################
+
+    nfe40_vBC = fields.Monetary(string="BC do ICMS", related="amount_icms_base")
 
     nfe40_vICMS = fields.Monetary(related="amount_icms_value")
+
+    # <vICMSDeson>0.00</vICMSDeson> TODO
+
+    nfe40_vFCPUFDest = fields.Monetary(related="amount_icmsfcp_value")
+
+    nfe40_vICMSUFDest = fields.Monetary(related="amount_icms_destination_value")
+
+    nfe40_vICMSUFRemet = fields.Monetary(related="amount_icms_origin_value")
+
+    # <vFCP>0.00</vFCP> TODO
+
+    nfe40_vBCST = fields.Monetary(related="amount_icmsst_base")
+
     nfe40_vST = fields.Monetary(related="amount_icmsst_value")
+
+    # <vFCPST>0.00</vFCPST> TODO
+
+    # <vFCPSTRet>0.00</vFCPSTRet> TODO
+
+    nfe40_vProd = fields.Monetary(related="amount_price_gross")
+
+    nfe40_vFrete = fields.Monetary(related="amount_freight_value")
+
+    nfe40_vSeg = fields.Monetary(related="amount_insurance_value")
+
+    # TODO  Verificar as operações de bonificação se o desconto sai correto
+    # nfe40_vDesc = fields.Monetary(related="amount_financial_discount_value")
+    # nfe40_vDesc = fields.Monetary(related="amount_discount_value")
+    nfe40_vDesc = fields.Monetary(related="amount_discount_value")
+
+    nfe40_vII = fields.Monetary(related="amount_ii_value")
+
+    nfe40_vIPI = fields.Monetary(related="amount_ipi_value")
+
+    # <vIPIDevol>0.00</vIPIDevol> TODO
 
     nfe40_vPIS = fields.Monetary(
         string="Valor do PIS (NFe)", related="amount_pis_value"
     )
 
-    nfe40_vIPI = fields.Monetary(related="amount_ipi_value")
-
     nfe40_vCOFINS = fields.Monetary(
         string="valor do COFINS (NFe)", related="amount_cofins_value"
     )
 
-    nfe40_infAdFisco = fields.Char(
-        compute="_compute_nfe40_additional_data",
-    )
+    nfe40_vOutro = fields.Monetary(related="amount_other_value")
+
+    nfe40_vNF = fields.Monetary(related="amount_total")
+
+    nfe40_vTotTrib = fields.Monetary(related="amount_estimate_tax")
+
+    ##########################
+    # NF-e tag: ISSQNtot
+    ##########################
+
+    # TODO
+
+    ##########################
+    # NF-e tag: transp
+    ##########################
+
+    nfe40_modFrete = fields.Selection(default="9")
+
+    ##########################
+    # NF-e tag: transporta
+    ##########################
+
+    nfe40_transporta = fields.Many2one(comodel_name="res.partner")
+
+    ##########################
+    # NF-e tag: pag
+    ##########################
+
+    def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
+        return {
+            "nfe40_indPag": ind_pag,
+            "nfe40_tPag": t_pag,
+            "nfe40_vPag": v_pag,
+        }
+
+    def _export_fields_pagamentos(self):
+        if not self.amount_financial_total:
+            self.nfe40_detPag = [
+                (5, 0, 0),
+                (0, 0, self._prepare_amount_financial("0", "90", 0.00)),
+            ]
+        self.nfe40_detPag.__class__._field_prefix = "nfe40_"
+
+        # the following was disabled because it blocks the normal
+        # invoice validation https://github.com/OCA/l10n-brazil/issues/1559
+        # if not self.nfe40_detPag:  # (empty list)
+        #    raise UserError(_("Favor preencher os dados do pagamento"))
+
+    ##########################
+    # NF-e tag: infAdic
+    ##########################
+
+    nfe40_infAdFisco = fields.Char(compute="_compute_nfe40_additional_data")
+
+    ##########################
+    # NF-e tag: infCpl
+    ##########################
 
     nfe40_infCpl = fields.Char(
         compute="_compute_nfe40_additional_data",
     )
-
-    nfe40_transporta = fields.Many2one(comodel_name="res.partner")
-
-    nfe40_infRespTec = fields.Many2one(
-        comodel_name="res.partner", related="company_id.technical_support_id"
-    )
-
-    nfe40_idDest = fields.Selection(
-        compute="_compute_nfe40_idDest",
-    )
-
-    ##########################
-    # NF-e tag: fat
-    ##########################
-    nfe40_nFat = fields.Char(related="document_number")
-
-    nfe40_vOrig = fields.Monetary(related="amount_financial_total_gross")
-
-    nfe40_vDesc = fields.Monetary(related="amount_financial_discount_value")
-
-    nfe40_vLiq = fields.Monetary(related="amount_financial_total")
 
     @api.depends("fiscal_additional_data", "fiscal_additional_data")
     def _compute_nfe40_additional_data(self):
@@ -313,75 +489,115 @@ class NFe(spec_models.StackedModel):
                     .replace("\r", "")
                 )
 
-    @api.depends("fiscal_operation_type", "nfe_transmission")
-    def _compute_nfe_data(self):
-        """Set schema data which are not just related fields"""
-        for record in self.filtered(filter_processador_edoc_nfe):
-            # id
-            if (
-                record.document_type_id
-                and record.document_type_id.prefix
-                and record.document_key
+    ##########################
+    # NF-e tag: fat
+    ##########################
+    nfe40_nFat = fields.Char(related="document_number")
+
+    nfe40_vOrig = fields.Monetary(related="amount_financial_total_gross")
+
+    nfe40_vLiq = fields.Monetary(related="amount_financial_total")
+
+    ##########################
+    # NF-e tag: infRespTec
+    ##########################
+
+    nfe40_infRespTec = fields.Many2one(
+        comodel_name="res.partner",
+        related="company_id.technical_support_id",
+    )
+
+    ################################
+    # Framework Spec model's methods
+    ################################
+
+    def _export_field(self, xsd_field, class_obj, member_spec):
+        if xsd_field == "nfe40_tpAmb":
+            self.env.context = dict(self.env.context)
+            self.env.context.update({"tpAmb": self[xsd_field]})
+        elif xsd_field == "nfe40_vTroco" and (
+            self.nfe40_detPag and self.nfe40_detPag[0].nfe40_tPag == "90"
+        ):
+            return False
+        return super()._export_field(xsd_field, class_obj, member_spec)
+
+    def _export_many2one(self, field_name, xsd_required, class_obj=None):
+        self.ensure_one()
+        if field_name in self._stacking_points.keys():
+            if field_name == "nfe40_ISSQNtot" and not any(
+                t == "issqn"
+                for t in self.nfe40_det.mapped("product_id.tax_icms_or_issqn")
             ):
-                record.nfe40_Id = "{}{}".format(
-                    record.document_type_id.prefix, record.document_key
-                )
-            else:
-                record.nfe40_Id = None
+                return False
 
-            # tpNF
-            if record.fiscal_operation_type:
-                operation_2_tpNF = {
-                    "out": "1",
-                    "in": "0",
-                }
-                record.nfe40_tpNF = operation_2_tpNF[record.fiscal_operation_type]
+            elif (not xsd_required) and field_name not in ["nfe40_enderDest"]:
+                comodel = self.env[self._stacking_points.get(field_name).comodel_name]
+                fields = [
+                    f for f in comodel._fields if f.startswith(self._field_prefix)
+                ]
+                sub_tag_read = self.read(fields)[0]
+                if not any(
+                    v
+                    for k, v in sub_tag_read.items()
+                    if k.startswith(self._field_prefix)
+                ):
+                    return False
 
-            # TpEmis
-            if record.nfe_transmission:
-                record.nfe40_tpEmis = record.nfe_transmission
+        return super()._export_many2one(field_name, xsd_required, class_obj)
 
-            # tpImp
-            if record.issuer == DOCUMENT_ISSUER_COMPANY:
-                if record.document_type_id.code == MODELO_FISCAL_NFE:
-                    record.nfe40_tpImp = record.company_id.nfe_danfe_layout
+    def _export_one2many(self, field_name, class_obj=None):
+        res = super()._export_one2many(field_name, class_obj)
+        i = 0
+        for field_data in res:
+            i += 1
+            if class_obj._fields[field_name].comodel_name == "nfe.40.det":
+                field_data.nItem = i
+        return res
 
-                if record.document_type_id.code == MODELO_FISCAL_NFCE:
-                    record.nfe40_tpImp = record.company_id.nfce_danfe_layout
+    def _build_attr(self, node, fields, vals, path, attr):
+        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
+        value = getattr(node, attr.get_name())
 
-    @api.depends("partner_id", "company_id")
-    def _compute_nfe40_idDest(self):
-        for rec in self:
-            if rec.company_id.partner_id.state_id == rec.partner_id.state_id:
-                rec.nfe40_idDest = "1"
-            elif rec.company_id.partner_id.country_id == rec.partner_id.country_id:
-                rec.nfe40_idDest = "2"
-            else:
-                rec.nfe40_idDest = "3"
+        if key == "nfe40_mod":
+            vals["document_type_id"] = (
+                self.env["l10n_br_fiscal.document.type"]
+                .search([("code", "=", value)], limit=1)
+                .id
+            )
 
-    def _inverse_nfe40_tpNF(self):
-        for rec in self:
-            if rec.nfe40_tpNF:
-                tpNF_2_operation = {
-                    "1": "out",
-                    "0": "in",
-                }
-                rec.fiscal_operation_type = tpNF_2_operation[rec.nfe40_tpNF]
+        return super()._build_attr(node, fields, vals, path, attr)
 
-    def _inverse_nfe40_Id(self):
-        for record in self:
-            if record.nfe40_Id:
-                record.document_key = re.findall(r"\d+", str(record.nfe40_Id))[0]
+    def _build_many2one(self, comodel, vals, new_value, key, value, path):
+        if key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
+            enderEmit_value = self.env["res.partner"].build_attrs(
+                value.enderEmit, path=path
+            )
+            new_value.update(enderEmit_value)
+            new_value["is_company"] = True
+            new_value["cnpj_cpf"] = new_value.get("nfe40_CNPJ")
+            super()._build_many2one(
+                self.env["res.partner"], vals, new_value, "partner_id", value, path
+            )
+        elif self.env.context.get("edoc_type") == "in" and key in [
+            "nfe40_dest",
+            "nfe40_enderDest",
+        ]:
+            # this would be the emit/company data, but we won't update it on
+            # NFe import so just do nothing
+            return
+        elif (
+            self._name == "account.invoice"
+            and comodel._name == "l10n_br_fiscal.document"
+        ):
+            # module l10n_br_account_nfe
+            # stacked m2o
+            vals.update(new_value)
+        else:
+            super()._build_many2one(comodel, vals, new_value, key, value, path)
 
-    def _inverse_nfe40_tpEmis(self):
-        for record in self:
-            if record.nfe40_tpEmis:
-                record.nfe_transmission = record.nfe40_tpEmis
-
-    def _inverse_nfe40_tpImp(self):
-        for record in self:
-            if record.nfe40_tpImp:
-                record.danfe_layout = record.nfe40_tpImp
+    ################################
+    # Business Model Methods
+    ################################
 
     def _document_number(self):
         # TODO: Criar campos no fiscal para codigo aleatorio e digito verificador,
@@ -489,26 +705,6 @@ class NFe(spec_models.StackedModel):
         )
         self._change_state(state)
 
-    def _prepare_amount_financial(self, ind_pag, t_pag, v_pag):
-        return {
-            "nfe40_indPag": ind_pag,
-            "nfe40_tPag": t_pag,
-            "nfe40_vPag": v_pag,
-        }
-
-    def _export_fields_pagamentos(self):
-        if not self.amount_financial_total:
-            self.nfe40_detPag = [
-                (5, 0, 0),
-                (0, 0, self._prepare_amount_financial("0", "90", 0.00)),
-            ]
-        self.nfe40_detPag.__class__._field_prefix = "nfe40_"
-
-        # the following was disabled because it blocks the normal
-        # invoice validation https://github.com/OCA/l10n-brazil/issues/1559
-        # if not self.nfe40_detPag:  # (empty list)
-        #    raise UserError(_("Favor preencher os dados do pagamento"))
-
     def _valida_xml(self, xml_file):
         self.ensure_one()
         erros = nfe_sub.schema_validation(StringIO(xml_file))
@@ -564,118 +760,6 @@ class NFe(spec_models.StackedModel):
         for record in self.filtered(filter_processador_edoc_nfe):
             if not record.date_in_out:
                 record.date_in_out = fields.Datetime.now()
-
-    def _export_fields(self, xsd_fields, class_obj, export_dict):
-        if self.company_id.partner_id.state_id.ibge_code:
-            self.nfe40_cUF = self.company_id.partner_id.state_id.ibge_code
-        if self.document_type_id.code:
-            self.nfe40_mod = self.document_type_id.code
-        self.nfe40_cMunFG = self.company_id.partner_id.city_id.ibge_code
-        return super(NFe, self)._export_fields(xsd_fields, class_obj, export_dict)
-
-    def _export_field(self, xsd_field, class_obj, member_spec):
-        if xsd_field in ("nfe40_vICMSUFDest", "nfe40_vICMSUFRemet"):
-            if (
-                self.ind_final == "1"
-                and self.nfe40_idDest == "2"
-                and self.nfe40_indIEDest == "9"
-            ):
-                self.nfe40_vICMSUFDest = sum(self.line_ids.mapped("nfe40_vICMSUFDest"))
-                self.nfe40_vICMSUFRemet = sum(
-                    self.line_ids.mapped("nfe40_vICMSUFRemet")
-                )
-            else:
-                self.nfe40_vICMSUFDest = 0.0
-                self.nfe40_vICMSUFRemet = 0.0
-        if xsd_field == "nfe40_tpAmb":
-            self.env.context = dict(self.env.context)
-            self.env.context.update({"tpAmb": self[xsd_field]})
-        elif xsd_field == "nfe40_vTroco" and (
-            self.nfe40_detPag and self.nfe40_detPag[0].nfe40_tPag == "90"
-        ):
-            return False
-        return super(NFe, self)._export_field(xsd_field, class_obj, member_spec)
-
-    def _export_many2one(self, field_name, xsd_required, class_obj=None):
-        self.ensure_one()
-        if field_name in self._stacking_points.keys():
-            if field_name == "nfe40_ISSQNtot" and not any(
-                t == "issqn"
-                for t in self.nfe40_det.mapped("product_id.tax_icms_or_issqn")
-            ):
-                return False
-
-            elif (not xsd_required) and field_name not in ["nfe40_enderDest"]:
-                comodel = self.env[self._stacking_points.get(field_name).comodel_name]
-                fields = [
-                    f for f in comodel._fields if f.startswith(self._field_prefix)
-                ]
-                sub_tag_read = self.read(fields)[0]
-                if not any(
-                    v
-                    for k, v in sub_tag_read.items()
-                    if k.startswith(self._field_prefix)
-                ):
-                    return False
-
-        return super(NFe, self)._export_many2one(field_name, xsd_required, class_obj)
-
-    def _export_float_monetary(self, field_name, member_spec, class_obj, xsd_required):
-        if field_name == "nfe40_vProd" and class_obj._name == "nfe.40.icmstot":
-            self[field_name] = sum(self["nfe40_det"].mapped("nfe40_vProd"))
-        return super(NFe, self)._export_float_monetary(
-            field_name, member_spec, class_obj, xsd_required
-        )
-
-    def _export_one2many(self, field_name, class_obj=None):
-        res = super(NFe, self)._export_one2many(field_name, class_obj)
-        i = 0
-        for field_data in res:
-            i += 1
-            if class_obj._fields[field_name].comodel_name == "nfe.40.det":
-                field_data.nItem = i
-        return res
-
-    def _build_attr(self, node, fields, vals, path, attr):
-        key = "nfe40_%s" % (attr.get_name(),)  # TODO schema wise
-        value = getattr(node, attr.get_name())
-
-        if key == "nfe40_mod":
-            vals["document_type_id"] = (
-                self.env["l10n_br_fiscal.document.type"]
-                .search([("code", "=", value)], limit=1)
-                .id
-            )
-
-        return super(NFe, self)._build_attr(node, fields, vals, path, attr)
-
-    def _build_many2one(self, comodel, vals, new_value, key, value, path):
-        if key == "nfe40_emit" and self.env.context.get("edoc_type") == "in":
-            enderEmit_value = self.env["res.partner"].build_attrs(
-                value.enderEmit, path=path
-            )
-            new_value.update(enderEmit_value)
-            new_value["is_company"] = True
-            new_value["cnpj_cpf"] = new_value.get("nfe40_CNPJ")
-            super()._build_many2one(
-                self.env["res.partner"], vals, new_value, "partner_id", value, path
-            )
-        elif self.env.context.get("edoc_type") == "in" and key in [
-            "nfe40_dest",
-            "nfe40_enderDest",
-        ]:
-            # this would be the emit/company data, but we won't update it on
-            # NFe import so just do nothing
-            return
-        elif (
-            self._name == "account.invoice"
-            and comodel._name == "l10n_br_fiscal.document"
-        ):
-            # module l10n_br_account_nfe
-            # stacked m2o
-            vals.update(new_value)
-        else:
-            super(NFe, self)._build_many2one(comodel, vals, new_value, key, value, path)
 
     def view_pdf(self):
         if not self.filtered(filter_processador_edoc_nfe):
