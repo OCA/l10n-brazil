@@ -120,7 +120,7 @@ class TestGeneratePaymentInfo(SavepointCase):
         )
 
     def test_nfe_generate_tag_pag(self):
-        """ Test NFe generate TAG PAG."""
+        """Test NFe generate TAG PAG."""
         # Dados criados no teste
         for detPag in self.invoice.nfe40_detPag:
             self.assertEqual(detPag.nfe40_indPag, "1", "Error in nfe40_indPag field.")
@@ -135,7 +135,7 @@ class TestGeneratePaymentInfo(SavepointCase):
             self.assertEqual(detPag.nfe40_vPag, 1000.0, "Error in nfe40_vPag field.")
 
     def test_nfe_generate_tag_cobr_and_dup(self):
-        """ Test NFe generate TAG COBR e DUP."""
+        """Test NFe generate TAG COBR e DUP."""
         # Dados criados no teste
         self.assertEqual(self.invoice.nfe40_vOrig, 472.5)
         self.assertEqual(self.invoice.nfe40_vDesc, 0.0)
