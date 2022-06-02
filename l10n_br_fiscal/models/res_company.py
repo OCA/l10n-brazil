@@ -50,7 +50,7 @@ class ResCompany(models.Model):
         return rec
 
     def _get_company_address_fields(self, partner):
-        """ Read the l10n_br specific functional fields. """
+        """Read the l10n_br specific functional fields."""
         partner_fields = super()._get_company_address_fields(partner)
         partner_fields.update(
             {
@@ -61,12 +61,12 @@ class ResCompany(models.Model):
         return partner_fields
 
     def _inverse_cnae_main_id(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.cnae_main_id = c.cnae_main_id
 
     def _inverse_tax_framework(self):
-        """ Write the l10n_br specific functional fields. """
+        """Write the l10n_br specific functional fields."""
         for c in self:
             c.partner_id.tax_framework = c.tax_framework
 

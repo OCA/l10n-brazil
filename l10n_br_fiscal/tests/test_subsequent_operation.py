@@ -23,7 +23,7 @@ class TestSubsequentOperation(TransactionCase):
         self.cofins_tax_0 = self.env.ref("l10n_br_fiscal.tax_cofins_0")
 
     def test_subsequent_operation_simple_faturamento(self):
-        """ Test Fiscal Subsequent Operation Simples Faturamento"""
+        """Test Fiscal Subsequent Operation Simples Faturamento"""
 
         self.nfe_simples_faturamento._onchange_fiscal_operation_id()
         self.nfe_simples_faturamento._onchange_company_id()
