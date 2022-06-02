@@ -31,7 +31,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         assert cls.financial_move_line_1, "Move 1 not created for open invoice"
 
     def test_change_date_maturity_multiple(self):
-        """ Test Creation of a Payment Order an change MULTIPLE due date """
+        """Test Creation of a Payment Order an change MULTIPLE due date"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
         date_maturity = self.financial_move_line_ids.mapped("date_maturity")
         new_date = date.today() + timedelta(days=120)
@@ -67,7 +67,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         ), "Payment Order with wrong mov_instruction_code_id"
 
     def test_change_date_maturity_one(self):
-        """ Test Creation of a Payment Order an change ONE due date """
+        """Test Creation of a Payment Order an change ONE due date"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
         date_maturity = self.financial_move_line_0.mapped("date_maturity")
         new_date = date.today() + timedelta(days=120)
@@ -124,7 +124,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
     #     )
 
     def test_change_not_payment(self):
-        """ Test Creation of a Payment Order an change not_payment """
+        """Test Creation of a Payment Order an change not_payment"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(
@@ -152,7 +152,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         ), "Payment Order with wrong mov_instruction_code_id"
 
     def test_change_protest_tittle(self):
-        """ Test Creation of a Payment Order an change protest_tittle """
+        """Test Creation of a Payment Order an change protest_tittle"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(
@@ -180,7 +180,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         ), "Payment Order with wrong mov_instruction_code_id"
 
     def test_change_suspend_protest_keep_wallet(self):
-        """ Test Creation of a Payment Order an change suspend_protest_keep_wallet """
+        """Test Creation of a Payment Order an change suspend_protest_keep_wallet"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(
@@ -208,7 +208,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         ), "Payment Order with wrong mov_instruction_code_id"
 
     def test_change_suspend_grant_rebate(self):
-        """ Test Creation of a Payment Order an change grant_rebate """
+        """Test Creation of a Payment Order an change grant_rebate"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(
@@ -237,7 +237,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         ), "Payment Order with wrong mov_instruction_code_id"
 
     def test_change_suspend_grant_discount(self):
-        """ Test Creation of a Payment Order an change grant_discount """
+        """Test Creation of a Payment Order an change grant_discount"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(
@@ -266,7 +266,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         ), "Payment Order with wrong mov_instruction_code_id"
 
     def test_change_suspend_cancel_rebate(self):
-        """ Test Creation of a Payment Order an change cancel_rebate """
+        """Test Creation of a Payment Order an change cancel_rebate"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(
@@ -294,7 +294,7 @@ class TestPaymentOrderChange(TestL10nBrAccountPaymentOder):
         ), "Payment Order with wrong mov_instruction_code_id"
 
     def test_change_suspend_cancel_discount(self):
-        """ Test Creation of a Payment Order an change cancel_discount """
+        """Test Creation of a Payment Order an change cancel_discount"""
         self._invoice_payment_order_all_workflow(self.invoice_auto)
         financial_move_line_ids = self.invoice_auto.financial_move_line_ids[0]
         with Form(
