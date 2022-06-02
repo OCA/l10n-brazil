@@ -25,8 +25,8 @@ class HrContract(models.Model):
     welfare_policy = fields.Selection(
         string="Welfare policy",
         selection=[
-            ("rgps", u"Regime Geral da Previdência Social"),
-            ("rpps", u"Regime Próprio da Previdência Social"),
+            ("rgps", "Regime Geral da Previdência Social"),
+            ("rpps", "Regime Próprio da Previdência Social"),
             ("rpse", "Regime de Previdência Social no Exterior"),
         ],
         help="e-Social: S2200/S2300 - tpRegPrev",
