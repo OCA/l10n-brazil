@@ -25,7 +25,7 @@ class TestFiscalDocumentNFSeIssnet(TestFiscalDocumentNFSeCommon):
         self.company.provedor_nfse = "issnet"
 
     def test_nfse_issnet(self):
-        """ Test NFS-e same state. """
+        """Test NFS-e same state."""
 
         xml_path = os.path.join(
             l10n_br_nfse_issnet.__path__[0], "tests", "nfse", "001_50_nfse.xml"
