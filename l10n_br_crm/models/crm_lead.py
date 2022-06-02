@@ -16,7 +16,7 @@ except ImportError:
 
 
 class Lead(models.Model):
-    """ CRM Lead Case """
+    """CRM Lead Case"""
 
     _inherit = "crm.lead"
 
