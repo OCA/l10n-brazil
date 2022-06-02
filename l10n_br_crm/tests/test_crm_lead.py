@@ -103,7 +103,7 @@ class CrmLeadTest(TransactionCase):
         )
 
     def test_create_partner(self):
-        """ Create a Partner and check the if the fields were filled """
+        """Create a Partner and check the if the fields were filled"""
         self.partner_id = self.crm_lead_company._create_lead_partner()
 
         self.obj_partner = self.env["res.partner"].browse(self.partner_id.id)
@@ -163,7 +163,7 @@ class CrmLeadTest(TransactionCase):
         )
 
     def test_create_contact(self):
-        """ Create a Contact and check the if the fields were filled """
+        """Create a Contact and check the if the fields were filled"""
         self.partner_id = self.crm_lead_contact._create_lead_partner()
         self.obj_partner = self.env["res.partner"].browse(self.partner_id.id)
 

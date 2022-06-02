@@ -250,7 +250,7 @@ class PaymentTransactionPagseguro(models.Model):
         return CHARGE_PARAMS
 
     def log_transaction(self, reference, message):
-        """ Logs a transaction. It can be either a successful or a failed one. """
+        """Logs a transaction. It can be either a successful or a failed one."""
         self.sudo().write(
             {
                 "date": fields.datetime.now(),
