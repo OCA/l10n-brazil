@@ -125,7 +125,7 @@ class StockMove(models.Model):
         return result
 
     def _get_price_unit(self):
-        """ Returns the unit price to store on the quant """
+        """Returns the unit price to store on the quant"""
         result = super()._get_price_unit()
 
         # No Brasil o caso de Ordens de Entrega com Operação Fiscal
