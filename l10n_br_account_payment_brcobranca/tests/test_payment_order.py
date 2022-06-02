@@ -213,7 +213,7 @@ class TestPaymentOrder(SavepointCase):
         )
 
     def test_bank_cnab_not_implement_brcobranca(self):
-        """ Test Bank CNAB not implemented in BRCobranca."""
+        """Test Bank CNAB not implemented in BRCobranca."""
         invoice = self.env.ref(
             "l10n_br_account_payment_order.demo_invoice_payment_order_itau_cnab240"
         )
@@ -228,7 +228,7 @@ class TestPaymentOrder(SavepointCase):
             invoice.view_boleto_pdf()
 
     def test_payment_order_invoice_cancel_process(self):
-        """ Test Payment Order and Invoice Cancel process."""
+        """Test Payment Order and Invoice Cancel process."""
 
         payment_order = self.env["account.payment.order"].search(
             [("payment_mode_id", "=", self.invoice_cef.payment_mode_id.id)]
