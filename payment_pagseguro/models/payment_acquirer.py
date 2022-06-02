@@ -22,7 +22,7 @@ class PaymentAcquirerPagseguro(models.Model):
     )
 
     def get_installments_options(self):
-        """ Get list of installment options available to compose the html tag """
+        """Get list of installment options available to compose the html tag"""
         return list(range(1, self.pagseguro_max_installments + 1))
 
     @api.multi
