@@ -53,7 +53,7 @@ class PurchaseOrder(models.Model):
         index=True,
         copy=False,
         default="draft",
-        track_visibility="onchange",
+        tracking=True,
     )
 
     order_line = fields.One2many(
@@ -68,7 +68,7 @@ class PurchaseOrderLine(models.Model):
     name = fields.Char(string="Description", required=True)
     sequence = fields.Integer(string="Sequence", default=10)
     product_qty = fields.Integer(string="Quantity", required=True)
-    price_unit = fields.Monetary(string="Unit Price", required=True, digits=2)
+    price_unit = fields.Monetary(string="Unit Price", required=True)
     currency_id = fields.Many2one(
         related="order_id.currency_id", store=True, string="Currency", readonly=True
     )
