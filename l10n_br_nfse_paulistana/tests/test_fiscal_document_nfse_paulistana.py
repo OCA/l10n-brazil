@@ -25,7 +25,7 @@ class TestFiscalDocumentNFSePaulistana(TestFiscalDocumentNFSeCommon):
         self.company.provedor_nfse = "paulistana"
 
     def test_nfse_paulistana(self):
-        """ Test NFS-e same state. """
+        """Test NFS-e same state."""
 
         xml_path = os.path.join(
             l10n_br_nfse_paulistana.__path__[0], "tests", "nfse", "paulistana.xml"
