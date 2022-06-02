@@ -36,7 +36,7 @@ jobs:
         - TESTS="1" ODOO_REPO="odoo/odoo" MAKEPOT="1"
     - stage: test
       env:
-        - TESTS="1" ODOO_REPO="OCA/OCB"
+        - TESTS="1" ODOO_REPO="OCA/OCB" EXCLUDE="payment_pagseguro,l10n_br_website_sale_delivery,l10n_br_website_sale"
 
 env:
   global:
