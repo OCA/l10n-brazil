@@ -19,6 +19,11 @@ msgid "# Meetings"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_invoice_count
+msgid "# Vendor Bills"
+msgstr ""
+
+#. module: l10n_br_hr
 #: code:addons/l10n_br_hr/models/hr_employee.py:0
 #, python-format
 msgid ""
@@ -121,6 +126,13 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_attachment_count
 msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__receipt_reminder_email
+msgid ""
+"Automatically send a confirmation email to the vendor X days before the "
+"expected receipt date, asking him to confirm the exact date."
 msgstr ""
 
 #. module: l10n_br_hr
@@ -488,6 +500,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dependent_dob
 msgid "Date of birth"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__reminder_date_before_receipt
+msgid "Days Before Receipt"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1138,6 +1155,11 @@ msgid "Message for Invoice"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_warn_msg
+msgid "Message for Purchase Order"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn_msg
 msgid "Message for Stock Picking"
 msgstr ""
@@ -1240,6 +1262,11 @@ msgid "Number of Actions"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__reminder_date_before_receipt
+msgid "Number of days to send reminder email before the promised receipt date"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
@@ -1265,6 +1292,11 @@ msgid "Ocupação"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__on_time_rate
+msgid "On-Time Delivery Rate"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__opportunity_ids
 msgid "Opportunities"
 msgstr ""
@@ -1277,6 +1309,13 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__state_tax_number_ids
 msgid "Others State Tax Number"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__on_time_rate
+msgid ""
+"Over the past 12 months; the number of products received on time divided by "
+"the number of ordered products."
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1354,6 +1393,21 @@ msgid "Pricelist"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_line_ids
+msgid "Purchase Lines"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_warn
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_order_count
+msgid "Purchase Order Count"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__rg
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
@@ -1368,6 +1422,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_ethnicity_form
 msgid "Raça/Cor"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__receipt_reminder_email
+msgid "Receipt Reminder"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1450,6 +1509,7 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__purchase_warn
 msgid ""
 "Selecting the \"Warning\" option will notify user with the message, "
 "Selecting \"Blocking Message\" will throw an exception with the message and "
@@ -1543,6 +1603,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__suframa
 msgid "Suframa"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_purchase_currency_id
+msgid "Supplier Currency"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1640,6 +1705,13 @@ msgstr ""
 msgid ""
 "This account will be used instead of the default one as the receivable "
 "account for the current partner"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_purchase_currency_id
+msgid ""
+"This currency will be used, instead of the default one, for purchases from "
+"the current partner"
 msgstr ""
 
 #. module: l10n_br_hr
