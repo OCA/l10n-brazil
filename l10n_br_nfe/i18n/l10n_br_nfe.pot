@@ -354,6 +354,11 @@ msgid "Contribuinte do ICMS (NFe)"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_res_country
+msgid "Country"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xPais
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xPais
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xPais
