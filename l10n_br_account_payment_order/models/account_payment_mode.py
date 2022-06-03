@@ -15,9 +15,9 @@ class AccountPaymentMode(models.Model):
     _name = "account.payment.mode"
     _inherit = [
         "account.payment.mode",
-        "mail.thread",
         "l10n_br_cnab.boleto.fields",
         "l10n_br_cnab.payment.fields",
+        "mail.thread",
     ]
 
     auto_create_payment_order = fields.Boolean(
