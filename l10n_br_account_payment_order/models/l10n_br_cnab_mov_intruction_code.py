@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class L10nBrCNABMovInstructionCode(models.Model):
     _name = "l10n_br_cnab.mov.instruction.code"
-    _inherit = "l10n_br_cnab.data.abstract"
+    _inherit = ["l10n_br_cnab.data.abstract", "mail.thread"]
     _description = "CNAB Movement Instruction Code"
 
     bank_ids = fields.Many2many(
