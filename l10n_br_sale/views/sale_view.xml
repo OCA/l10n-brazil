@@ -134,31 +134,32 @@
                 expr="//field[@name='order_line']/form//label[@for='customer_lead']"
                 position="before"
             >
+                <field name="is_downpayment" invisible="1" />
                 <field
                     name="fiscal_operation_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False), ('is_downpayment', '=', False)], 'invisible': [('is_downpayment', '!=', False)]}"
                 />
                 <field
                     name="fiscal_operation_line_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False), ('is_downpayment', '=', False)], 'invisible': [('is_downpayment', '!=', False)]}"
                 />
                 <field
                     name="cfop_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'issqn')]}"
+                    attrs="{'invisible': ['|', ('is_downpayment', '!=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
                 />
                 <field name="price_total" invisible="1" />
                 <field name="price_subtotal" invisible="1" />
                 <field
                     name="service_type_id"
                     options="{'no_create': True}"
-                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    attrs="{'invisible': ['|', ('is_downpayment', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
                 />
                 <field
                     name="city_taxation_code_id"
-                    attrs="{'invisible': [('tax_icms_or_issqn', '=', 'icms')]}"
+                    attrs="{'invisible': ['|', ('is_downpayment', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
                 />
             </xpath>
             <xpath
@@ -173,8 +174,12 @@
                 expr="//field[@name='order_line']/form//field[@name='price_unit']"
                 position="after"
             >
-                <label for="fiscal_quantity" string="Fiscal Quantity" />
-                <div>
+                <label
+                    for="fiscal_quantity"
+                    string="Fiscal Quantity"
+                    attrs="{'invisible': [('is_downpayment', '!=', False)]}"
+                />
+                <div attrs="{'invisible': [('is_downpayment', '!=', False)]}">
                     <field
                         context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'pricelist':parent.pricelist_id, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
                         name="fiscal_quantity"
@@ -188,13 +193,18 @@
                         attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)],}"
                     />
                 </div>
-                <field name="fiscal_price" />
+                <field
+                    name="fiscal_price"
+                    attrs="{'invisible': [('is_downpayment', '!=', False)]}"
+                />
             </xpath>
             <xpath
                 expr="//field[@name='order_line']/form/field[@name='name']"
                 position="after"
             >
-                <notebook attrs="{'invisible': [('display_type', '!=', False)]}">
+                <notebook
+                    attrs="{'invisible': ['|', ('is_downpayment', '!=', False), ('display_type', '!=', False)]}"
+                >
                   <page name="fiscal_taxes" string="Taxes" />
                   <page
                         string="Invoice Lines"
