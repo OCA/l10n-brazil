@@ -23,7 +23,12 @@ msgid "# Meetings"
 msgstr "# Reuniões"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:190
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_invoice_count
+msgid "# Vendor Bills"
+msgstr ""
+
+#. module: l10n_br_hr
+#: code:addons/l10n_br_hr/models/hr_employee.py:191
 #, python-format
 msgid ""
 "A dependent with the same level of relatedness already exists for dependent "
@@ -132,6 +137,11 @@ msgid "Bank"
 msgstr "Banco"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
+msgid "Bank Statement Label"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "Bank account for alimony"
 msgstr "Conta bancária para pensão alimentícia"
@@ -160,6 +170,16 @@ msgstr "Tipo sanguíneo"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_bounce
 msgid "Bounce"
 msgstr "Rejeitado"
+
+#. module: l10n_br_hr
+#: model:hr.employee.dependent,nfe40_xPais:l10n_br_hr.hr_employee_dependent_1
+#: model:hr.employee.dependent,nfe40_xPais:l10n_br_hr.hr_employee_dependent_2
+#: model:hr.employee.dependent,nfe40_xPais:l10n_br_hr.hr_employee_dependent_3
+#: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_1_res_partner
+#: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_2_res_partner
+#: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_3_res_partner
+msgid "Brazil"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_cbo
@@ -684,6 +704,15 @@ msgid "Enforce Cities"
 msgstr "Impor cidades"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__bank_statement_label
+msgid ""
+"Enter the various label found on your bank statement separated by a ; If one "
+"of this label is include in the bank statement line, the partner will be "
+"automatically filled (as long as you use this method/rules in your statement "
+"profile)."
+msgstr ""
+
+#. module: l10n_br_hr
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_educational_attainment_form
 msgid "Escolaridade"
 msgstr "Escolaridade"
@@ -714,6 +743,11 @@ msgstr "Nome do pai"
 #: selection:hr.employee.dependent,dependent_gender:0
 msgid "Female"
 msgstr "Fêmea"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_final
+msgid "Final Consumption Operation"
+msgstr ""
 
 #. module: l10n_br_hr
 #: selection:hr.employee,cresv_categ:0
@@ -924,13 +958,13 @@ msgid "Internal Reference"
 msgstr "Referência Interna"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:201
+#: code:addons/l10n_br_hr/models/hr_employee.py:202
 #, python-format
 msgid "Invalid PIS/PASEP"
 msgstr "PIS / PASEP inválido"
 
 #. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:174
+#: code:addons/l10n_br_hr/models/hr_employee.py:175
 #, python-format
 msgid "Invalid birth date for dependent %s"
 msgstr "Data de nascimento inválida para %s dependente"
@@ -1010,11 +1044,6 @@ msgstr "Idioma"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_l10n_br_hr_data_abstract____last_update
 msgid "Last Modified on"
 msgstr "Última modificação em"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__last_website_so_id
-msgid "Last Online Sales Order"
-msgstr "Último Pedido de Vendas Online"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_civil_certificate_type__write_uid
@@ -1127,6 +1156,11 @@ msgstr "Erro de entrega de Mensagem"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__invoice_warn_msg
 msgid "Message for Invoice"
 msgstr "Mensagem para Fatura"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_warn_msg
+msgid "Message for Purchase Order"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn_msg
@@ -1317,7 +1351,18 @@ msgid "Purchase Contracts"
 msgstr "Contratos de Compra"
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_warn
+msgid "Purchase Order"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__purchase_order_count
+msgid "Purchase Order Count"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__rg
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__rg
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "RG"
 msgstr "RG"
@@ -1331,11 +1376,6 @@ msgstr "Código RNTRC"
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_hr_ethnicity_form
 msgid "Raça/Cor"
 msgstr "Raça / Cor"
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__website_id
-msgid "Registration Website"
-msgstr "Site de Registro"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__registration
@@ -1422,6 +1462,7 @@ msgstr "Selecione o modo de pagamento padrão para este fornecedor."
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__purchase_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__sale_warn
 msgid ""
 "Selecting the \"Warning\" option will notify user with the message, "
@@ -1506,8 +1547,8 @@ msgstr "Estado"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__inscr_est
-msgid "State Tax Number/RG"
-msgstr "Número da Inscrição Estadual/RG"
+msgid "State Tax Number"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__activity_state
@@ -1546,6 +1587,11 @@ msgstr "Complemento"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__suframa
 msgid "Suframa"
 msgstr "Suframa"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_purchase_currency_id
+msgid "Supplier Currency"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__supplier_payment_mode_id
@@ -1661,6 +1707,13 @@ msgid ""
 "account for the current partner"
 msgstr ""
 "Essa conta a receber será usada para o parceiro atual, substituindo a padrão"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_purchase_currency_id
+msgid ""
+"This currency will be used, instead of the default one, for purchases from "
+"the current partner"
+msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__property_delivery_carrier_id
@@ -1852,6 +1905,15 @@ msgstr "XXX.XXXXX.XX-X"
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__zip
 msgid "Zip"
 msgstr "CEP"
+
+#~ msgid "Last Online Sales Order"
+#~ msgstr "Último Pedido de Vendas Online"
+
+#~ msgid "Registration Website"
+#~ msgstr "Site de Registro"
+
+#~ msgid "State Tax Number/RG"
+#~ msgstr "Número da Inscrição Estadual/RG"
 
 #~ msgid "Partner Contracts"
 #~ msgstr "Contratos de Parceiro"
