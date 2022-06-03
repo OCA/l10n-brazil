@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class L10nBrCNABReturnMoveCode(models.Model):
     _name = "l10n_br_cnab.return.move.code"
-    _inherit = "l10n_br_cnab.data.abstract"
+    _inherit = ["l10n_br_cnab.data.abstract", "mail.thread"]
     _description = "CNAB Return Move Code"
 
     bank_ids = fields.Many2many(
