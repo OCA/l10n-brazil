@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template
+        id="report_purchaseorder_document_l10n_br_purchase"
+        inherit_id="purchase.report_purchaseorder_document"
+    >
+
+        <!-- Inclusão de outros Totais usados no Brasil -->
+        <xpath
+            expr="//div[@id='total']/div/table/tr[hasclass('border-black')]"
+            position="after"
+        >
+            <tr>
+                <td>Freight</td>
+                <td class="text-right">
+                    <span
+                        t-field="o.amount_freight_value"
+                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>Insurance</td>
+                <td class="text-right">
+                    <span
+                        t-field="o.amount_insurance_value"
+                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                    />
+                </td>
+            </tr>
+            <tr>
+                <td>Other Costs</td>
+                <td class="text-right">
+                    <span
+                        t-field="o.amount_other_value"
+                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'
+                    />
+                </td>
+            </tr>
+        </xpath>
+
+    </template>
+
+</odoo>
