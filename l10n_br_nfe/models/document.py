@@ -5,6 +5,7 @@
 import base64
 import logging
 import re
+import string
 from datetime import datetime
 from io import StringIO
 from unicodedata import normalize
@@ -573,8 +574,16 @@ class NFe(spec_models.StackedModel):
                 value.enderEmit, path=path
             )
             new_value.update(enderEmit_value)
+            company_cnpj = self.env.user.company_id.cnpj_cpf.translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            emit_cnpj = new_value.get("nfe40_CNPJ").translate(
+                str.maketrans("", "", string.punctuation)
+            )
+            if company_cnpj != emit_cnpj:
+                vals["issuer"] = "partner"
             new_value["is_company"] = True
-            new_value["cnpj_cpf"] = new_value.get("nfe40_CNPJ")
+            new_value["cnpj_cpf"] = emit_cnpj
             super()._build_many2one(
                 self.env["res.partner"], vals, new_value, "partner_id", value, path
             )
