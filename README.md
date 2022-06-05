@@ -118,6 +118,6 @@ addon | version | maintainers | summary
 [l10n_br_zip](l10n_br_zip/) | 12.0.3.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 [payment_cielo](payment_cielo/) | 12.0.3.2.1 | [![DiegoParadeda](https://github.com/DiegoParadeda.png?size=30px)](https://github.com/DiegoParadeda) | Payment Acquirer: Cielo Implementation
 [payment_pagseguro](payment_pagseguro/) | 12.0.2.0.0 |  | Payment Acquirer: PagSeguro Implementation
-[spec_driven_model](spec_driven_model/) | 12.0.1.2.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
+[spec_driven_model](spec_driven_model/) | 12.0.1.3.0 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
 
 [//]: # (end addons)
