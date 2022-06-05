@@ -72,10 +72,10 @@ class AccountInvoiceReport(models.Model):
             , sub.document_serie_id
             , sub.fiscal_operation_id
             , sub.fiscal_operation_line_id
+            , sub.cfop_id
             , sub.ncm_id
             , sub.cest_id
             , sub.fiscal_type
-            , sub.cfop_id
             , sub.icms_value
             , sub.icmsst_value
             , sub.ipi_value
@@ -95,10 +95,10 @@ class AccountInvoiceReport(models.Model):
             , fd.document_serie_id
             , fdl.fiscal_operation_id
             , fdl.fiscal_operation_line_id
+            , fdl.cfop_id
             , fdl.ncm_id
             , fdl.cest_id
-            , prd_tmpl.fiscal_type
-            , fdl.cfop_id
+            , fdl.fiscal_type
             , SUM(fdl.icms_value) as icms_value
             , SUM(fdl.icmsst_value) as icmsst_value
             , SUM(fdl.ipi_value) as ipi_value
@@ -130,7 +130,6 @@ class AccountInvoiceReport(models.Model):
         group_by_str = super()._group_by()
         group_by_str += """
                 , fd.issuer
-                , prd_tmpl.fiscal_type
                 , fd.document_type_id
                 , fd.document_serie_id
                 , fdl.fiscal_operation_id
@@ -138,5 +137,6 @@ class AccountInvoiceReport(models.Model):
                 , fdl.cfop_id
                 , fdl.ncm_id
                 , fdl.cest_id
+                , fdl.fiscal_type
         """
         return group_by_str
