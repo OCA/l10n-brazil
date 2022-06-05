@@ -315,6 +315,11 @@ msgid "Extra Info"
 msgstr ""
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__ind_final
+msgid "Final Consumption Operation"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model,name:l10n_br_account.model_l10n_br_fiscal_base_wizard_mixin
 msgid "Fiscal Base Wizard Mixin"
 msgstr ""
