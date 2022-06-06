@@ -1178,6 +1178,11 @@ msgid "Message for Purchase Order"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn_msg
+msgid "Message for Sales Order"
+msgstr "Mensagem para o Pedido de Vendas"
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__picking_warn_msg
 msgid "Message for Stock Picking"
 msgstr "Mensagem para o picking de estoque"
@@ -1490,9 +1495,24 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_count
+msgid "Sale Order Count"
+msgstr "Contagem de Pedido de Venda"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_order_ids
+msgid "Sales Order"
+msgstr "Pedidos de Venda"
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__team_id
 msgid "Sales Team"
 msgstr "Time de Vendas"
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_warn
+msgid "Sales Warnings"
+msgstr "Avisos de Vendas"
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__user_id
@@ -1528,6 +1548,7 @@ msgstr "Selecione o modo de pagamento padrão para este fornecedor."
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__invoice_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__picking_warn
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__purchase_warn
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__sale_warn
 msgid ""
 "Selecting the \"Warning\" option will notify user with the message, "
 "Selecting \"Blocking Message\" will throw an exception with the message and "
@@ -2008,9 +2029,6 @@ msgstr "CEP"
 #~ "imagem de 128x128px, mantendo o aspecto original. Utilize este campo em "
 #~ "visões de formulário ou algumas visões de kanban."
 
-#~ msgid "Message for Sales Order"
-#~ msgstr "Mensagem para o Pedido de Vendas"
-
 #~ msgid "Number of error"
 #~ msgstr "Número do erro"
 
@@ -2022,15 +2040,6 @@ msgstr "CEP"
 
 #~ msgid "Sale Contracts"
 #~ msgstr "Contratos de Venda"
-
-#~ msgid "Sale Order Count"
-#~ msgstr "Contagem de Pedido de Venda"
-
-#~ msgid "Sales Order"
-#~ msgstr "Pedidos de Venda"
-
-#~ msgid "Sales Warnings"
-#~ msgstr "Avisos de Vendas"
 
 #~ msgid "Single"
 #~ msgstr "Solteiro(a)"
