@@ -37,6 +37,7 @@ addon | version | maintainers | summary
 [l10n_br_portal](l10n_br_portal/) | 14.0.1.0.0 |  | Campos Brasileiros no Portal
 [l10n_br_purchase](l10n_br_purchase/) | 14.0.1.0.0 |  | Brazilian Localization Purchase
 [l10n_br_resource](l10n_br_resource/) | 14.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![hendixcosta](https://github.com/hendixcosta.png?size=30px)](https://github.com/hendixcosta) [![lfdivino](https://github.com/lfdivino.png?size=30px)](https://github.com/lfdivino) | This module extend core resource to create important brazilian informations. Define a Brazilian calendar and some tools to compute dates used in financial and payroll modules
+[l10n_br_sale](l10n_br_sale/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localization Sale
 [l10n_br_stock](l10n_br_stock/) | 14.0.1.0.0 |  | Brazilian Localization Warehouse
 [l10n_br_zip](l10n_br_zip/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian Localisation ZIP Codes
 [spec_driven_model](spec_driven_model/) | 14.0.1.0.1 | [![rvalyi](https://github.com/rvalyi.png?size=30px)](https://github.com/rvalyi) | Tools for specifications driven mixins (from xsd for instance)
