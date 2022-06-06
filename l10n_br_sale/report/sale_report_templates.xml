@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template
+        id="report_saleorder_document_l10n_br_sale"
+        inherit_id="sale.report_saleorder_document"
+    >
+        <!-- Substituição do campo usado para Impostos no Brasil -->
+        <xpath
+            expr="//td[@t-if='display_discount']/following-sibling::td[1]"
+            position="replace"
+        >
+            <!-- Pedido referente a uma Empresa Brasileira altera os impostos padrões para os do Brasil. -->
+            <td
+                t-if="doc.company_id.country_id.phone_code == 55"
+                name="td_taxes"
+                class="text-right"
+            >
+                 <t
+                    t-foreach="line.fiscal_tax_ids.filtered(lambda x: x.percent_amount or x.value_amount)"
+                    t-as="tax"
+                >
+                <!-- Usando o phone_code porque tanto code == 'br' ou code == br não funcionaram -->
+                    <small>
+                        <span t-esc="tax.name" />
+                        <br />
+                    </small>
+                 </t>
+            </td>
+            <!-- Pedido de empresas de outros países mantem o campo padrão de impostos-->
+            <td
+                t-if="doc.company_id.country_id.phone_code != 55"
+                name="td_taxes"
+                class="text-right"
+            >
+                <span
+                    t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"
+                />
+            </td>
+        </xpath>
+        <!-- Inclusão de outros Totais usados no Brasil -->
+        <xpath expr="//div[@name='total']/div/table/tr[@style='']" position="replace">
+            <!-- Replace foi necessário para colocar os Totais na ordem desejada. -->
+            <tr
+                t-if="doc.amount_price_gross != doc.amount_untaxed"
+                class="border-black o_subtotal"
+                style=""
+            >
+                <td name="td_amount_price_gross_label"><strong
+                    >Amount Gross</strong></td>
+                <td name="td_amount_price_gross" class="text-right">
+                    <span t-field="doc.amount_price_gross" />
+                </td>
+            </tr>
+
+            <tr style="">
+                <td name="td_amount_untaxed_label"><strong>Amount Untaxed</strong></td>
+                <td name="td_amount_untaxed" class="text-right">
+                    <span t-field="doc.amount_untaxed" />
+                </td>
+            </tr>
+
+            <tr t-if="doc.amount_freight_value" style="">
+                <td name="td_amount_freight_label"><strong>Freight</strong></td>
+                <td name="td_amount_freight_value" class="text-right">
+                    <span t-field="doc.amount_freight_value" />
+                </td>
+            </tr>
+
+            <tr t-if="doc.amount_insurance_value" style="">
+                <td name="td_amount_insurance_label"><strong>Insurance</strong></td>
+                <td name="td_amount_insurance_value" class="text-right">
+                    <span t-field="doc.amount_insurance_value" />
+                </td>
+            </tr>
+
+            <tr t-if="doc.amount_other_value" style="">
+                <td name="td_amount_costs_label"><strong>Other Costs</strong></td>
+                <td name="td_amount_other_value" class="text-right">
+                    <span t-field="doc.amount_other_value" />
+                </td>
+            </tr>
+
+            <tr style="">
+                <td name="td_amount_tax_label"><strong>Taxes</strong></td>
+                <td name="td_amount_tax" class="text-right">
+                    <span t-field="doc.amount_tax" />
+                </td>
+            </tr>
+
+        </xpath>
+
+    </template>
+
+</odoo>
