@@ -51,6 +51,7 @@
                             name="base_without_icms"
                             attrs="{'invisible': [('tax_domain', 'not in', ('pis', 'cofins', 'pisst', 'cofinsst', 'pis_wh', 'cofins_wh'))]}"
                         />
+                        <field name="base_with_additional_values" />
                     </group>
                     <notebook>
                         <page name="taxes" string="Taxes">
