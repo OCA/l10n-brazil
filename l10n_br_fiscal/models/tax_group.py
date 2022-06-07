@@ -54,6 +54,11 @@ class TaxGroup(models.Model):
         default=False,
     )
 
+    base_with_additional_values = fields.Boolean(
+        string="Add the value of freight, insurance and others to the Base",
+        default=True,
+    )
+
     tax_ids = fields.One2many(
         comodel_name="l10n_br_fiscal.tax", inverse_name="tax_group_id", string="Taxes"
     )
