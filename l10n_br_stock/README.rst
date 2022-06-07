@@ -25,12 +25,55 @@ Brazilian Localization Warehouse
 
 |badge1| |badge2| |badge3| |badge4| |badge5| 
 
-Esse módulo facilita a busca dos pickings por CNPJ/CPF, Razão Social ou Inscrição Estadual.
+**Português**
+Esse módulo incluí a possibilidade de pesquisar uma Ordem de Separação(Stock Picking) por CNPJ/CPF, Razão Social ou Inscrição Estadual.
+
+**English**
+This module included the possibilite to search Stock Picking by  CNPJ/CPF, Razão Social or Inscrição Estadual.
 
 **Table of contents**
 
 .. contents::
    :local:
+
+Installation
+============
+
+This module depends on:
+
+* l10n_br_base
+* stock
+
+Configuration
+=============
+
+**Português**
+Esse modulo não precisa de nenhuma configuração
+
+**English**
+This module does not need any configuration.
+
+Usage
+=====
+
+**Português**
+Nas Ordens de Separação é possível Pesquisar por por CNPJ/CPF, Razão Social ou Inscrição Estadual.
+
+**English**
+In Stock Picking it's possible to search by  CNPJ/CPF, Razão Social or Inscrição Estadual.
+
+Changelog
+=========
+
+14.0.2.0.0 (2022-06-07)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* [REF] Renomeado campo Inscrição Estadual de ie para inscr_est.
+
+14.0.1.0.0 (2021-12-31)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* [MIG] Migração para a versão 14.0.
 
 Bug Tracker
 ===========
