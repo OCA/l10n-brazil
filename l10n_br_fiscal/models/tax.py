@@ -191,7 +191,10 @@ class Tax(models.Model):
         freight_value = kwargs.get("freight_value", 0.00)
         other_value = kwargs.get("other_value", 0.00)
 
-        tax_dict["add_to_base"] += sum([freight_value, insurance_value, other_value])
+        if tax.tax_group_id.base_with_additional_values:
+            tax_dict["add_to_base"] += sum(
+                [freight_value, insurance_value, other_value]
+            )
         tax_dict["remove_from_base"] += sum([discount_value])
 
         base = 0.00
