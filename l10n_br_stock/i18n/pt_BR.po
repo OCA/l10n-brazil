@@ -18,7 +18,6 @@ msgstr ""
 
 #. module: l10n_br_stock
 #: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__cnpj_cpf
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock.view_l10n_br_sale_stock_filter
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
 
@@ -39,16 +38,6 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_br_stock
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock.view_l10n_br_sale_stock_filter
-msgid "Inscr. Estadual"
-msgstr "Inscr. Estadual"
-
-#. module: l10n_br_stock
-#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__ie
-msgid "Inscrição Estadual"
-msgstr "Inscrição Estadual"
-
-#. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_internal
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_internal
 msgid "Internal Transfers"
@@ -57,6 +46,11 @@ msgstr "Transferências Internas"
 #. module: l10n_br_stock
 #: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking____last_update
 msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__legal_name
+msgid "Legal Name"
 msgstr ""
 
 #. module: l10n_br_stock
@@ -78,16 +72,15 @@ msgid "Pick"
 msgstr "Separação"
 
 #. module: l10n_br_stock
-#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__legal_name
-#: model_terms:ir.ui.view,arch_db:l10n_br_stock.view_l10n_br_sale_stock_filter
-msgid "Razão Social"
-msgstr "Razão Social"
-
-#. module: l10n_br_stock
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_lucro_presumido_picking_type_in
 #: model:stock.picking.type,name:l10n_br_stock.wh_empresa_simples_nacional_picking_type_in
 msgid "Receipts"
 msgstr "Recebimentos"
+
+#. module: l10n_br_stock
+#: model:ir.model.fields,field_description:l10n_br_stock.field_stock_picking__inscr_est
+msgid "State Tax Number"
+msgstr ""
 
 #. module: l10n_br_stock
 #: model:ir.model,name:l10n_br_stock.model_stock_picking
@@ -98,3 +91,12 @@ msgstr "Transferir"
 #: model:ir.model.fields,help:l10n_br_stock.field_stock_picking__legal_name
 msgid "Used in fiscal documents"
 msgstr "Usado nos documentos fiscais"
+
+#~ msgid "Inscr. Estadual"
+#~ msgstr "Inscr. Estadual"
+
+#~ msgid "Inscrição Estadual"
+#~ msgstr "Inscrição Estadual"
+
+#~ msgid "Razão Social"
+#~ msgstr "Razão Social"
