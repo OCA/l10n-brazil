@@ -1,0 +1,76 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_br_contract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2020-12-17 04:52+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@gmail.com>\n"
+"Language-Team: none\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.3.2\n"
+
+#. module: l10n_br_contract
+#: model:ir.model,name:l10n_br_contract.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: l10n_br_contract
+#: model:ir.model,name:l10n_br_contract.model_contract_contract
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: l10n_br_contract
+#: model:ir.model,name:l10n_br_contract.model_contract_line
+#: model:ir.model.fields,field_description:l10n_br_contract.field_l10n_br_fiscal_document_line__contract_line_id
+msgid "Contract Line"
+msgstr "Linha de Contrato"
+
+#. module: l10n_br_contract
+#: code:addons/l10n_br_contract/models/contract_contract.py:148
+#, python-format
+msgid "Contract manually invoiced: <a href=\"#\" data-oe-model=\"%s\" data-oe-id=\"%s\">Invoice</a>"
+msgstr ""
+"Contrato faturado manualmente: <a href=\"#\" data-oe-model=\"%s\" data-oe-id="
+"\"%s\">Fatura</a>"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_fiscal_operation_id
+msgid "Default Fiscal Operation"
+msgstr "Operação Fiscal Padrão"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__document_count
+msgid "Document Count"
+msgstr "Contagem de Documentos Fiscais"
+
+#. module: l10n_br_contract
+#: model_terms:ir.ui.view,arch_db:l10n_br_contract.contract_contract_form_view
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: l10n_br_contract
+#: model:ir.model,name:l10n_br_contract.model_l10n_br_fiscal_document_line
+msgid "Fiscal Document Line"
+msgstr "Linha de Documentos Fiscais"
+
+#. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__fiscal_operation_id
+msgid "Fiscal Operation"
+msgstr "Operação Fiscal"
+
+#. module: l10n_br_contract
+#: model:ir.model,name:l10n_br_contract.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Linha da Fatura"
