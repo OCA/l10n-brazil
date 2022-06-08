@@ -5,6 +5,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from ..constants.fiscal import (
+    FINAL_CUSTOMER,
     FISCAL_IN_OUT,
     FISCAL_OUT,
     OPERATION_STATE,
@@ -204,6 +205,11 @@ class TaxDefinition(models.Model):
         column1="tax_definition_id",
         column2="city_taxation_code_id",
         string="City Taxation Codes",
+    )
+
+    ind_final = fields.Selection(
+        selection=FINAL_CUSTOMER,
+        string="Final Consumption Operation",
     )
 
     date_start = fields.Datetime(
