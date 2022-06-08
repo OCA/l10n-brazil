@@ -62,9 +62,19 @@
                 />
             </field>
             <field name="validity_date" position="after">
-                <field name="fiscal_operation_id" required="True" />
-                <field name="ind_final" required="True" />
-                <field name="ind_pres" required="True" />
+                <field name="country_id" invisible="1" />
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'required': [('country_id', '=', %(base.br)d)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="ind_final"
+                    attrs="{'required': [('country_id', '=', %(base.br)d)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
+                <field
+                    name="ind_pres"
+                    attrs="{'required': [('country_id', '=', %(base.br)d)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
+                />
             </field>
             <field name="note" position="replace">
                 <group>
@@ -144,12 +154,12 @@
                 <field
                     name="fiscal_operation_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'required': [('display_type', '=', False), ('country_id', '=', %(base.br)d)], 'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
                     name="fiscal_operation_line_id"
                     options="{'no_create': True}"
-                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))],'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    attrs="{'readonly': [('state', 'in', ('sale', 'done', 'cancel'))], 'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <field
                     name="cfop_id"
@@ -231,7 +241,11 @@
                             <field name="invoice_lines" />
                         </div>
                     </page>
-                    <page name="amounts" string="Amounts">
+                    <page
+                        name="amounts"
+                        string="Amounts"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    >
                         <group>
                             <group>
                                 <field name="amount_untaxed" />
@@ -246,7 +260,11 @@
                             </group>
                         </group>
                     </page>
-                    <page name="others" string="Others">
+                    <page
+                        name="others"
+                        string="Others"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    >
                         <group>
                             <field name="delivery_costs" invisible="1" />
                             <field
@@ -263,8 +281,16 @@
                             />
                         </group>
                     </page>
-                    <page name="fiscal_line_extra_info" string="Extra Info" />
-                    <page name="accounting" string="Accounting">
+                    <page
+                        name="fiscal_line_extra_info"
+                        string="Extra Info"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    />
+                    <page
+                        name="accounting"
+                        string="Accounting"
+                        attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                    >
                         <group>
                             <field
                                 name="tax_id"
@@ -301,20 +327,27 @@
                 <field
                     name="discount_fixed"
                     groups="l10n_br_sale.group_total_discount"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <label
                     for="discount_value"
                     groups="l10n_br_sale.group_discount_per_value"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 />
                 <div
                     name="discount_value"
                     groups="l10n_br_sale.group_discount_per_value"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
                 >
                     <field name="discount_value" class="oe_inline" />
                 </div>
             </xpath>
             <xpath expr="//group[@name='sale_total']" position="after">
-                <group style="width: 65%%" groups="l10n_br_sale.group_total_discount">
+                <group
+                    style="width: 65%%"
+                    groups="l10n_br_sale.group_total_discount"
+                    attrs="{'invisible': [('country_id', '!=', %(base.br)d)]}"
+                >
                     <label for="discount_rate" />
                     <div>
                         <field name="discount_rate" class="oe_inline" />
