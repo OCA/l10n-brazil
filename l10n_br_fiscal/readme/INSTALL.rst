@@ -1,3 +1,4 @@
-To install this module, you need to:
+Para instalar o módulo l10n_br_fiscal, você precisa de instalar primeiro os pacotes Python
 
-* do this ...
+* erpbrasil.base
+* erpbrasil.assinatura
