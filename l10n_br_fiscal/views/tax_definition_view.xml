@@ -192,6 +192,11 @@
                 <field name="product_ids" force_save="1" nolabel="1" colspan="2" />
               </group>
             </page>
+            <page name="fiscal_profile_page" string="Fiscal Profile">
+                <group name="fiscal_profile" string="Fiscal Profile">
+                    <field name="ind_final" />
+                </group>
+            </page>
           </notebook>
         </sheet>
         <div class="oe_chatter">
