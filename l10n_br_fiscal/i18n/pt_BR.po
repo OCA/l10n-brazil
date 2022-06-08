@@ -856,6 +856,11 @@ msgid "Add a new Tax PIS/COFINS Credit"
 msgstr "Adicionar um novo Crédito de Imposto PIS/COFINS"
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__base_with_additional_values
+msgid "Add the value of freight, insurance and others to the Base"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__add_to_amount
 msgid "Add to Document Amount?"
 msgstr "Adicionar ao Montante do Documento?"
@@ -8799,7 +8804,7 @@ msgid "Tax Group"
 msgstr "Grupo de Imposto"
 
 #. module: l10n_br_fiscal
-#: code:addons/l10n_br_fiscal/models/tax_group.py:78
+#: code:addons/l10n_br_fiscal/models/tax_group.py:83
 #: sql_constraint:l10n_br_fiscal.tax.group:0
 #, python-format
 msgid "Tax Group already exists with this name !"
