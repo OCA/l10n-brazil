@@ -701,6 +701,11 @@ msgid "Add a new Tax PIS/COFINS Credit"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_tax_group__base_with_additional_values
+msgid "Add the value of freight, insurance and others to the Base"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.model.fields,field_description:l10n_br_fiscal.field_l10n_br_fiscal_operation_line__add_to_amount
 msgid "Add to Document Amount?"
 msgstr ""
