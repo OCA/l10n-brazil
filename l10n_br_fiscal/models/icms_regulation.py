@@ -1485,7 +1485,7 @@ class ICMSRegulation(models.Model):
         domain = [
             ("icms_regulation_id", "=", self.id),
             ("state", "=", "approved"),
-            ("state_from_id", "=", company.state_id.id),
+            ("state_from_id", "=", partner.state_id.id),
             ("state_to_ids", "=", partner.state_id.id),
             ("tax_group_id", "=", tax_group_icms.id),
         ]
