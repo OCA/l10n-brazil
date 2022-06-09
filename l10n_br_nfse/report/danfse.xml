@@ -328,14 +328,7 @@ row {
             </div>
              <div class="row bb br bl" style="padding: 7.5px 10px; min-height: 150px;">
                 <div class="col-12">
-                    <t t-foreach="doc.fiscal_line_ids" t-as="line">
-<!--                    TODO: Migration 14.0-->
-                        <t t-if="line.product_id">
-                            <p t-field="line.name" />
-                        </t>
-                    </t>
-<!--                    <span t-field="doc.informacoes_legais"></span>-->
-<!--                    <span t-field="doc.informacoes_complementares"></span>-->
+                    <span t-field="doc.fiscal_line_ids[0].name" />
                 </div>
             </div>
 
@@ -442,17 +435,16 @@ row {
                     Valor dos Serviços R$
                 </div>
                 <div class="col-2 linha centro br">
-<!--                    TODO: Migration 14.0 - Confirmar se de fato é este o campo que devemos utilizar-->
-                    <span t-field="doc.amount_financial_total_gross" />
+                    <span t-field="doc.amount_untaxed" />
                 </div>
                 <div class="col-2 rotulo br">
                     Natureza Operação
                 </div>
                 <div class="col-3 rotulo br">
-                    Valor dos Serviços R$
+                    Valor Aproximado dos Tributos R$ / Fonte
                 </div>
                 <div class="col-2 linha centro">
-                    <span t-field="doc.amount_price_gross" />
+                    <span t-field="doc.amount_estimate_tax" /> / IBPT
                 </div>
             </div>
 

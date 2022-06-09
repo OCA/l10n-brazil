@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="invoice_search" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.search</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="before">
+                <field name="legal_name" string="Legal Name" />
+                <field name="cnpj_cpf" string="CNPJ/CPF" />
+                <field name="ie" string="State Tax Number" />
+            </field>
+            <field name="name" position="attributes">
+                <attribute
+                    name="filter_domain"
+                >['|','|','|', '|', ('document_number','ilike',self), ('name','ilike',self), ('origin','ilike',self), ('reference', 'ilike', self), ('partner_id', 'child_of', self)]</attribute>
+                <attribute name="string">Account Number</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="invoice_tree" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+            <field name="name" position="before">
+                <field name="document_type_id" invisible="1" />
+                <field name="document_number" />
+                <button
+                    name="open_fiscal_document"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                />
+            </field>
+        </field>
+    </record>
+
+    <!-- Customer Invoice views -->
+    <record id="invoice_form" model="ir.ui.view">
+        <field name="name">l10n_br_account.invoice.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button
+                    name="open_fiscal_document"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                >
+                    <span>Fiscal Details</span>
+                </button>
+            </div>
+            <xpath expr="//form/sheet/div/h1[1]" position="attributes">
+                <attribute
+                    name="attrs"
+                >{'invisible': [('document_type_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/div/h1[1]" position="after">
+                <h1 class="mt0">
+                    <div attrs="{'invisible': [('document_type_id', '=', False)]}">
+                        <span class="oe_inline">
+                            <field readonly="1" name="document_type_id" />:
+                            <field
+                                name="document_number"
+                                readonly="1"
+                                attrs="{'invisible': [('state','in',('draft',))]}"
+                            />
+                        </span>
+                    </div>
+                </h1>
+            </xpath>
+            <xpath expr="//form/sheet/group" position="after">
+                <group name="l10n_br_fiscal">
+                    <field name="id" invisible="1" />
+                    <field name="document_electronic" invisible="1" />
+                    <field name="fiscal_operation_type" invisible="1" />
+                    <field name="name" invisible="1" />
+                    <field name="edoc_purpose" invisible="1" />
+                    <field name="ind_final" invisible="1" />
+                    <field name="ind_pres" invisible="1" />
+                    <field name="fiscal_document_id" required="0" invisible="1" />
+                    <field name="create_date" invisible="1" />
+                </group>
+            </xpath>
+            <field name="ref" position="after">
+                <field name="document_type" invisible="1" />
+                <field
+                    name="document_type_id"
+                    attrs="{'invisible': [('create_date', '!=', False), ('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
+                    name="issuer"
+                    attrs="{'invisible': [('document_type_id', '=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
+                    name="document_serie_id"
+                    requied="0"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'partner')], 'required': [('issuer', '=', 'company'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
+                    name="document_serie"
+                    requied="0"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
+                    name="document_number"
+                    readonly="0"
+                    force_save="1"
+                    attrs="{'invisible': [('issuer', '=', 'company')], 'required': [('issuer', '=', 'partner'), ('document_type_id', '!=', False)], 'readonly': [('state', '!=', 'draft')]}"
+                />
+                <field
+                    name="document_key"
+                    attrs="{'invisible': [('document_electronic', '=', False)], 'readonly': ['|', ('issuer', '=', 'company'), ('state', '!=', 'draft')]}"
+                />
+            </field>
+            <field name="amount_untaxed" position="after">
+                <field string="(-) Discount" name="amount_discount_value" />
+            </field>
+            <field name="amount_total" position="after">
+                <field string="(-) Tax Withholding" name="amount_tax_withholding" />
+            </field>
+
+
+            <!-- invoice_line_ids tree (Invoice Lines) -->
+            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+              <attribute
+                    name="editable"
+                /><!-- TODO put this in a view with a specific group? -->
+            </xpath>
+            <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_move_type': context.get('default_move_type'), 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id or company_currency_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
+                position="replace"
+            >
+                <field
+                    name="tax_ids"
+                    optional="hide"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
+                <field name="document_type_id" invisible="1" />
+                <field name="amount_tax_withholding" optional="hide" />
+                <field name="amount_tax_included" optional="hide" />
+                <field name="amount_tax_not_included" optional="hide" />
+                <field name="fiscal_operation_id" optional="hide" />
+                <field name="fiscal_operation_line_id" optional="show" />
+                <field name="cfop_id" optional="hide" />
+                <field name="city_taxation_code_id" optional="hide" />
+                <field name="service_type_id" optional="hide" />
+                <field name="cnae_id" optional="hide" />
+                <field name="ncm_id" optional="hide" />
+                <field name="nbs_id" optional="hide" />
+                <field name="nbm_id" optional="hide" />
+                <field name="cest_id" optional="hide" />
+                <field name="uom_id" optional="hide" />
+                <field name="fiscal_genre_id" optional="hide" />
+                <field
+                    name="fiscal_tax_ids"
+                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
+                <field name="icms_value" optional="hide" />
+                <field name="ipi_value" optional="hide" />
+                <field name="pis_value" optional="hide" />
+                <field name="cofins_value" optional="hide" />
+                <field name="freight_value" optional="hide" />
+                <field name="insurance_value" optional="hide" />
+                <field name="other_value" optional="hide" />
+                <field name="estimate_tax" optional="hide" />
+            </xpath>
+
+
+            <!-- line_ids tree (Journal Items) -->
+            <!-- repeating fiscal fields in line_ids IS REQUIRED to persist values -->
+            <xpath expr="//field[@name='line_ids']" position="attributes">
+                <attribute
+                    name="context"
+                >{'default_move_type': context.get('default_move_type'), 'line_ids': line_ids, 'journal_id': journal_id, 'default_partner_id': commercial_partner_id, 'default_currency_id': currency_id or company_currency_id, 'default_fiscal_operation_id': fiscal_operation_id, 'default_document_type_id': document_type_id, 'default_exclude_from_invoice_tab': 1}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='line_ids']/tree/field[@name='tax_ids']"
+                position="replace"
+            >
+                <field
+                    name="tax_ids"
+                    optional="hide"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
+                <field name="document_type_id" invisible="1" />
+                <field name="amount_tax_withholding" invisible="1" />
+                <field name="amount_tax_included" invisible="1" />
+                <field name="amount_tax_not_included" invisible="1" />
+                <field name="fiscal_operation_id" invisible="1" />
+                <field name="fiscal_operation_line_id" optional="hide" />
+                <field name="cfop_id" optional="hide" />
+                <field name="city_taxation_code_id" optional="hide" />
+                <field name="service_type_id" optional="hide" />
+                <field name="cnae_id" optional="hide" />
+                <field name="ncm_id" optional="hide" />
+                <field name="nbs_id" optional="hide" />
+                <field name="nbm_id" optional="hide" />
+                <field name="cest_id" optional="hide" />
+                <field name="uom_id" optional="hide" />
+                <field name="fiscal_genre_id" optional="hide" />
+                <field name="partner_company_type" invisible="1" />
+                    <field name="fiscal_operation_type" invisible="1" />
+                <field
+                    name="fiscal_tax_ids"
+                    invisible="1"
+                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                    widget="many2many_tags"
+                    options="{'no_create': True}"
+                />
+                            <field name="fiscal_quantity" invisible="1" />
+                            <field name="uot_id" invisible="1" />
+                            <field name="fiscal_price" invisible="1" />
+                            <field name="discount_value" invisible="1" />
+
+                    <!--group name="fiscal_fields" invisible="1" /-->
+
+                    <field name="freight_value" invisible="1" />
+                    <field name="insurance_value" invisible="1" />
+                    <field name="other_value" invisible="1" />
+                    <field name="estimate_tax" invisible="1" />
+
+                  <!-- TODO adapt these placeholders for tree view for fiscal_form_view -->
+                    <control name="fiscal_taxes_fields" string="Taxes" invisible="1" />
+                    <field name="tax_icms_or_issqn" invisible="1" />
+                    <control
+                    name="fiscal_line_extra_info_fields"
+                    string="Extra Info"
+                    invisible="1"
+                />
+            </xpath>
+
+
+            <!-- invoice_line_ids form -->
+           <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='tax_ids']"
+                position="attributes"
+            >
+                <attribute
+                    name="domain"
+                >[('type_tax_use', '=?', parent.invoice_filter_type_domain), ('company_id', '=', parent.company_id)]</attribute>
+                <attribute
+                    name="context"
+                >{'append_type_to_tax_name': not parent.invoice_filter_type_domain}</attribute>
+                <attribute name="options">{'no_create': True}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='price_unit']"
+                position="after"
+            >
+                <label
+                    for="fiscal_quantity"
+                    string="Fiscal Quantity"
+                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                />
+                <div>
+                    <field
+                        name="fiscal_quantity"
+                        class="oe_inline"
+                        attrs="{'invisible': [('document_type_id', '=', False)]}"
+                        context="{'partner_id':parent.partner_id, 'quantity':fiscal_quantity, 'uom':uot_id, 'uom_qty_change':True, 'company_id': parent.company_id}"
+                    />
+                    <field
+                        name="uot_id"
+                        force_save="1"
+                        groups="uom.group_uom"
+                        class="oe_inline oe_no_button"
+                        attrs="{'required': [('display_type', '=', False)], 'invisible': [('document_type_id', '=', False)]}"
+                    />
+                </div>
+                <field
+                    name="fiscal_price"
+                    attrs="{'invisible': [('document_type_id', '=', False)]}"
+                />
+
+                <field name="amount_currency" invisible="1" />
+                <field name="date" invisible="1" />
+                <field name="date_maturity" invisible="1" />
+                <field name="tax_line_id" invisible="1" />
+                <field name="tax_repartition_line_id" invisible="1" />
+                <field name="tax_tag_ids" invisible="1" />
+                <field name="tax_base_amount" invisible="1" />
+                <field name="tax_exigible" invisible="1" />
+                <field name="company_currency_id" invisible="1" />
+                <field name="recompute_tax_line" invisible="1" force_save="1" />
+                <field name="is_rounding_line" invisible="1" />
+                <field name="exclude_from_invoice_tab" invisible="1" />
+                <field name="account_internal_type" invisible="1" />
+                <field name="account_internal_group" invisible="1" />
+
+                <field name="partner_company_type" force_save="1" invisible="1" />
+                <field name="document_type_id" invisible="1" />
+                <field name="amount_tax_withholding" invisible="1" />
+                <field name="amount_tax_included" invisible="1" />
+                <field name="amount_tax_not_included" invisible="1" />
+                <field name="fiscal_operation_type" invisible="1" />
+                <field name="partner_company_type" force_save="1" invisible="1" />
+                <field name="cfop_destination" force_save="1" invisible="1" />
+                <field name="price_subtotal" invisible="1" />
+                <field name="price_total" invisible="1" />
+                <field name="credit" invisible="1" />
+                <field name="debit" invisible="1" />
+            </xpath>
+
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='product_id']"
+                position="attributes"
+            >
+                <attribute
+                    name="domain"
+                >context.get('default_move_type') in ('out_invoice', 'out_refund', 'out_receipt') and [('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)] or [('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
+            </xpath>
+
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='account_id']"
+                position="attributes"
+            >
+                <attribute name="groups">account.group_account_readonly</attribute>
+                <attribute
+                    name="domain"
+                >[('deprecated', '=', False), ('user_type_id.type', 'not in', ('receivable', 'payable')), ('company_id', '=', parent.company_id), ('is_off_balance', '=', False)]</attribute>
+                <attribute
+                    name="attrs"
+                >{'required': [('display_type', '=', False)]}</attribute>
+            </xpath>
+
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_account_id']"
+                position="attributes"
+            >
+                <attribute name="groups">analytic.group_analytic_accounting</attribute>
+                <attribute
+                    name="domain"
+                >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
+            </xpath>
+
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_tag_ids']"
+                position="attributes"
+            >
+                <attribute
+                    name="domain"
+                >['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]</attribute>
+                <attribute name="groups">analytic.group_analytic_tags</attribute>
+            </xpath>
+
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='discount']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='discount']"
+                position="before"
+            >
+                <field name="discount_value" />
+            </xpath>
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/group/field[@name='analytic_tag_ids']"
+                position="after"
+            >
+                <field
+                    name="fiscal_operation_id"
+                    attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}"
+                    domain="[('state', '=', 'approved')]"
+                />
+                <field
+                    name="fiscal_operation_line_id"
+                    attrs="{'invisible': [('document_type_id', '=', False)], 'required': [('document_type_id', '!=', False)]}"
+                />
+                <field
+                    name="cfop_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
+                />
+                <field
+                    name="ncm_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
+                />
+                <field
+                    name="fiscal_genre_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                />
+                <field
+                    name="nbm_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                />
+                <field
+                    name="cest_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                />
+                <field
+                    name="city_taxation_code_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                />
+                <field
+                    name="service_type_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')], 'required': [('document_type_id', '!=', False), ('tax_icms_or_issqn', '=', 'issqn')]}"
+                />
+                <field
+                    name="cnae_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
+                />
+                <field
+                    name="nbs_id"
+                    attrs="{'invisible': ['|', ('document_type_id', '=', False), ('tax_icms_or_issqn', '=', 'icms')]}"
+                />
+              </xpath>
+
+            <xpath
+                expr="//field[@name='invoice_line_ids']/form/sheet/field[@name='name']"
+                position="after"
+            >
+                <group name="fiscal_fields" invisible="1" />
+                <field name="tax_icms_or_issqn" invisible="1" />
+                <notebook attrs="{'invisible': [('document_type_id', '=', False)]}">
+                    <page name="fiscal_taxes" string="Taxes" />
+                    <page name="amounts" string="Amounts">
+                        <group>
+                            <group>
+                                <field name="amount_untaxed" />
+                                <field name="amount_fiscal" />
+                                <field name="amount_tax" />
+                                <field name="estimate_tax" />
+                            </group>
+                            <group>
+                                <field name="amount_total" />
+                                <field name="amount_tax_withholding" />
+                                <field name="amount_taxed" />
+                            </group>
+                        </group>
+                    </page>
+                    <page name="others" string="Others">
+                        <group>
+                            <field name="freight_value" />
+                            <field name="insurance_value" />
+                            <field name="other_value" />
+                            <field name="estimate_tax" invisible="1" />
+                        </group>
+                    </page>
+                    <page name="fiscal_line_extra_info" string="Extra Info" />
+                    <page name="accounting" string="Accounting">
+                        <group>
+                            <field
+                                name="tax_ids"
+                                context="{'move_type': parent.move_type}"
+                                domain="[('type_tax_use','!=','none'),('company_id', '=', company_id)]"
+                                widget="many2many_tags"
+                                options="{'no_create': True}"
+                            />
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
