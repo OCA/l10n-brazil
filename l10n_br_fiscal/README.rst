@@ -51,7 +51,7 @@ Parceiros:
 Conceito de documento fiscal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-O Odoo nativo não tem o conceito de documento fiscal. O conceito mais parecido seria o ``account.invoice`` e até a versão 10.0 a localização estendia o invoice para suportar as NF-e e NFS-e apenas. Naquela época não era razoável você cogitar fazer o SPED no Odoo, o próprio core do Odoo não tinha maturidade para isso então era válido a abordagem empírica de ir suportando mais casos de NFe dentro do invoice Odoo apenas.
+O Odoo nativo não tem o conceito de documento fiscal. O conceito mais parecido seria o ``account.move`` e até a versão 10.0 a localização estendia o invoice para suportar as NF-e e NFS-e apenas. Naquela época não era razoável você cogitar fazer o SPED no Odoo, o próprio core do Odoo não tinha maturidade para isso então era válido a abordagem empírica de ir suportando mais casos de NFe dentro do invoice Odoo apenas.
 
 Porém, na v12, amadurecemos o framework XML/SOAP de forma que se torna razoável suportar vários documentos fiscais (NF-e, NFS-e, MDF-e, CT-e, EFD-Reinf, e-Social, GNRE, BP-e...) com a qualidade OCA dentro do Odoo. Também, apesar de complexo, o core do Odoo finalmente tem suporte suficiente para as operações de uma empresa que faria o SPED.
 
@@ -78,7 +78,7 @@ Alem disso a maioria do codigo do ``l10n_br_fiscal.document`` e das linhas dele 
 
 Porem o caso do invoice Odoo no modulo ``l10n_br_account`` é diferente ainda. Pois já se tem a tabela independente do documento fiscal cuja grande maioria das dezenas e até centenas de campos fiscais (no caso de muitos tipos de documentos fiscais) não são redundante com os do invoice Odoo. Se a gente injetasse esses mixins dentro do invoice, aí sim essas centenas de campos seriam duplicados entre o invoice e o documento fiscal. Por isso, o sistema que foi adotado no modulo ``l10n_br_account`` é que um invoice Odoo passa a ter um ``_inherits = "l10n_br_fiscal.document"`` de forma que se pilota o documento fiscal através do invoice, oferecendo o mesmo tipo de integração como antes. O mesmo tipo de mecanismo acontece com a linha do documento fiscal.
 
-Sendo assim, já pelos _inherits, o invoice Odoo e as linhas dele já vão puxar todos campos fiscais como se eles fossem das suas respectivas tabelas sem duplicar eles no banco. Se alem disso a gente injetasse os mixins ``10n_br_fiscal.document.mixin`` e ``10n_br_fiscal.document.line.mixin`` no invoice e invoice.line, esses campos fiscais apareceriam também nas tabelas ``account_invoice`` e ``account_invoice_line`` de forma redundantes com os campos puxados pelos _inherits. Para não ter esse problema, os métodos fiscais comuns (sem os campos) foram ainda extraidos nos mixins: ``10n_br_fiscal.document.mixin.methods`` e ``10n_br_fiscal.document.line.mixin.methods`` que são injectados nos objetos ``account_invoice`` e ``account_invoice_line`` respectivamente dentro do modulo ``l10n_br_account``.
+Sendo assim, já pelos _inherits, o invoice Odoo e as linhas dele já vão puxar todos campos fiscais como se eles fossem das suas respectivas tabelas sem duplicar eles no banco. Se alem disso a gente injetasse os mixins ``10n_br_fiscal.document.mixin`` e ``10n_br_fiscal.document.line.mixin`` no invoice e invoice.line, esses campos fiscais apareceriam também nas tabelas ``account_move`` e ``account_move_line`` de forma redundantes com os campos puxados pelos _inherits. Para não ter esse problema, os métodos fiscais comuns (sem os campos) foram ainda extraidos nos mixins: ``10n_br_fiscal.document.mixin.methods`` e ``10n_br_fiscal.document.line.mixin.methods`` que são injectados nos objetos ``account_move`` e ``account_move_line`` respectivamente dentro do modulo ``l10n_br_account``.
 
 
 Impostos brasileiros
@@ -121,7 +121,7 @@ Operações fiscais
 
   .. image:: https://raw.githubusercontent.com/OCA/l10n-brazil/14.0/l10n_br_fiscal/static/img/fiscal_operation.png
 
-No Odoo nativo, o conceito mais parecido com a operação fiscal e o ´´account.fiscal.position´´. E ate a versão 10.0, era o que a gente usava. Porém, a posição fiscal do Odoo não resolve muito os nossos problemas pois:
+No Odoo nativo, o conceito mais parecido com a operação fiscal e o ``account.fiscal.position``. E ate a versão 10.0, era o que a gente usava. Porém, a posição fiscal do Odoo não resolve muito os nossos problemas pois:
 
 * no Brasil se tem uma operação fiscal por linha de documento fiscal
 * a posição fiscal do Odoo desconhece a lógica da parametrização fiscal brasileira
@@ -137,28 +137,24 @@ Com tudo, optamos por criar um objeto ``l10n_br_fiscal.operation`` que faz exact
 Installation
 ============
 
-To install this module, you need to:
+Para instalar o módulo l10n_br_fiscal, você precisa de instalar primeiro os pacotes Python
 
-* do this ...
+* erpbrasil.base
+* erpbrasil.assinatura
 
 Configuration
 =============
 
-To configure this module, you need to:
+Para uma boa configuração fiscal, você tem que revisar bem:
 
-* go to ...
+* em Configurações: as operaçoes fiscais que você vai usar, as linhas de operação fiscal e as definições das taxas nessas linhas.
+* a configuração fiscal da sua empresa (aba fiscal)
+* a configuração fiscal dos clientes e fornecedores (aba fiscal) e dos produtos (aba fiscal).
 
 Usage
 =====
 
-To use this module, you need to:
-
-* go to ...
-
-Known issues / Roadmap
-======================
-
-* TODO!
+Você pode criar documentos fiscais direitamente pelo menu fiscal, mas a princípio você vai pilotar a criação de documentos fiscais a partir dos invoices Odoo, usando módulos adicionais como l10n_br_account, l10n_br_sale, l10n_br_purchase...
 
 Bug Tracker
 ===========
@@ -181,12 +177,25 @@ Authors
 Contributors
 ~~~~~~~~~~~~
 
-* Renato Lima <renato.lima@akretion.com.br>
-* Raphaël Valyi <raphael.valyi@akretion.com.br>
-* Magno Costa <magno.costa@akretion.com.br>
-* Luis Felipe Mileo <mileo@kmee.com.br>
-* Marcel Savegnago <marcel.savegnago@escodoo.com.br>
-* Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+* `Akretion <https://www.akretion.com/pt-BR>`_:
+
+  * Renato Lima <renato.lima@akretion.com.br>
+  * Raphaël Valyi <raphael.valyi@akretion.com.br>
+  * Magno Costa <magno.costa@akretion.com.br>
+
+* `KMEE <https://www.kmee.com.br>`_:
+
+  * Luis Felipe Mileo <mileo@kmee.com.br>
+  * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
+
+ * `Escodoo <https://www.escodoo.com.br>`_:
+
+  * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+
+* `Engenere <https://engenere.one>`_:
+
+  * Antônio S. Pereira Neto <neto@engenere.one>
+  * Felipe Motter Pereira <felipe@engenere.one>
 
 Maintainers
 ~~~~~~~~~~~
