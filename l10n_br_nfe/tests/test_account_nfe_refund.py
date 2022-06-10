@@ -23,7 +23,7 @@ class TestCustomerNFeRefund(TransactionCase):
         ).action_invoice_open()
 
     def test_customer_nfe_refund(self):
-        """ Test Customer NFe Refund."""
+        """Test Customer NFe Refund."""
         self.wizard = self.wizard_export.create(
             {"file_type": "xml", "nfe_environment": "2"}
         )
