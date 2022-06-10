@@ -19,6 +19,7 @@ class NfeSpecMixin(models.AbstractModel):
         comodel_name="res.currency",
         string="Moeda",
         compute="_compute_brl_currency_id",
+        store=True,  # TODO FIXME HACK to get v14 to work, should not be like this!!
     )
 
     def _compute_brl_currency_id(self):
