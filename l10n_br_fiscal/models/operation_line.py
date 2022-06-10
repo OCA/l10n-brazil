@@ -192,6 +192,7 @@ class OperationLine(models.Model):
         nbs=None,
         cest=None,
         city_taxation_code=None,
+        ind_final=None,
     ):
 
         mapping_result = {
@@ -242,6 +243,7 @@ class OperationLine(models.Model):
                     nbm=nbm,
                     cest=cest,
                     operation_line=self,
+                    ind_final=ind_final,
                 )
 
                 for tax in tax_icms_ids:
