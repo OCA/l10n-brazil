@@ -11,7 +11,7 @@ from odoo.exceptions import Warning as UserError
 
 
 class L10nBrAccountNfeExportInvoice(models.TransientModel):
-    """ Export fiscal eletronic file from invoice"""
+    """Export fiscal eletronic file from invoice"""
 
     _name = "l10n_br_account_product.nfe_export_invoice"
     _description = "Export eletronic invoice"
@@ -44,7 +44,7 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
     )
 
     nfe_environment = fields.Selection(
-        selection=[("1", u"Produção"), ("2", u"Homologação")],
+        selection=[("1", "Produção"), ("2", "Homologação")],
         string="Ambiente",
         default=_default_nfe_environment,
     )
@@ -58,7 +58,7 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
     )
 
     export_folder = fields.Boolean(
-        string=u"Salvar na Pasta de Exportação", default=_default_export_folder
+        string="Salvar na Pasta de Exportação", default=_default_export_folder
     )
 
     def nfe_export(self):
@@ -66,7 +66,7 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
             active_ids = self._context.get("active_ids", [])
 
             if not active_ids:
-                err_msg = u"Não existe nenhum documento fiscal para ser" u" exportado!"
+                err_msg = "Não existe nenhum documento fiscal para ser" " exportado!"
             invoices = []
             export_inv_numbers = []
             company_ids = []
@@ -75,15 +75,15 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
             for inv in self.env["account.invoice"].browse(active_ids):
                 if inv.state not in ("sefaz_export"):
                     err_msg += (
-                        u"O Documento Fiscal %s não esta definida para"
-                        u" ser exportação "
-                        u"para a SEFAZ.\n"
+                        "O Documento Fiscal %s não esta definida para"
+                        " ser exportação "
+                        "para a SEFAZ.\n"
                     ) % inv.fiscal_number
                 elif not inv.issuer == "0":
                     err_msg += (
-                        u"O Documento Fiscal %s é do tipo externa e "
-                        u"não pode ser exportada para a "
-                        u"receita.\n"
+                        "O Documento Fiscal %s é do tipo externa e "
+                        "não pode ser exportada para a "
+                        "receita.\n"
                     ) % inv.fiscal_number
                 else:
                     inv.write(
@@ -107,9 +107,9 @@ class L10nBrAccountNfeExportInvoice(models.TransientModel):
 
             if len(set(company_ids)) > 1:
                 err_msg += (
-                    u"Não é permitido exportar Documentos Fiscais de "
-                    u"mais de uma empresa, por favor selecione "
-                    u"Documentos Fiscais da mesma empresa."
+                    "Não é permitido exportar Documentos Fiscais de "
+                    "mais de uma empresa, por favor selecione "
+                    "Documentos Fiscais da mesma empresa."
                 )
 
             if len(export_inv_numbers) > 1:
