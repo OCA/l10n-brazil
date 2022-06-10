@@ -18,7 +18,7 @@ class TestCustomerNFe(TransactionCase):
         self.invoice_difal = self.env.ref("l10n_br_account_product.demo_nfe_difal")
 
     def test_customer_nfe_same_state(self):
-        """Test customer NFe same state 'Contribuinte' """
+        """Test customer NFe same state 'Contribuinte'"""
         self.invoice_same_state._onchange_fiscal_document_id()
         assert self.invoice_same_state.document_serie_id, (
             "Error with _onchange_fiscal_document_id() field "
@@ -164,7 +164,7 @@ class TestCustomerNFe(TransactionCase):
         )
 
     def test_customer_invoice_other_costs(self):
-        """Test customer NFe other costs 'Contribuinte' """
+        """Test customer NFe other costs 'Contribuinte'"""
         self.invoice_other_costs._onchange_fiscal_document_id()
         self.invoice_other_costs._onchange_fiscal()
         for line in self.invoice_other_costs.invoice_line_ids:
@@ -193,7 +193,7 @@ class TestCustomerNFe(TransactionCase):
         )
 
     def test_customer_invoice_difal(self):
-        """Test customer NFe with DIFAL 'Nao Contribuinte' """
+        """Test customer NFe with DIFAL 'Nao Contribuinte'"""
         self.invoice_difal._onchange_fiscal_document_id()
         self.invoice_difal._onchange_fiscal()
         self.invoice_difal._onchange_partner_id()
