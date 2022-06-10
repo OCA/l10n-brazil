@@ -1117,6 +1117,14 @@ msgid "Block period"
 msgstr ""
 
 #. module: l10n_br_fiscal
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_anonimo
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_ministerio_fazenda
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_prefeitura_municipal
+#: model:res.partner,nfe40_xPais:l10n_br_fiscal.res_partner_previdencia_social
+msgid "Brazil"
+msgstr ""
+
+#. module: l10n_br_fiscal
 #: model:ir.module.category,name:l10n_br_fiscal.module_category_l10n_br_fiscal_management
 msgid "Brazilian Fiscal"
 msgstr ""
@@ -6678,11 +6686,6 @@ msgid "Object"
 msgstr ""
 
 #. module: l10n_br_fiscal
-#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__oca
-msgid "Odoo Community"
-msgstr ""
-
-#. module: l10n_br_fiscal
 #: model_terms:ir.actions.act_window,help:l10n_br_fiscal.invalidate_number_action
 msgid ""
 "Odoo helps you easily track all activities\n"
@@ -9280,6 +9283,11 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_document_status_wizard__state__done
 #: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__l10n_br_fiscal_invalidate_number_wizard__state__done
 msgid "done"
+msgstr ""
+
+#. module: l10n_br_fiscal
+#: model:ir.model.fields.selection,name:l10n_br_fiscal.selection__res_company__processador_edoc__oca
+msgid "erpbrasil.edoc"
 msgstr ""
 
 #. module: l10n_br_fiscal
