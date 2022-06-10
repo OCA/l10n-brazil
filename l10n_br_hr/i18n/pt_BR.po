@@ -199,6 +199,16 @@ msgid "Bounce"
 msgstr "Rejeitado"
 
 #. module: l10n_br_hr
+#: model:hr.employee.dependent,nfe40_xPais:l10n_br_hr.hr_employee_dependent_1
+#: model:hr.employee.dependent,nfe40_xPais:l10n_br_hr.hr_employee_dependent_2
+#: model:hr.employee.dependent,nfe40_xPais:l10n_br_hr.hr_employee_dependent_3
+#: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_1_res_partner
+#: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_2_res_partner
+#: model:res.partner,nfe40_xPais:l10n_br_hr.hr_employee_dependent_3_res_partner
+msgid "Brazil"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model,name:l10n_br_hr.model_l10n_br_hr_cbo
 msgid "Brazilian Classification of Occupation"
 msgstr "Classificação Brasileira de Ocupação"
