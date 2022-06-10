@@ -5,7 +5,7 @@ from odoo import fields, models
 
 
 class L10nBrAccountNfeExport(models.TransientModel):
-    """ Exportar Nota Fiscal Eletrônica """
+    """Exportar Nota Fiscal Eletrônica"""
 
     _name = "l10n_br_account_product.nfe_export"
     _inherit = "l10n_br_account_product.nfe_export_invoice"
