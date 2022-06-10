@@ -1,12 +1,12 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_nfe
+# 	* l10n_br_nfe
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: <>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,40 +14,16 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_indTot:0
-msgid "0 – o valor do item (vProd) não compõe o valor total da NF-e (vProd)"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_modFrete:0
-msgid "0- Contratação do Frete por conta do Remetente (CIF)"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
-msgid "1 - Normal"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_indTot:0
-msgid "1 – o valor do item (vProd) compõe o valor total da NF-e (vProd)"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_modFrete:0
-msgid "1- Contratação do Frete por conta do destinatário/remetente (FOB)"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_version:0
-#: selection:res.company,nfe_version:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__1_10
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__1_10
 msgid "1.10"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe_transmission
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_config_settings__nfe_transmission
-msgid "1=Emissão normal (não em contingência);\n"
+msgid ""
+"1=Emissão normal (não em contingência);\n"
 "2=Contingência FS-IA, com impressão do DANFE em Formulário de Segurança - Impressor Autônomo;\n"
 "3=Contingência SCAN (Sistema de Contingência do Ambiente Nacional); *Desativado * NT 2015/002\n"
 "4=Contingência EPEC (Evento Prévio da Emissão em Contingência);\n"
@@ -60,99 +36,48 @@ msgid "1=Emissão normal (não em contingência);\n"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
-msgid "2 - Contingência FS"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_modFrete:0
-msgid "2- Contratação do Frete por conta de terceiros"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_version:0
-#: selection:res.company,nfe_version:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__2_00
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__2_00
 msgid "2.00"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
-msgid "3 - Regime Especial NFF (NT 2021.002)"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_modFrete:0
-msgid "3- Transporte próprio por conta do remetente"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_version:0
-#: selection:res.company,nfe_version:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__3_10
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__3_10
 msgid "3.10"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
-msgid "4 - Contingência DPEC"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_modFrete:0
-msgid "4- Transporte próprio por conta do destinatário"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_version:0
-#: selection:res.company,nfe_version:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_version__4_00
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_version__4_00
 msgid "4.00"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
-msgid "5 - Contingência FSDA"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
-msgid "6 - Contingência SVC - AN"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
-msgid "7 - Contingência SVC - RS"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_tpEmis:0
-msgid "9 - Contingência off-line NFC-e"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe40_modFrete:0
-msgid "9- Sem Ocorrência de transporte."
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
-msgid "<span class=\"o_form_label\">DANFE Print Layout</span>\n"
+msgid ""
+"<span class=\"o_form_label\">DANFE Print Layout</span>\n"
 "                                <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
-msgid "<span class=\"o_form_label\">NF-e Default Environment</span>\n"
+msgid ""
+"<span class=\"o_form_label\">NF-e Default Environment</span>\n"
 "                            <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
-msgid "<span class=\"o_form_label\">NF-e Default Transmission</span>\n"
+msgid ""
+"<span class=\"o_form_label\">NF-e Default Transmission</span>\n"
 "                              <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
-msgid "<span class=\"o_form_label\">NF-e Default Version</span>\n"
+msgid ""
+"<span class=\"o_form_label\">NF-e Default Version</span>\n"
 "                            <span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-specific.\" aria-label=\"Values set here are company-specific.\" role=\"img\"/>"
 msgstr ""
 
@@ -162,21 +87,14 @@ msgid "Amount without discount."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_arma
 msgid "Arma"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:728
+#: code:addons/l10n_br_nfe/models/document.py:0
 #, python-format
 msgid "Authorization Protocol Not Found!"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_cPais
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_cPais
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_cPais
-msgid "BC Code"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -209,13 +127,17 @@ msgid "CFOP"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_CNAE
+msgid "CNAE Fiscal"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CNPJ
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CNPJ
-#: selection:l10n_br_fiscal.document.related,nfe40_choice5:0
-#: selection:res.company,nfe40_choice6:0
-#: selection:res.partner,nfe40_choice2:0
-#: selection:res.partner,nfe40_choice7:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cnpj
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cnpj
 msgid "CNPJ"
 msgstr ""
 
@@ -244,35 +166,14 @@ msgid "CNPJ/CPF/idEstrangeiro"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice15:0
-msgid "COFINSAliq"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice15
 msgid "COFINSAliq/COFINSQtde/COFINSNT/COFINSOutr"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice15:0
-msgid "COFINSNT"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice15:0
-msgid "COFINSOutr"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice15:0
-msgid "COFINSQtde"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.related,nfe40_choice5:0
-#: selection:res.company,nfe40_choice6:0
-#: selection:res.partner,nfe40_choice2:0
-#: selection:res.partner,nfe40_choice7:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_related__nfe40_choice5__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice2__nfe40_cpf
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_cpf
 msgid "CPF"
 msgstr ""
 
@@ -284,8 +185,8 @@ msgid "CPF (v2.0)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: code:addons/l10n_br_nfe/models/document.py:390
-#: code:addons/l10n_br_nfe/models/invalidate_number.py:30
+#: code:addons/l10n_br_nfe/models/document.py:0
+#: code:addons/l10n_br_nfe/models/invalidate_number.py:0
 #, python-format
 msgid "Certificado não encontrado"
 msgstr ""
@@ -302,7 +203,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refNFe
-msgid "Chave de acesso das NF-e referenciadas. Chave de acesso\n"
+msgid ""
+"Chave de acesso das NF-e referenciadas. Chave de acesso\n"
 "compostas por Código da UF (tabela do IBGE) + AAMM da\n"
 "emissão + CNPJ do Emitente + modelo, série e número\n"
 "da NF-e Referenciada + Código Numérico + DV."
@@ -314,7 +216,7 @@ msgid "City"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_comb
 msgid "Combustível"
 msgstr ""
 
@@ -341,44 +243,44 @@ msgid "Contact"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_transmission:0
-#: selection:res.company,nfe_transmission:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__4
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_transmission__4
 msgid "Contingência EPEC"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_transmission:0
-#: selection:res.company,nfe_transmission:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__5
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_transmission__5
 msgid "Contingência FS-DA"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_transmission:0
-#: selection:res.company,nfe_transmission:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__2
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_transmission__2
 msgid "Contingência FS-IA"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_transmission:0
-#: selection:res.company,nfe_transmission:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__3
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_transmission__3
 msgid "Contingência SCAN"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_transmission:0
-#: selection:res.company,nfe_transmission:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__6
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_transmission__6
 msgid "Contingência SVC-AN"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_transmission:0
-#: selection:res.company,nfe_transmission:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__7
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_transmission__7
 msgid "Contingência SVC-RS"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_transmission:0
-#: selection:res.company,nfe_transmission:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__9
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_transmission__9
 msgid "Contingência off-line da NFC-e"
 msgstr ""
 
@@ -388,15 +290,15 @@ msgid "Contribuinte do ICMS (NFe)"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xPais
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xPais
-#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xPais
-msgid "Country Name"
+#: model:ir.model,name:l10n_br_nfe.model_res_country_state
+msgid "Country state"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model,name:l10n_br_nfe.model_res_country_state
-msgid "Country state"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_cPais
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_cPais
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_cPais
+msgid "Código de Pais"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -411,7 +313,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_company__nfe40_CRT
-msgid "Código de Regime Tributário.\n"
+msgid ""
+"Código de Regime Tributário.\n"
 "Este campo será obrigatoriamente preenchido com:"
 msgstr ""
 
@@ -426,7 +329,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_cMun
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_cMun
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_cMun
-msgid "Código do município (utilizar a tabela do IBGE), informar\n"
+msgid ""
+"Código do município (utilizar a tabela do IBGE), informar\n"
 "9999999 para operações com o exterior."
 msgstr ""
 
@@ -437,7 +341,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cProd
-msgid "Código do produto ou serviço. Preencher com CFOP caso se\n"
+msgid ""
+"Código do produto ou serviço. Preencher com CFOP caso se\n"
 "trate de itens não relacionados com\n"
 "mercadorias/produto e que o contribuinte não possua\n"
 "codificação própria\n"
@@ -445,33 +350,57 @@ msgid "Código do produto ou serviço. Preencher com CFOP caso se\n"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,danfe_layout:0
-#: selection:res.company,nfce_danfe_layout:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__5
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_danfe_layout__5
 msgid "DANFE NFC-e por email"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,danfe_layout:0
-#: selection:res.company,nfce_danfe_layout:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__4
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfce_danfe_layout__4
 msgid "DANFE NFC-e;"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,danfe_layout:0
-#: selection:res.company,nfe_danfe_layout:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__3
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_danfe_layout__3
 msgid "DANFE Simplificado;"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,danfe_layout:0
-#: selection:res.company,nfe_danfe_layout:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__2
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_danfe_layout__2
 msgid "DANFE normal, Paisagem;"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,danfe_layout:0
-#: selection:res.company,nfe_danfe_layout:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__1
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_danfe_layout__1
 msgid "DANFE normal, Retrato;"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refNF
+msgid ""
+"Dados da NF modelo 1/1A referenciada ou NF modelo 2\n"
+"referenciada"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_cobr
+msgid "Dados da cobrança da NF-e"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_pag
+msgid "Dados de Pagamento"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_pag
+msgid ""
+"Dados de Pagamento. Obrigatório apenas para (NFC-e) NT\n"
+"2012/004"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -492,6 +421,16 @@ msgid "Dados dos detalhes da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_total
+msgid "Dados dos totais da NF-e"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_transp
+msgid "Dados dos transportes da NF-e"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__danfe_layout
 msgid "Danfe Layout"
 msgstr ""
@@ -503,7 +442,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_dhSaiEnt
-msgid "Data e Hora da saída ou de entrada da mercadoria / produto\n"
+msgid ""
+"Data e Hora da saída ou de entrada da mercadoria / produto\n"
 "(AAAA-MM-DDTHH:mm:ssTZD)"
 msgstr ""
 
@@ -514,7 +454,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_dhEmi
-msgid "Data e Hora de emissão do Documento Fiscal (AAAA-MM-\n"
+msgid ""
+"Data e Hora de emissão do Documento Fiscal (AAAA-MM-\n"
 "DDThh:mm:ssTZD) ex.: 2012-09-01T13:00:00-03:00"
 msgstr ""
 
@@ -529,9 +470,36 @@ msgid "Dest"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_transmission:0
-#: selection:res.company,nfe_transmission:0
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cfop__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_invalidate_number__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_product_product__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_city__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_country_state__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_spec_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_uom_uom__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_transmission__1
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_transmission__1
 msgid "Emissão Normal"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_avulsa
+msgid "Emissão de avulsa"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_avulsa
+msgid "Emissão de avulsa, informar os dados do Fisco emitente"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -551,7 +519,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_indTot
-msgid "Este campo deverá ser preenchido com:\n"
+msgid ""
+"Este campo deverá ser preenchido com:\n"
 "0 – o valor do item (vProd) não compõe o valor total da NF-e\n"
 "(vProd)\n"
 "1 – o valor do item (vProd) compõe o valor total da NF-e (vProd)"
@@ -594,7 +563,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpEmis
-msgid "Forma de emissão da NF-e\n"
+msgid ""
+"Forma de emissão da NF-e\n"
 "1 - Normal;\n"
 "2 - Contingência FS\n"
 "3 - Regime Especial NFF (NT 2021.002)\n"
@@ -612,7 +582,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpImp
-msgid "Formato de impressão do DANFE (0-sem DANFE;1-DANFe Retrato;\n"
+msgid ""
+"Formato de impressão do DANFE (0-sem DANFE;1-DANFe Retrato;\n"
 "2-DANFe Paisagem;3-DANFe Simplificado;\n"
 "4-DANFe NFC-e;5-DANFe NFC-e em mensagem eletrônica)"
 msgstr ""
@@ -624,13 +595,15 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cEANTrib
-msgid "GTIN (Global Trade Item Number) da unidade tributável, antigo\n"
+msgid ""
+"GTIN (Global Trade Item Number) da unidade tributável, antigo\n"
 "código EAN ou código de barras"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_cEAN
-msgid "GTIN (Global Trade Item Number) do produto, antigo código EAN\n"
+msgid ""
+"GTIN (Global Trade Item Number) do produto, antigo código EAN\n"
 "ou código de barras"
 msgstr ""
 
@@ -640,26 +613,39 @@ msgid "GTIN (cEANTrib)"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refNFP
+msgid "Grupo com as informações NF de produtor referenciada"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infIntermed
+msgid "Grupo de Informações do Intermediador da Transação"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_NFref
 msgid "Grupo de infromações da NF referenciada"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_environment:0
-#: selection:res.company,nfe_environment:0
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refECF
+msgid "Grupo do Cupom Fiscal vinculado à NF"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refECF
+msgid "Grupo do Cupom Fiscal vinculado à NF-e"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infSolicNFF
+msgid "Grupo para informações da solicitação da NFF"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_environment__2
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_environment__2
 msgid "Homologação"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_nro
-#: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_nro
-#: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_nro
-msgid "House Number"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice10:0
-msgid "ICMS"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -673,123 +659,30 @@ msgid "ICMS/II/IPI/ISSQN"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMS00"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice11
 msgid "ICMS00/ICMS10/ICMS20/ICMS30/ICMS40/ICMS51/ICMS60/I..."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMS10"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMS20"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMS30"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMS40"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMS51"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMS60"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMS70"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMS90"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMSPart"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMSSN101"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMSSN102"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMSSN201"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMSSN202"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMSSN500"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMSSN900"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice11:0
-msgid "ICMSST"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice10:0
-msgid "II"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice10:0
-msgid "IPI"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice3:0
-msgid "IPINT"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice3:0
-msgid "IPITrib"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cfop__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_invalidate_number__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_product_product__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_city__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_country_state__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_spec_mixin__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_uom_uom__id
+msgid "ID"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice3
 msgid "IPITrib/IPINT"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice10:0
-msgid "ISSQN"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -804,8 +697,26 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_idDest
-msgid "Identificador de Local de destino da operação\n"
+msgid ""
+"Identificador de Local de destino da operação\n"
 "(1-Interna;2-Interestadual;3-Exterior)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_idCSRT
+msgid "Identificador do CSRT utilizado para montar o hash do CSRT"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_idEstrangeiro
+msgid "Identificador do destinatário"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_idEstrangeiro
+msgid ""
+"Identificador do destinatário, em caso de comprador\n"
+"estrangeiro"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -815,9 +726,34 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_tpAmb
-msgid "Identificação do Ambiente:\n"
+msgid ""
+"Identificação do Ambiente:\n"
 "1 - Produção\n"
 "2 - Homologação"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_entrega
+msgid "Identificação do Local de Entrega"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_entrega
+msgid ""
+"Identificação do Local de Entrega (informar apenas quando for\n"
+"diferente do endereço do destinatário)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_retirada
+msgid "Identificação do Local de Retirada"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_retirada
+msgid ""
+"Identificação do Local de Retirada (informar apenas quando\n"
+"for diferente do endereço do remetente)"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -827,7 +763,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_indFinal
-msgid "Indica operação com consumidor final (0-Não;1-Consumidor\n"
+msgid ""
+"Indica operação com consumidor final (0-Não;1-Consumidor\n"
 "Final)"
 msgstr ""
 
@@ -842,7 +779,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_indIEDest
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_indIEDest
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_indIEDest
-msgid "Indicador da IE do destinatário:\n"
+msgid ""
+"Indicador da IE do destinatário:\n"
 "1 – Contribuinte ICMSpagamento à vista;\n"
 "2 – Contribuinte isento de inscrição;\n"
 "9 – Não Contribuinte"
@@ -850,7 +788,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_indPres
-msgid "Indicador de presença do comprador no estabelecimento\n"
+msgid ""
+"Indicador de presença do comprador no estabelecimento\n"
 "comercial no momento da oepração\n"
 "(0-Não se aplica (ex.\n"
 "Nota Fiscal complementar ou de ajuste\n"
@@ -873,7 +812,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_email
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_email
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_email
-msgid "Informar o e-mail do expedidor/Recebedor. O campo pode ser\n"
+msgid ""
+"Informar o e-mail do expedidor/Recebedor. O campo pode ser\n"
 "utilizado para informar o e-mail de recepção da NF-e\n"
 "indicada pelo expedidor"
 msgstr ""
@@ -882,9 +822,15 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_xContato
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_xContato
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_xContato
-msgid "Informar o nome da pessoa a ser contatada na empresa\n"
+msgid ""
+"Informar o nome da pessoa a ser contatada na empresa\n"
 "desenvolvedora do sistema utilizado na emissão do\n"
 "documento fiscal eletrônico."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infAdic
+msgid "Informações adicionais da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -904,13 +850,34 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_infAdProd
-msgid "Informações adicionais do produto (norma referenciada,\n"
+msgid ""
+"Informações adicionais do produto (norma referenciada,\n"
 "informações complementares, etc)"
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_infCpl
 msgid "Informações complementares de interesse do Contribuinte"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_compra
+msgid "Informações de compras"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_compra
+msgid "Informações de compras (Nota de Empenho, Pedido e Contrato)"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_exporta
+msgid "Informações de exportação"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_cana
+msgid "Informações de registro aquisições de cana"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -924,10 +891,16 @@ msgid "Informações do Responsável Técnico pela emissão do DF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_IEST
+msgid "Inscricao Estadual do Substituto Tributário"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_IE
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_IE
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_IE
-msgid "Inscrição Estadual (obrigatório nas operações com\n"
+msgid ""
+"Inscrição Estadual (obrigatório nas operações com\n"
 "contribuintes do ICMS)"
 msgstr ""
 
@@ -944,6 +917,16 @@ msgid "Inscrição Estadual do Emitente"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_IM
+msgid "Inscrição Municipal"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_IM
+msgid "Inscrição Municipal do tomador do serviço"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_ISUF
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_ISUF
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_ISUF
@@ -954,7 +937,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_ISUF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_ISUF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_ISUF
-msgid "Inscrição na SUFRAMA (Obrigatório nas operações com as áreas\n"
+msgid ""
+"Inscrição na SUFRAMA (Obrigatório nas operações com as áreas\n"
 "com benefícios de incentivos fiscais sob controle da\n"
 "SUFRAMA) PL_005d - 11/08/09 - alterado para aceitar 8\n"
 "ou 9 dígitos"
@@ -966,6 +950,23 @@ msgid "Invalidate Number"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cfop____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_invalidate_number____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_product_product____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_city____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_country_state____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_spec_mixin____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_uom_uom____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xLgr
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xLgr
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xLgr
@@ -973,7 +974,7 @@ msgid "Logradouro"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_med
 msgid "Medicamento"
 msgstr ""
 
@@ -989,7 +990,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_modBCST
-msgid "Modalidade de determinação da BC do ICMS ST:\n"
+msgid ""
+"Modalidade de determinação da BC do ICMS ST:\n"
 "0 – Preço tabelado ou máximo sugerido;\n"
 "1 - Lista Negativa (valor);\n"
 "2 - Lista Positiva (valor);\n"
@@ -1011,13 +1013,23 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_modFrete
-msgid "Modalidade do frete\n"
+msgid ""
+"Modalidade do frete\n"
 "0- Contratação do Frete por conta do Remetente (CIF);\n"
 "1- Contratação do Frete por conta do destinatário/remetente (FOB);\n"
 "2- Contratação do Frete por conta de terceiros;\n"
 "3- Transporte próprio por conta do remetente;\n"
 "4- Transporte próprio por conta do destinatário;\n"
 "9- Sem Ocorrência de transporte."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__brl_currency_id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__brl_currency_id
+msgid "Moeda"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1067,6 +1079,11 @@ msgid "NFe Manager"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_version_name
+msgid "NFe Proc Version"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_transmission
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_config_settings__nfe_transmission
 msgid "NFe Transmission"
@@ -1081,6 +1098,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe_version
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe_version
 msgid "NFe Version"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_det_infNFe_id
+msgid "Nfe40 Det Infnfe"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_NFref_ide_id
+msgid "Nfe40 Nfref Ide"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1101,8 +1128,16 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_xMun
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_xMun
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_xMun
-msgid "Nome do município, informar EXTERIOR para operações com o\n"
+msgid ""
+"Nome do município, informar EXTERIOR para operações com o\n"
 "exterior."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xPais
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xPais
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xPais
+msgid "Nome do país"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1123,6 +1158,11 @@ msgid "Número do CNPJ do emitente"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__nfe40_CPF
+msgid "Número do CPF do emitente"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_nNF
 msgid "Número do Documento Fiscal"
 msgstr ""
@@ -1134,18 +1174,27 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_nItemPed
-msgid "Número do Item do Pedido de Compra - Identificação do número\n"
+msgid ""
+"Número do Item do Pedido de Compra - Identificação do número\n"
 "do item do pedido de Compra"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_nrecopi
 msgid "Número do RECOPI"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice12:0
-msgid "PISAliq"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_hashCSRT
+msgid "O hashCSRT é o resultado da função hash"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_hashCSRT
+msgid ""
+"O hashCSRT é o resultado da função hash (SHA-1 – Base64) do\n"
+"CSRT fornecido pelo fisco mais a Chave de Acesso da\n"
+"NFe."
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1154,18 +1203,13 @@ msgid "PISAliq/PISQtde/PISNT/PISOutr"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice12:0
-msgid "PISNT"
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_autXML
+msgid "Pessoas autorizadas para o download do XML da NF"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice12:0
-msgid "PISOutr"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice12:0
-msgid "PISQtde"
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_autXML
+msgid "Pessoas autorizadas para o download do XML da NF-e"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1180,7 +1224,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_procEmi
-msgid "Processo de emissão utilizado com a seguinte codificação:\n"
+msgid ""
+"Processo de emissão utilizado com a seguinte codificação:\n"
 "0 - emissão de NF-e com aplicativo do contribuinte;\n"
 "1 - emissão de NF-e avulsa pelo Fisco;\n"
 "2 - emissão de NF-e avulsa, pelo contribuinte com seu certificado\n"
@@ -1201,13 +1246,13 @@ msgid "Product Unit of Measure"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__normal
 msgid "Produto Normal"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,nfe_environment:0
-#: selection:res.company,nfe_environment:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_environment__1
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_environment__1
 msgid "Produção"
 msgstr ""
 
@@ -1224,13 +1269,8 @@ msgid "Razão Social ou Nome do emitente"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:res.company,processador_edoc:0
-msgid "Sem Integração"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document,danfe_layout:0
-#: selection:res.company,nfe_danfe_layout:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__danfe_layout__0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_danfe_layout__0
 msgid "Sem geração de DANFE;"
 msgstr ""
 
@@ -1263,7 +1303,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_serie
-msgid "Série do Documento Fiscal\n"
+msgid ""
+"Série do Documento Fiscal\n"
 "série normal 0-889\n"
 "Avulsa Fisco 890-899\n"
 "SCAN 900-999"
@@ -1280,7 +1321,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_fone
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_fone
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_fone
-msgid "Telefone, preencher com Código DDD + número do telefone , nas\n"
+msgid ""
+"Telefone, preencher com Código DDD + número do telefone , nas\n"
 "operações com exterior é permtido informar o código\n"
 "do país + código da localidade + número do telefone"
 msgstr ""
@@ -1293,11 +1335,6 @@ msgid "The full name of the country."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_transporta
-msgid "The partner that is doing the delivery service."
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_hr_employee_dependent__nfe40_UF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_partner__nfe40_UF
 #: model:ir.model.fields,help:l10n_br_nfe.field_res_users__nfe40_UF
@@ -1306,7 +1343,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_finNFe
-msgid "Tipo Finalidade da NF-e (1=Normal; 2=Complementar; 3=Ajuste;\n"
+msgid ""
+"Tipo Finalidade da NF-e (1=Normal; 2=Complementar; 3=Ajuste;\n"
 "4=Devolução/Retorno)"
 msgstr ""
 
@@ -1370,7 +1408,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refCTe
-msgid "Utilizar esta TAG para referenciar um CT-e emitido\n"
+msgid ""
+"Utilizar esta TAG para referenciar um CT-e emitido\n"
 "anteriormente, vinculada a NF-e atual"
 msgstr ""
 
@@ -1437,13 +1476,15 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPSTRet
-msgid "Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)\n"
+msgid ""
+"Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP)\n"
 "retido por substituição tributária."
 msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPUFDest
-msgid "Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP) da\n"
+msgid ""
+"Valor do ICMS relativo ao Fundo de Combate à Pobreza (FCP) da\n"
 "UF de destino."
 msgstr ""
 
@@ -1472,7 +1513,8 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vTotTrib
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vTotTrib
-msgid "Valor estimado total de impostos federais, estaduais e\n"
+msgid ""
+"Valor estimado total de impostos federais, estaduais e\n"
 "municipais"
 msgstr ""
 
@@ -1484,7 +1526,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFCPUFDest
-msgid "Valor total do ICMS relativo ao Fundo de Combate à Pobreza\n"
+msgid ""
+"Valor total do ICMS relativo ao Fundo de Combate à Pobreza\n"
 "(FCP) para a UF de destino."
 msgstr ""
 
@@ -1499,18 +1542,28 @@ msgid "Valor unitário de tributação"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice9:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document_line__nfe40_choice9__nfe40_veicprod
 msgid "Veículo"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:res.company,processador_edoc:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__processador_edoc__oca
 msgid "erpbrasil.edoc"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:res.partner,nfe40_choice7:0
+#: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_partner__nfe40_choice7__nfe40_idestrangeiro
 msgid "idEstrangeiro"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_ide
+msgid "identificação da NF-e"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_impostoDevol
+msgid "impostoDevol"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1519,23 +1572,13 @@ msgid "indPres"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_nItem
+msgid "nItem"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_orig
 msgid "origem da mercadoria: 0 - Nacional"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice16:0
-msgid "pCOFINS"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice20:0
-msgid "pIPI"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice13:0
-msgid "pPIS"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1545,44 +1588,14 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_xPed
-msgid "pedido de compra - Informação de interesse do emissor para\n"
+msgid ""
+"pedido de compra - Informação de interesse do emissor para\n"
 "controle do B2B."
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice13:0
-#: selection:l10n_br_fiscal.document.line,nfe40_choice16:0
-msgid "qBCProd"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice20:0
-msgid "qUnid"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.related,nfe40_choice4:0
-msgid "refCTe"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.related,nfe40_choice4:0
-msgid "refECF"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.related,nfe40_choice4:0
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__nfe40_refNF
 msgid "refNF"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.related,nfe40_choice4:0
-msgid "refNFP"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.related,nfe40_choice4:0
-msgid "refNFe"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1596,26 +1609,8 @@ msgid "root abstract model meant for xsd generated fiscal models"
 msgstr ""
 
 #. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice13:0
-#: selection:l10n_br_fiscal.document.line,nfe40_choice16:0
-msgid "vAliqProd"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice13:0
-#: selection:l10n_br_fiscal.document.line,nfe40_choice16:0
-#: selection:l10n_br_fiscal.document.line,nfe40_choice20:0
-msgid "vBC"
-msgstr ""
-
-#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_choice20
 msgid "vBC/pIPI/qUnid/vUnid"
-msgstr ""
-
-#. module: l10n_br_nfe
-#: selection:l10n_br_fiscal.document.line,nfe40_choice20:0
-msgid "vUnid"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1635,7 +1630,8 @@ msgstr ""
 
 #. module: l10n_br_nfe
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_verProc
-msgid "versão do aplicativo utilizado no processo de\n"
+msgid ""
+"versão do aplicativo utilizado no processo de\n"
 "emissão"
 msgstr ""
 
@@ -1645,4 +1641,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xContato
 msgid "xContato"
 msgstr ""
-
