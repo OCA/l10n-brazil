@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+  # NFe Main Menu
+  <menuitem
+        id="nfe_menu"
+        name="NF-es"
+        groups="l10n_br_nfe.group_user"
+        parent="l10n_br_fiscal.document_menu"
+        sequence="10"
+    />
+
+  # NFe Fiscal Documents
+  <menuitem
+        id="nfe_document_menu"
+        action="nfe_document_action"
+        name="NF-e"
+        groups="l10n_br_nfe.group_user"
+        parent="nfe_menu"
+        sequence="10"
+    />
+
+</odoo>
