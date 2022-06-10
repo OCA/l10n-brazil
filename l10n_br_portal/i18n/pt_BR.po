@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_br_portal
+# 	* l10n_br_portal
 #
 msgid ""
 msgstr ""
@@ -22,13 +22,20 @@ msgid "Bairro"
 msgstr "Bairro"
 
 #. module: l10n_br_portal
+#: model:res.users,nfe40_xPais:l10n_br_portal.demo_user_kmee
+msgid "Brazil"
+msgstr ""
+
+#. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "CNPJ/CPF"
 msgstr "CNPJ/CPF"
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
-msgid "Changing company name is not allowed once document(s) have been issued for your account. Please contact us directly for this operation."
+msgid ""
+"Changing company name is not allowed once document(s) have been issued for "
+"your account. Please contact us directly for this operation."
 msgstr ""
 "A alteração do nome da empresa não é permitida depois que os documentos "
 "foram emitidos para sua conta. Entre em contato conosco diretamente para "
@@ -73,6 +80,11 @@ msgstr "IE/RG"
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
 msgid "Inscrição Municipal"
 msgstr "Inscrição Municipal"
+
+#. module: l10n_br_portal
+#: model:res.users,nfe40_xMun:l10n_br_portal.demo_user_kmee
+msgid "Itajubá"
+msgstr ""
 
 #. module: l10n_br_portal
 #: model_terms:ir.ui.view,arch_db:l10n_br_portal.portal_my_details
