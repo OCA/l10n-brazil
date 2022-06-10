@@ -696,7 +696,7 @@ class NFe(spec_models.StackedModel):
         )
 
     def temp_xml_autorizacao(self, xml_string):
-        """ TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
+        """TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""
         root = etree.fromstring(xml_string)
         ns = {None: "http://www.portalfiscal.inf.br/nfe"}
         new_root = etree.Element("nfeProc", nsmap=ns)
