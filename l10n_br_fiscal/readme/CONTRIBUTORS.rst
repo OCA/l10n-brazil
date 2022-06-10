@@ -9,7 +9,7 @@
   * Luis Felipe Mileo <mileo@kmee.com.br>
   * Luis Otavio Malta Conceição <luis.malta@kmee.com.br>
 
- * `Escodoo <https://www.escodoo.com.br>`_:
+* `Escodoo <https://www.escodoo.com.br>`_:
 
   * Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 
