@@ -35,7 +35,7 @@ class TestNFeExport(TransactionCase):
         if nfe.state != "em_digitacao":  # 2nd test run
             nfe.action_document_back2draft()
 
-        for line in nfe.line_ids:
+        for line in nfe.fiscal_line_ids:
             line._onchange_product_id_fiscal()
             line._onchange_fiscal_operation_id()
             line._onchange_fiscal_operation_line_id()
