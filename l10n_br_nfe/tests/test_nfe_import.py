@@ -39,7 +39,7 @@ class NFeImportTest(SavepointCase):
         )
         assert isinstance(nfe.id, NewId)
         self.assertEqual(nfe.partner_id.name, "Alimentos Ltda.")
-        self.assertEqual(nfe.line_ids[0].product_id.name, "QUINOA 100G (2X50G)")
+        self.assertEqual(nfe.fiscal_line_ids[0].product_id.name, "QUINOA 100G (2X50G)")
 
     def test_import_in_nfe(self):
         hooks.register_hook(
@@ -83,29 +83,29 @@ class NFeImportTest(SavepointCase):
         self.assertEqual(nfe.company_id.name, "Sua Empresa")
 
         # lines data
-        self.assertEqual(len(nfe.line_ids), 6)
-        self.assertEqual(nfe.line_ids[0].quantity, 6)
-        self.assertEqual(nfe.line_ids[0].price_unit, 7.16)
-        self.assertEqual(nfe.line_ids[0].fiscal_price, 7.16)
+        self.assertEqual(len(nfe.fiscal_line_ids), 6)
+        self.assertEqual(nfe.fiscal_line_ids[0].quantity, 6)
+        self.assertEqual(nfe.fiscal_line_ids[0].price_unit, 7.16)
+        self.assertEqual(nfe.fiscal_line_ids[0].fiscal_price, 7.16)
 
         # impostos
-        self.assertEqual(nfe.line_ids[0].icms_base_type, "0")
-        self.assertEqual(nfe.line_ids[0].icms_cst_id.code, "00")
-        self.assertEqual(nfe.line_ids[0].icms_base, 50.60)
-        self.assertEqual(nfe.line_ids[0].icms_value, 6.07)
-        self.assertEqual(nfe.line_ids[0].ipi_value, 0)
+        self.assertEqual(nfe.fiscal_line_ids[0].icms_base_type, "0")
+        self.assertEqual(nfe.fiscal_line_ids[0].icms_cst_id.code, "00")
+        self.assertEqual(nfe.fiscal_line_ids[0].icms_base, 50.60)
+        self.assertEqual(nfe.fiscal_line_ids[0].icms_value, 6.07)
+        self.assertEqual(nfe.fiscal_line_ids[0].ipi_value, 0)
 
         # products
-        self.assertEqual(nfe.line_ids[0].nfe40_nItem, "1")
-        self.assertEqual(nfe.line_ids[0].product_id.name, "QUINOA 100G (2X50G)")
-        self.assertEqual(nfe.line_ids[0].product_id.barcode, "7897846902086")
-        self.assertEqual(nfe.line_ids[0].product_id.ncm_id.name[0:14], "Trigo mourisco")
-        self.assertEqual(nfe.line_ids[0].product_id.ncm_id.code, "1008.50.90")
+        self.assertEqual(nfe.fiscal_line_ids[0].nfe40_nItem, "1")
+        self.assertEqual(nfe.fiscal_line_ids[0].product_id.name, "QUINOA 100G (2X50G)")
+        self.assertEqual(nfe.fiscal_line_ids[0].product_id.barcode, "7897846902086")
+        self.assertEqual(nfe.fiscal_line_ids[0].product_id.ncm_id.name[0:14], "Trigo mourisco")
+        self.assertEqual(nfe.fiscal_line_ids[0].product_id.ncm_id.code, "1008.50.90")
 
         self.assertEqual(
-            nfe.line_ids[1].product_id.name, "QUINOA VEGETAIS 100G (2X50G)"
+            nfe.fiscal_line_ids[1].product_id.name, "QUINOA VEGETAIS 100G (2X50G)"
         )
-        self.assertEqual(nfe.line_ids[2].product_id.name, "QUINOA PICANTE 100G (2X50G)")
+        self.assertEqual(nfe.fiscal_line_ids[2].product_id.name, "QUINOA PICANTE 100G (2X50G)")
 
         # ds_object = nfe._build_generateds()
         # ds_object.export(
