@@ -465,6 +465,11 @@ msgid "Customer Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_ii_customhouse_charges
+msgid "Customhouse Charges"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model_terms:ir.ui.view,arch_db:l10n_br_sale.l10n_br_sale_res_config_settings_form
 msgid "Define if Delivery Costs should be informed by Line or by Total"
 msgstr ""
@@ -676,6 +681,11 @@ msgid "ICMS Destination Base"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_icms_destination_value
+msgid "ICMS Destination Value"
+msgstr ""
+
+#. module: l10n_br_sale
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_effective_value
 msgid "ICMS Effective"
 msgstr ""
@@ -733,6 +743,7 @@ msgid "ICMS Origin"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_icms_origin_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__icms_origin_value
 msgid "ICMS Origin Value"
 msgstr ""
@@ -857,11 +868,13 @@ msgid "II %"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_ii_base
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ii_base
 msgid "II Base"
 msgstr ""
 
 #. module: l10n_br_sale
+#: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order__amount_ii_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_order_line__ii_value
 #: model:ir.model.fields,field_description:l10n_br_sale.field_sale_report__ii_value
 msgid "II Value"
