@@ -1,6 +1,8 @@
 exclude: |
   (?x)
   # NOT INSTALLABLE ADDONS
+  ^l10n_br_account_nfe/|
+  ^l10n_br_nfe/|
   # END NOT INSTALLABLE ADDONS
   ^l10n_br_nfe_spec/models/v4_00/leiauteNFe.py|  # (don't reformat generated code)
   ^spec_driven_model/tests/|  # (tests include generated code)
