@@ -387,6 +387,11 @@ msgid "Customer Additional data manually entered by user"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ii_customhouse_charges
+msgid "Customhouse Charges"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_res_company__contract_purchase_fiscal_operation_id
 msgid "Default Contract Purchase Fiscal Operation"
 msgstr ""
@@ -539,6 +544,11 @@ msgid "ICMS Destination Base"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icms_destination_value
+msgid "ICMS Destination Value"
+msgstr ""
+
+#. module: l10n_br_contract
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_effective_value
 msgid "ICMS Effective"
 msgstr ""
@@ -596,6 +606,7 @@ msgid "ICMS Origin"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_icms_origin_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__icms_origin_value
 msgid "ICMS Origin Value"
 msgstr ""
@@ -716,11 +727,13 @@ msgid "II %"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ii_base
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_base
 msgid "II Base"
 msgstr ""
 
 #. module: l10n_br_contract
+#: model:ir.model.fields,field_description:l10n_br_contract.field_contract_contract__amount_ii_value
 #: model:ir.model.fields,field_description:l10n_br_contract.field_contract_line__ii_value
 msgid "II Value"
 msgstr ""
