@@ -23,6 +23,6 @@
         "views/account_payment_mode.xml",
     ],
     "post_init_hook": "post_init_hook",
-    "installable": True,
-    "auto_install": True,
+    "installable": False,
+    "auto_install": False,
 }

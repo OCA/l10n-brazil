@@ -2,11 +2,9 @@
 erpbrasil.assinatura
 erpbrasil.base
 erpbrasil.edoc
-erpbrasil.edoc.pdf
 erpbrasil.transmissao
 nfelib-xsdata
 num2words
 odoo_test_helper
 pycep_correios
 workalendar
-xmldiff
