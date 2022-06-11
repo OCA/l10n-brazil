@@ -30,7 +30,7 @@ addon | version | maintainers | summary
 [l10n_br_contract](l10n_br_contract/) | 14.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) [![marcelsavegnago](https://github.com/marcelsavegnago.png?size=30px)](https://github.com/marcelsavegnago) | Customization of Contract module for implementations in Brazil.
 [l10n_br_crm](l10n_br_crm/) | 14.0.1.0.0 |  | Brazilian Localization CRM
 [l10n_br_currency_rate_update](l10n_br_currency_rate_update/) | 14.0.1.0.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Update exchange rates using OCA modules for Brazil
-[l10n_br_fiscal](l10n_br_fiscal/) | 14.0.7.0.1 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
+[l10n_br_fiscal](l10n_br_fiscal/) | 14.0.7.1.0 | [![renatonlima](https://github.com/renatonlima.png?size=30px)](https://github.com/renatonlima) | Brazilian fiscal core module.
 [l10n_br_hr](l10n_br_hr/) | 14.0.1.0.0 |  | Brazilian Localization HR
 [l10n_br_mis_report](l10n_br_mis_report/) | 14.0.1.0.0 | [![mileo](https://github.com/mileo.png?size=30px)](https://github.com/mileo) | Templates de relatórios contábeis brasileiros: Balanço Patrimonial e DRE
 [l10n_br_nfe](l10n_br_nfe/) | 14.0.1.0.0 |  | Brazilian Eletronic Invoice NF-e .
