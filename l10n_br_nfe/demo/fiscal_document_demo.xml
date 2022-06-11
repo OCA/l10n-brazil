@@ -19,14 +19,6 @@
         <field name="fiscal_operation_type">out</field>
     </record>
 
-    <function model="l10n_br_fiscal.document" name="_onchange_company_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_same_state')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_same_state')]" />
-    </function>
-
     <record id="demo_nfe_line_same_state_1-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_same_state" />
         <field name="name">Teste</field>
@@ -43,26 +35,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
     </function>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_ncm_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
-    </function>
-
     <function
         model="l10n_br_fiscal.document.line"
         name="_onchange_fiscal_operation_line_id"
     >
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-1')]" />
     </function>
 
@@ -82,26 +58,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
     </function>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_ncm_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
-    </function>
-
     <function
         model="l10n_br_fiscal.document.line"
         name="_onchange_fiscal_operation_line_id"
     >
-        <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
         <value eval="[ref('l10n_br_nfe.demo_nfe_line_same_state_1-2')]" />
     </function>
 
@@ -124,14 +84,6 @@
         <field name="fiscal_operation_type">out</field>
     </record>
 
-    <function model="l10n_br_fiscal.document" name="_onchange_company_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state')]" />
-    </function>
-
     <record
         id="demo_nfe_national_sale_for_same_state-1"
         model="l10n_br_fiscal.document.line"
@@ -150,26 +102,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
     </function>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_ncm_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
-    </function>
-
     <function
         model="l10n_br_fiscal.document.line"
         name="_onchange_fiscal_operation_line_id"
     >
-        <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
         <value eval="[ref('l10n_br_nfe.demo_nfe_national_sale_for_same_state-1')]" />
     </function>
 
@@ -192,14 +128,6 @@
         <field name="fiscal_operation_type">out</field>
     </record>
 
-    <function model="l10n_br_fiscal.document" name="_onchange_company_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11')]" />
-    </function>
-
     <record
         id="demo_nfe_natural_icms_18_red_51_11-1"
         model="l10n_br_fiscal.document.line"
@@ -218,26 +146,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
     </function>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_ncm_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
-    </function>
-
     <function
         model="l10n_br_fiscal.document.line"
         name="_onchange_fiscal_operation_line_id"
     >
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
         <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_18_red_51_11-1')]" />
     </function>
 
@@ -260,14 +172,6 @@
         <field name="fiscal_operation_type">out</field>
     </record>
 
-    <function model="l10n_br_fiscal.document" name="_onchange_company_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale')]" />
-    </function>
-
     <record id="demo_nfe_natural_icms_7_resale-1" model="l10n_br_fiscal.document.line">
         <field name="document_id" ref="demo_nfe_natural_icms_7_resale" />
         <field name="name">Teste</field>
@@ -283,26 +187,10 @@
         <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
     </function>
 
-    <function model="l10n_br_fiscal.document.line" name="_onchange_commercial_quantity">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_ncm_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_operation_id">
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
-    </function>
-
     <function
         model="l10n_br_fiscal.document.line"
         name="_onchange_fiscal_operation_line_id"
     >
-        <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
-    </function>
-
-    <function model="l10n_br_fiscal.document.line" name="_onchange_fiscal_taxes">
         <value eval="[ref('l10n_br_nfe.demo_nfe_natural_icms_7_resale-1')]" />
     </function>
 
