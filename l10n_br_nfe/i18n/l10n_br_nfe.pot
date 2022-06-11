@@ -82,6 +82,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vProd
 #: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vProd
 msgid "Amount without discount."
 msgstr ""
@@ -119,6 +120,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_CEP
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_CEP
 msgid "CEP"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_cest
+msgid "CEST"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -319,6 +325,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_cMunFG
+msgid "Código do Município de Ocorrência do Fato Gerador"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_cMunFG
+msgid ""
+"Código do Município de Ocorrência do Fato Gerador (utilizar a\n"
+"tabela do IBGE)"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_cMun
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_cMun
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_cMun
@@ -470,11 +488,16 @@ msgid "Dest"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cest__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cfop__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_type__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_invalidate_number__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_nbm__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_ncm__display_name
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_tax_ipi_guideline__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_product_product__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_city__display_name
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__display_name
@@ -554,6 +577,11 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_related
 msgid "Fiscal Document Related"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_document_type
+msgid "Fiscal Document Type"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -664,11 +692,16 @@ msgid "ICMS00/ICMS10/ICMS20/ICMS30/ICMS40/ICMS51/ICMS60/I..."
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cest__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cfop__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_type__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_invalidate_number__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_nbm__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_ncm__id
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_tax_ipi_guideline__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_product_product__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_city__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company__id
@@ -678,6 +711,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_spec_mixin__id
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_uom_uom__id
 msgid "ID"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_tax_ipi_guideline
+msgid "IPI Guidelines"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -950,11 +988,16 @@ msgid "Invalidate Number"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cest____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_cfop____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_related____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_type____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_invalidate_number____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_nbm____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_ncm____last_update
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_tax_ipi_guideline____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_product_product____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_city____last_update
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_company____last_update
@@ -1033,6 +1076,16 @@ msgid "Moeda"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_nbm
+msgid "NBM"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model,name:l10n_br_nfe.model_l10n_br_fiscal_ncm
+msgid "NCM"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.module.category,name:l10n_br_nfe.module_category_l10n_br_nfe
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_company_form
 #: model_terms:ir.ui.view,arch_db:l10n_br_nfe.nfe_res_config_settings_form
@@ -1101,6 +1154,13 @@ msgid "NFe Version"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_hr_employee_dependent__nfe40_xFant
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_xFant
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_xFant
+msgid "Name"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_det_infNFe_id
 msgid "Nfe40 Det Infnfe"
 msgstr ""
@@ -1150,6 +1210,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_partner__nfe40_nro
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_res_users__nfe40_nro
 msgid "Número"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_nFat
+msgid "Número da fatura"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1254,6 +1319,20 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__l10n_br_fiscal_document__nfe_environment__1
 #: model:ir.model.fields.selection,name:l10n_br_nfe.selection__res_company__nfe_environment__1
 msgid "Produção"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_qCom
+msgid ""
+"Quantidade Comercial do produto, alterado para aceitar de 0 a\n"
+"4 casas decimais e 11 inteiros."
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,help:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_qTrib
+msgid ""
+"Quantidade Tributável - alterado para aceitar de 0 a 4 casas\n"
+"decimais e 11 inteiros"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1440,8 +1519,23 @@ msgid "Valor Total do ICMS ST"
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vII
+msgid "Valor Total do II"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vIPI
 msgid "Valor Total do IPI"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vSeg
+msgid "Valor Total do Seguro"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vProd
+msgid "Valor Total dos produtos e serviços"
 msgstr ""
 
 #. module: l10n_br_nfe
@@ -1519,6 +1613,31 @@ msgid ""
 msgstr ""
 
 #. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vLiq
+msgid "Valor líquido da fatura"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOrig
+msgid "Valor original da fatura"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vOutro
+msgid "Valor outras retenções"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vICMSUFDest
+msgid "Valor total do ICMS de partilha para a UF do destinatário"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vICMSUFRemet
+msgid "Valor total do ICMS de partilha para a UF do remetente"
+msgstr ""
+
+#. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_vFCPUFDest
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_vFCPUFDest
 msgid "Valor total do ICMS relativo ao Fundo de Combate à Pobreza"
@@ -1574,6 +1693,26 @@ msgstr ""
 #. module: l10n_br_nfe
 #: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_nItem
 msgid "nItem"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_qCom
+msgid "nfe40 qCom"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_cUF
+msgid "nfe40_cUF"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document__nfe40_mod
+msgid "nfe40_mod"
+msgstr ""
+
+#. module: l10n_br_nfe
+#: model:ir.model.fields,field_description:l10n_br_nfe.field_l10n_br_fiscal_document_line__nfe40_qTrib
+msgid "nfe40_qTrib"
 msgstr ""
 
 #. module: l10n_br_nfe
