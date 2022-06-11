@@ -15,7 +15,9 @@ class AbstractSpecMixin(models.AbstractModel):
     @api.model
     def _get_binding_class(self, class_obj):
         binding_module = sys.modules[self._binding_module]
-        return getattr(binding_module, class_obj._generateds_type)
+        for attr in class_obj._binding_type.split("."):
+            binding_module = getattr(binding_module, attr)
+        return binding_module
 
     @api.model
     def _get_model_classes(self):
@@ -60,7 +62,7 @@ class AbstractSpecMixin(models.AbstractModel):
         """
         self.ensure_one()
         binding_class = self._get_binding_class(class_obj)
-        binding_class_spec = {i.name: i for i in binding_class.member_data_items_}
+        binding_class_spec = binding_class.__dataclass_fields__
 
         for xsd_field in xsd_fields:
             if not xsd_field:
@@ -70,11 +72,21 @@ class AbstractSpecMixin(models.AbstractModel):
             ) and xsd_field not in self._stacking_points.keys():
                 continue
             field_spec_name = xsd_field.replace(class_obj._field_prefix, "")
+            field_spec = False
+            for fname, fspec in binding_class_spec.items():
+                if fspec.metadata.get("name", {}) == field_spec_name:
+                    field_spec_name = fname
+                if field_spec_name == fname:
+                    field_spec = fspec
+            if field_spec and not field_spec.init:
+                # case of xsd fixed values, we should not try to write them
+                continue
+
             if not binding_class_spec.get(field_spec_name):
                 # this can happen with a o2m generated foreign key for instance
                 continue
-            member_spec = binding_class_spec[field_spec_name]
-            field_data = self._export_field(xsd_field, class_obj, member_spec)
+            field_spec = binding_class_spec[field_spec_name]
+            field_data = self._export_field(xsd_field, class_obj, field_spec)
             if xsd_field in self._stacking_points.keys():
                 if not field_data:
                     # stacked nested tags are skipped if empty
@@ -84,7 +96,7 @@ class AbstractSpecMixin(models.AbstractModel):
 
             export_dict[field_spec_name] = field_data
 
-    def _export_field(self, xsd_field, class_obj, member_spec):
+    def _export_field(self, xsd_field, class_obj, field_spec):
         """
         Maps a single Odoo field to a python binding value according to the
         kind of field.
@@ -93,6 +105,7 @@ class AbstractSpecMixin(models.AbstractModel):
         # TODO: Export number required fields with Zero.
         field = class_obj._fields.get(xsd_field, self._stacking_points.get(xsd_field))
         xsd_required = field.xsd_required if hasattr(field, "xsd_required") else None
+        xsd_type = field.xsd_type if hasattr(field, "xsd_type") else None
 
         if field.type == "many2one":
             if (not self._stacking_points.get(xsd_field)) and (
@@ -112,7 +125,7 @@ class AbstractSpecMixin(models.AbstractModel):
             and self[xsd_field] is not False
         ):
             return self._export_float_monetary(
-                xsd_field, member_spec, class_obj, xsd_required
+                xsd_field, xsd_type, class_obj, xsd_required
             )
         elif type(self[xsd_field]) == str:
             return self[xsd_field].strip()
@@ -140,14 +153,14 @@ class AbstractSpecMixin(models.AbstractModel):
             relational_data.append(field_data)
         return relational_data
 
-    def _export_float_monetary(self, field_name, member_spec, class_obj, xsd_required):
+    def _export_float_monetary(self, field_name, xsd_type, class_obj, xsd_required):
         self.ensure_one()
-        if member_spec.data_type[0]:
-            TDec = "".join(filter(lambda x: x.isdigit(), member_spec.data_type[0]))[-2:]
-            my_format = "%.{}f".format(TDec)
-            return str(my_format % self[field_name])
+        if xsd_type and xsd_type.startswith("TDec"):
+            tdec = "".join(filter(lambda x: x.isdigit(), xsd_type))[-2:]
         else:
-            raise NotImplementedError
+            tdec = ""
+        my_format = "%.{}f".format(tdec)
+        return str(my_format % self[field_name])
 
     def _export_date(self, field_name):
         self.ensure_one()
