@@ -13,6 +13,7 @@
     "depends": [],
     "external_dependencies": {
         "python": [
+            "xsdata",
             "odoo_test_helper",  # (only for tests)
         ],
     },
