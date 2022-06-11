@@ -40,9 +40,9 @@ class PurchaseOrder(spec_models.StackedModel):
     """
 
     _name = "fake.purchase.order"
-    _inherit = ["fake.purchase.order", "poxsd.10.purchaseorder"]
+    _inherit = ["fake.purchase.order", "poxsd.10.purchaseordertype"]
     _spec_module = "odoo.addons.spec_driven_model.tests.spec_poxsd"
-    _stacked = "poxsd.10.purchaseorder"
+    _stacked = "poxsd.10.purchaseordertype"
     _stacking_points = {}
     _poxsd10_spec_module_classes = None
 
