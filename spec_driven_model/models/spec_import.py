@@ -67,14 +67,8 @@ class AbstractSpecMixin(models.AbstractModel):
         # TODO deal with default values but take them from self._context
         # if path == '':
         #    vals.update(defaults)
-        # we sort attrs to be able to define m2o related values
-        sorted_attrs = sorted(
-            node.member_data_items_,
-            key=lambda a: a.get_container() in [0, 1],
-            reverse=True,
-        )
-        for attr in sorted_attrs:
-            self._build_attr(node, fields, vals, path, attr)
+        for fname, fspec in node.__dataclass_fields__.items():
+            self._build_attr(node, fields, vals, path, (fname, fspec))
 
         vals = self._prepare_import_dict(vals)
         return vals
@@ -84,20 +78,18 @@ class AbstractSpecMixin(models.AbstractModel):
         """
         Builds an Odoo field from a binding attribute.
         """
-        value = getattr(node, attr.get_name())
+        value = getattr(node, attr[0])
         if value is None or value == []:
             return False
         key = "%s%s" % (
             self._field_prefix,
-            attr.get_name(),
+            attr[1].metadata.get("name", attr[0]),
         )
         child_path = "%s.%s" % (path, key)
-        binding_type = attr.get_child_attrs().get("type")
         if (
-            binding_type is None
-            or binding_type.startswith("xs:")
-            or binding_type.startswith("xsd:")
-        ):
+            attr[1].type == str
+            or not any(["odoo.addons." in str(i) for i in attr[1].type.__args__])
+        ) and not str(attr[1].type).startswith("typing.List"):
             # SimpleType
 
             if fields.get(key) and fields[key].type == "datetime":
@@ -111,6 +103,11 @@ class AbstractSpecMixin(models.AbstractModel):
             self._build_string_not_simple_type(key, vals, value, node)
 
         else:
+            if str(attr[1].type).startswith("typing.List"):  # o2m
+                binding_type = attr[1].type.__args__[0].__forward_arg__
+            else:
+                binding_type = attr[1].type.__args__[0].__name__
+
             # ComplexType
             if fields.get(key) and fields[key].related:
                 # example: company.nfe40_enderEmit related on partner_id
@@ -118,7 +115,8 @@ class AbstractSpecMixin(models.AbstractModel):
                 key = fields[key].related[-1]  # -1 works with _inherits
                 comodel_name = fields[key].comodel_name
             else:
-                clean_type = attr.get_child_attrs()["type"].replace("Type", "").lower()
+                # clean_type = attr.get_child_attrs()["type"].replace("Type", "").lower()
+                clean_type = binding_type.lower()  # TODO double check
                 comodel_name = "%s.%s.%s" % (
                     self._schema_name,
                     self._schema_version.replace(".", "")[0:2],
@@ -129,7 +127,7 @@ class AbstractSpecMixin(models.AbstractModel):
             if comodel is None:  # example skip ICMS100 class
                 return
 
-            if attr.get_container() == 0:
+            if not str(attr[1].type).startswith("typing.List"):
                 # m2o
                 new_value = comodel.build_attrs(value, path=child_path)
                 child_defaults = self._extract_related_values(vals, key)
@@ -137,7 +135,7 @@ class AbstractSpecMixin(models.AbstractModel):
                 new_value.update(child_defaults)
                 # FIXME comodel._build_many2one
                 self._build_many2one(comodel, vals, new_value, key, value, child_path)
-            elif attr.get_container() == 1:
+            else:
                 # o2m
                 lines = []
                 for line in [li for li in value if li]:
