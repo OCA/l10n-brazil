@@ -31,9 +31,9 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
 
         # import generated spec mixins
         from .fake_mixin import PoXsdMixin
-        from .spec_poxsd import Item, Items, PurchaseOrder, USAddress
+        from .spec_poxsd import Item, Items, PurchaseOrderType, Usaddress
 
-        cls.loader.update_registry((PoXsdMixin, Item, Items, USAddress, PurchaseOrder))
+        cls.loader.update_registry((PoXsdMixin, Item, Items, Usaddress, PurchaseOrderType))
 
         # inject the mixins into existing Odoo models
         from .spec_purchase import (
@@ -58,7 +58,9 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
             "spec_driven_model",
             "odoo.addons.spec_driven_model.tests.spec_poxsd",
         )
-        self.assertEqual(remaining_spec_models, {"poxsd.10.dangling_model"})
+        self.assertEqual(remaining_spec_models,
+                {"poxsd.10.purchaseorder", "poxsd.10.comment"}
+        )
 
     def test_spec_models(self):
         self.assertTrue(
@@ -80,7 +82,7 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
         )
         self.assertTrue(
             po_fields_or_stacking.issuperset(
-                set(self.env["poxsd.10.purchaseorder"]._fields.keys())
+                set(self.env["poxsd.10.purchaseordertype"]._fields.keys())
             )
         )
         self.assertEqual(
@@ -125,10 +127,10 @@ class TestSpecModel(SavepointCase, FakeModelLoader):
         # 2nd we serialize it into a binding object:
         # (that could be further XML serialized)
         po_binding = po._build_generateds()
-        self.assertEqual(po_binding.billTo.name, "Wood Corner")
-        self.assertEqual(po_binding.items.item[0].productName, "Some product desc")
+        self.assertEqual(po_binding.bill_to.name, "Wood Corner")
+        self.assertEqual(po_binding.items.item[0].product_name, "Some product desc")
         self.assertEqual(po_binding.items.item[0].quantity, 42)
-        self.assertEqual(po_binding.items.item[0].USPrice, "13")  # FIXME
+        self.assertEqual(po_binding.items.item[0].usprice, "13")  # FIXME
 
         # 3rd we import an Odoo PO from this binding object
         # first we will do a dry run import:
