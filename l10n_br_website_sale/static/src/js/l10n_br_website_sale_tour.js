@@ -1,15 +1,21 @@
 odoo.define("l10n_br_website_sale.tour", function (require) {
     "use strict";
 
+    var ajax = require("web.ajax");
+    var session = require("web.session");
     var tour = require("web_tour.tour");
-    var base = require("web_editor.base");
+
+    var domReady = new Promise(function (resolve) {
+        $(resolve);
+    });
+    var ready = Promise.all([domReady, session.is_bound, ajax.loadXML()]);
 
     tour.register(
         "l10n_br_website_sale_tour",
         {
             test: true,
             url: "/shop",
-            wait_for: base.ready(),
+            wait_for: ready,
         },
         [
             {
@@ -88,9 +94,7 @@ odoo.define("l10n_br_website_sale.tour", function (require) {
             },
             {
                 content: "finish",
-                trigger:
-                    '.oe_website_sale:contains("Pending... ' +
-                    'The order will be validated after the payment.")',
+                trigger: '.oe_website_sale:contains("Please make a payment to:")',
                 // Leave /shop/confirmation to prevent RPC loop to
                 //      /shop/payment/get_status.
                 // The RPC could be handled in python while the tour is

@@ -108,15 +108,15 @@
                         </div>
                     </t>
                     <div
-                        t-attf-class="form-group #{error.get('street') and 'o_has_error' or ''} col-md-6 div_street"
+                        t-attf-class="form-group #{error.get('street_name') and 'o_has_error' or ''} col-md-6 div_street"
                     >
-                        <label class="col-form-label" for="street">
+                        <label class="col-form-label" for="street_name">
                             Street</label>
                         <input
                             type="text"
-                            name="street"
-                            t-attf-class="form-control #{error.get('street') and 'is-invalid' or ''}"
-                            t-att-value="'street' in checkout and checkout['street']"
+                            name="street_name"
+                            t-attf-class="form-control #{error.get('street_name') and 'is-invalid' or ''}"
+                            t-att-value="'street_name' in checkout and checkout['street_name']"
                         />
                     </div>
                     <div class="w-100" />
@@ -166,6 +166,7 @@
                             id="country_id"
                             name="country_id"
                             t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}"
+                            t-att-mode="mode[1]"
                         >
                             <option value="">Country...</option>
                             <t t-foreach="countries" t-as="c">
@@ -274,40 +275,43 @@
                         </div>
                     </t>
                 </div>
-
-                <input
+                    <input
                     type="hidden"
                     name="csrf_token"
                     t-att-value="request.csrf_token()"
                 />
-                <input type="hidden" name="submitted" value="1" />
-                <input
+                    <input type="hidden" name="submitted" value="1" />
+                    <input
                     type="hidden"
                     name="partner_id"
                     t-att-value="partner_id or '0'"
                 />
-                <input type="hidden" name="callback" t-att-value="callback" />
-                <!-- Example -->
-                <input type="hidden" name="field_required" t-att-value="'phone,name'" />
+                    <input type="hidden" name="callback" t-att-value="callback" />
+                    <!-- Example -->
+                    <input
+                    type="hidden"
+                    name="field_required"
+                    t-att-value="'phone,name'"
+                />
 
-                <div class="d-flex justify-content-between">
-                    <a
+                    <div class="d-flex justify-content-between">
+                        <a
                         role="button"
                         t-att-href="mode == ('new', 'billing') and '/shop/cart' or '/shop/checkout'"
                         class="btn btn-secondary mb32"
                     >
-                        <i class="fa fa-chevron-left" />
-                        <span>Back</span>
-                    </a>
-                    <a
+                            <i class="fa fa-chevron-left" />
+                            <span>Back</span>
+                        </a>
+                        <a
                         role="button"
                         href="#"
                         class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading"
                     >
-                        <span>Next</span>
-                        <i class="fa fa-chevron-right" />
-                    </a>
-                </div>
+                            <span>Next</span>
+                            <i class="fa fa-chevron-right" />
+                        </a>
+                    </div>
             </form>
         </form>
     </template>
